@@ -1,8 +1,6 @@
 # pyvoi/config.py
 
-"""
-Global configuration settings for the pyVOI library.
-"""
+"""Global configuration settings for the pyVOI library."""
 
 import numpy as np
 
@@ -15,7 +13,7 @@ DEFAULT_DTYPE = np.float64
 # Placeholder for backend selection (e.g., "numpy", "jax")
 # This could be used by methods to switch their computation engine.
 # Actual implementation of backend switching would be more involved.
-DEFAULT_COMPUTATION_BACKEND = "numpy" # Options: "numpy", "jax"
+DEFAULT_COMPUTATION_BACKEND = "numpy"  # Options: "numpy", "jax"
 
 # --- Monte Carlo Sampling ---
 # Default number of samples for Monte Carlo simulations if not specified by the user.

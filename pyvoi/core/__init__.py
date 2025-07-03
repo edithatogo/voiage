@@ -1,8 +1,6 @@
 # pyvoi/core/__init__.py
 
-"""
-Core data structures and utility functions for pyVOI.
-"""
+"""Core data structures and utility functions for pyVOI."""
 
 # Import key classes/functions from this submodule to make them easily accessible
 # from .data_structures import NetBenefitArray, PSASample, TrialDesign, PortfolioSpec, DynamicSpec

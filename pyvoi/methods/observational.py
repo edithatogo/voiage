@@ -1,7 +1,7 @@
 # pyvoi/methods/observational.py
 
-"""
-Implementation of VOI methods for observational data:
+"""Implementation of VOI methods for observational data.
+
 - VOI for Observational Studies (VOI-OS)
 
 These methods assess the value of collecting data from observational studies,
@@ -11,12 +11,15 @@ Calculating VOI for such data requires careful consideration of biases
 data would be analyzed and used to update beliefs.
 """
 
-import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any
+from typing import Any, Callable, Dict, Optional
 
-from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign # TrialDesign might be adapted to "ObservationalStudyDesign"
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+import numpy as np
+
+from pyvoi.core.data_structures import (  # TrialDesign might be adapted to "ObservationalStudyDesign"
+    NetBenefitArray,
+    PSASample,
+)
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that models the impact of observational data.
 # This would typically involve:
@@ -25,25 +28,30 @@ from pyvoi.config import DEFAULT_DTYPE
 # - Simulating the observational data collection process.
 # - Specifying how this data, adjusted for biases, updates decision model parameters.
 ObservationalStudyModeler = Callable[
-    [PSASample, Dict[str, Any], Dict[str, Any]], # Prior PSA, Obs. Study Design, Bias Models
-    NetBenefitArray # Expected NB conditional on simulated observational data
+    [
+        PSASample,
+        Dict[str, Any],
+        Dict[str, Any],
+    ],  # Prior PSA, Obs. Study Design, Bias Models
+    NetBenefitArray,  # Expected NB conditional on simulated observational data
 ]
 
 
 def voi_observational(
     obs_study_modeler: ObservationalStudyModeler,
     psa_prior: PSASample,
-    observational_study_design: Dict[str, Any], # e.g., cohort, case-control, variables, size
-    bias_models: Dict[str, Any], # Models for confounding, selection bias, etc.
+    observational_study_design: Dict[
+        str, Any
+    ],  # e.g., cohort, case-control, variables, size
+    bias_models: Dict[str, Any],  # Models for confounding, selection bias, etc.
     # wtp: float, # Implicit
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
     # method_args for simulation, bias adjustment techniques
-    **kwargs: Any
+    **kwargs: Any,
 ) -> float:
-    """
-    Calculates the Value of Information for collecting Observational Data (VOI-OS).
+    """Calculate the Value of Information for collecting Observational Data (VOI-OS).
 
     VOI-OS assesses the expected value of an observational study, accounting for
     its specific design and the methods used to mitigate biases inherent in
@@ -69,17 +77,19 @@ def voi_observational(
         time_horizon (Optional[float]): Time horizon for scaling.
         **kwargs: Additional arguments.
 
-    Returns:
+    Returns
+    -------
         float: The calculated VOI for the observational study.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         NotImplementedError: This method is a placeholder for v0.1.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "VOI for Observational Data is a specialized and complex area requiring "
         "advanced epidemiological and statistical modeling to handle biases. "
-        "Not implemented in v0.1."
+        "Not implemented in v0.1.",
     )
 
     # Conceptual steps (highly simplified):
@@ -106,19 +116,29 @@ def voi_observational(
     # Population scaling.
     # ... (omitted) ...
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print("--- Testing observational.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray and PSASample
+
+    from pyvoi.core.data_structures import NetBenefitArray, PSASample
 
     try:
         # Dummy arguments
-        def dummy_obs_modeler(psa, design, biases): return NetBenefitArray(np.array([[0.]]))
-        dummy_psa = PSASample({"p":np.array([1])})
+        def dummy_obs_modeler(psa, design, biases):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
         dummy_design = {"type": "cohort", "size": 1000}
         dummy_biases = {"confounding_strength": 0.2}
         voi_observational(dummy_obs_modeler, dummy_psa, dummy_design, dummy_biases)
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for voi_observational: {e}")
     else:
-        raise AssertionError("voi_observational did not raise NotImplementedError.")
+        raise AssertionError(
+            "voi_observational did not raise PyVoiNotImplementedError."
+        )
 
     print("--- observational.py placeholder tests completed ---")

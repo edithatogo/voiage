@@ -1,7 +1,7 @@
 # pyvoi/methods/network_nma.py
 
-"""
-Implementation of VOI methods tailored for Network Meta-Analysis (NMA):
+"""Implementation of VOI methods tailored for Network Meta-Analysis (NMA).
+
 - EVSI for Network Meta-Analysis (EVSI-NMA)
 
 NMA compares multiple treatments simultaneously in a coherent statistical model,
@@ -9,37 +9,39 @@ often using both direct and indirect evidence. EVSI-NMA assesses the value of
 new studies that would inform this network.
 """
 
+from typing import Any, Callable, Optional
+
 import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that can perform NMA and then evaluate economic outcomes.
 # This is highly complex: it might involve running an NMA model (e.g., in PyMC, JAGS, Stan),
 # obtaining posterior distributions of relative treatment effects, and then feeding these
 # into a health economic model.
 NMAEconomicModelEvaluator = Callable[
-    [PSASample, Optional[TrialDesign], Optional[Any]], # Prior PSA, Optional new trial, Optional new data
-    NetBenefitArray # NB array post-NMA (and post-update if new data)
+    [
+        PSASample,
+        Optional[TrialDesign],
+        Optional[Any],
+    ],  # Prior PSA, Optional new trial, Optional new data
+    NetBenefitArray,  # NB array post-NMA (and post-update if new data)
 ]
 
 
 def evsi_nma(
     nma_model_evaluator: NMAEconomicModelEvaluator,
-    psa_prior_nma: PSASample, # Prior PSA samples for parameters in the NMA & econ model
-    trial_design_new_study: TrialDesign, # Design of the new study to add to the network
+    psa_prior_nma: PSASample,  # Prior PSA samples for parameters in the NMA & econ model
+    trial_design_new_study: TrialDesign,  # Design of the new study to add to the network
     # wtp: float, # Often implicit in NetBenefitArray
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
     # method_args specific to NMA context, e.g., MCMC samples for NMA, convergence criteria
-    **kwargs: Any
+    **kwargs: Any,
 ) -> float:
-    """
-    Calculates the Expected Value of Sample Information for a new study
-    in the context of a Network Meta-Analysis (EVSI-NMA).
+    """Calculate the Expected Value of Sample Information for a new study in the context of a Network Meta-Analysis (EVSI-NMA).
 
     EVSI-NMA assesses the value of a proposed new trial (or set of trials)
     that would provide additional evidence to an existing (or de novo) NMA.
@@ -66,18 +68,20 @@ def evsi_nma(
         time_horizon (Optional[float]): Time horizon for scaling.
         **kwargs: Additional arguments for the NMA simulation or EVSI calculation method.
 
-    Returns:
+    Returns
+    -------
         float: The calculated EVSI-NMA.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         NotImplementedError: This method is a placeholder for v0.1, as full
                              implementation requires extensive NMA capabilities.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "EVSI for Network Meta-Analysis (EVSI-NMA) is a highly complex method "
         "requiring integration with NMA software/libraries and sophisticated simulation. "
-        "Not fully implemented in v0.1."
+        "Not fully implemented in v0.1.",
     )
 
     # Conceptual steps (greatly simplified):
@@ -106,14 +110,28 @@ def evsi_nma(
     # ... (omitted) ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("--- Testing network_nma.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray and PSASample
+
+    from pyvoi.core.data_structures import (
+        NetBenefitArray,
+        PSASample,
+        TrialArm,
+        TrialDesign,
+    )
 
     try:
         # Dummy arguments that would match a potential signature
-        def dummy_nma_evaluator(psa, trial_design, data): return NetBenefitArray(np.array([[0.]]))
-        dummy_psa = PSASample({"p":np.array([1])})
-        dummy_trial = TrialDesign([TrialArm("A",10)])
+        def dummy_nma_evaluator(psa, trial_design, data):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_trial = TrialDesign(
+            arms=[TrialArm(name="A", sample_size=10)]
+        )  # arms and name keyword
         evsi_nma(dummy_nma_evaluator, dummy_psa, dummy_trial)
     except NotImplementedError as e:
         print(f"Caught expected error for evsi_nma: {e}")

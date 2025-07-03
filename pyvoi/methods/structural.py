@@ -1,7 +1,7 @@
 # pyvoi/methods/structural.py
 
-"""
-Implementation of VOI methods for structural uncertainty:
+"""Implementation of VOI methods for structural uncertainty.
+
 - Structural EVPI (Expected Value of Perfect Information for Model Structure)
 - Structural EVPPI (Expected Value of Partial Perfect Information for Model Structure)
 
@@ -14,12 +14,12 @@ These methods are often more complex to implement generically as they require
 ways to define, sample from, and evaluate alternative model structures.
 """
 
+from typing import Callable, List, Optional, Union
+
 import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
@@ -29,13 +29,14 @@ ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
 def structural_evpi(
     model_structure_evaluators: List[ModelStructureEvaluator],
     structure_probabilities: Union[np.ndarray, List[float]],
-    psa_samples_per_structure: List[PSASample], # PSA samples relevant to each structure
+    psa_samples_per_structure: List[
+        PSASample
+    ],  # PSA samples relevant to each structure
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
 ) -> float:
-    """
-    Calculates the Expected Value of Perfect Information for Model Structure (Structural EVPI).
+    """Calculate the Expected Value of Perfect Information for Model Structure (Structural EVPI).
 
     Structural EVPI quantifies the expected gain from knowing with certainty which
     model structure is the "true" or most appropriate one.
@@ -67,17 +68,19 @@ def structural_evpi(
         discount_rate (Optional[float]): Discount rate for scaling.
         time_horizon (Optional[float]): Time horizon for scaling.
 
-    Returns:
+    Returns
+    -------
         float: The calculated Structural EVPI.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are inconsistent (e.g., list lengths don't match,
                     probabilities don't sum to 1).
         NotImplementedError: This is a placeholder for v0.1; full implementation is complex.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "Structural EVPI is a complex method requiring careful definition of "
-        "model structure evaluation and parameter handling. Not fully implemented in v0.1."
+        "model structure evaluation and parameter handling. Not fully implemented in v0.1.",
     )
 
     # --- Input Validation (Conceptual) ---
@@ -151,10 +154,10 @@ def structural_evppi(
     # Similar complex arguments as structural_evpi, plus definition of
     # which part of structural uncertainty is being resolved (e.g., a subset of models,
     # or parameters governing the choice between models).
-    *args, **kwargs
+    *args,
+    **kwargs,
 ) -> float:
-    """
-    Calculates the Expected Value of Partial Perfect Information for Model Structure (Structural EVPPI).
+    """Calculate the Expected Value of Partial Perfect Information for Model Structure (Structural EVPPI).
 
     SEVPPI quantifies the expected gain from resolving uncertainty about a specific
     aspect of model structure, or distinguishing between a subset of model structures.
@@ -164,33 +167,35 @@ def structural_evppi(
     Args:
         *args, **kwargs: Placeholder for arguments.
 
-    Returns:
+    Returns
+    -------
         float: The calculated Structural EVPPI.
 
-    Raises:
+    Raises
+    ------
         NotImplementedError: This method is a placeholder for v0.1.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "Structural EVPPI is a highly specialized and complex VOI method. "
-        "Not implemented in v0.1."
+        "Not implemented in v0.1.",
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("--- Testing structural.py (Placeholders) ---")
 
     try:
-        structural_evpi([], [], []) # type: ignore
-    except NotImplementedError as e:
+        structural_evpi([], [], [])  # type: ignore
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for structural_evpi: {e}")
     else:
-        raise AssertionError("structural_evpi did not raise NotImplementedError.")
+        raise AssertionError("structural_evpi did not raise PyVoiNotImplementedError.")
 
     try:
         structural_evppi()
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for structural_evppi: {e}")
     else:
-        raise AssertionError("structural_evppi did not raise NotImplementedError.")
+        raise AssertionError("structural_evppi did not raise PyVoiNotImplementedError.")
 
     print("--- structural.py placeholder tests completed ---")

@@ -1,7 +1,7 @@
 # pyvoi/methods/sequential.py
 
-"""
-Implementation of VOI methods for dynamic or sequential decision problems:
+"""Implementation of VOI methods for dynamic or sequential decision problems.
+
 - Dynamic / Sequential VOI
 
 These methods assess the value of information in contexts where decisions are
@@ -9,19 +9,21 @@ made sequentially over time, and information gathered at one stage can influence
 future decisions and future information gathering opportunities.
 """
 
-import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any, Generator
+from typing import Any, Callable, Dict, Generator, Union
 
-from pyvoi.core.data_structures import NetBenefitArray, PSASample, DynamicSpec
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+import numpy as np
+
+from pyvoi.core.data_structures import DynamicSpec, PSASample
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
 # and return new state, accrued data, and immediate rewards/costs.
 SequentialStepModel = Callable[
-    [PSASample, Any, DynamicSpec], # Current PSA, Action/Decision, Dynamic settings
-    Dict[str, Any] # e.g., {'next_psa': PSASample, 'observed_data': Any, 'immediate_nb': float}
+    [PSASample, Any, DynamicSpec],  # Current PSA, Action/Decision, Dynamic settings
+    Dict[
+        str, Any
+    ],  # e.g., {'next_psa': PSASample, 'observed_data': Any, 'immediate_nb': float}
 ]
 
 
@@ -34,10 +36,9 @@ def sequential_voi(
     # discount_rate: Optional[float] = None, # Crucial for sequential decisions
     # time_horizon: Optional[float] = None, # Overall horizon
     # optimization_method: str = "backward_induction", # e.g., for finite horizon
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Union[float, Generator[Dict[str, Any], None, None]]:
-    """
-    Calculates Value of Information in a dynamic or sequential decision context.
+    """Calculate Value of Information in a dynamic or sequential decision context.
 
     This can be approached in several ways:
     1. Calculating VOI at each potential decision point in a pre-defined sequence.
@@ -61,20 +62,22 @@ def sequential_voi(
         # optimization_method (str): Method like "backward_induction" or "forward_simulation".
         **kwargs: Additional arguments for the specific sequential VOI approach.
 
-    Returns:
+    Returns
+    -------
         Union[float, Generator[Dict[str, Any], None, None]]:
             Depending on the approach, could be an overall VOI for the entire
             sequential strategy, or a generator yielding VOI at each step.
             For v0.1, this will raise NotImplementedError.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         NotImplementedError: This method is a placeholder for v0.1.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "Dynamic / Sequential VOI is a highly advanced topic, often requiring "
         "custom modeling (e.g., Markov Decision Processes, Reinforcement Learning approaches, "
-        "or bespoke simulations). Not implemented in v0.1."
+        "or bespoke simulations). Not implemented in v0.1.",
     )
 
     # Conceptual flow for a generator-based API (simplified):
@@ -103,18 +106,25 @@ def sequential_voi(
     #         pass # Placeholder for state transition logic
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("--- Testing sequential.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # Used by PSASample
+
+    from pyvoi.core.data_structures import DynamicSpec, PSASample
 
     try:
         # Dummy arguments
-        def dummy_step_model(psa, action, dyn_spec): return {}
-        dummy_psa = PSASample({"p":np.array([1])})
-        dummy_dyn_spec = DynamicSpec(time_steps=[0,1,2])
+        def dummy_step_model(psa, action, dyn_spec):
+            return {}
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
         sequential_voi(dummy_step_model, dummy_psa, dummy_dyn_spec)
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for sequential_voi: {e}")
     else:
-        raise AssertionError("sequential_voi did not raise NotImplementedError.")
+        raise AssertionError("sequential_voi did not raise PyVoiNotImplementedError.")
 
     print("--- sequential.py placeholder tests completed ---")

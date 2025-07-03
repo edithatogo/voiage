@@ -1,70 +1,132 @@
-# Basic .pre-commit-config.yaml for pyVOI
-# Further details will be populated in subsequent steps.
+# .pre-commit-config.yaml for pyVOI
+
+# For more hooks, see: https://pre-commit.com/hooks.html
+# To update hooks to their latest versions: pre-commit autoupdate
+
+# Default minimum version of pre-commit.
+# minimum_pre_commit_version: '2.9.0' # Uncomment and set if needed
 
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0 # Use the latest version
+    rev: v4.6.0 # Use a recent, stable version
     hooks:
     -   id: trailing-whitespace
+        # args: [--markdown-linebreak-ext=md] # If you want to allow trailing whitespace in markdown for line breaks
     -   id: end-of-file-fixer
     -   id: check-yaml
+        args: [--allow-multiple-documents]
     -   id: check-toml
-    -   id: check-ast
-    -   id: check-docstring-first
-    -   id: check-merge-conflict
-    -   id: debug-statements
-    -   id: detect-private-key
+    -   id: check-ast # Checks if files parse as valid Python.
+    -   id: check-docstring-first # Checks that docstrings are the first statement in a module/class/function.
+    -   id: check-merge-conflict # Checks for files that contain merge conflict strings.
+    -   id: debug-statements # Checks for `pdb.set_trace()` and similar.
+    -   id: detect-private-key # Checks for files that contain private keys.
+    -   id: name-tests-test # Checks that test files are named like test_*.py or *_test.py.
+        args: ['--pytest-test-first'] # Prefers test_*.py
+    # -   id: requirements-txt-fixer # If you manage dependencies in requirements.txt files.
 
-# Ruff will replace black, isort, flake8
+# Ruff: Linter and Formatter (replaces Black, isort, Flake8, pydocstyle, etc.)
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.9' # Use the latest version of ruff
+    # rev: 'ruff-vX.Y.Z' # Ruff recommends pinning to a specific Ruff version for stability
+    rev: 'v0.1.9' # Use the version specified in pyproject.toml for consistency
     hooks:
     -   id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        name: ruff (lint)
+        args: [--fix, --exit-non-zero-on-fix] # Apply fixes and exit if fixes were made
+        # types_or: [python, pyi] # Default, can be more specific
     -   id: ruff-format
+        name: ruff (format)
+        # types_or: [python, pyi]
 
+# MyPy: Static Type Checker
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.8.0' # Use the latest version
+    rev: 'v1.8.0' # Use a recent version of MyPy
     hooks:
     -   id: mypy
-        args: [--strict]
-        # You might need to add additional_dependencies if you have plugins
-        # additional_dependencies: [numpy-stubs, pandas-stubs] # etc.
+        name: mypy (static type checking)
+        # args: [--strict] # Add global strictness, or configure in pyproject.toml
+        # MyPy configuration is primarily in pyproject.toml [tool.mypy]
+        # If you have specific entry points or files for MyPy to check:
+        # entry: mypy pyvoi tests
+        additional_dependencies: [
+            # Add stubs for libraries pyVOI uses if not covered by typeshed or inline types
+            "numpy>=1.20", # MyPy needs numpy to understand its types, or use numpy-stubs
+            "pandas>=1.3", # Similarly for pandas, or pandas-stubs
+            "xarray>=0.19",
+            "scikit-learn>=1.0",
+            "statsmodels>=0.13",
+            "matplotlib>=3.4",
+            "seaborn>=0.11",
+            "typer>=0.9",
+            "pymc>=5.0", # PyMC has its own stubs usually
+            # Stubs from typeshed are often included with MyPy, but explicit ones can be added:
+            "types-setuptools",
+            # "types-requests", # Example if requests was a direct dependency
+            # "pandas-stubs", # If needed and not using inline types from pandas itself
+            # "pytest" # For type checking test files themselves if desired
+        ]
+        # verbose: true # For more detailed MyPy output
 
-# Bandit for security analysis
+# Bandit: Security Linter
 -   repo: https://github.com/PyCQA/bandit
-    rev: '1.7.6' # Use the latest version
+    rev: '1.7.8' # Use a recent version of Bandit
     hooks:
     -   id: bandit
-        args: ["-r", "pyvoi", "-s", "B101,B608"] # Example: scan pyvoi dir, skip assert_used (B101) and hardcoded_sql_expressions (B608)
-        # exclude: ^tests/ # Optionally exclude test files from bandit scans
+        name: bandit (security analysis)
+        args: ["-r", "pyvoi", "-s", "B101", "-c", "pyproject.toml"] # Scan pyvoi dir, skip assert_used, use config from pyproject
+        # Exclude test files if they trigger false positives or are not security-critical
+        exclude: ^tests/
 
-# Tox hook (optional, if you want to run tox via pre-commit)
-# -   repo: https://github.com/tox-dev/tox-ini-fmt
-#     rev: "1.3.1"
-#     hooks:
-#     -   id: tox-ini-fmt
+# Tox: Optional, for running tox environments (e.g., tests) via pre-commit
+# This can be slow, so often run manually or in CI.
 # -   repo: local
 #     hooks:
 #       - id: tox
-#         name: tox
+#         name: tox (run test environments)
 #         entry: tox
+#         args: ["-e", "py38,lint"] # Example: run specific default environments
 #         language: system
-#         pass_filenames: false
-#         always_run: true # Run tox on every commit, or set to false and run manually
-#         args: ["-e", "py38,lint"] # Example: run specific tox environments
+#         pass_filenames: false # Tox doesn't typically operate on individual files
+#         always_run: false # Set to true to run on every commit (can be slow)
 
-# For Hypothesis, it's typically run as part of your pytest suite,
-# which can be included in a tox environment. No specific pre-commit hook
-# is usually needed beyond running tests.
+# tox-ini-fmt: Formatter for tox.ini file
+-   repo: https://github.com/tox-dev/tox-ini-fmt
+    rev: "1.3.1"
+    hooks:
+      - id: tox-ini-fmt
+        args: ["tox.ini"] # Specify your tox.ini file
 
-# Ensure all files are UTF-8
+# Pygrep hooks for various Python-specific checks
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
-    -   id: python-check-blanket-noqa
-    -   id: python-check-mock-methods
-    -   id: python-no-eval
-    -   id: python-no-log-warn
-    -   id: python-use-type-annotations
-    -   id: text-unicode-replacement-char
+    -   id: python-check-blanket-noqa # Checks for overly broad `noqa` comments.
+    # -   id: python-check-mock-methods # Useful if using `unittest.mock`.
+    -   id: python-no-eval # Checks for `eval()`.
+    -   id: python-no-log-warn # Discourages `logging.warn` (use `logging.warning`).
+    # -   id: python-use-type-annotations # Enforces type annotations (Ruff's ANN rules are more comprehensive).
+    # -   id: text-unicode-replacement-char # Checks for the unicode replacement character.
+
+# Sort pyproject.toml (optional, but good for consistency)
+# -   repo: https://github.com/abravalheri/toml-sort
+#     rev: vX.Y.Z # Check latest version
+#     hooks:
+#       - id: toml-sort
+#         args: ["pyproject.toml"]
+
+# Note on Hypothesis:
+# Hypothesis tests are typically run as part of your pytest suite.
+# There isn't a separate pre-commit hook for Hypothesis itself; its execution
+# would be covered if `tox` or `pytest` is run via pre-commit.
+
+# Ensure files are UTF-8 (already covered by pre-commit-hooks' end-of-file-fixer and trailing-whitespace implicitly)
+# but this hook is more explicit if needed for other file types.
+# -   repo: https://github.com/pre-commit/pygrep-hooks # (already listed)
+#     rev: v1.10.0
+#     hooks:
+#     -   id: text-unicode-replacement-char # Checks for the unicode replacement character in text files.
+
+# To install the hooks: pre-commit install
+# To run on all files: pre-commit run --all-files
+# To run on staged files (what happens on commit): pre-commit run
+# (or just `git commit` if hooks are installed)

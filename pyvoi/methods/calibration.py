@@ -1,7 +1,7 @@
 # pyvoi/methods/calibration.py
 
-"""
-Implementation of VOI methods for model calibration:
+"""Implementation of VOI methods for model calibration.
+
 - VOI for Calibration (Value of Information for data collected to calibrate a model)
 
 These methods assess the value of collecting specific data primarily intended
@@ -10,12 +10,15 @@ than directly comparing treatment effectiveness (though improved calibration
 indirectly benefits such comparisons).
 """
 
-import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any
+from typing import Any, Callable, Dict, Optional
 
-from pyvoi.core.data_structures import NetBenefitArray, PSASample # Potentially a "CalibrationStudyDesign"
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+import numpy as np
+
+from pyvoi.core.data_structures import (  # Potentially a "CalibrationStudyDesign"
+    NetBenefitArray,
+    PSASample,
+)
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that simulates a calibration study and its impact.
 # This involves:
@@ -25,24 +28,30 @@ from pyvoi.config import DEFAULT_DTYPE
 # - Detailing the calibration process (how the new data updates the targeted parameters).
 # - Evaluating the decision model with parameters updated via calibration.
 CalibrationStudyModeler = Callable[
-    [PSASample, Dict[str, Any], Dict[str, Any]], # Prior PSA, Calibration Study Design, Calibration Process Spec
-    NetBenefitArray # Expected NB conditional on simulated calibration data
+    [
+        PSASample,
+        Dict[str, Any],
+        Dict[str, Any],
+    ],  # Prior PSA, Calibration Study Design, Calibration Process Spec
+    NetBenefitArray,  # Expected NB conditional on simulated calibration data
 ]
+
 
 def voi_calibration(
     cal_study_modeler: CalibrationStudyModeler,
     psa_prior: PSASample,
-    calibration_study_design: Dict[str, Any], # Design of data collection for calibration
-    calibration_process_spec: Dict[str, Any], # How data updates model params
+    calibration_study_design: Dict[
+        str, Any
+    ],  # Design of data collection for calibration
+    calibration_process_spec: Dict[str, Any],  # How data updates model params
     # wtp: float, # Implicit
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
     # method_args for simulation, calibration algorithm details
-    **kwargs: Any
+    **kwargs: Any,
 ) -> float:
-    """
-    Calculates the Value of Information for data collected for Model Calibration.
+    """Calculate the Value of Information for data collected for Model Calibration.
 
     VOI-Calibration assesses the expected value of a study specifically designed
     to improve the calibration of a (health) economic model. This means reducing
@@ -68,17 +77,19 @@ def voi_calibration(
         time_horizon (Optional[float]): Time horizon for scaling.
         **kwargs: Additional arguments.
 
-    Returns:
+    Returns
+    -------
         float: The calculated VOI for the calibration study.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         NotImplementedError: This method is a placeholder for v0.1.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "VOI for Calibration is a specialized VOI application. It requires defining "
         "how new data informs model parameters through a calibration process, "
-        "which can be quite model-specific. Not implemented in v0.1."
+        "which can be quite model-specific. Not implemented in v0.1.",
     )
 
     # Conceptual steps (greatly simplified):
@@ -105,19 +116,27 @@ def voi_calibration(
     # Population scaling.
     # ... (omitted) ...
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print("--- Testing calibration.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray and PSASample
+
+    from pyvoi.core.data_structures import NetBenefitArray, PSASample
 
     try:
         # Dummy arguments
-        def dummy_cal_modeler(psa, design, spec): return NetBenefitArray(np.array([[0.]]))
-        dummy_psa = PSASample({"p":np.array([1])})
+        def dummy_cal_modeler(psa, design, spec):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
         dummy_design = {"experiment_type": "lab", "n_runs": 10}
         dummy_spec = {"method": "bayesian_history_matching"}
         voi_calibration(dummy_cal_modeler, dummy_psa, dummy_design, dummy_spec)
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for voi_calibration: {e}")
     else:
-        raise AssertionError("voi_calibration did not raise NotImplementedError.")
+        raise AssertionError("voi_calibration did not raise PyVoiNotImplementedError.")
 
     print("--- calibration.py placeholder tests completed ---")

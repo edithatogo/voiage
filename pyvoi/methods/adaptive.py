@@ -1,7 +1,7 @@
 # pyvoi/methods/adaptive.py
 
-"""
-Implementation of VOI methods for adaptive trial designs:
+"""Implementation of VOI methods for adaptive trial designs.
+
 - Adaptive-Design EVSI (EVSI for trials with pre-planned adaptations)
 
 Adaptive designs allow modifications to the trial based on interim data,
@@ -10,12 +10,12 @@ efficacy or futility. EVSI for such designs needs to account for these
 decision rules.
 """
 
+from typing import Any, Callable, Dict, Optional
+
 import numpy as np
-from typing import Union, Optional, List, Callable, Dict, Any
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.exceptions import NotImplementedError, InputError
-from pyvoi.config import DEFAULT_DTYPE
+from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
 # This is extremely complex, involving:
@@ -25,25 +25,28 @@ from pyvoi.config import DEFAULT_DTYPE
 # - If trial completes, updating beliefs and evaluating economic model.
 # - If trial stops early, evaluating economic model based on that decision.
 AdaptiveTrialEconomicSim = Callable[
-    [PSASample, TrialDesign, Dict[str, Any]], # Prior PSA, Base TrialDesign, Adaptive Rules
-    NetBenefitArray # Expected NB conditional on the full adaptive trial outcome
+    [
+        PSASample,
+        TrialDesign,
+        Dict[str, Any],
+    ],  # Prior PSA, Base TrialDesign, Adaptive Rules
+    NetBenefitArray,  # Expected NB conditional on the full adaptive trial outcome
 ]
 
 
 def adaptive_evsi(
     adaptive_trial_simulator: AdaptiveTrialEconomicSim,
     psa_prior: PSASample,
-    base_trial_design: TrialDesign, # Initial design before adaptation
-    adaptive_rules: Dict[str, Any], # Specification of adaptation rules
+    base_trial_design: TrialDesign,  # Initial design before adaptation
+    adaptive_rules: Dict[str, Any],  # Specification of adaptation rules
     # wtp: float, # Often implicit
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
     # method_args for simulation, e.g., number of trial simulations
-    **kwargs: Any
+    **kwargs: Any,
 ) -> float:
-    """
-    Calculates the Expected Value of Sample Information for an Adaptive Trial Design.
+    """Calculate the Expected Value of Sample Information for an Adaptive Trial Design.
 
     Adaptive EVSI assesses the value of a trial where decisions can be made
     at interim points to modify the trial's conduct based on accrued data.
@@ -68,17 +71,19 @@ def adaptive_evsi(
         time_horizon (Optional[float]): Time horizon for scaling.
         **kwargs: Additional arguments for the simulation or EVSI calculation.
 
-    Returns:
+    Returns
+    -------
         float: The calculated Adaptive-Design EVSI.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         NotImplementedError: This method is a placeholder for v0.1 due to its complexity.
     """
-    raise NotImplementedError(
+    raise PyVoiNotImplementedError(
         "EVSI for Adaptive Designs is a highly complex, simulation-intensive method. "
         "It requires a detailed adaptive trial simulation engine. "
-        "Not fully implemented in v0.1."
+        "Not fully implemented in v0.1.",
     )
 
     # Conceptual steps (greatly simplified):
@@ -109,19 +114,34 @@ def adaptive_evsi(
     # Population scaling would apply.
     # ... (omitted) ...
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print("--- Testing adaptive.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray call and PSASample
+
+    from pyvoi.core.data_structures import (
+        NetBenefitArray,
+        PSASample,
+        TrialArm,
+        TrialDesign,
+    )
 
     try:
         # Dummy arguments
-        def dummy_adaptive_sim(psa, design, rules): return NetBenefitArray(np.array([[0.]]))
-        dummy_psa = PSASample({"p":np.array([1])})
-        dummy_design = TrialDesign([TrialArm("A",10)])
+        def dummy_adaptive_sim(psa, design, rules):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword arg
+        dummy_design = TrialDesign(
+            arms=[TrialArm(name="A", sample_size=10)]
+        )  # arms and name keyword args
         dummy_rules = {"stop_if_eff_at_interim1": 0.95}
         adaptive_evsi(dummy_adaptive_sim, dummy_psa, dummy_design, dummy_rules)
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for adaptive_evsi: {e}")
     else:
-        raise AssertionError("adaptive_evsi did not raise NotImplementedError.")
+        raise AssertionError("adaptive_evsi did not raise PyVoiNotImplementedError.")
 
     print("--- adaptive.py placeholder tests completed ---")
