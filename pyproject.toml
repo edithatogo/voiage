@@ -1,0 +1,64 @@
+# Basic pyproject.toml for pyVOI
+# Further details will be populated in subsequent steps.
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyvoi"
+version = "0.0.1"
+description = "A Python library for Value of Information analysis."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT License"} # Placeholder, confirm actual license
+authors = [
+  {name = "Your Name / Organization", email = "your@email.com"}, # Placeholder
+]
+keywords = ["voi", "value of information", "decision analysis", "health economics"]
+
+# Dependencies will be added based on the project guidelines
+dependencies = [
+    # "numpy",
+    # "scipy",
+    # "pandas",
+    # "xarray",
+    # "pymc", # or "pyro-ppl"
+    # "jax",
+    # "jaxlib",
+    # "scikit-learn",
+    # "statsmodels",
+    # "SALib",
+    # "dask",
+    # "joblib",
+    # "matplotlib",
+    # "seaborn",
+    # "arviz",
+    # "typer", # or "click"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "isort",
+    "flake8",
+    "mypy",
+    "pre-commit",
+    "sphinx",
+    "sphinx-rtd-theme", # for ReadTheDocs theme
+    "jupyter",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/pyvoi" # Placeholder
+Documentation = "https://pyvoi.readthedocs.io" # Placeholder
+Repository = "https://github.com/yourusername/pyvoi.git" # Placeholder
+Changelog = "https://github.com/yourusername/pyvoi/blob/main/CHANGELOG.md" # Placeholder
+
+# Tool configurations will be added in setup.cfg or here as needed
+# e.g. [tool.pytest.ini_options]
+# e.g. [tool.black]
+# e.g. [tool.isort]
+# e.g. [tool.mypy]
