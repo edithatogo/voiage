@@ -19,7 +19,7 @@ from typing import Callable, List, Optional, Union
 import numpy as np
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.

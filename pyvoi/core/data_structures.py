@@ -155,7 +155,7 @@ class PSASample:
                 raise InputError(
                     "Could not determine n_samples from parameters dictionary."
                 )
-            self._n_samples = current_n_samples
+            object.__setattr__(self, "_n_samples", current_n_samples)
 
         # elif isinstance(self.parameters, xr.Dataset):
         #     # Add validation for xarray.Dataset if it becomes a primary supported type

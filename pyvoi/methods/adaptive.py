@@ -15,7 +15,7 @@ from typing import Any, Callable, Dict, Optional
 import numpy as np
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
 # This is extremely complex, involving:

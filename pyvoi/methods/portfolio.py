@@ -14,8 +14,7 @@ from typing import Any, Callable, Dict, List
 import numpy as np
 
 from pyvoi.core.data_structures import PortfolioSpec, PortfolioStudy
-from pyvoi.exceptions import InputError
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import InputError, PyVoiNotImplementedError
 
 # Type alias for a function that calculates the value of a single study
 # This could be an EVSI or ENBS calculator for that study.

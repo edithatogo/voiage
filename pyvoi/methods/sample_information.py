@@ -16,9 +16,7 @@ from pyvoi.core.utils import check_input_array
 from pyvoi.exceptions import (
     CalculationError,
     InputError,
-)
-from pyvoi.exceptions import (
-    NotImplementedError as PyVoiNotImplementedError,
+    PyVoiNotImplementedError,
 )
 
 # from pyvoi.methods.basic import evppi # May be used if EVSI is framed via EVPPI on predicted data
