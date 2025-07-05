@@ -16,8 +16,7 @@ import pytest
 
 from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import PSASample, TrialArm, TrialDesign
-from pyvoi.exceptions import InputError
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import InputError, PyVoiNotImplementedError # Corrected import
 from pyvoi.methods.sample_information import enbs, evsi
 
 # --- Dummy components for EVSI testing ---
@@ -58,21 +57,67 @@ def dummy_trial_design_for_evsi() -> TrialDesign:
 
 
 def test_evsi_structure_and_not_implemented(
-    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ):
-    """Test EVSI structure and NotImplementedError for defined methods."""
-    # Also checks basic input validation before that.
+    """Test EVSI structure and NotImplementedError for specific methods."""
+
+    # Test that "regression" method runs with stubs if sklearn is available
+    # It should produce EVSI near 0 due to stubs.
+    # If sklearn is NOT available, it should raise PyVoiNotImplementedError.
+
+    # Temporarily modify SKLEARN_AVAILABLE for testing both paths
+    import pyvoi.methods.sample_information as si_module
+
+    original_sklearn_available = si_module.SKLEARN_AVAILABLE
+
+    # Path 1: SKLEARN_AVAILABLE = True (normal run with stubs)
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", True)
+    try:
+        evsi_val_regr = evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="regression",
+            n_outer_loops=2, # Small loops for faster test
+            n_inner_loops=5
+        )
+        # Due to stubs returning prior-like posteriors, EVSI should be ~0
+        assert np.isclose(evsi_val_regr, 0.0, atol=1e-6), \
+            f"EVSI with regression stubs should be near 0, got {evsi_val_regr}"
+        print("EVSI regression with stubs (SKLEARN_AVAILABLE=True) ran as expected.")
+    except PyVoiNotImplementedError:
+        # This case should not happen if SKLEARN_AVAILABLE is True and no other NIError is raised by stubs
+        pytest.fail("EVSI regression method raised PyVoiNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True.")
+
+
+    # Path 2: SKLEARN_AVAILABLE = False
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
     with pytest.raises(
         PyVoiNotImplementedError,
-        match="Regression-based EVSI method is not fully implemented",
+        match="Regression method for EVSI requires scikit-learn to be installed."
     ):
         evsi(
             model_func=dummy_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
-            method="regression",  # This method is expected to be known but not done
+            method="regression"
+        )
+    print("EVSI regression (SKLEARN_AVAILABLE=False) raised PyVoiNotImplementedError as expected.")
+
+    # Restore original SKLEARN_AVAILABLE state for other tests
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", original_sklearn_available)
+
+    # Test for other known but not implemented methods (if any were defined beyond regression)
+    # For example, if "nonparametric" was a known method type in evsi()
+    with pytest.raises(PyVoiNotImplementedError, match="Nonparametric EVSI method is not yet implemented."):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="nonparametric"
         )
 
+    # Test for an unrecognized method
     with pytest.raises(
         PyVoiNotImplementedError, match="EVSI method 'unknown_method' is not recognized"
     ):
