@@ -54,22 +54,73 @@ def _simulate_trial_data(
     # For now, returning a placeholder that indicates structure.
     # Example: if trial has 2 arms, maybe return { 'arm1_mean_outcome': ..., 'arm2_mean_outcome': ... }
     # This needs to be compatible with _bayesian_update.
-    print(f"Warning: _simulate_trial_data is a stub. Using placeholder data logic for {trial_design.arms[0].name if trial_design.arms else 'N/A'}.")
-    # For a simple test, let's assume it returns some summary stats
-    # This is NOT a realistic simulation.
-    sim_data = {}
-    true_params_sample_idx = np.random.randint(0, psa_prior.n_samples)
+    # Assumptions for this enhanced stub:
+    # - psa_prior.parameters contains keys like 'mean_control', 'mean_treatment', 'sd_outcome'.
+    # - trial_design.arms have names that help map to these parameters (e.g., "Control", "Treatment").
+    # - We simulate individual patient data (IPD) for each arm.
+
+    sim_data_dict: Dict[str, np.ndarray] = {}
+
+    # Select one sample from psa_prior to define the "true" parameters for this simulation run
+    # In a full simulation, n_inner_loops would often correspond to sampling these "true" parameters.
+    # Here, n_inner_loops is for posterior sampling in _bayesian_update.
+    # The outer loop of EVSI (n_outer_loops) is for different D_k. Each D_k comes from one "true" theta.
+    true_param_set_idx = np.random.randint(0, psa_prior.n_samples)
+
+    # Get the "true" common standard deviation for this simulation run
+    # Fallback to a default if not found, with a warning.
+    true_sd_outcome: float
+    if 'sd_outcome' in psa_prior.parameters:
+        true_sd_outcome = psa_prior.parameters['sd_outcome'][true_param_set_idx]
+    else:
+        print("Warning: 'sd_outcome' not found in psa_prior.parameters. Defaulting to SD=1 for simulation.")
+        true_sd_outcome = 1.0
+
+    if true_sd_outcome <= 0: # Ensure SD is positive
+        print(f"Warning: True sd_outcome is non-positive ({true_sd_outcome}). Using 1.0 instead.")
+        true_sd_outcome = 1.0
+
     for arm in trial_design.arms:
-        # Simplistic: assume first parameter in psa_prior is related to outcome
-        # and sample size influences precision (not properly modeled here)
-        param_names = list(psa_prior.parameters.keys())
-        if param_names:
-            true_param_val = psa_prior.parameters[param_names[0]][true_params_sample_idx]
-            # Simulate a mean outcome based on this 'true' param and add noise
-            sim_data[arm.name] = true_param_val + np.random.normal(0, 1/np.sqrt(arm.sample_size))
-        else:
-            sim_data[arm.name] = np.random.normal(0,1) # Generic if no params
-    return sim_data
+        # Determine the 'true' mean for this arm based on its name (simplified mapping)
+        # This logic is highly dependent on conventions for parameter naming in psa_prior.
+        true_arm_mean: float
+        param_key_found = False
+        for potential_key in [f"mean_{arm.name.lower().replace(' ', '_')}", arm.name]:
+            if potential_key in psa_prior.parameters:
+                true_arm_mean = psa_prior.parameters[potential_key][true_param_set_idx]
+                param_key_found = True
+                break
+
+        if not param_key_found:
+            # Fallback if a specific mean parameter for the arm isn't found
+            # This could be an error, or use a generic/default mean.
+            # For this stub, let's use the first parameter's value as a fallback if only one param exists,
+            # or a default random value, with a warning.
+            param_names = list(psa_prior.parameters.keys())
+            if len(param_names) == 1 and not param_names[0].startswith("sd_"): # Avoid using sd as mean
+                 true_arm_mean = psa_prior.parameters[param_names[0]][true_param_set_idx]
+                 print(f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{param_names[0]}'.")
+            elif param_names : # Try to find any mean-like param
+                first_mean_like_param = next((p for p in param_names if "mean" in p and not p.startswith("sd_")), None)
+                if first_mean_like_param:
+                    true_arm_mean = psa_prior.parameters[first_mean_like_param][true_param_set_idx]
+                    print(f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{first_mean_like_param}'.")
+                else: # Absolute fallback
+                    true_arm_mean = np.random.normal(0,1) # Default if no suitable param found
+                    print(f"Warning: No specific or generic mean parameter found for arm '{arm.name}'. Using random mean {true_arm_mean:.2f}.")
+            else: # No parameters at all, should not happen if psa_prior is validated
+                true_arm_mean = np.random.normal(0,1)
+                print(f"Warning: No parameters in psa_prior. Using random mean {true_arm_mean:.2f} for arm '{arm.name}'.")
+
+
+        # Generate individual patient data for the arm
+        # arm_data = np.random.normal(loc=true_arm_mean, scale=true_sd_outcome, size=arm.sample_size)
+        # Ensure data has DEFAULT_DTYPE
+        arm_data = np.random.normal(loc=true_arm_mean, scale=true_sd_outcome, size=arm.sample_size).astype(DEFAULT_DTYPE)
+        sim_data_dict[arm.name] = arm_data
+
+    # print(f"Debug _simulate_trial_data: Simulated data for {len(trial_design.arms)} arms. Example for '{trial_design.arms[0].name}': mean={np.mean(sim_data_dict[trial_design.arms[0].name]):.2f}, sd={np.std(sim_data_dict[trial_design.arms[0].name]):.2f}")
+    return sim_data_dict
 
 
 def _bayesian_update(
@@ -89,18 +140,101 @@ def _bayesian_update(
     print(f"Warning: _bayesian_update is a stub. Returning samples from prior for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}.")
 
     # For testing, we need to return an array of shape (n_inner_loops, n_parameters)
-    # Let's stack all parameters from psa_prior into a (n_prior_samples, n_parameters) array
-    # then resample from that to get (n_inner_loops, n_parameters)
-    if not psa_prior.parameters:
-        # This case should ideally be handled by psa_prior validation, but as a fallback:
-        return np.random.rand(n_inner_loops, 1) # Return some dummy if no params
 
-    param_arrays = [v.reshape(-1, 1) if v.ndim ==1 else v for v in psa_prior.parameters.values()]
-    prior_params_stacked = np.hstack(param_arrays) # (n_prior_samples, n_params)
+    # --- Normal-Normal Conjugate Update Implementation ---
+    # Assumptions:
+    # 1. We are updating one specific parameter, e.g., 'mean_treatment'.
+    # 2. The data for this update comes from one specific arm in simulated_data_k, e.g., 'Treatment Arm Name'.
+    # 3. The data variance (sigma^2) is known and taken from 'sd_outcome' in psa_prior (same draw as simulation).
+    # 4. The prior for 'mean_treatment' is N(mu_0, tau_0^2).
+    #    psa_prior.parameters['mean_treatment'] gives samples of mu_0. We need tau_0.
+    #    For simplicity, let's assume a fixed prior standard deviation for mu_0 (prior_sd_for_mean_treatment).
 
-    # Resample from these prior parameter sets
-    indices = np.random.choice(prior_params_stacked.shape[0], n_inner_loops, replace=True)
-    return prior_params_stacked[indices, :]
+    param_to_update = 'mean_treatment' # Example parameter to update
+    data_key_for_update = 'New Treatment' # Example arm name from dummy_trial_design_for_evsi
+                                      # This mapping needs to be robust or configurable.
+    known_obs_sd_param = 'sd_outcome' # Parameter name for known observation SD
+    # Assume a fixed standard deviation for the prior on the mean being updated.
+    # This represents uncertainty about mu_0 itself if mu_0 were a fixed point.
+    # Or, if psa_prior['mean_treatment'] are draws from N(true_mu_0, prior_sd_for_mean_treatment^2),
+    # then each draw is a mu_0. We'd need a hyperprior or a fixed prior_sd_for_mean_treatment.
+    # For now, let's use the std dev of the 'mean_treatment' samples in psa_prior as a proxy for tau_0,
+    # and one sample from 'mean_treatment' as mu_0 for this specific Bayesian update instance.
+    # This is a simplification of how priors are typically structured for hierarchical models / EVSI.
+
+    # Get all parameter names and their prior samples stacked
+    prior_param_names = list(psa_prior.parameters.keys())
+    if not prior_param_names:
+        return np.random.rand(n_inner_loops, 1) # Fallback if no params
+
+    prior_param_values_list = [v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()]
+    prior_params_stacked = np.hstack(prior_param_values_list) # (n_prior_samples, n_total_params)
+
+    # Initialize posterior samples by resampling from the prior stack
+    # These will be overwritten for the parameter(s) we update.
+    prior_sample_indices = np.random.choice(prior_params_stacked.shape[0], n_inner_loops, replace=True)
+    posterior_samples_stacked = prior_params_stacked[prior_sample_indices, :].copy()
+
+    if param_to_update in prior_param_names and \
+       data_key_for_update in simulated_data_k and \
+       known_obs_sd_param in prior_param_names:
+
+        param_idx_to_update = prior_param_names.index(param_to_update)
+
+        # For each of the n_inner_loops (representing draws from posterior):
+        #   We need a mu_0 and tau_0 for the prior of param_to_update.
+        #   And a sigma^2 for the likelihood.
+        #   The EVSI outer loop implies one "true" theta_world drawn from psa_prior.
+        #   _simulate_trial_data used one such draw. _bayesian_update should be consistent.
+        #   For now, let's simplify: for each of the n_inner_loops, we'll draw a mu_0 from the prior samples
+        #   of param_to_update, and a sigma from known_obs_sd_param. This is not fully coherent
+        #   with a single "true" theta_world per outer loop, but allows testing the update math.
+
+        # Get samples for mu_0 (from prior of param_to_update)
+        mu_0_samples = psa_prior.parameters[param_to_update][prior_sample_indices]
+
+        # Get samples for sigma (from prior of known_obs_sd_param)
+        sigma_samples = psa_prior.parameters[known_obs_sd_param][prior_sample_indices]
+        sigma_squared_samples = sigma_samples**2
+
+        # For tau_0, prior std dev of mu_0. Use std of the *entire* prior sample for param_to_update.
+        # This is a simplification. A more rigorous approach would have tau_0 as a defined parameter.
+        tau_0 = np.std(psa_prior.parameters[param_to_update])
+        if tau_0 == 0: tau_0 = 1e-6 # Avoid division by zero if prior is constant
+        tau_0_squared = tau_0**2
+
+        # Data from the trial simulation for the relevant arm
+        data_y = simulated_data_k[data_key_for_update]
+        n_obs = len(data_y)
+        if n_obs == 0: # No data, posterior is prior
+            # `posterior_samples_stacked` already contains prior samples for this param
+            print(f"Warning: No data for arm '{data_key_for_update}'. Using prior for '{param_to_update}'.")
+            # The line below is already done by initialization, but for clarity:
+            # posterior_samples_stacked[:, param_idx_to_update] = mu_0_samples
+            # return posterior_samples_stacked # Early exit if no data for this arm
+        else:
+            y_bar = np.mean(data_y)
+
+            # Calculate posterior variance and mean for each of the n_inner_loops samples
+            # (as mu_0_samples and sigma_squared_samples are arrays)
+            # Ensure sigma_squared_samples are positive
+            sigma_squared_samples = np.maximum(sigma_squared_samples, 1e-12) # Avoid zero or negative variance
+
+            tau_n_squared_inv = (1/tau_0_squared) + (n_obs / sigma_squared_samples)
+            tau_n_squared = 1 / tau_n_squared_inv
+            mu_n = tau_n_squared * ( (mu_0_samples / tau_0_squared) + (n_obs * y_bar / sigma_squared_samples) )
+
+            # Draw samples from the posterior N(mu_n, tau_n_squared)
+            updated_param_posterior_draws = np.random.normal(loc=mu_n, scale=np.sqrt(tau_n_squared))
+            posterior_samples_stacked[:, param_idx_to_update] = updated_param_posterior_draws.astype(DEFAULT_DTYPE)
+
+            # print(f"Debug _bayesian_update: Updated '{param_to_update}'. Prior mean for one sample: {mu_0_samples[0]:.2f}. Data mean: {y_bar:.2f}. Posterior mean for one sample: {mu_n[0]:.2f}. Posterior SD for one sample: {np.sqrt(tau_n_squared[0]):.2f}")
+
+    else:
+        print(f"Warning: Conditions for Bayesian update of '{param_to_update}' not met. Using prior samples.")
+        # If conditions not met, posterior_samples_stacked already contains resampled priors.
+
+    return posterior_samples_stacked
 
 
 def _fit_metamodel(

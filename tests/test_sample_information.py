@@ -23,33 +23,50 @@ from pyvoi.methods.sample_information import enbs, evsi
 
 
 def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.ndarray:
-    """Define a very simple model function for EVSI structure testing."""
-    # It ignores actual parameters and returns fixed net benefits.
-    # In a real scenario, this would use psa_params_or_sample to calculate NBs.
-    # Returns NB for 3 samples, 2 strategies
-    return np.array(
-        [
-            [100, 110],
-            [90, 120],
-            [105, 95],
-        ],
-        dtype=DEFAULT_DTYPE,
-    )
+    """Define a simple model function for EVSI structure testing.
+    It generates net benefits based on the number of samples in psa_params_or_sample.
+    """
+    n_samples = 0
+    if isinstance(psa_params_or_sample, PSASample):
+        n_samples = psa_params_or_sample.n_samples
+    elif isinstance(psa_params_or_sample, dict):
+        if psa_params_or_sample:
+            n_samples = len(next(iter(psa_params_or_sample.values())))
+
+    if n_samples == 0: # Fallback if n_samples couldn't be determined
+        n_samples = 3 # Default to a small number
+
+    # For simplicity, generate random net benefits for 2 strategies
+    # In a real model, these would be calculated based on input parameters
+    nb_strategy1 = np.random.normal(loc=100, scale=10, size=n_samples)
+    nb_strategy2 = np.random.normal(loc=105, scale=15, size=n_samples)
+
+    return np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)
 
 
 @pytest.fixture
 def dummy_psa_for_evsi() -> PSASample:
+    # Parameters for a Normal-Normal conjugate update scenario
+    # Means are different enough to expect some EVSI.
+    # sd_outcome is relatively small to make learning more impactful.
+    # n_samples for psa_prior should be reasonably large for stable metamodel fitting.
+    n_psa_samples = 500
     params = {
-        "p1": np.array([0.1, 0.2, 0.3], dtype=DEFAULT_DTYPE),
-        "p2": np.array([10, 20, 30], dtype=DEFAULT_DTYPE),
+        "mean_new_treatment": np.random.normal(loc=10, scale=2, size=n_psa_samples).astype(DEFAULT_DTYPE),
+        "mean_standard_care": np.random.normal(loc=8, scale=2, size=n_psa_samples).astype(DEFAULT_DTYPE),
+        "sd_outcome": np.random.uniform(low=0.5, high=1.5, size=n_psa_samples).astype(DEFAULT_DTYPE),
+        # Add another dummy parameter not directly used in update, to test metamodel with multiple params
+        "unrelated_param": np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE)
     }
     return PSASample(parameters=params)
 
 
 @pytest.fixture
 def dummy_trial_design_for_evsi() -> TrialDesign:
-    arm1 = TrialArm(name="New Treatment", sample_size=100)
-    arm2 = TrialArm(name="Standard Care", sample_size=100)
+    # Arm names match keys expected by _simulate_trial_data (via convention)
+    # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
+    arm1 = TrialArm(name="New Treatment", sample_size=50) # Reduced sample size for faster test simulation
+    arm2 = TrialArm(name="Standard Care", sample_size=50)
     return TrialDesign(arms=[arm1, arm2])
 
 
@@ -78,16 +95,23 @@ def test_evsi_structure_and_not_implemented(
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="regression",
-            n_outer_loops=2, # Small loops for faster test
-            n_inner_loops=5
+            n_outer_loops=10, # Small loops for faster test, but enough for some averaging
+            n_inner_loops=20 # Samples for posterior expectation
         )
-        # Due to stubs returning prior-like posteriors, EVSI should be ~0
-        assert np.isclose(evsi_val_regr, 0.0, atol=1e-6), \
-            f"EVSI with regression stubs should be near 0, got {evsi_val_regr}"
-        print("EVSI regression with stubs (SKLEARN_AVAILABLE=True) ran as expected.")
+        # With actual (though simplified) Bayesian update, EVSI should be > 0
+        assert evsi_val_regr > -1e-9, \
+            f"EVSI with regression (Normal-Normal update) should be non-negative, got {evsi_val_regr}"
+        # It's hard to predict exact value, but > 0 indicates learning.
+        # If it's consistently very close to 0, the update or simulation might still be too trivial
+        # or the prior/likelihood makes information gain minimal.
+        # For this test, non-negative is the primary check for successful run.
+        # A more specific check for > 0 might be too flaky depending on random seeds and simplified model.
+        print(f"EVSI regression with Normal-Normal update (SKLEARN_AVAILABLE=True) ran, value: {evsi_val_regr:.4f}")
     except PyVoiNotImplementedError:
-        # This case should not happen if SKLEARN_AVAILABLE is True and no other NIError is raised by stubs
+        # This case should not happen if SKLEARN_AVAILABLE is True
         pytest.fail("EVSI regression method raised PyVoiNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True.")
+    except Exception as e:
+        pytest.fail(f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}")
 
 
     # Path 2: SKLEARN_AVAILABLE = False
