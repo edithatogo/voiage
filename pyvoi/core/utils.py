@@ -8,18 +8,118 @@ the library, such as input validation, common mathematical operations not
 specific to a single VOI method, or data transformations.
 """
 
-from typing import Optional, Sequence, Union  # Added Dict, Any
+from typing import Optional, Sequence, Union, Dict, Any # Added Dict, Any
 
 import numpy as np
 
 from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import (
     NetBenefitArray,
-)  # Assuming NetBenefitArray is defined
+    PSASample, # Added for check_parameter_samples
+)
 from pyvoi.exceptions import (
     DimensionMismatchError,
     InputError,
-)  # Added CalculationError
+)
+
+
+def check_parameter_samples(
+    parameter_samples: Union[np.ndarray, PSASample, Dict[str, np.ndarray]],
+    expected_n_samples: int,
+) -> np.ndarray:
+    """Validate and format parameter_samples for EVPPI calculation.
+
+    Args:
+        parameter_samples (Union[np.ndarray, PSASample, Dict[str, np.ndarray]]):
+            Samples of the parameter(s) of interest.
+            - If np.ndarray: Shape (n_samples,) or (n_samples, n_params).
+            - If PSASample: Will extract parameters. If multiple, they'll be stacked.
+            - If Dict: Values are np.ndarray of shape (n_samples,). Keys are param names.
+        expected_n_samples (int): The expected number of samples, typically from
+                                  the main net benefit array.
+
+    Returns:
+        np.ndarray: A 2D NumPy array of shape (expected_n_samples, n_params_found),
+                    formatted for use as `X` in regression.
+
+    Raises:
+        InputError: If input types are wrong, or parameter data is non-numeric or empty.
+        DimensionMismatchError: If sample counts don't match expected_n_samples,
+                                or if dict/PSASample parameters have inconsistent sample counts.
+    """
+    if isinstance(parameter_samples, np.ndarray):
+        X = parameter_samples
+        if X.size == 0:
+            raise InputError("`parameter_samples` (NumPy array) cannot be empty.")
+        if not np.issubdtype(X.dtype, np.number):
+            raise InputError("`parameter_samples` (NumPy array) must be numeric.")
+        if X.ndim == 1:
+            X = X.reshape(-1, 1)
+        elif X.ndim != 2:
+            raise DimensionMismatchError(
+                f"`parameter_samples` (NumPy array) must be 1D or 2D. Got {X.ndim}D."
+            )
+        if X.shape[0] != expected_n_samples:
+            raise DimensionMismatchError(
+                f"Number of samples in `parameter_samples` (NumPy array) ({X.shape[0]}) "
+                f"does not match expected samples ({expected_n_samples})."
+            )
+    elif isinstance(parameter_samples, PSASample):
+        if not parameter_samples.parameters:
+            raise InputError("`parameter_samples` (PSASample) has no parameters.")
+        param_list = []
+        for param_name, values in parameter_samples.parameters.items():
+            if not isinstance(values, np.ndarray):
+                raise InputError(f"Parameter '{param_name}' in PSASample must be a NumPy array.")
+            if values.size == 0:
+                raise InputError(f"Parameter '{param_name}' in PSASample cannot be empty.")
+            if not np.issubdtype(values.dtype, np.number):
+                raise InputError(f"Parameter '{param_name}' in PSASample must be numeric.")
+            if values.shape[0] != expected_n_samples:
+                raise DimensionMismatchError(
+                    f"Parameter '{param_name}' in PSASample has {values.shape[0]} samples, "
+                    f"expected {expected_n_samples}."
+                )
+            param_list.append(values.reshape(-1, 1) if values.ndim == 1 else values)
+        if not param_list: # Should be caught by .parameters check but defensive
+             raise InputError("No valid parameters found in PSASample for EVPPI.")
+        X = np.hstack(param_list)
+    elif isinstance(parameter_samples, dict):
+        if not parameter_samples:
+            raise InputError("`parameter_samples` (dict) cannot be empty.")
+        param_list = []
+        for param_name, values in parameter_samples.items():
+            if not isinstance(values, np.ndarray):
+                raise InputError(f"Parameter '{param_name}' in dict must be a NumPy array.")
+            if values.size == 0:
+                raise InputError(f"Parameter '{param_name}' in dict cannot be empty.")
+            if not np.issubdtype(values.dtype, np.number):
+                raise InputError(f"Parameter '{param_name}' in dict must be numeric.")
+            if values.shape[0] != expected_n_samples:
+                raise DimensionMismatchError(
+                    f"Parameter '{param_name}' in dict has {values.shape[0]} samples, "
+                    f"expected {expected_n_samples}."
+                )
+            param_list.append(values.reshape(-1, 1) if values.ndim == 1 else values)
+        if not param_list: # Should be caught by empty dict check
+            raise InputError("No valid parameters found in dict for EVPPI.")
+        X = np.hstack(param_list)
+    else:
+        raise InputError(
+            "`parameter_samples` must be a NumPy array, PSASample, or Dict. "
+            f"Got {type(parameter_samples)}."
+        )
+
+    if X.shape[0] != expected_n_samples: # Final check after hstack if shapes were weird
+        raise DimensionMismatchError(
+            f"Formatted parameter samples X have {X.shape[0]} rows, expected {expected_n_samples}."
+        )
+    if X.ndim != 2: # Should always be 2D by this point
+        raise DimensionMismatchError(
+            f"Formatted parameter samples X must be 2D, got {X.ndim}D. Shape: {X.shape}"
+        )
+
+    return X.astype(DEFAULT_DTYPE, copy=False)
 
 
 def check_input_array(

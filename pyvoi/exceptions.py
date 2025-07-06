@@ -102,3 +102,15 @@ class BackendError(PyVOIError):
 #     # some calculation
 # except SomeUnderlyingLibError as e:
 #     raise CalculationError("Underlying library failed during calculation.") from e
+
+
+class PyVoiNotImplementedError(PyVOIError):
+    """Raised when a feature or method is not yet implemented."""
+
+    pass
+
+
+class OptionalDependencyError(PyVOIError, ImportError):
+    """Raised when an optional dependency is not installed but is required for a feature."""
+
+    pass

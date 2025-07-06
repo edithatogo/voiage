@@ -18,7 +18,7 @@ from pyvoi.core.data_structures import (  # Potentially a "CalibrationStudyDesig
     NetBenefitArray,
     PSASample,
 )
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that simulates a calibration study and its impact.
 # This involves:

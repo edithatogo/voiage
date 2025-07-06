@@ -116,7 +116,7 @@ def test_evpi_invalid_inputs():
     with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
         evpi("not an array")  # type: ignore
 
-    with pytest.raises(DimensionMismatchError, match="must have 2 dimension"):
+    with pytest.raises(DimensionMismatchError, match=r"must have \(2,\) dimension\(s\). Got 1."):
         evpi(np.array([1, 2, 3], dtype=DEFAULT_DTYPE))  # 1D array
 
     with pytest.raises(InputError, match="cannot be empty"):
@@ -124,11 +124,11 @@ def test_evpi_invalid_inputs():
 
     # Population scaling input errors
     nb_data = np.array([[10, 20], [11, 19]], dtype=DEFAULT_DTYPE)
-    with pytest.raises(InputError, match="Population must be positive"):
+    with pytest.raises(InputError, match="Population must be a positive number."):
         evpi(nb_data, population=0, time_horizon=5)
-    with pytest.raises(InputError, match="Time horizon must be positive"):
+    with pytest.raises(InputError, match="Time horizon must be a positive number."):
         evpi(nb_data, population=100, time_horizon=-1)
-    with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
+    with pytest.raises(InputError, match="Discount rate must be a number between 0 and 1."):
         evpi(nb_data, population=100, time_horizon=5, discount_rate=1.1)
     with pytest.raises(
         InputError,
@@ -266,25 +266,25 @@ def test_evppi_invalid_inputs(evppi_test_data_simple):
     p_samples_valid = data["p_samples"]
 
     with pytest.raises(
-        InputError, match="nb_array must be a NumPy array or NetBenefitArray"
+        InputError, match="`nb_array` must be a NumPy array or NetBenefitArray object."
     ):
         evppi("not an array", p_samples_valid)  # type: ignore
 
     with pytest.raises(
-        InputError, match="parameter_samples must be a NumPy array, PSASample, or Dict"
+        InputError, match=r"`parameter_samples` must be a NumPy array, PSASample, or Dict\. Got <class 'str'>\."
     ):
         evppi(nb_values, "not valid params")  # type: ignore
 
     with pytest.raises(
-        DimensionMismatchError, match="Number of samples in parameter_samples"
+        DimensionMismatchError, match=r"Number of samples in `parameter_samples` \(NumPy array\) \(\d+\) does not match expected samples \(\d+\)\."
     ):
         evppi(nb_values, p_samples_valid[:-1])  # Mismatched sample size
 
-    with pytest.raises(InputError, match="n_regression_samples .* must be positive"):
+    with pytest.raises(InputError, match="n_regression_samples, if provided, must be a positive integer."):
         evppi(nb_values, p_samples_valid, n_regression_samples=0)
 
     with pytest.raises(
-        InputError, match="n_regression_samples .* not exceed total samples"
+        InputError, match=r"n_regression_samples \(\d+\) cannot exceed total samples \(\d+\)\."
     ):
         evppi(
             nb_values, p_samples_valid, n_regression_samples=len(p_samples_valid) + 10
