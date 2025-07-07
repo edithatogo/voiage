@@ -44,14 +44,30 @@ def _simulate_trial_data(
     trial_design: TrialDesign,
     psa_prior: PSASample,
     n_inner_loops: int
-) -> Any: # Return type will depend on how data is structured, e.g., Dict of arrays
+) -> Dict[str, np.ndarray]:
     """
-    (Stub) Simulates one dataset D_k from the trial_design and psa_prior.
-    This is a highly complex step. For initial structure, it might return
-    a very simplified, fixed dataset or slightly perturbed prior means.
+    Simulates one dataset D_k from the trial_design and a single draw from psa_prior.
+
+    This function currently assumes normally distributed trial data. The "true" parameters
+    for generating this dataset (e.g., means, standard deviation) are drawn once
+    from the provided `psa_prior`. It maps arm names in `trial_design` to expected
+    parameter names in `psa_prior` (e.g., 'mean_control', 'sd_outcome') by convention.
+
+    Args:
+        trial_design (TrialDesign): The design of the trial to simulate data for.
+        psa_prior (PSASample): Prior probabilistic sensitivity analysis samples.
+                               One sample from this will define the "true" parameters
+                               for the current data simulation.
+        n_inner_loops (int): Not directly used in this function for data simulation itself.
+                             (Note: Future, more complex simulations might use it if data generation
+                             itself involves internal sampling, but currently it does not).
+
+    Returns:
+        Dict[str, np.ndarray]: A dictionary where keys are trial arm names and
+                               values are NumPy arrays of simulated individual patient data for that arm.
     """
     # Conceptual: Sample 'true' parameters from psa_prior, then sample data from trial_design given these true params.
-    # For now, returning a placeholder that indicates structure.
+    # This version uses one draw from psa_prior to define "true" parameters for the simulation.
     # Example: if trial has 2 arms, maybe return { 'arm1_mean_outcome': ..., 'arm2_mean_outcome': ... }
     # This needs to be compatible with _bayesian_update.
     # Assumptions for this enhanced stub:
@@ -341,8 +357,67 @@ def evsi(
     # **kwargs: Any # Additional arguments for specific methods
 ) -> float:
     """Calculate the Expected Value of Sample Information (EVSI).
-    EVSI = E_D [ max_d E_theta|D [NB(d, theta|D)] ] - max_d [ E_theta [NB(d, theta)] ]
-    (Docstring largely unchanged for now, will be updated as implementation progresses)
+
+    EVSI quantifies the expected benefit of reducing uncertainty about model
+    parameters by collecting new data from a proposed study (e.g., a clinical trial).
+    The fundamental formula is:
+    EVSI = E_D[ max_d E_theta|D[NB(d, theta|D)] ] - max_d[ E_theta[NB(d, theta)] ]
+    where:
+        - E_D denotes expectation over possible datasets D from the proposed study.
+        - E_theta|D denotes expectation over parameters theta, conditional on observing dataset D.
+        - NB(d, theta) is the net benefit of decision d given parameters theta.
+        - max_d E_theta[NB(d, theta)] is the maximum expected net benefit with current information.
+
+    The "regression" method implemented here uses a two-loop Monte Carlo approach:
+    1.  Outer Loop (`n_outer_loops`): Simulates multiple potential datasets (D_k) that
+        could arise from the `trial_design`. Each D_k is simulated based on one draw
+        from the `psa_prior` representing a "true" state of the world for that simulation.
+        The current data simulation (`_simulate_trial_data`) assumes normally distributed
+        trial data.
+    2.  Inner Part (using `n_inner_loops` samples for expectations):
+        For each simulated dataset D_k:
+        a.  A Bayesian update is performed to get the posterior distribution P(theta|D_k).
+            The current update rule (`_bayesian_update`) is a simplified Normal-Normal
+            conjugate update for one specific parameter, with other parameters resampled
+            from their prior.
+        b.  The expected net benefit for each strategy d conditional on D_k,
+            i.e., E_theta|D[NB(d, theta|D_k)], is estimated. This uses a pre-fitted
+            regression metamodel (NB ~ parameters), trained on `psa_prior` and its
+            corresponding net benefits from `model_func`. The metamodel predicts NB
+            using `n_inner_loops` samples drawn from P(theta|D_k).
+    3.  The value max_d E_theta|D[NB(d, theta|D_k)] is calculated for each D_k.
+    4.  The average of these maximums over all D_k gives the first term of the EVSI formula.
+
+    Args:
+        model_func (EconomicModelFunctionType): A callable function that takes PSA parameter
+            samples (from `psa_prior` or posterior samples) and returns an array of
+            net benefits (n_samples, n_strategies).
+        psa_prior (PSASample): Prior PSA samples for all relevant model parameters.
+        trial_design (TrialDesign): Specification of the proposed trial/study.
+        population (Optional[float]): The relevant population size for scaling EVSI.
+        discount_rate (Optional[float]): Annual discount rate (0 to 1) for population scaling.
+        time_horizon (Optional[float]): Time horizon in years for population scaling.
+        method (str): The calculation method. Currently, "regression" is the primary
+                      method with the described workflow. Other methods like "nonparametric",
+                      "moment_matching" will raise PyVoiNotImplementedError.
+                      Defaults to "regression".
+        n_outer_loops (int): Number of simulated datasets D_k to generate in the outer loop.
+                             This controls the precision of the expectation E_D[...].
+                             Defaults to 100.
+        n_inner_loops (int): Number of samples to draw from the posterior P(theta|D_k)
+                             for estimating the inner expectation E_theta|D[NB(d, theta|D_k)].
+                             Defaults to 1000.
+
+    Returns:
+        float: The calculated EVSI. Per-decision if population args are not provided,
+               otherwise population-adjusted EVSI.
+
+    Raises:
+        InputError: If inputs are invalid.
+        CalculationError: If errors occur during model execution or calculations.
+        PyVoiNotImplementedError: If the chosen method is not implemented or fully supported.
+        OptionalDependencyError: If a required dependency (e.g., scikit-learn for
+                                 the regression method) is not available.
     """
     if not isinstance(psa_prior, PSASample):
         raise InputError("`psa_prior` must be a PSASample object.")
@@ -531,19 +606,74 @@ if __name__ == "__main__":
     dummy_arm2 = TrialArm(name="Arm B", sample_size=50)
     dummy_trial = TrialDesign(arms=[dummy_arm1, dummy_arm2])
 
-    print("\n--- EVSI (Placeholder Tests) ---")
+    print("\n--- EVSI (Regression Method Tests with Stubs) ---")
+    # Dummy PSA prior with parameters expected by the stubs
+    # _simulate_trial_data and _bayesian_update stubs expect 'mean_treatment', 'mean_control', 'sd_outcome'
+    # and TrialDesign arms like "New Treatment", "Control"
+    dummy_psa_params_for_evsi = {
+        "mean_control": np.random.normal(10, 2, 500).astype(DEFAULT_DTYPE), # n_samples = 500
+        "mean_treatment": np.random.normal(12, 2, 500).astype(DEFAULT_DTYPE),
+        "sd_outcome": np.random.uniform(1, 3, 500).astype(DEFAULT_DTYPE),
+        "other_param": np.random.rand(500).astype(DEFAULT_DTYPE) # an extra param not directly used in update
+    }
+    dummy_psa_for_evsi = PSASample(parameters=dummy_psa_params_for_evsi)
+
+    # Dummy trial design matching stub expectations
+    # Arm names should align with what _simulate_trial_data and _bayesian_update expect
+    # e.g. 'New Treatment' for 'mean_treatment' update, 'Control' for 'mean_control'
+    dummy_trial_arm_treatment = TrialArm(name="New Treatment", sample_size=30) # n_obs for update
+    dummy_trial_arm_control = TrialArm(name="Control", sample_size=30)
+    dummy_trial_design_for_evsi = TrialDesign(arms=[dummy_trial_arm_treatment, dummy_trial_arm_control])
+
+    # Dummy model function that uses some of these parameters
+    def specific_dummy_model_func(
+        psa_sample_obj: PSASample,
+    ) -> np.ndarray:
+        # WTP (implicit)
+        wtp = 30000
+        # Strategy 1: Control
+        nb_control = psa_sample_obj.parameters["mean_control"] * 0.5 * wtp - (psa_sample_obj.parameters["mean_control"] * 100 + 5000)
+        # Strategy 2: New Treatment
+        nb_treatment = psa_sample_obj.parameters["mean_treatment"] * 0.6 * wtp - (psa_sample_obj.parameters["mean_treatment"] * 120 + 7000)
+        return np.stack([nb_control, nb_treatment], axis=-1).astype(DEFAULT_DTYPE)
+
     try:
-        # This will fail with NotImplementedError for "regression" method as it's not implemented
-        evsi_val_dummy = evsi(
-            dummy_model_func, dummy_psa, dummy_trial, method="regression"
+        print("Running EVSI with regression method (using stubs for simulation/update)...")
+        # Using smaller n_outer_loops and n_inner_loops for quicker test execution
+        evsi_val_regression = evsi(
+            specific_dummy_model_func,
+            dummy_psa_for_evsi,
+            dummy_trial_design_for_evsi,
+            method="regression",
+            n_outer_loops=10, # Reduced for testing
+            n_inner_loops=50   # Reduced for testing
         )
-        print(f"Dummy EVSI (placeholder, regression method): {evsi_val_dummy}")
+        print(f"EVSI (regression method with stubs): {evsi_val_regression:.4f}")
+        # We expect a non-negative value. The exact value depends on the stub logic.
+        assert evsi_val_regression >= 0, "EVSI value should be non-negative"
+
+        # Test with population scaling
+        evsi_pop_val_regression = evsi(
+            specific_dummy_model_func,
+            dummy_psa_for_evsi,
+            dummy_trial_design_for_evsi,
+            population=10000,
+            time_horizon=5,
+            discount_rate=0.03,
+            method="regression",
+            n_outer_loops=10,
+            n_inner_loops=50
+        )
+        print(f"Population EVSI (regression method with stubs): {evsi_pop_val_regression:.2f}")
+        assert evsi_pop_val_regression >= evsi_val_regression
+
     except PyVoiNotImplementedError as e:
-        print(
-            f"Caught expected PyVoiNotImplementedError for EVSI method 'regression': {e}"
-        )
+        print(f"EVSI regression method still raised NotImplementedError: {e}")
     except Exception as e:
-        print(f"Unexpected error during placeholder EVSI call: {e}")
+        print(f"Error during EVSI (regression) call with stubs: {e}")
+        import traceback
+        traceback.print_exc()
+
 
     # Test ENBS structure
     print("\n--- ENBS Tests ---")

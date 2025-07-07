@@ -27,8 +27,8 @@ algorithmic variations where appropriate.
 # Import key functions from submodules to make them available at `pyvoi.methods.<method_name>`
 # or even `pyvoi.<method_name>` if re-exported in `pyvoi/__init__.py`.
 
-# from .basic import evpi, evppi
-# from .sample_information import evsi, enbs
+from .basic import evpi, evppi
+from .sample_information import evsi, enbs
 # from .structural import structural_evpi, structural_evppi
 # from .network_nma import evsi_nma
 # from .adaptive import adaptive_evsi
