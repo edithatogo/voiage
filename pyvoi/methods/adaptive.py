@@ -15,7 +15,7 @@ from typing import Any, Callable, Dict, Optional
 import numpy as np
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
 # This is extremely complex, involving:
@@ -119,8 +119,6 @@ if __name__ == "__main__":
     print("--- Testing adaptive.py (Placeholders) ---")
 
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray call and PSASample
-
     from pyvoi.core.data_structures import (
         NetBenefitArray,
         PSASample,

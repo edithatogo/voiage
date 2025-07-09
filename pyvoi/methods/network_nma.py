@@ -14,7 +14,7 @@ from typing import Any, Callable, Optional
 import numpy as np
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that can perform NMA and then evaluate economic outcomes.
 # This is highly complex: it might involve running an NMA model (e.g., in PyMC, JAGS, Stan),
@@ -114,8 +114,6 @@ if __name__ == "__main__":
     print("--- Testing network_nma.py (Placeholders) ---")
 
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
     from pyvoi.core.data_structures import (
         NetBenefitArray,
         PSASample,
@@ -133,7 +131,7 @@ if __name__ == "__main__":
             arms=[TrialArm(name="A", sample_size=10)]
         )  # arms and name keyword
         evsi_nma(dummy_nma_evaluator, dummy_psa, dummy_trial)
-    except NotImplementedError as e:
+    except PyVoiNotImplementedError as e:
         print(f"Caught expected error for evsi_nma: {e}")
     else:
         raise AssertionError("evsi_nma did not raise NotImplementedError.")

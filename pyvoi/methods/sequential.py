@@ -14,7 +14,7 @@ from typing import Any, Callable, Dict, Generator, Union
 import numpy as np
 
 from pyvoi.core.data_structures import DynamicSpec, PSASample
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
@@ -110,8 +110,6 @@ if __name__ == "__main__":
     print("--- Testing sequential.py (Placeholders) ---")
 
     # Add local imports for classes used in this test block
-    import numpy as np  # Used by PSASample
-
     from pyvoi.core.data_structures import DynamicSpec, PSASample
 
     try:

@@ -2,7 +2,7 @@
 
 """Plotting functions for CEACs, CE Planes, and EVPPI surfaces."""
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
@@ -23,6 +23,23 @@ from pyvoi.core.data_structures import NetBenefitArray
 from pyvoi.exceptions import InputError, PlottingError
 
 
+def _calculate_ceac_probabilities(
+    nb_values: np.ndarray,
+) -> np.ndarray:
+    """Calculate the probability of being cost-effective for each strategy."""
+    n_samples, n_strategies, n_wtp_points = nb_values.shape
+    prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
+
+    for w_idx in range(n_wtp_points):
+        nb_at_wtp = nb_values[:, :, w_idx]
+        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)
+        for s_idx in range(n_strategies):
+            prob_ce[s_idx, w_idx] = (
+                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
+            )
+    return prob_ce
+
+
 def plot_ceac(
     nb_array: Union[np.ndarray, NetBenefitArray],
     wtp_thresholds: Union[np.ndarray, List[float]],
@@ -34,7 +51,7 @@ def plot_ceac(
     **plot_kwargs_per_strategy: Optional[
         List[dict]
     ],  # List of dicts for each strategy's plot call
-) -> Axes:  # noqa: C901
+) -> Axes:
     """Plot a Cost-Effectiveness Acceptability Curve (CEAC).
 
     A CEAC shows the probability that each strategy is optimal (has the highest
@@ -113,23 +130,10 @@ def plot_ceac(
     if ax is None:
         fig, ax = plt.subplots()  # type: ignore
 
-    # Calculate probability cost-effective for each strategy at each WTP
-    prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
-
-    # For each WTP threshold
-    for w_idx in range(n_wtp_points):
-        nb_at_wtp = nb_values[:, :, w_idx]  # (n_samples, n_strategies)
-        # Identify the optimal strategy for each sample at this WTP
-        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)  # (n_samples,)
-
-        # Count how many times each strategy was optimal
-        for s_idx in range(n_strategies):
-            prob_ce[s_idx, w_idx] = (
-                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
-            )
+    prob_ce = _calculate_ceac_probabilities(nb_values)
 
     # Plot CEAC for each strategy
-    user_plot_kwargs = {}
+    user_plot_kwargs: Dict[int, dict] = {}
     if plot_kwargs_per_strategy is not None:
         if (
             isinstance(plot_kwargs_per_strategy, list)

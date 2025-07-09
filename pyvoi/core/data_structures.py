@@ -49,7 +49,7 @@ class NetBenefitArray:
     # or (n_samples, n_strategies, n_parameters_of_interest) if structured differently.
     # This initial structure is simple; might need refinement for EVPPI's diverse inputs.
 
-    def __post_init__(self):
+    def __post_init__(self: "NetBenefitArray"):
         if not isinstance(self.values, np.ndarray):
             raise InputError("NetBenefitArray 'values' must be a NumPy array.")
         if self.values.ndim != 2:
@@ -79,12 +79,12 @@ class NetBenefitArray:
                 )
 
     @property
-    def n_samples(self) -> int:
+    def n_samples(self: "NetBenefitArray") -> int:
         """Number of samples (rows)."""
         return self.values.shape[0]
 
     @property
-    def n_strategies(self) -> int:
+    def n_strategies(self: "NetBenefitArray") -> int:
         """Number of strategies or parameters (columns)."""
         return self.values.shape[1]
 
@@ -121,7 +121,7 @@ class PSASample:
     ]  # Using Any for xr.Dataset to avoid hard dep initially
     # n_samples: Optional[int] = None # Made n_samples a property
 
-    def __post_init__(self):  # noqa: C901
+    def __post_init__(self: "PSASample") -> None:  # noqa: C901
         if isinstance(self.parameters, dict):
             if not self.parameters:
                 raise InputError("PSASample 'parameters' dictionary cannot be empty.")
@@ -136,10 +136,14 @@ class PSASample:
                     raise InputError(
                         f"Parameter '{name}' values must be a NumPy array."
                     )
-                if values.ndim != 1:
+                if values.ndim > 2 or (values.ndim == 2 and values.shape[1] != 1):
                     raise DimensionMismatchError(
-                        f"Parameter '{name}' array must be 1D (samples). Got {values.ndim} dimensions.",
+                        f"Parameter '{name}' array must be 1D (samples) or 2D column vector. Got shape {values.shape}.",
                     )
+                if values.ndim == 2:
+                    # Reshape to 1D
+                    values = values.flatten()
+                    self.parameters[name] = values
                 if values.dtype != DEFAULT_DTYPE:
                     # print(f"Warning: PSASample parameter '{name}' dtype {values.dtype} "
                     # f"does not match DEFAULT_DTYPE {DEFAULT_DTYPE}. Consider casting.")
@@ -155,7 +159,7 @@ class PSASample:
                 raise InputError(
                     "Could not determine n_samples from parameters dictionary."
                 )
-            self._n_samples = current_n_samples
+            object.__setattr__(self, "_n_samples", current_n_samples)
 
         # elif isinstance(self.parameters, xr.Dataset):
         #     # Add validation for xarray.Dataset if it becomes a primary supported type
@@ -175,7 +179,7 @@ class PSASample:
             )
 
     @property
-    def n_samples(self) -> int:
+    def n_samples(self: "PSASample") -> int:
         """Number of samples."""
         # This logic is now in __post_init__ to set an internal _n_samples
         # This is to ensure n_samples is validated at creation.
@@ -193,7 +197,7 @@ class PSASample:
         return 0  # Should not be reached if validation passes
 
     @property
-    def parameter_names(self) -> List[str]:
+    def parameter_names(self: "PSASample") -> List[str]:
         """List of parameter names."""
         if isinstance(self.parameters, dict):
             return list(self.parameters.keys())
@@ -220,7 +224,7 @@ class TrialArm:
     name: str
     sample_size: int
 
-    def __post_init__(self):
+    def __post_init__(self: "TrialArm"):
         if not isinstance(self.name, str) or not self.name:
             raise InputError("TrialArm 'name' must be a non-empty string.")
         if not isinstance(self.sample_size, int) or self.sample_size <= 0:
@@ -244,7 +248,7 @@ class TrialDesign:
     arms: List[TrialArm]
     # Other trial-wide parameters
 
-    def __post_init__(self):
+    def __post_init__(self: "TrialDesign") -> None:
         if not isinstance(self.arms, list) or not self.arms:
             raise InputError(
                 "TrialDesign 'arms' must be a non-empty list of TrialArm objects."
@@ -256,7 +260,7 @@ class TrialDesign:
             raise InputError("TrialArm names within a TrialDesign must be unique.")
 
     @property
-    def total_sample_size(self) -> int:
+    def total_sample_size(self: "TrialDesign") -> int:
         """Total sample size across all arms."""
         return sum(arm.sample_size for arm in self.arms)
 
@@ -279,7 +283,7 @@ class PortfolioStudy:
     design: TrialDesign  # Or a more generic "StudySpecification" if not always a trial
     cost: float
 
-    def __post_init__(self):
+    def __post_init__(self: "PortfolioStudy"):
         if not isinstance(self.name, str) or not self.name:
             raise InputError("PortfolioStudy 'name' must be a non-empty string.")
         if not isinstance(self.design, TrialDesign):  # Or StudySpecification
@@ -303,7 +307,7 @@ class PortfolioSpec:
     studies: List[PortfolioStudy]
     budget_constraint: Optional[float] = None
 
-    def __post_init__(self):
+    def __post_init__(self: "PortfolioSpec") -> None:
         if not isinstance(self.studies, list) or not self.studies:
             raise InputError(
                 "PortfolioSpec 'studies' must be a non-empty list of PortfolioStudy objects."
@@ -345,7 +349,7 @@ class DynamicSpec:
         float
     ]  # Using Sequence for more flexibility (list, tuple, np.array)
 
-    def __post_init__(self):
+    def __post_init__(self: "DynamicSpec") -> None:
         if not isinstance(self.time_steps, Sequence) or not self.time_steps:
             raise InputError(
                 "'time_steps' must be a non-empty sequence (list, tuple, np.array)."

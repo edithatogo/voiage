@@ -19,7 +19,7 @@ from pyvoi.core.data_structures import (  # TrialDesign might be adapted to "Obs
     NetBenefitArray,
     PSASample,
 )
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that models the impact of observational data.
 # This would typically involve:
@@ -121,8 +121,6 @@ if __name__ == "__main__":
     print("--- Testing observational.py (Placeholders) ---")
 
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
     from pyvoi.core.data_structures import NetBenefitArray, PSASample
 
     try:

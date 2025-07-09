@@ -16,8 +16,7 @@ import pytest
 
 from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import PSASample, TrialArm, TrialDesign
-from pyvoi.exceptions import InputError
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import InputError, PyVoiNotImplementedError
 from pyvoi.methods.sample_information import enbs, evsi
 
 # --- Dummy components for EVSI testing ---
@@ -38,7 +37,7 @@ def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.nd
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def dummy_psa_for_evsi() -> PSASample:
     params = {
         "p1": np.array([0.1, 0.2, 0.3], dtype=DEFAULT_DTYPE),
@@ -47,7 +46,7 @@ def dummy_psa_for_evsi() -> PSASample:
     return PSASample(parameters=params)
 
 
-@pytest.fixture
+@pytest.fixture()
 def dummy_trial_design_for_evsi() -> TrialDesign:
     arm1 = TrialArm(name="New Treatment", sample_size=100)
     arm2 = TrialArm(name="Standard Care", sample_size=100)
@@ -177,7 +176,8 @@ def test_evsi_population_scaling_logic(
     val_no_pop = si_module.evsi(
         dummy_model_func_evsi, dummy_psa_for_evsi, dummy_trial_design_for_evsi
     )
-    assert np.isclose(val_no_pop, fixed_mock_value)
+    if not np.isclose(val_no_pop, fixed_mock_value):
+        raise ValueError("EVSI population scaling logic failed for no population args.")
 
     # Test case 2: With population, horizon, no discount
     pop, th = 1000, 5
@@ -188,7 +188,10 @@ def test_evsi_population_scaling_logic(
         population=pop,
         time_horizon=th,
     )
-    assert np.isclose(val_pop_no_dr, fixed_mock_value * pop * th)
+    if not np.isclose(val_pop_no_dr, fixed_mock_value * pop * th):
+        raise ValueError(
+            "EVSI population scaling logic failed for population with no discount."
+        )
 
     # Test case 3: With population, horizon, and discount rate
     dr = 0.05
@@ -201,7 +204,10 @@ def test_evsi_population_scaling_logic(
         time_horizon=th,
         discount_rate=dr,
     )
-    assert np.isclose(val_pop_dr, fixed_mock_value * pop * annuity)
+    if not np.isclose(val_pop_dr, fixed_mock_value * pop * annuity):
+        raise ValueError(
+            "EVSI population scaling logic failed for population with discount."
+        )
 
     # Test invalid population scaling inputs (should be caught by the mock's validation)
     with pytest.raises(InputError, match="Population must be positive"):
@@ -235,15 +241,15 @@ def test_enbs_calculation():
     cost_val = 200.0
     expected_enbs = 800.0
     calculated_enbs = enbs(evsi_val, cost_val)
-    assert np.isclose(calculated_enbs, expected_enbs), "ENBS calculation error."
+    if not np.isclose(calculated_enbs, expected_enbs):
+        raise ValueError("ENBS calculation error.")
 
     evsi_val_neg = -50.0  # Should ideally not happen if EVSI is correct
     cost_val_high = 100.0
     expected_enbs_neg = -150.0
     calculated_enbs_neg = enbs(evsi_val_neg, cost_val_high)
-    assert np.isclose(calculated_enbs_neg, expected_enbs_neg), (
-        "ENBS calculation with negative EVSI failed."
-    )
+    if not np.isclose(calculated_enbs_neg, expected_enbs_neg):
+        raise ValueError("ENBS calculation with negative EVSI failed.")
 
 
 def test_enbs_zero_cost():
@@ -251,9 +257,8 @@ def test_enbs_zero_cost():
     evsi_val = 500.0
     cost_val = 0.0
     calculated_enbs = enbs(evsi_val, cost_val)
-    assert np.isclose(calculated_enbs, evsi_val), (
-        "ENBS with zero cost should equal EVSI."
-    )
+    if not np.isclose(calculated_enbs, evsi_val):
+        raise ValueError("ENBS with zero cost should equal EVSI.")
 
 
 def test_enbs_invalid_inputs():

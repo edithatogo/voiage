@@ -14,12 +14,53 @@ from typing import Any, Callable, Dict, List
 import numpy as np
 
 from pyvoi.core.data_structures import PortfolioSpec, PortfolioStudy
-from pyvoi.exceptions import InputError
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import InputError, PyVoiNotImplementedError
 
 # Type alias for a function that calculates the value of a single study
 # This could be an EVSI or ENBS calculator for that study.
 StudyValueCalculator = Callable[[PortfolioStudy], float]
+
+
+def _greedy_portfolio_selection(
+    portfolio_spec: PortfolioSpec,
+    study_value_calculator: StudyValueCalculator,
+) -> Dict[str, Any]:
+    """Select a portfolio of studies using a greedy algorithm."""
+    studies_with_values = []
+    for study in portfolio_spec.studies:
+        value = study_value_calculator(study)
+        cost = study.cost
+        if cost <= 0:
+            ratio = float("inf") if value > 0 else 0
+        else:
+            ratio = value / cost
+        studies_with_values.append(
+            {"study": study, "value": value, "cost": cost, "ratio": ratio}
+        )
+
+    studies_with_values.sort(key=lambda x: x["ratio"], reverse=True)
+
+    selected_studies_list: List[PortfolioStudy] = []
+    current_total_cost = 0.0
+    current_total_value = 0.0
+    budget = portfolio_spec.budget_constraint
+
+    for item in studies_with_values:
+        study_obj: PortfolioStudy = item["study"]
+        study_cost = item["cost"]
+        study_value = item["value"]
+
+        if budget is None or (current_total_cost + study_cost <= budget):
+            selected_studies_list.append(study_obj)
+            current_total_cost += study_cost
+            current_total_value += study_value
+
+    return {
+        "selected_studies": selected_studies_list,
+        "total_value": current_total_value,
+        "total_cost": current_total_cost,
+        "method_details": "Greedy selection by value-to-cost ratio.",
+    }
 
 
 def portfolio_voi(
@@ -31,7 +72,7 @@ def portfolio_voi(
     # discount_rate: Optional[float] = None, # Usually implicit
     # time_horizon: Optional[float] = None, # Usually implicit
     **kwargs: Any,
-) -> Dict[str, Any]:  # noqa: C901
+) -> Dict[str, Any]:
     """
     Optimizes a portfolio of research studies to maximize total value.
 
@@ -85,62 +126,9 @@ def portfolio_voi(
         }
 
     if optimization_method == "greedy":
-        # Example Greedy Algorithm: Prioritize by value/cost ratio (if ENBS is value)
-        # or just by value if costs are similar or budget is very large.
-        # This is a simplified greedy approach.
-        # A common greedy for knapsack is value/cost ratio.
-        # If study_value_calculator returns EVSI, we need costs from PortfolioStudy.
-        # If it returns ENBS (EVSI - cost), then we can rank by ENBS directly if budget is the only concern.
-
-        # Let's assume study_value_calculator returns raw value (e.g. EVSI), and we use cost from PortfolioStudy.
-        # We need to handle the budget constraint.
-
-        studies_with_values = []
-        for study in portfolio_specification.studies:
-            value = study_value_calculator(study)
-            cost = study.cost
-            if (
-                cost <= 0
-            ):  # Avoid division by zero, treat as infinitely good or handle as error
-                # If cost is 0 and value is positive, it should always be picked if value > 0.
-                # For simplicity, let's assume costs are positive for ratio calculation.
-                # If cost is 0, its ratio is infinite if value > 0.
-                ratio = float("inf") if value > 0 else 0
-            else:
-                ratio = value / cost  # Value per unit cost
-            studies_with_values.append(
-                {"study": study, "value": value, "cost": cost, "ratio": ratio}
-            )
-
-        # Sort by ratio in descending order
-        studies_with_values.sort(key=lambda x: x["ratio"], reverse=True)
-
-        selected_studies_list: List[PortfolioStudy] = []
-        current_total_cost = 0.0
-        current_total_value = 0.0
-        budget = portfolio_specification.budget_constraint
-
-        for item in studies_with_values:
-            study_obj = item["study"]
-            study_cost = item["cost"]
-            study_value = item["value"]  # This is the pre-calculated value
-
-            if budget is None or (current_total_cost + study_cost <= budget):
-                selected_studies_list.append(study_obj)
-                current_total_cost += study_cost
-                current_total_value += (
-                    study_value  # Summing individual EVsIs is usually okay
-                )
-                # but for ENBS, it's more direct.
-                # If values are interdependent, this is too simple.
-
-        return {
-            "selected_studies": selected_studies_list,
-            "total_value": current_total_value,
-            "total_cost": current_total_cost,
-            "method_details": "Greedy selection by value-to-cost ratio.",
-        }
-
+        return _greedy_portfolio_selection(
+            portfolio_specification, study_value_calculator
+        )
     elif optimization_method == "integer_programming":
         raise PyVoiNotImplementedError(
             "Integer programming for portfolio VOI requires an IP solver. "
@@ -158,8 +146,6 @@ def portfolio_voi(
 
 if __name__ == "__main__":
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used for np.isclose
-
     from pyvoi.core.data_structures import (
         PortfolioSpec,
         PortfolioStudy,
@@ -181,24 +167,23 @@ if __name__ == "__main__":
             return 120.0  # High value, high cost
         return 0.0
 
-    # Create dummy portfolio studies
-    study_A_design = TrialDesign([TrialArm("T1", 10)])
-    study_B_design = TrialDesign([TrialArm("T2", 20)])
-    study_C_design = TrialDesign([TrialArm("T3", 15)])
-    study_D_design = TrialDesign([TrialArm("T4", 30)])
+    study_a_design = TrialDesign([TrialArm("T1", 10)])
+    study_b_design = TrialDesign([TrialArm("T2", 20)])
+    study_c_design = TrialDesign([TrialArm("T3", 15)])
+    study_d_design = TrialDesign([TrialArm("T4", 30)])
 
     studies = [
         PortfolioStudy(
-            name="Study Alpha", design=study_A_design, cost=50
+            name="Study Alpha", design=study_a_design, cost=50
         ),  # Ratio 100/50 = 2
         PortfolioStudy(
-            name="Study Beta", design=study_B_design, cost=60
+            name="Study Beta", design=study_b_design, cost=60
         ),  # Ratio 150/60 = 2.5
         PortfolioStudy(
-            name="Study Gamma", design=study_C_design, cost=40
+            name="Study Gamma", design=study_c_design, cost=40
         ),  # Ratio 80/40 = 2
         PortfolioStudy(
-            name="Study Delta", design=study_D_design, cost=100
+            name="Study Delta", design=study_d_design, cost=100
         ),  # Ratio 120/100 = 1.2
     ]
 
@@ -215,9 +200,14 @@ if __name__ == "__main__":
     )
     # Expected: All studies selected, order might vary but content should be all.
     # Value = 100+150+80+120 = 450. Cost = 50+60+40+100 = 250
-    assert len(result_no_budget["selected_studies"]) == 4
-    assert np.isclose(result_no_budget["total_value"], 450.0)
-    assert np.isclose(result_no_budget["total_cost"], 250.0)
+    if len(result_no_budget["selected_studies"]) != 4:
+        raise ValueError(
+            "Greedy (no budget) test failed: wrong number of studies selected."
+        )
+    if not np.isclose(result_no_budget["total_value"], 450.0):
+        raise ValueError("Greedy (no budget) test failed: wrong total value.")
+    if not np.isclose(result_no_budget["total_cost"], 250.0):
+        raise ValueError("Greedy (no budget) test failed: wrong total cost.")
     print("Greedy (no budget) PASSED.")
 
     print("\n--- Greedy Portfolio VOI (With Budget) ---")
@@ -238,9 +228,12 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_100['total_value']}, Total Cost: {result_budget_100['total_cost']}"
     )
-    assert selected_names_b100 == sorted(["Study Beta", "Study Gamma"])
-    assert np.isclose(result_budget_100["total_value"], 230.0)
-    assert np.isclose(result_budget_100["total_cost"], 100.0)
+    if selected_names_b100 != sorted(["Study Beta", "Study Gamma"]):
+        raise ValueError("Greedy (budget 100) test failed: wrong studies selected.")
+    if not np.isclose(result_budget_100["total_value"], 230.0):
+        raise ValueError("Greedy (budget 100) test failed: wrong total value.")
+    if not np.isclose(result_budget_100["total_cost"], 100.0):
+        raise ValueError("Greedy (budget 100) test failed: wrong total cost.")
     print("Greedy (budget 100) PASSED.")
 
     print("\n--- Greedy Portfolio VOI (Budget allows only highest ratio) ---")
@@ -257,9 +250,12 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_70['total_value']}, Total Cost: {result_budget_70['total_cost']}"
     )
-    assert selected_names_b70 == ["Study Beta"]
-    assert np.isclose(result_budget_70["total_value"], 150.0)
-    assert np.isclose(result_budget_70["total_cost"], 60.0)
+    if selected_names_b70 != ["Study Beta"]:
+        raise ValueError("Greedy (budget 70) test failed: wrong studies selected.")
+    if not np.isclose(result_budget_70["total_value"], 150.0):
+        raise ValueError("Greedy (budget 70) test failed: wrong total value.")
+    if not np.isclose(result_budget_70["total_cost"], 60.0):
+        raise ValueError("Greedy (budget 70) test failed: wrong total cost.")
     print("Greedy (budget 70) PASSED.")
 
     # Test other methods (expect PyVoiNotImplementedError)

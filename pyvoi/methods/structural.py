@@ -19,19 +19,43 @@ from typing import Callable, List, Optional, Union
 import numpy as np
 
 from pyvoi.core.data_structures import NetBenefitArray, PSASample
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import InputError, PyVoiNotImplementedError
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
 ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
 
 
+def _calculate_population_multiplier(
+    population: float,
+    time_horizon: float,
+    discount_rate: Optional[float] = None,
+) -> float:
+    """Calculate the population multiplier for scaling VOI."""
+    if not isinstance(population, (int, float)) or population <= 0:
+        raise InputError("Population must be positive.")
+    if not isinstance(time_horizon, (int, float)) or time_horizon <= 0:
+        raise InputError("Time horizon must be positive.")
+    if discount_rate is not None and not (0 <= discount_rate <= 1):
+        raise InputError("Discount rate must be between 0 and 1.")
+
+    effective_population = float(population)
+    if discount_rate is not None:
+        if discount_rate == 0:
+            annuity_factor = float(time_horizon)
+        else:
+            annuity_factor = (1 - (1 + discount_rate) ** -time_horizon) / discount_rate
+        effective_population *= annuity_factor
+    else:
+        effective_population *= float(time_horizon)
+
+    return effective_population
+
+
 def structural_evpi(
     model_structure_evaluators: List[ModelStructureEvaluator],
     structure_probabilities: Union[np.ndarray, List[float]],
-    psa_samples_per_structure: List[
-        PSASample
-    ],  # PSA samples relevant to each structure
+    psa_samples_per_structure: List[PSASample],
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
@@ -76,78 +100,68 @@ def structural_evpi(
     ------
         InputError: If inputs are inconsistent (e.g., list lengths don't match,
                     probabilities don't sum to 1).
-        NotImplementedError: This is a placeholder for v0.1; full implementation is complex.
     """
-    raise PyVoiNotImplementedError(
-        "Structural EVPI is a complex method requiring careful definition of "
-        "model structure evaluation and parameter handling. Not fully implemented in v0.1.",
+    if len(model_structure_evaluators) != len(structure_probabilities) or len(
+        model_structure_evaluators
+    ) != len(psa_samples_per_structure):
+        raise InputError(
+            "Input lists for structures, probabilities, and PSA samples must have the same length."
+        )
+    if not np.isclose(np.sum(structure_probabilities), 1.0):
+        raise InputError("Structure probabilities must sum to 1.")
+    if not model_structure_evaluators:
+        return 0.0
+
+    n_structures = len(model_structure_evaluators)
+    n_strategies = -1
+
+    expected_nb_given_structure_s_decision_d = []
+    expected_max_nb_given_structure_s = []
+
+    for i in range(n_structures):
+        evaluator = model_structure_evaluators[i]
+        psa_for_s = psa_samples_per_structure[i]
+        nb_array_for_s = evaluator(psa_for_s)
+
+        if n_strategies == -1:
+            n_strategies = nb_array_for_s.n_strategies
+        elif n_strategies != nb_array_for_s.n_strategies:
+            raise InputError(
+                "All model structures must evaluate the same number of decision strategies."
+            )
+
+        mean_nb_d_given_s = np.mean(nb_array_for_s.values, axis=0)
+        expected_nb_given_structure_s_decision_d.append(mean_nb_d_given_s)
+
+        max_nb_per_sample_s = np.max(nb_array_for_s.values, axis=1)
+        expected_max_nb_s = np.mean(max_nb_per_sample_s)
+        expected_max_nb_given_structure_s.append(expected_max_nb_s)
+
+    term1_sevpi: float = np.sum(
+        np.array(structure_probabilities) * np.array(expected_max_nb_given_structure_s)
     )
 
-    # --- Input Validation (Conceptual) ---
-    # if len(model_structure_evaluators) != len(structure_probabilities) or \
-    #    len(model_structure_evaluators) != len(psa_samples_per_structure):
-    #     raise InputError("Input lists for structures, probabilities, and PSA samples must have the same length.")
-    # if not np.isclose(np.sum(structure_probabilities), 1.0):
-    #     raise InputError("Structure probabilities must sum to 1.")
-    # if not model_structure_evaluators:
-    #     return 0.0 # No structural uncertainty if no alternative structures
+    all_expected_nb_d_s = np.array(expected_nb_given_structure_s_decision_d)
+    weighted_avg_nb_d = np.sum(
+        np.array(structure_probabilities)[:, np.newaxis] * all_expected_nb_d_s,
+        axis=0,
+    )
+    term2_sevpi: float = np.max(weighted_avg_nb_d)
 
-    # --- Calculation (Conceptual) ---
-    # n_structures = len(model_structure_evaluators)
-    # n_strategies = -1 # Determine from first model output, assume consistent for now
+    per_decision_sevpi = max(0.0, term1_sevpi - term2_sevpi)
 
-    # Store E_theta|S [NB(d, theta, S)] for each structure S and decision d
-    # expected_nb_given_structure_S_decision_d = [] # List of arrays (n_strategies)
+    if population is not None or time_horizon is not None or discount_rate is not None:
+        if population is None or time_horizon is None:
+            raise InputError(
+                "To calculate population SEVPI, 'population' and 'time_horizon' must be provided. "
+                "'discount_rate' is optional."
+            )
+        multiplier = _calculate_population_multiplier(
+            population, time_horizon, discount_rate
+        )
+        return float(per_decision_sevpi * multiplier)
 
-    # Store E_theta|S [max_d NB(d, theta, S)] for each structure S
-    # expected_max_nb_given_structure_S = [] # List of floats
-
-    # for i in range(n_structures):
-    #     evaluator = model_structure_evaluators[i]
-    #     psa_for_S = psa_samples_per_structure[i]
-    #     nb_array_for_S = evaluator(psa_for_S) # NetBenefitArray (samples x strategies)
-
-    #     if n_strategies == -1:
-    #         n_strategies = nb_array_for_S.n_strategies
-    #     elif n_strategies != nb_array_for_S.n_strategies:
-    #         raise InputError("All model structures must evaluate the same number of decision strategies.")
-
-    #     # E_theta|S [NB(d, theta, S)] for this S
-    #     mean_nb_d_given_S = np.mean(nb_array_for_S.values, axis=0) # Shape (n_strategies,)
-    #     expected_nb_given_structure_S_decision_d.append(mean_nb_d_given_S)
-
-    #     # E_theta|S [max_d NB(d, theta, S)] for this S
-    #     max_nb_per_sample_S = np.max(nb_array_for_S.values, axis=1)
-    #     expected_max_nb_S = np.mean(max_nb_per_sample_S)
-    #     expected_max_nb_given_structure_S.append(expected_max_nb_S)
-
-    # # Term 1: E_S [max_d E_theta|S [NB(d, theta, S)]] - This is incorrect.
-    # # Term 1 should be: E_S [ E_theta|S [max_d NB(d, theta, S)] ]
-    # # This is the expectation over S of (the expected value, within S, of choosing optimally if S is known)
-    # # This is equivalent to: sum_S ( P(S) * E_theta|S [max_d NB(d, theta, S)] )
-    # term1_sevpi = np.sum(
-    #     np.array(structure_probabilities) * np.array(expected_max_nb_given_structure_S)
-    # )
-
-    # Term 2: max_d E_S [E_theta|S [NB(d, theta, S)]]
-    # This is: max_d sum_S ( P(S) * E_theta|S [NB(d, theta, S)] )
-    # First, calculate the overall expected NB for each decision d, averaging over structures
-    # E_overall_NB_d = sum_S ( P(S) * E_theta|S [NB(d, theta, S)] )
-    # expected_nb_given_structure_S_decision_d is a list of arrays, needs to be (n_structures, n_strategies)
-    # all_expected_nb_d_S = np.array(expected_nb_given_structure_S_decision_d) # (n_structures, n_strategies)
-    # weighted_avg_nb_d = np.sum(
-    #     np.array(structure_probabilities)[:, np.newaxis] * all_expected_nb_d_S,
-    #     axis=0
-    # ) # Shape (n_strategies,)
-    # term2_sevpi = np.max(weighted_avg_nb_d)
-
-    # per_decision_sevpi = term1_sevpi - term2_sevpi
-    # per_decision_sevpi = max(0.0, per_decision_sevpi)
-
-    # Population scaling (similar to EVPI)
-    # ... (omitted for brevity as function raises NotImplementedError) ...
-
-    # return per_decision_sevpi_scaled_or_not
+    return float(per_decision_sevpi)
 
 
 def structural_evppi(

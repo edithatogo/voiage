@@ -18,7 +18,7 @@ from pyvoi.core.data_structures import (  # Potentially a "CalibrationStudyDesig
     NetBenefitArray,
     PSASample,
 )
-from pyvoi.exceptions import NotImplementedError as PyVoiNotImplementedError
+from pyvoi.exceptions import PyVoiNotImplementedError
 
 # Type alias for a function that simulates a calibration study and its impact.
 # This involves:
@@ -121,8 +121,6 @@ if __name__ == "__main__":
     print("--- Testing calibration.py (Placeholders) ---")
 
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
     from pyvoi.core.data_structures import NetBenefitArray, PSASample
 
     try:

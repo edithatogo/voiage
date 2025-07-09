@@ -60,6 +60,12 @@ class InvalidMethodError(CalculationError):
     pass
 
 
+class PyVoiNotImplementedError(PyVOIError, NotImplementedError):
+    """Raised when a feature or method is not yet implemented."""
+
+    pass
+
+
 # --- EVSI Specific Errors ---
 class EVSIMethodError(CalculationError):
     """Base class for errors specific to EVSI calculations."""

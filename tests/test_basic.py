@@ -30,9 +30,10 @@ def test_evpi_calculation_simple(sample_nb_data_array_2strat: np.ndarray):
     # EVPI = 112 - 106 = 6.0
     expected_evpi = 6.0
     calculated_evpi = evpi(sample_nb_data_array_2strat)
-    assert np.isclose(calculated_evpi, expected_evpi), (
-        f"EVPI calculation failed. Expected {expected_evpi}, got {calculated_evpi}."
-    )
+    if not np.isclose(calculated_evpi, expected_evpi):
+        raise ValueError(
+            f"EVPI calculation failed. Expected {expected_evpi}, got {calculated_evpi}."
+        )
 
 
 def test_evpi_with_netbenefitarray_input(
@@ -41,18 +42,18 @@ def test_evpi_with_netbenefitarray_input(
     """Test EVPI with NetBenefitArray object as input."""
     expected_evpi = 6.0  # Same data as above
     calculated_evpi = evpi(sample_net_benefit_array_2strat)
-    assert np.isclose(calculated_evpi, expected_evpi), (
-        "EVPI with NetBenefitArray input failed."
-    )
+    if not np.isclose(calculated_evpi, expected_evpi):
+        raise ValueError("EVPI with NetBenefitArray input failed.")
 
 
 def test_evpi_single_strategy():
     """Test EVPI when there's only one strategy (should be 0)."""
     nb_single_strat = np.array([[100], [110], [90]], dtype=DEFAULT_DTYPE)
     calculated_evpi = evpi(nb_single_strat)
-    assert np.isclose(calculated_evpi, 0.0), (
-        f"EVPI with single strategy should be 0, got {calculated_evpi}."
-    )
+    if not np.isclose(calculated_evpi, 0.0):
+        raise ValueError(
+            f"EVPI with single strategy should be 0, got {calculated_evpi}."
+        )
 
 
 def test_evpi_no_uncertainty():
@@ -61,9 +62,10 @@ def test_evpi_no_uncertainty():
     # E[max(NB)] = max(100,90) = 100. max(E[NB_A], E[NB_B]) = max(100,90) = 100. EVPI = 0.
     nb_no_uncertainty = np.array([[100, 90], [100, 90], [100, 90]], dtype=DEFAULT_DTYPE)
     calculated_evpi = evpi(nb_no_uncertainty)
-    assert np.isclose(calculated_evpi, 0.0), (
-        f"EVPI with no uncertainty should be 0, got {calculated_evpi}."
-    )
+    if not np.isclose(calculated_evpi, 0.0):
+        raise ValueError(
+            f"EVPI with no uncertainty should be 0, got {calculated_evpi}."
+        )
 
 
 def test_evpi_population_scaling(sample_nb_data_array_2strat: np.ndarray):
@@ -83,9 +85,8 @@ def test_evpi_population_scaling(sample_nb_data_array_2strat: np.ndarray):
         time_horizon=time_horizon,
         discount_rate=discount_rate,
     )
-    assert np.isclose(calculated_pop_evpi, expected_pop_evpi), (
-        "Population EVPI calculation failed."
-    )
+    if not np.isclose(calculated_pop_evpi, expected_pop_evpi):
+        raise ValueError("Population EVPI calculation failed.")
 
     # Test with no discount rate
     expected_pop_evpi_no_dr = per_decision_evpi * population * time_horizon
@@ -95,9 +96,8 @@ def test_evpi_population_scaling(sample_nb_data_array_2strat: np.ndarray):
         time_horizon=time_horizon,
         # discount_rate=None # Default
     )
-    assert np.isclose(calculated_pop_evpi_no_dr, expected_pop_evpi_no_dr), (
-        "Population EVPI without discount rate failed."
-    )
+    if not np.isclose(calculated_pop_evpi_no_dr, expected_pop_evpi_no_dr):
+        raise ValueError("Population EVPI without discount rate failed.")
 
     # Test with zero discount rate
     calculated_pop_evpi_zero_dr = evpi(
@@ -106,9 +106,8 @@ def test_evpi_population_scaling(sample_nb_data_array_2strat: np.ndarray):
         time_horizon=time_horizon,
         discount_rate=0.0,
     )
-    assert np.isclose(calculated_pop_evpi_zero_dr, expected_pop_evpi_no_dr), (
-        "Population EVPI with zero discount rate failed."
-    )
+    if not np.isclose(calculated_pop_evpi_zero_dr, expected_pop_evpi_no_dr):
+        raise ValueError("Population EVPI with zero discount rate failed.")
 
 
 def test_evpi_invalid_inputs():
@@ -116,7 +115,7 @@ def test_evpi_invalid_inputs():
     with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
         evpi("not an array")  # type: ignore
 
-    with pytest.raises(DimensionMismatchError, match="must have 2 dimension"):
+    with pytest.raises(DimensionMismatchError, match="must be 2D"):
         evpi(np.array([1, 2, 3], dtype=DEFAULT_DTYPE))  # 1D array
 
     with pytest.raises(InputError, match="cannot be empty"):
@@ -159,13 +158,6 @@ def test_evpi_invalid_inputs():
 # and tests will fail gracefully or be skipped if evppi cannot run.
 # The primary F401 was about 'import sklearn' not being used in *this* file.
 SKLEARN_AVAILABLE = True  # Assume available, let tests fail if not. More robust skipping might be needed later.
-try:
-    from sklearn.linear_model import (
-        LinearRegression,
-    )  # Try importing a component to set the flag
-except ImportError:
-    SKLEARN_AVAILABLE = False
-
 pytestmark_evppi = pytest.mark.skipif(
     not SKLEARN_AVAILABLE, reason="scikit-learn not available, skipping EVPPI tests"
 )
@@ -182,15 +174,19 @@ def test_evppi_basic_properties(evppi_test_data_simple):
     p_samples = data["p_samples"]
     expected_evpi = data["expected_evpi_approx"]
 
-    calculated_evppi = evppi(nb_values, p_samples)
+    calculated_evppi = evppi(
+        nb_values,
+        PSASample(parameters={"param_of_interest": p_samples}),
+        parameters_of_interest="param_of_interest",
+    )
 
-    assert calculated_evppi >= -1e-9, (
-        f"EVPPI should be non-negative, got {calculated_evppi}."
-    )
+    if not (calculated_evppi >= -1e-9):
+        raise ValueError(f"EVPPI should be non-negative, got {calculated_evppi}.")
     # Small tolerance for numerical precision
-    assert calculated_evppi <= expected_evpi + 1e-9, (
-        f"EVPPI ({calculated_evppi}) should be less than or equal to EVPI ({expected_evpi})."
-    )
+    if not (calculated_evppi <= expected_evpi + 1e-9):
+        raise ValueError(
+            f"EVPPI ({calculated_evppi}) should be less than or equal to EVPI ({expected_evpi})."
+        )
 
 
 @pytestmark_evppi
@@ -201,29 +197,40 @@ def test_evppi_input_types(evppi_test_data_simple):
     p_samples_np = data["p_samples"]  # This is a 1D NumPy array
 
     # 1. NumPy array (1D, should be reshaped internally)
-    evppi_np_1d = evppi(nb_values, p_samples_np)
+    evppi_np_1d = evppi(
+        nb_values,
+        PSASample(parameters={"param_of_interest": p_samples_np}),
+        parameters_of_interest="param_of_interest",
+    )
 
     # 2. NumPy array (2D)
     p_samples_np_2d = p_samples_np.reshape(-1, 1)
-    evppi_np_2d = evppi(nb_values, p_samples_np_2d)
-    assert np.isclose(evppi_np_1d, evppi_np_2d), (
-        "EVPPI with 1D vs 2D param array differs."
+    evppi_np_2d = evppi(
+        nb_values,
+        PSASample(parameters={"param_of_interest": p_samples_np_2d}),
+        parameters_of_interest="param_of_interest",
     )
+    if not np.isclose(evppi_np_1d, evppi_np_2d):
+        raise ValueError("EVPPI with 1D vs 2D param array differs.")
 
     # 3. PSASample
     psa_obj = PSASample(parameters={"param_of_interest": p_samples_np})
-    evppi_psa = evppi(nb_values, psa_obj)
-    assert np.isclose(evppi_np_1d, evppi_psa, atol=1e-3), (
-        "EVPPI with PSASample input differs significantly. (atol for potential regression randomness)"
-    )
+    evppi_psa = evppi(nb_values, psa_obj, parameters_of_interest="param_of_interest")
+    if not np.isclose(evppi_np_1d, evppi_psa, atol=1e-3):
+        raise ValueError(
+            "EVPPI with PSASample input differs significantly. (atol for potential regression randomness)"
+        )
     # Note: if n_regression_samples is used and is < total_samples, some minor variation is expected.
 
     # 4. Dictionary
     param_dict = {"param_of_interest": p_samples_np}
-    evppi_dict = evppi(nb_values, param_dict)
-    assert np.isclose(evppi_np_1d, evppi_dict, atol=1e-3), (
-        "EVPPI with Dict input differs significantly. (atol for potential regression randomness)"
+    evppi_dict = evppi(
+        nb_values, param_dict, parameters_of_interest="param_of_interest"
     )
+    if not np.isclose(evppi_np_1d, evppi_dict, atol=1e-3):
+        raise ValueError(
+            "EVPPI with Dict input differs significantly. (atol for potential regression randomness)"
+        )
 
 
 @pytestmark_evppi
@@ -233,7 +240,11 @@ def test_evppi_population_scaling(evppi_test_data_simple):
     nb_values = data["nb_values"]
     p_samples = data["p_samples"]
 
-    per_decision_evppi = evppi(nb_values, p_samples)
+    per_decision_evppi = evppi(
+        nb_values,
+        PSASample(parameters={"param_of_interest": p_samples}),
+        parameters_of_interest="param_of_interest",
+    )
 
     population = 10000
     time_horizon = 20
@@ -244,18 +255,20 @@ def test_evppi_population_scaling(evppi_test_data_simple):
 
     calculated_pop_evppi = evppi(
         nb_values,
-        p_samples,
+        PSASample(parameters={"param_of_interest": p_samples}),
+        parameters_of_interest="param_of_interest",
         population=population,
         time_horizon=time_horizon,
         discount_rate=discount_rate,
     )
     # Allow some tolerance due to regression step if subsampling is used
-    assert np.isclose(
+    if not np.isclose(
         calculated_pop_evppi,
         expected_pop_evppi,
         rtol=1e-2 if per_decision_evppi > 1e-6 else 0,
         atol=1e-3,
-    ), "Population EVPPI calculation failed."
+    ):
+        raise ValueError("Population EVPPI calculation failed.")
 
 
 @pytestmark_evppi
@@ -266,19 +279,23 @@ def test_evppi_invalid_inputs(evppi_test_data_simple):
     p_samples_valid = data["p_samples"]
 
     with pytest.raises(
-        InputError, match="nb_array must be a NumPy array or NetBenefitArray"
+        InputError, match="Input must be a NumPy array or NetBenefitArray"
     ):
-        evppi("not an array", p_samples_valid)  # type: ignore
+        evppi(
+            "not an array",
+            PSASample(parameters={"param_of_interest": p_samples_valid}),
+            parameters_of_interest="param_of_interest",
+        )  # type: ignore
 
     with pytest.raises(
         InputError, match="parameter_samples must be a NumPy array, PSASample, or Dict"
     ):
-        evppi(nb_values, "not valid params")  # type: ignore
+        evppi(nb_values, "not valid params", "param")  # type: ignore
 
     with pytest.raises(
         DimensionMismatchError, match="Number of samples in parameter_samples"
     ):
-        evppi(nb_values, p_samples_valid[:-1])  # Mismatched sample size
+        evppi(nb_values, p_samples_valid[:-1], "param")  # Mismatched sample size
 
     with pytest.raises(InputError, match="n_regression_samples .* must be positive"):
         evppi(nb_values, p_samples_valid, n_regression_samples=0)
@@ -319,13 +336,18 @@ def test_evppi_perfect_parameter(evppi_test_data_simple):
     nb_vals_perfect = np.stack([nb_s1, nb_s2], axis=1).astype(DEFAULT_DTYPE)
 
     evpi_val = evpi(nb_vals_perfect)
-    evppi_val = evppi(nb_vals_perfect, p_perfect)
+    evppi_val = evppi(
+        nb_vals_perfect,
+        PSASample(parameters={"param_of_interest": p_perfect}),
+        parameters_of_interest="param_of_interest",
+    )
 
     # print(f"Perfect Param Test: EVPI={evpi_val:.4f}, EVPPI={evppi_val:.4f}")
-    assert np.isclose(evppi_val, evpi_val, rtol=0.1, atol=0.01), (
-        f"EVPPI ({evppi_val}) should be close to EVPI ({evpi_val}) for a 'perfect' parameter. "
-        "Difference might be due to regression approximation error."
-    )
+    if not np.isclose(evppi_val, evpi_val, rtol=0.1, atol=0.01):
+        raise ValueError(
+            f"EVPPI ({evppi_val}) should be close to EVPI ({evpi_val}) for a 'perfect' parameter. "
+            "Difference might be due to regression approximation error."
+        )
     # Regression won't be perfect, so rtol needs to be somewhat tolerant.
 
 
@@ -344,12 +366,17 @@ def test_evppi_irrelevant_parameter(evppi_test_data_simple):
     # Parameter of interest `p_irr` is pure noise, unrelated to h_true or NBs
     p_irrelevant = np.random.normal(100, 50, n_s)
 
-    evppi_val = evppi(nb_vals_irrelevant, p_irrelevant)
-    # print(f"Irrelevant Param Test: EVPPI={evppi_val:.4f}")
-    assert np.isclose(evppi_val, 0.0, atol=0.1), (
-        f"EVPPI for an irrelevant parameter should be close to 0, got {evppi_val}. "
-        "Small non-zero due to regression noise."
+    evppi_val = evppi(
+        nb_vals_irrelevant,
+        PSASample(parameters={"param_of_interest": p_irrelevant}),
+        parameters_of_interest="param_of_interest",
     )
+    # print(f"Irrelevant Param Test: EVPPI={evppi_val:.4f}")
+    if not np.isclose(evppi_val, 0.0, atol=0.1):
+        raise ValueError(
+            f"EVPPI for an irrelevant parameter should be close to 0, got {evppi_val}. "
+            "Small non-zero due to regression noise."
+        )
     # atol might need adjustment based on regression stability and n_samples.
     # If regression overfits noise, it might find spurious correlation.
 

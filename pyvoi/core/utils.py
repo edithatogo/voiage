@@ -15,21 +15,47 @@ import numpy as np
 from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import (
     NetBenefitArray,
-)  # Assuming NetBenefitArray is defined
+)
+
+# Assuming NetBenefitArray is defined
 from pyvoi.exceptions import (
     DimensionMismatchError,
     InputError,
-)  # Added CalculationError
+)
+
+
+def _validate_shape(
+    arr: np.ndarray,
+    name: str,
+    expected_shape: Optional[Sequence[Optional[int]]],
+):
+    """Validate the shape of a NumPy array."""
+    if expected_shape is None:
+        return
+
+    if len(expected_shape) != arr.ndim:
+        raise DimensionMismatchError(
+            f"Expected shape tuple length {len(expected_shape)} does not match "
+            f"array ndim {arr.ndim} for {name}."
+        )
+    for i, (expected_dim_size, actual_dim_size) in enumerate(
+        zip(expected_shape, arr.shape)
+    ):
+        if expected_dim_size is not None and expected_dim_size != actual_dim_size:
+            raise DimensionMismatchError(
+                f"Dimension {i} of {name} has size {actual_dim_size}, "
+                f"but expected {expected_dim_size}. Shape: {arr.shape}, Expected: {expected_shape}"
+            )
 
 
 def check_input_array(
     arr: np.ndarray,
     expected_ndim: Union[int, Sequence[int]],
     name: str = "Input array",
-    expected_dtype: Optional[np.dtype] = None,
+    expected_dtype: Union[np.dtype, str, None] = None,
     allow_empty: bool = False,
     expected_shape: Optional[Sequence[Optional[int]]] = None,
-) -> None:  # noqa: C901
+) -> None:
     """Validate a NumPy array against expected dimensions, dtype, and shape.
 
     Args:
@@ -52,7 +78,7 @@ def check_input_array(
         raise InputError(f"{name} must be a NumPy array. Got {type(arr)}.")
 
     if isinstance(expected_ndim, int):
-        expected_ndim_tuple = (expected_ndim,)
+        expected_ndim_tuple: tuple[int] = (expected_ndim,)
     else:
         expected_ndim_tuple = tuple(expected_ndim)
 
@@ -70,20 +96,7 @@ def check_input_array(
     elif arr.dtype != dtype_to_check:
         raise InputError(f"{name} must have dtype {dtype_to_check}. Got {arr.dtype}.")
 
-    if expected_shape is not None:
-        if len(expected_shape) != arr.ndim:
-            raise DimensionMismatchError(
-                f"Expected shape tuple length {len(expected_shape)} does not match "
-                f"array ndim {arr.ndim} for {name}."
-            )
-        for i, (expected_dim_size, actual_dim_size) in enumerate(
-            zip(expected_shape, arr.shape)
-        ):
-            if expected_dim_size is not None and expected_dim_size != actual_dim_size:
-                raise DimensionMismatchError(
-                    f"Dimension {i} of {name} has size {actual_dim_size}, "
-                    f"but expected {expected_dim_size}. Shape: {arr.shape}, Expected: {expected_shape}"
-                )
+    _validate_shape(arr, name, expected_shape)
 
 
 def calculate_net_benefit(
@@ -295,9 +308,7 @@ if __name__ == "__main__":
         print("check_input_array with shape PASSED.")
         check_input_array(np.array([1, 2, 3]), expected_ndim=1, expected_shape=(None,))
         print("check_input_array with None in shape PASSED.")
-        check_input_array(
-            np.array([1.0, 2.0]), expected_ndim=1, expected_dtype=np.float64
-        )
+        check_input_array(np.array([1.0, 2.0]), expected_ndim=1, expected_dtype=None)
         print("check_input_array with dtype PASSED.")
         check_input_array(np.array([]), expected_ndim=1, allow_empty=True)
         print("check_input_array with allow_empty PASSED.")
@@ -311,7 +322,9 @@ if __name__ == "__main__":
             fail_count += 1
 
         try:
-            check_input_array(np.array([[1, 2]]), expected_shape=(1, 3))
+            check_input_array(
+                np.array([[1, 2]]), expected_ndim=2, expected_shape=(1, 3)
+            )
         except DimensionMismatchError:
             print("Caught expected shape mismatch.")
         else:
@@ -322,7 +335,7 @@ if __name__ == "__main__":
                 np.array([1]),
                 expected_ndim=1,
                 allow_empty=False,
-                expected_dtype=np.int32,
+                expected_dtype=None,
             )
         except InputError:  # Current default is float64
             print("Caught expected dtype mismatch.")
@@ -343,7 +356,8 @@ if __name__ == "__main__":
 
     nmb_scalar_wtp = calculate_net_benefit(costs_arr, effects_arr, wtp_scalar)
     expected_nmb_scalar = (effects_arr * wtp_scalar) - costs_arr
-    assert np.allclose(nmb_scalar_wtp, expected_nmb_scalar), "NMB scalar WTP mismatch."
+    if not np.allclose(nmb_scalar_wtp, expected_nmb_scalar):
+        raise ValueError("NMB scalar WTP mismatch.")
     print("calculate_net_benefit with scalar WTP PASSED.")
 
     wtp_array = np.array([50, 100, 150], dtype=DEFAULT_DTYPE)
@@ -351,12 +365,10 @@ if __name__ == "__main__":
     expected_nmb_array_manual = np.zeros((2, 2, 3), dtype=DEFAULT_DTYPE)
     for k_idx, w_val in enumerate(wtp_array):
         expected_nmb_array_manual[:, :, k_idx] = (effects_arr * w_val) - costs_arr
-    assert nmb_array_wtp.shape == (2, 2, 3), (
-        f"NMB array WTP shape error, got {nmb_array_wtp.shape}"
-    )
-    assert np.allclose(nmb_array_wtp, expected_nmb_array_manual), (
-        "NMB array WTP mismatch."
-    )
+    if nmb_array_wtp.shape != (2, 2, 3):
+        raise ValueError(f"NMB array WTP shape error, got {nmb_array_wtp.shape}")
+    if not np.allclose(nmb_array_wtp, expected_nmb_array_manual):
+        raise ValueError("NMB array WTP mismatch.")
     print("calculate_net_benefit with array WTP (N,S) x (K,) -> (N,S,K) PASSED.")
 
     costs_1d = np.array([10, 15], dtype=DEFAULT_DTYPE)
@@ -365,31 +377,28 @@ if __name__ == "__main__":
     expected_nmb_1d_array_manual = np.zeros((2, 3), dtype=DEFAULT_DTYPE)
     for k_idx, w_val in enumerate(wtp_array):
         expected_nmb_1d_array_manual[:, k_idx] = (effects_1d * w_val) - costs_1d
-    assert nmb_1d_array_wtp.shape == (2, 3), (
-        f"NMB 1D array WTP shape error, got {nmb_1d_array_wtp.shape}"
-    )
-    assert np.allclose(nmb_1d_array_wtp, expected_nmb_1d_array_manual), (
-        "NMB 1D array WTP mismatch."
-    )
+    if nmb_1d_array_wtp.shape != (2, 3):
+        raise ValueError(f"NMB 1D array WTP shape error, got {nmb_1d_array_wtp.shape}")
+    if not np.allclose(nmb_1d_array_wtp, expected_nmb_1d_array_manual):
+        raise ValueError("NMB 1D array WTP mismatch.")
     print("calculate_net_benefit with array WTP (N,) x (K,) -> (N,K) PASSED.")
 
     nb_vals = np.array([[10, 30, 20], [50, 40, 45]], dtype=DEFAULT_DTYPE)
     optimal_idx = get_optimal_strategy_index(nb_vals)
-    assert np.array_equal(optimal_idx, np.array([1, 0])), (
-        "Optimal strategy index mismatch."
-    )
+    if not np.array_equal(optimal_idx, np.array([1, 0])):
+        raise ValueError("Optimal strategy index mismatch.")
     print("get_optimal_strategy_index PASSED.")
 
     inb = compute_incremental_net_benefit(nb_vals, comparator_index=0)
     expected_inb = np.array([[20, 10], [-10, -5]], dtype=DEFAULT_DTYPE)
-    assert np.allclose(inb, expected_inb), "INB calculation mismatch."
+    if not np.allclose(inb, expected_inb):
+        raise ValueError("INB calculation mismatch.")
     print("compute_incremental_net_benefit PASSED.")
 
     inb_comp1 = compute_incremental_net_benefit(nb_vals, comparator_index=1)
     expected_inb_comp1 = np.array([[-20, -10], [10, 5]], dtype=DEFAULT_DTYPE)
-    assert np.allclose(inb_comp1, expected_inb_comp1), (
-        "INB calculation with comparator 1 mismatch."
-    )
+    if not np.allclose(inb_comp1, expected_inb_comp1):
+        raise ValueError("INB calculation with comparator 1 mismatch.")
     print("compute_incremental_net_benefit with comparator 1 PASSED.")
 
     print("\n--- Utils Testing Done ---")

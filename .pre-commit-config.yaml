@@ -75,7 +75,8 @@ repos:
         name: bandit (security analysis)
         args: ["-r", "pyvoi", "-s", "B101", "-c", "pyproject.toml"] # Scan pyvoi dir, skip assert_used, use config from pyproject
         # Exclude test files if they trigger false positives or are not security-critical
-        exclude: ^tests/
+        files: ^pyvoi/
+        # exclude: ^tests/
 
 # Tox: Optional, for running tox environments (e.g., tests) via pre-commit
 # This can be slow, so often run manually or in CI.

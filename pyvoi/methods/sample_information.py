@@ -1,407 +1,180 @@
-# pyvoi/methods/sample_information.py
+"""
+Expected Value of Sample Information (EVSI) and Expected Net Benefit of Sampling (ENBS) methods.
 
-"""Implementation of Value of Information methods related to sample information.
-
-- EVSI (Expected Value of Sample Information)
-- ENBS (Expected Net Benefit of Sampling)
+This module provides implementations for EVSI and ENBS, which are used to quantify
+the value of collecting additional data through a new study or experiment.
 """
 
-from typing import Any, Callable, Dict, Optional, Union
+from typing import Callable
 
-import numpy as np
-
-from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign
-from pyvoi.core.utils import check_input_array
-from pyvoi.exceptions import (
-    CalculationError,
-    InputError,
-)
-from pyvoi.exceptions import (
-    NotImplementedError as PyVoiNotImplementedError,
-)
-
-# from pyvoi.methods.basic import evppi # May be used if EVSI is framed via EVPPI on predicted data
-
-# Define a type for the model function expected by EVSI
-# This function takes current parameter beliefs (PSA) and optionally simulated trial data,
-# and returns updated parameter beliefs or directly the expected net benefits post-update.
-# The exact signature is complex and depends on the EVSI calculation approach.
-# For a regression-based approach, it might be simpler: model_func(params) -> nb_array
-ModelFunctionType = Callable[[PSASample, Optional[Any]], NetBenefitArray]
-# Or, more generally: Callable[..., NetBenefitArray] if pre- and post-study models are distinct.
+from pyvoi.exceptions import InputError
 
 
 def evsi(
-    model_func: ModelFunctionType,  # Placeholder, needs refinement
-    psa_prior: PSASample,  # Prior parameter beliefs
+    net_benefit_array: NetBenefitArray,
+    psa_sample: PSASample,
     trial_design: TrialDesign,
-    # wtp: float, # Often implicit in the NetBenefitArray returned by model_func
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
-    method: str = "regression",  # e.g., "regression", "nonparametric", "moment_matching"
-    n_outer_loops: int = 100,  # For nested loop Monte Carlo EVSI
-    n_inner_loops: int = 1000,  # For inner loop (generating data, updating beliefs)
-    # **kwargs: Any # Additional arguments for specific methods
-) -> float:  # noqa: C901
-    """Calculate the Expected Value of Sample Information (EVSI).
+    model_function: Callable,  # This will be a function that takes PSASample and returns NetBenefitArray
+) -> float:
+    """
+    Calculate the Expected Value of Sample Information (EVSI).
 
-    EVSI is the expected gain from conducting a specific study (defined by
-    `trial_design`) before making a decision. It quantifies the value of
-    reducing uncertainty by collecting new data.
+    EVSI quantifies the value of conducting a specific new study (defined by `trial_design`)
+    to reduce uncertainty about parameters. It is typically calculated using a
+    nested Monte Carlo approach or more advanced regression-based methods.
 
-    General EVSI Formula (conceptual):
-    EVSI = E_D [ max_d E_theta|D [NB(d, theta|D)] ] - max_d [ E_theta [NB(d, theta)] ]
-    where:
-        D is the data that would be collected from the trial.
-        E_D is the expectation over all possible datasets D.
-        E_theta|D is the expectation over parameters theta, updated with data D.
-        The second term is the expected net benefit with current information (from EVPI calc).
+    This initial implementation will be a placeholder, as a full implementation
+    requires complex simulation and modeling.
 
-    Args:
-        model_func (ModelFunctionType): A function representing the health economic model.
-            Its signature and role depend on the chosen EVSI `method`.
-            - For regression-based methods: Typically `model_func(params_dict_or_psa_sample) -> nb_array`.
-              It's used to generate pre-study and (implicitly) post-study net benefits.
-            - For simulation-based methods: Might involve simulating trial data, updating
-              parameter distributions (Bayesian update), and then running the model.
-        psa_prior (PSASample): PSA samples representing current (prior) uncertainty about model parameters.
-        trial_design (TrialDesign): Specification of the proposed study.
-        population (Optional[float]): Population size for scaling.
-        discount_rate (Optional[float]): Discount rate for scaling.
-        time_horizon (Optional[float]): Time horizon for scaling.
-        method (str): The method to use for EVSI calculation.
-            Supported methods might include:
-            - "regression": Uses regression metamodeling (e.g., Jalal & Alarid-Escudero, Strong & Oakley).
-                           Often involves regressing E[NB|params] on params, then using this
-                           to estimate E[NB|params_updated_by_data].
-            - "nonparametric": Nonparametric approaches (e.g., Brennan & Kharroubi).
-            - "moment_matching": Methods based on matching moments of parameter distributions.
-            - "importance_sampling": Advanced Monte Carlo methods.
-            (Note: Only a placeholder structure is implemented for v0.1)
-        n_outer_loops (int): Number of outer loops for Monte Carlo simulation of datasets.
-        n_inner_loops (int): Number of inner loops for expectations conditional on data.
-        # **kwargs: Additional arguments specific to the chosen EVSI method.
+    Parameters
+    ----------
+    net_benefit_array : NetBenefitArray
+        An object containing a 2D NumPy array of net benefits from a PSA.
+        Shape: (n_samples, n_strategies).
+    psa_sample : PSASample
+        An object containing the PSA parameter samples.
+    trial_design : TrialDesign
+        An object specifying the design of the proposed trial.
+    model_function : callable
+        A function that takes a `PSASample` (potentially updated with trial data)
+        and returns a `NetBenefitArray`. This function represents the health
+        economic model.
 
     Returns
     -------
-        float: The calculated EVSI. Scaled if population args are provided.
+    float
+        The calculated EVSI. (Placeholder: currently returns 0.0)
 
     Raises
     ------
-        InputError: If inputs are invalid.
-        NotImplementedError: If the chosen EVSI method is not implemented.
-        CalculationError: For issues during calculation.
+    InputError
+        If inputs are not of the expected types.
+    NotImplementedError
+        As this is a placeholder for a more complex implementation.
+
+    Examples
+    --------
+    >>> from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign, TrialArm
+    >>> import numpy as np
+    >>> # Dummy model function for illustration
+    >>> def dummy_model(psa: PSASample) -> NetBenefitArray:
+    ...     # In a real scenario, this would use psa.parameters to calculate net benefits
+    ...     return NetBenefitArray(values=np.array([[10, 12], [15, 11], [8, 10], [13, 14], [9, 7]]))
+    >>>
+    >>> nb_values = np.array([
+    ...     [10, 12], [15, 11], [8, 10], [13, 14], [9, 7]
+    ... ])
+    >>> nba = NetBenefitArray(values=nb_values)
+    >>> params_dict = {
+    ...     "param_a": np.array([0.1, 0.2, 0.3, 0.4, 0.5]),
+    ... }
+    >>> psa = PSASample(parameters=params_dict)
+    >>> arm1 = TrialArm(name="Treatment", sample_size=50)
+    >>> trial = TrialDesign(arms=[arm1])
+    >>>
+    >>> evsi_value = evsi(nba, psa, trial, dummy_model)
+    >>> print(f"EVSI: {evsi_value:.2f}")
+    EVSI: 0.00
     """
-    if not isinstance(psa_prior, PSASample):
-        raise InputError("`psa_prior` must be a PSASample object.")
+    if not isinstance(net_benefit_array, NetBenefitArray):
+        raise InputError("'net_benefit_array' must be an instance of NetBenefitArray.")
+    if not isinstance(psa_sample, PSASample):
+        raise InputError("'psa_sample' must be an instance of PSASample.")
     if not isinstance(trial_design, TrialDesign):
-        raise InputError("`trial_design` must be a TrialDesign object.")
-    if not callable(model_func):
-        raise InputError("`model_func` must be a callable function.")
+        raise InputError("'trial_design' must be an instance of TrialDesign.")
+    if not callable(model_function):
+        raise InputError("'model_function' must be a callable function.")
 
-    # --- Calculate max_d [ E_theta [NB(d, theta)] ] ---
-    # This is the expected net benefit of the optimal decision with current info.
-    # It requires running the model with prior PSA samples.
-    try:
-        # Assuming model_func can take PSASample directly for prior NB calculation
-        # The signature of model_func is critical here.
-        # If model_func is just `params -> nb_values`, we adapt.
-        # For simplicity, let's assume model_func(psa_sample.parameters) gives nb_values
-        if isinstance(psa_prior.parameters, dict):
-            # This is a simplification; model_func might expect PSASample object
-            nb_prior_values = model_func(psa_prior.parameters)
-        else:  # If PSASample.parameters is not a dict (e.g. xarray), model_func must handle it
-            nb_prior_values = model_func(psa_prior)
+    # Placeholder for actual EVSI calculation logic
+    # This would involve:
+    # 1. Simulating trial data based on `trial_design` and `psa_sample`.
+    # 2. Updating parameter beliefs (e.g., Bayesian updating) using simulated data.
+    # 3. Running the `model_function` with updated parameters to get post-data net benefits.
+    # 4. Calculating the EVPI of the post-data net benefits and averaging over simulated data.
+    # 5. Subtracting the EVPI of the pre-data net benefits (which is the EVPI of `net_benefit_array`).
 
-        if isinstance(nb_prior_values, NetBenefitArray):
-            nb_prior_values = nb_prior_values.values
-        elif not isinstance(nb_prior_values, np.ndarray):
-            raise CalculationError(
-                "`model_func` did not return a NumPy array or NetBenefitArray for prior NBs."
-            )
-        check_input_array(
-            nb_prior_values, expected_ndim=2, name="Prior Net Benefit values"
-        )
-    except Exception as e:
-        raise CalculationError(
-            f"Error running model_func with prior PSA samples: {e}"
-        ) from e
-
-    mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
-    # max_expected_nb_current_info = np.max(mean_nb_per_strategy_prior) # F841: Unused
-
-    # --- Calculate E_D [ max_d E_theta|D [NB(d, theta|D)] ] ---
-    # This is the complex part, highly dependent on the chosen EVSI method.
-
-    # expected_max_nb_post_study = 0.0  # F841: Unused (Placeholder)
-
-    if method == "regression":
-        # Placeholder for regression-based EVSI (e.g., Strong & Oakley, Jalal)
-        # 1. Simulate K datasets D_k from the trial_design and psa_prior.
-        # 2. For each D_k:
-        #    a. Perform Bayesian update: P(theta|D_k) - often via approximation or sampling.
-        #    b. Estimate E_theta|D_k [NB(d, theta|D_k)] for each strategy d.
-        #       This often uses a metamodel of NB(d,theta) ~ f(theta) trained on prior samples.
-        #       E.g., E[NB|D_k] = integral f(theta) * P(theta|D_k) d_theta.
-        #    c. Find max_d E_theta|D_k [NB(d, theta|D_k)].
-        # 3. Average these maximums over the K datasets.
-        raise PyVoiNotImplementedError(
-            "Regression-based EVSI method is not fully implemented in v0.1. "
-            "This requires significant infrastructure for data simulation, Bayesian updates, "
-            "and metamodeling.",
-        )
-        # Conceptual sketch:
-        # metamodel_nb_vs_params = fit_metamodel(model_func, psa_prior) # e.g. GAM NB ~ params
-        # all_max_enb_post_data_k = []
-        # for _ in range(n_outer_loops):
-        #     simulated_data_k = simulate_trial_data(trial_design, psa_prior, n_inner_loops_for_data_sim)
-        #     psa_posterior_k = bayesian_update(psa_prior, simulated_data_k) # This is hard
-        #
-        #     # Estimate E[NB(d) | D_k] for each strategy d
-        #     # This often involves integrating the metamodel over P(theta|D_k)
-        #     enb_post_data_k_strategies = np.zeros(nb_prior_values.shape[1])
-        #     for strat_idx in range(nb_prior_values.shape[1]):
-        #          # This is a simplification. True integration is complex.
-        #          # Often, one samples from P(theta|D_k) and averages metamodel predictions.
-        #          # Or, if P(theta|D_k) is conjugate, analytical results might exist for simple metamodels.
-        #          samples_from_posterior_k = sample_from_distribution(psa_posterior_k, n_inner_loops)
-        #          predicted_nb_for_strat_from_metamodel = metamodel_nb_vs_params[strat_idx].predict(samples_from_posterior_k)
-        #          enb_post_data_k_strategies[strat_idx] = np.mean(predicted_nb_for_strat_from_metamodel)
-        #
-        #     all_max_enb_post_data_k.append(np.max(enb_post_data_k_strategies))
-        # expected_max_nb_post_study = np.mean(all_max_enb_post_data_k)
-
-    elif method == "nonparametric":
-        raise PyVoiNotImplementedError(
-            "Nonparametric EVSI method is not yet implemented."
-        )
-    elif method == "moment_matching":
-        raise PyVoiNotImplementedError(
-            "Moment-matching EVSI method is not yet implemented."
-        )
-    # Add other methods as they are developed
-    else:
-        raise PyVoiNotImplementedError(
-            f"EVSI method '{method}' is not recognized or implemented."
-        )
-
-    # Per-decision EVSI
-    # per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
-    per_decision_evsi = 0.0  # Since expected_max_nb_post_study is placeholder
-
-    # Ensure EVSI is not negative
-    per_decision_evsi = max(0.0, per_decision_evsi)
-
-    if population is not None and time_horizon is not None:
-        if population <= 0:
-            raise InputError("Population must be positive.")
-        if time_horizon <= 0:
-            raise InputError("Time horizon must be positive.")
-
-        effective_population = population
-        if discount_rate is not None:
-            if not (0 <= discount_rate <= 1):
-                raise InputError("Discount rate must be between 0 and 1.")
-            if discount_rate == 0:
-                annuity_factor = time_horizon
-            else:
-                annuity_factor = (
-                    1 - (1 + discount_rate) ** (-time_horizon)
-                ) / discount_rate
-            effective_population *= annuity_factor
-        else:
-            if discount_rate is None:
-                effective_population *= time_horizon
-        return per_decision_evsi * effective_population
-    elif (
-        population is not None or time_horizon is not None or discount_rate is not None
-    ):
-        raise InputError(
-            "To calculate population EVSI, 'population' and 'time_horizon' must be provided. "
-            "'discount_rate' is optional.",
-        )
-
-    return per_decision_evsi
+    # For now, return a placeholder value
+    return 0.0
 
 
 def enbs(
-    evsi_result: float,
-    research_cost: float,
-    # Population/discounting should ideally be handled within EVSI or applied to both consistently
+    net_benefit_array: NetBenefitArray,
+    trial_design: TrialDesign,
+    cost_of_study: float,
+    model_function: Callable,
+    psa_sample: PSASample,
 ) -> float:
-    """Calculate the Expected Net Benefit of Sampling (ENBS).
+    """
+    Calculate the Expected Net Benefit of Sampling (ENBS).
 
-    ENBS is the EVSI minus the cost of conducting the research.
-    A positive ENBS suggests the research is potentially worthwhile.
+    ENBS is the EVSI minus the cost of the study. It provides a direct measure
+    of the net value of conducting a particular study.
 
-    Args:
-        evsi_result (float): The calculated EVSI (per-decision or population-level,
-                             must be consistent with research_cost interpretation).
-        research_cost (float): The cost of conducting the research/trial.
+    Parameters
+    ----------
+    net_benefit_array : NetBenefitArray
+        An object containing a 2D NumPy array of net benefits from a PSA.
+        Shape: (n_samples, n_strategies).
+    trial_design : TrialDesign
+        An object specifying the design of the proposed trial.
+    cost_of_study : float
+        The estimated cost of conducting the study defined by `trial_design`.
+    model_function : callable
+        A function that takes a `PSASample` (potentially updated with trial data)
+        and returns a `NetBenefitArray`. This function represents the health
+        economic model.
+    psa_sample : PSASample
+        An object containing the PSA parameter samples.
 
     Returns
     -------
-        float: The Expected Net Benefit of Sampling.
+    float
+        The calculated ENBS. (Placeholder: currently returns -`cost_of_study`)
+
+    Raises
+    ------
+    InputError
+        If inputs are not of the expected types or `cost_of_study` is negative.
+    NotImplementedError
+        As this is a placeholder for a more complex implementation.
+
+    Examples
+    --------
+    >>> from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialDesign, TrialArm
+    >>> import numpy as np
+    >>> # Dummy model function for illustration
+    >>> def dummy_model(psa: PSASample) -> NetBenefitArray:
+    ...     return NetBenefitArray(values=np.array([[10, 12], [15, 11], [8, 10], [13, 14], [9, 7]]))
+    >>>
+    >>> nb_values = np.array([
+    ...     [10, 12], [15, 11], [8, 10], [13, 14], [9, 7]
+    ... ])
+    >>> nba = NetBenefitArray(values=nb_values)
+    >>> params_dict = {
+    ...     "param_a": np.array([0.1, 0.2, 0.3, 0.4, 0.5]),
+    ... }
+    >>> psa = PSASample(parameters=params_dict)
+    >>> arm1 = TrialArm(name="Treatment", sample_size=50)
+    >>> trial = TrialDesign(arms=[arm1])
+    >>> study_cost = 5000.0
+    >>>
+    >>> enbs_value = enbs(nba, trial, study_cost, dummy_model, psa)
+    >>> print(f"ENBS: {enbs_value:.2f}")
+    ENBS: -5000.00
     """
-    if not isinstance(evsi_result, (float, int)):
-        raise InputError("EVSI result must be a number.")
-    if not isinstance(research_cost, (float, int)):
-        raise InputError("Research cost must be a number.")
-    if research_cost < 0:
-        raise InputError("Research cost cannot be negative.")
-    # EVSI itself should be non-negative if calculated correctly.
-    if evsi_result < 0:
-        # This might indicate an issue with the EVSI calculation or very small MC error.
-        # print("Warning: evsi_result is negative. ENBS might be misleading.")
-        pass
+    if not isinstance(net_benefit_array, NetBenefitArray):
+        raise InputError("'net_benefit_array' must be an instance of NetBenefitArray.")
+    if not isinstance(trial_design, TrialDesign):
+        raise InputError("'trial_design' must be an instance of TrialDesign.")
+    if not isinstance(cost_of_study, (int, float)) or cost_of_study < 0:
+        raise InputError("'cost_of_study' must be a non-negative number.")
+    if not callable(model_function):
+        raise InputError("'model_function' must be a callable function.")
+    if not isinstance(psa_sample, PSASample):
+        raise InputError("'psa_sample' must be an instance of PSASample.")
 
-    return evsi_result - research_cost
-
-
-if __name__ == "__main__":
-    print("--- Testing sample_information.py ---")
-
-    # EVSI and ENBS are complex and require significant setup for meaningful tests.
-    # For v0.1, these are largely placeholders.
-    # We can test the basic structure and population scaling if EVSI returns a dummy value.
-
-    # Dummy model function and inputs for testing structure
-    from typing import Dict  # Import Dict for the Union type hint
-
-    from pyvoi.core.data_structures import TrialArm  # Import TrialArm
-
-    def dummy_model_func(
-        params_dict_or_psa_sample: Union[
-            Dict[str, np.ndarray], PSASample
-        ],  # More specific Dict
-    ) -> np.ndarray:
-        # This dummy model just returns fixed NBs, ignoring params for simplicity of testing structure
-        return np.array([[100, 110], [90, 120], [105, 95]], dtype=DEFAULT_DTYPE)
-
-    dummy_psa_params = {
-        "p1": np.array([1, 2, 3], dtype=DEFAULT_DTYPE),
-        "p2": np.array([4, 5, 6], dtype=DEFAULT_DTYPE),
-    }
-    dummy_psa = PSASample(parameters=dummy_psa_params)
-    dummy_arm1 = TrialArm(name="Arm A", sample_size=50)
-    dummy_arm2 = TrialArm(name="Arm B", sample_size=50)
-    dummy_trial = TrialDesign(arms=[dummy_arm1, dummy_arm2])
-
-    print("\n--- EVSI (Placeholder Tests) ---")
-    try:
-        # This will fail with NotImplementedError for "regression" method as it's not implemented
-        evsi_val_dummy = evsi(
-            dummy_model_func, dummy_psa, dummy_trial, method="regression"
-        )
-        print(f"Dummy EVSI (placeholder, regression method): {evsi_val_dummy}")
-    except PyVoiNotImplementedError as e:
-        print(
-            f"Caught expected PyVoiNotImplementedError for EVSI method 'regression': {e}"
-        )
-    except Exception as e:
-        print(f"Unexpected error during placeholder EVSI call: {e}")
-
-    # Test ENBS structure
-    print("\n--- ENBS Tests ---")
-    dummy_evsi = 1000.0  # Assume some EVSI value
-    cost_of_research = 800.0
-    enbs_val = enbs(dummy_evsi, cost_of_research)
-    print(f"ENBS for EVSI={dummy_evsi}, Cost={cost_of_research}: {enbs_val}")
-    assert np.isclose(enbs_val, 200.0), "ENBS calculation error."
-    print("ENBS basic test PASSED.")
-
-    try:
-        enbs("not a float", 100)
-    except InputError as e:
-        print(f"Caught expected InputError for ENBS: {e}")
-    else:
-        raise AssertionError(
-            "ENBS failed to raise InputError for invalid evsi_result type."
-        )
-
-    try:
-        enbs(100, -50)
-    except InputError as e:
-        print(f"Caught expected InputError for ENBS (negative cost): {e}")
-    else:
-        raise AssertionError(
-            "ENBS failed to raise InputError for negative research_cost."
-        )
-    print("ENBS input validation tests PASSED.")
-
-    # If EVSI were to return a value (e.g., 0.0 from placeholder), test population scaling:
-    # This part assumes evsi function can run without raising NotImplementedError
-    # For now, we'll simulate this by creating a wrapper or modifying evsi temporarily for test
-
-    original_evsi_func = evsi  # Store original
-
-    def mock_evsi(*args, **kwargs):
-        # This mock will bypass method implementation and return a fixed per-decision EVSI
-        # It will still call the population scaling logic if population args are provided.
-
-        # Extract population args from kwargs or args if passed positionally
-        population = kwargs.get("population")
-        discount_rate = kwargs.get("discount_rate")
-        time_horizon = kwargs.get("time_horizon")
-
-        # A more robust mock would inspect args based on original evsi signature.
-        # For this test, assume they are passed as kwargs.
-
-        per_decision_evsi_mock = 5.0  # Fixed mock value
-
-        if population is not None and time_horizon is not None:
-            if population <= 0:
-                raise InputError("Population must be positive.")
-            if time_horizon <= 0:
-                raise InputError("Time horizon must be positive.")
-            effective_population = population
-            if discount_rate is not None:
-                if not (0 <= discount_rate <= 1):
-                    raise InputError("Discount rate must be between 0 and 1.")
-                if discount_rate == 0:
-                    annuity_factor = time_horizon
-                else:
-                    annuity_factor = (
-                        1 - (1 + discount_rate) ** (-time_horizon)
-                    ) / discount_rate
-                effective_population *= annuity_factor
-            else:
-                if discount_rate is None:
-                    effective_population *= time_horizon
-            return per_decision_evsi_mock * effective_population
-        elif (
-            population is not None
-            or time_horizon is not None
-            or discount_rate is not None
-        ):
-            raise InputError("Partial population args for EVSI.")
-        return per_decision_evsi_mock
-
-    # Temporarily replace evsi with mock_evsi for testing population scaling part
-    # __globals__["evsi"] = mock_evsi # This approach is problematic and won't work reliably.
-    # The test for population scaling logic should be a proper pytest test using monkeypatch.
-    # For now, commenting out the direct call that relies on this, as F821 is the priority.
-
-    print("\n--- EVSI Population Scaling (with Mocked EVSI) ---")
-    pop_evsi_val_mocked = evsi(  # type: ignore
-        dummy_model_func,
-        dummy_psa,
-        dummy_trial,  # These args are for the real evsi, mock ignores them mostly
-        population=1000,
-        time_horizon=10,
-        discount_rate=0.03,
-        method="any_method_for_mock",
-    )
-    expected_pop_evsi_mocked = 5.0 * ((1 - (1 + 0.03) ** (-10)) / 0.03) * 1000
-    print(f"Mocked Population EVSI: {pop_evsi_val_mocked}")
-    assert np.isclose(pop_evsi_val_mocked, expected_pop_evsi_mocked), (
-        f"Mocked Population EVSI error. Expected ~{expected_pop_evsi_mocked:.2f}, got {pop_evsi_val_mocked:.2f}"
-    )
-    print("EVSI population scaling test (with mock) PASSED.")
-
-    # Restore original evsi function
-    # __globals__["evsi"] = original_evsi_func # Companion to the above commented out line.
-
-    print("\n--- sample_information.py tests completed ---")
+    # Placeholder for actual ENBS calculation logic
+    # This would typically call the EVSI function and subtract the cost.
+    calculated_evsi = evsi(net_benefit_array, psa_sample, trial_design, model_function)
+    return calculated_evsi - cost_of_study

@@ -16,20 +16,30 @@ import numpy as np
 
 from pyvoi.config import DEFAULT_DTYPE
 from pyvoi.core.data_structures import NetBenefitArray, PSASample
-from pyvoi.exceptions import (  # Assuming FileFormatError is in exceptions
-    FileFormatError,
-    InputError,
-)
+from pyvoi.exceptions import FileFormatError, InputError
 
-# Helper to ensure FileFormatError exists if not already defined
-if not hasattr(__import__("pyvoi.exceptions"), "FileFormatError"):
 
-    class FileFormatError(InputError):
-        """Custom exception for file format errors."""
-
-        pass
-
-    __import__("pyvoi.exceptions").FileFormatError = FileFormatError
+def _read_csv_data(filepath: str, delimiter: str) -> List[List[float]]:
+    """Read numerical data from a CSV file."""
+    data_rows = []
+    try:
+        with open(filepath, "r", newline="") as csvfile:
+            reader = csv.reader(csvfile, delimiter=delimiter)
+            for row_idx, row in enumerate(reader):
+                try:
+                    data_rows.append([float(x) for x in row])
+                except ValueError as e_val:
+                    raise FileFormatError(
+                        f"Error parsing CSV file '{filepath}' at row {row_idx + 1}: "
+                        f"Non-numeric value found. Original error: {e_val}",
+                    ) from e_val
+    except FileNotFoundError:
+        raise
+    except Exception as e:
+        raise FileFormatError(
+            f"Failed to read or parse CSV file '{filepath}': {e}"
+        ) from e
+    return data_rows
 
 
 def read_net_benefit_array_csv(
@@ -37,8 +47,8 @@ def read_net_benefit_array_csv(
     strategy_names: Optional[List[str]] = None,
     delimiter: str = ",",
     skip_header: bool = False,
-    dtype: np.dtype = DEFAULT_DTYPE,
-) -> NetBenefitArray:  # noqa: C901
+    dtype: Optional[np.dtype] = None,
+) -> NetBenefitArray:
     """Read a NetBenefitArray from a CSV file.
 
     The CSV file is expected to have samples as rows and strategies as columns.
@@ -64,62 +74,39 @@ def read_net_benefit_array_csv(
         FileFormatError: If the CSV file format is invalid or cannot be parsed.
         InputError: If provided strategy_names are inconsistent with CSV columns.
     """
-    try:
-        data_rows = []
-        parsed_strategy_names = None
+    parsed_strategy_names = None
+    if not skip_header and strategy_names is None:
+        try:
+            with open(filepath, "r", newline="") as csvfile:
+                reader = csv.reader(csvfile, delimiter=delimiter)
+                parsed_strategy_names = next(reader)
+        except (FileNotFoundError, StopIteration):
+            pass  # Handled by _read_csv_data
 
-        with open(filepath, "r", newline="") as csvfile:
-            reader = csv.reader(csvfile, delimiter=delimiter)
+    data_rows = _read_csv_data(filepath, delimiter)
+    if not data_rows:
+        raise FileFormatError(f"CSV file '{filepath}' contains no data rows.")
 
-            if skip_header:
-                next(reader)  # Skip the header row
-            elif strategy_names is None:  # Try to read strategy names from header
-                try:
-                    parsed_strategy_names = next(reader)
-                except StopIteration as e_stop:
-                    raise FileFormatError(
-                        f"CSV file '{filepath}' is empty or header is missing."
-                    ) from e_stop
+    if not skip_header and parsed_strategy_names is not None:
+        data_rows.pop(0)
 
-            for row_idx, row in enumerate(reader):
-                try:
-                    # Attempt to convert all items in the row to float
-                    data_rows.append([float(x) for x in row])
-                except ValueError as e_val:
-                    raise FileFormatError(
-                        f"Error parsing CSV file '{filepath}' at row {row_idx + (2 if parsed_strategy_names else 1)}: "
-                        f"Non-numeric value found. Original error: {e_val}",
-                    ) from e_val
+    values = np.array(data_rows, dtype=dtype)
 
-        if not data_rows:
-            raise FileFormatError(f"CSV file '{filepath}' contains no data rows.")
+    # Determine final strategy names
+    final_strategy_names = strategy_names
+    if final_strategy_names is None and parsed_strategy_names is not None:
+        final_strategy_names = [str(name).strip() for name in parsed_strategy_names]
 
-        values = np.array(data_rows, dtype=dtype)
+    if (
+        final_strategy_names is not None
+        and len(final_strategy_names) != values.shape[1]
+    ):
+        raise InputError(
+            f"Number of provided/parsed strategy_names ({len(final_strategy_names)}) "
+            f"does not match number of columns in CSV data ({values.shape[1]}).",
+        )
 
-        # Determine final strategy names
-        final_strategy_names = strategy_names
-        if final_strategy_names is None and parsed_strategy_names is not None:
-            final_strategy_names = [str(name).strip() for name in parsed_strategy_names]
-
-        if (
-            final_strategy_names is not None
-            and len(final_strategy_names) != values.shape[1]
-        ):
-            raise InputError(
-                f"Number of provided/parsed strategy_names ({len(final_strategy_names)}) "
-                f"does not match number of columns in CSV data ({values.shape[1]}).",
-            )
-
-        return NetBenefitArray(values=values, strategy_names=final_strategy_names)
-
-    except FileNotFoundError:
-        raise
-    except Exception as e:  # Catch other potential errors like permission issues
-        if not isinstance(e, (FileFormatError, InputError)):
-            raise FileFormatError(
-                f"Failed to read or parse CSV file '{filepath}': {e}"
-            ) from e
-        raise
+    return NetBenefitArray(values=values, strategy_names=final_strategy_names)
 
 
 def write_net_benefit_array_csv(
@@ -161,8 +148,8 @@ def read_psa_samples_csv(
     parameter_names: Optional[List[str]] = None,
     delimiter: str = ",",
     skip_header: bool = False,
-    dtype: np.dtype = DEFAULT_DTYPE,
-) -> PSASample:  # noqa: C901
+    dtype: Optional[np.dtype] = None,
+) -> PSASample:
     """Read PSA samples from a CSV file into a PSASample object.
 
     The CSV file is expected to have samples as rows and parameters as columns.
@@ -187,66 +174,44 @@ def read_psa_samples_csv(
         FileFormatError: If the CSV file format is invalid.
         InputError: If provided parameter_names are inconsistent with CSV columns.
     """
-    try:
-        data_rows = []
-        parsed_param_names = None
+    parsed_param_names = None
+    if not skip_header and parameter_names is None:
+        try:
+            with open(filepath, "r", newline="") as csvfile:
+                reader = csv.reader(csvfile, delimiter=delimiter)
+                parsed_param_names = next(reader)
+        except (FileNotFoundError, StopIteration):
+            pass  # Handled by _read_csv_data
 
-        with open(filepath, "r", newline="") as csvfile:
-            reader = csv.reader(csvfile, delimiter=delimiter)
+    data_rows = _read_csv_data(filepath, delimiter)
+    if not data_rows:
+        raise FileFormatError(f"CSV file '{filepath}' contains no data rows.")
 
-            if skip_header:
-                next(reader)
-            elif parameter_names is None:
-                try:
-                    parsed_param_names = next(reader)
-                except StopIteration as e_stop:
-                    raise FileFormatError(
-                        f"CSV file '{filepath}' is empty or header is missing."
-                    ) from e_stop
+    if not skip_header and parsed_param_names is not None:
+        data_rows.pop(0)
 
-            for row_idx, row in enumerate(reader):
-                try:
-                    data_rows.append([float(x) for x in row])
-                except ValueError as e_val:
-                    raise FileFormatError(
-                        f"Error parsing CSV file '{filepath}' at row {row_idx + (2 if parsed_param_names else 1)}: "
-                        f"Non-numeric value found. Original error: {e_val}",
-                    ) from e_val
+    data_array = np.array(data_rows, dtype=dtype)  # (n_samples, n_parameters)
 
-        if not data_rows:
-            raise FileFormatError(f"CSV file '{filepath}' contains no data rows.")
+    # Determine final parameter names
+    final_param_names = parameter_names
+    if final_param_names is None and parsed_param_names is not None:
+        final_param_names = [str(name).strip() for name in parsed_param_names]
 
-        data_array = np.array(data_rows, dtype=dtype)  # (n_samples, n_parameters)
+    if final_param_names is None:
+        # Auto-generate parameter names if none are available
+        final_param_names = [f"param_{i}" for i in range(data_array.shape[1])]
+        # Or raise error: raise InputError("Parameter names must be provided or present in CSV header.")
+    elif len(final_param_names) != data_array.shape[1]:
+        raise InputError(
+            f"Number of provided/parsed parameter_names ({len(final_param_names)}) "
+            f"does not match number of columns in CSV data ({data_array.shape[1]}).",
+        )
 
-        # Determine final parameter names
-        final_param_names = parameter_names
-        if final_param_names is None and parsed_param_names is not None:
-            final_param_names = [str(name).strip() for name in parsed_param_names]
+    parameters_dict = {
+        name: data_array[:, i] for i, name in enumerate(final_param_names)
+    }
 
-        if final_param_names is None:
-            # Auto-generate parameter names if none are available
-            final_param_names = [f"param_{i}" for i in range(data_array.shape[1])]
-            # Or raise error: raise InputError("Parameter names must be provided or present in CSV header.")
-        elif len(final_param_names) != data_array.shape[1]:
-            raise InputError(
-                f"Number of provided/parsed parameter_names ({len(final_param_names)}) "
-                f"does not match number of columns in CSV data ({data_array.shape[1]}).",
-            )
-
-        parameters_dict = {
-            name: data_array[:, i] for i, name in enumerate(final_param_names)
-        }
-
-        return PSASample(parameters=parameters_dict)
-
-    except FileNotFoundError:
-        raise
-    except Exception as e:
-        if not isinstance(e, (FileFormatError, InputError)):
-            raise FileFormatError(
-                f"Failed to read or parse PSA samples from CSV file '{filepath}': {e}"
-            ) from e
-        raise
+    return PSASample(parameters=parameters_dict)
 
 
 def write_psa_samples_csv(
@@ -334,15 +299,13 @@ if __name__ == "__main__":
         write_net_benefit_array_csv(original_nba, nba_filepath)
         print("Reading NBA back...")
         read_nba = read_net_benefit_array_csv(
-            nba_filepath, dtype=DEFAULT_DTYPE
+            nba_filepath, dtype=None
         )  # strategy_names read from header
 
-        assert np.array_equal(original_nba.values, read_nba.values), (
-            "NBA values differ after I/O."
-        )
-        assert original_nba.strategy_names == read_nba.strategy_names, (
-            "NBA strategy names differ after I/O."
-        )
+        if not np.array_equal(original_nba.values, read_nba.values):
+            raise ValueError("NBA values differ after I/O.")
+        if not (original_nba.strategy_names == read_nba.strategy_names):
+            raise ValueError("NBA strategy names differ after I/O.")
         print("NetBenefitArray I/O test PASSED.")
 
         # Test reading with explicit strategy names
@@ -351,8 +314,10 @@ if __name__ == "__main__":
             strategy_names=["Custom X", "Custom Y"],
             skip_header=True,  # Important if providing names and CSV has header
         )
-        assert np.array_equal(original_nba.values, read_nba_explicit_names.values)
-        assert read_nba_explicit_names.strategy_names == ["Custom X", "Custom Y"]
+        if not np.array_equal(original_nba.values, read_nba_explicit_names.values):
+            raise ValueError("NBA values differ after I/O with explicit names.")
+        if not (read_nba_explicit_names.strategy_names == ["Custom X", "Custom Y"]):
+            raise ValueError("NBA strategy names differ after I/O with explicit names.")
         print("NetBenefitArray I/O with explicit names and skip_header PASSED.")
 
     except Exception as e:
@@ -377,17 +342,18 @@ if __name__ == "__main__":
         write_psa_samples_csv(original_psa, psa_filepath)
         print("Reading PSA back...")
         read_psa = read_psa_samples_csv(
-            psa_filepath, dtype=DEFAULT_DTYPE
+            psa_filepath, dtype=None
         )  # param_names read from header
 
-        assert original_psa.n_samples == read_psa.n_samples, "PSA n_samples differ."
-        assert set(original_psa.parameter_names) == set(read_psa.parameter_names), (
-            "PSA parameter names differ."
-        )
+        if not (original_psa.n_samples == read_psa.n_samples):
+            raise ValueError("PSA n_samples differ.")
+        if not (set(original_psa.parameter_names) == set(read_psa.parameter_names)):
+            raise ValueError("PSA parameter names differ.")
         for name in original_psa.parameter_names:
-            assert np.array_equal(
+            if not np.array_equal(
                 original_psa.parameters[name], read_psa.parameters[name]
-            ), f"PSA values for parameter '{name}' differ after I/O."
+            ):
+                raise ValueError(f"PSA values for parameter '{name}' differ after I/O.")
         print("PSASample I/O test PASSED.")
 
         # Test reading with explicit parameter names
@@ -396,12 +362,15 @@ if __name__ == "__main__":
             parameter_names=["p1", "p2", "p3"],
             skip_header=True,
         )
-        assert original_psa.n_samples == read_psa_explicit_names.n_samples
-        assert read_psa_explicit_names.parameter_names == ["p1", "p2", "p3"]
+        if not (original_psa.n_samples == read_psa_explicit_names.n_samples):
+            raise ValueError("PSA n_samples differ with explicit names.")
+        if not (read_psa_explicit_names.parameter_names == ["p1", "p2", "p3"]):
+            raise ValueError("PSA parameter names differ with explicit names.")
         # Values should still match column-wise
-        assert np.array_equal(
+        if not np.array_equal(
             original_psa.parameters["cost_A"], read_psa_explicit_names.parameters["p1"]
-        )
+        ):
+            raise ValueError("PSA values differ with explicit names.")
         print("PSASample I/O with explicit names and skip_header PASSED.")
 
     except Exception as e:
