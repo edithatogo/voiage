@@ -235,7 +235,9 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_100['total_value']}, Total Cost: {result_budget_100['total_cost']}"
     )
-    np.testing.assert_allclose(selected_names_b100, sorted(["Study Beta", "Study Gamma"]))
+    np.testing.assert_allclose(
+        selected_names_b100, sorted(["Study Beta", "Study Gamma"])
+    )
     np.testing.assert_allclose(result_budget_100["total_value"], 230.0)
     np.testing.assert_allclose(result_budget_100["total_cost"], 100.0)
     print("Greedy (budget 100) PASSED.")

@@ -112,7 +112,9 @@ def test_evpi_invalid_inputs():
         evpi(np.array([[], []], dtype=DEFAULT_DTYPE).reshape(0, 2)), 0.0
     )  # Empty array
 
-    np.testing.assert_allclose(evpi(np.array([[]], dtype=DEFAULT_DTYPE).reshape(0, 1)), 0.0)
+    np.testing.assert_allclose(
+        evpi(np.array([[]], dtype=DEFAULT_DTYPE).reshape(0, 1)), 0.0
+    )
 
     # Population scaling input errors
     nb_data = np.array([[10, 20], [11, 19]], dtype=DEFAULT_DTYPE)
@@ -141,7 +143,9 @@ def test_evpi_invalid_inputs():
         evpi(nb_data, discount_rate=0.05)  # Missing pop and horizon
 
     # Test with zero strategies
-    np.testing.assert_allclose(evpi(np.array([[]], dtype=DEFAULT_DTYPE).reshape(1, 0)), 0.0)
+    np.testing.assert_allclose(
+        evpi(np.array([[]], dtype=DEFAULT_DTYPE).reshape(1, 0)), 0.0
+    )
 
 
 # --- Tests for EVPPI ---

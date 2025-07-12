@@ -41,7 +41,9 @@ def check_parameter_samples(parameter_samples, n_samples):
             x = np.stack(list(parameter_samples.parameters.values()), axis=1)
         else:
             # Handle xarray or other types if necessary
-            raise InputError("PSASample with non-dict parameters not yet supported for EVPPI.")
+            raise InputError(
+                "PSASample with non-dict parameters not yet supported for EVPPI."
+            )
     elif isinstance(parameter_samples, dict):
         x = np.stack(list(parameter_samples.values()), axis=1)
     else:

@@ -154,8 +154,7 @@ def _bayesian_update(
         return np.empty((n_inner_loops, 0), dtype=DEFAULT_DTYPE)
 
     prior_param_values_list = [
-        v.reshape(-1, 1) if v.ndim == 1 else v
-        for v in psa_prior.parameters.values()
+        v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()
     ]
     prior_params_stacked = np.hstack(prior_param_values_list)
 
@@ -643,7 +642,9 @@ if __name__ == "__main__":
                 if current_dr == 0:
                     annuity_factor = time_horizon
                 else:
-                    annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+                    annuity_factor = (
+                        1 - (1 + current_dr) ** (-time_horizon)
+                    ) / current_dr
                 effective_population *= annuity_factor
             else:  # No discount_rate provided
                 if discount_rate is None:  # Explicitly check for None for clarity

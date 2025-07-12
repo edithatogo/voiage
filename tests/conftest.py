@@ -145,7 +145,6 @@ def evppi_test_data_simple():
 
 def pytest_configure(config):
     try:
-
         config.addinivalue_line(
             "markers", "sklearn: mark test as requiring scikit-learn"
         )
