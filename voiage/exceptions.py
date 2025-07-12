@@ -9,14 +9,14 @@ generic Python exceptions.
 """
 
 
-class voiageError(Exception):
+class VoiageError(Exception):
     """Base class for all exceptions raised by the voiage library."""
 
     pass
 
 
 # --- Configuration Errors ---
-class ConfigurationError(voiageError):
+class ConfigurationError(VoiageError):
     """Raised when there is an issue with voiage configuration."""
 
     pass
@@ -104,13 +104,13 @@ class BackendError(voiageError):
 #     raise CalculationError("Underlying library failed during calculation.") from e
 
 
-class VoiageNotImplementedError(voiageError, NotImplementedError):
+class VoiageNotImplementedError(VoiageError, NotImplementedError):
     """Raised when a feature or method is not yet implemented."""
 
     pass
 
 
-class OptionalDependencyError(voiageError, ImportError):
+class OptionalDependencyError(VoiageError, ImportError):
     """Raised when an optional dependency is not installed but is required for a feature."""
 
     pass

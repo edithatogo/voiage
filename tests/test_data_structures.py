@@ -1,33 +1,36 @@
 # tests/test_data_structures.py
 
-"""
-Unit tests for the core data structures in voiage.
-"""
+"""Unit tests for the core data structures in voiage."""
 
 import numpy as np
 import pytest
 
 from voiage.core.data_structures import (
+    DynamicSpec,
     NetBenefitArray,
+    PortfolioSpec,
+    PortfolioStudy,
     PSASample,
     TrialArm,
     TrialDesign,
-    PortfolioStudy,
-    PortfolioSpec,
-    DynamicSpec,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 
 
 class TestNetBenefitArray:
-    def test_init_and_properties(self):
-        values = np.array([[1, 2], [3, 4]])
-        names = ["Strategy A", "Strategy B"]
+    @pytest.mark.parametrize(
+        "values, names",
+        [
+            (np.array([[1, 2], [3, 4]]), ["Strategy A", "Strategy B"]),
+            (np.array([[1, 2, 3], [4, 5, 6]]), ["A", "B", "C"]),
+        ],
+    )
+    def test_init_and_properties(self, values, names):
         nba = NetBenefitArray(values=values, strategy_names=names)
-        assert np.array_equal(nba.values, values)
+        np.testing.assert_array_equal(nba.values, values)
         assert nba.strategy_names == names
-        assert nba.n_samples == 2
-        assert nba.n_strategies == 2
+        assert nba.n_samples == values.shape[0]
+        assert nba.n_strategies == values.shape[1]
 
     def test_post_init_validations(self):
         with pytest.raises(InputError, match="'values' must be a NumPy array"):
@@ -138,10 +141,13 @@ class TestPSASample:
 
 
 class TestTrialArm:
-    def test_init(self):
-        arm = TrialArm(name="Treatment A", sample_size=100)
-        assert arm.name == "Treatment A"
-        assert arm.sample_size == 100
+    @pytest.mark.parametrize(
+        "name, sample_size", [("Treatment A", 100), ("Control", 50)]
+    )
+    def test_init(self, name, sample_size):
+        arm = TrialArm(name=name, sample_size=sample_size)
+        assert arm.name == name
+        assert arm.sample_size == sample_size
 
     def test_post_init_validations(self):
         with pytest.raises(InputError, match="'name' must be a non-empty string"):

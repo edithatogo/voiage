@@ -83,6 +83,55 @@ def plot_evpi_vs_wtp(
     return ax  # type: ignore
 
 
+def _plot_enbs_and_costs(
+    ax,
+    ss_arr,
+    enbs_values,
+    research_costs,
+    ylabel_enbs,
+    plot_enbs_kwargs,
+    plot_cost_kwargs,
+):
+    lines = []
+    labels = []
+
+    # Plot ENBS and Costs if provided, potentially on a secondary y-axis if scales differ significantly
+    if enbs_values is not None or research_costs is not None:
+        # Determine if secondary axis is needed based on scale relative to EVSI
+        use_secondary_axis = False
+        if enbs_values is not None:
+            enbs_arr = np.asarray(enbs_values, dtype=DEFAULT_DTYPE)
+            if len(enbs_arr) != len(ss_arr):
+                raise InputError("Length of enbs_values mismatch.")
+
+        ax2 = ax  # Default to same axis
+        if use_secondary_axis:
+            ax2 = ax.twinx()  # type: ignore
+            ax2.set_ylabel(ylabel_enbs)  # type: ignore
+        elif (
+            enbs_values is not None or research_costs is not None
+        ):  # If plotting more than EVSI on ax1
+            ax.set_ylabel(f"{ax.get_ylabel()} / {ylabel_enbs}")
+
+        if enbs_values is not None:
+            enbs_arr = np.asarray(
+                enbs_values, dtype=DEFAULT_DTYPE
+            )  # Re-assert for safety
+            ln2 = ax2.plot(ss_arr, enbs_arr, **plot_enbs_kwargs)  # type: ignore
+            lines.extend(ln2)
+            labels.extend([plot_line.get_label() for plot_line in ln2])
+
+        if research_costs is not None:
+            cost_arr = np.asarray(research_costs, dtype=DEFAULT_DTYPE)
+            if len(cost_arr) != len(ss_arr):
+                raise InputError("Length of research_costs mismatch.")
+            ln3 = ax2.plot(ss_arr, cost_arr, **plot_cost_kwargs)  # type: ignore
+            lines.extend(ln3)
+            labels.extend([plot_line.get_label() for plot_line in ln3])
+
+    return lines, labels
+
+
 def plot_evsi_vs_sample_size(
     evsi_values: Union[np.ndarray, List[float]],
     sample_sizes: Union[np.ndarray, List[int], List[float]],
@@ -160,54 +209,17 @@ def plot_evsi_vs_sample_size(
     lines = ln1
     labels = [plot_line.get_label() for plot_line in lines]
 
-    # Plot ENBS and Costs if provided, potentially on a secondary y-axis if scales differ significantly
-    if enbs_values is not None or research_costs is not None:
-        # Determine if secondary axis is needed based on scale relative to EVSI
-        use_secondary_axis = False
-        if enbs_values is not None:
-            enbs_arr = np.asarray(enbs_values, dtype=DEFAULT_DTYPE)
-            if len(enbs_arr) != len(ss_arr):
-                raise InputError("Length of enbs_values mismatch.")
-            # Simple heuristic for secondary axis: if max ENBS is very different from max EVSI
-            if (
-                len(evsi_arr) > 0
-                and len(enbs_arr) > 0
-                and (
-                    np.max(np.abs(evsi_arr)) > 0
-                    and (
-                        np.max(np.abs(enbs_arr)) / np.max(np.abs(evsi_arr)) < 0.1
-                        or np.max(np.abs(enbs_arr)) / np.max(np.abs(evsi_arr)) > 10
-                    )
-                )
-            ):
-                # This heuristic might need refinement
-                # use_secondary_axis = True # Decided against for simplicity unless explicitly requested
-                pass
-
-        ax2 = ax1  # Default to same axis
-        if use_secondary_axis:
-            ax2 = ax1.twinx()  # type: ignore
-            ax2.set_ylabel(ylabel_enbs)  # type: ignore
-        elif (
-            enbs_values is not None or research_costs is not None
-        ):  # If plotting more than EVSI on ax1
-            ax1.set_ylabel(f"{ylabel_evsi} / {ylabel_enbs}")
-
-        if enbs_values is not None:
-            enbs_arr = np.asarray(
-                enbs_values, dtype=DEFAULT_DTYPE
-            )  # Re-assert for safety
-            ln2 = ax2.plot(ss_arr, enbs_arr, **_plot_enbs_kwargs)  # type: ignore
-            lines.extend(ln2)
-            labels.extend([plot_line.get_label() for plot_line in ln2])
-
-        if research_costs is not None:
-            cost_arr = np.asarray(research_costs, dtype=DEFAULT_DTYPE)
-            if len(cost_arr) != len(ss_arr):
-                raise InputError("Length of research_costs mismatch.")
-            ln3 = ax2.plot(ss_arr, cost_arr, **_plot_cost_kwargs)  # type: ignore
-            lines.extend(ln3)
-            labels.extend([plot_line.get_label() for plot_line in ln3])
+    enbs_lines, enbs_labels = _plot_enbs_and_costs(
+        ax1,
+        ss_arr,
+        enbs_values,
+        research_costs,
+        ylabel_enbs,
+        _plot_enbs_kwargs,
+        _plot_cost_kwargs,
+    )
+    lines.extend(enbs_lines)
+    labels.extend(enbs_labels)
 
     ax1.legend(lines, labels, loc="best")  # type: ignore
     ax1.set_title(title)  # type: ignore

@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
 
 # -- Project information -----------------------------------------------------
 project = "voiage"
-copyright = "2025, voiage Contributors"  # Update with actual
+copyright_notice = "2025, voiage Contributors"  # Update with actual
 author = "Your Name / Organization Here"  # Update with actual
 
 # The full version, including alpha/beta/rc tags

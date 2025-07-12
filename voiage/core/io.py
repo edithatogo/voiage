@@ -16,10 +16,7 @@ import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.data_structures import NetBenefitArray, PSASample
-from voiage.exceptions import (  # Assuming FileFormatError is in exceptions
-    FileFormatError,
-    InputError,
-)
+from voiage.exceptions import InputError
 
 
 class FileFormatError(InputError):

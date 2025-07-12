@@ -12,8 +12,6 @@ indirectly benefits such comparisons).
 
 from typing import Any, Callable, Dict, Optional
 
-import numpy as np
-
 from voiage.core.data_structures import (  # Potentially a "CalibrationStudyDesign"
     NetBenefitArray,
     PSASample,

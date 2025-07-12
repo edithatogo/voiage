@@ -13,8 +13,6 @@ data would be analyzed and used to update beliefs.
 
 from typing import Any, Callable, Dict, Optional
 
-import numpy as np
-
 from voiage.core.data_structures import (  # TrialDesign might be adapted to "ObservationalStudyDesign"
     NetBenefitArray,
     PSASample,

@@ -12,7 +12,6 @@ import pytest
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.data_structures import (
-    DynamicSpec,
     NetBenefitArray,
     PSASample,
     TrialArm,
@@ -146,7 +145,6 @@ def evppi_test_data_simple():
 
 def pytest_configure(config):
     try:
-        import sklearn
 
         config.addinivalue_line(
             "markers", "sklearn: mark test as requiring scikit-learn"

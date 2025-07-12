@@ -23,6 +23,23 @@ from voiage.core.data_structures import NetBenefitArray
 from voiage.exceptions import InputError, PlottingError
 
 
+def _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples):
+    prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
+
+    # For each WTP threshold
+    for w_idx in range(n_wtp_points):
+        nb_at_wtp = nb_values[:, :, w_idx]  # (n_samples, n_strategies)
+        # Identify the optimal strategy for each sample at this WTP
+        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)  # (n_samples,)
+
+        # Count how many times each strategy was optimal
+        for s_idx in range(n_strategies):
+            prob_ce[s_idx, w_idx] = (
+                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
+            )
+    return prob_ce
+
+
 def plot_ceac(
     nb_array: Union[np.ndarray, NetBenefitArray],
     wtp_thresholds: Union[np.ndarray, List[float]],
@@ -113,20 +130,7 @@ def plot_ceac(
     if ax is None:
         fig, ax = plt.subplots()  # type: ignore
 
-    # Calculate probability cost-effective for each strategy at each WTP
-    prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
-
-    # For each WTP threshold
-    for w_idx in range(n_wtp_points):
-        nb_at_wtp = nb_values[:, :, w_idx]  # (n_samples, n_strategies)
-        # Identify the optimal strategy for each sample at this WTP
-        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)  # (n_samples,)
-
-        # Count how many times each strategy was optimal
-        for s_idx in range(n_strategies):
-            prob_ce[s_idx, w_idx] = (
-                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
-            )
+    prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
 
     # Plot CEAC for each strategy
     user_plot_kwargs = {}

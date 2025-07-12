@@ -11,8 +11,6 @@ constraints like a fixed budget.
 
 from typing import Any, Callable, Dict, List
 
-import numpy as np
-
 from voiage.core.data_structures import PortfolioSpec, PortfolioStudy
 from voiage.exceptions import InputError, VoiageNotImplementedError
 
@@ -181,23 +179,23 @@ if __name__ == "__main__":
         return 0.0
 
     # Create dummy portfolio studies
-    study_A_design = TrialDesign([TrialArm("T1", 10)])
-    study_B_design = TrialDesign([TrialArm("T2", 20)])
-    study_C_design = TrialDesign([TrialArm("T3", 15)])
-    study_D_design = TrialDesign([TrialArm("T4", 30)])
+    study_a_design = TrialDesign([TrialArm("T1", 10)])
+    study_b_design = TrialDesign([TrialArm("T2", 20)])
+    study_c_design = TrialDesign([TrialArm("T3", 15)])
+    study_d_design = TrialDesign([TrialArm("T4", 30)])
 
     studies = [
         PortfolioStudy(
-            name="Study Alpha", design=study_A_design, cost=50
+            name="Study Alpha", design=study_a_design, cost=50
         ),  # Ratio 100/50 = 2
         PortfolioStudy(
-            name="Study Beta", design=study_B_design, cost=60
+            name="Study Beta", design=study_b_design, cost=60
         ),  # Ratio 150/60 = 2.5
         PortfolioStudy(
-            name="Study Gamma", design=study_C_design, cost=40
+            name="Study Gamma", design=study_c_design, cost=40
         ),  # Ratio 80/40 = 2
         PortfolioStudy(
-            name="Study Delta", design=study_D_design, cost=100
+            name="Study Delta", design=study_d_design, cost=100
         ),  # Ratio 120/100 = 1.2
     ]
 
@@ -214,9 +212,9 @@ if __name__ == "__main__":
     )
     # Expected: All studies selected, order might vary but content should be all.
     # Value = 100+150+80+120 = 450. Cost = 50+60+40+100 = 250
-    assert len(result_no_budget["selected_studies"]) == 4
-    assert np.isclose(result_no_budget["total_value"], 450.0)
-    assert np.isclose(result_no_budget["total_cost"], 250.0)
+    np.testing.assert_allclose(len(result_no_budget["selected_studies"]), 4)
+    np.testing.assert_allclose(result_no_budget["total_value"], 450.0)
+    np.testing.assert_allclose(result_no_budget["total_cost"], 250.0)
     print("Greedy (no budget) PASSED.")
 
     print("\n--- Greedy Portfolio VOI (With Budget) ---")
@@ -237,9 +235,9 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_100['total_value']}, Total Cost: {result_budget_100['total_cost']}"
     )
-    assert selected_names_b100 == sorted(["Study Beta", "Study Gamma"])
-    assert np.isclose(result_budget_100["total_value"], 230.0)
-    assert np.isclose(result_budget_100["total_cost"], 100.0)
+    np.testing.assert_allclose(selected_names_b100, sorted(["Study Beta", "Study Gamma"]))
+    np.testing.assert_allclose(result_budget_100["total_value"], 230.0)
+    np.testing.assert_allclose(result_budget_100["total_cost"], 100.0)
     print("Greedy (budget 100) PASSED.")
 
     print("\n--- Greedy Portfolio VOI (Budget allows only highest ratio) ---")
@@ -256,9 +254,9 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_70['total_value']}, Total Cost: {result_budget_70['total_cost']}"
     )
-    assert selected_names_b70 == ["Study Beta"]
-    assert np.isclose(result_budget_70["total_value"], 150.0)
-    assert np.isclose(result_budget_70["total_cost"], 60.0)
+    np.testing.assert_allclose(selected_names_b70, ["Study Beta"])
+    np.testing.assert_allclose(result_budget_70["total_value"], 150.0)
+    np.testing.assert_allclose(result_budget_70["total_cost"], 60.0)
     print("Greedy (budget 70) PASSED.")
 
     # Test other methods (expect PyVoiNotImplementedError)

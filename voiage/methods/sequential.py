@@ -11,8 +11,6 @@ future decisions and future information gathering opportunities.
 
 from typing import Any, Callable, Dict, Generator, Union
 
-import numpy as np
-
 from voiage.core.data_structures import DynamicSpec, PSASample
 from voiage.exceptions import VoiageNotImplementedError
 

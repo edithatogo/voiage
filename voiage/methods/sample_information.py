@@ -49,9 +49,7 @@ def _simulate_trial_data(
     psa_prior: PSASample,
     # n_inner_loops is not directly used here, but kept for consistency with original stub signature
 ) -> Dict[str, np.ndarray]:
-    """
-    Simulates one dataset D_k from the trial_design given a 'true' parameter set
-    sampled from the psa_prior.
+    """Simulate one dataset D_k from the trial_design given a 'true' parameter set.
 
     Assumptions for this simplified simulation:
     - Outcomes are normally distributed.
@@ -64,11 +62,13 @@ def _simulate_trial_data(
         psa_prior (PSASample): Prior samples of model parameters. One sample from this
                                 is chosen as the 'true' parameter set for simulation.
 
-    Returns:
+    Returns
+    -------
         Dict[str, np.ndarray]: A dictionary where keys are arm names and values are
                                NumPy arrays of simulated individual patient data for that arm.
 
-    Raises:
+    Raises
+    ------
         CalculationError: If required parameters (e.g., 'sd_outcome', arm means) are
                           not found in `psa_prior.parameters`.
     """
@@ -115,8 +115,8 @@ def _bayesian_update(
     n_inner_loops: int,
     # For future: add a `bayesian_inference_engine` parameter (e.g., 'pymc', 'numpyro')
 ) -> np.ndarray:
-    """
-    (Placeholder) Performs Bayesian update: P(theta|D_k).
+    """(Placeholder) Perform Bayesian update: P(theta|D_k).
+
     Returns samples from the posterior distribution P(theta|D_k).
 
     **CURRENTLY A STUB:** This function currently returns samples from the prior
@@ -130,11 +130,13 @@ def _bayesian_update(
         simulated_data_k (Dict[str, np.ndarray]): Simulated trial data for one iteration (D_k).
         n_inner_loops (int): Number of posterior samples to draw.
 
-    Returns:
+    Returns
+    -------
         np.ndarray: Samples from the posterior distribution P(theta|D_k),
                     shape (n_inner_loops, n_parameters).
 
-    Raises:
+    Raises
+    ------
         VoiageNotImplementedError: If a proper Bayesian inference engine is not integrated.
     """
     # For now, we will simply resample from the prior to allow the EVSI flow to proceed.
@@ -190,8 +192,8 @@ def _fit_metamodel(
     psa_prior: PSASample,
     nb_prior_values: np.ndarray,  # Pre-calculated (n_samples, n_strategies)
 ) -> List[Any]:  # List of fitted regression models, one per strategy
-    """
-    Fits a regression metamodel NB(d,theta) ~ f(theta) for each strategy d.
+    """Fit a regression metamodel NB(d,theta) ~ f(theta) for each strategy d.
+
     Uses prior PSA samples and their corresponding net benefits.
 
     Args:
@@ -201,10 +203,12 @@ def _fit_metamodel(
         nb_prior_values (np.ndarray): Pre-calculated net benefit values for each PSA sample
             and strategy, shape (n_samples, n_strategies).
 
-    Returns:
+    Returns
+    -------
         List[Any]: A list of fitted scikit-learn compatible regression models, one for each strategy.
 
-    Raises:
+    Raises
+    ------
         VoiageNotImplementedError: If scikit-learn is not installed.
         CalculationError: If an error occurs during model fitting.
     """
@@ -223,14 +227,14 @@ def _fit_metamodel(
     param_arrays = [
         v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()
     ]
-    X_prior = np.hstack(param_arrays)  # (n_prior_samples, n_params)
+    x_prior = np.hstack(param_arrays)  # (n_prior_samples, n_params)
 
     n_strategies = nb_prior_values.shape[1]
     for i in range(n_strategies):
         y_prior_strategy_i = nb_prior_values[:, i]
         model = LinearRegression()  # Default model
         try:
-            model.fit(X_prior, y_prior_strategy_i)
+            model.fit(x_prior, y_prior_strategy_i)
             metamodel_list.append(model)
         except Exception as e:
             raise CalculationError(
@@ -246,8 +250,7 @@ def _predict_enb_from_metamodel(
 ) -> (
     np.ndarray
 ):  # Returns array of E[NB(d)|D_k] for each strategy d, shape (n_strategies,)
-    """
-    Predicts E[NB(d)|D_k] using the fitted metamodel and posterior samples.
+    """Predict E[NB(d)|D_k] using the fitted metamodel and posterior samples.
 
     Args:
         metamodel_list (List[Any]): A list of fitted scikit-learn compatible regression models,
@@ -255,11 +258,13 @@ def _predict_enb_from_metamodel(
         psa_posterior_k_samples (np.ndarray): Samples from the posterior distribution P(theta|D_k),
                                             shape (n_inner_loops, n_parameters).
 
-    Returns:
+    Returns
+    -------
         np.ndarray: An array of expected net benefits conditional on the simulated data D_k
                     for each strategy, shape (n_strategies,).
 
-    Raises:
+    Raises
+    ------
         CalculationError: If an error occurs during prediction.
     """
     if not metamodel_list:
@@ -355,11 +360,13 @@ def evsi(
         n_outer_loops (int): Number of outer Monte Carlo loops (simulated datasets D_k).
         n_inner_loops (int): Number of inner Monte Carlo loops (posterior samples P(theta|D_k)).
 
-    Returns:
+    Returns
+    -------
         float: The calculated EVSI. If population parameters are provided,
                returns population-adjusted EVSI, otherwise per-decision EVSI.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid (e.g., wrong types, shapes, values).
         CalculationError: For issues during calculation or if `model_func` fails.
         VoiageNotImplementedError: If the specified `method` is not supported or
@@ -515,7 +522,7 @@ def enbs(
         float: The Expected Net Benefit of Sampling.
 
     Raises
-    -------
+    ------
         InputError: If inputs are not valid numbers or research_cost is negative.
     """
     if not isinstance(evsi_result, (float, int)):  # float includes np.float64 etc.
@@ -581,7 +588,7 @@ if __name__ == "__main__":
     cost_of_research = 800.0
     enbs_val = enbs(dummy_evsi, cost_of_research)
     print(f"ENBS for EVSI={dummy_evsi}, Cost={cost_of_research}: {enbs_val}")
-    assert np.isclose(enbs_val, 200.0), "ENBS calculation error."
+    np.testing.assert_allclose(enbs_val, 200.0)
     print("ENBS basic test PASSED.")
 
     try:
@@ -632,10 +639,11 @@ if __name__ == "__main__":
             if discount_rate is not None:
                 if not (0 <= discount_rate <= 1):
                     raise InputError("Discount rate must be between 0 and 1.")
-                if discount_rate == 0:
+                current_dr = discount_rate
+                if current_dr == 0:
                     annuity_factor = time_horizon
                 else:
-                    annuity_factor = (1 - (1 + discount_rate) ** (-time_horizon)) / current_dr
+                    annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
                 effective_population *= annuity_factor
             else:  # No discount_rate provided
                 if discount_rate is None:  # Explicitly check for None for clarity
@@ -671,9 +679,7 @@ if __name__ == "__main__":
     )
     expected_pop_evsi_mocked = 5.0 * ((1 - (1 + 0.03) ** (-10)) / 0.03) * 1000
     print(f"Mocked Population EVSI: {pop_evsi_val_mocked}")
-    assert np.isclose(
-        pop_evsi_val_mocked, expected_pop_evsi_mocked
-    ), f"Mocked Population EVSI error. Expected ~{expected_pop_evsi_mocked:.2f}, got {pop_evsi_val_mocked:.2f}"
+    np.testing.assert_allclose(pop_evsi_val_mocked, expected_pop_evsi_mocked)
     print("EVSI population scaling test (with mock) PASSED.")
 
     evsi = _temp_original_evsi  # Restore original evsi

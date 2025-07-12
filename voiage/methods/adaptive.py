@@ -12,8 +12,6 @@ decision rules.
 
 from typing import Any, Callable, Dict, Optional
 
-import numpy as np
-
 from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 

@@ -11,8 +11,6 @@ new studies that would inform this network.
 
 from typing import Any, Callable, Optional
 
-import numpy as np
-
 from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 

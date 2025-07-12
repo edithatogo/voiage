@@ -53,7 +53,7 @@ class NetBenefitArray:
     values: np.ndarray
     strategy_names: Optional[List[str]] = None
 
-    def __post_init__(self):
+    def __post_init__(self: "NetBenefitArray"):
         if not isinstance(self.values, np.ndarray):
             raise InputError("NetBenefitArray 'values' must be a NumPy array.")
         if self.values.ndim != 2:
@@ -76,12 +76,12 @@ class NetBenefitArray:
                 )
 
     @property
-    def n_samples(self) -> int:
+    def n_samples(self: "NetBenefitArray") -> int:
         """Return the number of samples (rows) in the array."""
         return self.values.shape[0]
 
     @property
-    def n_strategies(self) -> int:
+    def n_strategies(self: "NetBenefitArray") -> int:
         """Return the number of strategies (columns) in the array."""
         return self.values.shape[1]
 
@@ -113,7 +113,7 @@ class PSASample:
 
     parameters: Union[Dict[str, np.ndarray], Any]
 
-    def __post_init__(self):  # noqa: C901
+    def __post_init__(self: "PSASample"):  # noqa: C901
         if isinstance(self.parameters, dict):
             if not self.parameters:
                 raise InputError("PSASample 'parameters' dictionary cannot be empty.")
@@ -152,7 +152,7 @@ class PSASample:
             )
 
     @property
-    def n_samples(self) -> int:
+    def n_samples(self: "PSASample") -> int:
         """Return the number of samples for each parameter."""
         if hasattr(self, "_n_samples"):
             return self._n_samples
@@ -163,7 +163,7 @@ class PSASample:
         return 0
 
     @property
-    def parameter_names(self) -> List[str]:
+    def parameter_names(self: "PSASample") -> List[str]:
         """Return the names of the parameters."""
         if isinstance(self.parameters, dict):
             return list(self.parameters.keys())
@@ -191,7 +191,7 @@ class TrialArm:
     name: str
     sample_size: int
 
-    def __post_init__(self):
+    def __post_init__(self: "TrialArm"):
         if not isinstance(self.name, str) or not self.name:
             raise InputError("TrialArm 'name' must be a non-empty string.")
         if not isinstance(self.sample_size, int) or self.sample_size <= 0:
@@ -216,7 +216,7 @@ class TrialDesign:
 
     arms: List[TrialArm]
 
-    def __post_init__(self):
+    def __post_init__(self: "TrialDesign"):
         if not isinstance(self.arms, list) or not self.arms:
             raise InputError(
                 "TrialDesign 'arms' must be a non-empty list of TrialArm objects."
@@ -228,7 +228,7 @@ class TrialDesign:
             raise InputError("TrialArm names within a TrialDesign must be unique.")
 
     @property
-    def total_sample_size(self) -> int:
+    def total_sample_size(self: "TrialDesign") -> int:
         """Return the total sample size across all arms."""
         return sum(arm.sample_size for arm in self.arms)
 
@@ -256,7 +256,7 @@ class PortfolioStudy:
     design: TrialDesign
     cost: float
 
-    def __post_init__(self):
+    def __post_init__(self: "PortfolioStudy"):
         if not isinstance(self.name, str) or not self.name:
             raise InputError("PortfolioStudy 'name' must be a non-empty string.")
         if not isinstance(self.design, TrialDesign):
@@ -286,7 +286,7 @@ class PortfolioSpec:
     studies: List[PortfolioStudy]
     budget_constraint: Optional[float] = None
 
-    def __post_init__(self):
+    def __post_init__(self: "PortfolioSpec"):
         if not isinstance(self.studies, list) or not self.studies:
             raise InputError(
                 "PortfolioSpec 'studies' must be a non-empty list of PortfolioStudy objects."
@@ -329,7 +329,7 @@ class DynamicSpec:
 
     time_steps: Sequence[float]
 
-    def __post_init__(self):
+    def __post_init__(self: "DynamicSpec"):
         if not isinstance(self.time_steps, Sequence) or not self.time_steps:
             raise InputError(
                 "'time_steps' must be a non-empty sequence (list, tuple, np.array)."

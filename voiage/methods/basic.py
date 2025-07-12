@@ -1,6 +1,7 @@
 # voiage/methods/basic.py
 
-"""Implementation of basic Value of Information methods:
+"""Implementation of basic Value of Information methods.
+
 - EVPI (Expected Value of Perfect Information)
 - EVPPI (Expected Value of Partial Perfect Information)
 """
@@ -11,9 +12,10 @@ import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.data_structures import NetBenefitArray, PSASample
-from voiage.core.utils import check_input_array, check_parameter_samples
+from voiage.core.utils import check_input_array
 from voiage.exceptions import (
     CalculationError,
+    DimensionMismatchError,
     InputError,
     OptionalDependencyError,
 )
@@ -29,6 +31,33 @@ except ImportError:
     # sklearn is an optional dependency, only required for EVPPI.
     # Users will be warned if they try to use EVPPI without it.
     pass
+
+
+def check_parameter_samples(parameter_samples, n_samples):
+    if isinstance(parameter_samples, np.ndarray):
+        x = parameter_samples
+    elif isinstance(parameter_samples, PSASample):
+        if isinstance(parameter_samples.parameters, dict):
+            x = np.stack(list(parameter_samples.parameters.values()), axis=1)
+        else:
+            # Handle xarray or other types if necessary
+            raise InputError("PSASample with non-dict parameters not yet supported for EVPPI.")
+    elif isinstance(parameter_samples, dict):
+        x = np.stack(list(parameter_samples.values()), axis=1)
+    else:
+        raise InputError(
+            f"`parameter_samples` must be a NumPy array, PSASample, or Dict. Got {type(parameter_samples)}."
+        )
+
+    if x.ndim == 1:
+        x = x.reshape(-1, 1)
+
+    if x.shape[0] != n_samples:
+        raise DimensionMismatchError(
+            f"Number of samples in `parameter_samples` ({x.shape[0]}) "
+            f"does not match `nb_array` ({n_samples})."
+        )
+    return x
 
 
 def evpi(
@@ -198,7 +227,7 @@ def evppi(
     if n_samples == 0:
         raise InputError("`nb_array` cannot be empty (no samples).")
 
-    X = check_parameter_samples(parameter_samples, n_samples)
+    x = check_parameter_samples(parameter_samples, n_samples)
 
     if n_regression_samples is not None:
         if not isinstance(n_regression_samples, int) or n_regression_samples <= 0:
@@ -212,10 +241,10 @@ def evppi(
 
         # Subsample for regression fitting
         indices = np.random.choice(n_samples, n_regression_samples, replace=False)
-        X_fit = X[indices, :]
+        x_fit = x[indices, :]
         nb_values_fit = nb_values[indices, :]
     else:
-        X_fit = X
+        x_fit = x
         nb_values_fit = nb_values
 
     # Fit regression model for each strategy
@@ -234,9 +263,9 @@ def evppi(
                 model = regression_model  # if it's an instance
 
         try:
-            model.fit(X_fit, y_fit)
+            model.fit(x_fit, y_fit)
             # Predict on the full set of parameter samples X
-            fitted_nb_on_params[:, i] = model.predict(X)
+            fitted_nb_on_params[:, i] = model.predict(x)
         except Exception as e:
             raise CalculationError(
                 f"Error during regression for strategy {i}: {e}"
