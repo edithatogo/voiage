@@ -1,7 +1,7 @@
 Installation
 ============
 
-pyVOI can be installed from PyPI using pip, or directly from the source code
+voiage can be installed from PyPI using pip, or directly from the source code
 if you want the latest development version or intend to contribute.
 
 Prerequisites
@@ -16,11 +16,17 @@ manage project dependencies.
 Using pip (Recommended)
 -----------------------
 
-Once pyVOI is released on PyPI, you can install it with:
+For the v0.1 release, `voiage` is available on TestPyPI. You can install it using:
 
 .. code-block:: bash
 
-   pip install pyvoi
+   pip install --index-url https://test.pypi.org/simple/ --no-deps voiage
+
+Once `voiage` is officially released on PyPI, you will be able to install it with:
+
+.. code-block:: bash
+
+   pip install voiage
 
 To install with optional dependencies that might be needed for specific
 features (e.g., advanced Bayesian modeling, specific EVSI methods, or
@@ -28,13 +34,13 @@ plotting), you might use:
 
 .. code-block:: bash
 
-   pip install pyvoi[all]  # Example, actual extras will be defined
+   pip install voiage[all]  # Example, actual extras will be defined
 
 Or for specific extras (e.g., `pymc` for PyMC integration, `plot` for plotting):
 
 .. code-block:: bash
 
-   pip install pyvoi[pymc,plot]
+   pip install voiage[pymc,plot]
 
 (Note: The exact names and availability of extras will be detailed in the
 `pyproject.toml` file and release notes.)
@@ -42,14 +48,14 @@ Or for specific extras (e.g., `pymc` for PyMC integration, `plot` for plotting):
 Installing from Source (for Development)
 ----------------------------------------
 
-If you want to install the latest development version or contribute to pyVOI:
+If you want to install the latest development version or contribute to voiage:
 
 1.  **Clone the repository:**
 
     .. code-block:: bash
 
-       git clone https://github.com/yourusername/pyvoi.git  # Replace with actual URL
-       cd pyvoi
+       git clone https://github.com/doughnut/voiage.git
+       cd voiage
 
 2.  **Install in editable mode with development dependencies:**
 
@@ -67,20 +73,20 @@ If you want to install the latest development version or contribute to pyVOI:
 Verifying Installation
 ----------------------
 
-After installation, you can verify that pyVOI is correctly installed by
+After installation, you can verify that voiage is correctly installed by
 opening a Python interpreter and trying to import it:
 
 .. code-block:: python
 
-   import pyvoi
-   print(pyvoi.__version__)
+   import voiage
+   print(voiage.__version__)
 
-This should print the installed version of pyVOI without errors.
+This should print the installed version of voiage without errors.
 
 Dependencies
 ------------
 
-pyVOI relies on several core Python libraries from the scientific computing stack.
+voiage relies on several core Python libraries from the scientific computing stack.
 The main dependencies usually include:
 
 *   NumPy

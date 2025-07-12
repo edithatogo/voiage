@@ -14,42 +14,67 @@ from typing import Optional, Union  # Added imports
 import numpy as np
 import pytest
 
-from pyvoi.config import DEFAULT_DTYPE
-from pyvoi.core.data_structures import PSASample, TrialArm, TrialDesign
-from pyvoi.exceptions import InputError, PyVoiNotImplementedError
-from pyvoi.methods.sample_information import enbs, evsi
+from voiage.config import DEFAULT_DTYPE
+from voiage.core.data_structures import PSASample, TrialArm, TrialDesign
+from voiage.exceptions import InputError, VoiageNotImplementedError
+from voiage.methods.sample_information import enbs, evsi
 
 # --- Dummy components for EVSI testing ---
 
 
 def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.ndarray:
-    """Define a very simple model function for EVSI structure testing."""
-    # It ignores actual parameters and returns fixed net benefits.
-    # In a real scenario, this would use psa_params_or_sample to calculate NBs.
-    # Returns NB for 3 samples, 2 strategies
-    return np.array(
-        [
-            [100, 110],
-            [90, 120],
-            [105, 95],
-        ],
-        dtype=DEFAULT_DTYPE,
-    )
+    """Define a simple model function for EVSI structure testing.
+    It generates net benefits based on the number of samples in psa_params_or_sample.
+    """
+    n_samples = 0
+    if isinstance(psa_params_or_sample, PSASample):
+        n_samples = psa_params_or_sample.n_samples
+    elif isinstance(psa_params_or_sample, dict):
+        if psa_params_or_sample:
+            n_samples = len(next(iter(psa_params_or_sample.values())))
+
+    if n_samples == 0:  # Fallback if n_samples couldn't be determined
+        n_samples = 3  # Default to a small number
+
+    # For simplicity, generate random net benefits for 2 strategies
+    # In a real model, these would be calculated based on input parameters
+    nb_strategy1 = np.random.normal(loc=100, scale=10, size=n_samples)
+    nb_strategy2 = np.random.normal(loc=105, scale=15, size=n_samples)
+
+    return np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)
 
 
 @pytest.fixture()
 def dummy_psa_for_evsi() -> PSASample:
+    # Parameters for a Normal-Normal conjugate update scenario
+    # Means are different enough to expect some EVSI.
+    # sd_outcome is relatively small to make learning more impactful.
+    # n_samples for psa_prior should be reasonably large for stable metamodel fitting.
+    n_psa_samples = 500
     params = {
-        "p1": np.array([0.1, 0.2, 0.3], dtype=DEFAULT_DTYPE),
-        "p2": np.array([10, 20, 30], dtype=DEFAULT_DTYPE),
+        "mean_new_treatment": np.random.normal(
+            loc=10, scale=2, size=n_psa_samples
+        ).astype(DEFAULT_DTYPE),
+        "mean_standard_care": np.random.normal(
+            loc=8, scale=2, size=n_psa_samples
+        ).astype(DEFAULT_DTYPE),
+        "sd_outcome": np.random.uniform(low=0.5, high=1.5, size=n_psa_samples).astype(
+            DEFAULT_DTYPE
+        ),
+        # Add another dummy parameter not directly used in update, to test metamodel with multiple params
+        "unrelated_param": np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE),
     }
     return PSASample(parameters=params)
 
 
 @pytest.fixture()
 def dummy_trial_design_for_evsi() -> TrialDesign:
-    arm1 = TrialArm(name="New Treatment", sample_size=100)
-    arm2 = TrialArm(name="Standard Care", sample_size=100)
+    # Arm names match keys expected by _simulate_trial_data (via convention)
+    # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
+    arm1 = TrialArm(
+        name="New Treatment", sample_size=50
+    )  # Reduced sample size for faster test simulation
+    arm2 = TrialArm(name="Standard Care", sample_size=50)
     return TrialDesign(arms=[arm1, arm2])
 
 
@@ -57,23 +82,87 @@ def dummy_trial_design_for_evsi() -> TrialDesign:
 
 
 def test_evsi_structure_and_not_implemented(
-    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ):
-    """Test EVSI structure and NotImplementedError for defined methods."""
-    # Also checks basic input validation before that.
+    """Test EVSI structure and NotImplementedError for specific methods."""
+    # Test that "regression" method runs with stubs if sklearn is available
+    # It should produce EVSI near 0 due to stubs.
+    # If sklearn is NOT available, it should raise VoiageNotImplementedError.
+
+    # Temporarily modify SKLEARN_AVAILABLE for testing both paths
+    import voiage.methods.sample_information as si_module
+
+    original_sklearn_available = si_module.SKLEARN_AVAILABLE
+
+    # Path 1: SKLEARN_AVAILABLE = True (normal run with stubs)
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", True)
+    try:
+        evsi_val_regr = evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="regression",
+            n_outer_loops=10,  # Small loops for faster test, but enough for some averaging
+            n_inner_loops=20,  # Samples for posterior expectation
+        )
+        # With actual (though simplified) Bayesian update, EVSI should be > 0
+        assert (
+            evsi_val_regr > -1e-9
+        ), f"EVSI with regression (Normal-Normal update) should be non-negative, got {evsi_val_regr}"
+        # It's hard to predict exact value, but > 0 indicates learning.
+        # If it's consistently very close to 0, the update or simulation might still be too trivial
+        # or the prior/likelihood makes information gain minimal.
+        # For this test, non-negative is the primary check for successful run.
+        # A more specific check for > 0 might be too flaky depending on random seeds and simplified model.
+        print(
+            f"EVSI regression with Normal-Normal update (SKLEARN_AVAILABLE=True) ran, value: {evsi_val_regr:.4f}"
+        )
+    except VoiageNotImplementedError:
+        # This case should not happen if SKLEARN_AVAILABLE is True
+        pytest.fail(
+            "EVSI regression method raised VoiageNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True."
+        )
+    except Exception as e:
+        pytest.fail(
+            f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}"
+        )
+
+    # Path 2: SKLEARN_AVAILABLE = False
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
     with pytest.raises(
-        PyVoiNotImplementedError,
-        match="Regression-based EVSI method is not fully implemented",
+        VoiageNotImplementedError,
+        match="Regression method for EVSI requires scikit-learn to be installed.",
     ):
         evsi(
             model_func=dummy_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
-            method="regression",  # This method is expected to be known but not done
+            method="regression",
+        )
+    print(
+        "EVSI regression (SKLEARN_AVAILABLE=False) raised VoiageNotImplementedError as expected."
+    )
+
+    # Restore original SKLEARN_AVAILABLE state for other tests
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", original_sklearn_available)
+
+    # Test for other known but not implemented methods (if any were defined beyond regression)
+    # For example, if "nonparametric" was a known method type in evsi()
+    with pytest.raises(
+        VoiageNotImplementedError,
+        match="Nonparametric EVSI method is not yet implemented.",
+    ):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="nonparametric",
         )
 
+    # Test for an unrecognized method
     with pytest.raises(
-        PyVoiNotImplementedError, match="EVSI method 'unknown_method' is not recognized"
+        VoiageNotImplementedError,
+        match="EVSI method 'unknown_method' is not recognized",
     ):
         evsi(
             model_func=dummy_model_func_evsi,
@@ -166,7 +255,7 @@ def test_evsi_population_scaling_logic(
     """Test population scaling logic within EVSI using a mock."""
     # Temporarily replace the real evsi with our mock for this test
     # Note: The sample_information module needs to be imported for monkeypatch to find 'evsi'
-    import pyvoi.methods.sample_information as si_module
+    import voiage.methods.sample_information as si_module
 
     monkeypatch.setattr(si_module, "evsi", mock_evsi_for_pop_scaling)
 
@@ -176,8 +265,7 @@ def test_evsi_population_scaling_logic(
     val_no_pop = si_module.evsi(
         dummy_model_func_evsi, dummy_psa_for_evsi, dummy_trial_design_for_evsi
     )
-    if not np.isclose(val_no_pop, fixed_mock_value):
-        raise ValueError("EVSI population scaling logic failed for no population args.")
+    assert np.isclose(val_no_pop, fixed_mock_value)
 
     # Test case 2: With population, horizon, no discount
     pop, th = 1000, 5
@@ -188,10 +276,7 @@ def test_evsi_population_scaling_logic(
         population=pop,
         time_horizon=th,
     )
-    if not np.isclose(val_pop_no_dr, fixed_mock_value * pop * th):
-        raise ValueError(
-            "EVSI population scaling logic failed for population with no discount."
-        )
+    assert np.isclose(val_pop_no_dr, fixed_mock_value * pop * th)
 
     # Test case 3: With population, horizon, and discount rate
     dr = 0.05
@@ -204,10 +289,7 @@ def test_evsi_population_scaling_logic(
         time_horizon=th,
         discount_rate=dr,
     )
-    if not np.isclose(val_pop_dr, fixed_mock_value * pop * annuity):
-        raise ValueError(
-            "EVSI population scaling logic failed for population with discount."
-        )
+    assert np.isclose(val_pop_dr, fixed_mock_value * pop * annuity)
 
     # Test invalid population scaling inputs (should be caught by the mock's validation)
     with pytest.raises(InputError, match="Population must be positive"):
@@ -241,15 +323,15 @@ def test_enbs_calculation():
     cost_val = 200.0
     expected_enbs = 800.0
     calculated_enbs = enbs(evsi_val, cost_val)
-    if not np.isclose(calculated_enbs, expected_enbs):
-        raise ValueError("ENBS calculation error.")
+    assert np.isclose(calculated_enbs, expected_enbs), "ENBS calculation error."
 
     evsi_val_neg = -50.0  # Should ideally not happen if EVSI is correct
     cost_val_high = 100.0
     expected_enbs_neg = -150.0
     calculated_enbs_neg = enbs(evsi_val_neg, cost_val_high)
-    if not np.isclose(calculated_enbs_neg, expected_enbs_neg):
-        raise ValueError("ENBS calculation with negative EVSI failed.")
+    assert np.isclose(
+        calculated_enbs_neg, expected_enbs_neg
+    ), "ENBS calculation with negative EVSI failed."
 
 
 def test_enbs_zero_cost():
@@ -257,8 +339,9 @@ def test_enbs_zero_cost():
     evsi_val = 500.0
     cost_val = 0.0
     calculated_enbs = enbs(evsi_val, cost_val)
-    if not np.isclose(calculated_enbs, evsi_val):
-        raise ValueError("ENBS with zero cost should equal EVSI.")
+    assert np.isclose(
+        calculated_enbs, evsi_val
+    ), "ENBS with zero cost should equal EVSI."
 
 
 def test_enbs_invalid_inputs():

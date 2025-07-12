@@ -1,18 +1,18 @@
-# pyproject.toml for pyVOI
+# pyproject.toml for voiage
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyvoi"
+name = "voiage"
 version = "0.1.0" # Target version for this phase
 description = "A Python library for Value of Information analysis."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { file = "LICENSE" }
 authors = [
-  { name = "pyVOI Contributors", email = "info@example.com" },
+  { name = "voiage Contributors", email = "info@example.com" },
 ]
 keywords = [
     "voi", "value of information", "evpi", "evppi", "evsi", "enbs",
@@ -24,7 +24,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -71,20 +71,20 @@ dev = [
 plotting = ["matplotlib>=3.4", "seaborn>=0.11"]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/pyvoi"
-Documentation = "https://pyvoi.readthedocs.io"
-Repository = "https://github.com/yourusername/pyvoi.git"
-Changelog = "https://github.com/yourusername/pyvoi/blob/main/CHANGELOG.md"
-Issues = "https://github.com/yourusername/pyvoi/issues"
+Homepage = "https://github.com/doughnut/voiage"
+Documentation = "https://voiage.readthedocs.io" # Placeholder for now, will update when RTD is set up
+Repository = "https://github.com/doughnut/voiage.git"
+Changelog = "https://github.com/doughnut/voiage/blob/main/CHANGELOG.md"
+Issues = "https://github.com/doughnut/voiage/issues"
 
 [project.scripts]
-# pyvoi-cli = "pyvoi.cli:app"
+# voiage-cli = "voiage.cli:app"
 
 # --- Tool Configurations ---
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pyvoi*"]
+include = ["voiage*"]
 exclude = ["tests*"]
 
 [tool.ruff]
@@ -103,7 +103,7 @@ fixable = ["ALL"]
 unfixable = []
 
 [tool.ruff.lint.isort]
-known-first-party = ["pyvoi"]
+known-first-party = ["voiage"]
 force-sort-within-sections = true
 
 [tool.ruff.lint.pydocstyle]
@@ -135,25 +135,25 @@ module = [
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "pyvoi.*"
+module = "voiage.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --cov=pyvoi --cov-report=term-missing --cov-report=xml --cov-fail-under=0"
+addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-fail-under=0"
 testpaths = [
     "tests",
 ]
 python_files = "test_*.py"
 
 [tool.coverage.run]
-source = ["pyvoi"]
+source = ["voiage"]
 omit = [
-    "pyvoi/__main__.py",
-    "pyvoi/cli.py",
+    "voiage/__main__.py",
+    "voiage/cli.py",
     "*/__init__.py",
-    "pyvoi/plot/*",
+    "voiage/plot/*",
 ]
 
 [tool.coverage.report]
@@ -163,5 +163,5 @@ skip_covered = true
 [tool.bandit]
 skips = ["B101"]
 tests = ["tests/*"]
-include = ["pyvoi"]
+include = ["voiage"]
 exclude_dirs = ["tests"]

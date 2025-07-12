@@ -10,8 +10,14 @@ shared across multiple test files.
 import numpy as np
 import pytest
 
-from pyvoi.config import DEFAULT_DTYPE
-from pyvoi.core.data_structures import NetBenefitArray, PSASample, TrialArm, TrialDesign
+from voiage.config import DEFAULT_DTYPE
+from voiage.core.data_structures import (
+    DynamicSpec,
+    NetBenefitArray,
+    PSASample,
+    TrialArm,
+    TrialDesign,
+)
 
 # --- Fixtures for basic data structures ---
 
@@ -136,5 +142,22 @@ def evppi_test_data_simple():
 # This file will be automatically discovered by pytest.
 # Fixtures defined here can be used as arguments in any test function
 # within the `tests` directory and its subdirectories.
+
+
+def pytest_configure(config):
+    try:
+        import sklearn
+
+        config.addinivalue_line(
+            "markers", "sklearn: mark test as requiring scikit-learn"
+        )
+    except ImportError:
+        config.addinivalue_line(
+            "markers", "sklearn: mark test as requiring scikit-learn"
+        )
+        for item in config.items:
+            if "sklearn" in item.keywords:
+                item.add_marker(pytest.mark.skip(reason="scikit-learn not available"))
+
 
 print("conftest.py loaded by pytest.")

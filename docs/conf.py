@@ -8,20 +8,20 @@ This file is execfile()d with the current directory set to its containing dir.
 
 import os
 import sys
-from typing import Dict
 
-# sys.path.insert(0, os.path.abspath('.')) # If extensions are in this dir
-sys.path.insert(0, os.path.abspath(".."))  # To find the pyvoi package
+# -- Path setup --------------------------------------------------------------
+sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
+
 
 # -- Project information -----------------------------------------------------
-project = "pyVOI"
-project_copyright = "2024, Your Name / Organization Here"  # Update with actual
+project = "voiage"
+copyright = "2025, voiage Contributors"  # Update with actual
 author = "Your Name / Organization Here"  # Update with actual
 
 # The full version, including alpha/beta/rc tags
-# Attempt to get version from pyvoi package itself
+# Attempt to get version from voiage package itself
 try:
-    from pyvoi import __version__ as release
+    from voiage import __version__ as release
 except ImportError:
     release = "0.1.0"  # Fallback, update as needed
 
@@ -110,33 +110,31 @@ html_theme_options = {
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
-htmlhelp_basename = "pyVOIdoc"
+htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-from typing import Dict
-
-latex_elements: Dict[str, str] = {
+latex_elements = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',
     # 'figure_align': 'htbp',
 }
 latex_documents = [
-    (master_doc, "pyVOI.tex", "pyVOI Documentation", author, "manual"),
+    (master_doc, "voiage.tex", "voiage Documentation", author, "manual"),
 ]
 
 # -- Options for manual page output ------------------------------------------
-man_pages = [(master_doc, "pyvoi", "pyVOI Documentation", [author], 1)]
+man_pages = [(master_doc, "voiage", "voiage Documentation", [author], 1)]
 
 # -- Options for Texinfo output ----------------------------------------------
 texinfo_documents = [
     (
         master_doc,
-        "pyVOI",
-        "pyVOI Documentation",
+        "voiage",
+        "voiage Documentation",
         author,
-        "pyVOI",
+        "voiage",
         "One line description of project.",
         "Miscellaneous",
     ),
