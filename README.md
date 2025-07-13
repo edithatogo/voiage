@@ -28,7 +28,7 @@ The three R packages cover the core parameter-based VOI toolkit (EVPI, EVPPI, EV
 
 In Python, there is currently no mature, PyPI-distributed VOI library beyond a small GitHub repo for EVPI/EVPPI; all other VOI types require bespoke coding using Monte Carlo sampling, Bayesian tools (PyMC), optimization libraries (Pyomo), or custom trial simulation.
 
-This `voiage` library aims to fill some of these gaps.
+This `voiage` library aims to fill some of these gaps. (Alpha version - under active development)
 
 This table should serve as a roadmap for choosing the right tools for standard VOI analyses and for identifying where you’ll need to build custom workflows.
 
