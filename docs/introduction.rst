@@ -1,4 +1,4 @@
-Introduction to pyVOI
+Introduction to voiage
 =======================
 
 **What is Value of Information (VOI) Analysis?**
@@ -20,7 +20,7 @@ finance, and public policy.
 
 **Key VOI Metrics**
 
-pyVOI aims to implement a range of VOI metrics, including:
+voiage aims to implement a range of VOI metrics, including:
 
 *   **Expected Value of Perfect Information (EVPI):**
     The expected increase in net benefit if all uncertainty about model parameters
@@ -40,11 +40,11 @@ pyVOI aims to implement a range of VOI metrics, including:
     Calculated as EVSI minus the cost of the proposed research. A positive ENBS
     suggests the research is economically worthwhile.
 
-**Why pyVOI?**
+**Why voiage?**
 
 While VOI methods are well-established, and implementations exist (notably in R,
 e.g., BCEA, dampack, voi packages), a comprehensive, modern, and extensible
-Python library for VOI analysis is still a developing area. pyVOI aims to:
+Python library for VOI analysis is still a developing area. voiage aims to:
 
 *   Provide a **user-friendly Python API** for common and advanced VOI calculations.
 *   Leverage the **Python scientific computing ecosystem** (NumPy, SciPy, Pandas, xarray, PyMC, JAX)
@@ -60,7 +60,7 @@ Python library for VOI analysis is still a developing area. pyVOI aims to:
 
 **Target Audience**
 
-pyVOI is intended for:
+voiage is intended for:
 
 *   Health economists and HTA practitioners.
 *   Decision analysts and operations researchers.
@@ -68,6 +68,6 @@ pyVOI is intended for:
 *   Researchers in any field applying decision theory and uncertainty quantification.
 *   Students learning about VOI methods.
 
-This documentation will guide you through installing pyVOI, understanding its
+This documentation will guide you through installing voiage, understanding its
 core concepts, using its API for various analyses, and contributing to its
 development.
