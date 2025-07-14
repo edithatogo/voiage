@@ -180,24 +180,3 @@ def structural_evppi(
         "Not implemented in v0.1.",
     )
 
-
-if __name__ == "__main__":
-    print("--- Testing structural.py (Placeholders) ---")
-
-    try:
-        structural_evpi([], [], [])  # type: ignore
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for structural_evpi: {e}")
-    else:
-        raise AssertionError("structural_evpi did not raise VoiageNotImplementedError.")
-
-    try:
-        structural_evppi()
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for structural_evppi: {e}")
-    else:
-        raise AssertionError(
-            "structural_evppi did not raise VoiageNotImplementedError."
-        )
-
-    print("--- structural.py placeholder tests completed ---")

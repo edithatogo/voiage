@@ -115,26 +115,3 @@ def voi_calibration(
     # ... (omitted) ...
 
 
-if __name__ == "__main__":
-    print("--- Testing calibration.py (Placeholders) ---")
-
-    # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
-    from voiage.schema import ValueArray, ParameterSet
-
-    try:
-        # Dummy arguments
-        def dummy_cal_modeler(psa, design, spec):
-            return ValueArray(np.array([[0.0]]))
-
-        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
-        dummy_design = {"experiment_type": "lab", "n_runs": 10}
-        dummy_spec = {"method": "bayesian_history_matching"}
-        voi_calibration(dummy_cal_modeler, dummy_psa, dummy_design, dummy_spec)
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for voi_calibration: {e}")
-    else:
-        raise AssertionError("voi_calibration did not raise VoiageNotImplementedError.")
-
-    print("--- calibration.py placeholder tests completed ---")

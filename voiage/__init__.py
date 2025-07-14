@@ -43,7 +43,64 @@ from .methods.adaptive import adaptive_evsi
 # --- Core VOI Methods ---
 # Expose primary VOI calculation functions at the top level of the package
 # for ease of use, e.g., `from voiage import evpi`.
-from .methods.basic import evpi, evppi
+from .methods.basic import evpi as evpi_func, evppi as evppi_func
+from .analysis import DecisionAnalysis
+from .schema import ParameterSet, ValueArray
+import numpy as np
+from typing import Any, Dict, Optional, Union
+
+
+from .backends import get_backend, set_backend
+from .methods import jax_basic
+
+def evpi(
+    nb_array: Union[np.ndarray, ValueArray],
+    population: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+) -> float:
+    if get_backend() == "jax":
+        if isinstance(nb_array, ValueArray):
+            nb_array = nb_array.values
+        return jax_basic.evpi(
+            nb_array,
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+        )
+    else:
+        if isinstance(nb_array, np.ndarray):
+            nb_array = ValueArray(values=nb_array)
+        analysis = DecisionAnalysis(parameters=None, values=nb_array)
+        return analysis.evpi(
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+        )
+
+
+def evppi(
+    nb_array: Union[np.ndarray, ValueArray],
+    parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
+    population: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    n_regression_samples: Optional[int] = None,
+    regression_model: Optional[Any] = None,
+) -> float:
+    if isinstance(nb_array, np.ndarray):
+        nb_array = ValueArray(values=nb_array)
+    if isinstance(parameter_samples, (np.ndarray, dict)):
+        parameter_samples = ParameterSet(parameters=parameter_samples)
+    analysis = DecisionAnalysis(parameters=parameter_samples, values=nb_array)
+    return analysis.evppi(
+        parameter_samples=parameter_samples,
+        population=population,
+        time_horizon=time_horizon,
+        discount_rate=discount_rate,
+        n_regression_samples=n_regression_samples,
+        regression_model=regression_model,
+    )
 from .methods.calibration import voi_calibration
 from .methods.network_nma import evsi_nma
 from .methods.observational import voi_observational

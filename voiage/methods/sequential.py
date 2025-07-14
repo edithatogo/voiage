@@ -103,26 +103,3 @@ def sequential_voi(
     #         # current_psa_state = outcomes['next_psa']
     #         pass # Placeholder for state transition logic
 
-
-if __name__ == "__main__":
-    print("--- Testing sequential.py (Placeholders) ---")
-
-    # Add local imports for classes used in this test block
-    import numpy as np  # Used by PSASample
-
-    from voiage.schema import DynamicSpec, ParameterSet
-
-    try:
-        # Dummy arguments
-        def dummy_step_model(psa, action, dyn_spec):
-            return {}
-
-        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
-        dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-        sequential_voi(dummy_step_model, dummy_psa, dummy_dyn_spec)
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for sequential_voi: {e}")
-    else:
-        raise AssertionError("sequential_voi did not raise VoiageNotImplementedError.")
-
-    print("--- sequential.py placeholder tests completed ---")

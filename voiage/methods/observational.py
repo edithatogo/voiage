@@ -114,29 +114,3 @@ def voi_observational(
     # Population scaling.
     # ... (omitted) ...
 
-
-if __name__ == "__main__":
-    print("--- Testing observational.py (Placeholders) ---")
-
-    # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
-    from voiage.schema import ValueArray, ParameterSet
-
-    try:
-        # Dummy arguments
-        def dummy_obs_modeler(psa, design, biases):
-            return ValueArray(np.array([[0.0]]))
-
-        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
-        dummy_design = {"type": "cohort", "size": 1000}
-        dummy_biases = {"confounding_strength": 0.2}
-        voi_observational(dummy_obs_modeler, dummy_psa, dummy_design, dummy_biases)
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for voi_observational: {e}")
-    else:
-        raise AssertionError(
-            "voi_observational did not raise VoiageNotImplementedError."
-        )
-
-    print("--- observational.py placeholder tests completed ---")

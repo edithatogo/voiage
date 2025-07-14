@@ -108,32 +108,3 @@ def evsi_nma(
     # ... (omitted) ...
 
 
-if __name__ == "__main__":
-    print("--- Testing network_nma.py (Placeholders) ---")
-
-    # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray and PSASample
-
-    from voiage.schema import (
-        ValueArray,
-        ParameterSet,
-        DecisionOption,
-        TrialDesign,
-    )
-
-    try:
-        # Dummy arguments that would match a potential signature
-        def dummy_nma_evaluator(psa, trial_design, data):
-            return ValueArray(np.array([[0.0]]))
-
-        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
-        dummy_trial = TrialDesign(
-            arms=[DecisionOption(name="A", sample_size=10)]
-        )  # arms and name keyword
-        evsi_nma(dummy_nma_evaluator, dummy_psa, dummy_trial)
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for evsi_nma: {e}")
-    else:
-        raise AssertionError("evsi_nma did not raise VoiageNotImplementedError.")
-
-    print("--- network_nma.py placeholder tests completed ---")

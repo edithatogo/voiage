@@ -113,33 +113,3 @@ def adaptive_evsi(
     # ... (omitted) ...
 
 
-if __name__ == "__main__":
-    print("--- Testing adaptive.py (Placeholders) ---")
-
-    # Add local imports for classes used in this test block
-    import numpy as np  # np is used by NetBenefitArray call and PSASample
-
-    from voiage.schema import (
-        ValueArray,
-        ParameterSet,
-        DecisionOption,
-        TrialDesign,
-    )
-
-    try:
-        # Dummy arguments
-        def dummy_adaptive_sim(psa, design, rules):
-            return ValueArray(np.array([[0.0]]))
-
-        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword arg
-        dummy_design = TrialDesign(
-            arms=[DecisionOption(name="A", sample_size=10)]
-        )  # arms and name keyword args
-        dummy_rules = {"stop_if_eff_at_interim1": 0.95}
-        adaptive_evsi(dummy_adaptive_sim, dummy_psa, dummy_design, dummy_rules)
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for adaptive_evsi: {e}")
-    else:
-        raise AssertionError("adaptive_evsi did not raise VoiageNotImplementedError.")
-
-    print("--- adaptive.py placeholder tests completed ---")
