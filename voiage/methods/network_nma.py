@@ -11,7 +11,7 @@ new studies that would inform this network.
 
 from typing import Any, Callable, Optional
 
-from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
+from voiage.schema import ValueArray, ParameterSet, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that can perform NMA and then evaluate economic outcomes.
@@ -20,19 +20,19 @@ from voiage.exceptions import VoiageNotImplementedError
 # into a health economic model.
 NMAEconomicModelEvaluator = Callable[
     [
-        PSASample,
+        ParameterSet,
         Optional[TrialDesign],
         Optional[Any],
     ],  # Prior PSA, Optional new trial, Optional new data
-    NetBenefitArray,  # NB array post-NMA (and post-update if new data)
+    ValueArray,  # NB array post-NMA (and post-update if new data)
 ]
 
 
 def evsi_nma(
     nma_model_evaluator: NMAEconomicModelEvaluator,
-    psa_prior_nma: PSASample,  # Prior PSA samples for parameters in the NMA & econ model
+    psa_prior_nma: ParameterSet,  # Prior PSA samples for parameters in the NMA & econ model
     trial_design_new_study: TrialDesign,  # Design of the new study to add to the network
-    # wtp: float, # Often implicit in NetBenefitArray
+    # wtp: float, # Often implicit in ValueArray
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
@@ -114,21 +114,21 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray and PSASample
 
-    from voiage.core.data_structures import (
-        NetBenefitArray,
-        PSASample,
-        TrialArm,
+    from voiage.schema import (
+        ValueArray,
+        ParameterSet,
+        DecisionOption,
         TrialDesign,
     )
 
     try:
         # Dummy arguments that would match a potential signature
         def dummy_nma_evaluator(psa, trial_design, data):
-            return NetBenefitArray(np.array([[0.0]]))
+            return ValueArray(np.array([[0.0]]))
 
-        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
         dummy_trial = TrialDesign(
-            arms=[TrialArm(name="A", sample_size=10)]
+            arms=[DecisionOption(name="A", sample_size=10)]
         )  # arms and name keyword
         evsi_nma(dummy_nma_evaluator, dummy_psa, dummy_trial)
     except VoiageNotImplementedError as e:

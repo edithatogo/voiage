@@ -11,10 +11,10 @@ import numpy as np
 import pytest
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import (
-    NetBenefitArray,
-    PSASample,
-    TrialArm,
+from voiage.schema import (
+    ValueArray,
+    ParameterSet,
+    DecisionOption,
     TrialDesign,
 )
 
@@ -37,11 +37,11 @@ def sample_nb_data_array_2strat() -> np.ndarray:
 
 
 @pytest.fixture(scope="session")
-def sample_net_benefit_array_2strat(
+def sample_value_array_2strat(
     sample_nb_data_array_2strat: np.ndarray,
-) -> NetBenefitArray:
-    """Provide a NetBenefitArray instance (5 samples, 2 strategies)."""
-    return NetBenefitArray(
+) -> ValueArray:
+    """Provide a ValueArray instance (5 samples, 2 strategies)."""
+    return ValueArray(
         values=sample_nb_data_array_2strat,
         strategy_names=["Strategy A", "Strategy B"],
     )
@@ -57,16 +57,16 @@ def sample_psa_data_dict_2params() -> dict:
 
 
 @pytest.fixture(scope="session")
-def sample_psa_2params(sample_psa_data_dict_2params: dict) -> PSASample:
-    """Provide a PSASample instance (3 samples, 2 parameters)."""
-    return PSASample(parameters=sample_psa_data_dict_2params)
+def sample_parameter_set_2params(sample_psa_data_dict_2params: dict) -> ParameterSet:
+    """Provide a ParameterSet instance (3 samples, 2 parameters)."""
+    return ParameterSet(parameters=sample_psa_data_dict_2params)
 
 
 @pytest.fixture(scope="session")
 def sample_trial_design_2arms() -> TrialDesign:
     """Provide a sample TrialDesign instance with two arms."""
-    arm1 = TrialArm(name="Treatment X", sample_size=100)
-    arm2 = TrialArm(name="Control", sample_size=100)
+    arm1 = DecisionOption(name="Treatment X", sample_size=100)
+    arm2 = DecisionOption(name="Control", sample_size=100)
     return TrialDesign(arms=[arm1, arm2])
 
 
@@ -141,20 +141,6 @@ def evppi_test_data_simple():
 # This file will be automatically discovered by pytest.
 # Fixtures defined here can be used as arguments in any test function
 # within the `tests` directory and its subdirectories.
-
-
-def pytest_configure(config):
-    try:
-        config.addinivalue_line(
-            "markers", "sklearn: mark test as requiring scikit-learn"
-        )
-    except ImportError:
-        config.addinivalue_line(
-            "markers", "sklearn: mark test as requiring scikit-learn"
-        )
-        for item in config.items:
-            if "sklearn" in item.keywords:
-                item.add_marker(pytest.mark.skip(reason="scikit-learn not available"))
 
 
 print("conftest.py loaded by pytest.")

@@ -11,12 +11,12 @@ from typing import Any, Callable, Dict, Optional, Union, List # Added List
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
+from voiage.schema import ValueArray, ParameterSet, TrialDesign
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
     CalculationError,
     InputError,
-    PyVoiNotImplementedError,
+    VoiageNotImplementedError,
 )
 
 # Attempt to import for LinearRegression, fail gracefully if not available
@@ -31,18 +31,18 @@ except ImportError:
 # from voiage.methods.basic import evppi # May be used if EVSI is framed via EVPPI on predicted data
 
 # Define a type for the model function expected by EVSI
-# This function takes parameter samples (e.g., dict or PSASample) and returns net benefits.
+# This function takes parameter samples (e.g., dict or ParameterSet) and returns net benefits.
 # For EVSI, the model_func is used to generate *prior* net benefits.
 # The impact of trial data is handled by updating parameters *before* potentially re-evaluating
 # a model or, more commonly in regression EVSI, by using a metamodel.
-EconomicModelFunctionType = Callable[[Union[Dict[str, np.ndarray], PSASample]], np.ndarray]
+EconomicModelFunctionType = Callable[[Union[Dict[str, np.ndarray], ParameterSet]], np.ndarray]
 
 
 # --- Helper Function Stubs for EVSI ---
 
 def _simulate_trial_data(
     trial_design: TrialDesign,
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     n_inner_loops: int
 ) -> Dict[str, np.ndarray]:
     """
@@ -140,7 +140,7 @@ def _simulate_trial_data(
 
 
 def _bayesian_update(
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     simulated_data_k: Any,
     n_inner_loops: int
 ) -> np.ndarray: # Should return samples from posterior P(theta|D_k) as a 2D array (n_inner_loops, n_params)
@@ -255,15 +255,15 @@ def _bayesian_update(
 
 def _fit_metamodel(
     model_func: EconomicModelFunctionType,
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     nb_prior_values: np.ndarray # Pre-calculated (n_samples, n_strategies)
 ) -> List[Any]: # List of fitted regression models, one per strategy
     """
     (Stub) Fits a regression metamodel NB(d,theta) ~ f(theta) for each strategy d.
     Uses prior PSA samples and their corresponding net benefits.
     """
-    if not SKLEARN_AVAILABLE:
-        raise PyVoiNotImplementedError("Scikit-learn is required for regression-based EVSI if not providing a custom metamodel fitter.")
+    if not SKLEARN_AVAILABLE or LinearRegression is None:
+        raise VoiageNotImplementedError("Scikit-learn is required for regression-based EVSI if not providing a custom metamodel fitter.")
 
     print(f"Info: _fit_metamodel called for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}.")
     metamodel_list = []
@@ -346,7 +346,7 @@ def _predict_enb_from_metamodel(
 
 def evsi(
     model_func: EconomicModelFunctionType,
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     trial_design: TrialDesign,
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
@@ -419,8 +419,8 @@ def evsi(
         OptionalDependencyError: If a required dependency (e.g., scikit-learn for
                                  the regression method) is not available.
     """
-    if not isinstance(psa_prior, PSASample):
-        raise InputError("`psa_prior` must be a PSASample object.")
+    if not isinstance(psa_prior, ParameterSet):
+        raise InputError("`psa_prior` must be a ParameterSet object.")
     if not isinstance(trial_design, TrialDesign):
         raise InputError("`trial_design` must be a TrialDesign object.")
     if not callable(model_func):
@@ -431,9 +431,9 @@ def evsi(
     # --- Calculate max_d [ E_theta [NB(d, theta)] ] --- (Prior optimal decision value)
     try:
         # model_func is expected to take parameters (dict or PSASample) and return nb_array
-        nb_prior_values = model_func(psa_prior) # psa_prior might be passed if model_func expects PSASample obj
+        nb_prior_values = model_func(psa_prior) # psa_prior might be passed if model_func expects ParameterSet obj
 
-        if isinstance(nb_prior_values, NetBenefitArray): # Should not happen based on new type hint
+        if isinstance(nb_prior_values, ValueArray): # Should not happen based on new type hint
             nb_prior_values = nb_prior_values.values
         elif not isinstance(nb_prior_values, np.ndarray):
             raise CalculationError(
@@ -458,7 +458,7 @@ def evsi(
         # The original PyVoiNotImplementedError for "regression" was here.
         # It's removed to allow the new stubbed logic to run.
         if not SKLEARN_AVAILABLE:
-             raise PyVoiNotImplementedError("Regression method for EVSI requires scikit-learn to be installed.")
+               raise VoiageNotImplementedError("Regression method for EVSI requires scikit-learn to be installed.")
         if not psa_prior.parameters:
             print("Warning: EVSI regression method called with no parameters in psa_prior. EVSI will be 0.")
             expected_max_nb_post_study = max_expected_nb_current_info
@@ -492,11 +492,11 @@ def evsi(
                 expected_max_nb_post_study = np.mean(all_max_enb_post_data_k)
 
     elif method == "nonparametric":
-        raise PyVoiNotImplementedError("Nonparametric EVSI method is not yet implemented.")
+        raise VoiageNotImplementedError("Nonparametric EVSI method is not yet implemented.")
     elif method == "moment_matching":
-        raise PyVoiNotImplementedError("Moment-matching EVSI method is not yet implemented.")
+        raise VoiageNotImplementedError("Moment-matching EVSI method is not yet implemented.")
     else: # Catches 'unknown_method' or any other not explicitly handled
-        raise PyVoiNotImplementedError(f"EVSI method '{method}' is not recognized or implemented.")
+        raise VoiageNotImplementedError(f"EVSI method '{method}' is not recognized or implemented.")
 
     per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
     per_decision_evsi = max(0.0, per_decision_evsi) # Ensure non-negative
@@ -587,11 +587,11 @@ if __name__ == "__main__":
     # Dummy model function and inputs for testing structure
     from typing import Dict  # Import Dict for the Union type hint
 
-    from voiage.core.data_structures import TrialArm  # Import TrialArm
+    from voiage.schema import DecisionOption  # Import DecisionOption
 
     def dummy_model_func(
         params_dict_or_psa_sample: Union[
-            Dict[str, np.ndarray], PSASample
+            Dict[str, np.ndarray], ParameterSet
         ],  # More specific Dict
     ) -> np.ndarray:
         # This dummy model just returns fixed NBs, ignoring params for simplicity of testing structure
@@ -601,9 +601,9 @@ if __name__ == "__main__":
         "p1": np.array([1, 2, 3], dtype=DEFAULT_DTYPE),
         "p2": np.array([4, 5, 6], dtype=DEFAULT_DTYPE),
     }
-    dummy_psa = PSASample(parameters=dummy_psa_params)
-    dummy_arm1 = TrialArm(name="Arm A", sample_size=50)
-    dummy_arm2 = TrialArm(name="Arm B", sample_size=50)
+    dummy_psa = ParameterSet(parameters=dummy_psa_params)
+    dummy_arm1 = DecisionOption(name="Arm A", sample_size=50)
+    dummy_arm2 = DecisionOption(name="Arm B", sample_size=50)
     dummy_trial = TrialDesign(arms=[dummy_arm1, dummy_arm2])
 
     print("\n--- EVSI (Regression Method Tests with Stubs) ---")
@@ -616,18 +616,18 @@ if __name__ == "__main__":
         "sd_outcome": np.random.uniform(1, 3, 500).astype(DEFAULT_DTYPE),
         "other_param": np.random.rand(500).astype(DEFAULT_DTYPE) # an extra param not directly used in update
     }
-    dummy_psa_for_evsi = PSASample(parameters=dummy_psa_params_for_evsi)
+    dummy_psa_for_evsi = ParameterSet(parameters=dummy_psa_params_for_evsi)
 
     # Dummy trial design matching stub expectations
     # Arm names should align with what _simulate_trial_data and _bayesian_update expect
     # e.g. 'New Treatment' for 'mean_treatment' update, 'Control' for 'mean_control'
-    dummy_trial_arm_treatment = TrialArm(name="New Treatment", sample_size=30) # n_obs for update
-    dummy_trial_arm_control = TrialArm(name="Control", sample_size=30)
+    dummy_trial_arm_treatment = DecisionOption(name="New Treatment", sample_size=30) # n_obs for update
+    dummy_trial_arm_control = DecisionOption(name="Control", sample_size=30)
     dummy_trial_design_for_evsi = TrialDesign(arms=[dummy_trial_arm_treatment, dummy_trial_arm_control])
 
     # Dummy model function that uses some of these parameters
     def specific_dummy_model_func(
-        psa_sample_obj: PSASample,
+        psa_sample_obj: ParameterSet,
     ) -> np.ndarray:
         # WTP (implicit)
         wtp = 30000

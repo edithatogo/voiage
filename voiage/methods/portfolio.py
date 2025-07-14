@@ -11,7 +11,7 @@ constraints like a fixed budget.
 
 from typing import Any, Callable, Dict, List
 
-from voiage.core.data_structures import PortfolioSpec, PortfolioStudy
+from voiage.schema import PortfolioSpec, PortfolioStudy
 from voiage.exceptions import InputError, VoiageNotImplementedError
 
 # Type alias for a function that calculates the value of a single study
@@ -157,10 +157,10 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used for np.isclose
 
-    from voiage.core.data_structures import (
+    from voiage.schema import (
         PortfolioSpec,
         PortfolioStudy,
-        TrialArm,
+        DecisionOption,
         TrialDesign,
     )
 
@@ -179,10 +179,10 @@ if __name__ == "__main__":
         return 0.0
 
     # Create dummy portfolio studies
-    study_a_design = TrialDesign([TrialArm("T1", 10)])
-    study_b_design = TrialDesign([TrialArm("T2", 20)])
-    study_c_design = TrialDesign([TrialArm("T3", 15)])
-    study_d_design = TrialDesign([TrialArm("T4", 30)])
+    study_a_design = TrialDesign([DecisionOption("T1", 10)])
+    study_b_design = TrialDesign([DecisionOption("T2", 20)])
+    study_c_design = TrialDesign([DecisionOption("T3", 15)])
+    study_d_design = TrialDesign([DecisionOption("T4", 30)])
 
     studies = [
         PortfolioStudy(

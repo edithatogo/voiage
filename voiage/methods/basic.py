@@ -11,7 +11,7 @@ from typing import Any, Dict, Optional, Union
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import NetBenefitArray, PSASample
+from voiage.schema import ValueArray, ParameterSet
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
     CalculationError,
@@ -33,41 +33,12 @@ except ImportError:
     pass
 
 
-def check_parameter_samples(parameter_samples, n_samples):
-    if isinstance(parameter_samples, np.ndarray):
-        x = parameter_samples
-    elif isinstance(parameter_samples, PSASample):
-        if isinstance(parameter_samples.parameters, dict):
-            x = np.stack(list(parameter_samples.parameters.values()), axis=1)
-        else:
-            # Handle xarray or other types if necessary
-            raise InputError(
-                "PSASample with non-dict parameters not yet supported for EVPPI."
-            )
-    elif isinstance(parameter_samples, dict):
-        x = np.stack(list(parameter_samples.values()), axis=1)
-    else:
-        raise InputError(
-            f"`parameter_samples` must be a NumPy array, PSASample, or Dict. Got {type(parameter_samples)}."
-        )
-
-    if x.ndim == 1:
-        x = x.reshape(-1, 1)
-
-    if x.shape[0] != n_samples:
-        raise DimensionMismatchError(
-            f"Number of samples in `parameter_samples` ({x.shape[0]}) "
-            f"does not match `nb_array` ({n_samples})."
-        )
-    return x
-
-
 def evpi(
-    nb_array: Union[np.ndarray, NetBenefitArray],
+    nb_array: Union[np.ndarray, ValueArray],
     population: Optional[float] = None,
     time_horizon: Optional[float] = None,
     discount_rate: Optional[float] = None,
-    # wtp: Optional[float] = None, # WTP is implicit in NetBenefitArray
+    # wtp: Optional[float] = None, # WTP is implicit in ValueArray
 ) -> float:
     """Calculate the Expected Value of Perfect Information (EVPI).
 
@@ -75,8 +46,8 @@ def evpi(
     where E is the expectation over the PSA samples.
 
     Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array or
-            NetBenefitArray of shape (n_samples, n_strategies), representing
+        nb_array (Union[np.ndarray, ValueArray]): A 2D NumPy array or
+            ValueArray of shape (n_samples, n_strategies), representing
             the net benefit for each PSA sample and each strategy.
         population (Optional[float]): The relevant population size. If provided
             along with `time_horizon`, EVPI will be scaled to population level.
@@ -97,12 +68,12 @@ def evpi(
         DimensionMismatchError: If `nb_array` does not have 2 dimensions.
         CalculationError: For issues during calculation.
     """
-    if isinstance(nb_array, NetBenefitArray):
+    if isinstance(nb_array, ValueArray):
         nb_values = nb_array.values
     elif isinstance(nb_array, np.ndarray):
         nb_values = nb_array
     else:
-        raise InputError("`nb_array` must be a NumPy array or NetBenefitArray object.")
+        raise InputError("`nb_array` must be a NumPy array or ValueArray object.")
 
     check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
 
@@ -157,12 +128,12 @@ def evpi(
 
 
 def evppi(
-    nb_array: Union[np.ndarray, NetBenefitArray],
-    parameter_samples: Union[np.ndarray, PSASample, Dict[str, np.ndarray]],
+    nb_array: Union[np.ndarray, ValueArray],
+    parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
     population: Optional[float] = None,
     time_horizon: Optional[float] = None,
     discount_rate: Optional[float] = None,
-    # wtp: Optional[float] = None, # WTP is implicit in NetBenefitArray
+    # wtp: Optional[float] = None, # WTP is implicit in ValueArray
     n_regression_samples: Optional[int] = None,
     regression_model: Optional[Any] = None,
 ) -> float:
@@ -212,12 +183,12 @@ def evppi(
             "Please install it (e.g., `pip install scikit-learn`)."
         )
 
-    if isinstance(nb_array, NetBenefitArray):
+    if isinstance(nb_array, ValueArray):
         nb_values = nb_array.values
     elif isinstance(nb_array, np.ndarray):
         nb_values = nb_array
     else:
-        raise InputError("`nb_array` must be a NumPy array or NetBenefitArray object.")
+        raise InputError("`nb_array` must be a NumPy array or ValueArray object.")
 
     check_input_array(nb_values, expected_ndim=2, name="nb_array")
     n_samples, n_strategies = nb_values.shape

@@ -13,9 +13,9 @@ data would be analyzed and used to update beliefs.
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.core.data_structures import (
-    NetBenefitArray,
-    PSASample,
+from voiage.schema import (
+    ValueArray,
+    ParameterSet,
 )
 from voiage.exceptions import VoiageNotImplementedError
 
@@ -27,17 +27,17 @@ from voiage.exceptions import VoiageNotImplementedError
 # - Specifying how this data, adjusted for biases, updates decision model parameters.
 ObservationalStudyModeler = Callable[
     [
-        PSASample,
+        ParameterSet,
         Dict[str, Any],
         Dict[str, Any],
     ],  # Prior PSA, Obs. Study Design, Bias Models
-    NetBenefitArray,  # Expected NB conditional on simulated observational data
+    ValueArray,  # Expected NB conditional on simulated observational data
 ]
 
 
 def voi_observational(
     obs_study_modeler: ObservationalStudyModeler,
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     observational_study_design: Dict[
         str, Any
     ],  # e.g., cohort, case-control, variables, size
@@ -121,14 +121,14 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray and PSASample
 
-    from voiage.core.data_structures import NetBenefitArray, PSASample
+    from voiage.schema import ValueArray, ParameterSet
 
     try:
         # Dummy arguments
         def dummy_obs_modeler(psa, design, biases):
-            return NetBenefitArray(np.array([[0.0]]))
+            return ValueArray(np.array([[0.0]]))
 
-        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
         dummy_design = {"type": "cohort", "size": 1000}
         dummy_biases = {"confounding_strength": 0.2}
         voi_observational(dummy_obs_modeler, dummy_psa, dummy_design, dummy_biases)

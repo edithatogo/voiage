@@ -15,19 +15,19 @@ import numpy as np
 import pytest
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import PSASample, TrialArm, TrialDesign
+from voiage.schema import ParameterSet, DecisionOption, TrialDesign
 from voiage.exceptions import InputError, VoiageNotImplementedError
 from voiage.methods.sample_information import enbs, evsi
 
 # --- Dummy components for EVSI testing ---
 
 
-def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.ndarray:
+def dummy_model_func_evsi(psa_params_or_sample: Union[dict, ParameterSet]) -> np.ndarray:
     """Define a simple model function for EVSI structure testing.
     It generates net benefits based on the number of samples in psa_params_or_sample.
     """
     n_samples = 0
-    if isinstance(psa_params_or_sample, PSASample):
+    if isinstance(psa_params_or_sample, ParameterSet):
         n_samples = psa_params_or_sample.n_samples
     elif isinstance(psa_params_or_sample, dict):
         if psa_params_or_sample:
@@ -45,7 +45,7 @@ def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.nd
 
 
 @pytest.fixture()
-def dummy_psa_for_evsi() -> PSASample:
+def dummy_psa_for_evsi() -> ParameterSet:
     # Parameters for a Normal-Normal conjugate update scenario
     # Means are different enough to expect some EVSI.
     # sd_outcome is relatively small to make learning more impactful.
@@ -64,17 +64,17 @@ def dummy_psa_for_evsi() -> PSASample:
         # Add another dummy parameter not directly used in update, to test metamodel with multiple params
         "unrelated_param": np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE),
     }
-    return PSASample(parameters=params)
+    return ParameterSet(parameters=params)
 
 
 @pytest.fixture()
 def dummy_trial_design_for_evsi() -> TrialDesign:
     # Arm names match keys expected by _simulate_trial_data (via convention)
     # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
-    arm1 = TrialArm(
+    arm1 = DecisionOption(
         name="New Treatment", sample_size=50
     )  # Reduced sample size for faster test simulation
-    arm2 = TrialArm(name="Standard Care", sample_size=50)
+    arm2 = DecisionOption(name="Standard Care", sample_size=50)
     return TrialDesign(arms=[arm1, arm2])
 
 
@@ -95,42 +95,42 @@ def test_evsi_structure_and_not_implemented(
     original_sklearn_available = si_module.SKLEARN_AVAILABLE
 
     # Path 1: SKLEARN_AVAILABLE = True (normal run with stubs)
-    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", True)
-    try:
-        evsi_val_regr = evsi(
-            model_func=dummy_model_func_evsi,
-            psa_prior=dummy_psa_for_evsi,
-            trial_design=dummy_trial_design_for_evsi,
-            method="regression",
-            n_outer_loops=10,  # Small loops for faster test, but enough for some averaging
-            n_inner_loops=20,  # Samples for posterior expectation
-        )
-        # With actual (though simplified) Bayesian update, EVSI should be > 0
-        assert (
-            evsi_val_regr > -1e-9
-        ), f"EVSI with regression (Normal-Normal update) should be non-negative, got {evsi_val_regr}"
-        # It's hard to predict exact value, but > 0 indicates learning.
-        # If it's consistently very close to 0, the update or simulation might still be too trivial
-        # or the prior/likelihood makes information gain minimal.
-        # For this test, non-negative is the primary check for successful run.
-        # A more specific check for > 0 might be too flaky depending on random seeds and simplified model.
-        print(
-            f"EVSI regression with Normal-Normal update (SKLEARN_AVAILABLE=True) ran, value: {evsi_val_regr:.4f}"
-        )
-    except VoiageNotImplementedError:
-        # This case should not happen if SKLEARN_AVAILABLE is True
-        pytest.fail(
-            "EVSI regression method raised VoiageNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True."
-        )
-    except Exception as e:
-        pytest.fail(
-            f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}"
-        )
+    if original_sklearn_available:
+        monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", True)
+        try:
+            evsi_val_regr = evsi(
+                model_func=dummy_model_func_evsi,
+                psa_prior=dummy_psa_for_evsi,
+                trial_design=dummy_trial_design_for_evsi,
+                method="regression",
+                n_outer_loops=10,  # Small loops for faster test, but enough for some averaging
+                n_inner_loops=20,  # Samples for posterior expectation
+            )
+            # With actual (though simplified) Bayesian update, EVSI should be > 0
+            assert (
+                evsi_val_regr > -1e-9
+            ), f"EVSI with regression (Normal-Normal update) should be non-negative, got {evsi_val_regr}"
+            # It's hard to predict exact value, but > 0 indicates learning.
+            # If it's consistently very close to 0, the update or simulation might still be too trivial
+            # or the prior/likelihood makes information gain minimal.
+            # For this test, non-negative is the primary check for successful run.
+            # A more specific check for > 0 might be too flaky depending on random seeds and simplified model.
+            print(
+                f"EVSI regression with Normal-Normal update (SKLEARN_AVAILABLE=True) ran, value: {evsi_val_regr:.4f}"
+            )
+        except VoiageNotImplementedError:
+            # This case should not happen if SKLEARN_AVAILABLE is True
+            pytest.fail(
+                "EVSI regression method raised VoiageNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True."
+            )
+        except Exception as e:
+            pytest.fail(
+                f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}"
+            )
 
 
     # Path 2: SKLEARN_AVAILABLE = False
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
-    with pytest.raises(
     with pytest.raises(
         VoiageNotImplementedError,
         match="Regression method for EVSI requires scikit-learn to be installed.",
@@ -160,7 +160,6 @@ def test_evsi_structure_and_not_implemented(
             trial_design=dummy_trial_design_for_evsi,
             method="nonparametric",
         )
-        )
 
     # Test for an unrecognized method
     with pytest.raises(
@@ -186,7 +185,7 @@ def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
         )
 
     # Invalid psa_prior
-    with pytest.raises(InputError, match="`psa_prior` must be a PSASample object"):
+    with pytest.raises(InputError, match="`psa_prior` must be a ParameterSet object"):
         evsi(
             model_func=dummy_model_func_evsi,
             psa_prior={"param": np.array([1])},  # type: ignore

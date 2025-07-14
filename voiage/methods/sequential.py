@@ -11,23 +11,23 @@ future decisions and future information gathering opportunities.
 
 from typing import Any, Callable, Dict, Generator, Union
 
-from voiage.core.data_structures import DynamicSpec, PSASample
+from voiage.schema import DynamicSpec, ParameterSet
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
 # and return new state, accrued data, and immediate rewards/costs.
 SequentialStepModel = Callable[
-    [PSASample, Any, DynamicSpec],  # Current PSA, Action/Decision, Dynamic settings
+    [ParameterSet, Any, DynamicSpec],  # Current PSA, Action/Decision, Dynamic settings
     Dict[
         str, Any
-    ],  # e.g., {'next_psa': PSASample, 'observed_data': Any, 'immediate_nb': float}
+    ],  # e.g., {'next_psa': ParameterSet, 'observed_data': Any, 'immediate_nb': float}
 ]
 
 
 def sequential_voi(
     step_model: SequentialStepModel,
-    initial_psa: PSASample,
+    initial_psa: ParameterSet,
     dynamic_specification: DynamicSpec,
     # wtp: float, # Usually implicit
     # population: Optional[float] = None, # Applied at each step or overall
@@ -110,14 +110,14 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # Used by PSASample
 
-    from voiage.core.data_structures import DynamicSpec, PSASample
+    from voiage.schema import DynamicSpec, ParameterSet
 
     try:
         # Dummy arguments
         def dummy_step_model(psa, action, dyn_spec):
             return {}
 
-        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword
         dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
         sequential_voi(dummy_step_model, dummy_psa, dummy_dyn_spec)
     except VoiageNotImplementedError as e:

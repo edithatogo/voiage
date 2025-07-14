@@ -12,7 +12,7 @@ decision rules.
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
+from voiage.schema import ValueArray, ParameterSet, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
@@ -24,17 +24,17 @@ from voiage.exceptions import VoiageNotImplementedError
 # - If trial stops early, evaluating economic model based on that decision.
 AdaptiveTrialEconomicSim = Callable[
     [
-        PSASample,
+        ParameterSet,
         TrialDesign,
         Dict[str, Any],
     ],  # Prior PSA, Base TrialDesign, Adaptive Rules
-    NetBenefitArray,  # Expected NB conditional on the full adaptive trial outcome
+    ValueArray,  # Expected NB conditional on the full adaptive trial outcome
 ]
 
 
 def adaptive_evsi(
     adaptive_trial_simulator: AdaptiveTrialEconomicSim,
-    psa_prior: PSASample,
+    psa_prior: ParameterSet,
     base_trial_design: TrialDesign,  # Initial design before adaptation
     adaptive_rules: Dict[str, Any],  # Specification of adaptation rules
     # wtp: float, # Often implicit
@@ -119,21 +119,21 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray call and PSASample
 
-    from voiage.core.data_structures import (
-        NetBenefitArray,
-        PSASample,
-        TrialArm,
+    from voiage.schema import (
+        ValueArray,
+        ParameterSet,
+        DecisionOption,
         TrialDesign,
     )
 
     try:
         # Dummy arguments
         def dummy_adaptive_sim(psa, design, rules):
-            return NetBenefitArray(np.array([[0.0]]))
+            return ValueArray(np.array([[0.0]]))
 
-        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword arg
+        dummy_psa = ParameterSet(parameters={"p": np.array([1])})  # parameters keyword arg
         dummy_design = TrialDesign(
-            arms=[TrialArm(name="A", sample_size=10)]
+            arms=[DecisionOption(name="A", sample_size=10)]
         )  # arms and name keyword args
         dummy_rules = {"stop_if_eff_at_interim1": 0.95}
         adaptive_evsi(dummy_adaptive_sim, dummy_psa, dummy_design, dummy_rules)

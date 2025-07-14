@@ -13,8 +13,8 @@ from typing import Optional, Sequence, Union
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import (
-    NetBenefitArray,  # Assuming NetBenefitArray is defined
+from voiage.schema import (
+    ValueArray,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 
@@ -193,27 +193,27 @@ def calculate_net_benefit(
 
 
 def get_optimal_strategy_index(
-    nb_array: Union[np.ndarray, NetBenefitArray], axis: int = 1
+    nb_array: Union[np.ndarray, ValueArray], axis: int = 1
 ) -> np.ndarray:
     """Determine the index of the optimal strategy for each sample.
 
     The optimal strategy is the one with the highest net benefit.
 
     Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array of net benefits
-            (samples x strategies) or a NetBenefitArray instance.
+        nb_array (Union[np.ndarray, ValueArray]): A 2D NumPy array of net benefits
+            (samples x strategies) or a ValueArray instance.
         axis (int): The axis along which to find the maximum. Defaults to 1 (strategies).
 
     Returns
     -------
         np.ndarray: A 1D array containing the index of the optimal strategy for each sample.
     """
-    if isinstance(nb_array, NetBenefitArray):
+    if isinstance(nb_array, ValueArray):
         values = nb_array.values
     elif isinstance(nb_array, np.ndarray):
         values = nb_array
     else:
-        raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
+        raise InputError("nb_array must be a NumPy array or ValueArray instance.")
 
     check_input_array(
         values, expected_ndim=2, name="Net benefit values", allow_empty=False
@@ -237,13 +237,13 @@ def get_optimal_strategy_index(
 
 
 def compute_incremental_net_benefit(
-    nb_array: Union[np.ndarray, NetBenefitArray], comparator_index: int = 0
+    nb_array: Union[np.ndarray, ValueArray], comparator_index: int = 0
 ) -> np.ndarray:
     """Compute incremental net benefit (INB) relative to a comparator strategy.
 
     Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array of net benefits
-            (samples x strategies) or a NetBenefitArray instance.
+        nb_array (Union[np.ndarray, ValueArray]): A 2D NumPy array of net benefits
+            (samples x strategies) or a ValueArray instance.
         comparator_index (int): Index of the comparator strategy. Defaults to 0.
 
     Returns
@@ -255,12 +255,12 @@ def compute_incremental_net_benefit(
     ------
         InputError: If comparator_index is out of bounds.
     """
-    if isinstance(nb_array, NetBenefitArray):
+    if isinstance(nb_array, ValueArray):
         values = nb_array.values
     elif isinstance(nb_array, np.ndarray):
         values = nb_array
     else:
-        raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
+        raise InputError("nb_array must be a NumPy array or ValueArray instance.")
 
     check_input_array(
         values, expected_ndim=2, name="Net benefit values", allow_empty=False

@@ -28,15 +28,16 @@ from . import (
     config,  # Allow access like `voiage.config.DEFAULT_DTYPE`
     exceptions,  # Allow access like `voiage.exceptions.InputError`
 )
-from .core.data_structures import (
+from .schema import (
     DynamicSpec,
-    NetBenefitArray,
+    ValueArray,
     PortfolioSpec,
     PortfolioStudy,
-    PSASample,
-    TrialArm,
+    ParameterSet,
+    DecisionOption,
     TrialDesign,
 )
+from .analysis import DecisionAnalysis
 from .methods.adaptive import adaptive_evsi
 
 # --- Core VOI Methods ---
@@ -60,12 +61,13 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # Define what gets imported by `from voiage import *`.
 # It's generally good practice to be explicit.
 __all__ = [
+    "DecisionAnalysis",
     "DynamicSpec",
-    "NetBenefitArray",
-    "PSASample",
+    "ValueArray",
+    "ParameterSet",
     "PortfolioSpec",
     "PortfolioStudy",
-    "TrialArm",
+    "DecisionOption",
     "TrialDesign",
     "__version__",
     "adaptive_evsi",

@@ -23,7 +23,7 @@ class ConfigurationError(VoiageError):
 
 
 # --- Input Validation Errors ---
-class InputError(voiageError, ValueError):
+class InputError(VoiageError, ValueError):
     """Raised when input data is invalid or inconsistent."""
 
     pass
@@ -42,7 +42,7 @@ class MissingParameterError(InputError):
 
 
 # --- Calculation Errors ---
-class CalculationError(voiageError):
+class CalculationError(VoiageError):
     """Raised during a VOI calculation if an error occurs."""
 
     pass
@@ -74,21 +74,21 @@ class RegressionMetamodelError(EVSIMethodError):
 
 
 # --- Data Structure Errors ---
-class DataStructureError(voiageError):
+class DataStructureError(VoiageError):
     """Raised for issues related to voiage's internal data structures."""
 
     pass
 
 
 # --- Plotting Errors ---
-class PlottingError(voiageError):
+class PlottingError(VoiageError):
     """Raised if an error occurs during plot generation."""
 
     pass
 
 
 # --- Backend Errors ---
-class BackendError(voiageError):
+class BackendError(VoiageError):
     """Raised for errors related to the computation backend (e.g., JAX, NumPy)."""
 
     pass

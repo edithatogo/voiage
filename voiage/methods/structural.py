@@ -18,19 +18,19 @@ from typing import Callable, List, Optional, Union
 
 import numpy as np
 
-from voiage.core.data_structures import NetBenefitArray, PSASample
+from voiage.schema import ValueArray, ParameterSet
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
-ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
+ModelStructureEvaluator = Callable[[ParameterSet], ValueArray]
 
 
 def structural_evpi(
     model_structure_evaluators: List[ModelStructureEvaluator],
     structure_probabilities: Union[np.ndarray, List[float]],
     psa_samples_per_structure: List[
-        PSASample
+        ParameterSet
     ],  # PSA samples relevant to each structure
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
