@@ -1,26 +1,88 @@
-# voiage To-Do List
+# voiage To-Do List (v2)
 
-## v0.1 Implementation
+This to-do list is based on the revised project roadmap and incorporates feedback from the expert reviews.
 
-- [ ] **1. Project Setup**
-    - [x] Install core dependencies from `pyproject.toml`.
-    - [x] Configure and enable pre-commit hooks for `black`, `flake8`, and `mypy`.
-- [ ] **2. Core Data Structures**
-    - [x] Implement `NetBenefitArray` in `pyvoi/core/data_structures.py`.
-    - [x] Implement `PSASample` in `pyvoi/core/data_structures.py`.
-    - [x] Implement `TrialArm`, `TrialDesign`, `PortfolioStudy`, `PortfolioSpec`, and `DynamicSpec` in `pyvoi/core/data_structures.py`.
-- [ ] **3. Core VOI Methods**
-    - [x] Create `pyvoi/methods/basic.py`.
-    - [x/o] Implement `evpi()` in `pyvoi/methods/basic.py`.
-    - [x/o] Implement `evppi()` in `pyvoi/methods/basic.py`.
-    - [x/o] Implement `evsi()` in `pyvoi/methods/sample_information.py`.
-    - [x/o] Implement `enbs()` in `pyvoi/methods/sample_information.py`.
-- [x] **4. Unit Tests**
-    - [x] Write unit tests for all core data structures.
-    - [x] Write unit tests for `evpi()`.
-    - [x] Write unit tests for `evppi()`.
-    - [x] Write unit tests for `evsi()`.
-    - [x] Write unit tests for `enbs()`.
-- [ ] **5. Documentation**
-    - [ ] Write docstrings for all new functions and classes.
-    - [ ] Create initial documentation for the `docs/` directory.
+---
+
+## Phase 1: Foundation & API Refactoring
+
+- [ ] **1. API & Core Structure**
+    - [ ] Design `DecisionAnalysis` class API in a new `voiage/analysis.py` module.
+    - [ ] Refactor `evpi()` and `evppi()` from `methods/basic.py` to be methods of the `DecisionAnalysis` class.
+    - [ ] Move existing data structures from `core/data_structures.py` into a new `voiage/schema.py` or similar.
+    - [ ] Rename `PSASample` to `ParameterSet`.
+    - [ ] Rename `TrialArm` to `DecisionOption`.
+    - [ ] Rename `NetBenefitArray` to `ValueArray`.
+    - [ ] Update all existing code and tests to use the new class-based API and renamed data structures.
+    - [ ] Add lightweight functional wrappers (e.g., `voiage.evpi()`) that use the core OO-API internally.
+
+- [ ] **2. High-Performance Backend**
+    - [ ] Create a `voiage/backends.py` module to manage computational backends.
+    - [ ] Implement a JAX version of the core VOI calculations.
+    - [ ] Add a global `voiage.set_backend('numpy' | 'jax')` function.
+    - [ ] Create initial performance benchmarks comparing the two backends.
+
+- [ ] **3. Project Infrastructure & Documentation**
+    - [ ] Configure GitHub Actions workflow for CI (pytest, coverage, linting).
+    - [ ] Set up a Sphinx project in the `docs/` directory.
+    - [ ] Choose and configure a modern theme (e.g., Furo, PyData Sphinx Theme).
+    - [ ] Write the initial "Getting Started" guide based on the new OO-API.
+    - [ ] Set up GitHub Pages to auto-deploy the documentation on pushes to `main`.
+    - [ ] Create the `CONTRIBUTING.md` file.
+    - [ ] Create a `CODE_OF_CONDUCT.md` file.
+    - [ ] Move all test logic from `if __name__ == "__main__"` blocks into the `tests/` directory.
+
+---
+
+## Phase 2: State-of-the-Art Health Economics Core
+
+- [ ] **1. EVSI Implementation**
+    - [ ] Refactor `evsi()` to be a method of the `DecisionAnalysis` class.
+    - [ ] Implement a full two-loop Monte Carlo algorithm.
+    - [ ] Add a `BayesianUpdater` protocol/class that can be passed to the `evsi` method.
+    - [ ] Implement a `ConjugateUpdater` for common conjugate prior models (e.g., Normal-Normal).
+    - [ ] Create a `PyMCUpdater` that can take a user-defined PyMC model, run MCMC, and return the posterior.
+    - [ ] Add a `Metamodel` protocol/class.
+    - [ ] Implement a `GAMMetamodel` and `GPMetamodel` using `scikit-learn` or other libraries.
+
+- [ ] **2. NMA VOI**
+    - [ ] Design data structures to represent network evidence (e.g., relative effects).
+    - [ ] Implement `evsi_nma()` as a method, capable of handling multivariate posteriors from an NMA.
+
+- [ ] **3. Validation, Plotting, & Examples**
+    - [ ] Create a `validation/` directory with notebooks.
+    - [ ] Add a validation notebook replicating results from the R `BCEA` package.
+    - [ ] Implement `analysis.plot_ceac()`.
+    - [ ] Implement `analysis.plot_evppi_curve()`.
+    - [ ] Create `examples/health_economics/01_basic_voi` notebook with synthetic data.
+
+---
+
+## Phase 3: Advanced Methods & Cross-Domain Expansion
+
+- [ ] **1. Advanced Methods**
+    - [ ] Implement `analysis.portfolio_voi()`.
+    - [ ] Implement `analysis.structural_voi()`.
+    - [ ] Implement `analysis.sequential_voi()`.
+
+- [ ] **2. Cross-Domain Examples**
+    - [ ] Create `examples/environmental_policy/01_basic_voi` notebook with synthetic data.
+    - [ ] Create `examples/business_strategy/01_portfolio_optimization` notebook with synthetic data.
+
+- [ ] **3. XArray Integration**
+    - [ ] Begin refactoring `ParameterSet` and `ValueArray` to be based on `xarray.Dataset`, providing labeled dimensions.
+
+---
+
+## Phase 4: Ecosystem & Future Ports (Backlog)
+
+- [ ] **1. Community**
+    - [ ] Create "Good First Issue" and "Help Wanted" issue templates on GitHub.
+    - [ ] Publish a blog post announcing `voiage` v1.0.
+
+- [ ] **2. API Specification**
+    - [ ] Draft a formal JSON Schema representation of the `DecisionAnalysis` inputs and outputs.
+
+- [ ] **3. R & Julia Ports**
+    - [ ] Begin experimental prototype of an R6-based `rvoiage` package.
+    - [ ] Begin experimental prototype of a `Voiage.jl` module.
