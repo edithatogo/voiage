@@ -1,12 +1,12 @@
-.. pyVOI documentation master file, created by
+.. voiage documentation master file, created by
    sphinx-quickstart on Mon Dec 25 10:00:00 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyVOI's documentation!
+Welcome to voiage's documentation!
 ===================================
 
-**pyVOI** is a Python library for Value of Information (VOI) analysis.
+**voiage** is a Python library for Value of Information (VOI) analysis.
 VOI methods help quantify the economic value of acquiring additional
 information to reduce uncertainty in decision-making, particularly in fields
 like health economics, risk analysis, and decision sciences.
@@ -45,37 +45,47 @@ Indices and tables
 
 ---
 
-**Note**: This documentation is currently under development alongside the pyVOI library.
+**Note**: This documentation is currently under development alongside the voiage library.
 Content will be expanded as features are implemented.
 
 Quick Links
 -----------
-* `GitHub Repository <https://github.com/yourusername/pyvoi>`_ (Replace with actual link)
-* `PyPI Page <https://pypi.org/project/pyvoi/>`_ (Replace with actual link when available)
+* `GitHub Repository <https://github.com/doughnut/voiage>`_
+* `TestPyPI Page <https://test.pypi.org/project/voiage/>`_ (for v0.1 release)
 
 
 Getting Help
 ------------
-If you encounter any issues or have questions, please `raise an issue on GitHub <https://github.com/yourusername/pyvoi/issues>`_ (Replace with actual link).
+If you encounter any issues or have questions, please `raise an issue on GitHub <https://github.com/doughnut/voiage/issues>`_.
 
 
-.. Placeholder for Introduction page content (docs/introduction.rst)
-.. .. include:: introduction.rst
+.. include:: introduction.rst
 
-.. Placeholder for Installation page content (docs/installation.rst)
-.. .. include:: installation.rst
+.. include:: installation.rst
 
-.. Placeholder for Getting Started page content (docs/getting_started.rst)
-.. .. include:: getting_started.rst
+.. include:: getting_started.rst
 
-.. Placeholder for User Guide index (docs/user_guide/index.rst)
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide:
 
-.. Placeholder for API Reference index (docs/api_reference/index.rst)
+   user_guide/index
 
-.. Placeholder for Examples index (docs/examples/index.rst)
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference:
 
-.. Placeholder for Contributing page content (docs/contributing.rst)
-.. .. include:: contributing.rst
+   api_reference/index
 
-.. Placeholder for Changelog page content (docs/changelog.rst)
-.. .. include:: changelog.rst
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples:
+
+   examples/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Development:
+
+   contributing
+   changelog

@@ -1,95 +1,21 @@
-Here’s a phased roadmap to design, build, and launch pyVOI, a Python library covering the full spectrum of VOI analyses we’ve discussed:
+Here’s a phased roadmap to design, build, and launch voiage, a Python library covering the full spectrum of VOI analyses we’ve discussed:
 
 
 ---
 
-Phase 1: Scoping & Design (2 weeks)
+Phase 1: Scoping & Design (Completed)
 
-1. Requirements Specification
-
-Enumerate all VOI methods: EVPI, EVPPI, EVSI, ENBS, structural VOI, NMA-EVSI, adaptive-design EVSI, cost-optimized EVSI, EVH, EVI, portfolio VOI, dynamic/sequential VOI, observational-data VOI, calibration VOI.
-
-Define inputs/outputs for each (e.g. PSA samples, net-benefit arrays, trial design specs, cost functions, subgroup definitions, model structures, time-series of data accumulation).
-
-
-
-2. High-Level API Design
-
-Draft a consistent interface:
-
-from pyvoi import evpi, evppi, evsi, enbs, structural_evpi, evsi_nma, ...
-# e.g.
-evpi(nb_array, population, wtp)
-evppi(nb_array, parameters, population, wtp)
-evsi(model_func, design, pop, cost_fn, wtp, method="regression", ...)
-
-Define core data structures:
-
-NetBenefitArray (samples × strategies)
-
-PSASample (dict of arrays or xarray.Dataset)
-
-TrialDesign (arms, sample sizes, adaptive rules)
-
-PortfolioSpec (list of candidate studies, budgets)
-
-DynamicSpec (time steps, interim rules)
-
-
-
-
-3. Architecture & Dependencies
-
-Base: NumPy/SciPy for sampling & math
-
-PyMC or Pyro for Bayesian sampling where needed
-
-Pandas/xarray for tabular/array data structures
-
-Optional JAX backend for large-scale Monte Carlo
-
-Matplotlib/Seaborn (or ArviZ) for plotting helpers
-
-
-
-
+1.  Requirements Specification (Completed)
+2.  High-Level API Design (Completed)
+3.  Architecture & Dependencies (Completed)
 
 ---
 
-Phase 2: Core VOI Modules (4 weeks)
+Phase 2: Core VOI Modules (In Progress)
 
-1. Basic VOI
-
-EVPI/EVPPI
-
-Monte Carlo formulas, analytic shortcuts for discrete WTP thresholds
-
-
-ENBS
-
-Simple EVSI – cost function integration
-
-
-
-
-2. EVSI & ENBS
-
-Implement fixed-sample EVSI via:
-
-Regression-metamodel approach (nonparametric / GAM)
-
-Moment-matching / importance sampling
-
-
-Integrate cost function to return ENBS
-
-
-
-3. Unit Testing & Benchmarks
-
-Compare results against R’s voi and dampack for standard scenarios
-
-Build CI suite with pytest for accuracy and performance
+1.  Basic VOI (Completed)
+2.  EVSI & ENBS (Completed)
+3.  Unit Testing & Benchmarks (Partially Completed)
 
 
 
@@ -207,20 +133,20 @@ Advanced VOI Methods	6 weeks	Structural, NMA, adaptive, portfolio, dynamic
 Docs & Release	4 weeks	Tutorials, API docs, v0.1 release
 
 
-By following this plan, you’ll build pyVOI as a comprehensive, extensible platform—bringing Python up to parity (and beyond) with the leading VOI capabilities in R, while opening up new horizons in structural, adaptive, and portfolio VOI analyses.
+By following this plan, you’ll build voiage as a comprehensive, extensible platform—bringing Python up to parity (and beyond) with the leading VOI capabilities in R, while opening up new horizons in structural, adaptive, and portfolio VOI analyses.
 
 ---
 
 Recommended Project Layout and Architectural Patterns
 
-Below is a recommended project layout for pyVOI, plus a set of third-party libraries and architectural patterns to make development smooth, performant, and maintainable.
+Below is a recommended project layout for voiage, plus a set of third-party libraries and architectural patterns to make development smooth, performant, and maintainable.
 
 
 ---
 
 1. Recommended Package Structure
 
-pyvoi/                       ← root of your git repo
+voiage/                       ← root of your git repo
 ├── pyproject.toml           ← build & dependency spec (PEP 621; Poetry or Flit)
 ├── setup.cfg                ← linting, pytest, coverage configuration
 ├── LICENSE
@@ -228,7 +154,7 @@ pyvoi/                       ← root of your git repo
 ├── CHANGELOG.md
 ├── .pre-commit-config.yaml  ← black, isort, flake8, mypy hooks
 │
-├── pyvoi/                   ← top-level package
+├── voiage/                   ← top-level package
 │   ├── __init__.py
 │   ├── config.py            ← global defaults (e.g. dtype, backend)
 │   ├── exceptions.py        ← custom error classes
@@ -246,7 +172,7 @@ pyvoi/                       ← root of your git repo
 │   │   ├── network_nma.py       ← evsi_nma()
 │   │   ├── adaptive.py          ← adaptive_evsi()
 │   │   ├── portfolio.py         ← portfolio_voi()
-│   │   ├── sequential.py        ← sequential_voi()
+│   │   ├���─ sequential.py        ← sequential_voi()
 │   │   ├── observational.py     ← voi_observational()
 │   │   └── calibration.py       ← voi_calibration()
 │   │
@@ -304,7 +230,7 @@ Each VOI method lives in its own module/class with a consistent signature
 def evpi(nb: NetBenefitArray, pop: float, wtp: float) -> float: ...
 def evsi(design: TrialDesign, model: Callable, ...) -> float: ...
 
-A factory or registry (pyvoi.methods.get_method("evsi")) lets users swap implementations.
+A factory or registry (voiage.methods.get_method("evsi")) lets users swap implementations.
 
 
 
@@ -369,13 +295,13 @@ Community engagement: Encourage pull requests for missing VOI types (e.g. struct
 
 ---
 
-By adopting this structure and leveraging the ecosystem above, pyVOI will be cleanly organized, performant, and ready to grow from its first release through advanced VOI workflows.
+By adopting this structure and leveraging the ecosystem above, voiage will be cleanly organized, performant, and ready to grow from its first release through advanced VOI workflows.
 
 ---
 
 Scaling and Performance Considerations
 
-For a library like pyVOI that needs to run massive Monte-Carlo draws and complex trial‐simulation workflows at scale—across many CPU cores, GPU(s), and even on HPC or TPU clusters—you’ll want to build on a few proven layers:
+For a library like voiage that needs to run massive Monte-Carlo draws and complex trial‐simulation workflows at scale—across many CPU cores, GPU(s), and even on HPC or TPU clusters—you’ll want to build on a few proven layers:
 
 
 ---
@@ -478,7 +404,7 @@ Example Stack
 – Regression metamodel: scikit-learn / XGBoost
 – Workflow orchestration: Prefect
 
-This combination will let pyVOI transparently exploit everything from a single laptop with multiple cores, to a GPU server, to a multi-node HPC or TPU pod—while keeping your codebase clean and your APIs consistent.
+This combination will let voiage transparently exploit everything from a single laptop with multiple cores, to a GPU server, to a multi-node HPC or TPU pod—while keeping your codebase clean and your APIs consistent.
 
 ---
 
@@ -512,4 +438,5 @@ Because it’s built on JAX, you get JIT compilation to run on CPUs, GPUs, or TP
 
 
 
-What it doesn’t include are domain-specific VOI calculations—those would live in your own pyvoi.methods modules—but for any Bayesian estimation or uncertainty quantification step (PSA sampling, parameter fitting, hierarchical models), NumPyro has you covered.
+What it doesn’t include are domain-specific VOI calculations—those would live in your own voiage.methods modules—but for any Bayesian estimation or uncertainty quantification step (PSA sampling, parameter fitting, hierarchical models), NumPyro has you covered.
+
