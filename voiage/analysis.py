@@ -57,6 +57,23 @@ class DecisionAnalysis:
             regression_model=regression_model,
         )
 
+    def portfolio_voi(
+        self,
+        portfolio_specification: "PortfolioSpec",
+        study_value_calculator: "StudyValueCalculator",
+        optimization_method: str = "greedy",
+        **kwargs: Any,
+    ) -> Dict[str, Any]:
+        """
+        Optimizes a portfolio of research studies to maximize total value.
+        """
+        return portfolio_voi(
+            portfolio_specification=portfolio_specification,
+            study_value_calculator=study_value_calculator,
+            optimization_method=optimization_method,
+            **kwargs,
+        )
+
     def plot_ce_plane(self, wtp, ax=None, show=True, **kwargs):
         """
         Plot the Cost-Effectiveness Plane.

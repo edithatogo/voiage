@@ -52,6 +52,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "pulp>=2.7.0",
     "pytest>=7.0",
     "pytest-cov>=3.0",
     "hypothesis>=6.0",

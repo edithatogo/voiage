@@ -29,49 +29,8 @@ def sequential_voi(
     step_model: SequentialStepModel,
     initial_psa: ParameterSet,
     dynamic_specification: DynamicSpec,
-    # wtp: float, # Usually implicit
-    # population: Optional[float] = None, # Applied at each step or overall
-    # discount_rate: Optional[float] = None, # Crucial for sequential decisions
-    # time_horizon: Optional[float] = None, # Overall horizon
-    # optimization_method: str = "backward_induction", # e.g., for finite horizon
     **kwargs: Any,
 ) -> Union[float, Generator[Dict[str, Any], None, None]]:
-    """Calculate Value of Information in a dynamic or sequential decision context.
-
-    This can be approached in several ways:
-    1. Calculating VOI at each potential decision point in a pre-defined sequence.
-    2. Using methods like backward induction (dynamic programming) to find an
-       optimal strategy of decision-making and information gathering over time.
-    3. Exposing a generator API that yields VOI metrics at each time step as
-       data notionally accrues.
-
-    The implementation here is a placeholder for such complex analyses.
-
-    Args:
-        step_model (SequentialStepModel):
-            A function that models a single time step or stage in the sequential process.
-            It takes the current state of knowledge (e.g., `PSASample`), a potential
-            decision or action, and dynamic settings, then returns outcomes for that step
-            (e.g., updated knowledge, observed data, immediate net benefit).
-        initial_psa (PSASample):
-            PSA samples representing parameter uncertainty at the beginning of the process.
-        dynamic_specification (DynamicSpec):
-            Defines time steps, interim rules, or other dynamic aspects.
-        # optimization_method (str): Method like "backward_induction" or "forward_simulation".
-        **kwargs: Additional arguments for the specific sequential VOI approach.
-
-    Returns
-    -------
-        Union[float, Generator[Dict[str, Any], None, None]]:
-            Depending on the approach, could be an overall VOI for the entire
-            sequential strategy, or a generator yielding VOI at each step.
-            For v0.1, this will raise NotImplementedError.
-
-    Raises
-    ------
-        InputError: If inputs are invalid.
-        NotImplementedError: This method is a placeholder for v0.1.
-    """
     raise VoiageNotImplementedError(
         "Dynamic / Sequential VOI is a highly advanced topic, often requiring "
         "custom modeling (e.g., Markov Decision Processes, Reinforcement Learning approaches, "

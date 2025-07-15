@@ -74,4 +74,4 @@ def test_portfolio_voi_greedy_budget_allows_only_highest_ratio(studies):
 def test_portfolio_voi_not_implemented_methods(studies):
     portfolio_spec_no_budget = PortfolioSpec(studies=studies, budget_constraint=None)
     with pytest.raises(VoiageNotImplementedError):
-        portfolio_voi(portfolio_spec_no_budget, dummy_calculator, "integer_programming")
+        portfolio_voi(portfolio_spec_no_budget, dummy_calculator, "dynamic_programming")

@@ -121,7 +121,7 @@ def evppi(
 from .methods.calibration import voi_calibration
 from .methods.network_nma import evsi_nma
 from .methods.observational import voi_observational
-from .methods.portfolio import portfolio_voi
+from .methods.portfolio import portfolio_voi as portfolio_voi_func
 from .methods.sample_information import enbs, evsi
 from .methods.sequential import sequential_voi
 
