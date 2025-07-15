@@ -88,19 +88,36 @@ def evppi(
     n_regression_samples: Optional[int] = None,
     regression_model: Optional[Any] = None,
 ) -> float:
-    if isinstance(nb_array, np.ndarray):
-        nb_array = ValueArray(values=nb_array)
-    if isinstance(parameter_samples, (np.ndarray, dict)):
-        parameter_samples = ParameterSet(parameters=parameter_samples)
-    analysis = DecisionAnalysis(parameters=parameter_samples, values=nb_array)
-    return analysis.evppi(
-        parameter_samples=parameter_samples,
-        population=population,
-        time_horizon=time_horizon,
-        discount_rate=discount_rate,
-        n_regression_samples=n_regression_samples,
-        regression_model=regression_model,
-    )
+    if get_backend() == "jax":
+        if isinstance(nb_array, ValueArray):
+            nb_array = nb_array.values
+        if isinstance(parameter_samples, ParameterSet):
+            parameter_samples = np.stack(list(parameter_samples.parameters.values()), axis=1)
+        elif isinstance(parameter_samples, dict):
+            parameter_samples = np.stack(list(parameter_samples.values()), axis=1)
+        return jax_basic.evppi(
+            nb_array,
+            parameter_samples,
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+            n_regression_samples=n_regression_samples,
+            regression_model=regression_model,
+        )
+    else:
+        if isinstance(nb_array, np.ndarray):
+            nb_array = ValueArray(values=nb_array)
+        if isinstance(parameter_samples, (np.ndarray, dict)):
+            parameter_samples = ParameterSet(parameters=parameter_samples)
+        analysis = DecisionAnalysis(parameters=parameter_samples, values=nb_array)
+        return analysis.evppi(
+            parameter_samples=parameter_samples,
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+            n_regression_samples=n_regression_samples,
+            regression_model=regression_model,
+        )
 from .methods.calibration import voi_calibration
 from .methods.network_nma import evsi_nma
 from .methods.observational import voi_observational

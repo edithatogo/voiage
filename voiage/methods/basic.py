@@ -200,7 +200,15 @@ def evppi(
     if n_samples == 0:
         raise InputError("`nb_array` cannot be empty (no samples).")
 
-    x = check_parameter_samples(parameter_samples, n_samples)
+    if isinstance(parameter_samples, ParameterSet):
+        x = np.stack(list(parameter_samples.parameters.values()), axis=1)
+    elif isinstance(parameter_samples, dict):
+        x = np.stack(list(parameter_samples.values()), axis=1)
+    else:
+        x = parameter_samples
+
+    if x.ndim == 1:
+        x = x.reshape(-1, 1)
 
     if n_regression_samples is not None:
         if not isinstance(n_regression_samples, int) or n_regression_samples <= 0:
