@@ -30,8 +30,9 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 **Goal:** Implement the most critical features for the initial target audience (health economists) to make `voiage` a compelling alternative to existing tools.
 
-1.  **Robust EVSI Implementation:**
+1.  **Robust EVSI & ENBS Implementation:**
     *   Move beyond the current stub to a full-featured two-loop EVSI calculation.
+    *   Implement ENBS (Expected Net Benefit of Sampling) as a natural extension of EVSI.
     *   Implement proper Bayesian updating, starting with conjugate priors and extending to MCMC-based updates via integration with PyMC/NumPyro.
     *   Integrate advanced metamodels (Gaussian Processes, BART) for the inner loop, moving beyond simple linear regression.
 2.  **Network Meta-Analysis (NMA) VOI:**
@@ -49,11 +50,15 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 **Goal:** Broaden the library's capabilities to cover advanced VOI methods and actively support non-health applications.
 
-1.  **Portfolio Optimization:**
+1.  **Advanced EVPPI Methods:**
+    *   Implement Joint EVPPI to assess the value of learning about multiple parameters simultaneously.
+    *   Implement Conditional EVPPI to assess the value of information about one set of parameters, given that another set is already known.
+    *   Implement Sequential EVPPI to assess the value of information when parameters are learned in a specific order.
+2.  **Portfolio Optimization:**
     *   Implement a robust `portfolio_voi` method, using the new OO-API. Support both greedy algorithms and integer programming (via optional dependencies like `pulp`).
-2.  **Structural & Sequential VOI:**
+3.  **Structural & Sequential VOI:**
     *   Implement the placeholder methods for `structural_voi` and `sequential_voi`. These are crucial for complex policy and scientific modeling decisions.
-3.  **Cross-Domain Example Notebooks:**
+4.  **Cross-Domain Example Notebooks:**
     *   Develop at least two detailed tutorial notebooks showcasing `voiage` on non-health problems (e.g., an environmental policy decision on sea-level rise, a business strategy problem on portfolio optimization). This is critical for demonstrating the library's domain-agnostic capabilities.
 4.  **XArray Integration:**
     *   Begin integrating `xarray` into the core data structures to provide labeled dimensions, enhancing usability for complex, multi-dimensional analyses.

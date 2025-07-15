@@ -36,18 +36,15 @@ This table should serve as a roadmap for choosing the right tools for standard V
 
 Below is an expanded comparison table that includes all the main VOI analysis types—EVPI, EVPPI (including joint, conditional, and sequential), EVSI, and ENBS—even where no software currently supports them. Definitions of these VOI types can be found in the [NCBI overview](https://www.ncbi.nlm.nih.gov/books/NBK589537/) and the [York methods paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4999839/).
 
-| Software             | Type             | EVPI | EVPPI | Joint EVPPI | Conditional EVPPI | Sequential EVPPI | EVSI | ENBS | Maturity & Notes                                                                                                |
-| :------------------- | :--------------- | :--- | :---- | :---------- | :---------------- | :--------------- | :--- | :--- | :-------------------------------------------------------------------------------------------------------------- |
-| BCEA                 | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ❌   | ❌   | High maturity (v2.4.7 Jan 2025). Full Bayesian MCMC integration, CE-plane & EVPPI plotting .                      |
-| dampack              | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ✔️   | ❌   | Medium maturity (v1.0.2 Sep 30 2024). Regression-metamodel EVPPI (calc_evppi) & EVSI (calc_evsi) .             |
-| voi                  | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ✔️   | ✔️   | Low–medium maturity (initial v1.0.1 Nov 2023). Nonparametric EVSI, ENBS optimization .                             |
-| SAVI                 | R / Web app      | ❌   | ✔️    | ✔️          | ❌                | ❌               | ✔️¹  | ❌   | Web interface (and R wrapper) for accelerated EVPPI via GAM/GP; EVSI only via CSV summary “hack” .             |
-| BCEAweb              | Web              | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ❌   | ❌   | Shiny front-end to BCEA: PSA, EVPI & EVPPI in a user-friendly UI .                                                |
-| johanneskopton/evpi  | Python (GitHub)  | ✔️   | ✔️    | ❌          | ❌                | ❌               | ❌   | ❌   | Low maturity; EVPI/EVPPI via C/NumPy bindings; not on PyPI .                                                      |
-| TreeAge Pro          | Commercial       | ✔️   | ✔️    | ❌          | ❌                | ❌               | ❌   | ❌   | Industry-standard desktop tool; shortcuts for EVPI and EVPPI simulation on CE models .                            |
-| PrecisionTree        | Commercial (Excel) | ✔️   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Excel add-in by Palisade; built-in EVPI & EVSI wizards .                                                          |
-| ConVOI EVSI Viz      | Web              | ❌   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Experimental web app for EVSI visualization maintained by the ConVOI group .                                    |
-| voiage               | Python (PyPI)    | ✔️   | ✔️    | ❌          | ❌                | ❌               | ✔️   | ✔️   | Alpha version. JAX backend for performance.                                                                    |
+| Analysis Type      | BCEA (R) | dampack (R) | voi (R) | SAVI (R/Web) | BCEAweb (Web) | johanneskopton/evpi (Python) | TreeAge Pro (Commercial) | PrecisionTree (Commercial) | ConVOI EVSI Viz (Web) | voiage (Python) |
+| :----------------- | :------: | :---------: | :-----: | :----------: | :-----------: | :--------------------------: | :----------------------: | :------------------------: | :-------------------: | :-------------: |
+| EVPI               |    ✔️     |     ✔️       |   ✔️     |      ❌      |      ✔️        |             ✔️              |           ✔️            |            ✔️             |          ❌           |       ✔️         |
+| EVPPI              |    ✔️     |     ✔️       |   ✔️     |     ✔️¹     |      ✔️        |             ✔️              |           ✔️            |            ❌             |          ❌           |       ✔️         |
+| Joint EVPPI        |    ✔️     |     ✔️       |   ✔️     |      ✔️     |      ✔️        |             ❌              |           ❌            |            ❌             |          ❌           |       ❌         |
+| Conditional EVPPI  |    ❌     |     ❌       |   ❌     |      ❌      |      ❌        |             ❌              |           ❌            |            ❌             |          ❌           |       ❌         |
+| Sequential EVPPI   |    ❌     |     ❌       |   ❌     |      ❌      |      ❌        |             ❌              |           ❌            |            ❌             |          ❌           |       ❌         |
+| EVSI               |    ❌     |     ✔️       |   ✔️     |     ✔️¹     |      ❌        |             ❌              |           ❌            |            ✔️             |          ✔️           |       ✔️         |
+| ENBS               |    ❌     |     ❌       |   ✔️     |      ❌      |      ❌        |             ❌              |           ❌            |            ❌             |          ❌           |       ✔️         |
 
 ¹ EVSI in SAVI requires manually summarised inputs rather than a full PSA object.
 
