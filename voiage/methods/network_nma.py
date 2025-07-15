@@ -10,6 +10,7 @@ new studies that would inform this network.
 """
 
 from typing import Any, Callable, Optional
+import numpy as np
 
 from voiage.schema import ValueArray, ParameterSet, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
@@ -30,57 +31,92 @@ NMAEconomicModelEvaluator = Callable[
 
 def evsi_nma(
     nma_model_evaluator: NMAEconomicModelEvaluator,
-    psa_prior_nma: ParameterSet,  # Prior PSA samples for parameters in the NMA & econ model
-    trial_design_new_study: TrialDesign,  # Design of the new study to add to the network
-    # wtp: float, # Often implicit in ValueArray
+    psa_prior_nma: ParameterSet,
+    trial_design_new_study: TrialDesign,
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
-    # method_args specific to NMA context, e.g., MCMC samples for NMA, convergence criteria
+    n_outer_loops: int = 100,
+    n_inner_loops: int = 1000,
     **kwargs: Any,
 ) -> float:
-    """Calculate the Expected Value of Sample Information for a new study in the context of a Network Meta-Analysis (EVSI-NMA).
-
-    EVSI-NMA assesses the value of a proposed new trial (or set of trials)
-    that would provide additional evidence to an existing (or de novo) NMA.
-    The calculation involves simulating the new trial's data, updating the NMA,
-    and then re-evaluating the decision problem with the updated NMA posteriors.
-
-    Args:
-        nma_model_evaluator (NMAEconomicModelEvaluator):
-            A complex callable that encapsulates the NMA and subsequent economic evaluation.
-            It should be able to:
-            1. Take prior parameter distributions (`psa_prior_nma`).
-            2. Optionally, take a `trial_design_new_study` and simulated data from it.
-            3. Perform the NMA (potentially updated with new data).
-            4. Use NMA outputs (e.g., posterior relative effects) in an economic model
-               to produce a `NetBenefitArray`.
-        psa_prior_nma (PSASample):
-            PSA samples representing current (prior) uncertainty about all relevant
-            parameters (e.g., baseline risks, utility values, costs, and parameters
-            of the NMA model itself like heterogeneity).
-        trial_design_new_study (TrialDesign):
-            Specification of the new study whose data would inform the NMA.
-        population (Optional[float]): Population size for scaling.
-        discount_rate (Optional[float]): Discount rate for scaling.
-        time_horizon (Optional[float]): Time horizon for scaling.
-        **kwargs: Additional arguments for the NMA simulation or EVSI calculation method.
-
-    Returns
-    -------
-        float: The calculated EVSI-NMA.
-
-    Raises
-    ------
-        InputError: If inputs are invalid.
-        NotImplementedError: This method is a placeholder for v0.1, as full
-                             implementation requires extensive NMA capabilities.
-    """
     raise VoiageNotImplementedError(
         "EVSI for Network Meta-Analysis (EVSI-NMA) is a highly complex method "
         "requiring integration with NMA software/libraries and sophisticated simulation. "
         "Not fully implemented in v0.1.",
     )
+
+    # --- Calculate max_d [ E_theta [NB(d, theta)] ] --- (Prior optimal decision value)
+    nb_prior_values = nma_model_evaluator(psa_prior_nma, None, None)
+    if isinstance(nb_prior_values, ValueArray):
+        nb_prior_values = nb_prior_values.values
+    mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
+    max_expected_nb_current_info = np.max(mean_nb_per_strategy_prior)
+
+    # --- Two-loop Monte Carlo ---
+    all_max_enb_post_data_k = np.zeros(n_outer_loops)
+
+    for k in range(n_outer_loops):
+        # --- Outer loop: Simulate a dataset ---
+        true_params_idx = np.random.randint(0, psa_prior_nma.n_samples)
+        true_params = {
+            name: values[true_params_idx]
+            for name, values in psa_prior_nma.parameters.items()
+        }
+
+        simulated_data = {}
+        for arm in trial_design_new_study.arms:
+            mean = true_params.get(f"mean_{arm.name.lower()}", 0)
+            sd = true_params.get(f"sd_{arm.name.lower()}", 1)
+            simulated_data[arm.name] = np.random.normal(
+                loc=mean, scale=sd, size=arm.sample_size
+            )
+
+        # --- Inner loop: Bayesian update and calculate posterior expected net benefit ---
+        nb_posterior_values = nma_model_evaluator(
+            psa_prior_nma, trial_design_new_study, simulated_data
+        )
+        if isinstance(nb_posterior_values, ValueArray):
+            nb_posterior_values = nb_posterior_values.values
+        mean_nb_per_strategy_posterior = np.mean(nb_posterior_values, axis=0)
+        all_max_enb_post_data_k[k] = np.max(mean_nb_per_strategy_posterior)
+
+    expected_max_nb_post_study = np.mean(all_max_enb_post_data_k)
+
+    per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
+    per_decision_evsi = max(0.0, per_decision_evsi)
+
+    # Population scaling
+    if population is not None and time_horizon is not None:
+        if population <= 0:
+            raise InputError("Population must be positive.")
+        if time_horizon <= 0:
+            raise InputError("Time horizon must be positive.")
+
+        effective_population = population
+        if discount_rate is not None:
+            if not (0 <= discount_rate <= 1):
+                raise InputError("Discount rate must be between 0 and 1.")
+            if discount_rate == 0:
+                annuity_factor = time_horizon
+            else:
+                annuity_factor = (
+                    1 - (1 + discount_rate) ** -time_horizon
+                ) / discount_rate
+            effective_population *= annuity_factor
+        else:
+            if discount_rate is None:
+                effective_population *= time_horizon
+        return per_decision_evsi * effective_population
+    elif (
+        population is not None or time_horizon is not None or discount_rate is not None
+    ):
+        raise InputError(
+            "To calculate population EVSI, 'population' and 'time_horizon' must be provided. "
+            "'discount_rate' is optional.",
+        )
+
+    return per_decision_evsi
 
     # Conceptual steps (greatly simplified):
     # 1. Calculate max_d E[NB(d) | Prior Info] using `nma_model_evaluator(psa_prior_nma, None, None)`

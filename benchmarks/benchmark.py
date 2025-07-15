@@ -31,8 +31,12 @@ def run_evpi_benchmark(n_samples, n_strategies):
         jax_time = timeit.timeit(lambda: evpi(nb_array_jax), number=10)
         print(f"JAX backend (initial run): {jax_time_initial:.4f} seconds")
         print(f"JAX backend (subsequent runs): {jax_time:.4f} seconds")
+    else:
+        jax_time_initial = 0
+        jax_time = 0
 
     set_backend("numpy")
+    return numpy_time, jax_time_initial, jax_time
 
 
 def run_evppi_benchmark(n_samples, n_strategies, n_params):
@@ -56,13 +60,36 @@ def run_evppi_benchmark(n_samples, n_strategies, n_params):
         jax_time = timeit.timeit(lambda: evppi(nb_array_jax, param_samples_jax), number=10)
         print(f"JAX backend (initial run): {jax_time_initial:.4f} seconds")
         print(f"JAX backend (subsequent runs): {jax_time:.4f} seconds")
+    else:
+        jax_time_initial = 0
+        jax_time = 0
 
     set_backend("numpy")
+    return numpy_time, jax_time_initial, jax_time
 
 
 if __name__ == "__main__":
-    run_evpi_benchmark(1000, 5)
-    run_evpi_benchmark(10000, 20)
+    with open("benchmarks/results.txt", "w") as f:
+        f.write("--- EVPI Benchmarks ---\n")
+        f.write("n_samples,n_strategies,numpy_time,jax_time_initial,jax_time\n")
+        n_samples = 1000
+        n_strategies = 5
+        numpy_time, jax_time_initial, jax_time = run_evpi_benchmark(n_samples, n_strategies)
+        f.write(f"{n_samples},{n_strategies},{numpy_time:.4f},{jax_time_initial:.4f},{jax_time:.4f}\n")
+        n_samples = 10000
+        n_strategies = 20
+        numpy_time, jax_time_initial, jax_time = run_evpi_benchmark(n_samples, n_strategies)
+        f.write(f"{n_samples},{n_strategies},{numpy_time:.4f},{jax_time_initial:.4f},{jax_time:.4f}\n")
 
-    run_evppi_benchmark(1000, 5, 2)
-    run_evppi_benchmark(10000, 20, 10)
+        f.write("\n--- EVPPI Benchmarks ---\n")
+        f.write("n_samples,n_strategies,n_params,numpy_time,jax_time_initial,jax_time\n")
+        n_samples = 1000
+        n_strategies = 5
+        n_params = 2
+        numpy_time, jax_time_initial, jax_time = run_evppi_benchmark(n_samples, n_strategies, n_params)
+        f.write(f"{n_samples},{n_strategies},{n_params},{numpy_time:.4f},{jax_time_initial:.4f},{jax_time:.4f}\n")
+        n_samples = 10000
+        n_strategies = 20
+        n_params = 10
+        numpy_time, jax_time_initial, jax_time = run_evppi_benchmark(n_samples, n_strategies, n_params)
+        f.write(f"{n_samples},{n_strategies},{n_params},{numpy_time:.4f},{jax_time_initial:.4f},{jax_time:.4f}\n")

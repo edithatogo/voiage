@@ -1,0 +1,9 @@
+--- EVPI Benchmarks ---
+n_samples,n_strategies,numpy_time,jax_time_initial,jax_time
+1000,5,0.0012,0.1696,0.0004
+10000,20,0.0110,0.1104,0.0003
+
+--- EVPPI Benchmarks ---
+n_samples,n_strategies,n_params,numpy_time,jax_time_initial,jax_time
+1000,5,2,0.0533,0.1854,0.0002
+10000,20,10,0.7562,0.1411,0.0004

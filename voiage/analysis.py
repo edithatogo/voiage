@@ -57,6 +57,20 @@ class DecisionAnalysis:
             regression_model=regression_model,
         )
 
+    def plot_ce_plane(self, wtp, ax=None, show=True, **kwargs):
+        """
+        Plot the Cost-Effectiveness Plane.
+        """
+        from voiage.plot.ce_plane import plot_ce_plane
+
+        return plot_ce_plane(
+            value_array=self.values,
+            wtp=wtp,
+            ax=ax,
+            show=show,
+            **kwargs,
+        )
+
     def sequential_evppi(
         self,
         parameter_samples: Union[np.ndarray, "ParameterSet", Dict[str, np.ndarray]],
