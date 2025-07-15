@@ -306,3 +306,97 @@ def evppi(
         )
 
     return per_decision_evppi
+
+
+def joint_evppi(
+    nb_array: Union[np.ndarray, ValueArray],
+    parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
+    population: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    n_regression_samples: Optional[int] = None,
+    regression_model: Optional[Any] = None,
+) -> float:
+    """
+    Calculate the Joint Expected Value of Partial Perfect Information (EVPPI).
+    """
+    return evppi(
+        nb_array,
+        parameter_samples,
+        population,
+        time_horizon,
+        discount_rate,
+        n_regression_samples,
+        regression_model,
+    )
+
+
+def sequential_evppi(
+    nb_array: Union[np.ndarray, ValueArray],
+    parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
+    population: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    n_regression_samples: Optional[int] = None,
+    regression_model: Optional[Any] = None,
+) -> float:
+    """
+    Calculate the Sequential Expected Value of Partial Perfect Information (EVPPI).
+    """
+    if isinstance(parameter_samples, ParameterSet):
+        parameter_samples = np.stack(list(parameter_samples.parameters.values()), axis=1)
+    elif isinstance(parameter_samples, dict):
+        parameter_samples = np.stack(list(parameter_samples.values()), axis=1)
+
+    evppi_values = []
+    for i in range(1, parameter_samples.shape[1] + 1):
+        evppi_values.append(
+            evppi(
+                nb_array,
+                parameter_samples[:, :i],
+                population,
+                time_horizon,
+                discount_rate,
+                n_regression_samples,
+                regression_model,
+            )
+        )
+    return np.array(evppi_values)
+
+
+def conditional_evppi(
+    nb_array: Union[np.ndarray, ValueArray],
+    parameter_samples_of_interest: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
+    parameter_samples_given: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
+    population: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    n_regression_samples: Optional[int] = None,
+    regression_model: Optional[Any] = None,
+) -> float:
+    """
+    Calculate the Conditional Expected Value of Partial Perfect Information (EVPPI).
+    """
+    if isinstance(parameter_samples_of_interest, ParameterSet):
+        parameter_samples_of_interest = np.stack(list(parameter_samples_of_interest.parameters.values()), axis=1)
+    elif isinstance(parameter_samples_of_interest, dict):
+        parameter_samples_of_interest = np.stack(list(parameter_samples_of_interest.values()), axis=1)
+
+    if isinstance(parameter_samples_given, ParameterSet):
+        parameter_samples_given = np.stack(list(parameter_samples_given.parameters.values()), axis=1)
+    elif isinstance(parameter_samples_given, dict):
+        parameter_samples_given = np.stack(list(parameter_samples_given.values()), axis=1)
+
+    parameter_samples = np.concatenate(
+        [parameter_samples_of_interest, parameter_samples_given], axis=1
+    )
+
+    return evppi(
+        nb_array,
+        parameter_samples,
+        population,
+        time_horizon,
+        discount_rate,
+        n_regression_samples,
+        regression_model,
+    )

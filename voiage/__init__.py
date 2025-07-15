@@ -43,7 +43,7 @@ from .methods.adaptive import adaptive_evsi
 # --- Core VOI Methods ---
 # Expose primary VOI calculation functions at the top level of the package
 # for ease of use, e.g., `from voiage import evpi`.
-from .methods.basic import evpi as evpi_func, evppi as evppi_func
+from .methods.basic import evpi as evpi_func, evppi as evppi_func, joint_evppi as joint_evppi_func, conditional_evppi as conditional_evppi_func, sequential_evppi as sequential_evppi_func
 from .analysis import DecisionAnalysis
 from .schema import ParameterSet, ValueArray
 import numpy as np
