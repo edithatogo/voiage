@@ -1,172 +1,46 @@
-# voiage/plot/ceac.py
-
-"""Plotting functions for CEACs, CE Planes, and EVPPI surfaces."""
-
-from typing import List, Optional, Union
-
+import matplotlib.pyplot as plt
 import numpy as np
 
-# Attempt to import Matplotlib, but make it optional
-try:
-    from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
-    import matplotlib.pyplot as plt
-
-    MATPLOTLIB_AVAILABLE = True
-except ImportError:
-    MATPLOTLIB_AVAILABLE = False
-    Figure = None  # type: ignore
-    Axes = None  # type: ignore
-
-from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import NetBenefitArray
-from voiage.exceptions import InputError, PlottingError
-
-
-def _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples):
-    prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
-
-    # For each WTP threshold
-    for w_idx in range(n_wtp_points):
-        nb_at_wtp = nb_values[:, :, w_idx]  # (n_samples, n_strategies)
-        # Identify the optimal strategy for each sample at this WTP
-        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)  # (n_samples,)
-
-        # Count how many times each strategy was optimal
-        for s_idx in range(n_strategies):
-            prob_ce[s_idx, w_idx] = (
-                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
-            )
-    return prob_ce
+from voiage.schema import ValueArray
 
 
 def plot_ceac(
-    nb_array: Union[np.ndarray, NetBenefitArray],
-    wtp_thresholds: Union[np.ndarray, List[float]],
-    strategy_names: Optional[List[str]] = None,
-    xlabel: str = "Willingness-to-Pay Threshold",
-    ylabel: str = "Probability Cost-Effective",
-    title: str = "Cost-Effectiveness Acceptability Curve (CEAC)",
-    ax: Optional[Axes] = None,
-    **plot_kwargs_per_strategy: Optional[
-        List[dict]
-    ],  # List of dicts for each strategy's plot call
-) -> Axes:
-    """Plot a Cost-Effectiveness Acceptability Curve (CEAC).
-
-    A CEAC shows the probability that each strategy is optimal (has the highest
-    net benefit) across a range of willingness-to-pay (WTP) thresholds.
-
-    Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]):
-            Net Benefit Array.
-            If np.ndarray: A 3D array (n_samples, n_strategies, n_wtp_thresholds) of net benefits.
-                           Or, if nb_array is (n_samples, n_strategies) and wtp_thresholds are used
-                           to calculate NMB on the fly (this is less direct for CEAC).
-                           This function expects NMBs already calculated for each WTP.
-            If NetBenefitArray: `values` attribute should be 3D as above.
-                                (This might need refinement of NetBenefitArray structure or this function)
-            For simplicity, let's assume nb_array's last dimension corresponds to wtp_thresholds.
-        wtp_thresholds (Union[np.ndarray, List[float]]):
-            Array or list of WTP thresholds. The length must match the size of
-            the last dimension of `nb_array.values` if it's 3D.
-        strategy_names (Optional[List[str]]):
-            Names for each strategy. If None, generic names will be used.
-            Length must match `nb_array.shape[1]`.
-        xlabel (str): Label for the x-axis.
-        ylabel (str): Label for the y-axis.
-        title (str): Title of the plot.
-        ax (Optional[Axes]): Matplotlib Axes object to plot on.
-        **plot_kwargs_per_strategy: A list of dictionaries, where each dictionary contains
-                                     kwargs for the `ax.plot()` call for the corresponding strategy.
-                                     If not provided, default styling is used.
-
-    Returns
-    -------
-        Axes: The Matplotlib Axes object with the plot.
-
-    Raises
-    ------
-        PlottingError: If Matplotlib is not installed.
-        InputError: If input dimensions or lengths are mismatched.
+    value_array: ValueArray,
+    wtp_range: np.ndarray,
+    ax=None,
+    show=True,
+    **kwargs,
+):
     """
-    if not MATPLOTLIB_AVAILABLE:
-        raise PlottingError(
-            "Matplotlib is required for plotting functions but not installed."
-        )
-
-    if isinstance(nb_array, NetBenefitArray):
-        nb_values = nb_array.values  # Expected (n_samples, n_strategies, n_wtp)
-        if strategy_names is None:  # Try to get from NetBenefitArray if available
-            strategy_names = nb_array.strategy_names
-    elif isinstance(nb_array, np.ndarray):
-        nb_values = nb_array
-    else:
-        raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
-
-    if nb_values.ndim != 3:
-        raise InputError(
-            "For CEAC, nb_values must be a 3D array (samples x strategies x WTP thresholds)."
-            "Ensure net benefits are calculated for each WTP.",
-        )
-
-    n_samples, n_strategies, n_wtp_points = nb_values.shape
-    wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
-
-    if len(wtp_arr) != n_wtp_points:
-        raise InputError(
-            f"Length of wtp_thresholds ({len(wtp_arr)}) must match the third dimension "
-            f"of nb_values ({n_wtp_points}).",
-        )
-
-    if strategy_names is None:
-        strategy_names = [f"Strategy {i + 1}" for i in range(n_strategies)]
-    elif len(strategy_names) != n_strategies:
-        raise InputError(
-            f"Length of strategy_names ({len(strategy_names)}) must match the second dimension "
-            f"of nb_values ({n_strategies}).",
-        )
-
+    Plot the Cost-Effectiveness Acceptability Curve (CEAC).
+    """
     if ax is None:
-        fig, ax = plt.subplots()  # type: ignore
+        fig, ax = plt.subplots()
+    else:
+        fig = ax.get_figure()
 
-    prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
+    ceac = np.zeros((len(wtp_range), value_array.n_strategies))
+    for i, wtp in enumerate(wtp_range):
+        nmb = value_array.values * wtp
+        optimal_strategy = np.argmax(nmb, axis=1)
+        for j in range(value_array.n_strategies):
+            ceac[i, j] = np.mean(optimal_strategy == j)
 
-    # Plot CEAC for each strategy
-    user_plot_kwargs = {}
-    if plot_kwargs_per_strategy is not None:
-        if (
-            isinstance(plot_kwargs_per_strategy, list)
-            and len(plot_kwargs_per_strategy) == n_strategies
-        ):
-            user_plot_kwargs = {i: kw for i, kw in enumerate(plot_kwargs_per_strategy)}
-        else:
-            # print("Warning: plot_kwargs_per_strategy should be a list of dicts, one for each strategy. Using defaults.")
-            pass
+    for j in range(value_array.n_strategies):
+        ax.plot(wtp_range, ceac[:, j], label=value_array.strategy_names[j], **kwargs)
 
-    for s_idx in range(n_strategies):
-        current_kwargs = {"label": strategy_names[s_idx]}
-        # Apply default cmap colors if no specific color is given
-        if "color" not in user_plot_kwargs.get(s_idx, {}):
-            # Cycle through default matplotlib colors
-            prop_cycle = plt.rcParams["axes.prop_cycle"]  # type: ignore
-            current_kwargs["color"] = prop_cycle.by_key()["color"][
-                s_idx % len(prop_cycle.by_key()["color"])
-            ]
+    ax.set_xlabel("Willingness-to-Pay Threshold")
+    ax.set_ylabel("Probability of Being Cost-Effective")
+    ax.legend()
 
-        current_kwargs.update(
-            user_plot_kwargs.get(s_idx, {})
-        )  # Override with user specifics
-        ax.plot(wtp_arr, prob_ce[s_idx, :], **current_kwargs)  # type: ignore
+    if show:
+        plt.show()
 
-    ax.set_xlabel(xlabel)  # type: ignore
-    ax.set_ylabel(ylabel)  # type: ignore
-    ax.set_title(title)  # type: ignore
-    ax.legend(loc="best")  # type: ignore
-    ax.grid(True, linestyle=":", alpha=0.7)  # type: ignore
-    ax.set_ylim(0, 1.05)  # Probability from 0 to 1
+    return fig, ax
 
-    return ax  # type: ignore
+
+from typing import List, Optional, Union
+from matplotlib.axes import Axes
 
 
 def plot_ce_plane(

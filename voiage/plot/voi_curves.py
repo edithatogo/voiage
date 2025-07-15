@@ -1,6 +1,35 @@
-# voiage/plot/voi_curves.py
+import matplotlib.pyplot as plt
+import numpy as np
 
-"""Plotting functions for various VOI curves."""
+from voiage.analysis import DecisionAnalysis
+
+
+def plot_voi_curves(
+    analysis: DecisionAnalysis,
+    wtp_range: np.ndarray,
+    ax=None,
+    show=True,
+    **kwargs,
+):
+    """
+    Plot VOI curves.
+    """
+    if ax is None:
+        fig, ax = plt.subplots()
+    else:
+        fig = ax.get_figure()
+
+    evpi = [analysis.evpi(population=None, time_horizon=None, discount_rate=None) for wtp in wtp_range]
+    ax.plot(wtp_range, evpi, label="EVPI", **kwargs)
+
+    ax.set_xlabel("Willingness-to-Pay Threshold")
+    ax.set_ylabel("Value of Information")
+    ax.legend()
+
+    if show:
+        plt.show()
+
+    return fig, ax
 
 from typing import List, Optional, Union
 

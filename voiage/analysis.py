@@ -71,6 +71,34 @@ class DecisionAnalysis:
             **kwargs,
         )
 
+    def plot_voi_curves(self, wtp_range, ax=None, show=True, **kwargs):
+        """
+        Plot VOI curves.
+        """
+        from voiage.plot.voi_curves import plot_voi_curves
+
+        return plot_voi_curves(
+            analysis=self,
+            wtp_range=wtp_range,
+            ax=ax,
+            show=show,
+            **kwargs,
+        )
+
+    def plot_ceac(self, wtp_range, ax=None, show=True, **kwargs):
+        """
+        Plot the Cost-Effectiveness Acceptability Curve (CEAC).
+        """
+        from voiage.plot.ceac import plot_ceac
+
+        return plot_ceac(
+            value_array=self.values,
+            wtp_range=wtp_range,
+            ax=ax,
+            show=show,
+            **kwargs,
+        )
+
     def sequential_evppi(
         self,
         parameter_samples: Union[np.ndarray, "ParameterSet", Dict[str, np.ndarray]],
