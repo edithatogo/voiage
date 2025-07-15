@@ -11,26 +11,67 @@ future decisions and future information gathering opportunities.
 
 from typing import Any, Callable, Dict, Generator, Union
 
-from voiage.schema import DynamicSpec, ParameterSet
+from voiage.core.data_structures import DynamicSpec, PSASample
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
 # and return new state, accrued data, and immediate rewards/costs.
 SequentialStepModel = Callable[
-    [ParameterSet, Any, DynamicSpec],  # Current PSA, Action/Decision, Dynamic settings
+    [PSASample, Any, DynamicSpec],  # Current PSA, Action/Decision, Dynamic settings
     Dict[
         str, Any
-    ],  # e.g., {'next_psa': ParameterSet, 'observed_data': Any, 'immediate_nb': float}
+    ],  # e.g., {'next_psa': PSASample, 'observed_data': Any, 'immediate_nb': float}
 ]
 
 
 def sequential_voi(
     step_model: SequentialStepModel,
-    initial_psa: ParameterSet,
+    initial_psa: PSASample,
     dynamic_specification: DynamicSpec,
+    # wtp: float, # Usually implicit
+    # population: Optional[float] = None, # Applied at each step or overall
+    # discount_rate: Optional[float] = None, # Crucial for sequential decisions
+    # time_horizon: Optional[float] = None, # Overall horizon
+    # optimization_method: str = "backward_induction", # e.g., for finite horizon
     **kwargs: Any,
 ) -> Union[float, Generator[Dict[str, Any], None, None]]:
+    """Calculate Value of Information in a dynamic or sequential decision context.
+
+    This can be approached in several ways:
+    1. Calculating VOI at each potential decision point in a pre-defined sequence.
+    2. Using methods like backward induction (dynamic programming) to find an
+       optimal strategy of decision-making and information gathering over time.
+    3. Exposing a generator API that yields VOI metrics at each time step as
+       data notionally accrues.
+
+    The implementation here is a placeholder for such complex analyses.
+
+    Args:
+        step_model (SequentialStepModel):
+            A function that models a single time step or stage in the sequential process.
+            It takes the current state of knowledge (e.g., `PSASample`), a potential
+            decision or action, and dynamic settings, then returns outcomes for that step
+            (e.g., updated knowledge, observed data, immediate net benefit).
+        initial_psa (PSASample):
+            PSA samples representing parameter uncertainty at the beginning of the process.
+        dynamic_specification (DynamicSpec):
+            Defines time steps, interim rules, or other dynamic aspects.
+        # optimization_method (str): Method like "backward_induction" or "forward_simulation".
+        **kwargs: Additional arguments for the specific sequential VOI approach.
+
+    Returns
+    -------
+        Union[float, Generator[Dict[str, Any], None, None]]:
+            Depending on the approach, could be an overall VOI for the entire
+            sequential strategy, or a generator yielding VOI at each step.
+            For v0.1, this will raise NotImplementedError.
+
+    Raises
+    ------
+        InputError: If inputs are invalid.
+        NotImplementedError: This method is a placeholder for v0.1.
+    """
     raise VoiageNotImplementedError(
         "Dynamic / Sequential VOI is a highly advanced topic, often requiring "
         "custom modeling (e.g., Markov Decision Processes, Reinforcement Learning approaches, "
@@ -62,3 +103,26 @@ def sequential_voi(
     #         # current_psa_state = outcomes['next_psa']
     #         pass # Placeholder for state transition logic
 
+
+if __name__ == "__main__":
+    print("--- Testing sequential.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # Used by PSASample
+
+    from voiage.core.data_structures import DynamicSpec, PSASample
+
+    try:
+        # Dummy arguments
+        def dummy_step_model(psa, action, dyn_spec):
+            return {}
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
+        sequential_voi(dummy_step_model, dummy_psa, dummy_dyn_spec)
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for sequential_voi: {e}")
+    else:
+        raise AssertionError("sequential_voi did not raise VoiageNotImplementedError.")
+
+    print("--- sequential.py placeholder tests completed ---")

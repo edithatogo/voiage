@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.schema import ValueArray, ParameterSet
+from voiage.core.data_structures import NetBenefitArray, PSASample
 from voiage.exceptions import (
     DimensionMismatchError,
     InputError,
@@ -34,12 +34,12 @@ def test_evpi_calculation_simple(nb_array, expected_evpi):
     np.testing.assert_allclose(calculated_evpi, expected_evpi)
 
 
-def test_evpi_with_valuearray_input(
-    sample_value_array_2strat: ValueArray,
+def test_evpi_with_netbenefitarray_input(
+    sample_net_benefit_array_2strat: NetBenefitArray,
 ):
-    """Test EVPI with ValueArray object as input."""
+    """Test EVPI with NetBenefitArray object as input."""
     expected_evpi = 6.0  # Same data as above
-    calculated_evpi = evpi(sample_value_array_2strat)
+    calculated_evpi = evpi(sample_net_benefit_array_2strat)
     np.testing.assert_allclose(calculated_evpi, expected_evpi)
 
 
@@ -100,7 +100,7 @@ def test_evpi_population_scaling(sample_nb_data_array_2strat: np.ndarray):
 
 def test_evpi_invalid_inputs():
     """Test EVPI with various invalid inputs."""
-    with pytest.raises(InputError, match="must be a NumPy array or ValueArray"):
+    with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
         evpi("not an array")  # type: ignore
 
     with pytest.raises(
@@ -209,8 +209,8 @@ def test_evppi_input_types(evppi_test_data_simple):
     evppi_np_2d = evppi(nb_values, p_samples_np_2d)
     np.testing.assert_allclose(evppi_np_1d, evppi_np_2d)
 
-    # 3. ParameterSet
-    psa_obj = ParameterSet(parameters={"param_of_interest": p_samples_np})
+    # 3. PSASample
+    psa_obj = PSASample(parameters={"param_of_interest": p_samples_np})
     evppi_psa = evppi(nb_values, psa_obj)
     np.testing.assert_allclose(evppi_np_1d, evppi_psa, atol=1e-3)
     # Note: if n_regression_samples is used and is < total_samples, some minor variation is expected.
@@ -258,13 +258,13 @@ def test_evppi_invalid_inputs(evppi_test_data_simple):
     p_samples_valid = data["p_samples"]
 
     with pytest.raises(
-        InputError, match="`nb_array` must be a NumPy array or ValueArray object."
+        InputError, match="`nb_array` must be a NumPy array or NetBenefitArray object."
     ):
         evppi("not an array", p_samples_valid)  # type: ignore
 
     with pytest.raises(
         InputError,
-        match=r"`parameter_samples` must be a NumPy array, ParameterSet, or Dict\. Got <class 'str'>\.",
+        match=r"`parameter_samples` must be a NumPy array, PSASample, or Dict\. Got <class 'str'>\.",
     ):
         evppi(nb_values, "not valid params")  # type: ignore
 

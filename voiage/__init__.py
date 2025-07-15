@@ -28,100 +28,25 @@ from . import (
     config,  # Allow access like `voiage.config.DEFAULT_DTYPE`
     exceptions,  # Allow access like `voiage.exceptions.InputError`
 )
-from .schema import (
+from .core.data_structures import (
     DynamicSpec,
-    ValueArray,
+    NetBenefitArray,
     PortfolioSpec,
     PortfolioStudy,
-    ParameterSet,
-    DecisionOption,
+    PSASample,
+    TrialArm,
     TrialDesign,
 )
-from .analysis import DecisionAnalysis
 from .methods.adaptive import adaptive_evsi
 
 # --- Core VOI Methods ---
 # Expose primary VOI calculation functions at the top level of the package
 # for ease of use, e.g., `from voiage import evpi`.
-from .methods.basic import evpi as evpi_func, evppi as evppi_func, joint_evppi as joint_evppi_func, conditional_evppi as conditional_evppi_func, sequential_evppi as sequential_evppi_func
-from .analysis import DecisionAnalysis
-from .schema import ParameterSet, ValueArray
-import numpy as np
-from typing import Any, Dict, Optional, Union
-
-
-from .backends import get_backend, set_backend
-from .methods import jax_basic
-
-def evpi(
-    nb_array: Union[np.ndarray, ValueArray],
-    population: Optional[float] = None,
-    time_horizon: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-) -> float:
-    if get_backend() == "jax":
-        if isinstance(nb_array, ValueArray):
-            nb_array = nb_array.values
-        return jax_basic.evpi(
-            nb_array,
-            population=population,
-            time_horizon=time_horizon,
-            discount_rate=discount_rate,
-        )
-    else:
-        if isinstance(nb_array, np.ndarray):
-            nb_array = ValueArray(values=nb_array)
-        analysis = DecisionAnalysis(parameters=None, values=nb_array)
-        return analysis.evpi(
-            population=population,
-            time_horizon=time_horizon,
-            discount_rate=discount_rate,
-        )
-
-
-def evppi(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]],
-    population: Optional[float] = None,
-    time_horizon: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    n_regression_samples: Optional[int] = None,
-    regression_model: Optional[Any] = None,
-) -> float:
-    if get_backend() == "jax":
-        if isinstance(nb_array, ValueArray):
-            nb_array = nb_array.values
-        if isinstance(parameter_samples, ParameterSet):
-            parameter_samples = np.stack(list(parameter_samples.parameters.values()), axis=1)
-        elif isinstance(parameter_samples, dict):
-            parameter_samples = np.stack(list(parameter_samples.values()), axis=1)
-        return jax_basic.evppi(
-            nb_array,
-            parameter_samples,
-            population=population,
-            time_horizon=time_horizon,
-            discount_rate=discount_rate,
-            n_regression_samples=n_regression_samples,
-            regression_model=regression_model,
-        )
-    else:
-        if isinstance(nb_array, np.ndarray):
-            nb_array = ValueArray(values=nb_array)
-        if isinstance(parameter_samples, (np.ndarray, dict)):
-            parameter_samples = ParameterSet(parameters=parameter_samples)
-        analysis = DecisionAnalysis(parameters=parameter_samples, values=nb_array)
-        return analysis.evppi(
-            parameter_samples=parameter_samples,
-            population=population,
-            time_horizon=time_horizon,
-            discount_rate=discount_rate,
-            n_regression_samples=n_regression_samples,
-            regression_model=regression_model,
-        )
+from .methods.basic import evpi, evppi
 from .methods.calibration import voi_calibration
 from .methods.network_nma import evsi_nma
 from .methods.observational import voi_observational
-from .methods.portfolio import portfolio_voi as portfolio_voi_func
+from .methods.portfolio import portfolio_voi
 from .methods.sample_information import enbs, evsi
 from .methods.sequential import sequential_voi
 
@@ -135,13 +60,12 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # Define what gets imported by `from voiage import *`.
 # It's generally good practice to be explicit.
 __all__ = [
-    "DecisionAnalysis",
     "DynamicSpec",
-    "ValueArray",
-    "ParameterSet",
+    "NetBenefitArray",
+    "PSASample",
     "PortfolioSpec",
     "PortfolioStudy",
-    "DecisionOption",
+    "TrialArm",
     "TrialDesign",
     "__version__",
     "adaptive_evsi",

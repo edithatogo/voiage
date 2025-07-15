@@ -116,3 +116,20 @@ def calculate_evppi_cli(
 #    voiage = "voiage.cli:app"  # If app is your Typer instance
 # Then `voiage calculate-evpi ...` would work after installation.
 
+if __name__ == "__main__":
+    print("--- Testing cli.py (Placeholders) ---")
+    try:
+        calculate_evpi_cli("dummy_nb.csv")
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for calculate_evpi_cli: {e}")
+    except Exception as e:  # Catch other errors if Typer/Click were active
+        print(f"Caught unexpected error: {e}")
+
+    try:
+        calculate_evppi_cli("dummy_nb.csv", "dummy_params.csv")
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for calculate_evppi_cli: {e}")
+    except Exception as e:
+        print(f"Caught unexpected error: {e}")
+
+    print("--- cli.py placeholder tests completed ---")

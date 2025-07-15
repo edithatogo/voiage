@@ -18,24 +18,66 @@ from typing import Callable, List, Optional, Union
 
 import numpy as np
 
-from voiage.schema import ValueArray, ParameterSet
+from voiage.core.data_structures import NetBenefitArray, PSASample
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
-ModelStructureEvaluator = Callable[[ParameterSet], ValueArray]
+ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
 
 
 def structural_evpi(
     model_structure_evaluators: List[ModelStructureEvaluator],
     structure_probabilities: Union[np.ndarray, List[float]],
     psa_samples_per_structure: List[
-        ParameterSet
-    ],
+        PSASample
+    ],  # PSA samples relevant to each structure
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
 ) -> float:
+    """Calculate the Expected Value of Perfect Information for Model Structure (Structural EVPI).
+
+    Structural EVPI quantifies the expected gain from knowing with certainty which
+    model structure is the "true" or most appropriate one.
+
+    Conceptual Formula:
+    SEVPI = E_S [max_d E_theta|S [NB(d, theta, S)]] - max_d E_S [E_theta|S [NB(d, theta, S)]]
+    where:
+        S represents a specific model structure.
+        E_S is the expectation over the distribution of model structures (structure_probabilities).
+        E_theta|S is the expectation over parameters theta, given structure S.
+
+    This implementation assumes:
+    - A discrete set of alternative model structures.
+    - Probabilities assigned to each structure being correct.
+    - Each structure might have its own set of parameters and PSA samples.
+
+    Args:
+        model_structure_evaluators (List[ModelStructureEvaluator]):
+            A list of functions. Each function takes a PSASample object (parameters
+            relevant to that structure) and returns a NetBenefitArray for that model structure.
+        structure_probabilities (Union[np.ndarray, List[float]]):
+            Probabilities associated with each model structure being the true one.
+            Must sum to 1 and have the same length as `model_structure_evaluators`.
+        psa_samples_per_structure (List[PSASample]):
+            A list of PSASample objects. Each PSASample corresponds to the parameters
+            for the respective model structure in `model_structure_evaluators`.
+            Length must match `model_structure_evaluators`.
+        population (Optional[float]): Population size for scaling.
+        discount_rate (Optional[float]): Discount rate for scaling.
+        time_horizon (Optional[float]): Time horizon for scaling.
+
+    Returns
+    -------
+        float: The calculated Structural EVPI.
+
+    Raises
+    ------
+        InputError: If inputs are inconsistent (e.g., list lengths don't match,
+                    probabilities don't sum to 1).
+        NotImplementedError: This is a placeholder for v0.1; full implementation is complex.
+    """
     raise VoiageNotImplementedError(
         "Structural EVPI is a complex method requiring careful definition of "
         "model structure evaluation and parameter handling. Not fully implemented in v0.1.",
@@ -109,11 +151,53 @@ def structural_evpi(
 
 
 def structural_evppi(
+    # Similar complex arguments as structural_evpi, plus definition of
+    # which part of structural uncertainty is being resolved (e.g., a subset of models,
+    # or parameters governing the choice between models).
     *args,
     **kwargs,
 ) -> float:
+    """Calculate the Expected Value of Partial Perfect Information for Model Structure (Structural EVPPI).
+
+    SEVPPI quantifies the expected gain from resolving uncertainty about a specific
+    aspect of model structure, or distinguishing between a subset of model structures.
+
+    This is a highly complex VOI metric, often requiring bespoke problem formulation.
+
+    Args:
+        *args, **kwargs: Placeholder for arguments.
+
+    Returns
+    -------
+        float: The calculated Structural EVPPI.
+
+    Raises
+    ------
+        NotImplementedError: This method is a placeholder for v0.1.
+    """
     raise VoiageNotImplementedError(
         "Structural EVPPI is a highly specialized and complex VOI method. "
         "Not implemented in v0.1.",
     )
 
+
+if __name__ == "__main__":
+    print("--- Testing structural.py (Placeholders) ---")
+
+    try:
+        structural_evpi([], [], [])  # type: ignore
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for structural_evpi: {e}")
+    else:
+        raise AssertionError("structural_evpi did not raise VoiageNotImplementedError.")
+
+    try:
+        structural_evppi()
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for structural_evppi: {e}")
+    else:
+        raise AssertionError(
+            "structural_evppi did not raise VoiageNotImplementedError."
+        )
+
+    print("--- structural.py placeholder tests completed ---")

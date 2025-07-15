@@ -16,15 +16,7 @@ import numpy as np
 # --- Numerical Precision ---
 # Default data type for floating point calculations.
 # Using float64 for higher precision, common in scientific computing.
-from .backends import get_backend
-
-def get_default_dtype():
-    if get_backend() == "jax":
-        return np.float32
-    else:
-        return np.float64
-
-DEFAULT_DTYPE = get_default_dtype()
+DEFAULT_DTYPE = np.float64
 
 # --- Backend Configuration ---
 # Placeholder for backend selection (e.g., "numpy", "jax")

@@ -13,9 +13,9 @@ data would be analyzed and used to update beliefs.
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.schema import (
-    ValueArray,
-    ParameterSet,
+from voiage.core.data_structures import (
+    NetBenefitArray,
+    PSASample,
 )
 from voiage.exceptions import VoiageNotImplementedError
 
@@ -27,17 +27,17 @@ from voiage.exceptions import VoiageNotImplementedError
 # - Specifying how this data, adjusted for biases, updates decision model parameters.
 ObservationalStudyModeler = Callable[
     [
-        ParameterSet,
+        PSASample,
         Dict[str, Any],
         Dict[str, Any],
     ],  # Prior PSA, Obs. Study Design, Bias Models
-    ValueArray,  # Expected NB conditional on simulated observational data
+    NetBenefitArray,  # Expected NB conditional on simulated observational data
 ]
 
 
 def voi_observational(
     obs_study_modeler: ObservationalStudyModeler,
-    psa_prior: ParameterSet,
+    psa_prior: PSASample,
     observational_study_design: Dict[
         str, Any
     ],  # e.g., cohort, case-control, variables, size
@@ -114,3 +114,29 @@ def voi_observational(
     # Population scaling.
     # ... (omitted) ...
 
+
+if __name__ == "__main__":
+    print("--- Testing observational.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray and PSASample
+
+    from voiage.core.data_structures import NetBenefitArray, PSASample
+
+    try:
+        # Dummy arguments
+        def dummy_obs_modeler(psa, design, biases):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_design = {"type": "cohort", "size": 1000}
+        dummy_biases = {"confounding_strength": 0.2}
+        voi_observational(dummy_obs_modeler, dummy_psa, dummy_design, dummy_biases)
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for voi_observational: {e}")
+    else:
+        raise AssertionError(
+            "voi_observational did not raise VoiageNotImplementedError."
+        )
+
+    print("--- observational.py placeholder tests completed ---")

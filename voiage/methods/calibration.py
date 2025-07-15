@@ -12,9 +12,9 @@ indirectly benefits such comparisons).
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.schema import (
-    ValueArray,
-    ParameterSet,
+from voiage.core.data_structures import (
+    NetBenefitArray,
+    PSASample,
 )
 from voiage.exceptions import VoiageNotImplementedError
 
@@ -27,17 +27,17 @@ from voiage.exceptions import VoiageNotImplementedError
 # - Evaluating the decision model with parameters updated via calibration.
 CalibrationStudyModeler = Callable[
     [
-        ParameterSet,
+        PSASample,
         Dict[str, Any],
         Dict[str, Any],
     ],  # Prior PSA, Calibration Study Design, Calibration Process Spec
-    ValueArray,  # Expected NB conditional on simulated calibration data
+    NetBenefitArray,  # Expected NB conditional on simulated calibration data
 ]
 
 
 def voi_calibration(
     cal_study_modeler: CalibrationStudyModeler,
-    psa_prior: ParameterSet,
+    psa_prior: PSASample,
     calibration_study_design: Dict[
         str, Any
     ],  # Design of data collection for calibration
@@ -115,3 +115,26 @@ def voi_calibration(
     # ... (omitted) ...
 
 
+if __name__ == "__main__":
+    print("--- Testing calibration.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray and PSASample
+
+    from voiage.core.data_structures import NetBenefitArray, PSASample
+
+    try:
+        # Dummy arguments
+        def dummy_cal_modeler(psa, design, spec):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword
+        dummy_design = {"experiment_type": "lab", "n_runs": 10}
+        dummy_spec = {"method": "bayesian_history_matching"}
+        voi_calibration(dummy_cal_modeler, dummy_psa, dummy_design, dummy_spec)
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for voi_calibration: {e}")
+    else:
+        raise AssertionError("voi_calibration did not raise VoiageNotImplementedError.")
+
+    print("--- calibration.py placeholder tests completed ---")

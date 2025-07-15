@@ -12,7 +12,7 @@ decision rules.
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.schema import ValueArray, ParameterSet, TrialDesign
+from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
@@ -24,17 +24,17 @@ from voiage.exceptions import VoiageNotImplementedError
 # - If trial stops early, evaluating economic model based on that decision.
 AdaptiveTrialEconomicSim = Callable[
     [
-        ParameterSet,
+        PSASample,
         TrialDesign,
         Dict[str, Any],
     ],  # Prior PSA, Base TrialDesign, Adaptive Rules
-    ValueArray,  # Expected NB conditional on the full adaptive trial outcome
+    NetBenefitArray,  # Expected NB conditional on the full adaptive trial outcome
 ]
 
 
 def adaptive_evsi(
     adaptive_trial_simulator: AdaptiveTrialEconomicSim,
-    psa_prior: ParameterSet,
+    psa_prior: PSASample,
     base_trial_design: TrialDesign,  # Initial design before adaptation
     adaptive_rules: Dict[str, Any],  # Specification of adaptation rules
     # wtp: float, # Often implicit
@@ -113,3 +113,33 @@ def adaptive_evsi(
     # ... (omitted) ...
 
 
+if __name__ == "__main__":
+    print("--- Testing adaptive.py (Placeholders) ---")
+
+    # Add local imports for classes used in this test block
+    import numpy as np  # np is used by NetBenefitArray call and PSASample
+
+    from voiage.core.data_structures import (
+        NetBenefitArray,
+        PSASample,
+        TrialArm,
+        TrialDesign,
+    )
+
+    try:
+        # Dummy arguments
+        def dummy_adaptive_sim(psa, design, rules):
+            return NetBenefitArray(np.array([[0.0]]))
+
+        dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword arg
+        dummy_design = TrialDesign(
+            arms=[TrialArm(name="A", sample_size=10)]
+        )  # arms and name keyword args
+        dummy_rules = {"stop_if_eff_at_interim1": 0.95}
+        adaptive_evsi(dummy_adaptive_sim, dummy_psa, dummy_design, dummy_rules)
+    except VoiageNotImplementedError as e:
+        print(f"Caught expected error for adaptive_evsi: {e}")
+    else:
+        raise AssertionError("adaptive_evsi did not raise VoiageNotImplementedError.")
+
+    print("--- adaptive.py placeholder tests completed ---")
