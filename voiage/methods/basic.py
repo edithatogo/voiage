@@ -204,11 +204,21 @@ def evppi(
         x = np.stack(list(parameter_samples.parameters.values()), axis=1)
     elif isinstance(parameter_samples, dict):
         x = np.stack(list(parameter_samples.values()), axis=1)
-    else:
+    elif isinstance(parameter_samples, np.ndarray):
         x = parameter_samples
+    else:
+        raise InputError(
+            f"`parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(parameter_samples)}."
+        )
 
     if x.ndim == 1:
         x = x.reshape(-1, 1)
+
+    if x.shape[0] != n_samples:
+        raise DimensionMismatchError(
+            f"Number of samples in `parameter_samples` ({x.shape[0]}) "
+            f"does not match `nb_array` ({n_samples})."
+        )
 
     if n_regression_samples is not None:
         if not isinstance(n_regression_samples, int) or n_regression_samples <= 0:

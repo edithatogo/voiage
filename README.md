@@ -47,6 +47,7 @@ Below is an expanded comparison table that includes all the main VOI analysis ty
 | TreeAge Pro          | Commercial       | ✔️   | ✔️    | ❌          | ❌                | ❌               | ❌   | ❌   | Industry-standard desktop tool; shortcuts for EVPI and EVPPI simulation on CE models .                            |
 | PrecisionTree        | Commercial (Excel) | ✔️   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Excel add-in by Palisade; built-in EVPI & EVSI wizards .                                                          |
 | ConVOI EVSI Viz      | Web              | ❌   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Experimental web app for EVSI visualization maintained by the ConVOI group .                                    |
+| voiage               | Python (PyPI)    | ✔️   | ✔️    | ❌          | ❌                | ❌               | ✔️   | ✔️   | Alpha version. JAX backend for performance.                                                                    |
 
 ¹ EVSI in SAVI requires manually summarised inputs rather than a full PSA object.
 

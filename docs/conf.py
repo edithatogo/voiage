@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'voiage'
-copyright = '2025, voiage Contributors'
+copyright = '2024, voiage Contributors'
 author = 'voiage Contributors'
 release = '0.1.0'
 
