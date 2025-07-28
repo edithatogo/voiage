@@ -5,139 +5,71 @@
 import numpy as np
 import pytest
 
+import xarray as xr
 from voiage.core.data_structures import (
     DynamicSpec,
-    NetBenefitArray,
+    ValueArray,
     PortfolioSpec,
     PortfolioStudy,
-    PSASample,
-    TrialArm,
+    ParameterSet,
+    DecisionOption,
     TrialDesign,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 
 
-class TestNetBenefitArray:
-    @pytest.mark.parametrize(
-        "values, names",
-        [
-            (np.array([[1, 2], [3, 4]]), ["Strategy A", "Strategy B"]),
-            (np.array([[1, 2, 3], [4, 5, 6]]), ["A", "B", "C"]),
-        ],
-    )
-    def test_init_and_properties(self, values, names):
-        nba = NetBenefitArray(values=values, strategy_names=names)
-        np.testing.assert_array_equal(nba.values, values)
-        assert nba.strategy_names == names
-        assert nba.n_samples == values.shape[0]
-        assert nba.n_strategies == values.shape[1]
-
-    def test_post_init_validations(self):
-        with pytest.raises(InputError, match="'values' must be a NumPy array"):
-            NetBenefitArray(values=[[1, 2], [3, 4]])
-
-        with pytest.raises(DimensionMismatchError, match="'values' must be a 2D array"):
-            NetBenefitArray(values=np.array([1, 2, 3]))
-
-        with pytest.raises(
-            InputError, match="'strategy_names' must be a list of strings"
-        ):
-            NetBenefitArray(values=np.array([[1, 2]]), strategy_names=["A", 1])
-
-        with pytest.raises(DimensionMismatchError, match="Length of 'strategy_names'"):
-            NetBenefitArray(values=np.array([[1, 2]]), strategy_names=["A"])
-
-    def test_optional_strategy_names(self):
-        values = np.array([[1, 2], [3, 4]])
-        nba = NetBenefitArray(values=values)
-        assert nba.strategy_names is None
-
-
-class TestPSASample:
+class TestValueArray:
     def test_init_and_properties(self):
-        params = {"p1": np.array([1, 2, 3]), "p2": np.array([4, 5, 6])}
-        psa = PSASample(parameters=params)
-        assert psa.parameters == params
-        assert psa.n_samples == 3
-        assert psa.parameter_names == ["p1", "p2"]
+        dataset = xr.Dataset(
+            {
+                "net_benefit": (("n_samples", "n_strategies"), np.array([[1, 2], [3, 4]])),
+            },
+            coords={
+                "n_samples": [0, 1],
+                "n_strategies": [0, 1],
+                "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
+            },
+        )
+        va = ValueArray(dataset=dataset)
+        np.testing.assert_array_equal(va.values, np.array([[1, 2], [3, 4]]))
+        assert va.strategy_names == ["Strategy A", "Strategy B"]
+        assert va.n_samples == 2
+        assert va.n_strategies == 2
 
     def test_post_init_validations(self):
-        with pytest.raises(InputError, match="'parameters' must be a dictionary"):
-            PSASample(parameters=[1, 2, 3])
+        with pytest.raises(InputError, match="must be a xarray.Dataset"):
+            ValueArray(dataset="not a dataset")
 
-        with pytest.raises(InputError, match="'parameters' dictionary cannot be empty"):
-            PSASample(parameters={})
+        with pytest.raises(InputError, match="must have a 'n_samples' dimension"):
+            ValueArray(dataset=xr.Dataset())
 
-        with pytest.raises(
-            InputError, match="Parameter names in PSASample dictionary must be strings"
-        ):
-            PSASample(parameters={1: np.array([1, 2])})
+        with pytest.raises(InputError, match="must have a 'n_strategies' dimension"):
+            ValueArray(dataset=xr.Dataset(coords={"n_samples": [0, 1]}))
 
-        with pytest.raises(InputError, match="values must be a NumPy array"):
-            PSASample(parameters={"p1": [1, 2]})
+        with pytest.raises(InputError, match="must have a 'net_benefit' data variable"):
+            ValueArray(dataset=xr.Dataset(coords={"n_samples": [0, 1], "n_strategies": [0, 1]}))
 
-        with pytest.raises(DimensionMismatchError, match="array must be 1D"):
-            PSASample(parameters={"p1": np.array([[1, 2]])})
 
-        with pytest.raises(DimensionMismatchError, match="must have the same length"):
-            PSASample(parameters={"p1": np.array([1, 2]), "p2": np.array([3, 4, 5])})
+class TestParameterSet:
+    def test_init_and_properties(self):
+        dataset = xr.Dataset(
+            {
+                "p1": ("n_samples", np.array([1, 2, 3])),
+                "p2": ("n_samples", np.array([4, 5, 6])),
+            },
+            coords={"n_samples": [0, 1, 2]},
+        )
+        ps = ParameterSet(dataset=dataset)
+        assert ps.n_samples == 3
+        assert ps.parameter_names == ["p1", "p2"]
+        np.testing.assert_array_equal(ps.parameters["p1"], np.array([1, 2, 3]))
 
-    def test_post_init_no_samples(self):
-        with pytest.raises(
-            InputError,
-            match="Could not determine n_samples from parameters dictionary, or dictionary contains empty arrays.",
-        ):
-            PSASample(parameters={"p1": np.array([])})
+    def test_post_init_validations(self):
+        with pytest.raises(InputError, match="must be a xarray.Dataset"):
+            ParameterSet(dataset="not a dataset")
 
-    def test_empty_psa_sample(self):
-        with pytest.raises(InputError, match="cannot be empty"):
-            PSASample(parameters={})
-
-    def test_n_samples_property_empty_dict(self):
-        with pytest.raises(InputError, match="cannot be empty"):
-            PSASample(parameters={})
-
-    def test_n_samples_property_empty_dict_no_post_init(self):
-        psa_no_post_init = object.__new__(PSASample)
-        object.__setattr__(psa_no_post_init, "parameters", {})
-        assert psa_no_post_init.n_samples == 0
-
-    def test_parameter_names_property_empty_dict(self):
-        with pytest.raises(InputError, match="cannot be empty"):
-            PSASample(parameters={})
-
-    def test_parameter_names_property_empty_dict_no_post_init(self):
-        psa_no_post_init = object.__new__(PSASample)
-        object.__setattr__(psa_no_post_init, "parameters", {})
-        assert psa_no_post_init.parameter_names == []
-
-    def test_n_samples_property_no_n_samples_attribute(self):
-        params = {"p1": np.array([1, 2, 3]), "p2": np.array([4, 5, 6])}
-        psa = PSASample(parameters=params)
-        # The _n_samples attribute is set in __post_init__
-        assert psa.n_samples == 3
-        # To test the case where _n_samples is not present, we need to bypass __post_init__
-        psa_no_post_init = object.__new__(PSASample)
-        object.__setattr__(psa_no_post_init, "parameters", params)
-        assert psa_no_post_init.n_samples == 3
-
-    def test_parameter_names_not_dict(self):
-        with pytest.raises(InputError, match="'parameters' must be a dictionary"):
-            PSASample(parameters="not a dict")
-
-    def test_parameter_names_not_dict_no_post_init(self):
-        psa_no_post_init = object.__new__(PSASample)
-        object.__setattr__(psa_no_post_init, "parameters", "not a dict")
-        assert psa_no_post_init.parameter_names == []
-
-    def test_n_samples_not_dict(self):
-        with pytest.raises(InputError, match="'parameters' must be a dictionary"):
-            PSASample(parameters="not a dict")
-
-    def test_n_samples_not_dict_no_post_init(self):
-        psa_no_post_init = object.__new__(PSASample)
-        object.__setattr__(psa_no_post_init, "parameters", "not a dict")
-        assert psa_no_post_init.n_samples == 0
+        with pytest.raises(InputError, match="must have a 'n_samples' dimension"):
+            ParameterSet(dataset=xr.Dataset())
 
 
 class TestTrialArm:

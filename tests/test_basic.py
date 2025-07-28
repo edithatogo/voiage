@@ -24,8 +24,8 @@ from voiage.methods.basic import evpi, evppi
 @pytest.mark.parametrize(
     ("nb_array", "expected_evpi"),
     [
-        (np.array([[100, 105], [110, 100], [90, 110], [120, 100], [95, 115]]), 6.0),
-        (np.array([[100, 100], [100, 100]]), 0.0),
+        (np.array([[100, 105], [110, 100], [90, 110], [120, 100], [95, 115]], dtype=DEFAULT_DTYPE), 6.0),
+        (np.array([[100, 100], [100, 100]], dtype=DEFAULT_DTYPE), 0.0),
     ],
 )
 def test_evpi_calculation_simple(nb_array, expected_evpi):
@@ -266,7 +266,6 @@ def test_evppi_invalid_inputs(evppi_test_data_simple):
         InputError,
         match=r"`parameter_samples` must be a NumPy array, PSASample, or Dict\. Got <class 'str'>\.",
     ):
-    ):
         evppi(nb_values, "not valid params")  # type: ignore
 
     with pytest.raises(
@@ -284,7 +283,6 @@ def test_evppi_invalid_inputs(evppi_test_data_simple):
     with pytest.raises(
         InputError,
         match=r"n_regression_samples \(\d+\) cannot exceed total samples \(\d+\)\.",
-    ):
     ):
         evppi(
             nb_values, p_samples_valid, n_regression_samples=len(p_samples_valid) + 10

@@ -131,7 +131,6 @@ def test_evsi_structure_and_not_implemented(
     # Path 2: SKLEARN_AVAILABLE = False
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
     with pytest.raises(
-    with pytest.raises(
         VoiageNotImplementedError,
         match="Regression method for EVSI requires scikit-learn to be installed.",
     ):
@@ -159,7 +158,6 @@ def test_evsi_structure_and_not_implemented(
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="nonparametric",
-        )
         )
 
     # Test for an unrecognized method

@@ -21,157 +21,70 @@ from voiage.exceptions import DimensionMismatchError, InputError
 # --- Core Data Arrays ---
 
 
+import xarray as xr
+
 @dataclass(frozen=True)
-class NetBenefitArray:
-    """A container for net benefit values from a PSA.
-
-    This is a core data structure, typically representing the output of a
-    health economic model evaluated over many PSA samples. It is immutable
-    to prevent accidental modification.
-
-    Attributes
-    ----------
-    values : np.ndarray
-        A 2D NumPy array of shape (n_samples, n_strategies), where rows
-        correspond to PSA samples and columns correspond to different
-        decision strategies.
-    strategy_names : Optional[List[str]], optional
-        A list of names for the strategies, corresponding to the columns of
-        the `values` array. If provided, its length must match the number
-        of columns. Defaults to None.
-
-    Raises
-    ------
-    InputError
-        If `values` is not a NumPy array or `strategy_names` is not a
-        list of strings.
-    DimensionMismatchError
-        If `values` is not a 2D array or if the length of `strategy_names`
-        does not match the number of columns in `values`.
+class ValueArray:
     """
-
-    values: np.ndarray
-    strategy_names: Optional[List[str]] = None
-
-    def __post_init__(self: "NetBenefitArray"):
-        if not isinstance(self.values, np.ndarray):
-            raise InputError("NetBenefitArray 'values' must be a NumPy array.")
-        if self.values.ndim != 2:
-            raise DimensionMismatchError(
-                f"NetBenefitArray 'values' must be a 2D array (samples x strategies/parameters). "
-                f"Got {self.values.ndim} dimensions.",
-            )
-        if self.values.dtype != DEFAULT_DTYPE:
-            pass
-
-        if self.strategy_names is not None:
-            if not isinstance(self.strategy_names, list) or not all(
-                isinstance(name, str) for name in self.strategy_names
-            ):
-                raise InputError("'strategy_names' must be a list of strings.")
-            if len(self.strategy_names) != self.n_strategies:
-                raise DimensionMismatchError(
-                    f"Length of 'strategy_names' ({len(self.strategy_names)}) must match "
-                    f"the number of strategies in 'values' ({self.n_strategies}).",
-                )
-
-    @property
-    def n_samples(self: "NetBenefitArray") -> int:
-        """Return the number of samples (rows) in the array."""
-        return self.values.shape[0]
-
-    @property
-    def n_strategies(self: "NetBenefitArray") -> int:
-        """Return the number of strategies (columns) in the array."""
-        return self.values.shape[1]
-
-
-@dataclass(frozen=True)
-class PSASample:
-    """A container for parameter samples from a PSA.
-
-    This structure holds the inputs to a health economic model, with each
-    sample representing a possible state of the world. It is immutable.
-
-    Attributes
-    ----------
-    parameters : Union[Dict[str, np.ndarray], Any]
-        The PSA parameter samples. Typically a dictionary where keys are
-        parameter names (str) and values are 1D NumPy arrays of the same
-        length (n_samples).
-        `Any` is used as a placeholder for future support of `xarray.Dataset`.
-
-    Raises
-    ------
-    InputError
-        If `parameters` is not a dictionary, is empty, or contains invalid
-        keys or values.
-    DimensionMismatchError
-        If the NumPy arrays within the `parameters` dictionary do not all
-        have the same length.
+    A container for net benefit values from a PSA.
     """
+    dataset: xr.Dataset
 
-    parameters: Union[Dict[str, np.ndarray], Any]
-
-    def __post_init__(self: "PSASample"):  # noqa: C901
-        if isinstance(self.parameters, dict):
-            if not self.parameters:
-                raise InputError("PSASample 'parameters' dictionary cannot be empty.")
-
-            current_n_samples = -1
-            for name, values in self.parameters.items():
-                if not isinstance(name, str):
-                    raise InputError(
-                        "Parameter names in PSASample dictionary must be strings."
-                    )
-                if not isinstance(values, np.ndarray):
-                    raise InputError(
-                        f"Parameter '{name}' values must be a NumPy array."
-                    )
-                if values.ndim != 1:
-                    raise DimensionMismatchError(
-                        f"Parameter '{name}' array must be 1D (samples). Got {values.ndim} dimensions.",
-                    )
-                if values.dtype != DEFAULT_DTYPE:
-                    pass
-
-                if current_n_samples == -1:
-                    current_n_samples = len(values)
-                elif len(values) != current_n_samples:
-                    raise DimensionMismatchError(
-                        "All parameter arrays in PSASample dictionary must have the same length (n_samples).",
-                    )
-            if current_n_samples == -1 or current_n_samples == 0:
-                raise InputError(
-                    "Could not determine n_samples from parameters dictionary, or dictionary contains empty arrays."
-                )
-            object.__setattr__(self, "_n_samples", current_n_samples)
-        else:
-            raise InputError(
-                "PSASample 'parameters' must be a dictionary of NumPy arrays or an xarray.Dataset.",
-            )
+    def __post_init__(self: "ValueArray"):
+        if not isinstance(self.dataset, xr.Dataset):
+            raise InputError("ValueArray 'dataset' must be a xarray.Dataset.")
+        if "n_samples" not in self.dataset.dims:
+            raise InputError("ValueArray 'dataset' must have a 'n_samples' dimension.")
+        if "n_strategies" not in self.dataset.dims:
+            raise InputError("ValueArray 'dataset' must have a 'n_strategies' dimension.")
+        if "net_benefit" not in self.dataset.data_vars:
+            raise InputError("ValueArray 'dataset' must have a 'net_benefit' data variable.")
 
     @property
-    def n_samples(self: "PSASample") -> int:
-        """Return the number of samples for each parameter."""
-        if hasattr(self, "_n_samples"):
-            return self._n_samples
-        if isinstance(self.parameters, dict):
-            if not self.parameters:
-                return 0
-            return len(next(iter(self.parameters.values())))
-        return 0
+    def values(self: "ValueArray") -> np.ndarray:
+        return self.dataset["net_benefit"].values
 
     @property
-    def parameter_names(self: "PSASample") -> List[str]:
-        """Return the names of the parameters."""
-        if isinstance(self.parameters, dict):
-            return list(self.parameters.keys())
-        return []
+    def n_samples(self: "ValueArray") -> int:
+        return self.dataset.dims["n_samples"]
+
+    @property
+    def n_strategies(self: "ValueArray") -> int:
+        return self.dataset.dims["n_strategies"]
+
+    @property
+    def strategy_names(self: "ValueArray") -> List[str]:
+        return self.dataset["strategy"].values.tolist()
 
 
 @dataclass(frozen=True)
-class TrialArm:
+class ParameterSet:
+    """
+    A container for parameter samples from a PSA.
+    """
+    dataset: xr.Dataset
+
+    def __post_init__(self: "ParameterSet"):
+        if not isinstance(self.dataset, xr.Dataset):
+            raise InputError("ParameterSet 'dataset' must be a xarray.Dataset.")
+        if "n_samples" not in self.dataset.dims:
+            raise InputError("ParameterSet 'dataset' must have a 'n_samples' dimension.")
+
+    @property
+    def parameters(self: "ParameterSet") -> Dict[str, np.ndarray]:
+        return {name: self.dataset[name].values for name in self.dataset.data_vars}
+
+    @property
+    def n_samples(self: "ParameterSet") -> int:
+        return self.dataset.dims["n_samples"]
+
+    @property
+    def parameter_names(self: "ParameterSet") -> List[str]:
+        return list(self.dataset.data_vars.keys())
+
+
+@dataclass(frozen=True)
+class DecisionOption:
     """Represents a single arm in a clinical trial design.
 
     Attributes
@@ -191,11 +104,11 @@ class TrialArm:
     name: str
     sample_size: int
 
-    def __post_init__(self: "TrialArm"):
+    def __post_init__(self: "DecisionOption"):
         if not isinstance(self.name, str) or not self.name:
-            raise InputError("TrialArm 'name' must be a non-empty string.")
+            raise InputError("DecisionOption 'name' must be a non-empty string.")
         if not isinstance(self.sample_size, int) or self.sample_size <= 0:
-            raise InputError("TrialArm 'sample_size' must be a positive integer.")
+            raise InputError("DecisionOption 'sample_size' must be a positive integer.")
 
 
 @dataclass(frozen=True)
@@ -204,28 +117,28 @@ class TrialDesign:
 
     Attributes
     ----------
-    arms : List[TrialArm]
-        A list of `TrialArm` objects that together define the trial.
+    arms : List[DecisionOption]
+        A list of `DecisionOption` objects that together define the trial.
 
     Raises
     ------
     InputError
-        If `arms` is not a non-empty list of `TrialArm` objects, or if
+        If `arms` is not a non-empty list of `DecisionOption` objects, or if
         any of the arm names are duplicated.
     """
 
-    arms: List[TrialArm]
+    arms: List[DecisionOption]
 
     def __post_init__(self: "TrialDesign"):
         if not isinstance(self.arms, list) or not self.arms:
             raise InputError(
-                "TrialDesign 'arms' must be a non-empty list of TrialArm objects."
+                "TrialDesign 'arms' must be a non-empty list of DecisionOption objects."
             )
-        if not all(isinstance(arm, TrialArm) for arm in self.arms):
-            raise InputError("All elements in 'arms' must be TrialArm objects.")
+        if not all(isinstance(arm, DecisionOption) for arm in self.arms):
+            raise InputError("All elements in 'arms' must be DecisionOption objects.")
         arm_names = [arm.name for arm in self.arms]
         if len(arm_names) != len(set(arm_names)):
-            raise InputError("TrialArm names within a TrialDesign must be unique.")
+            raise InputError("DecisionOption names within a TrialDesign must be unique.")
 
     @property
     def total_sample_size(self: "TrialDesign") -> int:

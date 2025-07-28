@@ -30,11 +30,11 @@ from . import (
 )
 from .core.data_structures import (
     DynamicSpec,
-    NetBenefitArray,
+    ValueArray,
     PortfolioSpec,
     PortfolioStudy,
     PSASample,
-    TrialArm,
+    DecisionOption,
     TrialDesign,
 )
 from .methods.adaptive import adaptive_evsi
@@ -61,11 +61,11 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # It's generally good practice to be explicit.
 __all__ = [
     "DynamicSpec",
-    "NetBenefitArray",
+    "ValueArray",
     "PSASample",
     "PortfolioSpec",
     "PortfolioStudy",
-    "TrialArm",
+    "DecisionOption",
     "TrialDesign",
     "__version__",
     "adaptive_evsi",

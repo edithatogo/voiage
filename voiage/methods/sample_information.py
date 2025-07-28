@@ -16,7 +16,7 @@ from voiage.core.utils import check_input_array
 from voiage.exceptions import (
     CalculationError,
     InputError,
-    PyVoiNotImplementedError,
+    VoiageNotImplementedError,
 )
 
 # Attempt to import for LinearRegression, fail gracefully if not available
@@ -458,7 +458,7 @@ def evsi(
         # The original PyVoiNotImplementedError for "regression" was here.
         # It's removed to allow the new stubbed logic to run.
         if not SKLEARN_AVAILABLE:
-             raise PyVoiNotImplementedError("Regression method for EVSI requires scikit-learn to be installed.")
+               raise VoiageNotImplementedError("Regression method for EVSI requires scikit-learn to be installed.")
         if not psa_prior.parameters:
             print("Warning: EVSI regression method called with no parameters in psa_prior. EVSI will be 0.")
             expected_max_nb_post_study = max_expected_nb_current_info
@@ -492,11 +492,11 @@ def evsi(
                 expected_max_nb_post_study = np.mean(all_max_enb_post_data_k)
 
     elif method == "nonparametric":
-        raise PyVoiNotImplementedError("Nonparametric EVSI method is not yet implemented.")
+           raise VoiageNotImplementedError("Nonparametric EVSI method is not yet implemented.")
     elif method == "moment_matching":
-        raise PyVoiNotImplementedError("Moment-matching EVSI method is not yet implemented.")
+        raise VoiageNotImplementedError("Moment-matching EVSI method is not yet implemented.")
     else: # Catches 'unknown_method' or any other not explicitly handled
-        raise PyVoiNotImplementedError(f"EVSI method '{method}' is not recognized or implemented.")
+        raise VoiageNotImplementedError(f"EVSI method '{method}' is not recognized or implemented.")
 
     per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
     per_decision_evsi = max(0.0, per_decision_evsi) # Ensure non-negative
