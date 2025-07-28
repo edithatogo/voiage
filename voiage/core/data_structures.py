@@ -57,6 +57,21 @@ class ValueArray:
         return self.dataset["strategy"].values.tolist()
 
 
+class NetBenefitArray(ValueArray):
+    """Backward-compatible wrapper around :class:`ValueArray`."""
+
+    def __init__(self: "NetBenefitArray", values: np.ndarray, strategy_names: List[str]):
+        dataset = xr.Dataset(
+            {"net_benefit": (("n_samples", "n_strategies"), values)},
+            coords={
+                "n_samples": np.arange(values.shape[0]),
+                "n_strategies": np.arange(values.shape[1]),
+                "strategy": ("n_strategies", strategy_names),
+            },
+        )
+        super().__init__(dataset=dataset)
+
+
 @dataclass(frozen=True)
 class ParameterSet:
     """
@@ -81,6 +96,17 @@ class ParameterSet:
     @property
     def parameter_names(self: "ParameterSet") -> List[str]:
         return list(self.dataset.data_vars.keys())
+
+
+class PSASample(ParameterSet):
+    """Backward-compatible wrapper around :class:`ParameterSet`."""
+
+    def __init__(self: "PSASample", parameters: Dict[str, np.ndarray]):
+        dataset = xr.Dataset(
+            {k: ("n_samples", np.asarray(v)) for k, v in parameters.items()},
+            coords={"n_samples": np.arange(len(next(iter(parameters.values()))))},
+        )
+        super().__init__(dataset=dataset)
 
 
 @dataclass(frozen=True)
@@ -291,5 +317,10 @@ class DynamicSpec:
 #     else:
 #         updated_params = psa_sample.parameters
 #
-#     nb_values = my_health_economic_model(updated_params)
-#     return NetBenefitArray(values=nb_values)
+    #     nb_values = my_health_economic_model(updated_params)
+    #     return NetBenefitArray(values=nb_values)
+
+# --- Backwards Compatibility Alias ---
+# Allow old code to use ``TrialArm`` to refer to ``DecisionOption``.
+TrialArm = DecisionOption
+
