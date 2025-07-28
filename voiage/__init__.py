@@ -37,6 +37,7 @@ from .core.data_structures import (
     DecisionOption,
     TrialDesign,
 )
+from .analysis import DecisionAnalysis
 from .methods.adaptive import adaptive_evsi
 
 # --- Core VOI Methods ---
@@ -67,6 +68,7 @@ __all__ = [
     "PortfolioStudy",
     "DecisionOption",
     "TrialDesign",
+    "DecisionAnalysis",
     "__version__",
     "adaptive_evsi",
     "cli",
