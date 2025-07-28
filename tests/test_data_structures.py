@@ -14,6 +14,7 @@ from voiage.core.data_structures import (
     ParameterSet,
     DecisionOption,
     TrialDesign,
+    TrialArm,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 
@@ -109,12 +110,13 @@ class TestTrialDesign:
             TrialDesign(arms=[])
 
         with pytest.raises(
-            InputError, match="All elements in 'arms' must be TrialArm objects"
+            InputError, match="All elements in 'arms' must be DecisionOption objects"
         ):
             TrialDesign(arms=["not an arm"])
 
         with pytest.raises(
-            InputError, match="TrialArm names within a TrialDesign must be unique"
+            InputError,
+            match="DecisionOption names within a TrialDesign must be unique",
         ):
             arm1 = TrialArm(name="Treatment A", sample_size=100)
             TrialDesign(arms=[arm1, arm1])
