@@ -22,7 +22,7 @@ This document contains detailed reviews from four expert personas regarding the 
 
 *   **Opportunities:**
     *   **Become the Python Standard:** `voiage` has a clear opportunity to become the go-to VOI library for the growing number of health economists and data scientists who work primarily in Python.
-    *   **Integration with Probabilistic Models:** A huge opportunity lies in seamless integration with Python-based probabilistic programming languages (PPLs) like PyMC or NumPyro. A tutorial showing how to take a posterior from a PyMC model and feed it directly into `voiage` would be a killer feature.
+    *   **Integration with Probabilistic Models:** A huge opportunity lies in seamless integration with Python-based probabilistic programming languages (PPLs) like PyMC or NumPyro. A tutorial showing how to take a posterior from a NumPyro model and feed it directly into `voiage` would be a killer feature.
     *   **HTA-Focused Tooling:** The library could offer helper functions specifically for HTA submissions, such as generating standard plots (CEACs, EVPPI curves) with publication-quality defaults, or tools for analyzing VOI in the context of specific reimbursement dossiers.
 
 *   **Threats:**
@@ -43,7 +43,7 @@ This document contains detailed reviews from four expert personas regarding the 
 
 3.  **Refactoring & Changes:**
     *   **Data Structures for Trials:** Generalize `TrialDesign` to support more complex study types. Consider adding parameters for intra-cluster correlation coefficients (ICCs) for cluster RCTs.
-    *   **Explicit Link to PPLs:** Don't just mention PyMC/NumPyro in the docs. Create a dedicated `voiage.interop.pymc` module with helper functions to make the connection seamless.
+    *   **Explicit Link to PPLs:** Don't just mention NumPyro in the docs. Create a dedicated `voiage.interop.numpyro` module with helper functions to make the connection seamless.
 
 4.  **Promotion & Community:**
     *   **Publish a Methods Paper:** Once the core features are validated, publish a paper in a journal like *Value in Health* or *Medical Decision Making* introducing the library and its validation.

@@ -34,14 +34,37 @@ This to-do list is based on the revised project roadmap and incorporates feedbac
 
 ---
 
-## Phase 2: State-of-the-Art Health Economics Core
+## Phase 2: JAX-Native High-Performance Core
+
+- [ ] **1. JAX Backend for Core Numerics**
+    - [ ] Refactor `voiage.methods.basic.evpi` to use `jax.numpy` and `@jax.jit`.
+    - [ ] Refactor `voiage.methods.basic.evppi` to use `jax.numpy` and `@jax.jit`.
+    - [ ] Update `voiage/backends.py` to make JAX the default high-performance backend.
+    - [ ] Expand performance benchmarks to compare `numpy` vs. `jax` on core functions.
+
+- [ ] **2. JAX-Native Metamodels**
+    - [ ] Design a `JAXMetamodel` protocol/base class.
+    - [ ] Implement a `FlaxMetamodel` for EVSI, replacing the planned `GAMMetamodel`.
+    - [ ] Implement a `tinygpMetamodel` for EVSI, replacing the planned `GPMetamodel`.
+
+- [ ] **3. XArray Backend Integration**
+    - [ ] Add logic to `ValueArray` and `ParameterSet` to wrap `jax.Array` instances when the JAX backend is enabled.
+    - [ ] Write tests to verify that data remains on the JAX device during a full analysis pipeline.
+
+- [ ] **4. Update `DecisionAnalysis` Class**
+    - [ ] Modify `DecisionAnalysis.__init__` to accept `jax.Array` inputs.
+    - [ ] Ensure `evpi()` and `evppi()` methods correctly dispatch to JIT-compiled functions.
+
+---
+
+## Phase 3: State-of-the-Art Health Economics Core
 
 - [ ] **1. EVSI Implementation**
     - [ ] Refactor `evsi()` to be a method of the `DecisionAnalysis` class.
     - [ ] Implement a full two-loop Monte Carlo algorithm.
     - [ ] Add a `BayesianUpdater` protocol/class that can be passed to the `evsi` method.
     - [ ] Implement a `ConjugateUpdater` for common conjugate prior models (e.g., Normal-Normal).
-    - [ ] Create a `PyMCUpdater` that can take a user-defined PyMC model, run MCMC, and return the posterior.
+    - [ ] Create a `NumPyroUpdater` that can take a user-defined NumPyro model, run MCMC, and return the posterior.
     - [ ] Add a `Metamodel` protocol/class.
     - [ ] Implement a `GAMMetamodel` and `GPMetamodel` using `scikit-learn` or other libraries.
 
@@ -58,7 +81,7 @@ This to-do list is based on the revised project roadmap and incorporates feedbac
 
 ---
 
-## Phase 3: Advanced Methods & Cross-Domain Expansion
+## Phase 4: Advanced Methods & Cross-Domain Expansion
 
 - [ ] **1. Advanced Methods**
     - [ ] Implement `analysis.portfolio_voi()`.
@@ -74,7 +97,7 @@ This to-do list is based on the revised project roadmap and incorporates feedbac
 
 ---
 
-## Phase 4: Ecosystem & Future Ports (Backlog)
+## Phase 5: Ecosystem & Future Ports (Backlog)
 
 - [ ] **1. Community**
     - [ ] Create "Good First Issue" and "Help Wanted" issue templates on GitHub.

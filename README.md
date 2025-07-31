@@ -18,7 +18,7 @@ Here’s a consolidated table of all VOI analyses we’ve discussed, showing the
 | EVH (Value of Heterogeneity Information)          | Value of learning how treatment effects vary across subgroups or settings.                                  | ✗    | ✗       | ✗    | ✗              | No dedicated functions; could approximate via stratified EVPPI but no package support.                                                       |
 | EVI (Value of Implementation Information)         | Value of resolving uncertainty around real‐world implementation (e.g. uptake, adherence).                   | ✗    | ✗       | ✗    | ✗              | Completely bespoke; requires modeling implementation parameters and sampling strategies.                                                     |
 | Portfolio VOI / Research Prioritization           | Joint allocation of research budget across multiple studies/interventions to maximize overall value.        | ✗    | ✗       | ✗    | ✗              | No package support; needs custom multi‐decision optimization frameworks.                                                                     |
-| Dynamic / Sequential VOI                          | Continuous updating of VOI metrics as data accrue (e.g. interim analyses in Bayesian trials).               | ✗    | ✗       | ✗    | ✗              | Requires custom Bayesian trial‐monitoring scripts (e.g. with PyMC or rstan and looping VOI calculations).                                  |
+| Dynamic / Sequential VOI                          | Continuous updating of VOI metrics as data accrue (e.g. interim analyses in Bayesian trials).               | ✗    | ✗       | ✗    | ✗              | Requires custom Bayesian trial‐monitoring scripts (e.g. with NumPyro or rstan and looping VOI calculations).                                  |
 | Value of Observational Data & Data Linkage        | VOI for non‐randomized or linked administrative datasets, accounting for bias/missingness.                  | ✗    | ✗       | ✗    | ✗              | No off‐the‐shelf tools; custom modeling of observational‐data quality and sampling design is needed.                                       |
 | Value of Calibration & Model‐Validation Information | VOI of collecting data specifically to calibrate or externally validate model parameters or structure.      | ✗    | ✗       | ✗    | ✗              | Not provided by any package; one must simulate calibration‐oriented data collection and run custom VOI analyses.                             |
 
@@ -26,7 +26,7 @@ Here’s a consolidated table of all VOI analyses we’ve discussed, showing the
 
 The three R packages cover the core parameter-based VOI toolkit (EVPI, EVPPI, EVSI, ENBS) to differing extents, but none handle structural, adaptive, portfolio, dynamic, or implementation‐focused VOI.
 
-In Python, there is currently no mature, PyPI-distributed VOI library beyond a small GitHub repo for EVPI/EVPPI; all other VOI types require bespoke coding using Monte Carlo sampling, Bayesian tools (PyMC), optimization libraries (Pyomo), or custom trial simulation.
+In Python, there is currently no mature, PyPI-distributed VOI library beyond a small GitHub repo for EVPI/EVPPI; all other VOI types require bespoke coding using Monte Carlo sampling, Bayesian tools (NumPyro), optimization libraries (Pyomo), or custom trial simulation.
 
 This `voiage` library aims to fill some of these gaps. (Alpha version - under active development)
 

@@ -47,12 +47,12 @@ e.g., BCEA, dampack, voi packages), a comprehensive, modern, and extensible
 Python library for VOI analysis is still a developing area. voiage aims to:
 
 *   Provide a **user-friendly Python API** for common and advanced VOI calculations.
-*   Leverage the **Python scientific computing ecosystem** (NumPy, SciPy, Pandas, xarray, PyMC, JAX)
+*   Leverage the **Python scientific computing ecosystem** (NumPy, SciPy, Pandas, xarray, NumPyro, JAX)
     for performance and flexibility.
 *   Offer implementations for a **wide range of VOI analyses**, including those not
     commonly found in existing packages (e.g., structural VOI, adaptive design EVSI,
     portfolio VOI).
-*   Facilitate **integration with modern Bayesian modeling tools** (like PyMC or NumPyro).
+*   Facilitate **integration with modern Bayesian modeling tools** (like NumPyro).
 *   Support **computationally intensive analyses** through efficient algorithms and
     potential backend abstractions (e.g., JAX for GPU/TPU acceleration).
 *   Be **well-documented and tested** to ensure reliability and ease of use for

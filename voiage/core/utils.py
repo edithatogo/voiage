@@ -291,7 +291,7 @@ def compute_incremental_net_benefit(
 # ) -> 'PSASample': # Forward reference for PSASample
 #     """
 #     Generates parameter samples from specified distributions.
-#     This is a simplified example. More robust sampling might come from PyMC, etc.
+#     This is a simplified example. More robust sampling might come from NumPyro, etc.
 #     """
 #     from pyvoi.core.data_structures import PSASample # Local import to avoid circularity at load time
 #     params_dict = {}

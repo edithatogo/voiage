@@ -15,7 +15,7 @@ from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
 from voiage.exceptions import VoiageNotImplementedError
 
 # Type alias for a function that can perform NMA and then evaluate economic outcomes.
-# This is highly complex: it might involve running an NMA model (e.g., in PyMC, JAGS, Stan),
+# This is highly complex: it might involve running an NMA model (e.g., in NumPyro, JAGS, Stan),
 # obtaining posterior distributions of relative treatment effects, and then feeding these
 # into a health economic model.
 NMAEconomicModelEvaluator = Callable[

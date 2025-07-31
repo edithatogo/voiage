@@ -58,7 +58,7 @@ repos:
             "matplotlib>=3.4",
             "seaborn>=0.11",
             "typer>=0.9",
-            "pymc>=5.0", # PyMC has its own stubs usually
+            "numpyro>=0.13", # NumPyro has its own stubs usually
             # Stubs from typeshed are often included with MyPy, but explicit ones can be added:
             "types-setuptools",
             # "types-requests", # Example if requests was a direct dependency

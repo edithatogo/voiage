@@ -33,7 +33,7 @@ Define model‐averaging workflow: sample from alternative model outputs, comput
 
 2. Network Meta-Analysis EVSI
 
-Interface with networks (e.g. bnt or custom NMA in PyMC)
+Interface with networks (e.g. bnt or custom NMA in NumPyro)
 
 Propagate multivariate treatment-effect draws into EVSI routine
 
@@ -209,7 +209,7 @@ Purpose	Library	Notes
 Numerical core	numpy, scipy	Vectorized math, random sampling, optimizers
 Data handling	pandas, xarray	Tabular and multi-dimensional PSA data structures
 Bayesian sampling	pymc or pyro	MCMC/HMC for Bayesian CEA & EVPPI; use ArviZ for diagnostics
-Automatic differentiation	jax	JIT-compile Monte Carlo loops and derivatives for EVSI; optionally back-end in PyMC
+Automatic differentiation	jax	JIT-compile Monte Carlo loops and derivatives for EVSI; optionally back-end in NumPyro
 Regression & metamodels	scikit-learn, statsmodels	Nonparametric regression (e.g. RandomForest, GAM approximations) for EVPPI/EVSI
 Sensitivity analysis	SALib	Global/local DSA modules
 Parallelism	dask, joblib	Scale large Monte Carlo or adaptive-trial simulations
@@ -345,7 +345,7 @@ Parsl: Python-native HPC/workflow engine—submit tasks as Slurm jobs, track dep
 
 Task	Library	Notes
 
-MCMC / PSA sampling	PyMC (with JAX backend)	Scales on GPU/TPU automatically when you install pymc[sampling].
+MCMC / PSA sampling	NumPyro (with JAX backend)	Scales on GPU/TPU automatically when you install pyro-ppl[gpu].
 Variational / VI	NumPyro or TensorFlow Probability	Lightweight, JAX-based VI funnels for huge PSA problems.
 Nonparametric regression metamodels	scikit-learn, XGBoost, LightGBM	For fast EVPPI surrogates on large datasets (parallel tree boosting).
 

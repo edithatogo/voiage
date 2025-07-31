@@ -32,7 +32,7 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 1.  **Robust EVSI Implementation:**
     *   Move beyond the current stub to a full-featured two-loop EVSI calculation.
-    *   Implement proper Bayesian updating, starting with conjugate priors and extending to MCMC-based updates via integration with PyMC/NumPyro.
+    *   Implement proper Bayesian updating, starting with conjugate priors and extending to MCMC-based updates via integration with NumPyro.
     *   Integrate advanced metamodels (Gaussian Processes, BART) for the inner loop, moving beyond simple linear regression.
 2.  **Network Meta-Analysis (NMA) VOI:**
     *   Implement `evsi_nma`, a critical and highly-demanded feature in HTA. This will involve handling multivariate parameter distributions for treatment effects.
