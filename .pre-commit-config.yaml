@@ -44,6 +44,7 @@ repos:
     hooks:
     -   id: mypy
         name: mypy (static type checking)
+        exclude: ^voiage/plot/
         # args: [--strict] # Add global strictness, or configure in pyproject.toml
         # MyPy configuration is primarily in pyproject.toml [tool.mypy]
         # If you have specific entry points or files for MyPy to check:

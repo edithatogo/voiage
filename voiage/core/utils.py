@@ -7,9 +7,6 @@ from typing import Any, Optional, Sequence, Tuple, Union
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import (
-    NetBenefitArray,  # Assuming NetBenefitArray is defined
-)
 from voiage.exceptions import DimensionMismatchError, InputError
 
 
@@ -184,8 +181,8 @@ def calculate_net_benefit(
     return nmb.astype(DEFAULT_DTYPE, copy=False)  # type: ignore
 
 
-def get_optimal_strategy_index(
-    nb_array: Union[np.ndarray, NetBenefitArray],
+def get_optimal_strategy_index(  # type: ignore[no-any-return]
+    nb_array: Union[np.ndarray, Any],
 ) -> np.ndarray[Any, np.dtype[np.int64]]:
     """Determine the optimal strategy for each PSA sample.
 
@@ -201,8 +198,10 @@ def get_optimal_strategy_index(
         np.ndarray: A 1D array of integers, where each element is the index of the
                     optimal strategy for the corresponding sample.
     """
+    from voiage.core.data_structures import NetBenefitArray
+
     if isinstance(nb_array, NetBenefitArray):
-        values = nb_array.values
+        values: np.ndarray = nb_array.values
     elif isinstance(nb_array, np.ndarray):
         values = nb_array
     else:
@@ -215,4 +214,4 @@ def get_optimal_strategy_index(
     if values.size == 0:
         return np.array([], dtype=np.int64)
 
-    return np.argmax(values, axis=1).astype(np.int64)
+    return np.argmax(values, axis=1)

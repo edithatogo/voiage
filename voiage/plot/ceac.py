@@ -118,17 +118,19 @@ def plot_ceac(
 
     prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
 
-    user_plot_kwargs_list = plot_kwargs_per_strategy or []
+    user_plot_kwargs_list: List[dict] = plot_kwargs_per_strategy.get(
+        "plot_kwargs_per_strategy", []
+    )
     if len(user_plot_kwargs_list) != n_strategies and user_plot_kwargs_list:
         # Optional: Add a warning if the lengths don't match
         pass
 
     for s_idx in range(n_strategies):
         # Start with default kwargs
-        current_kwargs = {"label": strategy_names[s_idx]}
+        current_kwargs: dict = {"label": strategy_names[s_idx]}
 
         # Get user-provided kwargs for this specific strategy
-        user_kwargs = {}
+        user_kwargs: dict = {}
         if s_idx < len(user_plot_kwargs_list):
             user_kwargs = user_plot_kwargs_list[s_idx]
 
