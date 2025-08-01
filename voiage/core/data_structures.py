@@ -9,25 +9,24 @@ appropriate, and are intended to work seamlessly with NumPy and Pandas/xarray.
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Sequence, Union
+from typing import Dict, List, Optional, Sequence
 
 import numpy as np
 
+# --- Core Data Arrays ---
+import xarray as xr
+
 # import pandas as pd # Optional: if Pandas Series/DataFrame are part of the structures
 # import xarray as xr # Optional: if xarray DataArray/Dataset are part of the structures
-from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import DimensionMismatchError, InputError
+from voiage.exceptions import InputError
 
-# --- Core Data Arrays ---
-
-
-import xarray as xr
 
 @dataclass(frozen=True)
 class ValueArray:
     """
     A container for net benefit values from a PSA.
     """
+
     dataset: xr.Dataset
 
     def __post_init__(self: "ValueArray"):
@@ -36,9 +35,13 @@ class ValueArray:
         if "n_samples" not in self.dataset.dims:
             raise InputError("ValueArray 'dataset' must have a 'n_samples' dimension.")
         if "n_strategies" not in self.dataset.dims:
-            raise InputError("ValueArray 'dataset' must have a 'n_strategies' dimension.")
+            raise InputError(
+                "ValueArray 'dataset' must have a 'n_strategies' dimension."
+            )
         if "net_benefit" not in self.dataset.data_vars:
-            raise InputError("ValueArray 'dataset' must have a 'net_benefit' data variable.")
+            raise InputError(
+                "ValueArray 'dataset' must have a 'net_benefit' data variable."
+            )
 
     @property
     def values(self: "ValueArray") -> np.ndarray:
@@ -60,7 +63,9 @@ class ValueArray:
 class NetBenefitArray(ValueArray):
     """Backward-compatible wrapper around :class:`ValueArray`."""
 
-    def __init__(self: "NetBenefitArray", values: np.ndarray, strategy_names: List[str]):
+    def __init__(
+        self: "NetBenefitArray", values: np.ndarray, strategy_names: List[str]
+    ):
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
             coords={
@@ -77,13 +82,16 @@ class ParameterSet:
     """
     A container for parameter samples from a PSA.
     """
+
     dataset: xr.Dataset
 
     def __post_init__(self: "ParameterSet"):
         if not isinstance(self.dataset, xr.Dataset):
             raise InputError("ParameterSet 'dataset' must be a xarray.Dataset.")
         if "n_samples" not in self.dataset.dims:
-            raise InputError("ParameterSet 'dataset' must have a 'n_samples' dimension.")
+            raise InputError(
+                "ParameterSet 'dataset' must have a 'n_samples' dimension."
+            )
 
     @property
     def parameters(self: "ParameterSet") -> Dict[str, np.ndarray]:
@@ -164,7 +172,9 @@ class TrialDesign:
             raise InputError("All elements in 'arms' must be DecisionOption objects.")
         arm_names = [arm.name for arm in self.arms]
         if len(arm_names) != len(set(arm_names)):
-            raise InputError("DecisionOption names within a TrialDesign must be unique.")
+            raise InputError(
+                "DecisionOption names within a TrialDesign must be unique."
+            )
 
     @property
     def total_sample_size(self: "TrialDesign") -> int:
@@ -317,10 +327,9 @@ class DynamicSpec:
 #     else:
 #         updated_params = psa_sample.parameters
 #
-    #     nb_values = my_health_economic_model(updated_params)
-    #     return NetBenefitArray(values=nb_values)
+#     nb_values = my_health_economic_model(updated_params)
+#     return NetBenefitArray(values=nb_values)
 
 # --- Backwards Compatibility Alias ---
 # Allow old code to use ``TrialArm`` to refer to ``DecisionOption``.
 TrialArm = DecisionOption
-

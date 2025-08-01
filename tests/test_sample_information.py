@@ -127,7 +127,6 @@ def test_evsi_structure_and_not_implemented(
             f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}"
         )
 
-
     # Path 2: SKLEARN_AVAILABLE = False
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
     with pytest.raises(

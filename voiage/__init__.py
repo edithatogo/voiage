@@ -28,16 +28,16 @@ from . import (
     config,  # Allow access like `voiage.config.DEFAULT_DTYPE`
     exceptions,  # Allow access like `voiage.exceptions.InputError`
 )
+from .analysis import DecisionAnalysis
 from .core.data_structures import (
+    DecisionOption,
     DynamicSpec,
-    ValueArray,
     PortfolioSpec,
     PortfolioStudy,
     PSASample,
-    DecisionOption,
     TrialDesign,
+    ValueArray,
 )
-from .analysis import DecisionAnalysis
 from .methods.adaptive import adaptive_evsi
 
 # --- Core VOI Methods ---

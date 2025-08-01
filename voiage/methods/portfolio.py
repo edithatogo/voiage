@@ -229,7 +229,7 @@ if __name__ == "__main__":
         portfolio_spec_budget_100, dummy_calculator, "greedy"
     )
     selected_names_b100 = sorted(
-        [s.name for s in result_budget_100['selected_studies']]
+        [s.name for s in result_budget_100["selected_studies"]]
     )
     print(f"Selected (budget 100): {selected_names_b100}")
     print(

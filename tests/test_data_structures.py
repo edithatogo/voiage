@@ -4,26 +4,28 @@
 
 import numpy as np
 import pytest
-
 import xarray as xr
+
 from voiage.core.data_structures import (
     DynamicSpec,
-    ValueArray,
+    ParameterSet,
     PortfolioSpec,
     PortfolioStudy,
-    ParameterSet,
-    DecisionOption,
-    TrialDesign,
     TrialArm,
+    TrialDesign,
+    ValueArray,
 )
-from voiage.exceptions import DimensionMismatchError, InputError
+from voiage.exceptions import InputError
 
 
 class TestValueArray:
     def test_init_and_properties(self):
         dataset = xr.Dataset(
             {
-                "net_benefit": (("n_samples", "n_strategies"), np.array([[1, 2], [3, 4]])),
+                "net_benefit": (
+                    ("n_samples", "n_strategies"),
+                    np.array([[1, 2], [3, 4]]),
+                ),
             },
             coords={
                 "n_samples": [0, 1],
@@ -48,7 +50,9 @@ class TestValueArray:
             ValueArray(dataset=xr.Dataset(coords={"n_samples": [0, 1]}))
 
         with pytest.raises(InputError, match="must have a 'net_benefit' data variable"):
-            ValueArray(dataset=xr.Dataset(coords={"n_samples": [0, 1], "n_strategies": [0, 1]}))
+            ValueArray(
+                dataset=xr.Dataset(coords={"n_samples": [0, 1], "n_strategies": [0, 1]})
+            )
 
 
 class TestParameterSet:

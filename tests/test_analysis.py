@@ -1,7 +1,9 @@
 import numpy as np
+
 from voiage.analysis import DecisionAnalysis
-from voiage.core.data_structures import NetBenefitArray, PSASample
-from voiage.methods.basic import evpi as func_evpi, evppi as func_evppi
+from voiage.core.data_structures import NetBenefitArray
+from voiage.methods.basic import evpi as func_evpi
+from voiage.methods.basic import evppi as func_evppi
 
 
 def test_evpi_method_matches_function(sample_net_benefit_array_2strat: NetBenefitArray):

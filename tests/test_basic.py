@@ -24,7 +24,13 @@ from voiage.methods.basic import evpi, evppi
 @pytest.mark.parametrize(
     ("nb_array", "expected_evpi"),
     [
-        (np.array([[100, 105], [110, 100], [90, 110], [120, 100], [95, 115]], dtype=DEFAULT_DTYPE), 6.0),
+        (
+            np.array(
+                [[100, 105], [110, 100], [90, 110], [120, 100], [95, 115]],
+                dtype=DEFAULT_DTYPE,
+            ),
+            6.0,
+        ),
         (np.array([[100, 100], [100, 100]], dtype=DEFAULT_DTYPE), 0.0),
     ],
 )

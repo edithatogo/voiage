@@ -1,57 +1,78 @@
-# voiage
-A Value of Information Library
+# voiage: A Python Library for Value of Information Analysis
 
-## Background
+[![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
+[![Build Status](https://github.com/search?q=repo%3Adoughnut%2Fvoiage+workflow%3ACI&type=code)](https://github.com/doughnut/voiage/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Here’s a consolidated table of all VOI analyses we’ve discussed, showing their definitions and where (if at all) they’re implemented in the three main R packages (BCEA, dampack, voi) or in Python:
+`voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
 
-| VOI Analysis                                      | Description                                                                                                 | BCEA | dampack | voi  | Python         | Notes / Gaps                                                                                                                               |
-| :------------------------------------------------ | :---------------------------------------------------------------------------------------------------------- | :--- | :------ | :--- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| EVPI                                              | Expected Value of Perfect Information: value of learning all uncertain parameters before decision.            | ✓    | ✓       | ✓    | Partial (EVPI) | R: all three; Python: small evpi repo for Monte Carlo EVPI but not on PyPI.                                                                |
-| EVPPI                                             | Expected Value of Partial Perfect Information: value of learning a subset of parameters.                    | ✓    | ✓       | ✓    | Partial (EVPPI)| R: all three; Python: evpi repo offers EVPPI routines but no mature package.                                                               |
-| EVSI                                              | Expected Value of Sample Information: value of collecting new data under a fixed trial design.              | ✗    | ✓       | ✓    | ✗              | Only dampack & voi; BCEA lacks EVSI. No mainstream Python implementation.                                                                    |
-| ENBS                                              | Expected Net Benefit of Sampling: EVSI minus research costs.                                                | ✗    | ✗       | ✓    | ✗              | Only voi; BCEA & dampack don’t compute ENBS.                                                                                               |
-| Structural EVPI / EVPPI                           | VOI for resolving uncertainty in model structure (e.g. decision‐tree vs. Markov vs. DES).                   | ✗    | ✗       | ✗    | ✗              | No turnkey support; typically done via custom model‐averaging workflows.                                                                   |
-| EVSI for Network Meta‐Analysis                    | VOI of new trial data within a network meta‐analysis framework.                                             | ✗    | ✗       | ✗    | ✗              | Requires bespoke combination of NMA packages (e.g. netmeta / gemtc) with custom EVSI coding.                                                 |
-| Adaptive‐Design EVSI                              | EVSI tailored to adaptive or group‐sequential trial designs (e.g. early stopping rules).                    | ✗    | ✗       | ✗    | ✗              | Not implemented; custom trial simulation and decision‐analytic coding needed.                                                              |
-| EVSI per Unit Cost / Sample‐Size Optimization     | EVSI-based optimization of sample size under budget constraints (i.e. maximize EVSI minus cost).            | ✗    | ✗       | ✗    | ✗              | Not available as built‐in; one must script EVSI and cost functions and run optimizations manually (e.g. with optim or Pyomo).                 |
-| EVH (Value of Heterogeneity Information)          | Value of learning how treatment effects vary across subgroups or settings.                                  | ✗    | ✗       | ✗    | ✗              | No dedicated functions; could approximate via stratified EVPPI but no package support.                                                       |
-| EVI (Value of Implementation Information)         | Value of resolving uncertainty around real‐world implementation (e.g. uptake, adherence).                   | ✗    | ✗       | ✗    | ✗              | Completely bespoke; requires modeling implementation parameters and sampling strategies.                                                     |
-| Portfolio VOI / Research Prioritization           | Joint allocation of research budget across multiple studies/interventions to maximize overall value.        | ✗    | ✗       | ✗    | ✗              | No package support; needs custom multi‐decision optimization frameworks.                                                                     |
-| Dynamic / Sequential VOI                          | Continuous updating of VOI metrics as data accrue (e.g. interim analyses in Bayesian trials).               | ✗    | ✗       | ✗    | ✗              | Requires custom Bayesian trial‐monitoring scripts (e.g. with NumPyro or rstan and looping VOI calculations).                                  |
-| Value of Observational Data & Data Linkage        | VOI for non‐randomized or linked administrative datasets, accounting for bias/missingness.                  | ✗    | ✗       | ✗    | ✗              | No off‐the‐shelf tools; custom modeling of observational‐data quality and sampling design is needed.                                       |
-| Value of Calibration & Model‐Validation Information | VOI of collecting data specifically to calibrate or externally validate model parameters or structure.      | ✗    | ✗       | ✗    | ✗              | Not provided by any package; one must simulate calibration‐oriented data collection and run custom VOI analyses.                             |
+## Background: The Need for a Comprehensive VOI Tool in Python
 
-✓ indicates a built-in function; ✗ indicates no direct support.
+Value of Information (VOI) analysis is a powerful set of techniques used to estimate the value of collecting additional data to reduce uncertainty in decision-making. While several tools for VOI analysis exist, the current landscape has some significant gaps:
 
-The three R packages cover the core parameter-based VOI toolkit (EVPI, EVPPI, EVSI, ENBS) to differing extents, but none handle structural, adaptive, portfolio, dynamic, or implementation‐focused VOI.
+*   **Limited Python Support:** The Python ecosystem lacks a mature, comprehensive VOI library. Most existing tools are written in R or are commercial, closed-source products.
+*   **Fragmented Features:** Existing tools, even in the R ecosystem, are fragmented. Different packages support different VOI methods, and none of them offer a complete toolkit.
+*   **Lack of Advanced Methods:** Many advanced and specialized VOI methods, such as those for adaptive trial designs, network meta-analyses, or structural uncertainty, are not available in any off-the-shelf tool.
 
-In Python, there is currently no mature, PyPI-distributed VOI library beyond a small GitHub repo for EVPI/EVPPI; all other VOI types require bespoke coding using Monte Carlo sampling, Bayesian tools (NumPyro), optimization libraries (Pyomo), or custom trial simulation.
+`voiage` aims to fill these gaps by providing a single, powerful, and easy-to-use library for a wide range of VOI analyses in Python.
 
-This `voiage` library aims to fill some of these gaps. (Alpha version - under active development)
+## Feature Comparison
 
-This table should serve as a roadmap for choosing the right tools for standard VOI analyses and for identifying where you’ll need to build custom workflows.
+The following table compares the features of `voiage` with other common VOI software.
 
-## Software Comparison
+| VOI Analysis                                  | `voiage` (Python) | `BCEA` (R) | `dampack` (R) | `voi` (R) | Commercial Tools | Notes                                                                                              |
+| :-------------------------------------------- | :---------------: | :--------: | :-----------: | :-------: | :--------------: | :------------------------------------------------------------------------------------------------- |
+| **Core Methods**                              |                   |            |               |           |                  |                                                                                                    |
+| Expected Value of Perfect Information (EVPI)  |         ✔️         |     ✔️      |       ✔️       |     ✔️     |        ✔️         | The most fundamental VOI metric.                                                                   |
+| Expected Value of Partial Perfect Info (EVPPI) |         ✔️         |     ✔️      |       ✔️       |     ✔️     |        ✔️         | `voiage` supports modern, efficient algorithms.                                                    |
+| Expected Value of Sample Information (EVSI)   |         ✔️         |     ❌      |       ✔️       |     ✔️     |        ✔️         | `voiage` provides a flexible framework for various data-generating processes.                      |
+| Expected Net Benefit of Sampling (ENBS)       |         ✔️         |     ❌      |       ❌       |     ✔️     |        ❌         | Crucial for optimizing research design.                                                            |
+| **Advanced & Specialized Methods**            |                   |            |               |           |                  |                                                                                                    |
+| Structural Uncertainty VOI                    |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For comparing different model structures.                                                          |
+| Network Meta-Analysis VOI                     |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For synthesizing evidence from multiple studies.                                                   |
+| Adaptive Design VOI                           |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For trials with pre-planned adaptations.                                                           |
+| Portfolio Optimization                        |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For prioritizing multiple research opportunities.                                                  |
+| Value of Heterogeneity                        |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For understanding the value of learning about subgroup effects.                                    |
 
-Below is an expanded comparison table that includes all the main VOI analysis types—EVPI, EVPPI (including joint, conditional, and sequential), EVSI, and ENBS—even where no software currently supports them. Definitions of these VOI types can be found in the [NCBI overview](https://www.ncbi.nlm.nih.gov/books/NBK589537/) and the [York methods paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4999839/).
+**Legend:**
+*   ✔️: Implemented
+*   🚧: In Progress / Planned
+*   ❌: Not Supported
 
-| Software             | Type             | EVPI | EVPPI | Joint EVPPI | Conditional EVPPI | Sequential EVPPI | EVSI | ENBS | Maturity & Notes                                                                                                |
-| :------------------- | :--------------- | :--- | :---- | :---------- | :---------------- | :--------------- | :--- | :--- | :-------------------------------------------------------------------------------------------------------------- |
-| BCEA                 | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ❌   | ❌   | High maturity (v2.4.7 Jan 2025). Full Bayesian MCMC integration, CE-plane & EVPPI plotting .                      |
-| dampack              | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ✔️   | ❌   | Medium maturity (v1.0.2 Sep 30 2024). Regression-metamodel EVPPI (calc_evppi) & EVSI (calc_evsi) .             |
-| voi                  | R (CRAN)         | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ✔️   | ✔️   | Low–medium maturity (initial v1.0.1 Nov 2023). Nonparametric EVSI, ENBS optimization .                             |
-| SAVI                 | R / Web app      | ❌   | ✔️    | ✔️          | ❌                | ❌               | ✔️¹  | ❌   | Web interface (and R wrapper) for accelerated EVPPI via GAM/GP; EVSI only via CSV summary “hack” .             |
-| BCEAweb              | Web              | ✔️   | ✔️    | ✔️          | ❌                | ❌               | ❌   | ❌   | Shiny front-end to BCEA: PSA, EVPI & EVPPI in a user-friendly UI .                                                |
-| johanneskopton/evpi  | Python (GitHub)  | ✔️   | ✔️    | ❌          | ❌                | ❌               | ❌   | ❌   | Low maturity; EVPI/EVPPI via C/NumPy bindings; not on PyPI .                                                      |
-| TreeAge Pro          | Commercial       | ✔️   | ✔️    | ❌          | ❌                | ❌               | ❌   | ❌   | Industry-standard desktop tool; shortcuts for EVPI and EVPPI simulation on CE models .                            |
-| PrecisionTree        | Commercial (Excel) | ✔️   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Excel add-in by Palisade; built-in EVPI & EVSI wizards .                                                          |
-| ConVOI EVSI Viz      | Web              | ❌   | ❌    | ❌          | ❌                | ❌               | ✔️   | ❌   | Experimental web app for EVSI visualization maintained by the ConVOI group .                                    |
+## Installation
 
-¹ EVSI in SAVI requires manually summarised inputs rather than a full PSA object.
+You can install `voiage` via pip:
 
-### Key gaps
+```bash
+pip install voiage
+```
 
-*   No tool supports conditional or sequential EVPPI directly.
-*   ENBS remains rare outside of the R voi package.
-*   Python–native VOI support is minimal—users typically script EVPI/EVPPI themselves.
+## Getting Started
+
+Here's a simple example of how to use `voiage` to calculate the EVPI:
+
+```python
+import numpy as np
+from voiage.analysis import evpi
+
+# Your model inputs and outputs
+psa_inputs = {
+    'param1': np.random.rand(1000),
+    'param2': np.random.rand(1000),
+}
+psa_outputs = np.random.rand(1000, 2) # 1000 simulations, 2 strategies
+
+# Calculate the EVPI
+evpi_value = evpi(psa_inputs, psa_outputs)
+print(f"EVPI: {evpi_value}")
+```
+
+For more detailed examples and tutorials, please see the [documentation](https://voiage.readthedocs.io).
+
+## Contributing
+
+`voiage` is an open-source project, and we welcome contributions from the community. If you'd like to contribute, please see our [contributing guidelines](CONTRIBUTING.md).
+
+## License
+
+`voiage` is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

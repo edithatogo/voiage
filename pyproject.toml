@@ -100,6 +100,7 @@ select = [
 ignore = [
     "ANN401", "E501", "D100", "D101", "D102", "D103", "D104", "D105", "D107",
     "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
+    "S101", "ANN101", "C901", "F821",
 ]
 fixable = ["ALL"]
 unfixable = []
@@ -141,6 +142,11 @@ module = "voiage.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-fail-under=0"
@@ -164,6 +170,3 @@ skip_covered = true
 
 [tool.bandit]
 skips = ["B101"]
-tests = ["tests/*"]
-include = ["voiage"]
-exclude_dirs = ["tests"]

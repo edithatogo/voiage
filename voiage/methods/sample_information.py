@@ -6,7 +6,7 @@
 - ENBS (Expected Net Benefit of Sampling)
 """
 
-from typing import Any, Callable, Dict, Optional, Union, List # Added List
+from typing import Any, Callable, Dict, List, Optional, Union  # Added List
 
 import numpy as np
 
@@ -22,10 +22,11 @@ from voiage.exceptions import (
 # Attempt to import for LinearRegression, fail gracefully if not available
 try:
     from sklearn.linear_model import LinearRegression
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    LinearRegression = None # Placeholder if sklearn not available
+    LinearRegression = None  # Placeholder if sklearn not available
 
 
 # from voiage.methods.basic import evppi # May be used if EVSI is framed via EVPPI on predicted data
@@ -35,15 +36,16 @@ except ImportError:
 # For EVSI, the model_func is used to generate *prior* net benefits.
 # The impact of trial data is handled by updating parameters *before* potentially re-evaluating
 # a model or, more commonly in regression EVSI, by using a metamodel.
-EconomicModelFunctionType = Callable[[Union[Dict[str, np.ndarray], PSASample]], np.ndarray]
+EconomicModelFunctionType = Callable[
+    [Union[Dict[str, np.ndarray], PSASample]], np.ndarray
+]
 
 
 # --- Helper Function Stubs for EVSI ---
 
+
 def _simulate_trial_data(
-    trial_design: TrialDesign,
-    psa_prior: PSASample,
-    n_inner_loops: int
+    trial_design: TrialDesign, psa_prior: PSASample, n_inner_loops: int
 ) -> Dict[str, np.ndarray]:
     """
     Simulates one dataset D_k from the trial_design and a single draw from psa_prior.
@@ -62,7 +64,8 @@ def _simulate_trial_data(
                              (Note: Future, more complex simulations might use it if data generation
                              itself involves internal sampling, but currently it does not).
 
-    Returns:
+    Returns
+    -------
         Dict[str, np.ndarray]: A dictionary where keys are trial arm names and
                                values are NumPy arrays of simulated individual patient data for that arm.
     """
@@ -86,14 +89,18 @@ def _simulate_trial_data(
     # Get the "true" common standard deviation for this simulation run
     # Fallback to a default if not found, with a warning.
     true_sd_outcome: float
-    if 'sd_outcome' in psa_prior.parameters:
-        true_sd_outcome = psa_prior.parameters['sd_outcome'][true_param_set_idx]
+    if "sd_outcome" in psa_prior.parameters:
+        true_sd_outcome = psa_prior.parameters["sd_outcome"][true_param_set_idx]
     else:
-        print("Warning: 'sd_outcome' not found in psa_prior.parameters. Defaulting to SD=1 for simulation.")
+        print(
+            "Warning: 'sd_outcome' not found in psa_prior.parameters. Defaulting to SD=1 for simulation."
+        )
         true_sd_outcome = 1.0
 
-    if true_sd_outcome <= 0: # Ensure SD is positive
-        print(f"Warning: True sd_outcome is non-positive ({true_sd_outcome}). Using 1.0 instead.")
+    if true_sd_outcome <= 0:  # Ensure SD is positive
+        print(
+            f"Warning: True sd_outcome is non-positive ({true_sd_outcome}). Using 1.0 instead."
+        )
         true_sd_outcome = 1.0
 
     for arm in trial_design.arms:
@@ -113,26 +120,44 @@ def _simulate_trial_data(
             # For this stub, let's use the first parameter's value as a fallback if only one param exists,
             # or a default random value, with a warning.
             param_names = list(psa_prior.parameters.keys())
-            if len(param_names) == 1 and not param_names[0].startswith("sd_"): # Avoid using sd as mean
-                 true_arm_mean = psa_prior.parameters[param_names[0]][true_param_set_idx]
-                 print(f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{param_names[0]}'.")
-            elif param_names : # Try to find any mean-like param
-                first_mean_like_param = next((p for p in param_names if "mean" in p and not p.startswith("sd_")), None)
+            if len(param_names) == 1 and not param_names[0].startswith(
+                "sd_"
+            ):  # Avoid using sd as mean
+                true_arm_mean = psa_prior.parameters[param_names[0]][true_param_set_idx]
+                print(
+                    f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{param_names[0]}'."
+                )
+            elif param_names:  # Try to find any mean-like param
+                first_mean_like_param = next(
+                    (p for p in param_names if "mean" in p and not p.startswith("sd_")),
+                    None,
+                )
                 if first_mean_like_param:
-                    true_arm_mean = psa_prior.parameters[first_mean_like_param][true_param_set_idx]
-                    print(f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{first_mean_like_param}'.")
-                else: # Absolute fallback
-                    true_arm_mean = np.random.normal(0,1) # Default if no suitable param found
-                    print(f"Warning: No specific or generic mean parameter found for arm '{arm.name}'. Using random mean {true_arm_mean:.2f}.")
-            else: # No parameters at all, should not happen if psa_prior is validated
-                true_arm_mean = np.random.normal(0,1)
-                print(f"Warning: No parameters in psa_prior. Using random mean {true_arm_mean:.2f} for arm '{arm.name}'.")
-
+                    true_arm_mean = psa_prior.parameters[first_mean_like_param][
+                        true_param_set_idx
+                    ]
+                    print(
+                        f"Warning: No specific mean parameter for arm '{arm.name}'. Using value from '{first_mean_like_param}'."
+                    )
+                else:  # Absolute fallback
+                    true_arm_mean = np.random.normal(
+                        0, 1
+                    )  # Default if no suitable param found
+                    print(
+                        f"Warning: No specific or generic mean parameter found for arm '{arm.name}'. Using random mean {true_arm_mean:.2f}."
+                    )
+            else:  # No parameters at all, should not happen if psa_prior is validated
+                true_arm_mean = np.random.normal(0, 1)
+                print(
+                    f"Warning: No parameters in psa_prior. Using random mean {true_arm_mean:.2f} for arm '{arm.name}'."
+                )
 
         # Generate individual patient data for the arm
         # arm_data = np.random.normal(loc=true_arm_mean, scale=true_sd_outcome, size=arm.sample_size)
         # Ensure data has DEFAULT_DTYPE
-        arm_data = np.random.normal(loc=true_arm_mean, scale=true_sd_outcome, size=arm.sample_size).astype(DEFAULT_DTYPE)
+        arm_data = np.random.normal(
+            loc=true_arm_mean, scale=true_sd_outcome, size=arm.sample_size
+        ).astype(DEFAULT_DTYPE)
         sim_data_dict[arm.name] = arm_data
 
     # print(f"Debug _simulate_trial_data: Simulated data for {len(trial_design.arms)} arms. Example for '{trial_design.arms[0].name}': mean={np.mean(sim_data_dict[trial_design.arms[0].name]):.2f}, sd={np.std(sim_data_dict[trial_design.arms[0].name]):.2f}")
@@ -140,10 +165,8 @@ def _simulate_trial_data(
 
 
 def _bayesian_update(
-    psa_prior: PSASample,
-    simulated_data_k: Any,
-    n_inner_loops: int
-) -> np.ndarray: # Should return samples from posterior P(theta|D_k) as a 2D array (n_inner_loops, n_params)
+    psa_prior: PSASample, simulated_data_k: Any, n_inner_loops: int
+) -> np.ndarray:  # Should return samples from posterior P(theta|D_k) as a 2D array (n_inner_loops, n_params)
     """
     (Stub) Performs Bayesian update: P(theta|D_k).
     Returns samples from the posterior distribution.
@@ -153,7 +176,9 @@ def _bayesian_update(
     # Conceptual: Use simulated_data_k to update beliefs about parameters in psa_prior.
     # For now, let's just return a sample from the prior distribution, implying data had no impact or perfect prior.
     # This will make EVSI close to 0 if metamodel is perfect.
-    print(f"Warning: _bayesian_update is a stub. Returning samples from prior for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}.")
+    print(
+        f"Warning: _bayesian_update is a stub. Returning samples from prior for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}."
+    )
 
     # For testing, we need to return an array of shape (n_inner_loops, n_parameters)
 
@@ -166,10 +191,12 @@ def _bayesian_update(
     #    psa_prior.parameters['mean_treatment'] gives samples of mu_0. We need tau_0.
     #    For simplicity, let's assume a fixed prior standard deviation for mu_0 (prior_sd_for_mean_treatment).
 
-    param_to_update = 'mean_treatment' # Example parameter to update
-    data_key_for_update = 'New Treatment' # Example arm name from dummy_trial_design_for_evsi
-                                      # This mapping needs to be robust or configurable.
-    known_obs_sd_param = 'sd_outcome' # Parameter name for known observation SD
+    param_to_update = "mean_treatment"  # Example parameter to update
+    data_key_for_update = (
+        "New Treatment"  # Example arm name from dummy_trial_design_for_evsi
+    )
+    # This mapping needs to be robust or configurable.
+    known_obs_sd_param = "sd_outcome"  # Parameter name for known observation SD
     # Assume a fixed standard deviation for the prior on the mean being updated.
     # This represents uncertainty about mu_0 itself if mu_0 were a fixed point.
     # Or, if psa_prior['mean_treatment'] are draws from N(true_mu_0, prior_sd_for_mean_treatment^2),
@@ -181,20 +208,27 @@ def _bayesian_update(
     # Get all parameter names and their prior samples stacked
     prior_param_names = list(psa_prior.parameters.keys())
     if not prior_param_names:
-        return np.random.rand(n_inner_loops, 1) # Fallback if no params
+        return np.random.rand(n_inner_loops, 1)  # Fallback if no params
 
-    prior_param_values_list = [v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()]
-    prior_params_stacked = np.hstack(prior_param_values_list) # (n_prior_samples, n_total_params)
+    prior_param_values_list = [
+        v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()
+    ]
+    prior_params_stacked = np.hstack(
+        prior_param_values_list
+    )  # (n_prior_samples, n_total_params)
 
     # Initialize posterior samples by resampling from the prior stack
     # These will be overwritten for the parameter(s) we update.
-    prior_sample_indices = np.random.choice(prior_params_stacked.shape[0], n_inner_loops, replace=True)
+    prior_sample_indices = np.random.choice(
+        prior_params_stacked.shape[0], n_inner_loops, replace=True
+    )
     posterior_samples_stacked = prior_params_stacked[prior_sample_indices, :].copy()
 
-    if param_to_update in prior_param_names and \
-       data_key_for_update in simulated_data_k and \
-       known_obs_sd_param in prior_param_names:
-
+    if (
+        param_to_update in prior_param_names
+        and data_key_for_update in simulated_data_k
+        and known_obs_sd_param in prior_param_names
+    ):
         param_idx_to_update = prior_param_names.index(param_to_update)
 
         # For each of the n_inner_loops (representing draws from posterior):
@@ -216,15 +250,18 @@ def _bayesian_update(
         # For tau_0, prior std dev of mu_0. Use std of the *entire* prior sample for param_to_update.
         # This is a simplification. A more rigorous approach would have tau_0 as a defined parameter.
         tau_0 = np.std(psa_prior.parameters[param_to_update])
-        if tau_0 == 0: tau_0 = 1e-6 # Avoid division by zero if prior is constant
+        if tau_0 == 0:
+            tau_0 = 1e-6  # Avoid division by zero if prior is constant
         tau_0_squared = tau_0**2
 
         # Data from the trial simulation for the relevant arm
         data_y = simulated_data_k[data_key_for_update]
         n_obs = len(data_y)
-        if n_obs == 0: # No data, posterior is prior
+        if n_obs == 0:  # No data, posterior is prior
             # `posterior_samples_stacked` already contains prior samples for this param
-            print(f"Warning: No data for arm '{data_key_for_update}'. Using prior for '{param_to_update}'.")
+            print(
+                f"Warning: No data for arm '{data_key_for_update}'. Using prior for '{param_to_update}'."
+            )
             # The line below is already done by initialization, but for clarity:
             # posterior_samples_stacked[:, param_idx_to_update] = mu_0_samples
             # return posterior_samples_stacked # Early exit if no data for this arm
@@ -234,20 +271,30 @@ def _bayesian_update(
             # Calculate posterior variance and mean for each of the n_inner_loops samples
             # (as mu_0_samples and sigma_squared_samples are arrays)
             # Ensure sigma_squared_samples are positive
-            sigma_squared_samples = np.maximum(sigma_squared_samples, 1e-12) # Avoid zero or negative variance
+            sigma_squared_samples = np.maximum(
+                sigma_squared_samples, 1e-12
+            )  # Avoid zero or negative variance
 
-            tau_n_squared_inv = (1/tau_0_squared) + (n_obs / sigma_squared_samples)
+            tau_n_squared_inv = (1 / tau_0_squared) + (n_obs / sigma_squared_samples)
             tau_n_squared = 1 / tau_n_squared_inv
-            mu_n = tau_n_squared * ( (mu_0_samples / tau_0_squared) + (n_obs * y_bar / sigma_squared_samples) )
+            mu_n = tau_n_squared * (
+                (mu_0_samples / tau_0_squared) + (n_obs * y_bar / sigma_squared_samples)
+            )
 
             # Draw samples from the posterior N(mu_n, tau_n_squared)
-            updated_param_posterior_draws = np.random.normal(loc=mu_n, scale=np.sqrt(tau_n_squared))
-            posterior_samples_stacked[:, param_idx_to_update] = updated_param_posterior_draws.astype(DEFAULT_DTYPE)
+            updated_param_posterior_draws = np.random.normal(
+                loc=mu_n, scale=np.sqrt(tau_n_squared)
+            )
+            posterior_samples_stacked[
+                :, param_idx_to_update
+            ] = updated_param_posterior_draws.astype(DEFAULT_DTYPE)
 
             # print(f"Debug _bayesian_update: Updated '{param_to_update}'. Prior mean for one sample: {mu_0_samples[0]:.2f}. Data mean: {y_bar:.2f}. Posterior mean for one sample: {mu_n[0]:.2f}. Posterior SD for one sample: {np.sqrt(tau_n_squared[0]):.2f}")
 
     else:
-        print(f"Warning: Conditions for Bayesian update of '{param_to_update}' not met. Using prior samples.")
+        print(
+            f"Warning: Conditions for Bayesian update of '{param_to_update}' not met. Using prior samples."
+        )
         # If conditions not met, posterior_samples_stacked already contains resampled priors.
 
     return posterior_samples_stacked
@@ -256,50 +303,60 @@ def _bayesian_update(
 def _fit_metamodel(
     model_func: EconomicModelFunctionType,
     psa_prior: PSASample,
-    nb_prior_values: np.ndarray # Pre-calculated (n_samples, n_strategies)
-) -> List[Any]: # List of fitted regression models, one per strategy
+    nb_prior_values: np.ndarray,  # Pre-calculated (n_samples, n_strategies)
+) -> List[Any]:  # List of fitted regression models, one per strategy
     """
     (Stub) Fits a regression metamodel NB(d,theta) ~ f(theta) for each strategy d.
     Uses prior PSA samples and their corresponding net benefits.
     """
     if not SKLEARN_AVAILABLE:
-        raise PyVoiNotImplementedError("Scikit-learn is required for regression-based EVSI if not providing a custom metamodel fitter.")
+        raise PyVoiNotImplementedError(
+            "Scikit-learn is required for regression-based EVSI if not providing a custom metamodel fitter."
+        )
 
-    print(f"Info: _fit_metamodel called for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}.")
+    print(
+        f"Info: _fit_metamodel called for {list(psa_prior.parameters.keys())[0] if psa_prior.parameters else 'N/A'}."
+    )
     metamodel_list = []
 
     # Prepare X from psa_prior.parameters (n_samples, n_params)
     if not psa_prior.parameters:
-         # If no parameters, EVSI should be 0. Metamodel fitting is trivial.
-         # This case should ideally lead to EVSI=0 earlier.
-         # For now, return empty list, subsequent steps should handle it.
+        # If no parameters, EVSI should be 0. Metamodel fitting is trivial.
+        # This case should ideally lead to EVSI=0 earlier.
+        # For now, return empty list, subsequent steps should handle it.
         print("Warning: No parameters in psa_prior for metamodel fitting.")
         return []
 
-    param_arrays = [v.reshape(-1, 1) if v.ndim ==1 else v for v in psa_prior.parameters.values()]
-    X_prior = np.hstack(param_arrays) # (n_prior_samples, n_params)
+    param_arrays = [
+        v.reshape(-1, 1) if v.ndim == 1 else v for v in psa_prior.parameters.values()
+    ]
+    X_prior = np.hstack(param_arrays)  # (n_prior_samples, n_params)
 
     n_strategies = nb_prior_values.shape[1]
     for i in range(n_strategies):
         y_prior_strategy_i = nb_prior_values[:, i]
-        model = LinearRegression() # Default model
+        model = LinearRegression()  # Default model
         try:
             model.fit(X_prior, y_prior_strategy_i)
             metamodel_list.append(model)
         except Exception as e:
-            raise CalculationError(f"Error fitting metamodel for strategy {i}: {e}") from e
+            raise CalculationError(
+                f"Error fitting metamodel for strategy {i}: {e}"
+            ) from e
 
     return metamodel_list
 
 
 def _predict_enb_from_metamodel(
     metamodel_list: List[Any],
-    psa_posterior_k_samples: np.ndarray # (n_inner_loops, n_params)
-) -> np.ndarray: # Returns array of E[NB(d)|D_k] for each strategy d, shape (n_strategies,)
+    psa_posterior_k_samples: np.ndarray,  # (n_inner_loops, n_params)
+) -> (
+    np.ndarray
+):  # Returns array of E[NB(d)|D_k] for each strategy d, shape (n_strategies,)
     """
     (Stub) Predicts E[NB(d)|D_k] using the fitted metamodel and posterior samples.
     """
-    if not metamodel_list: # Handles case of no parameters / no metamodels
+    if not metamodel_list:  # Handles case of no parameters / no metamodels
         # If there are no metamodels (e.g. no parameters of interest),
         # then the posterior ENB is just the prior ENB.
         # However, the number of strategies is needed. This path needs careful thought.
@@ -313,12 +370,12 @@ def _predict_enb_from_metamodel(
         # This requires E[NB] to be passed or accessible.
         # For now, let's return zeros if we don't know n_strategies.
         # This will be refined when `evsi` calls this.
-        return np.array([]) # Placeholder, needs to know n_strategies
+        return np.array([])  # Placeholder, needs to know n_strategies
 
-    if psa_posterior_k_samples.ndim == 1: # Should be (n_samples, n_params)
-        psa_posterior_k_samples = psa_posterior_k_samples.reshape(-1,1)
+    if psa_posterior_k_samples.ndim == 1:  # Should be (n_samples, n_params)
+        psa_posterior_k_samples = psa_posterior_k_samples.reshape(-1, 1)
 
-    if psa_posterior_k_samples.size == 0: # No posterior samples
+    if psa_posterior_k_samples.size == 0:  # No posterior samples
         # This might happen if n_inner_loops is 0 or update failed.
         # Return array of zeros matching number of strategies.
         return np.zeros(len(metamodel_list))
@@ -328,21 +385,24 @@ def _predict_enb_from_metamodel(
 
     for i in range(n_strategies):
         model = metamodel_list[i]
-        if model is None: # Should not happen if _fit_metamodel is robust
-            enb_post_data_k_strategies[i] = 0 # Or some other default
+        if model is None:  # Should not happen if _fit_metamodel is robust
+            enb_post_data_k_strategies[i] = 0  # Or some other default
             continue
         try:
             predicted_nb_for_strategy_i = model.predict(psa_posterior_k_samples)
             enb_post_data_k_strategies[i] = np.mean(predicted_nb_for_strategy_i)
         except Exception as e:
             # This might happen if psa_posterior_k_samples doesn't match model's expected features
-            print(f"Warning: Error predicting with metamodel for strategy {i}: {e}. Using 0 for ENB.")
-            enb_post_data_k_strategies[i] = 0 # Fallback
+            print(
+                f"Warning: Error predicting with metamodel for strategy {i}: {e}. Using 0 for ENB."
+            )
+            enb_post_data_k_strategies[i] = 0  # Fallback
 
     return enb_post_data_k_strategies
 
 
 # --- Main EVSI Function ---
+
 
 def evsi(
     model_func: EconomicModelFunctionType,
@@ -408,11 +468,13 @@ def evsi(
                              for estimating the inner expectation E_theta|D[NB(d, theta|D_k)].
                              Defaults to 1000.
 
-    Returns:
+    Returns
+    -------
         float: The calculated EVSI. Per-decision if population args are not provided,
                otherwise population-adjusted EVSI.
 
-    Raises:
+    Raises
+    ------
         InputError: If inputs are invalid.
         CalculationError: If errors occur during model execution or calculations.
         PyVoiNotImplementedError: If the chosen method is not implemented or fully supported.
@@ -425,22 +487,28 @@ def evsi(
         raise InputError("`trial_design` must be a TrialDesign object.")
     if not callable(model_func):
         raise InputError("`model_func` must be a callable function.")
-    if n_outer_loops <=0 or n_inner_loops <=0:
+    if n_outer_loops <= 0 or n_inner_loops <= 0:
         raise InputError("n_outer_loops and n_inner_loops must be positive.")
 
     # --- Calculate max_d [ E_theta [NB(d, theta)] ] --- (Prior optimal decision value)
     try:
         # model_func is expected to take parameters (dict or PSASample) and return nb_array
-        nb_prior_values = model_func(psa_prior) # psa_prior might be passed if model_func expects PSASample obj
+        nb_prior_values = model_func(
+            psa_prior
+        )  # psa_prior might be passed if model_func expects PSASample obj
 
-        if isinstance(nb_prior_values, NetBenefitArray): # Should not happen based on new type hint
+        if isinstance(
+            nb_prior_values, NetBenefitArray
+        ):  # Should not happen based on new type hint
             nb_prior_values = nb_prior_values.values
         elif not isinstance(nb_prior_values, np.ndarray):
             raise CalculationError(
                 "`model_func` did not return a NumPy array for prior NBs."
             )
         check_input_array(
-            nb_prior_values, expected_ndim=2, name="Prior Net Benefit values from model_func"
+            nb_prior_values,
+            expected_ndim=2,
+            name="Prior Net Benefit values from model_func",
         )
     except Exception as e:
         raise CalculationError(
@@ -450,27 +518,36 @@ def evsi(
     mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
     max_expected_nb_current_info = np.max(mean_nb_per_strategy_prior)
 
-
     # --- Calculate E_D [ max_d E_theta|D [NB(d, theta|D)] ] --- (Expected post-study optimal value)
-    expected_max_nb_post_study: float # Type hint
+    expected_max_nb_post_study: float  # Type hint
 
     if method == "regression":
         # The original PyVoiNotImplementedError for "regression" was here.
         # It's removed to allow the new stubbed logic to run.
         if not SKLEARN_AVAILABLE:
-               raise VoiageNotImplementedError("Regression method for EVSI requires scikit-learn to be installed.")
+            raise VoiageNotImplementedError(
+                "Regression method for EVSI requires scikit-learn to be installed."
+            )
         if not psa_prior.parameters:
-            print("Warning: EVSI regression method called with no parameters in psa_prior. EVSI will be 0.")
+            print(
+                "Warning: EVSI regression method called with no parameters in psa_prior. EVSI will be 0."
+            )
             expected_max_nb_post_study = max_expected_nb_current_info
         else:
             metamodel_list = _fit_metamodel(model_func, psa_prior, nb_prior_values)
-            if not metamodel_list : # No models fitted (e.g. no parameters)
-                 expected_max_nb_post_study = max_expected_nb_current_info
+            if not metamodel_list:  # No models fitted (e.g. no parameters)
+                expected_max_nb_post_study = max_expected_nb_current_info
             else:
-                all_max_enb_post_data_k = np.zeros(n_outer_loops) # Pre-allocate
-                for k_loop_idx in range(n_outer_loops): # Renamed k to k_loop_idx to avoid conflict
-                    simulated_data_k = _simulate_trial_data(trial_design, psa_prior, n_inner_loops)
-                    psa_posterior_k_samples = _bayesian_update(psa_prior, simulated_data_k, n_inner_loops)
+                all_max_enb_post_data_k = np.zeros(n_outer_loops)  # Pre-allocate
+                for k_loop_idx in range(
+                    n_outer_loops
+                ):  # Renamed k to k_loop_idx to avoid conflict
+                    simulated_data_k = _simulate_trial_data(
+                        trial_design, psa_prior, n_inner_loops
+                    )
+                    psa_posterior_k_samples = _bayesian_update(
+                        psa_prior, simulated_data_k, n_inner_loops
+                    )
 
                     if psa_posterior_k_samples.ndim == 1:
                         # This might happen if _bayesian_update returns a single param array incorrectly
@@ -479,27 +556,43 @@ def evsi(
                         # For now, assume _bayesian_update gives correct shape.
                         pass
 
-                    enb_post_data_k_strategies = _predict_enb_from_metamodel(metamodel_list, psa_posterior_k_samples)
+                    enb_post_data_k_strategies = _predict_enb_from_metamodel(
+                        metamodel_list, psa_posterior_k_samples
+                    )
 
-                    if enb_post_data_k_strategies.size == 0 : # From _predict_enb_from_metamodel if issues
+                    if (
+                        enb_post_data_k_strategies.size == 0
+                    ):  # From _predict_enb_from_metamodel if issues
                         # This indicates an issue, e.g. no strategies or error in prediction
                         # Fallback to prior for this iteration to avoid NaN and allow flow
-                        print(f"Warning: Could not predict ENB for outer loop {k_loop_idx}. Using prior max ENB.")
-                        all_max_enb_post_data_k[k_loop_idx] = max_expected_nb_current_info
+                        print(
+                            f"Warning: Could not predict ENB for outer loop {k_loop_idx}. Using prior max ENB."
+                        )
+                        all_max_enb_post_data_k[
+                            k_loop_idx
+                        ] = max_expected_nb_current_info
                     else:
-                        all_max_enb_post_data_k[k_loop_idx] = np.max(enb_post_data_k_strategies)
+                        all_max_enb_post_data_k[k_loop_idx] = np.max(
+                            enb_post_data_k_strategies
+                        )
 
                 expected_max_nb_post_study = np.mean(all_max_enb_post_data_k)
 
     elif method == "nonparametric":
-           raise VoiageNotImplementedError("Nonparametric EVSI method is not yet implemented.")
+        raise VoiageNotImplementedError(
+            "Nonparametric EVSI method is not yet implemented."
+        )
     elif method == "moment_matching":
-        raise VoiageNotImplementedError("Moment-matching EVSI method is not yet implemented.")
-    else: # Catches 'unknown_method' or any other not explicitly handled
-        raise VoiageNotImplementedError(f"EVSI method '{method}' is not recognized or implemented.")
+        raise VoiageNotImplementedError(
+            "Moment-matching EVSI method is not yet implemented."
+        )
+    else:  # Catches 'unknown_method' or any other not explicitly handled
+        raise VoiageNotImplementedError(
+            f"EVSI method '{method}' is not recognized or implemented."
+        )
 
     per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
-    per_decision_evsi = max(0.0, per_decision_evsi) # Ensure non-negative
+    per_decision_evsi = max(0.0, per_decision_evsi)  # Ensure non-negative
 
     # Population scaling
     if population is not None and time_horizon is not None:
@@ -519,8 +612,8 @@ def evsi(
                     1 - (1 + discount_rate) ** (-time_horizon)
                 ) / discount_rate
             effective_population *= annuity_factor
-        else: # No discount_rate provided
-            if discount_rate is None: # Explicitly check for None for clarity
+        else:  # No discount_rate provided
+            if discount_rate is None:  # Explicitly check for None for clarity
                 effective_population *= time_horizon
         return per_decision_evsi * effective_population
     elif (
@@ -563,7 +656,7 @@ def enbs(
     ------
         InputError: If inputs are not valid numbers or research_cost is negative.
     """
-    if not isinstance(evsi_result, (float, int)): # float includes np.float64 etc.
+    if not isinstance(evsi_result, (float, int)):  # float includes np.float64 etc.
         raise InputError(f"EVSI result must be a number. Got {type(evsi_result)}.")
     if not isinstance(research_cost, (float, int)):
         raise InputError(f"Research cost must be a number. Got {type(research_cost)}.")
@@ -611,19 +704,27 @@ if __name__ == "__main__":
     # _simulate_trial_data and _bayesian_update stubs expect 'mean_treatment', 'mean_control', 'sd_outcome'
     # and TrialDesign arms like "New Treatment", "Control"
     dummy_psa_params_for_evsi = {
-        "mean_control": np.random.normal(10, 2, 500).astype(DEFAULT_DTYPE), # n_samples = 500
+        "mean_control": np.random.normal(10, 2, 500).astype(
+            DEFAULT_DTYPE
+        ),  # n_samples = 500
         "mean_treatment": np.random.normal(12, 2, 500).astype(DEFAULT_DTYPE),
         "sd_outcome": np.random.uniform(1, 3, 500).astype(DEFAULT_DTYPE),
-        "other_param": np.random.rand(500).astype(DEFAULT_DTYPE) # an extra param not directly used in update
+        "other_param": np.random.rand(500).astype(
+            DEFAULT_DTYPE
+        ),  # an extra param not directly used in update
     }
     dummy_psa_for_evsi = PSASample(parameters=dummy_psa_params_for_evsi)
 
     # Dummy trial design matching stub expectations
     # Arm names should align with what _simulate_trial_data and _bayesian_update expect
     # e.g. 'New Treatment' for 'mean_treatment' update, 'Control' for 'mean_control'
-    dummy_trial_arm_treatment = TrialArm(name="New Treatment", sample_size=30) # n_obs for update
+    dummy_trial_arm_treatment = TrialArm(
+        name="New Treatment", sample_size=30
+    )  # n_obs for update
     dummy_trial_arm_control = TrialArm(name="Control", sample_size=30)
-    dummy_trial_design_for_evsi = TrialDesign(arms=[dummy_trial_arm_treatment, dummy_trial_arm_control])
+    dummy_trial_design_for_evsi = TrialDesign(
+        arms=[dummy_trial_arm_treatment, dummy_trial_arm_control]
+    )
 
     # Dummy model function that uses some of these parameters
     def specific_dummy_model_func(
@@ -632,21 +733,27 @@ if __name__ == "__main__":
         # WTP (implicit)
         wtp = 30000
         # Strategy 1: Control
-        nb_control = psa_sample_obj.parameters["mean_control"] * 0.5 * wtp - (psa_sample_obj.parameters["mean_control"] * 100 + 5000)
+        nb_control = psa_sample_obj.parameters["mean_control"] * 0.5 * wtp - (
+            psa_sample_obj.parameters["mean_control"] * 100 + 5000
+        )
         # Strategy 2: New Treatment
-        nb_treatment = psa_sample_obj.parameters["mean_treatment"] * 0.6 * wtp - (psa_sample_obj.parameters["mean_treatment"] * 120 + 7000)
+        nb_treatment = psa_sample_obj.parameters["mean_treatment"] * 0.6 * wtp - (
+            psa_sample_obj.parameters["mean_treatment"] * 120 + 7000
+        )
         return np.stack([nb_control, nb_treatment], axis=-1).astype(DEFAULT_DTYPE)
 
     try:
-        print("Running EVSI with regression method (using stubs for simulation/update)...")
+        print(
+            "Running EVSI with regression method (using stubs for simulation/update)..."
+        )
         # Using smaller n_outer_loops and n_inner_loops for quicker test execution
         evsi_val_regression = evsi(
             specific_dummy_model_func,
             dummy_psa_for_evsi,
             dummy_trial_design_for_evsi,
             method="regression",
-            n_outer_loops=10, # Reduced for testing
-            n_inner_loops=50   # Reduced for testing
+            n_outer_loops=10,  # Reduced for testing
+            n_inner_loops=50,  # Reduced for testing
         )
         print(f"EVSI (regression method with stubs): {evsi_val_regression:.4f}")
         # We expect a non-negative value. The exact value depends on the stub logic.
@@ -662,9 +769,11 @@ if __name__ == "__main__":
             discount_rate=0.03,
             method="regression",
             n_outer_loops=10,
-            n_inner_loops=50
+            n_inner_loops=50,
         )
-        print(f"Population EVSI (regression method with stubs): {evsi_pop_val_regression:.2f}")
+        print(
+            f"Population EVSI (regression method with stubs): {evsi_pop_val_regression:.2f}"
+        )
         assert evsi_pop_val_regression >= evsi_val_regression
 
     except PyVoiNotImplementedError as e:
@@ -672,8 +781,8 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error during EVSI (regression) call with stubs: {e}")
         import traceback
-        traceback.print_exc()
 
+        traceback.print_exc()
 
     # Test ENBS structure
     print("\n--- ENBS Tests ---")
@@ -739,8 +848,8 @@ if __name__ == "__main__":
                         1 - (1 + discount_rate) ** (-time_horizon)
                     ) / discount_rate
                 effective_population *= annuity_factor
-            else: # No discount_rate provided
-                if discount_rate is None: # Explicitly check for None for clarity
+            else:  # No discount_rate provided
+                if discount_rate is None:  # Explicitly check for None for clarity
                     effective_population *= time_horizon
             return per_decision_evsi_mock * effective_population
         elif (
@@ -763,21 +872,21 @@ if __name__ == "__main__":
     evsi_for_test = mock_evsi
 
     pop_evsi_val_mocked = evsi_for_test(
-        dummy_model_func, # type: ignore
-        dummy_psa, # type: ignore
-        dummy_trial, # type: ignore
+        dummy_model_func,  # type: ignore
+        dummy_psa,  # type: ignore
+        dummy_trial,  # type: ignore
         population=1000,
         time_horizon=10,
         discount_rate=0.03,
-        method="any_method_for_mock", # type: ignore
+        method="any_method_for_mock",  # type: ignore
     )
     expected_pop_evsi_mocked = 5.0 * ((1 - (1 + 0.03) ** (-10)) / 0.03) * 1000
     print(f"Mocked Population EVSI: {pop_evsi_val_mocked}")
-    assert np.isclose(pop_evsi_val_mocked, expected_pop_evsi_mocked), (
-        f"Mocked Population EVSI error. Expected ~{expected_pop_evsi_mocked:.2f}, got {pop_evsi_val_mocked:.2f}"
-    )
+    assert np.isclose(
+        pop_evsi_val_mocked, expected_pop_evsi_mocked
+    ), f"Mocked Population EVSI error. Expected ~{expected_pop_evsi_mocked:.2f}, got {pop_evsi_val_mocked:.2f}"
     print("EVSI population scaling test (with mock) PASSED.")
 
-    evsi = _temp_original_evsi # Restore original evsi
+    evsi = _temp_original_evsi  # Restore original evsi
 
     print("\n--- sample_information.py tests completed ---")

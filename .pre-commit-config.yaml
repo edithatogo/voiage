@@ -74,6 +74,7 @@ repos:
     -   id: bandit
         name: bandit (security analysis)
         args: ["-r", "voiage", "-s", "B101", "-c", "pyproject.toml"] # Scan voiage dir, skip assert_used, use config from pyproject
+        pass_filenames: false
         # Exclude test files if they trigger false positives or are not security-critical
         exclude: ^tests/
 
