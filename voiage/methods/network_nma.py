@@ -11,8 +11,9 @@ new studies that would inform this network.
 
 from typing import Any, Callable, Optional
 
-from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
+from voiage.core.data_structures import NetBenefitArray, PSASample
 from voiage.exceptions import VoiageNotImplementedError
+from voiage.schema import TrialDesign
 
 # Type alias for a function that can perform NMA and then evaluate economic outcomes.
 # This is highly complex: it might involve running an NMA model (e.g., in NumPyro, JAGS, Stan),
@@ -118,8 +119,8 @@ if __name__ == "__main__":
         NetBenefitArray,
         PSASample,
         TrialArm,
-        TrialDesign,
     )
+    from voiage.schema import TrialDesign
 
     try:
         # Dummy arguments that would match a potential signature

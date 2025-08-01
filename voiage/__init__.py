@@ -30,12 +30,7 @@ from . import (
 )
 from .analysis import DecisionAnalysis
 from .core.data_structures import (
-    DecisionOption,
-    DynamicSpec,
-    PortfolioSpec,
-    PortfolioStudy,
     PSASample,
-    TrialDesign,
     ValueArray,
 )
 from .methods.adaptive import adaptive_evsi
@@ -53,6 +48,13 @@ from .methods.sequential import sequential_voi
 
 # Placeholder imports for advanced methods (they will raise NotImplementedError if called)
 from .methods.structural import structural_evpi, structural_evppi
+from .schema import (
+    DecisionOption,
+    DynamicSpec,
+    PortfolioSpec,
+    PortfolioStudy,
+    TrialDesign,
+)
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 

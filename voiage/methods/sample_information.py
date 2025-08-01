@@ -13,7 +13,7 @@ from voiage.exceptions import (
     InputError,
     VoiageNotImplementedError,
 )
-from voiage.schema import ParameterSet, StudyDesign, ValueArray
+from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
 try:
     from sklearn.linear_model import LinearRegression
@@ -29,7 +29,7 @@ EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 def evsi(
     model_func: EconomicModelFunctionType,
     psa_prior: ParameterSet,
-    trial_design: StudyDesign,
+    trial_design: TrialDesign,
     population: Optional[float] = None,
     discount_rate: Optional[float] = None,
     time_horizon: Optional[float] = None,
@@ -40,8 +40,8 @@ def evsi(
     """Calculate the Expected Value of Sample Information (EVSI)."""
     if not isinstance(psa_prior, ParameterSet):
         raise InputError("`psa_prior` must be a ParameterSet object.")
-    if not isinstance(trial_design, StudyDesign):
-        raise InputError("`trial_design` must be a StudyDesign object.")
+    if not isinstance(trial_design, TrialDesign):
+        raise InputError("`trial_design` must be a TrialDesign object.")
     if not callable(model_func):
         raise InputError("`model_func` must be a callable function.")
     if n_outer_loops <= 0 or n_inner_loops <= 0:

@@ -11,8 +11,8 @@ constraints like a fixed budget.
 
 from typing import Any, Callable, Dict, List
 
-from voiage.core.data_structures import PortfolioSpec, PortfolioStudy
 from voiage.exceptions import InputError, VoiageNotImplementedError
+from voiage.schema import PortfolioSpec, PortfolioStudy
 
 # Type alias for a function that calculates the value of a single study
 # This could be an EVSI or ENBS calculator for that study.
@@ -155,10 +155,10 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used for np.isclose
 
-    from voiage.core.data_structures import (
+    from voiage.core.data_structures import TrialArm
+    from voiage.schema import (
         PortfolioSpec,
         PortfolioStudy,
-        TrialArm,
         TrialDesign,
     )
 

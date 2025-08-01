@@ -11,8 +11,9 @@ future decisions and future information gathering opportunities.
 
 from typing import Any, Callable, Dict, Generator, Union
 
-from voiage.core.data_structures import DynamicSpec, PSASample
+from voiage.core.data_structures import PSASample
 from voiage.exceptions import VoiageNotImplementedError
+from voiage.schema import DynamicSpec
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # Used by PSASample
 
-    from voiage.core.data_structures import DynamicSpec, PSASample
+    from voiage.schema import DynamicSpec
 
     try:
         # Dummy arguments

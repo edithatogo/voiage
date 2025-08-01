@@ -12,8 +12,9 @@ decision rules.
 
 from typing import Any, Callable, Dict, Optional
 
-from voiage.core.data_structures import NetBenefitArray, PSASample, TrialDesign
+from voiage.core.data_structures import NetBenefitArray, PSASample
 from voiage.exceptions import VoiageNotImplementedError
+from voiage.schema import TrialDesign
 
 # Type alias for a function that simulates an adaptive trial and evaluates outcomes.
 # This is extremely complex, involving:
@@ -123,8 +124,8 @@ if __name__ == "__main__":
         NetBenefitArray,
         PSASample,
         TrialArm,
-        TrialDesign,
     )
+    from voiage.schema import TrialDesign
 
     try:
         # Dummy arguments
