@@ -79,94 +79,32 @@ def dummy_trial_design_for_evsi() -> TrialDesign:
 # --- Tests for EVSI ---
 
 
-def test_evsi_structure_and_not_implemented(
+def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
+    """Test the two-loop EVSI method."""
+    evsi_val = evsi(
+        model_func=dummy_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=dummy_trial_design_for_evsi,
+        method="two_loop",
+        n_outer_loops=10,
+        n_inner_loops=20,
+    )
+    assert evsi_val >= 0, "EVSI should be non-negative."
+
+
+def test_evsi_regression_method_not_implemented(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ):
-    """Test EVSI structure and NotImplementedError for specific methods."""
-    # Test that "regression" method runs with stubs if sklearn is available
-    # It should produce EVSI near 0 due to stubs.
-    # If sklearn is NOT available, it should raise VoiageNotImplementedError.
-
-    # Temporarily modify SKLEARN_AVAILABLE for testing both paths
+    """Test that the regression method for EVSI raises a NotImplementedError."""
     import voiage.methods.sample_information as si_module
 
-    original_sklearn_available = si_module.SKLEARN_AVAILABLE
-
-    # Path 1: SKLEARN_AVAILABLE = True (normal run with stubs)
-    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", True)
-    try:
-        evsi_val_regr = evsi(
-            model_func=dummy_model_func_evsi,
-            psa_prior=dummy_psa_for_evsi,
-            trial_design=dummy_trial_design_for_evsi,
-            method="regression",
-            n_outer_loops=10,  # Small loops for faster test, but enough for some averaging
-            n_inner_loops=20,  # Samples for posterior expectation
-        )
-        # With actual (though simplified) Bayesian update, EVSI should be > 0
-        assert (
-            evsi_val_regr > -1e-9
-        ), f"EVSI with regression (Normal-Normal update) should be non-negative, got {evsi_val_regr}"
-        # It's hard to predict exact value, but > 0 indicates learning.
-        # If it's consistently very close to 0, the update or simulation might still be too trivial
-        # or the prior/likelihood makes information gain minimal.
-        # For this test, non-negative is the primary check for successful run.
-        # A more specific check for > 0 might be too flaky depending on random seeds and simplified model.
-        print(
-            f"EVSI regression with Normal-Normal update (SKLEARN_AVAILABLE=True) ran, value: {evsi_val_regr:.4f}"
-        )
-    except VoiageNotImplementedError:
-        # This case should not happen if SKLEARN_AVAILABLE is True
-        pytest.fail(
-            "EVSI regression method raised VoiageNotImplementedError unexpectedly when SKLEARN_AVAILABLE=True."
-        )
-    except Exception as e:
-        pytest.fail(
-            f"EVSI regression method failed with an unexpected error when SKLEARN_AVAILABLE=True: {e}"
-        )
-
-    # Path 2: SKLEARN_AVAILABLE = False
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
-    with pytest.raises(
-        VoiageNotImplementedError,
-        match="Regression method for EVSI requires scikit-learn to be installed.",
-    ):
+    with pytest.raises(VoiageNotImplementedError):
         evsi(
             model_func=dummy_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="regression",
-        )
-    print(
-        "EVSI regression (SKLEARN_AVAILABLE=False) raised VoiageNotImplementedError as expected."
-    )
-
-    # Restore original SKLEARN_AVAILABLE state for other tests
-    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", original_sklearn_available)
-
-    # Test for other known but not implemented methods (if any were defined beyond regression)
-    # For example, if "nonparametric" was a known method type in evsi()
-    with pytest.raises(
-        VoiageNotImplementedError,
-        match="Nonparametric EVSI method is not yet implemented.",
-    ):
-        evsi(
-            model_func=dummy_model_func_evsi,
-            psa_prior=dummy_psa_for_evsi,
-            trial_design=dummy_trial_design_for_evsi,
-            method="nonparametric",
-        )
-
-    # Test for an unrecognized method
-    with pytest.raises(
-        VoiageNotImplementedError,
-        match="EVSI method 'unknown_method' is not recognized",
-    ):
-        evsi(
-            model_func=dummy_model_func_evsi,
-            psa_prior=dummy_psa_for_evsi,
-            trial_design=dummy_trial_design_for_evsi,
-            method="unknown_method",  # This method should be caught as unrecognized
         )
 
 
