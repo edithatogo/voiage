@@ -57,7 +57,7 @@ dev = [
     "pytest>=7.0",
     "pytest-cov>=3.0",
     "hypothesis>=6.0",
-    "ruff==0.1.9",
+    "ruff==0.12.7",
     "mypy>=1.8",
     "types-setuptools",
     "types-requests",
