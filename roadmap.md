@@ -15,13 +15,10 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
     *   Provide a simple, stateless functional API (e.g., `voiage.evpi(...)`) as a lightweight convenience layer. These functions will act as wrappers, calling the core OO-API internally.
 2.  **Domain-Agnostic Data Structures:**
     *   Generalize the core data structures to be domain-agnostic. Rename `PSASample` -> `ParameterSet`, `TrialArm` -> `DecisionOption`, `NetBenefitArray` -> `ValueArray`. This is critical for attracting a broader user base.
-3.  **High-Performance Backend (JAX):**
-    *   Implement a JAX-based computational backend for core calculations (EVPI, EVPPI). This will provide a significant performance advantage and serve as a key differentiator.
-    *   Create a backend dispatch system (e.g., `voiage.set_backend('jax')`) to allow users to switch between `numpy` and `jax`.
-4.  **CI/CD & Documentation Website:**
+3.  **CI/CD & Documentation Website:**
     *   Establish a full CI/CD pipeline in GitHub Actions to automate testing, linting, and code coverage checks for every PR.
     *   Deploy a professional documentation website using Sphinx and a modern theme (e.g., Furo), hosted on GitHub Pages.
-5.  **Community Guidelines:**
+4.  **Community Guidelines:**
     *   Create a comprehensive `CONTRIBUTING.md` detailing the development process, code style, and PR submission guidelines.
 
 ---
@@ -38,7 +35,7 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
     *   Implement `evsi_nma`, a critical and highly-demanded feature in HTA. This will involve handling multivariate parameter distributions for treatment effects.
 3.  **Validation & Benchmarking:**
     *   For each core method, create a validation notebook that replicates the results of a published study or an example from an established R package (e.g., `BCEA`, `voi`).
-    *   Publish performance benchmarks comparing the `numpy` and `jax` backends.
+    *   Publish performance benchmarks for the core `numpy` backend to establish a performance baseline.
 4.  **Advanced Plotting Module & Core Examples:**
     *   Implement a `plot` module capable of generating publication-quality graphics for CEACs, CE-planes, VOI curves, and EVPPI surfaces.
     *   Develop a detailed tutorial notebook for the core health economics use case (e.g., new drug evaluation), including synthetic data generation and interpretation of results.
@@ -64,12 +61,16 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 **Goal:** Grow the user and contributor community and lay the groundwork for R and Julia versions.
 
-1.  **Community Engagement:**
+1.  **Future High-Performance Backend (JAX/XLA):**
+    *   Re-evaluate the implementation of a JAX-based computational backend for core calculations.
+    *   If deemed appropriate at the time, develop a backend dispatch system (e.g., `voiage.set_backend('jax')`) to allow users to switch between `numpy` and `jax`.
+    *   This will be considered after the core API is stable and the primary `numpy`-based features are mature.
+2.  **Community Engagement:**
     *   Actively manage the GitHub repository, using Issues, Discussions, and Projects to engage with the community.
     *   Publish "State of `voiage`" updates on the documentation website's blog.
     *   Present the library at academic and industry conferences.
-2.  **Language-Agnostic API Specification:**
+3.  **Language-Agnostic API Specification:**
     *   Formalize the core `DecisionAnalysis` object and its data structures using a language-agnostic format (e.g., JSON Schema). This specification will serve as the formal blueprint for the R and Julia ports.
-3.  **Planning for R/Julia Ports:**
+4.  **Planning for R/Julia Ports:**
     *   Begin prototyping the R port (`rvoiage`?) using `R6` classes to mirror the Python OO-API. The focus will be on API consistency and leveraging R's strengths in statistics and plotting.
     *   Investigate Julia's multiple dispatch system as a powerful paradigm for the Julia port (`Voiage.jl`?), potentially leading to even more elegant and performant code.

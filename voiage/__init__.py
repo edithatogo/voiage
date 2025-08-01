@@ -48,7 +48,7 @@ from .methods.calibration import voi_calibration
 from .methods.network_nma import evsi_nma
 from .methods.observational import voi_observational
 from .methods.portfolio import portfolio_voi
-from .methods.sample_information import enbs, evsi
+from .methods.sample_information import evsi
 from .methods.sequential import sequential_voi
 
 # Placeholder imports for advanced methods (they will raise NotImplementedError if called)
@@ -74,7 +74,6 @@ __all__ = [
     "cli",
     "config",
     "core",
-    "enbs",
     "evpi",
     "evppi",
     "evsi",

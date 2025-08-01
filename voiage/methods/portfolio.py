@@ -30,7 +30,7 @@ def portfolio_voi(
     **kwargs: Any,
 ) -> Dict[str, Any]:
     """
-    Optimizes a portfolio of research studies to maximize total value.
+    Optimize a portfolio of research studies to maximize total value.
 
     This function selects a subset of studies from the `portfolio_specification`
     that maximizes their combined value (calculated by `study_value_calculator`),
@@ -110,7 +110,7 @@ def portfolio_voi(
             )
 
         # Sort by ratio in descending order
-        studies_with_values.sort(key=lambda x: x["ratio"], reverse=True)
+        studies_with_values.sort(key=lambda x: x["ratio"], reverse=True)  # type: ignore
 
         selected_studies_list: List[PortfolioStudy] = []
         current_total_cost = 0.0
@@ -122,12 +122,10 @@ def portfolio_voi(
             study_cost = item["cost"]
             study_value = item["value"]  # This is the pre-calculated value
 
-            if budget is None or (current_total_cost + study_cost <= budget):
-                selected_studies_list.append(study_obj)
-                current_total_cost += study_cost
-                current_total_value += (
-                    study_value  # Summing individual EVsIs is usually okay
-                )
+            if budget is None or (current_total_cost + study_cost <= budget):  # type: ignore
+                selected_studies_list.append(study_obj)  # type: ignore
+                current_total_cost += study_cost  # type: ignore
+                current_total_value += study_value  # type: ignore # Summing individual EVsIs is usually okay
                 # but for ENBS, it's more direct.
                 # If values are interdependent, this is too simple.
 

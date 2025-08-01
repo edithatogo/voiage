@@ -23,13 +23,12 @@ from voiage.exceptions import InputError
 
 @dataclass(frozen=True)
 class ValueArray:
-    """
-    A container for net benefit values from a PSA.
-    """
+    """A container for net benefit values from a PSA."""
 
     dataset: xr.Dataset
 
     def __post_init__(self: "ValueArray"):
+        """Validate the dataset."""
         if not isinstance(self.dataset, xr.Dataset):
             raise InputError("ValueArray 'dataset' must be a xarray.Dataset.")
         if "n_samples" not in self.dataset.dims:
@@ -45,19 +44,23 @@ class ValueArray:
 
     @property
     def values(self: "ValueArray") -> np.ndarray:
+        """Return the net benefit values."""
         return self.dataset["net_benefit"].values
 
     @property
     def n_samples(self: "ValueArray") -> int:
+        """Return the number of samples."""
         return self.dataset.dims["n_samples"]
 
     @property
     def n_strategies(self: "ValueArray") -> int:
+        """Return the number of strategies."""
         return self.dataset.dims["n_strategies"]
 
     @property
     def strategy_names(self: "ValueArray") -> List[str]:
-        return self.dataset["strategy"].values.tolist()
+        """Return the names of the strategies."""
+        return [str(name) for name in self.dataset["strategy"].values]
 
 
 class NetBenefitArray(ValueArray):
@@ -79,13 +82,12 @@ class NetBenefitArray(ValueArray):
 
 @dataclass(frozen=True)
 class ParameterSet:
-    """
-    A container for parameter samples from a PSA.
-    """
+    """A container for parameter samples from a PSA."""
 
     dataset: xr.Dataset
 
     def __post_init__(self: "ParameterSet"):
+        """Validate the dataset."""
         if not isinstance(self.dataset, xr.Dataset):
             raise InputError("ParameterSet 'dataset' must be a xarray.Dataset.")
         if "n_samples" not in self.dataset.dims:
@@ -95,14 +97,17 @@ class ParameterSet:
 
     @property
     def parameters(self: "ParameterSet") -> Dict[str, np.ndarray]:
-        return {name: self.dataset[name].values for name in self.dataset.data_vars}
+        """Return the parameter samples."""
+        return {str(name): self.dataset[name].values for name in self.dataset.data_vars}
 
     @property
     def n_samples(self: "ParameterSet") -> int:
+        """Return the number of samples."""
         return self.dataset.dims["n_samples"]
 
     @property
     def parameter_names(self: "ParameterSet") -> List[str]:
+        """Return the names of the parameters."""
         return list(self.dataset.data_vars.keys())
 
 
@@ -139,6 +144,7 @@ class DecisionOption:
     sample_size: int
 
     def __post_init__(self: "DecisionOption"):
+        """Validate the decision option."""
         if not isinstance(self.name, str) or not self.name:
             raise InputError("DecisionOption 'name' must be a non-empty string.")
         if not isinstance(self.sample_size, int) or self.sample_size <= 0:
@@ -164,6 +170,7 @@ class TrialDesign:
     arms: List[DecisionOption]
 
     def __post_init__(self: "TrialDesign"):
+        """Validate the trial design."""
         if not isinstance(self.arms, list) or not self.arms:
             raise InputError(
                 "TrialDesign 'arms' must be a non-empty list of DecisionOption objects."
@@ -206,6 +213,7 @@ class PortfolioStudy:
     cost: float
 
     def __post_init__(self: "PortfolioStudy"):
+        """Validate the portfolio study."""
         if not isinstance(self.name, str) or not self.name:
             raise InputError("PortfolioStudy 'name' must be a non-empty string.")
         if not isinstance(self.design, TrialDesign):
@@ -236,6 +244,7 @@ class PortfolioSpec:
     budget_constraint: Optional[float] = None
 
     def __post_init__(self: "PortfolioSpec"):
+        """Validate the portfolio spec."""
         if not isinstance(self.studies, list) or not self.studies:
             raise InputError(
                 "PortfolioSpec 'studies' must be a non-empty list of PortfolioStudy objects."
@@ -279,6 +288,7 @@ class DynamicSpec:
     time_steps: Sequence[float]
 
     def __post_init__(self: "DynamicSpec"):
+        """Validate the dynamic spec."""
         if not isinstance(self.time_steps, Sequence) or not self.time_steps:
             raise InputError(
                 "'time_steps' must be a non-empty sequence (list, tuple, np.array)."

@@ -55,4 +55,3 @@ Dependencies
 *   NumPyro for Bayesian modeling.
 *   scikit-learn and statsmodels for statistical modeling and machine learning.
 *   Typer for the command-line interface.
-

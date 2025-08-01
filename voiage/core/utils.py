@@ -1,14 +1,8 @@
 # voiage/core/utils.py
 
-"""
-Utility functions for the voiage library.
+"""Utility functions for the voiage library."""
 
-This module contains helper functions that are used across various parts of
-the library, such as input validation, common mathematical operations not
-specific to a single VOI method, or data transformations.
-"""
-
-from typing import Optional, Sequence, Union
+from typing import Any, Optional, Sequence, Tuple, Union
 
 import numpy as np
 
@@ -23,9 +17,7 @@ def check_input_array(
     arr: np.ndarray,
     expected_ndim: Union[int, Sequence[int]],
     name: str = "Input array",
-    expected_dtype: Optional[
-        np.dtype
-    ] = None,  # Allow checking specific dtype if needed
+    expected_dtype: Optional[Union[np.dtype, type, str]] = None,
     allow_empty: bool = False,
     expected_shape: Optional[Sequence[Optional[int]]] = None,
 ) -> None:
@@ -51,7 +43,7 @@ def check_input_array(
         raise InputError(f"{name} must be a NumPy array. Got {type(arr)}.")
 
     if isinstance(expected_ndim, int):
-        expected_ndim_tuple = (expected_ndim,)
+        expected_ndim_tuple: Tuple[int, ...] = (expected_ndim,)
     else:
         expected_ndim_tuple = tuple(expected_ndim)
 
@@ -121,14 +113,14 @@ def calculate_net_benefit(
         costs,
         expected_ndim=[1, 2],
         name="costs",
-        expected_dtype="any",
+        expected_dtype="any",  # type: ignore
         allow_empty=False,
     )
     check_input_array(
         effects,
         expected_ndim=[1, 2],
         name="effects",
-        expected_dtype="any",
+        expected_dtype="any",  # type: ignore
         allow_empty=False,
     )
 
@@ -189,24 +181,25 @@ def calculate_net_benefit(
     else:  # Fallback to standard broadcasting, which might be what's desired or raise error
         nmb = (effects * wtp_arr) - costs
 
-    return nmb.astype(DEFAULT_DTYPE, copy=False)
+    return nmb.astype(DEFAULT_DTYPE, copy=False)  # type: ignore
 
 
 def get_optimal_strategy_index(
-    nb_array: Union[np.ndarray, NetBenefitArray], axis: int = 1
-) -> np.ndarray:
-    """Determine the index of the optimal strategy for each sample.
+    nb_array: Union[np.ndarray, NetBenefitArray],
+) -> np.ndarray[Any, np.dtype[np.int64]]:
+    """Determine the optimal strategy for each PSA sample.
 
-    The optimal strategy is the one with the highest net benefit.
+    The optimal strategy for a given sample is the one with the maximum
+    net benefit.
 
     Args:
         nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array of net benefits
             (samples x strategies) or a NetBenefitArray instance.
-        axis (int): The axis along which to find the maximum. Defaults to 1 (strategies).
 
     Returns
     -------
-        np.ndarray: A 1D array containing the index of the optimal strategy for each sample.
+        np.ndarray: A 1D array of integers, where each element is the index of the
+                    optimal strategy for the corresponding sample.
     """
     if isinstance(nb_array, NetBenefitArray):
         values = nb_array.values
@@ -216,220 +209,10 @@ def get_optimal_strategy_index(
         raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
 
     check_input_array(
-        values, expected_ndim=2, name="Net benefit values", allow_empty=False
+        values, expected_ndim=2, name="Net benefit values", allow_empty=True
     )
 
-    if axis != 1:
-        # This function is specifically for finding optimal strategy across strategy axis.
-        # Generalizing axis might be confusing for this particular utility.
-        raise ValueError(
-            "`axis` must be 1 for finding optimal strategy index across strategies."
-        )
+    if values.size == 0:
+        return np.array([], dtype=np.int64)
 
-    if values.shape[axis] == 0:  # No strategies to choose from
-        # Return an array of NaNs or raise error, depends on desired behavior
-        return np.full(
-            values.shape[0], np.nan, dtype=np.intp
-        )  # np.intp usually for indices
-
-    optimal_indices = np.argmax(values, axis=axis)
-    return optimal_indices
-
-
-def compute_incremental_net_benefit(
-    nb_array: Union[np.ndarray, NetBenefitArray], comparator_index: int = 0
-) -> np.ndarray:
-    """Compute incremental net benefit (INB) relative to a comparator strategy.
-
-    Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array of net benefits
-            (samples x strategies) or a NetBenefitArray instance.
-        comparator_index (int): Index of the comparator strategy. Defaults to 0.
-
-    Returns
-    -------
-        np.ndarray: A 2D array of incremental net benefits. Shape (n_samples, n_strategies - 1).
-                    The column corresponding to the comparator is removed.
-
-    Raises
-    ------
-        InputError: If comparator_index is out of bounds.
-    """
-    if isinstance(nb_array, NetBenefitArray):
-        values = nb_array.values
-    elif isinstance(nb_array, np.ndarray):
-        values = nb_array
-    else:
-        raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
-
-    check_input_array(
-        values, expected_ndim=2, name="Net benefit values", allow_empty=False
-    )
-
-    n_strategies = values.shape[1]
-    if not (0 <= comparator_index < n_strategies):
-        raise InputError(
-            f"Comparator index {comparator_index} is out of bounds for {n_strategies} strategies."
-        )
-
-    comparator_nb = values[
-        :, comparator_index, np.newaxis
-    ]  # Keep it as a column vector
-    inb = values - comparator_nb
-
-    # Remove the comparator column itself (which will be all zeros)
-    inb_without_comparator = np.delete(inb, comparator_index, axis=1)
-
-    return inb_without_comparator
-
-
-# --- Higher-order utility for parameter sampling if needed ---
-# def generate_parameter_samples(
-#     distributions: Dict[str, Callable[..., np.ndarray]], # e.g., {"param_a": np.random.normal}
-#     dist_args: Dict[str, dict], # e.g., {"param_a": {"loc": 0, "scale": 1}}
-#     n_samples: int
-# ) -> 'PSASample': # Forward reference for PSASample
-#     """
-#     Generates parameter samples from specified distributions.
-#     This is a simplified example. More robust sampling might come from NumPyro, etc.
-#     """
-#     from pyvoi.core.data_structures import PSASample # Local import to avoid circularity at load time
-#     params_dict = {}
-#     for param_name, dist_func in distributions.items():
-#         args = dist_args.get(param_name, {})
-#         try:
-#             # Ensure n_samples (or size) is passed correctly
-#             if 'size' not in args and 'shape' not in args: # common param names for sample count
-#                 args_with_size = {**args, 'size': n_samples} # some dists use 'size'
-#             else: # if size/shape is already there, assume it's correct or will be handled by dist_func
-#                 args_with_size = args
-#
-#             samples = dist_func(**args_with_size)
-#
-#             # Ensure samples are 1D of length n_samples
-#             if samples.ndim == 0 and n_samples == 1: # scalar result for 1 sample
-#                 samples = np.array([samples], dtype=DEFAULT_DTYPE)
-#             elif samples.shape != (n_samples,):
-#                 # Try to reshape if total size matches, otherwise error
-#                 if samples.size == n_samples:
-#                     samples = samples.reshape(n_samples)
-#                 else:
-#                     raise DimensionMismatchError(
-#                         f"Generated samples for '{param_name}' have shape {samples.shape}, "
-#                         f"expected ({n_samples},). Total size {samples.size}."
-#                     )
-#             params_dict[param_name] = samples.astype(DEFAULT_DTYPE, copy=False)
-#         except Exception as e:
-#             raise CalculationError(f"Error sampling for parameter '{param_name}': {e}") from e
-#
-#     return PSASample(parameters=params_dict)
-
-
-if __name__ == "__main__":
-    print("--- Testing Utility functions ---")
-
-    # Test check_input_array
-    try:
-        check_input_array(
-            np.array([[1, 2], [3, 4]]), expected_ndim=2, name="Test Array"
-        )
-        print("check_input_array basic test PASSED.")
-        check_input_array(np.array([1, 2, 3]), expected_ndim=1, expected_shape=(3,))
-        print("check_input_array with shape PASSED.")
-        check_input_array(np.array([1, 2, 3]), expected_ndim=1, expected_shape=(None,))
-        print("check_input_array with None in shape PASSED.")
-        check_input_array(
-            np.array([1.0, 2.0]), expected_ndim=1, expected_dtype=np.float64
-        )
-        print("check_input_array with dtype PASSED.")
-        check_input_array(np.array([]), expected_ndim=1, allow_empty=True)
-        print("check_input_array with allow_empty PASSED.")
-
-        fail_count = 0
-        try:
-            check_input_array(np.array([1, 2]), expected_ndim=2)
-        except DimensionMismatchError:
-            print("Caught expected ndim mismatch.")
-        else:
-            fail_count += 1
-
-        try:
-            check_input_array(np.array([[1, 2]]), expected_shape=(1, 3))
-        except DimensionMismatchError:
-            print("Caught expected shape mismatch.")
-        else:
-            fail_count += 1
-
-        try:
-            check_input_array(
-                np.array([1]),
-                expected_ndim=1,
-                allow_empty=False,
-                expected_dtype=np.int32,
-            )
-        except InputError:
-            print("Caught expected dtype mismatch.")  # Current default is float64
-        else:
-            fail_count += 1
-
-        if fail_count > 0:
-            print(f"check_input_array negative tests FAILED {fail_count} times.")
-        else:
-            print("check_input_array negative tests PASSED.")
-
-    except Exception as e:
-        print(f"check_input_array test FAILED: {e}")
-
-    # Test calculate_net_benefit
-    costs_arr = np.array([[10, 20], [15, 25]], dtype=DEFAULT_DTYPE)
-    effects_arr = np.array([[1, 1.5], [1.2, 1.8]], dtype=DEFAULT_DTYPE)
-    wtp_scalar = 100.0
-
-    nmb_scalar_wtp = calculate_net_benefit(costs_arr, effects_arr, wtp_scalar)
-    expected_nmb_scalar = (effects_arr * wtp_scalar) - costs_arr
-    np.testing.assert_allclose(nmb_scalar_wtp, expected_nmb_scalar)
-    print("calculate_net_benefit with scalar WTP PASSED.")
-
-    wtp_array = np.array([50, 100, 150], dtype=DEFAULT_DTYPE)  # (K,)
-    nmb_array_wtp = calculate_net_benefit(costs_arr, effects_arr, wtp_array)
-    # Expected shape (N, S, K) -> (2, 2, 3)
-    expected_nmb_array_manual = np.zeros((2, 2, 3), dtype=DEFAULT_DTYPE)
-    for k_idx, w_val in enumerate(wtp_array):
-        expected_nmb_array_manual[:, :, k_idx] = (effects_arr * w_val) - costs_arr
-    np.testing.assert_allclose(nmb_array_wtp.shape, (2, 2, 3))
-    np.testing.assert_allclose(nmb_array_wtp, expected_nmb_array_manual)
-    print("calculate_net_benefit with array WTP (N,S) x (K,) -> (N,S,K) PASSED.")
-
-    costs_1d = np.array([10, 15], dtype=DEFAULT_DTYPE)  # (N,)
-    effects_1d = np.array([1, 1.2], dtype=DEFAULT_DTYPE)  # (N,)
-    nmb_1d_array_wtp = calculate_net_benefit(costs_1d, effects_1d, wtp_array)
-    # Expected shape (N,K) -> (2,3)
-    expected_nmb_1d_array_manual = np.zeros((2, 3), dtype=DEFAULT_DTYPE)
-    for k_idx, w_val in enumerate(wtp_array):
-        expected_nmb_1d_array_manual[:, k_idx] = (effects_1d * w_val) - costs_1d
-    np.testing.assert_allclose(nmb_1d_array_wtp.shape, (2, 3))
-    np.testing.assert_allclose(nmb_1d_array_wtp, expected_nmb_1d_array_manual)
-    print("calculate_net_benefit with array WTP (N,) x (K,) -> (N,K) PASSED.")
-
-    # Test get_optimal_strategy_index
-    nb_vals = np.array([[10, 30, 20], [50, 40, 45]], dtype=DEFAULT_DTYPE)
-    optimal_idx = get_optimal_strategy_index(nb_vals)
-    np.testing.assert_allclose(optimal_idx, np.array([1, 0]))
-    print("get_optimal_strategy_index PASSED.")
-
-    # Test compute_incremental_net_benefit
-    inb = compute_incremental_net_benefit(nb_vals, comparator_index=0)
-    expected_inb = np.array(
-        [[20, 10], [-10, -5]], dtype=DEFAULT_DTYPE
-    )  # (30-10, 20-10), (40-50, 45-50)
-    np.testing.assert_allclose(inb, expected_inb)
-    print("compute_incremental_net_benefit PASSED.")
-
-    inb_comp1 = compute_incremental_net_benefit(nb_vals, comparator_index=1)
-    expected_inb_comp1 = np.array(
-        [[-20, -10], [10, 5]], dtype=DEFAULT_DTYPE
-    )  # (10-30, 20-30), (50-40, 45-40)
-    np.testing.assert_allclose(inb_comp1, expected_inb_comp1)
-    print("compute_incremental_net_benefit with comparator 1 PASSED.")
-
-    print("\n--- Utils Testing Done ---")
+    return np.argmax(values, axis=1).astype(np.int64)

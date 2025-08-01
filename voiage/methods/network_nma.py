@@ -124,6 +124,7 @@ if __name__ == "__main__":
     try:
         # Dummy arguments that would match a potential signature
         def dummy_nma_evaluator(psa, trial_design, data):
+            """Evaluate an NMA for testing."""
             return NetBenefitArray(np.array([[0.0]]))
 
         dummy_psa = PSASample(parameters={"p": np.array([1])})  # parameters keyword

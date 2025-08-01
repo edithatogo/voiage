@@ -8,37 +8,44 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev]"
+    - name: Install tox
+      run: python -m pip install --upgrade pip tox
 
-    - name: Lint with ruff
-      run: |
-        ruff check .
+    - name: Run tox
+      # The TOXENV environment variable is used by tox to select which
+      # environments to run. We link the Python version from the matrix
+      # to the corresponding tox environment (e.g., py38, py39).
+      # We also run the 'lint' environment in a separate job.
+      run: tox -e py${{ matrix.python }}
 
-    - name: Format with ruff
-      run: |
-        ruff format --check .
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Type check with mypy
-      run: |
-        mypy .
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11' # Use a recent Python version for linting
 
-    - name: Test with pytest
-      run: |
-        pytest
+    - name: Install tox
+      run: python -m pip install --upgrade pip tox
+
+    - name: Run linting and security checks
+      run: tox -e lint

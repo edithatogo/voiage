@@ -8,6 +8,7 @@ This file is execfile()d with the current directory set to its containing dir.
 
 import os
 import sys
+from typing import Dict
 
 # -- Path setup --------------------------------------------------------------
 sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
@@ -114,7 +115,7 @@ htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements = {
+latex_elements: Dict[str, str] = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',

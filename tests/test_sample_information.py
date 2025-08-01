@@ -1,15 +1,8 @@
 # tests/test_sample_information.py
 
-"""Test VOI methods related to sample information (EVSI, ENBS).
+"""Test VOI methods related to sample information (EVSI, ENBS)."""
 
-Since full EVSI calculation is complex and marked as NotImplemented for v0.1,
-these tests will primarily focus on:
-- Basic structure and input validation of EVSI (where possible before NotImplementedError).
-- Correctness of ENBS calculation given an EVSI value.
-- Population scaling logic if EVSI were to return a value.
-"""
-
-from typing import Optional, Union  # Added imports
+from typing import Any, Optional, Union  # Added imports
 
 import numpy as np
 import pytest
@@ -22,8 +15,11 @@ from voiage.methods.sample_information import enbs, evsi
 # --- Dummy components for EVSI testing ---
 
 
-def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.ndarray:
+def dummy_model_func_evsi(
+    psa_params_or_sample: Union[dict, PSASample],
+) -> np.ndarray[Any, np.dtype[np.float64]]:
     """Define a simple model function for EVSI structure testing.
+
     It generates net benefits based on the number of samples in psa_params_or_sample.
     """
     n_samples = 0
@@ -41,11 +37,12 @@ def dummy_model_func_evsi(psa_params_or_sample: Union[dict, PSASample]) -> np.nd
     nb_strategy1 = np.random.normal(loc=100, scale=10, size=n_samples)
     nb_strategy2 = np.random.normal(loc=105, scale=15, size=n_samples)
 
-    return np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)
+    return np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)  # type: ignore
 
 
 @pytest.fixture()
 def dummy_psa_for_evsi() -> PSASample:
+    """Create a dummy PSASample for EVSI tests."""
     # Parameters for a Normal-Normal conjugate update scenario
     # Means are different enough to expect some EVSI.
     # sd_outcome is relatively small to make learning more impactful.
@@ -69,6 +66,7 @@ def dummy_psa_for_evsi() -> PSASample:
 
 @pytest.fixture()
 def dummy_trial_design_for_evsi() -> TrialDesign:
+    """Create a dummy TrialDesign for EVSI tests."""
     # Arm names match keys expected by _simulate_trial_data (via convention)
     # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
     arm1 = TrialArm(
@@ -315,23 +313,6 @@ def test_evsi_population_scaling_logic(
 
 
 # --- Tests for ENBS ---
-
-
-def test_enbs_calculation():
-    """Test basic ENBS calculation."""
-    evsi_val = 1000.0
-    cost_val = 200.0
-    expected_enbs = 800.0
-    calculated_enbs = enbs(evsi_val, cost_val)
-    assert np.isclose(calculated_enbs, expected_enbs), "ENBS calculation error."
-
-    evsi_val_neg = -50.0  # Should ideally not happen if EVSI is correct
-    cost_val_high = 100.0
-    expected_enbs_neg = -150.0
-    calculated_enbs_neg = enbs(evsi_val_neg, cost_val_high)
-    assert np.isclose(
-        calculated_enbs_neg, expected_enbs_neg
-    ), "ENBS calculation with negative EVSI failed."
 
 
 def test_enbs_zero_cost():

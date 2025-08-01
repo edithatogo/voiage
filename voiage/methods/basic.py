@@ -34,6 +34,7 @@ except ImportError:
 
 
 def check_parameter_samples(parameter_samples, n_samples):
+    """Check and format parameter samples for EVPPI calculation."""
     if isinstance(parameter_samples, np.ndarray):
         x = parameter_samples
     elif isinstance(parameter_samples, PSASample):
@@ -116,9 +117,9 @@ def evpi(
         e_max_nb = np.mean(np.max(nb_values, axis=1))
 
         # max(E[NB_d]) = Max over strategies of (mean NB for that strategy)
-        max_e_nb = np.max(np.mean(nb_values, axis=0))
+        max_e_nb: float = np.max(np.mean(nb_values, axis=0))
 
-        per_decision_evpi = e_max_nb - max_e_nb
+        per_decision_evpi = float(e_max_nb - max_e_nb)
 
         # EVPI should theoretically be non-negative. Small negative values can occur due to float precision.
         per_decision_evpi = max(0.0, per_decision_evpi)
@@ -144,7 +145,7 @@ def evpi(
         else:
             annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
 
-        return per_decision_evpi * population * annuity_factor
+        return float(per_decision_evpi * population * annuity_factor)
     elif (
         population is not None or time_horizon is not None or discount_rate is not None
     ):
@@ -153,7 +154,7 @@ def evpi(
             "'discount_rate' is optional (defaults to 0 if not provided)."
         )
 
-    return per_decision_evpi
+    return float(per_decision_evpi)
 
 
 def evppi(
@@ -162,7 +163,6 @@ def evppi(
     population: Optional[float] = None,
     time_horizon: Optional[float] = None,
     discount_rate: Optional[float] = None,
-    # wtp: Optional[float] = None, # WTP is implicit in NetBenefitArray
     n_regression_samples: Optional[int] = None,
     regression_model: Optional[Any] = None,
 ) -> float:
@@ -256,7 +256,7 @@ def evppi(
         y_fit = nb_values_fit[:, i]
 
         if regression_model is None:
-            model = LinearRegression()
+            model = SklearnLinearRegression()
         else:
             # Ensure it's a new instance if a class is passed, or use instance if provided
             try:
@@ -278,9 +278,9 @@ def evppi(
     e_max_enb_conditional = np.mean(np.max(fitted_nb_on_params, axis=1))
 
     # Calculate max_d E[NB_d] (same as in EVPI)
-    max_e_nb = np.max(np.mean(nb_values, axis=0))
+    max_e_nb: float = np.max(np.mean(nb_values, axis=0))
 
-    per_decision_evppi = e_max_enb_conditional - max_e_nb
+    per_decision_evppi = float(e_max_enb_conditional - max_e_nb)
 
     # EVPPI should theoretically be non-negative. Small negative values can occur due to float precision or regression error.
     per_decision_evppi = max(0.0, per_decision_evppi)
@@ -307,7 +307,7 @@ def evppi(
             annuity_factor = time_horizon
         else:
             annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
-        return per_decision_evppi * population * annuity_factor
+        return float(per_decision_evppi * population * annuity_factor)
     elif (
         population is not None or time_horizon is not None or discount_rate is not None
     ):
@@ -316,4 +316,4 @@ def evppi(
             "'discount_rate' is optional (defaults to 0 if not provided)."
         )
 
-    return per_decision_evppi
+    return float(per_decision_evppi)

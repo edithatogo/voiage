@@ -439,4 +439,3 @@ Because it’s built on JAX, you get JIT compilation to run on CPUs, GPUs, or TP
 
 
 What it doesn’t include are domain-specific VOI calculations—those would live in your own voiage.methods modules—but for any Bayesian estimation or uncertainty quantification step (PSA sampling, parameter fitting, hierarchical models), NumPyro has you covered.
-
