@@ -2,7 +2,7 @@
 
 """Metamodels for Value of Information analysis."""
 
-from typing import Protocol
+from typing import Protocol, TypedDict
 
 import flax.linen as nn
 from flax.training import train_state
@@ -20,6 +20,7 @@ class Metamodel(Protocol):
 
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data.
+
         Parameters
         ----------
         x : ParameterSet
@@ -31,10 +32,12 @@ class Metamodel(Protocol):
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters.
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
+
         Returns
         -------
         np.ndarray
@@ -67,7 +70,7 @@ class FlaxMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
-        y_np = y.reshape(-(-1, 1))
+        y_np = y.reshape(-1, 1)
 
         model = MLP(features=x_np.shape[1])
         params = model.init(jax.random.PRNGKey(0), x_np)["params"]
@@ -101,6 +104,11 @@ class FlaxMetamodel:
         return np.array(y_pred)
 
 
+class _GPParams(TypedDict):
+    kernel: tinygp.kernels.Kernel
+    log_diag: jax.Array
+
+
 class TinyGPMetamodel:
     """A metamodel that uses a tinygp GP to predict the target values."""
 
@@ -116,14 +124,14 @@ class TinyGPMetamodel:
         kernel = 1.0 * tinygp.kernels.Matern32(1.0)
 
         @jax.jit
-        def loss(params):
+        def loss(params: _GPParams):
             gp = tinygp.GaussianProcess(
                 params["kernel"], self.x_train, diag=jnp.exp(params["log_diag"])
             )
-            return -gp.log_probability(self.y_train)
+            return -gp.log_probability(jnp.array(self.y_train))
 
         opt = optax.adam(0.01)
-        params = {
+        params: _GPParams = {
             "kernel": kernel,
             "log_diag": jnp.log(jnp.full(self.x_train.shape[0], 1e-5)),
         }

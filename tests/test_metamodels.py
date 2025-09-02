@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from voiage.metamodels import FlaxMetamodel, tinygpMetamodel
+from voiage.metamodels import FlaxMetamodel
 from voiage.schema import ParameterSet
 
 
