@@ -90,7 +90,7 @@ def plot_ceac(
 
     nb_values = value_array.values
     if strategy_names is None:
-        strategy_names = value_array.option_names
+        strategy_names = value_array.strategy_names
 
     if nb_values.ndim != 3:
         raise InputError(

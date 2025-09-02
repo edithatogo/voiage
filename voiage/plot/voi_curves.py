@@ -11,12 +11,14 @@ try:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:
     MATPLOTLIB_AVAILABLE = False
     Figure = None  # type: ignore
     Axes = None  # type: ignore
+    Axes3D = None  # type: ignore
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError, PlottingError
@@ -229,6 +231,81 @@ def plot_evsi_vs_sample_size(
     # fig.tight_layout() # Often helpful with twin axes
 
     return ax1  # type: ignore
+
+
+def plot_evppi_surface(
+    evppi_values: np.ndarray,
+    param_names: List[str],
+    wtp_thresholds: Union[np.ndarray, List[float]],
+    xlabel: str = "Parameter",
+    ylabel: str = "Willingness-to-Pay Threshold",
+    zlabel: str = "EVPPI",
+    title: str = "EVPPI Surface",
+    ax: Optional[Axes] = None,
+    **plot_kwargs,
+) -> Axes:
+    """Plot a 3D surface of EVPPI values.
+
+    Args:
+        evppi_values (np.ndarray):
+            2D array of EVPPI values (n_params, n_wtp_thresholds).
+        param_names (List[str]):
+            List of parameter names.
+        wtp_thresholds (Union[np.ndarray, List[float]]):
+            Array or list of WTP thresholds.
+        xlabel (str): Label for the x-axis.
+        ylabel (str): Label for the y-axis.
+        zlabel (str): Label for the z-axis.
+        title (str): Title of the plot.
+        ax (Optional[Axes]): Matplotlib Axes object to plot on. If None, a new
+                             figure and axes are created.
+        **plot_kwargs: Additional keyword arguments passed to `ax.plot_surface()`.
+
+    Returns
+    -------
+        Axes: The Matplotlib Axes object with the plot.
+
+    Raises
+    ------
+        PlottingError: If Matplotlib is not installed.
+        InputError: If input dimensions or lengths are mismatched.
+    """
+    if not MATPLOTLIB_AVAILABLE:
+        raise PlottingError(
+            "Matplotlib is required for plotting functions but not installed."
+        )
+
+    evppi_arr = np.asarray(evppi_values, dtype=DEFAULT_DTYPE)
+    wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
+
+    if evppi_arr.ndim != 2:
+        raise InputError(
+            "evppi_values must be a 2D array (n_params x n_wtp_thresholds)."
+        )
+    if len(param_names) != evppi_arr.shape[0]:
+        raise InputError(
+            "Length of param_names must match the first dimension of evppi_values."
+        )
+    if len(wtp_arr) != evppi_arr.shape[1]:
+        raise InputError(
+            "Length of wtp_thresholds must match the second dimension of evppi_values."
+        )
+
+    if ax is None:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection="3d")
+
+    x, y = np.meshgrid(np.arange(len(param_names)), wtp_arr)
+    ax.plot_surface(x, y, evppi_arr.T, **plot_kwargs)
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_zlabel(zlabel)
+    ax.set_title(title)
+    ax.set_xticks(np.arange(len(param_names)))
+    ax.set_xticklabels(param_names, rotation=45)
+
+    return ax
 
 
 # Future plots:

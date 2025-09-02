@@ -4,6 +4,13 @@
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience. In the long term, its core, language-agnostic API will be ported to R and Julia, making it a true cross-platform standard.
 
+## Current Status (As of Q3 2025)
+
+The project has a solid foundation and is partially through its initial refactoring and feature implementation phases.
+
+*   **Phase 1 (Foundation & API Refactoring):** Mostly complete. The core object-oriented API is in place, and the CI/CD pipeline is functional. The primary remaining task is to finalize the domain-agnostic data structures.
+*   **Phase 2 (Health Economics Core):** In progress. Work has begun on the EVSI implementation and the plotting module, but these are not yet complete.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring (Target: 8 Weeks)
@@ -11,15 +18,17 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 **Goal:** Solidify the library's foundation by implementing a more robust, extensible, and user-friendly API. Address the key structural and software engineering weaknesses identified in the initial reviews.
 
 1.  **Object-Oriented API Redesign & Functional Wrappers:**
-    *   Refactor the current function-based API into an object-oriented one centered around a `DecisionAnalysis` class. This class will encapsulate the model, data, and decision options, providing a fluent interface (e.g., `analysis.evpi()`, `analysis.evsi(...)`).
-    *   Provide a simple, stateless functional API (e.g., `voiage.evpi(...)`) as a lightweight convenience layer. These functions will act as wrappers, calling the core OO-API internally.
+    *   **Status: `Done`**
+    *   The library now features a `DecisionAnalysis` class that encapsulates the core logic, with lightweight functional wrappers for convenience.
 2.  **Domain-Agnostic Data Structures:**
-    *   Generalize the core data structures to be domain-agnostic. Rename `PSASample` -> `ParameterSet`, `TrialArm` -> `DecisionOption`, `NetBenefitArray` -> `ValueArray`. This is critical for attracting a broader user base.
+    *   **Status: `In Progress`**
+    *   The new data structures (`ParameterSet`, `ValueArray`) are defined in `voiage/schema.py`. Backward-compatible wrappers (`PSASample`, `NetBenefitArray`) exist in `voiage/core/data_structures.py` to support legacy code. The transition is ongoing.
 3.  **CI/CD & Documentation Website:**
-    *   Establish a full CI/CD pipeline in GitHub Actions to automate testing, linting, and code coverage checks for every PR.
-    *   Deploy a professional documentation website using Sphinx and a modern theme (e.g., Furo), hosted on GitHub Pages.
+    *   **Status: `Done`**
+    *   A full CI/CD pipeline is established in GitHub Actions, automating tests, linting, and formatting. The basic structure for the documentation website is in place.
 4.  **Community Guidelines:**
-    *   Create a comprehensive `CONTRIBUTING.md` detailing the development process, code style, and PR submission guidelines.
+    *   **Status: `Done`**
+    *   The `CONTRIBUTING.md` and `AGENTS.md` files have been created to provide clear guidelines for human and AI contributors.
 
 ---
 
@@ -28,17 +37,18 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 **Goal:** Implement the most critical features for the initial target audience (health economists) to make `voiage` a compelling alternative to existing tools.
 
 1.  **Robust EVSI Implementation:**
-    *   Move beyond the current stub to a full-featured two-loop EVSI calculation.
-    *   Implement proper Bayesian updating, starting with conjugate priors and extending to MCMC-based updates via integration with NumPyro.
-    *   Integrate advanced metamodels (Gaussian Processes, BART) for the inner loop, moving beyond simple linear regression.
+    *   **Status: `In Progress`**
+    *   A basic `evsi` function with a two-loop method exists. This needs to be expanded with a regression-based approach, robust Bayesian updating, and integration of advanced metamodels. The existing tests are incomplete and need to be activated.
 2.  **Network Meta-Analysis (NMA) VOI:**
+    *   **Status: `Not Started`**
     *   Implement `evsi_nma`, a critical and highly-demanded feature in HTA. This will involve handling multivariate parameter distributions for treatment effects.
 3.  **Validation & Benchmarking:**
+    *   **Status: `Not Started`**
     *   For each core method, create a validation notebook that replicates the results of a published study or an example from an established R package (e.g., `BCEA`, `voi`).
-    *   Publish performance benchmarks for the core `numpy` backend to establish a performance baseline.
 4.  **Advanced Plotting Module & Core Examples:**
-    *   Implement a `plot` module capable of generating publication-quality graphics for CEACs, CE-planes, VOI curves, and EVPPI surfaces.
-    *   Develop a detailed tutorial notebook for the core health economics use case (e.g., new drug evaluation), including synthetic data generation and interpretation of results.
+    *   **Status: `In Progress`**
+    *   The `voiage/plot` module has been created, but the core plotting functions (CEACs, VOI curves, etc.) are not yet implemented.
+    *   A detailed tutorial notebook for a core health economics use case is needed.
 
 ---
 
@@ -47,13 +57,17 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 **Goal:** Broaden the library's capabilities to cover advanced VOI methods and actively support non-health applications.
 
 1.  **Portfolio Optimization:**
-    *   Implement a robust `portfolio_voi` method, using the new OO-API. Support both greedy algorithms and integer programming (via optional dependencies like `pulp`).
+    *   **Status: `Not Started`**
+    *   Implement a robust `portfolio_voi` method.
 2.  **Structural & Sequential VOI:**
-    *   Implement the placeholder methods for `structural_voi` and `sequential_voi`. These are crucial for complex policy and scientific modeling decisions.
+    *   **Status: `Not Started`**
+    *   Implement the placeholder methods for `structural_voi` and `sequential_voi`.
 3.  **Cross-Domain Example Notebooks:**
-    *   Develop at least two detailed tutorial notebooks showcasing `voiage` on non-health problems (e.g., an environmental policy decision on sea-level rise, a business strategy problem on portfolio optimization). This is critical for demonstrating the library's domain-agnostic capabilities.
+    *   **Status: `Not Started`**
+    *   Develop at least two detailed tutorial notebooks for non-health problems.
 4.  **XArray Integration:**
-    *   Begin integrating `xarray` into the core data structures to provide labeled dimensions, enhancing usability for complex, multi-dimensional analyses.
+    *   **Status: `In Progress`**
+    *   The core data structures in `voiage/schema.py` are already built on `xarray`. This integration needs to be leveraged more deeply throughout the library.
 
 ---
 
@@ -62,15 +76,11 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 **Goal:** Grow the user and contributor community and lay the groundwork for R and Julia versions.
 
 1.  **Future High-Performance Backend (JAX/XLA):**
-    *   Re-evaluate the implementation of a JAX-based computational backend for core calculations.
-    *   If deemed appropriate at the time, develop a backend dispatch system (e.g., `voiage.set_backend('jax')`) to allow users to switch between `numpy` and `jax`.
-    *   This will be considered after the core API is stable and the primary `numpy`-based features are mature.
+    *   **Status: `Not Started`**
 2.  **Community Engagement:**
-    *   Actively manage the GitHub repository, using Issues, Discussions, and Projects to engage with the community.
-    *   Publish "State of `voiage`" updates on the documentation website's blog.
-    *   Present the library at academic and industry conferences.
+    *   **Status: `In Progress`**
+    *   The repository is being structured for easier contribution.
 3.  **Language-Agnostic API Specification:**
-    *   Formalize the core `DecisionAnalysis` object and its data structures using a language-agnostic format (e.g., JSON Schema). This specification will serve as the formal blueprint for the R and Julia ports.
+    *   **Status: `Not Started`**
 4.  **Planning for R/Julia Ports:**
-    *   Begin prototyping the R port (`rvoiage`?) using `R6` classes to mirror the Python OO-API. The focus will be on API consistency and leveraging R's strengths in statistics and plotting.
-    *   Investigate Julia's multiple dispatch system as a powerful paradigm for the Julia port (`Voiage.jl`?), potentially leading to even more elegant and performant code.
+    *   **Status: `Not Started`**

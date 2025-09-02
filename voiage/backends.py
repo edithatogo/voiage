@@ -70,9 +70,7 @@ def get_backend(name=None):
 
 
 def set_backend(name):
-    """
-    Set the default computational backend.
-    """
+    """Set the default computational backend."""
     global _DEFAULT_BACKEND
     if name not in _BACKENDS:
         raise ValueError(f"Unknown backend: {name}")

@@ -11,7 +11,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from voiage.schema import DecisionOption, ParameterSet, StudyDesign, ValueArray
+from voiage.schema import ParameterSet, ValueArray
 
 
 @pytest.fixture(scope="session")
@@ -44,11 +44,3 @@ def sample_parameter_set() -> ParameterSet:
         coords={"n_samples": np.arange(5)},
     )
     return ParameterSet(dataset=dataset)
-
-
-@pytest.fixture(scope="session")
-def sample_study_design() -> StudyDesign:
-    """Provide a StudyDesign instance."""
-    option1 = DecisionOption(name="Treatment X", sample_size=100)
-    option2 = DecisionOption(name="Control", sample_size=100)
-    return StudyDesign(options=[option1, option2])

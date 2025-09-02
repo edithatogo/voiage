@@ -13,8 +13,8 @@ from voiage.schema import ParameterSet, ValueArray
 # A simple, known scenario for testing
 # Strategies: A, B
 # Samples: 5
-NB_A = np.array([100, 150, 120, 80, 90])
-NB_B = np.array([110, 140, 130, 100, 95])
+NB_A = np.array([100, 150, 120, 80, 90], dtype=np.float64)
+NB_B = np.array([110, 140, 130, 100, 95], dtype=np.float64)
 NB_ARRAY = np.stack([NB_A, NB_B], axis=1)
 
 # EV with PI = mean(110, 150, 130, 100, 95) = 117
@@ -27,11 +27,11 @@ EXPECTED_EVPI = 2.0
 def sample_value_array() -> ValueArray:
     """Provide a ValueArray instance."""
     dataset = xr.Dataset(
-        {"value": (("n_samples", "n_options"), NB_ARRAY)},
+        {"net_benefit": (("n_samples", "n_strategies"), NB_ARRAY)},
         coords={
             "n_samples": np.arange(NB_ARRAY.shape[0]),
-            "n_options": np.arange(NB_ARRAY.shape[1]),
-            "option": ("n_options", ["Strategy A", "Strategy B"]),
+            "n_strategies": np.arange(NB_ARRAY.shape[1]),
+            "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
         },
     )
     return ValueArray(dataset=dataset)
@@ -71,9 +71,7 @@ def test_evppi_calculation(
     sample_value_array: ValueArray, sample_parameter_set: ParameterSet
 ):
     """Test basic EVPPI calculation (smoke test)."""
-    calculated_evppi = evppi(
-        sample_value_array, sample_parameter_set, parameters_of_interest=["param1"]
-    )
+    calculated_evppi = evppi(sample_value_array, sample_parameter_set, ["param1"])
     assert isinstance(calculated_evppi, float)
     assert calculated_evppi >= 0
     assert calculated_evppi <= evpi(sample_value_array) + 1e-9

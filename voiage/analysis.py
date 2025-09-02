@@ -7,12 +7,6 @@ from typing import Any, Dict, Optional, Union
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import (
-    NetBenefitArray,
-    ParameterSet,
-    PSASample,
-    ValueArray,
-)
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
     CalculationError,
@@ -20,6 +14,7 @@ from voiage.exceptions import (
     InputError,
     OptionalDependencyError,
 )
+from voiage.schema import ParameterSet, ValueArray
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -39,45 +34,29 @@ class DecisionAnalysis:
 
     def __init__(
         self,
-        nb_array: Union[np.ndarray, ValueArray, NetBenefitArray],
+        nb_array: Union[np.ndarray, ValueArray],
         parameter_samples: Optional[
-            Union[np.ndarray, ParameterSet, PSASample, Dict[str, np.ndarray]]
+            Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]
         ] = None,
     ):
-        if isinstance(nb_array, (ValueArray, NetBenefitArray)):
+        if isinstance(nb_array, ValueArray):
             self.nb_array = nb_array
         elif isinstance(nb_array, np.ndarray):
             # Assuming strategy names are not provided
-            self.nb_array = NetBenefitArray(
-                values=nb_array,
-                strategy_names=[f"Strategy {i+1}" for i in range(nb_array.shape[1])],
-            )
+            self.nb_array = ValueArray.from_numpy(nb_array)
         else:
-            raise InputError(
-                "`nb_array` must be a NumPy array, ValueArray or NetBenefitArray object."
-            )
+            raise InputError("`nb_array` must be a NumPy array or ValueArray object.")
 
         if parameter_samples is not None:
-            if isinstance(parameter_samples, (ParameterSet, PSASample)):
+            if isinstance(parameter_samples, ParameterSet):
                 self.parameter_samples: Optional[ParameterSet] = parameter_samples
-            elif isinstance(parameter_samples, dict):
-                self.parameter_samples = PSASample(parameters=parameter_samples)
-            elif isinstance(parameter_samples, np.ndarray):
-                # Assuming parameter names are not provided
-                if parameter_samples.ndim == 1:
-                    self.parameter_samples = PSASample(
-                        parameters={"param_0": parameter_samples}
-                    )
-                else:
-                    self.parameter_samples = PSASample(
-                        parameters={
-                            f"param_{i}": parameter_samples[:, i]
-                            for i in range(parameter_samples.shape[1])
-                        }
-                    )
+            elif isinstance(parameter_samples, (dict, np.ndarray)):
+                self.parameter_samples = ParameterSet.from_numpy_or_dict(
+                    parameter_samples
+                )
             else:
                 raise InputError(
-                    f"`parameter_samples` must be a NumPy array, PSASample, or Dict. Got {type(parameter_samples)}."
+                    f"`parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(parameter_samples)}."
                 )
         else:
             self.parameter_samples = None

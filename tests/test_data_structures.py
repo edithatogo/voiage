@@ -7,7 +7,7 @@ import pytest
 import xarray as xr
 
 from voiage.exceptions import InputError
-from voiage.schema import DecisionOption, ParameterSet, StudyDesign, ValueArray
+from voiage.schema import DecisionOption, ParameterSet, ValueArray
 
 
 class TestValueArray:
@@ -17,17 +17,17 @@ class TestValueArray:
         """Test initialization and properties of ValueArray."""
         data = np.random.rand(10, 3)
         dataset = xr.Dataset(
-            {"value": (("n_samples", "n_options"), data)},
+            {"net_benefit": (("n_samples", "n_strategies"), data)},
             coords={
                 "n_samples": np.arange(10),
-                "n_options": np.arange(3),
-                "option": ("n_options", ["A", "B", "C"]),
+                "n_strategies": np.arange(3),
+                "strategy": ("n_strategies", ["A", "B", "C"]),
             },
         )
         va = ValueArray(dataset)
         assert va.n_samples == 10
-        assert va.n_options == 3
-        assert va.option_names == ["A", "B", "C"]
+        assert va.n_strategies == 3
+        assert va.strategy_names == ["A", "B", "C"]
         np.testing.assert_array_equal(va.values, data)
 
     def test_post_init_validations(self):
@@ -75,24 +75,3 @@ class TestDecisionOption:
             DecisionOption("", 100)
         with pytest.raises(InputError, match="must be a positive integer"):
             DecisionOption("Test", 0)
-
-
-class TestStudyDesign:
-    """Tests for the StudyDesign data structure."""
-
-    def test_init_and_properties(self):
-        """Test initialization and properties of StudyDesign."""
-        d1 = DecisionOption("A", 50)
-        d2 = DecisionOption("B", 50)
-        sd = StudyDesign([d1, d2])
-        assert sd.total_sample_size == 100
-        assert sd.options == [d1, d2]
-
-    def test_post_init_validations(self):
-        """Test post-init validations of StudyDesign."""
-        with pytest.raises(InputError, match="must be a non-empty list"):
-            StudyDesign([])
-        with pytest.raises(
-            InputError, match="names within a StudyDesign must be unique"
-        ):
-            StudyDesign([DecisionOption("A", 50), DecisionOption("A", 50)])

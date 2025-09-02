@@ -11,6 +11,8 @@ constraints like a fixed budget.
 
 from typing import Any, Callable, Dict, List
 
+import numpy as np
+
 from voiage.exceptions import InputError, VoiageNotImplementedError
 from voiage.schema import PortfolioSpec, PortfolioStudy
 
@@ -137,10 +139,42 @@ def portfolio_voi(
         }
 
     elif optimization_method == "integer_programming":
-        raise VoiageNotImplementedError(
-            "Integer programming for portfolio VOI requires an IP solver. "
-            "Not implemented in v0.1.",
+        from scipy.optimize import LinearConstraint, milp
+
+        values = np.array(
+            [study_value_calculator(s) for s in portfolio_specification.studies]
         )
+        costs = np.array([s.cost for s in portfolio_specification.studies])
+
+        # The objective is to maximize the total value, which is equivalent to minimizing the negative total value.
+        c = -values
+
+        # The constraints are that the total cost must be less than or equal to the budget.
+        constraints = LinearConstraint(
+            costs, lb=0, ub=portfolio_specification.budget_constraint
+        )
+
+        # The decision variables are binary (0 or 1), indicating whether to select each study.
+        integrality = np.ones_like(c)
+
+        res = milp(c=c, constraints=constraints, integrality=integrality)
+
+        if not res.success:
+            raise RuntimeError("Integer programming optimization failed.")
+
+        selected_indices = np.where(res.x > 0.5)[0]
+        selected_studies_list = [
+            portfolio_specification.studies[i] for i in selected_indices
+        ]
+        total_value = np.sum(values[selected_indices])
+        total_cost = np.sum(costs[selected_indices])
+
+        return {
+            "selected_studies": selected_studies_list,
+            "total_value": total_value,
+            "total_cost": total_cost,
+            "method_details": "Integer programming selection.",
+        }
     elif optimization_method == "dynamic_programming":
         raise VoiageNotImplementedError(
             "Dynamic programming for portfolio VOI (knapsack) is not implemented in v0.1.",
@@ -153,7 +187,6 @@ def portfolio_voi(
 
 if __name__ == "__main__":
     # Add local imports for classes used in this test block
-    import numpy as np  # np is used for np.isclose
 
     from voiage.core.data_structures import TrialArm
     from voiage.schema import (
@@ -233,7 +266,7 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_100['total_value']}, Total Cost: {result_budget_100['total_cost']}"
     )
-    np.testing.assert_allclose(
+    np.testing.assert_array_equal(
         selected_names_b100, sorted(["Study Beta", "Study Gamma"])
     )
     np.testing.assert_allclose(result_budget_100["total_value"], 230.0)
@@ -254,17 +287,35 @@ if __name__ == "__main__":
     print(
         f"Total Value: {result_budget_70['total_value']}, Total Cost: {result_budget_70['total_cost']}"
     )
-    np.testing.assert_allclose(selected_names_b70, ["Study Beta"])
+    np.testing.assert_array_equal(selected_names_b70, ["Study Beta"])
     np.testing.assert_allclose(result_budget_70["total_value"], 150.0)
     np.testing.assert_allclose(result_budget_70["total_cost"], 60.0)
     print("Greedy (budget 70) PASSED.")
 
     # Test other methods (expect PyVoiNotImplementedError)
     try:
-        portfolio_voi(portfolio_spec_no_budget, dummy_calculator, "integer_programming")
+        portfolio_voi(portfolio_spec_no_budget, dummy_calculator, "dynamic_programming")
     except VoiageNotImplementedError as e:
-        print(f"Caught expected error for IP method: {e}")
+        print(f"Caught expected error for DP method: {e}")
     else:
-        raise AssertionError("IP method did not raise VoiageNotImplementedError.")
+        raise AssertionError("DP method did not raise VoiageNotImplementedError.")
+
+    print("\n--- Integer Programming Portfolio VOI (With Budget) ---")
+    result_ip_budget_100 = portfolio_voi(
+        portfolio_spec_budget_100, dummy_calculator, "integer_programming"
+    )
+    selected_names_ip_b100 = sorted(
+        [s.name for s in result_ip_budget_100["selected_studies"]]
+    )
+    print(f"Selected (budget 100): {selected_names_ip_b100}")
+    print(
+        f"Total Value: {result_ip_budget_100['total_value']}, Total Cost: {result_ip_budget_100['total_cost']}"
+    )
+    np.testing.assert_array_equal(
+        selected_names_ip_b100, sorted(["Study Beta", "Study Gamma"])
+    )
+    np.testing.assert_allclose(result_ip_budget_100["total_value"], 230.0)
+    np.testing.assert_allclose(result_ip_budget_100["total_cost"], 100.0)
+    print("Integer Programming (budget 100) PASSED.")
 
     print("--- portfolio.py tests completed ---")

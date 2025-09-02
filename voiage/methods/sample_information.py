@@ -59,7 +59,13 @@ def _bayesian_update(prior_samples, trial_data, trial_design):
                 posterior_samples[param_name] = prior_values
         else:
             posterior_samples[param_name] = prior_values
-    return ParameterSet(dataset=ParameterSet(parameters=posterior_samples).dataset)
+    import xarray as xr
+
+    dataset = xr.Dataset(
+        {k: (("n_samples",), v) for k, v in posterior_samples.items()},
+        coords={"n_samples": np.arange(len(next(iter(posterior_samples.values()))))},
+    )
+    return ParameterSet(dataset=dataset)
 
 
 def _evsi_two_loop(model_func, psa_prior, trial_design, n_outer_loops, n_inner_loops):
@@ -147,3 +153,24 @@ def evsi(
         return per_decision_evsi * population * annuity
 
     return per_decision_evsi
+
+
+def enbs(evsi_result: float, research_cost: float) -> float:
+    """
+    Calculate the Expected Net Benefit of Sampling (ENBS).
+
+    Args:
+        evsi_result (float): The result from an EVSI calculation.
+        research_cost (float): The cost of the proposed research.
+
+    Returns
+    -------
+        float: The calculated ENBS.
+    """
+    if not isinstance(evsi_result, (int, float)):
+        raise InputError("EVSI result must be a number.")
+    if not isinstance(research_cost, (int, float)):
+        raise InputError("Research cost must be a number.")
+    if research_cost < 0:
+        raise InputError("Research cost cannot be negative.")
+    return evsi_result - research_cost
