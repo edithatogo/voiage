@@ -1,0 +1,159 @@
+# Performance Optimization Guide
+
+This guide provides recommendations for optimizing performance when using voiage for Value of Information analysis.
+
+## Overview
+
+voiage is designed for performance, but there are several strategies you can use to optimize your analyses further, especially when working with large datasets or complex models.
+
+## Data Structure Optimization
+
+### Use Appropriate Data Types
+
+Ensure you're using the most efficient data types for your analysis:
+
+```python
+import numpy as np
+from voiage.config import DEFAULT_DTYPE
+
+# Use the default data type for consistency and performance
+data = np.array(your_data, dtype=DEFAULT_DTYPE)
+```
+
+### Efficient Data Loading
+
+When loading large datasets, consider using chunked loading:
+
+```python
+import xarray as xr
+
+# Load data in chunks to manage memory usage
+dataset = xr.open_dataset('large_dataset.nc', chunks={'n_samples': 1000})
+```
+
+## Computational Optimization
+
+### Sample Size Management
+
+For large PSA datasets, consider using a subset for initial analysis:
+
+```python
+from voiage.analysis import DecisionAnalysis
+
+# Use a subset of samples for initial exploration
+subset_indices = np.random.choice(len(all_samples), 1000, replace=False)
+subset_data = all_samples[subset_indices]
+
+analysis = DecisionAnalysis(nb_array=subset_data)
+```
+
+### Regression Sample Control
+
+For EVPPI calculations, control the number of samples used for regression:
+
+```python
+# Use fewer samples for regression to speed up computation
+evppi_result = analysis.evppi(n_regression_samples=500)
+```
+
+## Backend Optimization
+
+### NumPy Backend
+
+The default NumPy backend is optimized for most use cases:
+
+```python
+# Ensure you're using the NumPy backend
+import numpy as np
+```
+
+### JAX Backend (Future)
+
+voiage is designed to support JAX for performance optimization:
+
+```python
+# Future JAX backend usage (not yet fully implemented)
+# import jax.numpy as jnp
+```
+
+## Parallel Processing
+
+### Using Multiple Cores
+
+For operations that support it, use multiple cores:
+
+```python
+import multiprocessing as mp
+
+# Example of parallel processing for multiple analyses
+def run_analysis(data_chunk):
+    analysis = DecisionAnalysis(nb_array=data_chunk)
+    return analysis.evpi()
+
+# Split data into chunks
+chunks = np.array_split(large_dataset, mp.cpu_count())
+
+# Process in parallel
+with mp.Pool() as pool:
+    results = pool.map(run_analysis, chunks)
+```
+
+## Memory Management
+
+### Efficient Memory Usage
+
+Monitor and manage memory usage for large analyses:
+
+```python
+import psutil
+import gc
+
+# Check memory usage
+memory_usage = psutil.virtual_memory().percent
+print(f"Memory usage: {memory_usage}%")
+
+# Force garbage collection if needed
+if memory_usage > 80:
+    gc.collect()
+```
+
+## Profiling and Benchmarking
+
+### Performance Profiling
+
+Use Python's profiling tools to identify bottlenecks:
+
+```python
+import cProfile
+
+# Profile your analysis
+cProfile.run('analysis.evpi()', 'evpi_profile.stats')
+```
+
+### Benchmarking
+
+Compare performance of different approaches:
+
+```python
+import time
+
+# Benchmark different approaches
+start_time = time.time()
+result1 = analysis.evpi()
+time1 = time.time() - start_time
+
+start_time = time.time()
+result2 = analysis.evpi(n_regression_samples=500)
+time2 = time.time() - start_time
+
+print(f"Full sample EVPI: {time1:.2f}s")
+print(f"Subsampled EVPI: {time2:.2f}s")
+```
+
+## Best Practices
+
+1. **Start Small**: Begin with smaller datasets to test your approach
+2. **Profile Regularly**: Regularly profile your code to identify performance issues
+3. **Optimize Iteratively**: Make incremental improvements based on profiling results
+4. **Use Appropriate Hardware**: Ensure you're using appropriate hardware for your analysis needs
+5. **Cache Results**: Cache expensive computations when possible

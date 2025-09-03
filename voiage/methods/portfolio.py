@@ -2,11 +2,47 @@
 
 """Implementation of VOI methods for research portfolio optimization.
 
-- Portfolio VOI (Value of Information for a portfolio of research studies)
-
-Portfolio VOI aims to select an optimal subset of candidate research studies
-that maximizes the total value (e.g., population EVSI or ENBS) subject to
+This module provides functions for optimizing research portfolios to maximize 
+the total value of selected studies subject to budget constraints. Portfolio 
+VOI aims to select an optimal subset of candidate research studies that 
+maximizes the total value (e.g., population EVSI or ENBS) subject to 
 constraints like a fixed budget.
+
+The main function [portfolio_voi][voiage.methods.portfolio.portfolio_voi] 
+implements several optimization algorithms including greedy heuristics and 
+integer programming approaches.
+
+Example usage:
+```python
+from voiage.methods.portfolio import portfolio_voi
+from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
+
+# Define study value calculator
+def calculate_evsi(study: PortfolioStudy) -> float:
+    # Your EVSI calculation implementation
+    return evsi_value
+
+# Create portfolio studies
+design = TrialDesign([DecisionOption("Treatment A", 100)])
+study = PortfolioStudy("Study Name", design, cost=50000)
+studies = [study]
+
+# Create portfolio specification
+portfolio_spec = PortfolioSpec(studies=studies, budget_constraint=100000)
+
+# Optimize portfolio
+result = portfolio_voi(
+    portfolio_specification=portfolio_spec,
+    study_value_calculator=calculate_evsi,
+    optimization_method="greedy"
+)
+
+print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
+print(f"Total value: ${result['total_value']:,.0f}")
+```
+
+Functions:
+- [portfolio_voi][voiage.methods.portfolio.portfolio_voi]: Main function for portfolio optimization
 """
 
 from typing import Any, Callable, Dict, List
@@ -69,6 +105,39 @@ def portfolio_voi(
     ------
         InputError: If inputs are invalid.
         NotImplementedError: If the chosen optimization method is not implemented.
+
+    Example
+    -------
+    ```python
+    from voiage.methods.portfolio import portfolio_voi
+    from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
+    
+    # Define a simple value calculator
+    def simple_value_calculator(study: PortfolioStudy) -> float:
+        # Simple model: value proportional to sample size
+        return study.design.total_sample_size * 1000
+    
+    # Create studies
+    design1 = TrialDesign([DecisionOption("Treatment A", 100)])
+    design2 = TrialDesign([DecisionOption("Treatment B", 200)])
+    study1 = PortfolioStudy("Study 1", design1, cost=50000)
+    study2 = PortfolioStudy("Study 2", design2, cost=80000)
+    studies = [study1, study2]
+    
+    # Create portfolio specification with budget
+    portfolio_spec = PortfolioSpec(studies=studies, budget_constraint=100000)
+    
+    # Optimize using greedy algorithm
+    result = portfolio_voi(
+        portfolio_specification=portfolio_spec,
+        study_value_calculator=simple_value_calculator,
+        optimization_method="greedy"
+    )
+    
+    print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
+    print(f"Total value: ${result['total_value']:,.0f}")
+    print(f"Total cost: ${result['total_cost']:,.0f}")
+    ```
     """
     if not isinstance(portfolio_specification, PortfolioSpec):
         raise InputError("`portfolio_specification` must be a PortfolioSpec object.")
@@ -188,7 +257,7 @@ def portfolio_voi(
 if __name__ == "__main__":
     # Add local imports for classes used in this test block
 
-    from voiage.core.data_structures import TrialArm
+    from voiage.schema import DecisionOption as TrialArm
     from voiage.schema import (
         PortfolioSpec,
         PortfolioStudy,
@@ -233,7 +302,9 @@ if __name__ == "__main__":
     print("\n--- Greedy Portfolio VOI (No Budget) ---")
     portfolio_spec_no_budget = PortfolioSpec(studies=studies, budget_constraint=None)
     result_no_budget = portfolio_voi(
-        portfolio_spec_no_budget, dummy_calculator, "greedy"
+        portfolio_specification=portfolio_spec_no_budget, 
+        study_value_calculator=dummy_calculator, 
+        optimization_method="greedy"
     )
     print(
         f"Selected (no budget): {[s.name for s in result_no_budget['selected_studies']]}"
@@ -257,7 +328,9 @@ if __name__ == "__main__":
     # Selected: Beta, Gamma. Total Cost = 60+40=100. Total Value = 150+80=230.
     portfolio_spec_budget_100 = PortfolioSpec(studies=studies, budget_constraint=100)
     result_budget_100 = portfolio_voi(
-        portfolio_spec_budget_100, dummy_calculator, "greedy"
+        portfolio_specification=portfolio_spec_budget_100, 
+        study_value_calculator=dummy_calculator, 
+        optimization_method="greedy"
     )
     selected_names_b100 = sorted(
         [s.name for s in result_budget_100["selected_studies"]]
@@ -280,7 +353,9 @@ if __name__ == "__main__":
     # Selected: Beta. Total Cost = 60. Total Value = 150.
     portfolio_spec_budget_70 = PortfolioSpec(studies=studies, budget_constraint=70)
     result_budget_70 = portfolio_voi(
-        portfolio_spec_budget_70, dummy_calculator, "greedy"
+        portfolio_specification=portfolio_spec_budget_70, 
+        study_value_calculator=dummy_calculator, 
+        optimization_method="greedy"
     )
     selected_names_b70 = sorted([s.name for s in result_budget_70["selected_studies"]])
     print(f"Selected (budget 70): {selected_names_b70}")
@@ -294,7 +369,11 @@ if __name__ == "__main__":
 
     # Test other methods (expect PyVoiNotImplementedError)
     try:
-        portfolio_voi(portfolio_spec_no_budget, dummy_calculator, "dynamic_programming")
+        portfolio_voi(
+            portfolio_specification=portfolio_spec_no_budget, 
+            study_value_calculator=dummy_calculator, 
+            optimization_method="dynamic_programming"
+        )
     except VoiageNotImplementedError as e:
         print(f"Caught expected error for DP method: {e}")
     else:
@@ -302,7 +381,9 @@ if __name__ == "__main__":
 
     print("\n--- Integer Programming Portfolio VOI (With Budget) ---")
     result_ip_budget_100 = portfolio_voi(
-        portfolio_spec_budget_100, dummy_calculator, "integer_programming"
+        portfolio_specification=portfolio_spec_budget_100, 
+        study_value_calculator=dummy_calculator, 
+        optimization_method="integer_programming"
     )
     selected_names_ip_b100 = sorted(
         [s.name for s in result_ip_budget_100["selected_studies"]]

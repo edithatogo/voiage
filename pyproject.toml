@@ -80,7 +80,7 @@ Changelog = "https://github.com/doughnut/voiage/blob/main/CHANGELOG.md"
 Issues = "https://github.com/doughnut/voiage/issues"
 
 [project.scripts]
-# voiage-cli = "voiage.cli:app"
+voiage = "voiage.cli:app"
 
 # --- Tool Configurations ---
 

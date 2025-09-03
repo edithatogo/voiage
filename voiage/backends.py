@@ -45,10 +45,54 @@ class NumpyBackend(Backend):
         return evpi
 
 
+# Try to import JAX
+try:
+    import jax
+    import jax.numpy as jnp
+    
+    class JaxBackend(Backend):
+        """JAX-based computational backend."""
+
+        def evpi(self, net_benefit_array):
+            """Calculate EVPI using JAX."""
+            # Ensure input is a JAX array
+            nb_array = jnp.asarray(net_benefit_array)
+
+            # Calculate the maximum net benefit for each parameter sample
+            max_nb = jnp.max(nb_array, axis=1)
+
+            # Calculate the expected net benefit for each decision option
+            expected_nb_options = jnp.mean(nb_array, axis=0)
+
+            # Find the maximum expected net benefit
+            max_expected_nb = jnp.max(expected_nb_options)
+
+            # Calculate the expected maximum net benefit
+            expected_max_nb = jnp.mean(max_nb)
+
+            # EVPI is the difference
+            evpi = expected_max_nb - max_expected_nb
+
+            return evpi
+            
+        def evpi_jit(self, net_benefit_array):
+            """JIT-compiled version of EVPI calculation."""
+            return jax.jit(self.evpi)(net_benefit_array)
+
+    JAX_AVAILABLE = True
+except ImportError:
+    JAX_AVAILABLE = False
+    JaxBackend = None
+
+
 # Global backend registry
 _BACKENDS = {
     "numpy": NumpyBackend(),
 }
+
+# Add JAX backend if available
+if JAX_AVAILABLE:
+    _BACKENDS["jax"] = JaxBackend()
 
 # Default backend
 _DEFAULT_BACKEND = "numpy"

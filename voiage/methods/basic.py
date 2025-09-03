@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional, Union
 
 import numpy as np
 
-from voiage.core.data_structures import NetBenefitArray, PSASample
+from voiage.schema import ValueArray as NetBenefitArray, ParameterSet as PSASample
 from voiage.exceptions import (
     DimensionMismatchError,
     InputError,
@@ -94,6 +94,7 @@ def evpi(
 def evppi(
     nb_array: Union[np.ndarray, "NetBenefitArray"],
     parameter_samples: Union[np.ndarray, "PSASample", Dict[str, np.ndarray]],
+    parameters_of_interest: list,
     population: Optional[float] = None,
     time_horizon: Optional[float] = None,
     discount_rate: Optional[float] = None,
@@ -108,7 +109,8 @@ def evppi(
     Args:
         nb_array (Union[np.ndarray, NetBenefitArray]): Net benefit array.
         parameter_samples (Union[np.ndarray, PSASample, Dict[str, np.ndarray]]):
-            Samples of the parameter(s) of interest.
+            Samples of all parameters.
+        parameters_of_interest (list): List of parameter names to consider for EVPPI.
         population (Optional[float]): Population size for scaling.
         time_horizon (Optional[float]): Time horizon for scaling.
         discount_rate (Optional[float]): Discount rate for scaling.
@@ -120,8 +122,40 @@ def evppi(
         float: The calculated EVPPI.
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
+    
+    # Filter parameter samples to only include parameters of interest
+    if isinstance(parameter_samples, PSASample):
+        # Check that all parameters of interest are in the parameter set
+        available_params = set(parameter_samples.parameter_names)
+        requested_params = set(parameters_of_interest)
+        missing_params = requested_params - available_params
+        if missing_params:
+            raise InputError(f"All `parameters_of_interest` must be in the ParameterSet. Missing: {missing_params}")
+        
+        # Create a new ParameterSet with only the parameters of interest
+        filtered_parameters = {name: parameter_samples.parameters[name] for name in parameters_of_interest}
+        import xarray as xr
+        dataset = xr.Dataset(
+            {k: ("n_samples", v) for k, v in filtered_parameters.items()},
+            coords={"n_samples": np.arange(len(next(iter(filtered_parameters.values()))))}
+        )
+        from voiage.schema import ParameterSet
+        filtered_parameter_samples = ParameterSet(dataset=dataset)
+    elif isinstance(parameter_samples, dict):
+        # Check that all parameters of interest are in the parameter dict
+        available_params = set(parameter_samples.keys())
+        requested_params = set(parameters_of_interest)
+        missing_params = requested_params - available_params
+        if missing_params:
+            raise InputError(f"All `parameters_of_interest` must be in the ParameterSet. Missing: {missing_params}")
+        
+        # Filter the dictionary
+        filtered_parameter_samples = {name: parameter_samples[name] for name in parameters_of_interest}
+    else:
+        # For numpy arrays, we assume the caller has already filtered the parameters
+        filtered_parameter_samples = parameter_samples
 
-    analysis = DecisionAnalysis(nb_array=nb_array, parameter_samples=parameter_samples)
+    analysis = DecisionAnalysis(nb_array=nb_array, parameter_samples=filtered_parameter_samples)
     return analysis.evppi(
         population=population,
         time_horizon=time_horizon,

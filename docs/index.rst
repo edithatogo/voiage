@@ -32,6 +32,7 @@ various VOI metrics, including:
    user_guide/index
    api_reference/index
    examples/index
+   cross_domain_usage
    contributing
    changelog
 

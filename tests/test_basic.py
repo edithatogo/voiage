@@ -94,8 +94,8 @@ def test_evppi_invalid_inputs(
             n_regression_samples=10,
         )
 
-    with pytest.raises(TypeError):
+    with pytest.raises(InputError):
         evppi("not a value array", sample_parameter_set, ["param1"])
 
-    with pytest.raises(TypeError):
+    with pytest.raises(InputError):
         evppi(sample_value_array, "not a parameter set", ["param1"])

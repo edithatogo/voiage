@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.core.data_structures import PSASample
+from voiage.schema import ParameterSet as PSASample, TrialDesign
 from voiage.exceptions import InputError
 from voiage.methods.sample_information import enbs
 
@@ -37,7 +37,14 @@ def dummy_model_func_evsi(
     nb_strategy1 = np.random.normal(loc=100, scale=10, size=n_samples)
     nb_strategy2 = np.random.normal(loc=105, scale=15, size=n_samples)
 
-    return np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)  # type: ignore
+    # Create xarray dataset for ValueArray
+    import xarray as xr
+    dataset = xr.Dataset(
+        {"net_benefit": (("n_samples", "n_strategies"), np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE))},
+        coords={"n_samples": np.arange(n_samples), "n_strategies": [0, 1]}
+    )
+    from voiage.schema import ValueArray
+    return ValueArray(dataset=dataset)
 
 
 @pytest.fixture()
@@ -48,91 +55,117 @@ def dummy_psa_for_evsi() -> PSASample:
     # sd_outcome is relatively small to make learning more impactful.
     # n_samples for psa_prior should be reasonably large for stable metamodel fitting.
     n_psa_samples = 500
-    params = {
-        "mean_new_treatment": np.random.normal(
-            loc=10, scale=2, size=n_psa_samples
-        ).astype(DEFAULT_DTYPE),
-        "mean_standard_care": np.random.normal(
-            loc=8, scale=2, size=n_psa_samples
-        ).astype(DEFAULT_DTYPE),
-        "sd_outcome": np.random.uniform(low=0.5, high=1.5, size=n_psa_samples).astype(
-            DEFAULT_DTYPE
-        ),
-        # Add another dummy parameter not directly used in update, to test metamodel with multiple params
-        "unrelated_param": np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE),
-    }
-    return PSASample(parameters=params)
+    import xarray as xr
+    dataset = xr.Dataset(
+        {
+            "mean_new_treatment": (("n_samples",), np.random.normal(
+                loc=10, scale=2, size=n_psa_samples
+            ).astype(DEFAULT_DTYPE)),
+            "mean_standard_care": (("n_samples",), np.random.normal(
+                loc=8, scale=2, size=n_psa_samples
+            ).astype(DEFAULT_DTYPE)),
+            "sd_outcome": (("n_samples",), np.random.uniform(low=0.5, high=1.5, size=n_psa_samples).astype(
+                DEFAULT_DTYPE
+            )),
+            # Add another dummy parameter not directly used in update, to test metamodel with multiple params
+            "unrelated_param": (("n_samples",), np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE)),
+        },
+        coords={"n_samples": np.arange(n_psa_samples)}
+    )
+    from voiage.schema import ParameterSet
+    return ParameterSet(dataset=dataset)
 
 
-# @pytest.fixture()
-# def dummy_trial_design_for_evsi() -> TrialDesign:
-#     """Create a dummy TrialDesign for EVSI tests."""
-#     # Arm names match keys expected by _simulate_trial_data (via convention)
-#     # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
-#     arm1 = TrialArm(
-#         name="New Treatment", sample_size=50
-#     )  # Reduced sample size for faster test simulation
-#     arm2 = TrialArm(name="Standard Care", sample_size=50)
-#     return TrialDesign(arms=[arm1, arm2])
+@pytest.fixture()
+def dummy_trial_design_for_evsi() -> TrialDesign:
+    """Create a dummy TrialDesign for EVSI tests."""
+    # Arm names match keys expected by _simulate_trial_data (via convention)
+    # and _bayesian_update (hardcoded 'New Treatment' for data_key_for_update)
+    from voiage.schema import DecisionOption, TrialDesign
+    arm1 = DecisionOption(
+        name="New Treatment", sample_size=50
+    )  # Reduced sample size for faster test simulation
+    arm2 = DecisionOption(name="Standard Care", sample_size=50)
+    return TrialDesign(arms=[arm1, arm2])
 
 
 # --- Tests for EVSI ---
 
 
-# def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
-#     """Test the two-loop EVSI method."""
-#     evsi_val = evsi(
-#         model_func=dummy_model_func_evsi,
-#         psa_prior=dummy_psa_for_evsi,
-#         trial_design=dummy_trial_design_for_evsi,
-#         method="two_loop",
-#         n_outer_loops=10,
-#         n_inner_loops=20,
-#     )
-#     assert evsi_val >= 0, "EVSI should be non-negative."
+def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
+    """Test the two-loop EVSI method."""
+    from voiage.methods.sample_information import evsi
+    evsi_val = evsi(
+        model_func=dummy_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=dummy_trial_design_for_evsi,
+        method="two_loop",
+        n_outer_loops=10,
+        n_inner_loops=20,
+    )
+    assert evsi_val >= 0, "EVSI should be non-negative."
 
 
-# def test_evsi_regression_method_not_implemented(
-#     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
-# ):
-#     """Test that the regression method for EVSI raises a NotImplementedError."""
-#     import voiage.methods.sample_information as si_module
-#
-#     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
-#     with pytest.raises(VoiageNotImplementedError):
-#         evsi(
-#             model_func=dummy_model_func_evsi,
-#             psa_prior=dummy_psa_for_evsi,
-#             trial_design=dummy_trial_design_for_evsi,
-#             method="regression",
-#         )
+def test_evsi_regression_method_not_implemented(
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
+):
+    """Test that the regression method for EVSI raises a NotImplementedError."""
+    import voiage.methods.sample_information as si_module
+    from voiage.exceptions import VoiageNotImplementedError
+    from voiage.methods.sample_information import evsi
+
+    monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
+    with pytest.raises(VoiageNotImplementedError):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="regression",
+        )
 
 
-# def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
-#     """Test EVSI with various invalid inputs before it hits method implementation."""
-#     # Invalid model_func
-#     with pytest.raises(InputError, match="`model_func` must be a callable function"):
-#         evsi(
-#             model_func="not_a_function",  # type: ignore
-#             psa_prior=dummy_psa_for_evsi,
-#             trial_design=dummy_trial_design_for_evsi,
-#         )
-#
-#     # Invalid psa_prior
-#     with pytest.raises(InputError, match="`psa_prior` must be a PSASample object"):
-#         evsi(
-#             model_func=dummy_model_func_evsi,
-#             psa_prior={"param": np.array([1])},  # type: ignore
-#             trial_design=dummy_trial_design_for_evsi,
-#         )
-#
-#     # Invalid trial_design
-#     with pytest.raises(InputError, match="`trial_design` must be a TrialDesign object"):
-#         evsi(
-#             model_func=dummy_model_func_evsi,
-#             psa_prior=dummy_psa_for_evsi,
-#             trial_design=["not", "a", "trial", "design"],  # type: ignore
-#         )
+def test_evsi_regression_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
+    """Test the regression-based EVSI method."""
+    from voiage.methods.sample_information import evsi
+    evsi_val = evsi(
+        model_func=dummy_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=dummy_trial_design_for_evsi,
+        method="regression",
+        n_outer_loops=10,
+    )
+    assert evsi_val >= 0, "EVSI should be non-negative."
+
+
+def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
+    """Test EVSI with various invalid inputs before it hits method implementation."""
+    from voiage.methods.sample_information import evsi
+    from voiage.exceptions import InputError
+    from voiage.schema import ParameterSet, TrialDesign
+    
+    # Invalid model_func
+    with pytest.raises(InputError, match="`model_func` must be a callable function"):
+        evsi(
+            model_func="not_a_function",  # type: ignore
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+        )
+
+    # Invalid psa_prior
+    with pytest.raises(InputError, match="`psa_prior` must be a ParameterSet object"):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior={"param": np.array([1])},  # type: ignore
+            trial_design=dummy_trial_design_for_evsi,
+        )
+
+    # Invalid trial_design
+    with pytest.raises(InputError, match="`trial_design` must be a TrialDesign object"):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=["not", "a", "trial", "design"],  # type: ignore
+        )
 
 
 # Mock EVSI for testing population scaling logic within EVSI itself
@@ -185,69 +218,69 @@ def mock_evsi_for_pop_scaling(
     return fixed_per_decision_evsi
 
 
-# def test_evsi_population_scaling_logic(
-#     monkeypatch, dummy_psa_for_evsi, dummy_trial_design_for_evsi
-# ):
-#     """Test population scaling logic within EVSI using a mock."""
-#     # Temporarily replace the real evsi with our mock for this test
-#     # Note: The sample_information module needs to be imported for monkeypatch to find 'evsi'
-#     import voiage.methods.sample_information as si_module
-#
-#     monkeypatch.setattr(si_module, "evsi", mock_evsi_for_pop_scaling)
-#
-#     fixed_mock_value = 10.0  # Matches the mock's internal per-decision value
-#
-#     # Test case 1: No population args
-#     val_no_pop = si_module.evsi(
-#         dummy_model_func_evsi, dummy_psa_for_evsi, dummy_trial_design_for_evsi
-#     )
-#     assert np.isclose(val_no_pop, fixed_mock_value)
-#
-#     # Test case 2: With population, horizon, no discount
-#     pop, th = 1000, 5
-#     val_pop_no_dr = si_module.evsi(
-#         dummy_model_func_evsi,
-#         dummy_psa_for_evsi,
-#         dummy_trial_design_for_evsi,
-#         population=pop,
-#         time_horizon=th,
-#     )
-#     assert np.isclose(val_pop_no_dr, fixed_mock_value * pop * th)
-#
-#     # Test case 3: With population, horizon, and discount rate
-#     dr = 0.05
-#     annuity = (1 - (1 + dr) ** (-th)) / dr
-#     val_pop_dr = si_module.evsi(
-#         dummy_model_func_evsi,
-#         dummy_psa_for_evsi,
-#         dummy_trial_design_for_evsi,
-#         population=pop,
-#         time_horizon=th,
-#         discount_rate=dr,
-#     )
-#     assert np.isclose(val_pop_dr, fixed_mock_value * pop * annuity)
-#
-#     # Test invalid population scaling inputs (should be caught by the mock's validation)
-#     with pytest.raises(InputError, match="Population must be positive"):
-#         si_module.evsi(
-#             dummy_model_func_evsi,
-#             dummy_psa_for_evsi,
-#             dummy_trial_design_for_evsi,
-#             population=0,
-#             time_horizon=th,
-#         )
-#
-#     with pytest.raises(
-#         InputError,
-#         match="To calculate population EVSI, 'population' and 'time_horizon' must be provided",
-#     ):
-#         si_module.evsi(
-#             dummy_model_func_evsi,
-#             dummy_psa_for_evsi,
-#             dummy_trial_design_for_evsi,
-#             population=pop,
-#             discount_rate=dr,
-#         )  # Missing time_horizon
+def test_evsi_population_scaling_logic(
+    monkeypatch, dummy_psa_for_evsi, dummy_trial_design_for_evsi
+):
+    """Test population scaling logic within EVSI using a mock."""
+    # Temporarily replace the real evsi with our mock for this test
+    # Note: The sample_information module needs to be imported for monkeypatch to find 'evsi'
+    import voiage.methods.sample_information as si_module
+
+    monkeypatch.setattr(si_module, "evsi", mock_evsi_for_pop_scaling)
+
+    fixed_mock_value = 10.0  # Matches the mock's internal per-decision value
+
+    # Test case 1: No population args
+    val_no_pop = si_module.evsi(
+        dummy_model_func_evsi, dummy_psa_for_evsi, dummy_trial_design_for_evsi
+    )
+    assert np.isclose(val_no_pop, fixed_mock_value)
+
+    # Test case 2: With population, horizon, no discount
+    pop, th = 1000, 5
+    val_pop_no_dr = si_module.evsi(
+        dummy_model_func_evsi,
+        dummy_psa_for_evsi,
+        dummy_trial_design_for_evsi,
+        population=pop,
+        time_horizon=th,
+    )
+    assert np.isclose(val_pop_no_dr, fixed_mock_value * pop * th)
+
+    # Test case 3: With population, horizon, and discount rate
+    dr = 0.05
+    annuity = (1 - (1 + dr) ** (-th)) / dr
+    val_pop_dr = si_module.evsi(
+        dummy_model_func_evsi,
+        dummy_psa_for_evsi,
+        dummy_trial_design_for_evsi,
+        population=pop,
+        time_horizon=th,
+        discount_rate=dr,
+    )
+    assert np.isclose(val_pop_dr, fixed_mock_value * pop * annuity)
+
+    # Test invalid population scaling inputs (should be caught by the mock's validation)
+    with pytest.raises(InputError, match="Population must be positive"):
+        si_module.evsi(
+            dummy_model_func_evsi,
+            dummy_psa_for_evsi,
+            dummy_trial_design_for_evsi,
+            population=0,
+            time_horizon=th,
+        )
+
+    with pytest.raises(
+        InputError,
+        match="To calculate population EVSI, 'population' and 'time_horizon' must be provided",
+    ):
+        si_module.evsi(
+            dummy_model_func_evsi,
+            dummy_psa_for_evsi,
+            dummy_trial_design_for_evsi,
+            population=pop,
+            discount_rate=dr,
+        )  # Missing time_horizon
 
 
 # --- Tests for ENBS ---

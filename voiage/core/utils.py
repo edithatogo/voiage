@@ -198,7 +198,7 @@ def get_optimal_strategy_index(  # type: ignore[no-any-return]
         np.ndarray: A 1D array of integers, where each element is the index of the
                     optimal strategy for the corresponding sample.
     """
-    from voiage.core.data_structures import NetBenefitArray
+    from voiage.schema import ValueArray as NetBenefitArray
 
     if isinstance(nb_array, NetBenefitArray):
         values: np.ndarray = nb_array.values

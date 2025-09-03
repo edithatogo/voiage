@@ -15,6 +15,7 @@ from voiage.exceptions import (
     OptionalDependencyError,
 )
 from voiage.schema import ParameterSet, ValueArray
+from voiage.backends import get_backend
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -38,6 +39,7 @@ class DecisionAnalysis:
         parameter_samples: Optional[
             Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]
         ] = None,
+        backend: Optional[str] = None,
     ):
         if isinstance(nb_array, ValueArray):
             self.nb_array = nb_array
@@ -60,6 +62,9 @@ class DecisionAnalysis:
                 )
         else:
             self.parameter_samples = None
+            
+        # Set the computational backend
+        self.backend = get_backend(backend)
 
     def evpi(
         self,
@@ -101,16 +106,11 @@ class DecisionAnalysis:
             return 0.0
 
         try:
-            # E[max(NB_d)] = Mean over samples of (max NB across strategies for that sample)
-            e_max_nb = np.mean(np.max(nb_values, axis=1))
-
-            # max(E[NB_d]) = Max over strategies of (mean NB for that strategy)
-            max_e_nb: float = np.max(np.mean(nb_values, axis=0))
-
-            per_decision_evpi = float(e_max_nb - max_e_nb)
+            # Use the selected backend for computation
+            per_decision_evpi = self.backend.evpi(nb_values)
 
             # EVPI should theoretically be non-negative. Small negative values can occur due to float precision.
-            per_decision_evpi = max(0.0, per_decision_evpi)
+            per_decision_evpi = max(0.0, float(per_decision_evpi))
 
         except Exception as e:
             raise CalculationError(f"Error during EVPI calculation: {e}") from e

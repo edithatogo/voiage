@@ -9,7 +9,7 @@ appropriate, and are intended to work seamlessly with NumPy and Pandas/xarray.
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Union
 
 import numpy as np
 import xarray as xr
@@ -57,6 +57,38 @@ class ValueArray:
     def strategy_names(self: "ValueArray") -> List[str]:
         """Return the names of the strategies."""
         return [str(name) for name in self.dataset["strategy"].values]
+    
+    @classmethod
+    def from_numpy(cls, values: np.ndarray, strategy_names: Optional[List[str]] = None) -> "ValueArray":
+        """Create a ValueArray from a numpy array.
+        
+        Args:
+            values: A 2D numpy array of shape (n_samples, n_strategies)
+            strategy_names: Optional list of strategy names
+        
+        Returns:
+            ValueArray: A new ValueArray instance
+        """
+        if values.ndim != 2:
+            raise InputError("values must be a 2D array")
+        
+        n_samples, n_strategies = values.shape
+        
+        if strategy_names is None:
+            strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
+        elif len(strategy_names) != n_strategies:
+            raise InputError(f"strategy_names must have {n_strategies} elements")
+        
+        import xarray as xr
+        dataset = xr.Dataset(
+            {"net_benefit": (("n_samples", "n_strategies"), values)},
+            coords={
+                "n_samples": np.arange(n_samples),
+                "n_strategies": np.arange(n_strategies),
+                "strategy": ("n_strategies", strategy_names),
+            }
+        )
+        return cls(dataset=dataset)
 
 
 @dataclass(frozen=True)
@@ -88,6 +120,50 @@ class ParameterSet:
     def parameter_names(self: "ParameterSet") -> List[str]:
         """Return the names of the parameters."""
         return list(self.dataset.data_vars.keys())
+    
+    @classmethod
+    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, Dict[str, np.ndarray]]) -> "ParameterSet":
+        """Create a ParameterSet from a numpy array or dictionary.
+        
+        Args:
+            parameters: Either a 2D numpy array of shape (n_samples, n_parameters)
+                       or a dictionary mapping parameter names to 1D numpy arrays
+        
+        Returns:
+            ParameterSet: A new ParameterSet instance
+        """
+        import xarray as xr
+        
+        if isinstance(parameters, np.ndarray):
+            if parameters.ndim != 2:
+                raise InputError("parameters array must be 2D")
+            n_samples, n_parameters = parameters.shape
+            # Create parameter names
+            param_names = [f"param_{i}" for i in range(n_parameters)]
+            # Create dataset
+            data_vars = {name: (("n_samples",), parameters[:, i]) for i, name in enumerate(param_names)}
+            dataset = xr.Dataset(
+                data_vars,
+                coords={"n_samples": np.arange(n_samples)}
+            )
+        elif isinstance(parameters, dict):
+            if not parameters:
+                raise InputError("parameters dictionary cannot be empty")
+            # Check that all arrays have the same length
+            lengths = [len(arr) for arr in parameters.values()]
+            if len(set(lengths)) > 1:
+                raise InputError("All parameter arrays must have the same length")
+            n_samples = lengths[0]
+            # Create dataset
+            data_vars = {name: (("n_samples",), arr) for name, arr in parameters.items()}
+            dataset = xr.Dataset(
+                data_vars,
+                coords={"n_samples": np.arange(n_samples)}
+            )
+        else:
+            raise InputError("parameters must be a numpy array or dictionary")
+        
+        return cls(dataset=dataset)
 
 
 @dataclass(frozen=True)

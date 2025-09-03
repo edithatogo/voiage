@@ -86,6 +86,76 @@ def _evsi_two_loop(model_func, psa_prior, trial_design, n_outer_loops, n_inner_l
     return np.mean(max_nb_post_study)
 
 
+def _evsi_regression(model_func, psa_prior, trial_design, n_regression_samples):
+    """EVSI calculation using a regression-based approach."""
+    # Subsample parameter sets for regression
+    n_samples = psa_prior.n_samples
+    if n_regression_samples >= n_samples:
+        # Use all samples if requested number is greater than or equal to available
+        indices = np.arange(n_samples)
+        sampled_psa = psa_prior
+    else:
+        # Randomly sample parameter sets
+        indices = np.random.choice(n_samples, n_regression_samples, replace=False)
+        # Create a new ParameterSet with sampled parameters
+        sampled_parameters = {}
+        for name, values in psa_prior.parameters.items():
+            sampled_parameters[name] = values[indices]
+        import xarray as xr
+        dataset = xr.Dataset(
+            {k: (("n_samples",), v) for k, v in sampled_parameters.items()},
+            coords={"n_samples": np.arange(len(indices))}
+        )
+        sampled_psa = ParameterSet(dataset=dataset)
+
+    # Run model on prior samples to get prior net benefits
+    nb_prior = model_func(sampled_psa).values
+    
+    # For each sampled parameter set, simulate trial data and get posterior net benefits
+    nb_posterior_list = []
+    for i in range(len(indices)):
+        # Extract true parameters for this sample
+        true_params = {
+            name: values[i]
+            for name, values in sampled_psa.parameters.items()
+        }
+        
+        # Simulate trial data
+        trial_data = _simulate_trial_data(true_params, trial_design)
+        
+        # Bayesian update
+        posterior_psa = _bayesian_update(sampled_psa, trial_data, trial_design)
+        
+        # Run model on posterior
+        nb_posterior = model_func(posterior_psa).values
+        nb_posterior_list.append(nb_posterior)
+    
+    # Stack posterior net benefits
+    nb_posterior_array = np.stack(nb_posterior_list, axis=0)  # (n_samples, n_strategies)
+    
+    # Calculate max net benefit for each posterior sample
+    mean_nb_per_strategy = np.mean(nb_posterior_array, axis=1)  # (n_samples, n_strategies)
+    max_nb_posterior = np.max(mean_nb_per_strategy, axis=1)  # (n_samples,)
+    
+    # Prepare data for regression
+    # X: prior parameter values (flatten to 2D array)
+    X = np.stack([values for values in sampled_psa.parameters.values()], axis=1)  # (n_samples, n_parameters)
+    
+    # y: max net benefit from posterior
+    y = max_nb_posterior
+    
+    # Fit regression model
+    regression_model = LinearRegression()
+    regression_model.fit(X, y)
+    
+    # Predict max net benefit for all prior samples
+    X_all = np.stack([values for values in psa_prior.parameters.values()], axis=1)  # (n_samples, n_parameters)
+    predicted_max_nb = regression_model.predict(X_all)
+    
+    # Return expected max net benefit
+    return np.mean(predicted_max_nb)
+
+
 def evsi(
     model_func: EconomicModelFunctionType,
     psa_prior: ParameterSet,
@@ -123,10 +193,9 @@ def evsi(
                 "Regression method for EVSI requires scikit-learn."
             )
 
-        # Simplified placeholder logic
-        expected_max_nb_post_study = (
-            max_expected_nb_current_info
-            + np.random.rand() * 0.1 * max_expected_nb_current_info
+        # Implement regression-based EVSI method
+        expected_max_nb_post_study = _evsi_regression(
+            model_func, psa_prior, trial_design, n_outer_loops
         )
 
     else:

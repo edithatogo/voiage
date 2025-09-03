@@ -44,11 +44,11 @@ def read_value_array_csv(
         ]
 
         dataset = xr.Dataset(
-            {"value": (("n_samples", "n_options"), values)},
+            {"net_benefit": (("n_samples", "n_strategies"), values)},
             coords={
                 "n_samples": np.arange(values.shape[0]),
-                "n_options": np.arange(values.shape[1]),
-                "option": ("n_options", final_option_names),
+                "n_strategies": np.arange(values.shape[1]),
+                "strategy": ("n_strategies", final_option_names),
             },
         )
         return ValueArray(dataset=dataset)
