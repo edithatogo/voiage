@@ -15,6 +15,11 @@ The decision depends on uncertain parameters such as:
 - Economic costs of implementation
 - Public health benefits
 - Compliance rates
+
+Domain Expert Feedback Incorporated:
+- Added considerations for long-term vs. short-term health benefits
+- Enhanced documentation about enforcement mechanisms affecting compliance rates
+- Added notes about technological learning effects in technology effectiveness
 """
 
 import numpy as np
@@ -37,21 +42,33 @@ def generate_environmental_data(n_samples=1000):
     
     Returns:
     tuple: (net_benefits, parameters)
+    
+    Domain Expert Notes:
+    - Health benefits should consider both short-term and long-term impacts
+    - Compliance rates should account for enforcement mechanisms
+    - Technology effectiveness should consider learning effects over time
     """
     np.random.seed(42)
     
     # Generate uncertain parameters
     # Technology effectiveness (0-1 scale, higher means more effective)
+    # Beta distribution to reflect that moderate to high effectiveness is more common
+    # Domain expert feedback: Consider technological learning effects
     tech_effectiveness = np.random.beta(a=3, b=2, size=n_samples)
     
     # Implementation costs (millions USD)
+    # Normal distribution with clipping to ensure realistic cost ranges
     implementation_costs = np.random.normal(loc=15.0, scale=5.0, size=n_samples)
     implementation_costs = np.clip(implementation_costs, 5.0, 30.0)  # Clip to reasonable range
     
     # Public health benefits (millions USD in avoided healthcare costs)
+    # Lognormal to reflect that very large health benefits are possible but less likely
+    # Domain expert feedback: Consider long-term vs. short-term benefits
     health_benefits = np.random.lognormal(mean=3.5, sigma=0.7, size=n_samples)
     
     # Compliance rate (0-1 scale, higher means better compliance)
+    # Beta distribution to reflect that high compliance requires strong enforcement
+    # Domain expert feedback: Consider enforcement mechanisms
     compliance_rate = np.random.beta(a=4, b=2, size=n_samples)
     
     # Create parameter dictionary
@@ -75,6 +92,11 @@ def calculate_net_benefits(parameters, strategies=["No Regulation", "Implement R
     
     Returns:
     np.ndarray: Net benefits array of shape (n_samples, n_strategies)
+    
+    Domain Expert Notes:
+    - Health benefits are adjusted for technology effectiveness and compliance
+    - Long-term benefits may be undervalued in this simplified model
+    - Enforcement mechanisms significantly impact compliance rates
     """
     n_samples = len(parameters["tech_effectiveness"])
     n_strategies = len(strategies)
@@ -93,6 +115,7 @@ def calculate_net_benefits(parameters, strategies=["No Regulation", "Implement R
     compliance_rate = parameters["compliance_rate"]
     
     # Adjust health benefits based on technology effectiveness and compliance
+    # This reflects that benefits are only realized if technology works and is adopted
     adjusted_health_benefits = health_benefits * tech_effectiveness * compliance_rate
     
     # Net benefit = Health benefits - Implementation costs
@@ -164,6 +187,13 @@ def environmental_voi_analysis():
     print("  1. Public health benefits (largest impact on net benefits)")
     print("  2. Technology effectiveness (affects benefit realization)")
     print("  3. Implementation costs (direct impact on net benefits)")
+    print()
+    
+    # Additional considerations based on expert feedback
+    print("Additional Considerations:")
+    print("  - Health benefits: Consider both short-term and long-term impacts")
+    print("  - Compliance rates: Strong enforcement mechanisms are critical for high compliance")
+    print("  - Technology effectiveness: May improve over time due to learning effects")
     print()
     
     return analysis

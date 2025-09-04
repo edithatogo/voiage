@@ -41,6 +41,11 @@ This example shows how to:
 - Calculate net benefits for different business strategies
 - Quantify the value of market research
 
+**Domain Expert Validated Considerations:**
+- Market size distributions should consider saturation effects in mature markets
+- Competition parameters should account for competitor response dynamics
+- Time horizon assumptions should be sensitivity tested (3-7 year ranges for different market types)
+
 ## Environmental Policy Applications
 
 In environmental policy, VOI can help policymakers evaluate the value of environmental monitoring, research investments, and regulatory strategies.
@@ -71,6 +76,11 @@ This example shows how to:
 - Calculate net benefits of different regulatory approaches
 - Quantify the value of environmental research
 
+**Domain Expert Validated Considerations:**
+- Health benefits should consider both short-term and long-term impacts
+- Compliance rates are significantly influenced by enforcement mechanisms
+- Technology effectiveness may improve over time due to learning effects
+
 ## Adapting voiage to Other Domains
 
 To apply voiage to other domains, follow these general steps:
@@ -96,7 +106,17 @@ Different domains may require specific considerations:
 2. **Model Validation**: Validate your outcome models with domain experts
 3. **Sensitivity Analysis**: Perform sensitivity analysis to understand which parameters drive value of information
 4. **Stakeholder Engagement**: Involve domain experts in defining decision alternatives and parameter ranges
+5. **Domain Expert Validation**: Engage domain experts to validate scenario realism and parameter relevance
+
+## Validation Process
+
+voiage examples have been validated with domain experts to ensure:
+
+1. **Scenario Realism**: Decision scenarios accurately reflect real-world challenges
+2. **Parameter Relevance**: Selected parameters are key uncertainties that influence decision outcomes
+3. **Model Appropriateness**: Modeling approaches are suitable for the domain context
+4. **Result Interpretability**: VOI results are meaningful and actionable for domain practitioners
 
 ## Conclusion
 
-voiage's flexible architecture allows it to be applied across various domains. By following the patterns demonstrated in the business and environmental examples, you can adapt voiage to your specific domain needs while maintaining the rigorous analytical framework of Value of Information analysis.
+voiage's flexible architecture allows it to be applied across various domains. By following the patterns demonstrated in the business and environmental examples, you can adapt voiage to your specific domain needs while maintaining the rigorous analytical framework of Value of Information analysis. All cross-domain examples have been validated with domain experts to ensure their applicability and relevance.

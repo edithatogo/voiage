@@ -2,28 +2,25 @@
 
 This document lists the actionable tasks for `voiage` development. Agents should pick tasks from the "To Do" list.
 
-## To Do
+## In Progress
 
 -   **[NMA]** Enhance implementation of Network Meta-Analysis VOI (`evsi_nma`).
     -   Add more sophisticated NMA models.
     -   Implement additional NMA-specific functionality.
--   **[ADVANCED]** Complete implementation of advanced methods.
-    -   Finish implementing methods in `voiage/methods/adaptive.py`.
-    -   Finish implementing methods in `voiage/methods/calibration.py`.
-    -   Finish implementing methods in `voiage/methods/observational.py`.
--   **[DOCS]** Expand documentation and examples.
-    -   Create comprehensive API documentation.
-    -   Add cross-domain examples and tutorials.
-    -   Expand user guides and best practices.
-
-## In Progress
-
 -   **[PLOT]** Enhancing plotting capabilities.
     -   Expanding VOI curve plotting functionality.
     -   Improving documentation and examples.
 
 ## Done
 
+-   **[DOCS]** Expand documentation and examples.
+    -   Create comprehensive API documentation.
+    -   Add cross-domain examples and tutorials.
+    -   Expand user guides and best practices.
+-   **[ADVANCED]** Complete implementation of advanced methods.
+    -   Finish implementing methods in `voiage/methods/adaptive.py`.
+    -   Finish implementing methods in `voiage/methods/calibration.py`.
+    -   Finish implementing methods in `voiage/methods/observational.py`.
 -   **[EVSI]** Complete the EVSI implementation.
     -   Activate and fix the tests in `tests/test_sample_information.py`.
     -   Implement the regression-based method for EVSI.

@@ -13,6 +13,12 @@ jobs:
     strategy:
       matrix:
         python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        tox_env: [""]
+        include:
+          - python: "3.11"
+            tox_env: "-e min_versions"
+          - python: "3.11"
+            tox_env: "-e max_versions"
 
     steps:
     - name: Checkout code
@@ -31,7 +37,7 @@ jobs:
       # environments to run. We link the Python version from the matrix
       # to the corresponding tox environment (e.g., py38, py39).
       # We also run the 'lint' environment in a separate job.
-      run: tox -e py${{ matrix.python }}
+      run: tox ${{ matrix.tox_env }} -e py${{ matrix.python }}
 
   lint:
     runs-on: ubuntu-latest

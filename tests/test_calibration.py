@@ -193,5 +193,46 @@ def test_voi_calibration_edge_cases(sample_psa, sample_study_design, sample_proc
     assert result >= 0
 
 
+def test_sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec):
+    """Test the sophisticated calibration modeler."""
+    from voiage.methods.calibration import sophisticated_calibration_modeler
+    
+    result = sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec)
+    
+    assert isinstance(result, ValueArray)
+    assert result.values.shape[0] == sample_psa.n_samples
+    assert result.values.shape[1] == 2  # Two strategies
+    
+    # Check that net benefits are reasonable (not all zero or NaN)
+    assert not np.all(result.values == 0)
+    assert not np.any(np.isnan(result.values))
+
+
+def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_design):
+    """Test voi_calibration with the sophisticated modeler."""
+    from voiage.methods.calibration import voi_calibration, sophisticated_calibration_modeler
+    
+    # Update process spec with calibration targets
+    process_spec = {
+        "method": "bayesian",
+        "likelihood_function": "normal",
+        "calibration_targets": {
+            "target_effectiveness": 0.75,
+            "target_cost": 4800
+        }
+    }
+    
+    result = voi_calibration(
+        cal_study_modeler=sophisticated_calibration_modeler,
+        psa_prior=sample_psa,
+        calibration_study_design=sample_study_design,
+        calibration_process_spec=process_spec,
+        n_outer_loops=5
+    )
+    
+    assert isinstance(result, float)
+    assert result >= 0  # VOI should be non-negative
+
+
 if __name__ == "__main__":
     pytest.main([__file__])

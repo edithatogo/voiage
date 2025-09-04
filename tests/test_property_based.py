@@ -104,15 +104,15 @@ parameter_arrays = arrays(
 
 
 @given(nb_array=arrays(dtype=np.float64, shape=st.tuples(st.integers(min_value=10, max_value=50), st.integers(min_value=2, max_value=5)),
-       elements=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False),
-       param_array=parameter_arrays)
-def test_evppi_non_negative(nb_array, param_array):
+       elements=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False)))
+def test_evppi_non_negative(nb_array):
     """Test that EVPPI is always non-negative."""
-    # Create parameter dictionary with matching number of samples
-    n_samples = min(nb_array.shape[0], param_array.shape[0])
-    n_params = min(param_array.shape[1], 3)
+    # Generate parameter array inside the function
+    n_samples = nb_array.shape[0]
+    n_params = 3  # Fixed number of parameters for testing
+    param_array = np.random.randn(n_samples, n_params)
     
-    # Trim arrays to have the same number of samples
+    # Create parameter dictionary with matching number of samples
     trimmed_nb_array = nb_array[:n_samples, :]
     trimmed_param_array = param_array[:n_samples, :n_params]
     

@@ -41,6 +41,12 @@ class MissingParameterError(InputError):
     pass
 
 
+class DataFormatError(InputError):
+    """Raised when input data is in an incorrect format."""
+
+    pass
+
+
 # --- Calculation Errors ---
 class CalculationError(VoiageError):
     """Raised during a VOI calculation if an error occurs."""
@@ -56,6 +62,12 @@ class NonConvergenceError(CalculationError):
 
 class InvalidMethodError(CalculationError):
     """Raised if an invalid method or algorithm is specified for a calculation."""
+
+    pass
+
+
+class ConvergenceError(CalculationError):
+    """Raised when an algorithm fails to converge within specified tolerances."""
 
     pass
 
@@ -90,6 +102,19 @@ class PlottingError(VoiageError):
 # --- Backend Errors ---
 class BackendError(VoiageError):
     """Raised for errors related to the computation backend (e.g., JAX, NumPy)."""
+
+    pass
+
+
+# --- Metamodel Errors ---
+class MetamodelError(VoiageError):
+    """Base class for errors related to metamodeling."""
+
+    pass
+
+
+class MetamodelFitError(MetamodelError):
+    """Raised when a metamodel fails to fit the data."""
 
     pass
 

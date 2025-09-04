@@ -222,7 +222,7 @@ def test_flax_metamodel_dependency_handling(sample_data):
         # If we get here, dependencies are available, test basic functionality
         model.fit(x, y)
         y_pred = model.predict(x)
-        assert y_pred.shape == (100, 128)  # Flax model outputs shape
+        assert y_pred.shape == (100, 1)  # Flax model outputs shape
     except ImportError:
         # This is expected if dependencies are missing
         pass

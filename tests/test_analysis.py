@@ -88,3 +88,23 @@ def test_backend_consistency():
     # Verify they're consistent (within floating point precision)
     # Use a more reasonable tolerance for JAX/NumPy differences
     assert abs(evpi_numpy - float(evpi_jax)) < 1e-6
+
+
+@pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
+def test_jit_compilation():
+    """Test that JIT compilation works correctly."""
+    # Create sample data
+    np.random.seed(42)
+    data = np.random.randn(100, 3)
+    value_array = NetBenefitArray.from_numpy(data)
+    
+    # Test with JAX backend without JIT
+    analysis_jax_no_jit = DecisionAnalysis(value_array, backend="jax", use_jit=False)
+    evpi_jax_no_jit = analysis_jax_no_jit.evpi()
+    
+    # Test with JAX backend with JIT
+    analysis_jax_jit = DecisionAnalysis(value_array, backend="jax", use_jit=True)
+    evpi_jax_jit = analysis_jax_jit.evpi()
+    
+    # Verify they're consistent (within floating point precision)
+    assert abs(float(evpi_jax_no_jit) - float(evpi_jax_jit)) < 1e-10

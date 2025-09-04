@@ -63,17 +63,68 @@ evppi_result = analysis.evppi(n_regression_samples=500)
 The default NumPy backend is optimized for most use cases:
 
 ```python
-# Ensure you're using the NumPy backend
-import numpy as np
+# Ensure you're using the NumPy backend (default)
+analysis = DecisionAnalysis(nb_array=data, backend="numpy")
 ```
 
-### JAX Backend (Future)
+### JAX Backend
 
-voiage is designed to support JAX for performance optimization:
+voiage supports JAX for performance optimization, which can provide significant speedups for large datasets:
 
 ```python
-# Future JAX backend usage (not yet fully implemented)
-# import jax.numpy as jnp
+# Use the JAX backend for improved performance
+analysis = DecisionAnalysis(nb_array=data, backend="jax")
+
+# Enable JIT compilation for even better performance
+analysis_jit = DecisionAnalysis(nb_array=data, backend="jax", use_jit=True)
+
+# Compare performance
+import time
+
+# NumPy backend
+start = time.time()
+evpi_numpy = analysis_numpy.evpi()
+time_numpy = time.time() - start
+
+# JAX backend
+start = time.time()
+evpi_jax = analysis_jax.evpi()
+time_jax = time.time() - start
+
+# JAX backend with JIT
+start = time.time()
+evpi_jax_jit = analysis_jit.evpi()
+time_jax_jit = time.time() - start
+
+print(f"NumPy: {time_numpy:.4f}s")
+print(f"JAX: {time_jax:.4f}s")
+print(f"JAX + JIT: {time_jax_jit:.4f}s")
+```
+
+#### Performance Benefits of JAX
+
+The JAX backend provides several performance benefits:
+
+1. **Just-In-Time (JIT) Compilation**: Functions are compiled to optimized machine code
+2. **Vectorization**: Operations are automatically vectorized for better performance
+3. **GPU/TPU Support**: Can leverage accelerators when available
+4. **Automatic Differentiation**: Enables gradient-based optimizations
+
+#### When to Use JAX
+
+Consider using the JAX backend when:
+
+- Working with large datasets (>10,000 samples)
+- Performing repeated calculations
+- You have access to GPU/TPU hardware
+- You need maximum computational performance
+
+#### Installation Requirements
+
+To use the JAX backend, you need to install JAX:
+
+```bash
+pip install jax jaxlib
 ```
 
 ## Parallel Processing
@@ -157,3 +208,5 @@ print(f"Subsampled EVPI: {time2:.2f}s")
 3. **Optimize Iteratively**: Make incremental improvements based on profiling results
 4. **Use Appropriate Hardware**: Ensure you're using appropriate hardware for your analysis needs
 5. **Cache Results**: Cache expensive computations when possible
+6. **Leverage JAX**: For large-scale analyses, consider using the JAX backend with JIT compilation
+7. **Monitor Memory**: Keep an eye on memory usage, especially with large datasets

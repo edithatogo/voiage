@@ -1,0 +1,9 @@
+# Export all functions
+exportPattern("^[[:alpha:]]+")
+
+# Import from reticulate
+importFrom(reticulate, import)
+importFrom(reticulate, py_module_available)
+importFrom(reticulate, py_config)
+importFrom(reticulate, use_virtualenv)
+importFrom(reticulate, use_condaenv)

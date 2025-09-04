@@ -1,0 +1,23 @@
+Package: voiageR
+Type: Package
+Title: Value of Information Analysis in R
+Version: 0.1.0
+Author: voiage Development Team
+Maintainer: voiage Development Team <voiage-dev@example.com>
+Description: An R interface to the voiage Python library for Value of Information analysis. 
+    Provides functions for calculating Expected Value of Perfect Information (EVPI), 
+    Expected Value of Partial Perfect Information (EVPPI), and Expected Value of 
+    Sample Information (EVSI).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+SystemRequirements: Python (>= 3.8)
+Imports:
+    reticulate (>= 1.20),
+    methods
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
