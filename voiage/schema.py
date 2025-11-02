@@ -58,6 +58,33 @@ class ValueArray:
         """Return the names of the strategies."""
         return [str(name) for name in self.dataset["strategy"].values]
 
+    @staticmethod
+    def from_numpy(nb_array: np.ndarray) -> "ValueArray":
+        """Create a ValueArray from a numpy array.
+
+        Args:
+            nb_array: 2D numpy array of shape (n_samples, n_strategies) containing net benefit values
+
+        Returns
+        -------
+            ValueArray: A ValueArray instance
+        """
+        if nb_array.ndim != 2:
+            raise InputError(f"`nb_array` must be 2D. Got {nb_array.ndim}D array.")
+
+        n_samples, n_strategies = nb_array.shape
+        strategy_names = [f"Strategy_{i}" for i in range(n_strategies)]
+
+        dataset = xr.Dataset(
+            {"net_benefit": (("n_samples", "n_strategies"), nb_array)},
+            coords={
+                "n_samples": np.arange(n_samples),
+                "n_strategies": np.arange(n_strategies),
+                "strategy": ("n_strategies", strategy_names),
+            },
+        )
+        return ValueArray(dataset=dataset)
+
 
 @dataclass(frozen=True)
 class ParameterSet:
@@ -88,6 +115,64 @@ class ParameterSet:
     def parameter_names(self: "ParameterSet") -> List[str]:
         """Return the names of the parameters."""
         return list(self.dataset.data_vars.keys())
+
+    @staticmethod
+    def from_numpy_or_dict(params) -> "ParameterSet":
+        """Create a ParameterSet from a dictionary of numpy arrays or a numpy array.
+
+        Args:
+            params: Dictionary mapping parameter names to numpy arrays of samples,
+                   or a single numpy array (which will be treated as separate parameters)
+
+        Returns
+        -------
+            ParameterSet: A ParameterSet instance
+        """
+        if isinstance(params, dict):
+            # Dictionary of parameter names to arrays
+            n_samples = None
+            for name, arr in params.items():
+                if n_samples is None:
+                    n_samples = len(arr)
+                elif len(arr) != n_samples:
+                    raise InputError(
+                        f"All parameter arrays must have the same number of samples. "
+                        f"Parameter '{name}' has {len(arr)} samples, but previous parameters had {n_samples}."
+                    )
+
+            dataset = xr.Dataset(
+                {name: (("n_samples",), arr) for name, arr in params.items()},
+                coords={"n_samples": np.arange(n_samples)},
+            )
+        elif isinstance(params, np.ndarray):
+            # 2D numpy array where each column is a parameter
+            if params.ndim == 1:
+                # Single parameter
+                dataset = xr.Dataset(
+                    {"param0": (("n_samples",), params)},
+                    coords={"n_samples": np.arange(len(params))},
+                )
+            elif params.ndim == 2:
+                # Multiple parameters
+                n_samples, n_params = params.shape
+                param_names = [f"param_{i}" for i in range(n_params)]
+                dataset = xr.Dataset(
+                    {
+                        name: (("n_samples",), params[:, i])
+                        for i, name in enumerate(param_names)
+                    },
+                    coords={"n_samples": np.arange(n_samples)},
+                )
+            else:
+                raise InputError(
+                    f"`params` array must be 1D or 2D. Got {params.ndim}D array."
+                )
+        else:
+            raise InputError(
+                f"`params` must be a dictionary or numpy array. Got {type(params)}."
+            )
+
+        return ParameterSet(dataset=dataset)
 
 
 @dataclass(frozen=True)

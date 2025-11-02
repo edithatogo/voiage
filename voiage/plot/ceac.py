@@ -114,7 +114,7 @@ def plot_ceac(
         )
 
     if ax is None:
-        fig, ax = plt.subplots()
+        _fig, ax = plt.subplots()
 
     prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
 

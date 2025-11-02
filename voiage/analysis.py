@@ -148,6 +148,7 @@ class DecisionAnalysis:
 
     def evppi(
         self,
+        parameters_of_interest: list[str],
         population: Optional[float] = None,
         time_horizon: Optional[float] = None,
         discount_rate: Optional[float] = None,
@@ -166,6 +167,7 @@ class DecisionAnalysis:
         on the parameter(s) p, usually estimated via regression.
 
         Args:
+            parameters_of_interest (list[str]): List of parameter names to analyze.
             population (Optional[float]): Population size for scaling.
             time_horizon (Optional[float]): Time horizon for scaling.
             discount_rate (Optional[float]): Discount rate for scaling.
@@ -197,6 +199,19 @@ class DecisionAnalysis:
                 "`parameter_samples` must be provided for EVPPI calculation."
             )
 
+        if not isinstance(parameters_of_interest, list):
+            raise InputError(
+                "`parameters_of_interest` must be a list of parameter names."
+            )
+
+        # Validate that all parameters of interest exist in the parameter set
+        param_names = self.parameter_samples.parameter_names
+        for param in parameters_of_interest:
+            if param not in param_names:
+                raise InputError(
+                    "All `parameters_of_interest` must be in the ParameterSet"
+                )
+
         nb_values = self.nb_array.values
         check_input_array(nb_values, expected_ndim=2, name="nb_array")
         n_samples, n_strategies = nb_values.shape
@@ -208,7 +223,13 @@ class DecisionAnalysis:
         if n_samples == 0:
             raise InputError("`nb_array` cannot be empty (no samples).")
 
-        x = self._get_parameter_samples_as_ndarray()
+        x_all = self._get_parameter_samples_as_ndarray()
+
+        # Select only the columns corresponding to parameters of interest
+        x_indices = [
+            i for i, name in enumerate(param_names) if name in parameters_of_interest
+        ]
+        x = x_all[:, x_indices]
 
         if n_regression_samples is not None:
             if not isinstance(n_regression_samples, int) or n_regression_samples <= 0:
