@@ -4,11 +4,11 @@ import numpy as np
 import pytest
 
 from voiage.healthcare.utilities import (
+    aggregate_qaly_over_time,
     calculate_qaly,
     discount_qaly,
-    aggregate_qaly_over_time,
+    disease_progression_model,
     markov_cohort_model,
-    disease_progression_model
 )
 
 
@@ -18,7 +18,7 @@ def test_calculate_qaly():
     utilities = [0.8, 0.8, 0.8]
     time_periods = [1, 1, 1]
     qaly = calculate_qaly(utilities, time_periods, 0.03)
-    
+
     # Expected: 0.8 * 1 / (1.03^0.5) + 0.8 * 1 / (1.03^1.5) + 0.8 * 1 / (1.03^2.5)
     expected_qaly = (
         0.8 / (1.03 ** 0.5) +
@@ -34,7 +34,7 @@ def test_calculate_qaly_variable_utilities():
     utilities = [0.9, 0.7, 0.5, 0.3]
     time_periods = [1, 1, 1, 1]
     qaly = calculate_qaly(utilities, time_periods, 0.03)
-    
+
     expected_qaly = (
         0.9 / (1.03 ** 0.5) +
         0.7 / (1.03 ** 1.5) +
@@ -49,14 +49,14 @@ def test_calculate_qaly_invalid_inputs():
     # Mismatched array lengths
     with pytest.raises(ValueError):
         calculate_qaly([0.8, 0.7], [1, 1, 1], 0.03)
-    
+
     # Invalid utility values
     with pytest.raises(ValueError):
         calculate_qaly([1.5, 0.7], [1, 1], 0.03)
-    
+
     with pytest.raises(ValueError):
         calculate_qaly([-0.1, 0.7], [1, 1], 0.03)
-    
+
     # Negative discount rate
     with pytest.raises(ValueError):
         calculate_qaly([0.8, 0.7], [1, 1], -0.01)
@@ -76,9 +76,9 @@ def test_aggregate_qaly_over_time():
         "new_treatment": np.array([0.85, 0.82, 0.8, 0.78, 1.0])
     }
     time_points = np.array([0, 1, 2, 3, 4])
-    
+
     results = aggregate_qaly_over_time(utility_trajectories, time_points, 0.03)
-    
+
     assert "standard_care" in results
     assert "new_treatment" in results
     assert results["new_treatment"] > results["standard_care"]
@@ -92,17 +92,17 @@ def test_markov_cohort_model():
         [0.1, 0.8, 0.1],    # Sick -> Healthy, Sick, Dead
         [0.0, 0.0, 1.0]     # Dead -> Dead (absorbing state)
     ])
-    
+
     initial_state = np.array([1.0, 0.0, 0.0])  # All start healthy
-    
+
     trajectories = markov_cohort_model(transition_matrix, initial_state, 10)
-    
+
     # Should have 11 time points (0-10)
     assert trajectories.shape == (11, 3)
-    
+
     # Initial state should be correct
     assert np.allclose(trajectories[0], [1.0, 0.0, 0.0])
-    
+
     # All rows should sum to 1 (probability distribution)
     for row in trajectories:
         assert abs(np.sum(row) - 1.0) < 1e-10
@@ -116,12 +116,12 @@ def test_disease_progression_model():
         "sick": {"healthy": 0.05, "sick": 0.8, "dead": 0.15},
         "dead": {"dead": 1.0}
     }
-    
+
     transition_matrix = disease_progression_model(base_transitions)
-    
+
     # Should be 3x3 matrix
     assert transition_matrix.shape == (3, 3)
-    
+
     # Rows should sum to 1
     for i in range(3):
         assert abs(np.sum(transition_matrix[i]) - 1.0) < 1e-10
@@ -134,7 +134,7 @@ def test_disease_progression_model_with_covariates():
         "sick": {"healthy": 0.05, "sick": 0.8, "dead": 0.15},
         "dead": {"dead": 1.0}
     }
-    
+
     covariates = {"treatment": 1.0}
     covariate_effects = {
         "treatment": {
@@ -142,11 +142,11 @@ def test_disease_progression_model_with_covariates():
             ("healthy", "sick"): -0.3   # Treatment decreases sickness rate
         }
     }
-    
+
     transition_matrix = disease_progression_model(
         base_transitions, covariates, covariate_effects
     )
-    
+
     # Should still be valid transition matrix
     assert transition_matrix.shape == (3, 3)
     for i in range(3):

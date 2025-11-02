@@ -8,9 +8,10 @@ import numpy as np
 import pytest
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.schema import ParameterSet as PSASample, TrialDesign
 from voiage.exceptions import InputError
 from voiage.methods.sample_information import enbs
+from voiage.schema import ParameterSet as PSASample
+from voiage.schema import TrialDesign
 
 # --- Dummy components for EVSI testing ---
 
@@ -110,8 +111,8 @@ def test_evsi_regression_method_not_implemented(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ):
     """Test that the regression method for EVSI raises a NotImplementedError."""
-    import voiage.methods.sample_information as si_module
     from voiage.exceptions import VoiageNotImplementedError
+    import voiage.methods.sample_information as si_module
     from voiage.methods.sample_information import evsi
 
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
@@ -139,10 +140,9 @@ def test_evsi_regression_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi)
 
 def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi):
     """Test EVSI with various invalid inputs before it hits method implementation."""
-    from voiage.methods.sample_information import evsi
     from voiage.exceptions import InputError
-    from voiage.schema import ParameterSet, TrialDesign
-    
+    from voiage.methods.sample_information import evsi
+
     # Invalid model_func
     with pytest.raises(InputError, match="`model_func` must be a callable function"):
         evsi(

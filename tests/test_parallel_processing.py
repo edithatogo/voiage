@@ -1,16 +1,15 @@
 """Tests for parallel processing utilities in Value of Information analysis."""
 
 import numpy as np
-import pytest
+import xarray as xr
 
 from voiage.parallel.monte_carlo import (
-    parallel_monte_carlo_simulation,
-    parallel_evsi_calculation,
+    _monte_carlo_worker,
     parallel_bootstrap_sampling,
-    _monte_carlo_worker
+    parallel_evsi_calculation,
+    parallel_monte_carlo_simulation,
 )
-from voiage.schema import ParameterSet, TrialDesign, DecisionOption, ValueArray
-import xarray as xr
+from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
 
 
 def simple_model_func(params):
@@ -23,18 +22,18 @@ def simple_model_func(params):
         # Handle case where params might be a dict or other structure
         mean_treatment = params.get('mean_treatment', np.array([0.0]))
         mean_control = params.get('mean_control', np.array([0.0]))
-    
+
     # Ensure we're working with arrays
     if not isinstance(mean_treatment, np.ndarray):
         mean_treatment = np.array([mean_treatment])
     if not isinstance(mean_control, np.ndarray):
         mean_control = np.array([mean_control])
-    
+
     # Calculate net benefits (simplified)
     # Assuming treatment is better when mean is higher
     nb_treatment = mean_treatment
     nb_control = mean_control
-    
+
     # Stack to create ValueArray-compatible structure
     nb_values = np.column_stack([nb_control, nb_treatment]).astype(np.float64)
     return ValueArray.from_numpy(nb_values)
@@ -53,19 +52,19 @@ def test_monte_carlo_worker():
         'mean_control': np.array([0.5, 0.6, 0.4, 0.5], dtype=np.float64),
         'sd_outcome': np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params_data.items()},
         coords={"n_samples": np.arange(len(params_data['mean_treatment']))},
     )
     psa_prior = ParameterSet(dataset=dataset)
-    
+
     # Create simple trial design
     trial_design = TrialDesign(arms=[
         DecisionOption(name="Treatment", sample_size=50),
         DecisionOption(name="Control", sample_size=50)
     ])
-    
+
     # Test the worker function
     expected_max_nb, n_processed = _monte_carlo_worker(
         worker_id=0,
@@ -75,7 +74,7 @@ def test_monte_carlo_worker():
         n_simulations=10,
         seed_offset=0
     )
-    
+
     # Check that we got valid results
     assert isinstance(expected_max_nb, float)
     assert n_processed == 10
@@ -90,19 +89,19 @@ def test_parallel_monte_carlo_simulation():
         'mean_control': np.array([0.5, 0.6, 0.4, 0.5], dtype=np.float64),
         'sd_outcome': np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params_data.items()},
         coords={"n_samples": np.arange(len(params_data['mean_treatment']))},
     )
     psa_prior = ParameterSet(dataset=dataset)
-    
+
     # Create trial design
     trial_design = TrialDesign(arms=[
         DecisionOption(name="Treatment", sample_size=50),
         DecisionOption(name="Control", sample_size=50)
     ])
-    
+
     # Test parallel Monte Carlo simulation
     result = parallel_monte_carlo_simulation(
         model_func=simple_model_func,
@@ -112,7 +111,7 @@ def test_parallel_monte_carlo_simulation():
         n_workers=2,
         use_processes=True
     )
-    
+
     # Check that we got a valid result
     assert isinstance(result, float)
     assert result >= 0
@@ -126,19 +125,19 @@ def test_parallel_evsi_calculation():
         'mean_control': np.array([0.5, 0.6, 0.4, 0.5], dtype=np.float64),
         'sd_outcome': np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params_data.items()},
         coords={"n_samples": np.arange(len(params_data['mean_treatment']))},
     )
     psa_prior = ParameterSet(dataset=dataset)
-    
+
     # Create trial design
     trial_design = TrialDesign(arms=[
         DecisionOption(name="Treatment", sample_size=50),
         DecisionOption(name="Control", sample_size=50)
     ])
-    
+
     # Test parallel EVSI calculation
     evsi_result = parallel_evsi_calculation(
         model_func=simple_model_func,
@@ -151,7 +150,7 @@ def test_parallel_evsi_calculation():
         n_workers=2,
         use_processes=True
     )
-    
+
     # Check that we got a valid result
     assert isinstance(evsi_result, float)
     assert evsi_result >= 0
@@ -161,7 +160,7 @@ def test_parallel_bootstrap_sampling():
     """Test parallel bootstrap sampling."""
     # Create test data
     data = np.random.normal(10, 2, 100).astype(np.float64)
-    
+
     # Test parallel bootstrap sampling
     result = parallel_bootstrap_sampling(
         data=data,
@@ -170,7 +169,7 @@ def test_parallel_bootstrap_sampling():
         n_workers=2,
         use_processes=True
     )
-    
+
     # Check that we got valid results
     assert isinstance(result, dict)
     assert 'mean' in result
@@ -190,19 +189,19 @@ def test_parallel_monte_carlo_with_threads():
         'mean_control': np.array([0.5, 0.6, 0.4, 0.5], dtype=np.float64),
         'sd_outcome': np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params_data.items()},
         coords={"n_samples": np.arange(len(params_data['mean_treatment']))},
     )
     psa_prior = ParameterSet(dataset=dataset)
-    
+
     # Create trial design
     trial_design = TrialDesign(arms=[
         DecisionOption(name="Treatment", sample_size=50),
         DecisionOption(name="Control", sample_size=50)
     ])
-    
+
     # Test parallel Monte Carlo simulation with threads
     result = parallel_monte_carlo_simulation(
         model_func=simple_model_func,
@@ -212,7 +211,7 @@ def test_parallel_monte_carlo_with_threads():
         n_workers=2,
         use_processes=False  # Use threads
     )
-    
+
     # Check that we got a valid result
     assert isinstance(result, float)
     assert result >= 0
@@ -222,7 +221,7 @@ def test_parallel_bootstrap_with_threads():
     """Test parallel bootstrap sampling using threads instead of processes."""
     # Create test data
     data = np.random.normal(10, 2, 100).astype(np.float64)
-    
+
     # Test parallel bootstrap sampling with threads
     result = parallel_bootstrap_sampling(
         data=data,
@@ -231,7 +230,7 @@ def test_parallel_bootstrap_with_threads():
         n_workers=2,
         use_processes=False  # Use threads
     )
-    
+
     # Check that we got valid results
     assert isinstance(result, dict)
     assert 'mean' in result

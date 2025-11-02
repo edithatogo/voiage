@@ -1,0 +1,50 @@
+project:
+  type: manuscript
+  output-dir: arxiv_output
+  article: paper.qmd
+
+format:
+  pdf:
+    template: default
+    documentclass: article
+    classoption: [12pt, letterpaper]
+    geometry: 
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    fontfamily: mathpazo
+    fontsize: 12pt
+    urlcolor: blue
+    linkcolor: blue
+    cite-method: natbib
+    biblatex: true
+    biblio-style: authoryear
+    link-citations: true
+    number-sections: true
+    toc: false
+    fig-pos: h
+    tbl-pos: h
+    engine: pdflatex
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+        \usepackage{booktabs}
+        \usepackage{longtable}
+        \usepackage{array}
+        \usepackage{multirow}
+        \usepackage{wrapfig}
+        \usepackage{float}
+        \usepackage{colortbl}
+        \usepackage{pdflscape}
+        \usepackage{tabu}
+        \usepackage{threeparttable}
+        \usepackage{threeparttablex}
+        \usepackage[normalem]{ulem}
+        \usepackage{makecell}
+        \usepackage{xcolor}
+
+execute:
+  freeze: auto

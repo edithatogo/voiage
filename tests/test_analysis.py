@@ -5,8 +5,6 @@ import pytest
 
 from voiage.analysis import DecisionAnalysis
 from voiage.schema import ValueArray as NetBenefitArray
-from voiage.methods.basic import evpi as func_evpi
-from voiage.exceptions import InputError
 
 
 def test_evpi_method():
@@ -15,7 +13,7 @@ def test_evpi_method():
     np.random.seed(42)
     data = np.random.randn(100, 3)
     value_array = NetBenefitArray.from_numpy(data)
-    
+
     analysis = DecisionAnalysis(value_array)
     evpi_result = analysis.evpi()
     assert evpi_result >= 0
@@ -33,17 +31,17 @@ def test_backend_selection():
     np.random.seed(42)
     data = np.random.randn(100, 3)
     value_array = NetBenefitArray.from_numpy(data)
-    
+
     # Test with default (NumPy) backend
     analysis_numpy = DecisionAnalysis(value_array)
     evpi_numpy = analysis_numpy.evpi()
     assert evpi_numpy >= 0
-    
+
     # Test with explicit NumPy backend
     analysis_numpy_explicit = DecisionAnalysis(value_array, backend="numpy")
     evpi_numpy_explicit = analysis_numpy_explicit.evpi()
     assert evpi_numpy_explicit >= 0
-    
+
     # Verify they're the same
     assert evpi_numpy == evpi_numpy_explicit
 
@@ -62,7 +60,7 @@ def test_jax_backend():
     np.random.seed(42)
     data = np.random.randn(100, 3)
     value_array = NetBenefitArray.from_numpy(data)
-    
+
     # Test with JAX backend
     analysis_jax = DecisionAnalysis(value_array, backend="jax")
     evpi_jax = analysis_jax.evpi()
@@ -76,15 +74,15 @@ def test_backend_consistency():
     np.random.seed(42)
     data = np.random.randn(100, 3)
     value_array = NetBenefitArray.from_numpy(data)
-    
+
     # Test with NumPy backend
     analysis_numpy = DecisionAnalysis(value_array, backend="numpy")
     evpi_numpy = analysis_numpy.evpi()
-    
+
     # Test with JAX backend
     analysis_jax = DecisionAnalysis(value_array, backend="jax")
     evpi_jax = analysis_jax.evpi()
-    
+
     # Verify they're consistent (within floating point precision)
     # Use a more reasonable tolerance for JAX/NumPy differences
     assert abs(evpi_numpy - float(evpi_jax)) < 1e-6
@@ -97,14 +95,14 @@ def test_jit_compilation():
     np.random.seed(42)
     data = np.random.randn(100, 3)
     value_array = NetBenefitArray.from_numpy(data)
-    
+
     # Test with JAX backend without JIT
     analysis_jax_no_jit = DecisionAnalysis(value_array, backend="jax", use_jit=False)
     evpi_jax_no_jit = analysis_jax_no_jit.evpi()
-    
+
     # Test with JAX backend with JIT
     analysis_jax_jit = DecisionAnalysis(value_array, backend="jax", use_jit=True)
     evpi_jax_jit = analysis_jax_jit.evpi()
-    
+
     # Verify they're consistent (within floating point precision)
     assert abs(float(evpi_jax_no_jit) - float(evpi_jax_jit)) < 1e-10

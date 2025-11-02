@@ -54,7 +54,7 @@ except ImportError:
 # pygam uses deprecated numpy aliases that were removed in numpy 2.0
 try:
     import numpy as np
-    
+
     # Add back deprecated aliases for pygam compatibility
     # These aliases were removed in numpy 2.0
     if not hasattr(np, 'int'):
@@ -65,7 +65,7 @@ try:
         np.bool = bool
     if not hasattr(np, 'complex'):
         np.complex = complex
-    
+
     # Also patch scipy sparse matrix attributes if needed
     try:
         import scipy.sparse
@@ -76,8 +76,9 @@ try:
             scipy.sparse.csr_matrix.A = property(_get_A)
     except ImportError:
         pass
-    
-    from pygam import LinearGAM, s as gam_spline
+
+    from pygam import LinearGAM
+    from pygam import s as gam_spline
     PYGAM_AVAILABLE = True
 except ImportError:
     PYGAM_AVAILABLE = False
@@ -85,8 +86,8 @@ except ImportError:
     gam_spline = None
 
 try:
-    import pymc as pm
     import arviz as az
+    import pymc as pm
     import pymc_bart as pmb
     PYMC_AVAILABLE = True
 except ImportError:
@@ -104,6 +105,7 @@ class Metamodel(Protocol):
 
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data.
+
         Parameters
         ----------
         x : ParameterSet
@@ -115,10 +117,12 @@ class Metamodel(Protocol):
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters.
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
+
         Returns
         -------
         np.ndarray
@@ -128,14 +132,14 @@ class Metamodel(Protocol):
 
     def score(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the coefficient of determination R^2 of the prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -145,14 +149,14 @@ class Metamodel(Protocol):
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -163,7 +167,7 @@ class Metamodel(Protocol):
 
 def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> dict:
     """Calculate comprehensive diagnostics for a fitted metamodel.
-    
+
     Parameters
     ----------
     model : Metamodel
@@ -172,7 +176,7 @@ def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> d
         The input parameters.
     y : np.ndarray
         The true target values.
-        
+
     Returns
     -------
     dict
@@ -190,7 +194,7 @@ def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> d
         ss_res = np.sum((y - y_pred) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
         r2 = 1 - (ss_res / ss_tot)
-    
+
     try:
         rmse = model.rmse(x, y)
     except (AttributeError, NotImplementedError):
@@ -200,18 +204,18 @@ def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> d
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
         rmse = np.sqrt(np.mean((y - y_pred) ** 2))
-    
+
     y_pred = model.predict(x)
     # Convert to numpy array if it's an xarray DataArray
     if hasattr(y_pred, "values"):
         y_pred = y_pred.values
     mae = np.mean(np.abs(y - y_pred))
-    
+
     # Calculate additional metrics
     residuals = y - y_pred
     mean_residual = np.mean(residuals)
     std_residual = np.std(residuals)
-    
+
     # Return all diagnostics
     return {
         "r2": r2,
@@ -225,7 +229,7 @@ def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> d
 
 def cross_validate(model: Metamodel, x: ParameterSet, y: np.ndarray, cv_folds: int = 5, random_state: int = 42) -> dict:
     """Perform cross-validation for a metamodel.
-    
+
     Parameters
     ----------
     model : Metamodel
@@ -238,7 +242,7 @@ def cross_validate(model: Metamodel, x: ParameterSet, y: np.ndarray, cv_folds: i
         Number of cross-validation folds.
     random_state : int, default=42
         Random state for reproducibility.
-        
+
     Returns
     -------
     dict
@@ -247,52 +251,52 @@ def cross_validate(model: Metamodel, x: ParameterSet, y: np.ndarray, cv_folds: i
     # Convert ParameterSet to numpy array
     x_np = np.array(list(x.parameters.values())).T
     n_samples = len(y)
-    
+
     # Create shuffled indices
     np.random.seed(random_state)
     indices = np.random.permutation(n_samples)
-    
+
     # Calculate fold sizes
     fold_size = n_samples // cv_folds
     remainder = n_samples % cv_folds
-    
+
     # Store results for each fold
     fold_scores = []
     fold_rmse = []
     fold_mae = []
-    
+
     # Perform cross-validation
     for fold in range(cv_folds):
         # Calculate start and end indices for test set
         start_idx = fold * fold_size + min(fold, remainder)
         end_idx = start_idx + fold_size + (1 if fold < remainder else 0)
-        
+
         # Split data into train and test sets
         test_indices = indices[start_idx:end_idx]
         train_indices = np.concatenate([indices[:start_idx], indices[end_idx:]])
-        
+
         # Create train and test ParameterSets
         train_params = {}
         test_params = {}
         for param_name, param_values in x.parameters.items():
             train_params[param_name] = ("n_samples", param_values[train_indices])
             test_params[param_name] = ("n_samples", param_values[test_indices])
-        
+
         train_x = ParameterSet(dataset=xr.Dataset(train_params))
         test_x = ParameterSet(dataset=xr.Dataset(test_params))
         train_y = y[train_indices]
         test_y = y[test_indices]
-        
+
         # Create and fit model instance
         model_instance = model()
         model_instance.fit(train_x, train_y)
-        
+
         # Calculate diagnostics on test set
         diagnostics = calculate_diagnostics(model_instance, test_x, test_y)
         fold_scores.append(diagnostics["r2"])
         fold_rmse.append(diagnostics["rmse"])
         fold_mae.append(diagnostics["mae"])
-    
+
     # Return cross-validation results
     return {
         "cv_r2_mean": np.mean(fold_scores),
@@ -310,7 +314,7 @@ def cross_validate(model: Metamodel, x: ParameterSet, y: np.ndarray, cv_folds: i
 
 def compare_metamodels(models: list, x: ParameterSet, y: np.ndarray, cv_folds: int = 5) -> dict:
     """Compare multiple metamodels using cross-validation.
-    
+
     Parameters
     ----------
     models : list
@@ -321,14 +325,14 @@ def compare_metamodels(models: list, x: ParameterSet, y: np.ndarray, cv_folds: i
         The true target values.
     cv_folds : int, default=5
         Number of cross-validation folds.
-        
+
     Returns
     -------
     dict
         A dictionary containing comparison results for all models.
     """
     results = {}
-    
+
     for model in models:
         try:
             cv_results = cross_validate(model, x, y, cv_folds)
@@ -338,19 +342,19 @@ def compare_metamodels(models: list, x: ParameterSet, y: np.ndarray, cv_folds: i
             # If a model fails, record the error
             model_name = model.__name__
             results[model_name] = {"error": str(e)}
-    
+
     return results
 
 
 class MLP:
     """A simple MLP model."""
-    
+
     def __init__(self, features: int):
         if not FLAX_AVAILABLE:
             raise ImportError("Flax is required for MLP. Please install it with `pip install flax`.")
-        
+
         self.module = flax_nn.Dense(features=features)
-    
+
     def __call__(self, x):
         # This is a placeholder - actual implementation would be in the Flax module
         pass
@@ -362,7 +366,7 @@ class FlaxMetamodel:
     def __init__(self, learning_rate=0.01, n_epochs=100):
         if not FLAX_AVAILABLE:
             raise ImportError("Flax is required for FlaxMetamodel. Please install it with `pip install flax`.")
-        
+
         self.learning_rate = learning_rate
         self.n_epochs = n_epochs
         self.state = None
@@ -407,7 +411,7 @@ class FlaxMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.state is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         ss_res = np.sum((y - y_pred) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
@@ -417,7 +421,7 @@ class FlaxMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.state is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         return np.sqrt(np.mean((y - y_pred) ** 2))
 
@@ -428,7 +432,7 @@ class TinyGPMetamodel:
     def __init__(self):
         if not TINYGP_AVAILABLE:
             raise ImportError("tinygp is required for TinyGPMetamodel. Please install it with `pip install tinygp`.")
-        
+
         self.gp = None
         self.x_train = None
 
@@ -474,7 +478,7 @@ class TinyGPMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.gp is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         ss_res = np.sum((y - y_pred) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
@@ -484,7 +488,7 @@ class TinyGPMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.gp is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         return np.sqrt(np.mean((y - y_pred) ** 2))
 
@@ -496,7 +500,7 @@ class RandomForestMetamodel:
         if not SKLEARN_AVAILABLE:
             raise ImportError("scikit-learn is required for RandomForestMetamodel. "
                             "Please install it with `pip install scikit-learn`.")
-        
+
         self.n_estimators = n_estimators
         self.max_depth = max_depth
         self.random_state = random_state
@@ -505,7 +509,7 @@ class RandomForestMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
-        
+
         self.model = RandomForestRegressor(
             n_estimators=self.n_estimators,
             max_depth=self.max_depth,
@@ -517,7 +521,7 @@ class RandomForestMetamodel:
         """Predict the target values for the given input parameters."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         return self.model.predict(x_np)
 
@@ -525,7 +529,7 @@ class RandomForestMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
         ss_res = np.sum((y - y_pred) ** 2)
@@ -536,7 +540,7 @@ class RandomForestMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
         return np.sqrt(np.mean((y - y_pred) ** 2))
@@ -549,11 +553,11 @@ class GAMMetamodel:
         if not PYGAM_AVAILABLE:
             raise ImportError("pygam is required for GAMMetamodel. "
                             "Please install it with `pip install pygam`.")
-        
+
         # Ensure n_splines is greater than the default spline_order (3)
         if n_splines <= 3:
             n_splines = 4
-        
+
         self.n_splines = n_splines
         self.lam = lam
         self.model = None
@@ -561,7 +565,7 @@ class GAMMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
-        
+
         # Create spline terms for each feature
         # For n features, we create terms like s(0) + s(1) + ... + s(n-1)
         n_features = x_np.shape[1]
@@ -572,7 +576,7 @@ class GAMMetamodel:
             terms = gam_spline(0, n_splines=self.n_splines)
             for i in range(1, n_features):
                 terms += gam_spline(i, n_splines=self.n_splines)
-        
+
         self.model = LinearGAM(terms, lam=self.lam)
         self.model.fit(x_np, y)
 
@@ -580,7 +584,7 @@ class GAMMetamodel:
         """Predict the target values for the given input parameters."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         return self.model.predict(x_np)
 
@@ -588,7 +592,7 @@ class GAMMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
         ss_res = np.sum((y - y_pred) ** 2)
@@ -599,7 +603,7 @@ class GAMMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
         return np.sqrt(np.mean((y - y_pred) ** 2))
@@ -612,7 +616,7 @@ class BARTMetamodel:
         if not PYMC_AVAILABLE:
             raise ImportError("pymc and pymc-bart are required for BARTMetamodel. "
                             "Please install them with `pip install pymc pymc-bart`.")
-        
+
         self.num_trees = num_trees
         self.alpha = alpha
         self.beta = beta
@@ -622,30 +626,30 @@ class BARTMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
-        
+
         with pm.Model() as model:
             # BART prior using pymc-bart
             mu = pmb.BART('mu', X=x_np, Y=y, m=self.num_trees)
             # Likelihood
             sigma = pm.HalfNormal('sigma', 1)
             y_obs = pm.Normal('y_obs', mu=mu, sigma=sigma, observed=y)
-            
+
             # Sample from the posterior
             self.trace = pm.sample(500, tune=500, chains=2, cores=1, random_seed=42, return_inferencedata=True)
-        
+
         self.model = model
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters."""
         if self.model is None or self.trace is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         x_np = np.array(list(x.parameters.values())).T
-        
+
         # Use the posterior predictive to make predictions
         with self.model:
             post_pred = pm.sample_posterior_predictive(self.trace, var_names=['mu'], random_seed=42)
-        
+
         # Return the mean prediction
         return np.mean(post_pred.posterior_predictive['mu'], axis=(0, 1))
 
@@ -653,7 +657,7 @@ class BARTMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.model is None or self.trace is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         # Convert to numpy array if it's an xarray DataArray
         if hasattr(y_pred, "values"):
@@ -666,7 +670,7 @@ class BARTMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.model is None or self.trace is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         # Convert to numpy array if it's an xarray DataArray
         if hasattr(y_pred, "values"):
@@ -680,7 +684,7 @@ class ActiveLearningMetamodel:
     def __init__(self, base_model, n_initial_samples=10, n_query_samples=5, acquisition_function='uncertainty'):
         """
         Initialize the active learning metamodel.
-        
+
         Parameters
         ----------
         base_model : Metamodel
@@ -690,7 +694,7 @@ class ActiveLearningMetamodel:
         n_query_samples : int, default=5
             Number of samples to query at each iteration.
         acquisition_function : str, default='uncertainty'
-            The acquisition function to use for selecting samples. 
+            The acquisition function to use for selecting samples.
             Options are 'uncertainty', 'random', 'margin'.
         """
         self.base_model = base_model
@@ -718,7 +722,7 @@ class ActiveLearningMetamodel:
         # For models that support uncertainty estimation, use that
         # For now, we'll use a simple approach based on model variance across bootstrap samples
         # or use model-specific uncertainty if available
-        
+
         # Simple approach: use prediction variance across multiple predictions
         # (this is a placeholder - real implementation would depend on the base model)
         try:
@@ -727,7 +731,7 @@ class ActiveLearningMetamodel:
             for _ in range(10):
                 pred = self.base_model.predict(self._array_to_parameterset(X_pool))
                 predictions.append(pred)
-            
+
             # Calculate variance across predictions
             pred_var = np.var(predictions, axis=0)
             return pred_var
@@ -735,7 +739,7 @@ class ActiveLearningMetamodel:
             # Fallback: use a simple distance-based uncertainty
             if self.X_train is not None:
                 # Calculate distances to existing training points
-                distances = np.min([np.linalg.norm(X_pool - x_train, axis=1) 
+                distances = np.min([np.linalg.norm(X_pool - x_train, axis=1)
                                   for x_train in self.X_train], axis=0)
                 return distances
             else:
@@ -762,7 +766,7 @@ class ActiveLearningMetamodel:
             scores = self._acquisition_margin(X_pool)
         else:
             raise ValueError(f"Unknown acquisition function: {self.acquisition_function}")
-        
+
         # Select samples with highest scores
         n_query = min(self.n_query_samples, len(X_pool))
         indices = np.argpartition(scores, -n_query)[-n_query:]
@@ -779,7 +783,7 @@ class ActiveLearningMetamodel:
         param_dict = {}
         for i in range(X_array.shape[1]):
             param_dict[f"param_{i}"] = X_array[:, i]
-        
+
         dataset = xr.Dataset(
             {k: ("n_samples", v) for k, v in param_dict.items()},
             coords={"n_samples": np.arange(n_samples)}
@@ -793,7 +797,7 @@ class ActiveLearningMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray, X_pool=None, y_pool=None, n_iterations=5) -> None:
         """
         Fit the metamodel using active learning.
-        
+
         Parameters
         ----------
         x : ParameterSet
@@ -809,27 +813,27 @@ class ActiveLearningMetamodel:
         """
         # Convert initial training data to arrays
         X_initial = self._parameterset_to_array(x)
-        
+
         # If no pool is provided, create a synthetic one for demonstration
         if X_pool is None:
             # Create a pool of random samples around the initial data
             n_pool = 1000
             X_pool = np.random.randn(n_pool, X_initial.shape[1]) * 2
             y_pool = None  # No true labels for synthetic pool
-        
+
         # Start with the initial training data
         self.X_train = X_initial
         self.y_train = y
-        
+
         # Fit the base model on initial training data
         train_param_set = self._array_to_parameterset(self.X_train)
         if self.y_train is not None and len(self.y_train) > 0:
             self.base_model.fit(train_param_set, self.y_train)
-        
+
         # Active learning loop
         for iteration in range(n_iterations):
             self.iteration = iteration + 1
-            
+
             # Select new samples to query
             if y_pool is not None:
                 # If we have true labels, we can evaluate the selection
@@ -838,28 +842,28 @@ class ActiveLearningMetamodel:
                 # Otherwise, just select based on acquisition function
                 X_new, _, new_indices = self._select_query_samples(X_pool, None)
                 y_new = None  # We don't have true labels
-            
+
             # Add new samples to training set only if we have labels for them
             if y_new is not None:
                 self.X_train = np.vstack([self.X_train, X_new])
                 self.y_train = np.hstack([self.y_train, y_new])
-            
+
             # Fit the base model on updated training data
             train_param_set = self._array_to_parameterset(self.X_train)
             if self.y_train is not None and len(self.y_train) > 0:
                 self.base_model.fit(train_param_set, self.y_train)
-        
+
         self.is_fitted = True
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """
         Predict using the actively learned metamodel.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
-            
+
         Returns
         -------
         np.ndarray
@@ -867,20 +871,20 @@ class ActiveLearningMetamodel:
         """
         if not self.is_fitted:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         return self.base_model.predict(x)
 
     def score(self, x: ParameterSet, y: np.ndarray) -> float:
         """
         Return the coefficient of determination R^2 of the prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -888,7 +892,7 @@ class ActiveLearningMetamodel:
         """
         if not self.is_fitted:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         ss_res = np.sum((y - y_pred) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
@@ -897,14 +901,14 @@ class ActiveLearningMetamodel:
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """
         Return the root mean squared error of the prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -912,7 +916,7 @@ class ActiveLearningMetamodel:
         """
         if not self.is_fitted:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         return np.sqrt(np.mean((y - y_pred) ** 2))
 
@@ -923,7 +927,7 @@ class EnsembleMetamodel:
     def __init__(self, models, method='mean'):
         """
         Initialize the ensemble metamodel.
-        
+
         Parameters
         ----------
         models : list
@@ -938,7 +942,7 @@ class EnsembleMetamodel:
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """
         Fit all metamodels in the ensemble.
-        
+
         Parameters
         ----------
         x : ParameterSet
@@ -949,7 +953,7 @@ class EnsembleMetamodel:
         # Fit all models
         for model in self.models:
             model.fit(x, y)
-        
+
         # If using weighted ensemble, compute weights based on model performance
         if self.method == 'weighted':
             scores = []
@@ -959,7 +963,7 @@ class EnsembleMetamodel:
                     scores.append(max(score, 0))  # Ensure non-negative weights
                 except:
                     scores.append(0.0)  # If scoring fails, give zero weight
-            
+
             # Normalize scores to get weights
             total_score = sum(scores)
             if total_score > 0:
@@ -971,12 +975,12 @@ class EnsembleMetamodel:
     def predict(self, x: ParameterSet) -> np.ndarray:
         """
         Predict using the ensemble of metamodels.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
-            
+
         Returns
         -------
         np.ndarray
@@ -984,13 +988,13 @@ class EnsembleMetamodel:
         """
         if not self.models:
             raise RuntimeError("No models in the ensemble.")
-        
+
         # Get predictions from all models
         predictions = []
         for model in self.models:
             pred = model.predict(x)
             predictions.append(pred)
-        
+
         # Combine predictions based on the ensemble method
         if self.method == 'mean':
             return np.mean(predictions, axis=0)
@@ -1009,14 +1013,14 @@ class EnsembleMetamodel:
     def score(self, x: ParameterSet, y: np.ndarray) -> float:
         """
         Return the coefficient of determination R^2 of the ensemble prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -1030,14 +1034,14 @@ class EnsembleMetamodel:
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """
         Return the root mean squared error of the ensemble prediction.
-        
+
         Parameters
         ----------
         x : ParameterSet
             The input parameters.
         y : np.ndarray
             The true target values.
-            
+
         Returns
         -------
         float
@@ -1054,7 +1058,7 @@ class PyTorchNNMetamodel:
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for PyTorchNNMetamodel. "
                             "Please install it with `pip install torch`.")
-        
+
         self.hidden_layers = hidden_layers
         self.learning_rate = learning_rate
         self.n_epochs = n_epochs
@@ -1068,15 +1072,15 @@ class PyTorchNNMetamodel:
         # Input layer
         layers.append(torch_nn.Linear(input_dim, self.hidden_layers[0]))
         layers.append(torch_nn.ReLU())
-        
+
         # Hidden layers
         for i in range(len(self.hidden_layers) - 1):
             layers.append(torch_nn.Linear(self.hidden_layers[i], self.hidden_layers[i+1]))
             layers.append(torch_nn.ReLU())
-        
+
         # Output layer
         layers.append(torch_nn.Linear(self.hidden_layers[-1], output_dim))
-        
+
         return torch_nn.Sequential(*layers)
 
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
@@ -1085,30 +1089,30 @@ class PyTorchNNMetamodel:
         x_np = np.array(list(x.parameters.values())).T
         x_tensor = torch.FloatTensor(x_np).to(self.device)
         y_tensor = torch.FloatTensor(y).reshape(-1, 1).to(self.device)
-        
+
         # Get input and output dimensions
         input_dim = x_tensor.shape[1]
         output_dim = y_tensor.shape[1]
-        
+
         # Build model
         self.model = self._build_model(input_dim, output_dim).to(self.device)
-        
+
         # Define loss function and optimizer
         criterion = torch_nn.MSELoss()
         optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
-        
+
         # Training loop
         self.model.train()
         for epoch in range(self.n_epochs):
             # Forward pass
             outputs = self.model(x_tensor)
             loss = criterion(outputs, y_tensor)
-            
+
             # Backward pass and optimization
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            
+
             # Print progress every 100 epochs
             if (epoch + 1) % 100 == 0:
                 print(f'Epoch [{epoch+1}/{self.n_epochs}], Loss: {loss.item():.4f}')
@@ -1117,16 +1121,16 @@ class PyTorchNNMetamodel:
         """Predict the target values for the given input parameters."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         # Convert data to torch tensor
         x_np = np.array(list(x.parameters.values())).T
         x_tensor = torch.FloatTensor(x_np).to(self.device)
-        
+
         # Make predictions
         self.model.eval()
         with torch.no_grad():
             predictions = self.model(x_tensor)
-        
+
         # Convert back to numpy array
         return predictions.cpu().numpy().flatten()
 
@@ -1134,7 +1138,7 @@ class PyTorchNNMetamodel:
         """Return the coefficient of determination R^2 of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         ss_res = np.sum((y - y_pred) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
@@ -1144,6 +1148,6 @@ class PyTorchNNMetamodel:
         """Return the root mean squared error of the prediction."""
         if self.model is None:
             raise RuntimeError("The model has not been fitted yet.")
-        
+
         y_pred = self.predict(x)
         return np.sqrt(np.mean((y - y_pred) ** 2))

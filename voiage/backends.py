@@ -49,7 +49,7 @@ class NumpyBackend(Backend):
 try:
     import jax
     import jax.numpy as jnp
-    
+
     class JaxBackend(Backend):
         """JAX-based computational backend."""
 
@@ -74,7 +74,7 @@ try:
             evpi = expected_max_nb - max_expected_nb
 
             return evpi
-            
+
         def evpi_jit(self, net_benefit_array):
             """JIT-compiled version of EVPI calculation."""
             return jax.jit(self.evpi)(net_benefit_array)

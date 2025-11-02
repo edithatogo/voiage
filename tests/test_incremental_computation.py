@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from voiage.analysis import DecisionAnalysis
-from voiage.schema import ValueArray, ParameterSet
+from voiage.schema import ParameterSet, ValueArray
 
 
 def test_incremental_evpi():
@@ -14,14 +14,14 @@ def test_incremental_evpi():
     net_benefits = np.random.randn(1000, 3) * 100
     # Make sure strategy 0 is optimal on average
     net_benefits[:, 0] += 50
-    
+
     value_array = ValueArray.from_numpy(net_benefits)
     analysis = DecisionAnalysis(value_array)
-    
+
     # Calculate EVPI with and without chunking
     evpi_standard = analysis.evpi()
     evpi_chunked = analysis.evpi(chunk_size=100)
-    
+
     # Results should be very close (allowing for small numerical differences)
     assert abs(evpi_standard - evpi_chunked) < 1e-10
 
@@ -34,22 +34,22 @@ def test_incremental_evppi():
     net_benefits = np.random.randn(n_samples, 2) * 100
     # Make strategy 0 better when param1 is small
     net_benefits[:, 0] += np.random.randn(n_samples) * 50
-    
+
     # Create parameter samples
     param_dict = {
         "param1": np.random.randn(n_samples) * 10,
         "param2": np.random.randn(n_samples) * 5
     }
     parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
-    
+
     value_array = ValueArray.from_numpy(net_benefits)
     analysis = DecisionAnalysis(value_array, parameter_set)
-    
+
     # Calculate EVPPI with and without chunking
     try:
         evppi_standard = analysis.evppi()
         evppi_chunked = analysis.evppi(chunk_size=50)
-        
+
         # Results should be very close (allowing for small numerical differences)
         assert abs(evppi_standard - evppi_chunked) < 1e-10
     except ImportError:
@@ -63,7 +63,7 @@ def test_incremental_computation_edge_cases():
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
     analysis = DecisionAnalysis(value_array)
-    
+
     # Should work even when chunk size is larger than dataset
     evpi_result = analysis.evpi(chunk_size=100)
     assert isinstance(evpi_result, float)
@@ -76,7 +76,7 @@ def test_incremental_computation_single_strategy():
     net_benefits = np.array([[100.0], [90.0], [110.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
     analysis = DecisionAnalysis(value_array)
-    
+
     # Should return 0 for single strategy
     evpi_result = analysis.evpi(chunk_size=2)
     assert evpi_result == 0.0

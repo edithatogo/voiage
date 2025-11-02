@@ -1,0 +1,47 @@
+project:
+  type: default
+
+format:
+  pdf:
+    documentclass: article
+    classoption: [10pt, twocolumn]
+    fontfamily: mathpazo
+    fontsize: 10pt
+    urlcolor: blue
+    linkcolor: blue
+    cite-method: biblatex
+    biblatex: true
+    biblio-style: authoryear
+    link-citations: true
+    number-sections: false
+    toc: false
+    fig-pos: h
+    engine: pdflatex
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+        \usepackage{booktabs}
+        \usepackage{array}
+        \usepackage{multirow}
+        \usepackage{wrapfig}
+        \usepackage{float}
+        \usepackage{colortbl}
+        \usepackage{pdflscape}
+        \usepackage{threeparttable}
+        \usepackage[normalem]{ulem}
+        \usepackage{xcolor}
+        \usepackage{geometry}
+        \geometry{margin=0.75in}
+        \usepackage{fancyhdr}
+        \pagestyle{fancy}
+        \fancyhf{}
+        \fancyhead[L]{Dylan A Mordaunt et al.}
+        \fancyhead[R]{\thepage}
+        \renewcommand{\headrulewidth}{0.4pt}
+        \usepackage{authblk}
+        \renewcommand{\Authands}{ and }
+
+execute:
+  freeze: auto

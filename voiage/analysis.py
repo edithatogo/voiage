@@ -2,10 +2,12 @@
 
 """A module for the core decision analysis interface."""
 
-from typing import Any, Dict, Optional, Union, Generator
 from collections import deque
+from typing import Any, Dict, Generator, Optional, Union
+
 import numpy as np
 
+from voiage.backends import get_backend
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
@@ -15,7 +17,6 @@ from voiage.exceptions import (
     OptionalDependencyError,
 )
 from voiage.schema import ParameterSet, ValueArray
-from voiage.backends import get_backend
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -65,46 +66,47 @@ class DecisionAnalysis:
                 )
         else:
             self.parameter_samples = None
-            
+
         # Set the computational backend
         self.backend = get_backend(backend)
         self.use_jit = use_jit
-        
+
         # Streaming data support
         self.streaming_window_size = streaming_window_size
         self._streaming_data_buffer = None
         self._streaming_parameter_buffer = None
         if streaming_window_size is not None:
             self._initialize_streaming_buffers()
-            
+
         # Caching support
         self.enable_caching = enable_caching
         self._cache = {} if enable_caching else None
-        
+
         # Track data changes to invalidate cache
         self._data_hash = self._compute_data_hash()
 
     def _compute_data_hash(self) -> int:
         """
         Compute a hash of the current data to detect changes.
-        
-        Returns:
+
+        Returns
+        -------
             int: Hash value representing the current data state
         """
         # Create a hash based on the net benefit array and parameter samples
         hash_components = []
-        
+
         # Hash net benefit array
         nb_values = self.nb_array.values
         hash_components.append(hash(nb_values.tobytes()))
-        
+
         # Hash parameter samples if they exist
         if self.parameter_samples is not None:
             if hasattr(self.parameter_samples, 'parameters') and isinstance(self.parameter_samples.parameters, dict):
                 for param_name, param_values in self.parameter_samples.parameters.items():
                     hash_components.append(hash(param_name))
                     hash_components.append(hash(param_values.tobytes()))
-        
+
         # Combine all hash components
         return hash(tuple(hash_components))
 
@@ -119,11 +121,12 @@ class DecisionAnalysis:
     def _cache_get(self, key: str) -> Optional[Any]:
         """
         Get a value from the cache.
-        
+
         Args:
             key: Cache key
-            
-        Returns:
+
+        Returns
+        -------
             Cached value or None if not found
         """
         if self.enable_caching and self._cache is not None:
@@ -134,7 +137,7 @@ class DecisionAnalysis:
     def _cache_set(self, key: str, value: Any) -> None:
         """
         Set a value in the cache.
-        
+
         Args:
             key: Cache key
             value: Value to cache
@@ -152,13 +155,13 @@ class DecisionAnalysis:
                 self._streaming_parameter_buffer = deque(maxlen=self.streaming_window_size)
 
     def update_with_new_data(
-        self, 
+        self,
         new_nb_data: Union[np.ndarray, ValueArray],
         new_parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None
     ) -> None:
         """
         Update the decision analysis with new data for streaming VOI calculations.
-        
+
         Args:
             new_nb_data: New net benefit data to add
             new_parameter_samples: New parameter samples corresponding to the net benefit data
@@ -170,17 +173,17 @@ class DecisionAnalysis:
             new_nb_values = new_nb_data
         else:
             raise InputError("`new_nb_data` must be a NumPy array or ValueArray object.")
-        
+
         # Validate dimensions
         if new_nb_values.ndim != 2:
             raise DimensionMismatchError("New net benefit data must be 2-dimensional.")
-        
+
         # If we have streaming buffers, add the new data
         if self._streaming_data_buffer is not None:
             # Add new data to buffer
             for i in range(new_nb_values.shape[0]):
                 self._streaming_data_buffer.append(new_nb_values[i:i+1, :])
-                
+
                 # If we have parameter samples, add them too
                 if new_parameter_samples is not None and self._streaming_parameter_buffer is not None:
                     # Convert parameter samples to appropriate format
@@ -192,7 +195,7 @@ class DecisionAnalysis:
                         raise InputError(
                             f"`new_parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(new_parameter_samples)}."
                         )
-                    
+
                     # Add parameter sample to buffer
                     if hasattr(param_values, 'parameters') and isinstance(param_values.parameters, dict):
                         # Extract the i-th sample for each parameter
@@ -201,7 +204,7 @@ class DecisionAnalysis:
                             if i < len(param_array):
                                 sample_dict[param_name] = param_array[i:i+1]
                         self._streaming_parameter_buffer.append(sample_dict)
-            
+
             # Update the main data arrays with buffered data
             self._update_main_arrays_from_buffer()
         else:
@@ -214,7 +217,7 @@ class DecisionAnalysis:
             # Convert buffered data to numpy array
             buffered_data = np.vstack(list(self._streaming_data_buffer))
             self.nb_array = ValueArray.from_numpy(buffered_data)
-        
+
         if self._streaming_parameter_buffer and self.parameter_samples:
             # Convert buffered parameters to ParameterSet
             if self._streaming_parameter_buffer:
@@ -225,15 +228,15 @@ class DecisionAnalysis:
                         if param_name not in combined_params:
                             combined_params[param_name] = []
                         combined_params[param_name].extend(param_value)
-                
+
                 # Convert to numpy arrays
                 for param_name, param_values in combined_params.items():
                     combined_params[param_name] = np.array(param_values)
-                
+
                 self.parameter_samples = ParameterSet.from_numpy_or_dict(combined_params)
 
     def _append_to_existing_data(
-        self, 
+        self,
         new_nb_values: np.ndarray,
         new_parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None
     ) -> None:
@@ -242,7 +245,7 @@ class DecisionAnalysis:
         current_nb_values = self.nb_array.values
         combined_nb_values = np.vstack([current_nb_values, new_nb_values])
         self.nb_array = ValueArray.from_numpy(combined_nb_values)
-        
+
         # Append to parameter samples if provided
         if new_parameter_samples is not None and self.parameter_samples is not None:
             # Convert new parameter samples to appropriate format
@@ -254,7 +257,7 @@ class DecisionAnalysis:
                 raise InputError(
                     f"`new_parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(new_parameter_samples)}."
                 )
-            
+
             # Combine parameter samples
             if hasattr(new_params, 'parameters') and isinstance(new_params.parameters, dict):
                 combined_params = {}
@@ -271,8 +274,9 @@ class DecisionAnalysis:
     def streaming_evpi(self) -> Generator[float, None, None]:
         """
         Calculate EVPI continuously as new data arrives.
-        
-        Yields:
+
+        Yields
+        ------
             float: EVPI value calculated with current data
         """
         while True:
@@ -283,8 +287,9 @@ class DecisionAnalysis:
     def streaming_evppi(self) -> Generator[float, None, None]:
         """
         Calculate EVPPI continuously as new data arrives.
-        
-        Yields:
+
+        Yields
+        ------
             float: EVPPI value calculated with current data
         """
         while True:
@@ -396,11 +401,11 @@ class DecisionAnalysis:
                 annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
 
             result = float(per_decision_evpi * population * annuity_factor)
-            
+
             # Validate result
             if not np.isfinite(result):
                 raise CalculationError(f"Calculated EVPI is not finite: {result}")
-                
+
             # Cache the result
             self._cache_set(cache_key, result)
             return result
@@ -421,44 +426,45 @@ class DecisionAnalysis:
     def _incremental_evpi(self, nb_values: np.ndarray, chunk_size: int) -> float:
         """
         Calculate EVPI incrementally in chunks to handle large datasets.
-        
+
         Args:
             nb_values: Net benefit array
             chunk_size: Size of chunks for processing
-            
-        Returns:
+
+        Returns
+        -------
             float: Calculated EVPI value
         """
         n_samples, n_strategies = nb_values.shape
-        
+
         # Initialize accumulators for incremental computation
         # For E[max(NB)] we need to track the sum of max values
         max_nb_sum = 0.0
         # For max(E[NB]) we need to track the sum for each strategy
         strategy_sums = np.zeros(n_strategies, dtype=DEFAULT_DTYPE)
-        
+
         # Process data in chunks
         n_processed = 0
         for start_idx in range(0, n_samples, chunk_size):
             end_idx = min(start_idx + chunk_size, n_samples)
             chunk = nb_values[start_idx:end_idx]
             chunk_size_actual = chunk.shape[0]
-            
+
             # Calculate max net benefit for each sample in chunk
             chunk_max_nb = np.max(chunk, axis=1)
             max_nb_sum += np.sum(chunk_max_nb)
-            
+
             # Calculate sum of net benefits for each strategy
             chunk_strategy_sums = np.sum(chunk, axis=0)
             strategy_sums += chunk_strategy_sums
-            
+
             n_processed += chunk_size_actual
-        
+
         # Calculate final results
         expected_max_nb = max_nb_sum / n_processed
         expected_nb_options = strategy_sums / n_processed
         max_expected_nb = np.max(expected_nb_options)
-        
+
         evpi = expected_max_nb - max_expected_nb
         return evpi
 
@@ -492,7 +498,7 @@ class DecisionAnalysis:
             regression_model (Optional[Any]): An unfitted scikit-learn compatible
                 regression model. If None, defaults to `sklearn.linear_model.LinearRegression`.
             chunk_size (Optional[int]): Size of chunks for incremental computation
-                of the second term (max_d E[NB_d]). If provided, data will be 
+                of the second term (max_d E[NB_d]). If provided, data will be
                 processed in chunks to reduce memory usage. Useful for large datasets.
 
         Returns
@@ -507,11 +513,11 @@ class DecisionAnalysis:
             CalculationError: For issues during calculation.
         """
         # Check cache first
-        cache_key = f"evppi_{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{str(regression_model)}"
+        cache_key = f"evppi_{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{regression_model!s}"
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
             return cached_result
-            
+
         if not SKLEARN_AVAILABLE:
             raise OptionalDependencyError(
                 "scikit-learn is required for EVPPI calculation. "
@@ -638,11 +644,11 @@ class DecisionAnalysis:
                 annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
 
             result = float(per_decision_evppi * population * annuity_factor)
-            
+
             # Validate result
             if not np.isfinite(result):
                 raise CalculationError(f"Calculated EVPPI is not finite: {result}")
-                
+
             # Cache the result
             self._cache_set(cache_key, result)
             return result
@@ -663,36 +669,37 @@ class DecisionAnalysis:
     def _incremental_max_expected_nb(self, nb_values: np.ndarray, chunk_size: int) -> float:
         """
         Calculate max(E[NB_d]) incrementally in chunks to handle large datasets.
-        
+
         Args:
             nb_values: Net benefit array
             chunk_size: Size of chunks for processing
-            
-        Returns:
+
+        Returns
+        -------
             float: Maximum expected net benefit across strategies
         """
         n_samples, n_strategies = nb_values.shape
-        
+
         # Initialize accumulators for each strategy
         strategy_sums = np.zeros(n_strategies, dtype=DEFAULT_DTYPE)
-        
+
         # Process data in chunks
         n_processed = 0
         for start_idx in range(0, n_samples, chunk_size):
             end_idx = min(start_idx + chunk_size, n_samples)
             chunk = nb_values[start_idx:end_idx]
             chunk_size_actual = chunk.shape[0]
-            
+
             # Calculate sum of net benefits for each strategy in chunk
             chunk_strategy_sums = np.sum(chunk, axis=0)
             strategy_sums += chunk_strategy_sums
-            
+
             n_processed += chunk_size_actual
-        
+
         # Calculate expected net benefit for each strategy
         expected_nb_options = strategy_sums / n_processed
         max_expected_nb = np.max(expected_nb_options)
-        
+
         return float(max_expected_nb)
 
     def _get_parameter_samples_as_ndarray(self) -> np.ndarray:

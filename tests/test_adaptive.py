@@ -6,9 +6,9 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from voiage.methods.adaptive import adaptive_evsi
-from voiage.schema import ValueArray, ParameterSet, TrialDesign, DecisionOption
 from voiage.exceptions import InputError
+from voiage.methods.adaptive import adaptive_evsi
+from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
 
 
 # Mock adaptive trial simulator for testing
@@ -20,7 +20,7 @@ def mock_adaptive_simulator(psa_samples, base_design, adaptive_rules):
     nb_values = np.random.rand(n_samples, 2) * 1000
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 100
-    
+
     dataset = xr.Dataset(
         {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
         coords={
@@ -32,7 +32,7 @@ def mock_adaptive_simulator(psa_samples, base_design, adaptive_rules):
     return ValueArray(dataset=dataset)
 
 
-@pytest.fixture
+@pytest.fixture()
 def sample_psa():
     """Create a sample ParameterSet for testing."""
     params = {
@@ -42,7 +42,7 @@ def sample_psa():
     return ParameterSet.from_numpy_or_dict(params)
 
 
-@pytest.fixture
+@pytest.fixture()
 def sample_trial_design():
     """Create a sample TrialDesign for testing."""
     arms = [
@@ -52,7 +52,7 @@ def sample_trial_design():
     return TrialDesign(arms=arms)
 
 
-@pytest.fixture
+@pytest.fixture()
 def sample_adaptive_rules():
     """Create sample adaptive rules for testing."""
     return {
@@ -71,7 +71,7 @@ def test_adaptive_evsi_basic(sample_psa, sample_trial_design, sample_adaptive_ru
         n_outer_loops=3,
         n_inner_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0  # EVSI should be non-negative
 
@@ -89,7 +89,7 @@ def test_adaptive_evsi_with_population_scaling(sample_psa, sample_trial_design, 
         n_outer_loops=3,
         n_inner_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 
@@ -104,7 +104,7 @@ def test_adaptive_evsi_input_validation(sample_psa, sample_trial_design, sample_
             base_trial_design=sample_trial_design,
             adaptive_rules=sample_adaptive_rules
         )
-    
+
     # Test invalid psa_prior
     with pytest.raises(InputError, match="`psa_prior` must be a PSASample object"):
         adaptive_evsi(
@@ -113,7 +113,7 @@ def test_adaptive_evsi_input_validation(sample_psa, sample_trial_design, sample_
             base_trial_design=sample_trial_design,
             adaptive_rules=sample_adaptive_rules
         )
-    
+
     # Test invalid base_trial_design
     with pytest.raises(InputError, match="`base_trial_design` must be a TrialDesign object"):
         adaptive_evsi(
@@ -122,7 +122,7 @@ def test_adaptive_evsi_input_validation(sample_psa, sample_trial_design, sample_
             base_trial_design="not_a_trial_design",
             adaptive_rules=sample_adaptive_rules
         )
-    
+
     # Test invalid adaptive_rules
     with pytest.raises(InputError, match="`adaptive_rules` must be a dictionary"):
         adaptive_evsi(
@@ -131,7 +131,7 @@ def test_adaptive_evsi_input_validation(sample_psa, sample_trial_design, sample_
             base_trial_design=sample_trial_design,
             adaptive_rules="not_a_dict"
         )
-    
+
     # Test invalid loop parameters
     with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
         adaptive_evsi(
@@ -141,7 +141,7 @@ def test_adaptive_evsi_input_validation(sample_psa, sample_trial_design, sample_
             adaptive_rules=sample_adaptive_rules,
             n_outer_loops=0
         )
-    
+
     with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
         adaptive_evsi(
             adaptive_trial_simulator=mock_adaptive_simulator,
@@ -164,7 +164,7 @@ def test_adaptive_evsi_population_scaling_validation(sample_psa, sample_trial_de
             population=0,
             time_horizon=10
         )
-    
+
     # Test invalid time_horizon
     with pytest.raises(InputError, match="Time horizon must be positive"):
         adaptive_evsi(
@@ -175,7 +175,7 @@ def test_adaptive_evsi_population_scaling_validation(sample_psa, sample_trial_de
             population=1000,
             time_horizon=0
         )
-    
+
     # Test invalid discount_rate
     with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
         adaptive_evsi(
@@ -200,7 +200,7 @@ def test_adaptive_evsi_edge_cases(sample_psa, sample_trial_design, sample_adapti
         n_outer_loops=1,
         n_inner_loops=1
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 

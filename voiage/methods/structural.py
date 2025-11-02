@@ -18,9 +18,9 @@ from typing import Callable, List, Optional, Union
 
 import numpy as np
 
-from voiage.schema import ValueArray as NetBenefitArray, ParameterSet as PSASample
 from voiage.exceptions import InputError
-
+from voiage.schema import ParameterSet as PSASample
+from voiage.schema import ValueArray as NetBenefitArray
 
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
@@ -82,24 +82,24 @@ def structural_evpi(
     if len(model_structure_evaluators) != len(structure_probabilities) or \
        len(model_structure_evaluators) != len(psa_samples_per_structure):
         raise InputError("Input lists for structures, probabilities, and PSA samples must have the same length.")
-    
+
     # Handle empty lists case
     if not model_structure_evaluators:
         return 0.0  # No structural uncertainty if no alternative structures
-        
+
     if not np.isclose(np.sum(structure_probabilities), 1.0):
         raise InputError("Structure probabilities must sum to 1.")
 
     # Convert to numpy arrays for easier handling
     prob_arr = np.asarray(structure_probabilities, dtype=float)
-    
+
     # --- Calculation ---
     n_structures = len(model_structure_evaluators)
     n_strategies = -1 # Determine from first model output, assume consistent for now
 
     # Store E_theta|S [max_d NB(d, theta, S)] for each structure S
     expected_max_nb_given_structure_S = [] # List of floats
-    
+
     # Store E_theta|S [NB(d, theta, S)] for each structure S and decision d
     expected_nb_given_structure_S_decision_d = [] # List of arrays (n_strategies)
 
@@ -215,30 +215,30 @@ def structural_evppi(
     if len(model_structure_evaluators) != len(structure_probabilities) or \
        len(model_structure_evaluators) != len(psa_samples_per_structure):
         raise InputError("Input lists for structures, probabilities, and PSA samples must have the same length.")
-    
+
     # Handle empty lists case
     if not model_structure_evaluators:
         return 0.0  # No structural uncertainty if no alternative structures
-        
+
     if not np.isclose(np.sum(structure_probabilities), 1.0):
         raise InputError("Structure probabilities must sum to 1.")
-        
+
     # Validate structures_of_interest
     if not structures_of_interest:
         return 0.0  # If no structures of interest, EVPPI is 0
     if not all(isinstance(i, int) and 0 <= i < len(model_structure_evaluators) for i in structures_of_interest):
         raise InputError("structures_of_interest must contain valid indices.")
-    
+
     # Convert to numpy arrays for easier handling
     prob_arr = np.asarray(structure_probabilities, dtype=float)
-    
+
     # --- Calculation ---
     n_structures = len(model_structure_evaluators)
     n_strategies = -1 # Determine from first model output, assume consistent for now
 
     # Store E_theta|S [max_d NB(d, theta, S)] for each structure S
     expected_max_nb_given_structure_S = [] # List of floats
-    
+
     # Store E_theta|S [NB(d, theta, S)] for each structure S and decision d
     expected_nb_given_structure_S_decision_d = [] # List of arrays (n_strategies)
 
@@ -262,18 +262,18 @@ def structural_evppi(
         expected_max_nb_given_structure_S.append(expected_max_nb_S)
 
     # For SEVPPI, we need to calculate:
-    # SEVPPI = E_S_known [max_d E_{S_unknown|S_known} [max_d' E_theta|S_known,S_unknown [NB(d', theta, S_known,S_unknown)]]] 
+    # SEVPPI = E_S_known [max_d E_{S_unknown|S_known} [max_d' E_theta|S_known,S_unknown [NB(d', theta, S_known,S_unknown)]]]
     #          - max_d E_S_known [E_{S_unknown|S_known} [E_theta|S_known,S_unknown [NB(d, theta, S_known,S_unknown)]]]
-    
+
     # Partition structures into those of interest (known) and others (unknown)
     structures_known = structures_of_interest
     structures_unknown = [i for i in range(n_structures) if i not in structures_known]
-    
+
     # If all structures are of interest, this becomes SEVPI
     if len(structures_known) == n_structures:
         return structural_evpi(model_structure_evaluators, structure_probabilities, psa_samples_per_structure,
                               population, discount_rate, time_horizon)
-    
+
     # If no structures are of interest to learn about, EVPPI is 0 (handled above)
     if len(structures_known) == 0:
         return 0.0
@@ -281,32 +281,32 @@ def structural_evppi(
     # Calculate conditional probabilities
     prob_known = np.sum(prob_arr[structures_known])
     prob_unknown = np.sum(prob_arr[structures_unknown])
-    
+
     if prob_known == 0:
         return 0.0  # No probability assigned to structures of interest
-    
+
     # Normalize probabilities within each partition
     prob_known_normalized = prob_arr[structures_known] / prob_known
     prob_unknown_normalized = prob_arr[structures_unknown] / prob_unknown if prob_unknown > 0 else np.array([])
-    
+
     # Term 1: E_S_known [max_d E_{S_unknown|S_known} [max_d' E_theta|S_known,S_unknown [NB(d', theta, S)]]]
     term1_evppi = 0.0
-    
+
     # For each known structure, calculate the expected value with optimal decision
     for i in structures_known:
         # This is just E_theta|S [max_d NB(d, theta, S)] for structure i
         term1_evppi += prob_known_normalized[structures_known.index(i)] * expected_max_nb_given_structure_S[i]
-    
+
     # Term 2: max_d E_S_known [E_{S_unknown|S_known} [E_theta|S_known,S_unknown [NB(d, theta, S)]]]
     # Calculate the overall expected NB for each decision d, averaging over structures
     all_expected_nb_d_S = np.array(expected_nb_given_structure_S_decision_d) # (n_structures, n_strategies)
-    
+
     # Weighted average over known structures
     weighted_avg_nb_d_known = np.sum(
         prob_known_normalized[:, np.newaxis] * all_expected_nb_d_S[structures_known],
         axis=0
     ) # Shape (n_strategies,)
-    
+
     term2_evppi = np.max(weighted_avg_nb_d_known)
 
     per_decision_sevppi = term1_evppi - term2_evppi
@@ -346,23 +346,23 @@ def structural_evppi(
 
 if __name__ == "__main__":
     print("--- Testing structural.py ---")
-    
+
     # Test with simple example
     # Create mock model structure evaluators
     def mock_evaluator1(psa_sample):
         # Simple evaluator that returns fixed net benefits
         values = np.array([[10, 5], [8, 7], [12, 3]])  # 3 samples, 2 strategies
         return NetBenefitArray.from_numpy(values, ["Strategy A", "Strategy B"])
-    
+
     def mock_evaluator2(psa_sample):
         # Another simple evaluator
         values = np.array([[6, 9], [7, 8], [5, 10]])  # 3 samples, 2 strategies
         return NetBenefitArray.from_numpy(values, ["Strategy A", "Strategy B"])
-    
+
     # Create mock PSA samples
     psa1 = PSASample.from_numpy_or_dict({"param1": np.array([1, 2, 3]), "param2": np.array([4, 5, 6])})
     psa2 = PSASample.from_numpy_or_dict({"param1": np.array([7, 8, 9]), "param2": np.array([10, 11, 12])})
-    
+
     # Test structural_evpi
     try:
         result = structural_evpi(
@@ -373,7 +373,7 @@ if __name__ == "__main__":
         print(f"structural_evpi result: {result}")
     except Exception as e:
         print(f"Error in structural_evpi: {e}")
-    
+
     # Test structural_evppi
     try:
         result = structural_evppi(
@@ -385,5 +385,5 @@ if __name__ == "__main__":
         print(f"structural_evppi result: {result}")
     except Exception as e:
         print(f"Error in structural_evppi: {e}")
-    
+
     print("--- structural.py tests completed ---")

@@ -57,28 +57,29 @@ class ValueArray:
     def strategy_names(self: "ValueArray") -> List[str]:
         """Return the names of the strategies."""
         return [str(name) for name in self.dataset["strategy"].values]
-    
+
     @classmethod
     def from_numpy(cls, values: np.ndarray, strategy_names: Optional[List[str]] = None) -> "ValueArray":
         """Create a ValueArray from a numpy array.
-        
+
         Args:
             values: A 2D numpy array of shape (n_samples, n_strategies)
             strategy_names: Optional list of strategy names
-        
-        Returns:
+
+        Returns
+        -------
             ValueArray: A new ValueArray instance
         """
         if values.ndim != 2:
             raise InputError("values must be a 2D array")
-        
+
         n_samples, n_strategies = values.shape
-        
+
         if strategy_names is None:
             strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
         elif len(strategy_names) != n_strategies:
             raise InputError(f"strategy_names must have {n_strategies} elements")
-        
+
         import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
@@ -120,20 +121,21 @@ class ParameterSet:
     def parameter_names(self: "ParameterSet") -> List[str]:
         """Return the names of the parameters."""
         return list(self.dataset.data_vars.keys())
-    
+
     @classmethod
     def from_numpy_or_dict(cls, parameters: Union[np.ndarray, Dict[str, np.ndarray]]) -> "ParameterSet":
         """Create a ParameterSet from a numpy array or dictionary.
-        
+
         Args:
             parameters: Either a 2D numpy array of shape (n_samples, n_parameters)
                        or a dictionary mapping parameter names to 1D numpy arrays
-        
-        Returns:
+
+        Returns
+        -------
             ParameterSet: A new ParameterSet instance
         """
         import xarray as xr
-        
+
         if isinstance(parameters, np.ndarray):
             if parameters.ndim != 2:
                 raise InputError("parameters array must be 2D")
@@ -162,7 +164,7 @@ class ParameterSet:
             )
         else:
             raise InputError("parameters must be a numpy array or dictionary")
-        
+
         return cls(dataset=dataset)
 
 

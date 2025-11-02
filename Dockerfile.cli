@@ -1,0 +1,24 @@
+# Use Python 3.9 slim image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements files
+COPY requirements.txt .
+COPY pyproject.toml .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -e .
+
+# Copy source code
+COPY . .
+
+# Set entrypoint to voiage CLI
+ENTRYPOINT ["voiage"]
+CMD ["--help"]

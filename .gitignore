@@ -127,3 +127,22 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# AI-generated working files and paper development
+/paper/.quarto/
+/paper/_freeze/
+/paper/_site/
+/paper/*.html
+/paper/*.pdf
+/paper/*.tex
+/paper/*.log
+/paper/*.aux
+/paper/*.bbl
+/paper/*.blg
+/paper/*.fls
+/paper/*.fdb_latexmk
+/paper/*.synctex.gz
+/paper/Untitled*.ipynb
+/paper/ai_working_*.py
+/paper/ai_*.txt
+/paper/.quarto-wrapped/

@@ -1,7 +1,8 @@
 # voiage: A Python Library for Value of Information Analysis
 
 [![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
-[![Build Status](https://github.com/search?q=repo%3Adoughnut%2Fvoiage+workflow%3ACI&type=code)](https://github.com/doughnut/voiage/actions/workflows/ci.yml)
+[![Build Status](https://github.com/doughnut/voiage/actions/workflows/ci.yml/badge.svg)](https://github.com/doughnut/voiage/actions/workflows/ci.yml)
+[![Security Status](https://github.com/doughnut/voiage/actions/workflows/security.yml/badge.svg)](https://github.com/doughnut/voiage/actions/workflows/security.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
@@ -72,6 +73,17 @@ For more detailed examples and tutorials, please see the [documentation](https:/
 ## Contributing
 
 `voiage` is an open-source project, and we welcome contributions from the community. If you'd like to contribute, please see our [contributing guidelines](CONTRIBUTING.md).
+
+## Security
+
+This project follows security best practices with:
+- Automated dependency vulnerability scanning with `safety`
+- Static code analysis for security issues with `bandit`
+- Regular dependency updates via Dependabot
+- Security policy for responsible vulnerability disclosure
+- Continuous security monitoring with monthly scans
+
+For more information, see our [Security Policy](SECURITY.md).
 
 ## License
 
