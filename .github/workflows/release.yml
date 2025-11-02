@@ -1,0 +1,102 @@
+name: Release to TestPyPI and GitHub
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 0.2.0)'
+        required: true
+      prerelease:
+        description: 'Mark as prerelease'
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine setuptools wheel
+
+    - name: Extract version from tag or input
+      id: version
+      run: |
+        if [[ "${{ github.event_name }}" == "push" ]]; then
+          # Remove 'v' prefix from tag
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+        else
+          VERSION="${{ github.event.inputs.version }}"
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Update version in pyproject.toml
+      run: |
+        # Use sed to update the version in pyproject.toml
+        sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+
+    - name: Build package
+      run: python -m build
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: voiage-${{ env.VERSION }}-dist
+        path: dist/
+
+    - name: Publish package distributions to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
+
+    - name: Generate release notes
+      run: |
+        # Simple release notes generation
+        echo "# voiage Release v${{ env.VERSION }}" > RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## What's Changed" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "For a complete list of changes, please see the [CHANGELOG.md](CHANGELOG.md) file." >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## Installation" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "You can install this release with:" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo '```bash' >> RELEASE_NOTES.md
+        echo 'pip install --index-url https://test.pypi.org/simple/ voiage==$VERSION' >> RELEASE_NOTES.md
+        echo '```' >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## Files Included" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        ls -la dist/ >> RELEASE_NOTES.md
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ env.VERSION }}
+        name: voiage v${{ env.VERSION }}
+        body_path: RELEASE_NOTES.md
+        draft: false
+        prerelease: ${{ github.event.inputs.prerelease || false }}
+        files: |
+          dist/*.tar.gz
+          dist/*.whl
