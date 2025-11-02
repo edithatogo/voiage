@@ -117,7 +117,7 @@ class ParameterSet:
         return list(self.dataset.data_vars.keys())
 
     @staticmethod
-    def from_numpy_or_dict(params: Dict[str, np.ndarray]) -> "ParameterSet":
+    def from_numpy_or_dict(params) -> "ParameterSet":
         """Create a ParameterSet from a dictionary of numpy arrays or a numpy array.
 
         Args:

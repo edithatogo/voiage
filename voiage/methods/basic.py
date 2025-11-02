@@ -94,6 +94,7 @@ def evpi(
 def evppi(
     nb_array: Union[np.ndarray, "NetBenefitArray"],
     parameter_samples: Union[np.ndarray, "PSASample", Dict[str, np.ndarray]],
+    parameters_of_interest: list[str],
     population: Optional[float] = None,
     time_horizon: Optional[float] = None,
     discount_rate: Optional[float] = None,
@@ -109,6 +110,7 @@ def evppi(
         nb_array (Union[np.ndarray, NetBenefitArray]): Net benefit array.
         parameter_samples (Union[np.ndarray, PSASample, Dict[str, np.ndarray]]):
             Samples of the parameter(s) of interest.
+        parameters_of_interest (list[str]): List of parameter names to analyze.
         population (Optional[float]): Population size for scaling.
         time_horizon (Optional[float]): Time horizon for scaling.
         discount_rate (Optional[float]): Discount rate for scaling.
@@ -123,6 +125,7 @@ def evppi(
 
     analysis = DecisionAnalysis(nb_array=nb_array, parameter_samples=parameter_samples)
     return analysis.evppi(
+        parameters_of_interest=parameters_of_interest,
         population=population,
         time_horizon=time_horizon,
         discount_rate=discount_rate,
