@@ -138,7 +138,7 @@ class TinyGPMetamodel:
         state = opt.init(params)
 
         for _ in range(100):
-            loss_val, grads = jax.value_and_grad(loss)(params)
+            _loss_val, grads = jax.value_and_grad(loss)(params)
             updates, state = opt.update(grads, state)
             params = optax.apply_updates(params, updates)
 

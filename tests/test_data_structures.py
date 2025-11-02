@@ -32,7 +32,7 @@ class TestValueArray:
 
     def test_post_init_validations(self):
         """Test post-init validations of ValueArray."""
-        with pytest.raises(InputError, match="'dataset' must be a xarray.Dataset"):
+        with pytest.raises(InputError, match=r"'dataset' must be a xarray.Dataset"):
             ValueArray("not a dataset")
 
         with pytest.raises(InputError, match="must have a 'n_samples' dimension"):
@@ -56,7 +56,7 @@ class TestParameterSet:
 
     def test_post_init_validations(self):
         """Test post-init validations of ParameterSet."""
-        with pytest.raises(InputError, match="'dataset' must be a xarray.Dataset"):
+        with pytest.raises(InputError, match=r"'dataset' must be a xarray.Dataset"):
             ParameterSet("not a dataset")
 
 

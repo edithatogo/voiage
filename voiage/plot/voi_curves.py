@@ -74,7 +74,7 @@ def plot_evpi_vs_wtp(
         pass
 
     if ax is None:
-        fig, ax = plt.subplots()  # type: ignore
+        _fig, ax = plt.subplots()  # type: ignore
 
     ax.plot(wtp_arr, evpi_arr, **plot_kwargs)  # type: ignore
     ax.set_xlabel(xlabel)  # type: ignore
@@ -199,7 +199,7 @@ def plot_evsi_vs_sample_size(
         _plot_cost_kwargs.update(plot_cost_kwargs)
 
     if ax is None:
-        fig, ax1 = plt.subplots()  # type: ignore
+        _fig, ax1 = plt.subplots()  # type: ignore
     else:
         ax1 = ax
 
