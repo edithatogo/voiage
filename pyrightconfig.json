@@ -1,0 +1,42 @@
+{
+    "include": [
+        "voiage"
+    ],
+    "exclude": [
+        "**/__pycache__",
+        "**/node_modules",
+        ".git"
+    ],
+    "ignore": [
+        "voiage/core/gpu_acceleration.py",
+        "voiage/plot/ceac.py",
+        "voiage/plot/voi_curves.py",
+        "voiage/widgets/voi_widgets.py",
+        "voiage/web/main.py",
+        "voiage/metamodels.py"
+    ],
+    "defineConstant": {
+        "CUPY_AVAILABLE": false,
+        "JAX_AVAILABLE": false,
+        "TORCH_AVAILABLE": false,
+        "TINYGP_AVAILABLE": false,
+        "PYMC_AVAILABLE": false,
+        "SKLEARN_AVAILABLE": true,
+        "XARRAY_AVAILABLE": true,
+        "FASTAPI_AVAILABLE": false,
+        "TYPER_AVAILABLE": false
+    },
+    "stubPath": "typings",
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": "none",
+    "reportOptionalCall": "none",
+    "reportOptionalMemberAccess": "none",
+    "reportOptionalIterable": "none",
+    "reportOptionalContextManager": "none",
+    "reportOptionalOperand": "none",
+    "strictListInference": true,
+    "strictDictionaryInference": true,
+    "strictSetInference": true,
+    "strictParameterNoneValue": true,
+    "enableTypeIgnoreComments": true
+}
