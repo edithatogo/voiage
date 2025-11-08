@@ -82,7 +82,7 @@ evpi_value = evpi(psa_inputs, psa_outputs)
 print(f"EVPI: {evpi_value}")
 ```
 
-For more detailed examples and tutorials, please see the [documentation](https://voiage.readthedocs.io).
+For more detailed examples and tutorials, please see the [documentation](https://edithatogo.github.io/voiage).
 
 ## Contributing
 
