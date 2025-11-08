@@ -45,7 +45,7 @@ repos:
     -   id: mypy
         name: mypy (static type checking)
         exclude: ^voiage/plot/
-        # args: [--strict] # Add global strictness, or configure in pyproject.toml
+        args: [--python-version=3.10] # Add global strictness, or configure in pyproject.toml
         # MyPy configuration is primarily in pyproject.toml [tool.mypy]
         # If you have specific entry points or files for MyPy to check:
         # entry: mypy voiage tests
@@ -60,6 +60,9 @@ repos:
             "seaborn>=0.11",
             "typer>=0.9",
             "numpyro>=0.13", # NumPyro has its own stubs usually
+            "flax>=0.8.2",
+            "optax>=0.2.2",
+            "tinygp>=0.3.0",
             # Stubs from typeshed are often included with MyPy, but explicit ones can be added:
             "types-setuptools",
             # "types-requests", # Example if requests was a direct dependency
