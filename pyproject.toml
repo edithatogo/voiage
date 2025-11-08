@@ -73,9 +73,9 @@ plotting = ["matplotlib>=3.4", "seaborn>=0.11"]
 deep_learning = ["torch>=1.9,<3.0"]
 
 [project.urls]
-Homepage = "https://github.com/doughnut/voiage"
-Documentation = "https://voiage.readthedocs.io" # Placeholder for now, will update when RTD is set up
-Repository = "https://github.com/doughnut/voiage.git"
+Homepage = "https://github.com/edithatogo/voiage"
+Documentation = "https://edithatogo.github.io/voiage" # Updated to GitHub Pages
+Repository = "https://github.com/edithatogo/voiage.git"
 Changelog = "https://github.com/doughnut/voiage/blob/main/CHANGELOG.md"
 Issues = "https://github.com/doughnut/voiage/issues"
 

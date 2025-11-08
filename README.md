@@ -1,7 +1,7 @@
 # voiage: A Python Library for Value of Information Analysis
 
 [![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
-[![Build Status](https://github.com/search?q=repo%3Adoughnut%2Fvoiage+workflow%3ACI&type=code)](https://github.com/doughnut/voiage/actions/workflows/ci.yml)
+[![Build Status](https://github.com/search?q=repo%3Aedithatogo%2Fvoiage+workflow%3ACI&type=code)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
