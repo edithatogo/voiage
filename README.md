@@ -6,6 +6,14 @@
 
 `voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
 
+## Branch Architecture
+
+This repository uses a separated branch architecture:
+- **Main branch**: Contains only the core software library code
+- **Paper branch**: Contains the academic paper and related documentation
+
+This separation ensures a clean development environment for software changes while allowing focused development of the academic paper.
+
 ## Background: The Need for a Comprehensive VOI Tool in Python
 
 Value of Information (VOI) analysis is a powerful set of techniques used to estimate the value of collecting additional data to reduce uncertainty in decision-making. While several tools for VOI analysis exist, the current landscape has some significant gaps:
@@ -38,6 +46,13 @@ The following table compares the features of `voiage` with other common VOI soft
 *   ✔️: Implemented
 *   🚧: In Progress / Planned
 *   ❌: Not Supported
+
+## Academic Paper
+
+The academic paper describing the `voiage` library is maintained in the `paper` branch of this repository. For detailed methodological information, mathematical foundations, and comprehensive validation, please refer to:
+
+- Paper source files in the `paper` branch 
+- Published version in the Journal of Statistical Software (forthcoming)
 
 ## Installation
 
