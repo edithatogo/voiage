@@ -5,9 +5,9 @@
 import numpy as np
 import pytest
 
-from voiage.methods.sequential import sequential_voi
-from voiage.schema import ParameterSet, DynamicSpec
 from voiage.exceptions import InputError
+from voiage.methods.sequential import sequential_voi
+from voiage.schema import DynamicSpec, ParameterSet
 
 
 # Mock step model for testing
@@ -39,10 +39,10 @@ def test_sequential_voi_basic():
         "param1": np.random.rand(100),
         "param2": np.random.rand(100)
     })
-    
+
     # Create dynamic specification
     dyn_spec = DynamicSpec(time_steps=[0, 1, 2, 3])
-    
+
     # Test with backward induction method
     result = sequential_voi(
         mock_step_model, psa, dyn_spec,
@@ -60,10 +60,10 @@ def test_sequential_voi_with_population_scaling():
         "param1": np.random.rand(100),
         "param2": np.random.rand(100)
     })
-    
+
     # Create dynamic specification
     dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-    
+
     # Test with population scaling
     result = sequential_voi(
         mock_step_model, psa, dyn_spec,
@@ -84,20 +84,20 @@ def test_sequential_voi_generator():
         "param1": np.random.rand(100),
         "param2": np.random.rand(100)
     })
-    
+
     # Create dynamic specification
     dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-    
+
     # Test with generator method
     generator = sequential_voi(
         mock_step_model, psa, dyn_spec,
         wtp=50000,
         optimization_method="generator"
     )
-    
+
     # Collect results from generator
     results = list(generator)
-    
+
     assert len(results) == 3  # Should have one entry per time step
     for result in results:
         assert isinstance(result, dict)
@@ -115,7 +115,7 @@ def test_sequential_voi_edge_cases():
         "param1": np.random.rand(100),
         "param2": np.random.rand(100)
     })
-    
+
     # Test with single time step
     dyn_spec_single = DynamicSpec(time_steps=[0])
     result = sequential_voi(
@@ -125,7 +125,7 @@ def test_sequential_voi_edge_cases():
     )
     assert isinstance(result, float)
     assert result >= 0
-    
+
     # Test with invalid dynamic specification type
     with pytest.raises(InputError):
         sequential_voi(
@@ -142,10 +142,10 @@ def test_sequential_voi_input_validation():
         "param1": np.random.rand(100),
         "param2": np.random.rand(100)
     })
-    
+
     # Create dynamic specification
     dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-    
+
     # Test invalid step_model (not callable)
     with pytest.raises(InputError):
         sequential_voi(
@@ -153,7 +153,7 @@ def test_sequential_voi_input_validation():
             wtp=50000,
             optimization_method="backward_induction"
         )
-    
+
     # Test invalid PSA
     with pytest.raises(InputError):
         sequential_voi(
@@ -161,7 +161,7 @@ def test_sequential_voi_input_validation():
             wtp=50000,
             optimization_method="backward_induction"
         )
-    
+
     # Test invalid wtp
     with pytest.raises(InputError):
         sequential_voi(
@@ -169,7 +169,7 @@ def test_sequential_voi_input_validation():
             wtp="not_a_number",
             optimization_method="backward_induction"
         )
-    
+
     # Test invalid population
     with pytest.raises(InputError):
         sequential_voi(
@@ -178,7 +178,7 @@ def test_sequential_voi_input_validation():
             population=-100,  # Negative population
             optimization_method="backward_induction"
         )
-    
+
     # Test invalid discount_rate
     with pytest.raises(InputError):
         sequential_voi(
@@ -187,7 +187,7 @@ def test_sequential_voi_input_validation():
             discount_rate=1.5,  # Rate > 1
             optimization_method="backward_induction"
         )
-    
+
     # Test invalid optimization_method
     with pytest.raises(InputError):
         sequential_voi(

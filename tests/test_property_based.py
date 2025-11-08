@@ -1,13 +1,13 @@
 """Property-based tests for voiage functions."""
 
+from hypothesis import given
+from hypothesis import strategies as st
+from hypothesis.extra.numpy import arrays
 import numpy as np
 import xarray as xr
-from hypothesis import given, strategies as st
-from hypothesis.extra.numpy import arrays
 
 from voiage.analysis import DecisionAnalysis
-from voiage.schema import ValueArray, ParameterSet
-
+from voiage.schema import ParameterSet, ValueArray
 
 # Strategy for generating valid net benefit arrays
 net_benefit_arrays = arrays(
@@ -35,12 +35,12 @@ def test_evpi_bounded_by_max_strategy_evpi(nb_array):
     value_array = ValueArray.from_numpy(nb_array)
     analysis = DecisionAnalysis(value_array)
     evpi_result = analysis.evpi()
-    
+
     # Maximum possible EVPI is the difference between max and min net benefits
     max_nb = np.max(nb_array)
     min_nb = np.min(nb_array)
     max_possible_evpi = max_nb - min_nb
-    
+
     # Allow for small floating point errors
     assert evpi_result <= max_possible_evpi + 1e-10
 
@@ -78,16 +78,16 @@ def test_evpi_population_scaling_properties(n_samples):
     strategy1 = np.full(n_samples, 100.0)
     strategy2 = np.full(n_samples, 110.0)
     nb_array = np.column_stack([strategy1, strategy2])
-    
+
     value_array = ValueArray.from_numpy(nb_array)
     analysis = DecisionAnalysis(value_array)
-    
+
     # Base EVPI
     base_evpi = analysis.evpi()
-    
+
     # Population-scaled EVPI
     pop_evpi = analysis.evpi(population=1000, time_horizon=10, discount_rate=0.03)
-    
+
     # Population-scaled EVPI should be larger than base EVPI
     assert pop_evpi >= base_evpi
 
@@ -111,23 +111,23 @@ def test_evppi_non_negative(nb_array):
     n_samples = nb_array.shape[0]
     n_params = 3  # Fixed number of parameters for testing
     param_array = np.random.randn(n_samples, n_params)
-    
+
     # Create parameter dictionary with matching number of samples
     trimmed_nb_array = nb_array[:n_samples, :]
     trimmed_param_array = param_array[:n_samples, :n_params]
-    
+
     # Create parameter dictionary
     param_dict = {f"param_{i}": trimmed_param_array[:, i] for i in range(n_params)}
-    
+
     # Create ParameterSet
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
         coords={"n_samples": np.arange(n_samples)}
     )
     parameter_set = ParameterSet(dataset=dataset)
-    
+
     value_array = ValueArray.from_numpy(trimmed_nb_array)
-    
+
     analysis = DecisionAnalysis(trimmed_nb_array, parameter_set)
     evppi_result = analysis.evppi()
     assert evppi_result >= 0
@@ -139,18 +139,18 @@ def test_evppi_single_strategy_zero(nb_array):
     """Test that EVPPI is zero for single strategy problems."""
     single_strategy_array = nb_array  # Only one strategy
     value_array = ValueArray.from_numpy(single_strategy_array)
-    
+
     # Create parameter dictionary
     n_samples = single_strategy_array.shape[0]
     param_dict = {"param1": np.random.randn(n_samples)}
-    
+
     # Create ParameterSet
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
         coords={"n_samples": np.arange(n_samples)}
     )
     parameter_set = ParameterSet(dataset=dataset)
-    
+
     analysis = DecisionAnalysis(value_array, parameter_set)
     evppi_result = analysis.evppi()
     # Allow for small floating point errors

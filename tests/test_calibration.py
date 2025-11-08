@@ -6,9 +6,9 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from voiage.methods.calibration import voi_calibration
-from voiage.schema import ValueArray, ParameterSet
 from voiage.exceptions import InputError
+from voiage.methods.calibration import voi_calibration
+from voiage.schema import ParameterSet, ValueArray
 
 
 # Mock calibration study modeler for testing
@@ -20,7 +20,7 @@ def mock_cal_modeler(psa_samples, study_design, process_spec):
     nb_values = np.random.rand(n_samples, 2) * 1000
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 100
-    
+
     dataset = xr.Dataset(
         {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
         coords={
@@ -70,7 +70,7 @@ def test_voi_calibration_basic(sample_psa, sample_study_design, sample_process_s
         calibration_process_spec=sample_process_spec,
         n_outer_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0  # VOI should be non-negative
 
@@ -87,7 +87,7 @@ def test_voi_calibration_with_population_scaling(sample_psa, sample_study_design
         discount_rate=0.03,
         n_outer_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 
@@ -102,7 +102,7 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             calibration_study_design=sample_study_design,
             calibration_process_spec=sample_process_spec
         )
-    
+
     # Test invalid psa_prior
     with pytest.raises(InputError, match="`psa_prior` must be a PSASample object"):
         voi_calibration(
@@ -111,7 +111,7 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             calibration_study_design=sample_study_design,
             calibration_process_spec=sample_process_spec
         )
-    
+
     # Test invalid calibration_study_design
     with pytest.raises(InputError, match="`calibration_study_design` must be a dictionary"):
         voi_calibration(
@@ -120,7 +120,7 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             calibration_study_design="not_a_dict",
             calibration_process_spec=sample_process_spec
         )
-    
+
     # Test invalid calibration_process_spec
     with pytest.raises(InputError, match="`calibration_process_spec` must be a dictionary"):
         voi_calibration(
@@ -129,7 +129,7 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             calibration_study_design=sample_study_design,
             calibration_process_spec="not_a_dict"
         )
-    
+
     # Test invalid loop parameters
     with pytest.raises(InputError, match="n_outer_loops must be positive"):
         voi_calibration(
@@ -153,7 +153,7 @@ def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_
             population=0,
             time_horizon=10
         )
-    
+
     # Test invalid time_horizon
     with pytest.raises(InputError, match="Time horizon must be positive"):
         voi_calibration(
@@ -164,7 +164,7 @@ def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_
             population=1000,
             time_horizon=0
         )
-    
+
     # Test invalid discount_rate
     with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
         voi_calibration(
@@ -188,7 +188,7 @@ def test_voi_calibration_edge_cases(sample_psa, sample_study_design, sample_proc
         calibration_process_spec=sample_process_spec,
         n_outer_loops=1
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 
@@ -196,13 +196,13 @@ def test_voi_calibration_edge_cases(sample_psa, sample_study_design, sample_proc
 def test_sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec):
     """Test the sophisticated calibration modeler."""
     from voiage.methods.calibration import sophisticated_calibration_modeler
-    
+
     result = sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec)
-    
+
     assert isinstance(result, ValueArray)
     assert result.values.shape[0] == sample_psa.n_samples
     assert result.values.shape[1] == 2  # Two strategies
-    
+
     # Check that net benefits are reasonable (not all zero or NaN)
     assert not np.all(result.values == 0)
     assert not np.any(np.isnan(result.values))
@@ -210,8 +210,11 @@ def test_sophisticated_calibration_modeler(sample_psa, sample_study_design, samp
 
 def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_design):
     """Test voi_calibration with the sophisticated modeler."""
-    from voiage.methods.calibration import voi_calibration, sophisticated_calibration_modeler
-    
+    from voiage.methods.calibration import (
+        sophisticated_calibration_modeler,
+        voi_calibration,
+    )
+
     # Update process spec with calibration targets
     process_spec = {
         "method": "bayesian",
@@ -221,7 +224,7 @@ def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_des
             "target_cost": 4800
         }
     }
-    
+
     result = voi_calibration(
         cal_study_modeler=sophisticated_calibration_modeler,
         psa_prior=sample_psa,
@@ -229,7 +232,7 @@ def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_des
         calibration_process_spec=process_spec,
         n_outer_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0  # VOI should be non-negative
 

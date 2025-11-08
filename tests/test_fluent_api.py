@@ -1,11 +1,9 @@
 """Tests for the fluent API in Value of Information analysis."""
 
 import numpy as np
-import pytest
-import xarray as xr
 
 from voiage.fluent import FluentDecisionAnalysis, create_analysis
-from voiage.schema import ValueArray, ParameterSet
+from voiage.schema import ParameterSet, ValueArray
 
 
 def test_fluent_analysis_creation():
@@ -13,19 +11,19 @@ def test_fluent_analysis_creation():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0], [110.0, 110.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Test creation with net benefits only
     analysis = FluentDecisionAnalysis(value_array)
     assert isinstance(analysis, FluentDecisionAnalysis)
     assert analysis.nb_array is not None
-    
+
     # Test creation with parameters
     params_data = {
         'param1': np.array([1.0, 2.0, 3.0], dtype=np.float64),
         'param2': np.array([0.5, 1.5, 2.5], dtype=np.float64)
     }
     parameter_set = ParameterSet.from_numpy_or_dict(params_data)
-    
+
     analysis = FluentDecisionAnalysis(value_array, parameter_set)
     assert isinstance(analysis, FluentDecisionAnalysis)
     assert analysis.parameter_samples is not None
@@ -36,17 +34,17 @@ def test_fluent_with_parameters():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis without parameters
     analysis = FluentDecisionAnalysis(value_array)
     assert analysis.parameter_samples is None
-    
+
     # Add parameters using fluent API
     params_data = {
         'param1': np.array([1.0, 2.0], dtype=np.float64),
         'param2': np.array([0.5, 1.5], dtype=np.float64)
     }
-    
+
     result = analysis.with_parameters(params_data)
     assert result is analysis  # Should return self for chaining
     assert analysis.parameter_samples is not None
@@ -59,10 +57,10 @@ def test_fluent_with_backend():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Set backend using fluent API
     result = analysis.with_backend("numpy")
     assert result is analysis  # Should return self for chaining
@@ -74,15 +72,15 @@ def test_fluent_with_jit():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Enable JIT using fluent API
     result = analysis.with_jit(True)
     assert result is analysis  # Should return self for chaining
     assert analysis.use_jit is True
-    
+
     # Disable JIT using fluent API
     result = analysis.with_jit(False)
     assert result is analysis  # Should return self for chaining
@@ -94,10 +92,10 @@ def test_fluent_with_streaming():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Enable streaming using fluent API
     result = analysis.with_streaming(100)
     assert result is analysis  # Should return self for chaining
@@ -110,16 +108,16 @@ def test_fluent_with_caching():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Enable caching using fluent API
     result = analysis.with_caching(True)
     assert result is analysis  # Should return self for chaining
     assert analysis.enable_caching is True
     assert analysis._cache is not None
-    
+
     # Disable caching using fluent API
     result = analysis.with_caching(False)
     assert result is analysis  # Should return self for chaining
@@ -132,14 +130,14 @@ def test_fluent_add_data():
     # Create initial test data
     initial_net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(initial_net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Add new data using fluent API
     new_net_benefits = np.array([[110.0, 110.0]], dtype=np.float64)
     new_value_array = ValueArray.from_numpy(new_net_benefits)
-    
+
     result = analysis.add_data(new_value_array)
     assert result is analysis  # Should return self for chaining
     # Check that data was added (shape should be larger)
@@ -151,10 +149,10 @@ def test_fluent_calculate_evpi():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0], [110.0, 110.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create analysis
     analysis = FluentDecisionAnalysis(value_array)
-    
+
     # Calculate EVPI using fluent API
     result = analysis.calculate_evpi()
     assert result is analysis  # Should return self for chaining
@@ -168,17 +166,17 @@ def test_fluent_calculate_evppi():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0], [110.0, 110.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create parameters
     params_data = {
         'param1': np.array([1.0, 2.0, 3.0], dtype=np.float64),
         'param2': np.array([0.5, 1.5, 2.5], dtype=np.float64)
     }
     parameter_set = ParameterSet.from_numpy_or_dict(params_data)
-    
+
     # Create analysis with parameters
     analysis = FluentDecisionAnalysis(value_array, parameter_set)
-    
+
     # Calculate EVPPI using fluent API
     result = analysis.calculate_evppi()
     assert result is analysis  # Should return self for chaining
@@ -192,20 +190,20 @@ def test_fluent_get_results():
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0], [110.0, 110.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(net_benefits)
-    
+
     # Create parameters
     params_data = {
         'param1': np.array([1.0, 2.0, 3.0], dtype=np.float64),
         'param2': np.array([0.5, 1.5, 2.5], dtype=np.float64)
     }
     parameter_set = ParameterSet.from_numpy_or_dict(params_data)
-    
+
     # Create analysis and calculate results
     results = (FluentDecisionAnalysis(value_array, parameter_set)
                .calculate_evpi()
                .calculate_evppi()
                .get_results())
-    
+
     assert isinstance(results, dict)
     assert "evpi" in results
     assert "evppi" in results
@@ -219,11 +217,11 @@ def test_create_analysis_factory():
     """Test the create_analysis factory function."""
     # Create test data
     net_benefits = np.array([[100.0, 120.0], [90.0, 130.0]], dtype=np.float64)
-    
+
     # Test factory function
     analysis = create_analysis(net_benefits)
     assert isinstance(analysis, FluentDecisionAnalysis)
-    
+
     # Test factory function with parameters
     params_data = {
         'param1': np.array([1.0, 2.0], dtype=np.float64),
@@ -241,7 +239,7 @@ def test_fluent_chaining():
         'param1': np.array([1.0, 2.0, 3.0], dtype=np.float64),
         'param2': np.array([0.5, 1.5, 2.5], dtype=np.float64)
     }
-    
+
     # Test full method chaining
     analysis = (create_analysis(net_benefits)
                 .with_parameters(params_data)
@@ -251,7 +249,7 @@ def test_fluent_chaining():
                 .with_streaming(100)
                 .calculate_evpi()
                 .calculate_evppi())
-    
+
     assert isinstance(analysis, FluentDecisionAnalysis)
     assert analysis.parameter_samples is not None
     assert analysis.backend is not None

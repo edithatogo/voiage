@@ -29,7 +29,7 @@ voiage/                    # Repository root
     └── stats.py
 ```
 
-Note: This documentation was originally created while inside the inner [voiage](file:///Users/doughnut/GitHub/voiage/voiage/__init__.py) directory. For Qoder Quest to properly understand the project structure, these files should be moved to the repository root directory.
+Note: This documentation was originally created while inside the inner [voiage](file:///Users/edithatogo/GitHub/voiage/voiage/__init__.py) directory. For Qoder Quest to properly understand the project structure, these files should be moved to the repository root directory.
 
 ## Overall Status
 

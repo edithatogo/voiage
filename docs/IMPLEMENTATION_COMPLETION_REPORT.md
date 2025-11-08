@@ -22,21 +22,21 @@ All major implementation tasks have been successfully completed, including:
 ## Detailed Implementation Summary
 
 ### 1. Network Meta-Analysis VOI Implementation
-- Fully implemented NMA model evaluator integration in [network_nma.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/network_nma.py)
-- Added comprehensive test coverage in [test_network_nma.py](file:///Users/doughnut/GitHub/voiage/tests/test_network_nma.py)
+- Fully implemented NMA model evaluator integration in [network_nma.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/network_nma.py)
+- Added comprehensive test coverage in [test_network_nma.py](file:///Users/edithatogo/GitHub/voiage/tests/test_network_nma.py)
 - Created validation examples comparing with established methods
 - Documented usage and examples for NMA VOI
 
 ### 2. Portfolio Optimization Implementation
-- Implemented portfolio optimization methods in [portfolio.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/portfolio.py)
-- Defined required data structures in [schema.py](file:///Users/doughnut/GitHub/voiage/voiage/schema.py)
-- Added comprehensive test coverage in [test_portfolio.py](file:///Users/doughnut/GitHub/voiage/tests/test_portfolio.py)
+- Implemented portfolio optimization methods in [portfolio.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/portfolio.py)
+- Defined required data structures in [schema.py](file:///Users/edithatogo/GitHub/voiage/voiage/schema.py)
+- Added comprehensive test coverage in [test_portfolio.py](file:///Users/edithatogo/GitHub/voiage/tests/test_portfolio.py)
 - Documented usage and examples for portfolio optimization
 
 ### 3. Advanced Methods Implementation
-- Completed implementation of [adaptive.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/adaptive.py) with adaptive trial simulation
-- Completed implementation of [calibration.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/calibration.py) with model calibration methods
-- Completed implementation of [observational.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/observational.py) with observational study methods
+- Completed implementation of [adaptive.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/adaptive.py) with adaptive trial simulation
+- Completed implementation of [calibration.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/calibration.py) with model calibration methods
+- Completed implementation of [observational.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/observational.py) with observational study methods
 - Added comprehensive test coverage for all advanced methods
 
 ### 4. CLI Interface Development
@@ -46,7 +46,7 @@ All major implementation tasks have been successfully completed, including:
 - Added comprehensive documentation and examples for CLI usage
 
 ### 5. Metamodeling Capabilities Expansion
-- Implemented additional metamodels (Random Forest, BART, GAM) in [metamodels.py](file:///Users/doughnut/GitHub/voiage/voiage/metamodels.py)
+- Implemented additional metamodels (Random Forest, BART, GAM) in [metamodels.py](file:///Users/edithatogo/GitHub/voiage/voiage/metamodels.py)
 - Added metamodel fit diagnostics and validation
 - Implemented cross-validation for metamodel selection
 - Added comprehensive test coverage for metamodeling functionality
@@ -76,7 +76,7 @@ All major implementation tasks have been successfully completed, including:
 - Created comprehensive integration tests
 
 ### 10. Performance Optimization with JAX Backend
-- Optimized JAX backend implementation in [backends.py](file:///Users/doughnut/GitHub/voiage/voiage/backends.py)
+- Optimized JAX backend implementation in [backends.py](file:///Users/edithatogo/GitHub/voiage/voiage/backends.py)
 - Added comprehensive JAX support throughout the library
 - Implemented JIT compilation for core VOI functions
 - Documented performance benefits and usage examples

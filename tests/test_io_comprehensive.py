@@ -1,20 +1,20 @@
 """Comprehensive tests for io module to improve coverage."""
 
-import pytest
-import tempfile
 import os
+import tempfile
+from unittest.mock import patch
+
 import numpy as np
-from unittest.mock import mock_open, patch
+import pytest
 
 from voiage.core.io import (
-    read_value_array_csv,
-    write_value_array_csv,
+    FileFormatError,
     read_parameter_set_csv,
+    read_value_array_csv,
     write_parameter_set_csv,
-    FileFormatError
+    write_value_array_csv,
 )
-from voiage.exceptions import InputError
-from voiage.schema import ValueArray, ParameterSet
+from voiage.schema import ParameterSet, ValueArray
 
 
 class TestIOFunctionsComplete:
@@ -30,7 +30,7 @@ class TestIOFunctionsComplete:
         try:
             # Test reading the CSV file as ValueArray
             result = read_value_array_csv(temp_path)
-            
+
             # Verify result structure
             assert isinstance(result, ValueArray)
             assert result.values.shape == (3, 3)  # 3 rows, 3 columns
@@ -53,7 +53,7 @@ class TestIOFunctionsComplete:
                 temp_path,
                 option_names=["Treatment A", "Treatment B"]
             )
-            
+
             assert isinstance(result, ValueArray)
             assert result.values.shape == (3, 2)  # 3 rows, 2 columns
             assert isinstance(result.values, np.ndarray)  # values should be a numpy array
@@ -86,11 +86,11 @@ class TestIOFunctionsComplete:
         try:
             # Test reading CSV with skip_header=True
             result = read_value_array_csv(
-                temp_path, 
+                temp_path,
                 skip_header=True,
                 option_names=["Strategy A", "Strategy B", "Strategy C"]
             )
-            
+
             assert isinstance(result, ValueArray)
             assert result.values.shape == (2, 3)  # 2 rows (header skipped), 3 columns
             # Check that the data is as expected (starting from the second row)
@@ -110,7 +110,7 @@ class TestIOFunctionsComplete:
         # Create test data
         values = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(values, ['Strategy A', 'Strategy B', 'Strategy C'])
-        
+
         # Create temporary file
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
             temp_path = f.name
@@ -118,10 +118,10 @@ class TestIOFunctionsComplete:
         try:
             # Write ValueArray to CSV
             write_value_array_csv(value_array, temp_path)
-            
+
             # Verify file was created
             assert os.path.exists(temp_path)
-            
+
             # Read it back and verify content
             with open(temp_path, 'r') as f:
                 content = f.read()
@@ -139,7 +139,7 @@ class TestIOFunctionsComplete:
         # Create test ValueArray
         values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(values, ['Strategy A', 'Strategy B'])
-        
+
         # Create temporary file
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
             temp_path = f.name
@@ -147,10 +147,10 @@ class TestIOFunctionsComplete:
         try:
             # Write ValueArray to CSV with semicolon delimiter
             write_value_array_csv(value_array, temp_path, delimiter=';', write_header=True)
-            
+
             # Verify file was created
             assert os.path.exists(temp_path)
-            
+
             # Read it back and verify semicolon delimiter was used
             with open(temp_path, 'r') as f:
                 content = f.read()
@@ -165,7 +165,7 @@ class TestIOFunctionsComplete:
         # Create test ValueArray
         values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(values, ['Strategy A', 'Strategy B'])
-        
+
         # Create temporary file
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
             temp_path = f.name
@@ -173,10 +173,10 @@ class TestIOFunctionsComplete:
         try:
             # Write ValueArray to CSV without header
             write_value_array_csv(value_array, temp_path, write_header=False)
-            
+
             # Verify file was created
             assert os.path.exists(temp_path)
-            
+
             # Read it back and verify no header was written
             with open(temp_path, 'r') as f:
                 content = f.read()
@@ -195,7 +195,7 @@ class TestIOFunctionsComplete:
         # Create test ValueArray
         values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(values, ['Strategy A', 'Strategy B'])
-        
+
         # Try to write to a path where we don't have permissions (or invalid path)
         # We will mock the open function to simulate an IO error
         with patch('builtins.open', side_effect=IOError("Permission denied")):
@@ -212,7 +212,7 @@ class TestIOFunctionsComplete:
         try:
             # Test reading the CSV file as ParameterSet
             result = read_parameter_set_csv(temp_path)
-            
+
             # Verify result structure
             assert isinstance(result, ParameterSet)
             assert len(result.parameter_names) == 3
@@ -242,7 +242,7 @@ class TestIOFunctionsComplete:
                 parameter_names=["CustomParam1", "CustomParam2"],
                 skip_header=False  # Don't skip header since there's no real header row
             )
-            
+
             assert isinstance(result, ParameterSet)
             assert result.parameter_names == ["CustomParam1", "CustomParam2"]
             assert result.n_samples == 3  # 3 rows of data
@@ -275,7 +275,7 @@ class TestIOFunctionsComplete:
         # Create test ParameterSet
         params = {'param1': np.array([0.1, 0.2, 0.3]), 'param2': np.array([10.0, 20.0, 30.0])}
         param_set = ParameterSet.from_numpy_or_dict(params)
-        
+
         # Create temporary file
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
             temp_path = f.name
@@ -283,10 +283,10 @@ class TestIOFunctionsComplete:
         try:
             # Write ParameterSet to CSV
             write_parameter_set_csv(param_set, temp_path)
-            
+
             # Verify file was created
             assert os.path.exists(temp_path)
-            
+
             # Read it back and verify content
             with open(temp_path, 'r') as f:
                 content = f.read()
@@ -303,7 +303,7 @@ class TestIOFunctionsComplete:
         # Create test ParameterSet
         params = {'param1': np.array([0.1, 0.2]), 'param2': np.array([10.0, 20.0])}
         param_set = ParameterSet.from_numpy_or_dict(params)
-        
+
         # Create temporary file
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
             temp_path = f.name
@@ -311,10 +311,10 @@ class TestIOFunctionsComplete:
         try:
             # Write ParameterSet to CSV without header
             write_parameter_set_csv(param_set, temp_path, write_header=False)
-            
+
             # Verify file was created
             assert os.path.exists(temp_path)
-            
+
             # Read it back and verify no header was written
             with open(temp_path, 'r') as f:
                 content = f.read()
@@ -340,7 +340,7 @@ class TestIOFunctionsComplete:
         # Create test ParameterSet
         params = {'param1': np.array([0.1, 0.2]), 'param2': np.array([10.0, 20.0])}
         param_set = ParameterSet.from_numpy_or_dict(params)
-        
+
         # Mock open to simulate IO error
         with patch('builtins.open', side_effect=IOError("Permission denied")):
             with pytest.raises(IOError):

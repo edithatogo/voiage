@@ -3,14 +3,18 @@
 import numpy as np
 import pytest
 
-from voiage.methods.adaptive import adaptive_evsi, sophisticated_adaptive_trial_simulator, bayesian_adaptive_trial_simulator
-from voiage.schema import ParameterSet, ValueArray, TrialDesign, DecisionOption
 from voiage.exceptions import InputError
+from voiage.methods.adaptive import (
+    adaptive_evsi,
+    bayesian_adaptive_trial_simulator,
+    sophisticated_adaptive_trial_simulator,
+)
+from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
 
 
 class TestAdaptiveEVSI:
     """Test the adaptive_evsi function comprehensively."""
-    
+
     def test_adaptive_evsi_basic(self):
         """Test basic functionality of adaptive_evsi."""
         # Create a simple adaptive trial simulator
@@ -140,7 +144,7 @@ class TestAdaptiveEVSI:
         assert isinstance(result_unscaled, float)
         assert result_scaled >= 0
         assert result_unscaled >= 0
-        
+
         # The scaled result should be >= the unscaled result (when population > 1)
         if result_unscaled > 0:
             assert result_scaled >= result_unscaled
@@ -430,7 +434,7 @@ class TestAdaptiveEVSI:
             "interim_analysis_points": [0.5],
         }
 
-        # Calculate adaptive EVSI - even if the adaptive trial might not be valuable, 
+        # Calculate adaptive EVSI - even if the adaptive trial might not be valuable,
         # the function should return 0 or a positive value
         result = adaptive_evsi(
             adaptive_trial_simulator=simple_adaptive_simulator,
@@ -501,7 +505,7 @@ class TestAdaptiveEVSI:
 
 class TestSophisticatedAdaptiveTrialSimulator:
     """Test the sophisticated_adaptive_trial_simulator function."""
-    
+
     def test_sophisticated_adaptive_trial_simulator_basic(self):
         """Test basic functionality of sophisticated_adaptive_trial_simulator."""
         # Create test parameter set
@@ -543,7 +547,7 @@ class TestSophisticatedAdaptiveTrialSimulator:
 
 class TestBayesianAdaptiveTrialSimulator:
     """Test the bayesian_adaptive_trial_simulator function."""
-    
+
     def test_bayesian_adaptive_trial_simulator_basic(self):
         """Test basic functionality of bayesian_adaptive_trial_simulator."""
         # Create test parameter set
@@ -625,11 +629,15 @@ class TestBayesianAdaptiveTrialSimulator:
 
 def test_import_functionality():
     """Test that the adaptive methods are importable and available."""
-    from voiage.methods.adaptive import adaptive_evsi, sophisticated_adaptive_trial_simulator, bayesian_adaptive_trial_simulator
-    
+    from voiage.methods.adaptive import (
+        adaptive_evsi,
+        bayesian_adaptive_trial_simulator,
+        sophisticated_adaptive_trial_simulator,
+    )
+
     # Verify functions exist
     assert callable(adaptive_evsi)
     assert callable(sophisticated_adaptive_trial_simulator)
     assert callable(bayesian_adaptive_trial_simulator)
-    
+
     print("✅ All adaptive VOI methods are importable and available")

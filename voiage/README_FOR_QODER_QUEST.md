@@ -42,7 +42,7 @@ To properly use the documentation files with Qoder Quest:
    - Move `ROADMAP_STATUS_CORRECTED.md` to `../ROADMAP_STATUS.md`
    - Move `README_FOR_QODER_QUEST.md` to `../README.md`
 
-2. **Understanding the Context**: The documentation was originally created while inside the inner [voiage](file:///Users/doughnut/GitHub/voiage/voiage/__init__.py) directory, but Qoder Quest should be run from the repository root to properly understand the entire project structure.
+2. **Understanding the Context**: The documentation was originally created while inside the inner [voiage](file:///Users/edithatogo/GitHub/voiage/voiage/__init__.py) directory, but Qoder Quest should be run from the repository root to properly understand the entire project structure.
 
 3. **Key Documentation Files**:
    - `REPO_MAP_CORRECTED.md`: Comprehensive repository map with detailed component descriptions

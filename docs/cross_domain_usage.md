@@ -17,7 +17,7 @@ In business contexts, VOI can help companies make informed decisions about marke
 
 ### Market Entry Decision Example
 
-The [business_strategy_example.py](file:///Users/doughnut/GitHub/voiage/examples/business_strategy_example.py) demonstrates how to use voiage for evaluating market entry decisions:
+The [business_strategy_example.py](file:///Users/edithatogo/GitHub/voiage/examples/business_strategy_example.py) demonstrates how to use voiage for evaluating market entry decisions:
 
 ```python
 # Key components of the business strategy example
@@ -52,7 +52,7 @@ In environmental policy, VOI can help policymakers evaluate the value of environ
 
 ### Pollution Control Decision Example
 
-The [environmental_policy_example.py](file:///Users/doughnut/GitHub/voiage/examples/environmental_policy_example.py) demonstrates how to use voiage for evaluating pollution control measures:
+The [environmental_policy_example.py](file:///Users/edithatogo/GitHub/voiage/examples/environmental_policy_example.py) demonstrates how to use voiage for evaluating pollution control measures:
 
 ```python
 # Key components of the environmental policy example

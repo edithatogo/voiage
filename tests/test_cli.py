@@ -1,8 +1,8 @@
 """Test the CLI implementation."""
 
+from pathlib import Path
 import subprocess
 import sys
-from pathlib import Path
 
 
 def test_cli_evpi():
@@ -10,16 +10,16 @@ def test_cli_evpi():
     # Get the path to the sample data
     sample_data_dir = Path(__file__).parent / "data"
     net_benefit_file = sample_data_dir / "sample_net_benefits.csv"
-    
+
     # Run the CLI command
     result = subprocess.run([
-        sys.executable, "-m", "voiage.cli", "calculate-evpi", 
+        sys.executable, "-m", "voiage.cli", "calculate-evpi",
         str(net_benefit_file),
         "--population", "100000",
         "--time-horizon", "10",
         "--discount-rate", "0.03"
     ], capture_output=True, text=True)
-    
+
     # Check that the command executed successfully
     assert result.returncode == 0, f"Command failed with return code {result.returncode} and stderr: {result.stderr}"
     assert "EVPI:" in result.stdout
@@ -32,7 +32,7 @@ def test_cli_evppi():
     sample_data_dir = Path(__file__).parent / "data"
     net_benefit_file = sample_data_dir / "sample_net_benefits.csv"
     parameter_file = sample_data_dir / "sample_parameters.csv"
-    
+
     # Run the CLI command
     result = subprocess.run([
         sys.executable, "-m", "voiage.cli", "calculate-evppi",
@@ -42,7 +42,7 @@ def test_cli_evppi():
         "--time-horizon", "10",
         "--discount-rate", "0.03"
     ], capture_output=True, text=True)
-    
+
     # Check that the command executed successfully
     assert result.returncode == 0, f"Command failed with return code {result.returncode} and stderr: {result.stderr}"
     assert "EVPPI:" in result.stdout

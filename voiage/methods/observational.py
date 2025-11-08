@@ -2,14 +2,14 @@
 
 """Implementation of VOI methods for observational data.
 
-This module provides functions for calculating the Value of Information (VOI) 
-for observational studies. These methods assess the value of collecting data 
-from observational studies, which, unlike RCTs, do not involve random allocation 
-to interventions. Calculating VOI for such data requires careful consideration 
-of biases (confounding, selection bias, measurement error) and how the 
+This module provides functions for calculating the Value of Information (VOI)
+for observational studies. These methods assess the value of collecting data
+from observational studies, which, unlike RCTs, do not involve random allocation
+to interventions. Calculating VOI for such data requires careful consideration
+of biases (confounding, selection bias, measurement error) and how the
 observational data would be analyzed and used to update beliefs.
 
-The main function [voi_observational][voiage.methods.observational.voi_observational] 
+The main function [voi_observational][voiage.methods.observational.voi_observational]
 calculates the VOI for observational studies using Monte Carlo simulation.
 
 Example usage:
@@ -52,13 +52,16 @@ Functions:
 """
 
 from typing import Any, Callable, Dict, Optional
+
 import numpy as np
 
+from voiage.exceptions import InputError
 from voiage.schema import (
-    ValueArray as NetBenefitArray,
     ParameterSet as PSASample,
 )
-from voiage.exceptions import InputError
+from voiage.schema import (
+    ValueArray as NetBenefitArray,
+)
 
 # Type alias for a function that models the impact of observational data.
 # This would typically involve:
@@ -132,7 +135,7 @@ def voi_observational(
     from voiage.methods.observational import voi_observational
     from voiage.schema import ParameterSet
     import numpy as np
-    
+
     # Simple observational study modeler
     def simple_obs_modeler(psa_samples, study_design, bias_models):
         # This is a simplified example - a real implementation would be much more complex
@@ -141,7 +144,7 @@ def voi_observational(
         nb_values = np.random.rand(n_samples, 2) * 100000
         # Make strategy 1 slightly better on average
         nb_values[:, 1] += 5000
-        
+
         import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
@@ -153,27 +156,27 @@ def voi_observational(
         )
         from voiage.schema import ValueArray
         return ValueArray(dataset=dataset)
-    
+
     # Create parameter samples
     params = {
         "effectiveness": np.random.normal(0.7, 0.1, 100),
         "cost": np.random.normal(5000, 500, 100)
     }
     parameter_set = ParameterSet.from_numpy_or_dict(params)
-    
+
     # Define observational study design
     observational_study_design = {
         "study_type": "cohort",
         "sample_size": 1000,
         "variables_collected": ["treatment", "outcome", "confounders"]
     }
-    
+
     # Define bias models
     bias_models = {
         "confounding": {"strength": 0.3},
         "selection_bias": {"probability": 0.1}
     }
-    
+
     # Calculate VOI for observational study
     voi_value = voi_observational(
         obs_study_modeler=simple_obs_modeler,
@@ -182,7 +185,7 @@ def voi_observational(
         bias_models=bias_models,
         n_outer_loops=10
     )
-    
+
     print(f"Observational Study VOI: ${voi_value:,.0f}")
     ```
     """
@@ -221,18 +224,18 @@ def voi_observational(
     for k in range(n_outer_loops):
         # Sample a "true" parameter set from the prior
         true_params_idx = np.random.randint(0, psa_prior.n_samples)
-        
+
         # Extract the true parameters for this iteration
         true_parameters = {}
         for param_name, param_values in psa_prior.parameters.items():
             true_parameters[param_name] = param_values[true_params_idx]
-        
+
         # In a more sophisticated implementation, we would:
         # 1. Simulate data based on these true parameters and study design
         # 2. Apply bias models to the simulated data
         # 3. Use statistical methods to adjust for biases
         # 4. Update parameter beliefs based on the bias-adjusted analysis
-        
+
         # For this implementation, we'll simulate the effect by adding some
         # realistic variation to the modeler's output
         try:
@@ -240,7 +243,7 @@ def voi_observational(
             nb_array_post = obs_study_modeler(psa_prior, observational_study_design, bias_models)
             mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
             max_nb_post_observational.append(np.max(mean_nb_per_strategy_post))
-        except Exception as e:
+        except Exception:
             # If the modeler fails, use the prior value
             # In a real implementation, we might want to log this
             max_nb_post_observational.append(max_expected_nb_current_info)
@@ -278,7 +281,8 @@ if __name__ == "__main__":
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray and PSASample
 
-    from voiage.schema import ValueArray as NetBenefitArray, ParameterSet as PSASample
+    from voiage.schema import ParameterSet as PSASample
+    from voiage.schema import ValueArray as NetBenefitArray
 
     # Simple observational study modeler for testing
     def simple_obs_modeler(psa, design, biases):
@@ -288,7 +292,7 @@ if __name__ == "__main__":
         nb_values = np.random.rand(n_samples, 2) * 1000
         # Make strategy 1 slightly better on average
         nb_values[:, 1] += 100
-        
+
         import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), nb_values)},

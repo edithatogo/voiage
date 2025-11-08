@@ -37,7 +37,7 @@ This document outlines the validation plan for the cross-domain applications of 
 
 ### Validation Activities
 
-1. Expert review of the [business_strategy_example.py](file:///Users/doughnut/GitHub/voiage/examples/business_strategy_example.py) code and documentation
+1. Expert review of the [business_strategy_example.py](file:///Users/edithatogo/GitHub/voiage/examples/business_strategy_example.py) code and documentation
 2. Discussion session with domain expert to understand real-world applications
 3. Feedback collection on scenario realism and parameter relevance
 4. Validation of results interpretation
@@ -68,7 +68,7 @@ This document outlines the validation plan for the cross-domain applications of 
 
 ### Validation Activities
 
-1. Expert review of the [environmental_policy_example.py](file:///Users/doughnut/GitHub/voiage/examples/environmental_policy_example.py) code and documentation
+1. Expert review of the [environmental_policy_example.py](file:///Users/edithatogo/GitHub/voiage/examples/environmental_policy_example.py) code and documentation
 2. Discussion session with domain expert to understand real-world applications
 3. Feedback collection on scenario realism and parameter relevance
 4. Validation of results interpretation

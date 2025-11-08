@@ -9,14 +9,13 @@ made sequentially over time, and information gathered at one stage can influence
 future decisions and future information gathering opportunities.
 """
 
-from typing import Any, Callable, Dict, Generator, List, Optional, Union
+from typing import Any, Callable, Dict, Generator, Optional, Union
 
 import numpy as np
 
-from voiage.schema import ParameterSet as PSASample
-from voiage.schema import DynamicSpec
 from voiage.exceptions import InputError
-
+from voiage.schema import DynamicSpec
+from voiage.schema import ParameterSet as PSASample
 
 # Type alias for a function that models one step in a sequential process.
 # It might take current state (including parameter beliefs), an action/decision,
@@ -79,36 +78,36 @@ def sequential_voi(
     # Input validation
     if not isinstance(dynamic_specification, DynamicSpec):
         raise InputError("dynamic_specification must be a DynamicSpec object.")
-    
-    if not hasattr(step_model, '__call__'):
+
+    if not callable(step_model):
         raise InputError("step_model must be callable.")
-    
+
     if not isinstance(initial_psa, PSASample):
         raise InputError("initial_psa must be a PSASample object.")
-    
+
     if not isinstance(wtp, (int, float)):
         raise InputError("wtp must be a number.")
-    
+
     if population is not None and (not isinstance(population, (int, float)) or population <= 0):
         raise InputError("population must be a positive number if provided.")
-    
+
     if discount_rate is not None and (not isinstance(discount_rate, (int, float)) or not (0 <= discount_rate <= 1)):
         raise InputError("discount_rate must be between 0 and 1 if provided.")
-    
+
     time_steps = list(dynamic_specification.time_steps)
     if not time_steps:
         raise InputError("dynamic_specification must have at least one time step.")
-    
+
     # Handle different optimization methods
     if optimization_method == "backward_induction":
         return _sequential_voi_backward_induction(
-            step_model, initial_psa, dynamic_specification, wtp, 
+            step_model, initial_psa, dynamic_specification, wtp,
             population, discount_rate, time_horizon, **kwargs
         )
     elif optimization_method == "generator":
         # Return a generator that yields information at each step
         return _sequential_voi_generator(
-            step_model, initial_psa, dynamic_specification, wtp, 
+            step_model, initial_psa, dynamic_specification, wtp,
             population, discount_rate, time_horizon, **kwargs
         )
     else:
@@ -126,58 +125,58 @@ def _sequential_voi_backward_induction(
     **kwargs: Any,
 ) -> float:
     """Calculate sequential VOI using backward induction approach.
-    
+
     This approach works backwards from the final time step to determine the
     optimal policy at each step, then calculates the overall VOI.
     """
     time_steps = list(dynamic_specification.time_steps)
     n_steps = len(time_steps)
-    
+
     if n_steps == 0:
         return 0.0
-    
+
     # For simplicity, we'll calculate a basic sequential VOI as the sum of
     # EVPI at each time step, appropriately discounted
-    
+
     total_voi = 0.0
     current_psa = initial_psa
-    
+
     # Work backwards from the last time step
     for i in range(n_steps - 1, -1, -1):
         time_step = time_steps[i]
-        
+
         # Calculate discount factor for this time step
         discount_factor = 1.0
         if discount_rate is not None and discount_rate > 0:
             time_from_start = time_step
             discount_factor = 1.0 / ((1.0 + discount_rate) ** time_from_start)
-        
+
         # Calculate EVPI at this time step using the current PSA
         # This is a simplified approach - in practice, this would be more complex
         evpi_at_step = _calculate_evpi_at_step(current_psa, wtp)
-        
+
         # Add discounted EVPI to total VOI
         total_voi += evpi_at_step * discount_factor
-        
+
         # If not at the first step, simulate progression to previous state
         if i > 0:
             # This is a simplified simulation - in practice, this would use the step_model
             # to simulate how the PSA evolves over time
             pass
-    
+
     # Apply population scaling if provided
     if population is not None and time_horizon is not None:
         annuity_factor = time_horizon
         if discount_rate is not None and discount_rate > 0:
             annuity_factor = (1 - (1 + discount_rate) ** (-time_horizon)) / discount_rate
         total_voi *= population * annuity_factor
-    
+
     return total_voi
 
 
 def _calculate_evpi_at_step(psa: PSASample, wtp: float) -> float:
     """Calculate EVPI at a specific time step given current parameter uncertainty.
-    
+
     This is a simplified implementation that assumes we can calculate net benefits
     directly from the PSA samples.
     """
@@ -185,7 +184,7 @@ def _calculate_evpi_at_step(psa: PSASample, wtp: float) -> float:
     # In a real implementation, this would involve:
     # 1. Calculating net benefits for each strategy using the PSA samples
     # 2. Calculating EVPI using the standard formula
-    
+
     # For now, we'll return a simple estimate based on the variance of parameters
     # This is not a real EVPI calculation, just a placeholder
     if hasattr(psa, 'parameters') and isinstance(psa.parameters, dict):
@@ -213,16 +212,16 @@ def _sequential_voi_generator(
     """Generator that yields VOI information at each time step."""
     time_steps = list(dynamic_specification.time_steps)
     current_psa = initial_psa
-    
+
     for t_idx, time_step in enumerate(time_steps):
         # Calculate EVPI at this time step
         evpi_at_step = _calculate_evpi_at_step(current_psa, wtp)
-        
+
         # Calculate discount factor
         discount_factor = 1.0
         if discount_rate is not None and discount_rate > 0:
             discount_factor = 1.0 / ((1.0 + discount_rate) ** time_step)
-        
+
         # Yield information about this time step
         yield {
             "time_step": time_step,
@@ -231,7 +230,7 @@ def _sequential_voi_generator(
             "discounted_evpi": evpi_at_step * discount_factor,
             "n_samples": current_psa.n_samples if hasattr(current_psa, 'n_samples') else None,
         }
-        
+
         # Simulate progression to next state (simplified)
         if t_idx < len(time_steps) - 1:
             try:
@@ -263,7 +262,7 @@ if __name__ == "__main__":
             "param2": np.random.rand(100)
         })
         dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-        
+
         result = sequential_voi(
             dummy_step_model, dummy_psa, dummy_dyn_spec,
             wtp=50000,
@@ -284,13 +283,13 @@ if __name__ == "__main__":
             "param2": np.random.rand(100)
         })
         dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
-        
+
         generator = sequential_voi(
             dummy_step_model, dummy_psa, dummy_dyn_spec,
             wtp=50000,
             optimization_method="generator"
         )
-        
+
         print("sequential_voi (generator) results:")
         for step_info in generator:
             print(f"  Step {step_info['time_step']}: EVPI = {step_info['current_evpi']:.2f}")

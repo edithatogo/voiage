@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document compares the design documentation in [/Users/doughnut/GitHub/voiage/voiage/.qoder/quests/map-repo.md](file:///Users/doughnut/GitHub/voiage/voiage/.qoder/quests/map-repo.md) with the actual implementation status of the voiage repository.
+This document compares the design documentation in [/Users/edithatogo/GitHub/voiage/voiage/.qoder/quests/map-repo.md](file:///Users/edithatogo/GitHub/voiage/voiage/.qoder/quests/map-repo.md) with the actual implementation status of the voiage repository.
 
 ## Overall Status
 

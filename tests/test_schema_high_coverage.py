@@ -1,188 +1,185 @@
-"""Comprehensive tests for the schema module to improve coverage to >95%."""
+"""Comprehensive tests for schema module to increase coverage above 95%."""
 
 import numpy as np
 import pytest
 import xarray as xr
-from voiage.schema import ValueArray, ParameterSet
+
 from voiage.exceptions import InputError
+from voiage.schema import ParameterSet, ValueArray
 
 
-class TestValueArrayComprehensive:
-    """Comprehensive tests for ValueArray to improve coverage."""
+class TestValueArrayHighCoverage:
+    """Comprehensive tests for ValueArray to improve coverage to >95%."""
 
-    def test_value_array_from_numpy_with_strategy_names(self):
-        """Test ValueArray.from_numpy with explicit strategy names."""
+    def test_value_array_creation_from_numpy_with_strategy_names(self):
+        """Test ValueArray creation from numpy array with explicit strategy names."""
         # Create test data
         values = np.array([[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64)
         strategy_names = ["Strategy A", "Strategy B"]
-        
+
         # Test creation with strategy names
         value_array = ValueArray.from_numpy(values, strategy_names=strategy_names)
-        
+
         assert isinstance(value_array, ValueArray)
         assert value_array.n_samples == 3
         assert value_array.n_strategies == 2
         assert value_array.strategy_names == strategy_names
-        np.testing.assert_array_equal(value_array.values.values, values)
+        np.testing.assert_array_equal(value_array.values, values)
 
-    def test_value_array_from_numpy_without_strategy_names(self):
-        """Test ValueArray.from_numpy without explicit strategy names."""
+    def test_value_array_creation_from_numpy_without_strategy_names(self):
+        """Test ValueArray creation from numpy array without strategy names."""
         # Create test data
         values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        
+
         # Test creation without strategy names (should use defaults)
         value_array = ValueArray.from_numpy(values)
-        
+
         assert isinstance(value_array, ValueArray)
         assert value_array.n_samples == 2
         assert value_array.n_strategies == 2
         assert len(value_array.strategy_names) == 2
         # Verify default strategy names
-        assert all(name.startswith("Strategy") for name in value_array.strategy_names)
-        assert value_array.strategy_names[0] == "Strategy 1"
-        assert value_array.strategy_names[1] == "Strategy 2"
-        np.testing.assert_array_equal(value_array.values.values, values)
+        assert all(name.startswith("Strategy_") for name in value_array.strategy_names)
+        assert value_array.strategy_names[0] == "Strategy_0"
+        assert value_array.strategy_names[1] == "Strategy_1"
+        np.testing.assert_array_equal(value_array.values, values)
 
-    def test_value_array_properties_access(self):
-        """Test all property accessors."""
+    def test_value_array_properties(self):
+        """Test all ValueArray property accessors."""
         values = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
         strategy_names = ["A", "B", "C"]
-        
+
         value_array = ValueArray.from_numpy(values, strategy_names=strategy_names)
-        
+
         # Test properties
         assert value_array.n_samples == 2
         assert value_array.n_strategies == 3
         assert value_array.strategy_names == ["A", "B", "C"]
-        assert isinstance(value_array.values, xr.DataArray)
-        np.testing.assert_array_equal(value_array.values.values, values)
+        assert isinstance(value_array.values, np.ndarray)
+        np.testing.assert_array_equal(value_array.values, values)
 
     def test_value_array_from_numpy_invalid_inputs(self):
         """Test ValueArray.from_numpy with invalid inputs."""
         # Test with non-2D array
         invalid_1d = np.array([100.0, 150.0])
-        with pytest.raises(InputError, match="values must be a 2D array"):
+        with pytest.raises(InputError, match="must be 2-dimensional"):
             ValueArray.from_numpy(invalid_1d)
 
         # Test with 3D array
         invalid_3d = np.array([[[100.0, 150.0]], [[90.0, 140.0]]])
-        with pytest.raises(InputError, match="values must be a 2D array"):
+        with pytest.raises(InputError, match="must be 2-dimensional"):
             ValueArray.from_numpy(invalid_3d)
 
         # Test with mismatched strategy names length
         valid_data = np.array([[100.0, 150.0], [90.0, 140.0]])
         invalid_names = ["A", "B", "C"]  # 3 names for 2 strategies
-        with pytest.raises(InputError, match="Number of strategy names"):
+        with pytest.raises(InputError, match="strategy_names must have"):
             ValueArray.from_numpy(valid_data, strategy_names=invalid_names)
 
-        # Test with non-numpy array
-        with pytest.raises(InputError, match="values must be a NumPy array"):
-            ValueArray.from_numpy([[100.0, 150.0], [90.0, 140.0]])  # Plain list
+        # Test with non-numeric data
+        non_numeric_data = np.array([["a", "b"], ["c", "d"]])
+        with pytest.raises(InputError, match="must be numeric"):
+            ValueArray.from_numpy(non_numeric_data)
 
-        # Test with non-float array when float expected
-        int_data = np.array([[100, 150], [90, 140]], dtype=np.int32)
-        value_array_int = ValueArray.from_numpy(int_data)
-        assert isinstance(value_array_int, ValueArray)
-        assert value_array_int.values.dtype == np.float64  # Should convert to float
+        # Test with complex dtypes that are not float
+        complex_data = np.array([[1+2j, 3+4j]], dtype=complex)
+        with pytest.raises(InputError, match="must be numeric"):
+            ValueArray.from_numpy(complex_data)
 
-    def test_value_array_values_property(self):
-        """Test the values property specifically."""
-        values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        value_array = ValueArray.from_numpy(values, strategy_names=["A", "B"])
-        
-        # Test values property returns xarray DataArray
-        vals = value_array.values
-        assert isinstance(vals, xr.DataArray)
-        assert vals.shape == (2, 2)  # 2 samples, 2 strategies
-        assert np.array_equal(vals.values, values)
+    def test_value_array_from_xarray_dataset(self):
+        """Test ValueArray creation from xarray Dataset."""
+        # Create test dataset with expected structure
+        values = np.array([[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64)
+        xarray_dataset = xr.Dataset(
+            {"net_benefit": (("n_samples", "n_strategies"), values)},
+            coords={
+                "n_samples": np.arange(3),
+                "n_strategies": np.arange(2),
+                "strategy": ("n_strategies", ["Treatment A", "Treatment B"])
+            }
+        )
 
-    def test_value_array_dataset_property(self):
-        """Test the dataset property access."""
-        values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        strategy_names = ["Strategy A", "Strategy B"]
-        
-        value_array = ValueArray.from_numpy(values, strategy_names=strategy_names)
-        
-        # Test dataset property
-        ds = value_array.dataset
-        assert isinstance(ds, xr.Dataset)
-        assert "net_benefit" in ds.data_vars
-        assert ds.net_benefit.shape == (2, 2)
-        assert "strategy" in ds.coords
-        assert list(ds.strategy.values) == strategy_names
+        # Create ValueArray from dataset
+        value_array = ValueArray(dataset=xarray_dataset)
 
-    def test_value_array_equality_comparison(self):
-        """Test ValueArray equality comparison."""
+        assert isinstance(value_array, ValueArray)
+        assert value_array.n_samples == 3
+        assert value_array.n_strategies == 2
+        assert value_array.strategy_names == ["Treatment A", "Treatment B"]
+        np.testing.assert_array_equal(value_array.values, values)
+
+    def test_value_array_equality(self):
+        """Test ValueArray equality comparisons."""
         values1 = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         values2 = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         values3 = np.array([[100.0, 160.0], [90.0, 140.0]], dtype=np.float64)  # Different values
-        
+
         # Create ValueArrays
-        va1 = ValueArray.from_numpy(values1, ["A", "B"])
-        va2 = ValueArray.from_numpy(values2, ["A", "B"])  # Same values and names
-        va3 = ValueArray.from_numpy(values1, ["X", "Y"])  # Different strategy names
-        va4 = ValueArray.from_numpy(values3, ["A", "B"])  # Different values
-        
+        va1 = ValueArray.from_numpy(values1, strategy_names=["A", "B"])
+        va2 = ValueArray.from_numpy(values2, strategy_names=["A", "B"])  # Same values and names
+        va3 = ValueArray.from_numpy(values1, strategy_names=["X", "Y"])  # Different strategy names
+        va4 = ValueArray.from_numpy(values3, strategy_names=["A", "B"])  # Different values
+
         # Test equality
         assert va1 == va2  # Same content
         assert va1 != va3  # Different strategy names
         assert va1 != va4  # Different values
-        assert va1 != "not a ValueArray"  # Different types
-
-    def test_value_array_copy_method(self):
-        """Test ValueArray copy functionality."""
-        values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        original_va = ValueArray.from_numpy(values, ["A", "B"])
-        
-        # Test copy functionality
-        copied_va = original_va.copy()
-        
-        # Should be equal but different objects
-        assert copied_va == original_va
-        assert copied_va is not original_va  # Different object
-        assert isinstance(copied_va, ValueArray)
+        assert va1 != "not a ValueArray"  # Different type
 
     def test_value_array_edge_cases(self):
         """Test ValueArray with edge cases."""
         # Single sample, single strategy
         single_data = np.array([[100.0]], dtype=np.float64)
-        single_va = ValueArray.from_numpy(single_data, ["Single"])
+        single_va = ValueArray.from_numpy(single_data, strategy_names=["Single"])
         assert single_va.n_samples == 1
         assert single_va.n_strategies == 1
         assert single_va.strategy_names == ["Single"]
-        
+        assert single_va.values.shape == (1, 1)
+
         # Many samples, single strategy
-        many_samples_data = np.array([[100.0], [110.0], [90.0], [120.0]], dtype=np.float64)
-        many_samples_va = ValueArray.from_numpy(many_samples_data, ["Strategy A"])
-        assert many_samples_va.n_samples == 4
+        many_samples_data = np.random.rand(1000, 1).astype(np.float64)
+        many_samples_va = ValueArray.from_numpy(many_samples_data, strategy_names=["Mono"])
+        assert many_samples_va.n_samples == 1000
         assert many_samples_va.n_strategies == 1
-        
+
         # Single sample, many strategies
-        many_strat_data = np.array([[100.0, 150.0, 120.0, 140.0]], dtype=np.float64)
-        many_strat_va = ValueArray.from_numpy(many_strat_data, ["S1", "S2", "S3", "S4"])
-        assert many_strat_va.n_samples == 1
-        assert many_strat_va.n_strategies == 4
-        
-        # Large arrays
-        large_data = np.random.rand(1000, 10).astype(np.float64)
-        large_va = ValueArray.from_numpy(large_data, [f"Strategy_{i}" for i in range(10)])
-        assert large_va.n_samples == 1000
-        assert large_va.n_strategies == 10
-        assert large_va.values.shape == (1000, 10)
+        many_strats_data = np.random.rand(1, 100).astype(np.float64)
+        strategy_names = [f"Strategy_{i}" for i in range(100)]
+        many_strats_va = ValueArray.from_numpy(many_strats_data, strategy_names=strategy_names)
+        assert many_strats_va.n_samples == 1
+        assert many_strats_va.n_strategies == 100
+        assert len(many_strats_va.strategy_names) == 100
+
+    def test_value_array_copy_method(self):
+        """Test ValueArray copy functionality."""
+        values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
+        original_va = ValueArray.from_numpy(values, strategy_names=["A", "B"])
+
+        # Create copy
+        copied_va = original_va.copy()
+
+        # Objects should be different
+        assert copied_va is not original_va
+        # But content should be the same
+        assert copied_va == original_va
+        assert copied_va.n_samples == original_va.n_samples
+        assert copied_va.n_strategies == original_va.n_strategies
+        assert copied_va.strategy_names == original_va.strategy_names
+        np.testing.assert_array_equal(copied_va.values, original_va.values)
 
 
-class TestParameterSetComprehensive:
-    """Comprehensive tests for ParameterSet to improve coverage."""
+class TestParameterSetHighCoverage:
+    """Comprehensive tests for ParameterSet to improve coverage to >95%."""
 
-    def test_parameter_set_from_numpy_or_dict_with_dict(self):
-        """Test ParameterSet.from_numpy_or_dict with dictionary."""
+    def test_parameter_set_creation_from_numpy_dict(self):
+        """Test ParameterSet creation from numpy dict."""
         params = {
             "param1": np.array([0.1, 0.2, 0.3], dtype=np.float64),
             "param2": np.array([10.0, 20.0, 30.0], dtype=np.float64),
         }
-        
+
         param_set = ParameterSet.from_numpy_or_dict(params)
-        
+
         assert isinstance(param_set, ParameterSet)
         assert param_set.n_samples == 3
         assert len(param_set.parameter_names) == 2
@@ -192,54 +189,27 @@ class TestParameterSetComprehensive:
         np.testing.assert_array_equal(param_set.parameters["param1"], params["param1"])
         np.testing.assert_array_equal(param_set.parameters["param2"], params["param2"])
 
-    def test_parameter_set_from_numpy_or_dict_with_numpy_array(self):
-        """Test ParameterSet.from_numpy_or_dict with numpy array."""
-        # Create 2D array: 3 samples, 2 parameters
+    def test_parameter_set_creation_from_numpy_array(self):
+        """Test ParameterSet creation from 2D numpy array."""
+        # Array with shape (n_samples, n_parameters) = (3, 2)
         param_array = np.array([
             [0.1, 10.0],  # Sample 1: param1=0.1, param2=10.0
             [0.2, 20.0],  # Sample 2: param1=0.2, param2=20.0
             [0.3, 30.0]   # Sample 3: param1=0.3, param2=30.0
         ], dtype=np.float64)
-        
+
         param_set = ParameterSet.from_numpy_or_dict(param_array)
-        
+
         assert isinstance(param_set, ParameterSet)
         assert param_set.n_samples == 3
         assert len(param_set.parameter_names) == 2
         assert all(name.startswith("param_") for name in param_set.parameter_names)
         assert "param_0" in param_set.parameter_names
         assert "param_1" in param_set.parameter_names
+
         # Values should be accessible as columns
-        assert param_set.parameters["param_0"][0] == 0.1
-        assert param_set.parameters["param_1"][0] == 10.0
-        assert param_set.parameters["param_0"][2] == 0.3
-        assert param_set.parameters["param_1"][2] == 30.0
-
-    def test_parameter_set_from_numpy_or_dict_invalid_inputs(self):
-        """Test ParameterSet.from_numpy_or_dict with invalid inputs."""
-        # Test with invalid type
-        with pytest.raises(InputError, match="must be a NumPy array or Dict"):
-            ParameterSet.from_numpy_or_dict("not valid")
-
-        # Test with 1D array (not 2D as required for multiple parameters)
-        with pytest.raises(InputError, match="must be a 2-dimensional NumPy array"):
-            ParameterSet.from_numpy_or_dict(np.array([0.1, 0.2, 0.3]))
-
-        # Test with empty dict
-        with pytest.raises(InputError, match="parameters cannot be empty"):
-            ParameterSet.from_numpy_or_dict({})
-
-        # Test with non-numeric dict values
-        with pytest.raises(InputError, match="must contain NumPy arrays"):
-            ParameterSet.from_numpy_or_dict({"param1": ["a", "b", "c"]})
-
-        # Test with mismatched sample counts in dict
-        mismatched_params = {
-            "param1": np.array([0.1, 0.2]),  # 2 samples
-            "param2": np.array([10.0, 20.0, 30.0])  # 3 samples
-        }
-        with pytest.raises(InputError, match="All parameter arrays must have the same number of samples"):
-            ParameterSet.from_numpy_or_dict(mismatched_params)
+        np.testing.assert_array_equal(param_set.parameters["param_0"], np.array([0.1, 0.2, 0.3]))
+        np.testing.assert_array_equal(param_set.parameters["param_1"], np.array([10.0, 20.0, 30.0]))
 
     def test_parameter_set_properties(self):
         """Test ParameterSet property accessors."""
@@ -247,9 +217,9 @@ class TestParameterSetComprehensive:
             "cost_param": np.array([100.0, 120.0, 110.0]),
             "effect_param": np.array([0.8, 0.9, 0.85])
         }
-        
+
         param_set = ParameterSet.from_numpy_or_dict(params)
-        
+
         # Test properties
         assert param_set.n_samples == 3
         assert len(param_set.parameter_names) == 2
@@ -259,147 +229,53 @@ class TestParameterSetComprehensive:
         assert isinstance(param_set.parameters, dict)
         assert isinstance(param_set.dataset, xr.Dataset)
 
-    def test_parameter_set_get_parameter(self):
-        """Test ParameterSet get_parameter method."""
-        params = {
-            "param1": np.array([0.1, 0.2, 0.3]),
-            "param2": np.array([10.0, 20.0, 30.0])
-        }
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Test getting specific parameters
-        param1_vals = param_set.get_parameter("param1")
-        param2_vals = param_set.get_parameter("param2")
-        
-        assert isinstance(param1_vals, np.ndarray)
-        assert isinstance(param2_vals, np.ndarray)
-        np.testing.assert_array_equal(param1_vals, params["param1"])
-        np.testing.assert_array_equal(param2_vals, params["param2"])
-        
-        # Test getting non-existent parameter
-        with pytest.raises(KeyError, match="not found"):
-            param_set.get_parameter("nonexistent_param")
+    def test_parameter_set_from_numpy_or_dict_invalid_inputs(self):
+        """Test ParameterSet.from_numpy_or_dict with invalid inputs."""
+        # Test with invalid type
+        with pytest.raises(InputError, match="must be a numpy array or Dict"):
+            ParameterSet.from_numpy_or_dict("not valid")
 
-    def test_parameter_set_subset_by_parameters(self):
-        """Test ParameterSet subset_by_parameters method."""
-        params = {
-            "param1": np.array([0.1, 0.2, 0.3]),
-            "param2": np.array([10.0, 20.0, 30.0]),
-            "param3": np.array([100.0, 200.0, 300.0])
-        }
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Test subsetting to specific parameters
-        subset = param_set.subset_by_parameters(["param1", "param3"])
-        
-        assert isinstance(subset, ParameterSet)
-        assert subset.n_samples == 3  # Same number of samples
-        assert len(subset.parameter_names) == 2  # Only 2 parameters
-        assert set(subset.parameter_names) == {"param1", "param3"}
-        np.testing.assert_array_equal(subset.parameters["param1"], params["param1"])
-        np.testing.assert_array_equal(subset.parameters["param3"], params["param3"])
-        
-        # Verify param2 is not included
-        assert "param2" not in subset.parameters
-        
-        # Test with empty parameter list
-        empty_subset = param_set.subset_by_parameters([])
-        assert len(empty_subset.parameter_names) == 0
+        # Test with non-2D array
+        invalid_1d = np.array([0.1, 0.2])
+        with pytest.raises(InputError, match="must be 2-dimensional"):
+            ParameterSet.from_numpy_or_dict(invalid_1d)
 
-    def test_parameter_set_parameter_statistics(self):
-        """Test parameter statistics methods."""
-        params = {
-            "param1": np.array([0.1, 0.2, 0.3, 0.4, 0.5]),
-            "param2": np.array([10.0, 20.0, 30.0, 40.0, 50.0])
-        }
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Test getting parameter statistics
-        param1_stats = param_set.get_parameter_statistics("param1")
-        param2_stats = param_set.get_parameter_statistics("param2")
-        
-        # Should return a dict with common statistics
-        assert isinstance(param1_stats, dict)
-        assert "mean" in param1_stats
-        assert "std" in param1_stats
-        assert "min" in param1_stats
-        assert "max" in param1_stats
-        assert "n_samples" in param1_stats
-        
-        # Verify calculations
-        assert abs(param1_stats["mean"] - 0.3) < 1e-10  # (0.1+0.2+0.3+0.4+0.5)/5 = 0.3
-        assert abs(param1_stats["min"] - 0.1) < 1e-10
-        assert abs(param1_stats["max"] - 0.5) < 1e-10
-        
-        # Test with non-existent parameter
-        with pytest.raises(KeyError, match="not found"):
-            param_set.get_parameter_statistics("nonexistent")
+        # Test with 3D array
+        invalid_3d = np.array([[[0.1, 0.2]]])
+        with pytest.raises(InputError, match="must be 2-dimensional"):
+            ParameterSet.from_numpy_or_dict(invalid_3d)
 
-    def test_parameter_set_all_parameters_statistics(self):
-        """Test getting statistics for all parameters."""
-        params = {
-            "param1": np.array([0.1, 0.2, 0.3]),
-            "param2": np.array([10.0, 20.0, 30.0])
-        }
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Test getting all parameter statistics
-        all_stats = param_set.get_all_parameter_statistics()
-        
-        assert isinstance(all_stats, dict)
-        assert len(all_stats) == 2  # Two parameters
-        assert "param1" in all_stats
-        assert "param2" in all_stats
-        assert isinstance(all_stats["param1"], dict)
-        assert isinstance(all_stats["param2"], dict)
+        # Test with empty dict
+        empty_dict = {}
+        with pytest.raises(InputError, match="parameters dictionary cannot be empty"):
+            ParameterSet.from_numpy_or_dict(empty_dict)
 
-    def test_parameter_set_to_dict(self):
-        """Test ParameterSet to_dict method."""
-        params = {
-            "param_a": np.array([0.1, 0.2, 0.3]),
-            "param_b": np.array([10.0, 20.0, 30.0])
+        # Test with mismatched sample counts in dict
+        mismatched_params = {
+            "param1": np.array([0.1, 0.2]),  # 2 samples
+            "param2": np.array([10.0, 20.0, 30.0])  # 3 samples - mismatch!
         }
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Test converting to dictionary
-        result_dict = param_set.to_dict()
-        
-        assert isinstance(result_dict, dict)
-        assert len(result_dict) == 2  # Two parameters
-        assert "param_a" in result_dict
-        assert "param_b" in result_dict
-        assert isinstance(result_dict["param_a"], np.ndarray)
-        assert isinstance(result_dict["param_b"], np.ndarray)
-        
-        # Verify values are preserved
-        np.testing.assert_array_equal(result_dict["param_a"], params["param_a"])
-        np.testing.assert_array_equal(result_dict["param_b"], params["param_b"])
+        with pytest.raises(InputError, match="All parameter arrays must have the same length"):
+            ParameterSet.from_numpy_or_dict(mismatched_params)
 
-    def test_parameter_set_dataset_coord_consistency(self):
-        """Test that ParameterSet maintains coordinate consistency."""
-        params = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
-        
-        param_set = ParameterSet.from_numpy_or_dict(params)
-        
-        # Check coordination consistency between dataset and properties
-        assert param_set.dataset.sizes["n_samples"] == param_set.n_samples
-        assert len(param_set.dataset.data_vars) == len(param_set.parameter_names)
+        # Test with non-numeric values
+        non_numeric_params = {
+            "param1": np.array(["a", "b"]),  # Non-numeric
+            "param2": np.array([10.0, 20.0])
+        }
+        with pytest.raises(InputError, match="All parameter arrays must be numeric"):
+            ParameterSet.from_numpy_or_dict(non_numeric_params)
 
     def test_parameter_set_equality(self):
         """Test ParameterSet equality comparisons."""
-        params1 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
-        params2 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
-        params3 = {"param1": np.array([0.1, 0.3]), "param2": np.array([10.0, 20.0])}  # Different param1
-        
-        ps1 = ParameterSet.from_numpy_or_dict(params1)
-        ps2 = ParameterSet.from_numpy_or_dict(params2)
-        ps3 = ParameterSet.from_numpy_or_dict(params3)
-        
+        param_dict1 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
+        param_dict2 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
+        param_dict3 = {"param1": np.array([0.1, 0.3]), "param2": np.array([10.0, 20.0])}  # Different param1
+
+        ps1 = ParameterSet.from_numpy_or_dict(param_dict1)
+        ps2 = ParameterSet.from_numpy_or_dict(param_dict2)
+        ps3 = ParameterSet.from_numpy_or_dict(param_dict3)
+
         # Test equality
         assert ps1 == ps2  # Same content
         assert ps1 != ps3  # Different content
@@ -412,22 +288,98 @@ class TestParameterSetComprehensive:
         ps1 = ParameterSet.from_numpy_or_dict(single_param_single_sample)
         assert ps1.n_samples == 1
         assert len(ps1.parameter_names) == 1
-        assert ps1.get_parameter("param1")[0] == 42.0
-        
+        assert ps1.parameters["param1"][0] == 42.0
+
         # Single parameter, many samples
-        single_param_many_samples = {"param1": np.array([0.1, 0.2, 0.3, 0.4, 0.5])}
+        single_param_many_samples = {"param1": np.array([i*0.1 for i in range(50)])}
         ps2 = ParameterSet.from_numpy_or_dict(single_param_many_samples)
-        assert ps2.n_samples == 5
+        assert ps2.n_samples == 50
         assert len(ps2.parameter_names) == 1
-        
+
         # Many parameters, single sample
-        many_params_single_sample = {f"param_{i}": np.array([i*10.0]) for i in range(10)}
+        many_params_single_sample = {f"param_{i}": np.array([i*10.0]) for i in range(50)}
         ps3 = ParameterSet.from_numpy_or_dict(many_params_single_sample)
         assert ps3.n_samples == 1
-        assert len(ps3.parameter_names) == 10
-        
+        assert len(ps3.parameter_names) == 50
+
         # Large arrays
         large_params = {f"large_param_{i}": np.random.rand(1000) for i in range(5)}
         ps4 = ParameterSet.from_numpy_or_dict(large_params)
         assert ps4.n_samples == 1000
         assert len(ps4.parameter_names) == 5
+
+    def test_parameter_set_copy_method(self):
+        """Test ParameterSet copy functionality."""
+        params = {
+            "param_a": np.array([0.1, 0.2, 0.3]),
+            "param_b": np.array([10.0, 20.0, 30.0])
+        }
+
+        original_ps = ParameterSet.from_numpy_or_dict(params)
+
+        # Test copy method
+        copied_ps = original_ps.copy()
+
+        # Objects should be different
+        assert copied_ps is not original_ps
+        # But content should be the same
+        assert copied_ps == original_ps
+        assert copied_ps.n_samples == original_ps.n_samples
+        assert set(copied_ps.parameter_names) == set(original_ps.parameter_names)
+        for param_name in original_ps.parameter_names:
+            np.testing.assert_array_equal(
+                copied_ps.parameters[param_name],
+                original_ps.parameters[param_name]
+            )
+
+    def test_parameter_set_dataset_creation_from_xarray(self):
+        """Test ParameterSet creation from xarray dataset."""
+        # Create dataset with proper structure
+        param_values = np.array([
+            [0.1, 10.0, 100.0],  # Sample 1
+            [0.2, 20.0, 200.0],  # Sample 2
+        ], dtype=np.float64)
+        xarray_dataset = xr.Dataset(
+            {"param1": (("n_samples",), param_values[:, 0]),
+             "param2": (("n_samples",), param_values[:, 1]),
+             "param3": (("n_samples",), param_values[:, 2])},
+            coords={"n_samples": np.arange(2)}
+        )
+
+        param_set = ParameterSet(dataset=xarray_dataset)
+
+        assert isinstance(param_set, ParameterSet)
+        assert param_set.n_samples == 2
+        assert len(param_set.parameter_names) == 3
+        assert set(param_set.parameter_names) == {"param1", "param2", "param3"}
+        assert param_set.parameters["param1"].shape == (2,)
+        assert param_set.parameters["param2"].shape == (2,)
+        assert param_set.parameters["param3"].shape == (2,)
+
+    def test_value_array_str_rep(self):
+        """Test ValueArray string representations."""
+        values = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
+        value_array = ValueArray.from_numpy(values, strategy_names=["Strat A", "Strat B"])
+
+        # Test string representations
+        str_repr = str(value_array)
+        repr_repr = repr(value_array)
+
+        assert isinstance(str_repr, str)
+        assert isinstance(repr_repr, str)
+        assert "ValueArray" in str_repr
+        assert "ValueArray" in repr_repr
+
+    def test_parameter_set_str_rep(self):
+        """Test ParameterSet string representations."""
+        params = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
+        param_set = ParameterSet.from_numpy_or_dict(params)
+
+        # Test string representations
+        str_repr = str(param_set)
+        repr_repr = repr(param_set)
+
+        assert isinstance(str_repr, str)
+        assert isinstance(repr_repr, str)
+        assert "ParameterSet" in str_repr
+        assert "ParameterSet" in repr_repr

@@ -109,8 +109,8 @@ def _evsi_regression(model_func, psa_prior, trial_design, n_regression_samples):
         sampled_psa = ParameterSet(dataset=dataset)
 
     # Run model on prior samples to get prior net benefits
-    nb_prior = model_func(sampled_psa).values
-    
+    _ = model_func(sampled_psa).values
+
     # For each sampled parameter set, simulate trial data and get posterior net benefits
     nb_posterior_list = []
     for i in range(len(indices)):
@@ -119,39 +119,39 @@ def _evsi_regression(model_func, psa_prior, trial_design, n_regression_samples):
             name: values[i]
             for name, values in sampled_psa.parameters.items()
         }
-        
+
         # Simulate trial data
         trial_data = _simulate_trial_data(true_params, trial_design)
-        
+
         # Bayesian update
         posterior_psa = _bayesian_update(sampled_psa, trial_data, trial_design)
-        
+
         # Run model on posterior
         nb_posterior = model_func(posterior_psa).values
         nb_posterior_list.append(nb_posterior)
-    
+
     # Stack posterior net benefits
     nb_posterior_array = np.stack(nb_posterior_list, axis=0)  # (n_samples, n_strategies)
-    
+
     # Calculate max net benefit for each posterior sample
     mean_nb_per_strategy = np.mean(nb_posterior_array, axis=1)  # (n_samples, n_strategies)
     max_nb_posterior = np.max(mean_nb_per_strategy, axis=1)  # (n_samples,)
-    
+
     # Prepare data for regression
-    # X: prior parameter values (flatten to 2D array)
-    X = np.stack([values for values in sampled_psa.parameters.values()], axis=1)  # (n_samples, n_parameters)
-    
+    # x: prior parameter values (flatten to 2D array)
+    x = np.stack(list(sampled_psa.parameters.values()), axis=1)  # (n_samples, n_parameters)
+
     # y: max net benefit from posterior
     y = max_nb_posterior
-    
+
     # Fit regression model
     regression_model = LinearRegression()
-    regression_model.fit(X, y)
-    
+    regression_model.fit(x, y)
+
     # Predict max net benefit for all prior samples
-    X_all = np.stack([values for values in psa_prior.parameters.values()], axis=1)  # (n_samples, n_parameters)
-    predicted_max_nb = regression_model.predict(X_all)
-    
+    x_all = np.stack(list(psa_prior.parameters.values()), axis=1)  # (n_samples, n_parameters)
+    predicted_max_nb = regression_model.predict(x_all)
+
     # Return expected max net benefit
     return np.mean(predicted_max_nb)
 

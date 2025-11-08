@@ -1,6 +1,7 @@
 """Fluent API for Value of Information analysis."""
 
-from typing import Any, Dict, Optional, Union, Generator
+from typing import Any, Dict, Optional, Union
+
 import numpy as np
 
 from voiage.analysis import DecisionAnalysis
@@ -9,7 +10,7 @@ from voiage.schema import ParameterSet, ValueArray
 
 class FluentDecisionAnalysis(DecisionAnalysis):
     """A class to represent a decision analysis problem with fluent API support."""
-    
+
     def __init__(
         self,
         nb_array: Union[np.ndarray, ValueArray],
@@ -33,15 +34,16 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         self._last_evpi_result = None
         self._last_evppi_result = None
         self._last_evsi_result = None
-    
+
     def with_parameters(self, parameter_samples: Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]) -> "FluentDecisionAnalysis":
         """
         Set parameter samples for the analysis.
-        
+
         Args:
             parameter_samples: Parameter samples for EVPPI calculation
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         if isinstance(parameter_samples, ParameterSet):
@@ -51,92 +53,98 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         else:
             raise TypeError(f"`parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(parameter_samples)}.")
         return self
-    
+
     def with_backend(self, backend: str) -> "FluentDecisionAnalysis":
         """
         Set the computational backend.
-        
+
         Args:
             backend: Backend name ('numpy', 'jax', etc.)
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         from voiage.backends import get_backend
         self.backend = get_backend(backend)
         return self
-    
+
     def with_jit(self, use_jit: bool = True) -> "FluentDecisionAnalysis":
         """
         Enable or disable JIT compilation.
-        
+
         Args:
             use_jit: Whether to use JIT compilation
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self.use_jit = use_jit
         return self
-    
+
     def with_streaming(self, window_size: int) -> "FluentDecisionAnalysis":
         """
         Enable streaming data support with specified window size.
-        
+
         Args:
             window_size: Size of the streaming window
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self.streaming_window_size = window_size
         self._initialize_streaming_buffers()
         return self
-    
+
     def with_caching(self, enable: bool = True) -> "FluentDecisionAnalysis":
         """
         Enable or disable caching.
-        
+
         Args:
             enable: Whether to enable caching
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self.enable_caching = enable
         self._cache = {} if enable else None
         return self
-    
-    def add_data(self, new_nb_data: Union[np.ndarray, ValueArray], 
+
+    def add_data(self, new_nb_data: Union[np.ndarray, ValueArray],
                  new_parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None) -> "FluentDecisionAnalysis":
         """
         Add new data to the analysis (for streaming support).
-        
+
         Args:
             new_nb_data: New net benefit data to add
             new_parameter_samples: New parameter samples corresponding to the net benefit data
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self.update_with_new_data(new_nb_data, new_parameter_samples)
         return self
-    
-    def calculate_evpi(self, 
+
+    def calculate_evpi(self,
                        population: Optional[float] = None,
                        time_horizon: Optional[float] = None,
                        discount_rate: Optional[float] = None,
                        chunk_size: Optional[int] = None) -> "FluentDecisionAnalysis":
         """
         Calculate the Expected Value of Perfect Information (EVPI).
-        
+
         Args:
             population: The relevant population size
             time_horizon: The relevant time horizon in years
             discount_rate: The annual discount rate
             chunk_size: Size of chunks for incremental computation
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self._last_evpi_result = self.evpi(
@@ -146,7 +154,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
             chunk_size=chunk_size
         )
         return self
-    
+
     def calculate_evppi(self,
                         population: Optional[float] = None,
                         time_horizon: Optional[float] = None,
@@ -156,7 +164,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
                         chunk_size: Optional[int] = None) -> "FluentDecisionAnalysis":
         """
         Calculate the Expected Value of Partial Perfect Information (EVPPI).
-        
+
         Args:
             population: Population size for scaling
             time_horizon: Time horizon for scaling
@@ -164,8 +172,9 @@ class FluentDecisionAnalysis(DecisionAnalysis):
             n_regression_samples: Number of samples to use for fitting the regression model
             regression_model: An unfitted scikit-learn compatible regression model
             chunk_size: Size of chunks for incremental computation
-            
-        Returns:
+
+        Returns
+        -------
             FluentDecisionAnalysis: Self for method chaining
         """
         self._last_evppi_result = self.evppi(
@@ -177,42 +186,45 @@ class FluentDecisionAnalysis(DecisionAnalysis):
             chunk_size=chunk_size
         )
         return self
-    
+
     def get_evpi_result(self) -> Optional[float]:
         """
         Get the last calculated EVPI result.
-        
-        Returns:
+
+        Returns
+        -------
             Optional[float]: Last EVPI result or None if not calculated
         """
         return self._last_evpi_result
-    
+
     def get_evppi_result(self) -> Optional[float]:
         """
         Get the last calculated EVPPI result.
-        
-        Returns:
+
+        Returns
+        -------
             Optional[float]: Last EVPPI result or None if not calculated
         """
         return self._last_evppi_result
-    
+
     def get_results(self) -> Dict[str, Optional[float]]:
         """
         Get all calculated results.
-        
-        Returns:
+
+        Returns
+        -------
             Dict[str, Optional[float]]: Dictionary of results
         """
         return {
             "evpi": self._last_evpi_result,
             "evppi": self._last_evppi_result
         }
-    
+
     # Context manager support
     def __enter__(self) -> "FluentDecisionAnalysis":
         """Enter context manager."""
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Exit context manager."""
         pass
@@ -224,13 +236,14 @@ def create_analysis(nb_array: Union[np.ndarray, ValueArray],
                    **kwargs) -> FluentDecisionAnalysis:
     """
     Create a FluentDecisionAnalysis object.
-    
+
     Args:
         nb_array: Net benefit array
         parameter_samples: Parameter samples for EVPPI calculation
         **kwargs: Additional arguments for DecisionAnalysis constructor
-        
-    Returns:
+
+    Returns
+    -------
         FluentDecisionAnalysis: New fluent analysis object
     """
     return FluentDecisionAnalysis(
@@ -241,7 +254,7 @@ def create_analysis(nb_array: Union[np.ndarray, ValueArray],
 
 
 # Example usage:
-# 
+#
 # # Fluent API usage
 # results = (create_analysis(net_benefits)
 #            .with_parameters(parameters)
@@ -251,7 +264,7 @@ def create_analysis(nb_array: Union[np.ndarray, ValueArray],
 #            .calculate_evpi(population=100000, time_horizon=10, discount_rate=0.03)
 #            .calculate_evppi()
 #            .get_results())
-# 
+#
 # # Or step by step
 # analysis = create_analysis(net_benefits)
 # analysis = analysis.with_parameters(parameters)

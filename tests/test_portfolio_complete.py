@@ -3,14 +3,19 @@
 import numpy as np
 import pytest
 
-from voiage.schema import ParameterSet, ValueArray, TrialDesign, DecisionOption, PortfolioStudy, PortfolioSpec
-from voiage.methods.portfolio import portfolio_voi
 from voiage.exceptions import InputError, VoiageNotImplementedError
+from voiage.methods.portfolio import portfolio_voi
+from voiage.schema import (
+    DecisionOption,
+    PortfolioSpec,
+    PortfolioStudy,
+    TrialDesign,
+)
 
 
 class TestPortfolioVOIComplete:
     """Comprehensive tests for portfolio_voi to cover all functionality."""
-    
+
     def test_portfolio_voi_with_greedy_method_complete(self):
         """Test portfolio_voi with greedy method, covering all code paths."""
         def study_value_calc(study: PortfolioStudy) -> float:
@@ -23,10 +28,10 @@ class TestPortfolioVOIComplete:
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
         design2 = TrialDesign([DecisionOption("Treatment B", 200)])
         design3 = TrialDesign([DecisionOption("Treatment C", 150)])
-        
+
         # Create portfolio studies
         study1 = PortfolioStudy("Study Alpha", design1, cost=50000)
-        study2 = PortfolioStudy("Study Beta", design2, cost=80000) 
+        study2 = PortfolioStudy("Study Beta", design2, cost=80000)
         study3 = PortfolioStudy("Study Gamma", design3, cost=60000)
         studies = [study1, study2, study3]
 
@@ -55,7 +60,7 @@ class TestPortfolioVOIComplete:
         assert isinstance(result['total_value'], float)
         assert isinstance(result['total_cost'], float)
         assert isinstance(result['method_details'], str)
-        
+
         # Check that values are non-negative
         assert result['total_value'] >= 0
         assert result['total_cost'] >= 0
@@ -70,7 +75,7 @@ class TestPortfolioVOIComplete:
         # Create trial designs for studies
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
         design2 = TrialDesign([DecisionOption("Treatment B", 200)])
-        
+
         # Create portfolio studies
         study1 = PortfolioStudy("Study 1", design1, cost=50000)
         study2 = PortfolioStudy("Study 2", design2, cost=80000)
@@ -101,11 +106,11 @@ class TestPortfolioVOIComplete:
             assert isinstance(result_ip['total_value'], (int, float))
             assert isinstance(result_ip['total_cost'], (int, float, np.integer, np.floating))
             assert isinstance(result_ip['method_details'], str)
-            
+
             # Check that values are non-negative
             assert result_ip['total_value'] >= 0
             assert result_ip['total_cost'] >= 0
-            
+
         except ImportError:
             # Scipy might not be available, in which case we'll skip this test
             pytest.skip("scipy not available for integer programming test")
@@ -161,7 +166,7 @@ class TestPortfolioVOIComplete:
 
         # Create trial design
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
-        
+
         # Create studies with different costs
         study1 = PortfolioStudy("High Value Study", design1, cost=0)  # Zero cost
         study2 = PortfolioStudy("Normal Study", design1, cost=50000)  # Normal cost
@@ -170,7 +175,7 @@ class TestPortfolioVOIComplete:
         # Create portfolio specification with budget
         portfolio_spec = PortfolioSpec(studies=studies, budget_constraint=50000)
 
-        # Test with greedy method - zero cost study should be prioritized 
+        # Test with greedy method - zero cost study should be prioritized
         result = portfolio_voi(
             portfolio_specification=portfolio_spec,
             study_value_calculator=study_value_calc,
@@ -180,7 +185,7 @@ class TestPortfolioVOIComplete:
         # Should include the high-value zero-cost study
         selected_names = [s.name for s in result['selected_studies']]
         assert "High Value Study" in selected_names
-        
+
         # Check other properties
         assert isinstance(result['total_value'], float)
         assert isinstance(result['total_cost'], float)
@@ -197,7 +202,7 @@ class TestPortfolioVOIComplete:
         # Create trial designs
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
         design2 = TrialDesign([DecisionOption("Treatment B", 150)])
-        
+
         # Create studies with costs that will result in same value/cost ratios
         study1 = PortfolioStudy("Study A", design1, cost=50000)  # Value = 1000, ratio = 0.02
         study2 = PortfolioStudy("Study B", design2, cost=80000)  # Value = 1600, ratio = 0.02
@@ -341,7 +346,7 @@ class TestPortfolioVOIComplete:
 
         # Create trial design
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
-        
+
         # Create studies with different values
         study1 = PortfolioStudy("Positive Value Study", design1, cost=50000)  # Positive value
         study2 = PortfolioStudy("Negative Value Study", design1, cost=40000)  # Negative value
@@ -360,7 +365,7 @@ class TestPortfolioVOIComplete:
         # Should select positive value study but not negative value study (due to ratio)
         selected_names = [s.name for s in result['selected_studies']]
         assert "Positive Value Study" in selected_names or "Negative Value Study" not in selected_names
-        
+
         # Check other properties
         assert isinstance(result['total_value'], float)
         assert isinstance(result['total_cost'], float)
@@ -376,7 +381,7 @@ class TestPortfolioVOIComplete:
         # Create trial designs with different sample sizes
         design1 = TrialDesign([DecisionOption("Treatment A", 100)])
         design2 = TrialDesign([DecisionOption("Treatment B", 200)])
-        
+
         # Create studies
         study1 = PortfolioStudy("Study 1", design1, cost=50000)
         study2 = PortfolioStudy("Study 2", design2, cost=80000)
@@ -399,7 +404,7 @@ class TestPortfolioVOIComplete:
         # Study 2 should be selected because of higher ratio
         selected_names = [s.name for s in result['selected_studies']]
         assert "Study 2" in selected_names  # Higher value-to-cost ratio
-        
+
         assert isinstance(result['total_value'], float)
         assert isinstance(result['total_cost'], float)
         assert result['total_value'] >= 0
@@ -424,7 +429,7 @@ class TestPortfolioVOIComplete:
             DecisionOption("Treatment X", 100),
             DecisionOption("Treatment Y", 100)
         ])  # Total sample size: 200
-        
+
         # Create studies
         study1 = PortfolioStudy("Multi-Arm Study", design1, cost=75000)  # Value: 150000, ratio: 2.0
         study2 = PortfolioStudy("Two-Arm Study", design2, cost=100000)  # Value: 200000, ratio: 2.0

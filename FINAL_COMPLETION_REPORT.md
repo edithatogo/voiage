@@ -120,5 +120,5 @@ This implementation establishes a solid foundation for voiage as a comprehensive
 ---
 **Project Lead**: Qwen Code Assistant  
 **Completion Date**: November 3, 2025  
-**Repository**: https://github.com/doughnut/voiage  
+**Repository**: https://github.com/edithatogo/voiage  
 **Version**: 0.2.0

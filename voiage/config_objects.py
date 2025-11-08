@@ -1,37 +1,34 @@
 """Configuration objects for complex parameter sets in Value of Information analysis."""
 
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
-import numpy as np
-
-from voiage.schema import ParameterSet, TrialDesign, DecisionOption
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
 class VOIAnalysisConfig:
     """Configuration for a Value of Information analysis."""
-    
+
     # Basic analysis parameters
     population: Optional[float] = None
     time_horizon: Optional[float] = None
     discount_rate: Optional[float] = None
-    
+
     # Computational parameters
     chunk_size: Optional[int] = None
     use_jit: bool = False
     backend: str = "numpy"
     enable_caching: bool = False
-    
+
     # Streaming parameters
     streaming_window_size: Optional[int] = None
-    
+
     # EVPPI parameters
     n_regression_samples: Optional[int] = None
     regression_model: Optional[Any] = None
-    
+
     # EVSI parameters
     n_simulations: int = 1000
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert configuration to dictionary."""
         return {
@@ -52,11 +49,11 @@ class VOIAnalysisConfig:
 @dataclass
 class StreamingConfig:
     """Configuration for streaming data analysis."""
-    
+
     window_size: int = 1000
     update_frequency: int = 100
     buffer_size: Optional[int] = None
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         if self.window_size <= 0:
@@ -70,36 +67,36 @@ class StreamingConfig:
 @dataclass
 class MetamodelConfig:
     """Configuration for metamodeling approaches."""
-    
+
     # Metamodel type
     method: str = "gam"  # 'gam', 'gp', 'bart', 'rf', 'nn'
-    
+
     # General parameters
     n_samples: int = 10000
     n_folds: int = 5
-    
+
     # GAM-specific parameters
     gam_splines: int = 10
     gam_degree: int = 3
-    
+
     # GP-specific parameters
     gp_length_scale: float = 1.0
     gp_noise_level: float = 0.1
-    
+
     # BART-specific parameters
     bart_trees: int = 50
     bart_burnin: int = 100
-    
+
     # RF-specific parameters
     rf_n_estimators: int = 100
     rf_max_depth: Optional[int] = None
-    
+
     # NN-specific parameters
     nn_hidden_layers: List[int] = field(default_factory=lambda: [64, 32])
     nn_learning_rate: float = 0.001
     nn_epochs: int = 1000
     nn_batch_size: int = 32
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         valid_methods = ['gam', 'gp', 'bart', 'rf', 'nn']
@@ -110,31 +107,31 @@ class MetamodelConfig:
 @dataclass
 class OptimizationConfig:
     """Configuration for optimization algorithms."""
-    
+
     # Optimization algorithm
     algorithm: str = "grid"  # 'grid', 'random', 'bayesian'
-    
+
     # General parameters
     n_iterations: int = 100
     n_initial_points: int = 10
-    
+
     # Grid search parameters
     grid_resolution: int = 10
-    
+
     # Random search parameters
     random_seed: Optional[int] = None
-    
+
     # Bayesian optimization parameters
     acquisition_function: str = "ei"  # 'ei', 'ucb', 'poi'
     kappa: float = 2.576  # For UCB
     xi: float = 0.01  # For EI and POI
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         valid_algorithms = ['grid', 'random', 'bayesian']
         if self.algorithm not in valid_algorithms:
             raise ValueError(f"Algorithm must be one of {valid_algorithms}")
-        
+
         valid_acq_funcs = ['ei', 'ucb', 'poi']
         if self.acquisition_function not in valid_acq_funcs:
             raise ValueError(f"Acquisition function must be one of {valid_acq_funcs}")
@@ -143,19 +140,19 @@ class OptimizationConfig:
 @dataclass
 class HealthcareConfig:
     """Configuration for healthcare-specific analyses."""
-    
+
     # QALY parameters
     qaly_discount_rate: float = 0.03
     cost_discount_rate: float = 0.03
-    
+
     # Disease progression parameters
     cycle_length: float = 1.0  # Years
     max_cycles: int = 50
-    
+
     # Markov model parameters
     markov_cohort_size: int = 10000
     markov_start_age: float = 25.0
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         if not (0 <= self.qaly_discount_rate <= 1):
@@ -175,22 +172,22 @@ class HealthcareConfig:
 @dataclass
 class EnvironmentalConfig:
     """Configuration for environmental impact assessments."""
-    
+
     # Carbon footprint parameters
     carbon_intensity: float = 0.5  # kg CO2/kWh
     energy_consumption: float = 10000  # kWh
-    
+
     # Water usage parameters
     water_intensity: float = 0.1  # L/kWh
     water_cost: float = 0.002  # $/L
-    
+
     # Biodiversity parameters
     biodiversity_impact_factor: float = 0.01  # Impact per kWh
-    
+
     # Monetization parameters
     social_cost_of_carbon: float = 50  # $/ton CO2
     ecosystem_service_value: float = 100  # $/impact unit
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         if self.carbon_intensity < 0:
@@ -212,19 +209,19 @@ class EnvironmentalConfig:
 @dataclass
 class FinancialConfig:
     """Configuration for financial risk analysis."""
-    
+
     # Risk metrics parameters
     var_confidence_level: float = 0.95
     cvar_confidence_level: float = 0.95
     sharpe_ratio_risk_free_rate: float = 0.0001  # Daily
-    
+
     # Monte Carlo parameters
     mc_n_simulations: int = 10000
     mc_time_horizon: int = 252  # Trading days
-    
+
     # Stress testing parameters
     stress_test_scenarios: List[str] = field(default_factory=lambda: ["market_crash", "interest_rate_shock"])
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         if not (0 < self.var_confidence_level < 1):
@@ -240,16 +237,16 @@ class FinancialConfig:
 @dataclass
 class ParallelConfig:
     """Configuration for parallel processing."""
-    
+
     # Parallel processing parameters
     n_workers: Optional[int] = None
     use_processes: bool = True
     max_workers: Optional[int] = None
-    
+
     # Memory management
     memory_limit_mb: Optional[float] = None
     chunk_size: Optional[int] = None
-    
+
     def __post_init__(self):
         """Validate configuration parameters."""
         if self.n_workers is not None and self.n_workers <= 0:

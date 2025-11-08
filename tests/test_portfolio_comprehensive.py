@@ -3,14 +3,14 @@
 import numpy as np
 import pytest
 
-from voiage.methods.portfolio import portfolio_voi
-from voiage.schema import PortfolioSpec, PortfolioStudy, TrialDesign, DecisionOption
 from voiage.exceptions import InputError, VoiageNotImplementedError
+from voiage.methods.portfolio import portfolio_voi
+from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
 
 
 class TestPortfolioVOI:
     """Test the portfolio_voi function comprehensively."""
-    
+
     def test_portfolio_voi_basic(self):
         """Test basic functionality of portfolio_voi with greedy method."""
         # Create a simple portfolio study value calculator
@@ -40,13 +40,13 @@ class TestPortfolioVOI:
         assert "total_value" in result
         assert "total_cost" in result
         assert "method_details" in result
-        
+
         # Check types
         assert isinstance(result["selected_studies"], list)
         assert isinstance(result["total_value"], float)
         assert isinstance(result["total_cost"], float)
         assert isinstance(result["method_details"], str)
-        
+
         # Check that total cost doesn't exceed budget
         assert result["total_cost"] <= 100000
         # Check that value and cost are non-negative
@@ -111,19 +111,19 @@ class TestPortfolioVOI:
                 study_value_calculator=simple_value_calculator,
                 optimization_method="integer_programming"
             )
-            
+
             # Check result structure
             assert "selected_studies" in result
             assert "total_value" in result
             assert "total_cost" in result
             assert "method_details" in result
-            
+
             # Check types - allow numpy numeric types as well
             assert isinstance(result["selected_studies"], list)
             assert isinstance(result["total_value"], (float, int, np.floating, np.integer, np.number))
             assert isinstance(result["total_cost"], (float, int, np.floating, np.integer, np.number))
             assert isinstance(result["method_details"], str)
-            
+
             # Check that total cost doesn't exceed budget
             assert result["total_cost"] <= 100000
             # Check that value and cost are non-negative
@@ -255,7 +255,7 @@ class TestPortfolioVOI:
         # The negative value study should not be selected (if costs are positive)
         selected_names = [s.name for s in result["selected_studies"]]
         assert "Study 1" in selected_names
-        # The negative study might be selected if the algorithm doesn't filter by value, 
+        # The negative study might be selected if the algorithm doesn't filter by value,
         # but in our greedy algorithm it's based on value/cost ratio
         # If value is negative and cost is positive, ratio is negative, so it would be ranked lower
         assert result["total_value"] >= 0  # Total value should be non-negative

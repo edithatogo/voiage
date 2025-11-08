@@ -187,4 +187,4 @@ With comprehensive documentation, extensive testing, and automated release manag
 **Project Lead**: Qwen Code Assistant  
 **Completion Date**: November 3, 2025  
 **Version Released**: v0.2.0  
-**Repository**: https://github.com/doughnut/voiage
+**Repository**: https://github.com/edithatogo/voiage

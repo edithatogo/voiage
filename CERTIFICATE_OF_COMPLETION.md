@@ -10,7 +10,7 @@ This certificate certifies that the **voiage Enhancement Project** has been succ
 **Completion Date**: November 3, 2025  
 **Version Released**: v0.2.0  
 **Lead Developer**: Qwen Code Assistant  
-**Repository**: https://github.com/doughnut/voiage  
+**Repository**: https://github.com/edithatogo/voiage  
 
 ## ✅ Key Accomplishments
 

@@ -6,17 +6,18 @@ import numpy as np
 import pytest
 import xarray as xr
 
+from voiage.exceptions import InputError
 from voiage.methods.network_nma import (
-    evsi_nma,
+    _perform_network_meta_analysis,
     _simulate_trial_data_nma,
     _update_nma_posterior,
-    _perform_network_meta_analysis,
     calculate_nma_consistency,
+    evsi_nma,
     simulate_nma_network_data,
-    sophisticated_nma_model_evaluator
+    sophisticated_nma_model_evaluator,
 )
-from voiage.schema import ValueArray as NetBenefitArray, ParameterSet, TrialDesign, DecisionOption
-from voiage.exceptions import InputError
+from voiage.schema import DecisionOption, ParameterSet, TrialDesign
+from voiage.schema import ValueArray as NetBenefitArray
 
 
 # Mock NMA model evaluator for testing
@@ -28,7 +29,7 @@ def mock_nma_evaluator(psa_samples, trial_design=None, trial_data=None):
     nb_values = np.random.rand(n_samples, 2) * 100
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 10
-    
+
     dataset = xr.Dataset(
         {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
         coords={
@@ -51,7 +52,7 @@ def sample_psa():
         "baseline_outcome": np.random.normal(0.5, 0.1, 100),
         "outcome_sd": np.random.uniform(0.1, 0.3, 100)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params.items()},
         coords={"n_samples": np.arange(100)}
@@ -79,7 +80,7 @@ def test_evsi_nma_basic(sample_psa, sample_trial_design):
         n_outer_loops=5,  # Use smaller numbers for faster tests
         n_inner_loops=10
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0  # EVSI should be non-negative
 
@@ -96,7 +97,7 @@ def test_evsi_nma_with_population_scaling(sample_psa, sample_trial_design):
         n_outer_loops=5,
         n_inner_loops=10
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 
@@ -110,7 +111,7 @@ def test_evsi_nma_input_validation(sample_psa, sample_trial_design):
             psa_prior_nma=sample_psa,
             trial_design_new_study=sample_trial_design
         )
-    
+
     # Test invalid psa_prior_nma
     with pytest.raises(InputError, match="`psa_prior_nma` must be a PSASample object"):
         evsi_nma(
@@ -118,7 +119,7 @@ def test_evsi_nma_input_validation(sample_psa, sample_trial_design):
             psa_prior_nma="not_a_psa",
             trial_design_new_study=sample_trial_design
         )
-    
+
     # Test invalid trial_design_new_study
     with pytest.raises(InputError, match="`trial_design_new_study` must be a TrialDesign object"):
         evsi_nma(
@@ -126,7 +127,7 @@ def test_evsi_nma_input_validation(sample_psa, sample_trial_design):
             psa_prior_nma=sample_psa,
             trial_design_new_study="not_a_trial_design"
         )
-    
+
     # Test invalid loop parameters
     with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
         evsi_nma(
@@ -135,7 +136,7 @@ def test_evsi_nma_input_validation(sample_psa, sample_trial_design):
             trial_design_new_study=sample_trial_design,
             n_outer_loops=0
         )
-    
+
     with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
         evsi_nma(
             nma_model_evaluator=mock_nma_evaluator,
@@ -156,7 +157,7 @@ def test_evsi_nma_population_scaling_validation(sample_psa, sample_trial_design)
             population=0,
             time_horizon=10
         )
-    
+
     # Test invalid time_horizon
     with pytest.raises(InputError, match="Time horizon must be positive"):
         evsi_nma(
@@ -166,7 +167,7 @@ def test_evsi_nma_population_scaling_validation(sample_psa, sample_trial_design)
             population=1000,
             time_horizon=0
         )
-    
+
     # Test invalid discount_rate
     with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
         evsi_nma(
@@ -187,22 +188,22 @@ def test_simulate_trial_data_nma():
         "baseline_outcome": 0.3,
         "outcome_sd": 0.1
     }
-    
+
     trial_design = TrialDesign([
         DecisionOption(name="Treatment A", sample_size=50),
         DecisionOption(name="Treatment B", sample_size=50)
     ])
-    
+
     simulated_data = _simulate_trial_data_nma(true_params, trial_design)
-    
+
     # Check that we have data for each arm
     assert "Treatment A" in simulated_data
     assert "Treatment B" in simulated_data
-    
+
     # Check data shapes
     assert simulated_data["Treatment A"].shape == (50,)
     assert simulated_data["Treatment B"].shape == (50,)
-    
+
     # Check that data is numpy arrays
     assert isinstance(simulated_data["Treatment A"], np.ndarray)
     assert isinstance(simulated_data["Treatment B"], np.ndarray)
@@ -215,54 +216,54 @@ def test_update_nma_posterior():
     n_samples = 1000
     prior_te_a = np.random.normal(0.1, 0.05, n_samples)  # Mean=0.1, SD=0.05
     prior_te_b = np.random.normal(0.2, 0.05, n_samples)  # Mean=0.2, SD=0.05
-    
+
     params = {
         "te_treatment_a": prior_te_a,
         "te_treatment_b": prior_te_b,
         "other_param": np.random.rand(n_samples)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params.items()},
         coords={"n_samples": np.arange(n_samples)}
     )
     prior_psa = ParameterSet(dataset=dataset)
-    
+
     # Create mock trial data
     np.random.seed(123)
     trial_data = {
         "Treatment A": np.random.normal(0.15, 0.02, 50),  # Data suggests te=0.15
         "Treatment B": np.random.normal(0.25, 0.02, 50)   # Data suggests te=0.25
     }
-    
+
     trial_design = TrialDesign([
         DecisionOption(name="Treatment A", sample_size=50),
         DecisionOption(name="Treatment B", sample_size=50)
     ])
-    
+
     # Update posteriors
     posterior_psa = _update_nma_posterior(prior_psa, trial_data, trial_design)
-    
+
     # Check that we get back a PSASample
     assert isinstance(posterior_psa, ParameterSet)
-    
+
     # Check that the number of samples is preserved
     assert posterior_psa.n_samples == n_samples
-    
+
     # Check that posterior means are closer to the data means than prior means
     # This indicates the Bayesian updating is working
     posterior_te_a = posterior_psa.parameters["te_treatment_a"]
     posterior_te_b = posterior_psa.parameters["te_treatment_b"]
-    
+
     prior_te_a_mean = np.mean(prior_te_a)
     prior_te_b_mean = np.mean(prior_te_b)
-    
+
     data_te_a_mean = np.mean(trial_data["Treatment A"])
     data_te_b_mean = np.mean(trial_data["Treatment B"])
-    
+
     posterior_te_a_mean = np.mean(posterior_te_a)
     posterior_te_b_mean = np.mean(posterior_te_b)
-    
+
     # Posterior should be between prior and data (Bayesian updating)
     # But closer to data since we have 50 data points vs. 1000 prior samples
     assert abs(posterior_te_a_mean - data_te_a_mean) < abs(prior_te_a_mean - data_te_a_mean)
@@ -275,18 +276,18 @@ def test_perform_network_meta_analysis():
     treatment_effects = np.array([0.1, 0.2, 0.15, 0.25, 0.05])
     se_effects = np.array([0.05, 0.06, 0.04, 0.07, 0.03])
     study_designs = [[0, 1], [1, 2], [0, 2], [1, 3], [0, 3]]
-    
+
     # Test that the function runs without error
     te, var = _perform_network_meta_analysis(treatment_effects, se_effects, study_designs)
-    
+
     # Check return types
     assert isinstance(te, np.ndarray)
     assert isinstance(var, np.ndarray)
-    
+
     # Check shapes
     assert te.shape == treatment_effects.shape
     assert var.shape == se_effects.shape
-    
+
     # Check that variances are positive
     assert np.all(var > 0)
 
@@ -301,22 +302,22 @@ def test_sophisticated_nma_model_evaluator():
         "baseline_cost": np.random.normal(1000, 100, n_samples),
         "effectiveness_slope": np.random.normal(0.8, 0.1, n_samples)
     }
-    
+
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in params.items()},
         coords={"n_samples": np.arange(n_samples)}
     )
     psa_samples = ParameterSet(dataset=dataset)
-    
+
     # Test the evaluator
     net_benefits = sophisticated_nma_model_evaluator(psa_samples)
-    
+
     # Check return type
     assert isinstance(net_benefits, NetBenefitArray)
-    
+
     # Check shape (3 strategies)
     assert net_benefits.values.shape == (n_samples, 3)
-    
+
     # Check that we have strategy names
     assert "strategy" in net_benefits.dataset.coords
 
@@ -326,13 +327,13 @@ def test_calculate_nma_consistency():
     # Create mock data
     treatment_effects = np.array([0.1, 0.2, 0.15, 0.25])
     study_designs = [[0, 1], [1, 2], [0, 2], [1, 3]]
-    
+
     # Test that the function runs without error
     consistency = calculate_nma_consistency(treatment_effects, study_designs)
-    
+
     # Check return type
     assert isinstance(consistency, float)
-    
+
     # Consistency should be non-negative
     assert consistency >= 0
 
@@ -343,13 +344,13 @@ def test_nma_consistency_with_perfect_agreement():
     # Studies 0 and 2 both compare treatments 0 and 1
     treatment_effects = np.array([0.15, 0.2, 0.15])  # First and third are identical
     study_designs = [[0, 1], [1, 2], [0, 1]]  # First and third compare same treatments
-    
+
     # Test that the function runs without error
     consistency = calculate_nma_consistency(treatment_effects, study_designs)
-    
+
     # Check return type
     assert isinstance(consistency, float)
-    
+
     # With perfect agreement, consistency should be 0
     # But due to floating point precision, it might be very small
     assert consistency >= 0
@@ -361,18 +362,18 @@ def test_network_meta_analysis_with_heterogeneity():
     treatment_effects = np.array([0.1, 0.3, 0.12, 0.28, 0.09])  # Clear heterogeneity
     se_effects = np.array([0.02, 0.02, 0.02, 0.02, 0.02])  # Small standard errors
     study_designs = [[0, 1], [0, 1], [0, 1], [0, 1], [0, 1]]  # All compare same treatments
-    
+
     # Test that the function runs without error
     te, var = _perform_network_meta_analysis(treatment_effects, se_effects, study_designs)
-    
+
     # Check return types
     assert isinstance(te, np.ndarray)
     assert isinstance(var, np.ndarray)
-    
+
     # Check shapes
     assert te.shape == treatment_effects.shape
     assert var.shape == se_effects.shape
-    
+
     # Check that variances are positive
     assert np.all(var > 0)
 
@@ -381,17 +382,17 @@ def test_simulate_nma_network_data():
     """Test simulate_nma_network_data function."""
     # Test with small network
     te, se, designs = simulate_nma_network_data(3, 4)
-    
+
     # Check return types
     assert isinstance(te, np.ndarray)
     assert isinstance(se, np.ndarray)
     assert isinstance(designs, list)
-    
+
     # Check shapes
     assert len(te) == 4
     assert len(se) == 4
     assert len(designs) == 4
-    
+
     # Check that each design compares exactly 2 treatments
     for design in designs:
         assert len(design) == 2

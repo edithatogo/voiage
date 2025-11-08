@@ -10,11 +10,12 @@ from typing import Any, Dict, Optional, Union
 
 import numpy as np
 
-from voiage.schema import ValueArray as NetBenefitArray, ParameterSet as PSASample
 from voiage.exceptions import (
     DimensionMismatchError,
     InputError,
 )
+from voiage.schema import ParameterSet as PSASample
+from voiage.schema import ValueArray as NetBenefitArray
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -122,7 +123,7 @@ def evppi(
         float: The calculated EVPPI.
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
-    
+
     # Filter parameter samples to only include parameters of interest
     if isinstance(parameter_samples, PSASample):
         # Check that all parameters of interest are in the parameter set
@@ -131,7 +132,7 @@ def evppi(
         missing_params = requested_params - available_params
         if missing_params:
             raise InputError(f"All `parameters_of_interest` must be in the ParameterSet. Missing: {missing_params}")
-        
+
         # Create a new ParameterSet with only the parameters of interest
         filtered_parameters = {name: parameter_samples.parameters[name] for name in parameters_of_interest}
         import xarray as xr
@@ -148,7 +149,7 @@ def evppi(
         missing_params = requested_params - available_params
         if missing_params:
             raise InputError(f"All `parameters_of_interest` must be in the ParameterSet. Missing: {missing_params}")
-        
+
         # Filter the dictionary
         filtered_parameter_samples = {name: parameter_samples[name] for name in parameters_of_interest}
     else:
@@ -157,6 +158,7 @@ def evppi(
 
     analysis = DecisionAnalysis(nb_array=nb_array, parameter_samples=filtered_parameter_samples)
     return analysis.evppi(
+        parameters_of_interest=parameters_of_interest,
         population=population,
         time_horizon=time_horizon,
         discount_rate=discount_rate,

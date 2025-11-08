@@ -7,19 +7,19 @@ This document summarizes the completion of all major development tasks for the v
 ### 1. Network Meta-Analysis VOI Implementation
 - Enhanced the [evsi_nma][voiage.methods.network_nma.evsi_nma] function with sophisticated NMA models
 - Implemented additional NMA-specific functionality including consistency checking and heterogeneity modeling
-- Created comprehensive test coverage in [test_network_nma.py](file:///Users/doughnut/GitHub/voiage/tests/test_network_nma.py)
+- Created comprehensive test coverage in [test_network_nma.py](file:///Users/edithatogo/GitHub/voiage/tests/test_network_nma.py)
 - Developed validation examples comparing with established methods
 
 ### 2. Portfolio Optimization Implementation
-- Implemented portfolio optimization methods in [portfolio.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/portfolio.py)
-- Defined required data structures in [schema.py](file:///Users/doughnut/GitHub/voiage/voiage/schema.py)
-- Added comprehensive test coverage in [test_portfolio.py](file:///Users/doughnut/GitHub/voiage/tests/test_portfolio.py)
+- Implemented portfolio optimization methods in [portfolio.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/portfolio.py)
+- Defined required data structures in [schema.py](file:///Users/edithatogo/GitHub/voiage/voiage/schema.py)
+- Added comprehensive test coverage in [test_portfolio.py](file:///Users/edithatogo/GitHub/voiage/tests/test_portfolio.py)
 - Documented usage and examples for portfolio optimization
 
 ### 3. Advanced Methods Implementation
-- Completed implementation of [adaptive.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/adaptive.py) with adaptive trial simulation
-- Completed implementation of [calibration.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/calibration.py) with model calibration methods
-- Completed implementation of [observational.py](file:///Users/doughnut/GitHub/voiage/voiage/methods/observational.py) with observational study methods
+- Completed implementation of [adaptive.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/adaptive.py) with adaptive trial simulation
+- Completed implementation of [calibration.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/calibration.py) with model calibration methods
+- Completed implementation of [observational.py](file:///Users/edithatogo/GitHub/voiage/voiage/methods/observational.py) with observational study methods
 - Added comprehensive test coverage for all advanced methods
 
 ### 4. CLI Interface Development
@@ -29,7 +29,7 @@ This document summarizes the completion of all major development tasks for the v
 - Added comprehensive documentation and examples for CLI usage
 
 ### 5. Metamodeling Capabilities Expansion
-- Implemented additional metamodels (Random Forest, BART, GAM) in [metamodels.py](file:///Users/doughnut/GitHub/voiage/voiage/metamodels.py)
+- Implemented additional metamodels (Random Forest, BART, GAM) in [metamodels.py](file:///Users/edithatogo/GitHub/voiage/voiage/metamodels.py)
 - Added metamodel fit diagnostics and validation
 - Implemented cross-validation for metamodel selection
 - Added comprehensive test coverage for metamodeling functionality
@@ -59,15 +59,15 @@ This document summarizes the completion of all major development tasks for the v
 - Created comprehensive integration tests
 
 ### 10. Performance Optimization with JAX Backend
-- Optimized JAX backend implementation in [backends.py](file:///Users/doughnut/GitHub/voiage/voiage/backends.py)
+- Optimized JAX backend implementation in [backends.py](file:///Users/edithatogo/GitHub/voiage/voiage/backends.py)
 - Added comprehensive JAX support throughout the library
 - Implemented JIT compilation for core VOI functions
 - Documented performance benefits and usage examples
 
 ### 11. Documentation and Examples Expansion
-- Created comprehensive API documentation in [comprehensive_api.md](file:///Users/doughnut/GitHub/voiage/docs/api_reference/comprehensive_api.md)
-- Added cross-domain examples and tutorials in [advanced_cross_domain_tutorial.md](file:///Users/doughnut/GitHub/voiage/docs/examples/advanced_cross_domain_tutorial.md)
-- Expanded user guides and best practices in [best_practices.md](file:///Users/doughnut/GitHub/voiage/docs/user_guide/best_practices.md)
+- Created comprehensive API documentation in [comprehensive_api.md](file:///Users/edithatogo/GitHub/voiage/docs/api_reference/comprehensive_api.md)
+- Added cross-domain examples and tutorials in [advanced_cross_domain_tutorial.md](file:///Users/edithatogo/GitHub/voiage/docs/examples/advanced_cross_domain_tutorial.md)
+- Expanded user guides and best practices in [best_practices.md](file:///Users/edithatogo/GitHub/voiage/docs/user_guide/best_practices.md)
 
 ## Current Status
 

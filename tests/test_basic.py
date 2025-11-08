@@ -23,7 +23,7 @@ NB_ARRAY = np.stack([NB_A, NB_B], axis=1)
 EXPECTED_EVPI = 2.0
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_value_array() -> ValueArray:
     """Provide a ValueArray instance."""
     dataset = xr.Dataset(
@@ -37,7 +37,7 @@ def sample_value_array() -> ValueArray:
     return ValueArray(dataset=dataset)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_parameter_set() -> ParameterSet:
     """Provide a ParameterSet instance."""
     params = {

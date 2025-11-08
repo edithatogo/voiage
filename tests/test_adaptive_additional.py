@@ -1,21 +1,21 @@
 """Additional tests for voiage.methods.adaptive module to improve coverage further."""
 
+
 import numpy as np
 import pytest
-from unittest.mock import patch, MagicMock
 
+from voiage.exceptions import InputError
 from voiage.methods.adaptive import (
     adaptive_evsi,
+    bayesian_adaptive_trial_simulator,
     sophisticated_adaptive_trial_simulator,
-    bayesian_adaptive_trial_simulator
 )
-from voiage.schema import ParameterSet, TrialDesign, DecisionOption
-from voiage.exceptions import InputError
+from voiage.schema import DecisionOption, ParameterSet, TrialDesign
 
 
 class TestAdaptiveEVSIAdditional:
     """Additional tests for adaptive_evsi function to cover remaining lines."""
-    
+
     def test_adaptive_evsi_with_population_scaling_full_params(self):
         """Test adaptive_evsi with all population scaling parameters."""
         # Create a simple adaptive trial simulator
@@ -150,7 +150,7 @@ class TestAdaptiveEVSIAdditional:
 
     def test_adaptive_evsi_exception_handling_in_simulator(self):
         """Test adaptive_evsi with simulator that properly handles exceptions."""
-        # Create a simulator that simulates a more realistic scenario where the 
+        # Create a simulator that simulates a more realistic scenario where the
         # exception occurs in the inner loop, not in the initial call
         def simple_modeler(psa_samples, trial_design=None, trial_data=None):
             """Simple modeler that returns valid results."""
@@ -218,7 +218,7 @@ class TestAdaptiveEVSIAdditional:
 
         # Test with simulator that fails on subsequent calls (within the loop)
         failing_simulator = simulator_that_fails_after_first_call()
-        
+
         # The function should still work even if some evaluations fail within the outer loops
         result = adaptive_evsi(
             adaptive_trial_simulator=failing_simulator,
@@ -301,7 +301,7 @@ class TestAdaptiveEVSIAdditional:
             base_value = 1000
             strategy1_values = np.full(n_samples, base_value)
             strategy2_values = np.full(n_samples, base_value + np.random.normal(0, 0.1, n_samples))  # Very small differences
-            
+
             nb_values = np.column_stack([strategy1_values, strategy2_values])
 
             import xarray as xr
@@ -454,7 +454,7 @@ class TestAdaptiveEVSIAdditional:
                 n_outer_loops=3,
                 n_inner_loops=5
             )
-        
+
         # Test with negative time horizon (should raise error)
         with pytest.raises(InputError, match="Time horizon must be positive"):
             adaptive_evsi(
@@ -467,7 +467,7 @@ class TestAdaptiveEVSIAdditional:
                 n_outer_loops=3,
                 n_inner_loops=5
             )
-        
+
         # Test with invalid discount rate (too high)
         with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
             adaptive_evsi(
@@ -481,7 +481,7 @@ class TestAdaptiveEVSIAdditional:
                 n_outer_loops=3,
                 n_inner_loops=5
             )
-        
+
         # Test with invalid discount rate (negative)
         with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
             adaptive_evsi(
@@ -499,7 +499,7 @@ class TestAdaptiveEVSIAdditional:
 
 class TestSophisticatedAdaptiveTrialSimulator:
     """Test the sophisticated_adaptive_trial_simulator function."""
-    
+
     def test_sophisticated_adaptive_trial_simulator_basic(self):
         """Test basic functionality of sophisticated_adaptive_trial_simulator."""
         # Create test parameter set
@@ -580,7 +580,7 @@ class TestSophisticatedAdaptiveTrialSimulator:
 
 class TestBayesianAdaptiveTrialSimulator:
     """Test the bayesian_adaptive_trial_simulator function."""
-    
+
     def test_bayesian_adaptive_trial_simulator_basic(self):
         """Test basic functionality of bayesian_adaptive_trial_simulator."""
         # Create test parameter set

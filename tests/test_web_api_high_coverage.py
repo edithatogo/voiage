@@ -1,10 +1,8 @@
 """Comprehensive tests for the web API module to improve coverage."""
 
-import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import patch, MagicMock
-from voiage.web.main import app
 
+from voiage.web.main import app
 
 client = TestClient(app)
 
@@ -35,7 +33,7 @@ class TestWebAPIComprehensive:
         # Valid net benefit array
         nb_array = [[100.0, 150.0, 120.0], [90.0, 140.0, 130.0], [110.0, 130.0, 140.0]]
         strategy_names = ["Strategy A", "Strategy B", "Strategy C"]
-        
+
         payload = {
             "nb_array": nb_array,
             "strategy_names": strategy_names,
@@ -43,7 +41,7 @@ class TestWebAPIComprehensive:
             "time_horizon": 5,
             "discount_rate": 0.035
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         assert response.status_code == 200
         response_data = response.json()
@@ -58,12 +56,12 @@ class TestWebAPIComprehensive:
         # Valid net benefit array
         nb_array = [[100.0, 150.0], [90.0, 140.0]]
         strategy_names = ["Strategy A", "Strategy B"]
-        
+
         payload = {
             "nb_array": nb_array,
             "strategy_names": strategy_names
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         assert response.status_code == 200
         response_data = response.json()
@@ -78,7 +76,7 @@ class TestWebAPIComprehensive:
             "nb_array": [100, 150],  # Should be 2D array
             "strategy_names": ["Strategy A", "Strategy B"]
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         # Expect 422 validation error for invalid input
         assert response.status_code in [422, 500]  # Validation error or internal error
@@ -90,7 +88,7 @@ class TestWebAPIComprehensive:
         payload = {
             "strategy_names": ["Strategy A", "Strategy B"]
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         # Expect 422 validation error for missing required field
         assert response.status_code == 422
@@ -101,13 +99,13 @@ class TestWebAPIComprehensive:
         # Valid net benefit array
         nb_array = [[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]]
         strategy_names = ["Strategy A", "Strategy B"]
-        
+
         # Valid parameter samples
         parameter_samples = {
             "param1": [0.1, 0.2, 0.3],
             "param2": [10.0, 20.0, 30.0]
         }
-        
+
         payload = {
             "nb_array": nb_array,
             "strategy_names": strategy_names,
@@ -117,7 +115,7 @@ class TestWebAPIComprehensive:
             "time_horizon": 5,
             "discount_rate": 0.035
         }
-        
+
         response = client.post("/calculate/evppi", json=payload)
         # May return 501 if sklearn is not available
         assert response.status_code in [200, 501]  # Success or not implemented
@@ -135,7 +133,7 @@ class TestWebAPIComprehensive:
         # Valid net benefit array
         nb_array = [[100.0, 150.0], [90.0, 140.0]]
         strategy_names = ["Strategy A", "Strategy B"]
-        
+
         # No parameter samples provided
         payload = {
             "nb_array": nb_array,
@@ -143,7 +141,7 @@ class TestWebAPIComprehensive:
             "parameter_samples": {},
             "parameters_of_interest": ["param1"]  # This should fail
         }
-        
+
         response = client.post("/calculate/evppi", json=payload)
         # Expect 422 validation error because parameters_of_interest are not in parameter_samples
         assert response.status_code in [422, 500]
@@ -160,7 +158,7 @@ class TestWebAPIComprehensive:
     def test_list_analyses_endpoint(self):
         """Test the list analyses endpoint."""
         response = client.get("/analyses")
-        # May return 404 (endpoint not found) or 200 (implemented)  
+        # May return 404 (endpoint not found) or 200 (implemented)
         assert response.status_code in [200, 404, 405]  # 405 if method not allowed
         print("✅ List analyses endpoint tested")
 
@@ -172,7 +170,7 @@ class TestWebAPIComprehensive:
             "nb_array": nb_array,
             "strategy_names": ["Single Strategy"]
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         if response.status_code == 200:
             response_data = response.json()
@@ -186,7 +184,7 @@ class TestWebAPIComprehensive:
             "nb_array": nb_array,
             "strategy_names": ["Strategy A", "Strategy B"]
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         if response.status_code == 200:
             response_data = response.json()
@@ -197,7 +195,7 @@ class TestWebAPIComprehensive:
         """Test EVPI population scaling validation."""
         nb_array = [[100.0, 150.0], [90.0, 140.0]]
         strategy_names = ["Strategy A", "Strategy B"]
-        
+
         # Test with negative population
         payload = {
             "nb_array": nb_array,
@@ -206,7 +204,7 @@ class TestWebAPIComprehensive:
             "time_horizon": 5,
             "discount_rate": 0.035
         }
-        
+
         response = client.post("/calculate/evpi", json=payload)
         assert response.status_code in [422, 500]
         print("✅ EVPI population validation working")
@@ -214,7 +212,7 @@ class TestWebAPIComprehensive:
         # Test with negative time horizon
         payload["population"] = 1000
         payload["time_horizon"] = -5
-        
+
         response = client.post("/calculate/evpi", json=payload)
         assert response.status_code in [422, 500]
         print("✅ EVPI time horizon validation working")
@@ -222,7 +220,7 @@ class TestWebAPIComprehensive:
         # Test with invalid discount rate
         payload["time_horizon"] = 5
         payload["discount_rate"] = 1.5
-        
+
         response = client.post("/calculate/evpi", json=payload)
         assert response.status_code in [422, 500]
         print("✅ EVPI discount rate validation working")
@@ -233,14 +231,14 @@ class TestWebAPIComprehensive:
         nb_array = [[100.0, 150.0], [90.0, 140.0]]
         strategy_names = ["Strategy A", "Strategy B"]
         param_samples = {"existing_param": [0.1, 0.2]}
-        
+
         payload = {
             "nb_array": nb_array,
             "strategy_names": strategy_names,
             "parameter_samples": param_samples,
             "parameters_of_interest": ["nonexistent_param"]  # This parameter doesn't exist
         }
-        
+
         response = client.post("/calculate/evppi", json=payload)
         assert response.status_code in [422, 500]
         print("✅ EVPPI parameter validation working")

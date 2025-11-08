@@ -13,7 +13,7 @@ from voiage.plot.voi_curves import (
 from voiage.schema import ValueArray
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_value_array():
     data = {
         "net_benefit": (

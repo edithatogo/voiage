@@ -2,12 +2,11 @@
 
 """Tests for portfolio optimization methods."""
 
-import numpy as np
 import pytest
 
+from voiage.exceptions import InputError, VoiageNotImplementedError
 from voiage.methods.portfolio import portfolio_voi
 from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
-from voiage.exceptions import InputError, VoiageNotImplementedError
 
 
 # Mock study value calculator for testing
@@ -29,12 +28,12 @@ def sample_studies():
     design_high = TrialDesign([DecisionOption("Treatment A", 100)])
     design_medium = TrialDesign([DecisionOption("Treatment B", 50)])
     design_low = TrialDesign([DecisionOption("Treatment C", 25)])
-    
+
     # Create studies
     study_high = PortfolioStudy(name="High Value Study", design=design_high, cost=50.0)
     study_medium = PortfolioStudy(name="Medium Value Study", design=design_medium, cost=30.0)
     study_low = PortfolioStudy(name="Low Value Study", design=design_low, cost=10.0)
-    
+
     return [study_high, study_medium, study_low]
 
 
@@ -51,13 +50,13 @@ def test_portfolio_voi_basic(sample_portfolio_spec):
         study_value_calculator=mock_study_value_calculator,
         optimization_method="greedy"
     )
-    
+
     assert isinstance(result, dict)
     assert "selected_studies" in result
     assert "total_value" in result
     assert "total_cost" in result
     assert "method_details" in result
-    
+
     # Check types
     assert isinstance(result["selected_studies"], list)
     assert isinstance(result["total_value"], float)
@@ -68,13 +67,13 @@ def test_portfolio_voi_basic(sample_portfolio_spec):
 def test_portfolio_voi_greedy_no_budget(sample_studies):
     """Test greedy optimization with no budget constraint."""
     portfolio_spec = PortfolioSpec(studies=sample_studies, budget_constraint=None)
-    
+
     result = portfolio_voi(
         portfolio_specification=portfolio_spec,
         study_value_calculator=mock_study_value_calculator,
         optimization_method="greedy"
     )
-    
+
     # With no budget, all studies should be selected
     assert len(result["selected_studies"]) == 3
     assert result["total_cost"] == 90.0  # 50 + 30 + 10
@@ -93,15 +92,15 @@ def test_portfolio_voi_greedy_with_budget(sample_studies):
     # Select Low (10 cost, 25 value) -> remaining 50
     # Select High (50 cost, 100 value) -> remaining 0
     # Total: 60 cost, 125 value
-    
+
     portfolio_spec = PortfolioSpec(studies=sample_studies, budget_constraint=60.0)
-    
+
     result = portfolio_voi(
         portfolio_specification=portfolio_spec,
         study_value_calculator=mock_study_value_calculator,
         optimization_method="greedy"
     )
-    
+
     selected_names = [study.name for study in result["selected_studies"]]
     assert "Low Value Study" in selected_names
     assert "High Value Study" in selected_names
@@ -113,13 +112,13 @@ def test_portfolio_voi_greedy_with_budget(sample_studies):
 def test_portfolio_voi_integer_programming(sample_studies):
     """Test integer programming optimization."""
     portfolio_spec = PortfolioSpec(studies=sample_studies, budget_constraint=60.0)
-    
+
     result = portfolio_voi(
         portfolio_specification=portfolio_spec,
         study_value_calculator=mock_study_value_calculator,
         optimization_method="integer_programming"
     )
-    
+
     # Check that we get a result with the expected structure
     assert isinstance(result["selected_studies"], list)
     assert isinstance(result["total_value"], (int, float))
@@ -131,13 +130,13 @@ def test_portfolio_voi_single_study():
     design = TrialDesign([DecisionOption("Treatment", 50)])
     study = PortfolioStudy(name="Single Study", design=design, cost=25.0)
     portfolio_spec = PortfolioSpec(studies=[study], budget_constraint=None)
-    
+
     result = portfolio_voi(
         portfolio_specification=portfolio_spec,
         study_value_calculator=mock_study_value_calculator,
         optimization_method="greedy"
     )
-    
+
     assert len(result["selected_studies"]) == 1
     assert result["selected_studies"][0].name == "Single Study"
     assert result["total_value"] == 0.0  # Default value from mock calculator
@@ -152,12 +151,12 @@ def test_portfolio_voi_input_validation():
             portfolio_specification="not a portfolio spec",
             study_value_calculator=mock_study_value_calculator
         )
-    
+
     # Test invalid study_value_calculator
     design = TrialDesign([DecisionOption("Treatment", 50)])
     study = PortfolioStudy(name="Test Study", design=design, cost=25.0)
     portfolio_spec = PortfolioSpec(studies=[study], budget_constraint=None)
-    
+
     with pytest.raises(InputError, match="`study_value_calculator` must be a callable function"):
         portfolio_voi(
             portfolio_specification=portfolio_spec,
@@ -170,7 +169,7 @@ def test_portfolio_voi_unimplemented_methods():
     design = TrialDesign([DecisionOption("Treatment", 50)])
     study = PortfolioStudy(name="Test Study", design=design, cost=25.0)
     portfolio_spec = PortfolioSpec(studies=[study], budget_constraint=None)
-    
+
     # Test dynamic programming (not implemented)
     with pytest.raises(VoiageNotImplementedError):
         portfolio_voi(
@@ -178,7 +177,7 @@ def test_portfolio_voi_unimplemented_methods():
             study_value_calculator=mock_study_value_calculator,
             optimization_method="dynamic_programming"
         )
-    
+
     # Test unknown method
     with pytest.raises(VoiageNotImplementedError, match="not recognized or implemented"):
         portfolio_voi(
@@ -193,16 +192,16 @@ def test_portfolio_voi_zero_cost_studies(sample_studies):
     # Add a zero cost study
     design_zero = TrialDesign([DecisionOption("Treatment D", 10)])
     study_zero = PortfolioStudy(name="Zero Cost Study", design=design_zero, cost=0.0)
-    
+
     studies_with_zero = sample_studies + [study_zero]
     portfolio_spec = PortfolioSpec(studies=studies_with_zero, budget_constraint=50.0)
-    
+
     result = portfolio_voi(
         portfolio_specification=portfolio_spec,
         study_value_calculator=mock_study_value_calculator,
         optimization_method="greedy"
     )
-    
+
     # Zero cost study should be selected if it has positive value
     selected_names = [study.name for study in result["selected_studies"]]
     assert "Zero Cost Study" in selected_names

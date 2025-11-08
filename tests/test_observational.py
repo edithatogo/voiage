@@ -6,9 +6,9 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from voiage.methods.observational import voi_observational
-from voiage.schema import ValueArray, ParameterSet
 from voiage.exceptions import InputError
+from voiage.methods.observational import voi_observational
+from voiage.schema import ParameterSet, ValueArray
 
 
 # Mock observational study modeler for testing
@@ -20,7 +20,7 @@ def mock_obs_modeler(psa_samples, study_design, bias_models):
     nb_values = np.random.rand(n_samples, 2) * 1000
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 100
-    
+
     dataset = xr.Dataset(
         {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
         coords={
@@ -70,7 +70,7 @@ def test_voi_observational_basic(sample_psa, sample_study_design, sample_bias_mo
         bias_models=sample_bias_models,
         n_outer_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0  # VOI should be non-negative
 
@@ -87,7 +87,7 @@ def test_voi_observational_with_population_scaling(sample_psa, sample_study_desi
         discount_rate=0.03,
         n_outer_loops=5
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 
@@ -102,7 +102,7 @@ def test_voi_observational_input_validation(sample_psa, sample_study_design, sam
             observational_study_design=sample_study_design,
             bias_models=sample_bias_models
         )
-    
+
     # Test invalid psa_prior
     with pytest.raises(InputError, match="`psa_prior` must be a PSASample object"):
         voi_observational(
@@ -111,7 +111,7 @@ def test_voi_observational_input_validation(sample_psa, sample_study_design, sam
             observational_study_design=sample_study_design,
             bias_models=sample_bias_models
         )
-    
+
     # Test invalid observational_study_design
     with pytest.raises(InputError, match="`observational_study_design` must be a dictionary"):
         voi_observational(
@@ -120,7 +120,7 @@ def test_voi_observational_input_validation(sample_psa, sample_study_design, sam
             observational_study_design="not_a_dict",
             bias_models=sample_bias_models
         )
-    
+
     # Test invalid bias_models
     with pytest.raises(InputError, match="`bias_models` must be a dictionary"):
         voi_observational(
@@ -129,7 +129,7 @@ def test_voi_observational_input_validation(sample_psa, sample_study_design, sam
             observational_study_design=sample_study_design,
             bias_models="not_a_dict"
         )
-    
+
     # Test invalid loop parameters
     with pytest.raises(InputError, match="n_outer_loops must be positive"):
         voi_observational(
@@ -153,7 +153,7 @@ def test_voi_observational_population_scaling_validation(sample_psa, sample_stud
             population=0,
             time_horizon=10
         )
-    
+
     # Test invalid time_horizon
     with pytest.raises(InputError, match="Time horizon must be positive"):
         voi_observational(
@@ -164,7 +164,7 @@ def test_voi_observational_population_scaling_validation(sample_psa, sample_stud
             population=1000,
             time_horizon=0
         )
-    
+
     # Test invalid discount_rate
     with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
         voi_observational(
@@ -188,7 +188,7 @@ def test_voi_observational_edge_cases(sample_psa, sample_study_design, sample_bi
         bias_models=sample_bias_models,
         n_outer_loops=1
     )
-    
+
     assert isinstance(result, float)
     assert result >= 0
 

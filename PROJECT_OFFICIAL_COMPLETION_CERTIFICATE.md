@@ -136,7 +136,7 @@ All implemented features have been validated and confirmed working:
 
 The voiage library is ready for publication on GitHub and PyPI:
 
-1. **Repository**: Already available at https://github.com/doughnut/voiage
+1. **Repository**: Already available at https://github.com/edithatogo/voiage
 2. **PyPI**: Automated publishing via GitHub Actions
 3. **Documentation**: Available via GitHub Pages
 4. **Docker**: Containerized deployment options ready
@@ -161,5 +161,5 @@ This implementation establishes a solid foundation for voiage as a comprehensive
 **Project Lead**: Qwen Code Assistant  
 **Completion Date**: November 3, 2025  
 **Version**: 0.2.0  
-**Repository**: https://github.com/doughnut/voiage  
+**Repository**: https://github.com/edithatogo/voiage  
 **PyPI**: https://pypi.org/project/voiage/
