@@ -29,7 +29,7 @@ def test_calculate_evpi_with_options():
     """Test EVPI with all options."""
     with patch('voiage.cli.read_value_array_csv') as mock_read, \
          patch('voiage.cli.evpi') as mock_evpi, \
-         patch('voiage.cli.typer.echo') as mock_echo:
+         patch('voiage.cli.typer.echo'):
 
         mock_read.return_value = MagicMock()
         mock_evpi.return_value = 456.789
@@ -131,7 +131,7 @@ def test_calculate_evpi_output_error():
     with patch('voiage.cli.read_value_array_csv') as mock_read, \
          patch('voiage.cli.evpi') as mock_evpi, \
          patch('voiage.cli.typer.echo') as mock_echo, \
-         patch('builtins.open', side_effect=PermissionError("No write access")) as mock_file:
+         patch('builtins.open', side_effect=PermissionError("No write access")):
 
         mock_read.return_value = MagicMock()
         mock_evpi.return_value = 123.456
@@ -174,7 +174,7 @@ def test_calculate_evppi_with_options():
     with patch('voiage.cli.read_value_array_csv') as mock_read_nb, \
          patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
          patch('voiage.cli.evppi') as mock_evpi, \
-         patch('voiage.cli.typer.echo') as mock_echo:
+         patch('voiage.cli.typer.echo'):
 
         mock_read_nb.return_value = MagicMock()
         mock_read_param.return_value = MagicMock()
@@ -308,7 +308,7 @@ def test_calculate_evppi_output_error():
          patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
          patch('voiage.cli.evppi') as mock_evpi, \
          patch('voiage.cli.typer.echo') as mock_echo, \
-         patch('builtins.open', side_effect=OSError("Disk full")) as mock_file:
+         patch('builtins.open', side_effect=OSError("Disk full")):
 
         mock_read_nb.return_value = MagicMock()
         mock_read_param.return_value = MagicMock()
@@ -382,7 +382,7 @@ def test_main_block_coverage():
     import voiage.cli
 
     # Test that the main block can be executed
-    with patch('voiage.cli.app') as mock_app:
+    with patch('voiage.cli.app') :
         # Simulate the __name__ == "__main__" condition by directly calling the app
         # This covers the main block without actually running the CLI
         voiage.cli.app()

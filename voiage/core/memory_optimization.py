@@ -339,7 +339,7 @@ def memory_efficient_evpi_computation(
 
 # Example usage function
 def example_memory_optimization():
-    """Example of how to use memory optimization utilities."""
+    """Use memory optimization utilities."""
     # Create a large sample dataset
     np.random.seed(42)
     large_net_benefits = np.random.randn(10000, 5).astype(np.float64)

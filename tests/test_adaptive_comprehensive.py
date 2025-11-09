@@ -19,7 +19,7 @@ class TestAdaptiveEVSI:
         """Test basic functionality of adaptive_evsi."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -77,7 +77,7 @@ class TestAdaptiveEVSI:
         """Test adaptive_evsi with population scaling."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -153,7 +153,7 @@ class TestAdaptiveEVSI:
         """Test adaptive_evsi with no adaptive rules (fixed design)."""
         # Create a simple adaptive trial simulator
         def simple_fixed_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple fixed trial simulator for testing."""
+            """Create fixed trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -203,7 +203,7 @@ class TestAdaptiveEVSI:
         """Test adaptive_evsi with invalid inputs."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -306,7 +306,7 @@ class TestAdaptiveEVSI:
         """Test adaptive_evsi with population validation."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -395,7 +395,7 @@ class TestAdaptiveEVSI:
         """Test that adaptive_evsi always returns a non-negative value."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies with very similar values
             # to simulate a case where the adaptive trial might not provide value
@@ -452,7 +452,7 @@ class TestAdaptiveEVSI:
         """Test adaptive_evsi with single sample."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies - just one sample
             nb_values = np.random.rand(n_samples, 2) * 1000

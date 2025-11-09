@@ -20,7 +20,7 @@ class TestAdaptiveEVSIAdditional:
         """Test adaptive_evsi with all population scaling parameters."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -78,7 +78,7 @@ class TestAdaptiveEVSIAdditional:
         """Test adaptive_evsi with different interim analysis scenarios."""
         # Create an adaptive trial simulator that simulates early stopping
         def simulator_with_early_stopping(psa_samples, trial_design=None, trial_data=None):
-            """Simulator that can trigger early stopping scenarios."""
+            """Simulate can trigger early stopping scenarios."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -153,7 +153,7 @@ class TestAdaptiveEVSIAdditional:
         # Create a simulator that simulates a more realistic scenario where the
         # exception occurs in the inner loop, not in the initial call
         def simple_modeler(psa_samples, trial_design=None, trial_data=None):
-            """Simple modeler that returns valid results."""
+            """Create modeler that returns valid results."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -173,7 +173,7 @@ class TestAdaptiveEVSIAdditional:
             return ValueArray(dataset=dataset)
 
         def simulator_that_fails_after_first_call():
-            """Factory function to create a simulator that fails after first call."""
+            """Create to create a simulator that fails after first call."""
             call_count = 0
             def simulator(psa_samples, trial_design=None, trial_data=None):
                 nonlocal call_count
@@ -237,7 +237,7 @@ class TestAdaptiveEVSIAdditional:
         """Test adaptive_evsi with zero discount rate for population scaling."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -295,7 +295,7 @@ class TestAdaptiveEVSIAdditional:
         # Create a simulator that returns values with almost no difference between strategies
         # This simulates a case where the adaptive trial provides little value
         def low_value_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simulator that returns values with minimal differences between strategies."""
+            """Simulate returns values with minimal differences between strategies."""
             n_samples = psa_samples.n_samples
             # Create very similar net benefits for 2 strategies to simulate low value scenario
             base_value = 1000
@@ -352,7 +352,7 @@ class TestAdaptiveEVSIAdditional:
         """Test adaptive_evsi with the smallest possible loop numbers."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -406,7 +406,7 @@ class TestAdaptiveEVSIAdditional:
         """Test adaptive_evsi with specific input validation cases."""
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
-            """Simple adaptive trial simulator for testing."""
+            """Create adaptive trial simulator for testing."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000

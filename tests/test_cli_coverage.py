@@ -216,7 +216,7 @@ class TestCLIEvpiCoverage:
         with patch('voiage.cli.read_value_array_csv') as mock_read, \
              patch('voiage.cli.evpi') as mock_evpi, \
              patch('voiage.cli.typer.echo') as mock_echo, \
-             patch('builtins.open', side_effect=PermissionError("Cannot write to file")) as mock_file:
+             patch('builtins.open', side_effect=PermissionError("Cannot write to file")):
 
             mock_read.return_value = mock_nba
             mock_evpi.return_value = 123.456
@@ -286,7 +286,7 @@ class TestCLIEvppiCoverage:
         with patch('voiage.cli.read_value_array_csv') as mock_read_nb, \
              patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
              patch('voiage.cli.evppi') as mock_evpi, \
-             patch('voiage.cli.typer.echo') as mock_echo:
+             patch('voiage.cli.typer.echo'):
 
             mock_read_nb.return_value = mock_nba
             mock_read_param.return_value = mock_param_set
@@ -457,7 +457,7 @@ class TestCLIEvppiCoverage:
              patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
              patch('voiage.cli.evppi') as mock_evppi, \
              patch('voiage.cli.typer.echo') as mock_echo, \
-             patch('voiage.cli.typer.Exit') as mock_exit:
+             patch('voiage.cli.typer.Exit'):
 
             mock_read_nb.return_value = mock_nba
             mock_read_param.return_value = mock_param_set
@@ -488,8 +488,8 @@ class TestCLIEvppiCoverage:
              patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
              patch('voiage.cli.evppi') as mock_evpi, \
              patch('voiage.cli.typer.echo') as mock_echo, \
-             patch('builtins.open', side_effect=OSError("Disk full")) as mock_file, \
-             patch('voiage.cli.typer.Exit') as mock_exit:
+             patch('builtins.open', side_effect=OSError("Disk full")), \
+             patch('voiage.cli.typer.Exit'):
 
             mock_read_nb.return_value = mock_nba
             mock_read_param.return_value = mock_param_set
@@ -521,7 +521,7 @@ class TestCLIEdgeCases:
 
         with patch('voiage.cli.read_value_array_csv') as mock_read, \
              patch('voiage.cli.evpi') as mock_evpi, \
-             patch('voiage.cli.typer.echo') as mock_echo:
+             patch('voiage.cli.typer.echo'):
 
             mock_read.return_value = mock_nba
             mock_evpi.return_value = 0.0
@@ -573,7 +573,7 @@ class TestCLIEdgeCases:
         with patch('voiage.cli.read_value_array_csv') as mock_read_nb, \
              patch('voiage.cli.read_parameter_set_csv') as mock_read_param, \
              patch('voiage.cli.evppi') as mock_evpi, \
-             patch('voiage.cli.typer.echo') as mock_echo:
+             patch('voiage.cli.typer.echo'):
 
             mock_read_nb.return_value = mock_nba
             mock_read_param.return_value = mock_param_set
@@ -631,7 +631,7 @@ class TestCLIEdgeCases:
 
             with patch('voiage.cli.read_value_array_csv') as mock_read, \
                  patch('voiage.cli.evpi') as mock_evpi, \
-                 patch('voiage.cli.typer.echo') as mock_echo:
+                 patch('voiage.cli.typer.echo'):
 
                 mock_read.return_value = mock_nba
                 mock_evpi.return_value = 123.456

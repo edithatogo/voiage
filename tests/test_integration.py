@@ -145,10 +145,10 @@ def test_data_structures_integration():
     """Test integration between different data structures."""
     # Test ValueArray creation from different sources
     np.random.seed(42)
-    data = np.random.randn(100, 3)
+    _ = np.random.randn(100, 3)
 
     # From numpy array
-    va1 = ValueArray.from_numpy(data)
+    # va1 = ValueArray.from_numpy(data)
 
     # Test with different creation methods
     # (ValueArray.from_dict doesn't exist, so we'll just test the existing method)

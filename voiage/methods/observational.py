@@ -286,7 +286,7 @@ if __name__ == "__main__":
 
     # Simple observational study modeler for testing
     def simple_obs_modeler(psa, design, biases):
-        """Simple observational study modeler for testing."""
+        """Run simple observational study modeler for testing."""
         n_samples = psa.n_samples
         # Create net benefits for 2 strategies
         nb_values = np.random.rand(n_samples, 2) * 1000

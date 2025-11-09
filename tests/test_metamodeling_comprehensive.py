@@ -292,7 +292,7 @@ def test_metamodel_protocol_compliance():
     # Test that each metamodel has the required methods
     # Note: Some metamodels may not implement all methods, which is acceptable
     required_methods = ['fit', 'predict']
-    optional_methods = ['score', 'rmse']
+    _ = ['score', 'rmse']  # optional_methods = ['score', 'rmse']
 
     for name, metamodel_class in available_metamodels:
         # Check that it's a class
@@ -303,7 +303,7 @@ def test_metamodel_protocol_compliance():
             assert hasattr(metamodel_class, method), f"{name} should have method {method}"
 
         # Check that it has at least one of the optional methods
-        has_optional = any(hasattr(metamodel_class, method) for method in optional_methods)
+        # has_optional = any(hasattr(metamodel_class, method) for method in optional_methods)
         # This is a loose check - having at least one optional method is good
 
 

@@ -15,7 +15,7 @@ class TestStructuralMethodsHighCoverage:
         """Test basic structural EVPI functionality."""
         # Define evaluator functions that simulate different model structures
         def model_structure_1(param_set: ParameterSet) -> ValueArray:
-            """Simple model structure 1 evaluator."""
+            """Create model structure 1 evaluator."""
             # Generate net benefit values based on the parameters
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             param2 = param_set.parameters.get("param2", np.ones(param_set.n_samples))
@@ -29,7 +29,7 @@ class TestStructuralMethodsHighCoverage:
             value_array = ValueArray.from_numpy(net_benefits.astype(np.float64)); return value_array
 
         def model_structure_2(param_set: ParameterSet) -> ValueArray:
-            """Simple model structure 2 evaluator."""
+            """Create model structure 2 evaluator."""
             # Generate net benefit values based on the parameters
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             param2 = param_set.parameters.get("param2", np.ones(param_set.n_samples))
@@ -81,7 +81,7 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_evpi_with_scaling_params(self):
         """Test structural EVPI with scaling parameters."""
         def simple_model_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Simple model structure evaluator."""
+            """Create model structure evaluator."""
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             net_benefits = np.column_stack([
                 param1 * 100 + 20,
@@ -113,7 +113,7 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_evpi_validation_errors(self):
         """Test structural EVPI with validation errors."""
         def simple_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Simple evaluator."""
+            """Create evaluator."""
             net_benefits = np.column_stack([
                 np.ones(param_set.n_samples) * 100,
                 np.ones(param_set.n_samples) * 120
@@ -171,7 +171,7 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_evpi_edge_cases(self):
         """Test structural EVPI with edge cases."""
         def simple_model_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Simple model evaluator."""
+            """Create model evaluator."""
             # Create net benefits with just one strategy (should return 0 EVPI)
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             net_benefits = param1.reshape(-1, 1) * 100  # Shape (n_samples, 1) - only one strategy
@@ -329,7 +329,7 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_evppi_validation_errors(self):
         """Test structural EVPPI with validation errors."""
         def simple_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Simple model evaluator."""
+            """Create model evaluator."""
             net_benefits = np.column_stack([
                 np.ones(param_set.n_samples) * 100,
                 np.ones(param_set.n_samples) * 120
@@ -392,14 +392,14 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_evppi_edge_cases(self):
         """Test structural EVPPI with edge cases."""
         def single_structure_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Evaluator with single strategy (should return 0 EVPPI)."""
+            """Evaluate strategy (should return 0 EVPPI)."""
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             # Return single strategy - EVPPI should be 0
             net_benefits = param1.reshape(-1, 1) * 100  # Shape (n_samples, 1)
             value_array = ValueArray.from_numpy(net_benefits.astype(np.float64)); return value_array
 
         def two_strategy_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Evaluator with two strategies."""
+            """Evaluate strategies."""
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             net_benefits = np.column_stack([
                 param1 * 100,
@@ -440,7 +440,7 @@ class TestStructuralMethodsHighCoverage:
     def test_structural_methods_consistency_check(self):
         """Test consistency between structural EVPI and EVPPI."""
         def model_evaluator(param_set: ParameterSet) -> ValueArray:
-            """Simple model evaluator for consistency test."""
+            """Create model evaluator for consistency test."""
             param1 = param_set.parameters.get("param1", np.ones(param_set.n_samples))
             net_benefits = np.column_stack([
                 param1 * 100,

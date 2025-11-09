@@ -81,7 +81,7 @@ def sophisticated_adaptive_trial_simulator(
     base_design: TrialDesign,
     adaptive_rules: Dict[str, Any]
 ) -> NetBenefitArray:
-    """A sophisticated adaptive trial simulator that demonstrates a complete workflow.
+    """Run a sophisticated adaptive trial simulator that demonstrates a complete workflow.
 
     This function simulates an adaptive clinical trial with interim analyses and
     decision rules for early stopping, sample size re-estimation, or arm dropping.
@@ -169,7 +169,7 @@ def sophisticated_adaptive_trial_simulator(
         early_stopping = adaptive_rules.get("early_stopping_rules", {})
 
         # Simulate interim analyses
-        trial_stopped_early = False
+        _ = False  # trial_stopped_early = False
         adjusted_sample_size = total_patients
 
         for interim_point in interim_points:
@@ -233,7 +233,7 @@ def bayesian_adaptive_trial_simulator(
     adaptive_rules: Dict[str, Any],
     true_parameters: Optional[Dict[str, float]] = None
 ) -> NetBenefitArray:
-    """A Bayesian adaptive trial simulator that properly updates beliefs based on simulated data.
+    """Run a Bayesian adaptive trial simulator that properly updates beliefs based on simulated data.
 
     This function simulates an adaptive clinical trial with interim analyses and
     Bayesian updating of parameter beliefs based on simulated trial data.
@@ -285,7 +285,7 @@ def bayesian_adaptive_trial_simulator(
     early_stopping = adaptive_rules.get("early_stopping_rules", {})
 
     # Simulate interim analyses
-    trial_stopped_early = False
+    _ = False  # trial_stopped_early = False
     adjusted_sample_size = 2 * n_patients_per_arm  # Total patients (both arms)
 
     for interim_point in interim_points:
@@ -603,7 +603,7 @@ if __name__ == "__main__":
 
     # Simple adaptive trial simulator for testing
     def simple_adaptive_sim(psa, design, rules):
-        """Simple adaptive trial simulator for testing."""
+        """Run simple adaptive trial simulator for testing."""
         n_samples = psa.n_samples
         # Create net benefits for 2 strategies
         nb_values = np.random.rand(n_samples, 2) * 1000

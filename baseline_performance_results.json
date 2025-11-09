@@ -1,0 +1,72 @@
+{
+  "small": [
+    {
+      "method_name": "Backend_EVPI",
+      "dataset_size": "small",
+      "execution_time": 5.293039915462335e-05,
+      "memory_usage_mb": 230.6875,
+      "memory_peak_mb": 230.6875,
+      "parameters": 3,
+      "options": 4,
+      "samples": 100,
+      "backend": "numpy"
+    },
+    {
+      "method_name": "DecisionAnalysis_EVPI",
+      "dataset_size": "small",
+      "execution_time": 0.0004983886610716581,
+      "memory_usage_mb": 230.73958333333334,
+      "memory_peak_mb": 230.75,
+      "parameters": 3,
+      "options": 4,
+      "samples": 100,
+      "backend": "numpy"
+    },
+    {
+      "method_name": "DecisionAnalysis_EVPPI",
+      "dataset_size": "small",
+      "execution_time": 0.0023611527091513076,
+      "memory_usage_mb": 230.90625,
+      "memory_peak_mb": 230.90625,
+      "parameters": 3,
+      "options": 4,
+      "samples": 100,
+      "backend": "numpy"
+    }
+  ],
+  "medium": [
+    {
+      "method_name": "Backend_EVPI",
+      "dataset_size": "medium",
+      "execution_time": 4.395795986056328e-05,
+      "memory_usage_mb": 230.90625,
+      "memory_peak_mb": 230.90625,
+      "parameters": 5,
+      "options": 6,
+      "samples": 1000,
+      "backend": "numpy"
+    },
+    {
+      "method_name": "DecisionAnalysis_EVPI",
+      "dataset_size": "medium",
+      "execution_time": 0.000282139362146457,
+      "memory_usage_mb": 230.90625,
+      "memory_peak_mb": 230.90625,
+      "parameters": 5,
+      "options": 6,
+      "samples": 1000,
+      "backend": "numpy"
+    },
+    {
+      "method_name": "DecisionAnalysis_EVPPI",
+      "dataset_size": "medium",
+      "execution_time": 0.0029208192912240825,
+      "memory_usage_mb": 231.00520833333334,
+      "memory_peak_mb": 231.03125,
+      "parameters": 5,
+      "options": 6,
+      "samples": 1000,
+      "backend": "numpy"
+    }
+  ]
+}

@@ -12,7 +12,7 @@ from voiage.schema import DynamicSpec, ParameterSet
 
 # Mock step model for testing
 def mock_step_model(psa, action, dyn_spec):
-    """Simple step model that returns the same PSA with some modifications."""
+    """Return the same PSA with some modifications."""
     # In a real implementation, this would simulate the evolution of uncertainty
     # over time based on the action taken
     return {"next_psa": psa}

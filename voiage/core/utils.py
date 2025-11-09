@@ -56,9 +56,13 @@ def check_input_array(
     if isinstance(dtype_to_check, str) and dtype_to_check.lower() == "any":
         pass  # Skip dtype check
     elif arr.dtype != dtype_to_check:
-        # Consider warning or allowing subtypes if more flexibility is needed.
-        # For now, strict check.
-        raise InputError(f"{name} must have dtype {dtype_to_check}. Got {arr.dtype}.")
+        # Allow flexibility for JAX arrays: accept both float32 and float64 for numerical arrays
+        if (hasattr(arr, 'dtype') and 
+            arr.dtype in [np.float32, np.float64] and 
+            dtype_to_check in [np.float32, np.float64]):
+            pass  # Allow both float32 and float64 for numerical compatibility
+        else:
+            raise InputError(f"{name} must have dtype {dtype_to_check}. Got {arr.dtype}.")
 
     if expected_shape is not None:
         if len(expected_shape) != arr.ndim:

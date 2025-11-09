@@ -12,7 +12,7 @@ from voiage.schema import ParameterSet, ValueArray
 
 # Mock model structure evaluators for testing
 def mock_evaluator1(psa_sample):
-    """Simple evaluator that returns fixed net benefits."""
+    """Return fixed net benefits."""
     # 100 samples, 2 strategies
     values = np.random.rand(100, 2) * 100
     # Make strategy 0 better on average

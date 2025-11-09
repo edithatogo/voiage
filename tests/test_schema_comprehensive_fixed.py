@@ -42,7 +42,7 @@ class TestValueArrayComprehensive:
         """Test ValueArray creation from xarray Dataset."""
         # Create dataset with the expected structure
         data = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
-        dataset = {
+        _ = {
             "net_benefit": (("n_samples", "n_strategies"), data),
             "strategy": ("n_strategies", ["A", "B", "C"])
         }

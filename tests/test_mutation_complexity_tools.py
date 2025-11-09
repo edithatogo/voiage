@@ -96,7 +96,7 @@ class TestMutationAndComplexityComplete:
 
         # Also check the stderr for any potential error messages
         if not analysis_found:
-            print(f"Output lines: {[l for l in output_lines if l.strip()][:10]}")
+            print(f"Output lines: {[line for line in output_lines if line.strip()][:10]}")
             # Just verify that lizard ran without crashing
             assert True # If the process completed, it means lizard is working
 

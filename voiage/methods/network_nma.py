@@ -552,7 +552,7 @@ def sophisticated_nma_model_evaluator(
     trial_design: Optional[TrialDesign] = None,
     trial_data: Optional[Dict[str, np.ndarray]] = None
 ) -> NetBenefitArray:
-    """A more sophisticated NMA model evaluator that demonstrates a complete workflow.
+    """Run a more sophisticated NMA model evaluator that demonstrates a complete workflow.
 
     This function shows how to:
     1. Perform network meta-analysis on treatment effects

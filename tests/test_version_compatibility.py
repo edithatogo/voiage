@@ -79,8 +79,8 @@ def test_gam_metamodel_compatibility():
     from voiage.metamodels import GAMMetamodel
 
     # Create simple test data with float64 dtype
-    x = np.linspace(0, 10, 100, dtype=np.float64)
-    y = x**2 + np.random.normal(0, 1, 100).astype(np.float64)
+    _ = np.linspace(0, 10, 100, dtype=np.float64)
+    # y = _**2 + np.random.normal(0, 1, 100).astype(np.float64)
 
     # Test that we can create and use the GAM metamodel
     # This would fail if numpy compatibility issues weren't fixed

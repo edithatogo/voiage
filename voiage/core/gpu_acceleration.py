@@ -248,9 +248,7 @@ def gpu_parallelize(func: Callable, backend: Optional[str] = None) -> Callable:
 
 
 class GPUAcceleratedEVPI:
-    """
-    GPU-accelerated Expected Value of Perfect Information (EVPI) calculator.
-    """
+    """GPU-accelerated Expected Value of Perfect Information (EVPI) calculator."""
 
     def __init__(self, backend: Optional[str] = None):
         """
@@ -349,9 +347,7 @@ class GPUAcceleratedEVPI:
 
 # Example usage function
 def example_gpu_acceleration():
-    """
-    Example of how to use GPU acceleration utilities.
-    """
+    """Use GPU acceleration utilities."""
     if not is_gpu_available():
         print("No GPU backend available")
         return

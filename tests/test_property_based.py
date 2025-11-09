@@ -126,7 +126,7 @@ def test_evppi_non_negative(nb_array):
     )
     parameter_set = ParameterSet(dataset=dataset)
 
-    value_array = ValueArray.from_numpy(trimmed_nb_array)
+    _ = ValueArray.from_numpy(trimmed_nb_array)
 
     analysis = DecisionAnalysis(trimmed_nb_array, parameter_set)
     evppi_result = analysis.evppi()

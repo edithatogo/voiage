@@ -365,13 +365,13 @@ class TestMetamodelEdgeCases:
                 "param1": np.array([0.1, 0.2, 0.3], dtype=np.float64),
                 "param2": np.array([10.0, 20.0, 30.0], dtype=np.float64)
             }
-            param_set = ParameterSet.from_numpy_or_dict(param_data)
+            _ = ParameterSet.from_numpy_or_dict(param_data)
 
             # Target values
-            y_values = np.array([100.0, 150.0, 120.0], dtype=np.float64)
+            _ = np.array([100.0, 150.0, 120.0], dtype=np.float64)
 
             # Initialize Flax model
-            flax_model = FlaxMetamodel(features=2)  # 2 parameters
+            _ = FlaxMetamodel(features=2)  # 2 parameters
 
             # Fit the model (might not fully work depending on implementation)
             # flax_model.fit(param_set, y_values)  # Commented out in case implementation is incomplete

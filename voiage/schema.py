@@ -16,6 +16,14 @@ import xarray as xr
 
 from voiage.exceptions import InputError
 
+# Try to import JAX for array support
+try:
+    import jax.numpy as jnp
+    JAX_AVAILABLE = True
+except ImportError:
+    JAX_AVAILABLE = False
+    jnp = None
+
 
 @dataclass(frozen=True)
 class ValueArray:
@@ -44,6 +52,13 @@ class ValueArray:
         return self.dataset["net_benefit"].values
 
     @property
+    def jax_values(self: "ValueArray") -> Optional["jnp.ndarray"]:
+        """Return the net benefit values as a JAX array."""
+        if not JAX_AVAILABLE:
+            return None
+        return jnp.asarray(self.dataset["net_benefit"].values, dtype=jnp.float64)
+
+    @property
     def n_samples(self: "ValueArray") -> int:
         """Return the number of samples."""
         return self.dataset.dims["n_samples"]
@@ -59,17 +74,22 @@ class ValueArray:
         return [str(name) for name in self.dataset["strategy"].values]
 
     @classmethod
-    def from_numpy(cls, values: np.ndarray, strategy_names: Optional[List[str]] = None) -> "ValueArray":
-        """Create a ValueArray from a numpy array.
+    def from_numpy(cls, values: Union[np.ndarray, "jnp.ndarray"], strategy_names: Optional[List[str]] = None) -> "ValueArray":
+        """Create a ValueArray from a numpy or JAX array.
 
         Args:
-            values: A 2D numpy array of shape (n_samples, n_strategies)
+            values: A 2D array of shape (n_samples, n_strategies). Supports both NumPy and JAX arrays.
             strategy_names: Optional list of strategy names
 
         Returns
         -------
             ValueArray: A new ValueArray instance
         """
+        # Handle JAX arrays if available
+        if JAX_AVAILABLE and hasattr(values, 'dtype') and hasattr(values, 'shape'):
+            # This could be a JAX array - convert to numpy for xarray
+            values = np.asarray(values)
+
         if values.ndim != 2:
             raise InputError("values must be a 2D array")
 
@@ -83,6 +103,48 @@ class ValueArray:
         import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
+            coords={
+                "n_samples": np.arange(n_samples),
+                "n_strategies": np.arange(n_strategies),
+                "strategy": ("n_strategies", strategy_names),
+            }
+        )
+        return cls(dataset=dataset)
+
+    @classmethod
+    def from_jax(cls, values: "jnp.ndarray", strategy_names: Optional[List[str]] = None) -> "ValueArray":
+        """Create a ValueArray from a JAX array.
+
+        Args:
+            values: A 2D JAX array of shape (n_samples, n_strategies)
+            strategy_names: Optional list of strategy names
+
+        Returns
+        -------
+            ValueArray: A new ValueArray instance
+        """
+        if not JAX_AVAILABLE:
+            raise ImportError("JAX is not available. Please install JAX to use from_jax().")
+        
+        if not hasattr(values, 'shape'):
+            raise InputError("values must be a JAX array with a shape attribute")
+
+        if values.ndim != 2:
+            raise InputError("values must be a 2D array")
+
+        # Convert JAX array to NumPy for xarray compatibility
+        numpy_values = np.asarray(values)
+
+        n_samples, n_strategies = numpy_values.shape
+
+        if strategy_names is None:
+            strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
+        elif len(strategy_names) != n_strategies:
+            raise InputError(f"strategy_names must have {n_strategies} elements")
+
+        import xarray as xr
+        dataset = xr.Dataset(
+            {"net_benefit": (("n_samples", "n_strategies"), numpy_values)},
             coords={
                 "n_samples": np.arange(n_samples),
                 "n_strategies": np.arange(n_strategies),
@@ -115,6 +177,13 @@ class ParameterSet:
         return {str(name): self.dataset[name].values for name in self.dataset.data_vars}
 
     @property
+    def jax_parameters(self: "ParameterSet") -> Optional[Dict[str, "jnp.ndarray"]]:
+        """Return the parameter samples as JAX arrays."""
+        if not JAX_AVAILABLE:
+            return None
+        return {str(name): jnp.asarray(self.dataset[name].values, dtype=jnp.float64) for name in self.dataset.data_vars}
+
+    @property
     def n_samples(self: "ParameterSet") -> int:
         """Return the number of samples."""
         return self.dataset.dims["n_samples"]
@@ -125,18 +194,24 @@ class ParameterSet:
         return list(self.dataset.data_vars.keys())
 
     @classmethod
-    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, Dict[str, np.ndarray]]) -> "ParameterSet":
-        """Create a ParameterSet from a numpy array or dictionary.
+    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, Dict[str, np.ndarray], "jnp.ndarray", Dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+        """Create a ParameterSet from a numpy/JAX array or dictionary.
 
         Args:
-            parameters: Either a 2D numpy array of shape (n_samples, n_parameters)
-                       or a dictionary mapping parameter names to 1D numpy arrays
+            parameters: Either a 2D array of shape (n_samples, n_parameters)
+                       or a dictionary mapping parameter names to 1D arrays.
+                       Supports both NumPy and JAX arrays.
 
         Returns
         -------
             ParameterSet: A new ParameterSet instance
         """
         import xarray as xr
+
+        # Handle JAX arrays if available
+        if JAX_AVAILABLE and hasattr(parameters, 'ndim') and hasattr(parameters, 'dtype'):
+            # This could be a JAX array - convert to numpy for xarray
+            parameters = np.asarray(parameters)
 
         if isinstance(parameters, np.ndarray):
             if parameters.ndim != 2:
@@ -154,18 +229,83 @@ class ParameterSet:
             if not parameters:
                 raise InputError("parameters dictionary cannot be empty")
             # Check that all arrays have the same length
-            lengths = [len(arr) for arr in parameters.values()]
+            lengths = []
+            converted_params = {}
+            for name, arr in parameters.items():
+                # Convert JAX arrays to numpy if needed
+                if JAX_AVAILABLE and hasattr(arr, 'dtype') and hasattr(arr, 'shape'):
+                    arr = np.asarray(arr)
+                lengths.append(len(arr))
+                converted_params[name] = arr
+            
             if len(set(lengths)) > 1:
                 raise InputError("All parameter arrays must have the same length")
             n_samples = lengths[0]
             # Create dataset
-            data_vars = {name: (("n_samples",), arr) for name, arr in parameters.items()}
+            data_vars = {name: (("n_samples",), arr) for name, arr in converted_params.items()}
             dataset = xr.Dataset(
                 data_vars,
                 coords={"n_samples": np.arange(n_samples)}
             )
         else:
             raise InputError("parameters must be a numpy array or dictionary")
+
+        return cls(dataset=dataset)
+
+    @classmethod
+    def from_jax(cls, parameters: Union["jnp.ndarray", Dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+        """Create a ParameterSet from a JAX array or dictionary.
+
+        Args:
+            parameters: Either a 2D JAX array of shape (n_samples, n_parameters)
+                       or a dictionary mapping parameter names to 1D JAX arrays
+
+        Returns
+        -------
+            ParameterSet: A new ParameterSet instance
+        """
+        if not JAX_AVAILABLE:
+            raise ImportError("JAX is not available. Please install JAX to use from_jax().")
+
+        import xarray as xr
+
+        if jnp is not None and hasattr(parameters, 'ndim'):  # JAX array
+            if parameters.ndim != 2:
+                raise InputError("parameters array must be 2D")
+            n_samples, n_parameters = parameters.shape
+            # Create parameter names
+            param_names = [f"param_{i}" for i in range(n_parameters)]
+            # Convert JAX array to NumPy for xarray compatibility
+            numpy_parameters = np.asarray(parameters)
+            # Create dataset
+            data_vars = {name: (("n_samples",), numpy_parameters[:, i]) for i, name in enumerate(param_names)}
+            dataset = xr.Dataset(
+                data_vars,
+                coords={"n_samples": np.arange(n_samples)}
+            )
+        elif isinstance(parameters, dict):
+            if not parameters:
+                raise InputError("parameters dictionary cannot be empty")
+            # Check that all arrays have the same length and convert to numpy
+            lengths = []
+            converted_params = {}
+            for name, arr in parameters.items():
+                if not hasattr(arr, 'shape'):
+                    raise InputError(f"Parameter {name} must be a JAX array")
+                lengths.append(len(arr))
+                converted_params[name] = np.asarray(arr)
+            
+            if len(set(lengths)) > 1:
+                raise InputError("All parameter arrays must have the same length")
+            n_samples = lengths[0]
+            # Create dataset
+            data_vars = {name: (("n_samples",), arr) for name, arr in converted_params.items()}
+            dataset = xr.Dataset(
+                data_vars,
+                coords={"n_samples": np.arange(n_samples)}
+            )
+        else:
+            raise InputError("parameters must be a JAX array or dictionary")
 
         return cls(dataset=dataset)
 

@@ -209,7 +209,7 @@ def _sequential_voi_generator(
     time_horizon: Optional[float],
     **kwargs: Any,
 ) -> Generator[Dict[str, Any], None, None]:
-    """Generator that yields VOI information at each time step."""
+    """Yield VOI information at each time step."""
     time_steps = list(dynamic_specification.time_steps)
     current_psa = initial_psa
 

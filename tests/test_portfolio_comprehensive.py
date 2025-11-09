@@ -345,7 +345,7 @@ class TestPortfolioVOI:
             study_value_calculator=simple_value_calculator,
             optimization_method="greedy"
         )
-        selected_names_high = [s.name for s in result_high["selected_studies"]]
+        _ = [s.name for s in result_high["selected_studies"]]
         # With no budget constraint, all three should be selected
         # Actually, with budget of 1000 and total cost of 650, all should be selected
         # But in greedy by ratio approach: med/large first (ratio 2.5), then small (ratio 2.0)

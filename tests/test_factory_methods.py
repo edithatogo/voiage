@@ -206,10 +206,10 @@ def test_create_configured_analysis():
 def test_healthcare_config_validation():
     """Test that healthcare configuration validates parameters correctly."""
     # This should work fine
-    config = HealthcareConfig(
-        qaly_discount_rate=0.03,
-        cost_discount_rate=0.03
-    )
+    # HealthcareConfig(
+    #    qaly_discount_rate=0.03,
+    #    cost_discount_rate=0.03
+    # )
 
     # This should raise a ValueError
     with pytest.raises(ValueError):

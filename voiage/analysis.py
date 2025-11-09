@@ -7,7 +7,7 @@ from typing import Any, Dict, Generator, Optional, Union
 
 import numpy as np
 
-from voiage.backends import get_backend
+from voiage.main_backends import get_backend
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
@@ -17,6 +17,14 @@ from voiage.exceptions import (
     OptionalDependencyError,
 )
 from voiage.schema import ParameterSet, ValueArray
+
+# Check for JAX availability
+JAX_AVAILABLE = False
+try:
+    import jax.numpy as jnp
+    JAX_AVAILABLE = True
+except ImportError:
+    jnp = None
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -68,6 +76,10 @@ class DecisionAnalysis:
             self.parameter_samples = None
 
         # Set the computational backend
+        # Auto-detect JAX arrays and select JAX backend if appropriate
+        if backend is None:
+            backend = self._auto_detect_backend(nb_array, parameter_samples)
+        
         self.backend = get_backend(backend)
         self.use_jit = use_jit
 
@@ -84,6 +96,55 @@ class DecisionAnalysis:
 
         # Track data changes to invalidate cache
         self._data_hash = self._compute_data_hash()
+
+    def _auto_detect_backend(self, nb_array: Union[np.ndarray, ValueArray], 
+                            parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None) -> str:
+        """
+        Automatically detect and select the appropriate backend based on input data.
+        
+        If JAX arrays are detected in the input data, select JAX backend.
+        Otherwise, use the default NumPy backend.
+        
+        Args:
+            nb_array: Net benefit array or ValueArray
+            parameter_samples: Parameter samples
+            
+        Returns:
+            Backend name to use
+        """
+        # Check if JAX is available
+        if not JAX_AVAILABLE:
+            return "numpy"
+        
+        # Check net benefit array for JAX arrays
+        if isinstance(nb_array, ValueArray):
+            jax_values = nb_array.jax_values
+            if jax_values is not None:
+                return "jax"
+        elif isinstance(nb_array, np.ndarray):
+            # Check if numpy array is actually a JAX array in disguise
+            if hasattr(nb_array, 'dtype') and hasattr(nb_array, 'shape'):
+                try:
+                    # Check if it's a JAX array by looking for JAX-specific attributes
+                    if hasattr(nb_array, 'device') or hasattr(nb_array, 'aval'):
+                        return "jax"
+                except Exception:
+                    pass  # Ignore if device attribute check fails
+        
+        # Check parameter samples for JAX arrays
+        if parameter_samples is not None:
+            if isinstance(parameter_samples, ParameterSet):
+                jax_params = parameter_samples.jax_parameters
+                if jax_params is not None and jax_params:
+                    return "jax"
+            elif isinstance(parameter_samples, dict):
+                # Check dictionary for JAX arrays
+                for name, values in parameter_samples.items():
+                    if hasattr(values, 'device') or hasattr(values, 'aval'):
+                        return "jax"
+        
+        # Default to NumPy backend
+        return "numpy"
 
     def _compute_data_hash(self) -> int:
         """
@@ -686,6 +747,131 @@ class DecisionAnalysis:
         # Cache the result
         self._cache_set(cache_key, float(per_decision_evppi))
         return float(per_decision_evppi)
+
+    def enbs(
+        self,
+        research_cost: float,
+        strategy_of_interest: Optional[Union[int, str]] = None,
+        population: Optional[float] = None,
+        time_horizon: Optional[float] = None,
+        discount_rate: Optional[float] = None,
+    ) -> float:
+        """Calculate the Expected Net Benefit of Sampling (ENBS).
+
+        ENBS represents the expected benefit of conducting a new study to reduce
+        uncertainty before making a decision. It is calculated as the difference
+        between the Expected Value of Sample Information (EVSI) and the cost
+        of conducting the research.
+
+        ENBS = EVSI - research_cost
+        ENBS = max(0, ENBS)  # Cannot be negative (won't conduct research if it costs more than it's worth)
+
+        Args:
+            research_cost (float): Cost of conducting the research study.
+            strategy_of_interest (Optional[Union[int, str]]): Specific strategy to analyze.
+                If int, uses that strategy index. If str, uses strategy name.
+                If None, uses the strategy with maximum expected net benefit.
+            population (Optional[float]): Population size for scaling.
+            time_horizon (Optional[float]): Time horizon for scaling.
+            discount_rate (Optional[float]): Discount rate for scaling.
+
+        Returns
+        -------
+            float: The calculated ENBS. Returns 0 if ENBS would be negative.
+                   Scaled if population arguments are provided.
+
+        Raises
+        ------
+            InputError: For invalid inputs.
+            DimensionMismatchError: If array dimensions are inconsistent.
+            CalculationError: For issues during calculation.
+        """
+        # Check cache first
+        cache_key = f"enbs_{research_cost}_{strategy_of_interest}_{population}_{time_horizon}_{discount_rate}"
+        cached_result = self._cache_get(cache_key)
+        if cached_result is not None:
+            return cached_result
+
+        nb_values = self.nb_array.values
+        check_input_array(nb_values, expected_ndim=2, name="nb_array")
+
+        if nb_values.size == 0:
+            return 0.0
+        if nb_values.shape[1] == 1:  # Single strategy
+            return 0.0
+
+        try:
+            # Use the selected backend for computation
+            if self.use_jit and hasattr(self.backend, 'enbs_simple_jit'):
+                # Use JIT compilation if available and requested
+                per_decision_enbs = self.backend.enbs_simple_jit(nb_values, research_cost)
+            else:
+                # Use regular computation
+                per_decision_enbs = self.backend.enbs_simple(nb_values, research_cost)
+
+            # ENBS should be non-negative (won't conduct research if it costs more than it's worth)
+            per_decision_enbs = max(0.0, float(per_decision_enbs))
+
+        except Exception as e:
+            raise CalculationError(f"Error during ENBS calculation: {e}") from e
+
+        if population is not None and time_horizon is not None:
+            # Validate population parameter
+            if not isinstance(population, (int, float)):
+                raise InputError(f"Population must be a number. Got {type(population)}.")
+            if population <= 0:
+                raise InputError(f"Population must be positive. Got {population}.")
+            if not np.isfinite(population):
+                raise InputError(f"Population must be finite. Got {population}.")
+
+            # Validate time_horizon parameter
+            if not isinstance(time_horizon, (int, float)):
+                raise InputError(f"Time horizon must be a number. Got {type(time_horizon)}.")
+            if time_horizon <= 0:
+                raise InputError(f"Time horizon must be positive. Got {time_horizon}.")
+            if not np.isfinite(time_horizon):
+                raise InputError(f"Time horizon must be finite. Got {time_horizon}.")
+
+            # Validate discount_rate parameter
+            current_dr = discount_rate
+            if current_dr is None:
+                current_dr = 0.0  # Default to no discounting if not provided
+
+            if not isinstance(current_dr, (int, float)):
+                raise InputError(f"Discount rate must be a number. Got {type(current_dr)}.")
+            if not (0 <= current_dr <= 1):
+                raise InputError(f"Discount rate must be between 0 and 1. Got {current_dr}.")
+            if not np.isfinite(current_dr):
+                raise InputError(f"Discount rate must be finite. Got {current_dr}.")
+
+            # Calculate annuity factor
+            if current_dr == 0:
+                annuity_factor = time_horizon
+            else:
+                annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+
+            result = float(per_decision_enbs * population * annuity_factor)
+
+            # Validate result
+            if not np.isfinite(result):
+                raise CalculationError(f"Calculated ENBS is not finite: {result}")
+
+            # Cache the result
+            self._cache_set(cache_key, result)
+            return result
+        elif (
+            population is not None
+            or time_horizon is not None
+            or discount_rate is not None
+        ):
+            raise InputError(
+                "To calculate population ENBS, 'population' and 'time_horizon' must be provided. "
+                "'discount_rate' is optional (defaults to 0 if not provided)."
+            )
+
+        # Cache the result
+        self._cache_set(cache_key, float(per_decision_enbs))
+        return float(per_decision_enbs)
 
     def _incremental_max_expected_nb(self, nb_values: np.ndarray, chunk_size: int) -> float:
         """

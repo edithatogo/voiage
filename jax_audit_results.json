@@ -1,0 +1,54 @@
+{
+  "jax": {
+    "jax_available": true,
+    "jax_version": "0.4.38",
+    "jaxlib_available": true,
+    "jaxlib_version": "0.4.38",
+    "jax_numpy_available": true,
+    "error_message": null
+  },
+  "devices": {
+    "devices": [
+      "TFRT_CPU_0",
+      "TFRT_CPU_0"
+    ],
+    "device_count": 1,
+    "cpu_device": "TFRT_CPU_0",
+    "gpu_devices": [],
+    "tpu_devices": [],
+    "default_device": "TFRT_CPU_0",
+    "error": null
+  },
+  "functionality": {
+    "basic_operations": true,
+    "array_creation": true,
+    "math_operations": true,
+    "gradients": true,
+    "jit_compilation": true,
+    "device_placement": false,
+    "gpu_memory": null,
+    "errors": [
+      "Device placement: 'jaxlib.xla_extension.Device' object is not callable"
+    ]
+  },
+  "performance": {
+    "cpu_performance": 1.2502776249311864,
+    "gpu_performance": null,
+    "compilation_warmup": {
+      "first_call": 0.030297957826405764,
+      "cached_call": 0.00014962488785386086,
+      "speedup": 202.49276882331156
+    },
+    "memory_usage": null,
+    "errors": []
+  },
+  "compatibility": {
+    "python_version": "3.13.2",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "cuda_version": null,
+    "cudnn_version": null,
+    "gcc_version": "Apple clang version 17.0.0 (clang-1700.3.19.1)",
+    "errors": []
+  }
+}

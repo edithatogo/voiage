@@ -13,7 +13,7 @@ from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
 
 
 def simple_model_func(params):
-    """Simple economic model for testing."""
+    """Model simple economic scenario for testing."""
     # Extract parameters
     if hasattr(params, 'parameters'):
         mean_treatment = params.parameters.get('mean_treatment', np.array([0.0]))
@@ -40,7 +40,7 @@ def simple_model_func(params):
 
 
 def mean_statistic(sample):
-    """Simple statistic function for bootstrap testing."""
+    """Calculate simple statistic for bootstrap testing."""
     return np.mean(sample)
 
 

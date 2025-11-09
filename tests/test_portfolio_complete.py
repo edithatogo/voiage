@@ -156,7 +156,7 @@ class TestPortfolioVOIComplete:
         # Attempt to create portfolio specification with empty studies list
         # This should raise an InputError because PortfolioSpec requires non-empty studies list
         with pytest.raises(InputError, match="must be a non-empty list"):
-            portfolio_spec = PortfolioSpec(studies=[], budget_constraint=100000)
+            _ = PortfolioSpec(studies=[], budget_constraint=100000)
 
 
     def test_portfolio_voi_zero_cost_studies(self):

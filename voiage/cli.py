@@ -78,10 +78,10 @@ def calculate_evpi(
 
     except FileNotFoundError:
         typer.echo(f"Error: Net benefit file not found at '{net_benefit_file}'", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from None
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from e
 
 
 @app.command()
@@ -159,10 +159,10 @@ def calculate_evppi(
 
     except FileNotFoundError as e:
         typer.echo(f"Error: File not found - {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from e
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from e
 
 
 # Add other commands for EVSI, ENBS, etc., as they become feasible for CLI.

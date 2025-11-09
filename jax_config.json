@@ -1,0 +1,32 @@
+{
+  "jax": {
+    "version": "0.4.38",
+    "device": "cpu",
+    "xla_flags": [
+      "--xla_cpu_enable_fast_math=true",
+      "--xla_cpu_enable_fast_min_max=true"
+    ],
+    "enable_jit": true,
+    "array_types": [
+      "jax.numpy",
+      "numpy"
+    ]
+  },
+  "development": {
+    "use_jit_by_default": false,
+    "enable_debug_logging": true,
+    "profile_jit_compilation": true,
+    "memory_efficient_mode": false
+  },
+  "performance": {
+    "enable_pmap": true,
+    "enable_vmap": true,
+    "chunk_size": 10000,
+    "cache_size": 100
+  },
+  "monitoring": {
+    "enable_memory_monitoring": true,
+    "enable_performance_profiling": true,
+    "log_device_placement": true
+  }
+}

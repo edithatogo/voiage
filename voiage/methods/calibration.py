@@ -274,7 +274,7 @@ def voi_calibration(
 
 
 def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
-    """A sophisticated calibration study modeler that demonstrates realistic calibration.
+    """Run a sophisticated calibration study modeler that demonstrates realistic calibration.
 
     This function simulates a more realistic calibration process where:
     1. We have a health economic model with several parameters
@@ -376,7 +376,7 @@ if __name__ == "__main__":
 
     # Simple calibration study modeler for testing
     def simple_cal_modeler(psa, design, spec):
-        """Simple calibration study modeler for testing."""
+        """Run simple calibration study modeler for testing."""
         n_samples = psa.n_samples
         # Create net benefits for 2 strategies
         nb_values = np.random.rand(n_samples, 2) * 1000
