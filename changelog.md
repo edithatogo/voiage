@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fixed GitHub Pages deployment workflow by adding required permissions (`pages: write`, `id-token: write`) and environment configuration. Removed deprecated `github_token` parameter from `deploy-pages@v4` action.
+
 ### Added
 - Initial project structure and placeholder files.
 - Core dependencies in `pyproject.toml`.
