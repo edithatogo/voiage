@@ -61,7 +61,7 @@ dev = [
     "types-setuptools",
     "types-requests",
     "tox>=4.0,<5.0",
-    "pre-commit>=3.0,<4.0",
+    "pre-commit>=3.0,<5.0",
     "bandit>=1.7.6,<2.0",
     "sphinx>=7.0,<8.0",
     "sphinx-rtd-theme>=1.0,<2.0",
