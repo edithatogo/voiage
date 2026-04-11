@@ -95,9 +95,9 @@ def _bayesian_update(
     trial_design: TrialDesign
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
-    import xarray as xr
+    import xarray as xr  # noqa: PLC0415
 
-    from voiage.stats import normal_normal_update
+    from voiage.stats import normal_normal_update  # noqa: PLC0415
 
     posterior_samples = {}
     for param_name, prior_values in prior_samples.parameters.items():
@@ -208,8 +208,7 @@ def parallel_monte_carlo_simulation(
     # Return weighted average
     if total_simulations > 0:
         return total_expected_max_nb / total_simulations
-    else:
-        return 0.0
+    return 0.0
 
 
 def parallel_evsi_calculation(
