@@ -53,21 +53,27 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0,<9.0",
-    "pytest-cov>=3.0,<6.0",
+    "pytest>=8.0,<9.0",
+    "pytest-cov>=5.0,<7.0",
+    "pytest-xdist>=3.0,<4.0",
+    "pytest-benchmark>=4.0,<6.0",
+    "pytest-integration>=0.2,<0.3",
     "hypothesis>=6.0,<7.0",
-    "ruff>=0.1.9,<1.0",
-    "mypy>=1.8,<2.0",
+    "mutmut>=2.0,<3.0",
+    "scalene>=1.5,<2.0",
+    "ruff>=0.9.0,<1.0",
+    "ty>=0.0.1,<1.0",
     "types-setuptools",
     "types-requests",
-    "tox>=4.0,<5.0",
-    "pre-commit>=3.0,<4.0",
     "bandit>=1.7.6,<2.0",
     "sphinx>=7.0,<8.0",
     "sphinx-rtd-theme>=1.0,<2.0",
     "sphinx-autodoc-typehints>=1.12,<2.0",
     "jupyterlab>=3.0,<5.0",
     "ipykernel",
+    "pre-commit>=4.0,<5.0",
+    "vulture>=2.0,<3.0",
+    "taskipy>=1.0,<2.0",
 ]
 plotting = ["matplotlib>=3.4", "seaborn>=0.11"]
 deep_learning = ["torch>=1.9,<3.0"]
@@ -95,12 +101,15 @@ target-version = "py38" # Moved here as a global ruff setting
 
 [tool.ruff.lint]
 select = [
-    "F", "E", "W", "I", "C90", "N", "ANN", "S", "B", "A", "D", "PT", "RUF",
+    "F", "E", "W", "I", "C90", "N", "D", "ANN", "S", "B", "A", "PT", "RUF",
+    "SIM", "C4", "RET", "SLF", "TRY", "RUF022", "RUF023", "PL", "FURB",
+    "UP", "YTT", "ASYNC", "TCH", "PYI", "Q", "FA", "PERF"
 ]
 ignore = [
     "ANN401", "E501", "D100", "D101", "D102", "D103", "D104", "D105", "D107",
     "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
-    "S101", "ANN101", "C901", "F821",
+    "S101", "ANN101", "C901", "PLR0913", "PLR0912", "PLR0915",
+    "TRY003", "EM101", "EM102", "FIX002", "TD002", "TD003"
 ]
 fixable = ["ALL"]
 unfixable = []
@@ -156,12 +165,16 @@ ignore_errors = true
 
 
 [tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-fail-under=0"
-testpaths = [
-    "tests",
-]
+minversion = "8.0"
+addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=0 --numprocesses=auto"
+testpaths = ["tests"]
 python_files = "test_*.py"
+markers = [
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')",
+    "e2e: marks tests as end-to-end tests (deselect with '-m \"not e2e\"')",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "benchmark: marks tests as benchmark tests"
+]
 
 [tool.coverage.run]
 source = ["voiage"]
@@ -175,6 +188,80 @@ omit = [
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.mutmut]
+paths_to_mutate = "voiage/"
+tests_dir = "tests/"
+runner = "pytest -x --no-cov"
+fail_under = 80
+
+[tool.ty]
+python_version = "3.9"
+warn_unused_configs = true
+warn_redundant_casts = true
+files = ["voiage", "tests"]
+exclude = ["voiage/plot"]
+
+[[tool.ty.overrides]]
+module = [
+    "matplotlib.*",
+    "seaborn.*",
+    "SALib.*",
+    "typer.*",
+    "pandas_stubs.*",
+    "sklearn.*",
+    "bokeh.*",
+]
+ignore_missing_imports = true
+
+[[tool.ty.overrides]]
+module = "voiage.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.ty.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[[tool.ty.overrides]]
+module = "voiage.plot.*"
+ignore_errors = true
+
+[tool.semantic_release]
+version_variables = ["pyproject.toml:project.version"]
+version_source = "tag"
+upload_to_pypi = true
+upload_to_release = true
+commit_message = "chore(release): {version} [skip ci]"
+commit_author = "github-actions[bot] <actions@github.com>"
+branch = "main"
+changelog_file = "CHANGELOG.md"
 
 [tool.bandit]
 skips = ["B101"]
+
+[tool.taskipy.tasks]
+test = "uv run pytest tests/ -m 'not integration and not e2e and not benchmark' --cov=voiage --cov-report=term-missing"
+test-integration = "uv run pytest tests/ -m 'integration' --cov=voiage --cov-append"
+test-e2e = "uv run pytest tests/ -m 'e2e'"
+test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
+lint = "uv run ruff check voiage tests"
+format = "uv run ruff format voiage tests"
+typecheck = "uv run ty check voiage tests"
+security = "uv run bandit -r voiage -s B101 -c pyproject.toml"
+profile = "uv run scalene --cli voiage/profile_scalene.py"
+mutmut = "uv run mutmut run --paths-to-mutate voiage/"
+benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only"
+docs = "uv run sphinx-build -W -b html docs docs/_build/html"
+precommit = "uv run pre-commit run --all-files"
+check = "uv run ruff check voiage tests && uv run ruff format voiage tests --check && uv run ty check voiage tests && uv run pytest tests/ -m 'not integration and not e2e'"

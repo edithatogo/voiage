@@ -1,57 +1,248 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+  schedule:
+    # Run profiling weekly on Monday
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+  security-events: write
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-        tox_env: [""]
-        include:
-          - python: "3.11"
-            tox_env: "-e min_versions"
-          - python: "3.11"
-            tox_env: "-e max_versions"
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python }}
-
-    - name: Install tox
-      run: python -m pip install --upgrade pip tox
-
-    - name: Run tox
-      # The TOXENV environment variable is used by tox to select which
-      # environments to run. We link the Python version from the matrix
-      # to the corresponding tox environment (e.g., py38, py39).
-      # We also run the 'lint' environment in a separate job.
-      run: tox ${{ matrix.tox_env }} -e py${{ matrix.python }}
-
+  # Fast linting job
   lint:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
 
-    - name: Set up Python
-      uses: actions/setup-python@v6
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
       with:
-        python-version: '3.11' # Use a recent Python version for linting
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
 
-    - name: Install tox
-      run: python -m pip install --upgrade pip tox
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-    - name: Run linting and security checks
-      run: tox -e lint
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run Ruff
+      run: uv run ruff check voiage tests --output-format=github
+
+    - name: Run Ruff format check
+      run: uv run ruff format voiage tests --check
+
+    - name: Run Ty type checker
+      run: uv run ty check voiage tests
+
+    - name: Run Bandit security check
+      run: uv run bandit -r voiage -s B101 -c pyproject.toml
+
+    - name: Check for dead code
+      run: uv run vulture voiage --min-confidence 80 || true
+
+  # Unit tests
+  test-unit:
+    name: Unit Tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run unit tests with coverage
+      run: |
+        uv run pytest tests/ \
+          -m "not integration and not e2e and not benchmark" \
+          --cov=voiage \
+          --cov-report=xml \
+          --cov-report=term-missing \
+          --numprocesses=auto \
+          -v
+      env:
+        CI: true
+
+    - name: Upload coverage to Codecov
+      if: matrix.python == '3.11'
+      uses: codecov/codecov-action@v5
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  # Integration tests
+  test-integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run integration tests
+      run: |
+        uv run pytest tests/ \
+          -m "integration" \
+          --cov=voiage \
+          --cov-append \
+          -v
+      env:
+        CI: true
+
+  # End-to-end tests
+  test-e2e:
+    name: E2E Tests (CLI)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install voiage
+      run: uv sync --extra dev
+
+    - name: Run E2E CLI tests
+      run: |
+        uv run pytest tests/ \
+          -m "e2e" \
+          -v
+      env:
+        CI: true
+
+  # Mutation testing (weekly)
+  test-mutation:
+    name: Mutation Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run mutation testing
+      run: |
+        uv run mutmut run --paths-to-mutate voiage/
+        uv run mutmut results
+      env:
+        CI: true
+
+  # Performance profiling (weekly)
+  profile:
+    name: Performance Profiling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run Scalene profiler
+      run: |
+        uv run scalene --cli --outfile profile_results.txt voiage/analysis.py
+        cat profile_results.txt
+      env:
+        CI: true
+
+  # Documentation build
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Build documentation
+      run: uv run sphinx-build -W -b html docs docs/_build/html

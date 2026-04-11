@@ -1,0 +1,45 @@
+name: SBOM Generation
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Generate SBOM
+      run: |
+        uv pip freeze > requirements-frozen.txt
+        uv export --format requirements-txt > requirements-export.txt
+
+    - name: Upload SBOM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sbom
+        path: |
+          requirements-frozen.txt
+          requirements-export.txt
+        retention-days: 90

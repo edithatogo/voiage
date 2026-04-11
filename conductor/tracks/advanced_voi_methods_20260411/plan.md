@@ -30,7 +30,13 @@
     - [ ] Create Jupyter notebook example
     - [ ] Update README feature table
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Structural Uncertainty VOI' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review 'Phase 1: Structural Uncertainty VOI' (Protocol in workflow.md)
+    - [ ] Run `/conductor:review` for Phase 1 changes
+    - [ ] Apply Critical/High severity fixes automatically
+    - [ ] Re-run tests after fixes
+    - [ ] Commit review fixes
+    - [ ] Push to remote and verify CI passes
+    - [ ] Create checkpoint commit with git note
 
 ## Phase 2: Network Meta-Analysis VOI
 
@@ -62,7 +68,13 @@
     - [ ] Create Jupyter notebook example
     - [ ] Update README feature table
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Network Meta-Analysis VOI' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review 'Phase 2: Network Meta-Analysis VOI' (Protocol in workflow.md)
+    - [ ] Run `/conductor:review` for Phase 2 changes
+    - [ ] Apply Critical/High severity fixes automatically
+    - [ ] Re-run tests after fixes
+    - [ ] Commit review fixes
+    - [ ] Push to remote and verify CI passes
+    - [ ] Create checkpoint commit with git note
 
 ## Phase 3: Integration & Validation
 
@@ -87,4 +99,23 @@
     - [ ] Update changelog.md
     - [ ] Run full test suite with coverage
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Integration & Validation' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review 'Phase 3: Integration & Validation' (Protocol in workflow.md)
+    - [ ] Run `/conductor:review` for Phase 3 changes
+    - [ ] Apply Critical/High severity fixes automatically
+    - [ ] Re-run tests after fixes
+    - [ ] Commit review fixes
+    - [ ] Push to remote and verify CI passes
+    - [ ] Create checkpoint commit with git note
+
+## Track Completion: Automated Final Review and Progression
+
+- [ ] Task: Conductor - Final Track Review (Track Completion Protocol in workflow.md)
+    - [ ] Invoke `/conductor:review` for entire track
+    - [ ] Apply Critical/High/Medium severity fixes automatically
+    - [ ] Run full test suite: `uv run pytest tests/ --cov=voiage --numprocesses=auto`
+    - [ ] Commit review fixes
+    - [ ] Push to remote and verify ALL CI workflows pass (retry up to 3 times)
+    - [ ] Archive track to `conductor/archive/`
+    - [ ] Update `conductor/tracks.md` to mark track as completed
+    - [ ] Check for next track and auto-progress if exists
+    - [ ] Final push and CI verification

@@ -82,57 +82,44 @@ All tasks follow a strict lifecycle:
 
 3.  **Execute Automated Tests with Proactive Debugging:**
     -   Before execution, you **must** announce the exact shell command you will use to run the tests.
-    -   **Example Announcement:** "I will now run the automated test suite to verify the phase. **Command:** `CI=true npm test`"
+    -   **Example Announcement:** "I will now run the automated test suite to verify the phase. **Command:** `uv run pytest tests/ -m 'not integration and not e2e' --cov=voiage`"
     -   Execute the announced command.
     -   If tests fail, you **must** inform the user and begin debugging. You may attempt to propose a fix a **maximum of two times**. If the tests still fail after your second proposed fix, you **must stop**, report the persistent failure, and ask the user for guidance.
 
-4.  **Propose a Detailed, Actionable Manual Verification Plan:**
-    -   **CRITICAL:** To generate the plan, first analyze `product.md`, `product-guidelines.md`, and `plan.md` to determine the user-facing goals of the completed phase.
-    -   You **must** generate a step-by-step plan that walks the user through the verification process, including any necessary commands and specific, expected outcomes.
-    -   The plan you present to the user **must** follow this format:
+4.  **Automated Code Review (`/conductor:review`):**
+    -   **Step 4.1: Invoke Review Skill:** After tests pass, automatically invoke the `/conductor:review` skill targeting the current phase's changes.
+    -   **Step 4.2: Apply Fixes Automatically:** If the review identifies Critical or High severity issues, automatically apply the suggested fixes.
+    -   **Step 4.3: Re-run Tests:** After applying fixes, re-run the test suite to ensure nothing broke.
+    -   **Step 4.4: Commit Review Fixes:** If fixes were applied, commit them with: `fix(conductor): Apply automated review fixes for phase '<Phase Name>'`
 
-        **For a Frontend Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Start the development server with the command:** `npm run dev`
-        2.  **Open your browser to:** `http://localhost:3000`
-        3.  **Confirm that you see:** The new user profile page, with the user's name and email displayed correctly.
-        ```
-
-        **For a Backend Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Ensure the server is running.**
-        2.  **Execute the following command in your terminal:** `curl -X POST http://localhost:8080/api/v1/users -d '{"name": "test"}'`
-        3.  **Confirm that you receive:** A JSON response with a status of `201 Created`.
-        ```
-
-5.  **Await Explicit User Feedback:**
-    -   After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
-    -   **PAUSE** and await the user's response. Do not proceed without an explicit yes or confirmation.
-
-6.  **Create Checkpoint Commit:**
+5.  **Create Checkpoint Commit:**
     -   Stage all changes. If no changes occurred in this step, proceed with an empty commit.
     -   Perform the commit with a clear and concise message (e.g., `conductor(checkpoint): Checkpoint end of Phase X`).
 
-7.  **Attach Auditable Verification Report using Git Notes:**
-    -   **Step 7.1: Draft Note Content:** Create a detailed verification report including the automated test command, the manual verification steps, and the user's confirmation.
-    -   **Step 7.2: Attach Note:** Use the `git notes` command and the full commit hash from the previous step to attach the full report to the checkpoint commit.
+6.  **Attach Auditable Verification Report using Git Notes:**
+    -   **Step 6.1: Draft Note Content:** Create a detailed verification report including the automated test command, test results, automated review findings, and any fixes applied.
+    -   **Step 6.2: Attach Note:** Use the `git notes` command and the full commit hash from the previous step to attach the full report to the checkpoint commit.
 
-8.  **Get and Record Phase Checkpoint SHA:**
-    -   **Step 8.1: Get Commit Hash:** Obtain the hash of the *just-created checkpoint commit* (`git log -1 --format="%H"`).
-    -   **Step 8.2: Update Plan:** Read `plan.md`, find the heading for the completed phase, and append the first 7 characters of the commit hash in the format `[checkpoint: <sha>]`.
-    -   **Step 8.3: Write Plan:** Write the updated content back to `plan.md`.
+7.  **Get and Record Phase Checkpoint SHA:**
+    -   **Step 7.1: Get Commit Hash:** Obtain the hash of the *just-created checkpoint commit* (`git log -1 --format="%H"`).
+    -   **Step 7.2: Update Plan:** Read `plan.md`, find the heading for the completed phase, and append the first 7 characters of the commit hash in the format `[checkpoint: <sha>]`.
+    -   **Step 7.3: Write Plan:** Write the updated content back to `plan.md`.
 
-9. **Commit Plan Update:**
+8. **Commit Plan Update:**
     - **Action:** Stage the modified `plan.md` file.
     - **Action:** Commit this change with a descriptive message following the format `conductor(plan): Mark phase '<PHASE NAME>' as complete`.
 
-10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed verification report attached as a git note.
+9.  **Verify CI/CD Pipeline:**
+    -   **Step 9.1: Push to Remote:** Push the checkpoint commit to the remote repository: `git push origin <current-branch>`.
+    -   **Step 9.2: Monitor GitHub Actions:** Check the status of the CI workflow runs using `gh run list --limit 3`.
+    -   **Step 9.3: Address Failures:** If any CI checks fail:
+        -   Analyze the failure using `gh run view <run-id> --log-failed`.
+        -   Fix the issue locally.
+        -   Commit and push the fix.
+        -   Re-monitor until all checks pass.
+    -   **Step 9.4: Confirm Green CI:** Only proceed once all GitHub Actions checks show success.
+
+10.  **Announce Completion:** Inform the user that the phase is complete, the checkpoint has been created, and CI is green.
 
 ### Quality Gates
 
@@ -259,6 +246,59 @@ git commit -m "fix(posts): Correct excerpt generation for short posts"
 git commit -m "test(comments): Add tests for emoji reaction limits"
 git commit -m "style(mobile): Improve button touch targets"
 ```
+
+## Track Completion and Auto-Progression Protocol
+
+**Trigger:** This protocol is executed immediately after ALL phases in a track are completed.
+
+### Phase 1: Final Track Review
+
+1.  **Announce Track Completion:** Inform the user that all phases in the track are complete and the final track review is beginning.
+
+2.  **Invoke `/conductor:review` for Entire Track:**
+    -   **Step 2.1:** Invoke the `/conductor:review` skill targeting the entire track (from first commit to HEAD).
+    -   **Step 2.2: Apply Fixes Automatically:** If the review identifies Critical, High, or Medium severity issues, automatically apply the suggested fixes.
+    -   **Step 2.3: Re-run Full Test Suite:** After applying fixes, run: `uv run pytest tests/ --cov=voiage --cov-report=term-missing --numprocesses=auto`.
+    -   **Step 2.4: Commit Review Fixes:** If fixes were applied, commit with: `fix(conductor): Apply final track review suggestions for track '<track_name>'`.
+
+### Phase 2: Final CI/CD Verification
+
+3.  **Push to Remote and Monitor CI:**
+    -   **Step 3.1:** Push all changes to the remote: `git push origin <current-branch>`.
+    -   **Step 3.2:** Monitor GitHub Actions using `gh run list --limit 5`.
+    -   **Step 3.3: Address CI Failures:**
+        -   If any workflow fails, analyze with `gh run view <run-id> --log-failed`.
+        -   Fix the issue, commit, and push.
+        -   **Retry Loop:** Repeat until ALL workflows pass (lint, test-unit, test-integration, test-e2e, docs, codeql).
+        -   **Maximum Retries:** 3 attempts. If still failing after 3 attempts, halt and report to user.
+
+### Phase 3: Archive and Progress
+
+4.  **Archive Completed Track:**
+    -   **Step 4.1:** Create archive directory: `mkdir -p conductor/archive`.
+    -   **Step 4.2:** Move track folder: `mv conductor/tracks/<track_id> conductor/archive/<track_id>`.
+    -   **Step 4.3:** Update `conductor/tracks.md` to mark track as completed:
+        ```markdown
+        - [x] **Track: <Track Description>** [completed: <date>]
+          *Link: [./archive/<track_id>/](./archive/<track_id>/)*
+        ```
+    -   **Step 4.4:** Commit: `chore(conductor): Archive completed track '<track_name>'`.
+
+5.  **Check for Next Track:**
+    -   **Step 5.1:** Read `conductor/tracks.md` to check for remaining tracks.
+    -   **Step 5.2: If Next Track Exists:**
+        -   Announce: "Track '<track_name>' is complete. Starting next track: '<next_track_name>'."
+        -   Read the next track's `plan.md` and begin execution from the first task.
+    -   **Step 5.3: If No Remaining Tracks:**
+        -   Announce: "All tracks are complete! Project is up to date."
+        -   Push final commit to remote.
+
+6.  **Final Push and Verification:**
+    -   Ensure all commits are pushed: `git push origin <current-branch>`.
+    -   Verify final CI status is green.
+    -   Announce completion with summary of what was accomplished.
+
+---
 
 ## Definition of Done
 
