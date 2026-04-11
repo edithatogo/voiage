@@ -359,7 +359,6 @@ python_version = "3.9"
 warn_unused_configs = true
 warn_redundant_casts = true
 files = ["voiage", "tests"]
-exclude = ["voiage/plot"]
 
 [[tool.ty.overrides]]
 module = [
