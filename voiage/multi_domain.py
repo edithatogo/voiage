@@ -645,7 +645,7 @@ def create_environmental_voi(environmental_params: EnvironmentalParameters) -> M
 
 
 def create_engineering_voi(engineering_params: EngineeringParameters) -> MultiDomainVOI:
-    """Create engineering domain VOI analysis"""
+    """Create engineering domain VOI analysis."""
     return MultiDomainVOI(DomainType.ENGINEERING, engineering_params)
 
 
