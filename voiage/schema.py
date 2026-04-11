@@ -269,8 +269,9 @@ class ParameterSet:
 
         import xarray as xr
 
-        if jnp is not None and hasattr(parameters, 'ndim'):  # JAX array
-            if parameters.ndim != 2:
+        expected_ndim = 2
+        if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
+            if parameters.ndim != expected_ndim:
                 raise InputError("parameters array must be 2D")
             n_samples, n_parameters = parameters.shape
             # Create parameter names
@@ -290,7 +291,7 @@ class ParameterSet:
             lengths = []
             converted_params = {}
             for name, arr in parameters.items():
-                if not hasattr(arr, 'shape'):
+                if not hasattr(arr, "shape"):
                     raise InputError(f"Parameter {name} must be a JAX array")
                 lengths.append(len(arr))
                 converted_params[name] = np.asarray(arr)
