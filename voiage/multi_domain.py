@@ -594,9 +594,9 @@ class MultiDomainVOI:
         # This would typically involve partial derivatives or finite differences
         # For now, return placeholder sensitivity analysis
         return {
-            'primary_parameter_sensitivity': 0.5,
-            'secondary_parameter_sensitivity': 0.3,
-            'tertiary_parameter_sensitivity': 0.2
+            "primary_parameter_sensitivity": 0.5,
+            "secondary_parameter_sensitivity": 0.3,
+            "tertiary_parameter_sensitivity": 0.2,
         }
 
     def _assess_domain_risks(self, decision_analysis: DecisionAnalysis) -> Dict[str, float]:
