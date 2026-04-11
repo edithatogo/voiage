@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis)**
-  *Link: [./tracks/advanced_voi_methods_20260411/](./tracks/advanced_voi_methods_20260411/)*
+- [x] **Track: Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis)** [completed: 2026-04-11]
+  *Link: [./archive/advanced_voi_methods_20260411/](./archive/advanced_voi_methods_20260411/)*
