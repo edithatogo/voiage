@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Structural Uncertainty VOI Methods**:
+  - `structural_evpi()`: Calculate Expected Value of Perfect Information for Model Structure
+  - `structural_evppi()`: Calculate Expected Value of Partial Perfect Information for Model Structure
+  - `structural_evpi_jit()`: JAX-accelerated version with JIT compilation
+  - `structural_evppi_jit()`: JAX-accelerated version with JIT compilation
+  - CLI commands: `voiage calculate-structural-evpi` and `voiage calculate-structural-evppi`
+  - JSON config file support for defining multiple model structures
+
+- **Network Meta-Analysis VOI Methods**:
+  - `NetworkMetaAnalysisData`: Data structure for NMA inputs with validation
+  - `calculate_nma_evpi()`: Calculate EVPI for Network Meta-Analysis
+  - `calculate_nma_evppi()`: Calculate EVPPI for Network Meta-Analysis
+  - CLI command: `voiage calculate-nma-voi`
+  - Support for willingness-to-pay thresholds
+  - Dictionary-to-NMA data conversion for ease of use
+
+### Changed
+- Migrated from pip/tox to uv for 10-100x faster dependency resolution
+- Expanded Ruff configuration with comprehensive rule sets
+- Added ty type checker alongside MyPy
+- Enhanced pre-commit hooks with ty, commitlint, shellcheck, vulture
+- Added integration and E2E test structure with pytest markers
+- Modernized CI/CD with uv caching, CodeQL, benchmark tracking
+- Added Renovate configuration for automated dependency updates
+
 ## [0.2.0] - 2025-08-02
 
 ### Changed
