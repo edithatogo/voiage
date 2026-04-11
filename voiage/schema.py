@@ -86,11 +86,12 @@ class ValueArray:
             ValueArray: A new ValueArray instance
         """
         # Handle JAX arrays if available
-        if JAX_AVAILABLE and hasattr(values, 'dtype') and hasattr(values, 'shape'):
+        expected_ndim = 2
+        if JAX_AVAILABLE and hasattr(values, "dtype") and hasattr(values, "shape"):
             # This could be a JAX array - convert to numpy for xarray
             values = np.asarray(values)
 
-        if values.ndim != 2:
+        if values.ndim != expected_ndim:
             raise InputError("values must be a 2D array")
 
         n_samples, n_strategies = values.shape
