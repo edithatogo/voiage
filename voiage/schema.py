@@ -294,7 +294,7 @@ class ParameterSet:
                     raise InputError(f"Parameter {name} must be a JAX array")
                 lengths.append(len(arr))
                 converted_params[name] = np.asarray(arr)
-            
+
             if len(set(lengths)) > 1:
                 raise InputError("All parameter arrays must have the same length")
             n_samples = lengths[0]
