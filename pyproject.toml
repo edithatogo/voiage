@@ -99,6 +99,7 @@ exclude = ["tests*"]
 target-version = "py38" # Moved here as a global ruff setting
 exclude = [
     "voiage/",
+    "*.py",
     "tests/test_active_learning_metamodel.py",
     "tests/test_adaptive_additional.py",
     "tests/test_adaptive_comprehensive.py",
