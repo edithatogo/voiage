@@ -658,7 +658,7 @@ def calculate_domain_evpi(decision_analysis: DecisionAnalysis,
 
 
 def compare_domain_performance(analyses: List[MultiDomainVOI]) -> Dict[str, float]:
-    """Compare performance across different domain analyses"""
+    """Compare performance across different domain analyses."""
     comparisons = {}
 
     for _i, analysis in enumerate(analyses):
