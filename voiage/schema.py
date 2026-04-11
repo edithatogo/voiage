@@ -449,14 +449,13 @@ class PortfolioSpec:
                 "PortfolioStudy names within a PortfolioSpec must be unique."
             )
 
-        if self.budget_constraint is not None:
-            if (
-                not isinstance(self.budget_constraint, (int, float))
-                or self.budget_constraint < 0
-            ):
-                raise InputError(
-                    "PortfolioSpec 'budget_constraint' must be a non-negative number if specified."
-                )
+        if self.budget_constraint is not None and (
+            not isinstance(self.budget_constraint, (int, float))
+            or self.budget_constraint < 0
+        ):
+            raise InputError(
+                "PortfolioSpec 'budget_constraint' must be a non-negative number if specified."
+            )
 
 
 @dataclass(frozen=True)
