@@ -651,9 +651,9 @@ def create_engineering_voi(engineering_params: EngineeringParameters) -> MultiDo
 
 # Utility functions for common domain operations
 
-def calculate_domain_evpi(decision_analysis: DecisionAnalysis, 
+def calculate_domain_evpi(decision_analysis: DecisionAnalysis,
                          domain_type: DomainType) -> float:
-    """Calculate EVPI for a specific domain type"""
+    """Calculate EVPI for a specific domain type."""
     return decision_analysis.calculate_evpi()
 
 
