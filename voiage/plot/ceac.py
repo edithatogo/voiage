@@ -92,7 +92,8 @@ def plot_ceac(
     if strategy_names is None:
         strategy_names = value_array.strategy_names
 
-    if nb_values.ndim != 3:
+    expected_ndim = 3
+    if nb_values.ndim != expected_ndim:
         raise InputError(
             "For CEAC, nb_values must be a 3D array (samples x strategies x WTP thresholds)."
             "Ensure net benefits are calculated for each WTP.",

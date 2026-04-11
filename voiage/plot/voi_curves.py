@@ -278,7 +278,8 @@ def plot_evppi_surface(
     evppi_arr = np.asarray(evppi_values, dtype=DEFAULT_DTYPE)
     wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
 
-    if evppi_arr.ndim != 2:
+    expected_ndim = 2
+    if evppi_arr.ndim != expected_ndim:
         raise InputError(
             "evppi_values must be a 2D array (n_params x n_wtp_thresholds)."
         )
