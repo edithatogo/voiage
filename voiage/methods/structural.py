@@ -482,7 +482,7 @@ def structural_evppi_jit(
                                    population, discount_rate, time_horizon)
 
     @jit
-    def _compute_structural_evppi(nb_all, probs, known_indices):
+    def _compute_structural_evppi(nb_all, probs, known_mask):
         # Calculate expected max NB for each structure
         max_per_sample = jnp.max(nb_all, axis=2)
         expected_max_per_structure = jnp.mean(max_per_sample, axis=1)
@@ -490,8 +490,8 @@ def structural_evppi_jit(
         # Calculate mean NB for each structure and decision
         mean_nb_per_structure = jnp.mean(nb_all, axis=2)
 
-        # Known structure probabilities
-        known_probs = probs[known_indices]
+        # Known structure probabilities using mask
+        known_probs = jnp.where(known_mask, probs, 0.0)
         prob_known = jnp.sum(known_probs)
 
         if prob_known == 0:
@@ -500,11 +500,11 @@ def structural_evppi_jit(
         known_probs_normalized = known_probs / prob_known
 
         # Term 1: E_S_known[E_theta|S[max_d NB]]
-        expected_max_known = expected_max_per_structure[known_indices]
-        term1 = jnp.sum(known_probs_normalized * expected_max_known)
+        expected_max_known = expected_max_per_structure * known_mask
+        term1 = jnp.sum(known_probs_normalized * expected_max_per_structure)
 
         # Term 2: max_d E_S_known[E_theta|S[NB]]
-        mean_nb_known = mean_nb_per_structure[known_indices]
+        mean_nb_known = mean_nb_per_structure * known_mask[:, jnp.newaxis]
         weighted_avg_nb_known = jnp.sum(known_probs_normalized[:, jnp.newaxis] * mean_nb_known, axis=0)
         term2 = jnp.max(weighted_avg_nb_known)
 
@@ -513,12 +513,16 @@ def structural_evppi_jit(
     # Stack arrays
     n_samples = all_nb_arrays[0].shape[0]
     n_strategies = all_nb_arrays[0].shape[1]
-    stacked = np.zeros((len(all_nb_arrays), n_samples, n_strategies), dtype=np.float64)
+    n_structures = len(all_nb_arrays)
+    stacked = np.zeros((n_structures, n_samples, n_strategies), dtype=np.float64)
     for i, arr in enumerate(all_nb_arrays):
         stacked[i] = arr
 
-    known_indices = np.array(structures_of_interest, dtype=int)
-    result = _compute_structural_evppi(stacked, prob_arr, known_indices)
+    # Create boolean mask for known structures
+    known_mask = np.zeros(n_structures, dtype=np.float64)
+    for idx in structures_of_interest:
+        known_mask[idx] = 1.0
+    result = _compute_structural_evppi(stacked, prob_arr, known_mask)
 
     # Population scaling
     per_decision_sevppi = float(result)

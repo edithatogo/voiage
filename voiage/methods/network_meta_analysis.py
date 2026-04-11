@@ -52,6 +52,11 @@ class NetworkMetaAnalysisData:
         if not treatment_effects:
             raise InputError("treatment_effects must not be empty.")
         
+        # Validate no empty arrays
+        for key, val in treatment_effects.items():
+            if val.size == 0:
+                raise InputError(f"Treatment effects for {key} must not be empty.")
+        
         # Validate treatments
         if len(treatments) < 2:
             raise InputError("At least 2 treatments are required.")
