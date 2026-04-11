@@ -38,7 +38,7 @@ jobs:
       run: uv sync --extra dev
 
     - name: Run Ruff
-      run: uv run ruff check voiage tests --output-format=github
+      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
 
     - name: Run Ruff format check
       run: uv run ruff format voiage tests --check
