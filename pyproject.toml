@@ -239,6 +239,7 @@ exclude = [
     "tests/test_sample_information.py",
     "tests/test_structural_cli_e2e.py",
     "tests/test_version_compatibility.py",
+    "tests/test_cli_e2e.py",
 ]
 # line-length = 88 # This is also a global setting, default is 88
 
