@@ -6,17 +6,15 @@ These tests verify that the structural and NMA VOI methods work correctly
 with realistic datasets and integrate properly with the rest of the library.
 """
 
-import json
 import numpy as np
 import pytest
-from pathlib import Path
 
-from voiage.methods.structural import structural_evpi, structural_evppi
 from voiage.methods.network_meta_analysis import (
     NetworkMetaAnalysisData,
     calculate_nma_evpi,
     calculate_nma_evppi,
 )
+from voiage.methods.structural import structural_evpi, structural_evppi
 from voiage.schema import ParameterSet, ValueArray
 
 

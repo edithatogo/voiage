@@ -3,14 +3,15 @@
 """Performance benchmarks for advanced VOI methods."""
 
 import time
+
 import numpy as np
 import pytest
 
-from voiage.methods.structural import structural_evpi, structural_evpi_jit, JAX_AVAILABLE
 from voiage.methods.network_meta_analysis import (
     NetworkMetaAnalysisData,
     calculate_nma_evpi,
 )
+from voiage.methods.structural import JAX_AVAILABLE, structural_evpi, structural_evpi_jit
 from voiage.schema import ParameterSet, ValueArray
 
 
@@ -69,9 +70,7 @@ class TestStructuralVOIPerformance:
         numpy_time = time.perf_counter() - start
 
         # JAX JIT version (first call includes compilation)
-        nb_arrays = []
-        for i in range(n_structures):
-            nb_arrays.append(np.random.normal(100 + i*5, 10, (n_samples, n_strategies)))
+        nb_arrays = [np.random.normal(100 + i * 5, 10, (n_samples, n_strategies)) for i in range(n_structures)]
 
         # First call (compilation)
         _ = structural_evpi_jit(nb_arrays, probabilities)
@@ -82,7 +81,8 @@ class TestStructuralVOIPerformance:
         jit_time = time.perf_counter() - start
 
         # Results should be similar (within 10%)
-        assert abs(result_numpy - result_jit) / result_numpy < 0.1
+        tolerance = 0.1
+        assert abs(result_numpy - result_jit) / result_numpy < tolerance
 
         print(f"\nNumPy time: {numpy_time:.4f}s, JAX JIT time: {jit_time:.4f}s")
 
