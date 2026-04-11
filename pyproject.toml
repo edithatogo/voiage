@@ -356,9 +356,6 @@ fail_under = 80
 
 [tool.ty]
 python_version = "3.9"
-warn_unused_configs = true
-warn_redundant_casts = true
-files = ["voiage", "tests"]
 
 [[tool.ty.overrides]]
 module = [
