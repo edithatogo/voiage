@@ -630,17 +630,17 @@ class MultiDomainVOI:
 # Factory functions for creating domain-specific VOI analyses
 
 def create_manufacturing_voi(manufacturing_params: ManufacturingParameters) -> MultiDomainVOI:
-    """Create manufacturing domain VOI analysis"""
+    """Create manufacturing domain VOI analysis."""
     return MultiDomainVOI(DomainType.MANUFACTURING, manufacturing_params)
 
 
 def create_finance_voi(finance_params: FinanceParameters) -> MultiDomainVOI:
-    """Create finance domain VOI analysis"""
+    """Create finance domain VOI analysis."""
     return MultiDomainVOI(DomainType.FINANCE, finance_params)
 
 
 def create_environmental_voi(environmental_params: EnvironmentalParameters) -> MultiDomainVOI:
-    """Create environmental policy domain VOI analysis"""
+    """Create environmental policy domain VOI analysis."""
     return MultiDomainVOI(DomainType.ENVIRONMENTAL, environmental_params)
 
 
