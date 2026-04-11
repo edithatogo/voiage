@@ -100,7 +100,7 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise InputError(f"strategy_names must have {n_strategies} elements")
 
-        import xarray as xr
+        import xarray as xr  # noqa: PLC0415
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
             coords={
@@ -125,11 +125,12 @@ class ValueArray:
         """
         if not JAX_AVAILABLE:
             raise ImportError("JAX is not available. Please install JAX to use from_jax().")
-        
-        if not hasattr(values, 'shape'):
+
+        if not hasattr(values, "shape"):
             raise InputError("values must be a JAX array with a shape attribute")
 
-        if values.ndim != 2:
+        expected_ndim = 2
+        if values.ndim != expected_ndim:
             raise InputError("values must be a 2D array")
 
         # Convert JAX array to NumPy for xarray compatibility
@@ -142,7 +143,7 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise InputError(f"strategy_names must have {n_strategies} elements")
 
-        import xarray as xr
+        import xarray as xr  # noqa: PLC0415
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), numpy_values)},
             coords={
@@ -206,7 +207,7 @@ class ParameterSet:
         -------
             ParameterSet: A new ParameterSet instance
         """
-        import xarray as xr
+        import xarray as xr  # noqa: PLC0415
 
         # Handle JAX arrays if available
         expected_ndim = 2
