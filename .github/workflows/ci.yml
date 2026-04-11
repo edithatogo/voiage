@@ -38,13 +38,13 @@ jobs:
       run: uv sync --extra dev
 
     - name: Run Ruff
-      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
+      run: uv run ruff check --output-format=github --ignore=FA100,FA102
 
     - name: Run Ruff format check
-      run: uv run ruff format voiage tests --check
+      run: uv run ruff format --check
 
     - name: Run Ty type checker
-      run: uv run ty check voiage tests
+      run: uv run ty check
 
     - name: Run Bandit security check
       run: uv run bandit -r voiage -s B101 -c pyproject.toml
