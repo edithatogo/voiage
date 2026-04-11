@@ -600,30 +600,30 @@ class MultiDomainVOI:
         }
         
     def _assess_domain_risks(self, decision_analysis: DecisionAnalysis) -> Dict[str, float]:
-        """Assess domain-specific risks"""
+        """Assess domain-specific risks."""
         risk_factors = {
-            'decision_risk': 0.3,
-            'model_risk': 0.2,
-            'parameter_risk': 0.4,
-            'implementation_risk': 0.1
+            "decision_risk": 0.3,
+            "model_risk": 0.2,
+            "parameter_risk": 0.4,
+            "implementation_risk": 0.1,
         }
-        
+
         if self.domain_type == DomainType.MANUFACTURING:
-            risk_factors['operational_risk'] = 0.3
-            risk_factors['market_risk'] = 0.2
-            
+            risk_factors["operational_risk"] = 0.3
+            risk_factors["market_risk"] = 0.2
+
         elif self.domain_type == DomainType.FINANCE:
-            risk_factors['market_risk'] = 0.5
-            risk_factors['liquidity_risk'] = 0.2
-            
+            risk_factors["market_risk"] = 0.5
+            risk_factors["liquidity_risk"] = 0.2
+
         elif self.domain_type == DomainType.ENVIRONMENTAL:
-            risk_factors['regulatory_risk'] = 0.3
-            risk_factors['scientific_uncertainty'] = 0.3
-            
+            risk_factors["regulatory_risk"] = 0.3
+            risk_factors["scientific_uncertainty"] = 0.3
+
         elif self.domain_type == DomainType.ENGINEERING:
-            risk_factors['technical_risk'] = 0.4
-            risk_factors['safety_risk'] = 0.3
-            
+            risk_factors["technical_risk"] = 0.4
+            risk_factors["safety_risk"] = 0.3
+
         return risk_factors
 
 
