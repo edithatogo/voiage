@@ -237,7 +237,6 @@ class ParameterSet:
                     arr = np.asarray(arr)
                 lengths.append(len(arr))
                 converted_params[name] = arr
-            
             if len(set(lengths)) > 1:
                 raise InputError("All parameter arrays must have the same length")
             n_samples = lengths[0]
@@ -267,7 +266,7 @@ class ParameterSet:
         if not JAX_AVAILABLE:
             raise ImportError("JAX is not available. Please install JAX to use from_jax().")
 
-        import xarray as xr
+        import xarray as xr  # noqa: PLC0415
 
         expected_ndim = 2
         if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
