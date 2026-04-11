@@ -494,13 +494,11 @@ def structural_evppi_jit(
         known_probs = jnp.where(known_mask, probs, 0.0)
         prob_known = jnp.sum(known_probs)
 
-        if prob_known == 0:
-            return 0.0
-
-        known_probs_normalized = known_probs / prob_known
+        # Avoid division by zero with safe division
+        safe_prob_known = jnp.maximum(prob_known, 1e-10)
+        known_probs_normalized = known_probs / safe_prob_known
 
         # Term 1: E_S_known[E_theta|S[max_d NB]]
-        expected_max_known = expected_max_per_structure * known_mask
         term1 = jnp.sum(known_probs_normalized * expected_max_per_structure)
 
         # Term 2: max_d E_S_known[E_theta|S[NB]]
@@ -508,7 +506,9 @@ def structural_evppi_jit(
         weighted_avg_nb_known = jnp.sum(known_probs_normalized[:, jnp.newaxis] * mean_nb_known, axis=0)
         term2 = jnp.max(weighted_avg_nb_known)
 
-        return jnp.maximum(0.0, term1 - term2)
+        # Zero out result if no known structures
+        result = jnp.maximum(0.0, term1 - term2)
+        return jnp.where(prob_known > 0, result, 0.0)
 
     # Stack arrays
     n_samples = all_nb_arrays[0].shape[0]
