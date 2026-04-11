@@ -233,10 +233,12 @@ class ParameterSet:
             converted_params = {}
             for name, arr in parameters.items():
                 # Convert JAX arrays to numpy if needed
-                if JAX_AVAILABLE and hasattr(arr, 'dtype') and hasattr(arr, 'shape'):
-                    arr = np.asarray(arr)
-                lengths.append(len(arr))
-                converted_params[name] = arr
+                if JAX_AVAILABLE and hasattr(arr, "dtype") and hasattr(arr, "shape"):
+                    np_arr = np.asarray(arr)
+                else:
+                    np_arr = arr
+                lengths.append(len(np_arr))
+                converted_params[name] = np_arr
             if len(set(lengths)) > 1:
                 raise InputError("All parameter arrays must have the same length")
             n_samples = lengths[0]
