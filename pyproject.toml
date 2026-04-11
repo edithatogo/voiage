@@ -210,6 +210,9 @@ exclude = [
     "tests/test_analysis.py",
     "tests/test_backends.py",
     "tests/test_basic_comprehensive.py",
+    "tests/test_basic_methods_comprehensive.py",
+    "tests/test_caching.py",
+    "tests/test_advanced_voi_performance.py",
 ]
 # line-length = 88 # This is also a global setting, default is 88
 
