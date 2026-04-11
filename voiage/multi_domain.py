@@ -598,7 +598,7 @@ class MultiDomainVOI:
             'secondary_parameter_sensitivity': 0.3,
             'tertiary_parameter_sensitivity': 0.2
         }
-        
+
     def _assess_domain_risks(self, decision_analysis: DecisionAnalysis) -> Dict[str, float]:
         """Assess domain-specific risks."""
         risk_factors = {
