@@ -162,5 +162,83 @@ def test_structural_evppi_input_validation(sample_structures):
         structural_evppi(evaluators, probabilities, psa_samples, [-1])  # Negative index
 
 
+# --- Tests for JIT-compiled versions ---
+
+def test_structural_evpi_jit_basic():
+    """Test basic functionality of JIT-compiled structural_evpi."""
+    try:
+        from voiage.methods.structural import structural_evpi_jit
+    except InputError:
+        pytest.skip("JAX not available")
+
+    np.random.seed(42)
+    n_samples = 100
+    n_strategies = 2
+    n_structures = 3
+
+    # Create sample net benefit arrays
+    nb_arrays = [np.random.rand(n_samples, n_strategies) * 100 for _ in range(n_structures)]
+    probabilities = [0.5, 0.3, 0.2]
+
+    result = structural_evpi_jit(nb_arrays, probabilities)
+    assert isinstance(result, float)
+    assert result >= 0
+
+
+def test_structural_evpi_jit_with_population():
+    """Test JIT-compiled structural_evpi with population scaling."""
+    try:
+        from voiage.methods.structural import structural_evpi_jit
+    except InputError:
+        pytest.skip("JAX not available")
+
+    np.random.seed(42)
+    nb_arrays = [np.random.rand(100, 2) * 100 for _ in range(2)]
+    probabilities = [0.6, 0.4]
+
+    result = structural_evpi_jit(
+        nb_arrays, probabilities,
+        population=10000,
+        time_horizon=10,
+        discount_rate=0.03
+    )
+    assert isinstance(result, float)
+    assert result >= 0
+
+
+def test_structural_evppi_jit_basic():
+    """Test basic functionality of JIT-compiled structural_evppi."""
+    try:
+        from voiage.methods.structural import structural_evppi_jit
+    except InputError:
+        pytest.skip("JAX not available")
+
+    np.random.seed(42)
+    nb_arrays = [np.random.rand(100, 2) * 100 for _ in range(3)]
+    probabilities = [0.5, 0.3, 0.2]
+
+    result = structural_evppi_jit(nb_arrays, probabilities, [0])
+    assert isinstance(result, float)
+    assert result >= 0
+
+
+def test_structural_evppi_jit_all_structures():
+    """Test JIT-compiled structural_evppi when all structures are of interest (should equal SEVPI)."""
+    try:
+        from voiage.methods.structural import structural_evpi_jit, structural_evppi_jit
+    except InputError:
+        pytest.skip("JAX not available")
+
+    np.random.seed(42)
+    nb_arrays = [np.random.rand(100, 2) * 100 for _ in range(2)]
+    probabilities = [0.6, 0.4]
+
+    evpi_result = structural_evpi_jit(nb_arrays, probabilities)
+    evppi_result = structural_evppi_jit(nb_arrays, probabilities, [0, 1])
+
+    # When all structures are of interest, EVPPI should equal EVPI
+    np.testing.assert_allclose(evpi_result, evppi_result, rtol=1e-5)
+
+
 if __name__ == "__main__":
     pytest.main([__file__])

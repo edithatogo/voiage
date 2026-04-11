@@ -22,6 +22,15 @@ from voiage.exceptions import InputError
 from voiage.schema import ParameterSet as PSASample
 from voiage.schema import ValueArray as NetBenefitArray
 
+# Try to import JAX for JIT compilation
+try:
+    import jax
+    import jax.numpy as jnp
+    from jax import jit, vmap
+    JAX_AVAILABLE = True
+except ImportError:
+    JAX_AVAILABLE = False
+
 # Type alias for a function that can evaluate a specific model structure
 # It would take parameters and return net benefits for that structure.
 ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
@@ -340,6 +349,186 @@ def structural_evppi(
             "To calculate population SEVPPI, 'population' and 'time_horizon' must be provided. "
             "'discount_rate' is optional (defaults to 0 if not provided)."
         )
+
+    return per_decision_sevppi
+
+
+# --- JAX-accelerated versions ---
+
+def structural_evpi_jit(
+    all_nb_arrays: List[np.ndarray],
+    structure_probabilities: Union[np.ndarray, List[float]],
+    population: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+) -> float:
+    """JIT-compiled version of Structural EVPI for improved performance.
+
+    This version takes pre-evaluated net benefit arrays directly instead of
+    evaluator functions, allowing JAX to compile and optimize the computation.
+
+    Args:
+        all_nb_arrays (List[np.ndarray]):
+            List of net benefit arrays, one per structure.
+            Each array has shape (n_samples, n_strategies).
+        structure_probabilities (Union[np.ndarray, List[float]]):
+            Probabilities associated with each model structure.
+        population (Optional[float]): Population size for scaling.
+        discount_rate (Optional[float]): Discount rate for scaling.
+        time_horizon (Optional[float]): Time horizon for scaling.
+
+    Returns:
+        float: The calculated Structural EVPI.
+
+    Raises:
+        InputError: If JAX is not available or inputs are invalid.
+    """
+    if not JAX_AVAILABLE:
+        raise InputError("JAX is required for JIT-compiled structural EVPI. Install JAX first.")
+
+    # Input validation
+    if len(all_nb_arrays) != len(structure_probabilities):
+        raise InputError("Number of net benefit arrays must match number of structure probabilities.")
+
+    if not all_nb_arrays:
+        return 0.0
+
+    prob_arr = np.asarray(structure_probabilities, dtype=float)
+    if not np.isclose(np.sum(prob_arr), 1.0):
+        raise InputError("Structure probabilities must sum to 1.")
+
+    @jit
+    def _compute_structural_evpi(nb_all, probs):
+        n_structures = nb_all.shape[0]
+
+        # Calculate expected max NB for each structure
+        max_per_sample = jnp.max(nb_all, axis=2)  # (n_structures, n_samples)
+        expected_max_per_structure = jnp.mean(max_per_sample, axis=1)  # (n_structures,)
+
+        # Term 1: E_S[E_theta|S[max_d NB]]
+        term1 = jnp.sum(probs * expected_max_per_structure)
+
+        # Term 2: max_d E_S[E_theta|S[NB]]
+        mean_nb_per_structure = jnp.mean(nb_all, axis=2)  # (n_structures, n_strategies)
+        weighted_avg_nb = jnp.sum(probs[:, jnp.newaxis] * mean_nb_per_structure, axis=0)
+        term2 = jnp.max(weighted_avg_nb)
+
+        return jnp.maximum(0.0, term1 - term2)
+
+    # Stack arrays for JAX: (n_structures, n_samples, n_strategies)
+    n_samples = all_nb_arrays[0].shape[0]
+    n_strategies = all_nb_arrays[0].shape[1]
+    stacked = np.zeros((len(all_nb_arrays), n_samples, n_strategies), dtype=np.float64)
+    for i, arr in enumerate(all_nb_arrays):
+        stacked[i] = arr
+
+    result = _compute_structural_evpi(stacked, prob_arr)
+
+    # Population scaling
+    per_decision_sevpi = float(result)
+    if population is not None and time_horizon is not None:
+        current_dr = discount_rate if discount_rate is not None else 0.0
+        if current_dr == 0:
+            annuity_factor = time_horizon
+        else:
+            annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+        return float(per_decision_sevpi * population * annuity_factor)
+
+    return per_decision_sevpi
+
+
+def structural_evppi_jit(
+    all_nb_arrays: List[np.ndarray],
+    structure_probabilities: Union[np.ndarray, List[float]],
+    structures_of_interest: List[int],
+    population: Optional[float] = None,
+    discount_rate: Optional[float] = None,
+    time_horizon: Optional[float] = None,
+) -> float:
+    """JIT-compiled version of Structural EVPPI for improved performance.
+
+    Args:
+        all_nb_arrays (List[np.ndarray]):
+            List of net benefit arrays, one per structure.
+        structure_probabilities (Union[np.ndarray, List[float]]):
+            Probabilities associated with each model structure.
+        structures_of_interest (List[int]): Indices of structures to learn about.
+        population (Optional[float]): Population size for scaling.
+        discount_rate (Optional[float]): Discount rate for scaling.
+        time_horizon (Optional[float]): Time horizon for scaling.
+
+    Returns:
+        float: The calculated Structural EVPPI.
+    """
+    if not JAX_AVAILABLE:
+        raise InputError("JAX is required for JIT-compiled structural EVPPI. Install JAX first.")
+
+    if len(all_nb_arrays) != len(structure_probabilities):
+        raise InputError("Number of net benefit arrays must match number of structure probabilities.")
+
+    if not all_nb_arrays:
+        return 0.0
+
+    if not structures_of_interest:
+        return 0.0
+
+    prob_arr = np.asarray(structure_probabilities, dtype=float)
+    if not np.isclose(np.sum(prob_arr), 1.0):
+        raise InputError("Structure probabilities must sum to 1.")
+
+    # If all structures are of interest, this becomes SEVPI
+    if len(structures_of_interest) == len(all_nb_arrays):
+        return structural_evpi_jit(all_nb_arrays, structure_probabilities,
+                                   population, discount_rate, time_horizon)
+
+    @jit
+    def _compute_structural_evppi(nb_all, probs, known_indices):
+        # Calculate expected max NB for each structure
+        max_per_sample = jnp.max(nb_all, axis=2)
+        expected_max_per_structure = jnp.mean(max_per_sample, axis=1)
+
+        # Calculate mean NB for each structure and decision
+        mean_nb_per_structure = jnp.mean(nb_all, axis=2)
+
+        # Known structure probabilities
+        known_probs = probs[known_indices]
+        prob_known = jnp.sum(known_probs)
+
+        if prob_known == 0:
+            return 0.0
+
+        known_probs_normalized = known_probs / prob_known
+
+        # Term 1: E_S_known[E_theta|S[max_d NB]]
+        expected_max_known = expected_max_per_structure[known_indices]
+        term1 = jnp.sum(known_probs_normalized * expected_max_known)
+
+        # Term 2: max_d E_S_known[E_theta|S[NB]]
+        mean_nb_known = mean_nb_per_structure[known_indices]
+        weighted_avg_nb_known = jnp.sum(known_probs_normalized[:, jnp.newaxis] * mean_nb_known, axis=0)
+        term2 = jnp.max(weighted_avg_nb_known)
+
+        return jnp.maximum(0.0, term1 - term2)
+
+    # Stack arrays
+    n_samples = all_nb_arrays[0].shape[0]
+    n_strategies = all_nb_arrays[0].shape[1]
+    stacked = np.zeros((len(all_nb_arrays), n_samples, n_strategies), dtype=np.float64)
+    for i, arr in enumerate(all_nb_arrays):
+        stacked[i] = arr
+
+    known_indices = np.array(structures_of_interest, dtype=int)
+    result = _compute_structural_evppi(stacked, prob_arr, known_indices)
+
+    # Population scaling
+    per_decision_sevppi = float(result)
+    if population is not None and time_horizon is not None:
+        current_dr = discount_rate if discount_rate is not None else 0.0
+        if current_dr == 0:
+            annuity_factor = time_horizon
+        else:
+            annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+        return float(per_decision_sevppi * population * annuity_factor)
 
     return per_decision_sevppi
 
