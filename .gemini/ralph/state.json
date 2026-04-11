@@ -1,0 +1,8 @@
+{
+  "active": true,
+  "current_iteration": 1,
+  "max_iterations": 5,
+  "completion_promise": "all tests are passing",
+  "original_prompt": "address all of the failing tests",
+  "started_at": "2026-04-11T07:09:06Z"
+}
