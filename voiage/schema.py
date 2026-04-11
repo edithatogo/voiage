@@ -209,12 +209,13 @@ class ParameterSet:
         import xarray as xr
 
         # Handle JAX arrays if available
-        if JAX_AVAILABLE and hasattr(parameters, 'ndim') and hasattr(parameters, 'dtype'):
+        expected_ndim = 2
+        if JAX_AVAILABLE and hasattr(parameters, "ndim") and hasattr(parameters, "dtype"):
             # This could be a JAX array - convert to numpy for xarray
             parameters = np.asarray(parameters)
 
         if isinstance(parameters, np.ndarray):
-            if parameters.ndim != 2:
+            if parameters.ndim != expected_ndim:
                 raise InputError("parameters array must be 2D")
             n_samples, n_parameters = parameters.shape
             # Create parameter names
