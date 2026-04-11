@@ -665,7 +665,7 @@ def compare_domain_performance(analyses: List[MultiDomainVOI]) -> Dict[str, floa
         domain_name = analysis.domain_type.value
         if analysis.decision_analysis is not None:
             evpi = analysis.decision_analysis.calculate_evpi()
-            comparisons[f'{domain_name}_evpi'] = float(evpi)
+            comparisons[f"{domain_name}_evpi"] = float(evpi)
         else:
             comparisons[f"{domain_name}_evpi"] = 0.0
 
