@@ -128,66 +128,65 @@ def voi_calibration(
 
     Raises
     ------
-        InputError: If inputs are invalid.
+        InputError
+            If inputs are invalid.
 
     Example
     -------
     ::
-    from voiage.methods.calibration import voi_calibration
-    from voiage.schema import ParameterSet
-    import numpy as np
 
-    # Simple calibration study modeler
-    def simple_cal_modeler(psa_samples, study_design, process_spec):
-        # This is a simplified example - a real implementation would be much more complex
-        n_samples = psa_samples.n_samples
-        # Create net benefits for 2 strategies
-        nb_values = np.random.rand(n_samples, 2) * 100000
-        # Make strategy 1 slightly better on average
-        nb_values[:, 1] += 5000
+        from voiage.methods.calibration import voi_calibration
+        from voiage.schema import ParameterSet
+        import numpy as np
 
-        import xarray as xr
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-            }
+        # Simple calibration study modeler
+        def simple_cal_modeler(psa_samples, study_design, process_spec):
+            n_samples = psa_samples.n_samples
+            nb_values = np.random.rand(n_samples, 2) * 100000
+            nb_values[:, 1] += 5000
+
+            import xarray as xr
+            dataset = xr.Dataset(
+                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
+                coords={
+                    "n_samples": np.arange(n_samples),
+                    "n_strategies": np.arange(2),
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
+                }
+            )
+            from voiage.schema import ValueArray
+            return ValueArray(dataset=dataset)
+
+        # Create parameter samples
+        params = {
+            "effectiveness": np.random.normal(0.7, 0.1, 100),
+            "cost": np.random.normal(5000, 500, 100)
+        }
+        parameter_set = ParameterSet.from_numpy_or_dict(params)
+
+        # Define calibration study design
+        calibration_study_design = {
+            "experiment_type": "lab",
+            "sample_size": 100,
+            "variables_measured": ["cost", "effectiveness"]
+        }
+
+        # Define calibration process specification
+        calibration_process_spec = {
+            "method": "bayesian",
+            "likelihood_function": "normal"
+        }
+
+        # Calculate VOI for calibration
+        voi_value = voi_calibration(
+            cal_study_modeler=simple_cal_modeler,
+            psa_prior=parameter_set,
+            calibration_study_design=calibration_study_design,
+            calibration_process_spec=calibration_process_spec,
+            n_outer_loops=10
         )
-        from voiage.schema import ValueArray
-        return ValueArray(dataset=dataset)
 
-    # Create parameter samples
-    params = {
-        "effectiveness": np.random.normal(0.7, 0.1, 100),
-        "cost": np.random.normal(5000, 500, 100)
-    }
-    parameter_set = ParameterSet.from_numpy_or_dict(params)
-
-    # Define calibration study design
-    calibration_study_design = {
-        "experiment_type": "lab",
-        "sample_size": 100,
-        "variables_measured": ["cost", "effectiveness"]
-    }
-
-    # Define calibration process specification
-    calibration_process_spec = {
-        "method": "bayesian",
-        "likelihood_function": "normal"
-    }
-
-    # Calculate VOI for calibration
-    voi_value = voi_calibration(
-        cal_study_modeler=simple_cal_modeler,
-        psa_prior=parameter_set,
-        calibration_study_design=calibration_study_design,
-        calibration_process_spec=calibration_process_spec,
-        n_outer_loops=10
-    )
-
-    print(f"Calibration VOI: ${voi_value:,.0f}")
+        print(f"Calibration VOI: ${voi_value:,.0f}")
     
     """
     # Validate inputs
