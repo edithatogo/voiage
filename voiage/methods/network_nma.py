@@ -12,35 +12,36 @@ Expected Value of Sample Information for a new study in the context of a Network
 Meta-Analysis. It requires a model evaluator function that can perform the NMA and
 subsequent economic evaluation.
 
-Example usage:
-::
-from voiage.methods.network_nma import evsi_nma
-from voiage.schema import ParameterSet, TrialDesign, DecisionOption
+Example usage::
 
-# Define your NMA economic model evaluator
-def nma_model_evaluator(psa_samples, trial_design=None, trial_data=None):
-    # Your implementation here
-    pass
+    from voiage.methods.network_nma import evsi_nma
+    from voiage.schema import ParameterSet, TrialDesign, DecisionOption
 
-# Create parameter samples for PSA
-parameter_set = ParameterSet.from_numpy_or_dict({...})
+    # Define your NMA economic model evaluator
+    def nma_model_evaluator(psa_samples, trial_design=None, trial_data=None):
+        # Your implementation here
+        pass
 
-# Define trial design for new study
-trial_arms = [
-    DecisionOption(name="Treatment A", sample_size=100),
-    DecisionOption(name="Treatment B", sample_size=100)
-]
-trial_design = TrialDesign(arms=trial_arms)
+    # Create parameter samples for PSA
+    parameter_set = ParameterSet.from_numpy_or_dict({...})
 
-# Calculate EVSI-NMA
-evsi_value = evsi_nma(
-    nma_model_evaluator=nma_model_evaluator,
-    psa_prior_nma=parameter_set,
-    trial_design_new_study=trial_design
-)
+    # Define trial design for new study
+    trial_arms = [
+        DecisionOption(name="Treatment A", sample_size=100),
+        DecisionOption(name="Treatment B", sample_size=100)
+    ]
+    trial_design = TrialDesign(arms=trial_arms)
+
+    # Calculate EVSI-NMA
+    evsi_value = evsi_nma(
+        nma_model_evaluator=nma_model_evaluator,
+        psa_prior_nma=parameter_set,
+        trial_design_new_study=trial_design
+    )
 
 
 Functions:
+
 - `evsi_nma`: Main function to calculate EVSI for NMA
 - `_simulate_trial_data_nma`: Simulate trial data for NMA
 - `_update_nma_posterior`: Update NMA parameter posteriors
