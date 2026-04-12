@@ -7,10 +7,11 @@ This package contains modules for different types of VOI analyses.
 Each module typically implements one or more related VOI methods.
 
 Modules:
+
 - basic: EVPI (Expected Value of Perfect Information) and
-         EVPPI (Expected Value of Partial Perfect Information).
+  EVPPI (Expected Value of Partial Perfect Information).
 - sample_information: EVSI (Expected Value of Sample Information) and
-                      ENBS (Expected Net Benefit of Sampling).
+  ENBS (Expected Net Benefit of Sampling).
 - structural: Structural EVPI/EVPPI for model uncertainty.
 - network_nma: EVSI for Network Meta-Analysis.
 - adaptive: EVSI for adaptive trial designs.
