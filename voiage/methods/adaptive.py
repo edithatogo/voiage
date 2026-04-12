@@ -11,13 +11,13 @@ EVSI for such designs needs to account for these decision rules.
 The main function `adaptive_evsi`
 calculates the EVSI for adaptive trial designs using Monte Carlo simulation.
 
-Example usage:
-```python
-from voiage.methods.adaptive import adaptive_evsi
-from voiage.schema import ParameterSet, TrialDesign, DecisionOption
+Example usage::
 
-# Define your adaptive trial simulator
-def adaptive_trial_simulator(psa_samples, base_design, adaptive_rules):
+    from voiage.methods.adaptive import adaptive_evsi
+    from voiage.schema import ParameterSet, TrialDesign, DecisionOption
+
+    # Define your adaptive trial simulator
+    def adaptive_trial_simulator(psa_samples, base_design, adaptive_rules):
     # Your implementation here
     pass
 
@@ -44,10 +44,10 @@ evsi_value = adaptive_evsi(
     base_trial_design=base_design,
     adaptive_rules=adaptive_rules
 )
-```
 
 Functions:
-- [adaptive_evsi][voiage.methods.adaptive.adaptive_evsi]: Main function for adaptive trial EVSI calculation
+
+- `adaptive_evsi`: Main function for adaptive trial EVSI calculation
 """
 
 from typing import Any, Callable, Dict, Optional
