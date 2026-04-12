@@ -354,34 +354,6 @@ tests_dir = "tests/"
 runner = "pytest -x --no-cov"
 fail_under = 80
 
-[tool.ty]
-python_version = "3.9"
-
-[[tool.ty.overrides]]
-module = [
-    "matplotlib.*",
-    "seaborn.*",
-    "SALib.*",
-    "typer.*",
-    "pandas_stubs.*",
-    "sklearn.*",
-    "bokeh.*",
-]
-ignore_missing_imports = true
-
-[[tool.ty.overrides]]
-module = "voiage.*"
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-
-[[tool.ty.overrides]]
-module = "tests.*"
-ignore_errors = true
-
-[[tool.ty.overrides]]
-module = "voiage.plot.*"
-ignore_errors = true
-
 [tool.semantic_release]
 version_variables = ["pyproject.toml:project.version"]
 version_source = "tag"
