@@ -1,5 +1,5 @@
 voiage.schema module
-==================
+====================
 
 .. automodule:: voiage.schema
    :members:

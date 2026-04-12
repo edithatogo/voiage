@@ -1,5 +1,5 @@
 voiage.methods package
-=====================
+======================
 
 .. automodule:: voiage.methods
    :members:
