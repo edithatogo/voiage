@@ -96,7 +96,7 @@ def sophisticated_adaptive_trial_simulator(
         NetBenefitArray with economic outcomes for decision alternatives
 
     Example:
-        ```python
+        ::
         from voiage.methods.adaptive import sophisticated_adaptive_trial_simulator
         from voiage.schema import ParameterSet, TrialDesign, DecisionOption
         import numpy as np
@@ -125,7 +125,7 @@ def sophisticated_adaptive_trial_simulator(
 
         # Simulate adaptive trial
         net_benefits = sophisticated_adaptive_trial_simulator(parameter_set, design, rules)
-        ```
+        
     """
     n_samples = psa_samples.n_samples
 
@@ -459,7 +459,7 @@ def adaptive_evsi(
 
     Example
     -------
-    ```python
+    ::
     from voiage.methods.adaptive import adaptive_evsi, bayesian_adaptive_trial_simulator
     from voiage.schema import ParameterSet, TrialDesign, DecisionOption
     import numpy as np
@@ -497,7 +497,7 @@ def adaptive_evsi(
     )
 
     print(f"Adaptive EVSI: ${evsi_value:,.0f}")
-    ```
+    
     """
     # Validate inputs
     if not callable(adaptive_trial_simulator):
