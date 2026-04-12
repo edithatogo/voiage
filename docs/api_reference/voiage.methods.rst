@@ -10,7 +10,7 @@ Submodules
 ----------
 
 voiage.methods.adaptive module
------------------------------
+--------------------------------
 
 .. automodule:: voiage.methods.adaptive
    :members:
@@ -18,7 +18,7 @@ voiage.methods.adaptive module
    :show-inheritance:
 
 voiage.methods.basic module
---------------------------
+---------------------------
 
 .. automodule:: voiage.methods.basic
    :members:
@@ -26,7 +26,7 @@ voiage.methods.basic module
    :show-inheritance:
 
 voiage.methods.calibration module
---------------------------------
+---------------------------------
 
 .. automodule:: voiage.methods.calibration
    :members:
@@ -34,7 +34,7 @@ voiage.methods.calibration module
    :show-inheritance:
 
 voiage.methods.network_nma module
---------------------------------
+---------------------------------
 
 .. automodule:: voiage.methods.network_nma
    :members:
@@ -42,7 +42,7 @@ voiage.methods.network_nma module
    :show-inheritance:
 
 voiage.methods.observational module
-----------------------------------
+-----------------------------------
 
 .. automodule:: voiage.methods.observational
    :members:
@@ -50,7 +50,7 @@ voiage.methods.observational module
    :show-inheritance:
 
 voiage.methods.portfolio module
-------------------------------
+--------------------------------
 
 .. automodule:: voiage.methods.portfolio
    :members:
@@ -58,7 +58,7 @@ voiage.methods.portfolio module
    :show-inheritance:
 
 voiage.methods.sample_information module
---------------------------------------
+----------------------------------------
 
 .. automodule:: voiage.methods.sample_information
    :members:
@@ -66,7 +66,7 @@ voiage.methods.sample_information module
    :show-inheritance:
 
 voiage.methods.sequential module
--------------------------------
+--------------------------------
 
 .. automodule:: voiage.methods.sequential
    :members:
@@ -74,7 +74,7 @@ voiage.methods.sequential module
    :show-inheritance:
 
 voiage.methods.structural module
--------------------------------
+--------------------------------
 
 .. automodule:: voiage.methods.structural
    :members:
