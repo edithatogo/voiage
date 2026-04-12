@@ -9,11 +9,11 @@ to interventions. Calculating VOI for such data requires careful consideration
 of biases (confounding, selection bias, measurement error) and how the
 observational data would be analyzed and used to update beliefs.
 
-The main function [voi_observational][voiage.methods.observational.voi_observational]
+The main function `voi_observational`
 calculates the VOI for observational studies using Monte Carlo simulation.
 
 Example usage:
-```python
+::
 from voiage.methods.observational import voi_observational
 from voiage.schema import ParameterSet
 
@@ -45,10 +45,10 @@ voi_value = voi_observational(
     observational_study_design=observational_study_design,
     bias_models=bias_models
 )
-```
+
 
 Functions:
-- [voi_observational][voiage.methods.observational.voi_observational]: Main function for observational study VOI calculation
+- `voi_observational`: Main function for observational study VOI calculation
 """
 
 from typing import Any, Callable, Dict, Optional
@@ -131,7 +131,7 @@ def voi_observational(
 
     Example
     -------
-    ```python
+    ::
     from voiage.methods.observational import voi_observational
     from voiage.schema import ParameterSet
     import numpy as np
@@ -187,7 +187,7 @@ def voi_observational(
     )
 
     print(f"Observational Study VOI: ${voi_value:,.0f}")
-    ```
+    
     """
     # Validate inputs
     if not callable(obs_study_modeler):

@@ -7,13 +7,13 @@ This module provides functions for calculating the Expected Value of Sample Info
 simultaneously in a coherent statistical model, often using both direct and indirect
 evidence. EVSI-NMA assesses the value of new studies that would inform this network.
 
-The main function [evsi_nma][voiage.methods.network_nma.evsi_nma] calculates the
+The main function `evsi_nma` calculates the
 Expected Value of Sample Information for a new study in the context of a Network
 Meta-Analysis. It requires a model evaluator function that can perform the NMA and
 subsequent economic evaluation.
 
 Example usage:
-```python
+::
 from voiage.methods.network_nma import evsi_nma
 from voiage.schema import ParameterSet, TrialDesign, DecisionOption
 
@@ -38,15 +38,15 @@ evsi_value = evsi_nma(
     psa_prior_nma=parameter_set,
     trial_design_new_study=trial_design
 )
-```
+
 
 Functions:
-- [evsi_nma][voiage.methods.network_nma.evsi_nma]: Main function to calculate EVSI for NMA
-- [_simulate_trial_data_nma][voiage.methods.network_nma._simulate_trial_data_nma]: Simulate trial data for NMA
-- [_update_nma_posterior][voiage.methods.network_nma._update_nma_posterior]: Update NMA parameter posteriors
-- [_perform_network_meta_analysis][voiage.methods.network_nma._perform_network_meta_analysis]: Perform NMA
-- [calculate_nma_consistency][voiage.methods.network_nma.calculate_nma_consistency]: Calculate consistency measure
-- [simulate_nma_network_data][voiage.methods.network_nma.simulate_nma_network_data]: Simulate NMA network data
+- `evsi_nma`: Main function to calculate EVSI for NMA
+- `_simulate_trial_data_nma`: Simulate trial data for NMA
+- `_update_nma_posterior`: Update NMA parameter posteriors
+- `_perform_network_meta_analysis`: Perform NMA
+- `calculate_nma_consistency`: Calculate consistency measure
+- `simulate_nma_network_data`: Simulate NMA network data
 """
 
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -125,7 +125,7 @@ def evsi_nma(
 
     Example
     -------
-    ```python
+    ::
     from voiage.methods.network_nma import evsi_nma, sophisticated_nma_model_evaluator
     from voiage.schema import ParameterSet, TrialDesign, DecisionOption
 
@@ -155,7 +155,7 @@ def evsi_nma(
     )
 
     print(f"EVSI-NMA: ${evsi_value:,.0f}")
-    ```
+    
     """
     # Validate inputs
     if not callable(nma_model_evaluator):
@@ -245,7 +245,7 @@ def _simulate_trial_data_nma(true_parameters: Dict[str, float], trial_design: Tr
         Dictionary mapping arm names to simulated outcome data as numpy arrays
 
     Example:
-        ```python
+        ::
         true_params = {
             "te_treatment_a": 0.2,
             "te_treatment_b": 0.5,
@@ -259,7 +259,7 @@ def _simulate_trial_data_nma(true_parameters: Dict[str, float], trial_design: Tr
         ])
         simulated_data = _simulate_trial_data_nma(true_params, trial_design)
         # Returns: {"Treatment A": array([...]), "Treatment B": array([...])}
-        ```
+        
     """
     data = {}
 
@@ -331,7 +331,7 @@ def _perform_network_meta_analysis(
         Tuple of (treatment_effects, treatment_variances) as numpy arrays
 
     Example:
-        ```python
+        ::
         # Treatment effects from 4 studies comparing different treatments
         te = np.array([0.1, 0.2, 0.15, 0.25])  # Log odds ratios
         se = np.array([0.05, 0.06, 0.04, 0.07])  # Standard errors
@@ -341,7 +341,7 @@ def _perform_network_meta_analysis(
         effects, variances = _perform_network_meta_analysis(te, se, designs, reference_treatment=0)
         print(f"Relative effects: {effects}")
         print(f"Variances: {variances}")
-        ```
+        
     """
     # Convert standard errors to precisions (1/variance)
     precisions = 1.0 / (se_effects ** 2)
@@ -452,7 +452,7 @@ def _update_nma_posterior(
         Updated parameter samples as a ParameterSet
 
     Example:
-        ```python
+        ::
         # Prior samples from PSA
         prior = ParameterSet.from_numpy_or_dict({
             "te_treatment_a": np.random.normal(0.1, 0.05, 1000),
@@ -473,7 +473,7 @@ def _update_nma_posterior(
 
         # Update posteriors
         posterior = _update_nma_posterior(prior, trial_data, design)
-        ```
+        
     """
     # Extract parameter names and values
     param_names = list(prior_samples.parameters.keys())
@@ -569,7 +569,7 @@ def sophisticated_nma_model_evaluator(
         NetBenefitArray with economic outcomes for decision alternatives
 
     Example:
-        ```python
+        ::
         from voiage.methods.network_nma import sophisticated_nma_model_evaluator
         from voiage.schema import ParameterSet
 
@@ -585,7 +585,7 @@ def sophisticated_nma_model_evaluator(
 
         # Evaluate economic model
         net_benefits = sophisticated_nma_model_evaluator(parameter_set)
-        ```
+        
     """
     n_samples = psa_samples.n_samples
 
@@ -665,7 +665,7 @@ def calculate_nma_consistency(
         Consistency measure (lower values indicate better consistency)
 
     Example:
-        ```python
+        ::
         # Treatment effects from studies
         te = np.array([0.1, 0.2, 0.15, 0.25])
         designs = [[0, 1], [1, 2], [0, 2], [1, 3]]
@@ -673,7 +673,7 @@ def calculate_nma_consistency(
         # Calculate consistency
         consistency = calculate_nma_consistency(te, designs)
         print(f"Consistency measure: {consistency}")
-        ```
+        
     """
     # For a simple consistency check, we'll calculate the variance of treatment effects
     # for the same treatment comparisons across different studies
@@ -741,7 +741,7 @@ def simulate_nma_network_data(
         - study_designs: List of study designs [treatment_i, treatment_j] for each study
 
     Example:
-        ```python
+        ::
         # Simulate data for network with 4 treatments and 8 studies
         te, se, designs = simulate_nma_network_data(
             n_treatments=4,
@@ -751,7 +751,7 @@ def simulate_nma_network_data(
         )
         print(f"Generated {len(te)} treatment effects")
         print(f"Study designs: {designs}")
-        ```
+        
     """
     # Generate random study designs (comparing 2 treatments each)
     study_designs = []

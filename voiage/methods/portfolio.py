@@ -8,12 +8,12 @@ VOI aims to select an optimal subset of candidate research studies that
 maximizes the total value (e.g., population EVSI or ENBS) subject to
 constraints like a fixed budget.
 
-The main function [portfolio_voi][voiage.methods.portfolio.portfolio_voi]
+The main function `portfolio_voi`
 implements several optimization algorithms including greedy heuristics and
 integer programming approaches.
 
 Example usage:
-```python
+::
 from voiage.methods.portfolio import portfolio_voi
 from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
 
@@ -39,10 +39,10 @@ result = portfolio_voi(
 
 print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
 print(f"Total value: ${result['total_value']:,.0f}")
-```
+
 
 Functions:
-- [portfolio_voi][voiage.methods.portfolio.portfolio_voi]: Main function for portfolio optimization
+- `portfolio_voi`: Main function for portfolio optimization
 """
 
 from typing import Any, Callable, Dict, List
@@ -108,7 +108,7 @@ def portfolio_voi(
 
     Example
     -------
-    ```python
+    ::
     from voiage.methods.portfolio import portfolio_voi
     from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
 
@@ -137,7 +137,7 @@ def portfolio_voi(
     print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
     print(f"Total value: ${result['total_value']:,.0f}")
     print(f"Total cost: ${result['total_cost']:,.0f}")
-    ```
+    
     """
     if not isinstance(portfolio_specification, PortfolioSpec):
         raise InputError("`portfolio_specification` must be a PortfolioSpec object.")

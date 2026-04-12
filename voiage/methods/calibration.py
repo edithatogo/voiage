@@ -8,11 +8,11 @@ collecting specific data primarily intended to improve the calibration of a
 simulation model or its parameters, rather than directly comparing treatment
 effectiveness (though improved calibration indirectly benefits such comparisons).
 
-The main function [voi_calibration][voiage.methods.calibration.voi_calibration]
+The main function `voi_calibration`
 calculates the VOI for calibration studies using Monte Carlo simulation.
 
 Example usage:
-```python
+::
 from voiage.methods.calibration import voi_calibration
 from voiage.schema import ParameterSet
 
@@ -44,10 +44,10 @@ voi_value = voi_calibration(
     calibration_study_design=calibration_study_design,
     calibration_process_spec=calibration_process_spec
 )
-```
+
 
 Functions:
-- [voi_calibration][voiage.methods.calibration.voi_calibration]: Main function for calibration VOI calculation
+- `voi_calibration`: Main function for calibration VOI calculation
 """
 
 from typing import Any, Callable, Dict, Optional
@@ -131,7 +131,7 @@ def voi_calibration(
 
     Example
     -------
-    ```python
+    ::
     from voiage.methods.calibration import voi_calibration
     from voiage.schema import ParameterSet
     import numpy as np
@@ -187,7 +187,7 @@ def voi_calibration(
     )
 
     print(f"Calibration VOI: ${voi_value:,.0f}")
-    ```
+    
     """
     # Validate inputs
     if not callable(cal_study_modeler):
