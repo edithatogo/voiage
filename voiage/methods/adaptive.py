@@ -18,32 +18,32 @@ Example usage::
 
     # Define your adaptive trial simulator
     def adaptive_trial_simulator(psa_samples, base_design, adaptive_rules):
-    # Your implementation here
-    pass
+        # Your implementation here
+        pass
 
-# Create parameter samples
-parameter_set = ParameterSet.from_numpy_or_dict({...})
+    # Create parameter samples
+    parameter_set = ParameterSet.from_numpy_or_dict({...})
 
-# Define base trial design
-trial_arms = [
-    DecisionOption(name="Treatment A", sample_size=100),
-    DecisionOption(name="Treatment B", sample_size=100)
-]
-base_design = TrialDesign(arms=trial_arms)
+    # Define base trial design
+    trial_arms = [
+        DecisionOption(name="Treatment A", sample_size=100),
+        DecisionOption(name="Treatment B", sample_size=100)
+    ]
+    base_design = TrialDesign(arms=trial_arms)
 
-# Define adaptive rules
-adaptive_rules = {
-    "interim_analysis_points": [0.5],  # Analyze at 50% of patients
-    "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1}
-}
+    # Define adaptive rules
+    adaptive_rules = {
+        "interim_analysis_points": [0.5],
+        "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1}
+    }
 
-# Calculate adaptive EVSI
-evsi_value = adaptive_evsi(
-    adaptive_trial_simulator=adaptive_trial_simulator,
-    psa_prior=parameter_set,
-    base_trial_design=base_design,
-    adaptive_rules=adaptive_rules
-)
+    # Calculate adaptive EVSI
+    evsi_value = adaptive_evsi(
+        adaptive_trial_simulator=adaptive_trial_simulator,
+        psa_prior=parameter_set,
+        base_trial_design=base_design,
+        adaptive_rules=adaptive_rules
+    )
 
 Functions:
 
