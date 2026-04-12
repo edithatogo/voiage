@@ -8,7 +8,7 @@ modifications to the trial based on interim data, such as sample size
 re-estimation, dropping arms, or early stopping for efficacy or futility.
 EVSI for such designs needs to account for these decision rules.
 
-The main function [adaptive_evsi][voiage.methods.adaptive.adaptive_evsi]
+The main function `adaptive_evsi`
 calculates the EVSI for adaptive trial designs using Monte Carlo simulation.
 
 Example usage:
