@@ -11,42 +11,43 @@ effectiveness (though improved calibration indirectly benefits such comparisons)
 The main function `voi_calibration`
 calculates the VOI for calibration studies using Monte Carlo simulation.
 
-Example usage:
-::
-from voiage.methods.calibration import voi_calibration
-from voiage.schema import ParameterSet
+Example usage::
 
-# Define your calibration study modeler
-def cal_study_modeler(psa_samples, study_design, process_spec):
-    # Your implementation here
-    pass
+    from voiage.methods.calibration import voi_calibration
+    from voiage.schema import ParameterSet
 
-# Create parameter samples
-parameter_set = ParameterSet.from_numpy_or_dict({...})
+    # Define your calibration study modeler
+    def cal_study_modeler(psa_samples, study_design, process_spec):
+        # Your implementation here
+        pass
 
-# Define calibration study design
-calibration_study_design = {
-    "experiment_type": "lab",
-    "sample_size": 100,
-    "variables_measured": ["cost", "effectiveness"]
-}
+    # Create parameter samples
+    parameter_set = ParameterSet.from_numpy_or_dict({...})
 
-# Define calibration process specification
-calibration_process_spec = {
-    "method": "bayesian",
-    "likelihood_function": "normal"
-}
+    # Define calibration study design
+    calibration_study_design = {
+        "experiment_type": "lab",
+        "sample_size": 100,
+        "variables_measured": ["cost", "effectiveness"]
+    }
 
-# Calculate VOI for calibration
-voi_value = voi_calibration(
-    cal_study_modeler=cal_study_modeler,
-    psa_prior=parameter_set,
-    calibration_study_design=calibration_study_design,
-    calibration_process_spec=calibration_process_spec
-)
+    # Define calibration process specification
+    calibration_process_spec = {
+        "method": "bayesian",
+        "likelihood_function": "normal"
+    }
+
+    # Calculate VOI for calibration
+    voi_value = voi_calibration(
+        cal_study_modeler=cal_study_modeler,
+        psa_prior=parameter_set,
+        calibration_study_design=calibration_study_design,
+        calibration_process_spec=calibration_process_spec
+    )
 
 
 Functions:
+
 - `voi_calibration`: Main function for calibration VOI calculation
 """
 
