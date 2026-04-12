@@ -95,8 +95,8 @@ def sophisticated_adaptive_trial_simulator(
     -------
         NetBenefitArray with economic outcomes for decision alternatives
 
-    Example:
-        ::
+    Example::
+
         from voiage.methods.adaptive import sophisticated_adaptive_trial_simulator
         from voiage.schema import ParameterSet, TrialDesign, DecisionOption
         import numpy as np
@@ -118,7 +118,7 @@ def sophisticated_adaptive_trial_simulator(
 
         # Define adaptive rules
         rules = {
-            "interim_analysis_points": [0.5],  # Analyze at 50% of patients
+            "interim_analysis_points": [0.5],
             "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
             "sample_size_reestimation": True
         }
@@ -455,48 +455,50 @@ def adaptive_evsi(
 
     Raises
     ------
-        InputError: If inputs are invalid.
+        InputError
+            If inputs are invalid.
 
     Example
     -------
     ::
-    from voiage.methods.adaptive import adaptive_evsi, bayesian_adaptive_trial_simulator
-    from voiage.schema import ParameterSet, TrialDesign, DecisionOption
-    import numpy as np
 
-    # Create parameter samples
-    params = {
-        "treatment_effect": np.random.normal(0.1, 0.05, 1000),
-        "control_rate": np.random.normal(0.3, 0.05, 1000),
-        "cost_per_patient": np.random.normal(5000, 500, 1000)
-    }
-    parameter_set = ParameterSet.from_numpy_or_dict(params)
+        from voiage.methods.adaptive import adaptive_evsi, bayesian_adaptive_trial_simulator
+        from voiage.schema import ParameterSet, TrialDesign, DecisionOption
+        import numpy as np
 
-    # Define base trial design
-    trial_arms = [
-        DecisionOption(name="Control", sample_size=100),
-        DecisionOption(name="Treatment", sample_size=100)
-    ]
-    base_design = TrialDesign(arms=trial_arms)
+        # Create parameter samples
+        params = {
+            "treatment_effect": np.random.normal(0.1, 0.05, 1000),
+            "control_rate": np.random.normal(0.3, 0.05, 1000),
+            "cost_per_patient": np.random.normal(5000, 500, 1000)
+        }
+        parameter_set = ParameterSet.from_numpy_or_dict(params)
 
-    # Define adaptive rules
-    adaptive_rules = {
-        "interim_analysis_points": [0.5],
-        "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
-        "sample_size_reestimation": True
-    }
+        # Define base trial design
+        trial_arms = [
+            DecisionOption(name="Control", sample_size=100),
+            DecisionOption(name="Treatment", sample_size=100)
+        ]
+        base_design = TrialDesign(arms=trial_arms)
 
-    # Calculate adaptive EVSI
-    evsi_value = adaptive_evsi(
-        adaptive_trial_simulator=bayesian_adaptive_trial_simulator,
-        psa_prior=parameter_set,
-        base_trial_design=base_design,
-        adaptive_rules=adaptive_rules,
-        n_outer_loops=10,
-        n_inner_loops=50
-    )
+        # Define adaptive rules
+        adaptive_rules = {
+            "interim_analysis_points": [0.5],
+            "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
+            "sample_size_reestimation": True
+        }
 
-    print(f"Adaptive EVSI: ${evsi_value:,.0f}")
+        # Calculate adaptive EVSI
+        evsi_value = adaptive_evsi(
+            adaptive_trial_simulator=bayesian_adaptive_trial_simulator,
+            psa_prior=parameter_set,
+            base_trial_design=base_design,
+            adaptive_rules=adaptive_rules,
+            n_outer_loops=10,
+            n_inner_loops=50
+        )
+
+        print(f"Adaptive EVSI: ${evsi_value:,.0f}")
     
     """
     # Validate inputs
