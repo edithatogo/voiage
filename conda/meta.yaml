@@ -1,0 +1,66 @@
+# Conda recipe for voiage
+# This recipe is used by conda-forge to build the voiage package.
+# To update: bump version, update sha256, and submit PR to conda-forge/voiage-feedstock
+
+{% set name = "voiage" %}
+{% set version = "0.3.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/voiage-{{ version }}.tar.gz
+  sha256: UPDATE_ON_RELEASE
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python >=3.10
+    - pip
+    - setuptools >=61.0
+    - wheel
+  run:
+    - python >=3.10
+    - numpy >=1.20,<2.0
+    - scipy >=1.7,<1.15
+    - pandas >=1.3,<3.0
+    - xarray >=0.19,<2025.0
+    - numpyro >=0.14,<0.20
+    - jax >=0.4.33,<0.6
+    - scikit-learn >=1.0,<2.0
+    - statsmodels >=0.13,<1.0
+    - matplotlib-base >=3.4,<4.0
+    - seaborn >=0.11,<1.0
+    - typer >=0.9,<1.0
+
+test:
+  imports:
+    - voiage
+    - voiage.methods
+    - voiage.schema
+  requires:
+    - pytest
+  commands:
+    - pytest --pyargs voiage -v
+
+about:
+  home: https://github.com/edithatogo/voiage
+  summary: A Python library for Value of Information analysis
+  description: |
+    voiage is a comprehensive, open-source Python library for Value of Information (VOI)
+    analysis. It provides techniques for calculating Expected Value of Perfect Information
+    (EVPI), Expected Value of Partial Perfect Information (EVPPI), Expected Value of Sample
+    Information (EVSI), and Expected Net Benefit of Sampling (ENBS).
+  license: MIT
+  license_file: LICENSE
+  doc_url: https://edithatogo.github.io/voiage
+  dev_url: https://github.com/edithatogo/voiage
+
+extra:
+  recipe-maintainers:
+    - edithatogo

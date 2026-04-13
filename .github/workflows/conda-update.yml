@@ -1,0 +1,50 @@
+name: Update Conda-Forge Feedstock
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  update-feedstock:
+    name: Update Conda-Forge Feedstock
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Get release info
+      id: release
+      run: |
+        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Download source and compute SHA256
+      run: |
+        curl -L -o source.tar.gz "https://github.com/${{ github.repository }}/archive/refs/tags/${{ steps.release.outputs.tag }}.tar.gz"
+        sha256=$(sha256sum source.tar.gz | awk '{print $1}')
+        echo "sha256=$sha256" >> $GITHUB_OUTPUT
+
+    - name: Update conda/meta.yaml
+      run: |
+        sed -i "s/{% set version = .* %}/{% set version = \"${{ steps.release.outputs.version }}\" %}/" conda/meta.yaml
+        sed -i "s/sha256: UPDATE_ON_RELEASE/sha256: ${{ steps.release.sha256 }}/" conda/meta.yaml
+
+    - name: Create feedstock PR
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.CONDA_FORGE_TOKEN }}
+        title: "Update to v${{ steps.release.outputs.version }}"
+        body: |
+          Automated update to v${{ steps.release.outputs.version }}
+
+          - Version: ${{ steps.release.outputs.version }}
+          - SHA256: ${{ steps.release.sha256 }}
+          - Source: https://github.com/${{ github.repository }}/releases/tag/${{ steps.release.outputs.tag }}
+        branch: update-conda-${{ steps.release.outputs.version }}
+        base: main
+        commit-message: "chore(conda): Update to v${{ steps.release.outputs.version }}"
+        labels: automerge
