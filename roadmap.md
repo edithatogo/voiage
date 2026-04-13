@@ -1,86 +1,110 @@
-# voiage Project Roadmap (v2)
+# voiage Project Roadmap (v3)
 
 ## Vision
 
-To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience. In the long term, its core, language-agnostic API will be ported to R and Julia, making it a true cross-platform standard.
+To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
 
-## Current Status (As of Q3 2025)
+## Current Status (As of April 2026)
 
-The project has a solid foundation and is partially through its initial refactoring and feature implementation phases.
+The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
-*   **Phase 1 (Foundation & API Refactoring):** Mostly complete. The core object-oriented API is in place, and the CI/CD pipeline is functional. The primary remaining task is to finalize the domain-agnostic data structures.
-*   **Phase 2 (Health Economics Core):** In progress. Work has begun on the EVSI implementation and the plotting module, but these are not yet complete.
+*   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
+*   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
+*   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 
 ---
 
-### Phase 1: Foundation & API Refactoring (Target: 8 Weeks)
+### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**
 
-**Goal:** Solidify the library's foundation by implementing a more robust, extensible, and user-friendly API. Address the key structural and software engineering weaknesses identified in the initial reviews.
+**Goal:** Solidify the library's foundation by implementing a more robust, extensible, and user-friendly API.
 
 1.  **Object-Oriented API Redesign & Functional Wrappers:**
-    *   **Status: `Done`**
-    *   The library now features a `DecisionAnalysis` class that encapsulates the core logic, with lightweight functional wrappers for convenience.
+    *   **Status: `✅ Done`**
+    *   `DecisionAnalysis` class encapsulates core logic with functional wrappers.
 2.  **Domain-Agnostic Data Structures:**
-    *   **Status: `In Progress`**
-    *   The new data structures (`ParameterSet`, `ValueArray`) are defined in `voiage/schema.py`. Backward-compatible wrappers (`PSASample`, `NetBenefitArray`) exist in `voiage/core/data_structures.py` to support legacy code. The transition is ongoing.
+    *   **Status: `✅ Done`**
+    *   `ParameterSet`, `ValueArray`, `TrialDesign`, and other structures in `voiage/schema.py` using xarray backend.
 3.  **CI/CD & Documentation Website:**
-    *   **Status: `Done`**
-    *   A full CI/CD pipeline is established in GitHub Actions, automating tests, linting, and formatting. The basic structure for the documentation website is in place.
+    *   **Status: `✅ Done`**
+    *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Sphinx docs, GitHub Pages, automated publishing to PyPI/TestPyPI/Conda.
 4.  **Community Guidelines:**
-    *   **Status: `Done`**
-    *   The `CONTRIBUTING.md` and `AGENTS.md` files have been created to provide clear guidelines for human and AI contributors.
+    *   **Status: `✅ Done`**
+    *   `CONTRIBUTING.md`, `AGENTS.md`, Renovate for dependency updates.
 
 ---
 
-### Phase 2: State-of-the-Art Health Economics Core (Target: 12 Weeks)
+### Phase 2: State-of-the-Art Health Economics Core ✅ **COMPLETE**
 
-**Goal:** Implement the most critical features for the initial target audience (health economists) to make `voiage` a compelling alternative to existing tools.
+**Goal:** Implement the most critical features for health economists.
 
 1.  **Robust EVSI Implementation:**
-    *   **Status: `In Progress`**
-    *   A basic `evsi` function with a two-loop method exists. This needs to be expanded with a regression-based approach, robust Bayesian updating, and integration of advanced metamodels. The existing tests are incomplete and need to be activated.
+    *   **Status: `✅ Done`**
+    *   Two-loop Monte Carlo method implemented in `sample_information.py`.
+    *   Regression-based EVSI with metamodel support (GAM, RandomForest, BART via metamodels module).
 2.  **Network Meta-Analysis (NMA) VOI:**
-    *   **Status: `Not Started`**
-    *   Implement `evsi_nma`, a critical and highly-demanded feature in HTA. This will involve handling multivariate parameter distributions for treatment effects.
-3.  **Validation & Benchmarking:**
-    *   **Status: `Not Started`**
-    *   For each core method, create a validation notebook that replicates the results of a published study or an example from an established R package (e.g., `BCEA`, `voi`).
-4.  **Advanced Plotting Module & Core Examples:**
-    *   **Status: `In Progress`**
-    *   The `voiage/plot` module has been created, but the core plotting functions (CEACs, VOI curves, etc.) are not yet implemented.
-    *   A detailed tutorial notebook for a core health economics use case is needed.
+    *   **Status: `✅ Done`**
+    *   `calculate_nma_evpi()` and `calculate_nma_evppi()` in `voiage/methods/network_meta_analysis.py`.
+    *   CLI command: `voiage calculate-nma-voi`.
+3.  **Structural Uncertainty VOI:**
+    *   **Status: `✅ Done`**
+    *   `structural_evpi()` and `structural_evppi()` with JAX JIT compilation in `voiage/methods/structural.py`.
+    *   CLI commands: `voiage calculate-structural-evpi`, `voiage calculate-structural-evppi`.
+4.  **Validation & Benchmarking:**
+    *   **Status: `✅ Done`**
+    *   Integration tests with realistic health economics and diabetes NMA scenarios.
+    *   Performance benchmarks comparing NumPy vs JAX implementations.
+5.  **Advanced Plotting Module & Core Examples:**
+    *   **Status: `✅ Done`**
+    *   CEAC plotting in `voiage/plot/ceac.py`.
+    *   VOI curves in `voiage/plot/voi_curves.py`.
+    *   CLI example generation and documentation.
 
 ---
 
-### Phase 3: Advanced Methods & Cross-Domain Expansion (Target: 16 Weeks)
+### Phase 3: Advanced Methods & Cross-Domain Expansion ✅ **COMPLETE**
 
-**Goal:** Broaden the library's capabilities to cover advanced VOI methods and actively support non-health applications.
+**Goal:** Broaden capabilities to advanced VOI methods and cross-domain support.
 
-1.  **Portfolio Optimization:**
-    *   **Status: `Not Started`**
-    *   Implement a robust `portfolio_voi` method.
-2.  **Structural & Sequential VOI:**
-    *   **Status: `Not Started`**
-    *   Implement the placeholder methods for `structural_voi` and `sequential_voi`.
-3.  **Cross-Domain Example Notebooks:**
-    *   **Status: `Not Started`**
-    *   Develop at least two detailed tutorial notebooks for non-health problems.
-4.  **XArray Integration:**
-    *   **Status: `In Progress`**
-    *   The core data structures in `voiage/schema.py` are already built on `xarray`. This integration needs to be leveraged more deeply throughout the library.
+1.  **Structural VOI:**
+    *   **Status: `✅ Done`**
+    *   Full implementation with JAX JIT acceleration.
+2.  **Calibration VOI:**
+    *   **Status: `✅ Done`**
+    *   `voi_calibration()` in `voiage/methods/calibration.py`.
+3.  **Adaptive Trial VOI:**
+    *   **Status: `✅ Done`**
+    *   `adaptive_evsi()` and sophisticated trial simulator in `voiage/methods/adaptive.py`.
+4.  **Cross-Domain Support:**
+    *   **Status: `✅ Done`**
+    *   Multi-domain module (`voiage/multi_domain.py`) with healthcare, financial, environmental, and engineering support.
+    *   Domain-specific analysis classes and utilities.
+5.  **XArray Integration:**
+    *   **Status: `✅ Done`**
+    *   All core data structures built on xarray Dataset backend.
+6.  **High-Performance JAX Backend:**
+    *   **Status: `✅ Done`**
+    *   JIT-compiled versions of structural EVPI/EVPPI.
+    *   JAX backend in `voiage/main_backends.py` with GPU acceleration support.
 
 ---
 
-### Phase 4: Ecosystem, Community & Future Ports (Ongoing)
+### Phase 4: Ecosystem, Community & Future Ports (Ongoing) 🚧 **IN PROGRESS**
 
 **Goal:** Grow the user and contributor community and lay the groundwork for R and Julia versions.
 
-1.  **Future High-Performance Backend (JAX/XLA):**
-    *   **Status: `Not Started`**
-2.  **Community Engagement:**
-    *   **Status: `In Progress`**
-    *   The repository is being structured for easier contribution.
-3.  **Language-Agnostic API Specification:**
-    *   **Status: `Not Started`**
-4.  **Planning for R/Julia Ports:**
-    *   **Status: `Not Started`**
+1.  **Automated Publishing Pipeline:**
+    *   **Status: `✅ Done`**
+    *   TestPyPI → PyPI → Conda-forge automated publishing on `v*` tags.
+2.  **Dependency Management:**
+    *   **Status: `✅ Done`**
+    *   uv for package management, Renovate for automated updates.
+3.  **Security & Quality:**
+    *   **Status: `✅ Done`**
+    *   CodeQL security scanning, Ruff linting, Bandit security checks, mutation testing support.
+4.  **Community Engagement:**
+    *   **Status: `🚧 In Progress`**
+    *   Repository structured for contributions, Conductor workflow for AI-assisted development.
+5.  **Language-Agnostic API Specification:**
+    *   **Status: `📋 Planned`**
+6.  **Planning for R/Julia Ports:**
+    *   **Status: `📋 Planned`**
