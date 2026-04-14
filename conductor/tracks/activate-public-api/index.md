@@ -1,18 +1,18 @@
 # Track: Activate and Wire Up Public API
 
 ## Overview
-The voiage codebase has feature-complete implementations across all VOI methods (EVPI, EVPPI, EVSI, NMA, structural, adaptive, portfolio, sequential, observational, calibration) and plotting modules. However, the public API is incomplete — key imports are commented out in `__init__.py` files, preventing clean user-facing imports.
+The voiage codebase has feature-complete implementations across all VOI methods but the public API is entirely disabled. `voiage/__init__.py` is empty, `voiage/methods/__init__.py` has all imports commented out, and `voiage/plot/__init__.py` has all imports commented out. Users cannot do `from voiage import evpi` or `from voiage.methods import structural_evpi`. This track wires everything up.
 
 ## Specification
 - **Input:** Existing implementation code with commented-out imports
 - **Output:** Fully wired public API with clean imports, passing tests, and top-level re-exports
-- **Quality Gates:** 100% of existing tests pass, no import errors, clean `tox` run
+- **Quality Gates:** All imports resolve, no circular import errors, `from voiage import ...` works
 
 ## Implementation Plan
 See [plan.md](./plan.md)
 
 ## Metadata
-- **Priority:** 1 (Foundation — must complete before other tracks)
+- **Priority:** 2 (Foundation — must complete after Track 1)
 - **Estimated Complexity:** Medium (mostly uncommenting + verification)
-- **Dependencies:** None
-- **Blocks:** All other tracks
+- **Dependencies:** Track 1 (fix-infrastructure) must complete first
+- **Blocks:** Tracks 3, 4, 5

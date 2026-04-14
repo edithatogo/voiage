@@ -9,9 +9,13 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Active Tracks
 
+- [ ] **Track: Fix Infrastructure and Configuration**
+  *Link: [./tracks/fix-infrastructure/](./tracks/fix-infrastructure/)*
 - [ ] **Track: Activate and Wire Up Public API**
   *Link: [./tracks/activate-public-api/](./tracks/activate-public-api/)*
-- [ ] **Track: EVSI/EVPPI Validation & Benchmarking**
-  *Link: [./tracks/evsi-validation-benchmarking/](./tracks/evsi-validation-benchmarking/)*
-- [ ] **Track: Developer Experience & Documentation**
-  *Link: [./tracks/developer-experience-docs/](./tracks/developer-experience-docs/)*
+- [ ] **Track: Replace Placeholders and Implement Missing Methods**
+  *Link: [./tracks/implement-missing-methods/](./tracks/implement-missing-methods/)*
+- [ ] **Track: CLI Completion and Integration Testing**
+  *Link: [./tracks/cli-integration-testing/](./tracks/cli-integration-testing/)*
+- [ ] **Track: Documentation, Validation and Developer Experience**
+  *Link: [./tracks/docs-developer-experience/](./tracks/docs-developer-experience/)*
