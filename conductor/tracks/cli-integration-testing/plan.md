@@ -141,3 +141,34 @@
 - [ ] Every method in `voiage.methods` has a corresponding CLI command
 - [ ] Every plotting function has a CLI command
 - [ ] `voiage --help` shows all commands organized by category
+
+---
+
+## Phase 5: Autonomous Track Review, Archive and Progression [checkpoint: ]
+
+### 5.1 Phase Review Protocol — Execute after EVERY phase (1-4) [PENDING]
+After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
+
+1. **Commit phase changes:**
+   - `git add -A`
+   - `git commit -m "conductor(track4): Complete phase <N> of cli-integration-testing"`
+2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+3. **Apply all Critical and High severity fixes** identified by the review automatically.
+4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
+6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+
+### 5.2 Track Completion Protocol — Execute after final phase [PENDING]
+After Phase 4 is complete and all phase reviews pass:
+
+1. **Invoke `/conductor:review`** targeting the **entire track** (from track start commit to HEAD).
+2. **Apply all Critical, High, and Medium severity fixes** automatically.
+3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
+4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for cli-integration-testing"`
+5. **Archive the track:**
+   - `mkdir -p conductor/archive && mv conductor/tracks/cli-integration-testing conductor/archive/cli-integration-testing`
+   - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
+6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track cli-integration-testing"`
+7. **Read next track:** Read `conductor/tracks/docs-developer-experience/plan.md` and begin execution from Phase 1, Task 1.1.
+8. **Announce:** "Track 4 (cli-integration-testing) complete. Starting Track 5 (docs-developer-experience)."

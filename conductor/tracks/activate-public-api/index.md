@@ -16,3 +16,8 @@ See [plan.md](./plan.md)
 - **Estimated Complexity:** Medium (mostly uncommenting + verification)
 - **Dependencies:** Track 1 (fix-infrastructure) must complete first
 - **Blocks:** Tracks 3, 4, 5
+
+## Autonomous Workflow
+This track implements the autonomous review-and-progression protocol:
+- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
+- After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 3 (implement-missing-methods)

@@ -16,3 +16,8 @@ See [plan.md](./plan.md)
 - **Estimated Complexity:** Low (configuration-only changes)
 - **Dependencies:** None
 - **Blocks:** All other tracks (unreliable config = unreliable results)
+
+## Autonomous Workflow
+This track implements the autonomous review-and-progression protocol:
+- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
+- After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 2 (activate-public-api)

@@ -16,3 +16,8 @@ See [plan.md](./plan.md)
 - **Estimated Complexity:** Medium
 - **Dependencies:** Track 1 (infrastructure), Track 2 (API activation). Track 3 methods can be CLI'd as they're implemented.
 - **Blocks:** Track 5 (documentation depends on CLI being complete)
+
+## Autonomous Workflow
+This track implements the autonomous review-and-progression protocol:
+- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
+- After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 5 (docs-developer-experience)

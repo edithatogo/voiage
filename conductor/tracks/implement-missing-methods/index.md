@@ -16,3 +16,8 @@ See [plan.md](./plan.md)
 - **Estimated Complexity:** High (real algorithm implementations)
 - **Dependencies:** Track 1 (infrastructure), Track 2 (API activation) — must complete first
 - **Blocks:** Track 4 (CLI for new methods), Track 5 (documentation of new methods)
+
+## Autonomous Workflow
+This track implements the autonomous review-and-progression protocol:
+- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
+- After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 4 (cli-integration-testing)

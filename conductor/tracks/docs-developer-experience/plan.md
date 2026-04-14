@@ -268,3 +268,35 @@
 - [ ] Run all tutorial notebooks — all execute without errors
 - [ ] Run all CLI commands — all work as documented
 - [ ] Report any issues found
+
+---
+
+## Phase 8: Autonomous Track Review, Archive and Final Completion [checkpoint: ]
+
+### 8.1 Phase Review Protocol — Execute after EVERY phase (1-7) [PENDING]
+After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
+
+1. **Commit phase changes:**
+   - `git add -A`
+   - `git commit -m "conductor(track5): Complete phase <N> of docs-developer-experience"`
+2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+3. **Apply all Critical and High severity fixes** identified by the review automatically.
+4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
+6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+
+### 8.2 Track Completion Protocol — Execute after final phase [PENDING]
+After Phase 7 is complete and all phase reviews pass:
+
+1. **Invoke `/conductor:review`** targeting the **entire track** (from track start commit to HEAD).
+2. **Apply all Critical, High, and Medium severity fixes** automatically.
+3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
+4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for docs-developer-experience"`
+5. **Archive the track:**
+   - `mkdir -p conductor/archive && mv conductor/tracks/docs-developer-experience conductor/archive/docs-developer-experience`
+   - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
+6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track docs-developer-experience"`
+7. **Announce final completion:** "All 5 tracks complete. voiage is now production-ready with strict tooling, full public API, SOTA methods, complete CLI, and professional documentation."
+8. **Push to remote:** `git push origin main`
+9. **Verify CI green:** Check GitHub Actions status.

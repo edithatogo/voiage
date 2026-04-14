@@ -16,3 +16,8 @@ See [plan.md](./plan.md)
 - **Estimated Complexity:** Medium (mostly writing and validation work)
 - **Dependencies:** Track 1 (infrastructure). Can run parallel with Track 3 for docs that don't depend on new methods.
 - **Blocks:** Nothing — this is the final polish track
+
+## Autonomous Workflow
+This track implements the autonomous review-and-progression protocol:
+- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
+- After track completion: `/conductor:review` (full track) → apply fixes → archive → announce full project completion, push to remote, verify CI
