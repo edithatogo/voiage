@@ -6,3 +6,12 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis)** [completed: 2026-04-11]
   *Link: [./archive/advanced_voi_methods_20260411/](./archive/advanced_voi_methods_20260411/)*
+
+## Active Tracks
+
+- [ ] **Track: Activate and Wire Up Public API**
+  *Link: [./tracks/activate-public-api/](./tracks/activate-public-api/)*
+- [ ] **Track: EVSI/EVPPI Validation & Benchmarking**
+  *Link: [./tracks/evsi-validation-benchmarking/](./tracks/evsi-validation-benchmarking/)*
+- [ ] **Track: Developer Experience & Documentation**
+  *Link: [./tracks/developer-experience-docs/](./tracks/developer-experience-docs/)*
