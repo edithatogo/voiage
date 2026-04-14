@@ -146,18 +146,35 @@
 
 ## Phase 5: Autonomous Track Review, Archive and Progression [checkpoint: ]
 
+### 5.0 Pre-Execution Decision Record [PENDING]
+These decisions are pre-resolved so autonomous execution can proceed without blocking:
+
+- **Test file pruning criteria:** Keep the file with the most recent modification date and most comprehensive test count. Delete all others in the same cluster.
+- **Flaky test handling:** If a test fails intermittently (>10% failure rate over 10 runs), mark it with `@pytest.mark.flaky(reruns=3)` and add a TODO to fix the root cause. Do NOT delete flaky tests.
+- **Property-based test scope:** Use `hypothesis` with `@given` for mathematical invariants. Set `max_examples=50` and `deadline=None` for slow VOI calculations.
+- **Benchmark storage:** Save benchmark results to `tests/benchmarks/results/` as JSON files. Compare against previous results to detect regressions (>20% slowdown triggers a warning).
+
 ### 5.1 Phase Review Protocol — Execute after EVERY phase (1-4) [PENDING]
 After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
 
-1. **Commit phase changes:**
+1. **Record rollback checkpoint:** Record current commit hash in this plan next to the phase: `[rollback: <7-char-sha>]`.
+2. **Single commit per phase:** Squash all phase changes into one commit:
    - `git add -A`
    - `git commit -m "conductor(track4): Complete phase <N> of cli-integration-testing"`
-2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
-3. **Apply all Critical and High severity fixes** identified by the review automatically.
-4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
-5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
-6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
-7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+   - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
+3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+4. **Apply all Critical and High severity fixes** identified by the review automatically.
+5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+   - **Note:** Coverage gate returns to 90% (Track 3 used progressive 80% gate).
+6. **If verification fails:**
+   - **Attempt 1:** Fix the failure, commit, re-run verification.
+   - **Attempt 2:** Fix the failure again, commit, re-run verification.
+   - **If still failing after 2 attempts:**
+     - **Escape hatch:** `git revert HEAD~2..HEAD` to rollback to pre-phase state.
+     - Mark the specific failing task as `[DEFERRED → v1.1]` with a note explaining the failure.
+     - Report to user with details and await guidance **OR** if the task is non-blocking, skip it and complete remaining phase tasks.
+7. **Commit review fixes** (if any): `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+8. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
 
 ### 5.2 Track Completion Protocol — Execute after final phase [PENDING]
 After Phase 4 is complete and all phase reviews pass:
@@ -166,9 +183,16 @@ After Phase 4 is complete and all phase reviews pass:
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
 3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for cli-integration-testing"`
-5. **Archive the track:**
+5. **Push to remote and verify CI:**
+   - `git push origin main`
+   - Wait for GitHub Actions: `gh run list --limit 3`
+   - If any workflow fails, analyze with `gh run view <run-id> --log-failed`, fix, commit, push, re-check.
+   - **Max 3 CI fix retries.** If still failing after 3, halt and report to user.
+6. **Archive the track:**
    - `mkdir -p conductor/archive && mv conductor/tracks/cli-integration-testing conductor/archive/cli-integration-testing`
    - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
-6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track cli-integration-testing"`
-7. **Read next track:** Read `conductor/tracks/docs-developer-experience/plan.md` and begin execution from Phase 1, Task 1.1.
-8. **Announce:** "Track 4 (cli-integration-testing) complete. Starting Track 5 (docs-developer-experience)."
+   - List all `[DEFERRED → v1.1]` items in the commit message for visibility.
+7. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track cli-integration-testing"`
+8. **Push archive commit:** `git push origin main`
+9. **Read next track:** Read `conductor/tracks/docs-developer-experience/plan.md` and begin execution from Phase 1, Task 1.1.
+10. **Announce:** "Track 4 (cli-integration-testing) complete. Starting Track 5 (docs-developer-experience)."

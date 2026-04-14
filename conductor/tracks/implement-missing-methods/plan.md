@@ -205,29 +205,57 @@
 
 ## Phase 8: Autonomous Track Review, Archive and Progression [checkpoint: ]
 
+### 8.0 Pre-Execution Decision Record [PENDING]
+These decisions are pre-resolved so autonomous execution can proceed without blocking:
+
+- **Efficient EVSI algorithm (Phase 2):** Implement both the Heath et al. (2018) regression-based efficient method AND the moment-based method. API: `evsi(..., method="efficient")` for regression-based, `evsi(..., method="moment_based")` for moment-based.
+- **Sequential EVPI algorithm (Phase 1.1):** EVPI at step t = E[max_i NB_i(θ)] - max_i E[NB_i(θ)] given posterior at step t. Use the same EVPI formula from `basic.py` but with the posterior samples available at each sequential step.
+- **CEAF methodology (Phase 3):** CEAF = the expected net benefit of the optimal strategy at each WTP, with credible intervals. Plot the frontier of max(E[NB]) across strategies with uncertainty bands.
+- **Extended dominance (Phase 4):** Implement strong dominance (A strictly better than B on both cost and effect), extended dominance (ICER-based), and the cost-effectiveness frontier. Return structured results with dominated/frontier classification.
+- **Value of Heterogeneity (Phase 5):** VOH = ENB(subgroup-optimal decisions) - ENB(one-size-fits-all decision). Support categorical subgroups via stratified analysis.
+- **Portfolio DP (Phase 6):** Implement greedy algorithm first (already partially done), then integer programming via scipy.optimize. Full DP is O(2^n) — implement with memoization and budget pruning for tractability.
+- **Progressive verification gate:** During this track, coverage gate is **per-module** (each new/modified module must have ≥80% coverage) rather than project-wide ≥90%. Project-wide ≥90% re-enables in Track 4.
+
 ### 8.1 Phase Review Protocol — Execute after EVERY phase (1-7) [PENDING]
 After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
 
-1. **Commit phase changes:**
+1. **Record rollback checkpoint:** Record current commit hash in this plan next to the phase: `[rollback: <7-char-sha>]`.
+2. **Single commit per phase:** Squash all phase changes into one commit:
    - `git add -A`
    - `git commit -m "conductor(track3): Complete phase <N> of implement-missing-methods"`
-2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
-3. **Apply all Critical and High severity fixes** identified by the review automatically.
-4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
-5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
-6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
-7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+   - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
+3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+4. **Apply all Critical and High severity fixes** identified by the review automatically.
+5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=80 -q`
+   - **Note:** Coverage gate is 80% for this track (progressive). Project-wide 90% re-enables in Track 4.
+6. **If verification fails:**
+   - **Attempt 1:** Fix the failure, commit, re-run verification.
+   - **Attempt 2:** Fix the failure again, commit, re-run verification.
+   - **If still failing after 2 attempts:**
+     - **Escape hatch:** `git revert HEAD~2..HEAD` to rollback to pre-phase state.
+     - Mark the specific failing task as `[DEFERRED → v1.1]` with a note explaining the failure.
+     - Report to user with details and await guidance **OR** if the task is non-blocking, skip it and complete remaining phase tasks.
+7. **Commit review fixes** (if any): `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+8. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
 
 ### 8.2 Track Completion Protocol — Execute after final phase [PENDING]
 After Phase 7 is complete and all phase reviews pass:
 
 1. **Invoke `/conductor:review`** targeting the **entire track** (from track start commit to HEAD).
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
-3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
+3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=80`
+   - **Note:** Coverage gate is 80% for this track (progressive). Project-wide 90% re-enables in Track 4.
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for implement-missing-methods"`
-5. **Archive the track:**
+5. **Push to remote and verify CI:**
+   - `git push origin main`
+   - Wait for GitHub Actions: `gh run list --limit 3`
+   - If any workflow fails, analyze with `gh run view <run-id> --log-failed`, fix, commit, push, re-check.
+   - **Max 3 CI fix retries.** If still failing after 3, halt and report to user.
+6. **Archive the track:**
    - `mkdir -p conductor/archive && mv conductor/tracks/implement-missing-methods conductor/archive/implement-missing-methods`
    - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
-6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track implement-missing-methods"`
-7. **Read next track:** Read `conductor/tracks/cli-integration-testing/plan.md` and begin execution from Phase 1, Task 1.1.
-8. **Announce:** "Track 3 (implement-missing-methods) complete. Starting Track 4 (cli-integration-testing)."
+   - List all `[DEFERRED → v1.1]` items in the commit message for visibility.
+7. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track implement-missing-methods"`
+8. **Push archive commit:** `git push origin main`
+9. **Read next track:** Read `conductor/tracks/cli-integration-testing/plan.md` and begin execution from Phase 1, Task 1.1.
+10. **Announce:** "Track 3 (implement-missing-methods) complete. Starting Track 4 (cli-integration-testing)."

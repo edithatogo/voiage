@@ -18,6 +18,9 @@ See [plan.md](./plan.md)
 - **Blocks:** Track 4 (CLI for new methods), Track 5 (documentation of new methods)
 
 ## Autonomous Workflow
-This track implements the autonomous review-and-progression protocol:
-- After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
-- After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 4 (cli-integration-testing)
+This track implements the autonomous review-and-progression protocol with safety features:
+- **Per-phase review:** `/conductor:review` → apply Critical/High fixes → verify → commit → progress
+- **Progressive coverage gate:** 80% during this track (new code being written). Returns to 90% in Track 4.
+- **Escape hatch:** After 2 failed fix attempts, revert phase and mark task as `DEFERRED → v1.1`
+- **Rollback checkpoint:** Each phase records commit hash for safe rollback
+- **After track completion:** `/conductor:review` (full track) → apply fixes → push → verify CI → archive → auto-progress to Track 4

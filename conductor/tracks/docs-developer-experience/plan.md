@@ -263,7 +263,7 @@
 - [ ] Verify all code examples in documentation run correctly
 
 ### 7.3 Final end-to-end verification [PENDING]
-- [ ] Fresh install from `pip install voiage` (or local equivalent)
+- [ ] Fresh install from `pip install -e .` (local editable install)
 - [ ] Run getting started tutorial — works without modification
 - [ ] Run all tutorial notebooks — all execute without errors
 - [ ] Run all CLI commands — all work as documented
@@ -273,18 +273,35 @@
 
 ## Phase 8: Autonomous Track Review, Archive and Final Completion [checkpoint: ]
 
+### 8.0 Pre-Execution Decision Record [PENDING]
+These decisions are pre-resolved so autonomous execution can proceed without blocking:
+
+- **Validation source selection:** Use BCEA R package vignette examples and NICE DSU Technical Support Document 1 as primary validation sources. These are the most widely cited and have publicly available data.
+- **Tutorial example domain:** Use a cancer treatment cost-effectiveness comparison (e.g., pembrolizumab vs. standard chemotherapy) for the getting started tutorial — it's the most common use case in health economics.
+- **Sphinx theme:** Use `sphinx_rtd_theme` (already in dependencies). Don't switch themes mid-project.
+- **README badges:** Use standard shields.io badges. CI badge links to `github.com/edithatogo/voiage/actions/workflows/`. Coverage badge links to codecov or GitHub Actions coverage workflow.
+- **Changelog organization:** Use Keep a Changelog format: Added, Changed, Deprecated, Removed, Fixed, Security sections.
+
 ### 8.1 Phase Review Protocol — Execute after EVERY phase (1-7) [PENDING]
 After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
 
-1. **Commit phase changes:**
+1. **Record rollback checkpoint:** Record current commit hash in this plan next to the phase: `[rollback: <7-char-sha>]`.
+2. **Single commit per phase:** Squash all phase changes into one commit:
    - `git add -A`
    - `git commit -m "conductor(track5): Complete phase <N> of docs-developer-experience"`
-2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
-3. **Apply all Critical and High severity fixes** identified by the review automatically.
-4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
-5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
-6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
-7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+   - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
+3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+4. **Apply all Critical and High severity fixes** identified by the review automatically.
+5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+6. **If verification fails:**
+   - **Attempt 1:** Fix the failure, commit, re-run verification.
+   - **Attempt 2:** Fix the failure again, commit, re-run verification.
+   - **If still failing after 2 attempts:**
+     - **Escape hatch:** `git revert HEAD~2..HEAD` to rollback to pre-phase state.
+     - Mark the specific failing task as `[DEFERRED → v1.1]` with a note explaining the failure.
+     - Report to user with details and await guidance **OR** if the task is non-blocking, skip it and complete remaining phase tasks.
+7. **Commit review fixes** (if any): `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+8. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
 
 ### 8.2 Track Completion Protocol — Execute after final phase [PENDING]
 After Phase 7 is complete and all phase reviews pass:
@@ -293,10 +310,18 @@ After Phase 7 is complete and all phase reviews pass:
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
 3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for docs-developer-experience"`
-5. **Archive the track:**
+5. **Push to remote and verify CI:**
+   - `git push origin main`
+   - Wait for GitHub Actions: `gh run list --limit 5`
+   - If any workflow fails, analyze with `gh run view <run-id> --log-failed`, fix, commit, push, re-check.
+   - **Max 3 CI fix retries.** If still failing after 3, halt and report to user.
+   - **Final CI must be green** — this is the last checkpoint for the entire project.
+6. **Archive the track:**
    - `mkdir -p conductor/archive && mv conductor/tracks/docs-developer-experience conductor/archive/docs-developer-experience`
    - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
-6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track docs-developer-experience"`
-7. **Announce final completion:** "All 5 tracks complete. voiage is now production-ready with strict tooling, full public API, SOTA methods, complete CLI, and professional documentation."
-8. **Push to remote:** `git push origin main`
-9. **Verify CI green:** Check GitHub Actions status.
+   - List all `[DEFERRED → v1.1]` items across ALL tracks in the commit message for a complete v1.1 backlog.
+7. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track docs-developer-experience"`
+8. **Push archive commit:** `git push origin main`
+9. **Generate deferred items report:** Compile all `[DEFERRED → v1.1]` items from all 5 tracks into a summary. If any exist, propose creating a `v1.1-backlog` track.
+10. **Announce final completion:** "All 5 tracks complete. voiage is now production-ready with strict tooling, full public API, SOTA methods, complete CLI, and professional documentation."
+11. **Verify CI green:** Final check — `gh run list --limit 1` must show success.

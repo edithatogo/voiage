@@ -199,18 +199,36 @@
 
 ## Phase 7: Autonomous Track Review, Archive and Progression [checkpoint: ]
 
+### 7.0 Pre-Execution Decision Record [PENDING]
+These decisions are pre-resolved so autonomous execution can proceed without blocking:
+
+- **Test file pruning (Phase 2):** Keep the file with the most recent modification date and most comprehensive test count. Delete all others in the same cluster.
+- **Author email:** Use `voiage@users.noreply.github.com` (GitHub noreply) until a real project email is provided.
+- **Repository URLs:** Use `edithatogo/voiage` as canonical (the `doughnut/voiage` references in Changelog/Issues are stale — fix them).
+- **Development Status:** Keep `2 - Pre-Alpha` until v0.3 is released.
+- **Ruff D-rule scope:** Enforce docstrings for public API only (`D100`-`D107`). Private functions (leading underscore) are exempt.
+- **Mypy strict baseline:** Start with `warn_return_any = true`, `disallow_untyped_defs = true`, `disallow_incomplete_defs = true`. Do NOT add `strict = true` globally — it enables too many rules at once. Instead, enable strict rules individually and record which ones are active.
+
 ### 7.1 Phase Review Protocol — Execute after EVERY phase (1-6) [PENDING]
 After completing each phase above, execute the following protocol **before** marking the phase `[x]` and proceeding:
 
-1. **Commit phase changes:**
+1. **Record rollback checkpoint:** Record current commit hash in this plan next to the phase: `[rollback: <7-char-sha>]`.
+2. **Single commit per phase:** Squash all phase changes into one commit:
    - `git add -A`
    - `git commit -m "conductor(track1): Complete phase <N> of fix-infrastructure"`
-2. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
-3. **Apply all Critical and High severity fixes** identified by the review automatically.
-4. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
-5. **If failures persist after 2 fix attempts:** Halt and report to user with details.
-6. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
-7. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
+   - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
+3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
+4. **Apply all Critical and High severity fixes** identified by the review automatically.
+5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+6. **If verification fails:**
+   - **Attempt 1:** Fix the failure, commit, re-run verification.
+   - **Attempt 2:** Fix the failure again, commit, re-run verification.
+   - **If still failing after 2 attempts:**
+     - **Escape hatch:** `git revert HEAD~2..HEAD` to rollback to pre-phase state.
+     - Mark the specific failing task as `[DEFERRED → v1.1]` with a note explaining the failure.
+     - Report to user with details and await guidance **OR** if the task is non-blocking, skip it and complete remaining phase tasks.
+7. **Commit review fixes** (if any): `git add -A && git commit -m "fix(conductor): Apply automated review fixes for phase <N>"`
+8. **Mark phase complete** in this plan file (change `[PENDING]` → `[x]`).
 
 ### 7.2 Track Completion Protocol — Execute after final phase [PENDING]
 After Phase 6 is complete and all phase reviews pass:
@@ -219,9 +237,15 @@ After Phase 6 is complete and all phase reviews pass:
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
 3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for fix-infrastructure"`
-5. **Archive the track:**
+5. **Push to remote and verify CI:**
+   - `git push origin main`
+   - Wait for GitHub Actions: `gh run list --limit 3`
+   - If any workflow fails, analyze with `gh run view <run-id> --log-failed`, fix, commit, push, re-check.
+   - **Max 3 CI fix retries.** If still failing after 3, halt and report to user.
+6. **Archive the track:**
    - `mkdir -p conductor/archive && mv conductor/tracks/fix-infrastructure conductor/archive/fix-infrastructure`
    - Update `conductor/tracks.md`: change `[ ]` → `[x]` for this track, add `[completed: <date>]` and archive link.
-6. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track fix-infrastructure"`
-7. **Read next track:** Read `conductor/tracks/activate-public-api/plan.md` and begin execution from Phase 1, Task 1.1.
-8. **Announce:** "Track 1 (fix-infrastructure) complete. Starting Track 2 (activate-public-api)."
+7. **Commit archive:** `git add -A conductor/ && git commit -m "chore(conductor): Archive completed track fix-infrastructure"`
+8. **Push archive commit:** `git push origin main`
+9. **Read next track:** Read `conductor/tracks/activate-public-api/plan.md` and begin execution from Phase 1, Task 1.1.
+10. **Announce:** "Track 1 (fix-infrastructure) complete. Starting Track 2 (activate-public-api)."
