@@ -8,23 +8,20 @@ or accessing voiage utilities from the command line.
 It uses Typer for command-line argument parsing.
 """
 
+import json
 from pathlib import Path
-from typing import List, Optional
 
+import numpy as np
 import typer
 
 from voiage.core.io import read_parameter_set_csv, read_value_array_csv
 from voiage.methods.basic import evpi, evppi
-from voiage.methods.structural import structural_evpi, structural_evppi
 from voiage.methods.network_meta_analysis import (
-    NetworkMetaAnalysisData,
     calculate_nma_evpi,
     calculate_nma_evppi,
 )
-from voiage.schema import ParameterSet, ValueArray
-
-import json
-import numpy as np
+from voiage.methods.structural import structural_evpi, structural_evppi
+from voiage.schema import ParameterSet
 
 app = typer.Typer(help="voiage: A Command-Line Interface for Value of Information Analysis.")
 
@@ -39,28 +36,28 @@ def calculate_evpi(
         readable=True,
         help="Path to CSV containing net benefits (samples x strategies)"
     ),
-    population: Optional[float] = typer.Option(
+    population: float | None = typer.Option(
         None,
         "--population",
         help="Population size for population-adjusted EVPI"
     ),
-    discount_rate: Optional[float] = typer.Option(
+    discount_rate: float | None = typer.Option(
         None,
         "--discount-rate",
         help="Annual discount rate (e.g., 0.03)"
     ),
-    time_horizon: Optional[float] = typer.Option(
+    time_horizon: float | None = typer.Option(
         None,
         "--time-horizon",
         help="Time horizon in years"
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
         help="File to save EVPI result"
     ),
-):
+) -> None:
     """Calculate Expected Value of Perfect Information (EVPI) from input data."""
     try:
         # Read net benefit data from CSV
@@ -82,7 +79,7 @@ def calculate_evpi(
 
         # Save to output file if specified
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(result_str + "\n")
             typer.echo(f"Result saved to {output_file}")
 
@@ -112,28 +109,28 @@ def calculate_evppi(
         readable=True,
         help="Path to CSV for parameters of interest (samples x params)"
     ),
-    population: Optional[float] = typer.Option(
+    population: float | None = typer.Option(
         None,
         "--population",
         help="Population size for population-adjusted EVPPI"
     ),
-    discount_rate: Optional[float] = typer.Option(
+    discount_rate: float | None = typer.Option(
         None,
         "--discount-rate",
         help="Annual discount rate (e.g., 0.03)"
     ),
-    time_horizon: Optional[float] = typer.Option(
+    time_horizon: float | None = typer.Option(
         None,
         "--time-horizon",
         help="Time horizon in years"
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
         help="File to save EVPPI result"
     ),
-):
+) -> None:
     """Calculate Expected Value of Partial Perfect Information (EVPPI)."""
     try:
         # Read net benefit data from CSV
@@ -163,7 +160,7 @@ def calculate_evppi(
 
         # Save to output file if specified
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(result_str + "\n")
             typer.echo(f"Result saved to {output_file}")
 
@@ -185,29 +182,29 @@ def calculate_structural_evpi(
         readable=True,
         help="Path to JSON config file defining model structures"
     ),
-    population: Optional[float] = typer.Option(
+    population: float | None = typer.Option(
         None,
         "--population",
         help="Population size for population-adjusted structural EVPI"
     ),
-    discount_rate: Optional[float] = typer.Option(
+    discount_rate: float | None = typer.Option(
         None,
         "--discount-rate",
         help="Annual discount rate (e.g., 0.03)"
     ),
-    time_horizon: Optional[float] = typer.Option(
+    time_horizon: float | None = typer.Option(
         None,
         "--time-horizon",
         help="Time horizon in years"
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
         help="File to save structural EVPI result"
     ),
-):
-    """Calculate Structural Expected Value of Perfect Information (SEVPI).
+) -> None:
+    r"""Calculate Structural Expected Value of Perfect Information (SEVPI).
 
     Structural EVPI quantifies the expected gain from knowing with certainty
     which model structure is the most appropriate one. The config file should
@@ -231,7 +228,7 @@ def calculate_structural_evpi(
     """
     try:
         # Read config file
-        with open(config_file, 'r') as f:
+        with open(config_file) as f:
             config = json.load(f)
 
         if "structures" not in config:
@@ -269,8 +266,8 @@ def calculate_structural_evpi(
 
             # Create PSA sample (use net benefit values as proxy)
             psa = ParameterSet.from_numpy_or_dict({
-                f"param_{i}": nba.values[:, i] if i < nba.values.shape[1] else nba.values[:, 0]
-                for i in range(max(1, nba.values.shape[1]))
+                f"param_{i}": nba.numpy_values[:, i] if i < nba.numpy_values.shape[1] else nba.numpy_values[:, 0]
+                for i in range(max(1, nba.numpy_values.shape[1]))
             })
             psa_samples.append(psa)
 
@@ -295,7 +292,7 @@ def calculate_structural_evpi(
 
         # Save to output file if specified
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(result_str + "\n")
             typer.echo(f"Result saved to {output_file}")
 
@@ -320,34 +317,34 @@ def calculate_structural_evppi(
         readable=True,
         help="Path to JSON config file defining model structures"
     ),
-    structures_of_interest: List[int] = typer.Option(
+    structures_of_interest: list[int] = typer.Option(
         ...,
         "--structures-of-interest",
         "-s",
         help="Indices of structures to learn about (0-indexed, can specify multiple)"
     ),
-    population: Optional[float] = typer.Option(
+    population: float | None = typer.Option(
         None,
         "--population",
         help="Population size for population-adjusted structural EVPPI"
     ),
-    discount_rate: Optional[float] = typer.Option(
+    discount_rate: float | None = typer.Option(
         None,
         "--discount-rate",
         help="Annual discount rate (e.g., 0.03)"
     ),
-    time_horizon: Optional[float] = typer.Option(
+    time_horizon: float | None = typer.Option(
         None,
         "--time-horizon",
         help="Time horizon in years"
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
         help="File to save structural EVPPI result"
     ),
-):
+) -> None:
     """Calculate Structural Expected Value of Partial Perfect Information (SEVPPI).
 
     Structural EVPPI quantifies the expected gain from resolving uncertainty
@@ -361,7 +358,7 @@ def calculate_structural_evppi(
             raise typer.Exit(code=1)
 
         # Read config file
-        with open(config_file, 'r') as f:
+        with open(config_file) as f:
             config = json.load(f)
 
         if "structures" not in config:
@@ -399,8 +396,8 @@ def calculate_structural_evppi(
 
             # Create PSA sample
             psa = ParameterSet.from_numpy_or_dict({
-                f"param_{i}": nba.values[:, i] if i < nba.values.shape[1] else nba.values[:, 0]
-                for i in range(max(1, nba.values.shape[1]))
+                f"param_{i}": nba.numpy_values[:, i] if i < nba.numpy_values.shape[1] else nba.numpy_values[:, 0]
+                for i in range(max(1, nba.numpy_values.shape[1]))
             })
             psa_samples.append(psa)
 
@@ -426,7 +423,7 @@ def calculate_structural_evppi(
 
         # Save to output file if specified
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(result_str + "\n")
             typer.echo(f"Result saved to {output_file}")
 
@@ -451,41 +448,41 @@ def calculate_nma_voi(
         readable=True,
         help="Path to JSON config file defining NMA data"
     ),
-    parameters_of_interest: Optional[str] = typer.Option(
+    parameters_of_interest: str | None = typer.Option(
         None,
         "--parameters-of-interest",
         "-p",
         help="Comma-separated list of parameters for EVPPI (e.g., 'effect_A,effect_B')"
     ),
-    willingness_to_pay: Optional[float] = typer.Option(
+    willingness_to_pay: float | None = typer.Option(
         None,
         "--willingness-to-pay",
         "-w",
         help="Willingness-to-pay threshold per unit"
     ),
-    population: Optional[float] = typer.Option(
+    population: float | None = typer.Option(
         None,
         "--population",
         help="Population size for population-adjusted VOI"
     ),
-    discount_rate: Optional[float] = typer.Option(
+    discount_rate: float | None = typer.Option(
         None,
         "--discount-rate",
         help="Annual discount rate (e.g., 0.03)"
     ),
-    time_horizon: Optional[float] = typer.Option(
+    time_horizon: float | None = typer.Option(
         None,
         "--time-horizon",
         help="Time horizon in years"
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
         help="File to save NMA VOI result"
     ),
-):
-    """Calculate VOI for Network Meta-Analysis (NMA-EVPI or NMA-EVPPI).
+) -> None:
+    r"""Calculate VOI for Network Meta-Analysis (NMA-EVPI or NMA-EVPPI).
 
     The config file should be a JSON file with the following format:
 
@@ -505,16 +502,13 @@ def calculate_nma_voi(
     """
     try:
         # Read config file
-        with open(config_file, 'r') as f:
+        with open(config_file) as f:
             config = json.load(f)
 
         # Convert list values to numpy arrays
         treatment_effects = {}
         for key, values in config.get("treatment_effects", {}).items():
-            if isinstance(key, str) and "-" in key:
-                pair = tuple(key.split("-"))
-            else:
-                pair = key
+            pair = tuple(key.split("-")) if isinstance(key, str) and "-" in key else key
             treatment_effects[pair] = np.asarray(values, dtype=float)
 
         config["treatment_effects"] = treatment_effects
@@ -556,7 +550,7 @@ def calculate_nma_voi(
 
         # Save to output file if specified
         if output_file:
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 f.write(result_str + "\n")
             typer.echo(f"Result saved to {output_file}")
 

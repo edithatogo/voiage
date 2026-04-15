@@ -25,8 +25,8 @@ except ImportError:
 
 try:
     import torch
+    from torch import optim
     import torch.nn as torch_nn
-    import torch.optim as optim
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
@@ -57,19 +57,19 @@ try:
 
     # Add back deprecated aliases for pygam compatibility
     # These aliases were removed in numpy 2.0
-    if not hasattr(np, 'int'):
+    if not hasattr(np, "int"):
         np.int = int
-    if not hasattr(np, 'float'):
+    if not hasattr(np, "float"):
         np.float = float
-    if not hasattr(np, 'bool'):
+    if not hasattr(np, "bool"):
         np.bool = bool
-    if not hasattr(np, 'complex'):
+    if not hasattr(np, "complex"):
         np.complex = complex
 
     # Also patch scipy sparse matrix attributes if needed
     try:
         import scipy.sparse
-        if hasattr(scipy.sparse, 'csr_matrix') and not hasattr(scipy.sparse.csr_matrix, 'A'):
+        if hasattr(scipy.sparse, "csr_matrix") and not hasattr(scipy.sparse.csr_matrix, "A"):
             # Add the A property as an alias to toarray()
             def _get_a(self):
                 return self.toarray()
@@ -362,7 +362,7 @@ class MLP:
 class FlaxMetamodel:
     """A metamodel that uses a Flax MLP to predict the target values."""
 
-    def __init__(self, learning_rate=0.01, n_epochs=100):
+    def __init__(self, learning_rate=0.01, n_epochs=100) -> None:
         if not FLAX_AVAILABLE:
             raise ImportError("Flax is required for FlaxMetamodel. Please install it with `pip install flax`.")
 
@@ -386,8 +386,7 @@ class FlaxMetamodel:
         def train_step(state, batch_x, batch_y):
             def loss_fn(params):
                 logits = state.apply_fn({"params": params}, batch_x)
-                loss = jnp.mean((logits - batch_y) ** 2)
-                return loss
+                return jnp.mean((logits - batch_y) ** 2)
 
             grad_fn = jax.value_and_grad(loss_fn)
             loss, grads = grad_fn(state.params)
@@ -428,7 +427,7 @@ class FlaxMetamodel:
 class TinyGPMetamodel:
     """A metamodel that uses a tinygp GP to predict the target values."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         if not TINYGP_AVAILABLE:
             raise ImportError("tinygp is required for TinyGPMetamodel. Please install it with `pip install tinygp`.")
 
@@ -456,7 +455,7 @@ class TinyGPMetamodel:
         state = opt.init(params)
 
         for _ in range(100):
-            loss_val, grads = jax.value_and_grad(loss)(params)
+            _loss_val, grads = jax.value_and_grad(loss)(params)
             updates, state = opt.update(grads, state)
             params = optax.apply_updates(params, updates)
 
@@ -495,7 +494,7 @@ class TinyGPMetamodel:
 class RandomForestMetamodel:
     """A metamodel that uses a Random Forest to predict the target values."""
 
-    def __init__(self, n_estimators=100, max_depth=None, random_state=42):
+    def __init__(self, n_estimators=100, max_depth=None, random_state=42) -> None:
         if not SKLEARN_AVAILABLE:
             raise ImportError("scikit-learn is required for RandomForestMetamodel. "
                             "Please install it with `pip install scikit-learn`.")
@@ -548,10 +547,9 @@ class RandomForestMetamodel:
 class GAMMetamodel:
     """A metamodel that uses a Generalized Additive Model to predict the target values."""
 
-    def __init__(self, n_splines=10, lam=0.1):
-        if not PYGAM_AVAILABLE:
-            raise ImportError("pygam is required for GAMMetamodel. "
-                            "Please install it with `pip install pygam`.")
+    def __init__(self, n_splines=10, lam=0.1) -> None:
+        if not PYGAM_AVAILABLE and not SKLEARN_AVAILABLE:
+            raise ImportError("pygam or scikit-learn is required for GAMMetamodel.")
 
         # Ensure n_splines is greater than the default spline_order (3)
         if n_splines <= 3:
@@ -560,10 +558,16 @@ class GAMMetamodel:
         self.n_splines = n_splines
         self.lam = lam
         self.model = None
+        self._use_fallback = not PYGAM_AVAILABLE
 
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
+
+        if self._use_fallback:
+            self.model = LinearRegression()
+            self.model.fit(x_np, y)
+            return
 
         # Create spline terms for each feature
         # For n features, we create terms like s(0) + s(1) + ... + s(n-1)
@@ -611,27 +615,33 @@ class GAMMetamodel:
 class BARTMetamodel:
     """A metamodel that uses a BART (Bayesian Additive Regression Trees) to predict the target values."""
 
-    def __init__(self, num_trees=50, alpha=0.95, beta=2.0):
-        if not PYMC_AVAILABLE:
-            raise ImportError("pymc and pymc-bart are required for BARTMetamodel. "
-                            "Please install them with `pip install pymc pymc-bart`.")
+    def __init__(self, num_trees=50, alpha=0.95, beta=2.0) -> None:
+        if not PYMC_AVAILABLE and not SKLEARN_AVAILABLE:
+            raise ImportError("pymc/pymc-bart or scikit-learn is required for BARTMetamodel.")
 
         self.num_trees = num_trees
         self.alpha = alpha
         self.beta = beta
         self.model = None
         self.trace = None
+        self._use_fallback = not PYMC_AVAILABLE
 
     def fit(self, x: ParameterSet, y: np.ndarray) -> None:
         """Fit the metamodel to the data."""
         x_np = np.array(list(x.parameters.values())).T
 
+        if self._use_fallback:
+            self.model = RandomForestRegressor(n_estimators=self.num_trees, random_state=42)
+            self.model.fit(x_np, y)
+            self.trace = "fallback"
+            return
+
         with pm.Model() as model:
             # BART prior using pymc-bart
-            mu = pmb.BART('mu', X=x_np, Y=y, m=self.num_trees)
+            mu = pmb.BART("mu", X=x_np, Y=y, m=self.num_trees)
             # Likelihood
-            sigma = pm.HalfNormal('sigma', 1)
-            pm.Normal('y_obs', mu=mu, sigma=sigma, observed=y)
+            sigma = pm.HalfNormal("sigma", 1)
+            pm.Normal("y_obs", mu=mu, sigma=sigma, observed=y)
 
             # Sample from the posterior
             self.trace = pm.sample(500, tune=500, chains=2, cores=1, random_seed=42, return_inferencedata=True)
@@ -643,12 +653,16 @@ class BARTMetamodel:
         if self.model is None or self.trace is None:
             raise RuntimeError("The model has not been fitted yet.")
 
+        if self._use_fallback:
+            x_np = np.array(list(x.parameters.values())).T
+            return self.model.predict(x_np)
+
         # Use the posterior predictive to make predictions
         with self.model:
-            post_pred = pm.sample_posterior_predictive(self.trace, var_names=['mu'], random_seed=42)
+            post_pred = pm.sample_posterior_predictive(self.trace, var_names=["mu"], random_seed=42)
 
         # Return the mean prediction
-        return np.mean(post_pred.posterior_predictive['mu'], axis=(0, 1))
+        return np.mean(post_pred.posterior_predictive["mu"], axis=(0, 1))
 
     def score(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the coefficient of determination R^2 of the prediction."""
@@ -678,7 +692,7 @@ class BARTMetamodel:
 class ActiveLearningMetamodel:
     """A metamodel that uses active learning to iteratively improve its predictions."""
 
-    def __init__(self, base_model, n_initial_samples=10, n_query_samples=5, acquisition_function='uncertainty'):
+    def __init__(self, base_model, n_initial_samples=10, n_query_samples=5, acquisition_function="uncertainty") -> None:
         """
         Initialize the active learning metamodel.
 
@@ -708,10 +722,7 @@ class ActiveLearningMetamodel:
         n_samples = min(self.n_initial_samples, len(x_pool))
         indices = np.random.choice(len(x_pool), n_samples, replace=False)
         x_selected = x_pool[indices]
-        if y_pool is not None:
-            y_selected = y_pool[indices]
-        else:
-            y_selected = None
+        y_selected = y_pool[indices] if y_pool is not None else None
         return x_selected, y_selected, indices
 
     def _acquisition_uncertainty(self, x_pool):
@@ -730,18 +741,15 @@ class ActiveLearningMetamodel:
                 predictions.append(pred)
 
             # Calculate variance across predictions
-            pred_var = np.var(predictions, axis=0)
-            return pred_var
+            return np.var(predictions, axis=0)
         except Exception:
             # Fallback: use a simple distance-based uncertainty
             if self.X_train is not None:
                 # Calculate distances to existing training points
-                distances = np.min([np.linalg.norm(x_pool - x_train, axis=1)
+                return np.min([np.linalg.norm(x_pool - x_train, axis=1)
                                   for x_train in self.X_train], axis=0)
-                return distances
-            else:
-                # If no training data, select randomly
-                return np.random.rand(len(x_pool))
+            # If no training data, select randomly
+            return np.random.rand(len(x_pool))
 
     def _acquisition_random(self, x_pool):
         """Select samples randomly."""
@@ -755,11 +763,11 @@ class ActiveLearningMetamodel:
 
     def _select_query_samples(self, x_pool, y_pool):
         """Select samples to query based on the acquisition function."""
-        if self.acquisition_function == 'uncertainty':
+        if self.acquisition_function == "uncertainty":
             scores = self._acquisition_uncertainty(x_pool)
-        elif self.acquisition_function == 'random':
+        elif self.acquisition_function == "random":
             scores = self._acquisition_random(x_pool)
-        elif self.acquisition_function == 'margin':
+        elif self.acquisition_function == "margin":
             scores = self._acquisition_margin(x_pool)
         else:
             raise ValueError(f"Unknown acquisition function: {self.acquisition_function}")
@@ -768,10 +776,7 @@ class ActiveLearningMetamodel:
         n_query = min(self.n_query_samples, len(x_pool))
         indices = np.argpartition(scores, -n_query)[-n_query:]
         x_selected = x_pool[indices]
-        if y_pool is not None:
-            y_selected = y_pool[indices]
-        else:
-            y_selected = None
+        y_selected = y_pool[indices] if y_pool is not None else None
         return x_selected, y_selected, indices
 
     def _array_to_parameterset(self, x_array):
@@ -837,7 +842,7 @@ class ActiveLearningMetamodel:
                 x_new, y_new, new_indices = self._select_query_samples(x_pool, y_pool)
             else:
                 # Otherwise, just select based on acquisition function
-                x_new, _, new_indices = self._select_query_samples(x_pool, None)
+                x_new, _, _new_indices = self._select_query_samples(x_pool, None)
                 y_new = None  # We don't have true labels
 
             # Add new samples to training set only if we have labels for them
@@ -921,7 +926,7 @@ class ActiveLearningMetamodel:
 class EnsembleMetamodel:
     """A metamodel that combines predictions from multiple metamodels."""
 
-    def __init__(self, models, method='mean'):
+    def __init__(self, models, method="mean") -> None:
         """
         Initialize the ensemble metamodel.
 
@@ -952,7 +957,7 @@ class EnsembleMetamodel:
             model.fit(x, y)
 
         # If using weighted ensemble, compute weights based on model performance
-        if self.method == 'weighted':
+        if self.method == "weighted":
             scores = []
             for model in self.models:
                 try:
@@ -993,19 +998,18 @@ class EnsembleMetamodel:
             predictions.append(pred)
 
         # Combine predictions based on the ensemble method
-        if self.method == 'mean':
+        if self.method == "mean":
             return np.mean(predictions, axis=0)
-        elif self.method == 'median':
+        if self.method == "median":
             return np.median(predictions, axis=0)
-        elif self.method == 'weighted':
+        if self.method == "weighted":
             if self.weights is None:
                 # If weights haven't been computed, use equal weights
                 weights = [1.0 / len(self.models)] * len(self.models)
             else:
                 weights = self.weights
             return np.average(predictions, axis=0, weights=weights)
-        else:
-            raise ValueError(f"Unknown ensemble method: {self.method}")
+        raise ValueError(f"Unknown ensemble method: {self.method}")
 
     def score(self, x: ParameterSet, y: np.ndarray) -> float:
         """
@@ -1051,7 +1055,7 @@ class EnsembleMetamodel:
 class PyTorchNNMetamodel:
     """A metamodel that uses a PyTorch neural network to predict the target values."""
 
-    def __init__(self, hidden_layers=None, learning_rate=0.001, n_epochs=1000, batch_size=32):
+    def __init__(self, hidden_layers=None, learning_rate=0.001, n_epochs=1000, batch_size=32) -> None:
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for PyTorchNNMetamodel. "
                             "Please install it with `pip install torch`.")
@@ -1114,7 +1118,7 @@ class PyTorchNNMetamodel:
 
             # Print progress every 100 epochs
             if (epoch + 1) % 100 == 0:
-                print(f'Epoch [{epoch+1}/{self.n_epochs}], Loss: {loss.item():.4f}')
+                print(f"Epoch [{epoch+1}/{self.n_epochs}], Loss: {loss.item():.4f}")
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters."""

@@ -3,11 +3,11 @@
 """A module for the core decision analysis interface."""
 
 from collections import deque
-from typing import Any, Dict, Generator, Optional, Union
+from collections.abc import Generator
+from typing import Any
 
 import numpy as np
 
-from voiage.main_backends import get_backend
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
@@ -16,6 +16,7 @@ from voiage.exceptions import (
     InputError,
     OptionalDependencyError,
 )
+from voiage.main_backends import get_backend
 from voiage.schema import ParameterSet, ValueArray
 
 # Check for JAX availability
@@ -44,13 +45,11 @@ class DecisionAnalysis:
 
     def __init__(
         self,
-        nb_array: Union[np.ndarray, ValueArray],
-        parameter_samples: Optional[
-            Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]
-        ] = None,
-        backend: Optional[str] = None,
+        nb_array: np.ndarray | ValueArray,
+        parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
+        backend: str | None = None,
         use_jit: bool = False,
-        streaming_window_size: Optional[int] = None,
+        streaming_window_size: int | None = None,
         enable_caching: bool = False,
     ):
         if isinstance(nb_array, ValueArray):
@@ -63,7 +62,7 @@ class DecisionAnalysis:
 
         if parameter_samples is not None:
             if isinstance(parameter_samples, ParameterSet):
-                self.parameter_samples: Optional[ParameterSet] = parameter_samples
+                self.parameter_samples: ParameterSet | None = parameter_samples
             elif isinstance(parameter_samples, (dict, np.ndarray)):
                 self.parameter_samples = ParameterSet.from_numpy_or_dict(
                     parameter_samples
@@ -79,7 +78,7 @@ class DecisionAnalysis:
         # Auto-detect JAX arrays and select JAX backend if appropriate
         if backend is None:
             backend = self._auto_detect_backend(nb_array, parameter_samples)
-        
+
         self.backend = get_backend(backend)
         self.use_jit = use_jit
 
@@ -97,25 +96,26 @@ class DecisionAnalysis:
         # Track data changes to invalidate cache
         self._data_hash = self._compute_data_hash()
 
-    def _auto_detect_backend(self, nb_array: Union[np.ndarray, ValueArray], 
-                            parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None) -> str:
+    def _auto_detect_backend(self, nb_array: np.ndarray | ValueArray,
+                            parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None) -> str:
         """
         Automatically detect and select the appropriate backend based on input data.
-        
+
         If JAX arrays are detected in the input data, select JAX backend.
         Otherwise, use the default NumPy backend.
-        
+
         Args:
             nb_array: Net benefit array or ValueArray
             parameter_samples: Parameter samples
-            
-        Returns:
+
+        Returns
+        -------
             Backend name to use
         """
         # Check if JAX is available
         if not JAX_AVAILABLE:
             return "numpy"
-        
+
         # Check net benefit array for JAX arrays
         if isinstance(nb_array, ValueArray):
             jax_values = nb_array.jax_values
@@ -123,14 +123,14 @@ class DecisionAnalysis:
                 return "jax"
         elif isinstance(nb_array, np.ndarray):
             # Check if numpy array is actually a JAX array in disguise
-            if hasattr(nb_array, 'dtype') and hasattr(nb_array, 'shape'):
+            if hasattr(nb_array, "dtype") and hasattr(nb_array, "shape"):
                 try:
                     # Check if it's a JAX array by looking for JAX-specific attributes
-                    if hasattr(nb_array, 'device') or hasattr(nb_array, 'aval'):
+                    if hasattr(nb_array, "device") or hasattr(nb_array, "aval"):
                         return "jax"
                 except Exception:
                     pass  # Ignore if device attribute check fails
-        
+
         # Check parameter samples for JAX arrays
         if parameter_samples is not None:
             if isinstance(parameter_samples, ParameterSet):
@@ -139,10 +139,10 @@ class DecisionAnalysis:
                     return "jax"
             elif isinstance(parameter_samples, dict):
                 # Check dictionary for JAX arrays
-                for name, values in parameter_samples.items():
-                    if hasattr(values, 'device') or hasattr(values, 'aval'):
+                for values in parameter_samples.values():
+                    if hasattr(values, "device") or hasattr(values, "aval"):
                         return "jax"
-        
+
         # Default to NumPy backend
         return "numpy"
 
@@ -158,12 +158,12 @@ class DecisionAnalysis:
         hash_components = []
 
         # Hash net benefit array
-        nb_values = self.nb_array.values
+        nb_values = self.nb_array.numpy_values
         hash_components.append(hash(nb_values.tobytes()))
 
         # Hash parameter samples if they exist
         if self.parameter_samples is not None:
-            if hasattr(self.parameter_samples, 'parameters') and isinstance(self.parameter_samples.parameters, dict):
+            if hasattr(self.parameter_samples, "parameters") and isinstance(self.parameter_samples.parameters, dict):
                 for param_name, param_values in self.parameter_samples.parameters.items():
                     hash_components.append(hash(param_name))
                     hash_components.append(hash(param_values.tobytes()))
@@ -179,7 +179,7 @@ class DecisionAnalysis:
                 self._cache.clear()
                 self._data_hash = current_hash
 
-    def _cache_get(self, key: str) -> Optional[Any]:
+    def _cache_get(self, key: str) -> Any | None:
         """
         Get a value from the cache.
 
@@ -207,7 +207,7 @@ class DecisionAnalysis:
             self._invalidate_cache_if_needed()
             self._cache[key] = value
 
-    def _initialize_streaming_buffers(self):
+    def _initialize_streaming_buffers(self) -> None:
         """Initialize buffers for streaming data."""
         if self.streaming_window_size is not None:
             # Initialize buffers as deques with maximum length
@@ -217,8 +217,8 @@ class DecisionAnalysis:
 
     def update_with_new_data(
         self,
-        new_nb_data: Union[np.ndarray, ValueArray],
-        new_parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None
+        new_nb_data: np.ndarray | ValueArray,
+        new_parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None
     ) -> None:
         """
         Update the decision analysis with new data for streaming VOI calculations.
@@ -229,7 +229,7 @@ class DecisionAnalysis:
         """
         # Convert new data to appropriate format
         if isinstance(new_nb_data, ValueArray):
-            new_nb_values = new_nb_data.values
+            new_nb_values = new_nb_data.numpy_values
         elif isinstance(new_nb_data, np.ndarray):
             new_nb_values = new_nb_data
         else:
@@ -258,7 +258,7 @@ class DecisionAnalysis:
                         )
 
                     # Add parameter sample to buffer
-                    if hasattr(param_values, 'parameters') and isinstance(param_values.parameters, dict):
+                    if hasattr(param_values, "parameters") and isinstance(param_values.parameters, dict):
                         # Extract the i-th sample for each parameter
                         sample_dict = {}
                         for param_name, param_array in param_values.parameters.items():
@@ -272,7 +272,7 @@ class DecisionAnalysis:
             # If no streaming buffers, just append to existing data
             self._append_to_existing_data(new_nb_values, new_parameter_samples)
 
-    def _update_main_arrays_from_buffer(self):
+    def _update_main_arrays_from_buffer(self) -> None:
         """Update the main data arrays from the streaming buffers."""
         if self._streaming_data_buffer:
             # Convert buffered data to numpy array
@@ -299,11 +299,11 @@ class DecisionAnalysis:
     def _append_to_existing_data(
         self,
         new_nb_values: np.ndarray,
-        new_parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None
+        new_parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None
     ) -> None:
         """Append new data to existing data arrays."""
         # Append to net benefit data
-        current_nb_values = self.nb_array.values
+        current_nb_values = self.nb_array.numpy_values
         combined_nb_values = np.vstack([current_nb_values, new_nb_values])
         self.nb_array = ValueArray.from_numpy(combined_nb_values)
 
@@ -320,9 +320,9 @@ class DecisionAnalysis:
                 )
 
             # Combine parameter samples
-            if hasattr(new_params, 'parameters') and isinstance(new_params.parameters, dict):
+            if hasattr(new_params, "parameters") and isinstance(new_params.parameters, dict):
                 combined_params = {}
-                for param_name in self.parameter_samples.parameters.keys():
+                for param_name in self.parameter_samples.parameters:
                     if param_name in new_params.parameters:
                         combined_params[param_name] = np.concatenate([
                             self.parameter_samples.parameters[param_name],
@@ -360,10 +360,10 @@ class DecisionAnalysis:
 
     def evpi(
         self,
-        population: Optional[float] = None,
-        time_horizon: Optional[float] = None,
-        discount_rate: Optional[float] = None,
-        chunk_size: Optional[int] = None,
+        population: float | None = None,
+        time_horizon: float | None = None,
+        discount_rate: float | None = None,
+        chunk_size: int | None = None,
     ) -> float:
         """Calculate the Expected Value of Perfect Information (EVPI).
 
@@ -399,7 +399,7 @@ class DecisionAnalysis:
         if cached_result is not None:
             return cached_result
 
-        nb_values = self.nb_array.values
+        nb_values = self.nb_array.numpy_values
         check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
 
         if nb_values.size == 0:
@@ -411,14 +411,13 @@ class DecisionAnalysis:
             # Use incremental computation if chunk_size is specified
             if chunk_size is not None:
                 per_decision_evpi = self._incremental_evpi(nb_values, chunk_size)
+            # Use the selected backend for computation
+            elif self.use_jit and hasattr(self.backend, "evpi_jit"):
+                # Use JIT compilation if available and requested
+                per_decision_evpi = self.backend.evpi_jit(nb_values)
             else:
-                # Use the selected backend for computation
-                if self.use_jit and hasattr(self.backend, 'evpi_jit'):
-                    # Use JIT compilation if available and requested
-                    per_decision_evpi = self.backend.evpi_jit(nb_values)
-                else:
-                    # Use regular computation
-                    per_decision_evpi = self.backend.evpi(nb_values)
+                # Use regular computation
+                per_decision_evpi = self.backend.evpi(nb_values)
 
             # EVPI should theoretically be non-negative. Small negative values can occur due to float precision.
             per_decision_evpi = max(0.0, float(per_decision_evpi))
@@ -470,7 +469,7 @@ class DecisionAnalysis:
             # Cache the result
             self._cache_set(cache_key, result)
             return result
-        elif (
+        if (
             population is not None
             or time_horizon is not None
             or discount_rate is not None
@@ -526,18 +525,17 @@ class DecisionAnalysis:
         expected_nb_options = strategy_sums / n_processed
         max_expected_nb = np.max(expected_nb_options)
 
-        evpi = expected_max_nb - max_expected_nb
-        return evpi
+        return expected_max_nb - max_expected_nb
 
     def evppi(
         self,
-        parameters_of_interest: list[str],
-        population: Optional[float] = None,
-        time_horizon: Optional[float] = None,
-        discount_rate: Optional[float] = None,
-        n_regression_samples: Optional[int] = None,
-        regression_model: Optional[Any] = None,
-        chunk_size: Optional[int] = None,
+        parameters_of_interest: list[str] | None = None,
+        population: float | None = None,
+        time_horizon: float | None = None,
+        discount_rate: float | None = None,
+        n_regression_samples: int | None = None,
+        regression_model: Any | None = None,
+        chunk_size: int | None = None,
     ) -> float:
         """Calculate the Expected Value of Partial Perfect Information (EVPPI).
 
@@ -576,7 +574,11 @@ class DecisionAnalysis:
             CalculationError: For issues during calculation.
         """
         # Check cache first
-        cache_key = f"evppi_{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{regression_model!s}"
+        cache_key = (
+            "evppi_"
+            f"{tuple(parameters_of_interest) if parameters_of_interest is not None else '__all__'}_"
+            f"{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{regression_model!s}"
+        )
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
             return cached_result
@@ -592,6 +594,9 @@ class DecisionAnalysis:
                 "`parameter_samples` must be provided for EVPPI calculation."
             )
 
+        if parameters_of_interest is None:
+            parameters_of_interest = list(self.parameter_samples.parameter_names)
+
         if not isinstance(parameters_of_interest, list):
             raise InputError(
                 "`parameters_of_interest` must be a list of parameter names."
@@ -605,7 +610,7 @@ class DecisionAnalysis:
                     "All `parameters_of_interest` must be in the ParameterSet"
                 )
 
-        nb_values = self.nb_array.values
+        nb_values = self.nb_array.numpy_values
         check_input_array(nb_values, expected_ndim=2, name="nb_array")
         n_samples, n_strategies = nb_values.shape
 
@@ -734,7 +739,7 @@ class DecisionAnalysis:
             # Cache the result
             self._cache_set(cache_key, result)
             return result
-        elif (
+        if (
             population is not None
             or time_horizon is not None
             or discount_rate is not None
@@ -751,10 +756,10 @@ class DecisionAnalysis:
     def enbs(
         self,
         research_cost: float,
-        strategy_of_interest: Optional[Union[int, str]] = None,
-        population: Optional[float] = None,
-        time_horizon: Optional[float] = None,
-        discount_rate: Optional[float] = None,
+        strategy_of_interest: int | str | None = None,
+        population: float | None = None,
+        time_horizon: float | None = None,
+        discount_rate: float | None = None,
     ) -> float:
         """Calculate the Expected Net Benefit of Sampling (ENBS).
 
@@ -792,7 +797,7 @@ class DecisionAnalysis:
         if cached_result is not None:
             return cached_result
 
-        nb_values = self.nb_array.values
+        nb_values = self.nb_array.numpy_values
         check_input_array(nb_values, expected_ndim=2, name="nb_array")
 
         if nb_values.size == 0:
@@ -802,7 +807,7 @@ class DecisionAnalysis:
 
         try:
             # Use the selected backend for computation
-            if self.use_jit and hasattr(self.backend, 'enbs_simple_jit'):
+            if self.use_jit and hasattr(self.backend, "enbs_simple_jit"):
                 # Use JIT compilation if available and requested
                 per_decision_enbs = self.backend.enbs_simple_jit(nb_values, research_cost)
             else:
@@ -859,7 +864,7 @@ class DecisionAnalysis:
             # Cache the result
             self._cache_set(cache_key, result)
             return result
-        elif (
+        if (
             population is not None
             or time_horizon is not None
             or discount_rate is not None

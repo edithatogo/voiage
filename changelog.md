@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Added central pytest test categorization in `tests/conftest.py`, automatically marking collected tests as `unit`, `integration`, or `benchmark` based on file naming conventions.
+- Declared the `unit` pytest marker in project configuration to support marker-based collection and selection.
+- Updated the legacy pytest section in `setup.cfg` to `tool:pytest` so modern pytest versions invoked via `tox` can parse repository configuration.
+- Declared missing runtime dependencies for `psutil` and `typing_extensions` so tox-installed environments can import the shipped package successfully.
+- Added `pytest-benchmark` to the tox test environment so benchmark-marked tests have their required fixture during suite execution.
+- Updated `ValueArray.values` to return the underlying `xarray.DataArray` and added `numpy_values`, copy, subset, and equality helpers for schema-level interoperability.
+- Updated decision-analysis and downstream method code paths to use raw NumPy access where numerical kernels require ndarray semantics.
+- Fixed structural JAX EVPI aggregation, GPU backend detection/mockability, and memory-budget handling so the shipped test environment runs cleanly under `tox`.
+- Normalized health-economic trial outputs to Python floats and added lightweight optional-dependency fallbacks for GAM and BART metamodels when the heavy native stacks are unavailable.
+
 ### Added
 - **Structural Uncertainty VOI Methods**:
   - `structural_evpi()`: Calculate Expected Value of Perfect Information for Model Structure

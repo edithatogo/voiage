@@ -51,7 +51,8 @@ Functions:
 - `voi_observational`: Main function for observational study VOI calculation
 """
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -72,8 +73,8 @@ from voiage.schema import (
 ObservationalStudyModeler = Callable[
     [
         PSASample,
-        Dict[str, Any],
-        Dict[str, Any],
+        dict[str, Any],
+        dict[str, Any],
     ],  # Prior PSA, Obs. Study Design, Bias Models
     NetBenefitArray,  # Expected NB conditional on simulated observational data
 ]
@@ -82,14 +83,14 @@ ObservationalStudyModeler = Callable[
 def voi_observational(
     obs_study_modeler: ObservationalStudyModeler,
     psa_prior: PSASample,
-    observational_study_design: Dict[
+    observational_study_design: dict[
         str, Any
     ],  # e.g., cohort, case-control, variables, size
-    bias_models: Dict[str, Any],  # Models for confounding, selection bias, etc.
+    bias_models: dict[str, Any],  # Models for confounding, selection bias, etc.
     # wtp: float, # Implicit
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_outer_loops: int = 20,
     # method_args for simulation, bias adjustment techniques
     **kwargs: Any,
@@ -187,7 +188,7 @@ def voi_observational(
     )
 
     print(f"Observational Study VOI: ${voi_value:,.0f}")
-    
+
     """
     # Validate inputs
     if not callable(obs_study_modeler):
@@ -203,7 +204,7 @@ def voi_observational(
 
     # 1. Calculate max_d E[NB(d) | Prior Info].
     nb_array_prior = obs_study_modeler(psa_prior, observational_study_design, bias_models)
-    mean_nb_per_strategy_prior = np.mean(nb_array_prior.values, axis=0)
+    mean_nb_per_strategy_prior = np.mean(nb_array_prior.numpy_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
     # 2. Outer loop (simulating different potential datasets D_k from the observational study):
@@ -221,7 +222,7 @@ def voi_observational(
     #        d. Let V_k = max_d E_theta|D_k,bias_adj [NB(d, theta|...)].
 
     max_nb_post_observational = []
-    for k in range(n_outer_loops):
+    for _k in range(n_outer_loops):
         # Sample a "true" parameter set from the prior
         true_params_idx = np.random.randint(0, psa_prior.n_samples)
 
@@ -241,7 +242,7 @@ def voi_observational(
         try:
             # Simulate the observational study with the sampled parameters
             nb_array_post = obs_study_modeler(psa_prior, observational_study_design, bias_models)
-            mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
+            mean_nb_per_strategy_post = np.mean(nb_array_post.numpy_values, axis=0)
             max_nb_post_observational.append(np.max(mean_nb_per_strategy_post))
         except Exception:
             # If the modeler fails, use the prior value
@@ -269,8 +270,7 @@ def voi_observational(
         annuity = (
             (1 - (1 + dr) ** -time_horizon) / dr if dr > 0 else float(time_horizon)
         )
-        result = per_decision_voi_observational * population * annuity
-        return result
+        return per_decision_voi_observational * population * annuity
 
     return float(per_decision_voi_observational)
 

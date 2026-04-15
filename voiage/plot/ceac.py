@@ -1,6 +1,5 @@
 """Plotting functions for CEACs, CE Planes, and EVPPI surfaces."""
 
-from typing import List, Optional, Union
 
 import numpy as np
 
@@ -40,15 +39,13 @@ def _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples):
 
 def plot_ceac(
     value_array: ValueArray,
-    wtp_thresholds: Union[np.ndarray, List[float]],
-    strategy_names: Optional[List[str]] = None,
+    wtp_thresholds: np.ndarray | list[float],
+    strategy_names: list[str] | None = None,
     xlabel: str = "Willingness-to-Pay Threshold",
     ylabel: str = "Probability Cost-Effective",
     title: str = "Cost-Effectiveness Acceptability Curve (CEAC)",
-    ax: Optional[Axes] = None,
-    **plot_kwargs_per_strategy: Optional[
-        List[dict]
-    ],  # List of dicts for each strategy's plot call
+    ax: Axes | None = None,
+    **plot_kwargs_per_strategy: list[dict] | None,  # List of dicts for each strategy's plot call
 ) -> Axes:
     """Plot a Cost-Effectiveness Acceptability Curve (CEAC).
 
@@ -88,7 +85,7 @@ def plot_ceac(
             "Matplotlib is required for plotting functions but not installed."
         )
 
-    nb_values = value_array.values
+    nb_values = value_array.numpy_values
     if strategy_names is None:
         strategy_names = value_array.strategy_names
 
@@ -119,7 +116,7 @@ def plot_ceac(
 
     prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
 
-    user_plot_kwargs_list: List[dict] = plot_kwargs_per_strategy.get(
+    user_plot_kwargs_list: list[dict] = plot_kwargs_per_strategy.get(
         "plot_kwargs_per_strategy", []
     )
     if len(user_plot_kwargs_list) != n_strategies and user_plot_kwargs_list:

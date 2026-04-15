@@ -1,7 +1,7 @@
 """Input/Output utilities for voiage."""
 
 import csv
-from typing import Any, List, Optional
+from typing import Any
 
 import numpy as np
 import xarray as xr
@@ -19,14 +19,14 @@ class FileFormatError(InputError):
 
 def read_value_array_csv(
     filepath: str,
-    option_names: Optional[List[str]] = None,
+    option_names: list[str] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
     dtype: Any = DEFAULT_DTYPE,
 ) -> ValueArray:
     """Read a ValueArray from a CSV file."""
     try:
-        with open(filepath, "r", newline="") as csvfile:
+        with open(filepath, newline="") as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
             if skip_header:
                 next(reader)
@@ -53,7 +53,7 @@ def read_value_array_csv(
         )
         return ValueArray(dataset=dataset)
 
-    except (IOError, ValueError) as e:
+    except (OSError, ValueError) as e:
         raise FileFormatError(
             f"Failed to read ValueArray from CSV file '{filepath}': {e}"
         ) from e
@@ -64,30 +64,30 @@ def write_value_array_csv(
     filepath: str,
     delimiter: str = ",",
     write_header: bool = True,
-):
+) -> None:
     """Write a ValueArray to a CSV file."""
     try:
         with open(filepath, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=delimiter)
             if write_header:
                 writer.writerow(value_array.option_names)
-            writer.writerows(value_array.values.tolist())
-    except IOError as e:
-        raise IOError(
+            writer.writerows(value_array.numpy_values.tolist())
+    except OSError as e:
+        raise OSError(
             f"Failed to write ValueArray to CSV file '{filepath}': {e}"
         ) from e
 
 
 def read_parameter_set_csv(
     filepath: str,
-    parameter_names: Optional[List[str]] = None,
+    parameter_names: list[str] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
     dtype: Any = DEFAULT_DTYPE,
 ) -> ParameterSet:
     """Read PSA samples from a CSV file into a ParameterSet object."""
     try:
-        with open(filepath, "r", newline="") as csvfile:
+        with open(filepath, newline="") as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
             if skip_header:
                 next(reader)
@@ -114,7 +114,7 @@ def read_parameter_set_csv(
         )
         return ParameterSet(dataset=dataset)
 
-    except (IOError, ValueError) as e:
+    except (OSError, ValueError) as e:
         raise FileFormatError(
             f"Failed to read ParameterSet from CSV file '{filepath}': {e}"
         ) from e
@@ -125,7 +125,7 @@ def write_parameter_set_csv(
     filepath: str,
     delimiter: str = ",",
     write_header: bool = True,
-):
+) -> None:
     """Write a ParameterSet object to a CSV file."""
     try:
         with open(filepath, "w", newline="") as csvfile:
@@ -136,7 +136,7 @@ def write_parameter_set_csv(
             param_values = np.vstack(list(parameter_set.parameters.values())).T
             writer.writerows(param_values.tolist())
 
-    except (IOError, ValueError) as e:
-        raise IOError(
+    except (OSError, ValueError) as e:
+        raise OSError(
             f"Failed to write ParameterSet to CSV file '{filepath}': {e}"
         ) from e

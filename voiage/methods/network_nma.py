@@ -50,7 +50,8 @@ Functions:
 - `simulate_nma_network_data`: Simulate NMA network data
 """
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -66,8 +67,8 @@ from voiage.schema import ValueArray as NetBenefitArray
 NMAEconomicModelEvaluator = Callable[
     [
         PSASample,
-        Optional[TrialDesign],
-        Optional[Any],
+        TrialDesign | None,
+        Any | None,
     ],  # Prior PSA, Optional new trial, Optional new data
     NetBenefitArray,  # NB array post-NMA (and post-update if new data)
 ]
@@ -78,9 +79,9 @@ def evsi_nma(
     psa_prior_nma: PSASample,  # Prior PSA samples for parameters in the NMA & econ model
     trial_design_new_study: TrialDesign,  # Design of the new study to add to the network
     # wtp: float, # Often implicit in NetBenefitArray
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_outer_loops: int = 20,
     n_inner_loops: int = 100,
     # method_args specific to NMA context, e.g., MCMC samples for NMA, convergence criteria
@@ -156,7 +157,7 @@ def evsi_nma(
     )
 
     print(f"EVSI-NMA: ${evsi_value:,.0f}")
-    
+
     """
     # Validate inputs
     if not callable(nma_model_evaluator):
@@ -171,7 +172,7 @@ def evsi_nma(
     # 1. Calculate max_d E[NB(d) | Prior Info] using `nma_model_evaluator(psa_prior_nma, None, None)`
     #    This gives the baseline expected net benefit of the optimal decision with current NMA.
     nb_array_prior = nma_model_evaluator(psa_prior_nma, None, None)
-    mean_nb_per_strategy_prior = np.mean(nb_array_prior.values, axis=0)
+    mean_nb_per_strategy_prior = np.mean(nb_array_prior.numpy_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
     # 2. Outer loop (simulating different potential datasets D_k from `trial_design_new_study`):
@@ -196,7 +197,7 @@ def evsi_nma(
 
             # Evaluate the economic model with the updated parameters
             nb_array_post = nma_model_evaluator(updated_psa, trial_design_new_study, trial_data)
-            mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
+            mean_nb_per_strategy_post = np.mean(nb_array_post.numpy_values, axis=0)
             max_nb_post_study.append(np.max(mean_nb_per_strategy_post))
         except Exception:
             # If the evaluator fails, use the prior value
@@ -228,7 +229,7 @@ def evsi_nma(
     return float(per_decision_evsi_nma)
 
 
-def _simulate_trial_data_nma(true_parameters: Dict[str, float], trial_design: TrialDesign) -> Dict[str, np.ndarray]:
+def _simulate_trial_data_nma(true_parameters: dict[str, float], trial_design: TrialDesign) -> dict[str, np.ndarray]:
     """Simulate trial data for NMA based on true parameters.
 
     In a real NMA, this would simulate data from a multinomial distribution for
@@ -260,7 +261,7 @@ def _simulate_trial_data_nma(true_parameters: Dict[str, float], trial_design: Tr
         ])
         simulated_data = _simulate_trial_data_nma(true_params, trial_design)
         # Returns: {"Treatment A": array([...]), "Treatment B": array([...])}
-        
+
     """
     data = {}
 
@@ -310,9 +311,9 @@ def _simulate_trial_data_nma(true_parameters: Dict[str, float], trial_design: Tr
 def _perform_network_meta_analysis(
     treatment_effects: np.ndarray,
     se_effects: np.ndarray,
-    study_designs: List[List[int]],
+    study_designs: list[list[int]],
     reference_treatment: int = 0
-) -> Tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray]:
     """Perform a network meta-analysis using contrast-based synthesis with consistency checking.
 
     This implementation performs a random effects network meta-analysis that:
@@ -342,7 +343,7 @@ def _perform_network_meta_analysis(
         effects, variances = _perform_network_meta_analysis(te, se, designs, reference_treatment=0)
         print(f"Relative effects: {effects}")
         print(f"Variances: {variances}")
-        
+
     """
     # Convert standard errors to precisions (1/variance)
     precisions = 1.0 / (se_effects ** 2)
@@ -362,7 +363,7 @@ def _perform_network_meta_analysis(
         df = k - 1
 
         # Estimate heterogeneity variance (tau^2)
-        if Q > df:
+        if df < Q:
             # Heterogeneity present
             tau_squared = (Q - df) / (np.sum(precisions) - np.sum(precisions**2) / np.sum(precisions))
             heterogeneity = max(0.0, tau_squared)  # Ensure non-negative
@@ -433,7 +434,7 @@ def _perform_network_meta_analysis(
 
 def _update_nma_posterior(
     prior_samples: PSASample,
-    trial_data: Dict[str, np.ndarray],
+    trial_data: dict[str, np.ndarray],
     trial_design: TrialDesign
 ) -> PSASample:
     """Update NMA parameter posterior distributions with new trial data using Bayesian methods.
@@ -474,7 +475,7 @@ def _update_nma_posterior(
 
         # Update posteriors
         posterior = _update_nma_posterior(prior, trial_data, design)
-        
+
     """
     # Extract parameter names and values
     param_names = list(prior_samples.parameters.keys())
@@ -529,10 +530,9 @@ def _update_nma_posterior(
             updated_parameters[te_param_name] = np.random.normal(
                 posterior_mean, np.sqrt(posterior_variance), n_samples
             )
-        else:
-            # If we don't have a matching parameter, keep the prior
-            if te_param_name in prior_samples.parameters:
-                updated_parameters[te_param_name] = prior_samples.parameters[te_param_name]
+        # If we don't have a matching parameter, keep the prior
+        elif te_param_name in prior_samples.parameters:
+            updated_parameters[te_param_name] = prior_samples.parameters[te_param_name]
 
     # For parameters that weren't updated, keep the prior values
     for param_name in param_names:
@@ -550,8 +550,8 @@ def _update_nma_posterior(
 
 def sophisticated_nma_model_evaluator(
     psa_samples: PSASample,
-    trial_design: Optional[TrialDesign] = None,
-    trial_data: Optional[Dict[str, np.ndarray]] = None
+    trial_design: TrialDesign | None = None,
+    trial_data: dict[str, np.ndarray] | None = None
 ) -> NetBenefitArray:
     """Run a more sophisticated NMA model evaluator that demonstrates a complete workflow.
 
@@ -586,7 +586,7 @@ def sophisticated_nma_model_evaluator(
 
         # Evaluate economic model
         net_benefits = sophisticated_nma_model_evaluator(parameter_set)
-        
+
     """
     n_samples = psa_samples.n_samples
 
@@ -649,7 +649,7 @@ def sophisticated_nma_model_evaluator(
 
 def calculate_nma_consistency(
     treatment_effects: np.ndarray,
-    study_designs: List[List[int]]
+    study_designs: list[list[int]]
 ) -> float:
     """Calculate consistency measure for NMA using the design-by-treatment interaction approach.
 
@@ -674,7 +674,7 @@ def calculate_nma_consistency(
         # Calculate consistency
         consistency = calculate_nma_consistency(te, designs)
         print(f"Consistency measure: {consistency}")
-        
+
     """
     # For a simple consistency check, we'll calculate the variance of treatment effects
     # for the same treatment comparisons across different studies
@@ -710,12 +710,8 @@ def calculate_nma_consistency(
             total_variance += variance * weight
             total_weight += weight
 
-    if total_weight > 0:
-        consistency = total_variance / total_weight
-    else:
-        consistency = 0.0
+    return total_variance / total_weight if total_weight > 0 else 0.0
 
-    return consistency
 
 
 def simulate_nma_network_data(
@@ -723,7 +719,7 @@ def simulate_nma_network_data(
     n_studies: int,
     baseline_effect: float = 0.0,
     heterogeneity: float = 0.1
-) -> Tuple[np.ndarray, np.ndarray, List[List[int]]]:
+) -> tuple[np.ndarray, np.ndarray, list[list[int]]]:
     """Simulate data for a network meta-analysis.
 
     Generate synthetic data for an NMA with a specified number of treatments and studies.
@@ -752,7 +748,7 @@ def simulate_nma_network_data(
         )
         print(f"Generated {len(te)} treatment effects")
         print(f"Study designs: {designs}")
-        
+
     """
     # Generate random study designs (comparing 2 treatments each)
     study_designs = []

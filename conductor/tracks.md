@@ -9,7 +9,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Active Tracks
 
-- [ ] **Track: Fix Infrastructure and Configuration**
+- [~] **Track: Fix Infrastructure and Configuration**
   *Link: [./tracks/fix-infrastructure/](./tracks/fix-infrastructure/)*
 - [ ] **Track: Activate and Wire Up Public API**
   *Link: [./tracks/activate-public-api/](./tracks/activate-public-api/)*

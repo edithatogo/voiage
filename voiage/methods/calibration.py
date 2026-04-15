@@ -51,7 +51,8 @@ Functions:
 - `voi_calibration`: Main function for calibration VOI calculation
 """
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -73,8 +74,8 @@ from voiage.schema import (
 CalibrationStudyModeler = Callable[
     [
         PSASample,
-        Dict[str, Any],
-        Dict[str, Any],
+        dict[str, Any],
+        dict[str, Any],
     ],  # Prior PSA, Calibration Study Design, Calibration Process Spec
     NetBenefitArray,  # Expected NB conditional on simulated calibration data
 ]
@@ -83,14 +84,14 @@ CalibrationStudyModeler = Callable[
 def voi_calibration(
     cal_study_modeler: CalibrationStudyModeler,
     psa_prior: PSASample,
-    calibration_study_design: Dict[
+    calibration_study_design: dict[
         str, Any
     ],  # Design of data collection for calibration
-    calibration_process_spec: Dict[str, Any],  # How data updates model params
+    calibration_process_spec: dict[str, Any],  # How data updates model params
     # wtp: float, # Implicit
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_outer_loops: int = 20,
     # method_args for simulation, calibration algorithm details
     **kwargs: Any,
@@ -187,7 +188,7 @@ def voi_calibration(
         )
 
         print(f"Calibration VOI: ${voi_value:,.0f}")
-    
+
     """
     # Validate inputs
     if not callable(cal_study_modeler):
@@ -203,7 +204,7 @@ def voi_calibration(
 
     # 1. Calculate max_d E[NB(d) | Prior Info] using `psa_prior`.
     nb_array_prior = cal_study_modeler(psa_prior, calibration_study_design, calibration_process_spec)
-    mean_nb_per_strategy_prior = np.mean(nb_array_prior.values, axis=0)
+    mean_nb_per_strategy_prior = np.mean(nb_array_prior.numpy_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
     # 2. Outer loop (simulating different potential datasets D_k from `calibration_study_design`):
@@ -221,7 +222,7 @@ def voi_calibration(
     #        d. Let V_k = max_d E_theta_updated [NB(d, theta_updated)].
 
     max_nb_post_calibration = []
-    for k in range(n_outer_loops):
+    for _k in range(n_outer_loops):
         # Sample a "true" parameter set from the prior
         true_params_idx = np.random.randint(0, psa_prior.n_samples)
 
@@ -240,7 +241,7 @@ def voi_calibration(
         try:
             # Simulate the calibration study with the sampled parameters
             nb_array_post = cal_study_modeler(psa_prior, calibration_study_design, calibration_process_spec)
-            mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
+            mean_nb_per_strategy_post = np.mean(nb_array_post.numpy_values, axis=0)
             max_nb_post_calibration.append(np.max(mean_nb_per_strategy_post))
         except Exception:
             # If the modeler fails, use the prior value

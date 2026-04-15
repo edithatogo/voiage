@@ -46,6 +46,8 @@ dependencies = [
     "statsmodels>=0.13,<1.0",
     "matplotlib>=3.4,<4.0",
     "seaborn>=0.11,<1.0",
+    "psutil>=5.9,<8.0",
+    "typing_extensions>=4.0",
     "typer[all]>=0.9,<1.0",
 ]
 
@@ -166,6 +168,7 @@ addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-
 testpaths = ["tests"]
 python_files = "test_*.py"
 markers = [
+    "unit: marks tests as unit tests",
     "integration: marks tests as integration tests (deselect with '-m \"not integration\"')",
     "e2e: marks tests as end-to-end tests (deselect with '-m \"not e2e\"')",
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",

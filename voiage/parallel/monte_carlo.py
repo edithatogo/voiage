@@ -1,8 +1,8 @@
 """Parallel processing utilities for Monte Carlo simulations in Value of Information analysis."""
 
+from collections.abc import Callable
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import multiprocessing as mp
-from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -16,7 +16,7 @@ def _monte_carlo_worker(
     trial_design: TrialDesign,
     n_simulations: int,
     seed_offset: int = 0
-) -> Tuple[float, int]:
+) -> tuple[float, int]:
     """
     Worker function for parallel Monte Carlo simulation.
 
@@ -51,7 +51,7 @@ def _monte_carlo_worker(
         posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design)
 
         # Run model on posterior samples
-        nb_posterior = model_func(posterior_psa).values
+        nb_posterior = model_func(posterior_psa).numpy_values
         mean_nb_per_strategy = np.mean(nb_posterior, axis=0)
         max_nb_post_study.append(np.max(mean_nb_per_strategy))
 
@@ -59,7 +59,7 @@ def _monte_carlo_worker(
     return expected_max_nb, n_simulations
 
 
-def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, statistic_func) -> List[float]:
+def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, statistic_func) -> list[float]:
     """Worker function for bootstrap sampling."""
     np.random.seed(seed_offset + worker_id)
     results = []
@@ -73,7 +73,7 @@ def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, st
     return results
 
 
-def _simulate_trial_data(true_parameters: Dict[str, float], trial_design: TrialDesign) -> Dict[str, np.ndarray]:
+def _simulate_trial_data(true_parameters: dict[str, float], trial_design: TrialDesign) -> dict[str, np.ndarray]:
     """Simulate trial data based on true parameters."""
     data = {}
     for arm in trial_design.arms:
@@ -91,13 +91,13 @@ def _simulate_trial_data(true_parameters: Dict[str, float], trial_design: TrialD
 
 def _bayesian_update(
     prior_samples: ParameterSet,
-    trial_data: Dict[str, np.ndarray],
+    trial_data: dict[str, np.ndarray],
     trial_design: TrialDesign
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
-    import xarray as xr  # noqa: PLC0415
+    import xarray as xr
 
-    from voiage.stats import normal_normal_update  # noqa: PLC0415
+    from voiage.stats import normal_normal_update
 
     posterior_samples = {}
     for param_name, prior_values in prior_samples.parameters.items():
@@ -151,7 +151,7 @@ def parallel_monte_carlo_simulation(
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
     n_simulations: int = 1000,
-    n_workers: Optional[int] = None,
+    n_workers: int | None = None,
     use_processes: bool = True
 ) -> float:
     """
@@ -215,11 +215,11 @@ def parallel_evsi_calculation(
     model_func: Callable[[ParameterSet], ValueArray],
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_simulations: int = 1000,
-    n_workers: Optional[int] = None,
+    n_workers: int | None = None,
     use_processes: bool = True
 ) -> float:
     """
@@ -241,7 +241,7 @@ def parallel_evsi_calculation(
         float: EVSI value
     """
     # Calculate baseline expected net benefit with current information
-    nb_prior_values = model_func(psa_prior).values
+    nb_prior_values = model_func(psa_prior).numpy_values
     mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
@@ -282,9 +282,9 @@ def parallel_bootstrap_sampling(
     data: np.ndarray,
     statistic_func: Callable[[np.ndarray], float],
     n_bootstrap_samples: int = 1000,
-    n_workers: Optional[int] = None,
+    n_workers: int | None = None,
     use_processes: bool = True
-) -> Dict[str, Union[float, np.ndarray]]:
+) -> dict[str, float | np.ndarray]:
     """
     Perform bootstrap sampling using parallel processing.
 

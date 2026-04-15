@@ -8,8 +8,9 @@ analyses. They leverage Python's dataclasses for type hinting and validation whe
 appropriate, and are intended to work seamlessly with NumPy and Pandas/xarray.
 """
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Sequence, Union
+from typing import Optional, Union
 
 import numpy as np
 import xarray as xr
@@ -47,34 +48,62 @@ class ValueArray:
             )
 
     @property
-    def values(self: "ValueArray") -> np.ndarray:
-        """Return the net benefit values."""
-        return self.dataset["net_benefit"].values
+    def values(self: "ValueArray") -> xr.DataArray:
+        """Return the net benefit values as an xarray DataArray."""
+        return self.dataset["net_benefit"]
+
+    @property
+    def numpy_values(self: "ValueArray") -> np.ndarray:
+        """Return the net benefit values as a NumPy array."""
+        return self.values.values
 
     @property
     def jax_values(self: "ValueArray") -> Optional["jnp.ndarray"]:
         """Return the net benefit values as a JAX array."""
         if not JAX_AVAILABLE:
             return None
-        return jnp.asarray(self.dataset["net_benefit"].values, dtype=jnp.float64)
+        return jnp.asarray(self.numpy_values, dtype=jnp.float64)
 
     @property
     def n_samples(self: "ValueArray") -> int:
         """Return the number of samples."""
-        return self.dataset.dims["n_samples"]
+        return self.dataset.sizes["n_samples"]
 
     @property
     def n_strategies(self: "ValueArray") -> int:
         """Return the number of strategies."""
-        return self.dataset.dims["n_strategies"]
+        return self.dataset.sizes["n_strategies"]
 
     @property
-    def strategy_names(self: "ValueArray") -> List[str]:
+    def strategy_names(self: "ValueArray") -> list[str]:
         """Return the names of the strategies."""
         return [str(name) for name in self.dataset["strategy"].values]
 
+    def copy(self: "ValueArray") -> "ValueArray":
+        """Return a deep copy of the ValueArray."""
+        return ValueArray(dataset=self.dataset.copy(deep=True))
+
+    def get_strategy_index(self: "ValueArray", strategy_name: str) -> int:
+        """Return the integer index for a strategy name."""
+        try:
+            return self.strategy_names.index(strategy_name)
+        except ValueError as exc:
+            raise ValueError(f"Strategy '{strategy_name}' not found.") from exc
+
+    def slice_by_strategies(self: "ValueArray", strategy_names: Sequence[str]) -> "ValueArray":
+        """Return a new ValueArray containing only the requested strategies."""
+        indices = [self.get_strategy_index(name) for name in strategy_names]
+        sliced = self.dataset.isel(n_strategies=indices).copy(deep=True)
+        return ValueArray(dataset=sliced)
+
+    def __eq__(self: "ValueArray", other: object) -> bool:
+        """Compare ValueArray instances by dataset contents and coordinates."""
+        if not isinstance(other, ValueArray):
+            return NotImplemented
+        return self.dataset.identical(other.dataset)
+
     @classmethod
-    def from_numpy(cls, values: Union[np.ndarray, "jnp.ndarray"], strategy_names: Optional[List[str]] = None) -> "ValueArray":
+    def from_numpy(cls, values: Union[np.ndarray, "jnp.ndarray"], strategy_names: list[str] | None = None) -> "ValueArray":
         """Create a ValueArray from a numpy or JAX array.
 
         Args:
@@ -101,7 +130,7 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise InputError(f"strategy_names must have {n_strategies} elements")
 
-        import xarray as xr  # noqa: PLC0415
+        import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
             coords={
@@ -113,7 +142,7 @@ class ValueArray:
         return cls(dataset=dataset)
 
     @classmethod
-    def from_jax(cls, values: "jnp.ndarray", strategy_names: Optional[List[str]] = None) -> "ValueArray":
+    def from_jax(cls, values: "jnp.ndarray", strategy_names: list[str] | None = None) -> "ValueArray":
         """Create a ValueArray from a JAX array.
 
         Args:
@@ -144,7 +173,7 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise InputError(f"strategy_names must have {n_strategies} elements")
 
-        import xarray as xr  # noqa: PLC0415
+        import xarray as xr
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), numpy_values)},
             coords={
@@ -174,12 +203,12 @@ class ParameterSet:
             )
 
     @property
-    def parameters(self: "ParameterSet") -> Dict[str, np.ndarray]:
+    def parameters(self: "ParameterSet") -> dict[str, np.ndarray]:
         """Return the parameter samples."""
         return {str(name): self.dataset[name].values for name in self.dataset.data_vars}
 
     @property
-    def jax_parameters(self: "ParameterSet") -> Optional[Dict[str, "jnp.ndarray"]]:
+    def jax_parameters(self: "ParameterSet") -> dict[str, "jnp.ndarray"] | None:
         """Return the parameter samples as JAX arrays."""
         if not JAX_AVAILABLE:
             return None
@@ -188,15 +217,34 @@ class ParameterSet:
     @property
     def n_samples(self: "ParameterSet") -> int:
         """Return the number of samples."""
-        return self.dataset.dims["n_samples"]
+        return self.dataset.sizes["n_samples"]
 
     @property
-    def parameter_names(self: "ParameterSet") -> List[str]:
+    def parameter_names(self: "ParameterSet") -> list[str]:
         """Return the names of the parameters."""
         return list(self.dataset.data_vars.keys())
 
+    def copy(self: "ParameterSet") -> "ParameterSet":
+        """Return a deep copy of the ParameterSet."""
+        return ParameterSet(dataset=self.dataset.copy(deep=True))
+
+    def subset_by_parameters(self: "ParameterSet", parameter_names: Sequence[str]) -> "ParameterSet":
+        """Return a new ParameterSet containing only the requested parameters."""
+        missing = [name for name in parameter_names if name not in self.dataset.data_vars]
+        if missing:
+            missing_names = ", ".join(sorted(missing))
+            raise ValueError(f"Parameters not found: {missing_names}")
+        subset = self.dataset[list(parameter_names)].copy(deep=True)
+        return ParameterSet(dataset=subset)
+
+    def __eq__(self: "ParameterSet", other: object) -> bool:
+        """Compare ParameterSet instances by dataset contents and coordinates."""
+        if not isinstance(other, ParameterSet):
+            return NotImplemented
+        return self.dataset.identical(other.dataset)
+
     @classmethod
-    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, Dict[str, np.ndarray], "jnp.ndarray", Dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, dict[str, np.ndarray], "jnp.ndarray", dict[str, "jnp.ndarray"]]) -> "ParameterSet":
         """Create a ParameterSet from a numpy/JAX array or dictionary.
 
         Args:
@@ -208,7 +256,7 @@ class ParameterSet:
         -------
             ParameterSet: A new ParameterSet instance
         """
-        import xarray as xr  # noqa: PLC0415
+        import xarray as xr
 
         # Handle JAX arrays if available
         expected_ndim = 2
@@ -257,7 +305,7 @@ class ParameterSet:
         return cls(dataset=dataset)
 
     @classmethod
-    def from_jax(cls, parameters: Union["jnp.ndarray", Dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+    def from_jax(cls, parameters: Union["jnp.ndarray", dict[str, "jnp.ndarray"]]) -> "ParameterSet":
         """Create a ParameterSet from a JAX array or dictionary.
 
         Args:
@@ -271,7 +319,7 @@ class ParameterSet:
         if not JAX_AVAILABLE:
             raise ImportError("JAX is not available. Please install JAX to use from_jax().")
 
-        import xarray as xr  # noqa: PLC0415
+        import xarray as xr
 
         expected_ndim = 2
         if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
@@ -362,7 +410,7 @@ class TrialDesign:
         any of the arm names are duplicated.
     """
 
-    arms: List[DecisionOption]
+    arms: list[DecisionOption]
 
     def __post_init__(self: "TrialDesign"):
         """Validate the trial design."""
@@ -435,8 +483,8 @@ class PortfolioSpec:
         if study names are duplicated, or if `budget_constraint` is negative.
     """
 
-    studies: List[PortfolioStudy]
-    budget_constraint: Optional[float] = None
+    studies: list[PortfolioStudy]
+    budget_constraint: float | None = None
 
     def __post_init__(self: "PortfolioSpec"):
         """Validate the portfolio spec."""

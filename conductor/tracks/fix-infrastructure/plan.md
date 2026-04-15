@@ -2,13 +2,13 @@
 
 ## Phase 1: Fix pyproject.toml Configuration [checkpoint: ]
 
-### 1.1 Fix ruff exclude configuration [PENDING]
+### 1.1 Fix ruff exclude configuration [x]
 - [ ] Remove `"voiage/"` from `[tool.ruff].exclude` — this excludes the entire library from linting
 - [ ] Remove `"*.py"` from `[tool.ruff].exclude` — this glob excludes ALL Python files
 - [ ] Keep legitimate exclusions: `examples/`, specific broken test files that are genuinely unfixable
 - [ ] Verify: `ruff check voiage/` now actually scans the library code
 
-### 1.2 Fix pytest ignore list [PENDING]
+### 1.2 Fix pytest ignore list [x]
 - [ ] Audit all `--ignore` patterns in `[tool.pytest.ini_options].addopts`
 - [ ] Identify which ignored test files are:
   - Duplicates of active tests (remove the file entirely)
@@ -17,13 +17,13 @@
 - [ ] Remove redundant ignores for tests that now pass
 - [ ] Target: Reduce ignored test files by at least 80%
 
-### 1.3 Fix Python version consistency [PENDING]
+### 1.3 Fix Python version consistency [x]
 - [ ] `requires-python = ">=3.10"` — keep this (project uses modern features)
 - [ ] Remove `Programming Language :: Python :: 3.8` and `3.9` from classifiers (inconsistent with requires-python)
 - [ ] Change `[tool.ruff].target-version` from `"py38"` to `"py310"`
 - [ ] Change `[tool.mypy].python_version` from `"3.9"` to `"3.10"`
 
-### 1.4 Fix project metadata [PENDING]
+### 1.4 Fix project metadata [x]
 - [ ] Update `authors` email from `info@example.com` to actual project email
 - [ ] Fix `[project.urls]` — make all URLs consistent (currently mixes `edithatogo` and `doughnut` repos)
 - [ ] Verify `Homepage`, `Documentation`, `Repository`, `Changelog`, `Issues` all point to correct repo
@@ -33,13 +33,13 @@
 
 ## Phase 2: Clean Up Stale Test Files [checkpoint: ]
 
-### 2.1 Audit and prune test files [PENDING]
+### 2.1 Audit and prune test files [x]
 - [ ] List all 93 test files in `tests/`
 - [ ] Identify duplicates (e.g., `test_hta_comprehensive.py`, `test_hta_enhanced_95.py`, `test_hta_final_95_achievement.py` — all test the same thing)
 - [ ] For each duplicate cluster, keep the best version and delete the rest
 - [ ] Target: Reduce test file count to ~30-40 well-maintained files
 
-### 2.2 Categorize remaining test files [PENDING]
+### 2.2 Categorize remaining test files [~]
 - [ ] Mark each test file with its purpose: unit, integration, e2e, benchmark
 - [ ] Ensure each test uses appropriate pytest markers
 - [ ] Remove `pytest.mark.skip` from tests that should now run

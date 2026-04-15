@@ -5,7 +5,7 @@ Implementation of Value of Information methods related to sample information.
 - ENBS (Expected Net Benefit of Sampling)
 """
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
 import numpy as np
 
@@ -80,7 +80,7 @@ def _evsi_two_loop(model_func, psa_prior, trial_design, n_outer_loops, n_inner_l
 
         trial_data = _simulate_trial_data(true_params, trial_design)
         posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design)
-        nb_posterior = model_func(posterior_psa).values
+        nb_posterior = model_func(posterior_psa).numpy_values
         max_nb_post_study.append(np.max(np.mean(nb_posterior, axis=0)))
 
     return np.mean(max_nb_post_study)
@@ -109,7 +109,7 @@ def _evsi_regression(model_func, psa_prior, trial_design, n_regression_samples):
         sampled_psa = ParameterSet(dataset=dataset)
 
     # Run model on prior samples to get prior net benefits
-    _ = model_func(sampled_psa).values
+    _ = model_func(sampled_psa).numpy_values
 
     # For each sampled parameter set, simulate trial data and get posterior net benefits
     nb_posterior_list = []
@@ -127,7 +127,7 @@ def _evsi_regression(model_func, psa_prior, trial_design, n_regression_samples):
         posterior_psa = _bayesian_update(sampled_psa, trial_data, trial_design)
 
         # Run model on posterior
-        nb_posterior = model_func(posterior_psa).values
+        nb_posterior = model_func(posterior_psa).numpy_values
         nb_posterior_list.append(nb_posterior)
 
     # Stack posterior net benefits
@@ -160,9 +160,9 @@ def evsi(
     model_func: EconomicModelFunctionType,
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     method: str = "two_loop",
     n_outer_loops: int = 100,
     n_inner_loops: int = 1000,
@@ -177,7 +177,7 @@ def evsi(
     if n_outer_loops <= 0 or n_inner_loops <= 0:
         raise InputError("n_outer_loops and n_inner_loops must be positive.")
 
-    nb_prior_values = model_func(psa_prior).values
+    nb_prior_values = model_func(psa_prior).numpy_values
     mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 

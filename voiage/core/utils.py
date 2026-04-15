@@ -2,7 +2,8 @@
 
 """Utility functions for the voiage library."""
 
-from typing import Any, Optional, Sequence, Tuple, Union
+from collections.abc import Sequence
+from typing import Any
 
 import numpy as np
 
@@ -12,11 +13,11 @@ from voiage.exceptions import DimensionMismatchError, InputError
 
 def check_input_array(
     arr: np.ndarray,
-    expected_ndim: Union[int, Sequence[int]],
+    expected_ndim: int | Sequence[int],
     name: str = "Input array",
-    expected_dtype: Optional[Union[np.dtype, type, str]] = None,
+    expected_dtype: np.dtype | type | str | None = None,
     allow_empty: bool = False,
-    expected_shape: Optional[Sequence[Optional[int]]] = None,
+    expected_shape: Sequence[int | None] | None = None,
 ) -> None:
     """Validate a NumPy array against expected dimensions, dtype, and shape.
 
@@ -40,7 +41,7 @@ def check_input_array(
         raise InputError(f"{name} must be a NumPy array. Got {type(arr)}.")
 
     if isinstance(expected_ndim, int):
-        expected_ndim_tuple: Tuple[int, ...] = (expected_ndim,)
+        expected_ndim_tuple: tuple[int, ...] = (expected_ndim,)
     else:
         expected_ndim_tuple = tuple(expected_ndim)
 
@@ -57,8 +58,8 @@ def check_input_array(
         pass  # Skip dtype check
     elif arr.dtype != dtype_to_check:
         # Allow flexibility for JAX arrays: accept both float32 and float64 for numerical arrays
-        if (hasattr(arr, 'dtype') and 
-            arr.dtype in [np.float32, np.float64] and 
+        if (hasattr(arr, "dtype") and
+            arr.dtype in [np.float32, np.float64] and
             dtype_to_check in [np.float32, np.float64]):
             pass  # Allow both float32 and float64 for numerical compatibility
         else:
@@ -71,7 +72,7 @@ def check_input_array(
                 f"array ndim {arr.ndim} for {name}."
             )
         for i, (expected_dim_size, actual_dim_size) in enumerate(
-            zip(expected_shape, arr.shape)
+            zip(expected_shape, arr.shape, strict=False)
         ):
             if expected_dim_size is not None and expected_dim_size != actual_dim_size:
                 raise DimensionMismatchError(
@@ -81,7 +82,7 @@ def check_input_array(
 
 
 def calculate_net_benefit(
-    costs: np.ndarray, effects: np.ndarray, wtp: Union[float, np.ndarray]
+    costs: np.ndarray, effects: np.ndarray, wtp: float | np.ndarray
 ) -> np.ndarray:
     """Calculate net monetary benefit (NMB).
 
@@ -186,7 +187,7 @@ def calculate_net_benefit(
 
 
 def get_optimal_strategy_index(  # type: ignore[no-any-return]
-    nb_array: Union[np.ndarray, Any],
+    nb_array: np.ndarray | Any,
 ) -> np.ndarray[Any, np.dtype[np.int64]]:
     """Determine the optimal strategy for each PSA sample.
 
@@ -205,7 +206,7 @@ def get_optimal_strategy_index(  # type: ignore[no-any-return]
     from voiage.schema import ValueArray as NetBenefitArray
 
     if isinstance(nb_array, NetBenefitArray):
-        values: np.ndarray = nb_array.values
+        values: np.ndarray = nb_array.numpy_values
     elif isinstance(nb_array, np.ndarray):
         values = nb_array
     else:

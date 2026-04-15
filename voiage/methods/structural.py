@@ -14,7 +14,7 @@ These methods are often more complex to implement generically as they require
 ways to define, sample from, and evaluate alternative model structures.
 """
 
-from typing import Callable, List, Optional, Union
+from collections.abc import Callable
 
 import numpy as np
 
@@ -25,8 +25,8 @@ from voiage.schema import ValueArray as NetBenefitArray
 # Try to import JAX for JIT compilation
 try:
     import jax
-    import jax.numpy as jnp
     from jax import jit, vmap
+    import jax.numpy as jnp
     JAX_AVAILABLE = True
 except ImportError:
     JAX_AVAILABLE = False
@@ -37,14 +37,14 @@ ModelStructureEvaluator = Callable[[PSASample], NetBenefitArray]
 
 
 def structural_evpi(
-    model_structure_evaluators: List[ModelStructureEvaluator],
-    structure_probabilities: Union[np.ndarray, List[float]],
-    psa_samples_per_structure: List[
+    model_structure_evaluators: list[ModelStructureEvaluator],
+    structure_probabilities: np.ndarray | list[float],
+    psa_samples_per_structure: list[
         PSASample
     ],  # PSA samples relevant to each structure
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
 ) -> float:
     """Calculate the Expected Value of Perfect Information for Model Structure (Structural EVPI).
 
@@ -123,11 +123,11 @@ def structural_evpi(
             raise InputError("All model structures must evaluate the same number of decision strategies.")
 
         # E_theta|S [NB(d, theta, S)] for this S
-        mean_nb_d_given_S = np.mean(nb_array_for_S.values, axis=0) # Shape (n_strategies,)
+        mean_nb_d_given_S = np.mean(nb_array_for_S.numpy_values, axis=0) # Shape (n_strategies,)
         expected_nb_given_structure_S_decision_d.append(mean_nb_d_given_S)
 
         # E_theta|S [max_d NB(d, theta, S)] for this S
-        max_nb_per_sample_S = np.max(nb_array_for_S.values, axis=1)
+        max_nb_per_sample_S = np.max(nb_array_for_S.numpy_values, axis=1)
         expected_max_nb_S = np.mean(max_nb_per_sample_S)
         expected_max_nb_given_structure_S.append(expected_max_nb_S)
 
@@ -170,7 +170,7 @@ def structural_evpi(
         else:
             annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
         return float(per_decision_sevpi * population * annuity_factor)
-    elif (
+    if (
         population is not None
         or time_horizon is not None
         or discount_rate is not None
@@ -184,15 +184,15 @@ def structural_evpi(
 
 
 def structural_evppi(
-    model_structure_evaluators: List[ModelStructureEvaluator],
-    structure_probabilities: Union[np.ndarray, List[float]],
-    psa_samples_per_structure: List[PSASample],
+    model_structure_evaluators: list[ModelStructureEvaluator],
+    structure_probabilities: np.ndarray | list[float],
+    psa_samples_per_structure: list[PSASample],
     # For SEVPPI, we need to specify which structural uncertainty is being resolved
     # This could be a subset of structures or a partition of the structure space
-    structures_of_interest: List[int],  # Indices of structures we're learning about
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    structures_of_interest: list[int],  # Indices of structures we're learning about
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
 ) -> float:
     """Calculate the Expected Value of Partial Perfect Information for Model Structure (Structural EVPPI).
 
@@ -262,11 +262,11 @@ def structural_evppi(
             raise InputError("All model structures must evaluate the same number of decision strategies.")
 
         # E_theta|S [NB(d, theta, S)] for this S
-        mean_nb_d_given_S = np.mean(nb_array_for_S.values, axis=0) # Shape (n_strategies,)
+        mean_nb_d_given_S = np.mean(nb_array_for_S.numpy_values, axis=0) # Shape (n_strategies,)
         expected_nb_given_structure_S_decision_d.append(mean_nb_d_given_S)
 
         # E_theta|S [max_d NB(d, theta, S)] for this S
-        max_nb_per_sample_S = np.max(nb_array_for_S.values, axis=1)
+        max_nb_per_sample_S = np.max(nb_array_for_S.numpy_values, axis=1)
         expected_max_nb_S = np.mean(max_nb_per_sample_S)
         expected_max_nb_given_structure_S.append(expected_max_nb_S)
 
@@ -340,7 +340,7 @@ def structural_evppi(
         else:
             annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
         return float(per_decision_sevppi * population * annuity_factor)
-    elif (
+    if (
         population is not None
         or time_horizon is not None
         or discount_rate is not None
@@ -356,11 +356,11 @@ def structural_evppi(
 # --- JAX-accelerated versions ---
 
 def structural_evpi_jit(
-    all_nb_arrays: List[np.ndarray],
-    structure_probabilities: Union[np.ndarray, List[float]],
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    all_nb_arrays: list[np.ndarray],
+    structure_probabilities: np.ndarray | list[float],
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
 ) -> float:
     """JIT-compiled version of Structural EVPI for improved performance.
 
@@ -377,10 +377,12 @@ def structural_evpi_jit(
         discount_rate (Optional[float]): Discount rate for scaling.
         time_horizon (Optional[float]): Time horizon for scaling.
 
-    Returns:
+    Returns
+    -------
         float: The calculated Structural EVPI.
 
-    Raises:
+    Raises
+    ------
         InputError: If JAX is not available or inputs are invalid.
     """
     if not JAX_AVAILABLE:
@@ -399,7 +401,7 @@ def structural_evpi_jit(
 
     @jit
     def _compute_structural_evpi(nb_all, probs):
-        n_structures = nb_all.shape[0]
+        nb_all.shape[0]
 
         # Calculate expected max NB for each structure
         max_per_sample = jnp.max(nb_all, axis=2)  # (n_structures, n_samples)
@@ -409,7 +411,7 @@ def structural_evpi_jit(
         term1 = jnp.sum(probs * expected_max_per_structure)
 
         # Term 2: max_d E_S[E_theta|S[NB]]
-        mean_nb_per_structure = jnp.mean(nb_all, axis=2)  # (n_structures, n_strategies)
+        mean_nb_per_structure = jnp.mean(nb_all, axis=1)  # (n_structures, n_strategies)
         weighted_avg_nb = jnp.sum(probs[:, jnp.newaxis] * mean_nb_per_structure, axis=0)
         term2 = jnp.max(weighted_avg_nb)
 
@@ -438,12 +440,12 @@ def structural_evpi_jit(
 
 
 def structural_evppi_jit(
-    all_nb_arrays: List[np.ndarray],
-    structure_probabilities: Union[np.ndarray, List[float]],
-    structures_of_interest: List[int],
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    all_nb_arrays: list[np.ndarray],
+    structure_probabilities: np.ndarray | list[float],
+    structures_of_interest: list[int],
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
 ) -> float:
     """JIT-compiled version of Structural EVPPI for improved performance.
 
@@ -457,7 +459,8 @@ def structural_evppi_jit(
         discount_rate (Optional[float]): Discount rate for scaling.
         time_horizon (Optional[float]): Time horizon for scaling.
 
-    Returns:
+    Returns
+    -------
         float: The calculated Structural EVPPI.
     """
     if not JAX_AVAILABLE:

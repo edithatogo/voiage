@@ -31,5 +31,6 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   **[DOCS]** Updated `roadmap.md` to reflect the current project status.
 *   **[INFRA]** Set up a `tox` configuration for automated testing and linting.
 *   **[INFRA]** Implemented a pre-commit hook configuration for quality assurance.
+*   **[INFRA]** Stabilized the `tox` test environment by fixing pytest marker configuration, restoring missing runtime/test dependencies, and resolving compatibility failures across schema, GPU, memory, clinical-trial, and metamodel code paths.
 *   **[API]** Refactored the core logic into a `DecisionAnalysis` class.
 *   **[API]** Established the initial domain-agnostic data schemas in `voiage/schema.py`.

@@ -50,7 +50,8 @@ Functions:
 - `adaptive_evsi`: Main function for adaptive trial EVSI calculation
 """
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -70,7 +71,7 @@ AdaptiveTrialEconomicSim = Callable[
     [
         PSASample,
         TrialDesign,
-        Dict[str, Any],
+        dict[str, Any],
     ],  # Prior PSA, Base TrialDesign, Adaptive Rules
     NetBenefitArray,  # Expected NB conditional on the full adaptive trial outcome
 ]
@@ -79,7 +80,7 @@ AdaptiveTrialEconomicSim = Callable[
 def sophisticated_adaptive_trial_simulator(
     psa_samples: PSASample,
     base_design: TrialDesign,
-    adaptive_rules: Dict[str, Any]
+    adaptive_rules: dict[str, Any]
 ) -> NetBenefitArray:
     """Run a sophisticated adaptive trial simulator that demonstrates a complete workflow.
 
@@ -125,7 +126,7 @@ def sophisticated_adaptive_trial_simulator(
 
         # Simulate adaptive trial
         net_benefits = sophisticated_adaptive_trial_simulator(parameter_set, design, rules)
-        
+
     """
     n_samples = psa_samples.n_samples
 
@@ -192,7 +193,7 @@ def sophisticated_adaptive_trial_simulator(
                         _ = True  # trial_stopped_early = True
                         adjusted_sample_size = int(total_patients * interim_point)
                         break
-                    elif interim_effect < futility_threshold:
+                    if interim_effect < futility_threshold:
                         # Stop for futility
                         _ = True  # trial_stopped_early = True
                         adjusted_sample_size = int(total_patients * interim_point)
@@ -230,8 +231,8 @@ def sophisticated_adaptive_trial_simulator(
 def bayesian_adaptive_trial_simulator(
     psa_samples: PSASample,
     base_design: TrialDesign,
-    adaptive_rules: Dict[str, Any],
-    true_parameters: Optional[Dict[str, float]] = None
+    adaptive_rules: dict[str, Any],
+    true_parameters: dict[str, float] | None = None
 ) -> NetBenefitArray:
     """Run a Bayesian adaptive trial simulator that properly updates beliefs based on simulated data.
 
@@ -311,7 +312,7 @@ def bayesian_adaptive_trial_simulator(
                     _ = True  # trial_stopped_early = True
                     adjusted_sample_size = int(2 * n_patients_per_arm * interim_point)
                     break
-                elif interim_effect < futility_threshold:
+                if interim_effect < futility_threshold:
                     # Stop for futility
                     _ = True  # trial_stopped_early = True
                     adjusted_sample_size = int(2 * n_patients_per_arm * interim_point)
@@ -412,11 +413,11 @@ def adaptive_evsi(
     adaptive_trial_simulator: AdaptiveTrialEconomicSim,
     psa_prior: PSASample,
     base_trial_design: TrialDesign,  # Initial design before adaptation
-    adaptive_rules: Dict[str, Any],  # Specification of adaptation rules
+    adaptive_rules: dict[str, Any],  # Specification of adaptation rules
     # wtp: float, # Often implicit
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_outer_loops: int = 10,
     n_inner_loops: int = 50,
     # method_args for simulation, e.g., number of trial simulations
@@ -499,7 +500,7 @@ def adaptive_evsi(
         )
 
         print(f"Adaptive EVSI: ${evsi_value:,.0f}")
-    
+
     """
     # Validate inputs
     if not callable(adaptive_trial_simulator):
@@ -516,7 +517,7 @@ def adaptive_evsi(
     # 1. Calculate max_d E[NB(d) | Prior Info] using a standard (non-adaptive) economic model run.
     #    This is the baseline expected net benefit of the optimal decision with current info.
     nb_array_prior = adaptive_trial_simulator(psa_prior, base_trial_design, adaptive_rules)
-    mean_nb_per_strategy_prior = np.mean(nb_array_prior.values, axis=0)
+    mean_nb_per_strategy_prior = np.mean(nb_array_prior.numpy_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
     # 2. Outer loop (simulating different potential "realities" or "true parameter sets" theta_j):
@@ -553,7 +554,7 @@ def adaptive_evsi(
         try:
             # Simulate the adaptive trial with the true parameters
             nb_array_post = simulator_with_true_params(psa_prior, base_trial_design, adaptive_rules)
-            mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
+            mean_nb_per_strategy_post = np.mean(nb_array_post.numpy_values, axis=0)
             max_nb_post_study.append(np.max(mean_nb_per_strategy_post))
         except Exception:
             # If the simulator fails, use the prior value
