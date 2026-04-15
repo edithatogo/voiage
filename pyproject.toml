@@ -12,7 +12,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [
-  { name = "voiage Contributors", email = "info@example.com" },
+  { name = "voiage Contributors", email = "voiage@users.noreply.github.com" },
 ]
 keywords = [
     "voi", "value of information", "evpi", "evppi", "evsi", "enbs",
@@ -26,8 +26,6 @@ classifiers = [
     "Intended Audience :: Financial and Insurance Industry",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -80,10 +78,10 @@ deep_learning = ["torch>=1.9,<3.0"]
 
 [project.urls]
 Homepage = "https://github.com/edithatogo/voiage"
-Documentation = "https://edithatogo.github.io/voiage" # Updated to GitHub Pages
-Repository = "https://github.com/edithatogo/voiage.git"
-Changelog = "https://github.com/doughnut/voiage/blob/main/CHANGELOG.md"
-Issues = "https://github.com/doughnut/voiage/issues"
+Documentation = "https://edithatogo.github.io/voiage"
+Repository = "https://github.com/edithatogo/voiage"
+Changelog = "https://github.com/edithatogo/voiage/blob/main/CHANGELOG.md"
+Issues = "https://github.com/edithatogo/voiage/issues"
 
 [project.scripts]
 voiage = "voiage.cli:app"
@@ -96,155 +94,9 @@ include = ["voiage*"]
 exclude = ["tests*"]
 
 [tool.ruff]
-target-version = "py38" # Moved here as a global ruff setting
+target-version = "py310"
 exclude = [
-    "voiage/",
-    "*.py",
     "examples/",
-    "tests/test_active_learning_metamodel.py",
-    "tests/test_adaptive_additional.py",
-    "tests/test_adaptive_comprehensive.py",
-    "tests/test_adaptive.py",
-    "tests/test_cli_comprehensive.py",
-    "tests/test_coverage.py",
-    "tests/test_data_structures.py",
-    "tests/test_decision_analysis_comprehensive.py",
-    "tests/test_decision_analysis.py",
-    "tests/test_deep_evsi_comprehensive.py",
-    "tests/test_deep_evsi.py",
-    "tests/test_economic_evsi_comprehensive.py",
-    "tests/test_economic_evsi.py",
-    "tests/test_environmental_comprehensive.py",
-    "tests/test_environmental.py",
-    "tests/test_evpi_simple.py",
-    "tests/test_evsi_simple.py",
-    "tests/test_evppi_simple.py",
-    "tests/test_financial_comprehensive.py",
-    "tests/test_financial.py",
-    "tests/test_health_economics_final.py",
-    "tests/test_health_economics_fixed.py",
-    "tests/test_health_economics_missing_lines.py",
-    "tests/test_health_economics_targeted.py",
-    "tests/test_hta_comprehensive_95.py",
-    "tests/test_hta_enhanced_95.py",
-    "tests/test_hta_final_95_achievement.py",
-    "tests/test_hta_final_95_percent_final.py",
-    "tests/test_hta_final_95_push.py",
-    "tests/test_hta_simple.py",
-    "tests/test_hta_super_target_95.py",
-    "tests/test_hta_target_95.py",
-    "tests/test_multi_domain_comprehensive.py",
-    "tests/test_multi_domain_final.py",
-    "tests/test_multi_domain_missing_lines.py",
-    "tests/test_multi_domain_simple_80.py",
-    "tests/test_nma_validation_example.py",
-    "tests/test_plotting_comprehensive.py",
-    "tests/test_plotting.py",
-    "tests/test_portfolio_comprehensive.py",
-    "tests/test_portfolio.py",
-    "tests/test_sampling_comprehensive.py",
-    "tests/test_sampling.py",
-    "tests/test_sensitivity_comprehensive.py",
-    "tests/test_sensitivity.py",
-    "tests/test_sequential_comprehensive.py",
-    "tests/test_sequential.py",
-    "tests/test_structural_comprehensive.py",
-    "tests/test_structural.py",
-    "tests/test_utils_comprehensive.py",
-    "tests/test_utils.py",
-    "tests/test_web_api_comprehensive.py",
-    "tests/test_web_api_high_coverage.py",
-    "tests/test_mutation_complexity.py",
-    "tests/test_mutation_complexity_tools.py",
-    "tests/test_integration.py",
-    "tests/test_analysis_comprehensive.py",
-    "tests/test_analysis_high_coverage.py",
-    "tests/test_basic_methods_additional.py",
-    "tests/test_additional_metamodels.py",
-    "tests/test_clinical_trials_comprehensive.py",
-    "tests/test_clinical_trials_final_push.py",
-    "tests/test_clinical_trials_95_percent.py",
-    "tests/test_clinical_trials_enhanced_95.py",
-    "tests/test_clinical_trials_final_95.py",
-    "tests/test_clinical_trials_95_corrected.py",
-    "tests/test_clinical_trials_missing_lines.py",
-    "tests/test_clinical_trials_final_95_percent.py",
-    "tests/test_cli_coverage.py",
-    "tests/test_faulthandler.py",
-    "tests/test_final_metamodel_coverage.py",
-    "tests/test_fluent_api.py",
-    "tests/test_gpu_acceleration_comprehensive.py",
-    "tests/test_health_economics_95_targeted.py",
-    "tests/test_incremental_computation.py",
-    "tests/test_io_comprehensive.py",
-    "tests/test_memory_optimization_comprehensive.py",
-    "tests/test_hta_integration_95_targeted.py",
-    "tests/test_hta_comprehensive.py",
-    "tests/test_hta_enhanced_95.py",
-    "tests/test_hta_final_95_achievement.py",
-    "tests/test_hta_final_95_percent.py",
-    "tests/test_hta_final_95_push.py",
-    "tests/test_hta_integration_95_percent.py",
-    "tests/test_hta_missing_lines.py",
-    "tests/test_hta_simple.py",
-    "tests/test_hta_simplified_coverage.py",
-    "tests/test_hta_super_target_95.py",
-    "tests/test_hta_target_95.py",
-    "tests/test_hta_final_27_lines.py",
-    "tests/test_hta_final_95_achievement_comprehensive.py",
-    "tests/test_multi_domain_enhanced_95.py",
-    "tests/test_multi_domain_missing_lines.py",
-    "tests/test_multi_domain_simple_80.py",
-    "tests/test_multidomain_hta_additional.py",
-    "tests/test_hta_integration_95_targeted_fixed.py",
-    "tests/test_metamodeling_comprehensive.py",
-    "tests/test_metamodels_final.py",
-    "tests/test_metamodels_high_coverage.py",
-    "tests/test_multi_domain_95_targeted.py",
-    "tests/test_multi_domain_95_targeted_fixed.py",
-    "tests/test_property_based.py",
-    "tests/test_schema_comprehensive.py",
-    "tests/test_schema_comprehensive_final.py",
-    "tests/test_schema_high_coverage.py",
-    "tests/test_streaming_data.py",
-    "tests/test_structural_high_coverage.py",
-    "tests/test_syrupy_snapshots.py",
-    "tests/test_schema_comprehensive_fixed.py",
-    "tests/test_analysis.py",
-    "tests/test_backends.py",
-    "tests/test_basic_comprehensive.py",
-    "tests/test_basic_methods_comprehensive.py",
-    "tests/test_caching.py",
-    "tests/test_advanced_voi_performance.py",
-    "tests/test_calibration.py",
-    "tests/test_cli.py",
-    "tests/test_cli_simple_coverage.py",
-    "tests/test_config_objects.py",
-    "tests/test_edge_cases.py",
-    "tests/test_ensemble_metamodel.py",
-    "tests/test_environmental_impact.py",
-    "tests/test_factory_methods.py",
-    "tests/test_financial_risk.py",
-    "tests/test_gpu_acceleration.py",
-    "tests/test_health_economics_95_percent.py",
-    "tests/test_health_economics_comprehensive.py",
-    "tests/test_healthcare_utilities.py",
-    "tests/test_hta_integration_comprehensive.py",
-    "tests/test_memory_optimization.py",
-    "tests/test_metamodeling_demo.py",
-    "tests/test_metamodels.py",
-    "tests/test_network_meta_analysis.py",
-    "tests/test_network_nma.py",
-    "tests/test_parallel_processing.py",
-    "tests/test_portfolio_complete.py",
-    "tests/test_property_invariants.py",
-    "tests/test_pytorch_metamodel.py",
-    "tests/test_sample_information.py",
-    "tests/test_structural_cli_e2e.py",
-    "tests/test_version_compatibility.py",
-    "tests/test_cli_e2e.py",
-    "voiage/__main__.py",
-    "voiage/analysis.py",
 ]
 # line-length = 88 # This is also a global setting, default is 88
 
@@ -281,10 +133,10 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 warn_unused_configs = true
 warn_redundant_casts = true
-warn_return_any = false
+warn_return_any = true
 exclude = ["voiage/plot"]
 files = ["voiage", "tests"]
 [[tool.mypy.overrides]]
@@ -300,11 +152,6 @@ module = [
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "voiage.*"
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-
-[[tool.mypy.overrides]]
 module = "tests.*"
 ignore_errors = true
 
@@ -315,7 +162,7 @@ ignore_errors = true
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=0 --ignore=tests/test_web_api_comprehensive.py --ignore=tests/test_web_api_high_coverage.py --ignore=tests/test_mutation_complexity.py --ignore=tests/test_mutation_complexity_tools.py --ignore=tests/test_integration.py --ignore=tests/test_analysis_comprehensive.py --ignore=tests/test_analysis_high_coverage.py --ignore=tests/test_basic_methods_additional.py --ignore=tests/test_additional_metamodels.py --ignore=tests/test_clinical_trials_comprehensive.py --ignore=tests/test_clinical_trials_final_push.py --ignore=tests/test_clinical_trials_95_percent.py --ignore=tests/test_clinical_trials_enhanced_95.py --ignore=tests/test_clinical_trials_final_95.py --ignore=tests/test_clinical_trials_95_corrected.py --ignore=tests/test_clinical_trials_missing_lines.py --ignore=tests/test_clinical_trials_final_95_percent.py --ignore=tests/test_cli_coverage.py --ignore=tests/test_faulthandler.py --ignore=tests/test_final_metamodel_coverage.py --ignore=tests/test_fluent_api.py --ignore=tests/test_gpu_acceleration_comprehensive.py --ignore=tests/test_health_economics_95_targeted.py --ignore=tests/test_incremental_computation.py --ignore=tests/test_io_comprehensive.py --ignore=tests/test_memory_optimization_comprehensive.py --ignore=tests/test_hta_integration_95_targeted.py --ignore=tests/test_hta_comprehensive.py --ignore=tests/test_hta_enhanced_95.py --ignore=tests/test_hta_final_95_achievement.py --ignore=tests/test_hta_final_95_percent.py --ignore=tests/test_hta_final_95_push.py --ignore=tests/test_hta_integration_95_percent.py --ignore=tests/test_hta_missing_lines.py --ignore=tests/test_hta_simple.py --ignore=tests/test_hta_simplified_coverage.py --ignore=tests/test_hta_super_target_95.py --ignore=tests/test_hta_target_95.py --ignore=tests/test_hta_final_27_lines.py --ignore=tests/test_hta_final_95_achievement_comprehensive.py --ignore=tests/test_multi_domain_enhanced_95.py --ignore=tests/test_multi_domain_missing_lines.py --ignore=tests/test_multi_domain_simple_80.py --ignore=tests/test_multidomain_hta_additional.py --ignore=tests/test_hta_integration_95_targeted_fixed.py --ignore=tests/test_metamodeling_comprehensive.py --ignore=tests/test_metamodels_final.py --ignore=tests/test_metamodels_high_coverage.py --ignore=tests/test_multi_domain_95_targeted.py --ignore=tests/test_multi_domain_95_targeted_fixed.py --ignore=tests/test_property_based.py --ignore=tests/test_schema_comprehensive.py --ignore=tests/test_schema_comprehensive_final.py --ignore=tests/test_schema_high_coverage.py --ignore=tests/test_streaming_data.py --ignore=tests/test_structural_high_coverage.py --ignore=tests/test_syrupy_snapshots.py --ignore=tests/test_schema_comprehensive_fixed.py --ignore=tests/test_active_learning_metamodel.py --ignore=tests/test_adaptive_additional.py --ignore=tests/test_adaptive_comprehensive.py --ignore=tests/test_adaptive.py --ignore=tests/test_cli_comprehensive.py --ignore=tests/test_coverage.py --ignore=tests/test_data_structures.py --ignore=tests/test_decision_analysis_comprehensive.py --ignore=tests/test_decision_analysis.py --ignore=tests/test_deep_evsi_comprehensive.py --ignore=tests/test_deep_evsi.py --ignore=tests/test_economic_evsi_comprehensive.py --ignore=tests/test_economic_evsi.py --ignore=tests/test_environmental_comprehensive.py --ignore=tests/test_environmental.py --ignore=tests/test_evpi_simple.py --ignore=tests/test_evsi_simple.py --ignore=tests/test_evppi_simple.py --ignore=tests/test_financial_comprehensive.py --ignore=tests/test_financial.py --ignore=tests/test_health_economics_final.py --ignore=tests/test_health_economics_fixed.py --ignore=tests/test_health_economics_missing_lines.py --ignore=tests/test_health_economics_targeted.py --ignore=tests/test_hta_comprehensive_95.py --ignore=tests/test_hta_enhanced_95.py --ignore=tests/test_hta_final_95_achievement.py --ignore=tests/test_hta_final_95_percent_final.py --ignore=tests/test_hta_final_95_push.py --ignore=tests/test_hta_simple.py --ignore=tests/test_hta_super_target_95.py --ignore=tests/test_hta_target_95.py --ignore=tests/test_multi_domain_comprehensive.py --ignore=tests/test_multi_domain_final.py --ignore=tests/test_multi_domain_missing_lines.py --ignore=tests/test_multi_domain_simple_80.py --ignore=tests/test_nma_validation_example.py --ignore=tests/test_plotting_comprehensive.py --ignore=tests/test_plotting.py --ignore=tests/test_portfolio_comprehensive.py --ignore=tests/test_portfolio.py --ignore=tests/test_sampling_comprehensive.py --ignore=tests/test_sampling.py --ignore=tests/test_sensitivity_comprehensive.py --ignore=tests/test_sensitivity.py --ignore=tests/test_sequential_comprehensive.py --ignore=tests/test_sequential.py --ignore=tests/test_structural_comprehensive.py --ignore=tests/test_structural.py --ignore=tests/test_utils_comprehensive.py --ignore=tests/test_utils.py"
+addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=0"
 testpaths = ["tests"]
 python_files = "test_*.py"
 markers = [
