@@ -53,17 +53,15 @@ except ImportError:
 # Fix for numpy 2.0 compatibility with pygam
 # pygam uses deprecated numpy aliases that were removed in numpy 2.0
 try:
-    import numpy as np
-
-    # Add back deprecated aliases for pygam compatibility
-    # These aliases were removed in numpy 2.0
-    if not hasattr(np, "int"):
+    # Add back deprecated aliases for pygam compatibility without triggering
+    # NumPy 2.x compatibility warnings during module import.
+    if "int" not in np.__dict__:
         np.int = int
-    if not hasattr(np, "float"):
+    if "float" not in np.__dict__:
         np.float = float
-    if not hasattr(np, "bool"):
+    if "bool" not in np.__dict__:
         np.bool = bool
-    if not hasattr(np, "complex"):
+    if "complex" not in np.__dict__:
         np.complex = complex
 
     # Also patch scipy sparse matrix attributes if needed
@@ -97,6 +95,37 @@ except ImportError:
     pmb = None
 
 from voiage.schema import ParameterSet
+
+
+def _as_numpy(values: np.ndarray | xr.DataArray) -> np.ndarray:
+    """Return a NumPy view of supported metamodel arrays."""
+    return values.values if hasattr(values, "values") else np.asarray(values)
+
+
+def _safe_r2_score(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+    """Compute an R^2 score without emitting constant-target warnings."""
+    y_true_np = np.asarray(y_true)
+    y_pred_np = np.asarray(y_pred)
+
+    if y_true_np.size == 0:
+        raise ValueError("Cannot compute R^2 for empty targets.")
+
+    ss_res = np.sum((y_true_np - y_pred_np) ** 2)
+    ss_tot = np.sum((y_true_np - np.mean(y_true_np)) ** 2)
+
+    if np.isclose(ss_tot, 0.0):
+        return 1.0 if np.isclose(ss_res, 0.0) else 0.0
+    return float(1 - (ss_res / ss_tot))
+
+
+def _safe_rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+    """Compute RMSE while rejecting empty inputs explicitly."""
+    y_true_np = np.asarray(y_true)
+    y_pred_np = np.asarray(y_pred)
+
+    if y_true_np.size == 0:
+        raise ValueError("Cannot compute RMSE for empty targets.")
+    return float(np.sqrt(np.mean((y_true_np - y_pred_np) ** 2)))
 
 
 @runtime_checkable
@@ -187,28 +216,17 @@ def calculate_diagnostics(model: Metamodel, x: ParameterSet, y: np.ndarray) -> d
         r2 = model.score(x, y)
     except (AttributeError, NotImplementedError):
         # If score method is not implemented, calculate it manually
-        y_pred = model.predict(x)
-        # Convert to numpy array if it's an xarray DataArray
-        if hasattr(y_pred, "values"):
-            y_pred = y_pred.values
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        r2 = 1 - (ss_res / ss_tot)
+        y_pred = _as_numpy(model.predict(x))
+        r2 = _safe_r2_score(y, y_pred)
 
     try:
         rmse = model.rmse(x, y)
     except (AttributeError, NotImplementedError):
         # If rmse method is not implemented, calculate it manually
-        y_pred = model.predict(x)
-        # Convert to numpy array if it's an xarray DataArray
-        if hasattr(y_pred, "values"):
-            y_pred = y_pred.values
-        rmse = np.sqrt(np.mean((y - y_pred) ** 2))
+        y_pred = _as_numpy(model.predict(x))
+        rmse = _safe_rmse(y, y_pred)
 
-    y_pred = model.predict(x)
-    # Convert to numpy array if it's an xarray DataArray
-    if hasattr(y_pred, "values"):
-        y_pred = y_pred.values
+    y_pred = _as_numpy(model.predict(x))
     mae = np.mean(np.abs(y - y_pred))
 
     # Calculate additional metrics
@@ -250,6 +268,9 @@ def cross_validate(model: Metamodel, x: ParameterSet, y: np.ndarray, cv_folds: i
     """
     # Convert ParameterSet to numpy array
     n_samples = len(y)
+    if cv_folds <= 0:
+        raise ValueError("cv_folds must be a positive integer.")
+    cv_folds = min(cv_folds, n_samples)
 
     # Create shuffled indices
     np.random.seed(random_state)
@@ -411,9 +432,7 @@ class FlaxMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -421,7 +440,7 @@ class FlaxMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class TinyGPMetamodel:
@@ -478,9 +497,7 @@ class TinyGPMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -488,7 +505,7 @@ class TinyGPMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class RandomForestMetamodel:
@@ -530,9 +547,7 @@ class RandomForestMetamodel:
 
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -541,7 +556,7 @@ class RandomForestMetamodel:
 
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class GAMMetamodel:
@@ -598,9 +613,7 @@ class GAMMetamodel:
 
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -609,7 +622,7 @@ class GAMMetamodel:
 
         x_np = np.array(list(x.parameters.values())).T
         y_pred = self.model.predict(x_np)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class BARTMetamodel:
@@ -673,9 +686,7 @@ class BARTMetamodel:
         # Convert to numpy array if it's an xarray DataArray
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -686,7 +697,7 @@ class BARTMetamodel:
         # Convert to numpy array if it's an xarray DataArray
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class ActiveLearningMetamodel:
@@ -896,9 +907,7 @@ class ActiveLearningMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """
@@ -920,7 +929,7 @@ class ActiveLearningMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class EnsembleMetamodel:
@@ -1028,9 +1037,7 @@ class EnsembleMetamodel:
             R^2 score of the ensemble.
         """
         y_pred = self.predict(x)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """
@@ -1049,7 +1056,7 @@ class EnsembleMetamodel:
             RMSE of the ensemble.
         """
         y_pred = self.predict(x)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
 
 
 class PyTorchNNMetamodel:
@@ -1143,9 +1150,7 @@ class PyTorchNNMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-        return 1 - (ss_res / ss_tot)
+        return _safe_r2_score(y, y_pred)
 
     def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
         """Return the root mean squared error of the prediction."""
@@ -1153,4 +1158,4 @@ class PyTorchNNMetamodel:
             raise RuntimeError("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        return np.sqrt(np.mean((y - y_pred) ** 2))
+        return _safe_rmse(y, y_pred)
