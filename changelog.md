@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Added focused regression coverage for NMA CLI config validation and error branches.
 - Added focused regression coverage for NICE HTA scoring and decision thresholds.
 - Added central pytest test categorization in `tests/conftest.py`, automatically marking collected tests as `unit`, `integration`, or `benchmark` based on file naming conventions.
 - Declared the `unit` pytest marker in project configuration to support marker-based collection and selection.

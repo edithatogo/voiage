@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   **[INFRA]** Raise enforced coverage to 90% with targeted regression tests for deterministic public modules.
     *   Added focused regression coverage for deterministic backend GPU helpers and advanced backend delegation paths.
+*   **[TEST]** Add focused CLI regression coverage for NMA VOI validation and error branches.
+    *   Locked in NMA CLI config-file handling, invalid JSON reporting, and unexpected-exception branches.
 *   **[TEST]** Added deterministic regression coverage for plotting and ecosystem integration modules.
     *   Locked in plotting validation and optional-branch behavior together with ecosystem import/export edge cases.
 *   **[TEST]** Added targeted regression coverage for deterministic runtime modules.
