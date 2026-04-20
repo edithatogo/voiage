@@ -10,6 +10,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Seed the first normative core API conformance fixture under `specs/core-api/fixtures/v1/normative/`.
 *   **[TEST]** Added validation coverage for the versioned core API fixture manifest scaffold.
     *   Added the initial `manifest.json` contract and regression tests for manifest versioning, artifact resolution, and missing-artifact failures.
 *   **[SPEC]** Create the versioned fixture layout under `specs/core-api/fixtures/v1/`.

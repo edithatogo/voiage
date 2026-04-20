@@ -1,5 +1,12 @@
 {
   "version": "v1",
-  "normative": [],
+  "normative": [
+    {
+      "name": "evpi canonical case",
+      "method_family": "evpi",
+      "expected_output_artifact": "normative/evpi.json",
+      "tolerance_policy": "exact"
+    }
+  ],
   "illustrative": []
 }
