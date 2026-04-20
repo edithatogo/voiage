@@ -4,19 +4,20 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   **[INFRA]** Raise enforced coverage to 90% with targeted regression tests for deterministic public modules.
-    *   Continue adding focused tests for the remaining low-coverage deterministic code paths until the full `tox` suite passes under the stricter threshold.
-
 ## In Progress
 
 *None at the moment.*
 
 ## Done
 
+*   **[INFRA]** Raise enforced coverage to 90% with targeted regression tests for deterministic public modules.
+    *   Added focused regression coverage for deterministic backend GPU helpers and advanced backend delegation paths.
 *   **[TEST]** Added deterministic regression coverage for plotting and ecosystem integration modules.
     *   Locked in plotting validation and optional-branch behavior together with ecosystem import/export edge cases.
 *   **[TEST]** Added targeted regression coverage for deterministic runtime modules.
     *   Expanded backend, ecosystem-integration, health-economics, CLI, schema, exception, and fluent-API tests to lock in current behavior and raise measured suite coverage substantially.
+*   **[TEST]** Added focused regression coverage for NICE HTA scoring and decision thresholds.
+    *   Locked in NICE evaluation scoring for evidence quality, cost-effectiveness, budget impact, and the resulting approval/rejection decisions.
 *   **[DOCS]** Create a validation notebook for EVPI and EVPPI.
     *   The notebook replicates the benchmark case documented in `docs/validation_comparison_report.md` and covers EVPI, EVPPI, EVSI, and plotting checks.
 *   **[INFRA]** Created `AGENTS.md` to establish a protocol for AI agents.

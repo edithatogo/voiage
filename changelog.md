@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Added focused regression coverage for NICE HTA scoring and decision thresholds.
 - Added central pytest test categorization in `tests/conftest.py`, automatically marking collected tests as `unit`, `integration`, or `benchmark` based on file naming conventions.
 - Declared the `unit` pytest marker in project configuration to support marker-based collection and selection.
 - Updated the legacy pytest section in `setup.cfg` to `tool:pytest` so modern pytest versions invoked via `tox` can parse repository configuration.
@@ -16,8 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `ValueArray.values` to return the underlying `xarray.DataArray` and added `numpy_values`, copy, subset, and equality helpers for schema-level interoperability.
 - Updated decision-analysis and downstream method code paths to use raw NumPy access where numerical kernels require ndarray semantics.
 - Fixed structural JAX EVPI aggregation, GPU backend detection/mockability, and memory-budget handling so the shipped test environment runs cleanly under `tox`.
+- Added regression coverage for deterministic GPU helper paths in the backend layer, including GPU detection, memory-info reporting, batch flushing, and advanced-backend delegation.
 - Normalized health-economic trial outputs to Python floats and added lightweight optional-dependency fallbacks for GAM and BART metamodels when the heavy native stacks are unavailable.
 - Removed the temporary GPU-test xfail and hardened metamodel diagnostics and cross-validation edge cases so the `tox` suite completes without warning noise.
+- Hardened the core analysis and clinical-trial kernels for JAX tracing, removed a NumPy alias warning, and kept the full `tox` suite green without warning output.
+- Reorganized the Conductor track layout into spec-first tracks to support the planned core API, fixtures, and future language bindings.
+- Clarified the EVPI/EVPPI validation notebook and marked the benchmark notebook TODO complete.
+- Expanded regression coverage across deterministic public modules, including backend helpers, ecosystem-import/export paths, health-economics utilities, CLI flows, schema validation, and the fluent API.
 
 ### Added
 - **Structural Uncertainty VOI Methods**:
