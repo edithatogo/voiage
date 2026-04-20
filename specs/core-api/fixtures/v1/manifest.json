@@ -6,6 +6,12 @@
       "method_family": "evpi",
       "expected_output_artifact": "normative/evpi.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "evppi canonical case",
+      "method_family": "evppi",
+      "expected_output_artifact": "normative/evppi.json",
+      "tolerance_policy": "exact"
     }
   ],
   "illustrative": []
