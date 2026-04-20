@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Added the versioned core API fixture scaffold under `specs/core-api/fixtures/v1/` with normative and illustrative subtrees.
+- Added the versioned core API fixture scaffold under `specs/core-api/fixtures/v1/`, including the initial manifest contract and validator coverage for the normative and illustrative subtrees.
 
 ### Changed
 - Added focused regression coverage for NMA CLI config validation and error branches.
