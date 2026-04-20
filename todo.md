@@ -10,6 +10,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   **[SPEC]** Create the versioned fixture layout under `specs/core-api/fixtures/v1/`.
+    *   Materialized the normative/illustrative fixture tree and README scaffold for the Phase 1 conformance-fixture track.
 *   **[INFRA]** Raise enforced coverage to 90% with targeted regression tests for deterministic public modules.
     *   Added focused regression coverage for deterministic backend GPU helpers and advanced backend delegation paths.
 *   **[TEST]** Add focused CLI regression coverage for NMA VOI validation and error branches.

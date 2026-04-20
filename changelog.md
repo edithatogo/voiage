@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added the versioned core API fixture scaffold under `specs/core-api/fixtures/v1/` with normative and illustrative subtrees.
+
 ### Changed
 - Added focused regression coverage for NMA CLI config validation and error branches.
 - Added focused regression coverage for NICE HTA scoring and decision thresholds.
