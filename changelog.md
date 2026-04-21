@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a stable core API CEAC result contract with a versioned schema, example payload, and validator coverage.
 - Seeded the illustrative EVSI conformance fixture under `specs/core-api/fixtures/v1/illustrative/` and registered it in the versioned manifest.
 - Seeded the normative and illustrative ENBS conformance fixtures under `specs/core-api/fixtures/v1/` and registered them in the versioned manifest.
 - Seeded the illustrative EVPPI conformance fixture under `specs/core-api/fixtures/v1/illustrative/` and registered it in the versioned manifest.

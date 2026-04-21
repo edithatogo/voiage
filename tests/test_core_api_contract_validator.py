@@ -93,3 +93,14 @@ def test_resolve_fixture_artifact_rejects_path_escape(
 
     with pytest.raises(validator.ValidationError, match="escapes"):
         validator._resolve_fixture_artifact("../escape.json")
+
+
+def test_ceac_example_conforms_to_result_schema() -> None:
+    root = Path(__file__).resolve().parents[1]
+    schema_path = root / "specs/core-api/schemas/v1/results/ceac.schema.json"
+    example_path = root / "specs/core-api/examples/v1/ceac.example.json"
+
+    schema = validator._load_json(schema_path)
+    example = validator._load_json(example_path)
+
+    validator._validate(example, schema, "$", schema_path)
