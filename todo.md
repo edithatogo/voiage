@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Seed the normative and illustrative core API conformance fixtures for `ceac` under `specs/core-api/fixtures/v1/`.
+    *   Added normative and illustrative CEAC payloads and registered them in the versioned manifest.
 *   [x] Sync the core API v1 README indexes with the CEAC contract.
     *   Added the CEAC schema and example references to the versioned results and examples README indexes.
 *   [x] Add a stable core API result schema and example for CEAC outputs.

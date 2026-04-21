@@ -24,6 +24,12 @@
       "method_family": "enbs",
       "expected_output_artifact": "normative/enbs.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "ceac canonical case",
+      "method_family": "ceac",
+      "expected_output_artifact": "normative/ceac.json",
+      "tolerance_policy": "exact"
     }
   ],
   "illustrative": [
@@ -49,6 +55,12 @@
       "name": "enbs illustrative example",
       "method_family": "enbs",
       "expected_output_artifact": "illustrative/enbs.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "ceac illustrative example",
+      "method_family": "ceac",
+      "expected_output_artifact": "illustrative/ceac.example.json",
       "tolerance_policy": "exact"
     }
   ]
