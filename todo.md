@@ -10,6 +10,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Seed the normative core API conformance fixture for `evsi` under `specs/core-api/fixtures/v1/normative/`.
 *   [x] Seed the first normative core API conformance fixture under `specs/core-api/fixtures/v1/normative/`.
 *   [x] Seed the normative core API conformance fixture for `evppi` under `specs/core-api/fixtures/v1/normative/`.
 *   **[TEST]** Added validation coverage for the versioned core API fixture manifest scaffold.

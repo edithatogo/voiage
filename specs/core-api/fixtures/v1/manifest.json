@@ -12,6 +12,12 @@
       "method_family": "evppi",
       "expected_output_artifact": "normative/evppi.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "evsi canonical case",
+      "method_family": "evsi",
+      "expected_output_artifact": "normative/evsi.json",
+      "tolerance_policy": "exact"
     }
   ],
   "illustrative": []
