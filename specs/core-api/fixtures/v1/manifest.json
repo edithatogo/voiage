@@ -18,6 +18,12 @@
       "method_family": "evsi",
       "expected_output_artifact": "normative/evsi.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "enbs canonical case",
+      "method_family": "enbs",
+      "expected_output_artifact": "normative/enbs.json",
+      "tolerance_policy": "exact"
     }
   ],
   "illustrative": [
@@ -31,6 +37,12 @@
       "name": "evppi illustrative example",
       "method_family": "evppi",
       "expected_output_artifact": "illustrative/evppi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "enbs illustrative example",
+      "method_family": "enbs",
+      "expected_output_artifact": "illustrative/enbs.example.json",
       "tolerance_policy": "exact"
     }
   ]
