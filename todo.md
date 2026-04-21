@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Sync the core API v1 README indexes with the CEAC contract.
+    *   Added the CEAC schema and example references to the versioned results and examples README indexes.
 *   [x] Add a stable core API result schema and example for CEAC outputs.
     *   Added the CEAC result schema, versioned example payload, and validator coverage.
 *   [x] Stabilize the curated package export surface for `voiage.core`, `voiage.methods`, and `voiage.plot`.
