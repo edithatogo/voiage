@@ -40,6 +40,12 @@
       "tolerance_policy": "exact"
     },
     {
+      "name": "evsi illustrative example",
+      "method_family": "evsi",
+      "expected_output_artifact": "illustrative/evsi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
       "name": "enbs illustrative example",
       "method_family": "enbs",
       "expected_output_artifact": "illustrative/enbs.example.json",

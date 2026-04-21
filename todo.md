@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [x] Stabilize the curated package export surface for `voiage.core`, `voiage.methods`, and `voiage.plot`.
     *   Replaced placeholder subpackage entrypoints with explicit re-exports and added regression coverage to lock in the package-level import surface.
+*   [x] Seed the illustrative core API conformance fixture for `evsi` under `specs/core-api/fixtures/v1/illustrative/`.
+    *   Added an EVSI illustrative example fixture and registered it in the versioned manifest.
 *   [x] Seed the normative and illustrative core API conformance fixtures for `enbs` under `specs/core-api/fixtures/v1/`.
     *   Added ENBS normative and illustrative benchmark payloads and registered them in the versioned manifest.
 *   [x] Seed the illustrative core API conformance fixture for `evppi` under `specs/core-api/fixtures/v1/illustrative/`.
