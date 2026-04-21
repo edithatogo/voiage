@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added deterministic provenance metadata validation for normative core API fixtures in the versioned manifest.
 - Added normative and illustrative CEAC conformance fixtures under `specs/core-api/fixtures/v1/` and registered them in the versioned manifest.
 - Added a stable core API CEAC result contract with a versioned schema, example payload, and validator coverage.
 - Synchronized the core API v1 README indexes with the CEAC result schema and example contract.
@@ -86,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `evpi()`, `evppi()`, `evsi()`, and `enbs()` methods.
 - Unit tests for `evpi()`, `evppi()`, `evsi()`, and `enbs()`.
 - Initial documentation in the `docs/` directory.
+- Synchronized the core API README indexes with the current schema, example, fixture, and validator layout.
 
 ### Changed
 - Consolidated changes from `pleides/update`.

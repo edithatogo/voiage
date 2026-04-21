@@ -8,4 +8,4 @@ This directory holds the versioned fixture set for the core API conformance trac
 - `illustrative/`: non-normative examples used for documentation and exploratory coverage.
 
 The fixture manifest in this directory is validated by `scripts/validate_core_api_contract.py`.
-Follow-up tasks in the conformance-fixture track will add provenance metadata, deterministic execution mode, and tolerance envelopes.
+Normative entries must already carry stable provenance metadata and deterministic execution mode, and the validator rejects any manifest entry that does not. Future work in this track is limited to expanding fixture breadth and, where appropriate, adding tolerance envelopes for approximate outputs.
