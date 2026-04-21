@@ -20,5 +20,18 @@
       "tolerance_policy": "exact"
     }
   ],
-  "illustrative": []
+  "illustrative": [
+    {
+      "name": "evpi illustrative example",
+      "method_family": "evpi",
+      "expected_output_artifact": "illustrative/evpi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "evppi illustrative example",
+      "method_family": "evppi",
+      "expected_output_artifact": "illustrative/evppi.example.json",
+      "tolerance_policy": "exact"
+    }
+  ]
 }

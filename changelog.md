@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Seeded the illustrative EVPPI conformance fixture under `specs/core-api/fixtures/v1/illustrative/` and registered it in the versioned manifest.
+- Seeded the first illustrative EVPI conformance fixture under `specs/core-api/fixtures/v1/illustrative/` and registered it in the versioned manifest.
 - Seeded the first normative EVPI conformance fixture under `specs/core-api/fixtures/v1/normative/` and registered it in the versioned manifest.
 - Seeded the normative EVPPI conformance fixture under `specs/core-api/fixtures/v1/normative/` and registered it in the versioned manifest.
 - Seeded the normative EVSI conformance fixture under `specs/core-api/fixtures/v1/normative/` and registered it in the versioned manifest.
