@@ -26,6 +26,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Added the CEAC result schema, versioned example payload, and validator coverage.
 *   [x] Stabilize the curated package export surface for `voiage.core`, `voiage.methods`, and `voiage.plot`.
     *   Replaced placeholder subpackage entrypoints with explicit re-exports and added regression coverage to lock in the package-level import surface.
+*   [x] Stabilize the top-level `voiage` package export surface.
+    *   Added a root package facade that re-exports the primary submodules and locked it in with regression coverage.
 *   [x] Seed the illustrative core API conformance fixture for `evsi` under `specs/core-api/fixtures/v1/illustrative/`.
     *   Added an EVSI illustrative example fixture and registered it in the versioned manifest.
 *   [x] Seed the normative and illustrative core API conformance fixtures for `enbs` under `specs/core-api/fixtures/v1/`.

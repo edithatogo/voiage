@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Stabilized the curated package exports for `voiage.core`, `voiage.methods`, and `voiage.plot`, and added regression coverage for package-level imports.
+- Stabilized the top-level `voiage` package facade so importing `voiage` now exposes the main submodules directly, with regression coverage for the export surface.
 - Added focused regression coverage for NMA CLI config validation and error branches.
 - Added focused regression coverage for NICE HTA scoring and decision thresholds.
 - Added central pytest test categorization in `tests/conftest.py`, automatically marking collected tests as `unit`, `integration`, or `benchmark` based on file naming conventions.
