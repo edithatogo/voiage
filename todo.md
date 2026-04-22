@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Expanded the core API contract validator test to cover the full versioned schema/example matrix.
+    *   Added matrix coverage for all versioned core API schema/example pairs.
 *   [x] Add regression coverage for EVPPI handling of raw dictionary parameter samples.
     *   Confirmed `evppi` accepts raw dict parameter samples in addition to `ParameterSet` inputs.
 *   [x] Add deterministic provenance metadata validation for normative core API fixtures in the versioned manifest.
