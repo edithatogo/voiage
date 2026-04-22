@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added regression coverage for EVPPI handling of raw dictionary parameter samples.
 - Added deterministic provenance metadata validation for normative core API fixtures in the versioned manifest.
 - Added normative and illustrative CEAC conformance fixtures under `specs/core-api/fixtures/v1/` and registered them in the versioned manifest.
 - Added a stable core API CEAC result contract with a versioned schema, example payload, and validator coverage.

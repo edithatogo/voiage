@@ -12,6 +12,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Add regression coverage for EVPPI handling of raw dictionary parameter samples.
+    *   Confirmed `evppi` accepts raw dict parameter samples in addition to `ParameterSet` inputs.
+*   [x] Add deterministic provenance metadata validation for normative core API fixtures in the versioned manifest.
+    *   Added provenance validation for normative manifest entries and hardened validator tests.
 *   [x] Seed the normative and illustrative core API conformance fixtures for `ceac` under `specs/core-api/fixtures/v1/`.
     *   Added normative and illustrative CEAC payloads and registered them in the versioned manifest.
 *   [x] Sync the core API v1 README indexes with the CEAC contract.

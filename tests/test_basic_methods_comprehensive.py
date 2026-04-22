@@ -11,15 +11,18 @@ from voiage.schema import ParameterSet, ValueArray
 class TestEVPI:
     """Test the evpi function comprehensively."""
 
-    def test_evpi_basic_calculation(self):
+    def test_evpi_basic_calculation(self) -> None:
         """Test basic EVPI calculation with known values."""
         # Create test net benefit array with known expected result
         # Simple example: 3 samples, 2 strategies
-        nb_values = np.array([
-            [100.0, 150.0],  # Sample 1: Strategy 2 is better (150 vs 100)
-            [200.0, 180.0],  # Sample 2: Strategy 1 is better (200 vs 180)
-            [120.0, 140.0]   # Sample 3: Strategy 2 is better (140 vs 120)
-        ], dtype=np.float64)
+        nb_values = np.array(
+            [
+                [100.0, 150.0],  # Sample 1: Strategy 2 is better (150 vs 100)
+                [200.0, 180.0],  # Sample 2: Strategy 1 is better (200 vs 180)
+                [120.0, 140.0],  # Sample 3: Strategy 2 is better (140 vs 120)
+            ],
+            dtype=np.float64,
+        )
 
         value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
 
@@ -29,7 +32,9 @@ class TestEVPI:
         # Manually verify calculation:
         # Expected max NB with perfect info = mean of max NB per sample
         expected_max_nb_per_sample = np.max(nb_values, axis=1)  # [150, 200, 140]
-        expected_max_nb = np.mean(expected_max_nb_per_sample)  # (150+200+140)/3 = 163.33
+        expected_max_nb = np.mean(
+            expected_max_nb_per_sample
+        )  # (150+200+140)/3 = 163.33
         # Max of expected NB without info = max of mean NB per strategy
         expected_nb_per_strategy = np.mean(nb_values, axis=0)  # [140, 156.67]
         max_expected_nb = np.max(expected_nb_per_strategy)  # 156.67
@@ -40,18 +45,19 @@ class TestEVPI:
         assert isinstance(result_evpi, float)
         assert result_evpi >= 0  # EVPI should always be non-negative
 
-    def test_evpi_with_population_scaling(self):
+    def test_evpi_with_population_scaling(self) -> None:
         """Test EVPI calculation with population scaling."""
         # Create test data
-        nb_values = (np.random.rand(100, 3) * 100000).astype(np.float64)  # 100 samples, 3 strategies
-        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B", "Strategy C"])
+        nb_values = (np.random.rand(100, 3) * 100000).astype(
+            np.float64
+        )  # 100 samples, 3 strategies
+        value_array = ValueArray.from_numpy(
+            nb_values, ["Strategy A", "Strategy B", "Strategy C"]
+        )
 
         # Test with population scaling
         evpi_pop = evpi(
-            value_array,
-            population=100000,
-            time_horizon=10,
-            discount_rate=0.03
+            value_array, population=100000, time_horizon=10, discount_rate=0.03
         )
 
         # Should be a float
@@ -64,10 +70,12 @@ class TestEVPI:
         if evpi_base > 0:
             assert evpi_pop >= evpi_base
 
-    def test_evpi_single_strategy(self):
+    def test_evpi_single_strategy(self) -> None:
         """Test EVPI calculation for single strategy (should be 0)."""
         # Single strategy - no decision to make, so EVPI should be 0
-        nb_values = np.array([[100.0], [150.0], [120.0]], dtype=np.float64)  # 3 samples, 1 strategy
+        nb_values = np.array(
+            [[100.0], [150.0], [120.0]], dtype=np.float64
+        )  # 3 samples, 1 strategy
         value_array = ValueArray.from_numpy(nb_values, ["Single Strategy"])
 
         result_evpi = evpi(value_array)
@@ -76,12 +84,18 @@ class TestEVPI:
         assert abs(result_evpi) < 1e-10
         assert isinstance(result_evpi, float)
 
-    def test_evpi_identical_strategies(self):
+    def test_evpi_identical_strategies(self) -> None:
         """Test EVPI calculation when all strategies have identical net benefits."""
         # All strategies identical - no value in learning which is best since they're the same
-        identical_values = np.array([100.0, 100.0, 100.0], dtype=np.float64)  # All the same
-        nb_values = np.tile(identical_values, (50, 1)).astype(np.float64)  # 50 samples, all identical
-        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B", "Strategy C"])
+        identical_values = np.array(
+            [100.0, 100.0, 100.0], dtype=np.float64
+        )  # All the same
+        nb_values = np.tile(identical_values, (50, 1)).astype(
+            np.float64
+        )  # 50 samples, all identical
+        value_array = ValueArray.from_numpy(
+            nb_values, ["Strategy A", "Strategy B", "Strategy C"]
+        )
 
         result_evpi = evpi(value_array)
 
@@ -89,11 +103,15 @@ class TestEVPI:
         assert abs(result_evpi) < 1e-10
         assert isinstance(result_evpi, float)
 
-    def test_evpi_one_sample(self):
+    def test_evpi_one_sample(self) -> None:
         """Test EVPI calculation with only one sample."""
         # Single sample - no variance, so EVPI should typically be 0
-        nb_values = np.array([[100.0, 150.0, 120.0]], dtype=np.float64)  # 1 sample, 3 strategies
-        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B", "Strategy C"])
+        nb_values = np.array(
+            [[100.0, 150.0, 120.0]], dtype=np.float64
+        )  # 1 sample, 3 strategies
+        value_array = ValueArray.from_numpy(
+            nb_values, ["Strategy A", "Strategy B", "Strategy C"]
+        )
 
         result_evpi = evpi(value_array)
 
@@ -102,7 +120,7 @@ class TestEVPI:
         assert abs(result_evpi) < 1e-10
         assert isinstance(result_evpi, float)
 
-    def test_evpi_input_validation(self):
+    def test_evpi_input_validation(self) -> None:
         """Test EVPI with invalid inputs."""
         # Create valid test data
         nb_values = np.array([[100.0, 150.0], [200.0, 180.0]], dtype=np.float64)
@@ -148,17 +166,21 @@ class TestEVPI:
 class TestEVPPI:
     """Test the evppi function comprehensively."""
 
-    def test_evppi_basic(self):
+    def test_evppi_basic(self) -> None:
         """Test basic EVPPI calculation."""
         # Create test data
-        nb_values = (np.random.rand(100, 3) * 1000).astype(np.float64)  # 100 samples, 3 strategies
-        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B", "Strategy C"])
+        nb_values = (np.random.rand(100, 3) * 1000).astype(
+            np.float64
+        )  # 100 samples, 3 strategies
+        value_array = ValueArray.from_numpy(
+            nb_values, ["Strategy A", "Strategy B", "Strategy C"]
+        )
 
         # Create parameter samples
         params = {
             "param1": np.random.rand(100).astype(np.float64),
             "param2": np.random.rand(100).astype(np.float64),
-            "param3": np.random.rand(100).astype(np.float64)
+            "param3": np.random.rand(100).astype(np.float64),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
@@ -171,19 +193,46 @@ class TestEVPPI:
 
         # EVPPI should not exceed EVPI
         evpi_result = evpi(value_array)
-        assert result_evppi <= evpi_result + 1e-9  # Add small tolerance for floating point errors
+        assert (
+            result_evppi <= evpi_result + 1e-9
+        )  # Add small tolerance for floating point errors
 
-    def test_evppi_multiple_params(self):
+    def test_evppi_with_dict_parameter_samples(self) -> None:
+        """Test EVPPI calculation with raw dictionary parameter samples."""
+        # Create test data
+        nb_values = (np.random.rand(100, 2) * 1000).astype(np.float64)
+        value_array = ValueArray.from_numpy(
+            nb_values, ["Strategy A", "Strategy B"]
+        )
+
+        # Create parameter samples as a raw dictionary
+        params = {
+            "param1": np.random.rand(100).astype(np.float64),
+            "param2": np.random.rand(100).astype(np.float64),
+            "param3": np.random.rand(100).astype(np.float64),
+        }
+
+        result_dict = evppi(value_array, params, ["param1"])
+        parameter_set = ParameterSet.from_numpy_or_dict(params)
+        result_parameter_set = evppi(value_array, parameter_set, ["param1"])
+
+        assert isinstance(result_dict, float)
+        assert result_dict >= 0
+        assert np.isclose(result_dict, result_parameter_set)
+
+    def test_evppi_multiple_params(self) -> None:
         """Test EVPPI calculation with multiple parameters."""
         # Create test data
-        nb_values = (np.random.rand(100, 2) * 1000).astype(np.float64)  # 100 samples, 2 strategies
+        nb_values = (np.random.rand(100, 2) * 1000).astype(
+            np.float64
+        )  # 100 samples, 2 strategies
         value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
 
         # Create parameter samples
         params = {
             "param1": np.random.rand(100).astype(np.float64),
             "param2": np.random.rand(100).astype(np.float64),
-            "param3": np.random.rand(100).astype(np.float64)
+            "param3": np.random.rand(100).astype(np.float64),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
@@ -198,7 +247,7 @@ class TestEVPPI:
         evpi_result = evpi(value_array)
         assert result_evppi <= evpi_result + 1e-9
 
-    def test_evppi_input_validation(self):
+    def test_evppi_input_validation(self) -> None:
         """Test EVPPI with invalid inputs."""
         # Create valid test data
         nb_values = (np.random.rand(100, 2) * 1000).astype(np.float64)
@@ -220,12 +269,19 @@ class TestEVPPI:
             evppi(value_array, parameter_set, "param1")  # Should be a list
 
         # Test with parameter not in parameter set
-        with pytest.raises(InputError, match="All `parameters_of_interest` must be in the ParameterSet"):
+        with pytest.raises(
+            InputError, match="All `parameters_of_interest` must be in the ParameterSet"
+        ):
             evppi(value_array, parameter_set, ["nonexistent_param"])
 
         # Test with invalid n_regression_samples
         with pytest.raises(InputError, match="n_regression_samples must be an integer"):
-            evppi(value_array, parameter_set, ["param1"], n_regression_samples="not an int")
+            evppi(
+                value_array,
+                parameter_set,
+                ["param1"],
+                n_regression_samples="not an int",
+            )
 
         with pytest.raises(InputError, match="n_regression_samples must be positive"):
             evppi(value_array, parameter_set, ["param1"], n_regression_samples=0)
@@ -234,20 +290,45 @@ class TestEVPPI:
             evppi(value_array, parameter_set, ["param1"], n_regression_samples=-5)
 
         # Test with too many regression samples
-        with pytest.raises(InputError, match=r"n_regression_samples.*cannot exceed total samples"):
-            evppi(value_array, parameter_set, ["param1"], n_regression_samples=200)  # More than n_samples
+        with pytest.raises(
+            InputError, match=r"n_regression_samples.*cannot exceed total samples"
+        ):
+            evppi(
+                value_array, parameter_set, ["param1"], n_regression_samples=200
+            )  # More than n_samples
 
         # Test population scaling validation
         with pytest.raises(InputError, match="Population must be positive"):
-            evppi(value_array, parameter_set, ["param1"], population=-1000, time_horizon=10, discount_rate=0.03)
+            evppi(
+                value_array,
+                parameter_set,
+                ["param1"],
+                population=-1000,
+                time_horizon=10,
+                discount_rate=0.03,
+            )
 
         with pytest.raises(InputError, match="Time horizon must be positive"):
-            evppi(value_array, parameter_set, ["param1"], population=100000, time_horizon=0, discount_rate=0.03)
+            evppi(
+                value_array,
+                parameter_set,
+                ["param1"],
+                population=100000,
+                time_horizon=0,
+                discount_rate=0.03,
+            )
 
         with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
-            evppi(value_array, parameter_set, ["param1"], population=100000, time_horizon=10, discount_rate=1.5)
+            evppi(
+                value_array,
+                parameter_set,
+                ["param1"],
+                population=100000,
+                time_horizon=10,
+                discount_rate=1.5,
+            )
 
-    def test_evppi_no_param_uncertainty(self):
+    def test_evppi_no_param_uncertainty(self) -> None:
         """Test EVPPI when parameters have no uncertainty (constant values)."""
         # Create test value array
         nb_values = (np.random.rand(50, 2) * 1000).astype(np.float64)
@@ -256,7 +337,9 @@ class TestEVPPI:
         # Create parameter samples with constant values (no uncertainty)
         params = {
             "param1": np.full(50, 0.5, dtype=np.float64),  # All samples have same value
-            "param2": np.full(50, 100.0, dtype=np.float64)  # All samples have same value
+            "param2": np.full(
+                50, 100.0, dtype=np.float64
+            ),  # All samples have same value
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
@@ -268,11 +351,13 @@ class TestEVPPI:
         assert isinstance(result_evppi, float)
         assert result_evppi >= -1e-10  # Allow for small numerical errors
 
-    def test_evppi_linear_relationship(self):
+    def test_evppi_linear_relationship(self) -> None:
         """Test EVPPI with a known linear relationship between parameter and net benefit."""
         # Create test value array with a linear relationship
         n_samples = 100
-        param_values = np.linspace(0, 1, n_samples).astype(np.float64)  # Parameter values from 0 to 1
+        param_values = np.linspace(0, 1, n_samples).astype(
+            np.float64
+        )  # Parameter values from 0 to 1
 
         # Create net benefits that depend on the parameter
         strategy_a_nb = param_values * 1000
@@ -291,10 +376,12 @@ class TestEVPPI:
         assert isinstance(result_evppi, float)
         assert result_evppi >= 0
 
-    def test_evppi_edge_case_single_parameter_sample(self):
+    def test_evppi_edge_case_single_parameter_sample(self) -> None:
         """Test EVPPI with a single parameter sample."""
         # Create test data
-        nb_values = np.array([[100.0, 150.0]], dtype=np.float64)  # Single sample, 2 strategies
+        nb_values = np.array(
+            [[100.0, 150.0]], dtype=np.float64
+        )  # Single sample, 2 strategies
         value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
 
         # Single parameter sample
@@ -314,7 +401,7 @@ class TestEVPPI:
             pass  # This is expected behavior with insufficient samples for regression
 
 
-def test_import_functionality():
+def test_import_functionality() -> None:
     """Test that the basic methods are importable and available."""
     from voiage.methods.basic import evpi, evppi
 
