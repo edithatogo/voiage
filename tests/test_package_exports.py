@@ -3,6 +3,20 @@
 from __future__ import annotations
 
 import voiage
+from voiage import analysis as analysis_module
+from voiage import backends as backends_module
+from voiage import cli as cli_module
+from voiage import config as config_module
+from voiage import core as core_module
+from voiage import exceptions as exceptions_module
+from voiage import factory as factory_module
+from voiage import fluent as fluent_module
+from voiage import health_economics as health_economics_module
+from voiage import hta_integration as hta_integration_module
+from voiage import methods as methods_module
+from voiage import multi_domain as multi_domain_module
+from voiage import plot as plot_module
+from voiage import schema as schema_module
 from voiage.core import (
     calculate_net_benefit,
     check_input_array,
@@ -61,20 +75,6 @@ from voiage.plot.voi_curves import (
 from voiage.plot.voi_curves import (
     plot_evsi_vs_sample_size as plot_evsi_vs_sample_size_impl,
 )
-from voiage import analysis as analysis_module
-from voiage import backends as backends_module
-from voiage import cli as cli_module
-from voiage import config as config_module
-from voiage import core as core_module
-from voiage import exceptions as exceptions_module
-from voiage import factory as factory_module
-from voiage import fluent as fluent_module
-from voiage import health_economics as health_economics_module
-from voiage import hta_integration as hta_integration_module
-from voiage import methods as methods_module
-from voiage import multi_domain as multi_domain_module
-from voiage import plot as plot_module
-from voiage import schema as schema_module
 
 
 def test_core_package_exports_point_to_leaf_implementations() -> None:
@@ -96,6 +96,34 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert portfolio_voi is portfolio_voi_impl
     assert sequential_voi is sequential_voi_impl
     assert voi_calibration is voi_calibration_impl
+
+
+def test_backends_package_exports_are_curated() -> None:
+    """Backend package exports should remain stable curated symbols."""
+    assert backends_module.__all__ == [
+        "JAX_AVAILABLE",
+        "Backend",
+        "GpuAcceleration",
+        "JaxAdvancedRegression",
+        "JaxBackend",
+        "JaxPerformanceProfiler",
+        "NumpyBackend",
+        "get_backend",
+        "set_backend",
+    ]
+
+
+def test_methods_package_exports_are_curated() -> None:
+    """Method package exports should remain stable curated symbols."""
+    assert methods_module.__all__ == [
+        "enbs",
+        "evpi",
+        "evppi",
+        "evsi",
+        "portfolio_voi",
+        "sequential_voi",
+        "voi_calibration",
+    ]
 
 
 def test_plot_package_exports_point_to_leaf_implementations() -> None:

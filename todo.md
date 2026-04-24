@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Lock the backend and method module export contracts.
+    *   Added regression coverage for the curated `__all__` surfaces in `voiage.backends` and `voiage.methods`.
 *   [x] Expanded the core API contract validator test to cover the full versioned schema/example matrix.
     *   Added matrix coverage for all versioned core API schema/example pairs.
 *   [x] Add regression coverage for EVPPI handling of raw dictionary parameter samples.
