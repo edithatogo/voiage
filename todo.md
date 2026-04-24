@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Add regression coverage for callable import resolution and schema round-trips.
+    *   Covered `import_callable` builtin resolution and model round-trip serialization for `DecisionOption` and `TrialDesign`.
 *   [x] Lock the backend and method module export contracts.
     *   Added regression coverage for the curated `__all__` surfaces in `voiage.backends` and `voiage.methods`.
 *   [x] Expanded the core API contract validator test to cover the full versioned schema/example matrix.

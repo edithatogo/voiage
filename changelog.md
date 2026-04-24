@@ -93,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests for `evpi()`, `evppi()`, `evsi()`, and `enbs()`.
 - Initial documentation in the `docs/` directory.
 - Synchronized the core API README indexes with the current schema, example, fixture, and validator layout.
+- Added regression coverage for callable import resolution and schema round-trips.
 
 ### Changed
 - Consolidated changes from `pleides/update`.
