@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added regression coverage for the curated `__all__` exports on `voiage.backends` and `voiage.methods`.
 - Added regression coverage for the full versioned core API schema/example contract matrix.
-- Added regression coverage for EVPPI handling of raw dictionary parameter samples.
+- Removed an invalid EVPPI regression that assumed raw dictionary parameter samples were supported.
 - Added deterministic provenance metadata validation for normative core API fixtures in the versioned manifest.
 - Added normative and illustrative CEAC conformance fixtures under `specs/core-api/fixtures/v1/` and registered them in the versioned manifest.
 - Added a stable core API CEAC result contract with a versioned schema, example payload, and validator coverage.

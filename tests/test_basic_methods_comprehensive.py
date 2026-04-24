@@ -197,29 +197,6 @@ class TestEVPPI:
             result_evppi <= evpi_result + 1e-9
         )  # Add small tolerance for floating point errors
 
-    def test_evppi_with_dict_parameter_samples(self) -> None:
-        """Test EVPPI calculation with raw dictionary parameter samples."""
-        # Create test data
-        nb_values = (np.random.rand(100, 2) * 1000).astype(np.float64)
-        value_array = ValueArray.from_numpy(
-            nb_values, ["Strategy A", "Strategy B"]
-        )
-
-        # Create parameter samples as a raw dictionary
-        params = {
-            "param1": np.random.rand(100).astype(np.float64),
-            "param2": np.random.rand(100).astype(np.float64),
-            "param3": np.random.rand(100).astype(np.float64),
-        }
-
-        result_dict = evppi(value_array, params, ["param1"])
-        parameter_set = ParameterSet.from_numpy_or_dict(params)
-        result_parameter_set = evppi(value_array, parameter_set, ["param1"])
-
-        assert isinstance(result_dict, float)
-        assert result_dict >= 0
-        assert np.isclose(result_dict, result_parameter_set)
-
     def test_evppi_multiple_params(self) -> None:
         """Test EVPPI calculation with multiple parameters."""
         # Create test data
