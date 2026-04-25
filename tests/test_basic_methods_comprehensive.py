@@ -224,6 +224,33 @@ class TestEVPPI:
         evpi_result = evpi(value_array)
         assert result_evppi <= evpi_result + 1e-9
 
+    def test_evppi_chunk_size_matches_unchunked_result(self) -> None:
+        """Test chunked EVPPI evaluation matches the unchunked path."""
+        param_values = np.linspace(0.0, 1.0, 100, dtype=np.float64)
+        nb_values = np.column_stack(
+            [
+                param_values * 1000.0,
+                (1.0 - param_values) * 1200.0,
+            ]
+        ).astype(np.float64)
+
+        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
+        parameter_set = ParameterSet.from_numpy_or_dict({"linear_param": param_values})
+
+        result_no_chunk = evppi(value_array, parameter_set, ["linear_param"])
+        result_chunk = evppi(
+            value_array,
+            parameter_set,
+            ["linear_param"],
+            chunk_size=3,
+        )
+
+        assert isinstance(result_no_chunk, float)
+        assert isinstance(result_chunk, float)
+        assert result_no_chunk >= 0.0
+        assert result_chunk >= 0.0
+        assert pytest.approx(result_no_chunk, rel=1e-10, abs=1e-10) == result_chunk
+
     def test_evppi_input_validation(self) -> None:
         """Test EVPPI with invalid inputs."""
         # Create valid test data
