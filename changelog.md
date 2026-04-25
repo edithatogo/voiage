@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added regression coverage for the TreeAge invalid XML fail-soft path and its warning emission.
 - Added regression coverage for the curated `__all__` exports on `voiage.backends` and `voiage.methods`.
 - Added regression coverage for the full versioned core API schema/example contract matrix.
 - Removed an invalid EVPPI regression that assumed raw dictionary parameter samples were supported.

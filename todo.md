@@ -12,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Add regression coverage for the TreeAge invalid XML fail-soft path and warning emission.
+    *   Locked in the empty-dict fallback and `UserWarning` emission for malformed TreeAge XML imports.
 *   [x] Add regression coverage for callable import resolution and schema round-trips.
     *   Covered `import_callable` builtin resolution and model round-trip serialization for `DecisionOption` and `TrialDesign`.
 *   [x] Lock the backend and method module export contracts.

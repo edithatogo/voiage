@@ -78,7 +78,8 @@ def test_treeage_import_returns_empty_dict_for_invalid_xml(tmp_path: Path) -> No
     xml_path = tmp_path / "broken.xml"
     xml_path.write_text("<treeage><model>", encoding="utf-8")
 
-    model = connector.import_treeage_model(str(xml_path))
+    with pytest.warns(UserWarning, match="Error importing TreeAge model"):
+        model = connector.import_treeage_model(str(xml_path))
 
     assert model == {}
 
