@@ -8,6 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added the ecosystem incubation contract outline under `specs/ecosystem/`,
+  including the HEOML `voiage` extension scaffold and planned fixture
+  families for `lifecourse`, `innovate`, and `mars`.
+- Added a compact deterministic `lifecourse` compatibility fixture bundle
+  with net-benefit, parameter-sample, EVPI, and EVPPI reference payloads under
+  `specs/integrations/lifecourse/v1/fixtures/normative/`.
+- Added the `specs/integrations/lifecourse/v1/` scaffold with examples,
+  fixtures, and schema overlay placeholders for the future `lifecourse`
+  compatibility contract.
+- Added a planned `lifecourse` integration contract track and strategy document
+  for consuming `lifecourse` PSA outputs through stable VOI artifacts rather
+  than package internals.
+- Documented the `lifecourse` integration profile as portable-artifact based,
+  with pickle excluded from the shared compatibility contract.
+- Identified HEOML as the candidate shared health-economic interchange profile
+  for the future `lifecourse` and `voiage` handoff.
+- Added an ecosystem-module incubation track and strategy for positioning
+  `voiage` alongside `lifecourse`, `innovate`, `mars`, HEOML, and future
+  sibling modules through optional artifact-first HEOR contracts.
 - Expanded the core public API docstrings for EVPI, EVPPI, EVSI, ENBS, CEAF, CEAC, and the main schema/analysis types with NumPy-style sections and examples.
 - Expanded the dominance, heterogeneity, portfolio, and dominance-plot public docs with full parameter, return, and notes sections.
 - Expanded the adaptive-trial and structural-VOI public docs with full NumPy-style parameter and return sections.
@@ -16,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded the network-meta-analysis implementation docs so the NMA entrypoints and helpers now have fuller NumPy-style sections.
 - Documented the polyglot binding release matrix with tooling parity, registry/versioning expectations, and the logging policy for CLI/library output.
 - Added a CLI-wide `--quiet` option that suppresses confirmation chatter while keeping the result output intact.
+- Added a CLI-wide `--verbose` option that emits debug diagnostics to stderr without changing stdout result formatting.
+- Added `voiage generate-config` so the CLI can emit JSON templates for common analysis inputs, starting with EVSI.
+- Added working examples to the CLI help output for the result, plotting, and config-generation commands.
+- Added a dedicated CLI e2e smoke-test file that exercises the full command surface through `CliRunner`.
 - Added a CLI-wide `--format` option for text, JSON, and CSV output, with formatter coverage across the main result commands and plot summaries.
 - Added a `--parameters-of-interest` alias for `voiage calculate-structural-evppi`, plus CLI wrappers for the existing CEAC, CEAF, VOI-curve, and dominance plotting APIs.
 - Added `voiage plot-ceac`, `voiage plot-ceaf`, `voiage plot-voi-curves`, and `voiage plot-dominance` CLI commands for the existing plotting APIs.

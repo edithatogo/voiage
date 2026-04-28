@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "status": "scaffold",
+  "families": [
+    {
+      "name": "lifecourse",
+      "purpose": "HEOML-compatible health-economic run bundles and VOI handoff artifacts",
+      "fixture_status": "planned"
+    },
+    {
+      "name": "innovate",
+      "purpose": "health-intervention adoption and diffusion uncertainty artifacts",
+      "fixture_status": "planned"
+    },
+    {
+      "name": "mars",
+      "purpose": "optional surrogate/metamodel backend validation fixtures",
+      "fixture_status": "planned"
+    }
+  ],
+  "notes": [
+    "This manifest is a contract outline rather than a committed compatibility fixture set.",
+    "The first concrete fixtures should be deterministic and small enough for CI."
+  ]
+}

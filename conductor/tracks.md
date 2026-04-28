@@ -9,8 +9,8 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [~] Track: Fix Infrastructure and Configuration
-*Link: [./tracks/fix-infrastructure/](./tracks/fix-infrastructure/)*
+## [x] Track: Fix Infrastructure and Configuration [completed: 2026-04-28]
+*Link: [./archive/fix-infrastructure_20260428/](./archive/fix-infrastructure_20260428/)*
 
 ---
 
@@ -40,13 +40,13 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: Activate and Wire Up Public API
-*Link: [./tracks/activate-public-api/](./tracks/activate-public-api/)*
+## [x] Track: Activate and Wire Up Public API [completed: 2026-04-28]
+*Link: [./archive/activate-public-api_20260428/](./archive/activate-public-api_20260428/)*
 
 ---
 
-## [ ] Track: Replace Placeholders and Implement Missing Methods
-*Link: [./tracks/implement-missing-methods/](./tracks/implement-missing-methods/)*
+## [x] Track: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]
+*Link: [./archive/implement-missing-methods_20260428/](./archive/implement-missing-methods_20260428/)*
 
 ---
 
@@ -57,3 +57,13 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ## [ ] Track: Documentation, Validation and Developer Experience
 *Link: [./tracks/docs-developer-experience/](./tracks/docs-developer-experience/)*
+
+---
+
+## [ ] Track: lifecourse Integration Contract
+*Link: [./tracks/lifecourse-integration-contract_20260429/](./tracks/lifecourse-integration-contract_20260429/)*
+
+---
+
+## [x] Track: Ecosystem Module Incubation [completed: 2026-04-29]
+*Link: [./archive/ecosystem-module-incubation_20260429/](./archive/ecosystem-module-incubation_20260429/)*

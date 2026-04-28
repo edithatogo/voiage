@@ -1,0 +1,21 @@
+{
+  "version": "v1",
+  "status": "scaffold",
+  "normative": [
+    {
+      "name": "screening program deterministic bundle",
+      "method_family": "evpi",
+      "expected_output_artifact": "normative/screening_program_bundle.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "The normative fixture is a compact screening-program bundle that carries both EVPI and EVPPI reference payloads.",
+    "Portable interchange formats are JSON metadata plus CSV, Arrow, or Parquet tables depending on artifact size."
+  ]
+}

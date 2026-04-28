@@ -12,6 +12,25 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Define the ecosystem module incubation policy for `voiage`.
+    *   Documented the `voiage` role alongside `lifecourse`, `innovate`, `mars`, and HEOML.
+    *   Kept the ecosystem scope focused on health economics and outcomes research.
+    *   Reserved the HEOML `voiage` extension boundary for VOI handoff and VOI result metadata.
+    *   Defined optional adapter gates and compatibility-fixture expectations.
+    *   Kept `mars` as a fixed-API optional metamodel backend.
+
+*   [x] Define the `lifecourse` integration contract and compatibility fixture plan.
+    *   Added the v1 artifact profile scaffold for consuming `lifecourse` PSA outputs.
+    *   Aligned the profile with HEOML while preserving `voiage` VOI-specific schemas.
+    *   Documented the optional adapter and dependency policy.
+    *   Documented portable interchange formats and excluded pickle from the shared contract.
+    *   Seeded a deterministic local compatibility fixture with EVPI and EVPPI reference payloads.
+
+*   [x] Add CLI `--verbose` debug logging that writes diagnostics to stderr without changing stdout output.
+*   [x] Add example config generation for `voiage generate-config evsi > evsi_config.json`.
+*   [x] Ensure all CLI `--help` output includes working examples.
+*   [x] Add CLI end-to-end smoke tests covering the full command surface with `CliRunner`.
+
 *   [x] Define polyglot tooling parity and observability plan.
     *   Documented the Python-only tooling stack, mapped the per-language CI/package gates, and captured the logging and versioning contract for the polyglot bindings.
 *   [x] Implement dynamic-programming portfolio VOI optimization.
