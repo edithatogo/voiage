@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Documented the polyglot binding release matrix with tooling parity, registry/versioning expectations, and the logging policy for CLI/library output.
+- Added a CLI-wide `--quiet` option that suppresses confirmation chatter while keeping the result output intact.
+- Added a CLI-wide `--format` option for text, JSON, and CSV output, with formatter coverage across the main result commands and plot summaries.
+- Added a `--parameters-of-interest` alias for `voiage calculate-structural-evppi`, plus CLI wrappers for the existing CEAC, CEAF, VOI-curve, and dominance plotting APIs.
+- Added `voiage plot-ceac`, `voiage plot-ceaf`, `voiage plot-voi-curves`, and `voiage plot-dominance` CLI commands for the existing plotting APIs.
+- Added `voiage calculate-adaptive-evsi`, `voiage calculate-portfolio-voi`, and `voiage calculate-sequential-voi` as thin CLI wrappers over the adaptive, portfolio, and sequential VOI methods.
+- Added `voiage calculate-enbs` with direct or file-backed EVSI input parsing and optional result-file output.
+- Added curated top-level `voiage` package exports for `DecisionAnalysis`, schema types, and core methods, plus a `__version__` attribute from package metadata.
+- Added `DecisionAnalysis` wrappers for CEAF, dominance, Value of Heterogeneity, and portfolio VOI so the new methods are reachable through the high-level analysis surface.
+- Added exact dynamic-programming portfolio VOI optimization with budget-constrained selection, dependency-group value discounting, and regression coverage against greedy misses.
+- Added Value of Heterogeneity calculation for subgroup-specific decisions, numeric subgroup binning, and subgroup VOH plotting.
+- Added strong/extended dominance analysis, ICER calculation helpers, cost-effectiveness frontier extraction, and a dominance plot helper.
+- Added Cost-Effectiveness Acceptability Frontier (CEAF) calculation and plotting helpers with uncertainty bands and export coverage.
+- Added efficient PSA-regression and moment-based EVSI approximation methods, including a `voiage calculate-evsi` CLI command with method selection.
+- Added a built-in observational study VOI modeler for explicit net-benefit or cost/effect PSA samples, including sample-size and bias-strength uncertainty adjustment.
+- Added targeted branch coverage for schema, backend, structural VOI, config, financial-risk, healthcare, memory-optimization, and network meta-analysis paths, and enabled branch-aware coverage gating at 90%.
+- Added initial TypeScript, Go, Rust, Julia, and .NET 11 binding package scaffolds, plus GitHub Actions CI/release workflows for npm, Go modules, crates.io, Julia package validation, NuGet, and the existing R package.
 - Archived and marked complete the Python cleanup against spec track.
 - Added regression coverage confirming chunked EVPPI evaluation matches the unchunked path.
 - Added regression coverage for the TreeAge invalid XML fail-soft path and its warning emission.
@@ -29,6 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added the versioned core API fixture scaffold under `specs/core-api/fixtures/v1/`, including the initial manifest contract and validator coverage for the normative and illustrative subtrees.
 
 ### Changed
+- Made the calibration VOI modeler optional by defaulting to the built-in calibration modeler when no custom modeler is supplied.
+- Replaced the JAX two-loop EVSI placeholder/fallback path with a real JAX-assisted posterior update and resampling implementation.
+- Replaced the sequential VOI step-level EVPI variance heuristic with the standard `E[max NB] - max(E[NB])` calculation for explicit strategy payoff samples.
+- Replaced stale legacy type-checker references with `ty` across the active tooling, contributor docs, and Conductor infrastructure plan.
+- Consolidated security linting into Ruff's selected `S` rules and removed the standalone Bandit gate from active tooling.
 - Stabilized the curated package exports for `voiage.core`, `voiage.methods`, and `voiage.plot`, and added regression coverage for package-level imports.
 - Stabilized the top-level `voiage` package facade so importing `voiage` now exposes the main submodules directly, with regression coverage for the export surface.
 - Added focused regression coverage for NMA CLI config validation and error branches.
@@ -69,7 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Migrated from pip/tox to uv for 10-100x faster dependency resolution
 - Expanded Ruff configuration with comprehensive rule sets
-- Added ty type checker alongside MyPy
+- Standardized static type checking on ty
 - Enhanced pre-commit hooks with ty, commitlint, shellcheck, vulture
 - Added integration and E2E test structure with pytest markers
 - Modernized CI/CD with uv caching, CodeQL, benchmark tracking
@@ -90,7 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial project structure and placeholder files.
 - Core dependencies in `pyproject.toml`.
-- Pre-commit hooks for `black`, `flake8`, and `mypy`.
+- Pre-commit hooks for `black`, `flake8`, and `ty`.
 - `NetBenefitArray`, `PSASample`, `TrialArm`, `TrialDesign`, `PortfolioStudy`, `PortfolioSpec`, and `DynamicSpec` data structures.
 - `evpi()`, `evppi()`, `evsi()`, and `enbs()` methods.
 - Unit tests for `evpi()`, `evppi()`, `evsi()`, and `enbs()`.

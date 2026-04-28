@@ -4,8 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [ ] Define polyglot tooling parity and observability plan.
-    *   Audit the Python-only tooling stack, map per-language equivalents, and lock down logging/versioning rules for the new binding approach.
+*None at the moment.*
 
 ## In Progress
 
@@ -13,6 +12,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Define polyglot tooling parity and observability plan.
+    *   Documented the Python-only tooling stack, mapped the per-language CI/package gates, and captured the logging and versioning contract for the polyglot bindings.
 *   [x] Implement dynamic-programming portfolio VOI optimization.
     *   Replaced the placeholder with memoized budget-constrained subset selection, optional dependency-group value discounting, and regression tests proving DP can outperform greedy selection.
 *   [x] Implement Value of Heterogeneity.
