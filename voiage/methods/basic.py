@@ -32,7 +32,31 @@ except ImportError:
 
 
 def check_parameter_samples(parameter_samples: object, n_samples: int) -> np.ndarray:
-    """Check and format parameter samples for EVPPI calculation."""
+    """Validate and normalize parameter samples for EVPPI.
+
+    Parameters
+    ----------
+    parameter_samples : object
+        Parameter samples supplied as a NumPy array, a ``PSASample``, or a
+        mapping from parameter names to arrays.
+    n_samples : int
+        Expected sample count from the associated net-benefit array.
+
+    Returns
+    -------
+    numpy.ndarray
+        A 2D array with shape ``(n_samples, n_parameters)``.
+
+    Raises
+    ------
+    InputError
+        If the input type is unsupported or the sample counts do not match.
+
+    Notes
+    -----
+    This helper is intentionally strict: EVPPI requires aligned PSA samples so
+    the parameter matrix and net-benefit matrix can be paired sample by sample.
+    """
     if isinstance(parameter_samples, np.ndarray):
         x = parameter_samples
     elif isinstance(parameter_samples, PSASample):
@@ -67,21 +91,27 @@ def evpi(
     time_horizon: float | None = None,
     discount_rate: float | None = None,
 ) -> float:
-    """Functional wrapper for the :meth:`DecisionAnalysis.evpi` method.
+    r"""Calculate expected value of perfect information.
 
-    This function provides a simple, stateless interface for calculating EVPI.
-    It creates a temporary :class:`DecisionAnalysis` object internally.
-
-    Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): A 2D NumPy array or
-            NetBenefitArray of shape (n_samples, n_strategies).
-        population (Optional[float]): The relevant population size.
-        time_horizon (Optional[float]): The relevant time horizon in years.
-        discount_rate (Optional[float]): The annual discount rate.
+    Parameters
+    ----------
+    nb_array : numpy.ndarray or ValueArray
+        Net-benefit samples with shape ``(n_samples, n_strategies)``.
+    population : float, optional
+        Population size for population-scaled EVPI.
+    time_horizon : float, optional
+        Time horizon in years for population scaling.
+    discount_rate : float, optional
+        Annual discount rate used for population scaling.
 
     Returns
     -------
-        float: The calculated EVPI.
+    float
+        EVPI on a per-decision basis unless population scaling is requested.
+
+    Notes
+    -----
+    EVPI is computed as :math:`E[\\max_i NB_i(\\theta)] - \\max_i E[NB_i(\\theta)]`.
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
 
@@ -106,26 +136,38 @@ def evppi(
     | type[RegressionModelProtocol]
     | None = None,
 ) -> float:
-    """Functional wrapper for the :meth:`DecisionAnalysis.evppi` method.
+    """Calculate expected value of partial perfect information.
 
-    This function provides a simple, stateless interface for calculating EVPPI.
-    It creates a temporary :class:`DecisionAnalysis` object internally.
-
-    Args:
-        nb_array (Union[np.ndarray, NetBenefitArray]): Net benefit array.
-        parameter_samples (Union[np.ndarray, PSASample, Dict[str, np.ndarray]]):
-            Samples of all parameters.
-        parameters_of_interest (list): List of parameter names to consider for EVPPI.
-        population (Optional[float]): Population size for scaling.
-        time_horizon (Optional[float]): Time horizon for scaling.
-        discount_rate (Optional[float]): Discount rate for scaling.
-        n_regression_samples (Optional[int]): Number of samples for regression.
-        chunk_size (Optional[int]): Chunk size for batched EVPPI evaluation.
-        regression_model (Optional[object]): scikit-learn compatible regression model.
+    Parameters
+    ----------
+    nb_array : numpy.ndarray or ValueArray
+        Net-benefit samples with shape ``(n_samples, n_strategies)``.
+    parameter_samples : numpy.ndarray, PSASample, or dict[str, numpy.ndarray]
+        PSA parameter samples aligned to ``nb_array``.
+    parameters_of_interest : list[str]
+        Parameter names to retain for the EVPPI calculation.
+    population : float, optional
+        Population size for population-scaled EVPPI.
+    time_horizon : float, optional
+        Time horizon in years for population scaling.
+    discount_rate : float, optional
+        Annual discount rate used for population scaling.
+    n_regression_samples : int, optional
+        Number of samples to use in the regression approximation.
+    chunk_size : int, optional
+        Optional batch size for chunked evaluation.
+    regression_model : RegressionModelProtocol or type, optional
+        Optional regression model used by the analysis layer.
 
     Returns
     -------
-        float: The calculated EVPPI.
+    float
+        EVPPI on a per-decision basis unless population scaling is requested.
+
+    Notes
+    -----
+    EVPPI is always bounded above by EVPI and depends on the chosen
+    approximation method used internally by :class:`~voiage.analysis.DecisionAnalysis`.
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
 

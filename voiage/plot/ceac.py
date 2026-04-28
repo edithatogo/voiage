@@ -1,6 +1,5 @@
 """Plotting functions for CEACs, CE Planes, and EVPPI surfaces."""
 
-
 import numpy as np
 
 # Attempt to import Matplotlib, but make it optional
@@ -16,11 +15,16 @@ except ImportError:
     Axes = None  # type: ignore
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import InputError, PlottingError
+from voiage.exceptions import raise_input_error, raise_plotting_error
 from voiage.schema import ValueArray
 
 
-def _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples):
+def _calculate_prob_ce(
+    nb_values: np.ndarray,
+    n_strategies: int,
+    n_wtp_points: int,
+    n_samples: int,
+) -> np.ndarray:
     prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
 
     # For each WTP threshold
@@ -45,43 +49,41 @@ def plot_ceac(
     ylabel: str = "Probability Cost-Effective",
     title: str = "Cost-Effectiveness Acceptability Curve (CEAC)",
     ax: Axes | None = None,
-    **plot_kwargs_per_strategy: list[dict] | None,  # List of dicts for each strategy's plot call
+    **plot_kwargs_per_strategy: object,  # List of dicts for each strategy's plot call
 ) -> Axes:
-    """Plot a Cost-Effectiveness Acceptability Curve (CEAC).
+    """Plot a cost-effectiveness acceptability curve.
 
-    A CEAC shows the probability that each strategy is optimal (has the highest
-    net benefit) across a range of willingness-to-pay (WTP) thresholds.
-
-    Args:
-        value_array (ValueArray):
-            ValueArray object containing net benefit values.
-            The underlying data array is expected to be 3D
-            (n_samples, n_strategies, n_wtp_thresholds).
-        wtp_thresholds (Union[np.ndarray, List[float]]):
-            Array or list of WTP thresholds. The length must match the size of
-            the last dimension of `nb_array.values` if it's 3D.
-        strategy_names (Optional[List[str]]):
-            Names for each strategy. If None, names from the ValueArray are used.
-            Length must match `nb_array.shape[1]`.
-        xlabel (str): Label for the x-axis.
-        ylabel (str): Label for the y-axis.
-        title (str): Title of the plot.
-        ax (Optional[Axes]): Matplotlib Axes object to plot on.
-        **plot_kwargs_per_strategy: A list of dictionaries, where each dictionary contains
-                                     kwargs for the `ax.plot()` call for the corresponding strategy.
-                                     If not provided, default styling is used.
+    Parameters
+    ----------
+    value_array : ValueArray
+        3D net-benefit surface with samples, strategies, and WTP thresholds.
+    wtp_thresholds : numpy.ndarray or list[float]
+        Willingness-to-pay thresholds used for the x-axis.
+    strategy_names : list[str], optional
+        Override strategy names.
+    xlabel : str, default="Willingness-to-Pay Threshold"
+        X-axis label.
+    ylabel : str, default="Probability Cost-Effective"
+        Y-axis label.
+    title : str, default="Cost-Effectiveness Acceptability Curve (CEAC)"
+        Plot title.
+    ax : matplotlib.axes.Axes, optional
+        Axes to draw on.
+    **plot_kwargs_per_strategy : object
+        Optional list of per-strategy keyword argument dictionaries.
 
     Returns
     -------
-        Axes: The Matplotlib Axes object with the plot.
+    matplotlib.axes.Axes
+        Axes containing the CEAC plot.
 
-    Raises
-    ------
-        PlottingError: If Matplotlib is not installed.
-        InputError: If input dimensions or lengths are mismatched.
+    Notes
+    -----
+    A CEAC shows the probability that each strategy is optimal across the
+    supplied willingness-to-pay thresholds.
     """
     if not MATPLOTLIB_AVAILABLE:
-        raise PlottingError(
+        raise_plotting_error(
             "Matplotlib is required for plotting functions but not installed."
         )
 
@@ -91,7 +93,7 @@ def plot_ceac(
 
     expected_ndim = 3
     if nb_values.ndim != expected_ndim:
-        raise InputError(
+        raise_input_error(
             "For CEAC, nb_values must be a 3D array (samples x strategies x WTP thresholds)."
             "Ensure net benefits are calculated for each WTP.",
         )
@@ -100,13 +102,13 @@ def plot_ceac(
     wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
 
     if len(wtp_arr) != n_wtp_points:
-        raise InputError(
+        raise_input_error(
             f"Length of wtp_thresholds ({len(wtp_arr)}) must match the third dimension "
             f"of nb_values ({n_wtp_points}).",
         )
 
     if len(strategy_names) != n_strategies:
-        raise InputError(
+        raise_input_error(
             f"Length of strategy_names ({len(strategy_names)}) must match the second dimension "
             f"of nb_values ({n_strategies}).",
         )
@@ -116,19 +118,21 @@ def plot_ceac(
 
     prob_ce = _calculate_prob_ce(nb_values, n_strategies, n_wtp_points, n_samples)
 
-    user_plot_kwargs_list: list[dict] = plot_kwargs_per_strategy.get(
-        "plot_kwargs_per_strategy", []
-    )
+    raw_plot_kwargs_list = plot_kwargs_per_strategy.get("plot_kwargs_per_strategy", [])
+    if not isinstance(raw_plot_kwargs_list, list):
+        raise_input_error("plot_kwargs_per_strategy must be a list of dictionaries.")
+
+    user_plot_kwargs_list: list[dict[str, object]] = raw_plot_kwargs_list
     if len(user_plot_kwargs_list) != n_strategies and user_plot_kwargs_list:
         # Optional: Add a warning if the lengths don't match
         pass
 
     for s_idx in range(n_strategies):
         # Start with default kwargs
-        current_kwargs: dict = {"label": strategy_names[s_idx]}
+        current_kwargs: dict[str, object] = {"label": strategy_names[s_idx]}
 
         # Get user-provided kwargs for this specific strategy
-        user_kwargs: dict = {}
+        user_kwargs: dict[str, object] = {}
         if s_idx < len(user_plot_kwargs_list):
             user_kwargs = user_plot_kwargs_list[s_idx]
 
