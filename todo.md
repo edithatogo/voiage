@@ -4,7 +4,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*None at the moment.*
+*   [ ] Define polyglot tooling parity and observability plan.
+    *   Audit the Python-only tooling stack, map per-language equivalents, and lock down logging/versioning rules for the new binding approach.
 
 ## In Progress
 
@@ -12,6 +13,28 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Implement dynamic-programming portfolio VOI optimization.
+    *   Replaced the placeholder with memoized budget-constrained subset selection, optional dependency-group value discounting, and regression tests proving DP can outperform greedy selection.
+*   [x] Implement Value of Heterogeneity.
+    *   Added subgroup-specific decision value calculations, numeric subgroup binning, optimal subgroup identification, and subgroup plotting.
+*   [x] Implement dominance analysis and plotting.
+    *   Added strong dominance, extended dominance, frontier extraction, ICER helpers, and a cost-effectiveness plane plot.
+*   [x] Implement Cost-Effectiveness Acceptability Frontier (CEAF).
+    *   Added CEAF calculation, plotting, uncertainty bands, and package export coverage.
+*   [x] Add efficient and moment-based EVSI methods plus an EVSI CLI command.
+    *   Added `evsi(..., method="efficient")`, `evsi(..., method="moment_based")`, efficient metamodel selection, and `voiage calculate-evsi`.
+*   [x] Default calibration VOI to the built-in modeler.
+    *   Made `voi_calibration` usable without a custom modeler by defaulting to the existing built-in calibration modeler.
+*   [x] Add a built-in observational VOI modeler.
+    *   Added a default observational modeler for explicit net-benefit or cost/effect PSA samples with sample-size and bias-strength uncertainty adjustment.
+*   [x] Replace the JAX two-loop EVSI placeholder.
+    *   Implemented a JAX-assisted posterior update and resampling path and added a regression test proving the NumPy fallback is not used.
+*   [x] Replace the sequential VOI step-level EVPI placeholder.
+    *   Implemented the standard EVPI formula for explicit net-benefit samples and added regression tests for payoff extraction, monotonic learning behavior, and resolved-uncertainty cases.
+*   [x] Enforce 90% branch-aware Python coverage.
+    *   Enabled branch coverage in the active coverage configuration and added targeted tests across schema, backend, structural VOI, config, financial-risk, healthcare, memory-optimization, and network meta-analysis paths.
+*   [x] Scaffold polyglot binding package CI and release publishing.
+    *   Added TypeScript/npm, Go module, Rust/crates.io, Julia, .NET 11/NuGet, and R package validation paths.
 *   [x] Add regression coverage for the TreeAge invalid XML fail-soft path and warning emission.
     *   Locked in the empty-dict fallback and `UserWarning` emission for malformed TreeAge XML imports.
 *   [x] Add regression coverage for callable import resolution and schema round-trips.

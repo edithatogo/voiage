@@ -189,7 +189,7 @@
 - [ ] Ensure setup instructions are current and accurate
 - [ ] Document the test running commands
 - [ ] Document the ruff strict configuration
-- [ ] Document the mypy strict configuration
+- [ ] Document the ty strict configuration
 - [ ] Document the coverage requirements (≥90%)
 - [ ] Add section on how to add new VOI methods
 - [ ] Add section on how to add new plotting functions
@@ -214,6 +214,13 @@
 - [ ] Step-by-step guide for adding a new VOI method
 - [ ] Template for method function signature
 - [ ] Checklist: implementation, tests, docs, CLI, validation
+
+### 5.5 Define polyglot tooling parity and runtime observability [PENDING]
+- [ ] Audit Python-only developer tools (`scalene`, `mutmut`, `pytest-benchmark`) and classify each as keep, replace, or intentionally Python-only
+- [ ] Define the equivalent quality gates for each binding family: TypeScript, Go, Rust, Julia, .NET 11, and R
+- [ ] Specify the release/versioning contract for every package manager so tags, manifests, and published artifacts stay aligned
+- [ ] Document the logging policy for library and CLI surfaces, including quiet/verbose behavior and machine-readable output stability
+- [ ] Capture cases where no direct equivalent exists and state the fallback or omission explicitly
 
 ---
 
@@ -254,7 +261,7 @@
 
 ### 7.1 Run complete tooling suite [PENDING]
 - [ ] `ruff check voiage/ tests/` — zero errors
-- [ ] `mypy voiage/ --strict` — zero errors
+- [ ] `tox -e typecheck` — zero errors
 - [ ] `pytest tests/ --cov=voiage --cov-fail-under=90` — all tests pass, coverage ≥90%
 
 ### 7.2 Verify documentation builds [PENDING]
@@ -292,7 +299,7 @@ After completing each phase above, execute the following protocol **before** mar
    - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
 3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
 4. **Apply all Critical and High severity fixes** identified by the review automatically.
-5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+5. **Re-run verification:** `ruff check voiage/ tests/ && tox -e typecheck && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
 6. **If verification fails:**
    - **Attempt 1:** Fix the failure, commit, re-run verification.
    - **Attempt 2:** Fix the failure again, commit, re-run verification.
@@ -308,7 +315,7 @@ After Phase 7 is complete and all phase reviews pass:
 
 1. **Invoke `/conductor:review`** targeting the **entire track** (from track start commit to HEAD).
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
-3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
+3. **Re-run full test suite:** `ruff check voiage/ tests/ && tox -e typecheck && pytest tests/ --cov=voiage --cov-fail-under=90`
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for docs-developer-experience"`
 5. **Push to remote and verify CI:**
    - `git push origin main`
