@@ -10,203 +10,237 @@ even when they haven't been directly compared in head-to-head trials.
 These VOI methods quantify the value of reducing uncertainty in NMA results.
 """
 
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Any
 
 import numpy as np
 
-from voiage.core.utils import check_input_array
-from voiage.exceptions import InputError
-from voiage.schema import ParameterSet, ValueArray
+from voiage.exceptions import raise_input_error
+from voiage.schema import ValueArray
 
 
 class NetworkMetaAnalysisData:
     """Data structure for Network Meta-Analysis inputs.
-    
-    Attributes:
-        treatment_effects: Dictionary mapping treatment pairs to effect sizes.
-                          Keys are tuples like ('A', 'B'), values are arrays of samples.
-        n_studies: Number of studies in the network.
-        treatments: List of treatment names.
-        outcome_type: Type of outcome ('continuous', 'binary', 'survival').
+
+    Attributes
+    ----------
+    treatment_effects : dict[tuple[str, str], numpy.ndarray]
+        Mapping from treatment pairs to effect-size samples.
+    n_studies : int
+        Number of studies in the network.
+    treatments : list[str]
+        Treatment names.
+    outcome_type : str
+        Outcome type, such as ``continuous`` or ``binary``.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.network_meta_analysis import NetworkMetaAnalysisData
+    >>> data = NetworkMetaAnalysisData({("A", "B"): np.array([0.1, 0.2])}, 1, ["A", "B"])
+    >>> data.get_n_treatments()
+    2
     """
-    
+
     def __init__(
         self,
-        treatment_effects: Dict[Tuple[str, str], np.ndarray],
+        treatment_effects: dict[tuple[str, str], np.ndarray],
         n_studies: int,
-        treatments: List[str],
+        treatments: list[str],
         outcome_type: str = "continuous",
     ):
-        """Initialize NMA data structure.
-        
-        Args:
-            treatment_effects: Dictionary of treatment pair effects.
-            n_studies: Number of studies in the network.
-            treatments: List of treatment names.
-            outcome_type: Type of outcome measure.
-            
-        Raises:
-            InputError: If inputs are invalid or inconsistent.
+        """Initialize the network meta-analysis data structure.
+
+        Parameters
+        ----------
+        treatment_effects : dict[tuple[str, str], numpy.ndarray]
+            Treatment-pair effects.
+        n_studies : int
+            Number of studies in the network.
+        treatments : list[str]
+            Treatment names.
+        outcome_type : str, default="continuous"
+            Outcome type.
         """
         # Validate treatment_effects
         if not treatment_effects:
-            raise InputError("treatment_effects must not be empty.")
-        
+            raise_input_error("treatment_effects must not be empty.")
+
         # Validate no empty arrays
         for key, val in treatment_effects.items():
             if val.size == 0:
-                raise InputError(f"Treatment effects for {key} must not be empty.")
-        
+                raise_input_error(f"Treatment effects for {key} must not be empty.")
+
         # Validate treatments
         if len(treatments) < 2:
-            raise InputError("At least 2 treatments are required.")
-        
+            raise_input_error("At least 2 treatments are required.")
+
         # Validate outcome_type
         valid_outcomes = ["continuous", "binary", "survival"]
         if outcome_type not in valid_outcomes:
-            raise InputError(f"outcome_type must be one of {valid_outcomes}.")
-        
+            raise_input_error(f"outcome_type must be one of {valid_outcomes}.")
+
         # Validate n_studies
         if n_studies < 1:
-            raise InputError("n_studies must be at least 1.")
-        
+            raise_input_error("n_studies must be at least 1.")
+
         # Validate treatment effects have consistent sample sizes
         sample_sizes = [v.shape[0] for v in treatment_effects.values()]
         if len(set(sample_sizes)) > 1:
-            raise InputError("All treatment effects must have the same number of samples.")
-        
+            raise_input_error(
+                "All treatment effects must have the same number of samples."
+            )
+
         self.treatment_effects = treatment_effects
         self.n_studies = n_studies
         self.treatments = treatments
         self.outcome_type = outcome_type
         self.n_samples = sample_sizes[0]
-    
-    def get_treatment_names(self) -> List[str]:
+
+    def get_treatment_names(self) -> list[str]:
         """Return list of treatment names."""
         return self.treatments
-    
+
     def get_n_treatments(self) -> int:
         """Return number of treatments."""
         return len(self.treatments)
-    
+
     def get_n_samples(self) -> int:
         """Return number of PSA samples."""
-        return self.n_samples
+        return int(self.n_samples)
 
 
 def calculate_nma_evpi(
-    nma_data: Union[NetworkMetaAnalysisData, Dict],
+    nma_data: NetworkMetaAnalysisData | dict[str, Any],
     n_samples: int = 10000,
-    willingness_to_pay: Optional[float] = None,
-    population: Optional[float] = None,
-    time_horizon: Optional[float] = None,
-    discount_rate: Optional[float] = None,
+    willingness_to_pay: float | None = None,
+    population: float | None = None,
+    time_horizon: float | None = None,
+    discount_rate: float | None = None,
 ) -> float:
-    """Calculate Expected Value of Perfect Information for Network Meta-Analysis.
-    
-    NMA-EVPI quantifies the expected gain from eliminating all uncertainty
-    in the network meta-analysis results, including both parameter uncertainty
-    and structural uncertainty about the network.
-    
-    Args:
-        nma_data: Network meta-analysis data or dictionary with results.
-        n_samples: Number of PSA samples (if generating from distribution).
-        willingness_to_pay: Willingness-to-pay threshold per unit.
-        population: Population size for scaling.
-        time_horizon: Time horizon in years.
-        discount_rate: Annual discount rate.
-        
-    Returns:
-        float: The calculated NMA-EVPI.
+    """Calculate expected value of perfect information for NMA.
+
+    Parameters
+    ----------
+    nma_data : NetworkMetaAnalysisData or dict[str, Any]
+        Network meta-analysis inputs or a dictionary representation.
+    n_samples : int, default=10000
+        Number of PSA samples to use when extracting net benefits.
+    willingness_to_pay : float, optional
+        Willingness-to-pay threshold per unit.
+    population : float, optional
+        Population size for population scaling.
+    time_horizon : float, optional
+        Time horizon in years for population scaling.
+    discount_rate : float, optional
+        Annual discount rate used for population scaling.
+
+    Returns
+    -------
+    float
+        NMA EVPI on a per-decision basis unless population scaling is
+        requested.
     """
     # Convert dict to NetworkMetaAnalysisData if needed
     if isinstance(nma_data, dict):
         nma_data = _dict_to_nma_data(nma_data)
-    
+
     # Extract net benefit samples from NMA results
     nb_array = _extract_net_benefits_from_nma(nma_data, n_samples, willingness_to_pay)
-    
+
     # Calculate EVPI using standard method
     from voiage.methods.basic import evpi
-    
-    return evpi(
-        nb_array,
-        population=population,
-        time_horizon=time_horizon,
-        discount_rate=discount_rate,
+
+    return float(
+        evpi(
+            nb_array,
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+        )
     )
 
 
 def calculate_nma_evppi(
-    nma_data: Union[NetworkMetaAnalysisData, Dict],
-    parameters_of_interest: List[str],
-    parameter_samples: Dict[str, np.ndarray],
+    nma_data: NetworkMetaAnalysisData | dict[str, Any],
+    parameters_of_interest: list[str],
+    parameter_samples: dict[str, np.ndarray],
     n_samples: int = 10000,
-    willingness_to_pay: Optional[float] = None,
-    population: Optional[float] = None,
-    time_horizon: Optional[float] = None,
-    discount_rate: Optional[float] = None,
+    willingness_to_pay: float | None = None,
+    population: float | None = None,
+    time_horizon: float | None = None,
+    discount_rate: float | None = None,
 ) -> float:
-    """Calculate Expected Value of Partial Perfect Information for NMA.
-    
-    NMA-EVPPI quantifies the expected gain from eliminating uncertainty
-    in a specific subset of parameters within the network meta-analysis.
-    
-    Args:
-        nma_data: Network meta-analysis data.
-        parameters_of_interest: List of parameter names to resolve uncertainty for.
-        parameter_samples: Dictionary of parameter samples.
-        n_samples: Number of PSA samples.
-        willingness_to_pay: Willingness-to-pay threshold.
-        population: Population size for scaling.
-        time_horizon: Time horizon in years.
-        discount_rate: Annual discount rate.
-        
-    Returns:
-        float: The calculated NMA-EVPPI.
+    """Calculate expected value of partial perfect information for NMA.
+
+    Parameters
+    ----------
+    nma_data : NetworkMetaAnalysisData or dict[str, Any]
+        Network meta-analysis inputs or a dictionary representation.
+    parameters_of_interest : list[str]
+        Parameter names whose uncertainty is being resolved.
+    parameter_samples : dict[str, numpy.ndarray]
+        PSA parameter samples.
+    n_samples : int, default=10000
+        Number of PSA samples to use when extracting net benefits.
+    willingness_to_pay : float, optional
+        Willingness-to-pay threshold per unit.
+    population : float, optional
+        Population size for population scaling.
+    time_horizon : float, optional
+        Time horizon in years for population scaling.
+    discount_rate : float, optional
+        Annual discount rate used for population scaling.
+
+    Returns
+    -------
+    float
+        NMA EVPPI on a per-decision basis unless population scaling is
+        requested.
     """
     # Convert dict to NetworkMetaAnalysisData if needed
     if isinstance(nma_data, dict):
         nma_data = _dict_to_nma_data(nma_data)
-    
+
     # Extract net benefit samples
     nb_array = _extract_net_benefits_from_nma(nma_data, n_samples, willingness_to_pay)
-    
+
     # Calculate EVPPI using standard method
     from voiage.methods.basic import evppi
-    
-    return evppi(
-        nb_array=nb_array,
-        parameter_samples=parameter_samples,
-        parameters_of_interest=parameters_of_interest,
-        population=population,
-        time_horizon=time_horizon,
-        discount_rate=discount_rate,
+
+    return float(
+        evppi(
+            nb_array=nb_array,
+            parameter_samples=parameter_samples,
+            parameters_of_interest=parameters_of_interest,
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+        )
     )
 
 
 # --- Helper Functions ---
 
-def _dict_to_nma_data(data: Dict) -> NetworkMetaAnalysisData:
-    """Convert dictionary to NetworkMetaAnalysisData."""
+
+def _dict_to_nma_data(data: dict[str, Any]) -> NetworkMetaAnalysisData:
+    """Convert a dictionary to :class:`NetworkMetaAnalysisData`."""
     if "treatment_effects" not in data:
-        raise InputError("Dictionary must contain 'treatment_effects' key.")
-    
+        raise_input_error("Dictionary must contain 'treatment_effects' key.")
+
     # Convert string keys to tuples
-    treatment_effects = {}
+    treatment_effects: dict[tuple[str, str], np.ndarray] = {}
     for key, value in data["treatment_effects"].items():
-        if isinstance(key, str) and "-" in key:
-            pair = tuple(key.split("-"))
-        else:
-            pair = key
-        treatment_effects[pair] = np.asarray(value)
-    
+        pair = tuple(key.split("-")) if isinstance(key, str) and "-" in key else key
+        if not isinstance(pair, tuple) or len(pair) != 2:
+            raise_input_error("Treatment effect keys must be treatment pairs.")
+        treatment_effects[(str(pair[0]), str(pair[1]))] = np.asarray(value)
+
     return NetworkMetaAnalysisData(
         treatment_effects=treatment_effects,
         n_studies=data.get("n_studies", 1),
-        treatments=data.get("treatments", list(set(
-            t for pair in treatment_effects.keys() for t in pair
-        ))),
+        treatments=data.get(
+            "treatments", list({t for pair in treatment_effects for t in pair})
+        ),
         outcome_type=data.get("outcome_type", "continuous"),
     )
 
@@ -214,22 +248,33 @@ def _dict_to_nma_data(data: Dict) -> NetworkMetaAnalysisData:
 def _extract_net_benefits_from_nma(
     nma_data: NetworkMetaAnalysisData,
     n_samples: int,
-    willingness_to_pay: Optional[float] = None,
+    willingness_to_pay: float | None = None,
 ) -> ValueArray:
-    """Extract net benefit array from NMA results.
-    
-    This converts NMA treatment effect samples into a net benefit format
-    suitable for standard EVPI/EVPPI calculation.
+    """Extract net-benefit samples from NMA results.
+
+    Parameters
+    ----------
+    nma_data : NetworkMetaAnalysisData
+        Network meta-analysis inputs.
+    n_samples : int
+        Number of samples to extract.
+    willingness_to_pay : float, optional
+        Willingness-to-pay threshold per unit.
+
+    Returns
+    -------
+    ValueArray
+        Net-benefit surface compatible with the standard EVPI/EVPPI methods.
     """
     n_treatments = nma_data.get_n_treatments()
     treatments = nma_data.treatments
-    
+
     # Use minimum sample size from treatment effects
     actual_samples = min(n_samples, nma_data.get_n_samples())
-    
+
     # Initialize net benefit array (samples x treatments)
     nb_values = np.zeros((actual_samples, n_treatments))
-    
+
     # Set baseline (first treatment) to 0
     # Other treatments get their effect sizes
     for i, treatment in enumerate(treatments):
@@ -239,7 +284,7 @@ def _extract_net_benefits_from_nma(
             # Find effect size for this treatment vs baseline
             baseline_key = (treatments[0], treatment)
             reverse_key = (treatment, treatments[0])
-            
+
             if baseline_key in nma_data.treatment_effects:
                 effects = nma_data.treatment_effects[baseline_key]
                 nb_values[:, i] = effects[:actual_samples]
@@ -249,19 +294,19 @@ def _extract_net_benefits_from_nma(
             else:
                 # If no direct comparison, estimate from network
                 # Simple approach: average of available comparisons
-                effects = []
+                comparison_effects: list[np.ndarray] = []
                 for key, val in nma_data.treatment_effects.items():
                     if treatment in key:
                         sign = 1 if key[1] == treatment else -1
-                        effects.append(sign * val[:actual_samples])
-                
-                if effects:
-                    nb_values[:, i] = np.mean(effects, axis=0)
+                        comparison_effects.append(sign * val[:actual_samples])
+
+                if comparison_effects:
+                    nb_values[:, i] = np.mean(comparison_effects, axis=0)
                 else:
                     nb_values[:, i] = 0  # No data available
-    
+
     # Apply willingness-to-pay if provided (for cost-effectiveness)
     if willingness_to_pay is not None:
         nb_values *= willingness_to_pay
-    
+
     return ValueArray.from_numpy(nb_values, treatments)
