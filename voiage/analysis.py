@@ -3,26 +3,27 @@
 """A module for the core decision analysis interface."""
 
 from collections import deque
-from collections.abc import Generator
-from typing import Any
+from collections.abc import Callable, Generator, Sequence
+from typing import Any, Protocol
 
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
-    CalculationError,
-    DimensionMismatchError,
-    InputError,
-    OptionalDependencyError,
+    raise_calculation_error,
+    raise_dimension_mismatch_error,
+    raise_input_error,
+    raise_optional_dependency_error,
 )
 from voiage.main_backends import get_backend
-from voiage.schema import ParameterSet, ValueArray
+from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArray
 
 # Check for JAX availability
 JAX_AVAILABLE = False
 try:
     import jax.numpy as jnp
+
     JAX_AVAILABLE = True
 except ImportError:
     jnp = None
@@ -40,13 +41,71 @@ except ImportError:
     pass
 
 
+class RegressionModelProtocol(Protocol):
+    """Minimal regression model contract used by EVPPI helpers."""
+
+    def fit(self, x: np.ndarray, y: np.ndarray) -> object:
+        """Fit the model."""
+
+    def predict(self, x: np.ndarray) -> np.ndarray:
+        """Predict outputs for the given design matrix."""
+
+
 class DecisionAnalysis:
-    """A class to represent a decision analysis problem."""
+    """Stateful decision-analysis interface for VOI calculations.
+
+    The class wraps a net-benefit surface and optional parameter samples, then
+    exposes the core EVPI/EVPPI/EVSI and downstream analysis methods through a
+    single object. It also manages backend selection, caching, and streaming
+    updates for callers that accumulate data over time.
+
+    Parameters
+    ----------
+    nb_array : numpy.ndarray or ValueArray
+        Net-benefit samples with shape ``(n_samples, n_strategies)``.
+    parameter_samples : numpy.ndarray, ParameterSet, dict[str, numpy.ndarray], optional
+        Optional parameter samples used by EVPPI, EVSI, and related methods.
+    backend : str, optional
+        Backend name to use. If omitted, the backend is auto-detected.
+    use_jit : bool, default=False
+        Enable JAX JIT compilation where available.
+    streaming_window_size : int, optional
+        If provided, enable rolling-window buffering for incremental updates.
+    enable_caching : bool, default=False
+        Cache intermediate results when repeated calculations are expected.
+
+    Attributes
+    ----------
+    nb_array : ValueArray
+        Normalized net-benefit container used by the analysis methods.
+    parameter_samples : ParameterSet or None
+        Normalized parameter samples, or ``None`` if the analysis is
+        net-benefit only.
+    backend : object
+        Selected computational backend implementation.
+    use_jit : bool
+        Whether JAX JIT compilation is enabled.
+    streaming_window_size : int or None
+        Size of the streaming buffer, if enabled.
+    enable_caching : bool
+        Whether the instance cache is active.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.analysis import DecisionAnalysis
+    >>> analysis = DecisionAnalysis(np.array([[10.0, 12.0], [11.0, 9.5]]))
+    >>> round(analysis.evpi(), 2)
+    1.0
+    """
 
     def __init__(
         self,
         nb_array: np.ndarray | ValueArray,
-        parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
+        parameter_samples: np.ndarray
+        | ParameterSet
+        | dict[str, np.ndarray]
+        | None = None,
         backend: str | None = None,
         use_jit: bool = False,
         streaming_window_size: int | None = None,
@@ -58,7 +117,7 @@ class DecisionAnalysis:
             # Assuming strategy names are not provided
             self.nb_array = ValueArray.from_numpy(nb_array)
         else:
-            raise InputError("`nb_array` must be a NumPy array or ValueArray object.")
+            raise_input_error("`nb_array` must be a NumPy array or ValueArray object.")
 
         if parameter_samples is not None:
             if isinstance(parameter_samples, ParameterSet):
@@ -68,7 +127,7 @@ class DecisionAnalysis:
                     parameter_samples
                 )
             else:
-                raise InputError(
+                raise_input_error(
                     f"`parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(parameter_samples)}."
                 )
         else:
@@ -79,25 +138,34 @@ class DecisionAnalysis:
         if backend is None:
             backend = self._auto_detect_backend(nb_array, parameter_samples)
 
-        self.backend = get_backend(backend)
+        self.backend: Any = get_backend(backend)
         self.use_jit = use_jit
 
         # Streaming data support
         self.streaming_window_size = streaming_window_size
-        self._streaming_data_buffer = None
-        self._streaming_parameter_buffer = None
+        self._streaming_data_buffer: deque[np.ndarray] | None = None
+        self._streaming_parameter_buffer: deque[Any] | None = None
         if streaming_window_size is not None:
             self._initialize_streaming_buffers()
 
         # Caching support
         self.enable_caching = enable_caching
-        self._cache = {} if enable_caching else None
+        self._cache: dict[str, Any] | None = {} if enable_caching else None
+
+        # Optional caller-provided decision scoring function used by higher-level wrappers.
+        self.decision_function: Any | None = None
 
         # Track data changes to invalidate cache
         self._data_hash = self._compute_data_hash()
 
-    def _auto_detect_backend(self, nb_array: np.ndarray | ValueArray,
-                            parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None) -> str:
+    def _auto_detect_backend(
+        self,
+        nb_array: np.ndarray | ValueArray,
+        parameter_samples: np.ndarray
+        | ParameterSet
+        | dict[str, np.ndarray]
+        | None = None,
+    ) -> str:
         """
         Automatically detect and select the appropriate backend based on input data.
 
@@ -123,13 +191,12 @@ class DecisionAnalysis:
                 return "jax"
         elif isinstance(nb_array, np.ndarray):
             # Check if numpy array is actually a JAX array in disguise
-            if hasattr(nb_array, "dtype") and hasattr(nb_array, "shape"):
-                try:
-                    # Check if it's a JAX array by looking for JAX-specific attributes
-                    if hasattr(nb_array, "device") or hasattr(nb_array, "aval"):
-                        return "jax"
-                except Exception:
-                    pass  # Ignore if device attribute check fails
+            if (
+                hasattr(nb_array, "dtype")
+                and hasattr(nb_array, "shape")
+                and (hasattr(nb_array, "device") or hasattr(nb_array, "aval"))
+            ):
+                return "jax"
 
         # Check parameter samples for JAX arrays
         if parameter_samples is not None:
@@ -162,11 +229,14 @@ class DecisionAnalysis:
         hash_components.append(hash(nb_values.tobytes()))
 
         # Hash parameter samples if they exist
-        if self.parameter_samples is not None:
-            if hasattr(self.parameter_samples, "parameters") and isinstance(self.parameter_samples.parameters, dict):
-                for param_name, param_values in self.parameter_samples.parameters.items():
-                    hash_components.append(hash(param_name))
-                    hash_components.append(hash(param_values.tobytes()))
+        if (
+            self.parameter_samples is not None
+            and hasattr(self.parameter_samples, "parameters")
+            and isinstance(self.parameter_samples.parameters, dict)
+        ):
+            for param_name, param_values in self.parameter_samples.parameters.items():
+                hash_components.append(hash(param_name))
+                hash_components.append(hash(param_values.tobytes()))
 
         # Combine all hash components
         return hash(tuple(hash_components))
@@ -179,7 +249,7 @@ class DecisionAnalysis:
                 self._cache.clear()
                 self._data_hash = current_hash
 
-    def _cache_get(self, key: str) -> Any | None:
+    def _cache_get(self, key: str) -> float | None:
         """
         Get a value from the cache.
 
@@ -195,7 +265,7 @@ class DecisionAnalysis:
             return self._cache.get(key)
         return None
 
-    def _cache_set(self, key: str, value: Any) -> None:
+    def _cache_set(self, key: str, value: object) -> None:
         """
         Set a value in the cache.
 
@@ -213,12 +283,17 @@ class DecisionAnalysis:
             # Initialize buffers as deques with maximum length
             self._streaming_data_buffer = deque(maxlen=self.streaming_window_size)
             if self.parameter_samples is not None:
-                self._streaming_parameter_buffer = deque(maxlen=self.streaming_window_size)
+                self._streaming_parameter_buffer = deque(
+                    maxlen=self.streaming_window_size
+                )
 
     def update_with_new_data(
         self,
         new_nb_data: np.ndarray | ValueArray,
-        new_parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None
+        new_parameter_samples: np.ndarray
+        | ParameterSet
+        | dict[str, np.ndarray]
+        | None = None,
     ) -> None:
         """
         Update the decision analysis with new data for streaming VOI calculations.
@@ -233,37 +308,48 @@ class DecisionAnalysis:
         elif isinstance(new_nb_data, np.ndarray):
             new_nb_values = new_nb_data
         else:
-            raise InputError("`new_nb_data` must be a NumPy array or ValueArray object.")
+            raise_input_error(
+                "`new_nb_data` must be a NumPy array or ValueArray object."
+            )
 
         # Validate dimensions
         if new_nb_values.ndim != 2:
-            raise DimensionMismatchError("New net benefit data must be 2-dimensional.")
+            raise_dimension_mismatch_error(
+                "New net benefit data must be 2-dimensional."
+            )
 
         # If we have streaming buffers, add the new data
         if self._streaming_data_buffer is not None:
             # Add new data to buffer
             for i in range(new_nb_values.shape[0]):
-                self._streaming_data_buffer.append(new_nb_values[i:i+1, :])
+                self._streaming_data_buffer.append(new_nb_values[i : i + 1, :])
 
                 # If we have parameter samples, add them too
-                if new_parameter_samples is not None and self._streaming_parameter_buffer is not None:
+                if (
+                    new_parameter_samples is not None
+                    and self._streaming_parameter_buffer is not None
+                ):
                     # Convert parameter samples to appropriate format
                     if isinstance(new_parameter_samples, ParameterSet):
                         param_values = new_parameter_samples
                     elif isinstance(new_parameter_samples, (dict, np.ndarray)):
-                        param_values = ParameterSet.from_numpy_or_dict(new_parameter_samples)
+                        param_values = ParameterSet.from_numpy_or_dict(
+                            new_parameter_samples
+                        )
                     else:
-                        raise InputError(
+                        raise_input_error(
                             f"`new_parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(new_parameter_samples)}."
                         )
 
                     # Add parameter sample to buffer
-                    if hasattr(param_values, "parameters") and isinstance(param_values.parameters, dict):
+                    if hasattr(param_values, "parameters") and isinstance(
+                        param_values.parameters, dict
+                    ):
                         # Extract the i-th sample for each parameter
                         sample_dict = {}
                         for param_name, param_array in param_values.parameters.items():
                             if i < len(param_array):
-                                sample_dict[param_name] = param_array[i:i+1]
+                                sample_dict[param_name] = param_array[i : i + 1]
                         self._streaming_parameter_buffer.append(sample_dict)
 
             # Update the main data arrays with buffered data
@@ -280,26 +366,27 @@ class DecisionAnalysis:
             self.nb_array = ValueArray.from_numpy(buffered_data)
 
         if self._streaming_parameter_buffer and self.parameter_samples:
-            # Convert buffered parameters to ParameterSet
-            if self._streaming_parameter_buffer:
-                # Combine all buffered parameter samples
-                combined_params = {}
-                for buffered_sample in self._streaming_parameter_buffer:
-                    for param_name, param_value in buffered_sample.items():
-                        if param_name not in combined_params:
-                            combined_params[param_name] = []
-                        combined_params[param_name].extend(param_value)
+            # Combine all buffered parameter samples.
+            combined_params_lists: dict[str, list[float]] = {}
+            for buffered_sample in self._streaming_parameter_buffer:
+                for param_name, param_value in buffered_sample.items():
+                    combined_params_lists.setdefault(param_name, []).extend(param_value)
 
-                # Convert to numpy arrays
-                for param_name, param_values in combined_params.items():
-                    combined_params[param_name] = np.array(param_values)
+            # Convert to numpy arrays.
+            combined_params: dict[str, np.ndarray] = {
+                param_name: np.array(param_values)
+                for param_name, param_values in combined_params_lists.items()
+            }
 
-                self.parameter_samples = ParameterSet.from_numpy_or_dict(combined_params)
+            self.parameter_samples = ParameterSet.from_numpy_or_dict(combined_params)
 
     def _append_to_existing_data(
         self,
         new_nb_values: np.ndarray,
-        new_parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None
+        new_parameter_samples: np.ndarray
+        | ParameterSet
+        | dict[str, np.ndarray]
+        | None = None,
     ) -> None:
         """Append new data to existing data arrays."""
         # Append to net benefit data
@@ -315,22 +402,30 @@ class DecisionAnalysis:
             elif isinstance(new_parameter_samples, (dict, np.ndarray)):
                 new_params = ParameterSet.from_numpy_or_dict(new_parameter_samples)
             else:
-                raise InputError(
+                raise_input_error(
                     f"`new_parameter_samples` must be a NumPy array, ParameterSet, or Dict. Got {type(new_parameter_samples)}."
                 )
 
             # Combine parameter samples
-            if hasattr(new_params, "parameters") and isinstance(new_params.parameters, dict):
+            if hasattr(new_params, "parameters") and isinstance(
+                new_params.parameters, dict
+            ):
                 combined_params = {}
                 for param_name in self.parameter_samples.parameters:
                     if param_name in new_params.parameters:
-                        combined_params[param_name] = np.concatenate([
-                            self.parameter_samples.parameters[param_name],
-                            new_params.parameters[param_name]
-                        ])
+                        combined_params[param_name] = np.concatenate(
+                            [
+                                self.parameter_samples.parameters[param_name],
+                                new_params.parameters[param_name],
+                            ]
+                        )
                     else:
-                        combined_params[param_name] = self.parameter_samples.parameters[param_name]
-                self.parameter_samples = ParameterSet.from_numpy_or_dict(combined_params)
+                        combined_params[param_name] = self.parameter_samples.parameters[
+                            param_name
+                        ]
+                self.parameter_samples = ParameterSet.from_numpy_or_dict(
+                    combined_params
+                )
 
     def streaming_evpi(self) -> Generator[float, None, None]:
         """
@@ -397,7 +492,7 @@ class DecisionAnalysis:
         cache_key = f"evpi_{population}_{time_horizon}_{discount_rate}_{chunk_size}"
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
-            return cached_result
+            return float(cached_result)
 
         nb_values = self.nb_array.numpy_values
         check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
@@ -423,24 +518,28 @@ class DecisionAnalysis:
             per_decision_evpi = max(0.0, float(per_decision_evpi))
 
         except Exception as e:
-            raise CalculationError(f"Error during EVPI calculation: {e}") from e
+            raise_calculation_error(f"Error during EVPI calculation: {e}", e)
 
         if population is not None and time_horizon is not None:
             # Validate population parameter
             if not isinstance(population, (int, float)):
-                raise InputError(f"Population must be a number. Got {type(population)}.")
+                raise_input_error(
+                    f"Population must be a number. Got {type(population)}."
+                )
             if population <= 0:
-                raise InputError(f"Population must be positive. Got {population}.")
+                raise_input_error(f"Population must be positive. Got {population}.")
             if not np.isfinite(population):
-                raise InputError(f"Population must be finite. Got {population}.")
+                raise_input_error(f"Population must be finite. Got {population}.")
 
             # Validate time_horizon parameter
             if not isinstance(time_horizon, (int, float)):
-                raise InputError(f"Time horizon must be a number. Got {type(time_horizon)}.")
+                raise_input_error(
+                    f"Time horizon must be a number. Got {type(time_horizon)}."
+                )
             if time_horizon <= 0:
-                raise InputError(f"Time horizon must be positive. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
             if not np.isfinite(time_horizon):
-                raise InputError(f"Time horizon must be finite. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
 
             # Validate discount_rate parameter
             current_dr = discount_rate
@@ -448,11 +547,15 @@ class DecisionAnalysis:
                 current_dr = 0.0  # Default to no discounting if not provided
 
             if not isinstance(current_dr, (int, float)):
-                raise InputError(f"Discount rate must be a number. Got {type(current_dr)}.")
+                raise_input_error(
+                    f"Discount rate must be a number. Got {type(current_dr)}."
+                )
             if not (0 <= current_dr <= 1):
-                raise InputError(f"Discount rate must be between 0 and 1. Got {current_dr}.")
+                raise_input_error(
+                    f"Discount rate must be between 0 and 1. Got {current_dr}."
+                )
             if not np.isfinite(current_dr):
-                raise InputError(f"Discount rate must be finite. Got {current_dr}.")
+                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
 
             # Calculate annuity factor
             if current_dr == 0:
@@ -464,7 +567,7 @@ class DecisionAnalysis:
 
             # Validate result
             if not np.isfinite(result):
-                raise CalculationError(f"Calculated EVPI is not finite: {result}")
+                raise_calculation_error(f"Calculated EVPI is not finite: {result}")
 
             # Cache the result
             self._cache_set(cache_key, result)
@@ -474,7 +577,7 @@ class DecisionAnalysis:
             or time_horizon is not None
             or discount_rate is not None
         ):
-            raise InputError(
+            raise_input_error(
                 "To calculate population EVPI, 'population' and 'time_horizon' must be provided. "
                 "'discount_rate' is optional (defaults to 0 if not provided)."
             )
@@ -482,6 +585,21 @@ class DecisionAnalysis:
         # Cache the result
         self._cache_set(cache_key, float(per_decision_evpi))
         return float(per_decision_evpi)
+
+    def calculate_evpi(
+        self,
+        population: float | None = None,
+        time_horizon: float | None = None,
+        discount_rate: float | None = None,
+        chunk_size: int | None = None,
+    ) -> float:
+        """Compatibility wrapper around :meth:`evpi`."""
+        return self.evpi(
+            population=population,
+            time_horizon=time_horizon,
+            discount_rate=discount_rate,
+            chunk_size=chunk_size,
+        )
 
     def _incremental_evpi(self, nb_values: np.ndarray, chunk_size: int) -> float:
         """
@@ -525,7 +643,7 @@ class DecisionAnalysis:
         expected_nb_options = strategy_sums / n_processed
         max_expected_nb = np.max(expected_nb_options)
 
-        return expected_max_nb - max_expected_nb
+        return float(expected_max_nb - max_expected_nb)
 
     def evppi(
         self,
@@ -534,7 +652,9 @@ class DecisionAnalysis:
         time_horizon: float | None = None,
         discount_rate: float | None = None,
         n_regression_samples: int | None = None,
-        regression_model: Any | None = None,
+        regression_model: RegressionModelProtocol
+        | type[RegressionModelProtocol]
+        | None = None,
         chunk_size: int | None = None,
     ) -> float:
         """Calculate the Expected Value of Partial Perfect Information (EVPPI).
@@ -581,16 +701,16 @@ class DecisionAnalysis:
         )
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
-            return cached_result
+            return float(cached_result)
 
         if not SKLEARN_AVAILABLE:
-            raise OptionalDependencyError(
+            raise_optional_dependency_error(
                 "scikit-learn is required for EVPPI calculation. "
                 "Please install it (e.g., `pip install scikit-learn`)."
             )
 
         if self.parameter_samples is None:
-            raise InputError(
+            raise_input_error(
                 "`parameter_samples` must be provided for EVPPI calculation."
             )
 
@@ -598,7 +718,7 @@ class DecisionAnalysis:
             parameters_of_interest = list(self.parameter_samples.parameter_names)
 
         if not isinstance(parameters_of_interest, list):
-            raise InputError(
+            raise_input_error(
                 "`parameters_of_interest` must be a list of parameter names."
             )
 
@@ -606,7 +726,7 @@ class DecisionAnalysis:
         param_names = self.parameter_samples.parameter_names
         for param in parameters_of_interest:
             if param not in param_names:
-                raise InputError(
+                raise_input_error(
                     "All `parameters_of_interest` must be in the ParameterSet"
                 )
 
@@ -619,7 +739,7 @@ class DecisionAnalysis:
         if n_strategies == 1:  # Single strategy
             return 0.0
         if n_samples == 0:
-            raise InputError("`nb_array` cannot be empty (no samples).")
+            raise_input_error("`nb_array` cannot be empty (no samples).")
 
         x_all = self._get_parameter_samples_as_ndarray()
 
@@ -631,19 +751,19 @@ class DecisionAnalysis:
 
         if n_regression_samples is not None:
             if not isinstance(n_regression_samples, int):
-                raise InputError(
+                raise_input_error(
                     f"n_regression_samples must be an integer. Got {type(n_regression_samples)}."
                 )
             if n_regression_samples <= 0:
-                raise InputError(
+                raise_input_error(
                     f"n_regression_samples must be positive. Got {n_regression_samples}."
                 )
             if not np.isfinite(n_regression_samples):
-                raise InputError(
+                raise_input_error(
                     f"n_regression_samples must be finite. Got {n_regression_samples}."
                 )
             if n_regression_samples > n_samples:
-                raise InputError(
+                raise_input_error(
                     f"n_regression_samples ({n_regression_samples}) cannot exceed total samples ({n_samples})."
                 )
 
@@ -662,22 +782,20 @@ class DecisionAnalysis:
             y_fit = nb_values_fit[:, i]
 
             if regression_model is None:
-                model = SklearnLinearRegression()
+                model: RegressionModelProtocol = SklearnLinearRegression()
+            elif isinstance(regression_model, type):
+                model = regression_model()
             else:
-                # Ensure it's a new instance if a class is passed, or use instance if provided
-                try:
-                    model = regression_model()  # if it's a class
-                except TypeError:
-                    model = regression_model  # if it's an instance
+                model = regression_model
 
             try:
                 model.fit(x_fit, y_fit)
                 # Predict on the full set of parameter samples X
                 fitted_nb_on_params[:, i] = model.predict(x)
             except Exception as e:
-                raise CalculationError(
-                    f"Error during regression for strategy {i}: {e}"
-                ) from e
+                raise_calculation_error(
+                    f"Error during regression for strategy {i}: {e}", e
+                )
 
         # Calculate E_p [max_d E[NB_d|p]]
         # This is the mean of the maximum (over strategies) of the fitted net benefits
@@ -688,7 +806,7 @@ class DecisionAnalysis:
             max_e_nb = self._incremental_max_expected_nb(nb_values, chunk_size)
         else:
             # Standard calculation
-            max_e_nb: float = np.max(np.mean(nb_values, axis=0))
+            max_e_nb = float(np.max(np.mean(nb_values, axis=0)))
 
         per_decision_evppi = float(e_max_enb_conditional - max_e_nb)
 
@@ -698,19 +816,23 @@ class DecisionAnalysis:
         if population is not None and time_horizon is not None:
             # Validate population parameter
             if not isinstance(population, (int, float)):
-                raise InputError(f"Population must be a number. Got {type(population)}.")
+                raise_input_error(
+                    f"Population must be a number. Got {type(population)}."
+                )
             if population <= 0:
-                raise InputError(f"Population must be positive. Got {population}.")
+                raise_input_error(f"Population must be positive. Got {population}.")
             if not np.isfinite(population):
-                raise InputError(f"Population must be finite. Got {population}.")
+                raise_input_error(f"Population must be finite. Got {population}.")
 
             # Validate time_horizon parameter
             if not isinstance(time_horizon, (int, float)):
-                raise InputError(f"Time horizon must be a number. Got {type(time_horizon)}.")
+                raise_input_error(
+                    f"Time horizon must be a number. Got {type(time_horizon)}."
+                )
             if time_horizon <= 0:
-                raise InputError(f"Time horizon must be positive. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
             if not np.isfinite(time_horizon):
-                raise InputError(f"Time horizon must be finite. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
 
             # Validate discount_rate parameter
             current_dr = discount_rate
@@ -718,11 +840,15 @@ class DecisionAnalysis:
                 current_dr = 0.0
 
             if not isinstance(current_dr, (int, float)):
-                raise InputError(f"Discount rate must be a number. Got {type(current_dr)}.")
+                raise_input_error(
+                    f"Discount rate must be a number. Got {type(current_dr)}."
+                )
             if not (0 <= current_dr <= 1):
-                raise InputError(f"Discount rate must be between 0 and 1. Got {current_dr}.")
+                raise_input_error(
+                    f"Discount rate must be between 0 and 1. Got {current_dr}."
+                )
             if not np.isfinite(current_dr):
-                raise InputError(f"Discount rate must be finite. Got {current_dr}.")
+                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
 
             # Calculate annuity factor
             if current_dr == 0:
@@ -734,7 +860,7 @@ class DecisionAnalysis:
 
             # Validate result
             if not np.isfinite(result):
-                raise CalculationError(f"Calculated EVPPI is not finite: {result}")
+                raise_calculation_error(f"Calculated EVPPI is not finite: {result}")
 
             # Cache the result
             self._cache_set(cache_key, result)
@@ -744,7 +870,7 @@ class DecisionAnalysis:
             or time_horizon is not None
             or discount_rate is not None
         ):
-            raise InputError(
+            raise_input_error(
                 "To calculate population EVPPI, 'population' and 'time_horizon' must be provided. "
                 "'discount_rate' is optional (defaults to 0 if not provided)."
             )
@@ -795,10 +921,10 @@ class DecisionAnalysis:
         cache_key = f"enbs_{research_cost}_{strategy_of_interest}_{population}_{time_horizon}_{discount_rate}"
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
-            return cached_result
+            return float(cached_result)
 
         nb_values = self.nb_array.numpy_values
-        check_input_array(nb_values, expected_ndim=2, name="nb_array")
+        check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
 
         if nb_values.size == 0:
             return 0.0
@@ -809,7 +935,9 @@ class DecisionAnalysis:
             # Use the selected backend for computation
             if self.use_jit and hasattr(self.backend, "enbs_simple_jit"):
                 # Use JIT compilation if available and requested
-                per_decision_enbs = self.backend.enbs_simple_jit(nb_values, research_cost)
+                per_decision_enbs = self.backend.enbs_simple_jit(
+                    nb_values, research_cost
+                )
             else:
                 # Use regular computation
                 per_decision_enbs = self.backend.enbs_simple(nb_values, research_cost)
@@ -818,24 +946,28 @@ class DecisionAnalysis:
             per_decision_enbs = max(0.0, float(per_decision_enbs))
 
         except Exception as e:
-            raise CalculationError(f"Error during ENBS calculation: {e}") from e
+            raise_calculation_error(f"Error during ENBS calculation: {e}", e)
 
         if population is not None and time_horizon is not None:
             # Validate population parameter
             if not isinstance(population, (int, float)):
-                raise InputError(f"Population must be a number. Got {type(population)}.")
+                raise_input_error(
+                    f"Population must be a number. Got {type(population)}."
+                )
             if population <= 0:
-                raise InputError(f"Population must be positive. Got {population}.")
+                raise_input_error(f"Population must be positive. Got {population}.")
             if not np.isfinite(population):
-                raise InputError(f"Population must be finite. Got {population}.")
+                raise_input_error(f"Population must be finite. Got {population}.")
 
             # Validate time_horizon parameter
             if not isinstance(time_horizon, (int, float)):
-                raise InputError(f"Time horizon must be a number. Got {type(time_horizon)}.")
+                raise_input_error(
+                    f"Time horizon must be a number. Got {type(time_horizon)}."
+                )
             if time_horizon <= 0:
-                raise InputError(f"Time horizon must be positive. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
             if not np.isfinite(time_horizon):
-                raise InputError(f"Time horizon must be finite. Got {time_horizon}.")
+                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
 
             # Validate discount_rate parameter
             current_dr = discount_rate
@@ -843,11 +975,15 @@ class DecisionAnalysis:
                 current_dr = 0.0  # Default to no discounting if not provided
 
             if not isinstance(current_dr, (int, float)):
-                raise InputError(f"Discount rate must be a number. Got {type(current_dr)}.")
+                raise_input_error(
+                    f"Discount rate must be a number. Got {type(current_dr)}."
+                )
             if not (0 <= current_dr <= 1):
-                raise InputError(f"Discount rate must be between 0 and 1. Got {current_dr}.")
+                raise_input_error(
+                    f"Discount rate must be between 0 and 1. Got {current_dr}."
+                )
             if not np.isfinite(current_dr):
-                raise InputError(f"Discount rate must be finite. Got {current_dr}.")
+                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
 
             # Calculate annuity factor
             if current_dr == 0:
@@ -859,7 +995,7 @@ class DecisionAnalysis:
 
             # Validate result
             if not np.isfinite(result):
-                raise CalculationError(f"Calculated ENBS is not finite: {result}")
+                raise_calculation_error(f"Calculated ENBS is not finite: {result}")
 
             # Cache the result
             self._cache_set(cache_key, result)
@@ -869,7 +1005,7 @@ class DecisionAnalysis:
             or time_horizon is not None
             or discount_rate is not None
         ):
-            raise InputError(
+            raise_input_error(
                 "To calculate population ENBS, 'population' and 'time_horizon' must be provided. "
                 "'discount_rate' is optional (defaults to 0 if not provided)."
             )
@@ -878,7 +1014,97 @@ class DecisionAnalysis:
         self._cache_set(cache_key, float(per_decision_enbs))
         return float(per_decision_enbs)
 
-    def _incremental_max_expected_nb(self, nb_values: np.ndarray, chunk_size: int) -> float:
+    def ceaf(
+        self,
+        wtp_thresholds: Sequence[float],
+        strategy_names: Sequence[str] | None = None,
+        confidence_level: float = 0.95,
+    ) -> Any:
+        """Calculate the Cost-Effectiveness Acceptability Frontier."""
+        from voiage.methods.ceaf import calculate_ceaf
+
+        return calculate_ceaf(
+            self.nb_array,
+            wtp_thresholds=wtp_thresholds,
+            strategy_names=strategy_names,
+            confidence_level=confidence_level,
+        )
+
+    def dominance(
+        self,
+        costs: Sequence[float],
+        effects: Sequence[float],
+        strategy_names: Sequence[str] | None = None,
+    ) -> Any:
+        """Calculate strong and extended dominance for cost/effect pairs."""
+        from voiage.methods.dominance import calculate_dominance
+
+        return calculate_dominance(
+            costs=costs,
+            effects=effects,
+            strategy_names=strategy_names,
+        )
+
+    def value_of_heterogeneity(
+        self,
+        subgroups: Sequence[object],
+        strategy_names: Sequence[str] | None = None,
+        n_bins: int | None = None,
+    ) -> Any:
+        """Calculate the value of subgroup-specific decisions."""
+        from voiage.methods.heterogeneity import value_of_heterogeneity
+
+        return value_of_heterogeneity(
+            self.nb_array,
+            subgroups=subgroups,
+            strategy_names=strategy_names,
+            n_bins=n_bins,
+        )
+
+    def portfolio_voi(
+        self,
+        portfolio_specification: PortfolioSpec,
+        study_value_calculator: Callable[[PortfolioStudy], float],
+        optimization_method: str = "greedy",
+        **kwargs: object,
+    ) -> dict[str, object]:
+        """Optimize a research portfolio from the analysis surface."""
+        from voiage.methods.portfolio import portfolio_voi
+
+        return portfolio_voi(
+            portfolio_specification=portfolio_specification,
+            study_value_calculator=study_value_calculator,
+            optimization_method=optimization_method,
+            **kwargs,
+        )
+
+    def get_decision_recommendations(self) -> list[dict[str, Any]]:
+        """Summarize the strategies with the highest expected net benefit."""
+        nb_values = self.nb_array.numpy_values
+        check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
+
+        if nb_values.size == 0:
+            return []
+
+        mean_net_benefit = np.mean(nb_values, axis=0)
+        strategy_names = self.nb_array.strategy_names
+        best_index = int(np.argmax(mean_net_benefit))
+
+        return [
+            {
+                "strategy": strategy_name,
+                "mean_net_benefit": float(mean_value),
+                "recommended": index == best_index,
+                "rank": int(np.argsort(-mean_net_benefit).tolist().index(index) + 1),
+            }
+            for index, (strategy_name, mean_value) in enumerate(
+                zip(strategy_names, mean_net_benefit, strict=True)
+            )
+        ]
+
+    def _incremental_max_expected_nb(
+        self, nb_values: np.ndarray, chunk_size: int
+    ) -> float:
         """
         Calculate max(E[NB_d]) incrementally in chunks to handle large datasets.
 
@@ -917,13 +1143,13 @@ class DecisionAnalysis:
     def _get_parameter_samples_as_ndarray(self) -> np.ndarray:
         """Get parameter samples as a numpy array for regression."""
         if self.parameter_samples is None:
-            raise InputError("`parameter_samples` are not available.")
+            raise_input_error("`parameter_samples` are not available.")
 
         if isinstance(self.parameter_samples.parameters, dict):
             x = np.stack(list(self.parameter_samples.parameters.values()), axis=1)
         else:
             # Handle xarray or other types if necessary
-            raise InputError(
+            raise_input_error(
                 "PSASample with non-dict parameters not yet supported for EVPPI."
             )
 
@@ -931,7 +1157,7 @@ class DecisionAnalysis:
             x = x.reshape(-1, 1)
 
         if x.shape[0] != self.nb_array.n_samples:
-            raise DimensionMismatchError(
+            raise_dimension_mismatch_error(
                 f"Number of samples in `parameter_samples` ({x.shape[0]}) "
                 f"does not match `nb_array` ({self.nb_array.n_samples})."
             )

@@ -3,10 +3,11 @@
 ## Phase 1: Complete Public API Docstrings [checkpoint: ]
 
 ### 1.1 Audit existing docstrings [PENDING]
-- [ ] Review all public functions in `voiage/methods/` — list those missing or incomplete docstrings
-- [ ] Review all public functions in `voiage/plot/` — list those missing or incomplete docstrings
-- [ ] Review all classes in `voiage/schema.py`, `voiage/analysis.py` — list those missing or incomplete docstrings
-- [ ] Review all modules — list those missing module-level docstrings
+- [x] Review all public functions in `voiage/methods/` — list those missing or incomplete docstrings
+- [x] Review all public functions in `voiage/plot/` — list those missing or incomplete docstrings
+- [x] Review all classes in `voiage/schema.py`, `voiage/analysis.py` — list those missing or incomplete docstrings
+- [x] Review all modules — list those missing module-level docstrings
+  - Audit result: no missing public docstrings were found in the inspected surface; see `audit.md`.
 
 ### 1.2 Standardize docstring format [PENDING]
 - [ ] All docstrings follow NumPy convention (per `[tool.ruff.lint.pydocstyle].convention = "numpy"`)

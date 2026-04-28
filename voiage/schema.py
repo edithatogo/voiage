@@ -10,40 +10,63 @@ appropriate, and are intended to work seamlessly with NumPy and Pandas/xarray.
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 import numpy as np
 import xarray as xr
 
-from voiage.exceptions import InputError
+from voiage.exceptions import (
+    raise_import_error,
+    raise_input_error,
+    raise_value_error,
+)
 
 # Try to import JAX for array support
 try:
     import jax.numpy as jnp
+
     JAX_AVAILABLE = True
 except ImportError:
     JAX_AVAILABLE = False
     jnp = None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class ValueArray:
-    """A container for net benefit values from a PSA."""
+    """Container for probabilistic sensitivity analysis net-benefit samples.
+
+    Attributes
+    ----------
+    dataset : xarray.Dataset
+        Dataset with ``n_samples`` and ``n_strategies`` dimensions and a
+        ``net_benefit`` data variable.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array([[10.0, 12.0], [11.0, 9.5]])
+    >>> va = ValueArray.from_numpy(values, ["A", "B"])
+    >>> va.n_samples, va.n_strategies
+    (2, 2)
+    """
+
+    __hash__ = None  # type: ignore[assignment]
 
     dataset: xr.Dataset
 
-    def __post_init__(self: "ValueArray"):
+    def __post_init__(self: "ValueArray") -> None:
         """Validate the dataset."""
         if not isinstance(self.dataset, xr.Dataset):
-            raise InputError("ValueArray 'dataset' must be a xarray.Dataset.")
+            raise_input_error("ValueArray 'dataset' must be a xarray.Dataset.")
         if "n_samples" not in self.dataset.dims:
-            raise InputError("ValueArray 'dataset' must have a 'n_samples' dimension.")
+            raise_input_error("ValueArray 'dataset' must have a 'n_samples' dimension.")
         if "n_strategies" not in self.dataset.dims:
-            raise InputError(
+            raise_input_error(
                 "ValueArray 'dataset' must have a 'n_strategies' dimension."
             )
         if "net_benefit" not in self.dataset.data_vars:
-            raise InputError(
+            raise_input_error(
                 "ValueArray 'dataset' must have a 'net_benefit' data variable."
             )
 
@@ -67,12 +90,12 @@ class ValueArray:
     @property
     def n_samples(self: "ValueArray") -> int:
         """Return the number of samples."""
-        return self.dataset.sizes["n_samples"]
+        return int(self.dataset.sizes["n_samples"])
 
     @property
     def n_strategies(self: "ValueArray") -> int:
         """Return the number of strategies."""
-        return self.dataset.sizes["n_strategies"]
+        return int(self.dataset.sizes["n_strategies"])
 
     @property
     def strategy_names(self: "ValueArray") -> list[str]:
@@ -88,9 +111,11 @@ class ValueArray:
         try:
             return self.strategy_names.index(strategy_name)
         except ValueError as exc:
-            raise ValueError(f"Strategy '{strategy_name}' not found.") from exc
+            raise_value_error(f"Strategy '{strategy_name}' not found.", exc)
 
-    def slice_by_strategies(self: "ValueArray", strategy_names: Sequence[str]) -> "ValueArray":
+    def slice_by_strategies(
+        self: "ValueArray", strategy_names: Sequence[str]
+    ) -> "ValueArray":
         """Return a new ValueArray containing only the requested strategies."""
         indices = [self.get_strategy_index(name) for name in strategy_names]
         sliced = self.dataset.isel(n_strategies=indices).copy(deep=True)
@@ -100,10 +125,14 @@ class ValueArray:
         """Compare ValueArray instances by dataset contents and coordinates."""
         if not isinstance(other, ValueArray):
             return NotImplemented
-        return self.dataset.identical(other.dataset)
+        return cast("bool", self.dataset.identical(other.dataset))
 
     @classmethod
-    def from_numpy(cls, values: Union[np.ndarray, "jnp.ndarray"], strategy_names: list[str] | None = None) -> "ValueArray":
+    def from_numpy(
+        cls,
+        values: Union[np.ndarray, "jnp.ndarray"],
+        strategy_names: list[str] | None = None,
+    ) -> "ValueArray":
         """Create a ValueArray from a numpy or JAX array.
 
         Args:
@@ -121,28 +150,31 @@ class ValueArray:
             values = np.asarray(values)
 
         if values.ndim != expected_ndim:
-            raise InputError("values must be a 2D array")
+            raise_input_error("values must be a 2D array")
 
         n_samples, n_strategies = values.shape
 
         if strategy_names is None:
             strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
         elif len(strategy_names) != n_strategies:
-            raise InputError(f"strategy_names must have {n_strategies} elements")
+            raise_input_error(f"strategy_names must have {n_strategies} elements")
 
         import xarray as xr
+
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
             coords={
                 "n_samples": np.arange(n_samples),
                 "n_strategies": np.arange(n_strategies),
                 "strategy": ("n_strategies", strategy_names),
-            }
+            },
         )
         return cls(dataset=dataset)
 
     @classmethod
-    def from_jax(cls, values: "jnp.ndarray", strategy_names: list[str] | None = None) -> "ValueArray":
+    def from_jax(
+        cls, values: "jnp.ndarray", strategy_names: list[str] | None = None
+    ) -> "ValueArray":
         """Create a ValueArray from a JAX array.
 
         Args:
@@ -154,14 +186,16 @@ class ValueArray:
             ValueArray: A new ValueArray instance
         """
         if not JAX_AVAILABLE:
-            raise ImportError("JAX is not available. Please install JAX to use from_jax().")
+            raise_import_error(
+                "JAX is not available. Please install JAX to use from_jax()."
+            )
 
         if not hasattr(values, "shape"):
-            raise InputError("values must be a JAX array with a shape attribute")
+            raise_input_error("values must be a JAX array with a shape attribute")
 
         expected_ndim = 2
         if values.ndim != expected_ndim:
-            raise InputError("values must be a 2D array")
+            raise_input_error("values must be a 2D array")
 
         # Convert JAX array to NumPy for xarray compatibility
         numpy_values = np.asarray(values)
@@ -171,34 +205,50 @@ class ValueArray:
         if strategy_names is None:
             strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
         elif len(strategy_names) != n_strategies:
-            raise InputError(f"strategy_names must have {n_strategies} elements")
+            raise_input_error(f"strategy_names must have {n_strategies} elements")
 
         import xarray as xr
+
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), numpy_values)},
             coords={
                 "n_samples": np.arange(n_samples),
                 "n_strategies": np.arange(n_strategies),
                 "strategy": ("n_strategies", strategy_names),
-            }
+            },
         )
         return cls(dataset=dataset)
 
 
-
-
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class ParameterSet:
-    """A container for parameter samples from a PSA."""
+    """Container for parameter samples from a probabilistic sensitivity analysis.
+
+    Attributes
+    ----------
+    dataset : xarray.Dataset
+        Dataset with ``n_samples`` as the sample dimension and one data
+        variable per parameter.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.schema import ParameterSet
+    >>> params = ParameterSet.from_numpy_or_dict({"cost": np.array([1.0, 2.0])})
+    >>> params.parameter_names
+    ['cost']
+    """
+
+    __hash__ = None  # type: ignore[assignment]
 
     dataset: xr.Dataset
 
-    def __post_init__(self: "ParameterSet"):
+    def __post_init__(self: "ParameterSet") -> None:
         """Validate the dataset."""
         if not isinstance(self.dataset, xr.Dataset):
-            raise InputError("ParameterSet 'dataset' must be a xarray.Dataset.")
+            raise_input_error("ParameterSet 'dataset' must be a xarray.Dataset.")
         if "n_samples" not in self.dataset.dims:
-            raise InputError(
+            raise_input_error(
                 "ParameterSet 'dataset' must have a 'n_samples' dimension."
             )
 
@@ -212,39 +262,52 @@ class ParameterSet:
         """Return the parameter samples as JAX arrays."""
         if not JAX_AVAILABLE:
             return None
-        return {str(name): jnp.asarray(self.dataset[name].values, dtype=jnp.float64) for name in self.dataset.data_vars}
+        return {
+            str(name): jnp.asarray(self.dataset[name].values, dtype=jnp.float64)
+            for name in self.dataset.data_vars
+        }
 
     @property
     def n_samples(self: "ParameterSet") -> int:
         """Return the number of samples."""
-        return self.dataset.sizes["n_samples"]
+        return int(self.dataset.sizes["n_samples"])
 
     @property
     def parameter_names(self: "ParameterSet") -> list[str]:
         """Return the names of the parameters."""
-        return list(self.dataset.data_vars.keys())
+        return [str(name) for name in self.dataset.data_vars]
 
     def copy(self: "ParameterSet") -> "ParameterSet":
         """Return a deep copy of the ParameterSet."""
         return ParameterSet(dataset=self.dataset.copy(deep=True))
 
-    def subset_by_parameters(self: "ParameterSet", parameter_names: Sequence[str]) -> "ParameterSet":
+    def subset_by_parameters(
+        self: "ParameterSet", parameter_names: Sequence[str]
+    ) -> "ParameterSet":
         """Return a new ParameterSet containing only the requested parameters."""
-        missing = [name for name in parameter_names if name not in self.dataset.data_vars]
+        parameter_list = list(parameter_names)
+        missing = [
+            name for name in parameter_list if name not in self.dataset.data_vars
+        ]
         if missing:
             missing_names = ", ".join(sorted(missing))
-            raise ValueError(f"Parameters not found: {missing_names}")
-        subset = self.dataset[list(parameter_names)].copy(deep=True)
+            raise_value_error(f"Parameters not found: {missing_names}")
+        subset = self.dataset[parameter_list].copy(deep=True)
         return ParameterSet(dataset=subset)
 
     def __eq__(self: "ParameterSet", other: object) -> bool:
         """Compare ParameterSet instances by dataset contents and coordinates."""
         if not isinstance(other, ParameterSet):
             return NotImplemented
-        return self.dataset.identical(other.dataset)
+        return cast("bool", self.dataset.identical(other.dataset))
 
     @classmethod
-    def from_numpy_or_dict(cls, parameters: Union[np.ndarray, dict[str, np.ndarray], "jnp.ndarray", dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+    def from_numpy_or_dict(
+        cls,
+        parameters: Union[
+            np.ndarray, dict[str, np.ndarray], "jnp.ndarray", dict[str, "jnp.ndarray"]
+        ],
+    ) -> "ParameterSet":
         """Create a ParameterSet from a numpy/JAX array or dictionary.
 
         Args:
@@ -260,25 +323,29 @@ class ParameterSet:
 
         # Handle JAX arrays if available
         expected_ndim = 2
-        if JAX_AVAILABLE and hasattr(parameters, "ndim") and hasattr(parameters, "dtype"):
+        if (
+            JAX_AVAILABLE
+            and hasattr(parameters, "ndim")
+            and hasattr(parameters, "dtype")
+        ):
             # This could be a JAX array - convert to numpy for xarray
             parameters = np.asarray(parameters)
 
         if isinstance(parameters, np.ndarray):
             if parameters.ndim != expected_ndim:
-                raise InputError("parameters array must be 2D")
+                raise_input_error("parameters array must be 2D")
             n_samples, n_parameters = parameters.shape
             # Create parameter names
             param_names = [f"param_{i}" for i in range(n_parameters)]
             # Create dataset
-            data_vars = {name: (("n_samples",), parameters[:, i]) for i, name in enumerate(param_names)}
-            dataset = xr.Dataset(
-                data_vars,
-                coords={"n_samples": np.arange(n_samples)}
-            )
+            data_vars = {
+                name: (("n_samples",), parameters[:, i])
+                for i, name in enumerate(param_names)
+            }
+            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
         elif isinstance(parameters, dict):
             if not parameters:
-                raise InputError("parameters dictionary cannot be empty")
+                raise_input_error("parameters dictionary cannot be empty")
             # Check that all arrays have the same length
             lengths = []
             converted_params = {}
@@ -291,21 +358,22 @@ class ParameterSet:
                 lengths.append(len(np_arr))
                 converted_params[name] = np_arr
             if len(set(lengths)) > 1:
-                raise InputError("All parameter arrays must have the same length")
+                raise_input_error("All parameter arrays must have the same length")
             n_samples = lengths[0]
             # Create dataset
-            data_vars = {name: (("n_samples",), arr) for name, arr in converted_params.items()}
-            dataset = xr.Dataset(
-                data_vars,
-                coords={"n_samples": np.arange(n_samples)}
-            )
+            data_vars = {
+                name: (("n_samples",), arr) for name, arr in converted_params.items()
+            }
+            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
         else:
-            raise InputError("parameters must be a numpy array or dictionary")
+            raise_input_error("parameters must be a numpy array or dictionary")
 
         return cls(dataset=dataset)
 
     @classmethod
-    def from_jax(cls, parameters: Union["jnp.ndarray", dict[str, "jnp.ndarray"]]) -> "ParameterSet":
+    def from_jax(
+        cls, parameters: Union["jnp.ndarray", dict[str, "jnp.ndarray"]]
+    ) -> "ParameterSet":
         """Create a ParameterSet from a JAX array or dictionary.
 
         Args:
@@ -317,52 +385,50 @@ class ParameterSet:
             ParameterSet: A new ParameterSet instance
         """
         if not JAX_AVAILABLE:
-            raise ImportError("JAX is not available. Please install JAX to use from_jax().")
+            raise_import_error(
+                "JAX is not available. Please install JAX to use from_jax()."
+            )
 
         import xarray as xr
 
         expected_ndim = 2
         if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
             if parameters.ndim != expected_ndim:
-                raise InputError("parameters array must be 2D")
-            n_samples, n_parameters = parameters.shape
+                raise_input_error("parameters array must be 2D")
+            numpy_parameters = np.asarray(parameters)
+            n_samples, n_parameters = numpy_parameters.shape
             # Create parameter names
             param_names = [f"param_{i}" for i in range(n_parameters)]
-            # Convert JAX array to NumPy for xarray compatibility
-            numpy_parameters = np.asarray(parameters)
             # Create dataset
-            data_vars = {name: (("n_samples",), numpy_parameters[:, i]) for i, name in enumerate(param_names)}
-            dataset = xr.Dataset(
-                data_vars,
-                coords={"n_samples": np.arange(n_samples)}
-            )
+            data_vars = {
+                name: (("n_samples",), numpy_parameters[:, i])
+                for i, name in enumerate(param_names)
+            }
+            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
         elif isinstance(parameters, dict):
             if not parameters:
-                raise InputError("parameters dictionary cannot be empty")
+                raise_input_error("parameters dictionary cannot be empty")
             # Check that all arrays have the same length and convert to numpy
             lengths = []
             converted_params = {}
             for name, arr in parameters.items():
                 if not hasattr(arr, "shape"):
-                    raise InputError(f"Parameter {name} must be a JAX array")
+                    raise_input_error(f"Parameter {name} must be a JAX array")
                 lengths.append(len(arr))
                 converted_params[name] = np.asarray(arr)
 
             if len(set(lengths)) > 1:
-                raise InputError("All parameter arrays must have the same length")
+                raise_input_error("All parameter arrays must have the same length")
             n_samples = lengths[0]
             # Create dataset
-            data_vars = {name: (("n_samples",), arr) for name, arr in converted_params.items()}
-            dataset = xr.Dataset(
-                data_vars,
-                coords={"n_samples": np.arange(n_samples)}
-            )
+            data_vars = {
+                name: (("n_samples",), arr) for name, arr in converted_params.items()
+            }
+            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
         else:
-            raise InputError("parameters must be a JAX array or dictionary")
+            raise_input_error("parameters must be a JAX array or dictionary")
 
         return cls(dataset=dataset)
-
-
 
 
 @dataclass(frozen=True)
@@ -376,6 +442,13 @@ class DecisionOption:
     sample_size : int
         The number of subjects to be allocated to this arm.
 
+    Examples
+    --------
+    >>> from voiage.schema import DecisionOption
+    >>> arm = DecisionOption(name="Standard care", sample_size=100)
+    >>> arm.to_dict()
+    {'name': 'Standard care', 'sample_size': 100}
+
     Raises
     ------
     InputError
@@ -386,12 +459,37 @@ class DecisionOption:
     name: str
     sample_size: int
 
-    def __post_init__(self: "DecisionOption"):
+    def __post_init__(self: "DecisionOption") -> None:
         """Validate the decision option."""
         if not isinstance(self.name, str) or not self.name:
-            raise InputError("DecisionOption 'name' must be a non-empty string.")
+            raise_input_error("DecisionOption 'name' must be a non-empty string.")
         if not isinstance(self.sample_size, int) or self.sample_size <= 0:
-            raise InputError("DecisionOption 'sample_size' must be a positive integer.")
+            raise_input_error(
+                "DecisionOption 'sample_size' must be a positive integer."
+            )
+
+    def to_dict(self) -> dict[str, object]:
+        """Serialize the decision option to a dictionary."""
+        return {"name": self.name, "sample_size": self.sample_size}
+
+    @classmethod
+    def from_dict(cls, data: object) -> "DecisionOption":
+        """Deserialize a decision option from a dictionary."""
+        if not isinstance(data, dict):
+            raise_input_error("DecisionOption data must be a dictionary.")
+        if "name" not in data:
+            raise_input_error("DecisionOption data must include 'name'.")
+        if "sample_size" not in data:
+            raise_input_error("DecisionOption data must include 'sample_size'.")
+
+        name = data["name"]
+        sample_size = data["sample_size"]
+        if not isinstance(name, str):
+            raise_input_error("DecisionOption 'name' must be a string.")
+        if not isinstance(sample_size, int):
+            raise_input_error("DecisionOption 'sample_size' must be an integer.")
+
+        return cls(name=name, sample_size=sample_size)
 
 
 @dataclass(frozen=True)
@@ -403,6 +501,13 @@ class TrialDesign:
     arms : List[DecisionOption]
         A list of `DecisionOption` objects that together define the trial.
 
+    Examples
+    --------
+    >>> from voiage.schema import DecisionOption, TrialDesign
+    >>> design = TrialDesign([DecisionOption("A", 50), DecisionOption("B", 50)])
+    >>> design.total_sample_size
+    100
+
     Raises
     ------
     InputError
@@ -412,19 +517,38 @@ class TrialDesign:
 
     arms: list[DecisionOption]
 
-    def __post_init__(self: "TrialDesign"):
+    def __post_init__(self: "TrialDesign") -> None:
         """Validate the trial design."""
         if not isinstance(self.arms, list) or not self.arms:
-            raise InputError(
+            raise_input_error(
                 "TrialDesign 'arms' must be a non-empty list of DecisionOption objects."
             )
         if not all(isinstance(arm, DecisionOption) for arm in self.arms):
-            raise InputError("All elements in 'arms' must be DecisionOption objects.")
+            raise_input_error("All elements in 'arms' must be DecisionOption objects.")
         arm_names = [arm.name for arm in self.arms]
         if len(arm_names) != len(set(arm_names)):
-            raise InputError(
+            raise_input_error(
                 "DecisionOption names within a TrialDesign must be unique."
             )
+
+    def to_dict(self) -> dict[str, object]:
+        """Serialize the trial design to a dictionary."""
+        return {"arms": [arm.to_dict() for arm in self.arms]}
+
+    @classmethod
+    def from_dict(cls, data: object) -> "TrialDesign":
+        """Deserialize a trial design from a dictionary."""
+        if not isinstance(data, dict):
+            raise_input_error("TrialDesign data must be a dictionary.")
+        if "arms" not in data:
+            raise_input_error("TrialDesign data must include 'arms'.")
+
+        arms = data["arms"]
+        if not isinstance(arms, Sequence) or isinstance(arms, (str, bytes)):
+            raise_input_error("TrialDesign 'arms' must be a sequence of dictionaries.")
+
+        option_arms = [DecisionOption.from_dict(arm) for arm in arms]
+        return cls(arms=option_arms)
 
     @property
     def total_sample_size(self: "TrialDesign") -> int:
@@ -445,6 +569,13 @@ class PortfolioStudy:
     cost : float
         The estimated cost of conducting this study.
 
+    Examples
+    --------
+    >>> from voiage.schema import DecisionOption, PortfolioStudy, TrialDesign
+    >>> study = PortfolioStudy("Trial 1", TrialDesign([DecisionOption("A", 10)]), 1000.0)
+    >>> study.cost
+    1000.0
+
     Raises
     ------
     InputError
@@ -455,14 +586,14 @@ class PortfolioStudy:
     design: TrialDesign
     cost: float
 
-    def __post_init__(self: "PortfolioStudy"):
+    def __post_init__(self: "PortfolioStudy") -> None:
         """Validate the portfolio study."""
         if not isinstance(self.name, str) or not self.name:
-            raise InputError("PortfolioStudy 'name' must be a non-empty string.")
+            raise_input_error("PortfolioStudy 'name' must be a non-empty string.")
         if not isinstance(self.design, TrialDesign):
-            raise InputError("PortfolioStudy 'design' must be a TrialDesign object.")
+            raise_input_error("PortfolioStudy 'design' must be a TrialDesign object.")
         if not isinstance(self.cost, (int, float)) or self.cost < 0:
-            raise InputError("PortfolioStudy 'cost' must be a non-negative number.")
+            raise_input_error("PortfolioStudy 'cost' must be a non-negative number.")
 
 
 @dataclass(frozen=True)
@@ -476,6 +607,14 @@ class PortfolioSpec:
     budget_constraint : Optional[float], optional
         The overall budget limit for the portfolio. Defaults to None.
 
+    Examples
+    --------
+    >>> from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
+    >>> study = PortfolioStudy("Trial 1", TrialDesign([DecisionOption("A", 10)]), 1000.0)
+    >>> spec = PortfolioSpec([study], budget_constraint=2000.0)
+    >>> spec.budget_constraint
+    2000.0
+
     Raises
     ------
     InputError
@@ -486,19 +625,19 @@ class PortfolioSpec:
     studies: list[PortfolioStudy]
     budget_constraint: float | None = None
 
-    def __post_init__(self: "PortfolioSpec"):
+    def __post_init__(self: "PortfolioSpec") -> None:
         """Validate the portfolio spec."""
         if not isinstance(self.studies, list) or not self.studies:
-            raise InputError(
+            raise_input_error(
                 "PortfolioSpec 'studies' must be a non-empty list of PortfolioStudy objects."
             )
         if not all(isinstance(study, PortfolioStudy) for study in self.studies):
-            raise InputError(
+            raise_input_error(
                 "All elements in 'studies' must be PortfolioStudy objects."
             )
         study_names = [study.name for study in self.studies]
         if len(study_names) != len(set(study_names)):
-            raise InputError(
+            raise_input_error(
                 "PortfolioStudy names within a PortfolioSpec must be unique."
             )
 
@@ -506,7 +645,7 @@ class PortfolioSpec:
             not isinstance(self.budget_constraint, (int, float))
             or self.budget_constraint < 0
         ):
-            raise InputError(
+            raise_input_error(
                 "PortfolioSpec 'budget_constraint' must be a non-negative number if specified."
             )
 
@@ -521,6 +660,13 @@ class DynamicSpec:
         A sequence of time points (e.g., years from present) at which
         decisions or data accrual occur.
 
+    Examples
+    --------
+    >>> from voiage.schema import DynamicSpec
+    >>> spec = DynamicSpec([0.0, 1.0, 2.0])
+    >>> list(spec.time_steps)
+    [0.0, 1.0, 2.0]
+
     Raises
     ------
     InputError
@@ -529,11 +675,11 @@ class DynamicSpec:
 
     time_steps: Sequence[float]
 
-    def __post_init__(self: "DynamicSpec"):
+    def __post_init__(self: "DynamicSpec") -> None:
         """Validate the dynamic spec."""
         if not isinstance(self.time_steps, Sequence) or not self.time_steps:
-            raise InputError(
+            raise_input_error(
                 "'time_steps' must be a non-empty sequence (list, tuple, np.array)."
             )
         if not all(isinstance(t, (int, float)) for t in self.time_steps):
-            raise InputError("All elements in 'time_steps' must be numbers.")
+            raise_input_error("All elements in 'time_steps' must be numbers.")
