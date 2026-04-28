@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Expanded the core public API docstrings for EVPI, EVPPI, EVSI, ENBS, CEAF, CEAC, and the main schema/analysis types with NumPy-style sections and examples.
 - Expanded the dominance, heterogeneity, portfolio, and dominance-plot public docs with full parameter, return, and notes sections.
+- Expanded the adaptive-trial and structural-VOI public docs with full NumPy-style parameter and return sections.
 - Documented the polyglot binding release matrix with tooling parity, registry/versioning expectations, and the logging policy for CLI/library output.
 - Added a CLI-wide `--quiet` option that suppresses confirmation chatter while keeping the result output intact.
 - Added a CLI-wide `--format` option for text, JSON, and CSV output, with formatter coverage across the main result commands and plot summaries.
