@@ -1,51 +1,15 @@
 # voiage/methods/portfolio.py
 
-"""Implementation of VOI methods for research portfolio optimization.
+"""Value of information helpers for research portfolio optimization.
 
-This module provides functions for optimizing research portfolios to maximize
-the total value of selected studies subject to budget constraints. Portfolio
-VOI aims to select an optimal subset of candidate research studies that
-maximizes the total value (e.g., population EVSI or ENBS) subject to
-constraints like a fixed budget.
-
-The main function `portfolio_voi`
-implements several optimization algorithms including greedy heuristics and
-integer programming approaches.
-
-Example usage:
-::
-from voiage.methods.portfolio import portfolio_voi
-from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
-
-# Define study value calculator
-def calculate_evsi(study: PortfolioStudy) -> float:
-    # Your EVSI calculation implementation
-    return evsi_value
-
-# Create portfolio studies
-design = TrialDesign([DecisionOption("Treatment A", 100)])
-study = PortfolioStudy("Study Name", design, cost=50000)
-studies = [study]
-
-# Create portfolio specification
-portfolio_spec = PortfolioSpec(studies=studies, budget_constraint=100000)
-
-# Optimize portfolio
-result = portfolio_voi(
-    portfolio_specification=portfolio_spec,
-    study_value_calculator=calculate_evsi,
-    optimization_method="greedy"
-)
-
-print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
-print(f"Total value: ${result['total_value']:,.0f}")
-
-
-Functions:
-- `portfolio_voi`: Main function for portfolio optimization
+The main entry point is ``portfolio_voi``, which selects studies subject to
+budget or algorithm-specific constraints.
 """
 
-from typing import Any, Callable, Dict, List
+from collections.abc import Callable, Iterable, Mapping
+from dataclasses import dataclass
+from functools import cache
+from typing import cast
 
 import numpy as np
 
@@ -57,6 +21,161 @@ from voiage.schema import PortfolioSpec, PortfolioStudy
 StudyValueCalculator = Callable[[PortfolioStudy], float]
 
 
+_PORTFOLIO_SPEC_MESSAGE = "`portfolio_specification` must be a PortfolioSpec object."
+_STUDY_VALUE_CALCULATOR_MESSAGE = (
+    "`study_value_calculator` must be a callable function."
+)
+_INTEGER_PROGRAMMING_MESSAGE = "Integer programming optimization failed."
+_UNKNOWN_METHOD_MESSAGE = (
+    "Optimization method '{optimization_method}' is not recognized or implemented."
+)
+
+
+@dataclass(frozen=True)
+class _StudyValueRow:
+    """Cached value/cost summary for one portfolio study."""
+
+    study: PortfolioStudy
+    value: float
+    cost: float
+    ratio: float
+
+
+def _portfolio_spec_error() -> InputError:
+    return InputError(_PORTFOLIO_SPEC_MESSAGE)
+
+
+def _study_value_calculator_error() -> InputError:
+    return InputError(_STUDY_VALUE_CALCULATOR_MESSAGE)
+
+
+def _integer_programming_error() -> RuntimeError:
+    return RuntimeError(_INTEGER_PROGRAMMING_MESSAGE)
+
+
+def _unknown_method_error(optimization_method: str) -> VoiageNotImplementedError:
+    return VoiageNotImplementedError(
+        _UNKNOWN_METHOD_MESSAGE.format(optimization_method=optimization_method)
+    )
+
+
+def _study_value_rows(
+    studies: list[PortfolioStudy],
+    study_value_calculator: StudyValueCalculator,
+) -> list[_StudyValueRow]:
+    rows: list[_StudyValueRow] = []
+    for study in studies:
+        value = float(study_value_calculator(study))
+        cost = float(study.cost)
+        ratio = (float("inf") if value > 0 else 0.0) if cost <= 0 else value / cost
+        rows.append(_StudyValueRow(study=study, value=value, cost=cost, ratio=ratio))
+    return rows
+
+
+def _dependency_groups_for_study(
+    study_name: str,
+    dependency_groups: Mapping[str, str | Iterable[str]] | None,
+) -> tuple[str, ...]:
+    if dependency_groups is None or study_name not in dependency_groups:
+        return ()
+    groups = dependency_groups[study_name]
+    if isinstance(groups, str):
+        return (groups,)
+    return tuple(str(group) for group in groups)
+
+
+def _dynamic_programming_portfolio(
+    portfolio_specification: PortfolioSpec,
+    study_value_calculator: StudyValueCalculator,
+    *,
+    dependency_groups: Mapping[str, str | Iterable[str]] | None = None,
+    dependency_discount: float = 0.0,
+) -> dict[str, object]:
+    """Select the value-maximizing study subset by memoized 0/1 knapsack.
+
+    ``dependency_groups`` maps study names to shared uncertainty groups. When a
+    later selected study targets a group already targeted by an earlier selected
+    study, its marginal value is multiplied by ``dependency_discount``. This
+    preserves the existing callback-based API while allowing simple dependency
+    modelling without changing ``PortfolioStudy``.
+    """
+    if not 0.0 <= dependency_discount <= 1.0:
+        raise InputError("`dependency_discount` must be between 0 and 1.")
+
+    studies = portfolio_specification.studies
+    rows = _study_value_rows(studies, study_value_calculator)
+    budget = portfolio_specification.budget_constraint
+    if budget is None:
+        selected_indices = [index for index, row in enumerate(rows) if row.value > 0.0]
+        selected_studies = [studies[index] for index in selected_indices]
+        return {
+            "selected_studies": selected_studies,
+            "total_value": float(sum(rows[index].value for index in selected_indices)),
+            "total_cost": float(sum(rows[index].cost for index in selected_indices)),
+            "method_details": {
+                "algorithm": "dynamic_programming",
+                "budget_constraint": None,
+                "dependency_discount": dependency_discount,
+                "dependency_groups_used": dependency_groups is not None,
+            },
+        }
+
+    @cache
+    def best(
+        index: int,
+        remaining_budget: float,
+        selected_groups: tuple[str, ...],
+    ) -> tuple[float, tuple[int, ...], tuple[str, ...]]:
+        if index >= len(rows):
+            return 0.0, (), selected_groups
+
+        skip_value, skip_indices, skip_groups = best(
+            index + 1, remaining_budget, selected_groups
+        )
+
+        row = rows[index]
+        cost = row.cost
+        if cost > remaining_budget:
+            return skip_value, skip_indices, skip_groups
+
+        study = row.study
+        study_groups = _dependency_groups_for_study(study.name, dependency_groups)
+        selected_group_set = set(selected_groups)
+        overlap = bool(selected_group_set.intersection(study_groups))
+        marginal_value = row.value * (dependency_discount if overlap else 1.0)
+
+        next_groups = tuple(sorted(selected_group_set.union(study_groups)))
+        take_tail_value, take_tail_indices, take_groups = best(
+            index + 1,
+            remaining_budget - cost,
+            next_groups,
+        )
+        take_value = marginal_value + take_tail_value
+        take_indices = (index, *take_tail_indices)
+
+        if take_value > skip_value:
+            return take_value, take_indices, take_groups
+        return skip_value, skip_indices, skip_groups
+
+    total_value, selected_indices, selected_groups = best(0, float(budget), ())
+    selected_studies = [studies[index] for index in selected_indices]
+    total_cost = float(sum(rows[index].cost for index in selected_indices))
+
+    return {
+        "selected_studies": selected_studies,
+        "total_value": float(total_value),
+        "total_cost": total_cost,
+        "method_details": {
+            "algorithm": "dynamic_programming",
+            "budget_constraint": float(budget),
+            "states_evaluated": best.cache_info().currsize,
+            "dependency_discount": dependency_discount,
+            "dependency_groups_used": dependency_groups is not None,
+            "selected_dependency_groups": list(selected_groups),
+        },
+    }
+
+
 def portfolio_voi(
     portfolio_specification: PortfolioSpec,
     study_value_calculator: StudyValueCalculator,
@@ -65,84 +184,37 @@ def portfolio_voi(
     # population: Optional[float] = None, # Usually implicit
     # discount_rate: Optional[float] = None, # Usually implicit
     # time_horizon: Optional[float] = None, # Usually implicit
-    **kwargs: Any,
-) -> Dict[str, Any]:
-    """
-    Optimize a portfolio of research studies to maximize total value.
+    **kwargs: object,
+) -> dict[str, object]:
+    """Optimize a portfolio of research studies.
 
-    This function selects a subset of studies from the `portfolio_specification`
-    that maximizes their combined value (calculated by `study_value_calculator`),
-    subject to constraints like a total budget (if specified in `PortfolioSpec`).
-
-    Args:
-        portfolio_specification (PortfolioSpec):
-            An object defining the set of candidate studies, their costs,
-            and any overall constraints (e.g., budget).
-        study_value_calculator (StudyValueCalculator):
-            A function that takes a `PortfolioStudy` object and returns its
-            estimated value (e.g., its individual EVSI or ENBS). This value
-            should be on a scale that allows for meaningful addition/comparison
-            (e.g., population-level monetary value).
-        optimization_method (str):
-            The algorithm to use for selecting the optimal portfolio. Examples:
-            - "greedy": A heuristic that might, e.g., pick studies with the best
-                        value-to-cost ratio until budget is exhausted.
-            - "integer_programming": Formulates as a 0-1 knapsack-type problem
-                                     (requires an IP solver like PuLP, Pyomo, SciPy).
-            - "dynamic_programming": Exact method for 0-1 knapsack if applicable.
-            (Note: Only a placeholder structure for v0.1)
-        **kwargs: Additional arguments for the chosen optimization method.
+    Parameters
+    ----------
+    portfolio_specification : PortfolioSpec
+        Candidate studies, costs, and optional budget constraint.
+    study_value_calculator : callable
+        Function that returns the value of a single study.
+    optimization_method : str, default="greedy"
+        Selection algorithm. Supported values include ``greedy``,
+        ``integer_programming``, and ``dynamic_programming``.
+    **kwargs : object
+        Additional algorithm-specific options.
 
     Returns
     -------
-        Dict[str, Any]: A dictionary containing:
-            - 'selected_studies': List[PortfolioStudy] of the chosen studies.
-            - 'total_value': float, the sum of values of selected studies.
-            - 'total_cost': float, the sum of costs of selected studies.
-            - 'method_details': Optional details from the optimization algorithm.
+    dict[str, object]
+        Dictionary containing the selected studies, total value, total cost,
+        and method details.
 
-    Raises
-    ------
-        InputError: If inputs are invalid.
-        NotImplementedError: If the chosen optimization method is not implemented.
-
-    Example
-    -------
-    ::
-    from voiage.methods.portfolio import portfolio_voi
-    from voiage.schema import DecisionOption, PortfolioSpec, PortfolioStudy, TrialDesign
-
-    # Define a simple value calculator
-    def simple_value_calculator(study: PortfolioStudy) -> float:
-        # Simple model: value proportional to sample size
-        return study.design.total_sample_size * 1000
-
-    # Create studies
-    design1 = TrialDesign([DecisionOption("Treatment A", 100)])
-    design2 = TrialDesign([DecisionOption("Treatment B", 200)])
-    study1 = PortfolioStudy("Study 1", design1, cost=50000)
-    study2 = PortfolioStudy("Study 2", design2, cost=80000)
-    studies = [study1, study2]
-
-    # Create portfolio specification with budget
-    portfolio_spec = PortfolioSpec(studies=studies, budget_constraint=100000)
-
-    # Optimize using greedy algorithm
-    result = portfolio_voi(
-        portfolio_specification=portfolio_spec,
-        study_value_calculator=simple_value_calculator,
-        optimization_method="greedy"
-    )
-
-    print(f"Selected studies: {[s.name for s in result['selected_studies']]}")
-    print(f"Total value: ${result['total_value']:,.0f}")
-    print(f"Total cost: ${result['total_cost']:,.0f}")
-    
+    Notes
+    -----
+    The dynamic-programming path is the exact budget-constrained optimizer.
+    Greedy selection remains available as a fast heuristic.
     """
     if not isinstance(portfolio_specification, PortfolioSpec):
-        raise InputError("`portfolio_specification` must be a PortfolioSpec object.")
+        raise _portfolio_spec_error()
     if not callable(study_value_calculator):
-        raise InputError("`study_value_calculator` must be a callable function.")
+        raise _study_value_calculator_error()
 
     if not portfolio_specification.studies:
         return {
@@ -163,40 +235,27 @@ def portfolio_voi(
         # Let's assume study_value_calculator returns raw value (e.g. EVSI), and we use cost from PortfolioStudy.
         # We need to handle the budget constraint.
 
-        studies_with_values = []
-        for study in portfolio_specification.studies:
-            value = study_value_calculator(study)
-            cost = study.cost
-            if (
-                cost <= 0
-            ):  # Avoid division by zero, treat as infinitely good or handle as error
-                # If cost is 0 and value is positive, it should always be picked if value > 0.
-                # For simplicity, let's assume costs are positive for ratio calculation.
-                # If cost is 0, its ratio is infinite if value > 0.
-                ratio = float("inf") if value > 0 else 0
-            else:
-                ratio = value / cost  # Value per unit cost
-            studies_with_values.append(
-                {"study": study, "value": value, "cost": cost, "ratio": ratio}
-            )
+        studies_with_values = _study_value_rows(
+            portfolio_specification.studies, study_value_calculator
+        )
 
         # Sort by ratio in descending order
-        studies_with_values.sort(key=lambda x: x["ratio"], reverse=True)  # type: ignore
+        studies_with_values.sort(key=lambda x: x.ratio, reverse=True)
 
-        selected_studies_list: List[PortfolioStudy] = []
+        selected_studies_list: list[PortfolioStudy] = []
         current_total_cost = 0.0
         current_total_value = 0.0
         budget = portfolio_specification.budget_constraint
 
         for item in studies_with_values:
-            study_obj = item["study"]
-            study_cost = item["cost"]
-            study_value = item["value"]  # This is the pre-calculated value
+            study_obj = item.study
+            study_cost = item.cost
+            study_value = item.value  # This is the pre-calculated value
 
-            if budget is None or (current_total_cost + study_cost <= budget):  # type: ignore
-                selected_studies_list.append(study_obj)  # type: ignore
-                current_total_cost += study_cost  # type: ignore
-                current_total_value += study_value  # type: ignore # Summing individual EVsIs is usually okay
+            if budget is None or (current_total_cost + study_cost <= budget):
+                selected_studies_list.append(study_obj)
+                current_total_cost += study_cost
+                current_total_value += study_value
                 # but for ENBS, it's more direct.
                 # If values are interdependent, this is too simple.
 
@@ -207,7 +266,7 @@ def portfolio_voi(
             "method_details": "Greedy selection by value-to-cost ratio.",
         }
 
-    elif optimization_method == "integer_programming":
+    if optimization_method == "integer_programming":
         from scipy.optimize import LinearConstraint, milp
 
         values = np.array(
@@ -229,7 +288,7 @@ def portfolio_voi(
         res = milp(c=c, constraints=constraints, integrality=integrality)
 
         if not res.success:
-            raise RuntimeError("Integer programming optimization failed.")
+            raise _integer_programming_error()
 
         selected_indices = np.where(res.x > 0.5)[0]
         selected_studies_list = [
@@ -244,17 +303,26 @@ def portfolio_voi(
             "total_cost": total_cost,
             "method_details": "Integer programming selection.",
         }
-    elif optimization_method == "dynamic_programming":
-        raise VoiageNotImplementedError(
-            "Dynamic programming for portfolio VOI (knapsack) is not implemented in v0.1.",
+    if optimization_method == "dynamic_programming":
+        dependency_groups = kwargs.get("dependency_groups")
+        if dependency_groups is not None and not isinstance(dependency_groups, Mapping):
+            raise InputError("`dependency_groups` must be a mapping of study names.")
+        raw_dependency_discount = kwargs.get("dependency_discount", 0.0)
+        if not isinstance(raw_dependency_discount, (int, float)):
+            raise InputError("`dependency_discount` must be a number.")
+        dependency_discount = float(raw_dependency_discount)
+        return _dynamic_programming_portfolio(
+            portfolio_specification,
+            study_value_calculator,
+            dependency_groups=cast(
+                "Mapping[str, str | Iterable[str]] | None", dependency_groups
+            ),
+            dependency_discount=dependency_discount,
         )
-    else:
-        raise VoiageNotImplementedError(
-            f"Optimization method '{optimization_method}' is not recognized or implemented.",
-        )
+    raise _unknown_method_error(optimization_method)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     # Add local imports for classes used in this test block
 
     from voiage.schema import DecisionOption as TrialArm
@@ -268,6 +336,7 @@ if __name__ == "__main__":
 
     # Dummy study value calculator (e.g., returns a fixed EVSI or ENBS based on study name)
     def dummy_calculator(study: PortfolioStudy) -> float:
+        """Return a deterministic smoke-test value for each study."""
         if "Alpha" in study.name:
             return 100.0  # EVSI or ENBS
         if "Beta" in study.name:
@@ -304,7 +373,7 @@ if __name__ == "__main__":
     result_no_budget = portfolio_voi(
         portfolio_specification=portfolio_spec_no_budget,
         study_value_calculator=dummy_calculator,
-        optimization_method="greedy"
+        optimization_method="greedy",
     )
     print(
         f"Selected (no budget): {[s.name for s in result_no_budget['selected_studies']]}"
@@ -330,7 +399,7 @@ if __name__ == "__main__":
     result_budget_100 = portfolio_voi(
         portfolio_specification=portfolio_spec_budget_100,
         study_value_calculator=dummy_calculator,
-        optimization_method="greedy"
+        optimization_method="greedy",
     )
     selected_names_b100 = sorted(
         [s.name for s in result_budget_100["selected_studies"]]
@@ -355,7 +424,7 @@ if __name__ == "__main__":
     result_budget_70 = portfolio_voi(
         portfolio_specification=portfolio_spec_budget_70,
         study_value_calculator=dummy_calculator,
-        optimization_method="greedy"
+        optimization_method="greedy",
     )
     selected_names_b70 = sorted([s.name for s in result_budget_70["selected_studies"]])
     print(f"Selected (budget 70): {selected_names_b70}")
@@ -367,23 +436,31 @@ if __name__ == "__main__":
     np.testing.assert_allclose(result_budget_70["total_cost"], 60.0)
     print("Greedy (budget 70) PASSED.")
 
-    # Test other methods (expect PyVoiNotImplementedError)
-    try:
-        portfolio_voi(
-            portfolio_specification=portfolio_spec_no_budget,
-            study_value_calculator=dummy_calculator,
-            optimization_method="dynamic_programming"
-        )
-    except VoiageNotImplementedError as e:
-        print(f"Caught expected error for DP method: {e}")
-    else:
-        raise AssertionError("DP method did not raise VoiageNotImplementedError.")
+    print("\n--- Dynamic Programming Portfolio VOI (With Budget) ---")
+    result_dp_budget_100 = portfolio_voi(
+        portfolio_specification=portfolio_spec_budget_100,
+        study_value_calculator=dummy_calculator,
+        optimization_method="dynamic_programming",
+    )
+    selected_names_dp_b100 = sorted(
+        [s.name for s in result_dp_budget_100["selected_studies"]]
+    )
+    print(f"Selected (budget 100): {selected_names_dp_b100}")
+    print(
+        f"Total Value: {result_dp_budget_100['total_value']}, Total Cost: {result_dp_budget_100['total_cost']}"
+    )
+    np.testing.assert_array_equal(
+        selected_names_dp_b100, sorted(["Study Beta", "Study Gamma"])
+    )
+    np.testing.assert_allclose(result_dp_budget_100["total_value"], 230.0)
+    np.testing.assert_allclose(result_dp_budget_100["total_cost"], 100.0)
+    print("Dynamic Programming (budget 100) PASSED.")
 
     print("\n--- Integer Programming Portfolio VOI (With Budget) ---")
     result_ip_budget_100 = portfolio_voi(
         portfolio_specification=portfolio_spec_budget_100,
         study_value_calculator=dummy_calculator,
-        optimization_method="integer_programming"
+        optimization_method="integer_programming",
     )
     selected_names_ip_b100 = sorted(
         [s.name for s in result_ip_budget_100["selected_studies"]]
