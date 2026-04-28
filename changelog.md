@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded the dominance, heterogeneity, portfolio, and dominance-plot public docs with full parameter, return, and notes sections.
 - Expanded the adaptive-trial and structural-VOI public docs with full NumPy-style parameter and return sections.
 - Expanded the calibration, observational, NMA, and VOI-curve public docs with fuller API-style sections and examples.
+- Expanded the `DecisionAnalysis` wrapper docs so the top-level analysis methods now describe parameters, returns, and formulas in the public API surface.
 - Documented the polyglot binding release matrix with tooling parity, registry/versioning expectations, and the logging policy for CLI/library output.
 - Added a CLI-wide `--quiet` option that suppresses confirmation chatter while keeping the result output intact.
 - Added a CLI-wide `--format` option for text, JSON, and CSV output, with formatter coverage across the main result commands and plot summaries.

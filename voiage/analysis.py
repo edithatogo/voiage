@@ -428,12 +428,12 @@ class DecisionAnalysis:
                 )
 
     def streaming_evpi(self) -> Generator[float, None, None]:
-        """
-        Calculate EVPI continuously as new data arrives.
+        """Yield EVPI repeatedly for the current data state.
 
         Yields
         ------
-            float: EVPI value calculated with current data
+        float
+            EVPI value calculated from the current buffered data.
         """
         while True:
             # Calculate EVPI with current data
@@ -441,12 +441,12 @@ class DecisionAnalysis:
             yield evpi_value
 
     def streaming_evppi(self) -> Generator[float, None, None]:
-        """
-        Calculate EVPPI continuously as new data arrives.
+        """Yield EVPPI repeatedly for the current data state.
 
         Yields
         ------
-            float: EVPPI value calculated with current data
+        float
+            EVPPI value calculated from the current buffered data.
         """
         while True:
             # Calculate EVPPI with current data
@@ -460,33 +460,27 @@ class DecisionAnalysis:
         discount_rate: float | None = None,
         chunk_size: int | None = None,
     ) -> float:
-        """Calculate the Expected Value of Perfect Information (EVPI).
+        r"""Calculate expected value of perfect information.
 
-        EVPI = E[max(NB)] - max(E[NB])
-        where E is the expectation over the PSA samples.
-
-        Args:
-            population (Optional[float]): The relevant population size. If provided
-                along with `time_horizon`, EVPI will be scaled to population level.
-            time_horizon (Optional[float]): The relevant time horizon in years.
-                If provided along with `population`, EVPI will be scaled.
-            discount_rate (Optional[float]): The annual discount rate (e.g., 0.03 for 3%).
-                Used for population scaling. Defaults to 0 if `population` and
-                `time_horizon` are provided but `discount_rate` is not.
-            chunk_size (Optional[int]): Size of chunks for incremental computation.
-                If provided, data will be processed in chunks to reduce memory usage.
-                Useful for large datasets.
+        Parameters
+        ----------
+        population : float, optional
+            Population size for population-scaled EVPI.
+        time_horizon : float, optional
+            Time horizon in years for population scaling.
+        discount_rate : float, optional
+            Annual discount rate used for population scaling.
+        chunk_size : int, optional
+            Optional chunk size for incremental computation.
 
         Returns
         -------
-            float: The calculated EVPI. If population parameters are provided,
-                   returns population-adjusted EVPI, otherwise per-decision EVPI.
+        float
+            Per-decision EVPI unless population scaling is requested.
 
-        Raises
-        ------
-            InputError: If inputs are invalid (e.g., wrong types, shapes, values).
-            DimensionMismatchError: If `nb_array` does not have 2 dimensions.
-            CalculationError: For issues during calculation.
+        Notes
+        -----
+        EVPI is computed as :math:`E[\\max_d NB_d] - \\max_d E[NB_d]`.
         """
         # Check cache first
         cache_key = f"evpi_{population}_{time_horizon}_{discount_rate}_{chunk_size}"
@@ -593,7 +587,24 @@ class DecisionAnalysis:
         discount_rate: float | None = None,
         chunk_size: int | None = None,
     ) -> float:
-        """Compatibility wrapper around :meth:`evpi`."""
+        """Compatibility wrapper around :meth:`evpi`.
+
+        Parameters
+        ----------
+        population : float, optional
+            Population size for population scaling.
+        time_horizon : float, optional
+            Time horizon in years for population scaling.
+        discount_rate : float, optional
+            Annual discount rate used for population scaling.
+        chunk_size : int, optional
+            Optional chunk size for incremental computation.
+
+        Returns
+        -------
+        float
+            EVPI value returned by :meth:`evpi`.
+        """
         return self.evpi(
             population=population,
             time_horizon=time_horizon,
@@ -657,41 +668,34 @@ class DecisionAnalysis:
         | None = None,
         chunk_size: int | None = None,
     ) -> float:
-        """Calculate the Expected Value of Partial Perfect Information (EVPPI).
+        """Calculate expected value of partial perfect information.
 
-        EVPPI quantifies the value of learning the true value of a specific
-        subset of model parameters. It is typically calculated using a regression-based
-        approach (e.g., Strong & Oakley).
-
-        EVPPI = E_p [max_d E[NB_d|p]] - max_d E[NB_d]
-        where E_p is the expectation over the parameter(s) of interest,
-        and E[NB_d|p] is the expected net benefit of strategy d conditional
-        on the parameter(s) p, usually estimated via regression.
-
-        Args:
-            parameters_of_interest (list[str]): List of parameter names to analyze.
-            population (Optional[float]): Population size for scaling.
-            time_horizon (Optional[float]): Time horizon for scaling.
-            discount_rate (Optional[float]): Discount rate for scaling.
-            n_regression_samples (Optional[int]): Number of samples to use for fitting
-                the regression model. If None, all samples are used. Useful for
-                large datasets to speed up computation, at the cost of precision.
-            regression_model (Optional[Any]): An unfitted scikit-learn compatible
-                regression model. If None, defaults to `sklearn.linear_model.LinearRegression`.
-            chunk_size (Optional[int]): Size of chunks for incremental computation
-                of the second term (max_d E[NB_d]). If provided, data will be
-                processed in chunks to reduce memory usage. Useful for large datasets.
+        Parameters
+        ----------
+        parameters_of_interest : list[str], optional
+            Parameter names to analyze. Defaults to all parameters.
+        population : float, optional
+            Population size for population scaling.
+        time_horizon : float, optional
+            Time horizon in years for population scaling.
+        discount_rate : float, optional
+            Annual discount rate used for population scaling.
+        n_regression_samples : int, optional
+            Number of samples used to fit the regression approximation.
+        regression_model : RegressionModelProtocol or type, optional
+            Optional scikit-learn-compatible regression model.
+        chunk_size : int, optional
+            Optional chunk size for incremental computation of the baseline term.
 
         Returns
         -------
-            float: The calculated EVPPI. Scaled if population args are provided.
+        float
+            Per-decision EVPPI unless population scaling is requested.
 
-        Raises
-        ------
-            InputError: For invalid inputs.
-            DimensionMismatchError: If array dimensions are inconsistent.
-            OptionalDependencyError: If scikit-learn is not installed.
-            CalculationError: For issues during calculation.
+        Notes
+        -----
+        EVPPI is computed by regressing net benefit on the parameters of
+        interest and comparing the conditional and unconditional maxima.
         """
         # Check cache first
         cache_key = (
@@ -887,35 +891,25 @@ class DecisionAnalysis:
         time_horizon: float | None = None,
         discount_rate: float | None = None,
     ) -> float:
-        """Calculate the Expected Net Benefit of Sampling (ENBS).
+        """Calculate expected net benefit of sampling.
 
-        ENBS represents the expected benefit of conducting a new study to reduce
-        uncertainty before making a decision. It is calculated as the difference
-        between the Expected Value of Sample Information (EVSI) and the cost
-        of conducting the research.
-
-        ENBS = EVSI - research_cost
-        ENBS = max(0, ENBS)  # Cannot be negative (won't conduct research if it costs more than it's worth)
-
-        Args:
-            research_cost (float): Cost of conducting the research study.
-            strategy_of_interest (Optional[Union[int, str]]): Specific strategy to analyze.
-                If int, uses that strategy index. If str, uses strategy name.
-                If None, uses the strategy with maximum expected net benefit.
-            population (Optional[float]): Population size for scaling.
-            time_horizon (Optional[float]): Time horizon for scaling.
-            discount_rate (Optional[float]): Discount rate for scaling.
+        Parameters
+        ----------
+        research_cost : float
+            Total cost of the proposed research study.
+        strategy_of_interest : int or str, optional
+            Optional strategy selector for downstream decision reporting.
+        population : float, optional
+            Population size for population scaling.
+        time_horizon : float, optional
+            Time horizon in years for population scaling.
+        discount_rate : float, optional
+            Annual discount rate used for population scaling.
 
         Returns
         -------
-            float: The calculated ENBS. Returns 0 if ENBS would be negative.
-                   Scaled if population arguments are provided.
-
-        Raises
-        ------
-            InputError: For invalid inputs.
-            DimensionMismatchError: If array dimensions are inconsistent.
-            CalculationError: For issues during calculation.
+        float
+            ENBS value, clipped at zero, unless population scaling is requested.
         """
         # Check cache first
         cache_key = f"enbs_{research_cost}_{strategy_of_interest}_{population}_{time_horizon}_{discount_rate}"
@@ -1020,7 +1014,22 @@ class DecisionAnalysis:
         strategy_names: Sequence[str] | None = None,
         confidence_level: float = 0.95,
     ) -> Any:
-        """Calculate the Cost-Effectiveness Acceptability Frontier."""
+        """Calculate the cost-effectiveness acceptability frontier.
+
+        Parameters
+        ----------
+        wtp_thresholds : sequence of float
+            Willingness-to-pay thresholds to evaluate.
+        strategy_names : sequence of str, optional
+            Optional strategy labels.
+        confidence_level : float, default=0.95
+            Confidence level used to build the probability band.
+
+        Returns
+        -------
+        object
+            CEAF result from :func:`voiage.methods.ceaf.calculate_ceaf`.
+        """
         from voiage.methods.ceaf import calculate_ceaf
 
         return calculate_ceaf(
@@ -1036,7 +1045,22 @@ class DecisionAnalysis:
         effects: Sequence[float],
         strategy_names: Sequence[str] | None = None,
     ) -> Any:
-        """Calculate strong and extended dominance for cost/effect pairs."""
+        """Calculate strong and extended dominance for cost/effect pairs.
+
+        Parameters
+        ----------
+        costs : sequence of float
+            Strategy costs.
+        effects : sequence of float
+            Strategy effects.
+        strategy_names : sequence of str, optional
+            Optional strategy labels.
+
+        Returns
+        -------
+        object
+            Dominance result from :func:`voiage.methods.dominance.calculate_dominance`.
+        """
         from voiage.methods.dominance import calculate_dominance
 
         return calculate_dominance(
@@ -1051,7 +1075,22 @@ class DecisionAnalysis:
         strategy_names: Sequence[str] | None = None,
         n_bins: int | None = None,
     ) -> Any:
-        """Calculate the value of subgroup-specific decisions."""
+        """Calculate the value of subgroup-specific decisions.
+
+        Parameters
+        ----------
+        subgroups : sequence of object
+            Subgroup label for each sample.
+        strategy_names : sequence of str, optional
+            Optional strategy labels.
+        n_bins : int, optional
+            Quantile bin count for numeric subgroup values.
+
+        Returns
+        -------
+        object
+            Heterogeneity result from :func:`voiage.methods.heterogeneity.value_of_heterogeneity`.
+        """
         from voiage.methods.heterogeneity import value_of_heterogeneity
 
         return value_of_heterogeneity(
@@ -1068,7 +1107,24 @@ class DecisionAnalysis:
         optimization_method: str = "greedy",
         **kwargs: object,
     ) -> dict[str, object]:
-        """Optimize a research portfolio from the analysis surface."""
+        """Optimize a research portfolio from the analysis surface.
+
+        Parameters
+        ----------
+        portfolio_specification : PortfolioSpec
+            Portfolio definition to optimize.
+        study_value_calculator : callable
+            Study value function used for ranking.
+        optimization_method : str, default="greedy"
+            Portfolio optimization algorithm.
+        **kwargs : object
+            Additional algorithm-specific options.
+
+        Returns
+        -------
+        dict[str, object]
+            Portfolio optimization result.
+        """
         from voiage.methods.portfolio import portfolio_voi
 
         return portfolio_voi(
@@ -1079,7 +1135,13 @@ class DecisionAnalysis:
         )
 
     def get_decision_recommendations(self) -> list[dict[str, Any]]:
-        """Summarize the strategies with the highest expected net benefit."""
+        """Summarize the strategies with the highest expected net benefit.
+
+        Returns
+        -------
+        list[dict[str, Any]]
+            Ranked strategy recommendations with mean net benefit and rank.
+        """
         nb_values = self.nb_array.numpy_values
         check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
 
@@ -1105,16 +1167,19 @@ class DecisionAnalysis:
     def _incremental_max_expected_nb(
         self, nb_values: np.ndarray, chunk_size: int
     ) -> float:
-        """
-        Calculate max(E[NB_d]) incrementally in chunks to handle large datasets.
+        """Calculate ``max(E[NB_d])`` incrementally in chunks.
 
-        Args:
-            nb_values: Net benefit array
-            chunk_size: Size of chunks for processing
+        Parameters
+        ----------
+        nb_values : numpy.ndarray
+            Net-benefit array.
+        chunk_size : int
+            Chunk size used during accumulation.
 
         Returns
         -------
-            float: Maximum expected net benefit across strategies
+        float
+            Maximum expected net benefit across strategies.
         """
         n_samples, n_strategies = nb_values.shape
 
@@ -1141,7 +1206,13 @@ class DecisionAnalysis:
         return float(max_expected_nb)
 
     def _get_parameter_samples_as_ndarray(self) -> np.ndarray:
-        """Get parameter samples as a numpy array for regression."""
+        """Return parameter samples as a 2D NumPy array for regression.
+
+        Returns
+        -------
+        numpy.ndarray
+            Parameter matrix with shape ``(n_samples, n_parameters)``.
+        """
         if self.parameter_samples is None:
             raise_input_error("`parameter_samples` are not available.")
 
