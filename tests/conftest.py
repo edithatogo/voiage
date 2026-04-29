@@ -30,6 +30,11 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 item.add_marker(pytest.mark.benchmark)
             continue
 
+        if "e2e" in file_name:
+            if "e2e" not in marker_names:
+                item.add_marker(pytest.mark.e2e)
+            continue
+
         if "integration" in file_name:
             if "integration" not in marker_names:
                 item.add_marker(pytest.mark.integration)

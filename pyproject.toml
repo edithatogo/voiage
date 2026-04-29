@@ -212,8 +212,8 @@ changelog_file = "CHANGELOG.md"
 
 [tool.taskipy.tasks]
 test = "uv run pytest tests/ -m 'not integration and not e2e and not benchmark' --cov=voiage --cov-report=term-missing"
-test-integration = "uv run pytest tests/ -m 'integration' --cov=voiage --cov-append"
-test-e2e = "uv run pytest tests/ -m 'e2e'"
+test-integration = "uv run pytest tests/ -m 'integration' --no-cov"
+test-e2e = "uv run pytest tests/ -m 'e2e' --no-cov"
 test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
 frontier-contract = "uv run python scripts/validate_frontier_contract.py"
 lint = "tox -e lint"

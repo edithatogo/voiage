@@ -183,8 +183,7 @@ jobs:
       run: |
         uv run pytest tests/ \
           -m "integration" \
-          --cov=voiage \
-          --cov-append \
+          --no-cov \
           -v
       env:
         CI: true
@@ -215,6 +214,7 @@ jobs:
       run: |
         uv run pytest tests/ \
           -m "e2e" \
+          --no-cov \
           -v
       env:
         CI: true
