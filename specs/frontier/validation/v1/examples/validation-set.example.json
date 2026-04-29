@@ -1,0 +1,29 @@
+{
+  "method_maturity": "planned",
+  "validation_profiles": [
+    {
+      "id": "external_validation",
+      "label": "External validation",
+      "weight": 0.6,
+      "validation_cohort": "independent cohort",
+      "discrepancy_penalty": 0.25,
+      "recalibration_cost": 5000.0,
+      "population": 1000.0,
+      "validation_metadata": {
+        "notes": "Independent cohort validation with moderate discrepancy risk."
+      }
+    },
+    {
+      "id": "discrepancy_reduction",
+      "label": "Discrepancy reduction",
+      "weight": 0.4,
+      "validation_cohort": "transported cohort",
+      "discrepancy_penalty": 0.1,
+      "recalibration_cost": 8000.0,
+      "population": 1000.0,
+      "validation_metadata": {
+        "notes": "Penalizes residual model discrepancy after recalibration."
+      }
+    }
+  ]
+}

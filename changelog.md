@@ -8,6 +8,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added the planned threshold, tipping-point, and robust VOI contract
+  scaffold, including versioned input/output schemas, illustrative example
+  payloads, and a frontier doc note that frames the surface as
+  sample-by-strategy-by-threshold-profile analysis.
+- Added the planned model-validation VOI contract scaffold, including versioned
+  input/output schemas, illustrative example payloads, and a frontier doc note
+  that frames the surface as sample-by-strategy-by-validation-profile analysis.
+- Added the planned preference heterogeneity and individualized care contract
+  scaffold, including versioned input/output schemas, illustrative example
+  payloads, and a frontier doc note that frames the surface as
+  sample-by-strategy-by-preference-profile analysis.
+- Added a SOTA VOI frontier track and research note, led by Value of
+  Perspective and including planned distributional/equity VOI,
+  implementation-adjusted VOI, preference-information VOI, validation VOI,
+  threshold/tipping-point VOI, robust VOI, dynamic real-options VOI, and
+  adjacent causal, data-quality, computational, and elicitation VOI extensions.
+- Added an experimental Value of Perspective API, high-level
+  `DecisionAnalysis` wrapper, CLI command, regret-matrix plot helper, and v1
+  contract scaffold for comparing decisions across multiple perspectives.
+- Added deterministic fixture manifests and exact input/output payloads for
+  Value of Perspective, distributional/equity VOI, and implementation-adjusted
+  VOI.
+- Added a repository-level frontier fixture manifest validation test so the
+  experimental contract directories are checked against real artifacts.
+- Added a top-level frontier fixture registry manifest so the committed
+  experimental contracts can be discovered from one place.
+- Added a registry schema for the frontier fixture discovery layer and a test
+  that validates the registry schema alongside the fixture manifests.
+- Added a reusable `scripts/validate_frontier_contract.py` entrypoint for the
+  frontier fixture registry and family manifests.
+- Updated the top-level README and frontier research note to describe the
+  registry-backed frontier contract layer.
+- Wired the frontier contract validator into tox and CI so registry-backed
+  frontier fixtures are checked in the normal quality gates.
+- Updated the migration guide so the frontier table and roadmap context reflect
+  the registry-backed experimental contracts.
+- Added frontier examples to the canonical advanced VOI guide for Value of
+  Perspective and distributional/equity VOI.
+- Added explicit experimental API warnings to the frontier research note and
+  advanced VOI guide.
+- Added experimental distributional/equity VOI and implementation-adjusted VOI
+  APIs, together with `DecisionAnalysis` wrappers, curated exports, and
+  regression tests.
+- Added deterministic experimental frontier contract files for distributional
+  and implementation-adjusted VOI, including versioned schemas, README
+  scaffolds, and example result payloads.
+- Added shared CHEERS-VOI reporting payload helpers and attached them to the
+  experimental Value of Perspective, distributional/equity VOI, and
+  implementation-adjusted VOI results.
+- Added the same CHEERS-VOI reporting payload helper to Value of Heterogeneity
+  so the distributional frontier retains a consistent reporting baseline.
+- Added the same CHEERS-VOI reporting payload helper to CEAF and dominance
+  outputs so the core cost-effectiveness summary layer also carries the shared
+  reporting baseline.
+- Added shared CHEERS-VOI reporting payloads to the core scalar CLI outputs for
+  EVPI, EVPPI, EVSI, and ENBS.
+- Updated the tox coverage job to run the repository's verified pytest
+  coverage command directly, so tox and the local suite now use the same
+  verification path.
+- Added Vale prose linting for Markdown and reStructuredText docs, with the CI
+  job pointed at the real documentation paths and contributor guidance for the
+  local command.
+- Added ISPOR VOI and CHEERS-VOI references to the SOTA frontier track so the
+  remaining frontier methods are anchored to method guidance and reporting
+  standards.
+- Added the HEOR module naming brainstorm track for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, and `heoml`, with PM4Py kept as an ecosystem-only process-mining capability.
+- Linked the roadmap phases to their corresponding Conductor tracks so the
+  remaining missing features are visible in one place.
+- Refreshed the migration guide feature comparison so it reflects the current
+  implemented method set, cross-language scaffolds, and roadmap context.
+- Refreshed the top-level README feature matrix and roadmap summary to match
+  the current implementation state and the active Phase 5/6 roadmap.
 - Added the ecosystem incubation contract outline under `specs/ecosystem/`,
   including the HEOML `voiage` extension scaffold and planned fixture
   families for `lifecourse`, `innovate`, and `mars`.

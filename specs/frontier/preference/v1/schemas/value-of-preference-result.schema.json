@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/preference/v1/schemas/value-of-preference-result.schema.json",
+  "title": "ValueOfPreferenceResultV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "individualized_care_value",
+    "preference_profile_ids",
+    "strategy_names",
+    "expected_net_benefits",
+    "optimal_strategy_by_preference_profile",
+    "regret_matrix",
+    "switching_values",
+    "consensus_strategy",
+    "robust_strategy",
+    "pareto_strategies",
+    "reference_preference_profile",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_preference_information"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "planned"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "individualized_care_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "preference_profile_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_net_benefits": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "optimal_strategy_by_preference_profile": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "regret_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "switching_values": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "consensus_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "robust_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pareto_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_preference_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

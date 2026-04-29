@@ -124,10 +124,13 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 1.  **Core API Specification:**
     *   Define method signatures, schema invariants, and error behavior for the public VOI surface.
+    *   Covered by Conductor tracks: `core-api-spec-foundation`, `canonical-schemas-core-contracts`.
 2.  **Conformance Fixtures:**
     *   Build canonical input/output fixtures that every binding must pass before release.
+    *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, `python-cleanup-against-spec`.
 3.  **Python Cleanup and Stabilization:**
     *   Finish the Python-side normalization needed to make the canonical API implementation simple and durable.
+    *   Covered by Conductor track: `python-cleanup-against-spec`.
 4.  **First External Bindings:**
     *   Deliver R and Julia bindings against the same contract, then extend to TypeScript, Go, and Rust if adoption warrants it.
     *   Publishing targets must be planned with the implementation:
@@ -143,6 +146,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
         - Package dry-run validation on pull requests.
         - Trusted or token-scoped publishing on version tags/releases.
         - Registry-specific provenance and changelog generation where supported.
+    *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, future binding-specific tracks as they are added.
 
 ---
 
@@ -164,6 +168,7 @@ packages while preserving a clean dependency boundary.
         dependency, and fixture compatibility are stable.
     *   Use shared conformance fixtures so both repositories can validate EVPI,
         EVPPI, EVSI, and ENBS behavior consistently.
+    *   Covered by Conductor track: `lifecourse-integration-contract_20260429`.
 2.  **Ecosystem Module Incubation:**
     *   **Status: `📋 Planned`**
     *   Define `voiage` as the VOI engine in the HEOR ecosystem spanning
@@ -178,3 +183,85 @@ packages while preserving a clean dependency boundary.
     *   Maintain the local contract outline under `docs/ecosystem/` and
         `specs/ecosystem/` so each sibling module can align against the same
         portable VOI boundary before adapter work begins.
+    *   Covered by Conductor track: `ecosystem-module-incubation_20260429`.
+3.  **HEOR Module Naming Brainstorm:**
+    *   **Status: `📋 Planned`**
+    *   Keep the candidate sibling module names short and consistent:
+        `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`,
+        `quality`, `engines`, and `heoml`.
+    *   Treat PM4Py as an ecosystem-only process-mining capability.
+    *   Require CLI support for every future module and decide whether MCP adds
+        value on a module-by-module basis.
+    *   Keep the naming discussion as brainstorming, not a commitment to add
+        every module now.
+    *   Covered by Conductor track: `heor_module_naming_brainstorm_20260429`.
+
+---
+
+### Phase 7: SOTA VOI Frontier 📋 **PLANNED**
+
+**Goal:** Move `voiage` beyond parity with existing VOI packages by adding
+frontier methods that are rarely or not at all available in general-purpose
+VOI tooling.
+
+1.  **Value of Perspective:**
+    *   **Status: `🚧 Experimental`**
+    *   Treat decision perspective as an explicit analysis dimension rather than
+        a hidden modelling assumption.
+    *   Compare payer, societal, patient, provider, regulator, equity-weighted,
+        and custom stakeholder perspectives side by side.
+    *   Compute perspective-specific optimal strategies, cross-perspective
+        regret, value of switching perspective, robust consensus strategies,
+        and Pareto/non-dominated strategies across perspectives.
+    *   Experimental Python API, CLI, plotting helper, and v1 contract scaffold
+        are available; deterministic screening-program fixtures now anchor the
+        contract, and stable status still requires cross-language conformance.
+2.  **Distributional, Equity, and Implementation-Adjusted VOI:**
+    *   **Status: `🚧 Experimental`**
+    *   Extend Value of Heterogeneity toward distributional and equity-weighted
+        VOI.
+    *   Add implementation-adjusted VOI for uptake, adherence, coverage,
+        implementation delay, and implementation uncertainty.
+    *   Experimental Python APIs now exist for both families; deterministic
+        fixture sets now anchor both contracts, and cross-language parity is
+        the next gate.
+3.  **Preference, Validation, Threshold, and Robust VOI:**
+    *   **Status: `📋 Planned`**
+    *   Add value of preference information and value of individualized care.
+    *   The preference heterogeneity contract scaffold now lives under
+        `specs/frontier/preference/v1/` and mirrors the multi-profile analysis
+        shape used by Value of Perspective.
+    *   Add value of external validation and model-discrepancy reduction.
+    *   The model-validation contract scaffold now lives under
+        `specs/frontier/validation/v1/` and mirrors the multi-profile analysis
+        shape used by Value of Perspective.
+    *   Add threshold/tipping-point VOI and robust or ambiguity-aware VOI.
+    *   The threshold contract scaffold now lives under
+        `specs/frontier/threshold/v1/` and mirrors the multi-profile analysis
+        shape used by Value of Perspective.
+    *   Extend sequential VOI toward dynamic real-options style decisions where
+        delay, irreversibility, and policy lock-in affect value.
+4.  **Adjacent Frontier Extensions:**
+    *   **Status: `📋 Planned`**
+    *   Triage causal-identification, transportability, and external-validity
+        VOI for target-population decision problems.
+    *   Triage data-quality, measurement-error, data-acquisition, privacy, and
+        linkage VOI where the information source has operational constraints.
+    *   Triage computational VOI, value of model refinement, expert-elicitation
+        VOI, and evidence-synthesis design VOI as possible extension tracks.
+5.  **Documentation and Evidence:**
+    *   **Status: `📋 Planned`**
+    *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
+    *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,
+        examples, CLI coverage, and method maturity metadata before marking
+        frontier methods stable.
+    *   The current docs now reflect the experimental Value of Perspective,
+        distributional/equity, and implementation-adjusted slices, and the
+        experimental result payloads now carry shared CHEERS-VOI reporting
+        objects. The reporting envelope also now covers the standard scalar CLI
+        outputs (EVPI, EVPPI, EVSI, ENBS) and adjacent summary outputs such as
+        CEAF, dominance, and Value of Heterogeneity. The remaining work is to
+        expand those fields to the rest of the frontier families. Value of
+        Perspective, distributional/equity, and implementation-adjusted VOI now
+        each have deterministic fixture sets anchoring their contracts.
+    *   Covered by Conductor track: `sota-voi-frontier_20260429`.

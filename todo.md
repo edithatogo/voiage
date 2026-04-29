@@ -4,13 +4,66 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*None at the moment.*
+*   [ ] Continue the SOTA VOI frontier track after the experimental Value of Perspective slice.
+    *   [x] Add experimental Value of Perspective contracts, Python API, `DecisionAnalysis` wrapper, CLI command, plot helper, and tests.
+    *   [ ] Promote Value of Perspective from experimental to fixture-backed once deterministic conformance fixtures and cross-language expectations are complete.
+    *   [x] Add deterministic screening-program fixtures for Value of Perspective.
+    *   [x] Add deterministic fixture sets for distributional/equity and implementation-adjusted VOI.
+    *   [x] Add repository-level validation for frontier fixture manifests.
+    *   [x] Add a frontier fixture registry manifest for discovery of the committed experimental contract set.
+    *   [x] Add a registry schema for the frontier fixture discovery layer.
+    *   [x] Add a reusable frontier contract validation script.
+    *   [x] Wire the frontier contract validator into tox and CI.
+    *   [x] Update the README and frontier research note to mention the registry-backed contract layer.
+    *   [x] Update the migration guide to reflect the registry-backed frontier contracts.
+    *   [x] Add frontier examples to the canonical advanced VOI guide.
+    *   [x] Add explicit experimental API warnings and release-note style guidance.
+    *   Plan distributional/equity VOI, implementation-adjusted VOI, preference-information VOI, validation VOI, threshold/tipping-point VOI, robust VOI, and dynamic real-options VOI.
+    *   [x] Define preference heterogeneity and value of individualized care contracts.
+    *   [x] Define model-validation VOI contracts.
+    *   [x] Define threshold, tipping-point, and robust VOI contracts.
+    *   Triage causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI as adjacent frontier extensions.
+    *   Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
+    *   Add schemas, deterministic fixtures, docs, CLI coverage, and maturity metadata before marking any frontier method stable.
+    *   [x] Add first deterministic fixtures for equity and implementation-adjusted VOI.
+    *   [x] Add CHEERS-VOI reporting objects to the experimental frontier result payloads.
+    *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity as the base distributional surface.
+    *   [x] Extend the CHEERS-VOI reporting baseline to CEAF and dominance outputs.
+    *   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS).
+
+*   [ ] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
+    *   Keep the list as a naming and boundary exercise, not an implementation plan.
+    *   Require CLI support and an explicit MCP decision for any future module.
+    *   Keep PM4Py in the process-mining ecosystem-only bucket.
 
 ## In Progress
 
 *None at the moment.*
 
 ## Done
+
+*   [x] Add Vale prose linting for Markdown and reStructuredText documentation.
+    *   Added a repo-local Vale config and style set, hooked the CI prose job to the real docs paths, and documented the command in `CONTRIBUTING.md`.
+
+*   [x] Add CHEERS-VOI reporting objects and contract examples for the experimental frontier methods.
+    *   Added shared reporting payload helpers, attached them to Value of Perspective, distributional/equity VOI, and implementation-adjusted VOI, and mirrored the fields in the frontier contract examples and schemas.
+
+*   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity.
+    *   Added the same reporting payload helper to the base distributional surface so the reporting model extends naturally from Value of Heterogeneity into distributional/equity VOI.
+
+*   [x] Extend the CHEERS-VOI reporting baseline to CEAF and dominance.
+    *   Added shared reporting payloads to the frontier summary outputs that feed the main cost-effectiveness analysis workflow.
+
+*   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs.
+    *   Added shared reporting payloads to EVPI, EVPPI, EVSI, and ENBS JSON/CSV result output so the main command surface has a consistent reporting envelope.
+
+*   [x] Add deterministic screening-program fixtures for Value of Perspective.
+    *   Added a normative fixture manifest plus input/output payloads that anchor the experimental CLI contract for the screening-program comparison surface.
+
+*   [x] Implement distributional/equity VOI and implementation-adjusted VOI as experimental frontier methods.
+    *   Added `value_of_distributional_equity` and `value_of_implementation` with `DecisionAnalysis` wrappers, curated exports, and regression tests.
+    *   Kept the results explicit about subgroup weights, implementation uptake, adherence, coverage, delay, uncertainty, and maturity metadata.
+    *   Added versioned experimental contract folders with deterministic JSON schemas and example payloads for both frontier families.
 
 *   [x] Define the ecosystem module incubation policy for `voiage`.
     *   Documented the `voiage` role alongside `lifecourse`, `innovate`, `mars`, and HEOML.

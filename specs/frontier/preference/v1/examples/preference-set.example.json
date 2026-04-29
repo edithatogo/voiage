@@ -1,0 +1,43 @@
+{
+  "method_maturity": "planned",
+  "preference_profiles": [
+    {
+      "id": "access_first",
+      "label": "Access first",
+      "weight": 0.5,
+      "utility_weights": {
+        "access": 1.0,
+        "outcomes": 0.5
+      },
+      "equity_weights": {
+        "high_need": 1.2,
+        "low_need": 0.8
+      },
+      "willingness_to_pay": 30000.0,
+      "discount_rate": 0.03,
+      "population": 1000.0,
+      "stakeholder_metadata": {
+        "notes": "Prioritises lower-friction access to care."
+      }
+    },
+    {
+      "id": "outcomes_first",
+      "label": "Outcomes first",
+      "weight": 0.5,
+      "utility_weights": {
+        "access": 0.4,
+        "outcomes": 1.1
+      },
+      "equity_weights": {
+        "high_need": 1.0,
+        "low_need": 1.0
+      },
+      "willingness_to_pay": 30000.0,
+      "discount_rate": 0.03,
+      "population": 1000.0,
+      "stakeholder_metadata": {
+        "notes": "Prioritises health outcomes over convenience."
+      }
+    }
+  ]
+}
