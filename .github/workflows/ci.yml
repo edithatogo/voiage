@@ -141,6 +141,7 @@ jobs:
         uv run pytest tests/ \
           -m "not integration and not e2e and not benchmark" \
           --cov=voiage \
+          --cov-fail-under=0 \
           --cov-report=xml \
           --cov-report=term-missing \
           --numprocesses=auto \
@@ -156,6 +157,31 @@ jobs:
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
+
+  coverage-report:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Verify coverage threshold
+      run: tox -e coverage_report
 
   # Integration tests
   test-integration:

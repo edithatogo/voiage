@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marked the CLI E2E suite as `e2e` in pytest collection and removed the
   coverage gate from the integration and E2E CI jobs so those jobs exercise
   their own scope instead of failing on the global unit-test threshold.
+- Split the coverage gate into its own CI job so the unit matrix can collect
+  coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
 - Aligned the GitHub Actions Ruff gate with the repo's tox lint scope so the
