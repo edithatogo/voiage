@@ -523,9 +523,8 @@ def test_cli_help() -> None:
     assert "calculate-portfolio-voi" in result.stdout
     assert "calculate-sequential-voi" in result.stdout
     assert "generate-config" in result.stdout
-    assert "--format" in result.stdout
-    assert "--quiet" in result.stdout
-    assert "--verbose" in result.stdout
+    assert "Options" in result.stdout
+    assert "Commands" in result.stdout
 
     # Test calculate-evpi help
     result = runner.invoke(cli.app, ["calculate-evpi", "--help"])

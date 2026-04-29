@@ -181,7 +181,7 @@ jobs:
       run: uv sync --extra dev
 
     - name: Verify coverage threshold
-      run: tox -e coverage_report
+      run: uv run tox -e coverage_report
 
   # Integration tests
   test-integration:

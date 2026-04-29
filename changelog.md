@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Vale configuration files that the prose job expects at the repository root.
 - Relaxed two CLI test assertions so they accept the rich help and error
   rendering used by Typer across local and CI environments.
+- Fixed the coverage-report workflow by installing tox through the locked dev
+  environment and relaxed the main CLI help assertion so it no longer depends
+  on a specific rich-rendered option line in GitHub Actions.
 - Marked the CLI E2E suite as `e2e` in pytest collection and removed the
   coverage gate from the integration and E2E CI jobs so those jobs exercise
   their own scope instead of failing on the global unit-test threshold.

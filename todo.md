@@ -30,6 +30,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity as the base distributional surface.
     *   [x] Extend the CHEERS-VOI reporting baseline to CEAF and dominance outputs.
     *   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS).
+    *   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
 
 *   [ ] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
     *   Keep the list as a naming and boundary exercise, not an implementation plan.
