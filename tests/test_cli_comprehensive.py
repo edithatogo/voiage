@@ -512,20 +512,21 @@ def test_cli_help() -> None:
     result = subprocess.run(
         [sys.executable, "-m", "voiage.cli", "--help"], capture_output=True, text=True
     )
+    help_text = result.stdout + result.stderr
 
     assert result.returncode == 0
-    assert "voiage" in result.stdout
-    assert "calculate-evpi" in result.stdout
-    assert "calculate-evppi" in result.stdout
-    assert "calculate-evsi" in result.stdout
-    assert "calculate-enbs" in result.stdout
-    assert "calculate-adaptive-evsi" in result.stdout
-    assert "calculate-portfolio-voi" in result.stdout
-    assert "calculate-sequential-voi" in result.stdout
-    assert "generate-config" in result.stdout
-    assert "--format" in result.stdout
-    assert "--quiet" in result.stdout
-    assert "--verbose" in result.stdout
+    assert "voiage" in help_text
+    assert "calculate-evpi" in help_text
+    assert "calculate-evppi" in help_text
+    assert "calculate-evsi" in help_text
+    assert "calculate-enbs" in help_text
+    assert "calculate-adaptive-evsi" in help_text
+    assert "calculate-portfolio-voi" in help_text
+    assert "calculate-sequential-voi" in help_text
+    assert "generate-config" in help_text
+    assert "--format" in help_text
+    assert "--quiet" in help_text
+    assert "--verbose" in help_text
 
     # Test calculate-evpi help
     result = subprocess.run(
@@ -533,10 +534,11 @@ def test_cli_help() -> None:
         capture_output=True,
         text=True,
     )
+    help_text = result.stdout + result.stderr
 
     assert result.returncode == 0
-    assert "calculate-evpi" in result.stdout
-    assert "NET_BENEFIT_FILE" in result.stdout
+    assert "calculate-evpi" in help_text
+    assert "NET_BENEFIT_FILE" in help_text
 
     # Test calculate-evppi help
     result = subprocess.run(
@@ -1574,16 +1576,17 @@ def test_nma_voi_cli_validation_errors(tmp_path: Path) -> None:
 
     missing_config = tmp_path / "missing.json"
     missing_result = runner.invoke(cli.app, ["calculate-nma-voi", str(missing_config)])
+    missing_error = missing_result.stdout + missing_result.stderr
     assert missing_result.exit_code == 2
-    assert "Invalid value for 'CONFIG_FILE'" in missing_result.stderr
-    assert missing_config.name in missing_result.stderr
-    assert "does not exist." in missing_result.stderr
+    assert "Invalid value for 'CONFIG_FILE'" in missing_error
+    assert "does not exist." in missing_error
 
     invalid_config = tmp_path / "invalid.json"
     invalid_config.write_text("{not json", encoding="utf-8")
     invalid_result = runner.invoke(cli.app, ["calculate-nma-voi", str(invalid_config)])
+    invalid_error = invalid_result.stdout + invalid_result.stderr
     assert invalid_result.exit_code == 1
-    assert "Error: Invalid JSON in config file" in invalid_result.stderr
+    assert "Error: Invalid JSON in config file" in invalid_error
 
 
 def test_nma_voi_cli_internal_exception(

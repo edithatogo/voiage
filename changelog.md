@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Restored the CI and tox lint path for Bandit by adding it to the dev tool
+  set and wiring the security check into the local lint env, and committed the
+  Vale configuration files that the prose job expects at the repository root.
+- Relaxed two CLI test assertions so they accept the rich help and error
+  rendering used by Typer across local and CI environments.
+
 ### Added
 - Aligned the GitHub Actions Ruff gate with the repo's tox lint scope so the
   workflow checks `voiage` and `tests` instead of legacy root-level scratch
