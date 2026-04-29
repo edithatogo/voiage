@@ -508,37 +508,31 @@ def test_evppi_cli() -> None:
 
 def test_cli_help() -> None:
     """Test CLI help commands."""
-    # Test main help
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "--help"], capture_output=True, text=True
-    )
-    help_text = result.stdout + result.stderr
+    runner = CliRunner()
 
-    assert result.returncode == 0
-    assert "voiage" in help_text
-    assert "calculate-evpi" in help_text
-    assert "calculate-evppi" in help_text
-    assert "calculate-evsi" in help_text
-    assert "calculate-enbs" in help_text
-    assert "calculate-adaptive-evsi" in help_text
-    assert "calculate-portfolio-voi" in help_text
-    assert "calculate-sequential-voi" in help_text
-    assert "generate-config" in help_text
-    assert "--format" in help_text
-    assert "--quiet" in help_text
-    assert "--verbose" in help_text
+    # Test main help
+    result = runner.invoke(cli.app, ["--help"])
+
+    assert result.exit_code == 0
+    assert "voiage" in result.stdout
+    assert "calculate-evpi" in result.stdout
+    assert "calculate-evppi" in result.stdout
+    assert "calculate-evsi" in result.stdout
+    assert "calculate-enbs" in result.stdout
+    assert "calculate-adaptive-evsi" in result.stdout
+    assert "calculate-portfolio-voi" in result.stdout
+    assert "calculate-sequential-voi" in result.stdout
+    assert "generate-config" in result.stdout
+    assert "--format" in result.stdout
+    assert "--quiet" in result.stdout
+    assert "--verbose" in result.stdout
 
     # Test calculate-evpi help
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-evpi", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    help_text = result.stdout + result.stderr
+    result = runner.invoke(cli.app, ["calculate-evpi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-evpi" in help_text
-    assert "NET_BENEFIT_FILE" in help_text
+    assert result.exit_code == 0
+    assert "calculate-evpi" in result.stdout
+    assert "NET_BENEFIT_FILE" in result.stdout
 
     # Test calculate-evppi help
     result = subprocess.run(
