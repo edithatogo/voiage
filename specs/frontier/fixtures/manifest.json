@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "status": "registry",
+  "families": [
+    {
+      "name": "value_of_perspective",
+      "path": "perspective/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
+      "name": "value_of_distributional_equity",
+      "path": "distributional/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
+      "name": "value_of_implementation",
+      "path": "implementation/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    }
+  ],
+  "notes": [
+    "This registry enumerates the committed deterministic frontier fixture sets.",
+    "Each family keeps its own manifest alongside its normative payloads."
+  ]
+}

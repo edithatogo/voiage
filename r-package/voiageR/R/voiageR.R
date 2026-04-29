@@ -8,7 +8,6 @@
 NULL
 
 #' @import reticulate
-#' @import methods
 NULL
 
 # Global variables

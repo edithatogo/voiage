@@ -2,6 +2,45 @@
 
 This guide covers the advanced Value of Information methods implemented in voiage, including adaptive trials, calibration, and observational studies.
 
+The frontier methods described below are still experimental. The current
+fixture-backed contracts are intended to stabilize the comparison surface, but
+call signatures, result payloads, and reporting metadata may still evolve while
+the remaining frontier families are brought online.
+
+## Value Of Perspective
+
+Value of Perspective compares the same strategy set under multiple decision
+perspectives and exposes regret, consensus, and robust strategy summaries.
+
+### Usage Example
+
+```python
+import numpy as np
+from voiage.analysis import DecisionAnalysis
+from voiage.schema import ValueArray
+
+# Net benefit samples with shape (n_samples, n_strategies, n_perspectives)
+net_benefits = np.array(
+    [
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+    ]
+)
+
+value_array = ValueArray.from_numpy_perspectives(
+    net_benefits,
+    strategy_names=["A", "B", "C"],
+    perspective_names=["payer", "societal"],
+)
+
+analysis = DecisionAnalysis(value_array)
+result = analysis.value_of_perspective()
+
+print(result.consensus_strategy_name)
+print(result.robust_strategy_name)
+print(result.switching_values.tolist())
+```
+
 ## Adaptive Trial VOI
 
 Adaptive trial VOI methods evaluate the value of information from clinical trials with interim analyses and potential modifications.
@@ -47,6 +86,38 @@ calibration_parameters = {
 evppi_result = calibration_evppi(calibration_parameters)
 
 print(f"Calibration EVPPI: {evppi_result:.2f}")
+```
+
+## Distributional And Equity-Weighted VOI
+
+Distributional and equity-weighted VOI keeps subgroup-specific expected net
+benefits explicit while summarizing equity-weighted welfare across subgroups.
+
+### Usage Example
+
+```python
+import numpy as np
+from voiage.methods.distributional import value_of_distributional_equity
+from voiage.schema import ValueArray
+
+values = np.array(
+    [
+        [10.0, 2.0],
+        [8.0, 4.0],
+        [1.0, 11.0],
+        [2.0, 9.0],
+    ]
+)
+
+value_array = ValueArray.from_numpy(values, ["A", "B"])
+result = value_of_distributional_equity(
+    value_array,
+    subgroups=["low", "low", "high", "high"],
+    equity_weights={"low": 0.25, "high": 0.75},
+)
+
+print(result.social_welfare_optimal_strategy_name)
+print(result.social_welfare_value)
 ```
 
 ## Observational Study VOI

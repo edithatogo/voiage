@@ -1,0 +1,7 @@
+{
+  "intervention_id": "screening",
+  "name": "Targeted screening",
+  "description": "A targeted screening pathway for the at-risk cohort.",
+  "is_reference": false,
+  "category": "screening"
+}

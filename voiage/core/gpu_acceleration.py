@@ -2,9 +2,11 @@
 
 from collections.abc import Callable
 from types import SimpleNamespace
-from typing import Any
+from typing import cast
 
 import numpy as np
+
+from voiage.exceptions import raise_runtime_error, raise_value_error
 
 # Try to import JAX for GPU acceleration
 try:
@@ -55,7 +57,11 @@ def get_gpu_backend() -> str:
     -------
         str: Name of the available GPU backend ('jax', 'cupy', 'torch', or 'none')
     """
-    if JAX_AVAILABLE and jax.devices() and any(device.device_kind == "gpu" for device in jax.devices()):
+    if (
+        JAX_AVAILABLE
+        and jax.devices()
+        and any(device.device_kind == "gpu" for device in jax.devices())
+    ):
         return "jax"
     if CUPY_AVAILABLE:
         try:
@@ -63,7 +69,8 @@ def get_gpu_backend() -> str:
             if cp.cuda.runtime.getDeviceCount() > 0:
                 return "cupy"
         except Exception:
-            pass
+            if TORCH_AVAILABLE and torch.cuda.is_available():
+                return "torch"
     if TORCH_AVAILABLE and torch.cuda.is_available():
         return "torch"
     return "none"
@@ -73,7 +80,7 @@ def _validate_backend(backend: str) -> str:
     """Validate a backend name."""
     valid_backends = {"jax", "cupy", "torch", "none"}
     if backend not in valid_backends:
-        raise ValueError(f"Unknown backend: {backend}")
+        raise_value_error(f"Unknown backend: {backend}")
     return backend
 
 
@@ -88,7 +95,7 @@ def is_gpu_available() -> bool:
     return get_gpu_backend() != "none"
 
 
-def array_to_gpu(arr: np.ndarray, backend: str | None = None) -> Any:
+def array_to_gpu(arr: np.ndarray, backend: str | None = None) -> object:
     """
     Transfer a NumPy array to GPU memory using the specified or default backend.
 
@@ -108,24 +115,24 @@ def array_to_gpu(arr: np.ndarray, backend: str | None = None) -> Any:
         backend = get_gpu_backend()
     backend = _validate_backend(backend)
     if backend == "none":
-        raise RuntimeError("No GPU backend available")
+        raise_runtime_error("No GPU backend available")
 
     if backend == "jax":
         if not JAX_AVAILABLE:
-            raise RuntimeError("JAX is not available")
+            raise_runtime_error("JAX is not available")
         return jnp.array(arr)
     if backend == "cupy":
         if not CUPY_AVAILABLE:
-            raise RuntimeError("CuPy is not available")
+            raise_runtime_error("CuPy is not available")
         return cp.array(arr)
     if backend == "torch":
         if not TORCH_AVAILABLE:
-            raise RuntimeError("PyTorch is not available")
+            raise_runtime_error("PyTorch is not available")
         return torch.tensor(arr, device="cuda")
-    raise ValueError(f"Unknown backend: {backend}")
+    return raise_value_error(f"Unknown backend: {backend}")
 
 
-def array_to_cpu(arr: Any, backend: str | None = None) -> np.ndarray:
+def array_to_cpu(arr: object, backend: str | None = None) -> np.ndarray:
     """
     Transfer an array from GPU memory back to CPU (NumPy).
 
@@ -153,20 +160,22 @@ def array_to_cpu(arr: Any, backend: str | None = None) -> np.ndarray:
 
     if backend == "jax":
         if not JAX_AVAILABLE:
-            raise RuntimeError("JAX is not available")
+            raise_runtime_error("JAX is not available")
         return np.asarray(arr)
     if backend == "cupy":
         if not CUPY_AVAILABLE:
-            raise RuntimeError("CuPy is not available")
-        return arr.get()
+            raise_runtime_error("CuPy is not available")
+        return np.asarray(cast("object", arr).get())  # type: ignore[union-attr]
     if backend == "torch":
         if not TORCH_AVAILABLE:
-            raise RuntimeError("PyTorch is not available")
-        return arr.cpu().numpy()
-    raise ValueError(f"Unknown backend: {backend}")
+            raise_runtime_error("PyTorch is not available")
+        return np.asarray(cast("object", arr).cpu().numpy())  # type: ignore[union-attr]
+    return raise_value_error(f"Unknown backend: {backend}")
 
 
-def gpu_jit_compile(func: Callable, backend: str | None = None) -> Callable:
+def gpu_jit_compile(
+    func: Callable[..., object], backend: str | None = None
+) -> Callable[..., object]:
     """
     JIT compile a function using the specified or default GPU backend.
 
@@ -187,21 +196,25 @@ def gpu_jit_compile(func: Callable, backend: str | None = None) -> Callable:
     if backend == "jax":
         if not JAX_AVAILABLE:
             return func
-        return jit(func)
+        return cast("Callable[..., object]", jit(func))
     if backend == "torch":
         if not TORCH_AVAILABLE:
             return func
+
         # For PyTorch, we need to return a function that can be traced later
         # We can't trace without example inputs, so we'll return a wrapper
-        def torch_jit_wrapper(*args, **kwargs):
+        def torch_jit_wrapper(*args: object, **kwargs: object) -> object:
             # This is a simplified approach - in practice, you'd want to trace with actual inputs
             return func(*args, **kwargs)
+
         return torch_jit_wrapper
     # CuPy doesn't have JIT compilation
     return func
 
 
-def gpu_vectorize(func: Callable, backend: str | None = None) -> Callable:
+def gpu_vectorize(
+    func: Callable[..., object], backend: str | None = None
+) -> Callable[..., object]:
     """
     Vectorize a function using the specified or default GPU backend.
 
@@ -222,14 +235,16 @@ def gpu_vectorize(func: Callable, backend: str | None = None) -> Callable:
     if backend == "jax":
         if not JAX_AVAILABLE:
             return func
-        return vmap(func)
+        return cast("Callable[..., object]", vmap(func))
     if backend in {"cupy", "torch"}:
         # For CuPy and PyTorch, we can use their native vectorization
         return func
     return func
 
 
-def gpu_parallelize(func: Callable, backend: str | None = None) -> Callable:
+def gpu_parallelize(
+    func: Callable[..., object], backend: str | None = None
+) -> Callable[..., object]:
     """
     Parallelize a function across multiple GPUs using the specified or default backend.
 
@@ -241,40 +256,44 @@ def gpu_parallelize(func: Callable, backend: str | None = None) -> Callable:
     -------
         Parallelized function
     """
+    parallelized_func: Callable[..., object] = func
+
     if backend is None:
         backend = get_gpu_backend()
-        if backend == "none":
-            # Return the original function if no GPU backend is available
-            return func
-
+    if backend == "none":
+        # Return the original function if no GPU backend is available
+        return parallelized_func
     if backend == "jax":
         if not JAX_AVAILABLE:
-            return func
-        return pmap(func)
+            return parallelized_func
+        parallelized_func = cast("Callable[..., object]", pmap(func))
     if backend == "torch":
         if not TORCH_AVAILABLE:
-            return func
+            return parallelized_func
         # For PyTorch, we can use DataParallel for simple parallelization
         if torch.cuda.device_count() > 1:
-            return torch.nn.DataParallel(func)
-        return func
+            parallelized_func = cast(
+                "Callable[..., object]", torch.nn.DataParallel(func)
+            )
     # CuPy doesn't have built-in parallelization across multiple GPUs
-    return func
+    return parallelized_func
 
 
 class GPUAcceleratedEVPI:
     """GPU-accelerated Expected Value of Perfect Information (EVPI) calculator."""
 
-    def __init__(self, backend: str | None = None):
+    def __init__(self, backend: str | None = None) -> None:
         """
         Initialize the GPU-accelerated EVPI calculator.
 
         Args:
             backend: GPU backend to use ('jax', 'cupy', 'torch', or None for auto-detect)
         """
-        self.backend = get_gpu_backend() if backend is None else _validate_backend(backend)
+        self.backend = (
+            get_gpu_backend() if backend is None else _validate_backend(backend)
+        )
         if self.backend == "none":
-            raise RuntimeError("No GPU backend available")
+            raise_runtime_error("No GPU backend available")
 
     def calculate_evpi(self, net_benefit_array: np.ndarray) -> float:
         """
@@ -292,7 +311,7 @@ class GPUAcceleratedEVPI:
 
         if self.backend == "jax":
             if not JAX_AVAILABLE:
-                raise RuntimeError("JAX is not available")
+                raise_runtime_error("JAX is not available")
 
             # Calculate the maximum net benefit for each parameter sample
             max_nb = jnp.max(gpu_nb_array, axis=1)
@@ -314,7 +333,7 @@ class GPUAcceleratedEVPI:
 
         if self.backend == "cupy":
             if not CUPY_AVAILABLE:
-                raise RuntimeError("CuPy is not available")
+                raise_runtime_error("CuPy is not available")
 
             # Calculate the maximum net benefit for each parameter sample
             max_nb = cp.max(gpu_nb_array, axis=1)
@@ -336,7 +355,7 @@ class GPUAcceleratedEVPI:
 
         if self.backend == "torch":
             if not TORCH_AVAILABLE:
-                raise RuntimeError("PyTorch is not available")
+                raise_runtime_error("PyTorch is not available")
 
             # Calculate the maximum net benefit for each parameter sample
             max_nb = torch.max(gpu_nb_array, dim=1).values
@@ -356,7 +375,7 @@ class GPUAcceleratedEVPI:
             # Transfer result back to CPU
             return float(evpi.cpu().item())
 
-        raise ValueError(f"Unknown backend: {self.backend}")
+        return raise_value_error(f"Unknown backend: {self.backend}")
 
 
 # Example usage function
@@ -388,5 +407,5 @@ def example_gpu_acceleration() -> None:
     print(f"EVPI calculated using GPU: {evpi_result}")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     example_gpu_acceleration()

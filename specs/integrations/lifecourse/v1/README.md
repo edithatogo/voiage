@@ -6,6 +6,12 @@ This directory reserves the versioned integration profile for consuming
 This profile should align with HEOML, currently embedded at
 `/Users/doughnut/GitHub/lifecourse/heoml/`, while keeping `voiage`'s core API
 schemas as the VOI-specific result contracts.
+Shared provenance fields should include the HEOML profile version and a
+manifest identifier so consumers can check the portable contract before
+loading artifacts.
+The public `voiage.load_heoml_run_bundle()` helper reads this scaffold
+directly into the core `ValueArray` and `ParameterSet` types and returns a
+`HeomlRunBundle` wrapper with provenance.
 
 ## Purpose
 
@@ -62,7 +68,7 @@ primary interchange format:
 - ONNX, PMML, and PFA are ML-oriented interchange formats.
 - PharmML is pharmacometrics-oriented.
 - OMOP CDM is observational data-oriented.
-- TreeAge exports may be useful as ecosystem adapters later.
+- TreeAge feature mapping may be useful later as an ecosystem reference.
 
 ## Initial Status
 

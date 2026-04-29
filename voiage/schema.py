@@ -172,6 +172,73 @@ class ValueArray:
         return cls(dataset=dataset)
 
     @classmethod
+    def from_numpy_perspectives(
+        cls,
+        values: Union[np.ndarray, "jnp.ndarray"],
+        strategy_names: list[str] | None = None,
+        perspective_names: list[str] | None = None,
+    ) -> "ValueArray":
+        """Create a multi-perspective ValueArray from a 3D array.
+
+        Parameters
+        ----------
+        values : numpy.ndarray or jax.numpy.ndarray
+            Net-benefit values with shape
+            ``(n_samples, n_strategies, n_perspectives)``.
+        strategy_names : list[str], optional
+            Strategy labels aligned to the second dimension.
+        perspective_names : list[str], optional
+            Perspective labels aligned to the third dimension.
+
+        Returns
+        -------
+        ValueArray
+            ValueArray with a perspective dimension.
+        """
+        expected_ndim = 3
+        if JAX_AVAILABLE and hasattr(values, "dtype") and hasattr(values, "shape"):
+            values = np.asarray(values)
+
+        if values.ndim != expected_ndim:
+            raise_input_error("values must be a 3D array")
+
+        n_samples, n_strategies, n_perspectives = values.shape
+
+        if strategy_names is None:
+            strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
+        elif len(strategy_names) != n_strategies:
+            raise_input_error(f"strategy_names must have {n_strategies} elements")
+
+        if perspective_names is None:
+            perspective_names = [f"Perspective {i}" for i in range(n_perspectives)]
+        elif len(perspective_names) != n_perspectives:
+            raise_input_error(f"perspective_names must have {n_perspectives} elements")
+
+        dataset = xr.Dataset(
+            {
+                "net_benefit": (
+                    ("n_samples", "n_strategies", "n_perspectives"),
+                    values,
+                )
+            },
+            coords={
+                "n_samples": np.arange(n_samples),
+                "n_strategies": np.arange(n_strategies),
+                "n_perspectives": np.arange(n_perspectives),
+                "strategy": ("n_strategies", strategy_names),
+                "perspective": ("n_perspectives", perspective_names),
+            },
+        )
+        return cls(dataset=dataset)
+
+    @property
+    def perspective_names(self: "ValueArray") -> list[str] | None:
+        """Return perspective labels when present."""
+        if "perspective" not in self.dataset.coords:
+            return None
+        return [str(name) for name in self.dataset["perspective"].values]
+
+    @classmethod
     def from_jax(
         cls, values: "jnp.ndarray", strategy_names: list[str] | None = None
     ) -> "ValueArray":

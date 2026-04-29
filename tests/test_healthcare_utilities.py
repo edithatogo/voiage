@@ -12,7 +12,7 @@ from voiage.healthcare.utilities import (
 )
 
 
-def test_calculate_qaly():
+def test_calculate_qaly() -> None:
     """Test QALY calculation."""
     # Simple case: 3 years with constant utility
     utilities = [0.8, 0.8, 0.8]
@@ -20,15 +20,11 @@ def test_calculate_qaly():
     qaly = calculate_qaly(utilities, time_periods, 0.03)
 
     # Expected: 0.8 * 1 / (1.03^0.5) + 0.8 * 1 / (1.03^1.5) + 0.8 * 1 / (1.03^2.5)
-    expected_qaly = (
-        0.8 / (1.03 ** 0.5) +
-        0.8 / (1.03 ** 1.5) +
-        0.8 / (1.03 ** 2.5)
-    )
+    expected_qaly = 0.8 / (1.03**0.5) + 0.8 / (1.03**1.5) + 0.8 / (1.03**2.5)
     assert abs(qaly - expected_qaly) < 1e-10
 
 
-def test_calculate_qaly_variable_utilities():
+def test_calculate_qaly_variable_utilities() -> None:
     """Test QALY calculation with variable utilities."""
     # Declining utility over time (common in progressive diseases)
     utilities = [0.9, 0.7, 0.5, 0.3]
@@ -36,15 +32,12 @@ def test_calculate_qaly_variable_utilities():
     qaly = calculate_qaly(utilities, time_periods, 0.03)
 
     expected_qaly = (
-        0.9 / (1.03 ** 0.5) +
-        0.7 / (1.03 ** 1.5) +
-        0.5 / (1.03 ** 2.5) +
-        0.3 / (1.03 ** 3.5)
+        0.9 / (1.03**0.5) + 0.7 / (1.03**1.5) + 0.5 / (1.03**2.5) + 0.3 / (1.03**3.5)
     )
     assert abs(qaly - expected_qaly) < 1e-10
 
 
-def test_calculate_qaly_invalid_inputs():
+def test_calculate_qaly_invalid_inputs() -> None:
     """Test QALY calculation with invalid inputs."""
     # Mismatched array lengths
     with pytest.raises(ValueError):
@@ -62,18 +55,26 @@ def test_calculate_qaly_invalid_inputs():
         calculate_qaly([0.8, 0.7], [1, 1], -0.01)
 
 
-def test_discount_qaly():
+def test_discount_qaly() -> None:
     """Test QALY discounting."""
     discounted = discount_qaly(10.0, 5, 0.03)
-    expected = 10.0 / (1.03 ** 5)
+    expected = 10.0 / (1.03**5)
     assert abs(discounted - expected) < 1e-10
 
+    with pytest.raises(ValueError):
+        discount_qaly(10.0, -1, 0.03)
 
-def test_aggregate_qaly_over_time():
+    with pytest.raises(ValueError):
+        discount_qaly(10.0, 1, -0.01)
+
+
+def test_aggregate_qaly_over_time() -> None:
     """Test aggregation of QALYs over time for multiple strategies."""
     utility_trajectories = {
-        "standard_care": np.array([0.8, 0.75, 0.7, 0.65, 1.0]),  # Death state = 1.0 utility
-        "new_treatment": np.array([0.85, 0.82, 0.8, 0.78, 1.0])
+        "standard_care": np.array(
+            [0.8, 0.75, 0.7, 0.65, 1.0]
+        ),  # Death state = 1.0 utility
+        "new_treatment": np.array([0.85, 0.82, 0.8, 0.78, 1.0]),
     }
     time_points = np.array([0, 1, 2, 3, 4])
 
@@ -83,15 +84,26 @@ def test_aggregate_qaly_over_time():
     assert "new_treatment" in results
     assert results["new_treatment"] > results["standard_care"]
 
+    with pytest.raises(ValueError):
+        aggregate_qaly_over_time({"standard_care": np.array([0.8])}, np.array([0]))
 
-def test_markov_cohort_model():
+    with pytest.raises(ValueError):
+        aggregate_qaly_over_time(
+            {"standard_care": np.array([0.8, 0.7])},
+            np.array([0, 1, 2]),
+        )
+
+
+def test_markov_cohort_model() -> None:
     """Test Markov cohort model simulation."""
     # Simple 3-state model: Healthy, Sick, Dead
-    transition_matrix = np.array([
-        [0.9, 0.05, 0.05],  # Healthy -> Healthy, Sick, Dead
-        [0.1, 0.8, 0.1],    # Sick -> Healthy, Sick, Dead
-        [0.0, 0.0, 1.0]     # Dead -> Dead (absorbing state)
-    ])
+    transition_matrix = np.array(
+        [
+            [0.9, 0.05, 0.05],  # Healthy -> Healthy, Sick, Dead
+            [0.1, 0.8, 0.1],  # Sick -> Healthy, Sick, Dead
+            [0.0, 0.0, 1.0],  # Dead -> Dead (absorbing state)
+        ]
+    )
 
     initial_state = np.array([1.0, 0.0, 0.0])  # All start healthy
 
@@ -108,13 +120,35 @@ def test_markov_cohort_model():
         assert abs(np.sum(row) - 1.0) < 1e-10
 
 
-def test_disease_progression_model():
+def test_markov_cohort_model_validation() -> None:
+    """Markov model should reject malformed probabilities."""
+    valid_state = np.array([1.0, 0.0])
+
+    with pytest.raises(ValueError):
+        markov_cohort_model(
+            np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]]), valid_state, 1
+        )
+
+    with pytest.raises(ValueError):
+        markov_cohort_model(np.eye(2), np.array([1.0, 0.0, 0.0]), 1)
+
+    with pytest.raises(ValueError):
+        markov_cohort_model(np.eye(2), np.array([0.5, 0.4]), 1)
+
+    with pytest.raises(ValueError):
+        markov_cohort_model(np.array([[0.8, 0.2], [-0.1, 1.1]]), valid_state, 1)
+
+    with pytest.raises(ValueError):
+        markov_cohort_model(np.array([[0.8, 0.1], [0.0, 1.0]]), valid_state, 1)
+
+
+def test_disease_progression_model() -> None:
     """Test disease progression model."""
     # Simple model with 3 health states
     base_transitions = {
         "healthy": {"healthy": 0.9, "sick": 0.1},
         "sick": {"healthy": 0.05, "sick": 0.8, "dead": 0.15},
-        "dead": {"dead": 1.0}
+        "dead": {"dead": 1.0},
     }
 
     transition_matrix = disease_progression_model(base_transitions)
@@ -127,19 +161,19 @@ def test_disease_progression_model():
         assert abs(np.sum(transition_matrix[i]) - 1.0) < 1e-10
 
 
-def test_disease_progression_model_with_covariates():
+def test_disease_progression_model_with_covariates() -> None:
     """Test disease progression model with covariates."""
     base_transitions = {
         "healthy": {"healthy": 0.9, "sick": 0.1},
         "sick": {"healthy": 0.05, "sick": 0.8, "dead": 0.15},
-        "dead": {"dead": 1.0}
+        "dead": {"dead": 1.0},
     }
 
     covariates = {"treatment": 1.0}
     covariate_effects = {
         "treatment": {
             ("sick", "healthy"): 0.5,  # Treatment increases recovery rate
-            ("healthy", "sick"): -0.3   # Treatment decreases sickness rate
+            ("healthy", "sick"): -0.3,  # Treatment decreases sickness rate
         }
     }
 
@@ -151,6 +185,27 @@ def test_disease_progression_model_with_covariates():
     assert transition_matrix.shape == (3, 3)
     for i in range(3):
         assert abs(np.sum(transition_matrix[i]) - 1.0) < 1e-10
+
+
+def test_disease_progression_model_covariate_edge_branches() -> None:
+    """Covariate effects should ignore unknown covariates and states."""
+    base_transitions = {
+        "healthy": {"sick": 0.2},
+        "sick": {},
+    }
+    transition_matrix = disease_progression_model(
+        base_transitions,
+        covariates={"missing": 1.0, "treatment": 1.0},
+        covariate_effects={
+            "treatment": {
+                ("healthy", "sick"): -0.5,
+                ("missing", "sick"): 1.0,
+            }
+        },
+    )
+
+    assert transition_matrix.shape == (2, 2)
+    np.testing.assert_allclose(transition_matrix.sum(axis=1), np.ones(2))
 
 
 if __name__ == "__main__":

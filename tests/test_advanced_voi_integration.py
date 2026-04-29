@@ -58,14 +58,18 @@ class TestStructuralVOIIntegration:
         probabilities = [0.4, 0.35, 0.25]  # Model weights
 
         psa_samples = [
-            ParameterSet.from_numpy_or_dict({"transition_rate": np.random.rand(n_samples)}),
-            ParameterSet.from_numpy_or_dict({"hazard_ratio": np.random.rand(n_samples)}),
+            ParameterSet.from_numpy_or_dict(
+                {"transition_rate": np.random.rand(n_samples)}
+            ),
+            ParameterSet.from_numpy_or_dict(
+                {"hazard_ratio": np.random.rand(n_samples)}
+            ),
             ParameterSet.from_numpy_or_dict({"event_rate": np.random.rand(n_samples)}),
         ]
 
         return evaluators, probabilities, psa_samples
 
-    def test_structural_evpi_realistic(self, health_economic_structures):
+    def test_structural_evpi_realistic(self, health_economic_structures) -> None:
         """Test structural EVPI with realistic health economic models."""
         evaluators, probabilities, psa_samples = health_economic_structures
 
@@ -76,21 +80,24 @@ class TestStructuralVOIIntegration:
 
         # With population scaling (typical HTA scenario)
         result_pop = structural_evpi(
-            evaluators, probabilities, psa_samples,
+            evaluators,
+            probabilities,
+            psa_samples,
             population=100000,
             time_horizon=20,
-            discount_rate=0.035
+            discount_rate=0.035,
         )
         assert result_pop > result  # Population scaling should increase value
 
-    def test_structural_evppi_learning_about_best_model(self, health_economic_structures):
+    def test_structural_evppi_learning_about_best_model(
+        self, health_economic_structures
+    ) -> None:
         """Test structural EVPPI for learning about the most probable model."""
         evaluators, probabilities, psa_samples = health_economic_structures
 
         # Learn about the Markov model (highest probability)
         result = structural_evppi(
-            evaluators, probabilities, psa_samples,
-            structures_of_interest=[0]
+            evaluators, probabilities, psa_samples, structures_of_interest=[0]
         )
         assert isinstance(result, float)
         assert result >= 0
@@ -131,13 +138,13 @@ class TestNMAVOIIntegration:
             outcome_type="continuous",
         )
 
-    def test_nma_evpi_diabetes_network(self, realistic_nma_network):
+    def test_nma_evpi_diabetes_network(self, realistic_nma_network) -> None:
         """Test NMA-EVPI with realistic diabetes treatment network."""
         result = calculate_nma_evpi(realistic_nma_network, n_samples=2000)
         assert isinstance(result, float)
         assert result >= 0
 
-    def test_nma_evpi_with_population_scaling(self, realistic_nma_network):
+    def test_nma_evpi_with_population_scaling(self, realistic_nma_network) -> None:
         """Test NMA-EVPI with population scaling for HTA."""
         result = calculate_nma_evpi(
             realistic_nma_network,
@@ -149,7 +156,7 @@ class TestNMAVOIIntegration:
         assert isinstance(result, float)
         assert result >= 0
 
-    def test_nma_evppi_specific_parameters(self, realistic_nma_network):
+    def test_nma_evppi_specific_parameters(self, realistic_nma_network) -> None:
         """Test NMA-EVPPI for specific parameters of interest."""
         # Create realistic parameter samples
         np.random.seed(42)
@@ -170,7 +177,7 @@ class TestNMAVOIIntegration:
         assert isinstance(result, float)
         assert result >= 0
 
-    def test_nma_evpi_vs_evppi_relationship(self, realistic_nma_network):
+    def test_nma_evpi_vs_evppi_relationship(self, realistic_nma_network) -> None:
         """Test that EVPPI <= EVPI (resolving partial uncertainty <= full uncertainty)."""
         np.random.seed(42)
         n_samples = 2000
@@ -191,14 +198,16 @@ class TestNMAVOIIntegration:
         )
 
         # EVPPI should be <= EVPI
-        assert evppi_result <= evpi_result + 1e-9  # Small tolerance for numerical errors
+        assert (
+            evppi_result <= evpi_result + 1e-9
+        )  # Small tolerance for numerical errors
 
 
 @pytest.mark.integration
 class TestCrossMethodIntegration:
     """Test integration between different VOI methods."""
 
-    def test_structural_and_nma_consistency(self):
+    def test_structural_and_nma_consistency(self) -> None:
         """Test that structural and NMA methods give consistent results."""
         np.random.seed(42)
         n_samples = 500
@@ -219,7 +228,7 @@ class TestCrossMethodIntegration:
             [
                 ParameterSet.from_numpy_or_dict({"p1": np.random.rand(n_samples)}),
                 ParameterSet.from_numpy_or_dict({"p2": np.random.rand(n_samples)}),
-            ]
+            ],
         )
 
         # Same scenario as NMA

@@ -1,0 +1,21 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "screening program distributional equity comparison",
+      "method_family": "value_of_distributional_equity",
+      "input_artifact": "normative/distributional-equity-input.json",
+      "expected_output_artifact": "normative/value-of-distributional-equity.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the experimental distributional and equity-weighted VOI contract."
+  ]
+}

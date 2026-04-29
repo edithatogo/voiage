@@ -6,6 +6,15 @@
 
 `voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
 
+Current development state:
+
+- Core VOI methods are implemented and validated.
+- Advanced methods such as structural VOI, NMA VOI, adaptive EVSI, portfolio VOI, sequential VOI, calibration VOI, observational VOI, CEAF, dominance, and heterogeneity analysis are implemented.
+- CLI polish is in place, including `--format`, `--quiet`, `--verbose`, and `generate-config`.
+- Cross-language bindings, HEOML-aligned ecosystem contracts, and fixture-first integration work are scaffolded and tracked in `roadmap.md`.
+- The SOTA roadmap now includes frontier VOI methods, led by an experimental Value of Perspective surface for comparing payer, societal, patient, provider, regulator, equity-weighted, and custom stakeholder perspectives side by side, plus fixture-backed manifests, a registry schema, and a reusable frontier contract validator.
+- Frontier contract validation now runs through the shared registry manifest, schema, and validator.
+
 ## Branch Architecture
 
 This repository uses a separated branch architecture:
@@ -24,28 +33,30 @@ Value of Information (VOI) analysis is a powerful set of techniques used to esti
 
 `voiage` aims to fill these gaps by providing a single, powerful, and easy-to-use library for a wide range of VOI analyses in Python.
 
-## Feature Comparison
+## Feature Matrix
 
-The following table compares the features of `voiage` with other common VOI software.
+The table below summarizes the current `voiage` capability surface and how it
+maps to the active roadmap.
 
-| VOI Analysis                                  | `voiage` (Python) | `BCEA` (R) | `dampack` (R) | `voi` (R) | Commercial Tools | Notes                                                                                              |
-| :-------------------------------------------- | :---------------: | :--------: | :-----------: | :-------: | :--------------: | :------------------------------------------------------------------------------------------------- |
-| **Core Methods**                              |                   |            |               |           |                  |                                                                                                    |
-| Expected Value of Perfect Information (EVPI)  |         ✔️         |     ✔️      |       ✔️       |     ✔️     |        ✔️         | The most fundamental VOI metric. Fully implemented with CLI support.                               |
-| Expected Value of Partial Perfect Info (EVPPI) |         ✔️         |     ✔️      |       ✔️       |     ✔️     |        ✔️         | `voiage` supports modern, efficient algorithms with CLI interface.                                 |
-| Expected Value of Sample Information (EVSI)   |         ✔️         |     ❌      |       ✔️       |     ✔️     |        ✔️         | `voiage` provides two methods: two-loop Monte Carlo and regression-based approaches.              |
-| Expected Net Benefit of Sampling (ENBS)       |         ✔️         |     ❌       |       ❌       |     ✔️     |        ❌         | Fully implemented to optimize research design decisions.                                           |
-| **Advanced & Specialized Methods**            |                   |            |               |           |                  |                                                                                                    |
-| Structural Uncertainty VOI                    |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For comparing different model structures. In development.                                          |
-| Network Meta-Analysis VOI                     |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For synthesizing evidence from multiple studies. Framework in place.                               |
-| Adaptive Design VOI                           |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For trials with pre-planned adaptations. Interface defined.                                        |
-| Portfolio Optimization                        |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For prioritizing multiple research opportunities. Interface defined.                               |
-| Value of Heterogeneity                        |         🚧         |     ❌      |       ❌       |     ❌     |        ❌         | For understanding the value of learning about subgroup effects. Planned for future.               |
+| Capability | State | Notes |
+| :-- | :--: | :-- |
+| EVPI, EVPPI, EVSI, ENBS | ✅ | Core VOI methods are implemented, tested, and exposed through the API and CLI. |
+| CEAF, dominance, heterogeneity | ✅ | Analysis and plotting helpers are available for frontier, dominance, and subgroup workflows. |
+| Structural VOI, NMA VOI | ✅ | Structural uncertainty and network meta-analysis methods are implemented. |
+| Adaptive, calibration, observational, sequential VOI | ✅ | Trial and study-design oriented workflows are available. |
+| Portfolio VOI | ✅ | Budget-constrained portfolio optimization is implemented. |
+| CLI developer experience | ✅ | `--format`, `--quiet`, `--verbose`, help examples, and config generation are available. |
+| Cross-language binding scaffolds | 🚧 | TypeScript, Go, Rust, Julia, .NET 11, and R scaffolds exist with language-specific CI/release checks. |
+| HEOML / ecosystem contracts | 🚧 | `lifecourse` and ecosystem-incubation contract scaffolds exist; deterministic fixtures are being expanded. |
+| Numerics, diagnostics, extension model | 📋 | Next planned track for explicit numerical equivalence, diagnostics, and extension rules. |
+| Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
+| Frontier VOI methods | 📋 | Planned distributional/equity VOI, implementation-adjusted VOI, preference-information VOI, validation VOI, threshold/tipping-point VOI, robust VOI, and dynamic real-options VOI. |
+| Adjacent frontier extensions | 📋 | Planned triage for causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI. |
 
 **Legend:**
-*   ✔️: Implemented
-*   🚧: In Progress / Planned
-*   ❌: Not Supported
+*   ✅: Implemented
+*   🚧: Scaffolded or in progress
+*   📋: Planned
 
 ## Academic Paper
 
@@ -144,28 +155,27 @@ $ voiage calculate-evppi example_net_benefits.csv example_parameters.csv
 EVPPI: 0.020708
 ```
 
-## Current Implementation Status
+## Current Development State
 
-### ✅ Fully Implemented (v0.3)
-- **EVPI (Expected Value of Perfect Information)**: Complete with CLI support
-- **EVPPI (Expected Value of Partial Perfect Information)**: Full implementation with regression-based methods
-- **EVSI (Expected Value of Sample Information)**: Two methods implemented - two-loop Monte Carlo and regression-based
-- **ENBS (Expected Net Benefit of Sampling)**: Complete implementation for research optimization
-- **Plotting Suite**: CEAC, EVSI curves, EVPI analysis with matplotlib integration
-- **CLI Interface**: Complete command-line tools for batch processing
-- **Data I/O**: CSV import/export for net benefits and parameters
+The active work is split across three layers:
 
-### 🚧 In Development (Future Releases)
-- **Network Meta-Analysis VOI**: Basic structure implemented
-- **Adaptive Trial VOI**: Interface defined, implementation in progress
-- **Portfolio Optimization**: Data structures defined
-- **Structural Uncertainty VOI**: Framework in place
+1. **Core library maintenance**: keep the implemented VOI methods stable and
+   documented.
+2. **Spec-first expansion**: continue the numerics/diagnostics extension model
+   and the cross-language conformance fixture tracks.
+3. **Ecosystem integration**: finish the HEOML-aligned `lifecourse` contract,
+   then mature the optional `innovate` and `mars` integration policies.
 
-### 📋 Roadmap
-- **v0.4**: Complete advanced methods (structural uncertainty, network NMA)
-- **v0.5**: Portfolio optimization and sequential decisions
-- **v0.6**: Enhanced plotting and visualization capabilities
-- **v1.0**: Full feature parity with commercial tools
+The most visible repository-level roadmap items are already reflected in
+[`roadmap.md`](roadmap.md):
+
+- **Phase 5**: Spec, fixtures, and polyglot bindings
+- **Phase 6**: Ecosystem integrations
+- **Phase 7**: SOTA VOI frontier methods, starting with Value of Perspective
+
+That means the remaining work is mostly contract hardening, fixture parity,
+language-binding maturation, and documentation around the new ecosystem
+boundaries rather than fundamental method implementation.
 
 For more detailed examples and tutorials, please see the [documentation](https://edithatogo.github.io/voiage).
 

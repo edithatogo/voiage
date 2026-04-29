@@ -32,3 +32,5 @@ Current scaffolds:
   families
 - [fixtures/manifest.json](./fixtures/manifest.json) for the scaffolded
   versioned manifest
+- [process/README.md](./process/README.md) for the HEOR process-mining outline
+  and PM4Py ecosystem-only contract

@@ -43,7 +43,7 @@ jobs:
 
     - name: Install Vale
       run: |
-        go install github.com/errata-ai/vale/v2@latest
+        go install github.com/errata-ai/vale/v2/cmd/vale@latest
         echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
     - name: Run Vale

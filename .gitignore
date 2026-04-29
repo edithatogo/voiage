@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Polyglot binding build artifacts
+bindings/**/bin/
+bindings/**/obj/
+bindings/**/target/
+bindings/**/*.nupkg
+bindings/**/*.snupkg
+bindings/julia/Manifest.toml
+bindings/rust/Cargo.lock
+bindings/typescript/*.tgz

@@ -134,6 +134,7 @@ Before marking any task complete, verify:
 - [ ] Works correctly on mobile (if applicable)
 - [ ] Documentation updated if needed
 - [ ] No security vulnerabilities introduced
+- [ ] For non-Python bindings, CI/CD includes language-specific build/test/lint/type/doc gates, shared conformance-fixture validation, package dry-run checks, and release publishing to the relevant package manager or registry. .NET bindings must target .NET 11 (`net11.0`) unless the active track explicitly changes that target.
 
 ## Development Commands
 

@@ -5,8 +5,8 @@ This directory contains example notebooks demonstrating the usage of the voiage 
 ## Validation Notebook
 
 - [voiage_validation.ipynb](voiage_validation.ipynb): A comprehensive validation notebook that demonstrates all core methods of the voiage library:
-  - EVPI (Expected Value of Perfect Information) calculation
-  - EVPPI (Expected Value of Partial Perfect Information) calculation
+  - EVPI (Expected Value of Perfect Information) validation against the benchmark case
+  - EVPPI (Expected Value of Partial Perfect Information) validation for parameter subsets
   - EVSI (Expected Value of Sample Information) calculation using both two-loop and regression methods
   - Visualization of results with CEACs and VOI curves
 

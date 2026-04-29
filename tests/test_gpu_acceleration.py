@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
+from typing import cast
 
 import numpy as np
 import pytest
@@ -81,7 +82,9 @@ def test_optimize_for_gpu_returns_device_arrays_unchanged() -> None:
     assert optimized is device_array
 
 
-def test_optimize_for_gpu_converts_cpu_inputs_to_float32(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_optimize_for_gpu_converts_cpu_inputs_to_float32(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     pytest.importorskip("jax")
 
     captured: dict[str, object] = {}
@@ -116,7 +119,7 @@ def test_memory_efficient_batch_process_flushes_when_threshold_is_exceeded(
 
     batches = [np.ones((256, 768), dtype=np.float32) for _ in range(3)]
 
-    result = gpu_utils.memory_efficient_batch_process(
+    result: object = gpu_utils.memory_efficient_batch_process(
         batches,
         process_func,
         max_memory_mb=1,
@@ -129,11 +132,28 @@ def test_memory_efficient_batch_process_flushes_when_threshold_is_exceeded(
         "Processing batch 2 to free memory",
     ]
     assert [len(batch) for batch in calls] == [1, 2, 3]
-    assert all(all(np.array_equal(left, right) for left, right in zip(batch, batches[: len(batch)])) for batch in calls)
-    assert all(left is right for left, right in zip(result, batches))
+    assert all(
+        np.array_equal(left, right)
+        for batch in calls
+        for left, right in zip(
+            batch,
+            batches[: len(batch)],
+            strict=False,
+        )
+    )
+    assert all(
+        left is right
+        for left, right in zip(
+            cast("list[np.ndarray]", result),
+            batches,
+            strict=False,
+        )
+    )
 
 
-def test_jax_advanced_backend_delegates_gpu_info(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_jax_advanced_backend_delegates_gpu_info(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     pytest.importorskip("jax")
 
     backend = JaxAdvancedBackend()
@@ -152,17 +172,23 @@ def test_jax_advanced_backend_delegates_profile_evppi(
     expected = {"analysis": "profiled"}
     captured: dict[str, object] = {}
 
-    def _memory_usage_analysis(func: object, *args: object, **kwargs: object) -> dict[str, str]:
+    def _memory_usage_analysis(
+        func: object, *args: object, **kwargs: object
+    ) -> dict[str, str]:
         captured["func"] = func
         captured["args"] = args
         captured["kwargs"] = kwargs
         return expected
 
-    monkeypatch.setattr(backend.profiler, "memory_usage_analysis", _memory_usage_analysis)
+    monkeypatch.setattr(
+        backend.profiler, "memory_usage_analysis", _memory_usage_analysis
+    )
 
-    outcome = backend.profile_evppi(1, 2, 3)
+    parameters_of_interest = ["parameter"]
+
+    outcome = backend.profile_evppi(1, 2, parameters_of_interest)
 
     assert outcome == expected
     assert captured["func"] == backend.evppi_advanced
-    assert captured["args"] == (1, 2, 3)
+    assert captured["args"] == (1, 2, parameters_of_interest)
     assert captured["kwargs"] == {}

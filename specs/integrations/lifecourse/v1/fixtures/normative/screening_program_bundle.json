@@ -1,5 +1,7 @@
 {
   "profile_version": "v1",
+  "heoml_profile_version": "0.1",
+  "heoml_manifest_id": "heoml-run-bundle-v1-example",
   "producer": "lifecourse",
   "run_id": "lifecourse-screening-001",
   "decision_problem_id": "screening-program-001",

@@ -114,8 +114,11 @@ class DecisionAnalysis:
         if isinstance(nb_array, ValueArray):
             self.nb_array = nb_array
         elif isinstance(nb_array, np.ndarray):
-            # Assuming strategy names are not provided
-            self.nb_array = ValueArray.from_numpy(nb_array)
+            if nb_array.ndim == 3:
+                self.nb_array = ValueArray.from_numpy_perspectives(nb_array)
+            else:
+                # Assuming strategy names are not provided
+                self.nb_array = ValueArray.from_numpy(nb_array)
         else:
             raise_input_error("`nb_array` must be a NumPy array or ValueArray object.")
 
@@ -1098,6 +1101,92 @@ class DecisionAnalysis:
             subgroups=subgroups,
             strategy_names=strategy_names,
             n_bins=n_bins,
+        )
+
+    def value_of_distributional_equity(
+        self,
+        subgroups: Sequence[object],
+        strategy_names: Sequence[str] | None = None,
+        equity_weights: Sequence[float] | dict[str, float] | None = None,
+        n_bins: int | None = None,
+    ) -> Any:
+        """Calculate the value of distributional and equity-weighted decision tailoring."""
+        from voiage.methods.distributional import value_of_distributional_equity
+
+        return value_of_distributional_equity(
+            self.nb_array,
+            subgroups=subgroups,
+            strategy_names=strategy_names,
+            equity_weights=equity_weights,
+            n_bins=n_bins,
+        )
+
+    def value_of_implementation(
+        self,
+        uptake: float = 1.0,
+        adherence: float = 1.0,
+        coverage: float = 1.0,
+        implementation_delay: float = 0.0,
+        implementation_uncertainty: float = 0.0,
+        discount_rate: float = 0.0,
+        time_horizon: float | None = None,
+        population: float | None = None,
+        strategy_names: Sequence[str] | None = None,
+    ) -> Any:
+        """Calculate implementation-adjusted VOI summaries."""
+        from voiage.methods.implementation import value_of_implementation
+
+        return value_of_implementation(
+            self.nb_array,
+            uptake=uptake,
+            adherence=adherence,
+            coverage=coverage,
+            implementation_delay=implementation_delay,
+            implementation_uncertainty=implementation_uncertainty,
+            discount_rate=discount_rate,
+            time_horizon=time_horizon,
+            population=population,
+            strategy_names=strategy_names,
+        )
+
+    def value_of_perspective(
+        self,
+        perspectives: Any | None = None,
+        strategy_names: Sequence[str] | None = None,
+        perspective_names: Sequence[str] | None = None,
+        perspective_weights: Sequence[float] | dict[str, float] | None = None,
+        reference_perspective: str | int | None = None,
+    ) -> Any:
+        """Compare decision value across multiple perspectives.
+
+        Parameters
+        ----------
+        perspectives : PerspectiveSet or sequence, optional
+            Ordered perspective metadata or perspective identifiers.
+        strategy_names : sequence of str, optional
+            Optional strategy labels.
+        perspective_names : sequence of str, optional
+            Optional perspective labels when full metadata is not provided.
+        perspective_weights : sequence or dict, optional
+            Non-negative weights used for consensus and switching-value
+            summaries.
+        reference_perspective : str or int, optional
+            Reference perspective used for switching-value summaries.
+
+        Returns
+        -------
+        object
+            Result from :func:`voiage.methods.perspective.value_of_perspective`.
+        """
+        from voiage.methods.perspective import value_of_perspective
+
+        return value_of_perspective(
+            self.nb_array,
+            perspectives=perspectives,
+            strategy_names=strategy_names,
+            perspective_names=perspective_names,
+            perspective_weights=perspective_weights,
+            reference_perspective=reference_perspective,
         )
 
     def portfolio_voi(

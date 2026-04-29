@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from voiage.exceptions import InputError
-from voiage.methods.basic import evpi, evppi
+from voiage.methods.basic import check_parameter_samples, evpi, evppi
 from voiage.schema import ParameterSet, ValueArray
 
 
@@ -165,6 +165,30 @@ class TestEVPI:
 
 class TestEVPPI:
     """Test the evppi function comprehensively."""
+
+    def test_check_parameter_samples_accepts_arrays_and_dicts(self) -> None:
+        """Test parameter sample normalization for arrays and dictionaries."""
+        one_dimensional = np.array([1.0, 2.0, 3.0])
+        normalized_array = check_parameter_samples(one_dimensional, n_samples=3)
+        assert normalized_array.shape == (3, 1)
+        assert np.array_equal(normalized_array[:, 0], one_dimensional)
+
+        sample_dict = {
+            "alpha": np.array([1.0, 2.0, 3.0]),
+            "beta": np.array([4.0, 5.0, 6.0]),
+        }
+        normalized_dict = check_parameter_samples(sample_dict, n_samples=3)
+        assert normalized_dict.shape == (3, 2)
+        assert np.array_equal(normalized_dict[:, 0], sample_dict["alpha"])
+        assert np.array_equal(normalized_dict[:, 1], sample_dict["beta"])
+
+    def test_check_parameter_samples_rejects_invalid_shapes_and_types(self) -> None:
+        """Test parameter sample validation failures."""
+        with pytest.raises(InputError, match="must be a NumPy array"):
+            check_parameter_samples("not samples", n_samples=3)
+
+        with pytest.raises(Exception, match="does not match"):
+            check_parameter_samples(np.array([1.0, 2.0]), n_samples=3)
 
     def test_evppi_basic(self) -> None:
         """Test basic EVPPI calculation."""

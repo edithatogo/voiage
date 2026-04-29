@@ -1,6 +1,8 @@
 {
   "version": "v1",
   "status": "scaffold",
+  "heoml_profile_version": "0.1",
+  "heoml_manifest_id": "heoml-run-bundle-v1-example",
   "normative": [
     {
       "name": "screening program deterministic bundle",

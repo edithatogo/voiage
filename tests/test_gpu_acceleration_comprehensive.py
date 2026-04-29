@@ -50,7 +50,10 @@ class TestGetGPUBackend:
         else:
             # Mock CuPy availability
             with patch("voiage.core.gpu_acceleration.CUPY_AVAILABLE", True):
-                with patch("voiage.core.gpu_acceleration.cp.cuda.runtime.getDeviceCount", return_value=1):
+                with patch(
+                    "voiage.core.gpu_acceleration.cp.cuda.runtime.getDeviceCount",
+                    return_value=1,
+                ):
                     backend = get_gpu_backend()
                     # Depending on other backends, this could be 'cupy' or another backend
                     assert backend in ["cupy", "none", "jax", "torch"]
@@ -59,7 +62,10 @@ class TestGetGPUBackend:
         """Test get_gpu_backend when PyTorch is available with CUDA."""
         if TORCH_AVAILABLE:
             # If PyTorch is available, test with mocked CUDA availability
-            with patch("voiage.core.gpu_acceleration.torch.cuda.is_available", return_value=True):
+            with patch(
+                "voiage.core.gpu_acceleration.torch.cuda.is_available",
+                return_value=True,
+            ):
                 backend = get_gpu_backend()
                 if not JAX_AVAILABLE or get_gpu_backend() != "jax":
                     # If JAX isn't available or doesn't take precedence, torch should be detected
@@ -95,7 +101,9 @@ class TestIsGPUAvailable:
         with patch("voiage.core.gpu_acceleration.get_gpu_backend", return_value="cupy"):
             assert is_gpu_available() is True
 
-        with patch("voiage.core.gpu_acceleration.get_gpu_backend", return_value="torch"):
+        with patch(
+            "voiage.core.gpu_acceleration.get_gpu_backend", return_value="torch"
+        ):
             assert is_gpu_available() is True
 
     def test_is_gpu_available_no_backends(self, monkeypatch) -> None:
@@ -139,7 +147,9 @@ class TestArrayTransferFunctions:
         with pytest.raises(ValueError, match="Unknown backend"):
             array_to_cpu(test_array, backend="invalid_backend")
 
-    def test_array_to_cpu_runtime_error_for_unavailable_backend(self, monkeypatch) -> None:
+    def test_array_to_cpu_runtime_error_for_unavailable_backend(
+        self, monkeypatch
+    ) -> None:
         """Test array_to_cpu raises RuntimeError when backend is not available."""
         # Mock backend availability as False
         with patch("voiage.core.gpu_acceleration.JAX_AVAILABLE", False):
@@ -160,6 +170,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_jit_compile_with_backend_none(self, monkeypatch) -> None:
         """Test gpu_jit_compile with 'none' backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -171,6 +182,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_jit_compile_unknown_backend(self) -> None:
         """Test gpu_jit_compile with unknown backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -181,6 +193,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_vectorize_with_backend_none(self, monkeypatch) -> None:
         """Test gpu_vectorize with 'none' backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -192,6 +205,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_vectorize_unknown_backend(self) -> None:
         """Test gpu_vectorize with unknown backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -202,6 +216,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_parallelize_with_backend_none(self, monkeypatch) -> None:
         """Test gpu_parallelize with 'none' backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -213,6 +228,7 @@ class TestGPUCompilationAndVectorization:
 
     def test_gpu_parallelize_unknown_backend(self) -> None:
         """Test gpu_parallelize with unknown backend."""
+
         def dummy_func(x):
             return x * 2
 
@@ -258,22 +274,39 @@ class TestGPUAcceleratedEVPI:
             with pytest.raises(RuntimeError, match="No GPU backend available"):
                 GPUAcceleratedEVPI()
 
-    def test_gpu_accelerated_evpi_calculate_evpi_with_mocked_backends(self, monkeypatch) -> None:
+    def test_gpu_accelerated_evpi_calculate_evpi_with_mocked_backends(
+        self, monkeypatch
+    ) -> None:
         """Test the calculate_evpi method with mocked backend behavior."""
         # Create test data
         test_data = np.random.rand(10, 2)  # 10 samples, 2 strategies
 
         # Mock the array_to_gpu function to return the data unchanged for testing
-        with patch("voiage.core.gpu_acceleration.array_to_gpu", side_effect=lambda x, y: x):
+        with patch(
+            "voiage.core.gpu_acceleration.array_to_gpu", side_effect=lambda x, y: x
+        ):
             # Mock the get_gpu_backend function to return 'jax' for testing
-            with patch("voiage.core.gpu_acceleration.get_gpu_backend", return_value="jax"):
+            with patch(
+                "voiage.core.gpu_acceleration.get_gpu_backend", return_value="jax"
+            ):
                 # Mock JAX functions
                 with patch("voiage.core.gpu_acceleration.JAX_AVAILABLE", True):
-                    with patch("voiage.core.gpu_acceleration.jnp.max", new=lambda x, axis: np.max(x, axis=axis)):
-                        with patch("voiage.core.gpu_acceleration.jnp.mean", new=lambda x, axis: np.mean(x, axis=axis)):
-                            with patch("voiage.core.gpu_acceleration.jnp.asarray", new=np.asarray):
+                    with patch(
+                        "voiage.core.gpu_acceleration.jnp.max",
+                        new=lambda x, axis: np.max(x, axis=axis),
+                    ):
+                        with patch(
+                            "voiage.core.gpu_acceleration.jnp.mean",
+                            new=lambda x, axis: np.mean(x, axis=axis),
+                        ):
+                            with patch(
+                                "voiage.core.gpu_acceleration.jnp.asarray",
+                                new=np.asarray,
+                            ):
                                 # Create instance using 'jax' backend
-                                with patch("voiage.core.gpu_acceleration.jax.devices") as mock_devices:
+                                with patch(
+                                    "voiage.core.gpu_acceleration.jax.devices"
+                                ) as mock_devices:
                                     mock_device = MagicMock()
                                     mock_device.device_kind = "gpu"
                                     mock_devices.return_value = [mock_device]
@@ -285,7 +318,9 @@ class TestGPUAcceleratedEVPI:
 
                                     # Verify result is a float
                                     assert isinstance(result, float)
-                                    assert result >= 0  # EVPI should be non-negative in most cases
+                                    assert (
+                                        result >= 0
+                                    )  # EVPI should be non-negative in most cases
 
 
 # Additional tests for edge cases and error conditions
@@ -316,7 +351,9 @@ class TestGPUModuleEdgeCases:
         """Test get_gpu_backend when CuPy raises a runtime error."""
         with patch("voiage.core.gpu_acceleration.CUPY_AVAILABLE", True):
             with patch("voiage.core.gpu_acceleration.cp") as mock_cp:
-                mock_cp.cuda.runtime.getDeviceCount.side_effect = MagicMock(side_effect=Exception("CUDA error"))
+                mock_cp.cuda.runtime.getDeviceCount.side_effect = MagicMock(
+                    side_effect=Exception("CUDA error")
+                )
                 backend = get_gpu_backend()
                 # If CuPy fails, should return 'none' or another available backend
                 assert backend in ["none", "jax", "torch"]
@@ -345,10 +382,22 @@ class TestGPUModuleEdgeCases:
         for backend in ["jax", "cupy", "torch"]:
             if backend == "jax" and JAX_AVAILABLE:
                 # JAX is available, test with mocked functions
-                with patch("voiage.core.gpu_acceleration.array_to_gpu", side_effect=lambda x, y: x):
-                    with patch("voiage.core.gpu_acceleration.jnp.max", new=lambda arr, axis: np.max(arr, axis=axis)):
-                        with patch("voiage.core.gpu_acceleration.jnp.mean", new=lambda arr, axis: np.mean(arr, axis=axis)):
-                            with patch("voiage.core.gpu_acceleration.jnp.asarray", new=np.asarray):
+                with patch(
+                    "voiage.core.gpu_acceleration.array_to_gpu",
+                    side_effect=lambda x, y: x,
+                ):
+                    with patch(
+                        "voiage.core.gpu_acceleration.jnp.max",
+                        new=lambda arr, axis: np.max(arr, axis=axis),
+                    ):
+                        with patch(
+                            "voiage.core.gpu_acceleration.jnp.mean",
+                            new=lambda arr, axis: np.mean(arr, axis=axis),
+                        ):
+                            with patch(
+                                "voiage.core.gpu_acceleration.jnp.asarray",
+                                new=np.asarray,
+                            ):
                                 evpi_calc = GPUAcceleratedEVPI(backend="jax")
                                 result = evpi_calc.calculate_evpi(test_data)
                                 assert isinstance(result, float)
@@ -361,7 +410,9 @@ class TestGPUModuleEdgeCases:
                     # Mock CuPy availability
                     with patch("voiage.core.gpu_acceleration.CUPY_AVAILABLE", True):
                         with patch("voiage.core.gpu_acceleration.cp") as mock_cp:
-                            mock_cp.array.return_value = test_data  # Return same array for mock
+                            mock_cp.array.return_value = (
+                                test_data  # Return same array for mock
+                            )
                             mock_cp.max.return_value = np.max(test_data, axis=1)
                             mock_cp.mean.return_value = np.mean(test_data, axis=0)
                             mock_cp.asarray.return_value = np.asarray(test_data)
@@ -376,7 +427,10 @@ class TestGPUModuleEdgeCases:
                                 pass
             elif backend == "torch" and TORCH_AVAILABLE:
                 # Test PyTorch path with mocked functions
-                with patch("voiage.core.gpu_acceleration.array_to_gpu", side_effect=lambda x, y: x):
+                with patch(
+                    "voiage.core.gpu_acceleration.array_to_gpu",
+                    side_effect=lambda x, y: x,
+                ):
                     # PyTorch tests would need actual PyTorch tensors
                     pass
 

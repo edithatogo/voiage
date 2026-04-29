@@ -29,6 +29,11 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [~] Track: SOTA VOI Frontier
+*Link: [./tracks/sota-voi-frontier_20260429/](./tracks/sota-voi-frontier_20260429/)*
+
+---
+
 ## [x] Track: Cross-Language Conformance Fixtures
 *Link: [./archive/cross-language-conformance-fixtures_20260416/](./archive/cross-language-conformance-fixtures_20260416/)*
 *completed: 2026-04-16*
@@ -67,3 +72,8 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ## [x] Track: Ecosystem Module Incubation [completed: 2026-04-29]
 *Link: [./archive/ecosystem-module-incubation_20260429/](./archive/ecosystem-module-incubation_20260429/)*
+
+---
+
+## [ ] Track: HEOR Module Naming Brainstorm
+*Link: [./tracks/heor_module_naming_brainstorm_20260429/](./tracks/heor_module_naming_brainstorm_20260429/)*

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
+import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.schema import (
@@ -244,3 +245,109 @@ def test_trial_design_to_dict_from_dict_round_trip() -> None:
     )
 
     assert TrialDesign.from_dict(design.to_dict()) == design
+
+
+def test_value_array_dataset_validation_errors() -> None:
+    with pytest.raises(InputError, match="xarray.Dataset"):
+        ValueArray(dataset="not-a-dataset")  # type: ignore[arg-type]
+
+    with pytest.raises(InputError, match="n_samples"):
+        ValueArray(dataset=xr.Dataset({"net_benefit": (("n_strategies",), [1.0])}))
+
+    with pytest.raises(InputError, match="n_strategies"):
+        ValueArray(dataset=xr.Dataset({"net_benefit": (("n_samples",), [1.0])}))
+
+    with pytest.raises(InputError, match="net_benefit"):
+        ValueArray(
+            dataset=xr.Dataset(
+                {"other": (("n_samples", "n_strategies"), np.array([[1.0]]))}
+            )
+        )
+
+
+def test_schema_equality_returns_not_implemented_for_other_types() -> None:
+    value_array = ValueArray.from_numpy(np.array([[1.0, 2.0]]))
+    parameter_set = ParameterSet.from_numpy_or_dict({"alpha": np.array([1.0])})
+
+    assert ValueArray.__eq__(value_array, object()) is NotImplemented
+    assert ParameterSet.__eq__(parameter_set, object()) is NotImplemented
+
+
+def test_parameter_set_dataset_validation_errors() -> None:
+    with pytest.raises(InputError, match="xarray.Dataset"):
+        ParameterSet(dataset="not-a-dataset")  # type: ignore[arg-type]
+
+    with pytest.raises(InputError, match="n_samples"):
+        ParameterSet(dataset=xr.Dataset({"alpha": (("draw",), [1.0])}))
+
+
+def test_decision_option_from_dict_validates_shape_and_types() -> None:
+    with pytest.raises(InputError, match="dictionary"):
+        DecisionOption.from_dict("bad")
+
+    with pytest.raises(InputError, match="'name'"):
+        DecisionOption.from_dict({"sample_size": 10})
+
+    with pytest.raises(InputError, match="'sample_size'"):
+        DecisionOption.from_dict({"name": "A"})
+
+    with pytest.raises(InputError, match="must be a string"):
+        DecisionOption.from_dict({"name": 1, "sample_size": 10})
+
+    with pytest.raises(InputError, match="must be an integer"):
+        DecisionOption.from_dict({"name": "A", "sample_size": 10.5})
+
+
+def test_trial_design_from_dict_validates_shape() -> None:
+    with pytest.raises(InputError, match="dictionary"):
+        TrialDesign.from_dict("bad")
+
+    with pytest.raises(InputError, match="'arms'"):
+        TrialDesign.from_dict({})
+
+    with pytest.raises(InputError, match="sequence"):
+        TrialDesign.from_dict({"arms": "bad"})
+
+
+def test_schema_jax_constructors_cover_array_and_dict_paths() -> None:
+    jnp = pytest.importorskip("jax.numpy")
+
+    value_array = ValueArray.from_jax(
+        jnp.asarray([[1.0, 2.0], [3.0, 4.0]]), strategy_names=["A", "B"]
+    )
+    parameter_array = ParameterSet.from_jax(jnp.asarray([[0.1, 1.0], [0.2, 2.0]]))
+    parameter_dict = ParameterSet.from_jax(
+        {
+            "alpha": jnp.asarray([0.1, 0.2]),
+            "beta": jnp.asarray([1.0, 2.0]),
+        }
+    )
+
+    assert value_array.strategy_names == ["A", "B"]
+    assert parameter_array.parameter_names == ["param_0", "param_1"]
+    assert parameter_dict.parameter_names == ["alpha", "beta"]
+    assert value_array.jax_values is not None
+    assert parameter_dict.jax_parameters is not None
+
+    with pytest.raises(InputError, match="2D"):
+        ValueArray.from_jax(jnp.asarray([1.0, 2.0]))
+
+    with pytest.raises(InputError, match="2D"):
+        ParameterSet.from_jax(jnp.asarray([1.0, 2.0]))
+
+    with pytest.raises(InputError, match="cannot be empty"):
+        ParameterSet.from_jax({})
+
+    with pytest.raises(InputError, match="same length"):
+        ParameterSet.from_jax(
+            {
+                "alpha": jnp.asarray([0.1, 0.2]),
+                "beta": jnp.asarray([1.0]),
+            }
+        )
+
+    with pytest.raises(InputError, match="must be a JAX array"):
+        ParameterSet.from_jax({"alpha": [0.1, 0.2]})  # type: ignore[dict-item]
+
+    with pytest.raises(InputError, match="JAX array or dictionary"):
+        ParameterSet.from_jax("bad")  # type: ignore[arg-type]

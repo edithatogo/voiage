@@ -129,13 +129,36 @@ evppi_result = analysis.evppi()
 | EVPI | ✅ | ✅ | ✅ | ✅ |
 | EVPPI | ✅ | ✅ | ✅ | ✅ |
 | EVSI | ✅ | ✅ | ✅ | ✅ |
-| Portfolio Optimization | ❌ | ✅ | ❌ | ✅ |
-| Network Meta-Analysis | ❌ | ❌ | ❌ | ✅ |
-| Adaptive Trials | ❌ | ❌ | ❌ | ✅ |
-| Calibration | ❌ | ❌ | ❌ | ✅ |
-| Observational Studies | ❌ | ❌ | ❌ | ✅ |
+| ENBS | ❌ | ❌ | ✅ | ✅ |
+| CEAF / dominance / heterogeneity | ❌ | Partial | ❌ | ✅ |
+| Structural uncertainty VOI | ❌ | ❌ | ❌ | ✅ |
+| Network Meta-Analysis VOI | ❌ | ❌ | ❌ | ✅ |
+| Adaptive trials | ❌ | ❌ | ❌ | ✅ |
+| Calibration VOI | ❌ | ❌ | ❌ | ✅ |
+| Observational studies | ❌ | ❌ | ❌ | ✅ |
+| Portfolio optimization | ❌ | ✅ | ❌ | ✅ |
+| Sequential VOI | ❌ | ❌ | ❌ | ✅ |
 | Python API | ❌ | ❌ | ❌ | ✅ |
-| Cross-Domain Usage | Limited | Limited | Limited | ✅ |
+| CLI workflow | ❌ | Partial | ❌ | ✅ |
+| Cross-language scaffolds | ❌ | ❌ | ❌ | 🚧 |
+| HEOML / ecosystem contracts | ❌ | ❌ | ❌ | 🚧 |
+| Value of Perspective | ❌ | ❌ | ❌ | 🚧 |
+| Distributional/equity VOI | ❌ | ❌ | ❌ | 🚧 |
+| Implementation-adjusted VOI | ❌ | ❌ | ❌ | 🚧 |
+| Frontier contract registry and validator | ❌ | ❌ | ❌ | ✅ |
+| Preference-information / individualized-care VOI | ❌ | ❌ | Partial | 📋 |
+| Validation, threshold, and robust VOI | ❌ | ❌ | ❌ | 📋 |
+| Causal, data-quality, computational, and elicitation VOI | ❌ | ❌ | ❌ | 📋 |
+| Cross-domain usage | Limited | Limited | Limited | ✅ |
+
+Current roadmap context:
+
+- Core method work is complete.
+- The active focus is spec-first expansion, conformance fixtures, cross-language binding scaffolds, and ecosystem contracts.
+- The SOTA frontier track now includes experimental Value of Perspective,
+  distributional/equity, and implementation-adjusted APIs, along with a
+  registry-backed frontier contract layer that validates the committed
+  deterministic fixtures.
 
 ## Best Practices for Migration
 

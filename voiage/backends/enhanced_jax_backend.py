@@ -1,49 +1,49 @@
-# Enhanced JAX Backend with Advanced Features
+"""Enhanced JAX backend with advanced features."""
 
-# Handle optional JAX dependencies
-HAS_JAX = True
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import numpy as np
+
+from voiage.exceptions import raise_import_error
+
 try:
-    import jax.numpy as jnp
     import jax
-    from jax import vmap
-except ImportError:
-    HAS_JAX = False
-    jnp = None
+    import jax.numpy as jnp
+except ImportError:  # pragma: no cover - optional dependency fallback
     jax = None
-    vmap = None
+    jnp = np
 
-# Try to import JaxBackend from appropriate location
-try:
-    from .base import JaxBackend
-except ImportError:
-    try:
-        from .jax_backend import JaxBackend
-    except ImportError:
-        try:
-            from .base_backend import JaxBackend
-        except ImportError:
-            # Define a fallback class for JaxBackend
-            class JaxBackend:
-                pass
+from .advanced_jax_regression import JaxAdvancedRegression
+from .base import JaxBackend
 
-try:
-    from .advanced_jax_regression import JaxAdvancedRegression
-except ImportError:
-    JaxAdvancedRegression = None
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+
+HAS_JAX = jax is not None
 
 
 class EnhancedJaxBackend(JaxBackend):
     """Enhanced JAX backend with advanced optimization features."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         if not HAS_JAX:
-            raise ImportError("JAX is required for EnhancedJaxBackend but is not installed")
-        if JaxAdvancedRegression is None:
-            raise ImportError("JaxAdvancedRegression is required for EnhancedJaxBackend but is not available")
+            raise_import_error(
+                "JAX is required for EnhancedJaxBackend but is not installed"
+            )
         self.regression_model = JaxAdvancedRegression()
 
-    def evppi_advanced(self, net_benefit_array, parameter_samples, parameters_of_interest,
-                      method="polynomial", degree=2, cv_folds=5, regularization=1e-6):
+    def evppi_advanced(
+        self,
+        net_benefit_array: np.ndarray,
+        parameter_samples: np.ndarray | Mapping[str, np.ndarray],
+        parameters_of_interest: Sequence[str],
+        method: str = "polynomial",
+        degree: int = 2,
+        cv_folds: int = 5,
+        regularization: float = 1e-6,
+    ) -> float:
         """Advanced EVPPI calculation with enhanced regression models.
 
         Args:
@@ -55,9 +55,6 @@ class EnhancedJaxBackend(JaxBackend):
             cv_folds: Number of cross-validation folds
             regularization: Regularization parameter
         """
-        if not HAS_JAX:
-            raise ImportError("JAX is required for evppi_advanced but is not installed")
-            
         # Convert inputs to JAX arrays
         nb_array = jnp.asarray(net_benefit_array, dtype=jnp.float64)
 
@@ -66,7 +63,7 @@ class EnhancedJaxBackend(JaxBackend):
             x = jnp.column_stack(param_values)
         else:
             x = jnp.asarray(parameter_samples, dtype=jnp.float64)
-        
+
         n_samples, n_strategies = nb_array.shape
 
         # Calculate expected value of each strategy
@@ -75,11 +72,11 @@ class EnhancedJaxBackend(JaxBackend):
 
         # Use enhanced regression for EVPPI calculation
         max_fitted_nb = jnp.zeros(n_samples)
-        
+
         for i in range(n_strategies):
             y = nb_array[:, i]
-            
-            if method == 'polynomial' and degree > 1:
+
+            if method == "polynomial" and degree > 1:
                 # Polynomial regression enhancement
                 # Simplified approach - would normally use proper polynomial transformation
                 X_with_bias = jnp.column_stack([jnp.ones(x.shape[0]), x])
@@ -88,7 +85,7 @@ class EnhancedJaxBackend(JaxBackend):
                 reg_matrix = regularization * jnp.eye(XtX.shape[0])
                 beta = jnp.linalg.solve(XtX + reg_matrix, Xty)
                 predictions = jnp.dot(X_with_bias, beta)
-                
+
             else:
                 # Fallback to simple linear regression
                 X_with_bias = jnp.column_stack([jnp.ones(x.shape[0]), x])
@@ -97,57 +94,73 @@ class EnhancedJaxBackend(JaxBackend):
                 reg_matrix = regularization * jnp.eye(XtX.shape[0])
                 beta = jnp.linalg.solve(XtX + reg_matrix, Xty)
                 predictions = jnp.dot(X_with_bias, beta)
-                
+
             max_fitted_nb = jnp.maximum(max_fitted_nb, predictions)
-        
+
         e_max_enb_conditional = jnp.mean(max_fitted_nb)
-        
+
         evpi = e_max_enb_conditional - max_expected_nb
-        
-        return jnp.maximum(0.0, float(evpi))
-    
-    def batch_evppi(self, net_benefit_arrays, parameter_samples, parameters_of_interest):
+
+        return float(jnp.maximum(0.0, evpi))
+
+    def batch_evppi(
+        self,
+        net_benefit_arrays: Sequence[np.ndarray],
+        parameter_samples: np.ndarray | Mapping[str, np.ndarray],
+        parameters_of_interest: Sequence[str],
+    ) -> np.ndarray:
         """Batch EVPPI calculation for multiple net benefit arrays."""
-        if not HAS_JAX:
-            raise ImportError("JAX is required for batch_evppi but is not installed")
-        return jnp.array([
-            self.evppi_advanced(nb_array, parameter_samples, parameters_of_interest)
-            for nb_array in net_benefit_arrays
-        ])
-    
-    def parallel_monte_carlo(self, net_benefit_array, n_simulations=1000, chunk_size=100):
+        return np.asarray(
+            [
+                self.evppi_advanced(nb_array, parameter_samples, parameters_of_interest)
+                for nb_array in net_benefit_arrays
+            ],
+            dtype=float,
+        )
+
+    def parallel_monte_carlo(
+        self,
+        net_benefit_array: np.ndarray,
+        n_simulations: int = 1000,
+        chunk_size: int = 100,
+    ) -> dict[str, object]:
         """Parallel Monte Carlo sampling for variance reduction."""
-        if not HAS_JAX:
-            raise ImportError("JAX is required for parallel_monte_carlo but is not installed")
-            
         nb_array = jnp.asarray(net_benefit_array, dtype=jnp.float64)
-        n_samples, n_strategies = nb_array.shape
-        
+        n_samples, _n_strategies = nb_array.shape
+
         chunk_size = min(chunk_size, n_samples)
-        
+
         # Define a function to compute EVPI on a subset
-        def compute_evpi_subset(idx):
+        def compute_evpi_subset(idx: int) -> float:
             # Generate random indices for this subset
-            key = jax.random.fold_in(jax.random.PRNGKey(42), idx)
-            indices = jax.random.choice(key, n_samples, shape=(chunk_size,), replace=True)
+            if HAS_JAX:
+                assert jax is not None
+                key = jax.random.fold_in(jax.random.PRNGKey(42), idx)
+                indices = jax.random.choice(
+                    key, n_samples, shape=(chunk_size,), replace=True
+                )
+            else:
+                rng = np.random.default_rng(42 + idx)
+                indices = rng.choice(n_samples, size=chunk_size, replace=True)
             subset_nb = nb_array[indices]
-            
+
             # Calculate expected value of each strategy
             expected_nb = jnp.mean(subset_nb, axis=0)
             max_expected_nb = jnp.max(expected_nb)
-            
+
             # Calculate optimal strategy for each sample
             max_nb_per_sample = jnp.max(subset_nb, axis=1)
             e_max_nb = jnp.mean(max_nb_per_sample)
-            
-            return e_max_nb - max_expected_nb
 
-        # Use JAX random number generation
-        indices = list(range(n_simulations))
-        evpi_values = jnp.array([compute_evpi_subset(i) for i in indices])  # Simplified for now without vmap
-        
+            return float(e_max_nb - max_expected_nb)
+
+        # Use JAX random number generation when available
+        evpi_values = np.asarray(
+            [compute_evpi_subset(i) for i in range(n_simulations)], dtype=float
+        )
+
         return {
-            'mean': float(jnp.mean(evpi_values)),
-            'std': float(jnp.std(evpi_values)),
-            'values': evpi_values
+            "mean": float(np.mean(evpi_values)),
+            "std": float(np.std(evpi_values)),
+            "values": evpi_values,
         }

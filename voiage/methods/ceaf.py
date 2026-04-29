@@ -7,6 +7,7 @@ from scipy.stats import norm
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
+from voiage.reporting import build_cheers_reporting
 from voiage.schema import ValueArray
 
 
@@ -39,6 +40,7 @@ class CEAFResult:
     probability_lower: np.ndarray
     probability_upper: np.ndarray
     expected_net_benefit: np.ndarray
+    reporting: dict[str, object]
 
 
 def _validate_ceaf_inputs(
@@ -172,4 +174,14 @@ def calculate_ceaf(
         probability_lower=probability_lower,
         probability_upper=probability_upper,
         expected_net_benefit=expected_net_benefit,
+        reporting=build_cheers_reporting(
+            analysis_type="calculate_ceaf",
+            method_family="cost_effectiveness_acceptability_frontier",
+            method_maturity="stable",
+            estimator="frontier_probability",
+            diagnostics={
+                "n_samples": int(n_samples),
+                "n_thresholds": len(wtp_arr),
+            },
+        ),
     )

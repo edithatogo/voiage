@@ -1,0 +1,44 @@
+{
+  "analysis_id": "distributional-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_distributional_equity",
+  "method_maturity": "experimental",
+  "value": 3.0,
+  "subgroup_labels": ["high", "low"],
+  "subgroup_weights": [0.5, 0.5],
+  "equity_weights": [0.75, 0.25],
+  "subgroup_optimal_strategy_indices": [1, 0],
+  "subgroup_optimal_strategy_names": ["B", "A"],
+  "subgroup_expected_net_benefits": [10.0, 9.0],
+  "equity_weighted_expected_net_benefits": [3.375, 8.25],
+  "overall_optimal_strategy_index": 1,
+  "overall_optimal_strategy_name": "B",
+  "social_welfare_optimal_strategy_index": 1,
+  "social_welfare_optimal_strategy_name": "B",
+  "social_welfare_value": 8.25,
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_distributional_equity",
+    "method_family": "value_of_distributional_equity",
+    "method_maturity": "experimental",
+    "analysis_id": null,
+    "decision_problem_id": null,
+    "decision_context": null,
+    "population": null,
+    "estimator": null,
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_samples": 4,
+      "n_strategies": 2,
+      "n_subgroups": 2
+    }
+  },
+  "diagnostics": {
+    "n_samples": 4,
+    "n_strategies": 2,
+    "n_subgroups": 2,
+    "equity_weight_definition": "Normalized subgroup weights used to summarize subgroup means"
+  }
+}

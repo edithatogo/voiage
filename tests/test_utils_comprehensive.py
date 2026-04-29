@@ -15,7 +15,7 @@ from voiage.schema import ValueArray
 class TestUtilsComplete:
     """Comprehensive tests for utils module functions."""
 
-    def test_check_input_array_valid(self):
+    def test_check_input_array_valid(self) -> None:
         """Test check_input_array with valid inputs."""
         # Test 2D array with expected dimensions
         arr_2d = np.array([[1.0, 2.0], [3.0, 4.0]])
@@ -30,7 +30,7 @@ class TestUtilsComplete:
         # Test with sequence of accepted dimensions
         check_input_array(arr_2d, expected_ndim=[1, 2, 3])
 
-    def test_check_input_array_invalid_types(self):
+    def test_check_input_array_invalid_types(self) -> None:
         """Test check_input_array with invalid types."""
         # Test with non-array input
         with pytest.raises(InputError, match="must be a NumPy array"):
@@ -42,7 +42,7 @@ class TestUtilsComplete:
         with pytest.raises(InputError, match="must be a NumPy array"):
             check_input_array(123, expected_ndim=1)
 
-    def test_check_input_array_invalid_dimensions(self):
+    def test_check_input_array_invalid_dimensions(self) -> None:
         """Test check_input_array with invalid dimensions."""
         # Test with wrong number of dimensions
         arr_2d = np.array([[1.0, 2.0], [3.0, 4.0]])
@@ -54,7 +54,7 @@ class TestUtilsComplete:
         with pytest.raises(DimensionMismatchError, match="must have.*dimension"):
             check_input_array(arr_2d, expected_ndim=[1, 3])
 
-    def test_check_input_array_empty_array(self):
+    def test_check_input_array_empty_array(self) -> None:
         """Test check_input_array with empty array."""
         # Test with empty array when not allowed
         empty_arr = np.array([])
@@ -65,7 +65,7 @@ class TestUtilsComplete:
         # Test with empty array when allowed
         check_input_array(empty_arr, expected_ndim=1, allow_empty=True)
 
-    def test_check_input_array_invalid_dtype(self):
+    def test_check_input_array_invalid_dtype(self) -> None:
         """Test check_input_array with invalid dtype."""
         # Create an array with specific dtype
         arr = np.array([[1, 2], [3, 4]], dtype=np.int32)  # Integer array
@@ -74,14 +74,22 @@ class TestUtilsComplete:
             # Try to validate with float64 dtype expectation
             check_input_array(arr, expected_ndim=2, expected_dtype=np.float64)
 
-    def test_check_input_array_valid_dtype(self):
+    def test_check_input_array_valid_dtype(self) -> None:
         """Test check_input_array with valid dtype."""
         # Create array with expected dtype
         arr = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float64)
 
         check_input_array(arr, expected_ndim=2, expected_dtype=np.float64)
 
-    def test_check_input_array_with_any_dtype(self):
+    def test_check_input_array_float32_float64_compatibility(self) -> None:
+        """Float32 and float64 arrays should be accepted interchangeably."""
+        float32_arr = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float32)
+        float64_arr = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float64)
+
+        check_input_array(float32_arr, expected_ndim=2, expected_dtype=np.float64)
+        check_input_array(float64_arr, expected_ndim=2, expected_dtype=np.float32)
+
+    def test_check_input_array_with_any_dtype(self) -> None:
         """Test check_input_array with 'any' dtype."""
         # Test with 'any' dtype (this should work regardless of actual dtype)
         arr_int = np.array([[1, 2], [3, 4]], dtype=np.int32)
@@ -90,7 +98,7 @@ class TestUtilsComplete:
         check_input_array(arr_int, expected_ndim=2, expected_dtype="any")
         check_input_array(arr_float, expected_ndim=2, expected_dtype="any")
 
-    def test_check_input_array_invalid_shape(self):
+    def test_check_input_array_invalid_shape(self) -> None:
         """Test check_input_array with invalid shape."""
         arr = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])  # Shape (2, 3)
 
@@ -103,9 +111,11 @@ class TestUtilsComplete:
 
         # Test with wrong number of shape dimensions
         with pytest.raises(DimensionMismatchError, match="shape tuple length"):
-            check_input_array(arr, expected_ndim=2, expected_shape=(2,))  # Only 1 element for 2D array
+            check_input_array(
+                arr, expected_ndim=2, expected_shape=(2,)
+            )  # Only 1 element for 2D array
 
-    def test_check_input_array_valid_shape(self):
+    def test_check_input_array_valid_shape(self) -> None:
         """Test check_input_array with valid shape."""
         arr = np.array([[1.0, 2.0], [3.0, 4.0]])  # Shape (2, 2)
 
@@ -113,15 +123,21 @@ class TestUtilsComplete:
         check_input_array(arr, expected_ndim=2, expected_shape=(2, 2))
 
         # Test with partial matching shape (None for flexible dimensions)
-        check_input_array(arr, expected_ndim=2, expected_shape=(None, 2))  # Flexible first dim
-        check_input_array(arr, expected_ndim=2, expected_shape=(2, None))  # Flexible second dim
-        check_input_array(arr, expected_ndim=2, expected_shape=(None, None))  # Both flexible
+        check_input_array(
+            arr, expected_ndim=2, expected_shape=(None, 2)
+        )  # Flexible first dim
+        check_input_array(
+            arr, expected_ndim=2, expected_shape=(2, None)
+        )  # Flexible second dim
+        check_input_array(
+            arr, expected_ndim=2, expected_shape=(None, None)
+        )  # Both flexible
 
-    def test_calculate_net_benefit_basic(self):
+    def test_calculate_net_benefit_basic(self) -> None:
         """Test calculate_net_benefit with basic inputs."""
         # Create test costs, effects, and WTP
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])  # (2, 2)
-        effects = np.array([[0.5, 0.6], [0.45, 0.55]])   # (2, 2)
+        effects = np.array([[0.5, 0.6], [0.45, 0.55]])  # (2, 2)
         wtp = 20000.0  # Scalar WTP
 
         result = calculate_net_benefit(costs, effects, wtp)
@@ -132,10 +148,10 @@ class TestUtilsComplete:
         expected = (effects * wtp) - costs
         np.testing.assert_array_almost_equal(result, expected)
 
-    def test_calculate_net_benefit_with_array_wtp(self):
+    def test_calculate_net_benefit_with_array_wtp(self) -> None:
         """Test calculate_net_benefit with array WTP."""
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])  # (2, 2)
-        effects = np.array([[0.5, 0.6], [0.45, 0.55]])   # (2, 2)
+        effects = np.array([[0.5, 0.6], [0.45, 0.55]])  # (2, 2)
         wtp = np.array([15000.0, 20000.0, 25000.0])  # (3,) - multiple thresholds
 
         result = calculate_net_benefit(costs, effects, wtp)
@@ -151,10 +167,10 @@ class TestUtilsComplete:
                     expected = effects[n, s] * wtp[k] - costs[n, s]
                     assert abs(result[n, s, k] - expected) < 1e-9
 
-    def test_calculate_net_benefit_with_1d_arrays(self):
+    def test_calculate_net_benefit_with_1d_arrays(self) -> None:
         """Test calculate_net_benefit with 1D arrays."""
         costs = np.array([100.0, 150.0, 120.0])  # (3,)
-        effects = np.array([0.5, 0.6, 0.55])    # (3,)
+        effects = np.array([0.5, 0.6, 0.55])  # (3,)
         wtp = 20000.0  # Scalar WTP
 
         result = calculate_net_benefit(costs, effects, wtp)
@@ -164,11 +180,11 @@ class TestUtilsComplete:
         expected = (effects * wtp) - costs
         np.testing.assert_array_almost_equal(result, expected)
 
-    def test_calculate_net_benefit_with_1d_and_wtp_array(self):
+    def test_calculate_net_benefit_with_1d_and_wtp_array(self) -> None:
         """Test calculate_net_benefit with 1D arrays and WTP array."""
         costs = np.array([100.0, 150.0, 120.0])  # (3,)
-        effects = np.array([0.5, 0.6, 0.55])    # (3,)
-        wtp = np.array([15000.0, 20000.0])      # (2,) - multiple thresholds
+        effects = np.array([0.5, 0.6, 0.55])  # (3,)
+        wtp = np.array([15000.0, 20000.0])  # (2,) - multiple thresholds
 
         result = calculate_net_benefit(costs, effects, wtp)
 
@@ -182,7 +198,7 @@ class TestUtilsComplete:
                 expected = effects[n] * wtp[k] - costs[n]
                 assert abs(result[n, k] - expected) < 1e-9
 
-    def test_calculate_net_benefit_invalid_inputs(self):
+    def test_calculate_net_benefit_invalid_inputs(self) -> None:
         """Test calculate_net_benefit with invalid inputs."""
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])
         effects = np.array([[0.5, 0.6], [0.45, 0.55]])
@@ -205,7 +221,7 @@ class TestUtilsComplete:
         with pytest.raises(InputError, match="WTP must be"):
             calculate_net_benefit(costs, effects, None)
 
-    def test_calculate_net_benefit_wtp_with_too_many_dims(self):
+    def test_calculate_net_benefit_wtp_with_too_many_dims(self) -> None:
         """Test calculate_net_benefit with WTP that has too many dimensions."""
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])
         effects = np.array([[0.5, 0.6], [0.45, 0.55]])
@@ -213,10 +229,12 @@ class TestUtilsComplete:
         # Create WTP with 3 dimensions (should fail)
         wtp_3d = np.array([[[15000.0]]])  # 3D array
 
-        with pytest.raises(DimensionMismatchError, match="cannot have more than 2 dimensions"):
+        with pytest.raises(
+            DimensionMismatchError, match="cannot have more than 2 dimensions"
+        ):
             calculate_net_benefit(costs, effects, wtp_3d)
 
-    def test_calculate_net_benefit_with_negative_wtp(self):
+    def test_calculate_net_benefit_with_negative_wtp(self) -> None:
         """Test calculate_net_benefit with negative WTP (should be allowed)."""
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])
         effects = np.array([[0.5, 0.6], [0.45, 0.55]])
@@ -228,10 +246,10 @@ class TestUtilsComplete:
         expected = (effects * wtp) - costs
         np.testing.assert_array_almost_equal(result, expected)
 
-    def test_calculate_net_benefit_with_2d_wtp(self):
+    def test_calculate_net_benefit_with_2d_wtp(self) -> None:
         """Test calculate_net_benefit with 2D WTP array."""
         costs = np.array([[100.0, 150.0], [90.0, 140.0]])  # (2, 2)
-        effects = np.array([[0.5, 0.6], [0.45, 0.55]])   # (2, 2)
+        effects = np.array([[0.5, 0.6], [0.45, 0.55]])  # (2, 2)
         wtp = np.array([[15000.0, 20000.0], [16000.0, 18000.0]])  # (2, 2)
 
         result = calculate_net_benefit(costs, effects, wtp)
@@ -241,10 +259,25 @@ class TestUtilsComplete:
         expected = (effects * wtp) - costs  # Element-wise multiplication
         np.testing.assert_array_almost_equal(result, expected)
 
-    def test_get_optimal_strategy_index_numpy_array(self):
+    def test_calculate_net_benefit_with_2d_wtp_and_1d_inputs(self) -> None:
+        """Test the fallback broadcast branch for 2D WTP against 1D arrays."""
+        costs = np.array([100.0, 150.0])  # (2,)
+        effects = np.array([0.5, 0.6])  # (2,)
+        wtp = np.array([[15000.0, 20000.0]])  # (1, 2)
+
+        result = calculate_net_benefit(costs, effects, wtp)
+
+        assert isinstance(result, np.ndarray)
+        assert result.shape == (1, 2)
+        expected = (effects * wtp) - costs
+        np.testing.assert_array_almost_equal(result, expected)
+
+    def test_get_optimal_strategy_index_numpy_array(self) -> None:
         """Test get_optimal_strategy_index with numpy array."""
         # Create net benefit array (samples x strategies)
-        nb_array = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0], [110.0, 100.0, 120.0]])
+        nb_array = np.array(
+            [[100.0, 150.0, 120.0], [90.0, 140.0, 130.0], [110.0, 100.0, 120.0]]
+        )
 
         result = get_optimal_strategy_index(nb_array)
 
@@ -253,10 +286,12 @@ class TestUtilsComplete:
         assert result.shape == (3,)  # One index per sample
 
         # Verify results: max values are at index 1, 1, 2 respectively
-        expected = np.array([1, 1, 2], dtype=np.int64)  # Strategy 1 (150), Strategy 1 (140), Strategy 2 (120)
+        expected = np.array(
+            [1, 1, 2], dtype=np.int64
+        )  # Strategy 1 (150), Strategy 1 (140), Strategy 2 (120)
         np.testing.assert_array_equal(result, expected)
 
-    def test_get_optimal_strategy_index_value_array(self):
+    def test_get_optimal_strategy_index_value_array(self) -> None:
         """Test get_optimal_strategy_index with ValueArray."""
         # Create net benefit array
         nb_data = np.array([[100.0, 150.0], [90.0, 140.0], [110.0, 100.0]])
@@ -269,12 +304,16 @@ class TestUtilsComplete:
         assert result.shape == (3,)  # One index per sample
 
         # Verify results
-        expected = np.array([1, 1, 0], dtype=np.int64)  # Strategy 1 for first two, Strategy 0 for last
+        expected = np.array(
+            [1, 1, 0], dtype=np.int64
+        )  # Strategy 1 for first two, Strategy 0 for last
         np.testing.assert_array_equal(result, expected)
 
-    def test_get_optimal_strategy_index_empty_array(self):
+    def test_get_optimal_strategy_index_empty_array(self) -> None:
         """Test get_optimal_strategy_index with empty array."""
-        empty_array = np.array([], dtype=np.float64).reshape(0, 2)  # 0 samples, 2 strategies
+        empty_array = np.array([], dtype=np.float64).reshape(
+            0, 2
+        )  # 0 samples, 2 strategies
 
         result = get_optimal_strategy_index(empty_array)
 
@@ -283,7 +322,7 @@ class TestUtilsComplete:
         assert result.shape == (0,)  # Empty result array
         assert len(result) == 0
 
-    def test_get_optimal_strategy_index_single_strategy(self):
+    def test_get_optimal_strategy_index_single_strategy(self) -> None:
         """Test get_optimal_strategy_index with single strategy."""
         # Array with only one strategy per sample
         nb_array = np.array([[100.0], [150.0], [120.0]])  # (3, 1)
@@ -298,10 +337,12 @@ class TestUtilsComplete:
         expected = np.array([0, 0, 0], dtype=np.int64)
         np.testing.assert_array_equal(result, expected)
 
-    def test_get_optimal_strategy_index_tie_values(self):
+    def test_get_optimal_strategy_index_tie_values(self) -> None:
         """Test get_optimal_strategy_index when there are ties (equal values)."""
         # Create array where first and second strategies have equal max values
-        nb_array = np.array([[150.0, 150.0, 120.0], [90.0, 140.0, 140.0]])  # First has tie, second has tie
+        nb_array = np.array(
+            [[150.0, 150.0, 120.0], [90.0, 140.0, 140.0]]
+        )  # First has tie, second has tie
 
         result = get_optimal_strategy_index(nb_array)
 
@@ -310,24 +351,34 @@ class TestUtilsComplete:
         assert result.shape == (2,)  # Two samples
 
         # When there's a tie, argmax returns the first occurrence
-        expected = np.array([0, 1], dtype=np.int64)  # First for first sample, second for second
+        expected = np.array(
+            [0, 1], dtype=np.int64
+        )  # First for first sample, second for second
         np.testing.assert_array_equal(result, expected)
 
-    def test_get_optimal_strategy_index_invalid_input_type(self):
+    def test_get_optimal_strategy_index_invalid_input_type(self) -> None:
         """Test get_optimal_strategy_index with invalid input type."""
-        with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
+        with pytest.raises(
+            InputError, match="must be a NumPy array or NetBenefitArray"
+        ):
             get_optimal_strategy_index("not an array")
 
-        with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
+        with pytest.raises(
+            InputError, match="must be a NumPy array or NetBenefitArray"
+        ):
             get_optimal_strategy_index([1, 2, 3])
 
-        with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
+        with pytest.raises(
+            InputError, match="must be a NumPy array or NetBenefitArray"
+        ):
             get_optimal_strategy_index(123)
 
-        with pytest.raises(InputError, match="must be a NumPy array or NetBenefitArray"):
+        with pytest.raises(
+            InputError, match="must be a NumPy array or NetBenefitArray"
+        ):
             get_optimal_strategy_index(None)
 
-    def test_get_optimal_strategy_index_1d_input(self):
+    def test_get_optimal_strategy_index_1d_input(self) -> None:
         """Test get_optimal_strategy_index with 1D input (should raise error)."""
         array_1d = np.array([100.0, 150.0, 120.0])
 
@@ -335,7 +386,7 @@ class TestUtilsComplete:
         with pytest.raises(DimensionMismatchError):
             get_optimal_strategy_index(array_1d)
 
-    def test_utils_edge_cases(self):
+    def test_utils_edge_cases(self) -> None:
         """Test utility functions with edge cases."""
         # Test check_input_array with high dimensional arrays
         high_dim_arr = np.random.rand(2, 3, 4, 5)
@@ -358,7 +409,7 @@ class TestUtilsComplete:
         expected_zero = -huge_costs  # Since NMB = effects*0 - costs = -costs
         np.testing.assert_array_almost_equal(result_zero, expected_zero)
 
-    def test_check_input_array_special_cases(self):
+    def test_check_input_array_special_cases(self) -> None:
         """Test check_input_array with special cases."""
         # Test with zero-size but proper dimensions
         zero_size_2d = np.array([], dtype=np.float64).reshape(0, 3)  # 0x3 array

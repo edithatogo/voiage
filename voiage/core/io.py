@@ -1,6 +1,8 @@
 """Input/Output utilities for voiage."""
 
+from collections.abc import Callable
 import csv
+import importlib
 from typing import Any
 
 import numpy as np
@@ -10,6 +12,31 @@ from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
 from voiage.schema import ParameterSet, ValueArray
 
+_OPTION_NAME_COUNT_MISMATCH = "Number of option_names does not match number of columns."
+_PARAMETER_NAME_COUNT_MISMATCH = (
+    "Number of parameter_names does not match number of columns."
+)
+
+
+def _read_value_array_error(filepath: str, exc: Exception) -> "FileFormatError":
+    return FileFormatError(
+        f"Failed to read ValueArray from CSV file '{filepath}': {exc}"
+    )
+
+
+def _write_value_array_error(filepath: str, exc: Exception) -> OSError:
+    return OSError(f"Failed to write ValueArray to CSV file '{filepath}': {exc}")
+
+
+def _read_parameter_set_error(filepath: str, exc: Exception) -> "FileFormatError":
+    return FileFormatError(
+        f"Failed to read ParameterSet from CSV file '{filepath}': {exc}"
+    )
+
+
+def _write_parameter_set_error(filepath: str, exc: Exception) -> OSError:
+    return OSError(f"Failed to write ParameterSet to CSV file '{filepath}': {exc}")
+
 
 class FileFormatError(InputError):
     """Raised when a file's format is invalid or inconsistent with expectations."""
@@ -17,12 +44,37 @@ class FileFormatError(InputError):
     pass
 
 
+def import_callable(path: str) -> Callable[..., Any]:
+    """Import a callable from a dotted module path."""
+    if "." not in path:
+        raise FileFormatError("callable path must include a module and attribute name")
+
+    module_name, attribute_name = path.rsplit(".", 1)
+
+    try:
+        module = importlib.import_module(module_name)
+    except Exception as exc:
+        raise FileFormatError(f"could not import module '{module_name}'") from exc
+
+    try:
+        attribute = getattr(module, attribute_name)
+    except AttributeError as exc:
+        raise FileFormatError(
+            f"module '{module_name}' does not define '{attribute_name}'"
+        ) from exc
+
+    if not callable(attribute):
+        raise FileFormatError(f"'{path}' does not resolve to a callable object")
+
+    return attribute
+
+
 def read_value_array_csv(
     filepath: str,
     option_names: list[str] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
-    dtype: Any = DEFAULT_DTYPE,
+    dtype: object = DEFAULT_DTYPE,
 ) -> ValueArray:
     """Read a ValueArray from a CSV file."""
     try:
@@ -35,12 +87,10 @@ def read_value_array_csv(
             values = np.array(data, dtype=dtype)
 
         if option_names and len(option_names) != values.shape[1]:
-            raise FileFormatError(
-                "Number of option_names does not match number of columns."
-            )
+            raise FileFormatError(_OPTION_NAME_COUNT_MISMATCH)
 
         final_option_names = option_names or [
-            f"Option {i+1}" for i in range(values.shape[1])
+            f"Option {i + 1}" for i in range(values.shape[1])
         ]
 
         dataset = xr.Dataset(
@@ -54,9 +104,7 @@ def read_value_array_csv(
         return ValueArray(dataset=dataset)
 
     except (OSError, ValueError) as e:
-        raise FileFormatError(
-            f"Failed to read ValueArray from CSV file '{filepath}': {e}"
-        ) from e
+        raise _read_value_array_error(filepath, e) from e
 
 
 def write_value_array_csv(
@@ -70,12 +118,10 @@ def write_value_array_csv(
         with open(filepath, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=delimiter)
             if write_header:
-                writer.writerow(value_array.option_names)
+                writer.writerow(value_array.strategy_names)
             writer.writerows(value_array.numpy_values.tolist())
     except OSError as e:
-        raise OSError(
-            f"Failed to write ValueArray to CSV file '{filepath}': {e}"
-        ) from e
+        raise _write_value_array_error(filepath, e) from e
 
 
 def read_parameter_set_csv(
@@ -83,7 +129,7 @@ def read_parameter_set_csv(
     parameter_names: list[str] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
-    dtype: Any = DEFAULT_DTYPE,
+    dtype: object = DEFAULT_DTYPE,
 ) -> ParameterSet:
     """Read PSA samples from a CSV file into a ParameterSet object."""
     try:
@@ -96,12 +142,10 @@ def read_parameter_set_csv(
             values = np.array(data, dtype=dtype)
 
         if parameter_names and len(parameter_names) != values.shape[1]:
-            raise FileFormatError(
-                "Number of parameter_names does not match number of columns."
-            )
+            raise FileFormatError(_PARAMETER_NAME_COUNT_MISMATCH)
 
         final_parameter_names = parameter_names or [
-            f"param_{i+1}" for i in range(values.shape[1])
+            f"param_{i + 1}" for i in range(values.shape[1])
         ]
 
         param_dict = {
@@ -115,9 +159,7 @@ def read_parameter_set_csv(
         return ParameterSet(dataset=dataset)
 
     except (OSError, ValueError) as e:
-        raise FileFormatError(
-            f"Failed to read ParameterSet from CSV file '{filepath}': {e}"
-        ) from e
+        raise _read_parameter_set_error(filepath, e) from e
 
 
 def write_parameter_set_csv(
@@ -137,6 +179,4 @@ def write_parameter_set_csv(
             writer.writerows(param_values.tolist())
 
     except (OSError, ValueError) as e:
-        raise OSError(
-            f"Failed to write ParameterSet to CSV file '{filepath}': {e}"
-        ) from e
+        raise _write_parameter_set_error(filepath, e) from e

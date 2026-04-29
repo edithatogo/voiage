@@ -8,8 +8,13 @@ import pytest
 
 from voiage.ecosystem_integration import (
     DataFormatConnector,
+    EcosystemIntegration,
     RPackageConnector,
     TreeAgeConnector,
+    WorkflowConnector,
+    quick_export_notebook,
+    quick_import_health_data,
+    quick_r_export,
 )
 from voiage.health_economics import HealthEconomicsAnalysis, HealthState, Treatment
 
@@ -196,7 +201,11 @@ def test_data_format_connector_imports_csv_and_json(tmp_path: Path) -> None:
     ("filename", "columns", "expected_type"),
     [
         ("treatments.csv", {"treatment": ["Drug A"], "cost": [10.0]}, "treatments"),
-        ("states.csv", {"state": ["stable"], "description": ["Stable"]}, "health_states"),
+        (
+            "states.csv",
+            {"state": ["stable"], "description": ["Stable"]},
+            "health_states",
+        ),
         ("costs.csv", {"cost": [25.0], "category": ["drug"]}, "costs"),
         ("utilities.csv", {"utility": [0.8], "state_name": ["stable"]}, "utilities"),
         ("generic.csv", {"name": ["row"], "value": [1]}, "generic"),
@@ -282,7 +291,9 @@ def test_data_format_connector_exports_xlsx_workbook(tmp_path: Path) -> None:
     connector = DataFormatConnector()
     output_path = tmp_path / "health_export.xlsx"
 
-    connector.export_health_data(_build_analysis(), str(output_path), format_type="xlsx")
+    connector.export_health_data(
+        _build_analysis(), str(output_path), format_type="xlsx"
+    )
 
     workbook = pd.read_excel(output_path, sheet_name=None)
 
@@ -322,3 +333,125 @@ def test_data_format_connector_export_fails_soft_when_writer_errors(
     connector.export_health_data(
         _build_analysis(), str(tmp_path / "health_export"), format_type="csv"
     )
+
+
+def test_workflow_connector_creates_jupyter_and_r_artifacts(tmp_path: Path) -> None:
+    """Workflow exports should write deterministic notebook and R script artifacts."""
+    connector = WorkflowConnector()
+    analysis = _build_analysis()
+    notebook_path = tmp_path / "analysis.ipynb"
+    r_path = tmp_path / "analysis.R"
+
+    connector.create_jupyter_analysis(analysis, str(notebook_path))
+    connector.create_r_workflow(analysis, str(r_path))
+
+    notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
+    r_script = r_path.read_text(encoding="utf-8")
+
+    assert notebook["nbformat"] == 4
+    assert notebook["cells"][0]["source"][0].startswith("# Health Economics")
+    assert any("Drug A" in "".join(cell["source"]) for cell in notebook["cells"])
+    assert "willingness_to_pay <- 50000.0" in r_script
+    assert 'currency <- "AUD"' in r_script
+    assert 'name = "Drug A"' in r_script
+
+
+def test_workflow_connector_fails_soft_when_file_write_errors(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Workflow writer errors should warn instead of raising."""
+    connector = WorkflowConnector()
+
+    def _raise_open_error(*args, **kwargs):
+        raise OSError("cannot write")
+
+    monkeypatch.setattr("builtins.open", _raise_open_error)
+
+    with pytest.warns(UserWarning, match="Error creating Jupyter notebook"):
+        connector.create_jupyter_analysis(
+            _build_analysis(), str(tmp_path / "bad.ipynb")
+        )
+
+    with pytest.warns(UserWarning, match="Error creating R workflow"):
+        connector.create_r_workflow(_build_analysis(), str(tmp_path / "bad.R"))
+
+
+def test_ecosystem_integration_routes_imports_exports_and_reports(
+    tmp_path: Path,
+) -> None:
+    """The integration manager should route common import and export operations."""
+    integration = EcosystemIntegration()
+    analysis = _build_analysis()
+    csv_path = tmp_path / "treatments.csv"
+    bcea_path = tmp_path / "bcea.json"
+    notebook_path = tmp_path / "routed.ipynb"
+    r_path = tmp_path / "routed.R"
+    export_path = tmp_path / "health_export.json"
+
+    pd.DataFrame({"treatment": ["Drug A"], "cost": [10.0]}).to_csv(
+        csv_path, index=False
+    )
+    bcea_path.write_text(
+        json.dumps({"treatments": [{"name": "Drug A"}]}),
+        encoding="utf-8",
+    )
+
+    health_data = integration.import_from_external(
+        "data_formats", str(csv_path), data_type="auto"
+    )
+    bcea_data = integration.import_from_external(
+        "r_packages", str(bcea_path), format="bcea"
+    )
+    unknown_r_format = integration.import_from_external(
+        "r_packages", str(bcea_path), format="unknown"
+    )
+
+    integration.export_to_external(
+        "data_formats", analysis, str(export_path), format_type="json"
+    )
+    integration.export_to_external(
+        "workflows", analysis, str(notebook_path), format="jupyter"
+    )
+    integration.export_to_external("workflows", analysis, str(r_path), format="r")
+
+    formats = integration.list_supported_formats()
+    report = integration.create_integration_report()
+
+    assert health_data["data_type"] == "treatments"
+    assert bcea_data["analysis_type"] == "bcea"
+    assert unknown_r_format == {}
+    assert export_path.exists()
+    assert notebook_path.exists()
+    assert r_path.exists()
+    assert "treeage" in formats
+    assert report["available_connectors"] == [
+        "treeage",
+        "r_packages",
+        "data_formats",
+        "workflows",
+    ]
+
+    with pytest.raises(ValueError, match="Unknown integration type"):
+        integration.import_from_external("missing", str(csv_path))
+
+    with pytest.raises(ValueError, match="Unknown integration type"):
+        integration.export_to_external("missing", analysis, str(export_path))
+
+
+def test_quick_ecosystem_helpers_route_to_default_connectors(tmp_path: Path) -> None:
+    """Quick helper functions should delegate to the integration manager."""
+    csv_path = tmp_path / "costs.csv"
+    notebook_path = tmp_path / "quick.ipynb"
+    r_path = tmp_path / "quick.R"
+    analysis = _build_analysis()
+
+    pd.DataFrame({"cost": [25.0], "category": ["drug"]}).to_csv(csv_path, index=False)
+
+    imported = quick_import_health_data(str(csv_path))
+    quick_export_notebook(analysis, str(notebook_path))
+    quick_r_export(analysis, str(r_path))
+
+    assert imported["data_type"] == "costs"
+    assert notebook_path.exists()
+    assert r_path.exists()

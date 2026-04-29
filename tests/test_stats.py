@@ -2,11 +2,10 @@
 
 """Test the statistical utility functions."""
 
-
 from voiage.stats import beta_binomial_update, normal_normal_update
 
 
-def test_normal_normal_update():
+def test_normal_normal_update() -> None:
     """Test the normal_normal_update function."""
     prior_mean, prior_std = 10, 2
     data_mean, data_std = 12, 1
@@ -20,7 +19,7 @@ def test_normal_normal_update():
     assert post_std < prior_std
 
 
-def test_beta_binomial_update():
+def test_beta_binomial_update() -> None:
     """Test the beta_binomial_update function."""
     prior_alpha, prior_beta = 1, 1
     n_successes, n_trials = 5, 10

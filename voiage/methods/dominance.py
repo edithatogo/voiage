@@ -7,6 +7,7 @@ import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
+from voiage.reporting import build_cheers_reporting
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,7 @@ class DominanceResult:
     incremental_costs: np.ndarray
     incremental_effects: np.ndarray
     icers: np.ndarray
+    reporting: dict[str, object]
 
 
 def _validate_cost_effect_inputs(
@@ -134,6 +136,16 @@ def calculate_dominance(
         incremental_costs=incremental_costs,
         incremental_effects=incremental_effects,
         icers=icers,
+        reporting=build_cheers_reporting(
+            analysis_type="calculate_dominance",
+            method_family="dominance_analysis",
+            method_maturity="stable",
+            estimator="deterministic_frontier",
+            diagnostics={
+                "n_strategies": len(cost_arr),
+                "frontier_size": len(frontier),
+            },
+        ),
     )
 
 

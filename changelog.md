@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Aligned the GitHub Actions Ruff gate with the repo's tox lint scope so the
   workflow checks `voiage` and `tests` instead of legacy root-level scratch
-  scripts that are outside the supported lint surface.
+  scripts that are outside the supported lint surface, and corrected the Vale
+  install target to the command package path used by the CI job.
 - Added the planned threshold, tipping-point, and robust VOI contract
   scaffold, including versioned input/output schemas, illustrative example
   payloads, and a frontier doc note that frames the surface as

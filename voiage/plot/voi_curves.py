@@ -12,7 +12,7 @@ try:
     from mpl_toolkits.mplot3d import Axes3D
 
     MATPLOTLIB_AVAILABLE = True
-except ImportError:
+except ImportError:  # pragma: no cover
     MATPLOTLIB_AVAILABLE = False
     Figure = None  # type: ignore
     Axes = None  # type: ignore
@@ -98,20 +98,13 @@ def _plot_enbs_and_costs(
 
     # Plot ENBS and Costs if provided, potentially on a secondary y-axis if scales differ significantly
     if enbs_values is not None or research_costs is not None:
-        # Determine if secondary axis is needed based on scale relative to EVSI
-        use_secondary_axis = False
         if enbs_values is not None:
             enbs_arr = np.asarray(enbs_values, dtype=DEFAULT_DTYPE)
             if len(enbs_arr) != len(ss_arr):
                 raise_input_error("Length of enbs_values mismatch.")
 
-        ax2 = ax  # Default to same axis
-        if use_secondary_axis:
-            ax2 = ax.twinx()  # type: ignore
-            ax2.set_ylabel(ylabel_enbs)  # type: ignore
-        elif (
-            enbs_values is not None or research_costs is not None
-        ):  # If plotting more than EVSI on ax1
+        ax2 = ax
+        if enbs_values is not None or research_costs is not None:
             ax.set_ylabel(f"{ax.get_ylabel()} / {ylabel_enbs}")
 
         if enbs_values is not None:

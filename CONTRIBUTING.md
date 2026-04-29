@@ -6,8 +6,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Prerequisites
 
-*   Python 3.8+
-*   [Poetry](https://python-poetry.org/docs/#installation) for dependency management (recommended)
+*   Python 3.10+
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
 
 ### Setting Up the Development Environment
@@ -21,14 +20,9 @@ We welcome contributions from the community, whether from humans or AI agents. T
         ```
 
 2.  **Install Dependencies:**
-    *   If using Poetry:
-        ```bash
-        poetry install
-        ```
-    *   If using pip:
-        ```bash
-        pip install -e .[dev]
-        ```
+    ```bash
+    pip install -e ".[dev]"
+    ```
 
 3.  **Install Pre-commit Hooks:**
     *   This will install the hooks defined in `.pre-commit-config.yaml`, which automatically run checks before each commit.
@@ -54,6 +48,10 @@ We welcome contributions from the community, whether from humans or AI agents. T
         tox
         ```
     *   Fix any errors reported by `tox` before proceeding.
+    *   Frontier contract changes should also pass the dedicated registry check:
+        ```bash
+        tox -e frontier-contract
+        ```
 
 4.  **Commit Changes:**
     *   Stage your changes (`git add .`).
@@ -69,18 +67,23 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Formatting and Linting
 
-*   We use **Ruff** for all formatting and linting to ensure a consistent code style.
+*   We use **Ruff** for formatting, linting, and security-rule checks to ensure a consistent code style.
 *   The configuration is defined in `pyproject.toml`.
 *   The pre-commit hooks will automatically format your code. You can also run it manually:
     ```bash
     ruff format .
     ruff check --fix .
     ```
+*   We use **Vale** to lint prose in Markdown and reStructuredText docs. Run it
+    from the repository root with:
+    ```bash
+    uv run bash scripts/vale_prose.sh
+    ```
 
 ### Type Hinting
 
 *   All new functions and methods must include type hints.
-*   We use **MyPy** for static type analysis. The pre-commit hook will run `mypy` on your changes.
+*   We use **ty** for static type analysis. The pre-commit hook will run `ty check` on your changes.
 
 ### Testing
 

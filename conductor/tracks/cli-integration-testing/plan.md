@@ -3,63 +3,63 @@
 ## Phase 1: Complete CLI Commands [checkpoint: ]
 
 ### 1.1 Add missing EVSI/ENBS CLI commands [PENDING]
-- [ ] Add `voiage calculate-evsi` command:
+- [x] Add `voiage calculate-evsi` command:
   - `--input-params` (CSV of PSA parameter samples)
   - `--input-nb` (CSV of net benefits, optional — can compute from model)
   - `--trial-design` (JSON specifying arm names and sample sizes)
   - `--method` (two_loop, regression, efficient, moment_based)
   - `--n-outer-loops`, `--n-inner-loops` (Monte Carlo parameters)
   - Output: EVSI value to stdout, optional JSON output
-- [ ] Add `voiage calculate-enbs` command:
+- [x] Add `voiage calculate-enbs` command:
   - `--evsi` (EVSI value or file)
   - `--research-cost` (total cost of the proposed study)
   - Output: ENBS value to stdout
 
 ### 1.2 Add missing advanced method CLI commands [PENDING]
-- [ ] Add `voiage calculate-adaptive-evsi` command:
+- [x] Add `voiage calculate-adaptive-evsi` command:
   - Trial design JSON with adaptive design parameters
   - Interim analysis specifications
   - Output: Adaptive EVSI value
-- [ ] Add `voiage calculate-portfolio-voi` command:
+- [x] Add `voiage calculate-portfolio-voi` command:
   - Portfolio JSON (list of candidate studies with costs)
   - Budget constraint
   - Method (greedy, integer_programming, dynamic_programming)
   - Output: Optimal portfolio and total VOI
-- [ ] Add `voiage calculate-sequential-voi` command:
+- [x] Add `voiage calculate-sequential-voi` command:
   - Dynamic spec JSON (time steps, population parameters)
   - Output: Sequential VOI at each time step
 
 ### 1.3 Add plotting CLI commands [PENDING]
-- [ ] Add `voiage plot-ceac` command:
+- [x] Add `voiage plot-ceac` command:
   - Input: net benefit data (CSV)
   - `--wtp-min`, `--wtp-max`, `--wtp-steps` (WTP range)
   - `--output` (save to file)
   - Output: CEAC plot (display or saved)
-- [ ] Add `voiage plot-ceaf` command (once CEAF is implemented in Track 3)
-- [ ] Add `voiage plot-voi-curves` command:
+- [x] Add `voiage plot-ceaf` command (once CEAF is implemented in Track 3)
+- [x] Add `voiage plot-voi-curves` command:
   - EVPI/EVPPI/EVSI curves against WTP or sample size
   - Output: plot (display or saved)
-- [ ] Add `voiage plot-dominance` command (once dominance is implemented in Track 3)
+- [x] Add `voiage plot-dominance` command (once dominance is implemented in Track 3)
 
 ### 1.4 Add structural EVPPI CLI command [PENDING]
-- [ ] Add `voiage calculate-structural-evppi` command:
+- [x] Add `voiage calculate-structural-evppi` command:
   - Mirror existing `calculate-structural-evpi` command
   - Support same JSON config format
   - Add `--parameters-of-interest` flag for partial structural EVPPI
 
 ### 1.5 Improve CLI developer experience [PENDING]
-- [ ] Add `--format` option to all commands (text, json, csv)
-- [ ] Add `--quiet` flag for scripting (suppress all output except result)
-- [ ] Add `--verbose` flag for debugging (show intermediate calculations)
-- [ ] Add example config generation: `voiage generate-config evsi > evsi_config.json`
-- [ ] Ensure all `--help` output includes working examples
+- [x] Add `--format` option to all commands (text, json, csv)
+- [x] Add `--quiet` flag for scripting (suppress all output except result)
+- [x] Add `--verbose` flag for debugging (show intermediate calculations)
+- [x] Add example config generation: `voiage generate-config evsi > evsi_config.json`
+- [x] Ensure all `--help` output includes working examples
 
 ### 1.6 CLI e2e tests [PENDING]
-- [ ] Write end-to-end tests for every CLI command using `typer.testing.CliRunner`
-- [ ] Test happy path, invalid inputs, missing files, malformed configs
-- [ ] Test `--format json` output is valid JSON
-- [ ] Ensure strict ruff/mypy compliance
-- [ ] Ensure coverage ≥90% for `voiage/cli.py`
+- [x] Write end-to-end tests for every CLI command using `typer.testing.CliRunner`
+- [x] Test happy path, invalid inputs, missing files, malformed configs
+- [x] Test `--format json` output is valid JSON
+- [x] Ensure strict ruff/ty compliance
+- [x] Ensure coverage ≥90% for `voiage/cli.py`
 
 ---
 
@@ -130,7 +130,7 @@
 
 ### 4.1 Run complete tooling suite [PENDING]
 - [ ] `ruff check voiage/ tests/` — zero errors
-- [ ] `mypy voiage/ --strict` — zero errors
+- [ ] `tox -e typecheck` — zero errors
 - [ ] `pytest tests/ --cov=voiage --cov-fail-under=90` — all tests pass, coverage ≥90%
 
 ### 4.2 Verify no ignored test files remain [PENDING]
@@ -164,7 +164,7 @@ After completing each phase above, execute the following protocol **before** mar
    - If multiple commits were made during the phase, squash: `git reset --soft <phase_start_sha> && git commit -m "..."`
 3. **Invoke `/conductor:review`** targeting all changes since the previous checkpoint commit.
 4. **Apply all Critical and High severity fixes** identified by the review automatically.
-5. **Re-run verification:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
+5. **Re-run verification:** `ruff check voiage/ tests/ && tox -e typecheck && pytest tests/ --cov=voiage --cov-fail-under=90 -q`
    - **Note:** Coverage gate returns to 90% (Track 3 used progressive 80% gate).
 6. **If verification fails:**
    - **Attempt 1:** Fix the failure, commit, re-run verification.
@@ -181,7 +181,7 @@ After Phase 4 is complete and all phase reviews pass:
 
 1. **Invoke `/conductor:review`** targeting the **entire track** (from track start commit to HEAD).
 2. **Apply all Critical, High, and Medium severity fixes** automatically.
-3. **Re-run full test suite:** `ruff check voiage/ tests/ && mypy voiage/ --strict && pytest tests/ --cov=voiage --cov-fail-under=90`
+3. **Re-run full test suite:** `ruff check voiage/ tests/ && tox -e typecheck && pytest tests/ --cov=voiage --cov-fail-under=90`
 4. **Commit review fixes:** `git add -A && git commit -m "fix(conductor): Apply final track review fixes for cli-integration-testing"`
 5. **Push to remote and verify CI:**
    - `git push origin main`

@@ -7,7 +7,6 @@ import pytest
 
 from scripts import validate_core_api_contract as validator
 
-
 CORE_API_CONTRACT_PAIRS: tuple[tuple[Path, Path], ...] = (
     (
         Path("specs/core-api/schemas/v1/decision-problem.schema.json"),

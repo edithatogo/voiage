@@ -124,6 +124,20 @@ def _validate_fixture_manifest_entry(entry: dict[str, Any], section: str, index:
         f"{entry_path}.expected_output_artifact",
     )
     _require_non_empty_string(entry.get("tolerance_policy"), f"{entry_path}.tolerance_policy")
+    provenance = entry.get("provenance")
+    if section == "normative":
+        if not isinstance(provenance, dict):
+            raise ValidationError(f"{entry_path}.provenance: expected object")
+        seed = provenance.get("seed")
+        if not isinstance(seed, int) or isinstance(seed, bool):
+            raise ValidationError(f"{entry_path}.provenance.seed: expected integer")
+        execution_mode = provenance.get("execution_mode")
+        if execution_mode != "deterministic":
+            raise ValidationError(
+                f"{entry_path}.provenance.execution_mode: expected 'deterministic'"
+            )
+    elif provenance is not None:
+        raise ValidationError(f"{entry_path}.provenance: only normative fixtures may declare provenance")
 
     artifact_path = _resolve_fixture_artifact(artifact)
     if not artifact_path.is_file():

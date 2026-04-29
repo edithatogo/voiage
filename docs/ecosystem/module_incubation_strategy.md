@@ -90,3 +90,7 @@ versioned schemas, not private implementation classes.
 - Define an `innovate` adoption-uncertainty fixture.
 - Benchmark whether `mars` adds value as an optional EVPPI/EVSI metamodel
   backend before exposing it as a supported option.
+- HEOR naming brainstorm: shortlist `calibrate`, `evidence`, `process`,
+  `report`, `registry`, `workflow`, `quality`, `engines`, and `heoml`; keep
+  PM4Py in the ecosystem-only process-mining bucket; require a CLI surface for
+  every future module and an explicit MCP decision where orchestration matters.

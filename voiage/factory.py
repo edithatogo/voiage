@@ -1,7 +1,5 @@
 """Factory methods for creating common Value of Information analysis patterns."""
 
-from typing import Dict, Optional, Union
-
 import numpy as np
 
 from voiage.analysis import DecisionAnalysis
@@ -19,12 +17,13 @@ from voiage.schema import ParameterSet, ValueArray
 
 # Factory methods for common analysis patterns
 
+
 def create_standard_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     use_jit: bool = False,
     backend: str = "numpy",
-    enable_caching: bool = True
+    enable_caching: bool = True,
 ) -> DecisionAnalysis:
     """
     Create a standard VOI analysis with common settings.
@@ -48,17 +47,17 @@ def create_standard_analysis(
         parameter_samples=parameter_samples,
         use_jit=use_jit,
         backend=backend,
-        enable_caching=enable_caching
+        enable_caching=enable_caching,
     )
 
 
 def create_streaming_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     window_size: int = 1000,
     update_frequency: int = 100,
     use_jit: bool = False,
-    backend: str = "numpy"
+    backend: str = "numpy",
 ) -> FluentDecisionAnalysis:
     """
     Create a streaming VOI analysis for continuous data updates.
@@ -78,24 +77,23 @@ def create_streaming_analysis(
     -------
         FluentDecisionAnalysis: Configured streaming analysis object
     """
-    config = StreamingConfig(
-        window_size=window_size,
-        update_frequency=update_frequency
-    )
+    config = StreamingConfig(window_size=window_size, update_frequency=update_frequency)
 
-    return (create_analysis(nb_array, parameter_samples)
-            .with_backend(backend)
-            .with_jit(use_jit)
-            .with_streaming(config.window_size)
-            .with_caching(True))
+    return (
+        create_analysis(nb_array, parameter_samples)
+        .with_backend(backend)
+        .with_jit(use_jit)
+        .with_streaming(config.window_size)
+        .with_caching(True)
+    )
 
 
 def create_healthcare_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     use_jit: bool = True,
     backend: str = "numpy",
-    enable_caching: bool = True
+    enable_caching: bool = True,
 ) -> DecisionAnalysis:
     """
     Create a healthcare-specific VOI analysis.
@@ -122,16 +120,16 @@ def create_healthcare_analysis(
         parameter_samples=parameter_samples,
         use_jit=use_jit,
         backend=backend,
-        enable_caching=enable_caching
+        enable_caching=enable_caching,
     )
 
 
 def create_environmental_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     carbon_intensity: float = 0.5,
     energy_consumption: float = 10000,
-    water_intensity: float = 0.1
+    water_intensity: float = 0.1,
 ) -> DecisionAnalysis:
     """
     Create an environmental impact VOI analysis.
@@ -153,7 +151,7 @@ def create_environmental_analysis(
     EnvironmentalConfig(
         carbon_intensity=carbon_intensity,
         energy_consumption=energy_consumption,
-        water_intensity=water_intensity
+        water_intensity=water_intensity,
     )
 
     return DecisionAnalysis(
@@ -161,16 +159,16 @@ def create_environmental_analysis(
         parameter_samples=parameter_samples,
         use_jit=True,
         backend="numpy",
-        enable_caching=True
+        enable_caching=True,
     )
 
 
 def create_financial_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     var_confidence_level: float = 0.95,
     cvar_confidence_level: float = 0.95,
-    mc_n_simulations: int = 10000
+    mc_n_simulations: int = 10000,
 ) -> DecisionAnalysis:
     """
     Create a financial risk VOI analysis.
@@ -192,7 +190,7 @@ def create_financial_analysis(
     FinancialConfig(
         var_confidence_level=var_confidence_level,
         cvar_confidence_level=cvar_confidence_level,
-        mc_n_simulations=mc_n_simulations
+        mc_n_simulations=mc_n_simulations,
     )
 
     return DecisionAnalysis(
@@ -200,16 +198,16 @@ def create_financial_analysis(
         parameter_samples=parameter_samples,
         use_jit=True,
         backend="numpy",
-        enable_caching=True
+        enable_caching=True,
     )
 
 
 def create_large_scale_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     chunk_size: int = 10000,
-    n_workers: Optional[int] = None,
-    memory_limit_mb: Optional[float] = None
+    n_workers: int | None = None,
+    memory_limit_mb: float | None = None,
 ) -> FluentDecisionAnalysis:
     """
     Create a large-scale VOI analysis with parallel processing and memory optimization.
@@ -228,30 +226,26 @@ def create_large_scale_analysis(
     -------
         FluentDecisionAnalysis: Configured large-scale analysis object
     """
-    ParallelConfig(
-        n_workers=n_workers,
-        memory_limit_mb=memory_limit_mb
-    )
+    ParallelConfig(n_workers=n_workers, memory_limit_mb=memory_limit_mb)
 
     config = VOIAnalysisConfig(
-        chunk_size=chunk_size,
-        use_jit=True,
-        backend="numpy",
-        enable_caching=True
+        chunk_size=chunk_size, use_jit=True, backend="numpy", enable_caching=True
     )
 
-    return (create_analysis(nb_array, parameter_samples)
-            .with_backend(config.backend)
-            .with_jit(config.use_jit)
-            .with_caching(config.enable_caching))
+    return (
+        create_analysis(nb_array, parameter_samples)
+        .with_backend(config.backend)
+        .with_jit(config.use_jit)
+        .with_caching(config.enable_caching)
+    )
 
 
 def create_metamodel_analysis(
-    nb_array: Union[np.ndarray, ValueArray],
-    parameter_samples: Optional[Union[np.ndarray, ParameterSet, Dict[str, np.ndarray]]] = None,
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
     method: str = "gam",
     n_samples: int = 10000,
-    n_folds: int = 5
+    n_folds: int = 5,
 ) -> DecisionAnalysis:
     """
     Create a metamodel-based VOI analysis.
@@ -270,18 +264,14 @@ def create_metamodel_analysis(
     -------
         DecisionAnalysis: Configured metamodel analysis object
     """
-    MetamodelConfig(
-        method=method,
-        n_samples=n_samples,
-        n_folds=n_folds
-    )
+    MetamodelConfig(method=method, n_samples=n_samples, n_folds=n_folds)
 
     return DecisionAnalysis(
         nb_array=nb_array,
         parameter_samples=parameter_samples,
         use_jit=False,  # Metamodels may not benefit from JIT
         backend="numpy",
-        enable_caching=True
+        enable_caching=True,
     )
 
 
@@ -308,7 +298,7 @@ def create_configured_analysis(config: VOIAnalysisConfig) -> DecisionAnalysis:
         use_jit=config.use_jit,
         backend=config.backend,
         enable_caching=config.enable_caching,
-        streaming_window_size=config.streaming_window_size
+        streaming_window_size=config.streaming_window_size,
     )
 
 

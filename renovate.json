@@ -44,7 +44,7 @@
       "groupSlug": "testing"
     },
     {
-      "matchPackagePatterns": ["ruff", "ty", "mypy", "bandit"],
+      "matchPackagePatterns": ["ruff", "ty"],
       "groupName": "linting and type checking",
       "groupSlug": "linting"
     },

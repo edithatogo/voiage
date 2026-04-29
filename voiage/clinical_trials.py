@@ -134,9 +134,9 @@ class VOIBasedSampleSizeOptimizer:
             willingness_to_pay=trial_design.willingness_to_pay
         )
 
-    def calculate_voi_per_participant(self,
-                                    treatment: Treatment,
-                                    sample_size: int) -> float:
+    def calculate_voi_per_participant(
+        self, treatment: Treatment, sample_size: int
+    ) -> jnp.ndarray:
         """
         Calculate the value of information gained per additional participant.
 
@@ -153,22 +153,30 @@ class VOIBasedSampleSizeOptimizer:
 
         # Convert power increase to health economic value
         health_states = self.health_analysis._create_default_health_states(treatment)
-        _, qaly = self.health_analysis._calculate_treatment_totals(treatment, health_states)
+        _, qaly = self.health_analysis._calculate_treatment_totals(
+            treatment, health_states
+        )
 
         # Value of additional precision in health outcome estimate
         precision_value = power_increase * qaly * self.trial_design.willingness_to_pay
 
         # Value of reduced decision uncertainty
-        decision_uncertainty_reduction = self._calculate_uncertainty_reduction(sample_size)
-        decision_value = decision_uncertainty_reduction * self._estimate_decision_value()
+        decision_uncertainty_reduction = self._calculate_uncertainty_reduction(
+            sample_size
+        )
+        decision_value = (
+            decision_uncertainty_reduction * self._estimate_decision_value()
+        )
 
         return precision_value + decision_value
 
-    def optimize_sample_size(self,
-                           treatment: Treatment,
-                           min_sample_size: int = 30,
-                           max_sample_size: int = 1000,
-                           cost_per_participant: float = 1000.0) -> dict[str, Any]:
+    def optimize_sample_size(
+        self,
+        treatment: Treatment,
+        min_sample_size: int = 30,
+        max_sample_size: int = 1000,
+        cost_per_participant: float = 1000.0,
+    ) -> dict[str, Any]:
         """
         Optimize sample size based on VOI analysis.
 
@@ -185,8 +193,12 @@ class VOIBasedSampleSizeOptimizer:
         sample_sizes = jnp.arange(min_sample_size, max_sample_size + 1, 10)
 
         # Calculate VOI and cost for each sample size
-        voi_per_participant = vmap(lambda n: self.calculate_voi_per_participant(treatment, n))(sample_sizes)
-        total_voi = vmap(lambda n: self._calculate_total_voi(treatment, n))(sample_sizes)
+        voi_per_participant = vmap(
+            lambda n: self.calculate_voi_per_participant(treatment, n)
+        )(sample_sizes)
+        total_voi = vmap(lambda n: self._calculate_total_voi(treatment, n))(
+            sample_sizes
+        )
         total_costs = sample_sizes * cost_per_participant
 
         # Net benefit calculation
@@ -207,33 +219,41 @@ class VOIBasedSampleSizeOptimizer:
             "total_cost_at_optimal": float(total_costs[optimal_idx]),
             "voi_efficiency": float(voi_efficiency[optimal_idx]),
             "sample_size_range": (int(min_sample_size), int(max_sample_size)),
-            "power_at_optimal": float(self._calculate_power_at_sample_size(optimal_sample_size)),
+            "power_at_optimal": float(
+                self._calculate_power_at_sample_size(optimal_sample_size)
+            ),
             "optimization_curve": {
                 "sample_sizes": sample_sizes.tolist(),
                 "voi_per_participant": voi_per_participant.tolist(),
                 "total_voi": total_voi.tolist(),
                 "total_costs": total_costs.tolist(),
-                "net_benefits": net_benefits.tolist()
-            }
+                "net_benefits": net_benefits.tolist(),
+            },
         }
 
-    def _calculate_power_increase(self, current_size: int, new_size: int) -> float:
+    def _calculate_power_increase(
+        self, current_size: int, new_size: int
+    ) -> jnp.ndarray:
         """Calculate increase in statistical power from additional participants."""
         # Simplified power calculation for demonstration
         current_power = self._calculate_power_at_sample_size(current_size)
         new_power = self._calculate_power_at_sample_size(new_size)
         return jnp.maximum(0, new_power - current_power)
 
-    def _calculate_power_at_sample_size(self, sample_size: int) -> float:
+    def _calculate_power_at_sample_size(self, sample_size: int) -> jnp.ndarray:
         """Calculate statistical power for given sample size."""
         if self.trial_design.number_of_arms == 1:
             n_per_group = sample_size
         else:
             n_per_group = sample_size // self.trial_design.number_of_arms
 
-        return jnp.where(n_per_group <= 0, 0.0, self._calculate_power_valid_sample(n_per_group))
+        return jnp.where(
+            n_per_group <= 0,
+            0.0,
+            self._calculate_power_valid_sample(n_per_group),
+        )
 
-    def _calculate_power_valid_sample(self, n_per_group: int) -> float:
+    def _calculate_power_valid_sample(self, n_per_group: int) -> jnp.ndarray:
         """Calculate statistical power for valid sample size."""
         # Approximate power calculation for two-sample t-test
 
@@ -248,8 +268,7 @@ class VOIBasedSampleSizeOptimizer:
         critical_value = jstats.norm.ppf(1 - self.trial_design.alpha / 2)
         return 1 - jstats.norm.cdf(critical_value - ncp)
 
-
-    def _calculate_uncertainty_reduction(self, sample_size: int) -> float:
+    def _calculate_uncertainty_reduction(self, sample_size: int) -> jnp.ndarray:
         """Calculate reduction in parameter uncertainty with sample size."""
         # Standard error reduction with sample size
         return 1.0 / jnp.sqrt(jnp.maximum(1, sample_size))
@@ -257,16 +276,19 @@ class VOIBasedSampleSizeOptimizer:
     def _estimate_decision_value(self) -> float:
         """Estimate the value of making a correct decision."""
         # This would typically be based on health economic model
-        return self.trial_design.willingness_to_pay * 0.1  # 10% of WTP as decision value
+        return float(
+            self.trial_design.willingness_to_pay * 0.1
+        )  # 10% of WTP as decision value
 
-    def _calculate_total_voi(self, treatment: Treatment, sample_size: int) -> float:
+    def _calculate_total_voi(
+        self, treatment: Treatment, sample_size: int
+    ) -> jnp.ndarray:
         """Calculate total VOI for given sample size."""
         voi_per_participant = self.calculate_voi_per_participant(treatment, sample_size)
 
         # Diminishing returns model
         diminishing_factor = 1.0 / (1.0 + 0.001 * sample_size)
         return voi_per_participant * sample_size * diminishing_factor
-
 
 
 class AdaptiveTrialOptimizer:
@@ -289,9 +311,9 @@ class AdaptiveTrialOptimizer:
             willingness_to_pay=trial_design.willingness_to_pay
         )
 
-    def optimize_adaptation_schedule(self,
-                                   treatment: Treatment,
-                                   max_interim_analyses: int = 5) -> dict[str, Any]:
+    def optimize_adaptation_schedule(
+        self, treatment: Treatment, max_interim_analyses: int = 5
+    ) -> dict[str, Any]:
         """
         Optimize the schedule of interim analyses.
 
@@ -306,10 +328,12 @@ class AdaptiveTrialOptimizer:
         final_sample_size = self.trial_design.sample_size
 
         # Test different adaptation schedules
-        schedules = []
+        schedules: list[dict[str, Any]] = []
         for k in range(1, max_interim_analyses + 1):
             # Equally spaced adaptation times
-            adaptation_times = [(i + 1) * final_sample_size // (k + 1) for i in range(k)]
+            adaptation_times = [
+                (i + 1) * final_sample_size // (k + 1) for i in range(k)
+            ]
 
             # Calculate expected VOI for this schedule
             expected_voi = self._calculate_adaptation_schedule_voi(
@@ -319,27 +343,29 @@ class AdaptiveTrialOptimizer:
             # Calculate expected cost (delays, complexity)
             adaptation_cost = k * 1000  # Cost per adaptation
 
-            schedules.append({
-                "num_adaptations": k,
-                "adaptation_times": adaptation_times,
-                "expected_voi": expected_voi,
-                "adaptation_cost": adaptation_cost,
-                "net_benefit": expected_voi - adaptation_cost
-            })
+            schedules.append(
+                {
+                    "num_adaptations": k,
+                    "adaptation_times": adaptation_times,
+                    "expected_voi": expected_voi,
+                    "adaptation_cost": adaptation_cost,
+                    "net_benefit": expected_voi - adaptation_cost,
+                }
+            )
 
         # Find optimal schedule
-        optimal_schedule = max(schedules, key=lambda s: s["net_benefit"])
+        optimal_schedule = max(schedules, key=lambda s: float(s["net_benefit"]))
 
         return {
             "optimal_schedule": optimal_schedule,
             "all_schedules": schedules,
             "recommendation": f"Perform {optimal_schedule['num_adaptations']} interim analyses at "
-                            f"sample sizes {optimal_schedule['adaptation_times']}"
+            f"sample sizes {optimal_schedule['adaptation_times']}",
         }
 
-    def optimize_adaptation_thresholds(self,
-                                     treatment: Treatment,
-                                     adaptation_rule: AdaptationRule) -> dict[str, Any]:
+    def optimize_adaptation_thresholds(
+        self, treatment: Treatment, adaptation_rule: AdaptationRule
+    ) -> dict[str, Any]:
         """
         Optimize adaptation thresholds for specific adaptation rule.
 
@@ -373,12 +399,14 @@ class AdaptiveTrialOptimizer:
             # Calculate net benefit
             net_benefit = time_savings - power_loss
 
-            performance_metrics.append({
-                "threshold": float(threshold),
-                "early_stop_rate": float(early_stop_rate),
-                "power_loss": float(power_loss),
-                "net_benefit": float(net_benefit)
-            })
+            performance_metrics.append(
+                {
+                    "threshold": float(threshold),
+                    "early_stop_rate": float(early_stop_rate),
+                    "power_loss": float(power_loss),
+                    "net_benefit": float(net_benefit),
+                }
+            )
 
         # Find optimal threshold
         optimal = max(performance_metrics, key=lambda x: x["net_benefit"])
@@ -386,10 +414,12 @@ class AdaptiveTrialOptimizer:
         return {
             "optimal_threshold": optimal["threshold"],
             "performance_metrics": performance_metrics,
-            "expected_benefit": optimal["net_benefit"]
+            "expected_benefit": optimal["net_benefit"],
         }
 
-    def _optimize_early_futility_threshold(self, treatment: Treatment) -> dict[str, Any]:
+    def _optimize_early_futility_threshold(
+        self, treatment: Treatment
+    ) -> dict[str, Any]:
         """Optimize early futility stopping threshold."""
         thresholds = jnp.arange(0.1, 0.5, 0.05)
         performance_metrics = []
@@ -403,22 +433,26 @@ class AdaptiveTrialOptimizer:
             # Calculate net benefit
             net_benefit = cost_savings + power_retained
 
-            performance_metrics.append({
-                "threshold": float(threshold),
-                "futility_rate": float(futility_rate),
-                "power_retained": float(power_retained),
-                "net_benefit": float(net_benefit)
-            })
+            performance_metrics.append(
+                {
+                    "threshold": float(threshold),
+                    "futility_rate": float(futility_rate),
+                    "power_retained": float(power_retained),
+                    "net_benefit": float(net_benefit),
+                }
+            )
 
         optimal = max(performance_metrics, key=lambda x: x["net_benefit"])
 
         return {
             "optimal_threshold": optimal["threshold"],
             "performance_metrics": performance_metrics,
-            "expected_benefit": optimal["net_benefit"]
+            "expected_benefit": optimal["net_benefit"],
         }
 
-    def _optimize_sample_size_reest_threshold(self, treatment: Treatment) -> dict[str, Any]:
+    def _optimize_sample_size_reest_threshold(
+        self, treatment: Treatment
+    ) -> dict[str, Any]:
         """Optimize sample size re-estimation thresholds."""
         # This is more complex and would typically involve simulating
         # the entire adaptive trial process
@@ -426,46 +460,51 @@ class AdaptiveTrialOptimizer:
             "optimal_threshold": 0.5,
             "performance_metrics": [],
             "expected_benefit": 0.1,
-            "note": "Sample size re-estimation optimization requires full simulation"
+            "note": "Sample size re-estimation optimization requires full simulation",
         }
 
-    def _optimize_general_threshold(self, treatment: Treatment, rule: AdaptationRule) -> dict[str, Any]:
+    def _optimize_general_threshold(
+        self, treatment: Treatment, rule: AdaptationRule
+    ) -> dict[str, Any]:
         """Optimize thresholds for general adaptation rules."""
         return {
             "optimal_threshold": 0.5,
             "performance_metrics": [],
             "expected_benefit": 0.0,
-            "note": f"Optimization for {rule.value} not yet implemented"
+            "note": f"Optimization for {rule.value} not yet implemented",
         }
 
-    def _calculate_adaptation_schedule_voi(self,
-                                         treatment: Treatment,
-                                         adaptation_times: list[int],
-                                         final_sample_size: int) -> float:
+    def _calculate_adaptation_schedule_voi(
+        self, treatment: Treatment, adaptation_times: list[int], final_sample_size: int
+    ) -> float:
         """Calculate expected VOI for adaptation schedule."""
         total_voi = 0.0
 
         for time in adaptation_times:
             # VOI from early decision making
-            early_decision_voi = self._calculate_early_decision_voi(treatment, time, final_sample_size)
+            early_decision_voi = self._calculate_early_decision_voi(
+                treatment, time, final_sample_size
+            )
             total_voi += early_decision_voi
 
         return total_voi
 
-    def _calculate_early_decision_voi(self,
-                                    treatment: Treatment,
-                                    interim_sample_size: int,
-                                    final_sample_size: int) -> float:
+    def _calculate_early_decision_voi(
+        self, treatment: Treatment, interim_sample_size: int, final_sample_size: int
+    ) -> float:
         """Calculate VOI from early decision making."""
         # Simplified calculation - in practice this would be more sophisticated
         interim_power = self._calculate_power_at_sample_size(interim_sample_size)
         final_power = self._calculate_power_at_sample_size(final_sample_size)
 
         # Value of early information
-        return (final_power - interim_power) * 0.1 * self.trial_design.willingness_to_pay
+        return (
+            (final_power - interim_power) * 0.1 * self.trial_design.willingness_to_pay
+        )
 
-
-    def _simulate_early_stop_rate(self, threshold: float, treatment: Treatment) -> float:
+    def _simulate_early_stop_rate(
+        self, threshold: float, treatment: Treatment
+    ) -> float:
         """Simulate rate of early stopping for success."""
         # Simplified simulation
         if hasattr(treatment, "effectiveness"):
@@ -474,7 +513,7 @@ class AdaptiveTrialOptimizer:
             expected_effect = 0.5
 
         # Probability of crossing success threshold early
-        return jnp.maximum(0, (expected_effect - (1 - threshold)) * 2)
+        return float(jnp.maximum(0, (expected_effect - (1 - threshold)) * 2))
 
     def _simulate_futility_rate(self, threshold: float, treatment: Treatment) -> float:
         """Simulate rate of early stopping for futility."""
@@ -484,12 +523,12 @@ class AdaptiveTrialOptimizer:
             expected_effect = 0.5
 
         # Probability of falling below futility threshold
-        return jnp.maximum(0, (threshold - expected_effect) * 2)
+        return float(jnp.maximum(0, (threshold - expected_effect) * 2))
 
     def _simulate_power_loss(self, threshold: float, treatment: Treatment) -> float:
         """Simulate power loss from early stopping."""
         # Simplified model - power loss increases with stricter thresholds
-        return jnp.minimum(0.2, threshold * 0.1)
+        return float(jnp.minimum(0.2, threshold * 0.1))
 
     def _calculate_power_at_sample_size(self, sample_size: int) -> float:
         """Calculate power for given sample size (simplified)."""
@@ -499,8 +538,7 @@ class AdaptiveTrialOptimizer:
         effect_size = self.trial_design.effect_size
         ncp = effect_size * jnp.sqrt(sample_size / 2)
         critical_value = stats.norm.ppf(1 - self.trial_design.alpha / 2)
-        return 1 - stats.norm.cdf(critical_value - ncp)
-
+        return float(1 - stats.norm.cdf(critical_value - ncp))
 
 
 class ClinicalTrialDesignOptimizer:
@@ -522,9 +560,9 @@ class ClinicalTrialDesignOptimizer:
         self.sample_size_optimizer = VOIBasedSampleSizeOptimizer(trial_design)
         self.adaptive_optimizer = AdaptiveTrialOptimizer(trial_design)
 
-    def optimize_complete_design(self,
-                               treatment: Treatment,
-                               budget_constraint: float | None = None) -> dict[str, Any]:
+    def optimize_complete_design(
+        self, treatment: Treatment, budget_constraint: float | None = None
+    ) -> dict[str, Any]:
         """
         Optimize complete trial design using VOI analysis.
 
@@ -536,26 +574,36 @@ class ClinicalTrialDesignOptimizer:
         -------
             Complete optimized trial design
         """
-        optimization_results = {}
+        optimization_results: dict[str, Any] = {}
 
         # 1. Optimize sample size
         sample_size_results = self.sample_size_optimizer.optimize_sample_size(
             treatment,
-            cost_per_participant=1000.0  # Default cost
+            cost_per_participant=1000.0,  # Default cost
         )
         optimization_results["sample_size"] = sample_size_results
 
         # 2. Optimize adaptation schedule if applicable
-        if hasattr(self.trial_design, "adaptation_rules") and self.trial_design.adaptation_rules:
-            adaptation_results = self.adaptive_optimizer.optimize_adaptation_schedule(treatment)
+        if (
+            hasattr(self.trial_design, "adaptation_rules")
+            and self.trial_design.adaptation_rules
+        ):
+            adaptation_results = self.adaptive_optimizer.optimize_adaptation_schedule(
+                treatment
+            )
             optimization_results["adaptation"] = adaptation_results
 
             # 3. Optimize adaptation thresholds
-            if hasattr(self.trial_design, "adaptation_rules") and self.trial_design.adaptation_rules:
+            if (
+                hasattr(self.trial_design, "adaptation_rules")
+                and self.trial_design.adaptation_rules
+            ):
                 threshold_results = {}
                 for rule in self.trial_design.adaptation_rules:
-                    threshold_results[rule.value] = self.adaptive_optimizer.optimize_adaptation_thresholds(
-                        treatment, rule
+                    threshold_results[rule.value] = (
+                        self.adaptive_optimizer.optimize_adaptation_thresholds(
+                            treatment, rule
+                        )
                     )
                 optimization_results["thresholds"] = threshold_results
 
@@ -571,9 +619,9 @@ class ClinicalTrialDesignOptimizer:
 
         return optimization_results
 
-    def simulate_trial_outcomes(self,
-                              treatment: Treatment,
-                              optimized_design: dict[str, Any]) -> TrialOutcome:
+    def simulate_trial_outcomes(
+        self, treatment: Treatment, optimized_design: dict[str, Any]
+    ) -> TrialOutcome:
         """
         Simulate trial outcomes using optimized design.
 
@@ -591,7 +639,9 @@ class ClinicalTrialDesignOptimizer:
         # Simulate primary endpoint outcome
         treatment_effect = self._simulate_treatment_effect(treatment)
         p_value = self._calculate_p_value(treatment_effect, optimal_sample_size)
-        confidence_interval = self._calculate_confidence_interval(treatment_effect, optimal_sample_size)
+        confidence_interval = self._calculate_confidence_interval(
+            treatment_effect, optimal_sample_size
+        )
         power_achieved = self._calculate_power_at_sample_size(optimal_sample_size)
 
         # Simulate health economic outcomes if applicable
@@ -601,18 +651,27 @@ class ClinicalTrialDesignOptimizer:
         probability_cost_effective = None
 
         if self.trial_design.health_economic_endpoint:
-            cost_effectiveness_ratio, incremental_qaly, net_monetary_benefit, probability_cost_effective = \
-                self._simulate_health_economic_outcomes(treatment, optimal_sample_size)
+            (
+                cost_effectiveness_ratio,
+                incremental_qaly,
+                net_monetary_benefit,
+                probability_cost_effective,
+            ) = self._simulate_health_economic_outcomes(treatment, optimal_sample_size)
 
         # Simulate adaptive trial outcomes if applicable
         adaptation_triggered = False
         adaptation_type = None
 
         if self.trial_design.adaptation_schedule and "adaptation" in optimized_design:
-            adaptation_triggered = random.uniform(random.PRNGKey(42)) < 0.3  # 30% chance
+            adaptation_triggered = (
+                random.uniform(random.PRNGKey(42)) < 0.3
+            )  # 30% chance
             if adaptation_triggered:
-                adaptation_types = [rule.value for rule in self.trial_design.adaptation_rules]
-                adaptation_type = adaptation_types[0] if adaptation_types else "sample_size_reest"
+                adaptation_type = (
+                    self.trial_design.adaptation_rules[0]
+                    if self.trial_design.adaptation_rules
+                    else AdaptationRule.SAMPLE_SIZE_REESTIMATION
+                )
 
         return TrialOutcome(
             treatment_effect=treatment_effect,
@@ -626,12 +685,14 @@ class ClinicalTrialDesignOptimizer:
             probability_cost_effective=probability_cost_effective,
             adaptation_triggered=adaptation_triggered,
             adaptation_type=adaptation_type,
-            final_sample_size=optimal_sample_size
+            final_sample_size=optimal_sample_size,
         )
 
-    def _calculate_trial_efficiency(self,
-                                  optimization_results: dict[str, Any],
-                                  budget_constraint: float | None = None) -> dict[str, Any]:
+    def _calculate_trial_efficiency(
+        self,
+        optimization_results: dict[str, Any],
+        budget_constraint: float | None = None,
+    ) -> dict[str, Any]:
         """Calculate overall trial efficiency metrics."""
         sample_size_opt = optimization_results["sample_size"]
 
@@ -651,20 +712,28 @@ class ClinicalTrialDesignOptimizer:
             "total_cost": float(total_cost),
             "total_voi": float(total_voi),
             "within_budget": within_budget,
-            "budget_utilization": float(total_cost / budget_constraint) if budget_constraint else 1.0
+            "budget_utilization": float(total_cost / budget_constraint)
+            if budget_constraint
+            else 1.0,
         }
 
         # Add adaptation efficiency if applicable
         if "adaptation" in optimization_results:
-            adaptation_benefit = optimization_results["adaptation"]["optimal_schedule"]["expected_voi"]
+            adaptation_benefit = optimization_results["adaptation"]["optimal_schedule"][
+                "expected_voi"
+            ]
             efficiency_metrics["adaptation_benefit"] = float(adaptation_benefit)
-            efficiency_metrics["total_efficiency"] = float((total_voi + adaptation_benefit) / total_cost)
+            efficiency_metrics["total_efficiency"] = float(
+                (total_voi + adaptation_benefit) / total_cost
+            )
         else:
             efficiency_metrics["total_efficiency"] = float(voi_per_dollar)
 
         return efficiency_metrics
 
-    def _generate_design_recommendations(self, optimization_results: dict[str, Any]) -> list[str]:
+    def _generate_design_recommendations(
+        self, optimization_results: dict[str, Any]
+    ) -> list[str]:
         """Generate design recommendations based on optimization."""
         recommendations = []
 
@@ -695,18 +764,22 @@ class ClinicalTrialDesignOptimizer:
     def _simulate_treatment_effect(self, treatment: Treatment) -> float:
         """Simulate treatment effect from trial data."""
         # Simplified simulation
-        true_effect = treatment.effectiveness if hasattr(treatment, "effectiveness") else 0.5
+        true_effect = (
+            treatment.effectiveness if hasattr(treatment, "effectiveness") else 0.5
+        )
         # Generate normal random noise with mean=0, std=0.1
         noise = 0.1 * random.normal(random.PRNGKey(42))
-        return true_effect + noise
+        return float(true_effect + noise)
 
     def _calculate_p_value(self, treatment_effect: float, sample_size: int) -> float:
         """Calculate p-value for treatment effect."""
         # Simplified p-value calculation
         t_stat = treatment_effect * jnp.sqrt(sample_size / 2)
-        return 2 * (1 - stats.norm.cdf(abs(t_stat)))
+        return float(2 * (1 - stats.norm.cdf(abs(t_stat))))
 
-    def _calculate_confidence_interval(self, treatment_effect: float, sample_size: int) -> tuple[float, float]:
+    def _calculate_confidence_interval(
+        self, treatment_effect: float, sample_size: int
+    ) -> tuple[float, float]:
         """Calculate confidence interval for treatment effect."""
         se = jnp.sqrt(2 / sample_size)  # Standard error
         t_critical = stats.norm.ppf(0.975)
@@ -721,11 +794,11 @@ class ClinicalTrialDesignOptimizer:
         effect_size = self.trial_design.effect_size
         ncp = effect_size * jnp.sqrt(sample_size / 2)
         critical_value = stats.norm.ppf(1 - self.trial_design.alpha / 2)
-        return 1 - stats.norm.cdf(critical_value - ncp)
+        return float(1 - stats.norm.cdf(critical_value - ncp))
 
-    def _simulate_health_economic_outcomes(self,
-                                         treatment: Treatment,
-                                         sample_size: int) -> tuple[float | None, float | None, float | None, float | None]:
+    def _simulate_health_economic_outcomes(
+        self, treatment: Treatment, sample_size: int
+    ) -> tuple[float | None, float | None, float | None, float | None]:
         """Simulate health economic outcomes."""
         if not self.trial_design.health_economic_endpoint:
             return None, None, None, None
@@ -750,10 +823,13 @@ class ClinicalTrialDesignOptimizer:
 
 # Factory functions for common trial designs
 
-def create_superiority_trial(effect_size: float = 0.5,
-                           alpha: float = 0.05,
-                           beta: float = 0.2,
-                           willingness_to_pay: float = 50000.0) -> TrialDesign:
+
+def create_superiority_trial(
+    effect_size: float = 0.5,
+    alpha: float = 0.05,
+    beta: float = 0.2,
+    willingness_to_pay: float = 50000.0,
+) -> TrialDesign:
     """Create standard superiority trial design."""
     return TrialDesign(
         trial_type=TrialType.SUPERIORITY,
@@ -763,14 +839,16 @@ def create_superiority_trial(effect_size: float = 0.5,
         alpha=alpha,
         beta=beta,
         willingness_to_pay=willingness_to_pay,
-        health_economic_endpoint=True
+        health_economic_endpoint=True,
     )
 
 
-def create_adaptive_trial(effect_size: float = 0.5,
-                        adaptations: int = 2,
-                        alpha: float = 0.05,
-                        willingness_to_pay: float = 50000.0) -> TrialDesign:
+def create_adaptive_trial(
+    effect_size: float = 0.5,
+    adaptations: int = 2,
+    alpha: float = 0.05,
+    willingness_to_pay: float = 50000.0,
+) -> TrialDesign:
     """Create adaptive trial design."""
     return TrialDesign(
         trial_type=TrialType.ADAPTIVE,
@@ -782,13 +860,15 @@ def create_adaptive_trial(effect_size: float = 0.5,
         adaptation_schedule=[100, 150],
         adaptation_rules=[AdaptationRule.EARLY_SUCCESS, AdaptationRule.EARLY_FUTILITY],
         willingness_to_pay=willingness_to_pay,
-        health_economic_endpoint=True
+        health_economic_endpoint=True,
     )
 
 
-def create_health_economics_trial(effect_size: float = 0.5,
-                                willingness_to_pay: float = 50000.0,
-                                budget_constraint: float = 1000000.0) -> TrialDesign:
+def create_health_economics_trial(
+    effect_size: float = 0.5,
+    willingness_to_pay: float = 50000.0,
+    budget_constraint: float = 1000000.0,
+) -> TrialDesign:
     """Create trial with health economics endpoints."""
     return TrialDesign(
         trial_type=TrialType.SUPERIORITY_WITH_HEALTH_ECONOMICS,
@@ -800,15 +880,18 @@ def create_health_economics_trial(effect_size: float = 0.5,
         willingness_to_pay=willingness_to_pay,
         health_economic_endpoint=True,
         budget_constraint=budget_constraint,
-        time_horizon=5.0
+        time_horizon=5.0,
     )
 
 
 # Utility functions
 
-def quick_trial_optimization(treatment: Treatment,
-                           trial_type: str = "superiority",
-                           budget_constraint: float | None = None) -> dict[str, Any]:
+
+def quick_trial_optimization(
+    treatment: Treatment,
+    trial_type: str = "superiority",
+    budget_constraint: float | None = None,
+) -> dict[str, Any]:
     """Quick trial optimization for common scenarios."""
     if trial_type.lower() == "superiority":
         design = create_superiority_trial()
@@ -823,9 +906,9 @@ def quick_trial_optimization(treatment: Treatment,
     return optimizer.optimize_complete_design(treatment, budget_constraint)
 
 
-def calculate_trial_voi(treatment: Treatment,
-                       sample_size: int,
-                       willingness_to_pay: float = 50000.0) -> float:
+def calculate_trial_voi(
+    treatment: Treatment, sample_size: int, willingness_to_pay: float = 50000.0
+) -> float:
     """Calculate VOI for a given trial configuration."""
     design = create_superiority_trial(willingness_to_pay=willingness_to_pay)
     optimizer = ClinicalTrialDesignOptimizer(design)
@@ -835,4 +918,4 @@ def calculate_trial_voi(treatment: Treatment,
         treatment, sample_size
     )
 
-    return voi_per_participant * sample_size
+    return float(voi_per_participant) * sample_size

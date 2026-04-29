@@ -48,7 +48,7 @@ dependencies = [
     "seaborn>=0.11,<1.0",
     "psutil>=5.9,<8.0",
     "typing_extensions>=4.0",
-    "typer[all]>=0.9,<1.0",
+    "typer>=0.9,<1.0",
 ]
 
 [project.optional-dependencies]
@@ -65,7 +65,6 @@ dev = [
     "ty>=0.0.1,<1.0",
     "types-setuptools",
     "types-requests",
-    "bandit>=1.7.6,<2.0",
     "sphinx>=7.0,<8.0",
     "sphinx-rtd-theme>=1.0,<2.0",
     "sphinx-autodoc-typehints>=1.12,<2.0",
@@ -109,11 +108,40 @@ select = [
     "UP", "YTT", "ASYNC", "TCH", "PYI", "Q", "FA", "PERF"
 ]
 ignore = [
-    "ANN401", "E501", "D100", "D101", "D102", "D103", "D104", "D105", "D107",
+    # Allowed: Any type is sometimes necessary for public APIs
+    "ANN401",
+    # DEFERRED → v1.1: Full type annotation coverage (563 manual fixes needed)
     "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
-    "S101", "ANN101", "C901", "PLR0913", "PLR0912", "PLR0915",
-    "TRY003", "EM101", "EM102", "FIX002", "TD002", "TD003"
+    # Line length handled by formatter
+    "E501",
+    # Assert statements needed in tests
+    "S101",
+    # Complexity limits - too strict for existing codebase
+    "C901", "PLR0913", "PLR0912", "PLR0915",
+    # Exception message handling - stylistic
+    "TRY003", "EM101", "EM102",
+    # TODO/FIXME comments are useful
+    "FIX002", "TD002", "TD003",
+    # Private member access - internal module design choice
+    "SLF001",
+    # Magic value comparisons - stylistic, would require constants everywhere
+    "PLR2004",
+    # Import outside top-level - sometimes necessary for optional deps
+    "PLC0415",
+    # Variable naming in tests - non-lowercase common in pytest
+    "N806",
 ]
+per-file-ignores = { "tests/**/*.py" = [
+    "B017",
+    "D",
+    "PT011",
+    "PLW1510",
+    "RUF043",
+    "S110",
+    "S603",
+    "SIM105",
+    "SIM117",
+] }
 fixable = ["ALL"]
 unfixable = []
 
@@ -134,37 +162,9 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
-[tool.mypy]
-python_version = "3.10"
-warn_unused_configs = true
-warn_redundant_casts = true
-warn_return_any = true
-exclude = ["voiage/plot"]
-files = ["voiage", "tests"]
-[[tool.mypy.overrides]]
-module = [
-    "matplotlib.*",
-    "seaborn.*",
-    "SALib.*",
-    "typer.*",
-    "pandas_stubs.*",
-    "sklearn.*",
-    "bokeh.*",
-]
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "voiage.plot.*"
-ignore_errors = true
-
-
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=0"
+addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=90"
 testpaths = ["tests"]
 python_files = "test_*.py"
 markers = [
@@ -177,17 +177,12 @@ markers = [
 
 [tool.coverage.run]
 source = ["voiage"]
-omit = [
-    "voiage/__main__.py",
-    "voiage/cli.py",
-    "*/__init__.py",
-    "voiage/plot/*",
-]
+branch = true
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-fail_under = 80
+fail_under = 90
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
@@ -202,7 +197,7 @@ exclude_lines = [
 paths_to_mutate = "voiage/"
 tests_dir = "tests/"
 runner = "pytest -x --no-cov"
-fail_under = 80
+fail_under = 90
 
 [tool.semantic_release]
 version_variables = ["pyproject.toml:project.version"]
@@ -214,24 +209,22 @@ commit_author = "github-actions[bot] <actions@github.com>"
 branch = "main"
 changelog_file = "CHANGELOG.md"
 
-[tool.bandit]
-skips = ["B101"]
-
 [tool.taskipy.tasks]
 test = "uv run pytest tests/ -m 'not integration and not e2e and not benchmark' --cov=voiage --cov-report=term-missing"
 test-integration = "uv run pytest tests/ -m 'integration' --cov=voiage --cov-append"
 test-e2e = "uv run pytest tests/ -m 'e2e'"
 test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
-lint = "uv run ruff check voiage tests"
+frontier-contract = "uv run python scripts/validate_frontier_contract.py"
+lint = "tox -e lint"
 format = "uv run ruff format voiage tests"
-typecheck = "uv run ty check voiage tests"
-security = "uv run bandit -r voiage -s B101 -c pyproject.toml"
+typecheck = "tox -e typecheck"
+security = "uv run ruff check voiage --select=S --ignore=S101"
 profile = "uv run scalene --cli voiage/profile_scalene.py"
 mutmut = "uv run mutmut run --paths-to-mutate voiage/"
 benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only"
 docs = "uv run sphinx-build -b html docs docs/_build/html"
 precommit = "uv run pre-commit run --all-files"
-check = "uv run ruff check voiage tests && uv run ruff format voiage tests --check && uv run pytest tests/ -m 'not integration and not e2e'"
+check = "tox"
 build = "uv build"
 publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
 publish = "uv publish"

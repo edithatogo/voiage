@@ -11,7 +11,11 @@ from voiage.methods.network_meta_analysis import (
     NetworkMetaAnalysisData,
     calculate_nma_evpi,
 )
-from voiage.methods.structural import JAX_AVAILABLE, structural_evpi, structural_evpi_jit
+from voiage.methods.structural import (
+    JAX_AVAILABLE,
+    structural_evpi,
+    structural_evpi_jit,
+)
 from voiage.schema import ParameterSet, ValueArray
 
 
@@ -25,8 +29,11 @@ class TestStructuralVOIPerformance:
 
         def make_evaluator(idx):
             def evaluator(psa):
-                values = np.random.normal(100 + idx*5, 10, (n_samples, n_strategies))
-                return ValueArray.from_numpy(values, [f"S{i}" for i in range(n_strategies)])
+                values = np.random.normal(100 + idx * 5, 10, (n_samples, n_strategies))
+                return ValueArray.from_numpy(
+                    values, [f"S{i}" for i in range(n_strategies)]
+                )
+
             return evaluator
 
         evaluators = [make_evaluator(i) for i in range(n_structures)]
@@ -38,14 +45,14 @@ class TestStructuralVOIPerformance:
 
         return evaluators, probabilities, psa_samples
 
-    def test_structural_evpi_small(self, benchmark):
+    def test_structural_evpi_small(self, benchmark) -> None:
         """Benchmark structural EVPI with small dataset."""
         evaluators, probabilities, psa_samples = self._create_structures(1000, 3, 2)
 
         result = benchmark(structural_evpi, evaluators, probabilities, psa_samples)
         assert result >= 0
 
-    def test_structural_evpi_large(self, benchmark):
+    def test_structural_evpi_large(self, benchmark) -> None:
         """Benchmark structural EVPI with large dataset."""
         evaluators, probabilities, psa_samples = self._create_structures(100000, 5, 4)
 
@@ -53,7 +60,7 @@ class TestStructuralVOIPerformance:
         assert result >= 0
 
     @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
-    def test_structural_evpi_jit_vs_numpy(self):
+    def test_structural_evpi_jit_vs_numpy(self) -> None:
         """Compare JAX JIT vs NumPy performance."""
         n_samples = 10000
         n_structures = 5
@@ -70,7 +77,10 @@ class TestStructuralVOIPerformance:
         numpy_time = time.perf_counter() - start
 
         # JAX JIT version (first call includes compilation)
-        nb_arrays = [np.random.normal(100 + i * 5, 10, (n_samples, n_strategies)) for i in range(n_structures)]
+        nb_arrays = [
+            np.random.normal(100 + i * 5, 10, (n_samples, n_strategies))
+            for i in range(n_structures)
+        ]
 
         # First call (compilation)
         _ = structural_evpi_jit(nb_arrays, probabilities)
@@ -98,9 +108,10 @@ class TestNMAVOIPerformance:
 
         treatment_effects = {}
         for i in range(n_treatments):
-            for j in range(i+1, n_treatments):
-                treatment_effects[(treatments[i], treatments[j])] = \
-                    np.random.normal(0.5, 0.2, n_samples)
+            for j in range(i + 1, n_treatments):
+                treatment_effects[(treatments[i], treatments[j])] = np.random.normal(
+                    0.5, 0.2, n_samples
+                )
 
         return NetworkMetaAnalysisData(
             treatment_effects=treatment_effects,
@@ -109,13 +120,13 @@ class TestNMAVOIPerformance:
             outcome_type="continuous",
         )
 
-    def test_nma_evpi_small(self, benchmark):
+    def test_nma_evpi_small(self, benchmark) -> None:
         """Benchmark NMA-EVPI with small network."""
         nma_data = self._create_nma_data(1000, 4)
         result = benchmark(calculate_nma_evpi, nma_data, n_samples=1000)
         assert result >= 0
 
-    def test_nma_evpi_large(self, benchmark):
+    def test_nma_evpi_large(self, benchmark) -> None:
         """Benchmark NMA-EVPI with large network."""
         nma_data = self._create_nma_data(10000, 8)
         result = benchmark(calculate_nma_evpi, nma_data, n_samples=10000)

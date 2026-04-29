@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/intervention.schema.json",
+  "title": "InterventionV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intervention_id", "name"],
+  "properties": {
+    "intervention_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for the intervention or strategy."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable intervention name."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional short description of the intervention."
+    },
+    "is_reference": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when this intervention is the comparator or reference arm."
+    },
+    "category": {
+      "type": "string",
+      "description": "Optional grouping label for the intervention."
+    }
+  }
+}

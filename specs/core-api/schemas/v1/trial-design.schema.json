@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/trial-design.schema.json",
+  "title": "TrialDesignV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["trial_design_id", "arms"],
+  "properties": {
+    "trial_design_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for the trial design."
+    },
+    "arms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["arm_id", "name", "sample_size"],
+        "properties": {
+          "arm_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier for the trial arm."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable trial arm name."
+          },
+          "sample_size": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of participants assigned to the arm."
+          }
+        }
+      },
+      "description": "Ordered set of study arms that define the design."
+    }
+  }
+}

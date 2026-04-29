@@ -1,13 +1,19 @@
 """Financial risk analysis components for Value of Information analysis."""
 
-from typing import Dict, List, Union
-
 import numpy as np
+
+from voiage.exceptions import raise_value_error
+
+_CONFIDENCE_LEVEL_RANGE = "Confidence level must be between 0 and 1"
+_RETURNS_NONEMPTY = "Returns array cannot be empty"
+_INITIAL_VALUE_POSITIVE = "Initial value must be positive"
+_N_SIMULATIONS_POSITIVE = "Number of simulations must be positive"
+_TIME_HORIZON_POSITIVE = "Time horizon must be positive"
+_BASE_RETURNS_NONEMPTY = "Base returns array cannot be empty"
 
 
 def calculate_value_at_risk(
-    returns: Union[np.ndarray, List[float]],
-    confidence_level: float = 0.95
+    returns: np.ndarray | list[float], confidence_level: float = 0.95
 ) -> float:
     """
     Calculate Value at Risk (VaR) for a portfolio or investment.
@@ -31,10 +37,10 @@ def calculate_value_at_risk(
 
     # Validate inputs
     if confidence_level <= 0 or confidence_level >= 1:
-        raise ValueError("Confidence level must be between 0 and 1")
+        raise_value_error(_CONFIDENCE_LEVEL_RANGE)
 
     if len(returns) == 0:
-        raise ValueError("Returns array cannot be empty")
+        raise_value_error(_RETURNS_NONEMPTY)
 
     # Calculate VaR as the percentile of returns
     var = -np.percentile(returns, (1 - confidence_level) * 100)
@@ -43,8 +49,7 @@ def calculate_value_at_risk(
 
 
 def calculate_conditional_value_at_risk(
-    returns: Union[np.ndarray, List[float]],
-    confidence_level: float = 0.95
+    returns: np.ndarray | list[float], confidence_level: float = 0.95
 ) -> float:
     """
     Calculate Conditional Value at Risk (CVaR) or Expected Shortfall.
@@ -63,10 +68,10 @@ def calculate_conditional_value_at_risk(
 
     # Validate inputs
     if confidence_level <= 0 or confidence_level >= 1:
-        raise ValueError("Confidence level must be between 0 and 1")
+        raise_value_error(_CONFIDENCE_LEVEL_RANGE)
 
     if len(returns) == 0:
-        raise ValueError("Returns array cannot be empty")
+        raise_value_error(_RETURNS_NONEMPTY)
 
     # Calculate VaR first
     var = calculate_value_at_risk(returns, confidence_level)
@@ -84,9 +89,9 @@ def calculate_conditional_value_at_risk(
 
 
 def calculate_sharpe_ratio(
-    returns: Union[np.ndarray, List[float]],
+    returns: np.ndarray | list[float],
     risk_free_rate: float = 0.0,
-    annualize: bool = False
+    annualize: bool = False,
 ) -> float:
     """
     Calculate Sharpe ratio for portfolio or investment performance.
@@ -106,7 +111,7 @@ def calculate_sharpe_ratio(
 
     # Validate inputs
     if len(returns) == 0:
-        raise ValueError("Returns array cannot be empty")
+        raise_value_error(_RETURNS_NONEMPTY)
 
     # Calculate excess returns
     excess_returns = returns - risk_free_rate
@@ -117,7 +122,13 @@ def calculate_sharpe_ratio(
 
     if std_excess_return == 0:
         # Avoid division by zero
-        return float('inf') if mean_excess_return > 0 else float('-inf') if mean_excess_return < 0 else 0.0
+        return (
+            float("inf")
+            if mean_excess_return > 0
+            else float("-inf")
+            if mean_excess_return < 0
+            else 0.0
+        )
 
     sharpe_ratio = mean_excess_return / std_excess_return
 
@@ -134,7 +145,7 @@ def monte_carlo_var(
     volatility: float,
     time_horizon: float,
     confidence_level: float = 0.95,
-    n_simulations: int = 10000
+    n_simulations: int = 10000,
 ) -> float:
     """
     Calculate Value at Risk using Monte Carlo simulation.
@@ -153,23 +164,23 @@ def monte_carlo_var(
     """
     # Validate inputs
     if initial_value <= 0:
-        raise ValueError("Initial value must be positive")
+        raise_value_error(_INITIAL_VALUE_POSITIVE)
 
     if confidence_level <= 0 or confidence_level >= 1:
-        raise ValueError("Confidence level must be between 0 and 1")
+        raise_value_error(_CONFIDENCE_LEVEL_RANGE)
 
     if n_simulations <= 0:
-        raise ValueError("Number of simulations must be positive")
+        raise_value_error(_N_SIMULATIONS_POSITIVE)
 
     if time_horizon <= 0:
-        raise ValueError("Time horizon must be positive")
+        raise_value_error(_TIME_HORIZON_POSITIVE)
 
     # Generate random returns using geometric Brownian motion
     # Generate standard normal random variables
     random_shocks = np.random.standard_normal(n_simulations)
 
     # Calculate terminal values using geometric Brownian motion
-    # S_T = S_0 * exp((μ - σ²/2)T + σ√T * Z)
+    # S_T = S_0 * exp((mu - sigma^2/2)T + sigma*sqrt(T) * Z)
     drift = (expected_return - 0.5 * volatility**2) * time_horizon
     diffusion = volatility * np.sqrt(time_horizon) * random_shocks
     terminal_values = initial_value * np.exp(drift + diffusion)
@@ -184,9 +195,8 @@ def monte_carlo_var(
 
 
 def stress_testing(
-    base_returns: Union[np.ndarray, List[float]],
-    stress_scenarios: Dict[str, float]
-) -> Dict[str, float]:
+    base_returns: np.ndarray | list[float], stress_scenarios: dict[str, float]
+) -> dict[str, float]:
     """
     Perform stress testing on portfolio returns under different scenarios.
 
@@ -205,7 +215,7 @@ def stress_testing(
 
     # Validate inputs
     if len(base_returns) == 0:
-        raise ValueError("Base returns array cannot be empty")
+        raise_value_error(_BASE_RETURNS_NONEMPTY)
 
     results = {}
 

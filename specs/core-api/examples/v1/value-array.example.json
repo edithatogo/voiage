@@ -1,0 +1,10 @@
+{
+  "value_array_id": "screening-value-array-001",
+  "sample_count": 3,
+  "strategy_names": ["Usual care", "Targeted screening"],
+  "net_benefit": [
+    [1500.0, 1625.0],
+    [1490.0, 1650.0],
+    [1510.0, 1635.0]
+  ]
+}

@@ -7,6 +7,7 @@ import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
+from voiage.reporting import build_cheers_reporting
 from voiage.schema import ValueArray
 
 
@@ -45,6 +46,7 @@ class HeterogeneityResult:
     overall_optimal_strategy_index: int
     overall_optimal_strategy_name: str
     overall_expected_net_benefit: float
+    reporting: dict[str, object]
 
 
 def _validate_heterogeneity_inputs(
@@ -168,6 +170,16 @@ def value_of_heterogeneity(
         overall_optimal_strategy_index=overall_optimal_idx,
         overall_optimal_strategy_name=final_strategy_names[overall_optimal_idx],
         overall_expected_net_benefit=overall_enb,
+        reporting=build_cheers_reporting(
+            analysis_type="value_of_heterogeneity",
+            method_family="value_of_heterogeneity",
+            method_maturity="stable",
+            diagnostics={
+                "n_samples": int(nb_values.shape[0]),
+                "n_strategies": int(nb_values.shape[1]),
+                "n_subgroups": len(labels),
+            },
+        ),
     )
 
 

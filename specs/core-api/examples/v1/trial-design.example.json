@@ -1,0 +1,15 @@
+{
+  "trial_design_id": "screening-trial-design-001",
+  "arms": [
+    {
+      "arm_id": "control",
+      "name": "Control",
+      "sample_size": 120
+    },
+    {
+      "arm_id": "intervention",
+      "name": "Intervention",
+      "sample_size": 120
+    }
+  ]
+}

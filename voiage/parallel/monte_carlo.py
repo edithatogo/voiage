@@ -6,6 +6,7 @@ import multiprocessing as mp
 
 import numpy as np
 
+from voiage.exceptions import raise_value_error
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
 
@@ -15,7 +16,7 @@ def _monte_carlo_worker(
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
     n_simulations: int,
-    seed_offset: int = 0
+    seed_offset: int = 0,
 ) -> tuple[float, int]:
     """
     Worker function for parallel Monte Carlo simulation.
@@ -55,11 +56,17 @@ def _monte_carlo_worker(
         mean_nb_per_strategy = np.mean(nb_posterior, axis=0)
         max_nb_post_study.append(np.max(mean_nb_per_strategy))
 
-    expected_max_nb = np.mean(max_nb_post_study) if max_nb_post_study else 0.0
+    expected_max_nb = float(np.mean(max_nb_post_study)) if max_nb_post_study else 0.0
     return expected_max_nb, n_simulations
 
 
-def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, statistic_func) -> list[float]:
+def _bootstrap_worker(
+    worker_id: int,
+    n_samples: int,
+    seed_offset: int,
+    data: np.ndarray,
+    statistic_func: Callable[[np.ndarray], float],
+) -> list[float]:
     """Worker function for bootstrap sampling."""
     np.random.seed(seed_offset + worker_id)
     results = []
@@ -73,7 +80,9 @@ def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, st
     return results
 
 
-def _simulate_trial_data(true_parameters: dict[str, float], trial_design: TrialDesign) -> dict[str, np.ndarray]:
+def _simulate_trial_data(
+    true_parameters: dict[str, float], trial_design: TrialDesign
+) -> dict[str, np.ndarray]:
     """Simulate trial data based on true parameters."""
     data = {}
     for arm in trial_design.arms:
@@ -92,7 +101,7 @@ def _simulate_trial_data(true_parameters: dict[str, float], trial_design: TrialD
 def _bayesian_update(
     prior_samples: ParameterSet,
     trial_data: dict[str, np.ndarray],
-    trial_design: TrialDesign
+    trial_design: TrialDesign,
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
     import xarray as xr
@@ -111,7 +120,9 @@ def _bayesian_update(
                 # Get standard deviation from prior
                 std_dev_name = "sd_outcome"
                 if std_dev_name in prior_samples.parameters:
-                    prior_std = prior_samples.parameters[std_dev_name]
+                    prior_std: float | np.ndarray = prior_samples.parameters[
+                        std_dev_name
+                    ]
                     # Use mean of std dev if it's an array
                     if isinstance(prior_std, np.ndarray):
                         prior_std = np.mean(prior_std)
@@ -152,7 +163,7 @@ def parallel_monte_carlo_simulation(
     trial_design: TrialDesign,
     n_simulations: int = 1000,
     n_workers: int | None = None,
-    use_processes: bool = True
+    use_processes: bool = True,
 ) -> float:
     """
     Perform Monte Carlo simulation using parallel processing.
@@ -192,7 +203,7 @@ def parallel_monte_carlo_simulation(
                 psa_prior=psa_prior,
                 trial_design=trial_design,
                 n_simulations=n_sims,
-                seed_offset=i * 1000  # Ensure different randomness across workers
+                seed_offset=i * 1000,  # Ensure different randomness across workers
             )
             futures.append(future)
 
@@ -220,7 +231,7 @@ def parallel_evsi_calculation(
     time_horizon: float | None = None,
     n_simulations: int = 1000,
     n_workers: int | None = None,
-    use_processes: bool = True
+    use_processes: bool = True,
 ) -> float:
     """
     Calculate EVSI using parallel Monte Carlo simulation.
@@ -252,7 +263,7 @@ def parallel_evsi_calculation(
         trial_design=trial_design,
         n_simulations=n_simulations,
         n_workers=n_workers,
-        use_processes=use_processes
+        use_processes=use_processes,
     )
 
     # Calculate EVSI
@@ -262,18 +273,18 @@ def parallel_evsi_calculation(
     # Apply population scaling if provided
     if population is not None and time_horizon is not None:
         if population <= 0:
-            raise ValueError("Population must be positive.")
+            raise_value_error("Population must be positive.")
         if time_horizon <= 0:
-            raise ValueError("Time horizon must be positive.")
+            raise_value_error("Time horizon must be positive.")
 
         dr = discount_rate if discount_rate is not None else 0.0
         if not (0 <= dr <= 1):
-            raise ValueError("Discount rate must be between 0 and 1.")
+            raise_value_error("Discount rate must be between 0 and 1.")
 
         annuity = (
             (1 - (1 + dr) ** -time_horizon) / dr if dr > 0 else float(time_horizon)
         )
-        return per_decision_evsi * population * annuity
+        return float(per_decision_evsi * population * annuity)
 
     return float(per_decision_evsi)
 
@@ -283,7 +294,7 @@ def parallel_bootstrap_sampling(
     statistic_func: Callable[[np.ndarray], float],
     n_bootstrap_samples: int = 1000,
     n_workers: int | None = None,
-    use_processes: bool = True
+    use_processes: bool = True,
 ) -> dict[str, float | np.ndarray]:
     """
     Perform bootstrap sampling using parallel processing.
@@ -320,7 +331,7 @@ def parallel_bootstrap_sampling(
                 n_samples=n_samples,
                 seed_offset=i * 1000,
                 data=data,
-                statistic_func=statistic_func
+                statistic_func=statistic_func,
             )
             futures.append(future)
 
@@ -337,5 +348,5 @@ def parallel_bootstrap_sampling(
         "std": np.std(bootstrap_array),
         "percentile_2.5": np.percentile(bootstrap_array, 2.5),
         "percentile_97.5": np.percentile(bootstrap_array, 97.5),
-        "samples": bootstrap_array
+        "samples": bootstrap_array,
     }

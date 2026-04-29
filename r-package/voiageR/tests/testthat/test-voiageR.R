@@ -14,7 +14,6 @@ test_that("init_voiage works when package is available", {
   expect_false(is.null(.voiage))
 })
 
-test_that("set_voiage_env works without error", {
-  # We can't actually test this without a real environment, but we can check it doesn't error
-  expect_silent(set_voiage_env("test_env", type = "virtualenv"))
+test_that("set_voiage_env validates environment type", {
+  expect_error(set_voiage_env("test_env", type = "invalid"))
 })
