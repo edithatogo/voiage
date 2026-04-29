@@ -14,6 +14,66 @@ permissions:
   security-events: write
 
 jobs:
+  prose-lint:
+    name: Vale Prose Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: "1.22"
+
+    - name: Install Vale
+      run: |
+        go install github.com/errata-ai/vale/v2@latest
+        echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+    - name: Run Vale
+      run: uv run bash scripts/vale_prose.sh
+
+  frontier-contract:
+    name: Frontier Contract Validation
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Validate frontier contracts
+      run: uv run python scripts/validate_frontier_contract.py
+
   # Fast linting job
   lint:
     name: Lint & Type Check
@@ -38,10 +98,10 @@ jobs:
       run: uv sync --extra dev
 
     - name: Run Ruff
-      run: uv run ruff check --output-format=github --ignore=FA100,FA102
+      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
 
     - name: Run Ruff format check
-      run: uv run ruff format --check
+      run: uv run ruff format voiage tests --check
 
     - name: Run Bandit security check
       run: uv run bandit -r voiage -s B101,B110,B405,B314 -c pyproject.toml
