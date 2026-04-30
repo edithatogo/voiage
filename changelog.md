@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Marked the first-external-bindings release matrix and HEOR naming brainstorm
+  items as track-backed work in the todo list now that their Conductor tracks
+  exist.
 - Registered the live ecosystem-module-incubation track in the Conductor
   registry so the active track list matches the actual track directories on
   disk.

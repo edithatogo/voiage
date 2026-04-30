@@ -30,7 +30,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Add dedicated tracks for dynamic real-options VOI and adjacent frontier extensions, then split them into family-level phases.
     *   Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
     *   Add schemas, deterministic fixtures, docs, CLI coverage, and maturity metadata before marking any frontier method stable.
-    *   [ ] Define the first external bindings release matrix and CI/CD contract for Python, R, Julia, TypeScript, Go, Rust, and .NET.
+    *   [x] Define the first external bindings release matrix and CI/CD contract for Python, R, Julia, TypeScript, Go, Rust, and .NET.
     *   [x] Add first deterministic fixtures for equity and implementation-adjusted VOI.
     *   [x] Add CHEERS-VOI reporting objects to the experimental frontier result payloads.
     *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity as the base distributional surface.
@@ -38,7 +38,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS).
     *   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
 
-*   [ ] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
+*   [x] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
     *   Keep the list as a naming and boundary exercise, not an implementation plan.
     *   Require CLI support and an explicit MCP decision for any future module.
     *   Keep PM4Py in the process-mining ecosystem-only bucket.
