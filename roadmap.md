@@ -246,7 +246,7 @@ VOI tooling.
         delay, irreversibility, and policy lock-in affect value.
     *   Dynamic real-options VOI is now tracked as a dedicated frontier phase
         in `dynamic-real-options-voi_20260430` and mirrored in the frontier
-        umbrella track.
+        umbrella track with staged-evidence and policy-lock-in subphases.
 4.  **Adjacent Frontier Extensions:**
     *   **Status: `📋 Planned`**
     *   Triage causal-identification, transportability, and external-validity

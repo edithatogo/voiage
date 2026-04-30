@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added dedicated frontier tracks for dynamic real-options VOI and the
   remaining adjacent VOI extension families, so the roadmap backlog now maps
   to concrete track entries instead of only umbrella prose.
+- Split the dynamic real-options and adjacent frontier tracks into
+  family-level phases so each VOI variant now has its own contract, schema, and
+  fixture path.
 - Added a first-external-bindings Conductor track that defines the release
   matrix, CI/CD gates, and trusted publishing contract for Python, R, Julia,
   TypeScript, Go, Rust, and .NET bindings.

@@ -15,7 +15,11 @@
 
 - [ ] Task: Author the versioned schema layout for dynamic real-options inputs
   and outputs.
+- [ ] Task: Split the schema into explicit staged-evidence, exercise-rule, and
+  policy-path result shapes.
 - [ ] Task: Add deterministic example payloads for staged-evidence scenarios.
+- [ ] Task: Add deterministic example payloads for irreversible-policy
+  scenarios.
 - [ ] Task: Define fixture/provenance metadata for the examples.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Dynamic Real-Options
   Schemas' (Protocol in workflow.md)
@@ -24,6 +28,8 @@
 
 - [ ] Task: Add normative fixtures for representative dynamic real-options
   scenarios.
+- [ ] Task: Add fixtures that exercise timing sensitivity and lock-in
+  comparisons.
 - [ ] Task: Add deterministic validator coverage for the contract artifacts.
 - [ ] Task: Document the route to runtime implementation once the contract is
   locked.
