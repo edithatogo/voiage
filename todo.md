@@ -22,7 +22,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Define preference heterogeneity and value of individualized care contracts.
     *   [x] Define model-validation VOI contracts.
     *   [x] Define threshold, tipping-point, and robust VOI contracts.
-    *   [ ] Define dynamic real-options VOI contracts.
+    *   [x] Define dynamic real-options VOI contracts.
     *   [ ] Define causal-identification, transportability, and external-validity VOI contracts.
     *   [ ] Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
     *   [ ] Define computational VOI, model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI contracts.

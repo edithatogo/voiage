@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Added the dynamic real-options frontier contract scaffold, including
+  versioned schemas, example payloads, and contract tests for staged-evidence
+  and policy-lock-in decision timing.
 - Marked the first-external-bindings release matrix and HEOR naming brainstorm
   items as track-backed work in the todo list now that their Conductor tracks
   exist.

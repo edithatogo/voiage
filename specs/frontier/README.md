@@ -10,6 +10,7 @@ This directory contains the experimental frontier VOI contract families.
 - `preference/`: preference heterogeneity and individualized-care contracts.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
+- `dynamic-real-options/`: dynamic real-options VOI contracts.
 - `fixtures/`: registry for the fixture-backed frontier contract set.
 
 The registry is the discovery layer for deterministic frontier fixtures. Each

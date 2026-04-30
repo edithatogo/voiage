@@ -88,10 +88,10 @@
 
 ## Phase 7: Dynamic Real-Options VOI [checkpoint: ]
 
-- [ ] Task: Define dynamic real-options VOI contracts.
-    - [ ] Model delay, irreversibility, and policy lock-in as explicit terms.
-    - [ ] Specify staged evidence arrival, action timing, and option exercise rules.
-    - [ ] Require diagnostics, maturity metadata, and reproducibility fields.
+- [x] Task: Define dynamic real-options VOI contracts.
+    - [x] Model delay, irreversibility, and policy lock-in as explicit terms.
+    - [x] Specify staged evidence arrival, action timing, and option exercise rules.
+    - [x] Require diagnostics, maturity metadata, and reproducibility fields.
 - [ ] Task: Add schemas and examples for dynamic real-options VOI inputs and outputs.
 - [ ] Task: Add deterministic fixtures and reviewable example payloads once the contract stabilizes.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Dynamic Real-Options VOI' (Protocol in workflow.md)
