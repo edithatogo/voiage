@@ -40,8 +40,18 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [ ] Track: Cross-Language Conformance Fixtures
+*Link: [./tracks/cross-language-conformance-fixtures/](./tracks/cross-language-conformance-fixtures/)*
+
+---
+
 ## [x] Track: Python Cleanup Against Spec [completed: 2026-04-25]
 *Link: [./archive/python-cleanup-against-spec_20260425/](./archive/python-cleanup-against-spec_20260425/)*
+
+---
+
+## [ ] Track: Python Cleanup Against Spec
+*Link: [./tracks/python-cleanup-against-spec/](./tracks/python-cleanup-against-spec/)*
 
 ---
 
