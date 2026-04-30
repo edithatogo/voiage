@@ -65,6 +65,16 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [ ] Track: Dynamic Real-Options VOI
+*Link: [./tracks/dynamic-real-options-voi_20260430/](./tracks/dynamic-real-options-voi_20260430/)*
+
+---
+
+## [ ] Track: Adjacent Frontier Extensions
+*Link: [./tracks/adjacent-frontier-extensions_20260430/](./tracks/adjacent-frontier-extensions_20260430/)*
+
+---
+
 ## [ ] Track: Documentation, Validation and Developer Experience
 *Link: [./tracks/docs-developer-experience/](./tracks/docs-developer-experience/)*
 

@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Added dedicated frontier tracks for dynamic real-options VOI and the
+  remaining adjacent VOI extension families, so the roadmap backlog now maps
+  to concrete track entries instead of only umbrella prose.
 - Added a first-external-bindings Conductor track that defines the release
   matrix, CI/CD gates, and trusted publishing contract for Python, R, Julia,
   TypeScript, Go, Rust, and .NET bindings.

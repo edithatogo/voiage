@@ -245,7 +245,8 @@ VOI tooling.
     *   Extend sequential VOI toward dynamic real-options style decisions where
         delay, irreversibility, and policy lock-in affect value.
     *   Dynamic real-options VOI is now tracked as a dedicated frontier phase
-        in `sota-voi-frontier_20260429`.
+        in `dynamic-real-options-voi_20260430` and mirrored in the frontier
+        umbrella track.
 4.  **Adjacent Frontier Extensions:**
     *   **Status: `📋 Planned`**
     *   Triage causal-identification, transportability, and external-validity
@@ -255,8 +256,9 @@ VOI tooling.
     *   Triage computational VOI, value of model refinement, expert-elicitation
         VOI, and evidence-synthesis design VOI as possible extension tracks.
     *   These families are now split into explicit follow-on phases in
-        `sota-voi-frontier_20260429` so they can be implemented and fixture-
-        backed independently.
+        `adjacent-frontier-extensions_20260430` and mirrored in the frontier
+        umbrella track so they can be implemented and fixture-backed
+        independently.
 5.  **Documentation and Evidence:**
     *   **Status: `📋 Planned`**
     *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
