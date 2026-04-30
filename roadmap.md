@@ -146,7 +146,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
         - Package dry-run validation on pull requests.
         - Trusted or token-scoped publishing on version tags/releases.
         - Registry-specific provenance and changelog generation where supported.
-    *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, future binding-specific tracks as they are added.
+    *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, `first-external-bindings_20260430`, and future binding-specific tracks as they are added.
     *   Contract semantics, maturity metadata, and extension rules are covered by `numerics-diagnostics-extension-model`.
 
 ---

@@ -29,6 +29,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Triage causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI as adjacent frontier extensions.
     *   Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
     *   Add schemas, deterministic fixtures, docs, CLI coverage, and maturity metadata before marking any frontier method stable.
+    *   [ ] Define the first external bindings release matrix and CI/CD contract for Python, R, Julia, TypeScript, Go, Rust, and .NET.
     *   [x] Add first deterministic fixtures for equity and implementation-adjusted VOI.
     *   [x] Add CHEERS-VOI reporting objects to the experimental frontier result payloads.
     *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity as the base distributional surface.

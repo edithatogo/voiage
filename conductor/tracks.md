@@ -60,6 +60,11 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [ ] Track: First External Bindings Release Matrix
+*Link: [./tracks/first-external-bindings_20260430/](./tracks/first-external-bindings_20260430/)*
+
+---
+
 ## [ ] Track: Documentation, Validation and Developer Experience
 *Link: [./tracks/docs-developer-experience/](./tracks/docs-developer-experience/)*
 
