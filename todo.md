@@ -22,6 +22,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Define preference heterogeneity and value of individualized care contracts.
     *   [x] Define model-validation VOI contracts.
     *   [x] Define threshold, tipping-point, and robust VOI contracts.
+    *   [ ] Define dynamic real-options VOI contracts.
+    *   [ ] Define causal-identification, transportability, and external-validity VOI contracts.
+    *   [ ] Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
+    *   [ ] Define computational VOI, model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI contracts.
     *   Triage causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI as adjacent frontier extensions.
     *   Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
     *   Add schemas, deterministic fixtures, docs, CLI coverage, and maturity metadata before marking any frontier method stable.

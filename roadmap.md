@@ -147,6 +147,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
         - Trusted or token-scoped publishing on version tags/releases.
         - Registry-specific provenance and changelog generation where supported.
     *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, future binding-specific tracks as they are added.
+    *   Contract semantics, maturity metadata, and extension rules are covered by `numerics-diagnostics-extension-model`.
 
 ---
 
@@ -195,6 +196,8 @@ packages while preserving a clean dependency boundary.
     *   Keep the naming discussion as brainstorming, not a commitment to add
         every module now.
     *   Covered by Conductor track: `heor_module_naming_brainstorm_20260429`.
+    *   CLI and docs implementation support for the ecosystem-facing surface is
+        covered by `cli-integration-testing` and `docs-developer-experience`.
 
 ---
 
@@ -241,6 +244,8 @@ VOI tooling.
         shape used by Value of Perspective.
     *   Extend sequential VOI toward dynamic real-options style decisions where
         delay, irreversibility, and policy lock-in affect value.
+    *   Dynamic real-options VOI is now tracked as a dedicated frontier phase
+        in `sota-voi-frontier_20260429`.
 4.  **Adjacent Frontier Extensions:**
     *   **Status: `📋 Planned`**
     *   Triage causal-identification, transportability, and external-validity
@@ -249,6 +254,9 @@ VOI tooling.
         linkage VOI where the information source has operational constraints.
     *   Triage computational VOI, value of model refinement, expert-elicitation
         VOI, and evidence-synthesis design VOI as possible extension tracks.
+    *   These families are now split into explicit follow-on phases in
+        `sota-voi-frontier_20260429` so they can be implemented and fixture-
+        backed independently.
 5.  **Documentation and Evidence:**
     *   **Status: `📋 Planned`**
     *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.

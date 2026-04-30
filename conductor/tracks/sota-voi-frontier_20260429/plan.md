@@ -86,10 +86,36 @@
 - [x] Task: Run full verification with `tox -e lint,typecheck,coverage_report` and the full pytest coverage suite.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Documentation, Roadmap, And Release Readiness' (Protocol in workflow.md)
 
+## Phase 7: Dynamic Real-Options VOI [checkpoint: ]
+
+- [ ] Task: Define dynamic real-options VOI contracts.
+    - [ ] Model delay, irreversibility, and policy lock-in as explicit terms.
+    - [ ] Specify staged evidence arrival, action timing, and option exercise rules.
+    - [ ] Require diagnostics, maturity metadata, and reproducibility fields.
+- [ ] Task: Add schemas and examples for dynamic real-options VOI inputs and outputs.
+- [ ] Task: Add deterministic fixtures and reviewable example payloads once the contract stabilizes.
+- [ ] Task: Conductor - Automated Review and Checkpoint 'Dynamic Real-Options VOI' (Protocol in workflow.md)
+
+## Phase 8: Adjacent Frontier Extensions [checkpoint: ]
+
+- [ ] Task: Define causal-identification, transportability, and external-validity VOI contracts.
+    - [ ] Model source-to-target population shifts, transport weights, and validity penalties.
+    - [ ] Distinguish internal validity, external validity, and transportability assumptions.
+- [ ] Task: Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
+    - [ ] Model operational acquisition costs and privacy-constrained information value.
+    - [ ] Distinguish source quality, linkage quality, and missingness/measurement-error value.
+- [ ] Task: Define computational VOI, model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI contracts.
+    - [ ] Model compute budget, approximation error, and refinement value explicitly.
+    - [ ] Distinguish elicitation design value from downstream decision value.
+- [ ] Task: Add schemas, examples, fixtures, and maturity metadata for each adjacent extension family as it graduates from triage.
+- [ ] Task: Conductor - Automated Review and Checkpoint 'Adjacent Frontier Extensions' (Protocol in workflow.md)
+
 ## Execution Notes
 
 - Implement Value of Perspective first; it is the clearest user-facing
   differentiator and can reuse net-benefit-first infrastructure.
 - Keep planned frontier methods documented until their mathematical contracts,
   schemas, fixtures, and tests are ready.
+- Treat dynamic real-options and the adjacent extension families as tracked
+  backlog items rather than informal ideas.
 - Do not add heavy new dependencies without a dependency-policy update.

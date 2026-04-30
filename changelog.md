@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Expanded the SOTA frontier track into explicit phases for dynamic real-
+  options VOI and the remaining adjacent VOI extension families, and linked
+  the roadmap phases back to the numerics, docs, CLI, and frontier track
+  stubs that will implement them.
 - Aligned the GitHub Actions Ruff gate with the repo's tox lint scope so the
   workflow checks `voiage` and `tests` instead of legacy root-level scratch
   scripts that are outside the supported lint surface, and corrected the Vale
