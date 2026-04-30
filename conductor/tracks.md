@@ -100,5 +100,10 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [ ] Track: Ecosystem Module Incubation
+*Link: [./tracks/ecosystem-module-incubation_20260429/](./tracks/ecosystem-module-incubation_20260429/)*
+
+---
+
 ## [ ] Track: HEOR Module Naming Brainstorm
 *Link: [./tracks/heor_module_naming_brainstorm_20260429/](./tracks/heor_module_naming_brainstorm_20260429/)*
