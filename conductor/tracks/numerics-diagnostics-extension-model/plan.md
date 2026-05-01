@@ -1,6 +1,6 @@
 # Track Implementation Plan: Numerics, Diagnostics and Extension Model
 
-## Phase 1: Define Numerical Equivalence and Reproducibility [checkpoint: ]
+## Phase 1: Define Numerical Equivalence and Reproducibility [checkpoint: 84e24fa]
 
 - [x] Task: Create the numerical-equivalence document for the core API contract under `specs/core-api/`.
 - [x] Task: Specify tolerance rules for deterministic and approximate comparisons.
