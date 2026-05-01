@@ -2,6 +2,7 @@
 
 import csv
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -24,6 +25,10 @@ def _write_json(path: Path, payload: dict) -> None:
 
 def _compact(text: str) -> str:
     return " ".join(text.split())
+
+
+def _strip_ansi(text: str) -> str:
+    return re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", text)
 
 
 def test_evpi_cli() -> None:
@@ -559,9 +564,10 @@ def test_cli_help() -> None:
     result = runner.invoke(cli.app, ["calculate-enbs", "--help"])
 
     assert result.exit_code == 0
-    assert "calculate-enbs" in result.stdout
-    assert "Calculate ENBS from an EVSI value and research cost" in result.stdout
-    assert "--research-cost" in result.stdout
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-enbs" in stdout
+    assert "Calculate ENBS from an EVSI value and research cost" in stdout
+    assert "--research-cost" in stdout
 
     result = subprocess.run(
         [sys.executable, "-m", "voiage.cli", "calculate-adaptive-evsi", "--help"],
