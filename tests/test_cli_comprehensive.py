@@ -556,13 +556,9 @@ def test_cli_help() -> None:
     assert "PARAMETER_FILE" in result.stdout
     assert "TRIAL_DESIGN_FILE" in result.stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-enbs", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-enbs", "--help"])
 
-    assert result.returncode == 0
+    assert result.exit_code == 0
     assert "calculate-enbs" in result.stdout
     assert "--evsi" in result.stdout
     assert "--research-cost" in result.stdout
