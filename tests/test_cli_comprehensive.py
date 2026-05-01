@@ -560,7 +560,7 @@ def test_cli_help() -> None:
 
     assert result.exit_code == 0
     assert "calculate-enbs" in result.stdout
-    assert "--evsi" in result.stdout
+    assert "Calculate ENBS from an EVSI value and research cost" in result.stdout
     assert "--research-cost" in result.stdout
 
     result = subprocess.run(
