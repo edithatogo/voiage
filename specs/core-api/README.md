@@ -4,6 +4,7 @@ This directory holds the written foundation for the language-agnostic `voiage` c
 
 - `foundation.md` defines the purpose, audience, and scope of the contract.
 - `decision-record.md` records the non-negotiable design choices that later schema and fixture work must follow.
+- `numerical-equivalence.md` defines tolerance rules, reproducibility metadata, and provenance expectations for conformance checks.
 - `contract-index.md` lists the versioned contract artifacts that are expected to stay in sync.
 - `schemas/v1/` contains the normative schema definitions for the core API result types.
 - `examples/v1/` contains matching example payloads used by the contract checks.

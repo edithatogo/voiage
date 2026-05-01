@@ -2,12 +2,12 @@
 
 ## Phase 1: Define Numerical Equivalence and Reproducibility [checkpoint: ]
 
-- [ ] Task: Create the numerical-equivalence document for the core API contract under `specs/core-api/`.
-- [ ] Task: Specify tolerance rules for deterministic and approximate comparisons.
-  - [ ] exact-equivalence cases
-  - [ ] tolerance-based conformance cases
-  - [ ] cases that must be marked non-comparable
-- [ ] Task: Define reproducibility and provenance metadata for stable result families, including seed handling and deterministic fixture modes.
+- [x] Task: Create the numerical-equivalence document for the core API contract under `specs/core-api/`.
+- [x] Task: Specify tolerance rules for deterministic and approximate comparisons.
+  - [x] exact-equivalence cases
+  - [x] tolerance-based conformance cases
+  - [x] cases that must be marked non-comparable
+- [x] Task: Define reproducibility and provenance metadata for stable result families, including seed handling and deterministic fixture modes.
 
 ## Phase 2: Define Diagnostics and Capability Metadata [checkpoint: ]
 
