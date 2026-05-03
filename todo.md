@@ -4,39 +4,42 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [ ] Continue the SOTA VOI frontier track after the experimental Value of Perspective slice.
-    *   [x] Add experimental Value of Perspective contracts, Python API, `DecisionAnalysis` wrapper, CLI command, plot helper, and tests.
-    *   [ ] Promote Value of Perspective from experimental to fixture-backed once deterministic conformance fixtures and cross-language expectations are complete.
+*   [ ] Continue the SOTA VOI frontier track after the fixture-backed Value of Perspective slice.
+    *   [x] Add Value of Perspective contracts, Python API, `DecisionAnalysis` wrapper, CLI command, plot helper, and tests.
+    *   [x] Promote Value of Perspective from experimental to fixture-backed once deterministic conformance fixtures and cross-language expectations are complete.
     *   [x] Add deterministic screening-program fixtures for Value of Perspective.
     *   [x] Add deterministic fixture sets for distributional/equity and implementation-adjusted VOI.
     *   [x] Add repository-level validation for frontier fixture manifests.
-    *   [x] Add a frontier fixture registry manifest for discovery of the committed experimental contract set.
+    *   [x] Add a frontier fixture registry manifest for discovery of the committed contract set.
     *   [x] Add a registry schema for the frontier fixture discovery layer.
     *   [x] Add a reusable frontier contract validation script.
     *   [x] Wire the frontier contract validator into tox and CI.
     *   [x] Update the README and frontier research note to mention the registry-backed contract layer.
     *   [x] Update the migration guide to reflect the registry-backed frontier contracts.
     *   [x] Add frontier examples to the canonical advanced VOI guide.
-    *   [x] Add explicit experimental API warnings and release-note style guidance.
+    *   [x] Add explicit API warnings and release-note style guidance.
     *   Plan distributional/equity VOI, implementation-adjusted VOI, preference-information VOI, validation VOI, threshold/tipping-point VOI, robust VOI, and dynamic real-options VOI.
     *   [x] Define preference heterogeneity and value of individualized care contracts.
     *   [x] Define model-validation VOI contracts.
     *   [x] Define threshold, tipping-point, and robust VOI contracts.
     *   [x] Define dynamic real-options VOI contracts.
-    *   [ ] Define causal-identification, transportability, and external-validity VOI contracts.
-    *   [ ] Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
-    *   [ ] Define computational VOI, model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI contracts.
-    *   Triage causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI as adjacent frontier extensions.
+    *   [x] Add deterministic fixtures and reviewable example payloads for dynamic real-options VOI.
+    *   [x] Define causal-identification, transportability, and external-validity VOI contracts.
+    *   [x] Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
+    *   [x] Define computational VOI, model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI contracts.
+    *   [x] Triage causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI as adjacent frontier extensions.
     *   [x] Add dedicated tracks for dynamic real-options VOI and adjacent frontier extensions, then split them into family-level phases.
-    *   Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
+    *   [x] Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
     *   Add schemas, deterministic fixtures, docs, CLI coverage, and maturity metadata before marking any frontier method stable.
+    *   [x] Add deterministic fixtures and reviewable example payloads for dynamic real-options VOI.
     *   [x] Define the first external bindings release matrix and CI/CD contract for Python, R, Julia, TypeScript, Go, Rust, and .NET.
     *   [x] Add first deterministic fixtures for equity and implementation-adjusted VOI.
-    *   [x] Add CHEERS-VOI reporting objects to the experimental frontier result payloads.
+    *   [x] Add CHEERS-VOI reporting objects to the frontier result payloads.
     *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity as the base distributional surface.
     *   [x] Extend the CHEERS-VOI reporting baseline to CEAF and dominance outputs.
     *   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS).
-    *   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
+*   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
+*   [x] Add a uv-backed Nox runner that mirrors the main tox sessions.
 
 *   [x] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
     *   Keep the list as a naming and boundary exercise, not an implementation plan.
@@ -55,6 +58,30 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   [x] Add CHEERS-VOI reporting objects and contract examples for the experimental frontier methods.
     *   Added shared reporting payload helpers, attached them to Value of Perspective, distributional/equity VOI, and implementation-adjusted VOI, and mirrored the fields in the frontier contract examples and schemas.
 
+*   [x] Add CHEERS-VOI reporting metadata, structured result fields, and reproducibility outputs for every frontier method family.
+    *   Added reporting envelopes to the remaining frontier contracts so every frontier result payload now carries the shared CHEERS-VOI baseline.
+
+*   [x] Add deterministic fixtures and reviewable example payloads for dynamic real-options VOI.
+    *   Added the dynamic real-options contract scaffold, fixtures, registry entry, and contract tests.
+
+*   [x] Define causal-identification, transportability, and external-validity VOI contracts.
+    *   Added the causal-transportability contract scaffold with schema and example payloads for source-to-target population shifts.
+
+*   [x] Define data-quality, measurement-error, data-acquisition, privacy, and linkage VOI contracts.
+    *   Added the data-quality contract scaffold with schema and example payloads for acquisition costs, privacy constraints, and linkage weights.
+
+*   [x] Define computational VOI and model-refinement VOI contract scope.
+    *   Added the computational contract scaffold with schema and example payloads for compute budgets, approximation error, and refinement value.
+
+*   [x] Define expert-elicitation VOI and evidence-synthesis design VOI contract scope.
+    *   Added the expert-synthesis contract scaffold with schema and example payloads for elicitation costs and synthesis penalties.
+
+*   [x] Define the shared maturity labels, diagnostics, reporting metadata, and handoff path for the adjacent frontier families.
+    *   Added the adjacent-frontier shared-maturity contract scaffold with maturity labels, fixture-backed criteria, next-step requirements, and CHEERS-VOI reporting conventions.
+
+*   [x] Add deterministic fixtures and registry entries for the adjacent frontier families.
+    *   Added deterministic normative fixtures and registry entries for the causal, data-quality, computational, and expert-synthesis adjacent frontier contracts.
+
 *   [x] Add CHEERS-VOI reporting objects to Value of Heterogeneity.
     *   Added the same reporting payload helper to the base distributional surface so the reporting model extends naturally from Value of Heterogeneity into distributional/equity VOI.
 
@@ -65,7 +92,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Added shared reporting payloads to EVPI, EVPPI, EVSI, and ENBS JSON/CSV result output so the main command surface has a consistent reporting envelope.
 
 *   [x] Add deterministic screening-program fixtures for Value of Perspective.
-    *   Added a normative fixture manifest plus input/output payloads that anchor the experimental CLI contract for the screening-program comparison surface.
+    *   Added a normative fixture manifest plus input/output payloads that anchor the fixture-backed CLI contract for the screening-program comparison surface.
 
 *   [x] Implement distributional/equity VOI and implementation-adjusted VOI as experimental frontier methods.
     *   Added `value_of_distributional_equity` and `value_of_implementation` with `DecisionAnalysis` wrappers, curated exports, and regression tests.

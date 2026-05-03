@@ -23,6 +23,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Added an optional uv-backed `nox` runner that mirrors the main tox sessions
+  for local development.
+- Promoted Value of Perspective to a fixture-backed frontier contract and
+  aligned the runtime, schemas, fixtures, and tests with the committed
+  screening-program conformance payloads.
+- Expanded the frontier fixture registry and validator to include the new
+  fixture-backed adjacent frontier families alongside the earlier experimental
+  contract sets.
+- Added deterministic fixture manifests and normative payloads for the
+  adjacent frontier causal, data-quality, computational, and expert-synthesis
+  contract families, and registered them in the frontier fixture registry.
+- Added a shared adjacent-frontier maturity contract with maturity labels,
+  fixture-backed criteria, next-step requirements, and CHEERS-VOI reporting
+  conventions.
+- Added an expert-synthesis frontier contract scaffold with schema and
+  example payloads for elicitation costs and synthesis penalties.
+- Added a computational frontier contract scaffold with schema and example
+  payloads for compute budgets, approximation error, and refinement value.
+- Added a data-quality frontier contract scaffold with schema and example
+  payloads for acquisition costs, privacy constraints, measurement error, and
+  linkage weights.
+- Added a causal-transportability frontier contract scaffold with schema and
+  example payloads for source-to-target population shifts, transport weights,
+  and validity penalties.
+- Marked the CHEERS-VOI reporting task complete after extending the shared reporting envelope to the remaining frontier families and fixture-backed contract payloads.
+- Marked the dynamic real-options contract schemas, examples, fixtures, and track plan item as complete so the frontier backlog matches the committed artifacts.
+- Added deterministic fixtures and a registry entry for the dynamic
+  real-options frontier contract so it now participates in the shared
+  frontier-fixture discovery layer.
 - Added the dynamic real-options frontier contract scaffold, including
   versioned schemas, example payloads, and contract tests for staged-evidence
   and policy-lock-in decision timing.

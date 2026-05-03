@@ -63,6 +63,7 @@ dev = [
     "scalene>=1.5,<2.0",
     "ruff>=0.9.0,<1.0",
     "bandit>=1.7,<2.0",
+    "nox>=2026.4.10,<2027",
     "ty>=0.0.1,<1.0",
     "types-setuptools",
     "types-requests",
@@ -227,6 +228,7 @@ benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only"
 docs = "uv run sphinx-build -b html docs docs/_build/html"
 precommit = "uv run pre-commit run --all-files"
 check = "tox"
+nox = "uv run nox"
 build = "uv build"
 publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
 publish = "uv publish"

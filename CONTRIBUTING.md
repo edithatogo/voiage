@@ -52,6 +52,10 @@ We welcome contributions from the community, whether from humans or AI agents. T
         ```bash
         tox -e frontier-contract
         ```
+    *   If you prefer the uv-backed runner, `nox` mirrors the same core sessions:
+        ```bash
+        uv run nox
+        ```
 
 4.  **Commit Changes:**
     *   Stage your changes (`git add .`).
