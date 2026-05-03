@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ### Added
+- Expanded the supported Python matrix to 3.13 and 3.14, split the core
+  JAX/NumPy/SciPy pins by Python version, and updated the local/CI runners and
+  user-facing support docs to match.
 - Added an optional uv-backed `nox` runner that mirrors the main tox sessions
   for local development.
 - Promoted Value of Perspective to a fixture-backed frontier contract and

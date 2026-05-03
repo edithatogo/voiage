@@ -73,6 +73,8 @@ You can install `voiage` via pip:
 pip install voiage
 ```
 
+Supported Python versions: 3.10-3.14.
+
 ## Getting Started
 
 Here's a simple example of how to use `voiage` to calculate the EVPI:

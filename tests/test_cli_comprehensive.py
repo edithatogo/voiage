@@ -24,6 +24,8 @@ def _write_json(path: Path, payload: dict) -> None:
 
 
 def _compact(text: str) -> str:
+    for char in "│╭╮╰╯─":
+        text = text.replace(char, " ")
     return " ".join(text.split())
 
 
@@ -1571,7 +1573,7 @@ def test_nma_voi_cli_validation_errors(tmp_path: Path) -> None:
 
     missing_config = tmp_path / "missing.json"
     missing_result = runner.invoke(cli.app, ["calculate-nma-voi", str(missing_config)])
-    missing_error = missing_result.stdout + missing_result.stderr
+    missing_error = _compact(_strip_ansi(missing_result.stdout + missing_result.stderr))
     assert missing_result.exit_code == 2
     assert "Invalid value for 'CONFIG_FILE'" in missing_error
     assert "does not exist." in missing_error
@@ -1579,7 +1581,7 @@ def test_nma_voi_cli_validation_errors(tmp_path: Path) -> None:
     invalid_config = tmp_path / "invalid.json"
     invalid_config.write_text("{not json", encoding="utf-8")
     invalid_result = runner.invoke(cli.app, ["calculate-nma-voi", str(invalid_config)])
-    invalid_error = invalid_result.stdout + invalid_result.stderr
+    invalid_error = _compact(_strip_ansi(invalid_result.stdout + invalid_result.stderr))
     assert invalid_result.exit_code == 1
     assert "Error: Invalid JSON in config file" in invalid_error
 

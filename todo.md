@@ -40,6 +40,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Extend the CHEERS-VOI reporting baseline to core scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS).
 *   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
 *   [x] Add a uv-backed Nox runner that mirrors the main tox sessions.
+*   [x] Expand the supported Python test matrix to 3.13 and 3.14 across tox, CI, and docs.
+*   [x] Split the JAX/NumPy/SciPy dependency pins by Python version so 3.10 keeps the legacy stack and 3.11-3.14 can run the newer wheel set.
 
 *   [x] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
     *   Keep the list as a naming and boundary exercise, not an implementation plan.

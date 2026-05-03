@@ -63,7 +63,7 @@ pip install -e .
 ### What are the system requirements?
 
 voiage requires:
-- Python 3.7 or higher
+- Python 3.10-3.14
 - NumPy, SciPy, Pandas, xarray
 - Matplotlib for plotting (optional)
 - scikit-learn for some advanced metamodels (optional)
