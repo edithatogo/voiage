@@ -135,5 +135,5 @@ bindings/**/target/
 bindings/**/*.nupkg
 bindings/**/*.snupkg
 bindings/julia/Manifest.toml
-bindings/rust/Cargo.lock
 bindings/typescript/*.tgz
+!bindings/rust/Cargo.lock
