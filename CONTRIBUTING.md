@@ -70,6 +70,10 @@ We welcome contributions from the community, whether from humans or AI agents. T
 For a more detailed walkthrough of the Conductor workflow, docs structure, and
 testing expectations, see `docs/developer_guide/how_to_contribute.rst`.
 
+For help requests, support questions, and security reporting, see
+[`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and
+[`SECURITY.md`](SECURITY.md).
+
 ## Code Style and Conventions
 
 ### Formatting and Linting

@@ -18,6 +18,7 @@ Current development state:
 - The polyglot tutorial surface track is complete and archived: the Python notebooks, the R vignette/manual, and the non-Python binding walkthrough READMEs now share the same canonical VOI examples, and the repo includes smoke checks for the binding walkthroughs.
 - The SOTA roadmap now includes frontier VOI methods, led by Value of Perspective plus preference, validation, and threshold surfaces for comparing payer, societal, patient, provider, regulator, equity-weighted, and custom stakeholder perspectives and preference profiles side by side, along with fixture-backed manifests, a registry schema, and a reusable frontier contract validator.
 - Frontier contract validation now runs through the shared registry manifest, schema, and validator.
+- Community support and governance docs are now explicit: `SUPPORT.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md` provide the first stop for help, conduct, and vulnerability reporting.
 
 ## Branch Architecture
 
@@ -98,6 +99,9 @@ The main user and developer references are:
 - [Data structures](docs/data_structures.rst)
 - [Backends](docs/backends.rst)
 - [Developer guide](docs/developer_guide/)
+- [Community support](SUPPORT.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Security policy](SECURITY.md)
 - [Frontier VOI roadmap](docs/sota_voi_frontier.md)
 
 ## Academic Paper

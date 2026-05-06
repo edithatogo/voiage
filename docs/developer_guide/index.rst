@@ -14,6 +14,7 @@ boundaries.
    rust_parallelism
    rust_accelerators
    versioning_and_release_policy
+   community_support
    how_to_contribute
    implementing_new_methods
    polyglot_tooling

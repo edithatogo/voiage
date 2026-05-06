@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   versioning and plugin baseline in the roadmap and conductor setup.
 
 ### Added
+- Added the community support surface with `SUPPORT.md`, `CODE_OF_CONDUCT.md`,
+  `SECURITY.md`, a support-question issue template, and contributor-facing
+  links from the main docs.
 - Added a repository-local version synchronization policy and validator so
   `pyproject.toml` is the canonical release version source and the binding
   manifests, tox, and CI stay in lockstep.

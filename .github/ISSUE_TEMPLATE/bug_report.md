@@ -9,6 +9,9 @@ assignees: ''
 ## Bug Description
 A clear and concise description of what the bug is.
 
+If this is a usage question rather than a reproducible bug, use the support
+surface in [`SUPPORT.md`](../../SUPPORT.md) instead.
+
 ## Reproduction Steps
 ```python
 # Minimal code to reproduce the bug

@@ -104,8 +104,8 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
     *   **Status: `✅ Done`**
     *   CodeQL security scanning, Ruff linting/security rules, ty type checking, and mutation testing support.
 4.  **Community Engagement:**
-    *   **Status: `🚧 In Progress`**
-    *   Repository structured for contributions, Conductor workflow for AI-assisted development.
+    *   **Status: `✅ Done`**
+    *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.
 5.  **Language-Agnostic API Specification:**
     *   **Status: `📋 Planned`**
     *   Define a stable core contract around `ValueArray`, `ParameterSet`, `TrialDesign`, and method outputs.

@@ -25,6 +25,11 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] E2E tests added/updated and passing (if applicable)
 - [ ] Test coverage maintained or improved
 
+## Community Impact
+
+- [ ] I updated support, security, or community docs if this change affects
+  user onboarding or support expectations
+
 ## Checklist
 
 - [ ] My code follows the project's style guidelines (ruff, ty)

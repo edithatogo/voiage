@@ -10,6 +10,9 @@ assignees: ''
 A clear and concise description of what problem this feature would solve.
 Ex: "I'm always frustrated when [...]"
 
+If you need help using an existing workflow rather than requesting a new
+feature, use [`SUPPORT.md`](../../SUPPORT.md) instead.
+
 ## Proposed Solution
 A clear and concise description of what you want to happen.
 
