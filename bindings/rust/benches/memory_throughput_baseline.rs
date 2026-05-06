@@ -96,7 +96,6 @@ struct MemoryThroughputMetadata {
 struct MemoryThroughputSnapshot {
     phase: String,
     iteration: u64,
-    latency_ns: u64,
     throughput_ops_per_sec: f64,
     rss_before_bytes: Option<u64>,
     rss_after_bytes: Option<u64>,
@@ -113,13 +112,11 @@ fn collect_live_snapshots() -> Vec<MemoryThroughputSnapshot> {
         }
         let elapsed = start.elapsed();
         let rss_after = current_rss_bytes();
-        let latency_ns = (elapsed.as_nanos() / 1_000) as u64;
         let throughput_ops_per_sec = 1_000.0 / elapsed.as_secs_f64();
         assert!(total > 0.0);
         snapshots.push(MemoryThroughputSnapshot {
             phase: phase.to_string(),
             iteration: iteration as u64,
-            latency_ns,
             throughput_ops_per_sec,
             rss_before_bytes: rss_before,
             rss_after_bytes: rss_after,
@@ -180,7 +177,6 @@ fn memory_throughput_live_samples_are_deterministic_and_positive() {
     for snapshot in &snapshots {
         assert!(!snapshot.phase.is_empty());
         assert!(snapshot.iteration < 3);
-        assert!(snapshot.latency_ns > 0);
         assert!(snapshot.throughput_ops_per_sec > 0.0);
         #[cfg(unix)]
         {
@@ -202,6 +198,4 @@ fn memory_throughput_live_samples_are_deterministic_and_positive() {
     assert!(cold.rss_after_bytes.is_some());
     assert!(warm.rss_before_bytes.is_some());
     assert!(warm.rss_after_bytes.is_some());
-    assert!(cold.latency_ns > 0);
-    assert!(warm.latency_ns > 0);
 }

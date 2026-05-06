@@ -423,4 +423,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consolidated changes from `pleides/update`.
 
 ### Fixed
-- N/A
+- Hardened the Rust benchmark baselines so they no longer depend on timing assertions, and improved the benchmark workflow to print captured Cargo output when a baseline fails in CI.

@@ -93,6 +93,9 @@ jobs:
               check=False,
           )
           elapsed = time.perf_counter() - start
+          if timed.returncode != 0:
+              print(timed.stdout, end="")
+              print(timed.stderr, end="", file=sys.stderr)
           after = resource.getrusage(resource.RUSAGE_CHILDREN)
           rss_delta = after.ru_maxrss - before.ru_maxrss
           rss_kb = rss_delta // 1024 if sys.platform == "darwin" else rss_delta
@@ -155,6 +158,9 @@ jobs:
               check=False,
           )
           elapsed = time.perf_counter() - start
+          if timed.returncode != 0:
+              print(timed.stdout, end="")
+              print(timed.stderr, end="", file=sys.stderr)
           after = resource.getrusage(resource.RUSAGE_CHILDREN)
           rss_delta = after.ru_maxrss - before.ru_maxrss
           rss_kb = rss_delta // 1024 if sys.platform == "darwin" else rss_delta

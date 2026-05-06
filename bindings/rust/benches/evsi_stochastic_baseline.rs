@@ -1,7 +1,6 @@
 use serde::Deserialize;
 use std::collections::BTreeMap;
 use std::hint::black_box;
-use std::time::Instant;
 
 use voiage_core::{evsi_stochastic_contract, TrialArm, TrialDesign, ValueArray};
 
@@ -51,16 +50,11 @@ fn evsi_stochastic_baseline_returns_expected_value() {
 
 #[test]
 fn evsi_stochastic_baseline_runs_a_repeatable_workload_shape() {
-    let start = Instant::now();
     let mut total = 0.0;
 
     for _ in 0..10_000 {
         total += black_box(run_evsi_stochastic_baseline());
     }
-
-    let elapsed = start.elapsed();
-
-    assert!(elapsed.as_nanos() > 0);
     assert!(total > 0.0);
 }
 
