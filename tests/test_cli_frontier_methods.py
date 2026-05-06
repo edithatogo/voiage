@@ -181,6 +181,81 @@ def _csv_rows(result: object) -> list[dict[str, str]]:
                 and float(row["implementation_multiplier"]) == pytest.approx(0.5)
             ),
         ),
+        (
+            "calculate-validation",
+            "validation.json",
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "validation_profiles": [
+                    {
+                        "id": "external_validation",
+                        "label": "External validation",
+                        "weight": 0.6,
+                    },
+                    {
+                        "id": "discrepancy_reduction",
+                        "label": "Discrepancy reduction",
+                        "weight": 0.4,
+                    },
+                ],
+                "reference_validation_profile": "external_validation",
+            },
+            "Value of Model Validation",
+            "Model validation VOI:",
+            lambda payload: (
+                payload["method_maturity"] == "fixture-backed"
+                and set(payload["validation_profile_ids"])
+                == {"discrepancy_reduction", "external_validation"}
+                and payload["reference_validation_profile"] == "external_validation"
+                and payload["reporting"]["analysis_type"] == "value_of_model_validation"
+            ),
+            lambda row: (
+                json.loads(row["reporting"])["method_maturity"] == "fixture-backed"
+                and set(json.loads(row["validation_profile_ids"]))
+                == {"discrepancy_reduction", "external_validation"}
+                and row["reference_validation_profile"] == "external_validation"
+            ),
+        ),
+        (
+            "calculate-threshold",
+            "threshold.json",
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "threshold_profiles": [
+                    {"id": "wtp_reversal", "label": "WTP reversal", "weight": 0.5},
+                    {
+                        "id": "policy_constraint",
+                        "label": "Policy constraint",
+                        "weight": 0.5,
+                    },
+                ],
+                "reference_threshold_profile": "wtp_reversal",
+            },
+            "Value of Threshold Information",
+            "Threshold VOI:",
+            lambda payload: (
+                payload["method_maturity"] == "fixture-backed"
+                and set(payload["threshold_profile_ids"])
+                == {"policy_constraint", "wtp_reversal"}
+                and payload["reference_threshold_profile"] == "wtp_reversal"
+                and payload["reporting"]["analysis_type"]
+                == "value_of_threshold_information"
+            ),
+            lambda row: (
+                json.loads(row["reporting"])["method_maturity"] == "fixture-backed"
+                and set(json.loads(row["threshold_profile_ids"]))
+                == {"policy_constraint", "wtp_reversal"}
+                and row["reference_threshold_profile"] == "wtp_reversal"
+            ),
+        ),
     ],
 )
 def test_frontier_cli_commands(
@@ -298,6 +373,50 @@ def test_frontier_cli_commands(
                 "discount_rate": 0.0,
             },
         ),
+        (
+            "calculate-validation",
+            "validation.json",
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "validation_profiles": [
+                    {
+                        "id": "external_validation",
+                        "label": "External validation",
+                        "weight": 0.6,
+                    },
+                    {
+                        "id": "discrepancy_reduction",
+                        "label": "Discrepancy reduction",
+                        "weight": 0.4,
+                    },
+                ],
+                "reference_validation_profile": "external_validation",
+            },
+        ),
+        (
+            "calculate-threshold",
+            "threshold.json",
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "threshold_profiles": [
+                    {"id": "wtp_reversal", "label": "WTP reversal", "weight": 0.5},
+                    {
+                        "id": "policy_constraint",
+                        "label": "Policy constraint",
+                        "weight": 0.5,
+                    },
+                ],
+                "reference_threshold_profile": "wtp_reversal",
+            },
+        ),
     ],
 )
 def test_frontier_cli_commands_write_output_file(
@@ -369,6 +488,30 @@ def test_frontier_cli_commands_write_output_file(
             },
             "must be a number",
         ),
+        (
+            "calculate-validation",
+            "validation_invalid.json",
+            {
+                "net_benefit": [
+                    [[9.0, 7.0], [10.0, 8.0]],
+                    [[9.0, 7.0], [10.0, 8.0]],
+                ],
+                "strategy_names": ["A", "B"],
+            },
+            "must contain 'validation_profiles'",
+        ),
+        (
+            "calculate-threshold",
+            "threshold_invalid.json",
+            {
+                "net_benefit": [
+                    [[9.0, 7.0], [10.0, 8.0]],
+                    [[9.0, 7.0], [10.0, 8.0]],
+                ],
+                "strategy_names": ["A", "B"],
+            },
+            "must contain 'threshold_profiles'",
+        ),
     ],
 )
 def test_frontier_cli_commands_reject_invalid_inputs(
@@ -388,3 +531,60 @@ def test_frontier_cli_commands_reject_invalid_inputs(
     result = runner.invoke(cli.app, [command, str(input_file)])
     assert result.exit_code != 0
     assert error_text in result.stdout or error_text in result.stderr
+
+
+@pytest.mark.parametrize(
+    ("command", "input_name"),
+    [
+        (
+            "calculate-validation",
+            "validation_missing.json",
+        ),
+        (
+            "calculate-threshold",
+            "threshold_missing.json",
+        ),
+    ],
+)
+def test_frontier_cli_commands_reject_missing_inputs(
+    tmp_path: Path,
+    command: str,
+    input_name: str,
+) -> None:
+    """Exercise the file-not-found branches for the frontier CLI commands."""
+    input_file = tmp_path / input_name
+
+    with pytest.raises(Exception):
+        if command == "calculate-validation":
+            cli.calculate_validation(input_file)
+        else:
+            cli.calculate_threshold(input_file)
+
+
+@pytest.mark.parametrize(
+    ("command", "input_name"),
+    [
+        (
+            "calculate-validation",
+            "validation_malformed.json",
+        ),
+        (
+            "calculate-threshold",
+            "threshold_malformed.json",
+        ),
+    ],
+)
+def test_frontier_cli_commands_reject_malformed_json(
+    tmp_path: Path,
+    command: str,
+    input_name: str,
+) -> None:
+    """Exercise the JSON decoding branches for the frontier CLI commands."""
+    input_file = tmp_path / input_name
+    input_file.write_text("{not valid json", encoding="utf-8")
+
+    with pytest.raises(Exception):
+        if command == "calculate-validation":
+            cli.calculate_validation(input_file)
+        else:
+            cli.calculate_threshold(input_file)

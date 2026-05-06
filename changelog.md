@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Split the CI and test dependency slices so linting, e2e, coverage, and prose
+  checks each run with the tools they actually need, then added unit coverage
+  for the new validation and threshold CLI error paths so the repository-wide
+  coverage gate stays above 90%.
 - Disabled coverage enforcement for benchmark-only runs so the benchmark
   workflow and task alias exercise the benchmark suite without tripping the
   repository-wide coverage gate.

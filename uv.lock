@@ -4440,6 +4440,7 @@ dependencies = [
 [package.optional-dependencies]
 ci = [
     { name = "defusedxml" },
+    { name = "docutils" },
     { name = "hypothesis" },
     { name = "jsonschema" },
     { name = "pytest" },
@@ -4479,6 +4480,7 @@ plotting = [
 requires-dist = [
     { name = "bandit", marker = "extra == 'dev'", specifier = ">=1.7,<2.0" },
     { name = "defusedxml", marker = "extra == 'ci'", specifier = ">=0.7" },
+    { name = "docutils", marker = "extra == 'ci'", specifier = ">=0.18,<0.22" },
     { name = "hypothesis", marker = "extra == 'ci'", specifier = ">=6.0,<7.0" },
     { name = "ipykernel", marker = "extra == 'dev'" },
     { name = "jax", marker = "python_full_version < '3.11'", specifier = ">=0.4.33,<0.6" },

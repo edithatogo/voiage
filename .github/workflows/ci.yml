@@ -34,7 +34,7 @@ jobs:
         python-version: "3.11"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --extra dev
 
     - name: Set up Go
       uses: actions/setup-go@v5
@@ -296,7 +296,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Run mutation testing
       run: |
