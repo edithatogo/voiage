@@ -8,5 +8,4 @@ robust frontier contract.
 - `normative/` contains the exact runtime payload used for conformance.
 
 The fixture anchors the runtime threshold-VOI surface against the same
-two-profile screening comparison documented in the fixture-backed contract
-examples.
+two-profile screening comparison documented in the current contract examples.

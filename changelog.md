@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Added strategy Conductor tracks for SOTA packaging/review readiness, HPC
+  distribution and acceleration, Rust-core ABI and migration policy, and
+  polyglot repo/docs architecture.
+- Extended the roadmap with a SOTA HPC and community-review program, plus
+  current-state and future-state mermaid architecture diagrams.
+- Reflected the current docs/release state in the conductor setup, including
+  community-review targets, HPC distribution tooling, and optional ABI
+  tooling.
 - Split the CI and test dependency slices so linting, e2e, coverage, and prose
   checks each run with the tools they actually need, then added unit coverage
   for the new validation and threshold CLI error paths so the repository-wide

@@ -69,5 +69,5 @@ When a family reaches fixture-backed maturity, it should either:
 - hand back into the main frontier track if it becomes a general frontier
   capability rather than an adjacent extension
 
-The current adjacent families remain contract-scoping work until their runtime
-implementations are ready.
+The remaining adjacent families that are still contract-scoping work remain so
+until their runtime implementations are ready.

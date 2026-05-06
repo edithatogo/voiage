@@ -13,6 +13,9 @@
 ## High-Performance Computing
 - **JAX**: >=0.4,<0.5 - High-performance numerical computing with GPU/TPU support
 - **NumPyro**: >=0.13,<0.20 - Probabilistic programming with JAX
+- **Spack**: HPC source package manager for reproducible scientific stacks
+- **EasyBuild**: Automated scientific software build/install framework for HPC
+- **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
 
 ## Machine Learning & Statistics
 - **scikit-learn**: >=1.0,<2.0 - Machine learning algorithms (regression-based EVSI)
@@ -46,6 +49,9 @@
   optional UX plugins such as `starlight-image-zoom`,
   `starlight-heading-badges`, `starlight-sidebar-topics`, and
   `starlight-utils`
+- **cbindgen**: optional header generation for a narrow Rust C ABI edge
+- **WASM / N-API**: conditional TypeScript interop options if a native JS edge
+  becomes necessary
 
 ## Optional Dependencies
 - **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)

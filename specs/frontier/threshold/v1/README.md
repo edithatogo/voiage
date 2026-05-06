@@ -1,8 +1,9 @@
 # Threshold, Tipping-Point, And Robust VOI Fixture-Backed Contract v1
 
-This directory holds the fixture-backed frontier contract for threshold,
-tipping-point, and robust VOI. It is not part of the stable core API v1 matrix
-yet; promotion requires cross-language validation and method maturity review.
+This directory holds the implemented threshold, tipping-point, and robust VOI
+runtime surface plus its fixture-backed frontier contract. It is not part of
+the stable core API v1 matrix yet; promotion requires cross-language
+validation and maturity review.
 
 ## Files
 

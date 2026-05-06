@@ -1,0 +1,8 @@
+{
+  "track_id": "rust-core-abi-migration-strategy_20260507",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-05-06T21:44:55Z",
+  "updated_at": "2026-05-06T21:44:55Z",
+  "description": "Define an API-preserving Rust-core migration and ABI strategy."
+}

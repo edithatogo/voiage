@@ -1,8 +1,8 @@
 # Model Validation VOI Fixture-Backed Contract v1
 
-This directory holds the fixture-backed frontier contract for model-validation
-VOI. It is not part of the stable core API v1 matrix yet; promotion requires
-cross-language validation and method maturity review.
+This directory holds the implemented model-validation VOI runtime surface and
+its fixture-backed frontier contract. It is not part of the stable core API v1
+matrix yet; promotion requires cross-language validation and maturity review.
 
 ## Files
 

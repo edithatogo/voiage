@@ -376,3 +376,69 @@ implementation can proceed without reopening the stack decision.
     *   Record representative EVSI kernel baselines and document the handoff
         contract for future optimization work.
     *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+
+### Phase 11: SOTA Packaging, HPC Distribution, And Rust-Core Governance 📋 **PLANNED**
+
+**Goal:** Make the repo credible to higher-bar scientific software communities,
+clarify the HPC distribution story, and define a Rust-core migration path
+that preserves the public API while keeping the repo and docs easy to navigate.
+
+1.  **Packaging And Review Readiness:**
+    *   Assess the repo against pyOpenSci, rOpenSci, JOSS, scikit-learn-contrib,
+        and NumFOCUS expectations.
+    *   Distinguish direct-fit review targets from stretch-fit or not-recommended
+        communities.
+    *   Covered by Conductor track: `sota-packaging-review-readiness_20260507`.
+2.  **HPC Distribution And Acceleration Strategy:**
+    *   Define what HPC-deployable, HPC-friendly, and HPC-native mean for the
+        library.
+    *   Map the distribution and recipe options for Spack, EasyBuild, HPSF, and
+        E4S.
+    *   Rank CPU parallelism, SIMD, GPU, TPU, and custom-circuit options by
+        plausibility and benchmark evidence.
+    *   Covered by Conductor track:
+        `hpc-distribution-acceleration-strategy_20260507`.
+3.  **Rust-Core ABI And Migration Strategy:**
+    *   Decide whether a narrow C ABI is warranted as an optional edge.
+    *   Preserve the current Python, R, Julia, TypeScript, Go, and .NET public
+        APIs while migrating the execution core toward Rust.
+    *   Covered by Conductor track:
+        `rust-core-abi-migration-strategy_20260507`.
+4.  **Polyglot Repo And Documentation Architecture:**
+    *   Decide whether the repo and docs should be reorganized around core,
+        bindings, tutorials, release, and governance concerns.
+    *   Preserve the current docs as authoritative until a later migration track
+        explicitly changes the primary site.
+    *   Covered by Conductor track:
+        `polyglot-repo-docs-architecture_20260507`.
+
+#### Current State
+
+```mermaid
+flowchart LR
+  Users --> PythonFacade[Python facade and CLI]
+  PythonFacade --> RustCore[Rust canonical engine]
+  PythonFacade --> JAX[JAX optional acceleration]
+  PythonFacade --> R[R binding / reticulate bridge]
+  PythonFacade --> Julia[Julia adapter]
+  PythonFacade --> TS[TypeScript adapter]
+  PythonFacade --> Go[Go adapter]
+  PythonFacade --> DotNet[.NET adapter]
+  PythonFacade --> Docs[Sphinx docs + notebooks + binding READMEs]
+  Specs[Conductor tracks + fixtures] --> PythonFacade
+  Registry[Package managers and release channels] --> Users
+```
+
+#### Future State
+
+```mermaid
+flowchart LR
+  Users --> Facades[Python / R / Julia / TS / Go / .NET thin adapters]
+  Facades --> ABI[Optional narrow ABI edge]
+  ABI --> RustCore[Modular Rust execution core]
+  RustCore --> Contracts[Schema-first contracts and fixtures]
+  RustCore --> Parallelism[Rayon / SIMD / selective accelerator paths]
+  HPC[Spack / EasyBuild / HPSF / E4S] --> Packages[Distribution recipes and curated stacks]
+  Review[pyOpenSci / rOpenSci / JOSS / NumFOCUS] --> Docs[Docs, tests, citation, support, CI]
+  Docs --> Users
+```

@@ -4,6 +4,26 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
+## [ ] Track: SOTA Packaging Review Readiness
+*Link: [./tracks/sota-packaging-review-readiness_20260507/](./tracks/sota-packaging-review-readiness_20260507/)*
+
+---
+
+## [ ] Track: HPC Distribution And Acceleration Strategy
+*Link: [./tracks/hpc-distribution-acceleration-strategy_20260507/](./tracks/hpc-distribution-acceleration-strategy_20260507/)*
+
+---
+
+## [ ] Track: Rust Core ABI And Migration Strategy
+*Link: [./tracks/rust-core-abi-migration-strategy_20260507/](./tracks/rust-core-abi-migration-strategy_20260507/)*
+
+---
+
+## [ ] Track: Polyglot Repo And Documentation Architecture
+*Link: [./tracks/polyglot-repo-docs-architecture_20260507/](./tracks/polyglot-repo-docs-architecture_20260507/)*
+
+---
+
 ## [x] Track: Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis) [completed: 2026-04-11]
 *Link: [./archive/advanced_voi_methods_20260411/](./archive/advanced_voi_methods_20260411/)*
 

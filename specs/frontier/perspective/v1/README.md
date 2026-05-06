@@ -1,8 +1,8 @@
 # Value of Perspective Fixture-Backed Contract v1
 
-This directory holds the fixture-backed Value of Perspective contract. It is
-not part of the stable core API v1 matrix yet; promotion still requires
-cross-language validation, CLI coverage, and method maturity review.
+This directory holds the implemented Value of Perspective runtime surface and
+its fixture-backed contract. It is not part of the stable core API v1 matrix
+yet; promotion still requires cross-language validation and maturity review.
 
 ## Files
 

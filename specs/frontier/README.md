@@ -1,6 +1,7 @@
 # Frontier VOI Contracts
 
-This directory contains the experimental frontier VOI contract families.
+This directory contains the frontier VOI contract families with mixed maturity
+labels.
 
 ## Layout
 
@@ -18,9 +19,9 @@ This directory contains the experimental frontier VOI contract families.
 - `shared-maturity/`: maturity labels, diagnostics, and reporting conventions.
 - `fixtures/`: registry for the fixture-backed frontier contract set.
 
-The registry is the discovery layer for deterministic frontier fixtures. Each
-family keeps its own schema, examples, and normative payloads under its v1
-subtree.
+The registry is the discovery layer for deterministic frontier fixtures and
+family manifests. Each family keeps its own schema, examples, and normative
+payloads under its v1 subtree.
 
 The registry schema lives at `fixtures/manifest.schema.json`.
 

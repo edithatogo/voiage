@@ -29,6 +29,9 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **Docs Platform Planning**: Starlight is the candidate versioned docs site
   platform, with the current Sphinx docs remaining authoritative until a later
   migration track explicitly changes the primary site
+- **Community and HPC Readiness**: packaging and review readiness for
+  pyOpenSci, rOpenSci, JOSS, scikit-learn-contrib, and NumFOCUS, plus HPC
+  distribution strategy for Spack, EasyBuild, HPSF, and E4S
 
 ### In Development
 - Rust-core migration and ABI shaping
@@ -60,6 +63,8 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **Then**: Complete dynamic real-options VOI and adjacent frontier extensions
 - **Then**: Maintain and extend contract fixtures, docs, and bindings across languages
 - **Ongoing**: Release and registry automation for all supported binding targets
+- **Ongoing**: Packaging review readiness, HPC distribution strategy, ABI
+  policy, and polyglot repo/docs architecture for the Rust-core future
 
 ## Success Metrics
 - Feature parity with BCEA, dampack, voi (R packages)

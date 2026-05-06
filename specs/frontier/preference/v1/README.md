@@ -1,10 +1,10 @@
 # Preference Heterogeneity And Individualized Care Fixture-Backed Contract v1
 
-This directory holds the fixture-backed frontier contract for preference
-heterogeneity and value of individualized care. It is not part of the stable
-core API v1 matrix yet; promotion still depends on cross-language validation,
-CLI coverage, and method maturity review even though the runtime serializer and
-deterministic fixtures are already in place.
+This directory holds the implemented preference heterogeneity and value of
+individualized care runtime surface plus its fixture-backed contract. It is not
+part of the stable core API v1 matrix yet; promotion still depends on
+cross-language validation and maturity review even though the runtime,
+serializer, CLI entrypoint, and deterministic fixtures are already in place.
 
 ## Files
 

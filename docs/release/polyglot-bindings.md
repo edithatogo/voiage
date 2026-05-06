@@ -7,19 +7,18 @@ The release automation is split between in-repo publish jobs and external
 registry steps: PyPI/TestPyPI, npm, crates.io, NuGet, and GitHub release
 artifacts are automated from tag or release pushes, while conda-forge,
 CRAN/r-universe, and the Julia General registry still depend on their external
-registry or feedstock flows. The Rust-core migration, once enacted, changes the
-ownership model but not the release hygiene: Rust becomes the authoritative
-execution core, Python becomes the primary façade, and the other language
-packages become thin bindings/adapters over the same canonical contract. The R
-package's in-repo
-release path stops at GitHub Release source archives; CRAN and r-universe
-remain external registry targets that require their own approval or indexing
-steps.
+registry or feedstock flows. The Rust-core migration has already established
+the long-term ownership model: Rust is the authoritative execution core,
+Python is the primary façade, and the other language packages are thin
+bindings/adapters over the same canonical contract. The R package currently
+ships as a reticulate bridge to the Python reference layer; its in-repo release
+path stops at GitHub Release source archives, while CRAN and r-universe remain
+external registry targets that require their own approval or indexing steps.
 
 | Language | Package root | Registry | Tag pattern | Required CI gates |
 | --- | --- | --- | --- | --- |
-| Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade while Rust-core migration is in progress |
-| R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; binding over the Rust core once migration lands, with the narrative vignette and deterministic PDF manual built from the same package tree |
+| Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade over the canonical Rust core |
+| R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; currently a reticulate bridge to the Python façade, with the narrative vignette and deterministic PDF manual built from the same package tree |
 | Julia | `bindings/julia` | Julia General registry, GitHub Releases for tag sync | `julia-v*` | `Pkg.test`, release tarball, TagBot sync |
 | TypeScript | `bindings/typescript` | npm | `typescript-v*` | `npm run check`, `npm pack --dry-run`, provenance publish |
 | Go | `bindings/go` | Go module proxy via semver tags, GitHub Releases | `bindings/go/v*` | `go test`, `go vet`, release tarball |
@@ -66,19 +65,16 @@ Tutorial entry points:
 Each binding is versioned with the registry expectations of its ecosystem:
 
 - Python uses repository tags plus the release metadata in `pyproject.toml`
-  for PyPI/TestPyPI publication. In the Rust-core strategy, Python remains the
-  primary façade layer and forwards to the Rust core contract rather than
-  owning the execution engine. The separate conda-update workflow updates the
-  in-repo
-  conda-forge recipe, but the feedstock PR and merge still depend on the
-  external conda-forge process.
+  for PyPI/TestPyPI publication. The Python façade forwards to the Rust core
+  contract rather than owning the execution engine. The separate conda-update
+  workflow updates the in-repo conda-forge recipe, but the feedstock PR and
+  merge still depend on the external conda-forge process.
 - TypeScript uses npm semver tags with trusted provenance publication.
 - Go uses semver module tags under `bindings/go/v*` and GitHub release source
   archives.
-- Rust uses crates.io-compatible semver tags and `cargo publish`, and becomes
-  the execution core under the migration program. The Rust crate is the
-  canonical engine for the voiage domain model; Python becomes the primary
-  façade and the other language packages remain thin adapters over the same
+- Rust uses crates.io-compatible semver tags and `cargo publish`, and is the
+  canonical engine for the voiage domain model. Python is the primary façade
+  and the other language packages remain thin adapters over the same
   contract.
 - Julia uses the General registry for publication and TagBot for release sync.
 - .NET uses `net11.0` package releases to NuGet.
