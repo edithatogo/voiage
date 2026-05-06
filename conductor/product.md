@@ -1,10 +1,10 @@
 # voiage - Product Definition
 
 ## Vision
-To be the premier, cross-domain, high-performance Python library for Value of Information (VOI) analysis, empowering researchers and decision-makers across healthcare, finance, environmental policy, and beyond.
+To be the premier, cross-domain, high-performance Value of Information (VOI) library, built around a Rust execution core with Python as the reference façade and thin bindings for other languages, empowering researchers and decision-makers across healthcare, finance, environmental policy, and beyond.
 
 ## Mission
-Fill the critical gap in the Python ecosystem by providing a comprehensive, open-source VOI analysis toolkit that matches or exceeds the capabilities of commercial tools and R packages.
+Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-source analysis toolkit that matches or exceeds the capabilities of commercial tools and R packages while remaining contract-first, polyglot, and reproducible.
 
 ## Target Users
 - **Health Economists & HTA Agencies**: Researchers performing cost-effectiveness analysis for health technology assessment
@@ -24,37 +24,39 @@ Fill the critical gap in the Python ecosystem by providing a comprehensive, open
 - **CLI Interface**: Full command-line tools for batch processing
 - **Multi-Domain Support**: Core framework for healthcare, financial, environmental domains
 - **JAX Backend**: High-performance computing with JAX/NumPyro integration
+- **Contract-First Frontier Methods**: Value of Perspective, preference/individualized-care, validation, threshold, distributional/equity, and implementation-adjusted surfaces with deterministic fixtures
+- **Polyglot Binding Scaffolds**: R, Julia, TypeScript, Go, Rust, and .NET release and contract scaffolds
 
 ### In Development
-- Structural Uncertainty VOI
-- Network Meta-Analysis VOI
-- Adaptive Trial VOI
-- Portfolio Optimization
-- Value of Heterogeneity
+- Rust-core migration and ABI shaping
+- Dynamic real-options VOI
+- Adjacent frontier extensions for causal, data-quality, computational, and elicitation VOI
+- Ecosystem integrations and external registry handoff refinement
 
 ## Architecture
-- **Modular Design**: Domain-specific modules (healthcare, financial, environmental)
-- **Backend Abstraction**: Pluggable backends (NumPy, JAX)
-- **Factory Pattern**: Extensible method instantiation
-- **CLI-First**: Full command-line interface for all core methods
+- **Modular Core**: Domain, numerics, reporting, contracts, CLI, and bindings are split into dedicated modules
+- **Backend Abstraction**: Pluggable backends for NumPy, JAX, and the Rust execution core
+- **Contract-First Development**: Explicit schemas, deterministic fixtures, and reviewable examples define compatibility
+- **CLI-First**: Full command-line interface for all core and frontier methods
+- **Polyglot Bindings**: Thin adapters for Python, R, Julia, TypeScript, Go, Rust, and .NET
 - **Plotting**: Matplotlib/Seaborn integration for visualization
 
 ## Technology Stack
-- **Language**: Python >=3.8
+- **Languages**: Python 3.10-3.14, Rust, and binding runtimes for R, Julia, TypeScript, Go, and .NET 11
 - **Core Libraries**: NumPy, SciPy, pandas, xarray
-- **High-Performance**: JAX, NumPyro
+- **High-Performance**: JAX, NumPyro, Rust
 - **Machine Learning**: scikit-learn, statsmodels
 - **CLI**: Typer
 - **Visualization**: Matplotlib, Seaborn
 - **Testing**: pytest, pytest-cov, hypothesis
 - **Linting/Security/Type Checking**: Ruff, ty
-- **CI/CD**: GitHub Actions, tox
+- **CI/CD**: GitHub Actions, tox, nox
 
 ## Roadmap
-- **v0.4**: Complete advanced methods (structural uncertainty, network NMA)
-- **v0.5**: Portfolio optimization and sequential decisions
-- **v0.6**: Enhanced plotting and visualization capabilities
-- **v1.0**: Full feature parity with commercial tools
+- **Next**: Finish the Rust-core migration and narrow ABI boundary
+- **Then**: Complete dynamic real-options VOI and adjacent frontier extensions
+- **Then**: Maintain and extend contract fixtures, docs, and bindings across languages
+- **Ongoing**: Release and registry automation for all supported binding targets
 
 ## Success Metrics
 - Feature parity with BCEA, dampack, voi (R packages)

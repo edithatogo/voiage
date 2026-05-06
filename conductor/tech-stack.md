@@ -1,7 +1,8 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.8
+- **Python**: >=3.10,<3.15
+- **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
 - **NumPy**: >=1.20,<2.0 - Fundamental array computing
@@ -33,11 +34,21 @@
 - **Ruff**: >=0.1.9,<1.0 - Fast Python linter, formatter, and security-rule checker
 - **ty**: >=0.0.1,<1.0 - Static type checking
 - **tox**: >=4.0,<5.0 - Test environment automation
+- **nox**: >=2024.0 - Python-coded session orchestration backed by uv
 - **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
 
 ## Documentation
 - **Sphinx**: >=7.0,<8.0 - Documentation generator
 - **sphinx-rtd-theme**: >=1.0,<2.0 - Read the Docs theme
+- **Vale**: prose linting for Markdown and reStructuredText
 
 ## Optional Dependencies
 - **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)
+
+## Binding and Release Targets
+- **R**: CRAN-style package checks and GitHub Releases for source archives
+- **Julia**: General registry with TagBot synchronization
+- **TypeScript**: npm with provenance
+- **Go**: tagged modules via the Go module proxy
+- **Rust**: crates.io
+- **.NET**: NuGet targeting `net11.0`

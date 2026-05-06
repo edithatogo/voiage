@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Aligned the validation and threshold frontier docs, schemas, examples, and
   runtime maturity labels so the contract surface now consistently reports
   fixture-backed status across the user guide, specs, and runtime output.
+- Refreshed the Conductor product, tech-stack, and roadmap setup docs so they
+  reflect the Rust-core direction, the current language matrix, and the
+  updated project date.
 
 ### Added
 - Reflected the implemented preference / individualized-care runtime, CLI

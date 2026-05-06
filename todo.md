@@ -43,13 +43,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Align the validation and threshold frontier maturity labels and their docs.
+    *   Updated the runtime, schemas, fixtures, examples, user guide, and setup docs so both surfaces now consistently report fixture-backed status.
+
 *   [x] Complete CLI integration and docs wiring for the model-validation and threshold VOI tracks.
-    *   Added `calculate-validation` and `calculate-threshold`, updated the frontier and migration docs, and closed the corresponding track checkpoints after the runtime and fixture-backed slices landed.
+    *   Added `calculate-validation` and `calculate-threshold`, updated the frontier and migration docs, and closed the corresponding track checkpoints after the runtime, CLI, and fixture-backed slices landed.
 
 *   [x] Implement the model-validation VOI runtime and fixture-backed conformance slices.
-    *   Added the model-validation runtime shape, deterministic fixture-backed expectations, and the shared contract scaffold; CLI integration remains open in the track.
+    *   Added the model-validation runtime shape, deterministic fixture-backed expectations, and the shared contract scaffold; the CLI entrypoint and docs wiring are now included in the completed track.
 *   [x] Implement the threshold, tipping-point, and robust VOI runtime and fixture-backed conformance slices.
-    *   Added the threshold runtime shape, deterministic fixture-backed expectations, and the shared contract scaffold; CLI integration remains open in the track.
+    *   Added the threshold runtime shape, deterministic fixture-backed expectations, and the shared contract scaffold; the CLI entrypoint and docs wiring are now included in the completed track.
 *   [x] Create the Rust EVSI stochastic-kernel follow-on track and keep the EVSI summary boundary explicit.
     *   The Rust core already owns the EVSI summary contract; the new track now exists to port the stochastic kernel underneath that contract, add fixture-backed parity tests, and document the approximation policy.
 
@@ -207,7 +210,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   [x] Add CLI end-to-end smoke tests covering the full command surface with `CliRunner`, including the experimental perspective command pair.
 
 *   [x] Define polyglot tooling parity and observability plan.
-    *   Documented the Python-only tooling stack, mapped the per-language CI/package gates, and captured the logging and versioning contract for the polyglot bindings.
+    *   Documented the Python-first tooling stack, mapped the per-language CI/package gates, and captured the logging and versioning contract for the polyglot bindings.
     *   Added a developer guide page that records the tooling split, versioning contract, and logging policy.
 *   [x] Implement dynamic-programming portfolio VOI optimization.
     *   Replaced the placeholder with memoized budget-constrained subset selection, optional dependency-group value discounting, and regression tests proving DP can outperform greedy selection.

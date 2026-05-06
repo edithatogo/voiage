@@ -4,7 +4,7 @@
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
 
-## Current Status (As of April 2026)
+## Current Status (As of May 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
