@@ -43,6 +43,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Make versioning SOTA by centralizing the canonical release version, synchronizing binding manifests, and adding a validator gate.
+    *   Recorded the canonical versioning policy in the developer and release docs, synchronized the binding manifests to the canonical repo version, and wired the validator into tox and CI.
+    *   Covered by Conductor track: `unified-versioning-policy_20260507`.
+
 *   [x] Create the Starlight documentation platform track and record the versioning/plugin baseline in the roadmap and conductor setup.
     *   Added a dedicated Starlight docs-platform track, documented the versioning and plugin baseline, and marked the migration boundary against the current Sphinx docs.
 

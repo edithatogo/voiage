@@ -96,6 +96,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
     *   **Status: `✅ Done`**
     *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
     *   Polyglot release workflows now publish npm, crates.io, and NuGet packages and attach GitHub release artifacts for Go, Julia, and R bindings. The R package currently ships source archives on GitHub Releases, while CRAN remains the maturity target and r-universe remains an optional external indexing path; registry-side indexing or approval still depends on the external ecosystem for conda-forge, CRAN/r-universe, and the Julia General registry.
+    *   Repository versioning is now explicit policy: `pyproject.toml` is the canonical source of truth for the current release line, the external binding manifests must stay in lockstep, and the version-sync validator is enforced in CI and local tox automation.
 2.  **Dependency Management:**
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.

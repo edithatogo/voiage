@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   versioning and plugin baseline in the roadmap and conductor setup.
 
 ### Added
+- Added a repository-local version synchronization policy and validator so
+  `pyproject.toml` is the canonical release version source and the binding
+  manifests, tox, and CI stay in lockstep.
 - Reflected the implemented preference / individualized-care runtime, CLI
   surface, and fixture-backed conformance contract in the roadmap and backlog
   so the frontier status now distinguishes the live interface from the

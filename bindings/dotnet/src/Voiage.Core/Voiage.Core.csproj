@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
     <PackageId>Voiage.Core</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>voiage Contributors</Authors>
     <Company>voiage</Company>
     <Description>.NET 11 bindings for the voiage core API contract.</Description>

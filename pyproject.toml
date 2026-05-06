@@ -68,6 +68,7 @@ ci = [
     "pytest-cov>=5.0,<7.0",
     "pytest-integration>=0.2,<0.3",
     "pytest-xdist>=3.0,<4.0",
+    "tomli>=2.0,<3.0",
 ]
 dev = [
     "mutmut>=2.0,<3.0",
@@ -87,6 +88,7 @@ dev = [
     "vulture>=2.0,<3.0",
     "tox>=4.2,<5.0",
     "taskipy>=1.0,<2.0",
+    "tomli>=2.0,<3.0",
 ]
 plotting = ["matplotlib>=3.4", "seaborn>=0.11"]
 deep_learning = ["torch>=1.9,<3.0"]

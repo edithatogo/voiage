@@ -13,6 +13,7 @@ boundaries.
    rust_core_handoff
    rust_parallelism
    rust_accelerators
+   versioning_and_release_policy
    how_to_contribute
    implementing_new_methods
    polyglot_tooling
