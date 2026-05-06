@@ -8,6 +8,7 @@ voiage.methods.adaptive module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.basic module
 ---------------------------
@@ -16,6 +17,7 @@ voiage.methods.basic module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.calibration module
 ---------------------------------
@@ -24,6 +26,7 @@ voiage.methods.calibration module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.ceaf module
 --------------------------
@@ -32,6 +35,7 @@ voiage.methods.ceaf module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.dominance module
 -------------------------------
@@ -40,6 +44,7 @@ voiage.methods.dominance module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.distributional module
 -------------------------------------
@@ -48,6 +53,7 @@ voiage.methods.distributional module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.heterogeneity module
 -----------------------------------
@@ -56,6 +62,7 @@ voiage.methods.heterogeneity module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.implementation module
 ------------------------------------
@@ -64,6 +71,7 @@ voiage.methods.implementation module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.network_nma module
 ---------------------------------
@@ -72,6 +80,7 @@ voiage.methods.network_nma module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.observational module
 -----------------------------------
@@ -80,6 +89,7 @@ voiage.methods.observational module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.perspective module
 ---------------------------------
@@ -88,6 +98,7 @@ voiage.methods.perspective module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.portfolio module
 --------------------------------
@@ -96,6 +107,7 @@ voiage.methods.portfolio module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.sample_information module
 ----------------------------------------
@@ -104,6 +116,7 @@ voiage.methods.sample_information module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.sequential module
 --------------------------------
@@ -112,6 +125,7 @@ voiage.methods.sequential module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 voiage.methods.structural module
 --------------------------------
@@ -120,3 +134,4 @@ voiage.methods.structural module
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:

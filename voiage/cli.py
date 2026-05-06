@@ -534,7 +534,9 @@ def _read_frontier_profile_surface(
         net_benefit,
         strategy_names=cast("list[str] | None", strategy_names),
         perspective_names=[
-            str(entry["id"]) if isinstance(entry, dict) and "id" in entry else str(entry)
+            str(entry["id"])
+            if isinstance(entry, dict) and "id" in entry
+            else str(entry)
             for entry in profile_entries
         ],
     )
@@ -763,7 +765,9 @@ def _ceaf_result_payload(result: Any, command: str) -> dict[str, object]:
         ).tolist(),
         "probability_lower": cast("np.ndarray", result.probability_lower).tolist(),
         "probability_upper": cast("np.ndarray", result.probability_upper).tolist(),
-        "expected_net_benefit": cast("np.ndarray", result.expected_net_benefit).tolist(),
+        "expected_net_benefit": cast(
+            "np.ndarray", result.expected_net_benefit
+        ).tolist(),
         "reporting": cast("dict[str, object]", result.reporting),
     }
 
@@ -1551,7 +1555,9 @@ def calculate_observational(
             n_outer_loops=n_outer_loops,
         )
         psa_prior = read_parameter_set_csv(str(parameter_file), skip_header=True)
-        observational_study_design_obj = _read_json_file(observational_study_design_file)
+        observational_study_design_obj = _read_json_file(
+            observational_study_design_file
+        )
         if not isinstance(observational_study_design_obj, dict):
             raise TypeError(
                 "Observational study design file must contain a JSON object."
@@ -2912,9 +2918,7 @@ def calculate_distributional_equity(
 
         equity_weights = payload.get("equity_weights")
         if equity_weights is not None and not isinstance(equity_weights, (list, dict)):
-            raise TypeError(
-                "'equity_weights' must be a list or mapping when provided."
-            )
+            raise TypeError("'equity_weights' must be a list or mapping when provided.")
 
         result = value_of_distributional_equity(
             value_array,
@@ -2933,9 +2937,7 @@ def calculate_distributional_equity(
         )
         output_text = _format_output(
             result_str,
-            _distributional_result_payload(
-                result, "calculate-distributional-equity"
-            ),
+            _distributional_result_payload(result, "calculate-distributional-equity"),
         )
 
         typer.echo(output_text)
@@ -3411,7 +3413,9 @@ def calculate_ceaf(
         )
         value_array, wtp_thresholds = _read_plot_surface(surface_file)
         result = calculate_ceaf_result(value_array, wtp_thresholds)
-        strategy_name = result.optimal_strategy_names[0] if result.optimal_strategy_names else "n/a"
+        strategy_name = (
+            result.optimal_strategy_names[0] if result.optimal_strategy_names else "n/a"
+        )
         result_str = (
             f"CEAF computed across {len(result.wtp_thresholds)} thresholds\n"
             f"Leading strategy: {strategy_name}"

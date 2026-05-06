@@ -19,8 +19,12 @@ def _row_max_mean(matrix: list[list[float]]) -> float:
 
 
 def test_rust_evsi_stochastic_kernel_fixture_is_consistent() -> None:
-    fixture_path = Path("bindings/rust/tests/fixtures/evsi_stochastic_kernel.input.json")
-    expected_path = Path("bindings/rust/tests/fixtures/evsi_stochastic_kernel.expected.json")
+    fixture_path = Path(
+        "bindings/rust/tests/fixtures/evsi_stochastic_kernel.input.json"
+    )
+    expected_path = Path(
+        "bindings/rust/tests/fixtures/evsi_stochastic_kernel.expected.json"
+    )
 
     fixture = json.loads(fixture_path.read_text())
     expected = json.loads(expected_path.read_text())
@@ -35,4 +39,3 @@ def test_rust_evsi_stochastic_kernel_fixture_is_consistent() -> None:
     assert expected["result"]["expected_perfect_information"] == _row_max_mean(matrix)
     assert expected["result"]["evsi"] >= 0.0
     assert expected["reporting"]["seed"] == fixture["seed"]
-

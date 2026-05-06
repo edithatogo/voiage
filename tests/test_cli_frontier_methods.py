@@ -104,21 +104,20 @@ def _csv_rows(result: object) -> list[dict[str, str]]:
                 "strategy": ["A", "B", "C"],
                 "cost": [100.0, 102.0, 104.0],
                 "effect": [1.0, 1.1, 1.2],
-                },
-                "Dominance",
-                "Dominance frontier strategies: 3",
-                lambda payload: (
-                    payload["reporting"]["analysis_type"] == "calculate_dominance"
-                    and payload["frontier_indices"] == [0, 1, 2]
-                    and payload["strategy_names"] == ["A", "B", "C"]
-                ),
-                lambda row: (
-                    json.loads(row["reporting"])["analysis_type"]
-                    == "calculate_dominance"
-                    and json.loads(row["frontier_indices"]) == [0, 1, 2]
-                    and json.loads(row["strategy_names"]) == ["A", "B", "C"]
-                ),
+            },
+            "Dominance",
+            "Dominance frontier strategies: 3",
+            lambda payload: (
+                payload["reporting"]["analysis_type"] == "calculate_dominance"
+                and payload["frontier_indices"] == [0, 1, 2]
+                and payload["strategy_names"] == ["A", "B", "C"]
             ),
+            lambda row: (
+                json.loads(row["reporting"])["analysis_type"] == "calculate_dominance"
+                and json.loads(row["frontier_indices"]) == [0, 1, 2]
+                and json.loads(row["strategy_names"]) == ["A", "B", "C"]
+            ),
+        ),
         (
             "calculate-distributional-equity",
             "distributional.json",

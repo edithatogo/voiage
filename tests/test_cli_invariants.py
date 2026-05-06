@@ -27,9 +27,7 @@ def _is_valid_json(payload: str) -> bool:
     max_examples=40,
     suppress_health_check=[HealthCheck.function_scoped_fixture],
 )
-def test_structural_evpi_rejects_fuzzed_invalid_json(
-    tmp_path, payload: str
-) -> None:
+def test_structural_evpi_rejects_fuzzed_invalid_json(tmp_path, payload: str) -> None:
     """Reject malformed structural-VOI config JSON across a wide input range."""
     assume(not _is_valid_json(payload))
     config = tmp_path / "config.json"

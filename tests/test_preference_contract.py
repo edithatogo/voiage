@@ -47,7 +47,9 @@ def test_preference_contract_result_matches_normative_fixture() -> None:
     """The normative preference payload should match the current contract shape."""
     contract_dir = _preference_contract_dir()
 
-    with open(contract_dir / "fixtures" / "normative" / "value-of-preference.json") as f:
+    with open(
+        contract_dir / "fixtures" / "normative" / "value-of-preference.json"
+    ) as f:
         normative_example = json.load(f)
 
     result = value_of_preference(

@@ -788,9 +788,8 @@ def test_cli_preference_surface_help_and_registry() -> None:
     assert result.returncode == 0
     assert "Examples" in result.stdout
     assert "calculate-preference" in result.stdout
-    assert (
-        _compact("voiage calculate-preference preference_surface.json")
-        in _compact(result.stdout)
+    assert _compact("voiage calculate-preference preference_surface.json") in _compact(
+        result.stdout
     )
 
 

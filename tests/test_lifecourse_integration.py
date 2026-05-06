@@ -76,9 +76,7 @@ def test_lifecourse_fixture_manifest_and_bundle_are_consistent() -> None:
         "seed": 101,
         "execution_mode": "deterministic",
     }
-    assert (
-        FIXTURE_ROOT / illustrative_entry["expected_output_artifact"]
-    ).is_file()
+    assert (FIXTURE_ROOT / illustrative_entry["expected_output_artifact"]).is_file()
 
 
 def test_lifecourse_heoml_loader_builds_core_contract_objects() -> None:
@@ -239,21 +237,22 @@ def test_lifecourse_fixture_enbs_payload_is_structured() -> None:
     assert expected_enbs["method"] == bundle["method_settings"]["enbs"]["method"]
 
 
-def test_lifecourse_dependency_policy_and_result_envelope_contract_are_documented(
-) -> None:
+def test_lifecourse_dependency_policy_and_result_envelope_contract_are_documented() -> (
+    None
+):
     docs_text = Path("docs/integrations/lifecourse.md").read_text(encoding="utf-8")
     profile_text = Path("specs/integrations/lifecourse/v1/README.md").read_text(
         encoding="utf-8"
     )
-    examples_text = Path("specs/integrations/lifecourse/v1/examples/README.md").read_text(
-        encoding="utf-8"
-    )
+    examples_text = Path(
+        "specs/integrations/lifecourse/v1/examples/README.md"
+    ).read_text(encoding="utf-8")
     schemas_text = Path("specs/integrations/lifecourse/v1/schemas/README.md").read_text(
         encoding="utf-8"
     )
-    fixtures_text = Path("specs/integrations/lifecourse/v1/fixtures/README.md").read_text(
-        encoding="utf-8"
-    )
+    fixtures_text = Path(
+        "specs/integrations/lifecourse/v1/fixtures/README.md"
+    ).read_text(encoding="utf-8")
 
     assert "`voiage` should not depend on `lifecourse`." in docs_text
     assert "optional extra such as `lifecourse[voiage]`" in docs_text
@@ -291,7 +290,11 @@ def test_lifecourse_result_envelope_fixture_is_structured() -> None:
     )
     schema = cast(
         "dict[str, Any]",
-        _load_json(Path("specs/integrations/lifecourse/v1/schemas/voi-result-envelope.schema.json")),
+        _load_json(
+            Path(
+                "specs/integrations/lifecourse/v1/schemas/voi-result-envelope.schema.json"
+            )
+        ),
     )
 
     assert envelope["schema_version"] == "v1"
@@ -313,9 +316,7 @@ def test_lifecourse_result_envelope_fixture_is_structured() -> None:
     assert envelope["package_version"]["voiage"] == "0.2.0"
     assert envelope["provenance"]["heoml_version"] == "0.1"
     assert envelope["provenance"]["heoml_manifest_id"] == "heoml-run-bundle-v1-example"
-    assert envelope["result_payloads"]["evpi"]["value"] == expected_evpi_value(
-        envelope
-    )
+    assert envelope["result_payloads"]["evpi"]["value"] == expected_evpi_value(envelope)
     assert schema["required"] == [
         "schema_version",
         "analysis_id",

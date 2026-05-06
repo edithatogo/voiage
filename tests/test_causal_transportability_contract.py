@@ -21,13 +21,17 @@ def _causal_transportability_contract_dir() -> Path:
 def test_causal_transportability_contract_schema_and_examples_parse() -> None:
     contract_dir = _causal_transportability_contract_dir()
 
-    with open(contract_dir / "schemas" / "causal-transportability-set.schema.json") as f:
+    with open(
+        contract_dir / "schemas" / "causal-transportability-set.schema.json"
+    ) as f:
         causal_set_schema = json.load(f)
     with open(
         contract_dir / "schemas" / "value-of-causal-transportability-result.schema.json"
     ) as f:
         causal_result_schema = json.load(f)
-    with open(contract_dir / "examples" / "causal-transportability-set.example.json") as f:
+    with open(
+        contract_dir / "examples" / "causal-transportability-set.example.json"
+    ) as f:
         causal_set_example = json.load(f)
     with open(
         contract_dir / "examples" / "value-of-causal-transportability.example.json"
@@ -38,5 +42,7 @@ def test_causal_transportability_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(causal_result_schema).validate(causal_result_example)
 
     assert causal_set_schema["title"] == "CausalTransportabilitySetV1Planned"
-    assert causal_result_schema["title"] == "ValueOfCausalTransportabilityResultV1Planned"
+    assert (
+        causal_result_schema["title"] == "ValueOfCausalTransportabilityResultV1Planned"
+    )
     assert causal_result_example["analysis_type"] == "value_of_causal_transportability"

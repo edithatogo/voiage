@@ -62,9 +62,7 @@ def test_value_of_preference_compares_conflicting_preference_profiles() -> None:
     assert TopLevelPreferenceProfileSet is PreferenceProfileSet
     assert TopLevelPreferenceHeterogeneityResult is PreferenceHeterogeneityResult
     assert top_level_value_of_preference is value_of_preference
-    assert (
-        top_level_value_of_preference_information is value_of_preference_information
-    )
+    assert top_level_value_of_preference_information is value_of_preference_information
     assert top_level_preference_optimal_strategies is preference_optimal_strategies
     assert result.preference_profile_ids == ["access_first", "outcomes_first"]
     assert result.preference_profile_labels == ["Access first", "Outcomes first"]
@@ -198,7 +196,9 @@ def test_value_of_preference_rejects_invalid_inputs() -> None:
         value_of_preference(np.ones((2, 2, 2)), preference_profile_names=["only-one"])
 
     with pytest.raises(InputError, match="unique"):
-        PreferenceProfileSet([PreferenceProfile(id="payer"), PreferenceProfile(id="payer")])
+        PreferenceProfileSet(
+            [PreferenceProfile(id="payer"), PreferenceProfile(id="payer")]
+        )
 
     with pytest.raises(InputError, match="weight"):
         PreferenceProfile(id="payer", weight=np.inf)

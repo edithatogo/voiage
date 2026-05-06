@@ -29,13 +29,13 @@ def test_data_quality_contract_schema_and_examples_parse() -> None:
         data_quality_result_schema = json.load(f)
     with open(contract_dir / "examples" / "data-quality-set.example.json") as f:
         data_quality_set_example = json.load(f)
-    with open(
-        contract_dir / "examples" / "value-of-data-quality.example.json"
-    ) as f:
+    with open(contract_dir / "examples" / "value-of-data-quality.example.json") as f:
         data_quality_result_example = json.load(f)
 
     Draft202012Validator(data_quality_set_schema).validate(data_quality_set_example)
-    Draft202012Validator(data_quality_result_schema).validate(data_quality_result_example)
+    Draft202012Validator(data_quality_result_schema).validate(
+        data_quality_result_example
+    )
 
     assert data_quality_set_schema["title"] == "DataQualitySetV1Planned"
     assert data_quality_result_schema["title"] == "ValueOfDataQualityResultV1Planned"

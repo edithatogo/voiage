@@ -16,7 +16,9 @@ def _analysis() -> DecisionAnalysis:
         ],
         dtype=np.float64,
     )
-    value_array = ValueArray.from_numpy(values, ["standard care", "new treatment", "monitor"])
+    value_array = ValueArray.from_numpy(
+        values, ["standard care", "new treatment", "monitor"]
+    )
     parameter_samples = {
         "effect": np.array([0.1, 0.2, 0.3, 0.4], dtype=np.float64),
         "bias": np.array([0.0, 0.1, 0.0, 0.2], dtype=np.float64),

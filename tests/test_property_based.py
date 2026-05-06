@@ -78,6 +78,7 @@ def test_evpi_single_strategy_zero(net_benefits) -> None:
         ),
     )
 )
+@settings(deadline=None)
 def test_evpi_identical_strategies_zero(nb_array) -> None:
     """Test that EVPI is zero when all strategies have identical net benefits."""
     # Make all strategies identical

@@ -15,7 +15,14 @@ from voiage.methods.threshold import ThresholdResult, value_of_threshold
 
 
 def _threshold_fixture_root() -> Path:
-    return Path(__file__).resolve().parents[1] / "specs" / "frontier" / "threshold" / "v1" / "fixtures"
+    return (
+        Path(__file__).resolve().parents[1]
+        / "specs"
+        / "frontier"
+        / "threshold"
+        / "v1"
+        / "fixtures"
+    )
 
 
 def test_value_of_threshold_information_compares_threshold_profiles() -> None:
@@ -129,7 +136,9 @@ def test_value_of_threshold_information_rejects_invalid_inputs() -> None:
 def test_threshold_fixture_payload_matches_runtime_output() -> None:
     """The committed threshold fixture should match the live runtime output."""
     fixture_root = _threshold_fixture_root()
-    with open(fixture_root / "normative" / "threshold-surface.json", encoding="utf-8") as handle:
+    with open(
+        fixture_root / "normative" / "threshold-surface.json", encoding="utf-8"
+    ) as handle:
         surface = json.load(handle)
     with open(
         fixture_root / "normative" / "value-of-threshold.json",

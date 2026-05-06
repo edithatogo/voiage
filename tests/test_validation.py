@@ -15,7 +15,14 @@ from voiage.methods.validation import ModelValidationResult, value_of_validation
 
 
 def _validation_fixture_root() -> Path:
-    return Path(__file__).resolve().parents[1] / "specs" / "frontier" / "validation" / "v1" / "fixtures"
+    return (
+        Path(__file__).resolve().parents[1]
+        / "specs"
+        / "frontier"
+        / "validation"
+        / "v1"
+        / "fixtures"
+    )
 
 
 def test_value_of_model_validation_compares_validation_profiles() -> None:
@@ -143,7 +150,9 @@ def test_value_of_model_validation_rejects_invalid_inputs() -> None:
 def test_validation_fixture_payload_matches_runtime_output() -> None:
     """The committed validation fixture should match the live runtime output."""
     fixture_root = _validation_fixture_root()
-    with open(fixture_root / "normative" / "validation-surface.json", encoding="utf-8") as handle:
+    with open(
+        fixture_root / "normative" / "validation-surface.json", encoding="utf-8"
+    ) as handle:
         surface = json.load(handle)
     with open(
         fixture_root / "normative" / "value-of-model-validation.json",
@@ -153,10 +162,7 @@ def test_validation_fixture_payload_matches_runtime_output() -> None:
 
     values = np.asarray(surface["net_benefit"])
     profiles = ValidationProfileSet(
-        [
-            ValidationProfile(**profile)
-            for profile in surface["validation_profiles"]
-        ]
+        [ValidationProfile(**profile) for profile in surface["validation_profiles"]]
     )
     result = value_of_model_validation(
         values,

@@ -620,7 +620,9 @@ def test_cli_result_commands_e2e(
         assert payload["individualized_care_value"] >= 0
         assert payload["optimal_strategy_by_preference_profile"]
         assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
-        assert payload["reporting"]["analysis_type"] == "value_of_preference_information"
+        assert (
+            payload["reporting"]["analysis_type"] == "value_of_preference_information"
+        )
     if setup == "ceaf":
         assert payload["metric"] == "CEAF"
         assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"

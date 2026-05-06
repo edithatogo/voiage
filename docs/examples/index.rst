@@ -12,7 +12,6 @@ examples and the linked pages for broader context.
 
    ../cross_domain_usage
    ../metamodeling
-   advanced_cross_domain_tutorial
 
 Core VOI Tutorials
 ------------------
@@ -37,12 +36,11 @@ Advanced Health Economics Tutorials
 * `Portfolio Validation <../../examples/portfolio_validation.ipynb>`_
 
 Cross-Domain Tutorials
----------------------
+----------------------
 
 * `Financial VOI <../../examples/financial_voi.ipynb>`_
 * `Environmental VOI <../../examples/environmental_voi.ipynb>`_
 * `Engineering VOI <../../examples/engineering_voi.ipynb>`_
-* `Advanced Cross-Domain Guide <advanced_cross_domain_tutorial.md>`_
 
 Performance and Benchmarking
 ----------------------------

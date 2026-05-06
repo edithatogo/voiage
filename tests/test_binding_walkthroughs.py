@@ -10,15 +10,33 @@ import pytest
     [
         (
             Path("bindings/julia/README.md"),
-            ("## Setup", "## First workflow", "## Release and caveats", "using Voiage", "evpi("),
+            (
+                "## Setup",
+                "## First workflow",
+                "## Release and caveats",
+                "using Voiage",
+                "evpi(",
+            ),
         ),
         (
             Path("bindings/go/README.md"),
-            ("## Setup", "## First workflow", "## Release and caveats", "go test ./...", "voiage.EVPI("),
+            (
+                "## Setup",
+                "## First workflow",
+                "## Release and caveats",
+                "go test ./...",
+                "voiage.EVPI(",
+            ),
         ),
         (
             Path("bindings/rust/README.md"),
-            ("## Setup", "## First workflow", "## Release and caveats", "cargo test", "use voiage_core::evpi"),
+            (
+                "## Setup",
+                "## First workflow",
+                "## Release and caveats",
+                "cargo test",
+                "use voiage_core::evpi",
+            ),
         ),
         (
             Path("bindings/typescript/README.md"),
@@ -57,7 +75,10 @@ def test_binding_walkthrough_readmes_are_language_appropriate() -> None:
     expectations = {
         Path("bindings/julia/README.md"): ("using Voiage", "Pkg.test()"),
         Path("bindings/go/README.md"): ("Go Binding", "go vet ./..."),
-        Path("bindings/rust/README.md"): ("use voiage_core::evpi", "cargo package --locked --allow-dirty"),
+        Path("bindings/rust/README.md"): (
+            "use voiage_core::evpi",
+            "cargo package --locked --allow-dirty",
+        ),
         Path("bindings/typescript/README.md"): ("@voiage/core", "npm run check"),
         Path("bindings/dotnet/README.md"): ("Voiage.Core", "dotnet pack"),
     }

@@ -277,9 +277,7 @@ def test_evpi_scale_invariance(scale_factor) -> None:
 )
 def test_enbs_identity(evsi_value: float, research_cost: float) -> None:
     """Test that ENBS is exactly EVSI minus research cost."""
-    assert enbs(evsi_value, research_cost) == pytest.approx(
-        evsi_value - research_cost
-    )
+    assert enbs(evsi_value, research_cost) == pytest.approx(evsi_value - research_cost)
 
 
 def test_dominance_transitivity_on_ordered_frontier() -> None:

@@ -231,12 +231,16 @@ def test_iter_fixture_cases_exposes_normative_input_output_pairs() -> None:
         output_payload = validator.load_fixture_payload(
             validator.resolve_fixture_artifact(case.expected_output_artifact)
         )
-        assert input_payload["decision_problem"]["decision_problem_id"] == output_payload[
-            "decision_problem_id"
-        ]
+        assert (
+            input_payload["decision_problem"]["decision_problem_id"]
+            == output_payload["decision_problem_id"]
+        )
         assert input_payload["decision_problem"]["analysis_type"] == "net-benefit-first"
         assert input_payload["parameter_set"]["parameter_set_id"] == "screening-psa-001"
-        assert input_payload["trial_design"]["trial_design_id"] == "screening-trial-design-001"
+        assert (
+            input_payload["trial_design"]["trial_design_id"]
+            == "screening-trial-design-001"
+        )
         assert output_payload["analysis_type"] == case.method_family
 
 

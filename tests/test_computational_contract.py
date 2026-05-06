@@ -29,13 +29,13 @@ def test_computational_contract_schema_and_examples_parse() -> None:
         computational_result_schema = json.load(f)
     with open(contract_dir / "examples" / "computational-set.example.json") as f:
         computational_set_example = json.load(f)
-    with open(
-        contract_dir / "examples" / "value-of-computational.example.json"
-    ) as f:
+    with open(contract_dir / "examples" / "value-of-computational.example.json") as f:
         computational_result_example = json.load(f)
 
     Draft202012Validator(computational_set_schema).validate(computational_set_example)
-    Draft202012Validator(computational_result_schema).validate(computational_result_example)
+    Draft202012Validator(computational_result_schema).validate(
+        computational_result_example
+    )
 
     assert computational_set_schema["title"] == "ComputationalSetV1Planned"
     assert computational_result_schema["title"] == "ValueOfComputationalResultV1Planned"

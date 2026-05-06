@@ -60,15 +60,14 @@ class PreferenceProfile:
         object.__setattr__(self, "label", self.label or self.id)
         weight = float(self.weight)
         if not np.isfinite(weight) or weight < 0.0:
-            raise_input_error("Preference profile weight must be finite and non-negative.")
+            raise_input_error(
+                "Preference profile weight must be finite and non-negative."
+            )
         object.__setattr__(self, "weight", weight)
         object.__setattr__(
             self,
             "utility_weights",
-            {
-                str(key): float(value)
-                for key, value in self.utility_weights.items()
-            },
+            {str(key): float(value) for key, value in self.utility_weights.items()},
         )
         object.__setattr__(
             self,
@@ -104,7 +103,9 @@ class PreferenceProfileSet:
             raise_input_error("At least one preference profile is required.")
 
         normalized = tuple(
-            item if isinstance(item, PreferenceProfile) else PreferenceProfile(id=str(item))
+            item
+            if isinstance(item, PreferenceProfile)
+            else PreferenceProfile(id=str(item))
             for item in profiles
         )
         ids = [item.id for item in normalized]
@@ -314,7 +315,9 @@ def _coerce_net_benefits(
             else [f"Strategy {idx}" for idx in range(n_strategies)]
         )
         final_profile_names = (
-            list(preference_profile_names) if preference_profile_names is not None else None
+            list(preference_profile_names)
+            if preference_profile_names is not None
+            else None
         )
     else:
         raise_input_error("`net_benefits` must be a ValueArray or NumPy array.")
@@ -334,10 +337,7 @@ def _coerce_net_benefits(
         raise_input_error(
             "`strategy_names` length must match the number of strategies."
         )
-    if (
-        final_profile_names is not None
-        and len(final_profile_names) != values.shape[2]
-    ):
+    if final_profile_names is not None and len(final_profile_names) != values.shape[2]:
         raise_input_error(
             "`preference_profile_names` length must match the number of preference profiles."
         )
@@ -347,7 +347,9 @@ def _coerce_net_benefits(
 
 def _coerce_profiles(
     n_profiles: int,
-    preference_profiles: PreferenceProfileSet | Sequence[PreferenceProfile | str] | None,
+    preference_profiles: PreferenceProfileSet
+    | Sequence[PreferenceProfile | str]
+    | None,
     preference_profile_names: Sequence[str] | None,
 ) -> PreferenceProfileSet:
     """Normalize preference-profile metadata."""
@@ -358,7 +360,9 @@ def _coerce_profiles(
             else PreferenceProfileSet(preference_profiles)
         )
     elif preference_profile_names is not None:
-        profile_set = PreferenceProfileSet([str(name) for name in preference_profile_names])
+        profile_set = PreferenceProfileSet(
+            [str(name) for name in preference_profile_names]
+        )
     else:
         profile_set = PreferenceProfileSet(
             [f"Preference profile {idx}" for idx in range(n_profiles)]
@@ -415,13 +419,10 @@ def _resolve_reference_index(
     if reference_preference_profile is None:
         return 0
     if isinstance(reference_preference_profile, int):
-        if (
-            reference_preference_profile < 0
-            or reference_preference_profile >= len(profile_ids)
+        if reference_preference_profile < 0 or reference_preference_profile >= len(
+            profile_ids
         ):
-            raise_input_error(
-                "`reference_preference_profile` index is out of range."
-            )
+            raise_input_error("`reference_preference_profile` index is out of range.")
         return reference_preference_profile
     try:
         return list(profile_ids).index(reference_preference_profile)
@@ -645,7 +646,9 @@ def preference_optimal_strategies(
     """Map each preference profile to its preferred strategy name."""
     if not isinstance(result, PreferenceHeterogeneityResult):
         raise_input_error("`result` must be a PreferenceHeterogeneityResult.")
-    return dict(zip(result.preference_profile_ids, result.optimal_strategy_names, strict=True))
+    return dict(
+        zip(result.preference_profile_ids, result.optimal_strategy_names, strict=True)
+    )
 
 
 def value_of_preference_heterogeneity(

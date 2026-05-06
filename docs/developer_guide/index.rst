@@ -16,3 +16,4 @@ boundaries.
    how_to_contribute
    implementing_new_methods
    polyglot_tooling
+   starlight_docs_platform

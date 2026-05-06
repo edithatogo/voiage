@@ -145,5 +145,5 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-- [ ] **Track: Starlight Documentation Platform**
+- [~] **Track: Starlight Documentation Platform**
 *Link: [./tracks/starlight-docs-platform_20260506/](./tracks/starlight-docs-platform_20260506/)*

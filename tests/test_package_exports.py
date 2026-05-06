@@ -295,9 +295,7 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert value_of_preference is value_of_preference_impl
     assert value_of_preference_heterogeneity is value_of_preference_heterogeneity_impl
     assert value_of_preference_information is value_of_preference_information_impl
-    assert (
-        top_level_preference_optimal_strategies is preference_optimal_strategies_impl
-    )
+    assert top_level_preference_optimal_strategies is preference_optimal_strategies_impl
     assert voi_calibration is voi_calibration_impl
     assert voi_observational is voi_observational_impl
 
@@ -325,11 +323,17 @@ def test_methods_package_exports_are_curated() -> None:
         "DominanceResult",
         "HeterogeneityResult",
         "ImplementationAdjustedResult",
+        "ModelValidationResult",
         "Perspective",
         "PerspectiveSet",
         "PreferenceHeterogeneityResult",
         "PreferenceProfile",
         "PreferenceProfileSet",
+        "ThresholdProfile",
+        "ThresholdProfileSet",
+        "ThresholdResult",
+        "ValidationProfile",
+        "ValidationProfileSet",
         "ValueOfPerspectiveResult",
         "adaptive_evsi",
         "calculate_ceaf",
@@ -353,10 +357,14 @@ def test_methods_package_exports_are_curated() -> None:
         "value_of_distributional_equity",
         "value_of_heterogeneity",
         "value_of_implementation",
+        "value_of_model_validation",
         "value_of_perspective",
         "value_of_preference",
         "value_of_preference_heterogeneity",
         "value_of_preference_information",
+        "value_of_threshold",
+        "value_of_threshold_information",
+        "value_of_validation",
         "voi_calibration",
         "voi_observational",
     ]
@@ -382,6 +390,7 @@ def test_top_level_package_exports_modules() -> None:
         "DistributionalEquityResult",
         "HeomlRunBundle",
         "ImplementationAdjustedResult",
+        "ModelValidationResult",
         "ParameterSet",
         "Perspective",
         "PerspectiveSet",
@@ -390,7 +399,12 @@ def test_top_level_package_exports_modules() -> None:
         "PreferenceHeterogeneityResult",
         "PreferenceProfile",
         "PreferenceProfileSet",
+        "ThresholdProfile",
+        "ThresholdProfileSet",
+        "ThresholdResult",
         "TrialDesign",
+        "ValidationProfile",
+        "ValidationProfileSet",
         "ValueArray",
         "ValueOfPerspectiveResult",
         "analysis",
@@ -416,10 +430,14 @@ def test_top_level_package_exports_modules() -> None:
         "schema",
         "value_of_distributional_equity",
         "value_of_implementation",
+        "value_of_model_validation",
         "value_of_perspective",
         "value_of_preference",
         "value_of_preference_heterogeneity",
         "value_of_preference_information",
+        "value_of_threshold",
+        "value_of_threshold_information",
+        "value_of_validation",
     ]
 
 
