@@ -43,6 +43,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Create the Starlight documentation platform track and record the versioning/plugin baseline in the roadmap and conductor setup.
+    *   Added a dedicated Starlight docs-platform track, documented the versioning and plugin baseline, and marked the migration boundary against the current Sphinx docs.
+
 *   [x] Align the validation and threshold frontier maturity labels and their docs.
     *   Updated the runtime, schemas, fixtures, examples, user guide, and setup docs so both surfaces now consistently report fixture-backed status.
 

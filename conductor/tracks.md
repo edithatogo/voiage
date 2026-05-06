@@ -142,3 +142,8 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ## [x] Track: Threshold, Tipping-Point, And Robust VOI Implementation [completed: 2026-05-06]
 *Link: [./archive/threshold-robust-voi_20260506/](./archive/threshold-robust-voi_20260506/)*
+
+---
+
+- [ ] **Track: Starlight Documentation Platform**
+*Link: [./tracks/starlight-docs-platform_20260506/](./tracks/starlight-docs-platform_20260506/)*

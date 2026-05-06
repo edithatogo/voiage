@@ -338,7 +338,31 @@ owned by Rust core; this phase is kernel-only.
 1.  **Kernel Contract And Fixture Harness:**
     *   Define the Rust EVSI kernel inputs, output shape, and fixture-backed
         parity harness.
-    *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+*   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+
+### Phase 10: Starlight Documentation Platform 📋 **PLANNED**
+
+**Goal:** Define a Starlight-based documentation platform with explicit
+versioning, plugin baseline, and migration boundaries so a future docs-site
+implementation can proceed without reopening the stack decision.
+
+1.  **Starlight Versioning And Release Policy:**
+    *   Record the Starlight version pin strategy and the upgrade/update path.
+    *   Decide how versioned documentation pages and release-aligned docs groups
+        should be represented.
+2.  **Plugin Baseline And Docs UX:**
+    *   Choose the required plugin baseline, starting with `starlight-versions`
+        and `starlight-links-validator`.
+    *   Record any conditional plugins that are justified for voiage docs, such
+        as image zoom, heading badges, sidebar topics, or shared utilities.
+    *   Keep search integration explicit and avoid adding a non-default search
+        provider unless the docs use case needs it.
+3.  **Migration Boundary And Future Validation:**
+    *   Define the handoff boundary between the current Sphinx docs and a
+        future Starlight site.
+    *   Record the build, link-check, version-navigation, and content-smoke
+        gates that a later implementation track must satisfy.
+    *   Covered by Conductor track: `starlight-docs-platform_20260506`.
 2.  **Two-Loop Kernel Port:**
     *   Port the stochastic EVSI kernel into Rust and validate it against the
         Python reference and deterministic fixtures.

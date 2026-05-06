@@ -41,6 +41,9 @@
 - **Sphinx**: >=7.0,<8.0 - Documentation generator
 - **sphinx-rtd-theme**: >=1.0,<2.0 - Read the Docs theme
 - **Vale**: prose linting for Markdown and reStructuredText
+- **Starlight**: Astro-based docs site platform, with versioning planned via
+  `starlight-versions` and link validation via `starlight-links-validator`
+  before any migration from the current Sphinx docs surface
 
 ## Optional Dependencies
 - **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)

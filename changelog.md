@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refreshed the Conductor product, tech-stack, and roadmap setup docs so they
   reflect the Rust-core direction, the current language matrix, and the
   updated project date.
+- Added a Starlight documentation-platform track and recorded the initial
+  versioning and plugin baseline in the roadmap and conductor setup.
 
 ### Added
 - Reflected the implemented preference / individualized-care runtime, CLI
