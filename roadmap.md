@@ -340,7 +340,7 @@ owned by Rust core; this phase is kernel-only.
         parity harness.
 *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
 
-### Phase 10: Starlight Documentation Platform 📋 **PLANNED**
+### Phase 10: Starlight Documentation Platform ✅ **COMPLETED**
 
 **Goal:** Define a Starlight-based documentation platform with explicit
 versioning, plugin baseline, and migration boundaries so a future docs-site
@@ -362,7 +362,7 @@ implementation can proceed without reopening the stack decision.
         future Starlight site.
     *   Record the build, link-check, version-navigation, and content-smoke
         gates that a later implementation track must satisfy.
-    *   Covered by Conductor track: `starlight-docs-platform_20260506`.
+    *   Completed by Conductor track: `starlight-docs-platform_20260506` (archived).
 2.  **Two-Loop Kernel Port:**
     *   Port the stochastic EVSI kernel into Rust and validate it against the
         Python reference and deterministic fixtures.
