@@ -244,7 +244,7 @@ def value_of_model_validation(
     reporting = build_cheers_reporting(
         analysis_type="value_of_model_validation",
         method_family="value_of_model_validation",
-        method_maturity="planned",
+        method_maturity="fixture-backed",
         analysis_id=analysis_id,
         decision_problem_id=decision_problem_id,
         decision_context=decision_context,
@@ -270,7 +270,7 @@ def value_of_model_validation(
         robust_strategy=robust_name,
         pareto_strategies=pareto_names,
         reference_validation_profile=profile_ids[reference_index],
-        method_maturity="planned",
+        method_maturity="fixture-backed",
         diagnostics=diagnostics,
         reporting=reporting,
     )

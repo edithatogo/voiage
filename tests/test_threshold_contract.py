@@ -1,4 +1,4 @@
-"""Tests for the planned threshold, tipping-point, and robust VOI contract."""
+"""Tests for the fixture-backed threshold, tipping-point, and robust VOI contract."""
 
 from __future__ import annotations
 
@@ -29,6 +29,6 @@ def test_threshold_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(threshold_set_schema).validate(threshold_set_example)
     Draft202012Validator(threshold_result_schema).validate(threshold_result_example)
 
-    assert threshold_set_schema["title"] == "ThresholdSetV1Planned"
-    assert threshold_result_schema["title"] == "ValueOfThresholdResultV1Planned"
+    assert threshold_set_schema["title"] == "ThresholdSetV1FixtureBacked"
+    assert threshold_result_schema["title"] == "ValueOfThresholdResultV1FixtureBacked"
     assert threshold_result_example["analysis_type"] == "value_of_threshold_information"

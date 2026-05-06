@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/threshold/v1/schemas/threshold-set.schema.json",
-  "title": "ThresholdSetV1Planned",
+  "title": "ThresholdSetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": ["method_maturity", "threshold_profiles"],
   "properties": {
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "threshold_profiles": {
       "type": "array",

@@ -2,10 +2,11 @@
 
 This guide covers the advanced Value of Information methods implemented in voiage, including adaptive trials, calibration, and observational studies.
 
-The frontier methods described below are still experimental. The current
-fixture-backed contracts are intended to stabilize the comparison surface, but
-call signatures, result payloads, and reporting metadata may still evolve while
-the remaining frontier families are brought online.
+The frontier methods described below span implemented, experimental, and
+planned surfaces. The current fixture-backed contracts are intended to
+stabilize the comparison surface, but call signatures, result payloads, and
+reporting metadata may still evolve while the remaining frontier families are
+brought online.
 
 ## Value Of Perspective
 
@@ -72,7 +73,7 @@ voiage calculate-preference preference_surface.json
 
 ## Model Validation And Threshold VOI
 
-Validation VOI and threshold/robust VOI now have experimental runtime methods,
+Validation VOI and threshold/robust VOI now have implemented runtime methods,
 fixture-backed conformance payloads, and CLI entrypoints. The APIs are still
 frontier work, so the comparison surface may evolve, but the current shape is
 stable enough for side-by-side analysis and command-line smoke tests.

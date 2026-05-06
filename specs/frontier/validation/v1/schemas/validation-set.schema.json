@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/validation/v1/schemas/validation-set.schema.json",
-  "title": "ValidationSetV1Planned",
+  "title": "ValidationSetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": ["method_maturity", "validation_profiles"],
   "properties": {
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "validation_profiles": {
       "type": "array",

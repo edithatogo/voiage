@@ -1,16 +1,15 @@
-# Threshold, Tipping-Point, And Robust VOI Experimental Contract v1
+# Threshold, Tipping-Point, And Robust VOI Fixture-Backed Contract v1
 
-This directory holds the planned frontier contract for threshold, tipping-point,
-and robust VOI. It is not part of the stable core API v1 matrix yet;
-promotion requires an implementation, deterministic fixtures, cross-language
-validation, CLI coverage, and method maturity review.
+This directory holds the fixture-backed frontier contract for threshold,
+tipping-point, and robust VOI. It is not part of the stable core API v1 matrix
+yet; promotion requires cross-language validation and method maturity review.
 
 ## Files
 
 - `schemas/threshold-set.schema.json` defines the threshold-scenario input
   metadata surface.
-- `schemas/value-of-threshold-result.schema.json` defines the planned result
-  shape.
+- `schemas/value-of-threshold-result.schema.json` defines the fixture-backed
+  result shape.
 - `examples/threshold-set.example.json` is a compact illustrative input
   payload.
 - `examples/value-of-threshold.example.json` is a compact illustrative result
@@ -18,15 +17,15 @@ validation, CLI coverage, and method maturity review.
 
 ## Shape
 
-The planned analysis surface treats thresholds, reversals, and ambiguity as
-explicit decision-relevant dimensions rather than post hoc sensitivity labels.
-The intended net-benefit surface uses:
+The fixture-backed analysis surface treats thresholds, reversals, and
+ambiguity as explicit decision-relevant dimensions rather than post hoc
+sensitivity labels. The intended net-benefit surface uses:
 
 ```text
 sample x strategy x threshold_profile
 ```
 
-The planned result should include:
+The fixture-backed result includes:
 
 - profile-specific optimal strategies
 - expected net benefits by profile and strategy

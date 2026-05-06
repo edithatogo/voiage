@@ -1,4 +1,4 @@
-"""Tests for the planned model-validation VOI contract scaffold."""
+"""Tests for the fixture-backed model-validation VOI contract scaffold."""
 
 from __future__ import annotations
 
@@ -33,6 +33,9 @@ def test_validation_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(validation_set_schema).validate(validation_set_example)
     Draft202012Validator(validation_result_schema).validate(validation_result_example)
 
-    assert validation_set_schema["title"] == "ValidationSetV1Planned"
-    assert validation_result_schema["title"] == "ValueOfModelValidationResultV1Planned"
+    assert validation_set_schema["title"] == "ValidationSetV1FixtureBacked"
+    assert (
+        validation_result_schema["title"]
+        == "ValueOfModelValidationResultV1FixtureBacked"
+    )
     assert validation_result_example["analysis_type"] == "value_of_model_validation"

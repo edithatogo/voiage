@@ -67,7 +67,7 @@ def test_value_of_threshold_information_compares_threshold_profiles() -> None:
     assert result.pareto_strategies == ["A", "B"]
     assert result.reference_threshold_profile == "wtp_reversal"
     assert result.value == pytest.approx(2.0)
-    assert result.method_maturity == "planned"
+    assert result.method_maturity == "fixture-backed"
     assert result.reporting["analysis_type"] == "value_of_threshold_information"
     assert result.reporting["threshold_profile_ids"] == [
         "wtp_reversal",

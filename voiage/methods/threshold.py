@@ -249,7 +249,7 @@ def value_of_threshold_information(
     reporting = build_cheers_reporting(
         analysis_type="value_of_threshold_information",
         method_family="value_of_threshold_information",
-        method_maturity="planned",
+        method_maturity="fixture-backed",
         analysis_id=analysis_id,
         decision_problem_id=decision_problem_id,
         decision_context=decision_context,
@@ -275,7 +275,7 @@ def value_of_threshold_information(
         tipping_point_strategy=tipping_point_strategy,
         pareto_strategies=pareto_names,
         reference_threshold_profile=profile_ids[reference_index],
-        method_maturity="planned",
+        method_maturity="fixture-backed",
         diagnostics=diagnostics,
         reporting=reporting,
     )

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/threshold/v1/schemas/value-of-threshold-result.schema.json",
-  "title": "ValueOfThresholdResultV1Planned",
+  "title": "ValueOfThresholdResultV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -37,7 +37,7 @@
     },
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "value": {
       "type": "number",

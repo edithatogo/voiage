@@ -75,7 +75,7 @@ def test_value_of_model_validation_compares_validation_profiles() -> None:
     assert result.reference_validation_profile == "external_validation"
     assert result.value == pytest.approx(1.6)
     assert result.discrepancy_reduction_value == pytest.approx(1.2)
-    assert result.method_maturity == "planned"
+    assert result.method_maturity == "fixture-backed"
     assert result.reporting["analysis_type"] == "value_of_model_validation"
     assert result.reporting["validation_profile_ids"] == [
         "external_validation",

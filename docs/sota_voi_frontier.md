@@ -46,7 +46,7 @@ The result should include:
 This is different from ordinary sensitivity analysis because it compares the
 decision consequences of alternative objective functions side by side.
 
-Current experimental implementation:
+Current fixture-backed implementation:
 
 - Python API: `voiage.methods.value_of_perspective`
 - High-level wrapper: `DecisionAnalysis.value_of_perspective`
@@ -59,15 +59,16 @@ Current experimental implementation:
 
 ## Experimental API Warnings
 
-The frontier methods in this track are intentionally experimental. Their
-schemas, fixtures, and reporting payloads are meant to anchor the current
-contract, but the API surface can still change as the remaining frontier
-families are implemented and cross-language parity is added.
+The frontier methods in this track span implemented, experimental, and planned
+surfaces. Their schemas, fixtures, and reporting payloads are meant to anchor
+the current contract, but the API surface can still change as the remaining
+frontier families are implemented and cross-language parity is added.
 
 The fixture-backed manifests should be treated as the current compatibility
-baseline for `Value of Perspective`, distributional/equity VOI, and
-implementation-adjusted VOI. External consumers should key against the versioned
-schemas and registry manifest rather than assuming the methods are stable.
+baseline for `Value of Perspective`, preference, validation, threshold,
+distributional/equity, and implementation-adjusted VOI. External consumers
+should key against the versioned schemas and registry manifest rather than
+assuming the methods are stable.
 
 ### Distributional And Equity-Weighted VOI
 
@@ -145,12 +146,12 @@ The contract scaffold for this surface now lives under
 `specs/frontier/validation/v1/`. It uses the same side-by-side profile pattern
 as Value of Perspective so that future implementations can compare validation
 scenarios and discrepancy-reduction strategies directly. The current state is
-experimental runtime plus fixture-backed scaffolding, and the CLI entrypoint is
+implemented runtime plus fixture-backed conformance, and the CLI entrypoint is
 `calculate-validation`.
 
 ### Threshold, Tipping-Point, And Robust VOI
 
-Threshold and tipping-point analyses should quantify how close a decision is to
+Threshold and tipping-point analyses quantify how close a decision is to
 reversal under willingness-to-pay thresholds, budget thresholds, evidence
 thresholds, or policy constraints. Robust VOI should cover ambiguity sets,
 multi-objective trade-offs, and decision value under model ambiguity.
@@ -159,7 +160,7 @@ The contract scaffold for this surface now lives under
 `specs/frontier/threshold/v1/`. It follows the same profile-based comparison
 pattern as Value of Perspective so that future implementations can compare
 threshold, tipping-point, and robustness scenarios side by side. The current
-state is experimental runtime plus fixture-backed scaffolding, and the CLI
+state is implemented runtime plus fixture-backed conformance, and the CLI
 entrypoint is `calculate-threshold`.
 
 ### Dynamic Real-Options VOI

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Aligned the validation and threshold frontier docs, schemas, examples, and
+  runtime maturity labels so the contract surface now consistently reports
+  fixture-backed status across the user guide, specs, and runtime output.
+
 ### Added
 - Reflected the implemented preference / individualized-care runtime, CLI
   surface, and fixture-backed conformance contract in the roadmap and backlog

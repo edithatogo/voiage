@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/validation/v1/schemas/value-of-model-validation-result.schema.json",
-  "title": "ValueOfModelValidationResultV1Planned",
+  "title": "ValueOfModelValidationResultV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -37,7 +37,7 @@
     },
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "value": {
       "type": "number",

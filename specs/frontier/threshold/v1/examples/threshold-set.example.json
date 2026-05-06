@@ -1,5 +1,5 @@
 {
-  "method_maturity": "planned",
+  "method_maturity": "fixture-backed",
   "threshold_profiles": [
     {
       "id": "wtp_reversal",

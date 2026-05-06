@@ -151,7 +151,7 @@ evppi_result = analysis.evppi()
 | Implementation-adjusted VOI | ❌ | ❌ | ❌ | 🚧 |
 | Frontier contract registry and validator | ❌ | ❌ | ❌ | ✅ |
 | Preference-information / individualized-care VOI | ❌ | ❌ | Runtime + CLI + fixture-backed conformance | 🚧 |
-| Validation, threshold, and robust VOI | ❌ | ❌ | Runtime + fixture-backed conformance | 🚧 CLI integration remains open |
+| Validation, threshold, and robust VOI | ❌ | ❌ | Runtime + CLI + fixture-backed conformance | 🚧 |
 | Causal, data-quality, computational, and elicitation VOI | ❌ | ❌ | ❌ | 📋 |
 | Cross-domain usage | Limited | Limited | Limited | ✅ |
 
@@ -166,9 +166,7 @@ Current roadmap context:
   deterministic fixtures.
 - Preference/individualized-care now has an implemented runtime surface, CLI
   entrypoint, and fixture-backed conformance contract; model-validation and
-  threshold/robust also have runtime and fixture-backed coverage, with CLI
-  integration and docs wiring still the remaining open step for those two
-  families.
+  threshold/robust also have runtime, CLI, and fixture-backed coverage.
 
 ## Best Practices for Migration
 

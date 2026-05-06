@@ -54,7 +54,7 @@ maps to the active roadmap.
 | HEOML / ecosystem contracts | 🚧 | `lifecourse` and ecosystem-incubation contract scaffolds exist; deterministic fixtures are being expanded. |
 | Numerics, diagnostics, extension model | 📋 | Next planned track for explicit numerical equivalence, diagnostics, and extension rules. |
 | Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
-| Frontier VOI methods | 🚧 | Value of Perspective, validation, threshold, and preference/individualized-care runtime surfaces are implemented with CLI entrypoints and fixture-backed conformance contracts; distributional/equity VOI, implementation-adjusted VOI, robust VOI, and dynamic real-options VOI remain planned. |
+| Frontier VOI methods | 🚧 | Value of Perspective, validation, threshold, and preference/individualized-care runtime surfaces are implemented with CLI entrypoints and fixture-backed conformance contracts; distributional/equity VOI and implementation-adjusted VOI have experimental runtime surfaces with deterministic fixtures, while robust VOI and dynamic real-options VOI remain planned. |
 | Adjacent frontier extensions | 📋 | Planned triage for causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI. |
 
 **Legend:**
