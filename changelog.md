@@ -423,4 +423,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consolidated changes from `pleides/update`.
 
 ### Fixed
-- Hardened the Rust benchmark baselines so they no longer depend on timing assertions, versioned the Rust core `Cargo.lock` so locked CI builds work reliably, and improved the benchmark workflow to print captured Cargo output when a baseline fails in CI.
+- Hardened the Rust benchmark baselines so they no longer depend on timing assertions, versioned the Rust core `Cargo.lock` so locked CI builds work reliably, split the CI test stack into a lighter `ci` extra to avoid disk exhaustion, and improved the benchmark workflow to print captured Cargo output when a baseline fails in CI.

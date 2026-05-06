@@ -34,7 +34,7 @@ jobs:
         python-version: "3.11"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Set up Go
       uses: actions/setup-go@v5
@@ -69,7 +69,7 @@ jobs:
         python-version: "3.11"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
@@ -95,7 +95,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Run Ruff
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
@@ -134,7 +134,7 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Run unit tests with coverage
       run: |
@@ -178,7 +178,7 @@ jobs:
         python-version: "3.11"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Verify coverage threshold
       run: uv run tox -e coverage_report
@@ -203,7 +203,7 @@ jobs:
         python-version: "3.11"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Run benchmark regression checks
       run: |
@@ -233,7 +233,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --extra ci
 
     - name: Run integration tests
       run: |

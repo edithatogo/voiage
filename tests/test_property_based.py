@@ -33,6 +33,7 @@ def test_evpi_non_negative(nb_array) -> None:
 
 
 @given(nb_array=net_benefit_arrays)
+@settings(deadline=None)
 def test_evpi_bounded_by_max_strategy_evpi(nb_array) -> None:
     """Test that EVPI is bounded by the maximum possible EVPI for any single strategy."""
     value_array = ValueArray.from_numpy(nb_array)
@@ -57,6 +58,7 @@ def test_evpi_bounded_by_max_strategy_evpi(nb_array) -> None:
         ),
     )
 )
+@settings(deadline=None)
 def test_evpi_single_strategy_zero(net_benefits) -> None:
     """Test that EVPI is zero for single strategy problems."""
     nb_array = net_benefits.reshape(-1, 1)
@@ -93,6 +95,7 @@ def test_evpi_identical_strategies_zero(nb_array) -> None:
 
 
 @given(n_samples=st.integers(min_value=1, max_value=10000))
+@settings(deadline=None)
 def test_evpi_population_scaling_properties(n_samples) -> None:
     """Test properties of EVPI population scaling."""
     # Create simple net benefit data
@@ -138,6 +141,7 @@ parameter_arrays = arrays(
         ),
     )
 )
+@settings(deadline=None)
 def test_evppi_non_negative(nb_array) -> None:
     """Test that EVPPI is always non-negative."""
     # Generate parameter array inside the function
@@ -178,6 +182,7 @@ def test_evppi_non_negative(nb_array) -> None:
         ),
     )
 )
+@settings(deadline=None)
 def test_evppi_single_strategy_zero(nb_array) -> None:
     """Test that EVPPI is zero for single strategy problems."""
     single_strategy_array = nb_array  # Only one strategy

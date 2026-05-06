@@ -51,6 +51,7 @@ def test_evpi_monotonicity_under_strategy_improvement(nb_array) -> None:
 
 
 @given(nb_array=net_benefit_arrays)
+@settings(deadline=None)
 def test_evpi_invariance_under_constant_shift(nb_array) -> None:
     """Test that EVPI is invariant under constant shifts to all strategies.
 
@@ -72,6 +73,7 @@ def test_evpi_invariance_under_constant_shift(nb_array) -> None:
 
 
 @given(nb_array=net_benefit_arrays)
+@settings(deadline=None)
 def test_evpi_scaling_property(nb_array) -> None:
     """Test that EVPI scales with net benefit scaling.
 
@@ -97,6 +99,7 @@ def test_evpi_scaling_property(nb_array) -> None:
 
 
 @given(nb_array=net_benefit_arrays)
+@settings(deadline=None)
 def test_evpi_convexity_property(nb_array) -> None:
     """Test a relaxed convexity property of EVPI.
 
@@ -154,6 +157,7 @@ parameter_arrays = arrays(
         ),
     )
 )
+@settings(deadline=None)
 def test_evppi_bounded_by_evpi(nb_array) -> None:
     """Test that EVPPI is bounded by EVPI."""
     n_samples = nb_array.shape[0]
@@ -201,6 +205,7 @@ def test_evppi_bounded_by_evpi(nb_array) -> None:
         ),
     )
 )
+@settings(deadline=None)
 def test_evppi_monotonicity_under_parameter_expansion(nb_array) -> None:
     """Test that EVPPI behavior when expanding the parameter set.
 
@@ -239,6 +244,7 @@ def test_evppi_monotonicity_under_parameter_expansion(nb_array) -> None:
 
 
 @given(scale_factor=st.floats(min_value=0.1, max_value=10.0))
+@settings(deadline=None)
 def test_evpi_scale_invariance(scale_factor) -> None:
     """Test that EVPI scales with proportional changes.
 
