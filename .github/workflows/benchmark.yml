@@ -38,6 +38,7 @@ jobs:
           -m "benchmark" \
           --benchmark-only \
           --benchmark-json=benchmark_results.json \
+          --no-cov \
           -v
       env:
         CI: true

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Disabled coverage enforcement for benchmark-only runs so the benchmark
+  workflow and task alias exercise the benchmark suite without tripping the
+  repository-wide coverage gate.
 - Archived the Starlight documentation-platform track after recording the
   versioning policy, plugin baseline, migration boundary, and future
   validation gates in the conductor setup.
