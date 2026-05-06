@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added the SOTA strategy orchestration guide and archived track to codify the dependency graph, shared gates, and parallel lanes for the packaging, HPC, Rust-core, and docs strategy work.
+- Marked the packaging, HPC, Rust ABI, and polyglot docs strategy tracks complete and summarized the current-state / future-state guidance in the roadmap.
+
+### Fixed
+- Cleaned up the frontier family README wording so the experimental contracts now use current fixture-backed status language instead of stale "planned" phrasing.
+
 ### Fixed
 - Added strategy Conductor tracks for SOTA packaging/review readiness, HPC
   distribution and acceleration, Rust-core ABI and migration policy, and

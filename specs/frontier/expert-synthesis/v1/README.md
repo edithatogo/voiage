@@ -28,7 +28,7 @@ choice. The intended net-benefit surface uses:
 sample x strategy x expert_profile
 ```
 
-The planned result should include:
+The expected result should include:
 
 - expert-profile-specific optimal strategies
 - expected net benefits by profile and strategy

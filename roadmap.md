@@ -377,11 +377,19 @@ implementation can proceed without reopening the stack decision.
         contract for future optimization work.
     *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
 
-### Phase 11: SOTA Packaging, HPC Distribution, And Rust-Core Governance 📋 **PLANNED**
+### Phase 11: SOTA Packaging, HPC Distribution, And Rust-Core Governance ✅ **COMPLETED**
 
 **Goal:** Make the repo credible to higher-bar scientific software communities,
 clarify the HPC distribution story, and define a Rust-core migration path
 that preserves the public API while keeping the repo and docs easy to navigate.
+
+A completed orchestration guide in `docs/developer_guide/sota_strategy_orchestration.rst`
+defines the dependency graph, shared gates, and parallel lanes that the
+remaining strategy work should follow.
+
+The strategy tracks are now complete and this phase serves as the compact
+summary for the current-state / future-state architecture, packaging and
+release ecosystem, Rust ABI and migration boundary, and repo/docs structure.
 
 1.  **Packaging And Review Readiness:**
     *   Assess the repo against pyOpenSci, rOpenSci, JOSS, scikit-learn-contrib,
@@ -389,6 +397,8 @@ that preserves the public API while keeping the repo and docs easy to navigate.
     *   Distinguish direct-fit review targets from stretch-fit or not-recommended
         communities.
     *   Covered by Conductor track: `sota-packaging-review-readiness_20260507`.
+    *   Depends on the shared release playbook and community-review checklist
+        from the orchestration guide.
 2.  **HPC Distribution And Acceleration Strategy:**
     *   Define what HPC-deployable, HPC-friendly, and HPC-native mean for the
         library.
@@ -398,12 +408,16 @@ that preserves the public API while keeping the repo and docs easy to navigate.
         plausibility and benchmark evidence.
     *   Covered by Conductor track:
         `hpc-distribution-acceleration-strategy_20260507`.
+    *   Depends on the shared release artifact policy and benchmark gates from
+        the orchestration guide.
 3.  **Rust-Core ABI And Migration Strategy:**
     *   Decide whether a narrow C ABI is warranted as an optional edge.
     *   Preserve the current Python, R, Julia, TypeScript, Go, and .NET public
         APIs while migrating the execution core toward Rust.
     *   Covered by Conductor track:
         `rust-core-abi-migration-strategy_20260507`.
+    *   Depends on the stable contract boundary and compatibility matrix in the
+        orchestration guide.
 4.  **Polyglot Repo And Documentation Architecture:**
     *   Decide whether the repo and docs should be reorganized around core,
         bindings, tutorials, release, and governance concerns.
@@ -411,6 +425,8 @@ that preserves the public API while keeping the repo and docs easy to navigate.
         explicitly changes the primary site.
     *   Covered by Conductor track:
         `polyglot-repo-docs-architecture_20260507`.
+    *   Depends on the docs navigation and versioning rules in the
+        orchestration guide.
 
 #### Current State
 

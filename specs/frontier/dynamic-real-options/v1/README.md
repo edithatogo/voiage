@@ -1,9 +1,9 @@
 # Dynamic Real-Options VOI Experimental Contract v1
 
-This directory holds the planned frontier contract for dynamic real-options
-VOI. It is not part of the stable core API v1 matrix yet; promotion requires
-an implementation, deterministic fixtures, cross-language validation, CLI
-coverage, and method maturity review.
+This directory holds the fixture-backed experimental contract for dynamic
+real-options VOI. It is not part of the stable core API v1 matrix yet;
+promotion requires an implementation, deterministic fixtures,
+cross-language validation, CLI coverage, and method maturity review.
 
 ## Files
 
@@ -28,7 +28,7 @@ sensitivity analysis. The intended net-benefit surface uses:
 sample x strategy x decision_stage
 ```
 
-The planned result should include:
+The expected result should include:
 
 - stage-specific optimal strategies
 - expected net benefits by stage and strategy

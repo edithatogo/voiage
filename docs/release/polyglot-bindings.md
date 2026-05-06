@@ -11,7 +11,7 @@ registry or feedstock flows. The Rust-core migration has already established
 the long-term ownership model: Rust is the authoritative execution core,
 Python is the primary façade, and the other language packages are thin
 bindings/adapters over the same canonical contract. The R package currently
-ships as a reticulate bridge to the Python reference layer; its in-repo release
+ships as a reticulate bridge to the Python façade; its in-repo release
 path stops at GitHub Release source archives, while CRAN and r-universe remain
 external registry targets that require their own approval or indexing steps.
 

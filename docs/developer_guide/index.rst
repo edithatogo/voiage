@@ -18,4 +18,5 @@ boundaries.
    how_to_contribute
    implementing_new_methods
    polyglot_tooling
+   sota_strategy_orchestration
    starlight_docs_platform

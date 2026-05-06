@@ -29,7 +29,7 @@ assumption. The intended net-benefit surface uses:
 sample x strategy x transport_context
 ```
 
-The planned result should include:
+The expected result should include:
 
 - source and target population identifiers
 - transport weights and validity penalties

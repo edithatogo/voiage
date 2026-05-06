@@ -43,11 +43,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
-*   [x] Create the SOTA packaging review readiness, HPC distribution and
+*   [x] Create the SOTA strategy orchestration and dependency matrix guide.
+    *   Codified the dependency graph, shared gates, and parallel lanes for the strategy work, then linked the guide into the developer docs.
+
+*   [x] Complete the SOTA packaging review readiness, HPC distribution and
     acceleration strategy, Rust-core ABI and migration strategy, and polyglot
     repo/docs architecture tracks.
-    *   Established the next strategy-layer roadmap work for submission
-        readiness, HPC distribution, Rust ABI policy, and docs/repo structure.
+    *   Closed the strategy-layer roadmap work for submission readiness, HPC
+        distribution policy, Rust ABI policy, and docs/repo structure, and
+        captured the current-state / future-state summary in the roadmap.
 
 *   [x] Make the community engagement surface explicit with support, security, and contributor guidance.
     *   Added repository support, code of conduct, and security policy documents, plus a support-question issue template and community guide links in the main docs.

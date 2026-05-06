@@ -28,7 +28,7 @@ implementation detail. The intended net-benefit surface uses:
 sample x strategy x compute_budget
 ```
 
-The planned result should include:
+The expected result should include:
 
 - compute-budget-specific optimal strategies
 - expected net benefits by budget and strategy

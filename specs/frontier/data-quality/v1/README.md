@@ -30,7 +30,7 @@ uses:
 sample x strategy x data_quality_profile
 ```
 
-The planned result should include:
+The expected result should include:
 
 - data-quality-profile-specific optimal strategies
 - expected net benefits by profile and strategy
