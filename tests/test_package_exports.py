@@ -15,6 +15,9 @@ from voiage import (
     PerspectiveSet,
     PortfolioSpec,
     PortfolioStudy,
+    PreferenceHeterogeneityResult,
+    PreferenceProfile,
+    PreferenceProfileSet,
     TrialDesign,
     ValueArray,
     ValueOfPerspectiveResult,
@@ -44,12 +47,22 @@ from voiage import hta_integration as hta_integration_module
 from voiage import methods as methods_module
 from voiage import multi_domain as multi_domain_module
 from voiage import plot as plot_module
+from voiage import (
+    preference_optimal_strategies as top_level_preference_optimal_strategies,
+)
 from voiage import schema as schema_module
 from voiage import (
     value_of_distributional_equity as top_level_value_of_distributional_equity,
 )
 from voiage import (
     value_of_perspective as top_level_value_of_perspective,
+)
+from voiage import value_of_preference as top_level_value_of_preference
+from voiage import (
+    value_of_preference_heterogeneity as top_level_value_of_preference_heterogeneity,
+)
+from voiage import (
+    value_of_preference_information as top_level_value_of_preference_information,
 )
 from voiage.core import (
     calculate_net_benefit,
@@ -103,6 +116,9 @@ from voiage.methods import (
     value_of_heterogeneity,
     value_of_implementation,
     value_of_perspective,
+    value_of_preference,
+    value_of_preference_heterogeneity,
+    value_of_preference_information,
     voi_calibration,
     voi_observational,
 )
@@ -118,6 +134,11 @@ from voiage.methods import (
 from voiage.methods import (
     PerspectiveSet as MethodsPerspectiveSet,
 )
+from voiage.methods import (
+    PreferenceHeterogeneityResult as MethodsPreferenceHeterogeneityResult,
+)
+from voiage.methods import PreferenceProfile as MethodsPreferenceProfile
+from voiage.methods import PreferenceProfileSet as MethodsPreferenceProfileSet
 from voiage.methods import (
     ValueOfPerspectiveResult as MethodsValueOfPerspectiveResult,
 )
@@ -172,6 +193,23 @@ from voiage.methods.perspective import (
     value_of_perspective as value_of_perspective_impl,
 )
 from voiage.methods.portfolio import portfolio_voi as portfolio_voi_impl
+from voiage.methods.preference import (
+    PreferenceHeterogeneityResult as PreferenceHeterogeneityResult_impl,
+)
+from voiage.methods.preference import PreferenceProfile as PreferenceProfile_impl
+from voiage.methods.preference import PreferenceProfileSet as PreferenceProfileSet_impl
+from voiage.methods.preference import (
+    preference_optimal_strategies as preference_optimal_strategies_impl,
+)
+from voiage.methods.preference import (
+    value_of_preference as value_of_preference_impl,
+)
+from voiage.methods.preference import (
+    value_of_preference_heterogeneity as value_of_preference_heterogeneity_impl,
+)
+from voiage.methods.preference import (
+    value_of_preference_information as value_of_preference_information_impl,
+)
 from voiage.methods.sample_information import enbs as enbs_impl
 from voiage.methods.sample_information import evsi as evsi_impl
 from voiage.methods.sequential import sequential_voi as sequential_voi_impl
@@ -228,6 +266,9 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert HeterogeneityResult is HeterogeneityResult_impl
     assert MethodsPerspective is Perspective_impl
     assert MethodsPerspectiveSet is PerspectiveSet_impl
+    assert MethodsPreferenceHeterogeneityResult is PreferenceHeterogeneityResult_impl
+    assert MethodsPreferenceProfile is PreferenceProfile_impl
+    assert MethodsPreferenceProfileSet is PreferenceProfileSet_impl
     assert MethodsValueOfPerspectiveResult is ValueOfPerspectiveResult_impl
     assert adaptive_evsi is adaptive_evsi_impl
     assert calculate_ceaf is calculate_ceaf_impl
@@ -251,6 +292,12 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert value_of_implementation is value_of_implementation_impl
     assert value_of_heterogeneity is value_of_heterogeneity_impl
     assert value_of_perspective is value_of_perspective_impl
+    assert value_of_preference is value_of_preference_impl
+    assert value_of_preference_heterogeneity is value_of_preference_heterogeneity_impl
+    assert value_of_preference_information is value_of_preference_information_impl
+    assert (
+        top_level_preference_optimal_strategies is preference_optimal_strategies_impl
+    )
     assert voi_calibration is voi_calibration_impl
     assert voi_observational is voi_observational_impl
 
@@ -280,6 +327,9 @@ def test_methods_package_exports_are_curated() -> None:
         "ImplementationAdjustedResult",
         "Perspective",
         "PerspectiveSet",
+        "PreferenceHeterogeneityResult",
+        "PreferenceProfile",
+        "PreferenceProfileSet",
         "ValueOfPerspectiveResult",
         "adaptive_evsi",
         "calculate_ceaf",
@@ -296,6 +346,7 @@ def test_methods_package_exports_are_curated() -> None:
         "identify_optimal_subgroups",
         "perspective_optimal_strategies",
         "portfolio_voi",
+        "preference_optimal_strategies",
         "sequential_voi",
         "structural_evpi",
         "structural_evppi",
@@ -303,6 +354,9 @@ def test_methods_package_exports_are_curated() -> None:
         "value_of_heterogeneity",
         "value_of_implementation",
         "value_of_perspective",
+        "value_of_preference",
+        "value_of_preference_heterogeneity",
+        "value_of_preference_information",
         "voi_calibration",
         "voi_observational",
     ]
@@ -333,6 +387,9 @@ def test_top_level_package_exports_modules() -> None:
         "PerspectiveSet",
         "PortfolioSpec",
         "PortfolioStudy",
+        "PreferenceHeterogeneityResult",
+        "PreferenceProfile",
+        "PreferenceProfileSet",
         "TrialDesign",
         "ValueArray",
         "ValueOfPerspectiveResult",
@@ -355,10 +412,14 @@ def test_top_level_package_exports_modules() -> None:
         "methods",
         "multi_domain",
         "plot",
+        "preference_optimal_strategies",
         "schema",
         "value_of_distributional_equity",
         "value_of_implementation",
         "value_of_perspective",
+        "value_of_preference",
+        "value_of_preference_heterogeneity",
+        "value_of_preference_information",
     ]
 
 
@@ -384,11 +445,24 @@ def test_top_level_package_exports_point_to_modules() -> None:
     assert DistributionalEquityResult is DistributionalEquityResult_impl
     assert Perspective is Perspective_impl
     assert PerspectiveSet is PerspectiveSet_impl
+    assert PreferenceHeterogeneityResult is PreferenceHeterogeneityResult_impl
+    assert PreferenceProfile is PreferenceProfile_impl
+    assert PreferenceProfileSet is PreferenceProfileSet_impl
     assert PortfolioSpec.__name__ == "PortfolioSpec"
     assert PortfolioStudy.__name__ == "PortfolioStudy"
     assert TrialDesign.__name__ == "TrialDesign"
     assert ValueArray.__name__ == "ValueArray"
     assert ValueOfPerspectiveResult is ValueOfPerspectiveResult_impl
+    assert top_level_preference_optimal_strategies is preference_optimal_strategies_impl
+    assert top_level_value_of_preference is value_of_preference_impl
+    assert (
+        top_level_value_of_preference_heterogeneity
+        is value_of_preference_heterogeneity_impl
+    )
+    assert (
+        top_level_value_of_preference_information
+        is value_of_preference_information_impl
+    )
     assert top_level_evpi is evpi_impl
     assert top_level_evppi is evppi_impl
     assert top_level_evsi is evsi_impl

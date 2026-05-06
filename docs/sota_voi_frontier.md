@@ -106,15 +106,34 @@ Current experimental implementation:
 
 ### Preference Heterogeneity And Individualized Care
 
-Preference heterogeneity should separate uncertainty in clinical effects and
-costs from uncertainty in patient or stakeholder preferences. The library should
-support value of individualized care and value of preference information when
-preference elicitation could change the decision.
+Preference heterogeneity separates uncertainty in clinical effects and costs
+from uncertainty in patient or stakeholder preferences. The runtime surface is
+implemented and exposed through the preference CLI entrypoint, and the
+fixture-backed contract under `specs/frontier/preference/v1/` captures the
+current comparison shape so users can compare value of individualized care and
+value of preference information when preference elicitation could change the
+decision.
 
-The planned contract scaffold for this surface is now defined under
-`specs/frontier/preference/v1/`. It uses the same side-by-side profile pattern
-as Value of Perspective so that future implementations can compare preference
-profiles directly rather than collapsing them into a single average profile.
+The contract under `specs/frontier/preference/v1/` uses the same side-by-side
+profile pattern as Value of Perspective so preference profiles can be compared
+directly rather than collapsed into a single average profile.
+
+Typical usage keeps the profile axis explicit:
+
+```python
+from voiage.analysis import DecisionAnalysis
+from voiage.methods.preference import PreferenceProfile, PreferenceProfileSet
+
+result = DecisionAnalysis(...).value_of_preference(
+    PreferenceProfileSet([
+        PreferenceProfile("payer"),
+        PreferenceProfile("patient"),
+    ])
+)
+```
+
+The CLI companion is `voiage calculate-preference`, which is useful when you
+want to validate the same runtime surface from a fixture-backed JSON payload.
 
 ### Model-Validation VOI
 
@@ -122,10 +141,12 @@ Model-validation VOI should cover the value of external validation, model
 discrepancy reduction, and prediction-model validation when a prediction model
 or model class is itself decision-relevant.
 
-The planned contract scaffold for this surface now lives under
+The contract scaffold for this surface now lives under
 `specs/frontier/validation/v1/`. It uses the same side-by-side profile pattern
 as Value of Perspective so that future implementations can compare validation
-scenarios and discrepancy-reduction strategies directly.
+scenarios and discrepancy-reduction strategies directly. The current state is
+experimental runtime plus fixture-backed scaffolding, and the CLI entrypoint is
+`calculate-validation`.
 
 ### Threshold, Tipping-Point, And Robust VOI
 
@@ -134,10 +155,12 @@ reversal under willingness-to-pay thresholds, budget thresholds, evidence
 thresholds, or policy constraints. Robust VOI should cover ambiguity sets,
 multi-objective trade-offs, and decision value under model ambiguity.
 
-The planned contract scaffold for this surface now lives under
+The contract scaffold for this surface now lives under
 `specs/frontier/threshold/v1/`. It follows the same profile-based comparison
 pattern as Value of Perspective so that future implementations can compare
-threshold, tipping-point, and robustness scenarios side by side.
+threshold, tipping-point, and robustness scenarios side by side. The current
+state is experimental runtime plus fixture-backed scaffolding, and the CLI
+entrypoint is `calculate-threshold`.
 
 ### Dynamic Real-Options VOI
 

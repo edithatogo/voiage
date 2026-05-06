@@ -1,6 +1,11 @@
 {
   "version": "v1",
   "status": "scaffold",
+  "compatibility": {
+    "voiage_version": "0.2.0",
+    "lifecourse_profile_version": "v1",
+    "heoml_profile_version": "0.1"
+  },
   "heoml_profile_version": "0.1",
   "heoml_manifest_id": "heoml-run-bundle-v1-example",
   "normative": [
@@ -15,9 +20,22 @@
       }
     }
   ],
-  "illustrative": [],
+  "illustrative": [
+    {
+      "name": "result envelope metadata contract",
+      "method_family": "result-envelope",
+      "expected_output_artifact": "illustrative/voi_result_envelope.json",
+      "tolerance_policy": "structure-only",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
   "notes": [
     "The normative fixture is a compact screening-program bundle that carries both EVPI and EVPPI reference payloads.",
-    "Portable interchange formats are JSON metadata plus CSV, Arrow, or Parquet tables depending on artifact size."
+    "The illustrative result envelope preserves shared metadata for EVPI, EVPPI, EVSI, and ENBS payloads.",
+    "Portable interchange formats are JSON metadata plus CSV, Arrow, or Parquet tables depending on artifact size.",
+    "Compatibility checks should confirm the voiage, lifecourse, and HEOML profile versions before artifact loading."
   ]
 }

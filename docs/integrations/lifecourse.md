@@ -116,8 +116,9 @@ used, it should live behind an optional extra such as `lifecourse[voiage]` after
 version compatibility is stable.
 
 Because `voiage` includes advanced dependencies for JAX, NumPyro, scikit-learn,
-statsmodels, plotting, and CLI workflows, `voiage` should consider whether a
-lighter core install is useful for integration consumers:
+statsmodels, plotting, and CLI workflows, `voiage` should keep the integration
+policy explicit about what is already lightweight and what may later be split
+into a smaller install surface:
 
 - core: `ValueArray`, `ParameterSet`, EVPI, EVPPI, and NumPy methods
 - jax: JAX and NumPyro acceleration
@@ -125,6 +126,34 @@ lighter core install is useful for integration consumers:
 - plotting: plotting dependencies
 - cli: Typer and CLI-specific dependencies if separable
 - dev: tests, docs, profiling, mutation, and release tooling
+
+The current repo already exposes `plotting` and `deep_learning` extras, with
+`dev` kept separate. No new mandatory extra is required for the initial
+`lifecourse` artifact exchange path. If a future lighter `voiage` install is
+introduced for integrators, it should be documented before `lifecourse`
+recommends `lifecourse[voiage]` as the default direct-import path.
+
+The integration contract should continue to treat artifact exchange as the
+primary path. Optional Python imports are a convenience, not a dependency
+requirement.
+
+## Compatibility Versioning
+
+The committed scaffold targets three compatibility anchors:
+
+- `voiage` `0.2.0`
+- `lifecourse` profile `v1`
+- HEOML profile `0.1`
+
+Those values are recorded in the fixture manifest and the illustrative result
+envelope so consumers can reject mismatched artifacts before any VOI method is
+run. If a public artifact shape changes, both repositories should update their
+compatibility notes and changelogs together.
+
+The contract version check should happen before loading artifacts into
+`ValueArray` or `ParameterSet`. That keeps the exchange path explicit: validate
+the manifest, confirm the profile versions, then hand the portable artifacts to
+`voiage`.
 
 ## Adapter Shape
 
@@ -145,6 +174,43 @@ It is exported from the top-level `voiage` package so consumers can load the
 shared bundle without reaching into private modules.
 It returns a `HeomlRunBundle` object containing the parsed manifest, a
 `ValueArray`, a `ParameterSet`, and provenance metadata.
+
+## Artifact Exchange And Fixture Validation
+
+The exchange path is intentionally artifact-first:
+
+1. Read the HEOML run-bundle manifest and confirm the compatibility block.
+2. Load the portable net-benefit and parameter artifacts.
+3. Validate the normative fixture exactly and the illustrative envelope
+   structurally.
+4. Convert the artifacts into `voiage` core types.
+5. Run the public VOI methods against the committed deterministic fixture.
+
+The normative fixture is the contract gate. It should match exactly, including
+its expected outputs and tolerance policy. The illustrative envelope is a
+documentation fixture; it checks the metadata envelope shape and the preserved
+version fields, but it is not a numerical release gate.
+
+## Result Envelope Contract
+
+The shared contract should preserve a common result envelope around the
+family-specific EVPI, EVPPI, EVSI, and ENBS payloads. At minimum, that envelope
+should carry:
+
+- analysis and decision-problem identifiers
+- the supported result families
+- per-family method settings
+- scaling metadata, including population, time horizon, discount rate, and WTP
+  thresholds
+- diagnostics and warnings
+- producer and `voiage` package-version information
+- HEOML provenance, including profile and manifest identifiers
+- per-family payloads that remain compatible with the current `voiage` result
+  schemas
+
+An illustrative envelope fixture now lives under
+`specs/integrations/lifecourse/v1/fixtures/illustrative/` to show the metadata
+shape without claiming full runtime parity yet.
 
 ## Promotion Criteria
 

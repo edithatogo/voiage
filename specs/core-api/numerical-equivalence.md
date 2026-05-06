@@ -138,5 +138,7 @@ Diagnostics are separate from reproducibility metadata.
 - diagnostics explain whether the result is trustworthy, degraded, or
   approximate
 
-The next track phase defines the stable diagnostic payloads and capability
-metadata that pair with the rules in this document.
+See `diagnostics.md` for the stable diagnostic payloads used by the core API.
+See `method-metadata.md` for the capability, stability, and maturity
+metadata contract. Approximate methods must declare `approximation_status`
+explicitly rather than looking exact by omission.

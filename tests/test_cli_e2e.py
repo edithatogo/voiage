@@ -34,6 +34,106 @@ def _write_csv(path: Path, rows: list[list[object]]) -> None:
         writer.writerows(rows)
 
 
+def _write_perspective_surface(path: Path) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "analysis_id": "preference-screening-001",
+                "decision_problem_id": "screening-program-001",
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "perspective_names": ["payer", "societal"],
+                "perspective_weights": {"payer": 0.25, "societal": 0.75},
+                "reference_perspective": "payer",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def _write_preference_surface(path: Path) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "preference_profiles": [
+                    {
+                        "id": "access_first",
+                        "label": "Access first",
+                        "weight": 0.25,
+                    },
+                    {
+                        "id": "outcomes_first",
+                        "label": "Outcomes first",
+                        "weight": 0.75,
+                    },
+                ],
+                "reference_preference_profile": "access_first",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def _write_validation_surface(path: Path) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "validation_profiles": [
+                    {
+                        "id": "external_validation",
+                        "label": "External validation",
+                        "weight": 0.6,
+                    },
+                    {
+                        "id": "discrepancy_reduction",
+                        "label": "Discrepancy reduction",
+                        "weight": 0.4,
+                    },
+                ],
+                "reference_validation_profile": "external_validation",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def _write_threshold_surface(path: Path) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "net_benefit": [
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                    [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+                ],
+                "strategy_names": ["A", "B", "C"],
+                "threshold_profiles": [
+                    {"id": "wtp_reversal", "label": "WTP reversal", "weight": 0.5},
+                    {
+                        "id": "policy_constraint",
+                        "label": "Policy constraint",
+                        "weight": 0.5,
+                    },
+                ],
+                "reference_threshold_profile": "wtp_reversal",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
 def _patch_plot_renderer(monkeypatch: pytest.MonkeyPatch, renderer_name: str) -> None:
     monkeypatch.setattr(cli, renderer_name, lambda *args, **kwargs: _DummyAxes())
 
@@ -45,9 +145,17 @@ def _patch_plot_renderer(monkeypatch: pytest.MonkeyPatch, renderer_name: str) ->
         ("calculate-evppi", "evppi"),
         ("calculate-evsi", "evsi"),
         ("calculate-enbs", "enbs"),
+        ("calculate-calibration", "calibration"),
+        ("calculate-observational", "observational"),
+        ("calculate-ceaf", "ceaf"),
+        ("calculate-dominance", "dominance"),
         ("calculate-adaptive-evsi", "adaptive"),
         ("calculate-portfolio-voi", "portfolio"),
         ("calculate-sequential-voi", "sequential"),
+        ("calculate-perspective", "perspective"),
+        ("calculate-preference", "preference"),
+        ("calculate-validation", "validation"),
+        ("calculate-threshold", "threshold"),
         ("calculate-structural-evpi", "structural-evpi"),
         ("calculate-structural-evppi", "structural-evppi"),
         ("calculate-nma-voi", "nma-evpi"),
@@ -150,6 +258,93 @@ def test_cli_result_commands_e2e(
             "--output",
             str(output_file),
         ]
+    elif setup == "calibration":
+        parameters = tmp_path / "calibration_parameters.csv"
+        _write_csv(parameters, [["effectiveness"], [0.5], [0.6]])
+        calibration_design = tmp_path / "calibration_design.json"
+        _write_json(
+            calibration_design,
+            {"experiment_type": "lab", "sample_size": 20, "variables_measured": []},
+        )
+        calibration_process = tmp_path / "calibration_process.json"
+        _write_json(
+            calibration_process,
+            {"method": "bayesian", "likelihood_function": "normal"},
+        )
+        monkeypatch.setattr(cli, "voi_calibration", lambda **kwargs: 3.5)
+        output_file = tmp_path / "calibration.json"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(parameters),
+            str(calibration_design),
+            str(calibration_process),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "observational":
+        parameters = tmp_path / "observational_parameters.csv"
+        _write_csv(parameters, [["effectiveness"], [0.5], [0.6]])
+        observational_design = tmp_path / "observational_design.json"
+        _write_json(
+            observational_design,
+            {"study_type": "cohort", "sample_size": 100, "variables_collected": []},
+        )
+        bias_models = tmp_path / "bias_models.json"
+        _write_json(
+            bias_models,
+            {"confounding": {"strength": 0.2}, "selection_bias": {"probability": 0.1}},
+        )
+        monkeypatch.setattr(cli, "voi_observational", lambda **kwargs: 4.5)
+        output_file = tmp_path / "observational.json"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(parameters),
+            str(observational_design),
+            str(bias_models),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "ceaf":
+        surface_file = tmp_path / "surface.json"
+        _write_json(
+            surface_file,
+            {
+                "strategy_names": ["Strategy A", "Strategy B"],
+                "wtp_thresholds": [0.0, 50000.0],
+                "net_benefit": [
+                    [[10.0, 15.0], [12.0, 14.0]],
+                    [[11.0, 16.0], [13.0, 15.0]],
+                ],
+            },
+        )
+        output_file = tmp_path / "ceaf.json"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "dominance":
+        dominance_file = tmp_path / "dominance.csv"
+        dominance_file.write_text(
+            "strategy,cost,effect\nA,100,1.0\nB,150,1.2\nC,130,1.1\n",
+            encoding="utf-8",
+        )
+        output_file = tmp_path / "dominance.json"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(dominance_file),
+            "--output",
+            str(output_file),
+        ]
     elif setup == "adaptive":
         parameters = tmp_path / "parameters.csv"
         _write_csv(parameters, [["param1"], [0.5], [0.6]])
@@ -225,6 +420,54 @@ def test_cli_result_commands_e2e(
             command_name,
             str(parameters),
             str(dynamic_spec),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "perspective":
+        surface_file = tmp_path / "perspective.json"
+        _write_perspective_surface(surface_file)
+        output_file = tmp_path / "perspective.json.out"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "preference":
+        surface_file = tmp_path / "preference.json"
+        _write_preference_surface(surface_file)
+        output_file = tmp_path / "preference.json.out"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "validation":
+        surface_file = tmp_path / "validation.json"
+        _write_validation_surface(surface_file)
+        output_file = tmp_path / "validation.json.out"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
+            "--output",
+            str(output_file),
+        ]
+    elif setup == "threshold":
+        surface_file = tmp_path / "threshold.json"
+        _write_threshold_surface(surface_file)
+        output_file = tmp_path / "threshold.json.out"
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
             "--output",
             str(output_file),
         ]
@@ -365,6 +608,27 @@ def test_cli_result_commands_e2e(
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert payload["command"] == command_name
+    if setup in {"calibration", "observational"}:
+        assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+        assert payload["reporting"]["analysis_type"] == command_name
+    if setup == "preference":
+        assert payload["metric"] == "Value of Preference"
+        assert payload["analysis_type"] == "value_of_preference_information"
+        assert payload["method_maturity"] == "fixture-backed"
+        assert payload["analysis_id"] == "preference-screening-001"
+        assert payload["decision_problem_id"] == "screening-program-001"
+        assert payload["individualized_care_value"] >= 0
+        assert payload["optimal_strategy_by_preference_profile"]
+        assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+        assert payload["reporting"]["analysis_type"] == "value_of_preference_information"
+    if setup == "ceaf":
+        assert payload["metric"] == "CEAF"
+        assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+        assert len(payload["wtp_thresholds"]) == 2
+    elif setup == "dominance":
+        assert payload["metric"] == "Dominance"
+        assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+        assert payload["frontier_indices"]
     assert Path(output_file).exists()
 
 
@@ -375,6 +639,7 @@ def test_cli_result_commands_e2e(
         ("plot-ceaf", "ceaf", "Plot generated"),
         ("plot-voi-curves", "curves", "Plot generated"),
         ("plot-dominance", "dominance", "Plot generated"),
+        ("plot-perspective-regret", "perspective", "Plot generated"),
     ],
 )
 def test_cli_plot_commands_e2e(
@@ -465,6 +730,18 @@ def test_cli_plot_commands_e2e(
             "--output",
             str(output_file),
         ]
+    elif setup == "perspective":
+        surface_file = tmp_path / "perspective.json"
+        _write_perspective_surface(surface_file)
+        _patch_plot_renderer(monkeypatch, "render_perspective_regret")
+        args = [
+            "--format",
+            "json",
+            command_name,
+            str(surface_file),
+            "--output",
+            str(output_file),
+        ]
     else:  # pragma: no cover - defensive
         raise AssertionError(f"Unhandled setup: {setup}")
 
@@ -478,6 +755,9 @@ def test_cli_plot_commands_e2e(
         "calculate-evppi",
         "calculate-evsi",
         "calculate-enbs",
+        "calculate-preference",
+        "calculate-validation",
+        "calculate-threshold",
     }:
         assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
     assert expected_output == "Plot generated"

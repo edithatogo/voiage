@@ -53,8 +53,8 @@ def _write_perspective_surface(path: Path) -> None:
     )
 
 
-def test_experimental_perspective_contract_files_are_valid_json() -> None:
-    """The experimental contract scaffold should contain parseable JSON."""
+def test_perspective_contract_files_are_valid_json() -> None:
+    """The fixture-backed contract scaffold should contain parseable JSON."""
     contract_root = Path("specs/frontier/perspective/v1")
     for relative_path in [
         "schemas/perspective-set.schema.json",
@@ -141,7 +141,7 @@ def test_value_of_perspective_compares_conflicting_perspectives() -> None:
     assert result.consensus_weighted_expected_net_benefit == pytest.approx(10.25)
     assert result.robust_strategy_name == "B"
     assert result.pareto_strategy_names == ["A", "B"]
-    assert result.method_maturity == "experimental"
+    assert result.method_maturity == "fixture-backed"
     assert result.reporting["reporting_standard"] == "CHEERS-VOI"
     assert result.reporting["analysis_type"] == "value_of_perspective"
     assert result.reporting["perspective_ids"] == ["payer", "societal"]
@@ -318,7 +318,7 @@ def test_perspective_metadata_and_plot_helpers_cover_edge_cases() -> None:
 
 
 def test_cli_calculate_perspective_outputs_json(tmp_path: Path) -> None:
-    """The CLI should expose the experimental perspective calculation."""
+    """The CLI should expose the fixture-backed perspective calculation."""
     surface_file = tmp_path / "perspective.json"
     _write_perspective_surface(surface_file)
 
@@ -330,7 +330,7 @@ def test_cli_calculate_perspective_outputs_json(tmp_path: Path) -> None:
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert payload["command"] == "calculate-perspective"
-    assert payload["method_maturity"] == "experimental"
+    assert payload["method_maturity"] == "fixture-backed"
     assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
     assert payload["consensus_strategy"] == "B"
     assert payload["robust_strategy"] == "B"

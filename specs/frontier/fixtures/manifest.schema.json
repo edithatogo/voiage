@@ -40,7 +40,10 @@
           },
           "method_maturity": {
             "type": "string",
-            "const": "experimental"
+            "enum": [
+              "experimental",
+              "fixture-backed"
+            ]
           }
         }
       }

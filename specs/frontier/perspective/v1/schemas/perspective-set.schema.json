@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/perspective/v1/schemas/perspective-set.schema.json",
-  "title": "PerspectiveSetV1Experimental",
+  "title": "PerspectiveSetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": ["method_maturity", "perspectives"],
   "properties": {
     "method_maturity": {
       "type": "string",
-      "const": "experimental"
+      "const": "fixture-backed"
     },
     "perspectives": {
       "type": "array",

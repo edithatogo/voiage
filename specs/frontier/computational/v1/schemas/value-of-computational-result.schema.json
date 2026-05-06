@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/computational/v1/schemas/value-of-computational-result.schema.json",
+  "title": "ValueOfComputationalResultV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "compute_value",
+    "approximation_error_value",
+    "refinement_value",
+    "compute_budget_ids",
+    "strategy_names",
+    "expected_net_benefits",
+    "optimal_strategy_by_compute_budget",
+    "compute_cost_matrix",
+    "approximation_error_matrix",
+    "refinement_weight_matrix",
+    "robust_strategy",
+    "pareto_strategies",
+    "reference_compute_budget",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_computational_refinement"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "planned"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "compute_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "approximation_error_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "refinement_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "compute_budget_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_net_benefits": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "optimal_strategy_by_compute_budget": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "compute_cost_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "approximation_error_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "refinement_weight_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "consensus_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "robust_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pareto_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_compute_budget": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

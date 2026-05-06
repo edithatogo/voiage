@@ -1,0 +1,16 @@
+name = "Voiage"
+uuid = "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
+authors = ["voiage Contributors <voiage@users.noreply.github.com>"]
+version = "0.1.0"
+
+[deps]
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
+
+[compat]
+julia = "1.10"

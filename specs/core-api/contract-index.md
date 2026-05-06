@@ -10,6 +10,14 @@ This index maps each stable v1 schema to the canonical example payload that shou
 - `schemas/v1/parameter-set.schema.json` -> `examples/v1/parameter-set.example.json`
 - `schemas/v1/value-array.schema.json` -> `examples/v1/value-array.example.json`
 
+## Diagnostic Schema
+
+- `schemas/v1/diagnostics.schema.json` -> `examples/v1/diagnostics.example.json`
+
+## Method Metadata Schema
+
+- `schemas/v1/method-metadata.schema.json` -> `examples/v1/method-metadata.example.json`
+
 ## Method Result Schemas
 
 - `schemas/v1/results/evpi.schema.json` -> `examples/v1/evpi.example.json`

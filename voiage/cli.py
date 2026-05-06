@@ -19,7 +19,7 @@ import logging
 from pathlib import Path
 import re
 import sys
-from typing import Literal, cast
+from typing import Any, Literal, cast
 
 import numpy as np
 import typer
@@ -35,12 +35,26 @@ from voiage.methods.adaptive import (
     sophisticated_adaptive_trial_simulator,
 )
 from voiage.methods.basic import evpi, evppi
+from voiage.methods.calibration import voi_calibration
 from voiage.methods.ceaf import calculate_ceaf as calculate_ceaf_result
+from voiage.methods.distributional import (
+    DistributionalEquityResult,
+    value_of_distributional_equity,
+)
 from voiage.methods.dominance import calculate_dominance as calculate_dominance_result
+from voiage.methods.heterogeneity import (
+    HeterogeneityResult,
+    value_of_heterogeneity,
+)
+from voiage.methods.implementation import (
+    ImplementationAdjustedResult,
+    value_of_implementation,
+)
 from voiage.methods.network_meta_analysis import (
     calculate_nma_evpi,
     calculate_nma_evppi,
 )
+from voiage.methods.observational import voi_observational
 from voiage.methods.perspective import (
     ValueOfPerspectiveResult,
 )
@@ -48,9 +62,33 @@ from voiage.methods.perspective import (
     value_of_perspective as calculate_perspective_result,
 )
 from voiage.methods.portfolio import portfolio_voi
+from voiage.methods.preference import (
+    PreferenceHeterogeneityResult,
+    PreferenceProfile,
+    PreferenceProfileSet,
+)
+from voiage.methods.preference import (
+    value_of_preference as calculate_preference_result,
+)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.structural import structural_evpi, structural_evppi
+from voiage.methods.threshold import (
+    ThresholdProfile,
+    ThresholdProfileSet,
+    ThresholdResult,
+)
+from voiage.methods.threshold import (
+    value_of_threshold_information as calculate_threshold_result,
+)
+from voiage.methods.validation import (
+    ModelValidationResult,
+    ValidationProfile,
+    ValidationProfileSet,
+)
+from voiage.methods.validation import (
+    value_of_model_validation as calculate_validation_result,
+)
 from voiage.plot.ceac import plot_ceac as render_ceac
 from voiage.plot.ceaf import plot_ceaf as render_ceaf
 from voiage.plot.dominance import plot_cost_effectiveness_plane as render_dominance
@@ -134,6 +172,70 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "perspective_names": ["payer", "societal"],
         "perspective_weights": {"payer": 0.5, "societal": 0.5},
         "reference_perspective": "payer",
+    },
+    "preference": {
+        "command": "calculate-preference",
+        "description": "Template for preference heterogeneity / individualized care inputs.",
+        "analysis_id": "preference-screening-001",
+        "decision_problem_id": "screening-program-001",
+        "net_benefit": [
+            [[10.0, 7.0], [8.0, 11.0]],
+            [[10.0, 7.0], [8.0, 11.0]],
+        ],
+        "strategy_names": ["A", "B"],
+        "preference_profiles": [
+            {
+                "id": "access_first",
+                "label": "Access first",
+                "weight": 0.25,
+            },
+            {
+                "id": "outcomes_first",
+                "label": "Outcomes first",
+                "weight": 0.75,
+            },
+        ],
+        "reference_preference_profile": "access_first",
+    },
+    "validation": {
+        "command": "calculate-validation",
+        "description": "Template for model-validation VOI inputs.",
+        "net_benefit": [
+            [[10.0, 7.0], [8.0, 11.0]],
+            [[10.0, 7.0], [8.0, 11.0]],
+        ],
+        "strategy_names": ["A", "B"],
+        "validation_profiles": [
+            {
+                "id": "external_validation",
+                "label": "External validation",
+                "weight": 0.6,
+            },
+            {
+                "id": "discrepancy_reduction",
+                "label": "Discrepancy reduction",
+                "weight": 0.4,
+            },
+        ],
+        "reference_validation_profile": "external_validation",
+    },
+    "threshold": {
+        "command": "calculate-threshold",
+        "description": "Template for threshold, tipping-point, and robust VOI inputs.",
+        "net_benefit": [
+            [[10.0, 7.0], [8.0, 11.0]],
+            [[10.0, 7.0], [8.0, 11.0]],
+        ],
+        "strategy_names": ["A", "B"],
+        "threshold_profiles": [
+            {"id": "wtp_reversal", "label": "WTP reversal", "weight": 0.5},
+            {
+                "id": "policy_constraint",
+                "label": "Policy constraint",
+                "weight": 0.5,
+            },
+        ],
+        "reference_threshold_profile": "wtp_reversal",
     },
 }
 
@@ -380,6 +482,312 @@ def _perspective_result_payload(
         "pareto_strategies": result.pareto_strategy_names,
         "reference_perspective": result.reference_perspective_id,
         "diagnostics": result.diagnostics,
+    }
+
+
+def _preference_result_payload(
+    result: PreferenceHeterogeneityResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for preference heterogeneity results."""
+    payload = dict(cast("dict[str, object]", result.to_dict()))
+    payload["command"] = command
+    payload["metric"] = "Value of Preference"
+    return payload
+
+
+def _read_frontier_profile_surface(
+    path: Path,
+    label: str,
+    profile_key: str,
+) -> tuple[dict[str, object], ValueArray, list[str] | None, list[object], object]:
+    """Read a 3D net-benefit surface for a frontier comparison command."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError(f"{label} input file must contain a JSON object.")
+    payload = cast("dict[str, object]", payload)
+    if "net_benefit" not in payload:
+        raise TypeError(f"{label} input file must contain 'net_benefit'.")
+
+    net_benefit = np.asarray(
+        cast("list[list[list[float]]]", payload["net_benefit"]),
+        dtype=float,
+    )
+    if net_benefit.ndim != 3:
+        raise TypeError(
+            "`net_benefit` must be a 3D array (samples x strategies x profiles)."
+        )
+
+    strategy_names = payload.get("strategy_names")
+    if strategy_names is not None and not isinstance(strategy_names, list):
+        raise TypeError("'strategy_names' must be a list when provided.")
+
+    profile_entries = payload.get(profile_key)
+    if profile_entries is None:
+        raise TypeError(f"{label} input file must contain '{profile_key}'.")
+    if not isinstance(profile_entries, list):
+        raise TypeError(f"'{profile_key}' must be a list.")
+
+    reference_profile = payload.get(f"reference_{profile_key[:-1]}")
+
+    value_array = ValueArray.from_numpy_perspectives(
+        net_benefit,
+        strategy_names=cast("list[str] | None", strategy_names),
+        perspective_names=[
+            str(entry["id"]) if isinstance(entry, dict) and "id" in entry else str(entry)
+            for entry in profile_entries
+        ],
+    )
+    return (
+        payload,
+        value_array,
+        cast("list[str] | None", strategy_names),
+        cast("list[object]", profile_entries),
+        reference_profile,
+    )
+
+
+def _validation_result_payload(
+    result: ModelValidationResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for model-validation results."""
+    return {
+        "command": command,
+        "metric": "Value of Model Validation",
+        "value": result.value,
+        "method_maturity": result.method_maturity,
+        "reporting": result.reporting,
+        "validation_profile_ids": result.validation_profile_ids,
+        "validation_profile_labels": result.validation_profile_labels,
+        "strategies": result.strategy_names,
+        "optimal_strategy_by_validation_profile": dict(
+            result.optimal_strategy_by_validation_profile
+        ),
+        "discrepancy_reduction_value": result.discrepancy_reduction_value,
+        "discrepancy_matrix": result.discrepancy_matrix.tolist(),
+        "consensus_strategy": result.consensus_strategy,
+        "robust_strategy": result.robust_strategy,
+        "pareto_strategies": result.pareto_strategies,
+        "reference_validation_profile": result.reference_validation_profile,
+        "diagnostics": result.diagnostics,
+    }
+
+
+def _threshold_result_payload(
+    result: ThresholdResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for threshold results."""
+    return {
+        "command": command,
+        "metric": "Value of Threshold Information",
+        "value": result.value,
+        "method_maturity": result.method_maturity,
+        "reporting": result.reporting,
+        "threshold_profile_ids": result.threshold_profile_ids,
+        "threshold_profile_labels": result.threshold_profile_labels,
+        "strategies": result.strategy_names,
+        "optimal_strategy_by_threshold_profile": dict(
+            result.optimal_strategy_by_threshold_profile
+        ),
+        "threshold_crossing_probability_matrix": (
+            result.threshold_crossing_probability_matrix.tolist()
+        ),
+        "decision_reversal_matrix": result.decision_reversal_matrix.tolist(),
+        "robust_strategy": result.robust_strategy,
+        "tipping_point_strategy": result.tipping_point_strategy,
+        "pareto_strategies": result.pareto_strategies,
+        "reference_threshold_profile": result.reference_threshold_profile,
+        "diagnostics": result.diagnostics,
+    }
+
+
+def _read_2d_method_surface(
+    path: Path,
+    label: str,
+) -> tuple[dict[str, object], ValueArray, list[str] | None]:
+    """Read a 2D net-benefit surface from JSON for frontier CLI commands."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError(f"{label} input file must contain a JSON object.")
+    payload = cast("dict[str, object]", payload)
+    if "net_benefit" not in payload:
+        raise TypeError(f"{label} input file must contain 'net_benefit'.")
+
+    net_benefit = np.asarray(
+        cast("list[list[float]]", payload["net_benefit"]),
+        dtype=float,
+    )
+    if net_benefit.ndim != 2:
+        raise TypeError("`net_benefit` must be a 2D array (samples x strategies).")
+
+    strategy_names = payload.get("strategy_names")
+    if strategy_names is not None and not isinstance(strategy_names, list):
+        raise TypeError("'strategy_names' must be a list when provided.")
+
+    value_array = ValueArray.from_numpy(
+        net_benefit,
+        strategy_names=cast("list[str] | None", strategy_names),
+    )
+    return payload, value_array, cast("list[str] | None", strategy_names)
+
+
+def _result_method_maturity(result: object) -> str:
+    """Return the method maturity attached to a structured result."""
+    maturity = getattr(result, "method_maturity", None)
+    if maturity is not None:
+        return str(maturity)
+
+    reporting = cast("dict[str, object]", getattr(result, "reporting", {}))
+    return str(reporting.get("method_maturity", "unknown"))
+
+
+def _heterogeneity_result_payload(
+    result: HeterogeneityResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for Value of Heterogeneity results."""
+    return {
+        "command": command,
+        "metric": "Value of Heterogeneity",
+        "value": result.value,
+        "method_maturity": _result_method_maturity(result),
+        "reporting": result.reporting,
+        "subgroup_labels": result.subgroup_labels,
+        "subgroup_weights": result.subgroup_weights.tolist(),
+        "subgroup_optimal_strategy_indices": (
+            result.subgroup_optimal_strategy_indices.tolist()
+        ),
+        "subgroup_optimal_strategy_names": result.subgroup_optimal_strategy_names,
+        "subgroup_expected_net_benefits": (
+            result.subgroup_expected_net_benefits.tolist()
+        ),
+        "overall_optimal_strategy_index": result.overall_optimal_strategy_index,
+        "overall_optimal_strategy_name": result.overall_optimal_strategy_name,
+        "overall_expected_net_benefit": result.overall_expected_net_benefit,
+    }
+
+
+def _distributional_result_payload(
+    result: DistributionalEquityResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for distributional VOI results."""
+    return {
+        "command": command,
+        "metric": "Value of Distributional Equity",
+        "value": result.value,
+        "method_maturity": _result_method_maturity(result),
+        "reporting": result.reporting,
+        "subgroup_labels": result.subgroup_labels,
+        "subgroup_weights": result.subgroup_weights.tolist(),
+        "equity_weights": result.equity_weights.tolist(),
+        "subgroup_optimal_strategy_indices": (
+            result.subgroup_optimal_strategy_indices.tolist()
+        ),
+        "subgroup_optimal_strategy_names": result.subgroup_optimal_strategy_names,
+        "subgroup_expected_net_benefits": (
+            result.subgroup_expected_net_benefits.tolist()
+        ),
+        "equity_weighted_expected_net_benefits": (
+            result.equity_weighted_expected_net_benefits.tolist()
+        ),
+        "overall_optimal_strategy_index": result.overall_optimal_strategy_index,
+        "overall_optimal_strategy_name": result.overall_optimal_strategy_name,
+        "social_welfare_optimal_strategy_index": (
+            result.social_welfare_optimal_strategy_index
+        ),
+        "social_welfare_optimal_strategy_name": result.social_welfare_optimal_strategy_name,
+        "social_welfare_value": result.social_welfare_value,
+        "diagnostics": result.diagnostics,
+    }
+
+
+def _implementation_result_payload(
+    result: ImplementationAdjustedResult,
+    command: str,
+) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for implementation-adjusted VOI results."""
+    return {
+        "command": command,
+        "metric": "Value of Implementation",
+        "value": result.value,
+        "method_maturity": _result_method_maturity(result),
+        "reporting": result.reporting,
+        "baseline_expected_net_benefits": (
+            result.baseline_expected_net_benefits.tolist()
+        ),
+        "baseline_optimal_strategy_index": result.baseline_optimal_strategy_index,
+        "baseline_optimal_strategy_name": result.baseline_optimal_strategy_name,
+        "adjusted_expected_net_benefits": result.adjusted_expected_net_benefits.tolist(),
+        "adjusted_optimal_strategy_index": result.adjusted_optimal_strategy_index,
+        "adjusted_optimal_strategy_name": result.adjusted_optimal_strategy_name,
+        "implementation_multiplier": result.implementation_multiplier,
+        "uptake": result.uptake,
+        "adherence": result.adherence,
+        "coverage": result.coverage,
+        "implementation_delay": result.implementation_delay,
+        "implementation_uncertainty": result.implementation_uncertainty,
+        "discount_rate": result.discount_rate,
+        "time_horizon": result.time_horizon,
+        "population": result.population,
+        "diagnostics": result.diagnostics,
+    }
+
+
+def _optional_float_field(
+    payload: dict[str, object],
+    key: str,
+    default: float | None,
+) -> float | None:
+    """Read an optional numeric JSON field."""
+    value = payload.get(key, default)
+    if value is None:
+        return default
+    return _read_float(value, key)
+
+
+def _ceaf_result_payload(result: Any, command: str) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for CEAF results."""
+    return {
+        "command": command,
+        "metric": "CEAF",
+        "wtp_thresholds": cast("np.ndarray", result.wtp_thresholds).tolist(),
+        "optimal_strategy_indices": cast(
+            "np.ndarray", result.optimal_strategy_indices
+        ).tolist(),
+        "optimal_strategy_names": cast("list[str]", result.optimal_strategy_names),
+        "acceptability_probabilities": cast(
+            "np.ndarray", result.acceptability_probabilities
+        ).tolist(),
+        "probability_lower": cast("np.ndarray", result.probability_lower).tolist(),
+        "probability_upper": cast("np.ndarray", result.probability_upper).tolist(),
+        "expected_net_benefit": cast("np.ndarray", result.expected_net_benefit).tolist(),
+        "reporting": cast("dict[str, object]", result.reporting),
+    }
+
+
+def _dominance_result_payload(result: Any, command: str) -> dict[str, object]:
+    """Return a JSON/CSV-safe payload for dominance results."""
+    return {
+        "command": command,
+        "metric": "Dominance",
+        "strategy_names": cast("list[str]", result.strategy_names),
+        "costs": cast("np.ndarray", result.costs).tolist(),
+        "effects": cast("np.ndarray", result.effects).tolist(),
+        "frontier_indices": cast("list[int]", result.frontier_indices),
+        "strongly_dominated_indices": cast(
+            "list[int]", result.strongly_dominated_indices
+        ),
+        "extended_dominated_indices": cast(
+            "list[int]", result.extended_dominated_indices
+        ),
+        "status": cast("list[str]", result.status),
+        "incremental_costs": cast("np.ndarray", result.incremental_costs).tolist(),
+        "incremental_effects": cast("np.ndarray", result.incremental_effects).tolist(),
+        "icers": cast("np.ndarray", result.icers).tolist(),
+        "reporting": cast("dict[str, object]", result.reporting),
     }
 
 
@@ -708,6 +1116,142 @@ def calculate_evppi(
         raise typer.Exit(code=1) from e
 
 
+@app.command(name="calculate-calibration")
+def calculate_calibration(
+    parameter_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to CSV containing PSA parameters (samples x parameters)",
+    ),
+    calibration_study_design_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON calibration study design",
+    ),
+    calibration_process_spec_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON calibration process specification",
+    ),
+    model: str | None = typer.Option(
+        None,
+        "--model",
+        "-m",
+        help="Dotted path to a callable accepting ParameterSet and returning ValueArray",
+    ),
+    population: float | None = typer.Option(
+        None, "--population", help="Population size for population-adjusted VOI"
+    ),
+    discount_rate: float | None = typer.Option(
+        None, "--discount-rate", help="Annual discount rate (e.g., 0.03)"
+    ),
+    time_horizon: float | None = typer.Option(
+        None, "--time-horizon", help="Time horizon in years"
+    ),
+    n_outer_loops: int = typer.Option(
+        20, "--n-outer-loops", help="Outer Monte Carlo loops"
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save calibration VOI result"
+    ),
+) -> None:
+    """Calculate calibration VOI from PSA, study design, and process specs.
+
+    Examples
+    --------
+    Calculate calibration VOI from a parameter CSV and JSON study files:
+
+    .. code-block:: bash
+
+        voiage calculate-calibration parameters.csv calibration_study.json calibration_process.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-calibration",
+            parameter_file=str(parameter_file),
+            calibration_study_design_file=str(calibration_study_design_file),
+            calibration_process_spec_file=str(calibration_process_spec_file),
+            model=model,
+            population=population,
+            discount_rate=discount_rate,
+            time_horizon=time_horizon,
+            n_outer_loops=n_outer_loops,
+        )
+        psa_prior = read_parameter_set_csv(str(parameter_file), skip_header=True)
+        calibration_study_design_obj = _read_json_file(calibration_study_design_file)
+        if not isinstance(calibration_study_design_obj, dict):
+            raise TypeError("Calibration study design file must contain a JSON object.")
+        calibration_study_design = cast(
+            "dict[str, object]", calibration_study_design_obj
+        )
+        calibration_process_spec_obj = _read_json_file(calibration_process_spec_file)
+        if not isinstance(calibration_process_spec_obj, dict):
+            raise TypeError(
+                "Calibration process specification file must contain a JSON object."
+            )
+        calibration_process_spec = cast(
+            "dict[str, object]", calibration_process_spec_obj
+        )
+
+        cal_study_modeler = import_callable(model) if model is not None else None
+        result = voi_calibration(
+            cal_study_modeler=cal_study_modeler,
+            psa_prior=psa_prior,
+            calibration_study_design=calibration_study_design,
+            calibration_process_spec=calibration_process_spec,
+            population=population,
+            discount_rate=discount_rate,
+            time_horizon=time_horizon,
+            n_outer_loops=n_outer_loops,
+        )
+        result_str = f"Calibration VOI: {result:.6f}"
+        output_text = _format_output(
+            result_str,
+            _scalar_result_payload(
+                command="calculate-calibration",
+                metric="Calibration VOI",
+                value=result,
+                method_family="calibration",
+                estimator=model or "sophisticated",
+                reporting_details={
+                    "population": population,
+                    "discount_rate": discount_rate,
+                    "time_horizon": time_horizon,
+                    "n_outer_loops": n_outer_loops,
+                    "calibration_study_design": calibration_study_design_file.name,
+                    "calibration_process_spec": calibration_process_spec_file.name,
+                },
+            ),
+        )
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except json.JSONDecodeError as e:
+        typer.echo(f"Error: Invalid JSON in calibration input file - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
 @app.command()
 def calculate_evsi(
     parameter_file: Path = typer.Argument(
@@ -929,6 +1473,140 @@ def calculate_enbs(
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
     except ValueError as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-observational")
+def calculate_observational(
+    parameter_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to CSV containing PSA parameters (samples x parameters)",
+    ),
+    observational_study_design_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON observational study design",
+    ),
+    bias_models_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON bias-model specification",
+    ),
+    model: str | None = typer.Option(
+        None,
+        "--model",
+        "-m",
+        help="Dotted path to a callable accepting ParameterSet and returning ValueArray",
+    ),
+    population: float | None = typer.Option(
+        None, "--population", help="Population size for population-adjusted VOI"
+    ),
+    discount_rate: float | None = typer.Option(
+        None, "--discount-rate", help="Annual discount rate (e.g., 0.03)"
+    ),
+    time_horizon: float | None = typer.Option(
+        None, "--time-horizon", help="Time horizon in years"
+    ),
+    n_outer_loops: int = typer.Option(
+        20, "--n-outer-loops", help="Outer Monte Carlo loops"
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save observational VOI result"
+    ),
+) -> None:
+    """Calculate observational VOI from PSA, study design, and bias models.
+
+    Examples
+    --------
+    Calculate observational VOI from a parameter CSV and JSON study files:
+
+    .. code-block:: bash
+
+        voiage calculate-observational parameters.csv observational_study.json bias_models.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-observational",
+            parameter_file=str(parameter_file),
+            observational_study_design_file=str(observational_study_design_file),
+            bias_models_file=str(bias_models_file),
+            model=model,
+            population=population,
+            discount_rate=discount_rate,
+            time_horizon=time_horizon,
+            n_outer_loops=n_outer_loops,
+        )
+        psa_prior = read_parameter_set_csv(str(parameter_file), skip_header=True)
+        observational_study_design_obj = _read_json_file(observational_study_design_file)
+        if not isinstance(observational_study_design_obj, dict):
+            raise TypeError(
+                "Observational study design file must contain a JSON object."
+            )
+        observational_study_design = cast(
+            "dict[str, object]", observational_study_design_obj
+        )
+        bias_models_obj = _read_json_file(bias_models_file)
+        if not isinstance(bias_models_obj, dict):
+            raise TypeError("Bias models file must contain a JSON object.")
+        bias_models = cast("dict[str, object]", bias_models_obj)
+
+        obs_study_modeler = import_callable(model) if model is not None else None
+        result = voi_observational(
+            obs_study_modeler=obs_study_modeler,
+            psa_prior=psa_prior,
+            observational_study_design=observational_study_design,
+            bias_models=bias_models,
+            population=population,
+            discount_rate=discount_rate,
+            time_horizon=time_horizon,
+            n_outer_loops=n_outer_loops,
+        )
+        result_str = f"Observational VOI: {result:.6f}"
+        output_text = _format_output(
+            result_str,
+            _scalar_result_payload(
+                command="calculate-observational",
+                metric="Observational VOI",
+                value=result,
+                method_family="observational",
+                estimator=model or "basic",
+                reporting_details={
+                    "population": population,
+                    "discount_rate": discount_rate,
+                    "time_horizon": time_horizon,
+                    "n_outer_loops": n_outer_loops,
+                    "observational_study_design": observational_study_design_file.name,
+                    "bias_models": bias_models_file.name,
+                },
+            ),
+        )
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except json.JSONDecodeError as e:
+        typer.echo(f"Error: Invalid JSON in observational input file - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (TypeError, ValueError) as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
     except Exception as e:
@@ -1866,6 +2544,502 @@ def calculate_perspective(
         raise typer.Exit(code=1) from e
 
 
+@app.command(name="calculate-preference")
+def calculate_preference(
+    surface_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON surface data for preference heterogeneity VOI",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save preference result"
+    ),
+) -> None:
+    """Calculate preference heterogeneity and individualized-care VOI.
+
+    Examples
+    --------
+    Calculate preference regret and consensus strategy:
+
+    .. code-block:: bash
+
+        voiage calculate-preference preference_surface.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-preference",
+            surface_file=str(surface_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        (
+            payload,
+            value_array,
+            strategy_names,
+            profile_entries,
+            reference_preference_profile,
+        ) = _read_frontier_profile_surface(
+            surface_file,
+            "Preference surface",
+            "preference_profiles",
+        )
+        profiles = PreferenceProfileSet(
+            [
+                PreferenceProfile(**entry)
+                if isinstance(entry, dict)
+                else PreferenceProfile(id=str(entry))
+                for entry in profile_entries
+            ]
+        )
+        result = calculate_preference_result(
+            value_array,
+            preference_profiles=profiles,
+            strategy_names=strategy_names,
+            reference_preference_profile=cast(
+                "str | int | None", reference_preference_profile
+            ),
+            analysis_id=cast("str | None", payload.get("analysis_id")),
+            decision_problem_id=cast("str | None", payload.get("decision_problem_id")),
+        )
+        result_str = (
+            f"Value of Preference: {result.value:.6f}\n"
+            f"Consensus strategy: {result.consensus_strategy_name}\n"
+            f"Robust strategy: {result.robust_strategy_name}"
+        )
+        output_text = _format_output(
+            result_str,
+            _preference_result_payload(result, "calculate-preference"),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Surface file not found at '{surface_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-validation")
+def calculate_validation(
+    surface_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON surface data for model-validation VOI",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save model-validation result"
+    ),
+) -> None:
+    """Calculate value of model validation from a JSON surface file.
+
+    Examples
+    --------
+    Calculate validation regret and consensus strategy:
+
+    .. code-block:: bash
+
+        voiage calculate-validation validation_surface.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-validation",
+            surface_file=str(surface_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        (
+            _payload,
+            value_array,
+            strategy_names,
+            profile_entries,
+            reference_validation_profile,
+        ) = _read_frontier_profile_surface(
+            surface_file,
+            "Validation surface",
+            "validation_profiles",
+        )
+        profiles = ValidationProfileSet(
+            [
+                ValidationProfile(**entry)
+                if isinstance(entry, dict)
+                else ValidationProfile(id=str(entry))
+                for entry in profile_entries
+            ]
+        )
+        result = calculate_validation_result(
+            value_array,
+            validation_profiles=profiles,
+            strategy_names=strategy_names,
+            reference_validation_profile=cast(
+                "str | int | None", reference_validation_profile
+            ),
+        )
+        result_str = (
+            f"Model validation VOI: {result.value:.6f}\n"
+            f"Consensus strategy: {result.consensus_strategy}\n"
+            f"Robust strategy: {result.robust_strategy}"
+        )
+        output_text = _format_output(
+            result_str,
+            _validation_result_payload(result, "calculate-validation"),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Surface file not found at '{surface_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-threshold")
+def calculate_threshold(
+    surface_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON surface data for threshold VOI",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save threshold result"
+    ),
+) -> None:
+    """Calculate threshold, tipping-point, and robust VOI from a JSON surface file.
+
+    Examples
+    --------
+    Calculate threshold-crossing summaries and robust strategy:
+
+    .. code-block:: bash
+
+        voiage calculate-threshold threshold_surface.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-threshold",
+            surface_file=str(surface_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        (
+            _payload,
+            value_array,
+            strategy_names,
+            profile_entries,
+            reference_threshold_profile,
+        ) = _read_frontier_profile_surface(
+            surface_file,
+            "Threshold surface",
+            "threshold_profiles",
+        )
+        profiles = ThresholdProfileSet(
+            [
+                ThresholdProfile(**entry)
+                if isinstance(entry, dict)
+                else ThresholdProfile(id=str(entry))
+                for entry in profile_entries
+            ]
+        )
+        result = calculate_threshold_result(
+            value_array,
+            threshold_profiles=profiles,
+            strategy_names=strategy_names,
+            reference_threshold_profile=cast(
+                "str | int | None", reference_threshold_profile
+            ),
+        )
+        result_str = (
+            f"Threshold VOI: {result.value:.6f}\n"
+            f"Tipping-point strategy: {result.tipping_point_strategy}\n"
+            f"Robust strategy: {result.robust_strategy}"
+        )
+        output_text = _format_output(
+            result_str,
+            _threshold_result_payload(result, "calculate-threshold"),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Surface file not found at '{surface_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command()
+def calculate_heterogeneity(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON input with net_benefit and subgroups",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save Value of Heterogeneity result"
+    ),
+) -> None:
+    """Calculate Value of Heterogeneity from a JSON input file."""
+    try:
+        _log_cli_debug(
+            "calculate-heterogeneity",
+            input_file=str(input_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        payload, value_array, strategy_names = _read_2d_method_surface(
+            input_file,
+            "Heterogeneity",
+        )
+        subgroups = payload.get("subgroups")
+        if subgroups is None:
+            raise TypeError("Heterogeneity input file must contain 'subgroups'.")
+        if not isinstance(subgroups, list):
+            raise TypeError("'subgroups' must be a list.")
+
+        n_bins = payload.get("n_bins")
+        if n_bins is not None and not isinstance(n_bins, int):
+            raise TypeError("'n_bins' must be an integer when provided.")
+
+        result = value_of_heterogeneity(
+            value_array,
+            subgroups,
+            strategy_names=strategy_names,
+            n_bins=n_bins,
+        )
+        result_str = (
+            f"Value of Heterogeneity: {result.value:.6f}\n"
+            f"Overall optimal strategy: {result.overall_optimal_strategy_name}\n"
+            f"Subgroups: {len(result.subgroup_labels)}"
+        )
+        output_text = _format_output(
+            result_str,
+            _heterogeneity_result_payload(result, "calculate-heterogeneity"),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command()
+def calculate_distributional_equity(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON input with net_benefit, subgroups, and equity weights",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save Value of Distributional Equity result",
+    ),
+) -> None:
+    """Calculate Value of Distributional Equity from a JSON input file."""
+    try:
+        _log_cli_debug(
+            "calculate-distributional-equity",
+            input_file=str(input_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        payload, value_array, strategy_names = _read_2d_method_surface(
+            input_file,
+            "Distributional equity",
+        )
+        subgroups = payload.get("subgroups")
+        if subgroups is None:
+            raise TypeError(
+                "Distributional equity input file must contain 'subgroups'."
+            )
+        if not isinstance(subgroups, list):
+            raise TypeError("'subgroups' must be a list.")
+
+        n_bins = payload.get("n_bins")
+        if n_bins is not None and not isinstance(n_bins, int):
+            raise TypeError("'n_bins' must be an integer when provided.")
+
+        equity_weights = payload.get("equity_weights")
+        if equity_weights is not None and not isinstance(equity_weights, (list, dict)):
+            raise TypeError(
+                "'equity_weights' must be a list or mapping when provided."
+            )
+
+        result = value_of_distributional_equity(
+            value_array,
+            subgroups,
+            strategy_names=strategy_names,
+            equity_weights=cast(
+                "np.ndarray | list[float] | dict[str, float] | None",
+                equity_weights,
+            ),
+            n_bins=n_bins,
+        )
+        result_str = (
+            f"Value of Distributional Equity: {result.value:.6f}\n"
+            f"Social welfare strategy: {result.social_welfare_optimal_strategy_name}\n"
+            f"Subgroups: {len(result.subgroup_labels)}"
+        )
+        output_text = _format_output(
+            result_str,
+            _distributional_result_payload(
+                result, "calculate-distributional-equity"
+            ),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command()
+def calculate_implementation(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON input with net_benefit and implementation settings",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save Value of Implementation result"
+    ),
+) -> None:
+    """Calculate Value of Implementation from a JSON input file."""
+    try:
+        _log_cli_debug(
+            "calculate-implementation",
+            input_file=str(input_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        payload, value_array, strategy_names = _read_2d_method_surface(
+            input_file,
+            "Implementation",
+        )
+
+        result = value_of_implementation(
+            value_array,
+            uptake=cast(
+                "float",
+                _optional_float_field(payload, "uptake", 1.0),
+            ),
+            adherence=cast(
+                "float",
+                _optional_float_field(payload, "adherence", 1.0),
+            ),
+            coverage=cast(
+                "float",
+                _optional_float_field(payload, "coverage", 1.0),
+            ),
+            implementation_delay=cast(
+                "float",
+                _optional_float_field(payload, "implementation_delay", 0.0),
+            ),
+            implementation_uncertainty=cast(
+                "float",
+                _optional_float_field(payload, "implementation_uncertainty", 0.0),
+            ),
+            discount_rate=cast(
+                "float",
+                _optional_float_field(payload, "discount_rate", 0.0),
+            ),
+            time_horizon=_optional_float_field(payload, "time_horizon", None),
+            population=_optional_float_field(payload, "population", None),
+            strategy_names=strategy_names,
+        )
+        result_str = (
+            f"Value of Implementation: {result.value:.6f}\n"
+            f"Adjusted optimal strategy: {result.adjusted_optimal_strategy_name}\n"
+            f"Multiplier: {result.implementation_multiplier:.6f}"
+        )
+        output_text = _format_output(
+            result_str,
+            _implementation_result_payload(result, "calculate-implementation"),
+        )
+
+        typer.echo(output_text)
+
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
 @app.command()
 def plot_perspective_regret(
     surface_file: Path = typer.Argument(
@@ -2194,6 +3368,119 @@ def plot_dominance(
                     },
                 )
             )
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command()
+def calculate_ceaf(
+    surface_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON surface data with net_benefit and wtp_thresholds",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the CEAF result"
+    ),
+) -> None:
+    """Calculate a Cost-Effectiveness Acceptability Frontier.
+
+    Examples
+    --------
+    Calculate a CEAF from a JSON surface file:
+
+    .. code-block:: bash
+
+        voiage calculate-ceaf surface.json
+    """
+    try:
+        _log_cli_debug(
+            "calculate-ceaf",
+            surface_file=str(surface_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        value_array, wtp_thresholds = _read_plot_surface(surface_file)
+        result = calculate_ceaf_result(value_array, wtp_thresholds)
+        strategy_name = result.optimal_strategy_names[0] if result.optimal_strategy_names else "n/a"
+        result_str = (
+            f"CEAF computed across {len(result.wtp_thresholds)} thresholds\n"
+            f"Leading strategy: {strategy_name}"
+        )
+        output_text = _format_output(
+            result_str,
+            _ceaf_result_payload(result, "calculate-ceaf"),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command()
+def calculate_dominance(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to CSV file with strategy,cost,effect columns",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the dominance result"
+    ),
+) -> None:
+    """Calculate dominance classes and the cost-effectiveness frontier.
+
+    Examples
+    --------
+    Calculate dominance from a CSV file:
+
+    .. code-block:: bash
+
+        voiage calculate-dominance dominance.csv
+    """
+    try:
+        _log_cli_debug(
+            "calculate-dominance",
+            input_file=str(input_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        costs, effects, names = _read_cost_effect_csv(input_file)
+        result = calculate_dominance_result(costs, effects, strategy_names=names)
+        result_str = (
+            f"Dominance frontier strategies: {len(result.frontier_indices)}\n"
+            f"Strongly dominated strategies: {len(result.strongly_dominated_indices)}"
+        )
+        output_text = _format_output(
+            result_str,
+            _dominance_result_payload(result, "calculate-dominance"),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
     except FileNotFoundError as e:
         typer.echo(f"Error: File not found - {e}", err=True)
         raise typer.Exit(code=1) from e

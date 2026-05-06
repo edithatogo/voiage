@@ -7,6 +7,7 @@
 """
 
 from typing import Union
+import warnings
 
 import numpy as np
 
@@ -111,7 +112,28 @@ def evpi(
 
     Notes
     -----
-    EVPI is computed as :math:`E[\\max_i NB_i(\\theta)] - \\max_i E[NB_i(\\theta)]`.
+    EVPI is the gap between the expected value of the strategy that would be
+    chosen with perfect information and the value of the strategy chosen under
+    current information:
+
+    .. math::
+
+       \mathrm{EVPI} = E\left[\max_i NB_i(\theta)\right] - \max_i E[NB_i(\theta)].
+
+    References
+    ----------
+    Briggs, A. H., Claxton, K., & Sculpher, M. J. (2006). *Decision Modelling
+    for Health Economic Evaluation*. Oxford University Press.
+    Claxton, K. (1999). The irrelevance of inference: A decision-making
+    approach to the stochastic evaluation of health care technologies.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.basic import evpi
+    >>> nb = np.array([[10.0, 12.0], [11.0, 9.0], [13.0, 14.0]])
+    >>> round(evpi(nb), 6)
+    0.666667
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
 
@@ -136,7 +158,7 @@ def evppi(
     | type[RegressionModelProtocol]
     | None = None,
 ) -> float:
-    """Calculate expected value of partial perfect information.
+    r"""Calculate expected value of partial perfect information.
 
     Parameters
     ----------
@@ -166,12 +188,49 @@ def evppi(
 
     Notes
     -----
-    EVPPI is always bounded above by EVPI and depends on the chosen
-    approximation method used internally by :class:`~voiage.analysis.DecisionAnalysis`.
+    EVPPI measures the gain from resolving a subset of uncertain parameters
+    while leaving the remainder uncertain:
+
+    .. math::
+
+       \mathrm{EVPPI}(x) = E_x\left[\max_d E[NB_d \mid x]\right] - \max_d E[NB_d].
+
+    The implementation delegates approximation details to
+    :class:`~voiage.analysis.DecisionAnalysis`, so the precise estimator can
+    vary with the chosen regression model or sample controls.
+
+    References
+    ----------
+    Strong, M., Oakley, J. E., & Brennan, A. (2014). Estimating multiparameter
+    partial expected value of perfect information from the posterior
+    distribution. *Medical Decision Making*, 34(3), 314-326.
+    Ades, A. E., Lu, G., & Claxton, K. (2004). Expected value of sample
+    information calculations in medical decision modeling.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.basic import evppi
+    >>> from voiage.schema import ParameterSet
+    >>> nb = np.array([[10.0, 12.0], [11.0, 9.0], [13.0, 14.0]])
+    >>> params = ParameterSet.from_numpy_or_dict({
+    ...     "effect": np.array([0.1, 0.2, 0.3]),
+    ...     "cost": np.array([1.0, 1.1, 0.9]),
+    ... })
+    >>> round(evppi(nb, params, ["effect"]), 6) >= 0.0
+    True
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
 
     filtered_parameter_samples: np.ndarray | PSASample | dict[str, np.ndarray]
+
+    if isinstance(parameter_samples, dict):
+        warnings.warn(
+            "Passing raw dict parameter samples to `voiage.methods.basic.evppi` "
+            "is a compatibility alias. Pass a `ParameterSet` instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     # Filter parameter samples to only include parameters of interest
     if isinstance(parameter_samples, PSASample):

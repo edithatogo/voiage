@@ -1,8 +1,8 @@
-# Value of Perspective Experimental Contract v1
+# Value of Perspective Fixture-Backed Contract v1
 
-This directory holds the experimental Value of Perspective contract. It is not
-part of the stable core API v1 matrix yet; promotion requires deterministic
-fixtures, cross-language validation, CLI coverage, and method maturity review.
+This directory holds the fixture-backed Value of Perspective contract. It is
+not part of the stable core API v1 matrix yet; promotion still requires
+cross-language validation, CLI coverage, and method maturity review.
 
 ## Files
 
@@ -11,7 +11,7 @@ fixtures, cross-language validation, CLI coverage, and method maturity review.
   result shape.
 - `examples/value-of-perspective.example.json` is a compact illustrative result.
 - `fixtures/` contains the deterministic screening-program conformance
-  fixture set used to anchor the experimental CLI contract.
+  fixture set used to anchor the CLI contract.
 
 ## Shape
 

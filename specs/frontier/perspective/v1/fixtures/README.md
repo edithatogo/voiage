@@ -1,6 +1,6 @@
 # Value of Perspective v1 Fixtures
 
-This directory contains the deterministic fixture set for the experimental
+This directory contains the deterministic fixture set for the fixture-backed
 Value of Perspective contract.
 
 ## Layout
@@ -10,6 +10,6 @@ Value of Perspective contract.
 
 The committed fixture is intentionally small and uses the screening-program
 comparison surface already documented in the v1 example files. The top-level
-Value of Perspective API remains experimental until the wider cross-language
-conformance story is complete, but this directory now provides the fixture
-backbone for that promotion work.
+Value of Perspective contract is now fixture-backed, and this directory
+provides the conformance backbone for the runtime surface and future
+cross-language bindings.

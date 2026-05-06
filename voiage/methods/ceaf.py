@@ -104,7 +104,7 @@ def calculate_ceaf(
     strategy_names: list[str] | None = None,
     confidence_level: float = 0.95,
 ) -> CEAFResult:
-    """Calculate a cost-effectiveness acceptability frontier.
+    r"""Calculate a cost-effectiveness acceptability frontier.
 
     Parameters
     ----------
@@ -125,9 +125,43 @@ def calculate_ceaf(
 
     Notes
     -----
-    The frontier is built by selecting the strategy with the highest expected
-    net benefit at each threshold, then estimating how often that strategy is
-    optimal across PSA samples.
+    At each willingness-to-pay threshold :math:`\lambda`, CEAF selects the
+    strategy with the largest expected net benefit:
+
+    .. math::
+
+       d^*(\lambda) = \arg\max_d E[NB_d(\lambda)].
+
+    The acceptability probability is the fraction of PSA samples for which the
+    selected strategy is also optimal under the sample-level net benefits.
+
+    References
+    ----------
+    Fenwick, E., Claxton, K., & Sculpher, M. (2001). Representing uncertainty:
+    the cost-effectiveness acceptability curve, the cost-effectiveness
+    acceptability frontier, and the expected value of sample information.
+    Briggs, A. H., O'Brien, B. J., & Blackhouse, G. (2002). Thinking
+    outside the box: CEAF as a decision summary.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.ceaf import calculate_ceaf
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array(
+    ...     [
+    ...         [[10.0, 11.0], [12.0, 9.0]],
+    ...         [[9.0, 10.5], [11.0, 10.0]],
+    ...     ]
+    ... )
+    >>> va = ValueArray.from_numpy_perspectives(
+    ...     values,
+    ...     strategy_names=["A", "B"],
+    ...     perspective_names=["10000", "20000"],
+    ... )
+    >>> result = calculate_ceaf(va, [10000.0, 20000.0])
+    >>> result.wtp_thresholds.tolist()
+    [10000.0, 20000.0]
     """
     if not 0 < confidence_level < 1:
         raise_input_error("`confidence_level` must be between 0 and 1.")

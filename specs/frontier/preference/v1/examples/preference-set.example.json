@@ -1,5 +1,5 @@
 {
-  "method_maturity": "planned",
+  "method_maturity": "fixture-backed",
   "preference_profiles": [
     {
       "id": "access_first",

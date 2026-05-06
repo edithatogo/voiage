@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
+    <PackageId>Voiage.Core</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>voiage Contributors</Authors>
+    <Company>voiage</Company>
+    <Description>.NET 11 bindings for the voiage core API contract.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/edithatogo/voiage</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/edithatogo/voiage</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>voi;evpi;decision-analysis;value-of-information</PackageTags>
+    <PackageReleaseNotes>Published from dotnet-v* tags via the polyglot release workflow.</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

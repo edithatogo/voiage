@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/preference/v1/schemas/preference-set.schema.json",
-  "title": "PreferenceSetV1Planned",
+  "title": "PreferenceSetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": ["method_maturity", "preference_profiles"],
   "properties": {
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "preference_profiles": {
       "type": "array",

@@ -41,6 +41,126 @@ print(result.robust_strategy_name)
 print(result.switching_values.tolist())
 ```
 
+## Preference Heterogeneity And Individualized Care
+
+Preference heterogeneity and individualized-care analysis are available through
+the runtime surface, CLI entrypoint, and fixture-backed conformance contract.
+Use them when decision value changes because patient, stakeholder, or subgroup
+preferences matter directly.
+
+### Usage Example
+
+```python
+from voiage.analysis import DecisionAnalysis
+from voiage.methods.preference import PreferenceProfile, PreferenceProfileSet
+
+result = DecisionAnalysis(...).value_of_preference(
+    PreferenceProfileSet([
+        PreferenceProfile("payer"),
+        PreferenceProfile("patient"),
+    ])
+)
+
+print(result.optimal_strategy_by_preference_profile["payer"])
+```
+
+CLI equivalent:
+
+```bash
+voiage calculate-preference preference_surface.json
+```
+
+## Model Validation And Threshold VOI
+
+Validation VOI and threshold/robust VOI now have experimental runtime methods,
+fixture-backed conformance payloads, and CLI entrypoints. The APIs are still
+frontier work, so the comparison surface may evolve, but the current shape is
+stable enough for side-by-side analysis and command-line smoke tests.
+
+### Model Validation Example
+
+```python
+import numpy as np
+from voiage.analysis import DecisionAnalysis
+from voiage.methods.validation import ValidationProfile, ValidationProfileSet
+from voiage.schema import ValueArray
+
+net_benefits = np.array(
+    [
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+    ]
+)
+
+value_array = ValueArray.from_numpy_perspectives(
+    net_benefits,
+    strategy_names=["A", "B", "C"],
+    perspective_names=["external_validation", "discrepancy_reduction"],
+)
+
+analysis = DecisionAnalysis(value_array)
+result = analysis.value_of_model_validation(
+    validation_profiles=ValidationProfileSet(
+        [
+            ValidationProfile(
+                id="external_validation",
+                label="External validation",
+                weight=0.6,
+            ),
+            ValidationProfile(
+                id="discrepancy_reduction",
+                label="Discrepancy reduction",
+                weight=0.4,
+            ),
+        ]
+    ),
+    reference_validation_profile="external_validation",
+)
+
+print(result.consensus_strategy)
+print(result.discrepancy_reduction_value)
+```
+
+### Threshold Example
+
+```python
+import numpy as np
+from voiage.analysis import DecisionAnalysis
+from voiage.methods.threshold import ThresholdProfile, ThresholdProfileSet
+from voiage.schema import ValueArray
+
+net_benefits = np.array(
+    [
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+        [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
+    ]
+)
+
+value_array = ValueArray.from_numpy_perspectives(
+    net_benefits,
+    strategy_names=["A", "B", "C"],
+    perspective_names=["wtp_reversal", "policy_constraint"],
+)
+
+analysis = DecisionAnalysis(value_array)
+result = analysis.value_of_threshold_information(
+    threshold_profiles=ThresholdProfileSet(
+        [
+            ThresholdProfile(id="wtp_reversal", label="WTP reversal", weight=0.5),
+            ThresholdProfile(
+                id="policy_constraint",
+                label="Policy constraint",
+                weight=0.5,
+            ),
+        ]
+    ),
+    reference_threshold_profile="wtp_reversal",
+)
+
+print(result.tipping_point_strategy)
+print(result.robust_strategy)
+```
+
 ## Adaptive Trial VOI
 
 Adaptive trial VOI methods evaluate the value of information from clinical trials with interim analyses and potential modifications.

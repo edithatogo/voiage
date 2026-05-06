@@ -15,6 +15,8 @@ coverage, and method maturity review.
   input payload.
 - `examples/value-of-dynamic-real-options.example.json` is a compact
   illustrative result payload.
+- `fixtures/` contains the deterministic staged-evidence conformance fixture
+  set used to anchor the planned contract.
 
 ## Shape
 

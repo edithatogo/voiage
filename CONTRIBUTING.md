@@ -67,6 +67,9 @@ We welcome contributions from the community, whether from humans or AI agents. T
 5.  **Push and Open a Pull Request:**
     *   Push your branch to your fork and open a pull request against the `main` branch of the original repository.
 
+For a more detailed walkthrough of the Conductor workflow, docs structure, and
+testing expectations, see `docs/developer_guide/how_to_contribute.rst`.
+
 ## Code Style and Conventions
 
 ### Formatting and Linting
@@ -99,6 +102,23 @@ We welcome contributions from the community, whether from humans or AI agents. T
     pytest
     ```
 
+### R Package Documentation
+
+*   The R package keeps its narrative docs deterministic and non-interactive.
+*   From `r-package/voiageR`, build the PDF manual with:
+    ```bash
+    Rscript tools/build-manual.R . build/voiageR-manual.pdf
+    ```
+*   The vignette is source-controlled under `r-package/voiageR/vignettes/`
+    and should remain runnable without interactive prompts or live notebook
+    state.
+*   Before release, verify the package metadata and reference docs with:
+    ```bash
+    R CMD build .
+    R CMD check --as-cran --no-manual voiageR_<version>.tar.gz
+    ```
+    Replace `<version>` with the tarball version produced by your local build.
+
 ### Commit Messages
 
 We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. This helps in automating changelog generation and makes the commit history more readable.
@@ -126,3 +146,11 @@ Each commit message should be in the format:
 
 *   Public functions and classes should have docstrings following the **NumPy docstring convention**.
 *   The project's documentation is in the `docs/` directory and is built with Sphinx.
+*   The R package documentation track ships a narrative vignette at
+    `r-package/voiageR/vignettes/voiageR-getting-started.Rmd` and a
+    deterministic PDF manual helper at `r-package/voiageR/tools/build-manual.R`.
+    From the package root, you can verify both with:
+    ```bash
+    Rscript tools/build-manual.R . "$RUNNER_TEMP/voiageR-manual.pdf"
+    Rscript -e 'rmarkdown::render("vignettes/voiageR-getting-started.Rmd", output_format = "html_vignette", quiet = TRUE)'
+    ```

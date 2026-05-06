@@ -12,6 +12,7 @@ from typing import Any, cast
 
 import numpy as np
 import pytest
+from typer.main import get_command
 from typer.testing import CliRunner
 
 from voiage import cli
@@ -245,6 +246,55 @@ def test_cli_output_format_option(
     plot_csv_rows = list(csv.DictReader(plot_csv.stdout.splitlines()))
     assert plot_csv_rows[0]["command"] == "plot-ceac"
     assert plot_csv_rows[0]["output_file"] == ""
+
+    preference_surface = tmp_path / "preference.json"
+    _write_json(
+        preference_surface,
+        {
+            "net_benefit": [
+                [[10.0, 7.0], [8.0, 11.0]],
+                [[10.0, 7.0], [8.0, 11.0]],
+            ],
+            "strategy_names": ["Strategy A", "Strategy B"],
+            "preference_profiles": [
+                {
+                    "id": "access_first",
+                    "label": "Access first",
+                    "weight": 0.5,
+                },
+                {
+                    "id": "outcomes_first",
+                    "label": "Outcomes first",
+                    "weight": 0.5,
+                },
+            ],
+            "reference_preference_profile": "access_first",
+        },
+    )
+
+    preference_json = runner.invoke(
+        cli.app,
+        ["--format", "json", "calculate-preference", str(preference_surface)],
+    )
+    assert preference_json.exit_code == 0
+    preference_payload = json.loads(preference_json.stdout)
+    assert preference_payload["command"] == "calculate-preference"
+    assert preference_payload["analysis_type"] == "value_of_preference_information"
+    assert preference_payload["method_maturity"] == "fixture-backed"
+    assert preference_payload["individualized_care_value"] >= 0
+    assert preference_payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+
+    preference_csv = runner.invoke(
+        cli.app,
+        ["--format", "csv", "calculate-preference", str(preference_surface)],
+    )
+    assert preference_csv.exit_code == 0
+    preference_rows = list(csv.DictReader(preference_csv.stdout.splitlines()))
+    assert len(preference_rows) == 1
+    assert preference_rows[0]["command"] == "calculate-preference"
+    assert preference_rows[0]["metric"] == "Value of Preference"
+    assert preference_rows[0]["method_maturity"] == "fixture-backed"
+    assert preference_rows[0]["value"]
 
     parameter_file = tmp_path / "parameters.csv"
     parameter_file.write_text("x\n1\n2\n", encoding="utf-8")
@@ -526,9 +576,16 @@ def test_cli_help() -> None:
     assert "calculate-evppi" in result.stdout
     assert "calculate-evsi" in result.stdout
     assert "calculate-enbs" in result.stdout
+    assert "calculate-ceaf" in result.stdout
+    assert "calculate-dominance" in result.stdout
     assert "calculate-adaptive-evsi" in result.stdout
     assert "calculate-portfolio-voi" in result.stdout
     assert "calculate-sequential-voi" in result.stdout
+    assert "calculate-perspective" in result.stdout
+    assert "calculate-preference" in result.stdout
+    assert "calculate-validation" in result.stdout
+    assert "calculate-threshold" in result.stdout
+    assert "plot-perspective-regret" in result.stdout
     assert "generate-config" in result.stdout
     assert "Options" in result.stdout
     assert "Commands" in result.stdout
@@ -624,6 +681,8 @@ def test_cli_help() -> None:
             "calculate-enbs",
             "voiage calculate-enbs --evsi 12.5 --research-cost 10.0",
         ],
+        ["calculate-ceaf", "voiage calculate-ceaf surface.json"],
+        ["calculate-dominance", "voiage calculate-dominance dominance.csv"],
         [
             "calculate-adaptive-evsi",
             "voiage calculate-adaptive-evsi parameters.csv trial_design.json --adaptive-rules adaptive_rules.json",
@@ -632,6 +691,22 @@ def test_cli_help() -> None:
         [
             "calculate-sequential-voi",
             "voiage calculate-sequential-voi parameters.csv dynamic_spec.json",
+        ],
+        [
+            "calculate-perspective",
+            "voiage calculate-perspective perspective_surface.json",
+        ],
+        [
+            "calculate-preference",
+            "voiage calculate-preference preference_surface.json",
+        ],
+        [
+            "calculate-validation",
+            "voiage calculate-validation validation_surface.json",
+        ],
+        [
+            "calculate-threshold",
+            "voiage calculate-threshold threshold_surface.json",
         ],
         [
             "calculate-structural-evpi",
@@ -646,6 +721,10 @@ def test_cli_help() -> None:
         ["plot-ceaf", "voiage plot-ceaf surface.json"],
         ["plot-voi-curves", "voiage plot-voi-curves curves.json"],
         ["plot-dominance", "voiage plot-dominance dominance.csv"],
+        [
+            "plot-perspective-regret",
+            "voiage plot-perspective-regret perspective_surface.json --output regret.png",
+        ],
         ["generate-config", "voiage generate-config evsi > evsi_config.json"],
     ]
 
@@ -658,6 +737,61 @@ def test_cli_help() -> None:
         assert result.returncode == 0
         assert "Examples" in result.stdout
         assert _compact(example_text) in _compact(result.stdout)
+
+
+def test_cli_command_registry_matches_expected_surface() -> None:
+    """Ensure the Typer command registry exposes the expected public surface."""
+    command = get_command(cli.app)
+
+    assert set(command.commands) == {
+        "calculate-adaptive-evsi",
+        "calculate-calibration",
+        "calculate-distributional-equity",
+        "calculate-ceaf",
+        "calculate-dominance",
+        "calculate-enbs",
+        "calculate-evpi",
+        "calculate-evppi",
+        "calculate-evsi",
+        "calculate-heterogeneity",
+        "calculate-implementation",
+        "calculate-observational",
+        "calculate-nma-voi",
+        "calculate-perspective",
+        "calculate-preference",
+        "calculate-portfolio-voi",
+        "calculate-sequential-voi",
+        "calculate-structural-evpi",
+        "calculate-structural-evppi",
+        "calculate-threshold",
+        "calculate-validation",
+        "generate-config",
+        "plot-ceac",
+        "plot-ceaf",
+        "plot-dominance",
+        "plot-perspective-regret",
+        "plot-voi-curves",
+    }
+
+
+def test_cli_preference_surface_help_and_registry() -> None:
+    """Track the intended preference surface for the comprehensive CLI."""
+    command = get_command(cli.app)
+    assert "calculate-preference" in command.commands
+
+    result = subprocess.run(
+        [sys.executable, "-m", "voiage.cli", "calculate-preference", "--help"],
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert "Examples" in result.stdout
+    assert "calculate-preference" in result.stdout
+    assert (
+        _compact("voiage calculate-preference preference_surface.json")
+        in _compact(result.stdout)
+    )
 
 
 def test_cli_error_handling() -> None:

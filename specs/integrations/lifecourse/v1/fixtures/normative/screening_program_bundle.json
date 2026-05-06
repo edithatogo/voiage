@@ -22,12 +22,24 @@
       "parameters_of_interest": ["prob_screen_positive", "incremental_cost"],
       "seed": 102,
       "execution_mode": "deterministic"
+    },
+    "evsi": {
+      "method": "two-loop-monte-carlo",
+      "seed": 103,
+      "execution_mode": "deterministic"
+    },
+    "enbs": {
+      "method": "decision-rule",
+      "seed": 104,
+      "execution_mode": "deterministic"
     }
   },
   "artifacts": {
     "net_benefits": "net_benefits.csv",
     "parameter_samples": "parameter_samples.csv",
     "expected_evpi": "expected_evpi.json",
-    "expected_evppi": "expected_evppi.json"
+    "expected_evppi": "expected_evppi.json",
+    "expected_evsi": "expected_evsi.json",
+    "expected_enbs": "expected_enbs.json"
   }
 }

@@ -11,3 +11,14 @@ The first bundle is intentionally small and reviewable:
 
 The values are chosen to make the contract self-consistent and easy to check in
 CI without depending on `lifecourse` internals.
+
+This deterministic bundle is versioned against the same compatibility anchors as
+the rest of the scaffold:
+
+- `voiage` `0.2.0`
+- `lifecourse` profile `v1`
+- HEOML profile `0.1`
+
+The fixture should be validated exactly, including the manifest compatibility
+block and the expected EVPI/EVPPI outputs, before any adapter or release notes
+are updated.

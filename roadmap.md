@@ -26,7 +26,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
     *   `ParameterSet`, `ValueArray`, `TrialDesign`, and other structures in `voiage/schema.py` using xarray backend.
 3.  **CI/CD & Documentation Website:**
     *   **Status: `✅ Done`**
-    *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Sphinx docs, GitHub Pages, automated publishing to PyPI/TestPyPI/Conda.
+    *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Sphinx docs, GitHub Pages, automated publishing to PyPI/TestPyPI, plus conda-forge feedstock recipe updates with external feedstock approval.
 4.  **Community Guidelines:**
     *   **Status: `✅ Done`**
     *   `CONTRIBUTING.md`, `AGENTS.md`, Renovate for dependency updates.
@@ -94,7 +94,8 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 1.  **Automated Publishing Pipeline:**
     *   **Status: `✅ Done`**
-    *   TestPyPI → PyPI → Conda-forge automated publishing on `v*` tags.
+    *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
+    *   Polyglot release workflows now publish npm, crates.io, and NuGet packages and attach GitHub release artifacts for Go, Julia, and R bindings. The R package currently ships source archives on GitHub Releases, while CRAN remains the maturity target and r-universe remains an optional external indexing path; registry-side indexing or approval still depends on the external ecosystem for conda-forge, CRAN/r-universe, and the Julia General registry.
 2.  **Dependency Management:**
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.
@@ -115,6 +116,8 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
     *   Treat R and Julia as the first external ports of the shared core API.
     *   Keep the Python implementation as the reference binding, with additional bindings generated or hand-wrapped from the same canonical spec.
     *   Treat each external binding as a releasable package with a registry target, automated CI, conformance-fixture validation, and release automation before it is considered complete.
+    *   Keep the R binding documentation track explicit: the package help pages, a narrative vignette, and a deterministic PDF reference manual are part of the package docs surface, and the completed track is archived with the build/verification guidance centered on `tools/build-manual.R` and the non-interactive `R CMD check --as-cran --no-manual` flow.
+    *   Keep the polyglot tutorial surface explicit so the Python notebooks, the R vignette/manual, and the non-Python binding walkthroughs stay aligned around the same canonical use cases; the track is now complete and archived, with the repo-level smoke checks covering the binding walkthrough READMEs.
 
 ---
 
@@ -134,10 +137,10 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 4.  **First External Bindings:**
     *   Deliver R and Julia bindings against the same contract, then extend to TypeScript, Go, and Rust if adoption warrants it.
     *   Publishing targets must be planned with the implementation:
-        - Python: PyPI, TestPyPI, and Conda-forge.
-        - R: CRAN when mature, with r-universe or GitHub Releases for early distribution.
-        - Julia: Julia General registry.
-        - TypeScript: npm.
+        - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
+        - R: GitHub Releases for early source distribution, CRAN when mature, and optional r-universe indexing; the package docs story includes a deterministic vignette and PDF manual built from the same source tree, while external registry approval remains outside the repository.
+        - Julia: Julia General registry with TagBot sync and external registry registration.
+        - TypeScript: npm with provenance.
         - Go: tagged Go modules consumable through the Go module proxy, with GitHub Releases for release notes/artifacts.
         - Rust: crates.io.
         - .NET: NuGet, targeting .NET 11 (`net11.0`).
@@ -229,19 +232,26 @@ VOI tooling.
         fixture sets now anchor both contracts, and cross-language parity is
         the next gate.
 3.  **Preference, Validation, Threshold, and Robust VOI:**
-    *   **Status: `📋 Planned`**
-    *   Add value of preference information and value of individualized care.
+    *   **Status: `🔄 In Progress`**
+    *   Implement value of preference information and value of individualized care.
     *   The preference heterogeneity contract scaffold now lives under
         `specs/frontier/preference/v1/` and mirrors the multi-profile analysis
-        shape used by Value of Perspective.
+        shape used by Value of Perspective; the runtime surface, CLI
+        entrypoint, docs wiring, and fixture-backed conformance are
+        implemented, and the remaining work is any cross-language parity
+        follow-through.
     *   Add value of external validation and model-discrepancy reduction.
     *   The model-validation contract scaffold now lives under
         `specs/frontier/validation/v1/` and mirrors the multi-profile analysis
-        shape used by Value of Perspective.
+        shape used by Value of Perspective. The runtime slice, fixture-backed
+        conformance slice, CLI entrypoint, and docs wiring are implemented in
+        `model-validation-voi_20260506`.
     *   Add threshold/tipping-point VOI and robust or ambiguity-aware VOI.
     *   The threshold contract scaffold now lives under
         `specs/frontier/threshold/v1/` and mirrors the multi-profile analysis
-        shape used by Value of Perspective.
+        shape used by Value of Perspective. The runtime slice,
+        fixture-backed conformance slice, CLI entrypoint, and docs wiring are
+        implemented in `threshold-robust-voi_20260506`.
     *   Extend sequential VOI toward dynamic real-options style decisions where
         delay, irreversibility, and policy lock-in affect value.
     *   Dynamic real-options VOI is now tracked as a dedicated frontier phase
@@ -259,20 +269,85 @@ VOI tooling.
     *   These families are now split into explicit follow-on phases in
         `adjacent-frontier-extensions_20260430` and mirrored in the frontier
         umbrella track so they can be implemented and fixture-backed
-        independently.
+        independently. The causal-identification, transportability, and
+        external-validity family now has a contract scaffold under
+        `specs/frontier/causal-transportability/v1/`, and the data-quality,
+        measurement-error, privacy, and linkage family now has a contract
+        scaffold under `specs/frontier/data-quality/v1/`. The computational
+        and model-refinement family now has a contract scaffold under
+        `specs/frontier/computational/v1/`, and the expert-elicitation and
+        evidence-synthesis design family now has a contract scaffold under
+        `specs/frontier/expert-synthesis/v1/`. The shared maturity and handoff
+        conventions for all adjacent families now live under
+        `specs/frontier/shared-maturity/v1/`, and deterministic normative
+        fixtures are now committed for the causal, data-quality,
+        computational, and expert-synthesis adjacent families.
 5.  **Documentation and Evidence:**
     *   **Status: `📋 Planned`**
     *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
     *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,
         examples, CLI coverage, and method maturity metadata before marking
         frontier methods stable.
-    *   The current docs now reflect the experimental Value of Perspective,
-        distributional/equity, and implementation-adjusted slices, and the
-        experimental result payloads now carry shared CHEERS-VOI reporting
-        objects. The reporting envelope also now covers the standard scalar CLI
-        outputs (EVPI, EVPPI, EVSI, ENBS) and adjacent summary outputs such as
-        CEAF, dominance, and Value of Heterogeneity. The remaining work is to
-        expand those fields to the rest of the frontier families. Value of
-        Perspective, distributional/equity, and implementation-adjusted VOI now
-        each have deterministic fixture sets anchoring their contracts.
+    *   The current docs now reflect the fixture-backed Value of Perspective,
+        validation, threshold, distributional/equity, and implementation-
+        adjusted slices, and the experimental result payloads now carry shared
+        CHEERS-VOI reporting objects. The reporting envelope also now covers
+        the standard scalar CLI outputs (EVPI, EVPPI, EVSI, ENBS) and adjacent
+        summary outputs such as CEAF, dominance, and Value of Heterogeneity.
+        The remaining work is to expand those fields to the rest of the
+        frontier families. Value of Perspective, validation, threshold,
+        distributional/equity, and implementation-adjusted VOI now each have
+        deterministic fixture sets anchoring their contracts.
     *   Covered by Conductor track: `sota-voi-frontier_20260429`.
+
+### Phase 8: Rust Core Migration Program 📋 **PLANNED**
+
+**Goal:** Move `voiage` toward a Rust execution core with Python as the primary
+façade, thin language bindings/adapters over the same contract, and
+scalar-first profiling while keeping the cross-language contract stable and the
+binding story explicit.
+
+1.  **Migration Foundation:**
+    *   Decide the Rust-core boundary, workspace policy, and compatibility model.
+    *   Rust is the authoritative execution core for deterministic VOI kernels,
+        shared result contracts, and serialization behavior; Python remains the
+        façade for CLI, orchestration, plotting, and compatibility wrappers.
+    *   Covered by Conductor track: `rust-core-migration-foundation_20260504`.
+2.  **Domain Model Port:**
+    *   Port the stable data model, result envelopes, diagnostics, and reporting metadata into Rust.
+    *   Covered by Conductor track: `rust-core-domain-model_20260504`.
+3.  **Numerics Engine Port:**
+    *   Port the deterministic VOI methods and fixture-backed kernels into Rust.
+    *   Completed by Conductor track: `rust-core-numerics-engine_20260504` (archived).
+4.  **Scalar-First Profiling And Backend Strategy:**
+    *   Establish scalar-first CPU, memory, throughput, SIMD, GPU, and accelerator feasibility baselines.
+    *   Covered by Conductor track: `rust-core-performance-and-profiling_20260504`.
+5.  **Bindings And Release Adaptation:**
+    *   Recast Python as the façade and R, Julia, TypeScript, Go, and .NET as
+        thin bindings/adapters over the Rust core, then update the release
+        matrix accordingly.
+    *   Covered by Conductor track: `rust-core-bindings-and-release_20260504`.
+
+### Phase 9: Rust EVSI Stochastic Kernel Follow-On ✅ **COMPLETED**
+
+**Goal:** Promote the EVSI sample-information computation from a Rust summary
+contract into a Rust-owned stochastic kernel while preserving the existing
+contract, diagnostics, and reporting envelope. The summary envelope is already
+owned by Rust core; this phase is kernel-only.
+
+1.  **Kernel Contract And Fixture Harness:**
+    *   Define the Rust EVSI kernel inputs, output shape, and fixture-backed
+        parity harness.
+    *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+2.  **Two-Loop Kernel Port:**
+    *   Port the stochastic EVSI kernel into Rust and validate it against the
+        Python reference and deterministic fixtures.
+    *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+3.  **Approximation Policy And Optional Kernel Variants:**
+    *   Decide which EVSI approximation variants belong in Rust core versus a
+        façade-side implementation.
+    *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).
+4.  **Benchmark Baseline And Handoff:**
+    *   Record representative EVSI kernel baselines and document the handoff
+        contract for future optimization work.
+    *   Completed by Conductor track: `rust-evsi-stochastic-kernel_20260506` (archived).

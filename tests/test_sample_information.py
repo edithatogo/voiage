@@ -8,8 +8,8 @@ import pytest
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
 from voiage.methods.sample_information import _bayesian_update, enbs
+from voiage.schema import DecisionOption, TrialDesign, ValueArray
 from voiage.schema import ParameterSet as PSASample
-from voiage.schema import TrialDesign, ValueArray
 
 # --- Dummy components for EVSI testing ---
 
@@ -207,6 +207,41 @@ def test_evsi_efficient_random_forest_metamodel(
         metamodel="random_forest",
     )
     assert evsi_val >= 0
+
+
+def test_evsi_increases_with_sample_size(dummy_psa_for_evsi) -> None:
+    """Test that EVSI increases as the trial sample size increases."""
+    from voiage.methods.sample_information import evsi
+
+    small_design = TrialDesign(
+        arms=[
+            DecisionOption(name="New Treatment", sample_size=5),
+            DecisionOption(name="Standard Care", sample_size=5),
+        ]
+    )
+    large_design = TrialDesign(
+        arms=[
+            DecisionOption(name="New Treatment", sample_size=25),
+            DecisionOption(name="Standard Care", sample_size=25),
+        ]
+    )
+
+    small_evsi = evsi(
+        model_func=deterministic_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=small_design,
+        method="efficient",
+    )
+    large_evsi = evsi(
+        model_func=deterministic_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=large_design,
+        method="efficient",
+    )
+
+    assert small_evsi >= 0
+    assert large_evsi >= 0
+    assert small_evsi <= large_evsi + 1e-9
 
 
 def test_evsi_moment_based_method(

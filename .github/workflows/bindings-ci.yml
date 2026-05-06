@@ -61,9 +61,10 @@ jobs:
         with:
           components: clippy,rustfmt
       - run: cargo fmt --check
-      - run: cargo clippy --all-targets -- -D warnings
-      - run: cargo test
-      - run: cargo package --allow-dirty
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked
+      - run: cargo doc --no-deps --locked
+      - run: cargo package --locked --allow-dirty
 
   julia:
     name: Julia
@@ -109,3 +110,5 @@ jobs:
           extra-packages: any::rcmdcheck
       - run: R CMD build .
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
+      - name: Build PDF manual
+        run: Rscript tools/build-manual.R . "$RUNNER_TEMP/voiageR-manual.pdf"

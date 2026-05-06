@@ -11,9 +11,10 @@
 
 ## Phase 2: Align Public API, Results, and Diagnostics [checkpoint: ]
 
-- [ ] Task: Refactor public imports, result payload shapes, and warning/diagnostic behavior to match the stable contract.
-- [ ] Task: Add compatibility shims or deprecation notices where the Python package currently exposes materially different names or structures.
-- [ ] Task: Add or update targeted tests for the stable public contract so future drift is caught automatically.
+- [x] Task: Refactor public imports, result payload shapes, and warning/diagnostic behavior to match the stable contract.
+  * Confirmed the curated export surface, stable result/reporting payloads, and explicit EVPPI compatibility warning path with focused regression tests.
+- [x] Task: Add compatibility shims or deprecation notices where the Python package currently exposes materially different names or structures.
+- [x] Task: Add or update targeted tests for the stable public contract so future drift is caught automatically.
 
 ## Phase 3: Align IO and Backend Boundaries [checkpoint: ]
 

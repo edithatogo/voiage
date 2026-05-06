@@ -90,7 +90,7 @@ deep_learning = ["torch>=1.9,<3.0"]
 Homepage = "https://github.com/edithatogo/voiage"
 Documentation = "https://edithatogo.github.io/voiage"
 Repository = "https://github.com/edithatogo/voiage"
-Changelog = "https://github.com/edithatogo/voiage/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/edithatogo/voiage/blob/main/changelog.md"
 Issues = "https://github.com/edithatogo/voiage/issues"
 
 [project.scripts]
@@ -216,7 +216,7 @@ upload_to_release = true
 commit_message = "chore(release): {version} [skip ci]"
 commit_author = "github-actions[bot] <actions@github.com>"
 branch = "main"
-changelog_file = "CHANGELOG.md"
+changelog_file = "changelog.md"
 
 [tool.taskipy.tasks]
 test = "uv run pytest tests/ -m 'not integration and not e2e and not benchmark' --cov=voiage --cov-report=term-missing"

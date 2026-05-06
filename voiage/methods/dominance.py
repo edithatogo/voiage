@@ -102,6 +102,33 @@ def calculate_dominance(
     -------
     DominanceResult
         Dominance classification with frontier indices and ICERs.
+
+    Notes
+    -----
+    Strong dominance removes any strategy that is at least as costly and no
+    more effective than another strategy, with one dimension strictly worse.
+    Extended dominance removes frontier strategies whose incremental
+    cost-effectiveness ratios are not strictly increasing along the frontier.
+
+    References
+    ----------
+    Drummond, M. F., Sculpher, M. J., Claxton, K., Stoddart, G. L., & Torrance,
+    G. W. (2015). *Methods for the Economic Evaluation of Health Care
+    Programmes*.
+    Briggs, A. H., Claxton, K., & Sculpher, M. J. (2006). *Decision Modelling
+    for Health Economic Evaluation*.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.dominance import calculate_dominance
+    >>> result = calculate_dominance(
+    ...     costs=np.array([10.0, 12.0, 13.0]),
+    ...     effects=np.array([1.0, 1.1, 1.3]),
+    ...     strategy_names=["A", "B", "C"],
+    ... )
+    >>> result.frontier_indices
+    [0, 1, 2]
     """
     cost_arr, effect_arr, final_names = _validate_cost_effect_inputs(
         costs,
@@ -167,6 +194,19 @@ def calculate_strong_dominance(
     list[int]
         Indices of strategies that are more costly and no more effective than
         at least one alternative.
+
+    Notes
+    -----
+    A strategy is strongly dominated if another strategy has cost less than or
+    equal to it and effect greater than or equal to it, with at least one
+    strict inequality.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.dominance import calculate_strong_dominance
+    >>> calculate_strong_dominance(np.array([10.0, 12.0]), np.array([1.0, 0.9]))
+    [1]
     """
     cost_arr, effect_arr, _ = _validate_cost_effect_inputs(costs, effects, None)
     dominated: list[int] = []
@@ -201,6 +241,19 @@ def cost_effectiveness_frontier(
     -------
     list[int]
         Ordered frontier indices after removing strongly dominated strategies.
+
+    Notes
+    -----
+    The frontier is the ordered subset of non-dominated strategies with
+    strictly increasing effect and strictly improving ICERs after the
+    extended-dominance pruning pass.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.dominance import cost_effectiveness_frontier
+    >>> cost_effectiveness_frontier(np.array([10.0, 12.0, 13.0]), np.array([1.0, 1.1, 1.3]))
+    [0, 1, 2]
     """
     cost_arr, effect_arr, _ = _validate_cost_effect_inputs(costs, effects, None)
     strong = set(calculate_strong_dominance(cost_arr, effect_arr))
@@ -259,6 +312,19 @@ def calculate_extended_dominance(
     -------
     list[int]
         Indices that are neither strongly dominated nor on the frontier.
+
+    Notes
+    -----
+    Extended dominance removes strategies that fall below the linear segment
+    between two frontier strategies and therefore cannot be optimal at any
+    willingness-to-pay threshold.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.dominance import calculate_extended_dominance
+    >>> calculate_extended_dominance(np.array([10.0, 11.0, 13.0]), np.array([1.0, 1.2, 1.3]))
+    []
     """
     cost_arr, effect_arr, _ = _validate_cost_effect_inputs(costs, effects, None)
     strong = set(calculate_strong_dominance(cost_arr, effect_arr))
@@ -273,7 +339,7 @@ def calculate_icers(
     effects: np.ndarray | list[float],
     frontier_indices: list[int] | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Calculate incremental costs, effects, and ICERs along the frontier.
+    r"""Calculate incremental costs, effects, and ICERs along the frontier.
 
     Parameters
     ----------
@@ -288,6 +354,25 @@ def calculate_icers(
     -------
     tuple of numpy.ndarray
         Incremental costs, incremental effects, and ICERs.
+
+    Notes
+    -----
+    For adjacent frontier strategies :math:`i-1` and :math:`i`, the ICER is
+
+    .. math::
+
+       \mathrm{ICER}_i = \frac{C_i - C_{i-1}}{E_i - E_{i-1}}.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.dominance import calculate_icers
+    >>> inc_costs, inc_effects, icers = calculate_icers(
+    ...     np.array([10.0, 12.0, 13.0]),
+    ...     np.array([1.0, 1.1, 1.3]),
+    ... )
+    >>> inc_costs.tolist()
+    [2.0, 1.0]
     """
     cost_arr, effect_arr, _ = _validate_cost_effect_inputs(costs, effects, None)
     frontier = frontier_indices or cost_effectiveness_frontier(cost_arr, effect_arr)

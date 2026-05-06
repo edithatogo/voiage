@@ -7,6 +7,8 @@ import numpy as np
 import pytest
 
 from voiage.methods.basic import evpi, evppi
+from voiage.methods.dominance import calculate_dominance
+from voiage.methods.sample_information import enbs
 from voiage.schema import ParameterSet, ValueArray
 
 # Strategy for generating valid net benefit arrays
@@ -263,6 +265,33 @@ def test_evpi_scale_invariance(scale_factor) -> None:
         assert abs(scaled_evpi) < 1e-10
     else:
         assert abs(scaled_evpi - expected_evpi) < 1e-6 * abs(expected_evpi)
+
+
+@given(
+    evsi_value=st.floats(
+        min_value=0.0, max_value=10000.0, allow_nan=False, allow_infinity=False
+    ),
+    research_cost=st.floats(
+        min_value=0.0, max_value=10000.0, allow_nan=False, allow_infinity=False
+    ),
+)
+def test_enbs_identity(evsi_value: float, research_cost: float) -> None:
+    """Test that ENBS is exactly EVSI minus research cost."""
+    assert enbs(evsi_value, research_cost) == pytest.approx(
+        evsi_value - research_cost
+    )
+
+
+def test_dominance_transitivity_on_ordered_frontier() -> None:
+    """Test that a strictly ordered frontier is transitive under dominance."""
+    costs = np.array([10.0, 20.0, 30.0])
+    effects = np.array([3.0, 2.0, 1.0])
+
+    result = calculate_dominance(costs, effects, strategy_names=["A", "B", "C"])
+
+    assert result.frontier_indices == [0]
+    assert result.strongly_dominated_indices == [1, 2]
+    assert result.status == ["frontier", "strongly_dominated", "strongly_dominated"]
 
 
 if __name__ == "__main__":

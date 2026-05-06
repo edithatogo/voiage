@@ -183,6 +183,36 @@ jobs:
     - name: Verify coverage threshold
       run: uv run tox -e coverage_report
 
+  benchmark-regression:
+    name: Benchmark Regression Checks
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: uv sync --extra dev
+
+    - name: Run benchmark regression checks
+      run: |
+        uv run pytest tests/test_core_metrics_regression.py tests/benchmarks/test_benchmark_regression.py \
+          -q \
+          --no-cov
+      env:
+        CI: true
+
   # Integration tests
   test-integration:
     name: Integration Tests

@@ -1,0 +1,48 @@
+{
+  "name": "@voiage/core",
+  "version": "0.1.0",
+  "description": "TypeScript bindings for the voiage core API contract.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "lint": "node --check src/index.js",
+    "check": "npm run lint && npm test",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edithatogo/voiage.git",
+    "directory": "bindings/typescript"
+  },
+  "homepage": "https://github.com/edithatogo/voiage/tree/main/bindings/typescript",
+  "bugs": {
+    "url": "https://github.com/edithatogo/voiage/issues"
+  },
+  "keywords": [
+    "value-of-information",
+    "evpi",
+    "evppi",
+    "evsi",
+    "decision-analysis"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

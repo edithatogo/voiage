@@ -16,7 +16,8 @@
   ],
   "illustrative": [],
   "notes": [
-    "This fixture anchors the experimental Value of Perspective CLI contract.",
-    "Cross-language bindings should match the same deterministic payload."
+    "This fixture anchors the fixture-backed Value of Perspective CLI contract.",
+    "Cross-language bindings should match the same deterministic payload.",
+    "The runtime implementation remains the same; only the contract maturity label changed."
   ]
 }

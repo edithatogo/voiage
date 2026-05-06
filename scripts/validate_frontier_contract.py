@@ -55,9 +55,9 @@ def _validate_registry() -> list[dict[str, object]]:
         maturity = _require_non_empty_string(
             item.get("method_maturity"), f"$.families[{index}].method_maturity"
         )
-        if maturity != "experimental":
+        if maturity not in {"experimental", "fixture-backed"}:
             raise ValidationError(
-                f"$.families[{index}].method_maturity: expected 'experimental'"
+                f"$.families[{index}].method_maturity: expected 'experimental' or 'fixture-backed'"
             )
         validated.append({"name": name, "path": relpath})
     return validated

@@ -372,7 +372,7 @@ def evsi(
     n_inner_loops: int = 1000,
     metamodel: MetamodelName = "linear",
 ) -> float:
-    """Calculate expected value of sample information.
+    r"""Calculate expected value of sample information.
 
     Parameters
     ----------
@@ -405,9 +405,41 @@ def evsi(
 
     Notes
     -----
+    EVSI is the increase in expected net benefit from observing a proposed
+    study before making the decision:
+
+    .. math::
+
+       \mathrm{EVSI} = E_y\left[\max_d E[NB_d \mid y]\right] - \max_d E[NB_d].
+
     The exact two-loop estimator uses nested Monte Carlo. The efficient and
     moment-based estimators approximate the same preposterior target while
     avoiding the inner simulation loop.
+
+    References
+    ----------
+    Brennan, A., Kharroubi, S., O'Hagan, A., Chilcott, J., & Claxton, K.
+    (2007). Calculating expected value of sample information via Bayesian
+    numerical analysis.
+    Heath, A., Manolopoulou, I., & Baio, G. (2018). Efficient computation of
+    expected value of sample information using regression-based methods.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.sample_information import evsi
+    >>> from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
+    >>> def model(psa: ParameterSet) -> ValueArray:
+    ...     values = np.column_stack([
+    ...         10.0 + psa.parameters["shift"],
+    ...         11.0 - psa.parameters["shift"],
+    ...     ])
+    ...     return ValueArray.from_numpy(values, ["A", "B"])
+    >>> psa = ParameterSet.from_numpy_or_dict({"shift": np.array([0.1, 0.2, 0.3])})
+    >>> design = TrialDesign(arms=[DecisionOption(name="A", sample_size=10)])
+    >>> result = evsi(model, psa, design, method="efficient")
+    >>> result >= 0.0
+    True
     """
     if not isinstance(psa_prior, ParameterSet):
         raise_input_error("`psa_prior` must be a ParameterSet object.")
@@ -484,7 +516,7 @@ def evsi(
 
 
 def enbs(evsi_result: float, research_cost: float) -> float:
-    """Calculate expected net benefit of sampling.
+    r"""Calculate expected net benefit of sampling.
 
     Parameters
     ----------
@@ -500,8 +532,24 @@ def enbs(evsi_result: float, research_cost: float) -> float:
 
     Notes
     -----
-    ENBS is the decision rule for whether the study is worth funding after
-    subtracting the research cost from the value of the information.
+    ENBS is the net gain from commissioning a study:
+
+    .. math::
+
+       \mathrm{ENBS} = \mathrm{EVSI} - C_\mathrm{research}.
+
+    References
+    ----------
+    Claxton, K. (1999). The irrelevance of inference: A decision-making
+    approach to the stochastic evaluation of health care technologies.
+    Jalal, H., & Alarid-Escudero, F. (2023). Cost-effectiveness and the value
+    of information in health economic evaluation.
+
+    Examples
+    --------
+    >>> from voiage.methods.sample_information import enbs
+    >>> enbs(12.5, 5.0)
+    7.5
     """
     if not isinstance(evsi_result, (int, float)):
         raise_input_error("EVSI result must be a number.")

@@ -4,6 +4,7 @@
     {
       "name": "evpi canonical case",
       "method_family": "evpi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
       "expected_output_artifact": "normative/evpi.json",
       "provenance": {
         "seed": 101,
@@ -14,6 +15,7 @@
     {
       "name": "evppi canonical case",
       "method_family": "evppi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
       "expected_output_artifact": "normative/evppi.json",
       "provenance": {
         "seed": 102,
@@ -24,6 +26,7 @@
     {
       "name": "evsi canonical case",
       "method_family": "evsi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
       "expected_output_artifact": "normative/evsi.json",
       "provenance": {
         "seed": 103,
@@ -34,6 +37,7 @@
     {
       "name": "enbs canonical case",
       "method_family": "enbs",
+      "input_artifact": "normative/inputs/screening-program-001.json",
       "expected_output_artifact": "normative/enbs.json",
       "provenance": {
         "seed": 104,
@@ -44,6 +48,7 @@
     {
       "name": "ceac canonical case",
       "method_family": "ceac",
+      "input_artifact": "normative/inputs/screening-program-001.json",
       "expected_output_artifact": "normative/ceac.json",
       "provenance": {
         "seed": 105,

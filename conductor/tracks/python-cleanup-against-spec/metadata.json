@@ -1,8 +1,8 @@
 {
   "track_id": "python-cleanup-against-spec",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-04-16T13:11:48Z",
-  "updated_at": "2026-04-16T13:11:48Z",
+  "updated_at": "2026-05-04T08:18:23Z",
   "description": "Bring the Python package into line with the new core API spec and the conformance-fixture contract."
 }

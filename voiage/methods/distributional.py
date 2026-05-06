@@ -126,7 +126,7 @@ def value_of_distributional_equity(
     equity_weights: np.ndarray | list[float] | dict[str, float] | None = None,
     n_bins: int | None = None,
 ) -> DistributionalEquityResult:
-    """Calculate distributional and equity-weighted value of heterogeneity.
+    r"""Calculate distributional and equity-weighted value of heterogeneity.
 
     Parameters
     ----------
@@ -145,6 +145,44 @@ def value_of_distributional_equity(
     -------
     DistributionalEquityResult
         Result containing subgroup-specific and equity-weighted summaries.
+
+    Notes
+    -----
+    The subgroup-tailored value is computed from subgroup-specific optimal
+    expected net benefits and compared with the single overall optimal
+    strategy. Equity-weighted welfare is the weighted sum of subgroup mean net
+    benefits:
+
+    .. math::
+
+       W_d = \sum_g w_g E[NB_{d,g}], \qquad
+       \mathrm{VOH}_{eq} = \max\left(0,\sum_g p_g \max_d E[NB_{d,g}] - \max_d E[NB_d]\right).
+
+    References
+    ----------
+    Cookson, R., Griffin, S., Norheim, O. F., & Culyer, A. J. (2021).
+    Distributional cost-effectiveness analysis: Quantifying health equity
+    impacts and trade-offs.
+    Asaria, M., Griffin, S., & Cookson, R. (2016). Distributional cost
+    effectiveness analysis: a tutorial.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.distributional import value_of_distributional_equity
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array([
+    ...     [10.0, 8.0],
+    ...     [11.0, 7.0],
+    ...     [6.0, 12.0],
+    ...     [5.0, 13.0],
+    ... ])
+    >>> result = value_of_distributional_equity(
+    ...     ValueArray.from_numpy(values, ["A", "B"]),
+    ...     subgroups=["low", "low", "high", "high"],
+    ... )
+    >>> result.social_welfare_value >= 0.0
+    True
     """
     nb_values, subgroup_arr, final_strategy_names = _validate_distributional_inputs(
         value_array,

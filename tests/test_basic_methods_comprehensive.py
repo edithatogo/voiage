@@ -3,6 +3,7 @@
 import numpy as np
 import pytest
 
+from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import InputError
 from voiage.methods.basic import check_parameter_samples, evpi, evppi
 from voiage.schema import ParameterSet, ValueArray
@@ -220,6 +221,28 @@ class TestEVPPI:
         assert (
             result_evppi <= evpi_result + 1e-9
         )  # Add small tolerance for floating point errors
+
+    def test_evppi_warns_for_raw_dict_parameter_samples(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Raw dict PSA samples should emit the compatibility warning."""
+        nb_values = np.array([[100.0, 150.0], [120.0, 130.0]], dtype=np.float64)
+        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
+
+        params = {
+            "param1": np.array([0.1, 0.2], dtype=np.float64),
+            "param2": np.array([0.3, 0.4], dtype=np.float64),
+        }
+
+        def fake_evppi(self: DecisionAnalysis, **kwargs: object) -> float:
+            return 0.0
+
+        monkeypatch.setattr(DecisionAnalysis, "evppi", fake_evppi)
+
+        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+            result = evppi(value_array, params, ["param1"])
+
+        assert result == 0.0
 
     def test_evppi_multiple_params(self) -> None:
         """Test EVPPI calculation with multiple parameters."""
@@ -442,3 +465,35 @@ def test_import_functionality() -> None:
     assert isinstance(evppi.__doc__, (str, type(None)))
 
     print("✅ All basic VOI methods are importable and available")
+
+
+def test_basic_module_handles_missing_sklearn_import(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The optional sklearn import should fail soft when unavailable."""
+    import builtins
+    import importlib
+
+    import voiage.methods.basic as basic_module
+
+    original_import = builtins.__import__
+
+    def fake_import(
+        name: str,
+        globals_: object | None = None,
+        locals_: object | None = None,
+        fromlist: tuple[str, ...] | list[str] = (),
+        level: int = 0,
+    ) -> object:
+        if name == "sklearn.linear_model":
+            raise ImportError("sklearn intentionally unavailable in test")
+        return original_import(name, globals_, locals_, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+    reloaded = importlib.reload(basic_module)
+
+    assert reloaded.SKLEARN_AVAILABLE is False
+    assert reloaded.LinearRegression is None
+
+    monkeypatch.setattr(builtins, "__import__", original_import)
+    importlib.reload(basic_module)

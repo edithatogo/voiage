@@ -5,7 +5,7 @@
     {
       "name": "value_of_perspective",
       "path": "perspective/v1/fixtures/manifest.json",
-      "method_maturity": "experimental"
+      "method_maturity": "fixture-backed"
     },
     {
       "name": "value_of_distributional_equity",
@@ -13,9 +13,49 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "value_of_model_validation",
+      "path": "validation/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_threshold_information",
+      "path": "threshold/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_preference_information",
+      "path": "preference/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
       "name": "value_of_implementation",
       "path": "implementation/v1/fixtures/manifest.json",
       "method_maturity": "experimental"
+    },
+    {
+      "name": "value_of_dynamic_real_options",
+      "path": "dynamic-real-options/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
+      "name": "value_of_causal_transportability",
+      "path": "causal-transportability/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_data_quality_privacy_linkage",
+      "path": "data-quality/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_computational_refinement",
+      "path": "computational/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_expert_synthesis",
+      "path": "expert-synthesis/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

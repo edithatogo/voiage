@@ -1,0 +1,21 @@
+[package]
+name = "voiage-core"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Canonical Rust core engine and domain-model crate for voiage."
+repository = "https://github.com/edithatogo/voiage"
+readme = "README.md"
+keywords = ["voi", "evpi", "decision-analysis", "core", "domain-model"]
+categories = ["science"]
+
+[lib]
+name = "voiage_core"
+path = "src/lib.rs"
+
+[dependencies]
+libc = "0.2"
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1"

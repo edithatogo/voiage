@@ -158,7 +158,7 @@ class ValueOfPerspectiveResult:
     reference_perspective_id : str
         Perspective used as the reference decision rule.
     method_maturity : str
-        Maturity label. Value of Perspective starts as experimental.
+        Maturity label. Value of Perspective is fixture-backed.
     diagnostics : dict[str, object]
         Deterministic diagnostics for downstream reporting.
     """
@@ -357,7 +357,7 @@ def value_of_perspective(
     perspective_weights: Sequence[float] | Mapping[str, float] | None = None,
     reference_perspective: str | int | None = None,
 ) -> ValueOfPerspectiveResult:
-    """Compare decision value across multiple perspectives.
+    r"""Compare decision value across multiple perspectives.
 
     Parameters
     ----------
@@ -383,6 +383,46 @@ def value_of_perspective(
     ValueOfPerspectiveResult
         Perspective-specific optima, regret matrix, switching values,
         consensus and robust strategies, and Pareto strategy set.
+
+    Notes
+    -----
+    The perspective-specific optimum is
+
+    .. math::
+
+       d^*_p = \arg\max_d E[NB_{d,p}].
+
+    The reported switching value compares the reference perspective's optimal
+    strategy with each perspective's own optimum, and the returned value is
+    the weighted average of those switching values.
+
+    References
+    ----------
+    Voiage contributors. Value of Perspective frontier contract and analysis
+    notes, including the proof-of-concept preprint linked from the project
+    documentation.
+    Keeney, R. L., & Raiffa, H. (1993). *Decisions with Multiple Objectives*.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.analysis import DecisionAnalysis
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array(
+    ...     [
+    ...         [[10.0, 7.0], [8.0, 11.0]],
+    ...         [[11.0, 8.0], [9.0, 10.0]],
+    ...     ]
+    ... )
+    >>> result = DecisionAnalysis(
+    ...     ValueArray.from_numpy_perspectives(
+    ...         values,
+    ...         strategy_names=["A", "B"],
+    ...         perspective_names=["payer", "societal"],
+    ...     )
+    ... ).value_of_perspective()
+    >>> result.reference_perspective_id
+    'payer'
     """
     values, final_strategy_names, source_perspective_names = _coerce_net_benefits(
         net_benefits,
@@ -450,7 +490,7 @@ def value_of_perspective(
         pareto_strategy_names=[final_strategy_names[idx] for idx in pareto_indices],
         perspective_weights=weights,
         reference_perspective_id=perspective_ids[reference_index],
-        method_maturity="experimental",
+        method_maturity="fixture-backed",
         diagnostics={
             "n_samples": int(values.shape[0]),
             "n_strategies": int(values.shape[1]),
@@ -463,7 +503,7 @@ def value_of_perspective(
         reporting=build_cheers_reporting(
             analysis_type="value_of_perspective",
             method_family="value_of_perspective",
-            method_maturity="experimental",
+            method_maturity="fixture-backed",
             perspective_ids=perspective_ids,
             perspective_labels=perspective_labels,
             diagnostics={

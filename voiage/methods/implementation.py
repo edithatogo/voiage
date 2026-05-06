@@ -83,7 +83,7 @@ def value_of_implementation(
     population: float | None = None,
     strategy_names: list[str] | None = None,
 ) -> ImplementationAdjustedResult:
-    """Calculate the value of implementation-adjusted adoption.
+    r"""Calculate the value of implementation-adjusted adoption.
 
     Parameters
     ----------
@@ -108,6 +108,36 @@ def value_of_implementation(
     -------
     ImplementationAdjustedResult
         Baseline and implementation-adjusted summaries.
+
+    Notes
+    -----
+    The implementation multiplier combines uptake, adherence, coverage,
+    uncertainty, and delay:
+
+    .. math::
+
+       m = u \times a \times c \times (1 - \delta) \times (1 + r)^{-t}.
+
+    The reported value is the non-negative difference between the baseline
+    optimal expected net benefit and the adjusted optimal expected net
+    benefit, optionally scaled by population and the discounted time horizon.
+
+    References
+    ----------
+    Claxton, K., Sculpher, M., & Palmer, S. (2011). Considerations for
+    modelling implementation and uptake in economic evaluation.
+    Phelps, C., & Mushlin, A. (1991). Focusing technology assessment using
+    medical decision analysis.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.implementation import value_of_implementation
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array([[10.0, 12.0], [11.0, 11.5]])
+    >>> result = value_of_implementation(ValueArray.from_numpy(values, ["A", "B"]))
+    >>> result.value >= 0.0
+    True
     """
     nb_values = _coerce_value_array(value_array)
     uptake_value = _validate_probability_like("uptake", uptake)

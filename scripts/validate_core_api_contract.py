@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import json
 from pathlib import Path
 from typing import Any
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SPEC_ROOT = REPO_ROOT / "specs" / "core-api"
@@ -20,9 +20,26 @@ class ValidationError(Exception):
     """Raised when a schema or example violates the contract."""
 
 
+@dataclass(frozen=True)
+class FixtureCase:
+    """A deterministic conformance fixture pair."""
+
+    name: str
+    method_family: str
+    input_artifact: str | None
+    expected_output_artifact: str
+    tolerance_policy: str
+    provenance: dict[str, Any] | None = None
+
+
 def _load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_json(path: Path) -> Any:
+    """Load a JSON artifact from disk."""
+    return _load_json(path)
 
 
 def _require_non_empty_string(value: Any, path: str) -> str:
@@ -106,7 +123,8 @@ def _validate_example(example_path: Path, schema_path: Path) -> None:
     _validate(example, schema, "$", schema_path)
 
 
-def _resolve_fixture_artifact(ref: str) -> Path:
+def resolve_fixture_artifact(ref: str) -> Path:
+    """Resolve a fixture artifact relative to the v1 fixture root."""
     artifact_path = (FIXTURE_ROOT / ref).resolve()
     try:
         artifact_path.relative_to(FIXTURE_ROOT.resolve())
@@ -115,71 +133,147 @@ def _resolve_fixture_artifact(ref: str) -> Path:
     return artifact_path
 
 
-def _validate_fixture_manifest_entry(entry: dict[str, Any], section: str, index: int) -> None:
-    entry_path = f"$.{section}[{index}]"
-    _require_non_empty_string(entry.get("name"), f"{entry_path}.name")
-    _require_non_empty_string(entry.get("method_family"), f"{entry_path}.method_family")
-    artifact = _require_non_empty_string(
-        entry.get("expected_output_artifact"),
-        f"{entry_path}.expected_output_artifact",
-    )
-    _require_non_empty_string(entry.get("tolerance_policy"), f"{entry_path}.tolerance_policy")
-    provenance = entry.get("provenance")
-    if section == "normative":
-        if not isinstance(provenance, dict):
-            raise ValidationError(f"{entry_path}.provenance: expected object")
-        seed = provenance.get("seed")
-        if not isinstance(seed, int) or isinstance(seed, bool):
-            raise ValidationError(f"{entry_path}.provenance.seed: expected integer")
-        execution_mode = provenance.get("execution_mode")
-        if execution_mode != "deterministic":
-            raise ValidationError(
-                f"{entry_path}.provenance.execution_mode: expected 'deterministic'"
-            )
-    elif provenance is not None:
-        raise ValidationError(f"{entry_path}.provenance: only normative fixtures may declare provenance")
-
-    artifact_path = _resolve_fixture_artifact(artifact)
-    if not artifact_path.is_file():
-        raise ValidationError(f"{entry_path}.expected_output_artifact: missing artifact {artifact}")
+def _resolve_fixture_artifact(ref: str) -> Path:
+    return resolve_fixture_artifact(ref)
 
 
-def _validate_fixture_manifest(manifest_path: Path = FIXTURE_MANIFEST) -> None:
+def load_fixture_manifest(manifest_path: Path = FIXTURE_MANIFEST) -> dict[str, Any]:
+    """Load and validate the top-level fixture manifest structure."""
     manifest = _load_json(manifest_path)
     if not isinstance(manifest, dict):
         raise ValidationError("fixture manifest must be an object")
     if manifest.get("version") != "v1":
         raise ValidationError("fixture manifest version must be 'v1'")
+    return manifest
 
-    for section in ("normative", "illustrative"):
-        value = manifest.get(section)
-        if not isinstance(value, list):
-            raise ValidationError(f"fixture manifest missing {section} array")
 
-        seen_names: set[str] = set()
-        seen_artifacts: set[str] = set()
-        for index, item in enumerate(value):
-            if not isinstance(item, dict):
-                raise ValidationError(f"$.{section}[{index}]: expected object")
-            name = _require_non_empty_string(item.get("name"), f"$.{section}[{index}].name")
-            artifact = _require_non_empty_string(
-                item.get("expected_output_artifact"),
-                f"$.{section}[{index}].expected_output_artifact",
+def load_fixture_payload(path: Path) -> Any:
+    """Load a fixture payload from disk."""
+    return _load_json(path)
+
+
+def iter_fixture_cases(
+    section: str = "normative",
+    manifest_path: Path | None = None,
+    validate_payloads: bool = True,
+) -> list[FixtureCase]:
+    """Return validated fixture cases for a manifest section."""
+    if manifest_path is None:
+        manifest_path = FIXTURE_MANIFEST
+    manifest = load_fixture_manifest(manifest_path)
+    value = manifest.get(section)
+    if not isinstance(value, list):
+        raise ValidationError(f"fixture manifest missing {section} array")
+
+    cases: list[FixtureCase] = []
+    seen_names: set[str] = set()
+    seen_output_artifacts: set[str] = set()
+
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            raise ValidationError(f"$.{section}[{index}]: expected object")
+
+        entry_path = f"$.{section}[{index}]"
+        name = _require_non_empty_string(item.get("name"), f"{entry_path}.name")
+        method_family = _require_non_empty_string(
+            item.get("method_family"), f"{entry_path}.method_family"
+        )
+        input_artifact_value = item.get("input_artifact")
+        if section == "normative" or input_artifact_value is not None:
+            input_artifact = _require_non_empty_string(
+                input_artifact_value, f"{entry_path}.input_artifact"
             )
-            if name in seen_names:
-                raise ValidationError(f"$.{section}[{index}].name: duplicate entry {name!r}")
-            if artifact in seen_artifacts:
+        else:
+            input_artifact = None
+        output_artifact = _require_non_empty_string(
+            item.get("expected_output_artifact"),
+            f"{entry_path}.expected_output_artifact",
+        )
+        tolerance_policy = _require_non_empty_string(
+            item.get("tolerance_policy"), f"{entry_path}.tolerance_policy"
+        )
+        provenance = item.get("provenance")
+
+        if name in seen_names:
+            raise ValidationError(f"{entry_path}.name: duplicate entry {name!r}")
+        if output_artifact in seen_output_artifacts:
+            raise ValidationError(
+                f"{entry_path}.expected_output_artifact: duplicate entry {output_artifact!r}"
+            )
+        seen_names.add(name)
+        seen_output_artifacts.add(output_artifact)
+
+        if section == "normative":
+            if not isinstance(provenance, dict):
+                raise ValidationError(f"{entry_path}.provenance: expected object")
+            seed = provenance.get("seed")
+            if not isinstance(seed, int) or isinstance(seed, bool):
+                raise ValidationError(f"{entry_path}.provenance.seed: expected integer")
+            execution_mode = provenance.get("execution_mode")
+            if execution_mode != "deterministic":
                 raise ValidationError(
-                    f"$.{section}[{index}].expected_output_artifact: duplicate entry {artifact!r}"
+                    f"{entry_path}.provenance.execution_mode: expected 'deterministic'"
                 )
-            seen_names.add(name)
-            seen_artifacts.add(artifact)
-            _validate_fixture_manifest_entry(item, section, index)
+        elif provenance is not None:
+            raise ValidationError(
+                f"{entry_path}.provenance: only normative fixtures may declare provenance"
+            )
+
+        if input_artifact is not None:
+            input_path = resolve_fixture_artifact(input_artifact)
+            if not input_path.is_file():
+                raise ValidationError(
+                    f"{entry_path}.input_artifact: missing artifact {input_artifact}"
+                )
+            if validate_payloads:
+                load_fixture_payload(input_path)
+        output_path = resolve_fixture_artifact(output_artifact)
+        if not output_path.is_file():
+            raise ValidationError(
+                f"{entry_path}.expected_output_artifact: missing artifact {output_artifact}"
+            )
+
+        if validate_payloads:
+            load_fixture_payload(output_path)
+
+        cases.append(
+            FixtureCase(
+                name=name,
+                method_family=method_family,
+                input_artifact=input_artifact,
+                expected_output_artifact=output_artifact,
+                tolerance_policy=tolerance_policy,
+                provenance=provenance,
+            )
+        )
+
+    return cases
+
+
+def validate_fixture_catalog_layout(manifest_path: Path | None = None) -> None:
+    """Validate the fixture catalog structure and artifact layout only."""
+    iter_fixture_cases("normative", manifest_path, validate_payloads=False)
+    iter_fixture_cases("illustrative", manifest_path, validate_payloads=False)
+
+
+def _validate_fixture_manifest(manifest_path: Path | None = None) -> None:
+    iter_fixture_cases("normative", manifest_path)
+    iter_fixture_cases("illustrative", manifest_path)
 
 
 def main() -> int:
+    """Validate the committed core API spec examples and fixture catalog."""
     _validate_fixture_manifest()
     print(f"validated {FIXTURE_MANIFEST.relative_to(REPO_ROOT)}")
+    for case in iter_fixture_cases():
+        if case.input_artifact is not None:
+            print(
+                f"validated {resolve_fixture_artifact(case.input_artifact).relative_to(REPO_ROOT)}"
+            )
+        print(
+            "validated "
+            f"{resolve_fixture_artifact(case.expected_output_artifact).relative_to(REPO_ROOT)}"
+        )
 
     checks = [
         (SCHEMA_ROOT / "decision-problem.schema.json", EXAMPLE_ROOT / "decision-problem.example.json"),
@@ -187,6 +281,11 @@ def main() -> int:
         (SCHEMA_ROOT / "trial-design.schema.json", EXAMPLE_ROOT / "trial-design.example.json"),
         (SCHEMA_ROOT / "parameter-set.schema.json", EXAMPLE_ROOT / "parameter-set.example.json"),
         (SCHEMA_ROOT / "value-array.schema.json", EXAMPLE_ROOT / "value-array.example.json"),
+        (SCHEMA_ROOT / "diagnostics.schema.json", EXAMPLE_ROOT / "diagnostics.example.json"),
+        (
+            SCHEMA_ROOT / "method-metadata.schema.json",
+            EXAMPLE_ROOT / "method-metadata.example.json",
+        ),
         (SCHEMA_ROOT / "results" / "evpi.schema.json", EXAMPLE_ROOT / "evpi.example.json"),
         (SCHEMA_ROOT / "results" / "evppi.schema.json", EXAMPLE_ROOT / "evppi.example.json"),
         (SCHEMA_ROOT / "results" / "evsi.schema.json", EXAMPLE_ROOT / "evsi.example.json"),

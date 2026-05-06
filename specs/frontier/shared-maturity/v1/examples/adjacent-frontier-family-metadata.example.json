@@ -1,0 +1,43 @@
+{
+  "analysis_type": "adjacent_frontier_family_metadata",
+  "method_family": "value_of_data_quality_privacy_linkage",
+  "method_maturity": "fixture-backed",
+  "analysis_id": "data-quality-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "decision_context": "screening-program",
+  "population": 1000,
+  "estimator": "deterministic-grid",
+  "seed": 123,
+  "provenance": {
+    "source": "contract scaffold"
+  },
+  "reproducibility": {
+    "execution_mode": "deterministic"
+  },
+  "diagnostics": {
+    "n_profiles": 2,
+    "n_strategies": 3
+  },
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_data_quality_privacy_linkage",
+    "method_family": "value_of_data_quality_privacy_linkage",
+    "method_maturity": "fixture-backed",
+    "analysis_id": "data-quality-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "decision_context": "screening-program",
+    "population": 1000,
+    "estimator": "deterministic-grid",
+    "seed": 123,
+    "provenance": {
+      "source": "contract scaffold"
+    },
+    "reproducibility": {
+      "execution_mode": "deterministic"
+    },
+    "diagnostics": {
+      "n_profiles": 2,
+      "n_strategies": 3
+    }
+  }
+}

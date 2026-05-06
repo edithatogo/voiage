@@ -1,11 +1,3 @@
-voiage.methods package
-======================
-
-.. automodule:: voiage.methods
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
@@ -33,6 +25,46 @@ voiage.methods.calibration module
    :undoc-members:
    :show-inheritance:
 
+voiage.methods.ceaf module
+--------------------------
+
+.. automodule:: voiage.methods.ceaf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+voiage.methods.dominance module
+-------------------------------
+
+.. automodule:: voiage.methods.dominance
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+voiage.methods.distributional module
+-------------------------------------
+
+.. automodule:: voiage.methods.distributional
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+voiage.methods.heterogeneity module
+-----------------------------------
+
+.. automodule:: voiage.methods.heterogeneity
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+voiage.methods.implementation module
+------------------------------------
+
+.. automodule:: voiage.methods.implementation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 voiage.methods.network_nma module
 ---------------------------------
 
@@ -45,6 +77,14 @@ voiage.methods.observational module
 -----------------------------------
 
 .. automodule:: voiage.methods.observational
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+voiage.methods.perspective module
+---------------------------------
+
+.. automodule:: voiage.methods.perspective
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1161,7 +1161,7 @@ class DecisionAnalysis:
 
         Parameters
         ----------
-        perspectives : PerspectiveSet or sequence, optional
+        perspectives : :class:`~voiage.methods.perspective.PerspectiveSet` or sequence, optional
             Ordered perspective metadata or perspective identifiers.
         strategy_names : sequence of str, optional
             Optional strategy labels.
@@ -1187,6 +1187,84 @@ class DecisionAnalysis:
             perspective_names=perspective_names,
             perspective_weights=perspective_weights,
             reference_perspective=reference_perspective,
+        )
+
+    def value_of_preference(
+        self,
+        preference_profiles: Any | None = None,
+        strategy_names: Sequence[str] | None = None,
+        preference_profile_names: Sequence[str] | None = None,
+        preference_profile_weights: Sequence[float] | dict[str, float] | None = None,
+        reference_preference_profile: str | int | None = None,
+        analysis_id: str | None = None,
+        decision_problem_id: str | None = None,
+        decision_context: str | None = None,
+    ) -> Any:
+        """Compare decision value across multiple preference profiles."""
+        from voiage.methods.preference import value_of_preference
+
+        return value_of_preference(
+            self.nb_array,
+            preference_profiles=preference_profiles,
+            strategy_names=strategy_names,
+            preference_profile_names=preference_profile_names,
+            preference_profile_weights=preference_profile_weights,
+            reference_preference_profile=reference_preference_profile,
+            analysis_id=analysis_id,
+            decision_problem_id=decision_problem_id,
+            decision_context=decision_context,
+        )
+
+    def value_of_model_validation(
+        self,
+        validation_profiles: Any | None = None,
+        strategy_names: Sequence[str] | None = None,
+        validation_profile_names: Sequence[str] | None = None,
+        validation_profile_weights: Sequence[float] | dict[str, float] | None = None,
+        reference_validation_profile: str | int | None = None,
+        analysis_id: str | None = None,
+        decision_problem_id: str | None = None,
+        decision_context: str | None = None,
+    ) -> Any:
+        """Compare decision value across multiple validation profiles."""
+        from voiage.methods.validation import value_of_model_validation
+
+        return value_of_model_validation(
+            self.nb_array,
+            validation_profiles=validation_profiles,
+            strategy_names=strategy_names,
+            validation_profile_names=validation_profile_names,
+            validation_profile_weights=validation_profile_weights,
+            reference_validation_profile=reference_validation_profile,
+            analysis_id=analysis_id,
+            decision_problem_id=decision_problem_id,
+            decision_context=decision_context,
+        )
+
+    def value_of_threshold_information(
+        self,
+        threshold_profiles: Any | None = None,
+        strategy_names: Sequence[str] | None = None,
+        threshold_profile_names: Sequence[str] | None = None,
+        threshold_profile_weights: Sequence[float] | dict[str, float] | None = None,
+        reference_threshold_profile: str | int | None = None,
+        analysis_id: str | None = None,
+        decision_problem_id: str | None = None,
+        decision_context: str | None = None,
+    ) -> Any:
+        """Compare decision value across multiple threshold profiles."""
+        from voiage.methods.threshold import value_of_threshold_information
+
+        return value_of_threshold_information(
+            self.nb_array,
+            threshold_profiles=threshold_profiles,
+            strategy_names=strategy_names,
+            threshold_profile_names=threshold_profile_names,
+            threshold_profile_weights=threshold_profile_weights,
+            reference_threshold_profile=reference_threshold_profile,
+            analysis_id=analysis_id,
+            decision_problem_id=decision_problem_id,
+            decision_context=decision_context,
         )
 
     def portfolio_voi(

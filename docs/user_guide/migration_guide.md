@@ -81,6 +81,10 @@ evpi_result = analysis.evpi()
 evppi_result = analysis.evppi()
 ```
 
+If you are calling the lower-level `voiage.methods.basic.evppi` wrapper
+directly, prefer `ParameterSet` inputs. Raw dict inputs still work as a
+compatibility alias, but they now emit a deprecation warning.
+
 ## From voi (R)
 
 ### Key Differences
@@ -146,8 +150,8 @@ evppi_result = analysis.evppi()
 | Distributional/equity VOI | ❌ | ❌ | ❌ | 🚧 |
 | Implementation-adjusted VOI | ❌ | ❌ | ❌ | 🚧 |
 | Frontier contract registry and validator | ❌ | ❌ | ❌ | ✅ |
-| Preference-information / individualized-care VOI | ❌ | ❌ | Partial | 📋 |
-| Validation, threshold, and robust VOI | ❌ | ❌ | ❌ | 📋 |
+| Preference-information / individualized-care VOI | ❌ | ❌ | Runtime + CLI + fixture-backed conformance | 🚧 |
+| Validation, threshold, and robust VOI | ❌ | ❌ | Runtime + fixture-backed conformance | 🚧 CLI integration remains open |
 | Causal, data-quality, computational, and elicitation VOI | ❌ | ❌ | ❌ | 📋 |
 | Cross-domain usage | Limited | Limited | Limited | ✅ |
 
@@ -155,10 +159,16 @@ Current roadmap context:
 
 - Core method work is complete.
 - The active focus is spec-first expansion, conformance fixtures, cross-language binding scaffolds, and ecosystem contracts.
-- The SOTA frontier track now includes experimental Value of Perspective,
+- The SOTA frontier track now includes implemented Value of Perspective,
+  preference/individualized-care, model-validation, threshold/robust,
   distributional/equity, and implementation-adjusted APIs, along with a
   registry-backed frontier contract layer that validates the committed
   deterministic fixtures.
+- Preference/individualized-care now has an implemented runtime surface, CLI
+  entrypoint, and fixture-backed conformance contract; model-validation and
+  threshold/robust also have runtime and fixture-backed coverage, with CLI
+  integration and docs wiring still the remaining open step for those two
+  families.
 
 ## Best Practices for Migration
 

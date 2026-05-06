@@ -20,8 +20,8 @@ The public API, core result plumbing, and plotting helpers inspected so far are 
 ### Compatibility alias or deprecation path
 
 - `voiage.methods.basic.evppi(...)` accepts raw `dict[str, np.ndarray]` parameter samples in addition to `np.ndarray` and `ParameterSet`.
-- That path is intentional compatibility behavior, not an accidental divergence from the core contract.
-- If the project later wants to narrow the public surface, this should be handled as a deprecation path rather than a silent removal.
+- That path is intentional compatibility behavior, now paired with a deprecation warning so callers can migrate deliberately.
+- If the project later wants to narrow the public surface further, that should be handled as an explicit deprecation path rather than a silent removal.
 
 ### Deferred follow-up outside the stable v1 scope
 

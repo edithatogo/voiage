@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - "typescript-v*"
-      - "go-v*"
+      - "bindings/go/v*"
       - "rust-v*"
       - "julia-v*"
       - "dotnet-v*"
@@ -28,21 +28,39 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Align package version with release tag
+        run: npm version --no-git-tag-version --allow-same-version "${GITHUB_REF_NAME#typescript-v}"
+
       - run: npm run check
       - run: npm pack --dry-run
-      - name: Publish to npm
-        run: |
-          if [ -n "$NODE_AUTH_TOKEN" ]; then
-            npm publish --access public
-          else
-            echo "NPM_TOKEN is not configured; skipping npm publish."
-          fi
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Archive release source
+        run: |
+          version="${GITHUB_REF_NAME#typescript-v}"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          git -C "$GITHUB_WORKSPACE" archive \
+            --format=tar.gz \
+            --prefix="voiage-typescript-${version}/" \
+            -o "$RUNNER_TEMP/release-artifacts/voiage-typescript-${version}.tar.gz" \
+            HEAD bindings/typescript
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ${{ runner.temp }}/release-artifacts/voiage-typescript-*.tar.gz
+          generate_release_notes: true
 
   go:
-    name: Validate Go module release
-    if: startsWith(github.ref_name, 'go-v')
+    name: Release Go module
+    if: startsWith(github.ref_name, 'bindings/go/v')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,8 +70,26 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version: "1.25"
-      - run: go test ./...
-      - run: go vet ./...
+
+      - run: go test -mod=readonly ./...
+      - run: go vet -mod=readonly ./...
+
+      - name: Archive release source
+        run: |
+          version="${GITHUB_REF_NAME#bindings/go/v}"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          git -C "$GITHUB_WORKSPACE" archive \
+            --format=tar.gz \
+            --prefix="voiage-go-${version}/" \
+            -o "$RUNNER_TEMP/release-artifacts/voiage-go-${version}.tar.gz" \
+            HEAD bindings/go
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ${{ runner.temp }}/release-artifacts/voiage-go-*.tar.gz
+          generate_release_notes: true
 
   rust:
     name: Publish Rust to crates.io
@@ -67,22 +103,39 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy,rustfmt
+
       - run: cargo fmt --check
-      - run: cargo clippy --all-targets -- -D warnings
-      - run: cargo test
-      - run: cargo package --allow-dirty
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked
+      - run: cargo doc --no-deps --locked
+      - run: cargo package --locked --allow-dirty
+
       - name: Publish to crates.io
         run: |
-          if [ -n "$CARGO_REGISTRY_TOKEN" ]; then
-            cargo publish
-          else
-            echo "CARGO_REGISTRY_TOKEN is not configured; skipping crates.io publish."
-          fi
+          : "${CARGO_REGISTRY_TOKEN:?CARGO_REGISTRY_TOKEN is required}"
+          cargo publish --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
+      - name: Archive release source
+        run: |
+          version="${GITHUB_REF_NAME#rust-v}"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          git -C "$GITHUB_WORKSPACE" archive \
+            --format=tar.gz \
+            --prefix="voiage-rust-${version}/" \
+            -o "$RUNNER_TEMP/release-artifacts/voiage-rust-${version}.tar.gz" \
+            HEAD bindings/rust
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ${{ runner.temp }}/release-artifacts/voiage-rust-*.tar.gz
+          generate_release_notes: true
+
   julia:
-    name: Validate Julia package release
+    name: Release Julia package
     if: startsWith(github.ref_name, 'julia-v')
     runs-on: ubuntu-latest
     defaults:
@@ -93,7 +146,37 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: "1.11"
-      - run: julia --project=. -e 'using Pkg; Pkg.test()'
+
+      - name: Capture release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#julia-v}" >> "$GITHUB_ENV"
+
+      - run: |
+          julia --project=. -e '
+            using Pkg, TOML
+            project = TOML.parsefile("Project.toml")
+            version = string(project["version"])
+            expected = ENV["RELEASE_VERSION"]
+            version == expected || error("Project.toml version $(version) does not match release tag $(expected)")
+            Pkg.instantiate()
+            Pkg.test()
+          '
+
+      - name: Archive release source
+        run: |
+          version="${GITHUB_REF_NAME#julia-v}"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          git -C "$GITHUB_WORKSPACE" archive \
+            --format=tar.gz \
+            --prefix="voiage-julia-${version}/" \
+            -o "$RUNNER_TEMP/release-artifacts/voiage-julia-${version}.tar.gz" \
+            HEAD bindings/julia
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ${{ runner.temp }}/release-artifacts/voiage-julia-*.tar.gz
+          generate_release_notes: true
 
   dotnet:
     name: Publish .NET 11 package to NuGet
@@ -108,21 +191,45 @@ jobs:
         with:
           dotnet-version: "11.0.x"
           dotnet-quality: "preview"
+
+      - name: Capture release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#dotnet-v}" >> "$GITHUB_ENV"
+
       - run: dotnet build src/Voiage.Core/Voiage.Core.csproj --configuration Release
       - run: dotnet run --project tests/Voiage.Core.Tests/Voiage.Core.Tests.csproj --configuration Release
-      - run: dotnet pack src/Voiage.Core/Voiage.Core.csproj --configuration Release --no-build --output nupkg
+      - run: dotnet pack src/Voiage.Core/Voiage.Core.csproj --configuration Release --no-build --output nupkg /p:Version="$RELEASE_VERSION" /p:PackageVersion="$RELEASE_VERSION"
+
       - name: Publish to NuGet
         run: |
-          if [ -n "$NUGET_API_KEY" ]; then
-            dotnet nuget push "nupkg/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          else
-            echo "NUGET_API_KEY is not configured; skipping NuGet publish."
-          fi
+          : "${NUGET_API_KEY:?NUGET_API_KEY is required}"
+          dotnet nuget push "nupkg/*.nupkg" \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
+      - name: Archive release source
+        run: |
+          version="${GITHUB_REF_NAME#dotnet-v}"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          git -C "$GITHUB_WORKSPACE" archive \
+            --format=tar.gz \
+            --prefix="voiage-dotnet-${version}/" \
+            -o "$RUNNER_TEMP/release-artifacts/voiage-dotnet-${version}.tar.gz" \
+            HEAD bindings/dotnet
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            ${{ runner.temp }}/release-artifacts/voiage-dotnet-*.tar.gz
+            bindings/dotnet/nupkg/*.nupkg
+          generate_release_notes: true
+
   r:
-    name: Validate R package release
+    name: Release R package
     if: startsWith(github.ref_name, 'r-v')
     runs-on: ubuntu-latest
     defaults:
@@ -135,5 +242,36 @@ jobs:
         with:
           working-directory: r-package/voiageR
           extra-packages: any::rcmdcheck
+
+      - name: Capture release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#r-v}" >> "$GITHUB_ENV"
+
+      - name: Verify DESCRIPTION version matches release tag
+        run: |
+          description_version="$(Rscript -e 'cat(read.dcf("DESCRIPTION")[1, "Version"])')"
+          if [ "$description_version" != "$RELEASE_VERSION" ]; then
+            echo "DESCRIPTION version $description_version does not match release tag $RELEASE_VERSION" >&2
+            exit 1
+          fi
+
       - run: R CMD build .
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
+      - name: Build PDF manual
+        run: Rscript tools/build-manual.R . "$RUNNER_TEMP/release-artifacts/voiageR-manual.pdf"
+
+      - name: Stage release artifact
+        run: |
+          version="$RELEASE_VERSION"
+          built="voiageR_${version}.tar.gz"
+          test -f "$built"
+          mkdir -p "$RUNNER_TEMP/release-artifacts"
+          mv "$built" "$RUNNER_TEMP/release-artifacts/$built"
+
+      - name: Attach release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            ${{ runner.temp }}/release-artifacts/voiageR_*.tar.gz
+            ${{ runner.temp }}/release-artifacts/voiageR-manual.pdf
+          generate_release_notes: true

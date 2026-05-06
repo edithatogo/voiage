@@ -2,35 +2,65 @@
   "analysis_id": "preference-screening-001",
   "decision_problem_id": "screening-program-001",
   "analysis_type": "value_of_preference_information",
-  "method_maturity": "planned",
-  "value": 2.4,
-  "individualized_care_value": 5.2,
-  "preference_profile_ids": ["access_first", "outcomes_first"],
-  "strategy_names": ["A", "B", "C"],
-  "expected_net_benefits": [[10.0, 8.0, 5.0], [7.0, 11.0, 9.0]],
+  "method_maturity": "fixture-backed",
+  "value": 3.0,
+  "individualized_care_value": 0.5,
+  "preference_profile_ids": [
+    "access_first",
+    "outcomes_first"
+  ],
+  "strategy_names": [
+    "A",
+    "B",
+    "C"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      8.0,
+      5.0
+    ],
+    [
+      7.0,
+      11.0,
+      9.0
+    ]
+  ],
   "optimal_strategy_by_preference_profile": {
     "access_first": "A",
     "outcomes_first": "B"
   },
-  "regret_matrix": [[0.0, 2.0], [4.0, 0.0]],
+  "regret_matrix": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      4.0,
+      0.0
+    ]
+  ],
   "switching_values": {
     "access_first": 0.0,
     "outcomes_first": 4.0
   },
   "consensus_strategy": "B",
   "robust_strategy": "B",
-  "pareto_strategies": ["A", "B"],
+  "pareto_strategies": [
+    "A",
+    "B"
+  ],
   "reference_preference_profile": "access_first",
   "reporting": {
     "reporting_standard": "CHEERS-VOI",
     "analysis_type": "value_of_preference_information",
     "method_family": "value_of_preference_information",
-    "method_maturity": "planned",
-    "analysis_id": null,
-    "decision_problem_id": null,
+    "method_maturity": "fixture-backed",
+    "analysis_id": "preference-screening-001",
+    "decision_problem_id": "screening-program-001",
     "decision_context": null,
     "population": null,
-    "estimator": null,
+    "estimator": "profile_mean",
     "seed": null,
     "provenance": {},
     "reproducibility": {},
@@ -39,12 +69,21 @@
       "n_strategies": 3,
       "n_preference_profiles": 2
     },
-    "preference_profile_ids": ["access_first", "outcomes_first"],
-    "preference_profile_labels": ["Access first", "Outcomes first"]
+    "preference_profile_ids": [
+      "access_first",
+      "outcomes_first"
+    ],
+    "preference_profile_labels": [
+      "Access first",
+      "Outcomes first"
+    ]
   },
   "diagnostics": {
     "n_samples": 2,
     "n_strategies": 3,
-    "n_preference_profiles": 2
+    "n_preference_profiles": 2,
+    "regret_definition": "row i, column j is regret in profile i when using the strategy optimal under profile j",
+    "reference_preference_profile": "access_first",
+    "individualized_care_weighted_expected_net_benefit": 10.75
   }
 }

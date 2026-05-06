@@ -1,0 +1,8 @@
+{
+  "analysis_id": "lifecourse-screening-001-enbs",
+  "analysis_type": "enbs",
+  "decision_problem_id": "screening-program-001",
+  "research_cost": 25000.0,
+  "net_value": -24997.75,
+  "method": "decision-rule"
+}

@@ -7,6 +7,8 @@ These example payloads are canonical, deterministic fixtures for the stable v1 c
 - `trial-design.example.json`
 - `parameter-set.example.json`
 - `value-array.example.json`
+- `diagnostics.example.json`
+- `method-metadata.example.json`
 - `evpi.example.json`
 - `evppi.example.json`
 - `evsi.example.json`

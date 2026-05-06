@@ -110,7 +110,7 @@ def value_of_heterogeneity(
     strategy_names: list[str] | None = None,
     n_bins: int | None = None,
 ) -> HeterogeneityResult:
-    """Calculate the value of tailoring decisions to subgroups.
+    r"""Calculate the value of tailoring decisions to subgroups.
 
     Parameters
     ----------
@@ -131,7 +131,37 @@ def value_of_heterogeneity(
     Notes
     -----
     The reported value is the gain from allowing different optimal strategies
-    in different subgroups rather than applying one strategy to everyone.
+    in different subgroups rather than applying one strategy to everyone:
+
+    .. math::
+
+       \mathrm{VOH} = \max\left(0,\sum_g w_g \max_d E[NB_{d,g}] - \max_d E[NB_d]\right).
+
+    References
+    ----------
+    Fenwick, E., Claxton, K., & Sculpher, M. (2001). Representing uncertainty:
+    the cost-effectiveness acceptability curve, the cost-effectiveness
+    acceptability frontier, and the value of heterogeneity.
+    O'Cathain, A., et al. (2021). Equity and subgroup value in economic
+    evaluation.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.heterogeneity import value_of_heterogeneity
+    >>> from voiage.schema import ValueArray
+    >>> values = np.array([
+    ...     [10.0, 8.0],
+    ...     [11.0, 7.0],
+    ...     [6.0, 12.0],
+    ...     [5.0, 13.0],
+    ... ])
+    >>> result = value_of_heterogeneity(
+    ...     ValueArray.from_numpy(values, ["A", "B"]),
+    ...     subgroups=["low", "low", "high", "high"],
+    ... )
+    >>> result.value >= 0.0
+    True
     """
     nb_values, subgroup_arr, final_strategy_names = _validate_heterogeneity_inputs(
         value_array,
@@ -195,6 +225,18 @@ def identify_optimal_subgroups(result: HeterogeneityResult) -> dict[str, str]:
     -------
     dict[str, str]
         Mapping from subgroup label to subgroup-optimal strategy name.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from voiage.methods.heterogeneity import identify_optimal_subgroups, value_of_heterogeneity
+    >>> from voiage.schema import ValueArray
+    >>> result = value_of_heterogeneity(
+    ...     ValueArray.from_numpy(np.array([[10.0, 8.0], [6.0, 12.0]]), ["A", "B"]),
+    ...     subgroups=["low", "high"],
+    ... )
+    >>> identify_optimal_subgroups(result)
+    {'high': 'B', 'low': 'A'}
     """
     return dict(
         zip(

@@ -35,9 +35,32 @@ from .perspective import (
     value_of_perspective,
 )
 from .portfolio import portfolio_voi
+from .preference import (
+    PreferenceHeterogeneityResult,
+    PreferenceProfile,
+    PreferenceProfileSet,
+    preference_optimal_strategies,
+    value_of_preference,
+    value_of_preference_heterogeneity,
+    value_of_preference_information,
+)
 from .sample_information import enbs, evsi
 from .sequential import sequential_voi
 from .structural import structural_evpi, structural_evppi
+from .threshold import (
+    ThresholdProfile,
+    ThresholdProfileSet,
+    ThresholdResult,
+    value_of_threshold,
+    value_of_threshold_information,
+)
+from .validation import (
+    ModelValidationResult,
+    ValidationProfile,
+    ValidationProfileSet,
+    value_of_model_validation,
+    value_of_validation,
+)
 
 __all__ = [
     "CEAFResult",
@@ -45,8 +68,17 @@ __all__ = [
     "DominanceResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
+    "ModelValidationResult",
     "Perspective",
     "PerspectiveSet",
+    "PreferenceHeterogeneityResult",
+    "PreferenceProfile",
+    "PreferenceProfileSet",
+    "ThresholdProfile",
+    "ThresholdProfileSet",
+    "ThresholdResult",
+    "ValidationProfile",
+    "ValidationProfileSet",
     "ValueOfPerspectiveResult",
     "adaptive_evsi",
     "calculate_ceaf",
@@ -63,13 +95,21 @@ __all__ = [
     "identify_optimal_subgroups",
     "perspective_optimal_strategies",
     "portfolio_voi",
+    "preference_optimal_strategies",
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",
     "value_of_distributional_equity",
     "value_of_heterogeneity",
     "value_of_implementation",
+    "value_of_model_validation",
     "value_of_perspective",
+    "value_of_preference",
+    "value_of_preference_heterogeneity",
+    "value_of_preference_information",
+    "value_of_threshold",
+    "value_of_threshold_information",
+    "value_of_validation",
     "voi_calibration",
     "voi_observational",
 ]

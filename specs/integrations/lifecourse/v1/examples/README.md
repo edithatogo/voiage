@@ -13,7 +13,21 @@ Planned example coverage:
 - net-benefit tables by strategy
 - parameter-sample tables
 - VOI-ready artifact payloads with method settings and provenance
+- illustrative result envelopes that preserve metadata across EVPI, EVPPI,
+  EVSI, and ENBS payloads
 
 These examples should map cleanly to the stable `voiage` core API schemas while
 remaining portable across Python, R, Julia, TypeScript, Go, Rust, and .NET
 bindings.
+
+The current illustrative result envelope is stored in
+`../fixtures/illustrative/voi_result_envelope.json` so the contract stays close
+to the deterministic fixture set.
+
+Example payloads should preserve the same compatibility anchors as the fixtures
+themselves: `voiage` `0.2.0`, `lifecourse` profile `v1`, and HEOML profile
+`0.1`. That keeps the exchange path visible in review and makes fixture
+validation repeatable for contributors.
+
+When validating examples, check the manifest compatibility block first, then the
+illustrative result envelope, and only then the normative fixture outputs.

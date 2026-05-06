@@ -24,13 +24,48 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: Numerics, Diagnostics and Extension Model
-*Link: [./tracks/numerics-diagnostics-extension-model/](./tracks/numerics-diagnostics-extension-model/)*
+## [x] Track: Numerics, Diagnostics and Extension Model [completed: 2026-05-04]
+*Link: [./archive/numerics-diagnostics-extension-model/](./archive/numerics-diagnostics-extension-model/)*
 
 ---
 
-## [~] Track: SOTA VOI Frontier
-*Link: [./tracks/sota-voi-frontier_20260429/](./tracks/sota-voi-frontier_20260429/)*
+## [x] Track: Rust Core Migration Foundation [completed: 2026-05-05]
+*Link: [./archive/rust-core-migration-foundation_20260504/](./archive/rust-core-migration-foundation_20260504/)*
+
+---
+
+## [x] Track: Rust Core Domain Model [completed: 2026-05-05]
+*Link: [./archive/rust-core-domain-model_20260504/](./archive/rust-core-domain-model_20260504/)*
+
+---
+
+## [x] Track: Rust Core Numerics Engine [completed: 2026-05-06]
+*Link: [./archive/rust-core-numerics-engine_20260504/](./archive/rust-core-numerics-engine_20260504/)*
+
+---
+
+## [x] Track: Rust Core Performance And Profiling [completed: 2026-05-05]
+*Link: [./archive/rust-core-performance-and-profiling_20260504/](./archive/rust-core-performance-and-profiling_20260504/)*
+
+---
+
+## [x] Track: Rust Core Bindings And Release [completed: 2026-05-05]
+*Link: [./archive/rust-core-bindings-and-release_20260504/](./archive/rust-core-bindings-and-release_20260504/)*
+
+---
+
+## [x] Track: SOTA VOI Frontier [completed: 2026-05-05]
+*Link: [./archive/sota-voi-frontier_20260429/](./archive/sota-voi-frontier_20260429/)*
+
+---
+
+## [x] Track: R Package Documentation Manual And Vignette [completed: 2026-05-04]
+*Link: [./archive/r-package-doc-manual_20260504/](./archive/r-package-doc-manual_20260504/)*
+
+---
+
+## [x] Track: Polyglot Tutorial Surface And Worked Examples [completed: 2026-05-04]
+*Link: [./archive/polyglot-tutorial-surface_20260504/](./archive/polyglot-tutorial-surface_20260504/)*
 
 ---
 
@@ -40,18 +75,8 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: Cross-Language Conformance Fixtures
-*Link: [./tracks/cross-language-conformance-fixtures/](./tracks/cross-language-conformance-fixtures/)*
-
----
-
 ## [x] Track: Python Cleanup Against Spec [completed: 2026-04-25]
 *Link: [./archive/python-cleanup-against-spec_20260425/](./archive/python-cleanup-against-spec_20260425/)*
-
----
-
-## [ ] Track: Python Cleanup Against Spec
-*Link: [./tracks/python-cleanup-against-spec/](./tracks/python-cleanup-against-spec/)*
 
 ---
 
@@ -65,33 +90,33 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: CLI Completion and Integration Testing
-*Link: [./tracks/cli-integration-testing/](./tracks/cli-integration-testing/)*
+## [x] Track: CLI Completion and Integration Testing [completed: 2026-05-04]
+*Link: [./archive/cli-integration-testing_20260504/](./archive/cli-integration-testing_20260504/)*
 
 ---
 
-## [ ] Track: First External Bindings Release Matrix
-*Link: [./tracks/first-external-bindings_20260430/](./tracks/first-external-bindings_20260430/)*
+## [x] Track: First External Bindings Release Matrix [completed: 2026-05-04]
+*Link: [./archive/first-external-bindings_20260504/](./archive/first-external-bindings_20260504/)*
 
 ---
 
-## [ ] Track: Dynamic Real-Options VOI
-*Link: [./tracks/dynamic-real-options-voi_20260430/](./tracks/dynamic-real-options-voi_20260430/)*
+## [x] Track: Dynamic Real-Options VOI [completed: 2026-05-04]
+*Link: [./archive/dynamic-real-options-voi_20260504/](./archive/dynamic-real-options-voi_20260504/)*
 
 ---
 
-## [ ] Track: Adjacent Frontier Extensions
-*Link: [./tracks/adjacent-frontier-extensions_20260430/](./tracks/adjacent-frontier-extensions_20260430/)*
+## [x] Track: Adjacent Frontier Extensions [completed: 2026-05-04]
+*Link: [./archive/adjacent-frontier-extensions_20260504/](./archive/adjacent-frontier-extensions_20260504/)*
 
 ---
 
-## [ ] Track: Documentation, Validation and Developer Experience
-*Link: [./tracks/docs-developer-experience/](./tracks/docs-developer-experience/)*
+## [x] Track: Documentation, Validation and Developer Experience [completed: 2026-05-04]
+*Link: [./archive/docs-developer-experience_20260504/](./archive/docs-developer-experience_20260504/)*
 
 ---
 
-## [ ] Track: lifecourse Integration Contract
-*Link: [./tracks/lifecourse-integration-contract_20260429/](./tracks/lifecourse-integration-contract_20260429/)*
+## [x] Track: lifecourse Integration Contract [completed: 2026-05-04]
+*Link: [./archive/lifecourse-integration-contract_20260504/](./archive/lifecourse-integration-contract_20260504/)*
 
 ---
 
@@ -100,10 +125,20 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: Ecosystem Module Incubation
-*Link: [./tracks/ecosystem-module-incubation_20260429/](./tracks/ecosystem-module-incubation_20260429/)*
+## [x] Track: HEOR Module Naming Brainstorm [completed: 2026-05-04]
+*Link: [./archive/heor_module_naming_brainstorm_20260429/](./archive/heor_module_naming_brainstorm_20260429/)*
 
 ---
 
-## [ ] Track: HEOR Module Naming Brainstorm
-*Link: [./tracks/heor_module_naming_brainstorm_20260429/](./tracks/heor_module_naming_brainstorm_20260429/)*
+## [x] Track: Rust EVSI Stochastic Kernel [completed: 2026-05-06]
+*Link: [./archive/rust-evsi-stochastic-kernel_20260506/](./archive/rust-evsi-stochastic-kernel_20260506/)*
+
+---
+
+## [x] Track: Model Validation VOI Implementation [completed: 2026-05-06]
+*Link: [./archive/model-validation-voi_20260506/](./archive/model-validation-voi_20260506/)*
+
+---
+
+## [x] Track: Threshold, Tipping-Point, And Robust VOI Implementation [completed: 2026-05-06]
+*Link: [./archive/threshold-robust-voi_20260506/](./archive/threshold-robust-voi_20260506/)*

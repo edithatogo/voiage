@@ -55,7 +55,7 @@ pip install voiage
 For development or the latest features, you can install from source:
 
 ```bash
-git clone https://github.com/your-username/voiage.git
+git clone https://github.com/edithatogo/voiage.git
 cd voiage
 pip install -e .
 ```

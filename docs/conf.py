@@ -44,6 +44,14 @@ extensions = [
 ]
 
 # Autodoc settings
+autodoc_mock_imports = [
+    "cupy",
+    "jax",
+    "matplotlib",
+    "pymc",
+    "pymc_bart",
+    "sklearn",
+]
 autodoc_member_order = "bysource"  # Order members by source order
 autosummary_generate = True  # Turn on remote generation for autosummary
 

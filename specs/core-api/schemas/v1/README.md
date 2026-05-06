@@ -9,6 +9,8 @@ The stable v1 contract matrix currently includes:
 - `trial-design.schema.json`
 - `parameter-set.schema.json`
 - `value-array.schema.json`
+- `diagnostics.schema.json`
+- `method-metadata.schema.json`
 
 Stable result schemas:
 
