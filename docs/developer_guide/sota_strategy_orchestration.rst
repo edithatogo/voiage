@@ -44,17 +44,29 @@ Parallel lane map
 The lanes below can proceed in parallel once the shared prerequisites are in
 place.
 
-+--------------------------------------+-------------------------------+----------------------------+--------------------------------------+
-| Lane                                 | Blocking prerequisite         | Safe to parallelize with   | Required output                      |
-+======================================+===============================+============================+======================================+
-| Packaging review readiness           | release playbook + metadata    | HPC, docs, ABI              | fit matrix + repo change checklist   |
-+--------------------------------------+-------------------------------+----------------------------+--------------------------------------+
-| HPC distribution and acceleration    | release artifact policy        | packaging, docs             | distro matrix + accelerator ranking  |
-+--------------------------------------+-------------------------------+----------------------------+--------------------------------------+
-| Rust-core ABI and migration          | stable contracts + versioning  | packaging, docs, HPC        | ABI recommendation + compat matrix   |
-+--------------------------------------+-------------------------------+----------------------------+--------------------------------------+
-| Polyglot repo and documentation     | docs inventory + navigation    | packaging, HPC, ABI         | future repo/docs layout + migration  |
-+--------------------------------------+-------------------------------+----------------------------+--------------------------------------+
+.. list-table::
+   :header-rows: 1
+
+   * - Lane
+     - Blocking prerequisite
+     - Safe to parallelize with
+     - Required output
+   * - Packaging review readiness
+     - release playbook + metadata
+     - HPC, docs, ABI
+     - fit matrix + repo change checklist
+   * - HPC distribution and acceleration
+     - release artifact policy
+     - packaging, docs
+     - distro matrix + accelerator ranking
+   * - Rust-core ABI and migration
+     - stable contracts + versioning
+     - packaging, docs, HPC
+     - ABI recommendation + compat matrix
+   * - Polyglot repo and documentation
+     - docs inventory + navigation
+     - packaging, HPC, ABI
+     - future repo/docs layout + migration
 
 Recommended execution order
 ---------------------------
@@ -134,4 +146,3 @@ Dependency sketch
    Python facade -> Rust core -> optional C ABI edge
    Rust core -> stable contracts -> language adapters
    Contracts -> fixtures -> CI/release gates
-

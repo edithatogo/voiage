@@ -635,34 +635,25 @@ def test_cli_help() -> None:
     assert "calculate-adaptive-evsi" in stdout
     assert "--adaptive-rules" in stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-portfolio-voi", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-portfolio-voi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-portfolio-voi" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-portfolio-voi" in stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-sequential-voi", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-sequential-voi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-sequential-voi" in result.stdout
-    assert "--optimization-method" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-sequential-voi" in stdout
+    assert "--optimization-method" in stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "generate-config", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["generate-config", "--help"])
 
-    assert result.returncode == 0
-    assert "generate-config" in result.stdout
-    assert "evsi_config.json" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "generate-config" in stdout
+    assert "evsi_config.json" in stdout
 
     help_checks = [
         ["calculate-evpi", "voiage calculate-evpi net_benefits.csv"],

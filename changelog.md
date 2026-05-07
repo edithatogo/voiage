@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marked the packaging, HPC, Rust ABI, and polyglot docs strategy tracks complete and summarized the current-state / future-state guidance in the roadmap.
 
 ### Fixed
+- Restored the GitHub Actions tool split so the CI jobs that invoke `tox`,
+  `ruff`, `bandit`, and `vulture` install the dev toolset they need, and
+  cleaned up the strategy orchestration guide table so the docs site builds
+  without warnings.
 - Regenerated the Rust core `Cargo.lock` so the benchmark workflow can run the scalar baseline with `--locked` again.
 - Switched the adaptive EVSI help assertion to the in-process Typer runner so the CLI help test stays stable across Python versions in CI.
 - Cleaned up the frontier family README wording so the experimental contracts now use current fixture-backed status language instead of stale "planned" phrasing.
