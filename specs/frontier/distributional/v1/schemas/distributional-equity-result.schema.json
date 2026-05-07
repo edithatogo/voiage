@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/distributional/v1/schemas/distributional-equity-result.schema.json",
+  "title": "DistributionalEquityResultV1Experimental",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "subgroup_labels",
+    "subgroup_weights",
+    "equity_weights",
+    "subgroup_optimal_strategy_indices",
+    "subgroup_optimal_strategy_names",
+    "subgroup_expected_net_benefits",
+    "equity_weighted_expected_net_benefits",
+    "overall_optimal_strategy_index",
+    "overall_optimal_strategy_name",
+    "social_welfare_optimal_strategy_index",
+    "social_welfare_optimal_strategy_name",
+    "social_welfare_value",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_distributional_equity"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "experimental"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "subgroup_labels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "subgroup_weights": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "equity_weights": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "subgroup_optimal_strategy_indices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "subgroup_optimal_strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "subgroup_expected_net_benefits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "equity_weighted_expected_net_benefits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "overall_optimal_strategy_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "overall_optimal_strategy_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "social_welfare_optimal_strategy_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "social_welfare_optimal_strategy_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "social_welfare_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

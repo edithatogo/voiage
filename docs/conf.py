@@ -44,6 +44,14 @@ extensions = [
 ]
 
 # Autodoc settings
+autodoc_mock_imports = [
+    "cupy",
+    "jax",
+    "matplotlib",
+    "pymc",
+    "pymc_bart",
+    "sklearn",
+]
 autodoc_member_order = "bysource"  # Order members by source order
 autosummary_generate = True  # Turn on remote generation for autosummary
 
@@ -66,14 +74,14 @@ napoleon_attr_annotations = True
 
 # Intersphinx mapping (example: link to Python, NumPy, SciPy, Pandas docs)
 intersphinx_mapping = {
-    "python": ("https.docs.python.org/3", None),
-    "numpy": ("https.numpy.org/doc/stable/", None),
-    "scipy": ("https.docs.scipy.org/doc/scipy/", None),
-    "pandas": ("https.pandas.pydata.org/pandas-docs/stable/", None),
-    "matplotlib": ("https.matplotlib.org/stable/", None),
-    "sklearn": ("https.scikit-learn.org/stable/", None),
-    "pymc": ("https.www.pymc.io/projects/docs/en/stable/", None),
-    # 'jax': ('https.jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "matplotlib": ("https://matplotlib.org/stable/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "pymc": ("https://www.pymc.io/projects/docs/en/stable/", None),
+    # 'jax': ('https://jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
 }
 
 templates_path = ["_templates"]  # Directory for custom templates

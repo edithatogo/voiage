@@ -1,0 +1,58 @@
+{
+  "analysis_id": "preference-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "net_benefit": [
+    [
+      [10.0, 7.0],
+      [8.0, 11.0],
+      [5.0, 9.0]
+    ],
+    [
+      [10.0, 7.0],
+      [8.0, 11.0],
+      [5.0, 9.0]
+    ]
+  ],
+  "strategy_names": ["A", "B", "C"],
+  "preference_profiles": [
+    {
+      "id": "access_first",
+      "label": "Access first",
+      "weight": 0.25,
+      "utility_weights": {
+        "access": 1.0,
+        "outcomes": 0.5
+      },
+      "equity_weights": {
+        "high_need": 1.2,
+        "low_need": 0.8
+      },
+      "willingness_to_pay": 30000.0,
+      "discount_rate": 0.03,
+      "population": 1000.0,
+      "stakeholder_metadata": {
+        "notes": "Prioritises lower-friction access to care."
+      }
+    },
+    {
+      "id": "outcomes_first",
+      "label": "Outcomes first",
+      "weight": 0.75,
+      "utility_weights": {
+        "access": 0.4,
+        "outcomes": 1.1
+      },
+      "equity_weights": {
+        "high_need": 1.0,
+        "low_need": 1.0
+      },
+      "willingness_to_pay": 30000.0,
+      "discount_rate": 0.03,
+      "population": 1000.0,
+      "stakeholder_metadata": {
+        "notes": "Prioritises health outcomes over convenience."
+      }
+    }
+  ],
+  "reference_preference_profile": "access_first"
+}

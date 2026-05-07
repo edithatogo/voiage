@@ -1,0 +1,21 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "screening program implementation adjustment",
+      "method_family": "value_of_implementation",
+      "input_artifact": "normative/implementation-adjusted-input.json",
+      "expected_output_artifact": "normative/value-of-implementation.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the experimental implementation-adjusted VOI contract."
+  ]
+}

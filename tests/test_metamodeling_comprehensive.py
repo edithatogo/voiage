@@ -38,7 +38,7 @@ def small_sample_data():
     return x, y
 
 
-def test_random_forest_metamodel_comprehensive(sample_data):
+def test_random_forest_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for RandomForestMetamodel implementation."""
     try:
         from voiage.metamodels import RandomForestMetamodel
@@ -97,7 +97,7 @@ def test_random_forest_metamodel_comprehensive(sample_data):
         model_unfitted.rmse(x, y)
 
 
-def test_gam_metamodel_comprehensive(sample_data):
+def test_gam_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for GAMMetamodel implementation."""
     try:
         from voiage.metamodels import GAMMetamodel
@@ -160,7 +160,7 @@ def test_gam_metamodel_comprehensive(sample_data):
             raise
 
 
-def test_bart_metamodel_comprehensive(sample_data):
+def test_bart_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for BARTMetamodel implementation."""
     try:
         from voiage.metamodels import BARTMetamodel
@@ -171,10 +171,12 @@ def test_bart_metamodel_comprehensive(sample_data):
 
     # Use a smaller sample for BART to keep tests reasonably fast
     x_small = ParameterSet(
-        dataset=xr.Dataset({
-            "param1": ("n_samples", x.parameters["param1"][:20]),
-            "param2": ("n_samples", x.parameters["param2"][:20]),
-        })
+        dataset=xr.Dataset(
+            {
+                "param1": ("n_samples", x.parameters["param1"][:20]),
+                "param2": ("n_samples", x.parameters["param2"][:20]),
+            }
+        )
     )
     y_small = y[:20]
 
@@ -207,7 +209,7 @@ def test_bart_metamodel_comprehensive(sample_data):
         model_unfitted.rmse(x_small, y_small)
 
 
-def test_flax_metamodel_dependency_handling(sample_data):
+def test_flax_metamodel_dependency_handling(sample_data) -> None:
     """Test that FlaxMetamodel properly handles missing dependencies."""
     try:
         from voiage.metamodels import FlaxMetamodel
@@ -228,7 +230,7 @@ def test_flax_metamodel_dependency_handling(sample_data):
         pass
 
 
-def test_tinygp_metamodel_dependency_handling(sample_data):
+def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
     """Test that TinyGPMetamodel properly handles missing dependencies."""
     try:
         from voiage.metamodels import TinyGPMetamodel
@@ -249,11 +251,11 @@ def test_tinygp_metamodel_dependency_handling(sample_data):
         pass
 
 
-def test_metamodel_protocol_compliance():
+def test_metamodel_protocol_compliance() -> None:
     """Test that all available metamodels comply with the Metamodel protocol."""
-    try:
-        from voiage.metamodels import Metamodel
-    except ImportError:
+    from importlib.util import find_spec
+
+    if find_spec("voiage.metamodels") is None:
         pytest.skip("Metamodel protocol not available")
 
     # Get all available metamodel classes
@@ -261,38 +263,43 @@ def test_metamodel_protocol_compliance():
 
     try:
         from voiage.metamodels import RandomForestMetamodel
+
         available_metamodels.append(("RandomForestMetamodel", RandomForestMetamodel))
     except ImportError:
         pass
 
     try:
         from voiage.metamodels import GAMMetamodel
+
         available_metamodels.append(("GAMMetamodel", GAMMetamodel))
     except ImportError:
         pass
 
     try:
         from voiage.metamodels import BARTMetamodel
+
         available_metamodels.append(("BARTMetamodel", BARTMetamodel))
     except ImportError:
         pass
 
     try:
         from voiage.metamodels import FlaxMetamodel
+
         available_metamodels.append(("FlaxMetamodel", FlaxMetamodel))
     except ImportError:
         pass
 
     try:
         from voiage.metamodels import TinyGPMetamodel
+
         available_metamodels.append(("TinyGPMetamodel", TinyGPMetamodel))
     except ImportError:
         pass
 
     # Test that each metamodel has the required methods
     # Note: Some metamodels may not implement all methods, which is acceptable
-    required_methods = ['fit', 'predict']
-    _ = ['score', 'rmse']  # optional_methods = ['score', 'rmse']
+    required_methods = ["fit", "predict"]
+    _ = ["score", "rmse"]  # optional_methods = ['score', 'rmse']
 
     for name, metamodel_class in available_metamodels:
         # Check that it's a class
@@ -300,14 +307,16 @@ def test_metamodel_protocol_compliance():
 
         # Check that it has all required methods
         for method in required_methods:
-            assert hasattr(metamodel_class, method), f"{name} should have method {method}"
+            assert hasattr(metamodel_class, method), (
+                f"{name} should have method {method}"
+            )
 
         # Check that it has at least one of the optional methods
         # has_optional = any(hasattr(metamodel_class, method) for method in optional_methods)
         # This is a loose check - having at least one optional method is good
 
 
-def test_calculate_diagnostics_with_metamodels_without_methods(sample_data):
+def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> None:
     """Test that calculate_diagnostics works with metamodels that don't implement score/rmse."""
     try:
         from voiage.metamodels import (
@@ -347,7 +356,7 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data):
         pass
 
 
-def test_calculate_diagnostics_comprehensive(sample_data):
+def test_calculate_diagnostics_comprehensive(sample_data) -> None:
     """Comprehensive test for the calculate_diagnostics function."""
     try:
         from voiage.metamodels import RandomForestMetamodel, calculate_diagnostics
@@ -393,7 +402,7 @@ def test_calculate_diagnostics_comprehensive(sample_data):
     assert diagnostics_constant["rmse"] >= 0
 
 
-def test_cross_validate_comprehensive(sample_data):
+def test_cross_validate_comprehensive(sample_data) -> None:
     """Comprehensive test for the cross_validate function."""
     try:
         from voiage.metamodels import RandomForestMetamodel, cross_validate
@@ -407,10 +416,16 @@ def test_cross_validate_comprehensive(sample_data):
 
     # Check that all expected keys are present
     expected_keys = [
-        "cv_r2_mean", "cv_r2_std",
-        "cv_rmse_mean", "cv_rmse_std",
-        "cv_mae_mean", "cv_mae_std",
-        "n_folds", "fold_scores", "fold_rmse", "fold_mae"
+        "cv_r2_mean",
+        "cv_r2_std",
+        "cv_rmse_mean",
+        "cv_rmse_std",
+        "cv_mae_mean",
+        "cv_mae_std",
+        "n_folds",
+        "fold_scores",
+        "fold_rmse",
+        "fold_mae",
     ]
     for key in expected_keys:
         assert key in cv_results
@@ -453,7 +468,7 @@ def test_cross_validate_comprehensive(sample_data):
         pass
 
 
-def test_compare_metamodels_comprehensive(sample_data):
+def test_compare_metamodels_comprehensive(sample_data) -> None:
     """Comprehensive test for the compare_metamodels function."""
     try:
         from voiage.metamodels import RandomForestMetamodel, compare_metamodels
@@ -475,10 +490,13 @@ def test_compare_metamodels_comprehensive(sample_data):
     if "error" not in model_results:
         # Check expected keys in results
         expected_keys = [
-            "cv_r2_mean", "cv_r2_std",
-            "cv_rmse_mean", "cv_rmse_std",
-            "cv_mae_mean", "cv_mae_std",
-            "n_folds"
+            "cv_r2_mean",
+            "cv_r2_std",
+            "cv_rmse_mean",
+            "cv_rmse_std",
+            "cv_mae_mean",
+            "cv_mae_std",
+            "n_folds",
         ]
         for key in expected_keys:
             assert key in model_results
@@ -488,12 +506,14 @@ def test_compare_metamodels_comprehensive(sample_data):
 
     try:
         from voiage.metamodels import GAMMetamodel
+
         models_to_test.append(GAMMetamodel)
     except ImportError:
         pass
 
     try:
         from voiage.metamodels import BARTMetamodel
+
         models_to_test.append(BARTMetamodel)
     except ImportError:
         pass
@@ -507,12 +527,11 @@ def test_compare_metamodels_comprehensive(sample_data):
             # We just check that the model name is in the results
 
 
-def test_edge_cases_and_error_conditions(sample_data):
+def test_edge_cases_and_error_conditions(sample_data) -> None:
     """Test edge cases and error conditions for metamodeling functions."""
     try:
         from voiage.metamodels import (
             RandomForestMetamodel,
-            calculate_diagnostics,
             compare_metamodels,
             cross_validate,
         )
@@ -560,12 +579,13 @@ def test_edge_cases_and_error_conditions(sample_data):
 
 
 # Property-based tests (if hypothesis is available)
-def test_metamodel_properties(sample_data):
+def test_metamodel_properties(sample_data) -> None:
     """Test mathematical properties of metamodels."""
     try:
-        import hypothesis
-        from hypothesis import given
-        from hypothesis import strategies as st
+        from importlib.util import find_spec
+
+        if find_spec("hypothesis") is None:
+            pytest.skip("Skipping property-based tests: hypothesis not available")
 
         from voiage.metamodels import RandomForestMetamodel
     except ImportError:
@@ -586,6 +606,155 @@ def test_metamodel_properties(sample_data):
     # Test that predictions have the same number of samples as input
     y_pred = model.predict(x)
     assert len(y_pred) == len(y), "Predictions should have same length as target"
+
+
+class _LinearDummyMetamodel:
+    """Minimal metamodel used to exercise ActiveLearningMetamodel."""
+
+    def __init__(self) -> None:
+        self.fit_calls: list[tuple[int, int]] = []
+
+    def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+        self.fit_calls.append((x.n_samples, len(y)))
+
+    def predict(self, x: ParameterSet) -> np.ndarray:
+        return np.sum(np.stack(list(x.parameters.values()), axis=1), axis=1)
+
+    def score(self, x: ParameterSet, y: np.ndarray) -> float:
+        return 0.5
+
+    def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
+        return 1.0
+
+
+class _FailingPredictMetamodel(_LinearDummyMetamodel):
+    def predict(self, x: ParameterSet) -> np.ndarray:
+        raise RuntimeError("prediction failed")
+
+
+def test_active_learning_metamodel_fit_predict_score_and_rmse() -> None:
+    """Active learning should fit the base model and expose predictions."""
+    from voiage.metamodels import ActiveLearningMetamodel
+
+    x = ParameterSet(
+        dataset=xr.Dataset(
+            {
+                "param1": ("n_samples", np.array([0.0, 1.0, 2.0])),
+                "param2": ("n_samples", np.array([1.0, 2.0, 3.0])),
+            }
+        )
+    )
+    y = np.array([1.0, 3.0, 5.0])
+    x_pool = np.array([[3.0, 4.0], [4.0, 5.0], [5.0, 6.0]])
+    y_pool = np.array([7.0, 9.0, 11.0])
+    base_model = _LinearDummyMetamodel()
+    model = ActiveLearningMetamodel(
+        base_model,
+        n_initial_samples=2,
+        n_query_samples=1,
+        acquisition_function="random",
+    )
+
+    selected_x, selected_y, selected_indices = model._select_initial_samples(
+        x_pool, y_pool
+    )
+    model.fit(x, y, x_pool=x_pool, y_pool=y_pool, n_iterations=2)
+
+    predictions = model.predict(x)
+
+    assert selected_x.shape == (2, 2)
+    assert selected_y is not None
+    assert selected_y.shape == (2,)
+    assert selected_indices.shape == (2,)
+    assert model.is_fitted is True
+    assert model.iteration == 2
+    assert model.X_train is not None
+    assert model.X_train.shape[0] == 5
+    assert len(base_model.fit_calls) == 3
+    np.testing.assert_allclose(predictions, np.array([1.0, 3.0, 5.0]))
+    assert model.score(x, y) == pytest.approx(1.0)
+    assert model.rmse(x, y) == pytest.approx(0.0)
+
+
+def test_active_learning_acquisition_branches_and_validation() -> None:
+    """Active learning should support acquisition fallbacks and validate names."""
+    from voiage.metamodels import ActiveLearningMetamodel
+
+    x_pool = np.array([[0.0, 0.0], [2.0, 0.0], [0.0, 3.0]])
+    y_pool = np.array([0.0, 2.0, 3.0])
+    model = ActiveLearningMetamodel(
+        _FailingPredictMetamodel(),
+        n_query_samples=2,
+        acquisition_function="uncertainty",
+    )
+
+    random_scores = model._acquisition_uncertainty(x_pool)
+    model.X_train = np.array([[0.0, 0.0]])
+    distance_scores = model._acquisition_uncertainty(x_pool)
+    selected_x, selected_y, selected_indices = model._select_query_samples(
+        x_pool, y_pool
+    )
+
+    assert random_scores.shape == (3,)
+    np.testing.assert_allclose(distance_scores, np.array([0.0, 2.0, 3.0]))
+    assert selected_x.shape == (2, 2)
+    assert selected_y is not None
+    assert selected_y.shape == (2,)
+    assert selected_indices.shape == (2,)
+
+    margin_model = ActiveLearningMetamodel(
+        _FailingPredictMetamodel(), acquisition_function="margin"
+    )
+    margin_model.X_train = np.array([[0.0, 0.0]])
+    assert margin_model._select_query_samples(x_pool, None)[0].shape[1] == 2
+
+    invalid_model = ActiveLearningMetamodel(
+        _LinearDummyMetamodel(), acquisition_function="invalid"
+    )
+    with pytest.raises(ValueError, match="Unknown acquisition function"):
+        invalid_model._select_query_samples(x_pool, None)
+
+
+def test_active_learning_requires_fit_before_prediction_diagnostics() -> None:
+    """Prediction diagnostics should fail clearly before fitting."""
+    from voiage.metamodels import ActiveLearningMetamodel
+
+    x = ParameterSet(
+        dataset=xr.Dataset({"param1": ("n_samples", np.array([0.0, 1.0]))})
+    )
+    y = np.array([0.0, 1.0])
+    model = ActiveLearningMetamodel(_LinearDummyMetamodel())
+
+    with pytest.raises(RuntimeError, match="not been fitted"):
+        model.predict(x)
+    with pytest.raises(RuntimeError, match="not been fitted"):
+        model.score(x, y)
+    with pytest.raises(RuntimeError, match="not been fitted"):
+        model.rmse(x, y)
+
+
+def test_active_learning_fit_creates_synthetic_pool_without_labels() -> None:
+    """Fit should handle the no-pool path by creating an unlabeled synthetic pool."""
+    from voiage.metamodels import ActiveLearningMetamodel
+
+    x = ParameterSet(
+        dataset=xr.Dataset(
+            {
+                "param1": ("n_samples", np.array([0.0, 1.0])),
+                "param2": ("n_samples", np.array([1.0, 2.0])),
+            }
+        )
+    )
+    y = np.array([1.0, 3.0])
+    base_model = _LinearDummyMetamodel()
+    model = ActiveLearningMetamodel(base_model, n_query_samples=2)
+
+    model.fit(x, y, n_iterations=1)
+
+    assert model.is_fitted is True
+    assert model.X_train is not None
+    assert model.X_train.shape == (2, 2)
+    assert len(base_model.fit_calls) == 2
 
 
 if __name__ == "__main__":

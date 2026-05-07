@@ -1,0 +1,25 @@
+{
+  "benchmark_name": "scalar_cpu_baseline",
+  "metric_type": "scalar_cpu",
+  "workload": {
+    "seed": 42,
+    "repeats": 10000,
+    "net_benefits": [
+      [10.0, 1.0],
+      [2.0, 8.0]
+    ]
+  },
+  "expected": {
+    "evpi": 3.0,
+    "comparison_rule": "exact",
+    "regression_policy": "ci-contract-only"
+  },
+  "metadata": {
+    "phase": "phase-1-scalar-cpu-baseline",
+    "notes": [
+      "Deterministic baseline for the Rust core performance track.",
+      "Timing comparisons are deferred until a stable baseline artifact exists.",
+      "The workload is intentionally scalar and small enough for fast local validation."
+    ]
+  }
+}

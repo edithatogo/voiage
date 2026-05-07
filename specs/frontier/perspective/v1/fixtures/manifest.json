@@ -1,0 +1,23 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "screening program perspective comparison",
+      "method_family": "value_of_perspective",
+      "input_artifact": "normative/perspective-surface.json",
+      "expected_output_artifact": "normative/value-of-perspective.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the fixture-backed Value of Perspective CLI contract.",
+    "Cross-language bindings should match the same deterministic payload.",
+    "The runtime implementation remains the same; only the contract maturity label changed."
+  ]
+}

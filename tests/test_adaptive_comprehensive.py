@@ -15,8 +15,9 @@ from voiage.schema import DecisionOption, ParameterSet, TrialDesign, ValueArray
 class TestAdaptiveEVSI:
     """Test the adaptive_evsi function comprehensively."""
 
-    def test_adaptive_evsi_basic(self):
+    def test_adaptive_evsi_basic(self) -> None:
         """Test basic functionality of adaptive_evsi."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -27,28 +28,30 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set
         params = {
             "effectiveness": np.random.normal(0.1, 0.05, 100),
-            "cost": np.random.normal(5000, 500, 100)
+            "cost": np.random.normal(5000, 500, 100),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=50),
-            DecisionOption(name="Treatment B", sample_size=50)
+            DecisionOption(name="Treatment B", sample_size=50),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
@@ -56,7 +59,7 @@ class TestAdaptiveEVSI:
         adaptive_rules = {
             "interim_analysis_points": [0.5],
             "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
-            "sample_size_reestimation": True
+            "sample_size_reestimation": True,
         }
 
         # Test adaptive_evsi calculation
@@ -66,15 +69,16 @@ class TestAdaptiveEVSI:
             base_trial_design=trial_design,
             adaptive_rules=adaptive_rules,
             n_outer_loops=3,
-            n_inner_loops=5
+            n_inner_loops=5,
         )
 
         # Result should be a non-negative float
         assert isinstance(result, float)
         assert result >= 0
 
-    def test_adaptive_evsi_with_population_scaling(self):
+    def test_adaptive_evsi_with_population_scaling(self) -> None:
         """Test adaptive_evsi with population scaling."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -85,35 +89,37 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set
         params = {
             "effectiveness": np.random.normal(0.1, 0.05, 50),
-            "cost": np.random.normal(5000, 500, 50)
+            "cost": np.random.normal(5000, 500, 50),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=100),
-            DecisionOption(name="Treatment B", sample_size=100)
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
         # Define adaptive rules
         adaptive_rules = {
             "interim_analysis_points": [0.5],
-            "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1}
+            "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
         }
 
         # Test with population scaling
@@ -126,7 +132,7 @@ class TestAdaptiveEVSI:
             time_horizon=10,
             discount_rate=0.03,
             n_outer_loops=3,
-            n_inner_loops=5
+            n_inner_loops=5,
         )
 
         # Test without population scaling
@@ -136,7 +142,7 @@ class TestAdaptiveEVSI:
             base_trial_design=trial_design,
             adaptive_rules=adaptive_rules,
             n_outer_loops=3,
-            n_inner_loops=5
+            n_inner_loops=5,
         )
 
         # Both should be floats and non-negative
@@ -149,8 +155,9 @@ class TestAdaptiveEVSI:
         if result_unscaled > 0:
             assert result_scaled >= result_unscaled
 
-    def test_adaptive_evsi_no_adaptation(self):
+    def test_adaptive_evsi_no_adaptation(self) -> None:
         """Test adaptive_evsi with no adaptive rules (fixed design)."""
+
         # Create a simple adaptive trial simulator
         def simple_fixed_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create fixed trial simulator for testing."""
@@ -161,27 +168,27 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set
-        params = {
-            "effectiveness": np.random.normal(0.1, 0.05, 50)
-        }
+        params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=100),
-            DecisionOption(name="Treatment B", sample_size=100)
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
@@ -192,15 +199,16 @@ class TestAdaptiveEVSI:
             base_trial_design=trial_design,
             adaptive_rules={},
             n_outer_loops=3,
-            n_inner_loops=5
+            n_inner_loops=5,
         )
 
         # Should return a non-negative float
         assert isinstance(result, float)
         assert result >= 0
 
-    def test_adaptive_evsi_input_validation(self):
+    def test_adaptive_evsi_input_validation(self) -> None:
         """Test adaptive_evsi with invalid inputs."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -211,37 +219,39 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set
-        params = {
-            "effectiveness": np.random.normal(0.1, 0.05, 50)
-        }
+        params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=100),
-            DecisionOption(name="Treatment B", sample_size=100)
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
         # Test invalid adaptive_trial_simulator
-        with pytest.raises(InputError, match="`adaptive_trial_simulator` must be a callable function"):
+        with pytest.raises(
+            InputError, match="`adaptive_trial_simulator` must be a callable function"
+        ):
             adaptive_evsi(
                 adaptive_trial_simulator="not a function",
                 psa_prior=parameter_set,
                 base_trial_design=trial_design,
-                adaptive_rules={}
+                adaptive_rules={},
             )
 
         # Test invalid psa_prior
@@ -250,16 +260,18 @@ class TestAdaptiveEVSI:
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior="not a psa",
                 base_trial_design=trial_design,
-                adaptive_rules={}
+                adaptive_rules={},
             )
 
         # Test invalid base_trial_design
-        with pytest.raises(InputError, match="`base_trial_design` must be a TrialDesign"):
+        with pytest.raises(
+            InputError, match="`base_trial_design` must be a TrialDesign"
+        ):
             adaptive_evsi(
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior=parameter_set,
                 base_trial_design="not a design",
-                adaptive_rules={}
+                adaptive_rules={},
             )
 
         # Test invalid adaptive_rules
@@ -268,42 +280,49 @@ class TestAdaptiveEVSI:
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior=parameter_set,
                 base_trial_design=trial_design,
-                adaptive_rules="not a dict"
+                adaptive_rules="not a dict",
             )
 
         # Test invalid loop parameters
-        with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
+        with pytest.raises(
+            InputError, match="n_outer_loops and n_inner_loops must be positive"
+        ):
             adaptive_evsi(
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior=parameter_set,
                 base_trial_design=trial_design,
                 adaptive_rules={},
                 n_outer_loops=0,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
-        with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
+        with pytest.raises(
+            InputError, match="n_outer_loops and n_inner_loops must be positive"
+        ):
             adaptive_evsi(
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior=parameter_set,
                 base_trial_design=trial_design,
                 adaptive_rules={},
                 n_outer_loops=5,
-                n_inner_loops=0
+                n_inner_loops=0,
             )
 
-        with pytest.raises(InputError, match="n_outer_loops and n_inner_loops must be positive"):
+        with pytest.raises(
+            InputError, match="n_outer_loops and n_inner_loops must be positive"
+        ):
             adaptive_evsi(
                 adaptive_trial_simulator=simple_adaptive_simulator,
                 psa_prior=parameter_set,
                 base_trial_design=trial_design,
                 adaptive_rules={},
                 n_outer_loops=-5,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
-    def test_adaptive_evsi_population_validation(self):
+    def test_adaptive_evsi_population_validation(self) -> None:
         """Test adaptive_evsi with population validation."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -314,27 +333,27 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set
-        params = {
-            "effectiveness": np.random.normal(0.1, 0.05, 50)
-        }
+        params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=100),
-            DecisionOption(name="Treatment B", sample_size=100)
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
@@ -348,7 +367,7 @@ class TestAdaptiveEVSI:
                 population=-1000,
                 time_horizon=10,
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
         # Test invalid time_horizon (negative)
@@ -361,7 +380,7 @@ class TestAdaptiveEVSI:
                 population=100000,
                 time_horizon=-10,
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
         # Test invalid discount_rate (out of bounds)
@@ -375,7 +394,7 @@ class TestAdaptiveEVSI:
                 time_horizon=10,
                 discount_rate=1.5,
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
         with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
@@ -388,11 +407,12 @@ class TestAdaptiveEVSI:
                 time_horizon=10,
                 discount_rate=-0.1,
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
 
-    def test_adaptive_evsi_always_non_negative(self):
+    def test_adaptive_evsi_always_non_negative(self) -> None:
         """Test that adaptive_evsi always returns a non-negative value."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -401,31 +421,35 @@ class TestAdaptiveEVSI:
             # to simulate a case where the adaptive trial might not provide value
             nb_values = np.random.rand(n_samples, 2) * 1000
             # Make sure strategies have very similar values
-            nb_values[:, 1] = nb_values[:, 0] + np.random.normal(0, 1, n_samples)  # Very small difference
+            nb_values[:, 1] = nb_values[:, 0] + np.random.normal(
+                0, 1, n_samples
+            )  # Very small difference
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"])
-                }
+                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set with very little uncertainty
         params = {
             "effectiveness": np.full(100, 0.5),  # Constant parameter to minimize value
-            "cost": np.full(100, 5000)
+            "cost": np.full(100, 5000),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=50),
-            DecisionOption(name="Treatment B", sample_size=50)
+            DecisionOption(name="Treatment B", sample_size=50),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
@@ -442,14 +466,15 @@ class TestAdaptiveEVSI:
             base_trial_design=trial_design,
             adaptive_rules=adaptive_rules,
             n_outer_loops=3,
-            n_inner_loops=5
+            n_inner_loops=5,
         )
 
         assert result >= 0
         assert isinstance(result, float)
 
-    def test_adaptive_evsi_edge_case_single_sample(self):
+    def test_adaptive_evsi_edge_case_single_sample(self) -> None:
         """Test adaptive_evsi with single sample."""
+
         # Create a simple adaptive trial simulator
         def simple_adaptive_simulator(psa_samples, trial_design=None, trial_data=None):
             """Create adaptive trial simulator for testing."""
@@ -460,28 +485,30 @@ class TestAdaptiveEVSI:
             nb_values[:, 1] = nb_values[:, 0] + np.random.normal(0, 10, n_samples)
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"])
-                }
+                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create test parameter set with just one sample
         params = {
             "effectiveness": np.array([0.5]),  # Single value
-            "cost": np.array([5000])
+            "cost": np.array([5000]),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=10),
-            DecisionOption(name="Treatment B", sample_size=10)
+            DecisionOption(name="Treatment B", sample_size=10),
         ]
         trial_design = TrialDesign(arms=trial_arms)
 
@@ -495,7 +522,7 @@ class TestAdaptiveEVSI:
             base_trial_design=trial_design,
             adaptive_rules=adaptive_rules,
             n_outer_loops=2,
-            n_inner_loops=3
+            n_inner_loops=3,
         )
 
         # Result should be a non-negative float
@@ -506,20 +533,20 @@ class TestAdaptiveEVSI:
 class TestSophisticatedAdaptiveTrialSimulator:
     """Test the sophisticated_adaptive_trial_simulator function."""
 
-    def test_sophisticated_adaptive_trial_simulator_basic(self):
+    def test_sophisticated_adaptive_trial_simulator_basic(self) -> None:
         """Test basic functionality of sophisticated_adaptive_trial_simulator."""
         # Create test parameter set
         params = {
             "treatment_effect": np.random.normal(0.1, 0.05, 100),
             "control_rate": np.random.normal(0.3, 0.05, 100),
-            "cost_per_patient": np.random.normal(5000, 500, 100)
+            "cost_per_patient": np.random.normal(5000, 500, 100),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Control", sample_size=100),
-            DecisionOption(name="Treatment", sample_size=100)
+            DecisionOption(name="Treatment", sample_size=100),
         ]
         design = TrialDesign(arms=trial_arms)
 
@@ -527,18 +554,17 @@ class TestSophisticatedAdaptiveTrialSimulator:
         rules = {
             "interim_analysis_points": [0.5],
             "early_stopping_rules": {"efficacy": 0.95, "futility": 0.1},
-            "sample_size_reestimation": True
+            "sample_size_reestimation": True,
         }
 
         # Test sophisticated adaptive trial simulator
         result = sophisticated_adaptive_trial_simulator(
-            psa_samples=parameter_set,
-            base_design=design,
-            adaptive_rules=rules
+            psa_samples=parameter_set, base_design=design, adaptive_rules=rules
         )
 
         # Check result type and properties
         from voiage.schema import ValueArray
+
         assert isinstance(result, ValueArray)
         assert result.values.shape[0] == parameter_set.n_samples
         assert result.values.shape[1] >= 1  # At least one strategy
@@ -548,20 +574,20 @@ class TestSophisticatedAdaptiveTrialSimulator:
 class TestBayesianAdaptiveTrialSimulator:
     """Test the bayesian_adaptive_trial_simulator function."""
 
-    def test_bayesian_adaptive_trial_simulator_basic(self):
+    def test_bayesian_adaptive_trial_simulator_basic(self) -> None:
         """Test basic functionality of bayesian_adaptive_trial_simulator."""
         # Create test parameter set
         params = {
             "treatment_effect": np.random.normal(0.1, 0.05, 50),
             "control_rate": np.random.normal(0.3, 0.05, 50),
-            "cost_per_patient": np.random.normal(5000, 500, 50)
+            "cost_per_patient": np.random.normal(5000, 500, 50),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(params)
 
         # Create trial design
         trial_arms = [
             DecisionOption(name="Control", sample_size=100),
-            DecisionOption(name="Treatment", sample_size=100)
+            DecisionOption(name="Treatment", sample_size=100),
         ]
         design = TrialDesign(arms=trial_arms)
 
@@ -569,24 +595,23 @@ class TestBayesianAdaptiveTrialSimulator:
         rules = {
             "interim_analysis_points": [0.3, 0.6],  # Two interim analyses
             "early_stopping_rules": {"efficacy": 0.9, "futility": 0.2},
-            "sample_size_reestimation": False
+            "sample_size_reestimation": False,
         }
 
         # Test bayesian adaptive trial simulator
         result = bayesian_adaptive_trial_simulator(
-            psa_samples=parameter_set,
-            base_design=design,
-            adaptive_rules=rules
+            psa_samples=parameter_set, base_design=design, adaptive_rules=rules
         )
 
         # Check result type and properties
         from voiage.schema import ValueArray
+
         assert isinstance(result, ValueArray)
         assert result.values.shape[0] == parameter_set.n_samples
         assert result.values.shape[1] >= 1  # At least one strategy
         assert np.all(np.isfinite(result.values))
 
-    def test_bayesian_adaptive_trial_simulator_with_true_parameters(self):
+    def test_bayesian_adaptive_trial_simulator_with_true_parameters(self) -> None:
         """Test bayesian_adaptive_trial_simulator with true parameters."""
         # Create test parameter set
         params = {
@@ -598,7 +623,7 @@ class TestBayesianAdaptiveTrialSimulator:
         # Create trial design
         trial_arms = [
             DecisionOption(name="Treatment A", sample_size=50),
-            DecisionOption(name="Treatment B", sample_size=50)
+            DecisionOption(name="Treatment B", sample_size=50),
         ]
         design = TrialDesign(arms=trial_arms)
 
@@ -618,7 +643,7 @@ class TestBayesianAdaptiveTrialSimulator:
             psa_samples=parameter_set,
             base_design=design,
             adaptive_rules=rules,
-            true_parameters=true_params
+            true_parameters=true_params,
         )
 
         # Check result type and properties
@@ -627,7 +652,7 @@ class TestBayesianAdaptiveTrialSimulator:
         assert np.all(np.isfinite(result.values))
 
 
-def test_import_functionality():
+def test_import_functionality() -> None:
     """Test that the adaptive methods are importable and available."""
     from voiage.methods.adaptive import (
         adaptive_evsi,

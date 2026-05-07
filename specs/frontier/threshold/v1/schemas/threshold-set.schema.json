@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/threshold/v1/schemas/threshold-set.schema.json",
+  "title": "ThresholdSetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method_maturity", "threshold_profiles"],
+  "properties": {
+    "method_maturity": {
+      "type": "string",
+      "const": "fixture-backed"
+    },
+    "threshold_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "threshold_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "threshold_value": {
+            "type": "number"
+          },
+          "policy_constraint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ambiguity_radius": {
+            "type": "number",
+            "minimum": 0
+          },
+          "robust_weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "population": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "threshold_metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "analysis_id": "implementation-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_implementation",
+  "method_maturity": "experimental",
+  "value": 5.871428571428571,
+  "baseline_expected_net_benefits": [8.5, 10.5],
+  "baseline_optimal_strategy_index": 1,
+  "baseline_optimal_strategy_name": "B",
+  "adjusted_expected_net_benefits": [3.746938775510204, 4.628571428571429],
+  "adjusted_optimal_strategy_index": 1,
+  "adjusted_optimal_strategy_name": "B",
+  "implementation_multiplier": 0.44081632653061226,
+  "uptake": 0.8,
+  "adherence": 0.9,
+  "coverage": 0.75,
+  "implementation_delay": 2.0,
+  "implementation_uncertainty": 0.1,
+  "discount_rate": 0.05,
+  "time_horizon": 5.0,
+  "population": null,
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_implementation",
+    "method_family": "value_of_implementation",
+    "method_maturity": "experimental",
+    "analysis_id": null,
+    "decision_problem_id": null,
+    "decision_context": null,
+    "population": null,
+    "estimator": "deterministic_multiplier",
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_samples": 4,
+      "n_strategies": 2,
+      "baseline_value": 10.5,
+      "adjusted_value": 4.628571428571429
+    }
+  },
+  "diagnostics": {
+    "n_samples": 4,
+    "n_strategies": 2,
+    "baseline_value": 10.5,
+    "adjusted_value": 4.628571428571429
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/parameter-set.schema.json",
+  "title": "ParameterSetV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["parameter_set_id", "sample_count", "parameters"],
+  "properties": {
+    "parameter_set_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for the parameter set."
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of parameter draws represented by the set."
+    },
+    "parameters": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "minItems": 1,
+        "description": "Vector of sampled values for a single parameter."
+      },
+      "description": "Parameter name to draw-vector mapping."
+    }
+  }
+}

@@ -1,0 +1,77 @@
+name: Update Conda-Forge Feedstock
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  update-feedstock:
+    name: Update Conda-Forge Feedstock
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.release.tag_name, 'v')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Get release info
+      id: release
+      run: |
+        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Download source and compute SHA256
+      id: source
+      run: |
+        python -m pip download --no-deps --no-binary=:all: "voiage==${{ steps.release.outputs.version }}" -d "$RUNNER_TEMP/sdist"
+        source_file="$(find "$RUNNER_TEMP/sdist" -name '*.tar.gz' -o -name '*.zip' | head -n 1)"
+        sha256=$(sha256sum "$source_file" | awk '{print $1}')
+        echo "sha256=$sha256" >> $GITHUB_OUTPUT
+
+    - name: Update conda/meta.yaml
+      run: |
+        python - <<'PY'
+        from pathlib import Path
+        import re
+        import os
+
+        meta = Path("conda/meta.yaml")
+        text = meta.read_text()
+        text = re.sub(
+            r'{% set version = ".*?" %}',
+            '{% set version = "' + os.environ["RELEASE_VERSION"] + '" %}',
+            text,
+        )
+        text = text.replace(
+            "sha256: UPDATE_ON_RELEASE",
+            "sha256: " + os.environ["RELEASE_SHA256"],
+        )
+        meta.write_text(text)
+        PY
+      env:
+        RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        RELEASE_SHA256: ${{ steps.source.outputs.sha256 }}
+
+    - name: Create feedstock PR
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.CONDA_FORGE_TOKEN }}
+        title: "Update to v${{ steps.release.outputs.version }}"
+        body: |
+          Automated update to v${{ steps.release.outputs.version }}
+
+          - Version: ${{ steps.release.outputs.version }}
+          - SHA256: ${{ steps.source.outputs.sha256 }}
+          - Source: https://github.com/${{ github.repository }}/releases/tag/${{ steps.release.outputs.tag }}
+        branch: update-conda-${{ steps.release.outputs.version }}
+        base: main
+        commit-message: "chore(conda): Update to v${{ steps.release.outputs.version }}"
+        labels: automerge

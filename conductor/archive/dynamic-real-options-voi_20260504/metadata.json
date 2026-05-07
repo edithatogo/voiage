@@ -1,0 +1,8 @@
+{
+  "track_id": "dynamic-real-options-voi_20260430",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-04-30T00:00:00Z",
+  "updated_at": "2026-04-30T00:00:00Z",
+  "description": "Define and implement the dynamic real-options VOI contract, including delay, irreversibility, policy lock-in, and staged evidence arrival."
+}

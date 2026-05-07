@@ -1,0 +1,31 @@
+{
+  "analysis_id": "evsi-screening-001",
+  "status": "degraded",
+  "backend": "numpy",
+  "warnings": [
+    {
+      "severity": "warning",
+      "code": "backend_fallback",
+      "message": "JAX is unavailable; falling back to NumPy.",
+      "capability": "jax-acceleration",
+      "backend": "numpy",
+      "fallback": "numpy"
+    },
+    {
+      "severity": "warning",
+      "code": "approximation_caveat",
+      "message": "Regression surrogate estimates are tolerance-bounded, not exact.",
+      "approximation": true,
+      "degraded_path": "surrogate-regression"
+    }
+  ],
+  "unsupported_capabilities": [
+    "jax-acceleration"
+  ],
+  "degraded_paths": [
+    "surrogate-regression"
+  ],
+  "approximation_caveats": [
+    "Result uses a published absolute tolerance of 1e-10 and relative tolerance of 1e-8."
+  ]
+}

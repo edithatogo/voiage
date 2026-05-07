@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "registry and linkage quality comparison",
+      "method_family": "value_of_data_quality_privacy_linkage",
+      "input_artifact": "normative/data-quality-set.json",
+      "expected_output_artifact": "normative/value-of-data-quality.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 402,
+        "execution_mode": "deterministic"
+      }
+    }
+  ]
+}

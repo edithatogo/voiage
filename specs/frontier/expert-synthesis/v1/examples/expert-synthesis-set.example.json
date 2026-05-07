@@ -1,0 +1,44 @@
+{
+  "analysis_type": "value_of_expert_synthesis",
+  "expert_profile_ids": [
+    "structured_panel",
+    "delphi_panel"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "expert_elicitation",
+    "synthesis_reweighted"
+  ],
+  "elicitation_costs": [
+    [
+      0.0,
+      1.4,
+      2.0
+    ],
+    [
+      0.0,
+      1.1,
+      1.8
+    ]
+  ],
+  "synthesis_penalties": [
+    [
+      0.0,
+      0.5,
+      0.2
+    ],
+    [
+      0.1,
+      0.4,
+      0.3
+    ]
+  ],
+  "evidence_sources": [
+    "panel",
+    "literature"
+  ],
+  "design_objectives": [
+    "calibration",
+    "consensus"
+  ]
+}

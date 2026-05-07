@@ -1,0 +1,23 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "preference screening comparison",
+      "method_family": "value_of_preference_information",
+      "input_artifact": "normative/preference-surface.json",
+      "expected_output_artifact": "normative/value-of-preference.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the fixture-backed Value of Preference contract.",
+    "Cross-language bindings should match the same deterministic payload.",
+    "The runtime implementation emits the same JSON shape as the fixture."
+  ]
+}

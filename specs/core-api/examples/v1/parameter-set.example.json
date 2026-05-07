@@ -1,0 +1,9 @@
+{
+  "parameter_set_id": "screening-psa-001",
+  "sample_count": 3,
+  "parameters": {
+    "prob_screen_positive": [0.08, 0.1, 0.09],
+    "incremental_cost": [120.0, 140.0, 130.0],
+    "incremental_effect": [0.02, 0.03, 0.025]
+  }
+}

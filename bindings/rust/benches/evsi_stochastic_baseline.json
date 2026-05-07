@@ -1,0 +1,55 @@
+{
+  "benchmark_name": "evsi_stochastic_baseline",
+  "metric_type": "evsi_stochastic_kernel",
+  "workload": {
+    "analysis_id": "evsi-001",
+    "repeats": 10000,
+    "trial_design": {
+      "trial_design_id": "screening-trial-design-001",
+      "arms": [
+        {
+          "arm_id": "control",
+          "name": "Control",
+          "sample_size": 1
+        },
+        {
+          "arm_id": "treatment",
+          "name": "Treatment",
+          "sample_size": 2
+        }
+      ]
+    },
+    "current_net_benefit": {
+      "value_array_id": "current-net-benefit-001",
+      "sample_count": 4,
+      "strategy_names": [
+        "Strategy A",
+        "Strategy B"
+      ],
+      "net_benefit": [
+        [8.0, 3.0],
+        [7.0, 4.0],
+        [1.0, 9.0],
+        [2.0, 10.0]
+      ]
+    },
+    "seed": 42,
+    "method": null
+  },
+  "expected": {
+    "evsi": 0.75,
+    "comparison_rule": "exact",
+    "regression_policy": "ci-contract-only"
+  },
+  "metadata": {
+    "phase": "phase-1-evsi-kernel-baseline",
+    "notes": [
+      "Deterministic contract baseline for the Rust EVSI stochastic-kernel track.",
+      "Timing and RSS are captured in CI, but threshold enforcement is deferred.",
+      "The workload is fixed and intentionally small enough for cheap reproducible runs."
+    ],
+    "provenance": {
+      "benchmark_kind": "deterministic-contract-baseline"
+    }
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/causal-transportability/v1/schemas/value-of-causal-transportability-result.schema.json",
+  "title": "ValueOfCausalTransportabilityResultV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "causal_identification_value",
+    "transportability_value",
+    "external_validity_value",
+    "source_population_ids",
+    "target_population_ids",
+    "strategy_names",
+    "expected_net_benefits",
+    "optimal_strategy_by_target_population",
+    "transport_weight_matrix",
+    "validity_penalty_matrix",
+    "robust_strategy",
+    "pareto_strategies",
+    "reference_target_population",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_causal_transportability"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "planned"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "causal_identification_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "transportability_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "external_validity_value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "source_population_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "target_population_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_net_benefits": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "optimal_strategy_by_target_population": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "transport_weight_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "validity_penalty_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "consensus_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "robust_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pareto_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_target_population": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

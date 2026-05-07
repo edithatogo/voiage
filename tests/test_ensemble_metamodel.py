@@ -20,7 +20,7 @@ def create_test_data(n_samples=100, n_features=3):
     # Create ParameterSet
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)}
+        coords={"n_samples": np.arange(n_samples)},
     )
     parameter_set = ParameterSet(dataset=dataset)
 
@@ -31,7 +31,7 @@ def create_test_data(n_samples=100, n_features=3):
     return parameter_set, y
 
 
-def test_ensemble_metamodel_initialization():
+def test_ensemble_metamodel_initialization() -> None:
     """Test that EnsembleMetamodel can be initialized."""
     # Create some dummy models
     try:
@@ -42,18 +42,18 @@ def test_ensemble_metamodel_initialization():
         pytest.skip("Required metamodels not available")
 
     # Test initialization with different methods
-    ensemble_mean = EnsembleMetamodel(models, method='mean')
+    ensemble_mean = EnsembleMetamodel(models, method="mean")
     assert ensemble_mean.models == models
-    assert ensemble_mean.method == 'mean'
+    assert ensemble_mean.method == "mean"
 
-    ensemble_median = EnsembleMetamodel(models, method='median')
-    assert ensemble_median.method == 'median'
+    ensemble_median = EnsembleMetamodel(models, method="median")
+    assert ensemble_median.method == "median"
 
-    ensemble_weighted = EnsembleMetamodel(models, method='weighted')
-    assert ensemble_weighted.method == 'weighted'
+    ensemble_weighted = EnsembleMetamodel(models, method="weighted")
+    assert ensemble_weighted.method == "weighted"
 
 
-def test_ensemble_metamodel_fit_predict():
+def test_ensemble_metamodel_fit_predict() -> None:
     """Test fitting and prediction with EnsembleMetamodel."""
     try:
         # Create test data
@@ -65,7 +65,7 @@ def test_ensemble_metamodel_fit_predict():
         models = [rf_model, gam_model]
 
         # Create and fit ensemble
-        ensemble = EnsembleMetamodel(models, method='mean')
+        ensemble = EnsembleMetamodel(models, method="mean")
         ensemble.fit(parameter_set, y)
 
         # Test prediction
@@ -87,7 +87,7 @@ def test_ensemble_metamodel_fit_predict():
         pytest.skip("Required metamodels not available")
 
 
-def test_ensemble_metamodel_methods():
+def test_ensemble_metamodel_methods() -> None:
     """Test different ensemble methods."""
     try:
         # Create test data
@@ -99,17 +99,17 @@ def test_ensemble_metamodel_methods():
         models = [rf_model, gam_model]
 
         # Test mean ensemble
-        ensemble_mean = EnsembleMetamodel(models, method='mean')
+        ensemble_mean = EnsembleMetamodel(models, method="mean")
         ensemble_mean.fit(parameter_set, y)
         pred_mean = ensemble_mean.predict(parameter_set)
 
         # Test median ensemble
-        ensemble_median = EnsembleMetamodel(models, method='median')
+        ensemble_median = EnsembleMetamodel(models, method="median")
         ensemble_median.fit(parameter_set, y)
         pred_median = ensemble_median.predict(parameter_set)
 
         # Test weighted ensemble
-        ensemble_weighted = EnsembleMetamodel(models, method='weighted')
+        ensemble_weighted = EnsembleMetamodel(models, method="weighted")
         ensemble_weighted.fit(parameter_set, y)
         pred_weighted = ensemble_weighted.predict(parameter_set)
 
@@ -125,7 +125,7 @@ def test_ensemble_metamodel_methods():
         pytest.skip("Required metamodels not available")
 
 
-def test_ensemble_metamodel_weighted():
+def test_ensemble_metamodel_weighted() -> None:
     """Test weighted ensemble method."""
     try:
         # Create test data
@@ -137,7 +137,7 @@ def test_ensemble_metamodel_weighted():
         models = [rf_model, gam_model]
 
         # Create and fit weighted ensemble
-        ensemble = EnsembleMetamodel(models, method='weighted')
+        ensemble = EnsembleMetamodel(models, method="weighted")
         ensemble.fit(parameter_set, y)
 
         # Check that weights were computed
@@ -154,7 +154,7 @@ def test_ensemble_metamodel_weighted():
         pytest.skip("Required metamodels not available")
 
 
-def test_ensemble_metamodel_single_model():
+def test_ensemble_metamodel_single_model() -> None:
     """Test ensemble with a single model."""
     try:
         # Create test data
@@ -165,7 +165,7 @@ def test_ensemble_metamodel_single_model():
         models = [rf_model]
 
         # Create and fit ensemble
-        ensemble = EnsembleMetamodel(models, method='mean')
+        ensemble = EnsembleMetamodel(models, method="mean")
         ensemble.fit(parameter_set, y)
 
         # Test prediction
@@ -177,7 +177,7 @@ def test_ensemble_metamodel_single_model():
         pytest.skip("Required metamodels not available")
 
 
-def test_ensemble_metamodel_empty():
+def test_ensemble_metamodel_empty() -> None:
     """Test ensemble with no models."""
     ensemble = EnsembleMetamodel([])
 
@@ -186,7 +186,7 @@ def test_ensemble_metamodel_empty():
     param_dict = {"param1": np.random.randn(n_samples)}
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)}
+        coords={"n_samples": np.arange(n_samples)},
     )
     parameter_set = ParameterSet(dataset=dataset)
 
@@ -195,7 +195,7 @@ def test_ensemble_metamodel_empty():
         ensemble.predict(parameter_set)
 
 
-def test_ensemble_metamodel_invalid_method():
+def test_ensemble_metamodel_invalid_method() -> None:
     """Test ensemble with invalid method."""
     try:
         rf_model = RandomForestMetamodel()
@@ -204,7 +204,7 @@ def test_ensemble_metamodel_invalid_method():
     except ImportError:
         pytest.skip("Required metamodels not available")
 
-    ensemble = EnsembleMetamodel(models, method='invalid')
+    ensemble = EnsembleMetamodel(models, method="invalid")
 
     # Create test data
     parameter_set, y = create_test_data()

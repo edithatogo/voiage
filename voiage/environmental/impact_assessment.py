@@ -1,11 +1,12 @@
 """Environmental impact assessment tools for Value of Information analysis."""
 
-from typing import Dict, List
+from typing import Any
+
+from voiage.exceptions import raise_input_error
 
 
 def calculate_carbon_footprint(
-    activities: Dict[str, float],
-    emission_factors: Dict[str, float]
+    activities: dict[str, float], emission_factors: dict[str, float]
 ) -> float:
     """
     Calculate carbon footprint from various activities.
@@ -32,14 +33,13 @@ def calculate_carbon_footprint(
         if activity in emission_factors:
             total_footprint += level * emission_factors[activity]
         else:
-            raise ValueError(f"No emission factor found for activity: {activity}")
+            raise_input_error(f"No emission factor found for activity: {activity}")
 
     return total_footprint
 
 
 def calculate_water_usage(
-    processes: Dict[str, float],
-    water_factors: Dict[str, float]
+    processes: dict[str, float], water_factors: dict[str, float]
 ) -> float:
     """
     Calculate total water usage from industrial processes.
@@ -59,14 +59,13 @@ def calculate_water_usage(
         if process in water_factors:
             total_water += level * water_factors[process]
         else:
-            raise ValueError(f"No water factor found for process: {process}")
+            raise_input_error(f"No water factor found for process: {process}")
 
     return total_water
 
 
 def calculate_biodiversity_impact(
-    land_use_changes: Dict[str, float],
-    biodiversity_factors: Dict[str, float]
+    land_use_changes: dict[str, float], biodiversity_factors: dict[str, float]
 ) -> float:
     """
     Calculate biodiversity impact from land use changes.
@@ -86,15 +85,14 @@ def calculate_biodiversity_impact(
         if land_use in biodiversity_factors:
             total_impact += change * biodiversity_factors[land_use]
         else:
-            raise ValueError(f"No biodiversity factor found for land use: {land_use}")
+            raise_input_error(f"No biodiversity factor found for land use: {land_use}")
 
     return total_impact
 
 
 def monetize_environmental_impacts(
-    impacts: Dict[str, float],
-    valuation_factors: Dict[str, float]
-) -> Dict[str, float]:
+    impacts: dict[str, float], valuation_factors: dict[str, float]
+) -> dict[str, float]:
     """
     Convert environmental impacts to monetary values.
 
@@ -112,16 +110,18 @@ def monetize_environmental_impacts(
         if impact_type in valuation_factors:
             monetary_values[impact_type] = impact_value * valuation_factors[impact_type]
         else:
-            raise ValueError(f"No valuation factor found for impact type: {impact_type}")
+            raise_input_error(
+                f"No valuation factor found for impact type: {impact_type}"
+            )
 
     return monetary_values
 
 
 def environmental_lifecycle_assessment(
-    lifecycle_stages: List[str],
-    stage_impacts: Dict[str, Dict[str, float]],
-    valuation_factors: Dict[str, float]
-) -> Dict[str, Dict[str, float]]:
+    lifecycle_stages: list[str],
+    stage_impacts: dict[str, dict[str, float]],
+    valuation_factors: dict[str, float],
+) -> dict[str, Any]:
     """
     Perform a comprehensive environmental lifecycle assessment.
 
@@ -134,38 +134,43 @@ def environmental_lifecycle_assessment(
     -------
         Dict[str, Dict[str, float]]: Dictionary with detailed LCA results
     """
-    results = {
-        "stage_impacts": {},
-        "stage_costs": {},
-        "total_impacts": {},
-        "total_cost": 0.0
-    }
+    stage_impacts_result: dict[str, dict[str, float]] = {}
+    stage_costs_result: dict[str, dict[str, float]] = {}
+    total_impacts: dict[str, float] = {}
+    total_cost = 0.0
 
     # Initialize total impacts
-    all_impact_types = set()
+    all_impact_types: set[str] = set()
     for impacts in stage_impacts.values():
         all_impact_types.update(impacts.keys())
 
     for impact_type in all_impact_types:
-        results["total_impacts"][impact_type] = 0.0
+        total_impacts[impact_type] = 0.0
 
     # Calculate impacts and costs for each stage
     for stage in lifecycle_stages:
         if stage in stage_impacts:
             stage_impact = stage_impacts[stage]
-            results["stage_impacts"][stage] = stage_impact
+            stage_impacts_result[stage] = stage_impact
 
             # Calculate monetary values for this stage
-            stage_costs = monetize_environmental_impacts(stage_impact, valuation_factors)
-            results["stage_costs"][stage] = stage_costs
+            stage_costs = monetize_environmental_impacts(
+                stage_impact, valuation_factors
+            )
+            stage_costs_result[stage] = stage_costs
 
             # Add to total impacts
             for impact_type, impact_value in stage_impact.items():
-                results["total_impacts"][impact_type] += impact_value
+                total_impacts[impact_type] += impact_value
 
     # Calculate total monetary cost
-    for stage_costs in results["stage_costs"].values():
+    for stage_costs in stage_costs_result.values():
         for cost in stage_costs.values():
-            results["total_cost"] += cost
+            total_cost += cost
 
-    return results
+    return {
+        "stage_impacts": stage_impacts_result,
+        "stage_costs": stage_costs_result,
+        "total_impacts": total_impacts,
+        "total_cost": total_cost,
+    }

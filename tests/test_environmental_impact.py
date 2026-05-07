@@ -11,18 +11,14 @@ from voiage.environmental.impact_assessment import (
 )
 
 
-def test_calculate_carbon_footprint():
+def test_calculate_carbon_footprint() -> None:
     """Test carbon footprint calculation."""
-    activities = {
-        "electricity_kwh": 1000,
-        "fuel_liters": 500,
-        "natural_gas_m3": 200
-    }
+    activities = {"electricity_kwh": 1000, "fuel_liters": 500, "natural_gas_m3": 200}
 
     emission_factors = {
-        "electricity_kwh": 0.5,      # kg CO2/kWh
-        "fuel_liters": 2.3,          # kg CO2/liter
-        "natural_gas_m3": 1.9        # kg CO2/m3
+        "electricity_kwh": 0.5,  # kg CO2/kWh
+        "fuel_liters": 2.3,  # kg CO2/liter
+        "natural_gas_m3": 1.9,  # kg CO2/m3
     }
 
     footprint = calculate_carbon_footprint(activities, emission_factors)
@@ -31,7 +27,7 @@ def test_calculate_carbon_footprint():
     assert abs(footprint - expected) < 1e-10
 
 
-def test_calculate_carbon_footprint_missing_factor():
+def test_calculate_carbon_footprint_missing_factor() -> None:
     """Test carbon footprint calculation with missing emission factor."""
     activities = {"electricity_kwh": 1000}
     emission_factors = {"fuel_liters": 2.3}
@@ -40,18 +36,18 @@ def test_calculate_carbon_footprint_missing_factor():
         calculate_carbon_footprint(activities, emission_factors)
 
 
-def test_calculate_water_usage():
+def test_calculate_water_usage() -> None:
     """Test water usage calculation."""
     processes = {
         "manufacturing_hours": 100,
         "cooling_cycles": 50,
-        "cleaning_sessions": 20
+        "cleaning_sessions": 20,
     }
 
     water_factors = {
-        "manufacturing_hours": 500,   # liters/hour
-        "cooling_cycles": 1000,       # liters/cycle
-        "cleaning_sessions": 200      # liters/session
+        "manufacturing_hours": 500,  # liters/hour
+        "cooling_cycles": 1000,  # liters/cycle
+        "cleaning_sessions": 200,  # liters/session
     }
 
     water_usage = calculate_water_usage(processes, water_factors)
@@ -60,18 +56,18 @@ def test_calculate_water_usage():
     assert abs(water_usage - expected) < 1e-10
 
 
-def test_calculate_biodiversity_impact():
+def test_calculate_biodiversity_impact() -> None:
     """Test biodiversity impact calculation."""
     land_use_changes = {
         "forest_conversion_ha": 10,
         "wetland_drainage_ha": 5,
-        "grassland_preservation_ha": -2  # Negative = preservation
+        "grassland_preservation_ha": -2,  # Negative = preservation
     }
 
     biodiversity_factors = {
-        "forest_conversion_ha": 50,    # species-years/ha lost
-        "wetland_drainage_ha": 100,    # species-years/ha lost
-        "grassland_preservation_ha": -30  # species-years/ha gained
+        "forest_conversion_ha": 50,  # species-years/ha lost
+        "wetland_drainage_ha": 100,  # species-years/ha lost
+        "grassland_preservation_ha": -30,  # species-years/ha gained
     }
 
     impact = calculate_biodiversity_impact(land_use_changes, biodiversity_factors)
@@ -80,18 +76,14 @@ def test_calculate_biodiversity_impact():
     assert abs(impact - expected) < 1e-10
 
 
-def test_monetize_environmental_impacts():
+def test_monetize_environmental_impacts() -> None:
     """Test monetization of environmental impacts."""
-    impacts = {
-        "carbon_kg": 1000,
-        "water_liters": 50000,
-        "waste_kg": 2000
-    }
+    impacts = {"carbon_kg": 1000, "water_liters": 50000, "waste_kg": 2000}
 
     valuation_factors = {
-        "carbon_kg": 0.05,      # $/kg CO2
+        "carbon_kg": 0.05,  # $/kg CO2
         "water_liters": 0.002,  # $/liter
-        "waste_kg": 0.1         # $/kg waste
+        "waste_kg": 0.1,  # $/kg waste
     }
 
     monetary_values = monetize_environmental_impacts(impacts, valuation_factors)
@@ -105,35 +97,25 @@ def test_monetize_environmental_impacts():
     assert abs(monetary_values["waste_kg"] - 200.0) < 1e-10
 
 
-def test_environmental_lifecycle_assessment():
+def test_environmental_lifecycle_assessment() -> None:
     """Test comprehensive environmental lifecycle assessment."""
     lifecycle_stages = ["production", "transport", "use", "disposal"]
 
     stage_impacts = {
-        "production": {
-            "carbon_kg": 500,
-            "water_liters": 20000
-        },
-        "transport": {
-            "carbon_kg": 100,
-            "water_liters": 0
-        },
-        "use": {
-            "carbon_kg": 50,
-            "water_liters": 10000
-        },
-        "disposal": {
-            "carbon_kg": 25,
-            "water_liters": 5000
-        }
+        "production": {"carbon_kg": 500, "water_liters": 20000},
+        "transport": {"carbon_kg": 100, "water_liters": 0},
+        "use": {"carbon_kg": 50, "water_liters": 10000},
+        "disposal": {"carbon_kg": 25, "water_liters": 5000},
     }
 
     valuation_factors = {
-        "carbon_kg": 0.05,      # $/kg CO2
-        "water_liters": 0.002   # $/liter
+        "carbon_kg": 0.05,  # $/kg CO2
+        "water_liters": 0.002,  # $/liter
     }
 
-    results = environmental_lifecycle_assessment(lifecycle_stages, stage_impacts, valuation_factors)
+    results = environmental_lifecycle_assessment(
+        lifecycle_stages, stage_impacts, valuation_factors
+    )
 
     # Check structure
     assert "stage_impacts" in results

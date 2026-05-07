@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "staged evidence dynamic real-options comparison",
+      "method_family": "value_of_dynamic_real_options",
+      "input_artifact": "normative/dynamic-real-options-set.json",
+      "expected_output_artifact": "normative/value-of-dynamic-real-options.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 303,
+        "execution_mode": "deterministic"
+      }
+    }
+  ]
+}

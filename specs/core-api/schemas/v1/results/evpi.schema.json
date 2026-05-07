@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/results/evpi.schema.json",
+  "title": "EVPIV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "willingness_to_pay",
+    "expected_current_value",
+    "expected_perfect_information",
+    "evpi"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for the analysis run."
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the decision problem being analyzed."
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "evpi",
+      "description": "Discriminator for the EVPI result contract."
+    },
+    "willingness_to_pay": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Decision threshold used for the calculation."
+    },
+    "expected_current_value": {
+      "type": "number",
+      "description": "Expected value under the current decision rule."
+    },
+    "expected_perfect_information": {
+      "type": "number",
+      "description": "Expected value if all uncertainty were resolved."
+    },
+    "evpi": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Expected value of perfect information."
+    },
+    "strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Ordered strategy labels used for optional per-strategy outputs."
+    },
+    "expected_net_benefit_by_strategy": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "description": "Optional net-benefit summary aligned to strategy_names."
+    },
+    "method": {
+      "type": "string",
+      "description": "Optional method label for the estimator."
+    }
+  }
+}

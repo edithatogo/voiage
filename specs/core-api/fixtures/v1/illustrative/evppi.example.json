@@ -1,0 +1,16 @@
+{
+  "analysis_id": "evppi-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "evppi",
+  "parameter_names": [
+    "prob_screen_positive",
+    "incremental_cost"
+  ],
+  "evppi": 40.5,
+  "method": "gam",
+  "expected_current_value": 1505.0,
+  "expected_perfect_information": 1630.0,
+  "diagnostics": {
+    "notes": "Illustrative example payload."
+  }
+}

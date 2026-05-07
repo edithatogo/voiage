@@ -1,51 +1,115 @@
-# voiage/methods/__init__.py
+"""Curated public exports for core Value of Information methods."""
 
-"""
-Value of Information (VOI) calculation methods.
+from .adaptive import adaptive_evsi
+from .basic import evpi, evppi
+from .calibration import voi_calibration
+from .ceaf import CEAFResult, calculate_ceaf
+from .distributional import (
+    DistributionalEquityResult,
+    value_of_distributional_equity,
+)
+from .dominance import (
+    DominanceResult,
+    calculate_dominance,
+    calculate_extended_dominance,
+    calculate_icers,
+    calculate_strong_dominance,
+    cost_effectiveness_frontier,
+)
+from .heterogeneity import (
+    HeterogeneityResult,
+    identify_optimal_subgroups,
+    value_of_heterogeneity,
+)
+from .implementation import (
+    ImplementationAdjustedResult,
+    value_of_implementation,
+)
+from .network_nma import evsi_nma
+from .observational import voi_observational
+from .perspective import (
+    Perspective,
+    PerspectiveSet,
+    ValueOfPerspectiveResult,
+    perspective_optimal_strategies,
+    value_of_perspective,
+)
+from .portfolio import portfolio_voi
+from .preference import (
+    PreferenceHeterogeneityResult,
+    PreferenceProfile,
+    PreferenceProfileSet,
+    preference_optimal_strategies,
+    value_of_preference,
+    value_of_preference_heterogeneity,
+    value_of_preference_information,
+)
+from .sample_information import enbs, evsi
+from .sequential import sequential_voi
+from .structural import structural_evpi, structural_evppi
+from .threshold import (
+    ThresholdProfile,
+    ThresholdProfileSet,
+    ThresholdResult,
+    value_of_threshold,
+    value_of_threshold_information,
+)
+from .validation import (
+    ModelValidationResult,
+    ValidationProfile,
+    ValidationProfileSet,
+    value_of_model_validation,
+    value_of_validation,
+)
 
-This package contains modules for different types of VOI analyses.
-Each module typically implements one or more related VOI methods.
-
-Modules:
-- basic: EVPI (Expected Value of Perfect Information) and
-         EVPPI (Expected Value of Partial Perfect Information).
-- sample_information: EVSI (Expected Value of Sample Information) and
-                      ENBS (Expected Net Benefit of Sampling).
-- structural: Structural EVPI/EVPPI for model uncertainty.
-- network_nma: EVSI for Network Meta-Analysis.
-- adaptive: EVSI for adaptive trial designs.
-- portfolio: Portfolio VOI for research prioritization.
-- sequential: Dynamic and sequential VOI.
-- observational: VOI for observational data.
-- calibration: VOI for model calibration data.
-
-Each method should be designed to be as modular and extensible as possible,
-potentially allowing for different computational backends (NumPy, JAX) or
-algorithmic variations where appropriate.
-"""
-
-# Import key functions from submodules to make them available at `voiage.methods.<method_name>`
-# or even `voiage.<method_name>` if re-exported in `voiage/__init__.py`.
-
-# from .structural import structural_evpi, structural_evppi
-# from .network_nma import evsi_nma
-# from .adaptive import adaptive_evsi
-# from .portfolio import portfolio_voi
-# from .sequential import sequential_voi
-# from .observational import voi_observational
-# from .calibration import voi_calibration
-
-# To be populated as methods are implemented.
-
-# Example of a registry for methods (optional, for advanced plugin architecture)
-# _method_registry = {}
-
-# def register_method(name: str, func: Callable):
-#     if name in _method_registry:
-#         print(f"Warning: Method '{name}' is already registered. Overwriting.")
-#     _method_registry[name] = func
-
-# def get_method(name: str) -> Callable:
-#     if name not in _method_registry:
-#         raise ValueError(f"Method '{name}' not found in registry.")
-#     return _method_registry[name]
+__all__ = [
+    "CEAFResult",
+    "DistributionalEquityResult",
+    "DominanceResult",
+    "HeterogeneityResult",
+    "ImplementationAdjustedResult",
+    "ModelValidationResult",
+    "Perspective",
+    "PerspectiveSet",
+    "PreferenceHeterogeneityResult",
+    "PreferenceProfile",
+    "PreferenceProfileSet",
+    "ThresholdProfile",
+    "ThresholdProfileSet",
+    "ThresholdResult",
+    "ValidationProfile",
+    "ValidationProfileSet",
+    "ValueOfPerspectiveResult",
+    "adaptive_evsi",
+    "calculate_ceaf",
+    "calculate_dominance",
+    "calculate_extended_dominance",
+    "calculate_icers",
+    "calculate_strong_dominance",
+    "cost_effectiveness_frontier",
+    "enbs",
+    "evpi",
+    "evppi",
+    "evsi",
+    "evsi_nma",
+    "identify_optimal_subgroups",
+    "perspective_optimal_strategies",
+    "portfolio_voi",
+    "preference_optimal_strategies",
+    "sequential_voi",
+    "structural_evpi",
+    "structural_evppi",
+    "value_of_distributional_equity",
+    "value_of_heterogeneity",
+    "value_of_implementation",
+    "value_of_model_validation",
+    "value_of_perspective",
+    "value_of_preference",
+    "value_of_preference_heterogeneity",
+    "value_of_preference_information",
+    "value_of_threshold",
+    "value_of_threshold_information",
+    "value_of_validation",
+    "voi_calibration",
+    "voi_observational",
+]
