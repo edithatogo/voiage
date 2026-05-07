@@ -80,6 +80,15 @@ Save results to a file instead of printing to console:
 voiage calculate-evpi net_benefits.csv --output results.txt
 ```
 
+### Machine-Readable Output
+
+Use structured output when another program will consume the result:
+
+```bash
+voiage calculate-evpi net_benefits.csv --format json
+voiage calculate-evpi net_benefits.csv --format csv
+```
+
 ### Verbose Output
 
 Get more detailed output:
@@ -87,6 +96,18 @@ Get more detailed output:
 ```bash
 voiage calculate-evpi net_benefits.csv --verbose
 ```
+
+### Quiet Mode
+
+Suppress status messages while keeping the result output:
+
+```bash
+voiage calculate-evpi net_benefits.csv --quiet
+```
+
+The CLI does not currently emit application-wide log streams. It keeps result
+text stable for shell use and only exposes extra verbosity through explicit CLI
+flags.
 
 ## Advanced Options
 

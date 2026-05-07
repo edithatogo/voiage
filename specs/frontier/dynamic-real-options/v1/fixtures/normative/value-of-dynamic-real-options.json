@@ -1,0 +1,69 @@
+{
+  "analysis_type": "value_of_dynamic_real_options",
+  "decision_stage_names": [
+    "now",
+    "after_phase_1",
+    "after_phase_2"
+  ],
+  "strategy_names": [
+    "immediate_adopt",
+    "delay_and_review",
+    "wait_for_trial"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      12.0,
+      14.0
+    ],
+    [
+      10.0,
+      12.0,
+      14.0
+    ]
+  ],
+  "optimal_strategy_names": [
+    "delay_and_review",
+    "wait_for_trial",
+    "wait_for_trial"
+  ],
+  "waiting_value": 2.5,
+  "option_value": 4.0,
+  "policy_path_regret": [
+    [
+      0.0,
+      1.5,
+      3.0
+    ],
+    [
+      2.0,
+      0.0,
+      1.0
+    ],
+    [
+      3.5,
+      1.0,
+      0.0
+    ]
+  ],
+  "timing_sensitivity": [
+    0.5,
+    0.8,
+    1.2
+  ],
+  "robust_strategy_name": "delay_and_review",
+  "pareto_strategy_names": [
+    "delay_and_review",
+    "wait_for_trial"
+  ],
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_dynamic_real_options",
+    "method_maturity": "planned",
+    "decision_stage_names": [
+      "now",
+      "after_phase_1",
+      "after_phase_2"
+    ]
+  }
+}

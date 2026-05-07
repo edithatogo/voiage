@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/value-of-dynamic-real-options-result.v1.json",
+  "title": "ValueOfDynamicRealOptionsResultV1Planned",
+  "type": "object",
+  "required": [
+    "analysis_type",
+    "decision_stage_names",
+    "expected_net_benefits",
+    "optimal_strategy_names",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_type": {
+      "const": "value_of_dynamic_real_options"
+    },
+    "decision_stage_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "expected_net_benefits": {
+      "type": "array"
+    },
+    "optimal_strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "waiting_value": {
+      "type": "number"
+    },
+    "option_value": {
+      "type": "number"
+    },
+    "policy_path_regret": {
+      "type": "array"
+    },
+    "timing_sensitivity": {
+      "type": "array"
+    },
+    "robust_strategy_name": {
+      "type": "string"
+    },
+    "pareto_strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "reporting": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

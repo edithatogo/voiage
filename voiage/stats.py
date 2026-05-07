@@ -2,10 +2,20 @@
 
 """A module for statistical utility functions used in VOI calculations."""
 
+from typing import Any, TypeAlias
+
 import numpy as np
 
+ArrayOrScalar: TypeAlias = float | np.ndarray[Any, Any]
 
-def normal_normal_update(prior_mean, prior_std, data_mean, data_std, n_samples):
+
+def normal_normal_update(
+    prior_mean: ArrayOrScalar,
+    prior_std: ArrayOrScalar,
+    data_mean: ArrayOrScalar,
+    data_std: ArrayOrScalar,
+    n_samples: int,
+) -> tuple[ArrayOrScalar, ArrayOrScalar]:
     """
     Perform a Bayesian update for a Normal likelihood with a Normal prior.
 
@@ -29,7 +39,12 @@ def normal_normal_update(prior_mean, prior_std, data_mean, data_std, n_samples):
     return posterior_mean, np.sqrt(posterior_var)
 
 
-def beta_binomial_update(prior_alpha, prior_beta, n_successes, n_trials):
+def beta_binomial_update(
+    prior_alpha: float,
+    prior_beta: float,
+    n_successes: int,
+    n_trials: int,
+) -> tuple[float, float]:
     """
     Perform a Bayesian update for a Binomial likelihood with a Beta prior.
 

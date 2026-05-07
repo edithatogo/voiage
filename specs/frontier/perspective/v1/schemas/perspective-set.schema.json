@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/perspective/v1/schemas/perspective-set.schema.json",
+  "title": "PerspectiveSetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method_maturity", "perspectives"],
+  "properties": {
+    "method_maturity": {
+      "type": "string",
+      "const": "fixture-backed"
+    },
+    "perspectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cost_categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "effect_measures": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "utility_weights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "equity_weights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "willingness_to_pay": {
+            "type": "number"
+          },
+          "discount_rate": {
+            "type": "number"
+          },
+          "population": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stakeholder_metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

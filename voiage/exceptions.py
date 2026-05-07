@@ -8,6 +8,8 @@ that originate from voiage and handle them appropriately, rather than relying on
 generic Python exceptions.
 """
 
+from typing import NoReturn
+
 
 class VoiageError(Exception):
     """Base class for all exceptions raised by the voiage library."""
@@ -139,3 +141,57 @@ class OptionalDependencyError(VoiageError, ImportError):
     """Raised when an optional dependency is not installed but is required for a feature."""
 
     pass
+
+
+def raise_input_error(message: str) -> NoReturn:
+    """Raise an input validation error with a consistent call pattern."""
+    raise InputError(message)
+
+
+def raise_dimension_mismatch_error(message: str) -> NoReturn:
+    """Raise a dimension mismatch error with a consistent call pattern."""
+    raise DimensionMismatchError(message)
+
+
+def raise_value_error(message: str, cause: Exception | None = None) -> NoReturn:
+    """Raise a standard value error with an optional chained cause."""
+    if cause is None:
+        raise ValueError(message)
+    raise ValueError(message) from cause
+
+
+def raise_calculation_error(message: str, cause: Exception | None = None) -> NoReturn:
+    """Raise a calculation error with an optional chained cause."""
+    if cause is None:
+        raise CalculationError(message)
+    raise CalculationError(message) from cause
+
+
+def raise_import_error(message: str) -> NoReturn:
+    """Raise an import error with a consistent call pattern."""
+    raise ImportError(message)
+
+
+def raise_runtime_error(message: str) -> NoReturn:
+    """Raise a runtime error with a consistent call pattern."""
+    raise RuntimeError(message)
+
+
+def raise_type_error(message: str) -> NoReturn:
+    """Raise a type error with a consistent call pattern."""
+    raise TypeError(message)
+
+
+def raise_optional_dependency_error(message: str) -> NoReturn:
+    """Raise an optional dependency error with a consistent call pattern."""
+    raise OptionalDependencyError(message)
+
+
+def raise_plotting_error(message: str) -> NoReturn:
+    """Raise a plotting error with a consistent call pattern."""
+    raise PlottingError(message)
+
+
+def raise_not_implemented_error(message: str) -> NoReturn:
+    """Raise a not-implemented error with a consistent call pattern."""
+    raise VoiageNotImplementedError(message)

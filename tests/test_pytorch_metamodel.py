@@ -8,16 +8,17 @@ from voiage.metamodels import PyTorchNNMetamodel
 from voiage.schema import ParameterSet
 
 
-def test_pytorch_metamodel_import():
+def test_pytorch_metamodel_import() -> None:
     """Test that PyTorchNNMetamodel can be imported."""
     try:
         from voiage.metamodels import PyTorchNNMetamodel
+
         assert PyTorchNNMetamodel is not None
     except ImportError:
         pytest.skip("PyTorch not available")
 
 
-def test_pytorch_metamodel_initialization():
+def test_pytorch_metamodel_initialization() -> None:
     """Test that PyTorchNNMetamodel can be initialized."""
     try:
         model = PyTorchNNMetamodel()
@@ -29,7 +30,7 @@ def test_pytorch_metamodel_initialization():
         pytest.skip("PyTorch not available")
 
 
-def test_pytorch_metamodel_fit_predict():
+def test_pytorch_metamodel_fit_predict() -> None:
     """Test fitting and prediction with PyTorchNNMetamodel."""
     try:
         # Create simple test data
@@ -45,7 +46,7 @@ def test_pytorch_metamodel_fit_predict():
         # Create ParameterSet
         dataset = xr.Dataset(
             {k: ("n_samples", v) for k, v in param_dict.items()},
-            coords={"n_samples": np.arange(n_samples)}
+            coords={"n_samples": np.arange(n_samples)},
         )
         parameter_set = ParameterSet(dataset=dataset)
 
@@ -77,7 +78,7 @@ def test_pytorch_metamodel_fit_predict():
         pytest.skip("PyTorch not available")
 
 
-def test_pytorch_metamodel_predict_before_fit():
+def test_pytorch_metamodel_predict_before_fit() -> None:
     """Test that predict raises an error if called before fit."""
     try:
         model = PyTorchNNMetamodel()
@@ -87,7 +88,7 @@ def test_pytorch_metamodel_predict_before_fit():
         param_dict = {"param1": np.random.randn(n_samples)}
         dataset = xr.Dataset(
             {k: ("n_samples", v) for k, v in param_dict.items()},
-            coords={"n_samples": np.arange(n_samples)}
+            coords={"n_samples": np.arange(n_samples)},
         )
         parameter_set = ParameterSet(dataset=dataset)
 
@@ -107,14 +108,14 @@ def test_pytorch_metamodel_predict_before_fit():
         pytest.skip("PyTorch not available")
 
 
-def test_pytorch_metamodel_different_architectures():
+def test_pytorch_metamodel_different_architectures() -> None:
     """Test PyTorchNNMetamodel with different hidden layer configurations."""
     try:
         # Test with different hidden layer configurations
         architectures = [
-            [16],           # Single hidden layer
-            [32, 16],       # Two hidden layers
-            [64, 32, 16],   # Three hidden layers
+            [16],  # Single hidden layer
+            [32, 16],  # Two hidden layers
+            [64, 32, 16],  # Three hidden layers
         ]
 
         for hidden_layers in architectures:

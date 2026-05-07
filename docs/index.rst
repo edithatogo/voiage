@@ -88,5 +88,11 @@ If you encounter any issues or have questions, please `raise an issue on GitHub 
    :maxdepth: 2
    :caption: Development:
 
+   developer_guide/index
+   methods/index
+   plotting/index
+   cli_reference
+   data_structures
+   backends
    contributing
    changelog

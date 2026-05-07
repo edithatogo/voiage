@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "expert elicitation and synthesis comparison",
+      "method_family": "value_of_expert_synthesis",
+      "input_artifact": "normative/expert-synthesis-set.json",
+      "expected_output_artifact": "normative/value-of-expert-synthesis.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 404,
+        "execution_mode": "deterministic"
+      }
+    }
+  ]
+}

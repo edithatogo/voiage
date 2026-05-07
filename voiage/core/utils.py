@@ -2,21 +2,94 @@
 
 """Utility functions for the voiage library."""
 
-from typing import Any, Optional, Sequence, Tuple, Union
+from collections.abc import Sequence
+from typing import cast
 
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import DimensionMismatchError, InputError
+from voiage.schema import ValueArray
+
+_INPUT_ARRAY_TYPE_MESSAGE = "must be a NumPy array."
+_EMPTY_ARRAY_MESSAGE = "cannot be empty."
+_WTP_TYPE_MESSAGE = "WTP must be a float, int, or NumPy array."
+_WTP_DIMENSION_MESSAGE = "WTP array cannot have more than 2 dimensions."
+_NB_ARRAY_MESSAGE = "nb_array must be a NumPy array or NetBenefitArray instance."
+
+
+def _input_array_type_error(name: str, actual_type: type[object]) -> InputError:
+    return InputError(f"{name} {_INPUT_ARRAY_TYPE_MESSAGE} Got {actual_type}.")
+
+
+def _array_dimension_error(
+    name: str, expected_ndim_tuple: tuple[int, ...], actual_ndim: int
+) -> DimensionMismatchError:
+    return DimensionMismatchError(
+        f"{name} must have {expected_ndim_tuple} dimension(s). Got {actual_ndim}."
+    )
+
+
+def _empty_array_error(name: str) -> InputError:
+    return InputError(f"{name} {_EMPTY_ARRAY_MESSAGE}")
+
+
+def _dtype_error(
+    name: str, dtype_to_check: np.dtype | type | str, actual: object
+) -> InputError:
+    return InputError(f"{name} must have dtype {dtype_to_check}. Got {actual}.")
+
+
+def _shape_tuple_error(
+    expected_shape: Sequence[int | None], actual_ndim: int
+) -> DimensionMismatchError:
+    return DimensionMismatchError(
+        f"Expected shape tuple length {len(expected_shape)} does not match "
+        f"array ndim {actual_ndim}."
+    )
+
+
+def _shape_dimension_error(
+    name: str,
+    index: int,
+    actual_dim_size: int,
+    expected_dim_size: int,
+    actual_shape: tuple[int, ...],
+    expected_shape: Sequence[int | None],
+) -> DimensionMismatchError:
+    return DimensionMismatchError(
+        f"Dimension {index} of {name} has size {actual_dim_size}, "
+        f"but expected {expected_dim_size}. Shape: {actual_shape}, Expected: {expected_shape}"
+    )
+
+
+def _costs_effects_shape_error(
+    costs_shape: tuple[int, ...], effects_shape: tuple[int, ...]
+) -> DimensionMismatchError:
+    return DimensionMismatchError(
+        f"Costs shape {costs_shape} and effects shape {effects_shape} must match."
+    )
+
+
+def _wtp_type_error() -> InputError:
+    return InputError(_WTP_TYPE_MESSAGE)
+
+
+def _wtp_dimension_error() -> DimensionMismatchError:
+    return DimensionMismatchError(_WTP_DIMENSION_MESSAGE)
+
+
+def _nb_array_type_error() -> InputError:
+    return InputError(_NB_ARRAY_MESSAGE)
 
 
 def check_input_array(
     arr: np.ndarray,
-    expected_ndim: Union[int, Sequence[int]],
+    expected_ndim: int | Sequence[int],
     name: str = "Input array",
-    expected_dtype: Optional[Union[np.dtype, type, str]] = None,
+    expected_dtype: np.dtype | type | str | None = None,
     allow_empty: bool = False,
-    expected_shape: Optional[Sequence[Optional[int]]] = None,
+    expected_shape: Sequence[int | None] | None = None,
 ) -> None:
     """Validate a NumPy array against expected dimensions, dtype, and shape.
 
@@ -37,51 +110,52 @@ def check_input_array(
         DimensionMismatchError: If dimensions or shape are incorrect.
     """
     if not isinstance(arr, np.ndarray):
-        raise InputError(f"{name} must be a NumPy array. Got {type(arr)}.")
+        raise _input_array_type_error(name, type(arr))
 
     if isinstance(expected_ndim, int):
-        expected_ndim_tuple: Tuple[int, ...] = (expected_ndim,)
+        expected_ndim_tuple: tuple[int, ...] = (expected_ndim,)
     else:
         expected_ndim_tuple = tuple(expected_ndim)
 
     if arr.ndim not in expected_ndim_tuple:
-        raise DimensionMismatchError(
-            f"{name} must have {expected_ndim_tuple} dimension(s). Got {arr.ndim}."
-        )
+        raise _array_dimension_error(name, expected_ndim_tuple, arr.ndim)
 
     if not allow_empty and arr.size == 0:
-        raise InputError(f"{name} cannot be empty.")
+        raise _empty_array_error(name)
 
     dtype_to_check = expected_dtype if expected_dtype is not None else DEFAULT_DTYPE
     if isinstance(dtype_to_check, str) and dtype_to_check.lower() == "any":
         pass  # Skip dtype check
     elif arr.dtype != dtype_to_check:
         # Allow flexibility for JAX arrays: accept both float32 and float64 for numerical arrays
-        if (hasattr(arr, 'dtype') and 
-            arr.dtype in [np.float32, np.float64] and 
-            dtype_to_check in [np.float32, np.float64]):
+        if (
+            hasattr(arr, "dtype")
+            and arr.dtype in [np.float32, np.float64]
+            and dtype_to_check in [np.float32, np.float64]
+        ):
             pass  # Allow both float32 and float64 for numerical compatibility
         else:
-            raise InputError(f"{name} must have dtype {dtype_to_check}. Got {arr.dtype}.")
+            raise _dtype_error(name, dtype_to_check, arr.dtype)
 
     if expected_shape is not None:
         if len(expected_shape) != arr.ndim:
-            raise DimensionMismatchError(
-                f"Expected shape tuple length {len(expected_shape)} does not match "
-                f"array ndim {arr.ndim} for {name}."
-            )
+            raise _shape_tuple_error(expected_shape, arr.ndim)
         for i, (expected_dim_size, actual_dim_size) in enumerate(
-            zip(expected_shape, arr.shape)
+            zip(expected_shape, arr.shape, strict=False)
         ):
             if expected_dim_size is not None and expected_dim_size != actual_dim_size:
-                raise DimensionMismatchError(
-                    f"Dimension {i} of {name} has size {actual_dim_size}, "
-                    f"but expected {expected_dim_size}. Shape: {arr.shape}, Expected: {expected_shape}"
+                raise _shape_dimension_error(
+                    name,
+                    i,
+                    actual_dim_size,
+                    expected_dim_size,
+                    arr.shape,
+                    expected_shape,
                 )
 
 
 def calculate_net_benefit(
-    costs: np.ndarray, effects: np.ndarray, wtp: Union[float, np.ndarray]
+    costs: np.ndarray, effects: np.ndarray, wtp: float | np.ndarray
 ) -> np.ndarray:
     """Calculate net monetary benefit (NMB).
 
@@ -114,32 +188,28 @@ def calculate_net_benefit(
         costs,
         expected_ndim=[1, 2],
         name="costs",
-        expected_dtype="any",  # type: ignore
+        expected_dtype="any",
         allow_empty=False,
     )
     check_input_array(
         effects,
         expected_ndim=[1, 2],
         name="effects",
-        expected_dtype="any",  # type: ignore
+        expected_dtype="any",
         allow_empty=False,
     )
 
     if costs.shape != effects.shape:
-        raise DimensionMismatchError(
-            f"Costs shape {costs.shape} and effects shape {effects.shape} must match."
-        )
+        raise _costs_effects_shape_error(costs.shape, effects.shape)
 
     if not isinstance(wtp, (float, int, np.ndarray)):
-        raise InputError("WTP must be a float, int, or NumPy array.")
+        raise _wtp_type_error()
 
     wtp_arr = np.asarray(wtp, dtype=DEFAULT_DTYPE)
     if (
         wtp_arr.ndim > 2
     ):  # Allowing 0D (scalar), 1D (thresholds), 2D (e.g. samples x thresholds)
-        raise DimensionMismatchError(
-            "WTP array cannot have more than 2 dimensions for this function."
-        )
+        raise _wtp_dimension_error()
     if np.any(wtp_arr < 0):
         # Depending on context, WTP could be negative, but usually non-negative.
         # print("Warning: WTP contains negative values.")
@@ -182,12 +252,12 @@ def calculate_net_benefit(
     else:  # Fallback to standard broadcasting, which might be what's desired or raise error
         nmb = (effects * wtp_arr) - costs
 
-    return nmb.astype(DEFAULT_DTYPE, copy=False)  # type: ignore
+    return cast("np.ndarray", nmb.astype(DEFAULT_DTYPE, copy=False))
 
 
-def get_optimal_strategy_index(  # type: ignore[no-any-return]
-    nb_array: Union[np.ndarray, Any],
-) -> np.ndarray[Any, np.dtype[np.int64]]:
+def get_optimal_strategy_index(
+    nb_array: np.ndarray | ValueArray,
+) -> np.ndarray:
     """Determine the optimal strategy for each PSA sample.
 
     The optimal strategy for a given sample is the one with the maximum
@@ -202,14 +272,12 @@ def get_optimal_strategy_index(  # type: ignore[no-any-return]
         np.ndarray: A 1D array of integers, where each element is the index of the
                     optimal strategy for the corresponding sample.
     """
-    from voiage.schema import ValueArray as NetBenefitArray
-
-    if isinstance(nb_array, NetBenefitArray):
-        values: np.ndarray = nb_array.values
+    if isinstance(nb_array, ValueArray):
+        values: np.ndarray = nb_array.numpy_values
     elif isinstance(nb_array, np.ndarray):
         values = nb_array
     else:
-        raise InputError("nb_array must be a NumPy array or NetBenefitArray instance.")
+        raise _nb_array_type_error()
 
     check_input_array(
         values, expected_ndim=2, name="Net benefit values", allow_empty=True
@@ -218,4 +286,4 @@ def get_optimal_strategy_index(  # type: ignore[no-any-return]
     if values.size == 0:
         return np.array([], dtype=np.int64)
 
-    return np.argmax(values, axis=1)
+    return cast("np.ndarray", np.argmax(values, axis=1))

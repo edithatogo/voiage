@@ -1,0 +1,22 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "screening program validation comparison",
+      "method_family": "value_of_model_validation",
+      "input_artifact": "normative/validation-surface.json",
+      "expected_output_artifact": "normative/value-of-model-validation.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 601,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the validation frontier runtime contract.",
+    "The runtime output should match the committed JSON payload exactly."
+  ]
+}

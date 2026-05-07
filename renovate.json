@@ -1,0 +1,71 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)",
+    ":automergeMinor",
+    ":automergePatch",
+    ":disableRateLimiting",
+    "group:allNonMajor",
+    "group:monorepos",
+    "group:recommended"
+  ],
+  "schedule": ["every weekend"],
+  "packageRules": [
+    {
+      "matchManagers": ["pip_requirements", "pip_setup", "pyproject"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch",
+      "groupName": "python dependencies",
+      "groupSlug": "python-all"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch",
+      "groupName": "github actions"
+    },
+    {
+      "matchPackageNames": ["python"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["^jax", "^numpyro"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "jax-ecosystem"]
+    },
+    {
+      "matchPackagePatterns": ["pytest", "hypothesis", "coverage"],
+      "groupName": "testing dependencies",
+      "groupSlug": "testing"
+    },
+    {
+      "matchPackagePatterns": ["ruff", "ty"],
+      "groupName": "linting and type checking",
+      "groupSlug": "linting"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    }
+  ],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 5,
+  "rangeStrategy": "pin",
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "timezone": "Etc/UTC",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["every weekend"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"]
+  }
+}

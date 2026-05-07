@@ -1,0 +1,46 @@
+{
+  "analysis_id": "evsi-stochastic-001",
+  "trial_design": {
+    "trial_design_id": "stochastic-trial-design-001",
+    "arms": [
+      {
+        "arm_id": "control",
+        "name": "Control",
+        "sample_size": 1
+      },
+      {
+        "arm_id": "treatment",
+        "name": "Treatment",
+        "sample_size": 1
+      }
+    ]
+  },
+  "current_net_benefit": {
+    "value_array_id": "stochastic-net-benefit-001",
+    "sample_count": 4,
+    "strategy_names": [
+      "Strategy A",
+      "Strategy B"
+    ],
+    "net_benefit": [
+      [
+        10.0,
+        4.0
+      ],
+      [
+        8.0,
+        6.0
+      ],
+      [
+        6.0,
+        8.0
+      ],
+      [
+        4.0,
+        10.0
+      ]
+    ]
+  },
+  "seed": 42,
+  "method": "strided-bootstrap-summary"
+}

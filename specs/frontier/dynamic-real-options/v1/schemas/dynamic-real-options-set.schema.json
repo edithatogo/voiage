@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/dynamic-real-options-set.v1.json",
+  "title": "DynamicRealOptionsSetV1Planned",
+  "type": "object",
+  "required": [
+    "decision_stage_names",
+    "net_benefit",
+    "strategy_names",
+    "stage_weights"
+  ],
+  "properties": {
+    "decision_stage_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "net_benefit": {
+      "type": "array",
+      "description": "Nested samples x strategies x decision stages net-benefit surface.",
+      "minItems": 1
+    },
+    "stage_weights": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "discount_rate": {
+      "type": "number"
+    },
+    "irreversibility_penalty": {
+      "type": "number"
+    },
+    "lock_in_penalty": {
+      "type": "number"
+    },
+    "evidence_arrival_times": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "exercise_rules": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "seed": {
+          "type": "integer"
+        },
+        "execution_mode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "seed",
+        "execution_mode"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

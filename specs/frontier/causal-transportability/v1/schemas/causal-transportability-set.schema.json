@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/causal-transportability/v1/schemas/causal-transportability-set.schema.json",
+  "title": "CausalTransportabilitySetV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_type",
+    "source_population_ids",
+    "target_population_ids",
+    "strategy_names",
+    "transport_weights",
+    "validity_penalties",
+    "identification_assumptions"
+  ],
+  "properties": {
+    "analysis_type": {
+      "type": "string",
+      "const": "causal_identification_transportability"
+    },
+    "source_population_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "target_population_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "transport_weights": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "validity_penalties": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "identification_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "effect_measure": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reweighting_scheme": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

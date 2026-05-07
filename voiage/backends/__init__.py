@@ -3,12 +3,12 @@
 
 # Import from the main_backends.py file
 from ..main_backends import (
-    get_backend,
-    set_backend,
     JAX_AVAILABLE,
+    Backend,
     JaxBackend,
     NumpyBackend,
-    Backend
+    get_backend,
+    set_backend,
 )
 
 # Import advanced backends
@@ -17,13 +17,13 @@ from .gpu_acceleration import GpuAcceleration
 from .performance_profiler import JaxPerformanceProfiler
 
 __all__ = [
-    'get_backend',
-    'set_backend', 
-    'JAX_AVAILABLE', 
-    'JaxBackend', 
-    'NumpyBackend', 
-    'Backend',
-    'JaxAdvancedRegression',
-    'GpuAcceleration', 
-    'JaxPerformanceProfiler'
+    "JAX_AVAILABLE",
+    "Backend",
+    "GpuAcceleration",
+    "JaxAdvancedRegression",
+    "JaxBackend",
+    "JaxPerformanceProfiler",
+    "NumpyBackend",
+    "get_backend",
+    "set_backend",
 ]

@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/voiage/specs/integrations/lifecourse/v1/schemas/voi-result-envelope.schema.json",
+  "title": "lifecourse VOI Result Envelope v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "decision_problem_id",
+    "supported_result_families",
+    "compatibility",
+    "method_settings",
+    "scaling",
+    "diagnostics",
+    "package_version",
+    "provenance",
+    "result_payloads"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "supported_result_families": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["evpi", "evppi", "evsi", "enbs"]
+      },
+      "minItems": 4,
+      "uniqueItems": true
+    },
+    "compatibility": {
+      "type": "object",
+      "required": [
+        "voiage_version",
+        "lifecourse_profile_version",
+        "heoml_profile_version"
+      ],
+      "properties": {
+        "voiage_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lifecourse_profile_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "heoml_profile_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "method_settings": {
+      "type": "object",
+      "required": ["evpi", "evppi", "evsi", "enbs"],
+      "properties": {
+        "evpi": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "execution_mode": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        },
+        "evppi": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "parameters_of_interest": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "execution_mode": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        },
+        "evsi": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "execution_mode": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        },
+        "enbs": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "execution_mode": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "scaling": {
+      "type": "object",
+      "required": [
+        "population",
+        "time_horizon_years",
+        "discount_rate",
+        "willingness_to_pay_thresholds"
+      ],
+      "properties": {
+        "population": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "time_horizon_years": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "discount_rate": {
+          "type": "number",
+          "minimum": 0
+        },
+        "willingness_to_pay_thresholds": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "package_version": {
+      "type": "object",
+      "required": ["producer", "voiage"],
+      "properties": {
+        "producer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "voiage": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["heoml_version", "heoml_manifest_id", "run_id"],
+      "properties": {
+        "heoml_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "heoml_manifest_id": {
+          "type": ["string", "null"]
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "result_payloads": {
+      "type": "object",
+      "required": ["evpi", "evppi", "evsi", "enbs"],
+      "properties": {
+        "evpi": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "evppi": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "evsi": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "enbs": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

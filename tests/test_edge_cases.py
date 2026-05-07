@@ -9,14 +9,16 @@ from voiage.methods.basic import evppi
 from voiage.schema import ParameterSet, ValueArray
 
 
-def test_extreme_large_numbers():
+def test_extreme_large_numbers() -> None:
     """Test with extremely large numbers to check for overflow issues."""
     # Create net benefits with very large values
-    large_values = np.array([
-        [1e100, 1e100 + 1e90],  # Strategy A and B for sample 1
-        [1e100 + 1e80, 1e100 + 2e90],  # Strategy A and B for sample 2
-        [1e100 + 2e80, 1e100 + 1.5e90],  # Strategy A and B for sample 3
-    ])
+    large_values = np.array(
+        [
+            [1e100, 1e100 + 1e90],  # Strategy A and B for sample 1
+            [1e100 + 1e80, 1e100 + 2e90],  # Strategy A and B for sample 2
+            [1e100 + 2e80, 1e100 + 1.5e90],  # Strategy A and B for sample 3
+        ]
+    )
 
     value_array = ValueArray.from_numpy(large_values)
     analysis = DecisionAnalysis(value_array)
@@ -27,14 +29,16 @@ def test_extreme_large_numbers():
     assert evpi_result >= 0  # EVPI should always be non-negative
 
 
-def test_extreme_small_numbers():
+def test_extreme_small_numbers() -> None:
     """Test with extremely small numbers to check for underflow issues."""
     # Create net benefits with very small values
-    small_values = np.array([
-        [1e-100, 2e-100],  # Strategy A and B for sample 1
-        [1.5e-100, 1.8e-100],  # Strategy A and B for sample 2
-        [2e-100, 1.2e-100],  # Strategy A and B for sample 3
-    ])
+    small_values = np.array(
+        [
+            [1e-100, 2e-100],  # Strategy A and B for sample 1
+            [1.5e-100, 1.8e-100],  # Strategy A and B for sample 2
+            [2e-100, 1.2e-100],  # Strategy A and B for sample 3
+        ]
+    )
 
     value_array = ValueArray.from_numpy(small_values)
     analysis = DecisionAnalysis(value_array)
@@ -45,12 +49,14 @@ def test_extreme_small_numbers():
     assert evpi_result >= 0  # EVPI should always be non-negative
 
 
-def test_mixed_extreme_values():
+def test_mixed_extreme_values() -> None:
     """Test with a mix of very large and very small values."""
-    mixed_values = np.array([
-        [1e100, 1e-100],  # Strategy A and B for sample 1
-        [1e-100, 1e100],  # Strategy A and B for sample 2
-    ])
+    mixed_values = np.array(
+        [
+            [1e100, 1e-100],  # Strategy A and B for sample 1
+            [1e-100, 1e100],  # Strategy A and B for sample 2
+        ]
+    )
 
     value_array = ValueArray.from_numpy(mixed_values)
     analysis = DecisionAnalysis(value_array)
@@ -61,20 +67,23 @@ def test_mixed_extreme_values():
     assert evpi_result >= 0  # EVPI should always be non-negative
 
 
-def test_single_parameter_degenerate_case():
+def test_single_parameter_degenerate_case() -> None:
     """Test with a single parameter (degenerate case)."""
     # Simple net benefits with correct dtype
-    nb_array = np.array([
-        [100, 150],  # Strategy A and B for sample 1
-        [120, 130],  # Strategy A and B for sample 2
-        [80, 100],   # Strategy A and B for sample 3
-    ], dtype=np.float64)
+    nb_array = np.array(
+        [
+            [100, 150],  # Strategy A and B for sample 1
+            [120, 130],  # Strategy A and B for sample 2
+            [80, 100],  # Strategy A and B for sample 3
+        ],
+        dtype=np.float64,
+    )
 
     # Single parameter
     param_dict = {"single_param": np.array([1.0, 2.0, 3.0], dtype=np.float64)}
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(3)}
+        coords={"n_samples": np.arange(3)},
     )
     parameter_set = ParameterSet(dataset=dataset)
 
@@ -93,14 +102,17 @@ def test_single_parameter_degenerate_case():
     assert evppi_result <= evpi_result + 1e-10  # EVPPI should not exceed EVPI
 
 
-def test_identical_strategies_degenerate_case():
+def test_identical_strategies_degenerate_case() -> None:
     """Test with identical strategies (degenerate case)."""
     # Identical strategies with correct dtype
-    identical_values = np.array([
-        [100, 100],  # Strategy A and B for sample 1
-        [150, 150],  # Strategy A and B for sample 2
-        [120, 120],  # Strategy A and B for sample 3
-    ], dtype=np.float64)
+    identical_values = np.array(
+        [
+            [100, 100],  # Strategy A and B for sample 1
+            [150, 150],  # Strategy A and B for sample 2
+            [120, 120],  # Strategy A and B for sample 3
+        ],
+        dtype=np.float64,
+    )
 
     value_array = ValueArray.from_numpy(identical_values)
     analysis = DecisionAnalysis(value_array)
@@ -111,14 +123,17 @@ def test_identical_strategies_degenerate_case():
     assert abs(evpi_result) < 1e-10  # Should be effectively zero
 
 
-def test_single_strategy_degenerate_case():
+def test_single_strategy_degenerate_case() -> None:
     """Test with a single strategy (degenerate case)."""
     # Single strategy with correct dtype
-    single_strategy_values = np.array([
-        [100],  # Only Strategy A for sample 1
-        [150],  # Only Strategy A for sample 2
-        [120],  # Only Strategy A for sample 3
-    ], dtype=np.float64)
+    single_strategy_values = np.array(
+        [
+            [100],  # Only Strategy A for sample 1
+            [150],  # Only Strategy A for sample 2
+            [120],  # Only Strategy A for sample 3
+        ],
+        dtype=np.float64,
+    )
 
     value_array = ValueArray.from_numpy(single_strategy_values)
     analysis = DecisionAnalysis(value_array)
@@ -129,14 +144,17 @@ def test_single_strategy_degenerate_case():
     assert evpi_result == 0
 
 
-def test_nan_values():
+def test_nan_values() -> None:
     """Test handling of NaN values."""
     # Net benefits with NaN
-    nan_values = np.array([
-        [100, 150],    # Strategy A and B for sample 1
-        [np.nan, 130], # Strategy A and B for sample 2
-        [80, np.nan],  # Strategy A and B for sample 3
-    ], dtype=np.float64)
+    nan_values = np.array(
+        [
+            [100, 150],  # Strategy A and B for sample 1
+            [np.nan, 130],  # Strategy A and B for sample 2
+            [80, np.nan],  # Strategy A and B for sample 3
+        ],
+        dtype=np.float64,
+    )
 
     value_array = ValueArray.from_numpy(nan_values)
     analysis = DecisionAnalysis(value_array)
@@ -147,14 +165,17 @@ def test_nan_values():
     assert isinstance(evpi_result, (int, float))
 
 
-def test_infinite_values():
+def test_infinite_values() -> None:
     """Test handling of infinite values."""
     # Net benefits with infinity
-    inf_values = np.array([
-        [100, 150],      # Strategy A and B for sample 1
-        [np.inf, 130],   # Strategy A and B for sample 2
-        [80, -np.inf],   # Strategy A and B for sample 3
-    ], dtype=np.float64)
+    inf_values = np.array(
+        [
+            [100, 150],  # Strategy A and B for sample 1
+            [np.inf, 130],  # Strategy A and B for sample 2
+            [80, -np.inf],  # Strategy A and B for sample 3
+        ],
+        dtype=np.float64,
+    )
 
     value_array = ValueArray.from_numpy(inf_values)
     analysis = DecisionAnalysis(value_array)

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/method-metadata.schema.json",
+  "title": "MethodMetadataV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_type",
+    "method_family",
+    "method_maturity",
+    "approximation_status",
+    "capability_labels"
+  ],
+  "properties": {
+    "analysis_type": {
+      "type": "string",
+      "const": "method_metadata"
+    },
+    "method_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method_maturity": {
+      "type": "string",
+      "enum": [
+        "stable",
+        "approximate",
+        "experimental",
+        "backend-dependent"
+      ]
+    },
+    "approximation_status": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "approximate",
+        "surrogate",
+        "backend-dependent"
+      ]
+    },
+    "capability_labels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_context": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backend": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
+

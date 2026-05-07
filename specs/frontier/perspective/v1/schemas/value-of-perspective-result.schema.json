@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/perspective/v1/schemas/value-of-perspective-result.schema.json",
+  "title": "ValueOfPerspectiveResultV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "perspective_ids",
+    "strategy_names",
+    "expected_net_benefits",
+    "optimal_strategy_by_perspective",
+    "regret_matrix",
+    "switching_values",
+    "consensus_strategy",
+    "robust_strategy",
+    "pareto_strategies",
+    "reference_perspective",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_perspective"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "fixture-backed"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "perspective_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_net_benefits": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "optimal_strategy_by_perspective": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "regret_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "switching_values": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "consensus_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "robust_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pareto_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_perspective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

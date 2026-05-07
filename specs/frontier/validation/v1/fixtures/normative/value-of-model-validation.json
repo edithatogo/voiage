@@ -1,0 +1,82 @@
+{
+  "analysis_id": "validation-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_model_validation",
+  "method_maturity": "fixture-backed",
+  "value": 1.6,
+  "discrepancy_reduction_value": 1.2,
+  "validation_profile_ids": [
+    "external_validation",
+    "discrepancy_reduction"
+  ],
+  "strategy_names": [
+    "A",
+    "B",
+    "C"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      8.0,
+      5.0
+    ],
+    [
+      7.0,
+      11.0,
+      9.0
+    ]
+  ],
+  "optimal_strategy_by_validation_profile": {
+    "external_validation": "A",
+    "discrepancy_reduction": "B"
+  },
+  "discrepancy_matrix": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      4.0,
+      0.0
+    ]
+  ],
+  "consensus_strategy": "B",
+  "robust_strategy": "B",
+  "pareto_strategies": [
+    "A",
+    "B"
+  ],
+  "reference_validation_profile": "external_validation",
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_model_validation",
+    "method_family": "value_of_model_validation",
+    "method_maturity": "fixture-backed",
+    "analysis_id": null,
+    "decision_problem_id": null,
+    "decision_context": null,
+    "population": null,
+    "estimator": null,
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_samples": 2,
+      "n_strategies": 3,
+      "n_validation_profiles": 2
+    },
+    "validation_profile_ids": [
+      "external_validation",
+      "discrepancy_reduction"
+    ],
+    "validation_profile_labels": [
+      "External validation",
+      "Discrepancy reduction"
+    ]
+  },
+  "diagnostics": {
+    "n_samples": 2,
+    "n_strategies": 3,
+    "n_validation_profiles": 2
+  }
+}

@@ -1,0 +1,20 @@
+# CODEOWNERS: Automatically request reviews from relevant owners
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @edithatogo
+
+# Core library code
+/voiage/ @edithatogo
+
+# Tests
+/tests/ @edithatogo
+
+# Documentation
+/docs/ @edithatogo
+
+# CI/CD workflows
+.github/workflows/ @edithatogo
+
+# Conductor configuration
+/conductor/ @edithatogo

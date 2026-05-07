@@ -1,0 +1,13 @@
+{
+  "analysis_id": "lifecourse-screening-001-evppi",
+  "analysis_type": "evppi",
+  "decision_problem_id": "screening-program-001",
+  "parameter_names": ["prob_screen_positive", "incremental_cost"],
+  "evppi": 3.5,
+  "method": "gam",
+  "expected_current_value": 118.33333333333333,
+  "expected_perfect_information": 125.0,
+  "diagnostics": {
+    "notes": "Deterministic compatibility fixture for lifecourse handoff."
+  }
+}

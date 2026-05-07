@@ -1,0 +1,15 @@
+{
+  "analysis_id": "evsi-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "evsi",
+  "trial_design_id": "screening-trial-design-001",
+  "sample_size": 240,
+  "evsi": 22.75,
+  "expected_current_value": 1505.0,
+  "expected_sample_value": 1527.75,
+  "expected_perfect_information": 1630.0,
+  "method": "moment-matching",
+  "diagnostics": {
+    "notes": "Compact example payload."
+  }
+}

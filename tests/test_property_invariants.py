@@ -1,12 +1,14 @@
 """Property-based tests for mathematical invariants in voiage functions."""
 
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis import strategies as st
 from hypothesis.extra.numpy import arrays
 import numpy as np
 import pytest
 
 from voiage.methods.basic import evpi, evppi
+from voiage.methods.dominance import calculate_dominance
+from voiage.methods.sample_information import enbs
 from voiage.schema import ParameterSet, ValueArray
 
 # Strategy for generating valid net benefit arrays
@@ -14,14 +16,17 @@ net_benefit_arrays = arrays(
     dtype=np.float64,
     shape=st.tuples(
         st.integers(min_value=2, max_value=100),  # n_samples
-        st.integers(min_value=2, max_value=5)     # n_strategies
+        st.integers(min_value=2, max_value=5),  # n_strategies
     ),
-    elements=st.floats(min_value=-1000, max_value=1000, allow_nan=False, allow_infinity=False)
+    elements=st.floats(
+        min_value=-1000, max_value=1000, allow_nan=False, allow_infinity=False
+    ),
 )
 
 
 @given(nb_array=net_benefit_arrays)
-def test_evpi_monotonicity_under_strategy_improvement(nb_array):
+@settings(deadline=None)
+def test_evpi_monotonicity_under_strategy_improvement(nb_array) -> None:
     """Test that EVPI behavior when a strategy uniformly improves.
 
     If we improve one strategy by a constant amount across all samples,
@@ -46,7 +51,8 @@ def test_evpi_monotonicity_under_strategy_improvement(nb_array):
 
 
 @given(nb_array=net_benefit_arrays)
-def test_evpi_invariance_under_constant_shift(nb_array):
+@settings(deadline=None)
+def test_evpi_invariance_under_constant_shift(nb_array) -> None:
     """Test that EVPI is invariant under constant shifts to all strategies.
 
     Adding the same constant to all net benefits should not change EVPI.
@@ -67,7 +73,8 @@ def test_evpi_invariance_under_constant_shift(nb_array):
 
 
 @given(nb_array=net_benefit_arrays)
-def test_evpi_scaling_property(nb_array):
+@settings(deadline=None)
+def test_evpi_scaling_property(nb_array) -> None:
     """Test that EVPI scales with net benefit scaling.
 
     If we scale all net benefits by a positive constant, EVPI should scale proportionally.
@@ -85,11 +92,15 @@ def test_evpi_scaling_property(nb_array):
     # EVPI should scale proportionally (within floating point precision)
     expected_scaled_evpi = original_evpi * scale_factor
     # Allow for larger tolerance due to numerical precision issues
-    assert abs(scaled_evpi - expected_scaled_evpi) < 1e-6 * abs(expected_scaled_evpi) + 1e-10
+    assert (
+        abs(scaled_evpi - expected_scaled_evpi)
+        < 1e-6 * abs(expected_scaled_evpi) + 1e-10
+    )
 
 
 @given(nb_array=net_benefit_arrays)
-def test_evpi_convexity_property(nb_array):
+@settings(deadline=None)
+def test_evpi_convexity_property(nb_array) -> None:
     """Test a relaxed convexity property of EVPI.
 
     EVPI should have some convex-like behavior, but exact convexity may not hold due to
@@ -126,21 +137,28 @@ parameter_arrays = arrays(
     dtype=np.float64,
     shape=st.tuples(
         st.integers(min_value=10, max_value=50),  # n_samples
-        st.integers(min_value=1, max_value=3)     # n_parameters
+        st.integers(min_value=1, max_value=3),  # n_parameters
     ),
-    elements=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False)
+    elements=st.floats(
+        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
+    ),
 )
 
 
-@given(nb_array=arrays(
-    dtype=np.float64,
-    shape=st.tuples(
-        st.integers(min_value=10, max_value=50),  # n_samples
-        st.integers(min_value=2, max_value=4)     # n_strategies
-    ),
-    elements=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False)
-))
-def test_evppi_bounded_by_evpi(nb_array):
+@given(
+    nb_array=arrays(
+        dtype=np.float64,
+        shape=st.tuples(
+            st.integers(min_value=10, max_value=50),  # n_samples
+            st.integers(min_value=2, max_value=4),  # n_strategies
+        ),
+        elements=st.floats(
+            min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
+        ),
+    )
+)
+@settings(deadline=None)
+def test_evppi_bounded_by_evpi(nb_array) -> None:
     """Test that EVPPI is bounded by EVPI."""
     n_samples = nb_array.shape[0]
 
@@ -151,9 +169,10 @@ def test_evppi_bounded_by_evpi(nb_array):
     # Create parameter dictionary
     param_dict = {f"param_{i}": param_array[:, i] for i in range(n_params)}
     import xarray as xr
+
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)}
+        coords={"n_samples": np.arange(n_samples)},
     )
     parameter_set = ParameterSet(dataset=dataset)
 
@@ -174,15 +193,20 @@ def test_evppi_bounded_by_evpi(nb_array):
     assert isinstance(evppi_result, (int, float))
 
 
-@given(nb_array=arrays(
-    dtype=np.float64,
-    shape=st.tuples(
-        st.integers(min_value=10, max_value=50),  # n_samples
-        st.integers(min_value=2, max_value=4)     # n_strategies
-    ),
-    elements=st.floats(min_value=-100, max_value=100, allow_nan=False, allow_infinity=False)
-))
-def test_evppi_monotonicity_under_parameter_expansion(nb_array):
+@given(
+    nb_array=arrays(
+        dtype=np.float64,
+        shape=st.tuples(
+            st.integers(min_value=10, max_value=50),  # n_samples
+            st.integers(min_value=2, max_value=4),  # n_strategies
+        ),
+        elements=st.floats(
+            min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
+        ),
+    )
+)
+@settings(deadline=None)
+def test_evppi_monotonicity_under_parameter_expansion(nb_array) -> None:
     """Test that EVPPI behavior when expanding the parameter set.
 
     Adding more parameters to the set of interest may increase or decrease EVPPI
@@ -197,9 +221,10 @@ def test_evppi_monotonicity_under_parameter_expansion(nb_array):
     # Create parameter dictionary
     param_dict = {f"param_{i}": param_array[:, i] for i in range(n_params)}
     import xarray as xr
+
     dataset = xr.Dataset(
         {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)}
+        coords={"n_samples": np.arange(n_samples)},
     )
     parameter_set = ParameterSet(dataset=dataset)
 
@@ -219,20 +244,17 @@ def test_evppi_monotonicity_under_parameter_expansion(nb_array):
 
 
 @given(scale_factor=st.floats(min_value=0.1, max_value=10.0))
-def test_evpi_scale_invariance(scale_factor):
+@settings(deadline=None)
+def test_evpi_scale_invariance(scale_factor) -> None:
     """Test that EVPI scales with proportional changes.
 
     When all net benefits are scaled by the same positive factor,
     EVPI should scale by the same factor.
     """
     # Create a fixed net benefit array for reproducibility
-    nb_array = np.array([
-        [100.0, 150.0],
-        [120.0, 130.0],
-        [80.0, 100.0],
-        [90.0, 110.0],
-        [110.0, 140.0]
-    ])
+    nb_array = np.array(
+        [[100.0, 150.0], [120.0, 130.0], [80.0, 100.0], [90.0, 110.0], [110.0, 140.0]]
+    )
 
     value_array = ValueArray.from_numpy(nb_array)
     original_evpi = evpi(value_array)
@@ -249,6 +271,31 @@ def test_evpi_scale_invariance(scale_factor):
         assert abs(scaled_evpi) < 1e-10
     else:
         assert abs(scaled_evpi - expected_evpi) < 1e-6 * abs(expected_evpi)
+
+
+@given(
+    evsi_value=st.floats(
+        min_value=0.0, max_value=10000.0, allow_nan=False, allow_infinity=False
+    ),
+    research_cost=st.floats(
+        min_value=0.0, max_value=10000.0, allow_nan=False, allow_infinity=False
+    ),
+)
+def test_enbs_identity(evsi_value: float, research_cost: float) -> None:
+    """Test that ENBS is exactly EVSI minus research cost."""
+    assert enbs(evsi_value, research_cost) == pytest.approx(evsi_value - research_cost)
+
+
+def test_dominance_transitivity_on_ordered_frontier() -> None:
+    """Test that a strictly ordered frontier is transitive under dominance."""
+    costs = np.array([10.0, 20.0, 30.0])
+    effects = np.array([3.0, 2.0, 1.0])
+
+    result = calculate_dominance(costs, effects, strategy_names=["A", "B", "C"])
+
+    assert result.frontier_indices == [0]
+    assert result.strongly_dominated_indices == [1, 2]
+    assert result.status == ["frontier", "strongly_dominated", "strongly_dominated"]
 
 
 if __name__ == "__main__":

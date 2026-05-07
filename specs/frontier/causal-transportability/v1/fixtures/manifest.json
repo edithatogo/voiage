@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "source-to-target transport comparison",
+      "method_family": "value_of_causal_transportability",
+      "input_artifact": "normative/causal-transportability-set.json",
+      "expected_output_artifact": "normative/value-of-causal-transportability.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 401,
+        "execution_mode": "deterministic"
+      }
+    }
+  ]
+}
