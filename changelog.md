@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marked the packaging, HPC, Rust ABI, and polyglot docs strategy tracks complete and summarized the current-state / future-state guidance in the roadmap.
 
 ### Fixed
+- Switched the adaptive EVSI help assertion to the in-process Typer runner so the CLI help test stays stable across Python versions in CI.
 - Cleaned up the frontier family README wording so the experimental contracts now use current fixture-backed status language instead of stale "planned" phrasing.
 
 ### Fixed

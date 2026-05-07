@@ -628,15 +628,12 @@ def test_cli_help() -> None:
     assert "Calculate ENBS from an EVSI value and research cost" in stdout
     assert "--research-cost" in stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-adaptive-evsi", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-adaptive-evsi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-adaptive-evsi" in result.stdout
-    assert "--adaptive-rules" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-adaptive-evsi" in stdout
+    assert "--adaptive-rules" in stdout
 
     result = subprocess.run(
         [sys.executable, "-m", "voiage.cli", "calculate-portfolio-voi", "--help"],
