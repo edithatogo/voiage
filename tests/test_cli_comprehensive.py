@@ -598,27 +598,21 @@ def test_cli_help() -> None:
     assert "NET_BENEFIT_FILE" in result.stdout
 
     # Test calculate-evppi help
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-evppi", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-evppi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-evppi" in result.stdout
-    assert "NET_BENEFIT_FILE" in result.stdout
-    assert "PARAMETER_FILE" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-evppi" in stdout
+    assert "NET_BENEFIT_FILE" in stdout
+    assert "PARAMETER_FILE" in stdout
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-evsi", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-evsi", "--help"])
 
-    assert result.returncode == 0
-    assert "calculate-evsi" in result.stdout
-    assert "PARAMETER_FILE" in result.stdout
-    assert "TRIAL_DESIGN_FILE" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "calculate-evsi" in stdout
+    assert "PARAMETER_FILE" in stdout
+    assert "TRIAL_DESIGN_FILE" in stdout
 
     result = runner.invoke(cli.app, ["calculate-enbs", "--help"])
 
@@ -717,14 +711,11 @@ def test_cli_help() -> None:
     ]
 
     for command_name, example_text in help_checks:
-        result = subprocess.run(
-            [sys.executable, "-m", "voiage.cli", command_name, "--help"],
-            capture_output=True,
-            text=True,
-        )
-        assert result.returncode == 0
-        assert "Examples" in result.stdout
-        assert _compact(example_text) in _compact(result.stdout)
+        result = runner.invoke(cli.app, [command_name, "--help"])
+        assert result.exit_code == 0
+        stdout = _strip_ansi(result.stdout)
+        assert "Examples" in stdout
+        assert _compact(example_text) in _compact(stdout)
 
 
 def test_cli_command_registry_matches_expected_surface() -> None:
@@ -767,17 +758,14 @@ def test_cli_preference_surface_help_and_registry() -> None:
     command = get_command(cli.app)
     assert "calculate-preference" in command.commands
 
-    result = subprocess.run(
-        [sys.executable, "-m", "voiage.cli", "calculate-preference", "--help"],
-        capture_output=True,
-        text=True,
-    )
+    result = runner.invoke(cli.app, ["calculate-preference", "--help"])
 
-    assert result.returncode == 0
-    assert "Examples" in result.stdout
-    assert "calculate-preference" in result.stdout
+    assert result.exit_code == 0
+    stdout = _strip_ansi(result.stdout)
+    assert "Examples" in stdout
+    assert "calculate-preference" in stdout
     assert _compact("voiage calculate-preference preference_surface.json") in _compact(
-        result.stdout
+        stdout
     )
 
 

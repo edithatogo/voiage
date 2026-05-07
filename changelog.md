@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marked the packaging, HPC, Rust ABI, and polyglot docs strategy tracks complete and summarized the current-state / future-state guidance in the roadmap.
 
 ### Fixed
+- Restored the E2E CLI job to install the test runner dependencies it needs
+  and converted the remaining comprehensive CLI help checks to the in-process
+  Typer runner so the matrix stays stable across Python versions.
 - Restored the GitHub Actions tool split so the CI jobs that invoke `tox`,
   `ruff`, `bandit`, and `vulture` install the dev toolset they need, and
   cleaned up the strategy orchestration guide table so the docs site builds

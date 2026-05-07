@@ -289,7 +289,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install voiage
-      run: uv sync --extra dev
+      run: uv sync --extra ci --extra dev
 
     - name: Run E2E CLI tests
       run: |
@@ -321,7 +321,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --extra ci --extra dev
 
     - name: Run mutation testing
       run: |
