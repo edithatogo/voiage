@@ -206,7 +206,7 @@ jobs:
       run: uv sync --extra ci
 
     - name: Verify coverage threshold
-      run: uv run tox -e coverage_report
+      run: uv run --with tox tox -e coverage_report
 
   benchmark-regression:
     name: Benchmark Regression Checks
