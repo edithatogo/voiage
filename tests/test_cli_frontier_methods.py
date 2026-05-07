@@ -553,12 +553,14 @@ def test_frontier_cli_commands_reject_missing_inputs(
 ) -> None:
     """Exercise the file-not-found branches for the frontier CLI commands."""
     input_file = tmp_path / input_name
+    target = (
+        cli.calculate_validation
+        if command == "calculate-validation"
+        else cli.calculate_threshold
+    )
 
     with pytest.raises(Exception):
-        if command == "calculate-validation":
-            cli.calculate_validation(input_file)
-        else:
-            cli.calculate_threshold(input_file)
+        target(input_file)
 
 
 @pytest.mark.parametrize(
@@ -582,9 +584,11 @@ def test_frontier_cli_commands_reject_malformed_json(
     """Exercise the JSON decoding branches for the frontier CLI commands."""
     input_file = tmp_path / input_name
     input_file.write_text("{not valid json", encoding="utf-8")
+    target = (
+        cli.calculate_validation
+        if command == "calculate-validation"
+        else cli.calculate_threshold
+    )
 
     with pytest.raises(Exception):
-        if command == "calculate-validation":
-            cli.calculate_validation(input_file)
-        else:
-            cli.calculate_threshold(input_file)
+        target(input_file)

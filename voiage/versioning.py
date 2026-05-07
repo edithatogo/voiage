@@ -128,7 +128,9 @@ def _read_description_version(path: Path) -> str:
 
 
 VERSION_TARGETS: tuple[VersionTarget, ...] = (
-    VersionTarget("TypeScript", Path("bindings/typescript/package.json"), _read_json_version),
+    VersionTarget(
+        "TypeScript", Path("bindings/typescript/package.json"), _read_json_version
+    ),
     VersionTarget("Julia", Path("bindings/julia/Project.toml"), _read_toml_version),
     VersionTarget("Rust", Path("bindings/rust/Cargo.toml"), _read_cargo_version),
     VersionTarget(
@@ -136,11 +138,15 @@ VERSION_TARGETS: tuple[VersionTarget, ...] = (
         Path("bindings/dotnet/src/Voiage.Core/Voiage.Core.csproj"),
         _read_csproj_version,
     ),
-    VersionTarget("R", Path("r-package/voiageR/DESCRIPTION"), _read_description_version),
+    VersionTarget(
+        "R", Path("r-package/voiageR/DESCRIPTION"), _read_description_version
+    ),
 )
 
 
-def collect_version_mismatches(repo_root: Path = REPO_ROOT) -> tuple[str, list[VersionMismatch]]:
+def collect_version_mismatches(
+    repo_root: Path = REPO_ROOT,
+) -> tuple[str, list[VersionMismatch]]:
     """Collect manifest version mismatches against the canonical repo version."""
     canonical = _read_canonical_version(repo_root / "pyproject.toml")
     mismatches: list[VersionMismatch] = []
@@ -176,11 +182,15 @@ def format_version_mismatches(
     return "\n".join(lines)
 
 
-def validate_version_sync(repo_root: Path = REPO_ROOT) -> tuple[str, list[VersionMismatch]]:
+def validate_version_sync(
+    repo_root: Path = REPO_ROOT,
+) -> tuple[str, list[VersionMismatch]]:
     """Validate that binding manifests match the canonical repo version."""
     canonical, mismatches = collect_version_mismatches(repo_root)
     if mismatches:
-        raise VersionSyncError(format_version_mismatches(mismatches, repo_root=repo_root))
+        raise VersionSyncError(
+            format_version_mismatches(mismatches, repo_root=repo_root)
+        )
     return canonical, mismatches
 
 

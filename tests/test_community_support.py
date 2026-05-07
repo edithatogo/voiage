@@ -20,9 +20,7 @@ def test_community_support_links_are_referenced_from_main_docs() -> None:
     """The main docs should point at the support and governance surface."""
     readme = Path("README.md").read_text(encoding="utf-8")
     contributing = Path("CONTRIBUTING.md").read_text(encoding="utf-8")
-    developer_index = Path("docs/developer_guide/index.rst").read_text(
-        encoding="utf-8"
-    )
+    developer_index = Path("docs/developer_guide/index.rst").read_text(encoding="utf-8")
 
     for needle in (
         "SUPPORT.md",
