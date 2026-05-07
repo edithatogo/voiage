@@ -1,0 +1,9 @@
+extends: existence
+message: "Avoid weasel words such as '%s'."
+level: suggestion
+tokens:
+  - basically
+  - clearly
+  - just
+  - merely
+  - simply

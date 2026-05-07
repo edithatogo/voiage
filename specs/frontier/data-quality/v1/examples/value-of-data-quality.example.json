@@ -1,0 +1,109 @@
+{
+  "analysis_id": "data-quality-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_data_quality_privacy_linkage",
+  "method_maturity": "planned",
+  "value": 3.8,
+  "acquisition_cost_value": 1.1,
+  "privacy_value": 0.9,
+  "measurement_error_value": 0.8,
+  "linkage_value": 1.0,
+  "data_quality_profile_ids": [
+    "clean_registry",
+    "noisy_linked_records"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "collect_more_data",
+    "privacy_preserving_linkage"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      12.0,
+      11.5
+    ],
+    [
+      9.2,
+      11.4,
+      12.1
+    ]
+  ],
+  "optimal_strategy_by_data_quality_profile": {
+    "clean_registry": "collect_more_data",
+    "noisy_linked_records": "privacy_preserving_linkage"
+  },
+  "acquisition_cost_matrix": [
+    [
+      0.0,
+      1.5,
+      2.5
+    ],
+    [
+      0.0,
+      1.0,
+      2.0
+    ]
+  ],
+  "privacy_constraint_matrix": [
+    [
+      0.0,
+      0.4,
+      0.7
+    ],
+    [
+      0.1,
+      0.3,
+      0.5
+    ]
+  ],
+  "measurement_error_matrix": [
+    [
+      0.05,
+      0.12,
+      0.2
+    ],
+    [
+      0.08,
+      0.15,
+      0.25
+    ]
+  ],
+  "linkage_weight_matrix": [
+    [
+      1.0,
+      0.8,
+      0.6
+    ],
+    [
+      0.9,
+      0.7,
+      0.5
+    ]
+  ],
+  "consensus_strategy": "collect_more_data",
+  "robust_strategy": "privacy_preserving_linkage",
+  "pareto_strategies": [
+    "collect_more_data",
+    "privacy_preserving_linkage"
+  ],
+  "reference_data_quality_profile": "clean_registry",
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_data_quality_privacy_linkage",
+    "method_family": "value_of_data_quality_privacy_linkage",
+    "method_maturity": "planned",
+    "analysis_id": "data-quality-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "decision_context": "screening-program",
+    "population": null,
+    "estimator": null,
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_profiles": 2,
+      "n_strategies": 3
+    }
+  }
+}

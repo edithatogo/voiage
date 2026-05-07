@@ -1,0 +1,8 @@
+{
+  "track_id": "strategy-orchestration_20260507",
+  "type": "docs",
+  "status": "complete",
+  "created_at": "2026-05-07T00:00:00Z",
+  "updated_at": "2026-05-07T00:00:00Z",
+  "description": "Codify the dependency graph, shared gates, and parallel lanes for the SOTA packaging, HPC, Rust-core, and docs strategy work."
+}

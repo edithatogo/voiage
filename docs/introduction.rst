@@ -40,6 +40,11 @@ voiage aims to implement a range of VOI metrics, including:
     Calculated as EVSI minus the cost of the proposed research. A positive ENBS
     suggests the research is economically worthwhile.
 
+`voiage` also tracks frontier and adjacent methods such as Value of Perspective,
+distributional/equity VOI, implementation-adjusted VOI, dynamic real-options VOI,
+and several adjacent contract families for causal, data-quality, computational,
+and expert-synthesis analysis.
+
 **Why voiage?**
 
 While VOI methods are well-established, and implementations exist (notably in R,

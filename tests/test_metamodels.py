@@ -18,6 +18,7 @@ from voiage.schema import ParameterSet
 # Try to import LinearRegression from sklearn if available
 try:
     from sklearn.linear_model import LinearRegression
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
@@ -26,11 +27,12 @@ except ImportError:
 
 # Create a simple LinearMetamodel wrapper if sklearn is available
 if SKLEARN_AVAILABLE:
+
     class LinearMetamodel:
-        def __init__(self):
+        def __init__(self) -> None:
             self.model = LinearRegression()
 
-        def fit(self, x, y):
+        def fit(self, x, y) -> None:
             x_np = np.array(list(x.parameters.values())).T
             self.model.fit(x_np, y)
 
@@ -76,7 +78,7 @@ def sample_data():
     return x, y
 
 
-def test_linear_metamodel(sample_data):
+def test_linear_metamodel(sample_data) -> None:
     """Test the LinearMetamodel."""
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
@@ -104,7 +106,7 @@ def test_linear_metamodel(sample_data):
     assert rmse >= 0
 
 
-def test_random_forest_metamodel(sample_data):
+def test_random_forest_metamodel(sample_data) -> None:
     """Test the RandomForestMetamodel."""
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
@@ -132,7 +134,7 @@ def test_random_forest_metamodel(sample_data):
     assert rmse >= 0
 
 
-def test_gam_metamodel(sample_data):
+def test_gam_metamodel(sample_data) -> None:
     """Test the GAMMetamodel."""
     x, y = sample_data
 
@@ -167,7 +169,7 @@ def test_gam_metamodel(sample_data):
             raise
 
 
-def test_bart_metamodel(sample_data):
+def test_bart_metamodel(sample_data) -> None:
     """Test the BARTMetamodel."""
     x, y = sample_data
 
@@ -198,7 +200,7 @@ def test_bart_metamodel(sample_data):
         pytest.skip("pymc or pymc-bart not available")
 
 
-def test_calculate_diagnostics(sample_data):
+def test_calculate_diagnostics(sample_data) -> None:
     """Test the calculate_diagnostics function."""
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
@@ -230,7 +232,7 @@ def test_calculate_diagnostics(sample_data):
     assert diagnostics["n_samples"] == len(y)
 
 
-def test_cross_validate(sample_data):
+def test_cross_validate(sample_data) -> None:
     """Test the cross_validate function."""
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
@@ -242,7 +244,18 @@ def test_cross_validate(sample_data):
     cv_results = cross_validate(LinearMetamodel, x, y, cv_folds=3)
 
     # Check that all expected keys are present
-    expected_keys = {"cv_r2_mean", "cv_r2_std", "cv_rmse_mean", "cv_rmse_std", "cv_mae_mean", "cv_mae_std", "n_folds", "fold_scores", "fold_rmse", "fold_mae"}
+    expected_keys = {
+        "cv_r2_mean",
+        "cv_r2_std",
+        "cv_rmse_mean",
+        "cv_rmse_std",
+        "cv_mae_mean",
+        "cv_mae_std",
+        "n_folds",
+        "fold_scores",
+        "fold_rmse",
+        "fold_mae",
+    }
     assert set(cv_results.keys()) == expected_keys
 
     # Check types and values

@@ -1,0 +1,65 @@
+{
+  "analysis_type": "value_of_data_quality_privacy_linkage",
+  "data_quality_profile_ids": [
+    "clean_registry",
+    "noisy_linked_records"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "collect_more_data",
+    "privacy_preserving_linkage"
+  ],
+  "acquisition_costs": [
+    [
+      0.0,
+      1.5,
+      2.5
+    ],
+    [
+      0.0,
+      1.0,
+      2.0
+    ]
+  ],
+  "privacy_constraints": [
+    [
+      0.0,
+      0.4,
+      0.7
+    ],
+    [
+      0.1,
+      0.3,
+      0.5
+    ]
+  ],
+  "linkage_weights": [
+    [
+      1.0,
+      0.8,
+      0.6
+    ],
+    [
+      0.9,
+      0.7,
+      0.5
+    ]
+  ],
+  "measurement_error_rates": [
+    [
+      0.05,
+      0.12,
+      0.2
+    ],
+    [
+      0.08,
+      0.15,
+      0.25
+    ]
+  ],
+  "source_quality_labels": [
+    "registry",
+    "linked_proxy"
+  ],
+  "operational_context": "screening-program"
+}

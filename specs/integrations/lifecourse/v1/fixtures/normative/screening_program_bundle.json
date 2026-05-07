@@ -1,0 +1,45 @@
+{
+  "profile_version": "v1",
+  "heoml_profile_version": "0.1",
+  "heoml_manifest_id": "heoml-run-bundle-v1-example",
+  "producer": "lifecourse",
+  "run_id": "lifecourse-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "schema_profile": "heoml",
+  "strategy_names": ["Usual care", "Targeted screening"],
+  "willingness_to_pay_thresholds": [50000],
+  "population": 10000,
+  "time_horizon_years": 10,
+  "discount_rate": 0.035,
+  "method_settings": {
+    "evpi": {
+      "method": "nested-monte-carlo",
+      "seed": 101,
+      "execution_mode": "deterministic"
+    },
+    "evppi": {
+      "method": "gam",
+      "parameters_of_interest": ["prob_screen_positive", "incremental_cost"],
+      "seed": 102,
+      "execution_mode": "deterministic"
+    },
+    "evsi": {
+      "method": "two-loop-monte-carlo",
+      "seed": 103,
+      "execution_mode": "deterministic"
+    },
+    "enbs": {
+      "method": "decision-rule",
+      "seed": 104,
+      "execution_mode": "deterministic"
+    }
+  },
+  "artifacts": {
+    "net_benefits": "net_benefits.csv",
+    "parameter_samples": "parameter_samples.csv",
+    "expected_evpi": "expected_evpi.json",
+    "expected_evppi": "expected_evppi.json",
+    "expected_evsi": "expected_evsi.json",
+    "expected_enbs": "expected_enbs.json"
+  }
+}

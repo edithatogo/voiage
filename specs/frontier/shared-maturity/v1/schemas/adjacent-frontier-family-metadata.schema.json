@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/shared-maturity/v1/schemas/adjacent-frontier-family-metadata.schema.json",
+  "title": "AdjacentFrontierFamilyMetadataV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_type",
+    "method_family",
+    "method_maturity",
+    "diagnostics",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_type": {
+      "type": "string",
+      "const": "adjacent_frontier_family_metadata"
+    },
+    "method_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method_maturity": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "experimental",
+        "fixture-backed",
+        "stable"
+      ]
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_context": {
+      "type": "string",
+      "minLength": 1
+    },
+    "population": {
+      "type": "number",
+      "minimum": 0
+    },
+    "estimator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "reproducibility": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    },
+    "reporting": {
+      "type": "object",
+      "required": [
+        "reporting_standard",
+        "analysis_type",
+        "method_family",
+        "method_maturity"
+      ],
+      "properties": {
+        "reporting_standard": {
+          "type": "string",
+          "const": "CHEERS-VOI"
+        },
+        "analysis_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method_maturity": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "experimental",
+            "fixture-backed",
+            "stable"
+          ]
+        },
+        "analysis_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_problem_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "population": {
+          "type": "number",
+          "minimum": 0
+        },
+        "estimator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "provenance": {
+          "type": "object"
+        },
+        "reproducibility": {
+          "type": "object"
+        },
+        "diagnostics": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

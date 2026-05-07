@@ -90,6 +90,11 @@ evppi_pop = analysis.evppi(population=100000, time_horizon=10, discount_rate=0.0
 print(f"Population EVPPI: {evppi_pop:.2f}")
 ```
 
+For lower-level calls through `voiage.methods.basic.evppi`, pass a
+`ParameterSet` rather than a raw mapping. The mapping form remains available as
+a compatibility alias for now, but it emits a deprecation warning so the stable
+v1 surface stays explicit.
+
 ## Advanced Options
 
 ### Regression Model Selection

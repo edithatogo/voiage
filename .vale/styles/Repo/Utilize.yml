@@ -1,0 +1,5 @@
+extends: existence
+message: "Avoid vague phrasing such as '%s'."
+level: suggestion
+tokens:
+  - utilize

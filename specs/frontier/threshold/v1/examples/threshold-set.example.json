@@ -1,0 +1,33 @@
+{
+  "method_maturity": "fixture-backed",
+  "threshold_profiles": [
+    {
+      "id": "wtp_reversal",
+      "label": "WTP reversal",
+      "weight": 0.5,
+      "threshold_type": "willingness_to_pay",
+      "threshold_value": 30000.0,
+      "policy_constraint": "payer budget constraint",
+      "ambiguity_radius": 0.05,
+      "robust_weight": 0.6,
+      "population": 1000.0,
+      "threshold_metadata": {
+        "notes": "Represents a willingness-to-pay reversal point."
+      }
+    },
+    {
+      "id": "policy_constraint",
+      "label": "Policy constraint",
+      "weight": 0.5,
+      "threshold_type": "budget_threshold",
+      "threshold_value": 0.8,
+      "policy_constraint": "coverage floor",
+      "ambiguity_radius": 0.1,
+      "robust_weight": 0.4,
+      "population": 1000.0,
+      "threshold_metadata": {
+        "notes": "Represents a policy or budget tipping point."
+      }
+    }
+  ]
+}

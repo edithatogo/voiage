@@ -8,6 +8,7 @@ import pytest
 from voiage.core.memory_optimization import (
     MemoryOptimizer,
     chunked_computation,
+    example_memory_optimization,
     memory_efficient_evpi_computation,
     optimize_parameter_set,
     optimize_value_array,
@@ -18,7 +19,7 @@ from voiage.schema import ParameterSet, ValueArray
 class TestMemoryOptimizationComprehensive:
     """Comprehensive tests for memory optimization module."""
 
-    def test_memory_optimizer_init_default(self):
+    def test_memory_optimizer_init_default(self) -> None:
         """Test MemoryOptimizer initialization with default parameters."""
         optimizer = MemoryOptimizer()
 
@@ -27,7 +28,7 @@ class TestMemoryOptimizationComprehensive:
         assert optimizer.memory_limit_bytes > 0
         assert optimizer.current_memory_usage == 0.0
 
-    def test_memory_optimizer_init_custom_limit(self):
+    def test_memory_optimizer_init_custom_limit(self) -> None:
         """Test MemoryOptimizer initialization with custom memory limit."""
         custom_limit_mb = 512.0
         optimizer = MemoryOptimizer(memory_limit_mb=custom_limit_mb)
@@ -36,7 +37,7 @@ class TestMemoryOptimizationComprehensive:
         assert optimizer.memory_limit_bytes == expected_bytes
         assert optimizer.current_memory_usage == 0.0
 
-    def test_get_memory_usage(self):
+    def test_get_memory_usage(self) -> None:
         """Test get_memory_usage method."""
         optimizer = MemoryOptimizer()
 
@@ -44,7 +45,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         assert usage >= 0
 
-    def test_get_available_memory(self):
+    def test_get_available_memory(self) -> None:
         """Test get_available_memory method."""
         optimizer = MemoryOptimizer()
 
@@ -55,7 +56,7 @@ class TestMemoryOptimizationComprehensive:
         # Available memory should be less than or equal to total limit
         assert available <= optimizer.memory_limit_bytes
 
-    def test_is_memory_available_true(self):
+    def test_is_memory_available_true(self) -> None:
         """Test is_memory_available when memory is available."""
         optimizer = MemoryOptimizer(memory_limit_mb=100.0)  # 100 MB limit
 
@@ -63,7 +64,7 @@ class TestMemoryOptimizationComprehensive:
         is_avail = optimizer.is_memory_available(1024.0)  # 1 KB
         assert is_avail is True
 
-    def test_is_memory_available_false(self):
+    def test_is_memory_available_false(self) -> None:
         """Test is_memory_available when memory is not available."""
         optimizer = MemoryOptimizer(memory_limit_mb=1.0)  # Very small limit
 
@@ -71,10 +72,13 @@ class TestMemoryOptimizationComprehensive:
         is_avail = optimizer.is_memory_available(1e9)  # 1 GB
         assert is_avail is False
 
-    def test_optimize_array_dtype_float_conversion(self):
+    def test_optimize_array_dtype_float_conversion(self) -> None:
         """Test optimize_array_dtype with float array conversion."""
         # Create float64 array
-        float64_arr = np.array([[100.123456789, 150.987654321], [90.111111111, 140.222222222]], dtype=np.float64)
+        float64_arr = np.array(
+            [[100.123456789, 150.987654321], [90.111111111, 140.222222222]],
+            dtype=np.float64,
+        )
         optimizer = MemoryOptimizer()
 
         # Optimize array dtype (may convert to float32 if precision allows)
@@ -84,7 +88,7 @@ class TestMemoryOptimizationComprehensive:
         # Either same dtype or converted to float32 without significant loss
         assert optimized.shape == float64_arr.shape
 
-    def test_optimize_array_dtype_no_change_needed(self):
+    def test_optimize_array_dtype_no_change_needed(self) -> None:
         """Test optimize_array_dtype when no conversion is beneficial."""
         # Create float32 array
         float32_arr = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float32)
@@ -98,7 +102,7 @@ class TestMemoryOptimizationComprehensive:
         assert optimized.shape == float32_arr.shape
         np.testing.assert_array_equal(optimized, float32_arr)
 
-    def test_optimize_array_dtype_integer_conversion(self):
+    def test_optimize_array_dtype_integer_conversion(self) -> None:
         """Test optimize_array_dtype with integer array conversion."""
         # Create array with small integers that fit in int8
         int64_arr = np.array([[1, 2], [3, 4]], dtype=np.int64)
@@ -113,7 +117,7 @@ class TestMemoryOptimizationComprehensive:
         assert optimized.shape == int64_arr.shape
         np.testing.assert_array_equal(optimized, int64_arr)
 
-    def test_optimize_array_dtype_integer_conversion_medium(self):
+    def test_optimize_array_dtype_integer_conversion_medium(self) -> None:
         """Test optimize_array_dtype with medium-sized integers."""
         # Create array with integers that need int16
         int64_arr = np.array([[100, 200], [300, 400]], dtype=np.int64)
@@ -128,7 +132,7 @@ class TestMemoryOptimizationComprehensive:
         assert optimized.shape == int64_arr.shape
         np.testing.assert_array_equal(optimized, int64_arr)
 
-    def test_chunk_large_array_small_array(self):
+    def test_chunk_large_array_small_array(self) -> None:
         """Test chunk_large_array with array smaller than chunk size."""
         # Create small array
         small_arr = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.float64)  # 2x3 array
@@ -141,12 +145,13 @@ class TestMemoryOptimizationComprehensive:
         assert len(chunks) == 1  # Should remain as single chunk
         np.testing.assert_array_equal(chunks[0], small_arr)
 
-    def test_chunk_large_array_exact_chunk_size(self):
+    def test_chunk_large_array_exact_chunk_size(self) -> None:
         """Test chunk_large_array with exact chunk size."""
         # Create larger array
-        large_arr = np.array([
-            [1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15]
-        ], dtype=np.float64)  # 5x3 array
+        large_arr = np.array(
+            [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15]],
+            dtype=np.float64,
+        )  # 5x3 array
         optimizer = MemoryOptimizer()
 
         # Chunk with exact size
@@ -160,7 +165,7 @@ class TestMemoryOptimizationComprehensive:
         np.testing.assert_array_equal(chunks[1], large_arr[2:4])  # Next 2 rows
         np.testing.assert_array_equal(chunks[2], large_arr[4:5])  # Last row
 
-    def test_estimate_memory_usage_numpy_array(self):
+    def test_estimate_memory_usage_numpy_array(self) -> None:
         """Test estimate_memory_usage for numpy array."""
         test_arr = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], dtype=np.float64)
         optimizer = MemoryOptimizer()
@@ -170,7 +175,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         assert usage == test_arr.nbytes  # Should match exact nbytes
 
-    def test_estimate_memory_usage_value_array(self):
+    def test_estimate_memory_usage_value_array(self) -> None:
         """Test estimate_memory_usage for ValueArray."""
         test_data = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(test_data, ["Strategy A", "Strategy B"])
@@ -181,12 +186,12 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         # The usage should be >= 0 (though exact value depends on internal xarray structure)
 
-    def test_estimate_memory_usage_dict(self):
+    def test_estimate_memory_usage_dict(self) -> None:
         """Test estimate_memory_usage for dictionary."""
         test_dict = {
             "array1": np.array([1.0, 2.0, 3.0]),
             "array2": np.array([4.0, 5.0, 6.0]),
-            "nested": {"inner": np.array([7.0, 8.0])}
+            "nested": {"inner": np.array([7.0, 8.0])},
         }
         optimizer = MemoryOptimizer()
 
@@ -195,13 +200,9 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         assert usage >= 0
 
-    def test_estimate_memory_usage_list(self):
+    def test_estimate_memory_usage_list(self) -> None:
         """Test estimate_memory_usage for list."""
-        test_list = [
-            np.array([1.0, 2.0]),
-            np.array([3.0, 4.0]),
-            "some string"
-        ]
+        test_list = [np.array([1.0, 2.0]), np.array([3.0, 4.0]), "some string"]
         optimizer = MemoryOptimizer()
 
         usage = optimizer.estimate_memory_usage(test_list)
@@ -209,7 +210,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         assert usage >= 0
 
-    def test_force_garbage_collection(self):
+    def test_force_garbage_collection(self) -> None:
         """Test force_garbage_collection method."""
         optimizer = MemoryOptimizer()
 
@@ -221,17 +222,19 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(usage, (int, float))
         assert usage >= 0
 
-    def test_monitor_memory_usage_low_usage(self):
+    def test_monitor_memory_usage_low_usage(self) -> None:
         """Test monitor_memory_usage with low memory usage."""
         optimizer = MemoryOptimizer(memory_limit_mb=100.0)  # Set a reasonable limit
 
         # With low memory usage, this shouldn't trigger a warning
         optimizer.monitor_memory_usage(warning_threshold=0.9)  # High threshold
 
-    def test_optimize_value_array(self):
+    def test_optimize_value_array(self) -> None:
         """Test optimize_value_array function."""
         # Create test ValueArray with large dtype
-        test_values = np.array([[100.123456, 150.654321], [90.111111, 140.222222]], dtype=np.float64)
+        test_values = np.array(
+            [[100.123456, 150.654321], [90.111111, 140.222222]], dtype=np.float64
+        )
         value_array = ValueArray.from_numpy(test_values, ["Strategy A", "Strategy B"])
 
         # Optimize the ValueArray
@@ -240,12 +243,12 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(optimized, ValueArray)
         assert optimized.values.shape == value_array.values.shape
 
-    def test_optimize_parameter_set(self):
+    def test_optimize_parameter_set(self) -> None:
         """Test optimize_parameter_set function."""
         # Create test ParameterSet
         param_dict = {
             "param1": np.array([0.123456789, 0.987654321], dtype=np.float64),
-            "param2": np.array([10.111111111, 20.222222222], dtype=np.float64)
+            "param2": np.array([10.111111111, 20.222222222], dtype=np.float64),
         }
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
 
@@ -256,12 +259,12 @@ class TestMemoryOptimizationComprehensive:
         # Should have same number of parameters
         assert len(optimized.parameters) == len(param_set.parameters)
 
-    def test_optimize_parameter_set_integer_parameters(self):
+    def test_optimize_parameter_set_integer_parameters(self) -> None:
         """Test optimize_parameter_set with integer parameters."""
         # Create test ParameterSet with large integer arrays
         param_dict = {
             "param1": np.array([100, 200, 300], dtype=np.int64),
-            "param2": np.array([1000, 2000, 3000], dtype=np.int64)
+            "param2": np.array([1000, 2000, 3000], dtype=np.int64),
         }
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
 
@@ -270,13 +273,16 @@ class TestMemoryOptimizationComprehensive:
 
         assert isinstance(optimized, ParameterSet)
 
-    def test_chunked_computation_with_callable(self):
+    def test_chunked_computation_with_callable(self) -> None:
         """Test chunked_computation with a simple function."""
+
         def simple_sum(arr):
             return np.sum(arr, axis=0)
 
         # Create test data
-        test_data = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]], dtype=np.float64)
+        test_data = np.array(
+            [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]], dtype=np.float64
+        )
 
         # Run chunked computation
         results = chunked_computation(simple_sum, test_data, chunk_size=2)
@@ -285,14 +291,15 @@ class TestMemoryOptimizationComprehensive:
         assert len(results) == 2  # 4 rows divided into chunks of 2
 
         # Verify results
-        expected_chunk1 = np.array([1.0+3.0, 2.0+4.0])  # [4.0, 6.0]
-        expected_chunk2 = np.array([5.0+7.0, 6.0+8.0])  # [12.0, 14.0]
+        expected_chunk1 = np.array([1.0 + 3.0, 2.0 + 4.0])  # [4.0, 6.0]
+        expected_chunk2 = np.array([5.0 + 7.0, 6.0 + 8.0])  # [12.0, 14.0]
 
         np.testing.assert_array_almost_equal(results[0], expected_chunk1)
         np.testing.assert_array_almost_equal(results[1], expected_chunk2)
 
-    def test_chunked_computation_no_chunk_size(self):
+    def test_chunked_computation_no_chunk_size(self) -> None:
         """Test chunked_computation without specifying chunk_size."""
+
         def simple_mean(arr):
             return np.mean(arr, axis=0)
 
@@ -305,14 +312,43 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(results, list)
         assert len(results) >= 1  # Should return at least one result
 
-    def test_memory_efficient_evpi_computation_simple(self):
+    def test_chunked_computation_auto_chunks_when_memory_is_tight(self) -> None:
+        """Automatic chunk sizing should use the low-memory path."""
+
+        class TightMemoryOptimizer(MemoryOptimizer):
+            def __init__(self) -> None:
+                super().__init__(memory_limit_mb=1)
+
+            def is_memory_available(self, required_bytes: float) -> bool:
+                return False
+
+            def get_available_memory(self) -> float:
+                return 24.0
+
+            def monitor_memory_usage(self, warning_threshold: float = 0.8) -> None:
+                return None
+
+        data = np.arange(12, dtype=float).reshape(6, 2)
+        results = chunked_computation(
+            lambda chunk: chunk.shape[0],
+            data,
+            chunk_size=None,
+            memory_optimizer=TightMemoryOptimizer(),
+        )
+
+        assert results == [1, 1, 1, 1, 1, 1]
+
+    def test_memory_efficient_evpi_computation_simple(self) -> None:
         """Test memory_efficient_evpi_computation with simple data."""
         # Create test net benefit array
-        nb_array = np.array([
-            [100.0, 150.0, 120.0],  # Sample 1
-            [90.0, 140.0, 130.0],   # Sample 2
-            [110.0, 130.0, 140.0]   # Sample 3
-        ], dtype=np.float64)
+        nb_array = np.array(
+            [
+                [100.0, 150.0, 120.0],  # Sample 1
+                [90.0, 140.0, 130.0],  # Sample 2
+                [110.0, 130.0, 140.0],  # Sample 3
+            ],
+            dtype=np.float64,
+        )
 
         # Test with default chunk_size
         result = memory_efficient_evpi_computation(nb_array)
@@ -320,7 +356,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(result, float)
         assert result >= 0  # EVPI should be non-negative
 
-    def test_memory_efficient_evpi_computation_with_chunk_size(self):
+    def test_memory_efficient_evpi_computation_with_chunk_size(self) -> None:
         """Test memory_efficient_evpi_computation with specified chunk_size."""
         # Create larger test net benefit array
         nb_array = np.random.rand(10, 3).astype(np.float64) * 1000
@@ -331,7 +367,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(result, float)
         assert result >= 0  # EVPI should be non-negative
 
-    def test_memory_efficient_evpi_computation_single_strategy(self):
+    def test_memory_efficient_evpi_computation_single_strategy(self) -> None:
         """Test memory_efficient_evpi_computation with single strategy."""
         # Create array with only one strategy (should give EVPI = 0)
         nb_array = np.array([[100.0], [90.0], [110.0]], dtype=np.float64)
@@ -342,14 +378,17 @@ class TestMemoryOptimizationComprehensive:
         # EVPI for single strategy should be 0 (within floating point tolerance)
         assert abs(result) < 1e-9
 
-    def test_memory_efficient_evpi_computation_identical_strategies(self):
+    def test_memory_efficient_evpi_computation_identical_strategies(self) -> None:
         """Test memory_efficient_evpi_computation with identical strategies."""
         # Create array where all strategies have identical values
-        nb_array = np.array([
-            [100.0, 100.0, 100.0],  # All same
-            [110.0, 110.0, 110.0],  # All same
-            [120.0, 120.0, 120.0]   # All same
-        ], dtype=np.float64)
+        nb_array = np.array(
+            [
+                [100.0, 100.0, 100.0],  # All same
+                [110.0, 110.0, 110.0],  # All same
+                [120.0, 120.0, 120.0],  # All same
+            ],
+            dtype=np.float64,
+        )
 
         result = memory_efficient_evpi_computation(nb_array)
 
@@ -357,15 +396,15 @@ class TestMemoryOptimizationComprehensive:
         # EVPI for identical strategies should be 0 (within floating point tolerance)
         assert abs(result) < 1e-9
 
-    def test_memory_optimizer_with_warning_monitoring(self):
+    def test_memory_optimizer_with_warning_monitoring(self) -> None:
         """Test memory optimizer monitoring with simulated high usage."""
         # Create a MemoryOptimizer with a small limit
         optimizer = MemoryOptimizer(memory_limit_mb=0.001)  # Very small limit in MB
 
         # Patch virtual_memory to simulate high usage
-        with patch('psutil.virtual_memory') as mock_vm:
+        with patch("psutil.virtual_memory") as mock_vm:
             # Create a mock that simulates high memory usage
-            mock_memory_info = type('MemoryInfo', (), {})()
+            mock_memory_info = type("MemoryInfo", (), {})()
             mock_memory_info.used = 999999999  # Simulate very high memory usage
             mock_memory_info.total = 1000000000  # Total memory
 
@@ -375,10 +414,12 @@ class TestMemoryOptimizationComprehensive:
             with pytest.warns(ResourceWarning):
                 optimizer.monitor_memory_usage(warning_threshold=0.1)  # Low threshold
 
-    def test_memory_efficient_evpi_computation_empty_array(self):
+    def test_memory_efficient_evpi_computation_empty_array(self) -> None:
         """Test memory_efficient_evpi_computation with empty array."""
         # Create empty array
-        empty_array = np.array([], dtype=np.float64).reshape(0, 2)  # 0 samples, 2 strategies
+        empty_array = np.array([], dtype=np.float64).reshape(
+            0, 2
+        )  # 0 samples, 2 strategies
 
         # Should handle gracefully
         result = memory_efficient_evpi_computation(empty_array)
@@ -386,7 +427,7 @@ class TestMemoryOptimizationComprehensive:
         assert isinstance(result, float)
         assert result == 0.0  # EVPI of empty array should be 0
 
-    def test_chunk_large_array_very_large_array(self):
+    def test_chunk_large_array_very_large_array(self) -> None:
         """Test chunk_large_array with a very large array."""
         # Create a larger array to test chunking
         large_arr = np.random.rand(20, 3).astype(np.float64)
@@ -402,7 +443,7 @@ class TestMemoryOptimizationComprehensive:
         reconstructed = np.vstack(chunks)
         np.testing.assert_array_equal(reconstructed, large_arr)
 
-    def test_estimate_memory_usage_various_objects(self):
+    def test_estimate_memory_usage_various_objects(self) -> None:
         """Test estimate_memory_usage with various object types."""
         optimizer = MemoryOptimizer()
 
@@ -422,3 +463,11 @@ class TestMemoryOptimizationComprehensive:
             usage = optimizer.estimate_memory_usage(obj)
             assert isinstance(usage, (int, float))
             assert usage >= 0
+
+    def test_example_memory_optimization_smoke(self, capsys) -> None:
+        """The example utility should execute its documented workflow."""
+        example_memory_optimization()
+
+        captured = capsys.readouterr()
+        assert "Original array size" in captured.out
+        assert "Garbage collection completed" in captured.out

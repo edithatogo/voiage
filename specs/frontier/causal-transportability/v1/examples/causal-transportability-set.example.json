@@ -1,0 +1,47 @@
+{
+  "analysis_type": "causal_identification_transportability",
+  "source_population_ids": [
+    "trial_population",
+    "real_world_population"
+  ],
+  "target_population_ids": [
+    "urban_target",
+    "rural_target"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "adapted_policy",
+    "transported_policy"
+  ],
+  "transport_weights": [
+    [
+      1.0,
+      0.7
+    ],
+    [
+      0.8,
+      0.9
+    ]
+  ],
+  "validity_penalties": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      0.5,
+      0.4
+    ]
+  ],
+  "identification_assumptions": [
+    "exchangeability",
+    "positivity",
+    "consistency"
+  ],
+  "effect_measure": "net_benefit",
+  "evidence_sources": [
+    "trial",
+    "registry"
+  ],
+  "reweighting_scheme": "inverse_odds_transport"
+}

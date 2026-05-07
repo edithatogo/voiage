@@ -1,0 +1,9 @@
+evpi                    Calculate Expected Value of Perfect Information
+evppi                   Calculate Expected Value of Partial Perfect
+                        Information
+evsi                    Calculate Expected Value of Sample Information
+init_voiage             Initialize the voiage Python Module
+is_voiage_available     Check Whether voiage Is Available
+set_voiage_env          Set the Python Environment for voiage
+voiageR                 voiageR: An R Interface to the voiage Python
+                        Library

@@ -1,160 +1,194 @@
-"""Tests for GPU acceleration utilities in Value of Information analysis."""
+"""Regression tests for backend GPU acceleration helpers."""
+
+from __future__ import annotations
+
+from types import SimpleNamespace
+from typing import cast
 
 import numpy as np
 import pytest
 
-from voiage.core.gpu_acceleration import (
-    GPUAcceleratedEVPI,
-    array_to_cpu,
-    array_to_gpu,
-    get_gpu_backend,
-    gpu_jit_compile,
-    gpu_parallelize,
-    gpu_vectorize,
-    is_gpu_available,
-)
+from voiage.backends.advanced_integration import JaxAdvancedBackend
+from voiage.backends.gpu_acceleration import GpuAcceleration
 
 
-def test_get_gpu_backend():
-    """Test getting the GPU backend."""
-    backend = get_gpu_backend()
-    assert isinstance(backend, str)
-    assert backend in ['jax', 'cupy', 'torch', 'none']
+class _FakeDevice:
+    def __init__(self, device_kind: str) -> None:
+        self.device_kind = device_kind
 
 
-def test_is_gpu_available():
-    """Test checking if GPU is available."""
-    available = is_gpu_available()
-    assert isinstance(available, bool)
-    # Should match the result from get_gpu_backend
-    assert available == (get_gpu_backend() != 'none')
+def test_detect_gpu_filters_gpu_devices(monkeypatch: pytest.MonkeyPatch) -> None:
+    pytest.importorskip("jax")
+
+    monkeypatch.setattr(
+        "voiage.backends.gpu_acceleration.jax.devices",
+        lambda: [_FakeDevice("CPU"), _FakeDevice("NVIDIA GPU"), _FakeDevice("gpu-tpu")],
+    )
+
+    gpu_utils = GpuAcceleration()
+
+    devices = gpu_utils.detect_gpu()
+
+    assert [device.device_kind for device in devices] == ["NVIDIA GPU", "gpu-tpu"]
 
 
-def test_array_transfer():
-    """Test transferring arrays between CPU and GPU."""
-    # Create sample data
-    cpu_array = np.random.randn(10, 3).astype(np.float64)
+def test_get_memory_info_reports_gpu_count(monkeypatch: pytest.MonkeyPatch) -> None:
+    pytest.importorskip("jax")
 
-    # Get the available backend
-    backend = get_gpu_backend()
+    monkeypatch.setattr(
+        GpuAcceleration,
+        "detect_gpu",
+        staticmethod(lambda: [_FakeDevice("GPU 0"), _FakeDevice("GPU 1")]),
+    )
 
-    if backend == 'none':
-        # If no GPU backend is available, these functions should raise exceptions
-        with pytest.raises(RuntimeError):
-            array_to_gpu(cpu_array)
-        # But array_to_cpu should work with regular NumPy arrays
-        result = array_to_cpu(cpu_array)
-        np.testing.assert_array_equal(result, cpu_array)
-    else:
-        # Test transferring to GPU
-        gpu_array = array_to_gpu(cpu_array, backend)
-        assert gpu_array is not None
+    gpu_utils = GpuAcceleration()
 
-        # Test transferring back to CPU
-        result = array_to_cpu(gpu_array, backend)
-        np.testing.assert_array_equal(result, cpu_array)
+    info = gpu_utils.get_memory_info()
+
+    assert info == {
+        "gpu_available": True,
+        "gpu_count": 2,
+        "memory_info": "Available via jax.lib.xla_bridge",
+    }
 
 
-def test_gpu_jit_compile():
-    """Test JIT compilation with GPU backends."""
-    def simple_function(x):
-        return x * 2
+def test_get_memory_info_handles_detection_errors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _raise(_: GpuAcceleration) -> list[_FakeDevice]:
+        raise RuntimeError("boom")
 
-    # Test with auto-detect backend
-    compiled_func = gpu_jit_compile(simple_function)
-    assert callable(compiled_func)
+    monkeypatch.setattr(GpuAcceleration, "detect_gpu", _raise)
 
-    # Test with specific backends
-    for backend in ['jax', 'torch', 'none']:
-        compiled_func = gpu_jit_compile(simple_function, backend)
-        assert callable(compiled_func)
+    gpu_utils = GpuAcceleration()
 
+    info = gpu_utils.get_memory_info()
 
-def test_gpu_vectorize():
-    """Test vectorization with GPU backends."""
-    def simple_function(x):
-        return x * 2
-
-    # Test with auto-detect backend
-    vectorized_func = gpu_vectorize(simple_function)
-    assert callable(vectorized_func)
-
-    # Test with specific backends
-    for backend in ['jax', 'cupy', 'torch', 'none']:
-        vectorized_func = gpu_vectorize(simple_function, backend)
-        assert callable(vectorized_func)
+    assert info == {
+        "gpu_available": False,
+        "gpu_count": 0,
+        "memory_info": "Unable to query memory info",
+    }
 
 
-def test_gpu_parallelize():
-    """Test parallelization with GPU backends."""
-    def simple_function(x):
-        return x * 2
+def test_optimize_for_gpu_returns_device_arrays_unchanged() -> None:
+    pytest.importorskip("jax")
 
-    # Test with auto-detect backend
-    parallelized_func = gpu_parallelize(simple_function)
-    assert callable(parallelized_func)
+    gpu_utils = GpuAcceleration()
+    device_array = SimpleNamespace(device_buffer=object())
 
-    # Test with specific backends
-    for backend in ['jax', 'torch', 'none']:
-        parallelized_func = gpu_parallelize(simple_function, backend)
-        assert callable(parallelized_func)
+    optimized = gpu_utils.optimize_for_gpu(device_array)
+
+    assert optimized is device_array
 
 
-def test_gpu_accelerated_evpi():
-    """Test GPU-accelerated EVPI calculation."""
-    # Create sample data
-    np.random.seed(42)
-    net_benefit_array = np.random.randn(100, 3).astype(np.float64)
+def test_optimize_for_gpu_converts_cpu_inputs_to_float32(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("jax")
 
-    # Get the available backend
-    backend = get_gpu_backend()
+    captured: dict[str, object] = {}
 
-    if backend == 'none':
-        # If no GPU backend is available, this should raise an exception
-        with pytest.raises(RuntimeError):
-            GPUAcceleratedEVPI(backend)
-    else:
-        # Test with auto-detect backend
-        evpi_calculator = GPUAcceleratedEVPI()
-        evpi_result = evpi_calculator.calculate_evpi(net_benefit_array)
-        assert isinstance(evpi_result, float)
-        assert evpi_result >= 0
+    def _asarray(data: object, dtype: object) -> np.ndarray:
+        captured["data"] = data
+        captured["dtype"] = dtype
+        return np.asarray(data, dtype=np.float32)
 
-        # Test with specific backend
-        evpi_calculator = GPUAcceleratedEVPI(backend)
-        evpi_result = evpi_calculator.calculate_evpi(net_benefit_array)
-        assert isinstance(evpi_result, float)
-        assert evpi_result >= 0
+    monkeypatch.setattr("voiage.backends.gpu_acceleration.jnp.asarray", _asarray)
+
+    gpu_utils = GpuAcceleration()
+    values = [1, 2, 3]
+
+    optimized = gpu_utils.optimize_for_gpu(values)
+
+    assert captured == {"data": values, "dtype": np.float32}
+    assert isinstance(optimized, np.ndarray)
+    assert optimized.dtype == np.float32
+    assert optimized.tolist() == [1.0, 2.0, 3.0]
 
 
-def test_gpu_accelerated_evpi_edge_cases():
-    """Test GPU-accelerated EVPI calculation with edge cases."""
-    # Get the available backend
-    backend = get_gpu_backend()
+def test_memory_efficient_batch_process_flushes_when_threshold_is_exceeded(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    gpu_utils = GpuAcceleration()
+    calls: list[list[np.ndarray]] = []
 
-    if backend != 'none':
-        evpi_calculator = GPUAcceleratedEVPI(backend)
+    def process_func(batch: list[np.ndarray]) -> list[np.ndarray]:
+        calls.append(list(batch))
+        return list(batch)
 
-        # Test with single strategy (EVPI should be 0)
-        single_strategy_array = np.random.randn(100, 1).astype(np.float64)
-        evpi_result = evpi_calculator.calculate_evpi(single_strategy_array)
-        assert isinstance(evpi_result, float)
-        assert evpi_result == 0.0
+    batches = [np.ones((256, 768), dtype=np.float32) for _ in range(3)]
 
-        # Test with identical strategies (EVPI should be 0)
-        identical_strategies_array = np.ones((100, 3)).astype(np.float64)
-        evpi_result = evpi_calculator.calculate_evpi(identical_strategies_array)
-        assert isinstance(evpi_result, float)
-        assert evpi_result == 0.0
+    result: object = gpu_utils.memory_efficient_batch_process(
+        batches,
+        process_func,
+        max_memory_mb=1,
+    )
+
+    captured = capsys.readouterr()
+
+    assert captured.out.splitlines() == [
+        "Processing batch 1 to free memory",
+        "Processing batch 2 to free memory",
+    ]
+    assert [len(batch) for batch in calls] == [1, 2, 3]
+    assert all(
+        np.array_equal(left, right)
+        for batch in calls
+        for left, right in zip(
+            batch,
+            batches[: len(batch)],
+            strict=False,
+        )
+    )
+    assert all(
+        left is right
+        for left, right in zip(
+            cast("list[np.ndarray]", result),
+            batches,
+            strict=False,
+        )
+    )
 
 
-if __name__ == "__main__":
-    test_get_gpu_backend()
-    test_is_gpu_available()
-    test_array_transfer()
-    test_gpu_jit_compile()
-    test_gpu_vectorize()
-    test_gpu_parallelize()
-    test_gpu_accelerated_evpi()
-    test_gpu_accelerated_evpi_edge_cases()
-    print("All GPU acceleration tests passed!")
+def test_jax_advanced_backend_delegates_gpu_info(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("jax")
+
+    backend = JaxAdvancedBackend()
+    expected = {"gpu_available": True, "gpu_count": 1, "memory_info": "ok"}
+    monkeypatch.setattr(backend.gpu_utils, "get_memory_info", lambda: expected)
+
+    assert backend.get_gpu_info() == expected
+
+
+def test_jax_advanced_backend_delegates_profile_evppi(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("jax")
+
+    backend = JaxAdvancedBackend()
+    expected = {"analysis": "profiled"}
+    captured: dict[str, object] = {}
+
+    def _memory_usage_analysis(
+        func: object, *args: object, **kwargs: object
+    ) -> dict[str, str]:
+        captured["func"] = func
+        captured["args"] = args
+        captured["kwargs"] = kwargs
+        return expected
+
+    monkeypatch.setattr(
+        backend.profiler, "memory_usage_analysis", _memory_usage_analysis
+    )
+
+    parameters_of_interest = ["parameter"]
+
+    outcome = backend.profile_evppi(1, 2, parameters_of_interest)
+
+    assert outcome == expected
+    assert captured["func"] == backend.evppi_advanced
+    assert captured["args"] == (1, 2, parameters_of_interest)
+    assert captured["kwargs"] == {}

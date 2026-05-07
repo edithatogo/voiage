@@ -5,11 +5,18 @@ This section provides a quick introduction to using `voiage`.
 
 Installation
 ------------
-First, ensure you have `voiage` installed. For the v0.1 release, you can install it from TestPyPI:
+First, ensure you have `voiage` installed. The recommended development flow
+uses `uv`:
 
 .. code-block:: bash
 
-   pip install --index-url https://test.pypi.org/simple/ --no-deps voiage
+   uv sync
+
+For a published release, install from PyPI with:
+
+.. code-block:: bash
+
+   pip install voiage
 
 Basic Usage: Expected Value of Perfect Information (EVPI)
 ---------------------------------------------------------
@@ -21,41 +28,20 @@ Here's a simple example of how to calculate EVPI using `voiage`.
 .. code-block:: python
 
    import numpy as np
-   from voiage.core.data_structures import NetBenefitArray
-   from voiage.methods.basic import evpi
+   from voiage.analysis import DecisionAnalysis
+   from voiage.schema import ValueArray
 
-   # Simulate net monetary benefit (NMB) for two interventions across PSA samples
-   # Let's assume 1000 PSA samples
-   num_samples = 1000
-   nmb_intervention_A = np.random.normal(loc=20000, scale=5000, size=num_samples)
-   nmb_intervention_B = np.random.normal(loc=25000, scale=7000, size=num_samples)
+   values = np.array([
+       [20000.0, 25000.0],
+       [21000.0, 24800.0],
+       [20500.0, 25250.0],
+   ])
+   value_array = ValueArray.from_numpy(values, ["Standard care", "New treatment"])
+   analysis = DecisionAnalysis(nb_array=value_array)
+   print(f"The per-decision EVPI is: {analysis.evpi():.2f}")
 
-   # Combine into a NetBenefitArray
-   # The columns represent interventions, rows represent PSA samples
-   nmb_data = np.vstack([nmb_intervention_A, nmb_intervention_B]).T
-   net_benefit_array = NetBenefitArray(nmb_data)
-
-   # Calculate EVPI
-   # The `population`, `time_horizon`, and `discount_rate` parameters are optional
-   # and used for scaling the EVPI to a population level. If not provided,
-   # EVPI is calculated per-decision.
-
-   # Example: Calculate per-decision EVPI
-   evpi_value_per_decision = evpi(net_benefit_array)
-   print(f"The per-decision EVPI is: {evpi_value_per_decision:.2f}")
-
-   # Example: Calculate population-level EVPI
-   population_size = 100000
-   time_horizon_years = 10
-   annual_discount_rate = 0.03
-
-   evpi_value_population = evpi(
-       net_benefit_array,
-       population=population_size,
-       time_horizon=time_horizon_years,
-       discount_rate=annual_discount_rate,
-   )
-   print(f"The population-level EVPI is: {evpi_value_population:.2f}")
+   population_evpi = analysis.evpi(population=100000, time_horizon=10, discount_rate=0.03)
+   print(f"The population-level EVPI is: {population_evpi:.2f}")
 
 This example demonstrates how to set up your net benefit data and call the `evpi` function.
 
@@ -69,12 +55,9 @@ you can calculate the Expected Net Benefit of Sampling (ENBS).
 
    from voiage.methods.sample_information import enbs
 
-   # Assume a calculated EVSI value (e.g., from a previous EVSI analysis)
-   # For this example, we'll use a dummy value.
-   dummy_evsi_result = 500000.0 # Example EVSI value (e.g., population-level EVSI)
-   cost_of_research = 150000.0 # Example cost of the research study
+   dummy_evsi_result = 500000.0
+   cost_of_research = 150000.0
 
-   # Calculate ENBS
    enbs_value = enbs(dummy_evsi_result, cost_of_research)
    print(f"The Expected Net Benefit of Sampling (ENBS) is: {enbs_value:.2f}")
 
@@ -84,4 +67,20 @@ you can calculate the Expected Net Benefit of Sampling (ENBS).
        print("The research may not be worthwhile as ENBS is non-positive.")
 
 For more detailed usage and other VOI metrics (EVPPI, EVSI), please refer to the
-`User Guide <user_guide/index.html>`_ and `API Reference <api_reference/index.html>`_ sections.
+:doc:`User Guide <user_guide/index>` and :doc:`API Reference <api_reference/index>` sections.
+
+For runnable notebook walkthroughs, use the example index in
+:doc:`examples/index`:
+
+* `Getting Started <../examples/getting_started.ipynb>`_
+* `EVPI Validation <../examples/evpi_validation.ipynb>`_
+* `EVPPI Validation <../examples/evppi_validation.ipynb>`_
+* `EVSI Validation <../examples/evsi_validation.ipynb>`_
+* `Interactive Tutorial <../examples/interactive_tutorial.ipynb>`_
+* `Visualization Gallery <../examples/visualization_gallery.ipynb>`_
+* `Network Meta-Analysis <../examples/nma_validation.ipynb>`_
+* `Structural VOI <../examples/structural_voi_validation.ipynb>`_
+* `Advanced Methods <../examples/advanced_methods.ipynb>`_
+* `Financial VOI <../examples/financial_voi.ipynb>`_
+* `Environmental VOI <../examples/environmental_voi.ipynb>`_
+* `Engineering VOI <../examples/engineering_voi.ipynb>`_

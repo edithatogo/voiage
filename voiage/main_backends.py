@@ -6,15 +6,61 @@ and includes implementations for different backends, starting with NumPy and JAX
 """
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Mapping, Sequence
+from typing import TYPE_CHECKING, Protocol, cast
 
 import numpy as np
+from numpy.typing import ArrayLike
+
+from voiage.exceptions import raise_import_error, raise_value_error
+
+if TYPE_CHECKING:
+    from voiage.schema import ParameterSet, TrialDesign, ValueArray
+
+
+class TrialArmProtocol(Protocol):
+    """Minimal trial arm interface required by the backend helpers."""
+
+    name: str
+    sample_size: int
+
+
+class TrialDesignProtocol(Protocol):
+    """Minimal trial design interface required by the backend helpers."""
+
+    arms: Sequence[TrialArmProtocol]
+
+
+class ParameterSetProtocol(Protocol):
+    """Minimal parameter-set interface required by the backend helpers."""
+
+    parameters: Mapping[str, np.ndarray]
+    n_samples: int
+
+    def replace_parameters(
+        self, parameters: Mapping[str, np.ndarray]
+    ) -> "ParameterSetProtocol":
+        """Return a copy with updated parameter arrays."""
+
+
+class ModelOutputProtocol(Protocol):
+    """Minimal model output interface required by the backend helpers."""
+
+    values: np.ndarray
+
+
+class ModelFuncProtocol(Protocol):
+    """Callable contract for model functions used by EVSI helpers."""
+
+    def __call__(self, prior: ParameterSetProtocol) -> ModelOutputProtocol:
+        """Evaluate the model for a parameter set."""
 
 
 class Backend(ABC):
     """Abstract base class for computational backends."""
 
     @abstractmethod
-    def evpi(self, net_benefit_array):
+    def evpi(self, net_benefit_array: ArrayLike) -> float:
         """Calculate the Expected Value of Perfect Information (EVPI)."""
         pass
 
@@ -22,7 +68,7 @@ class Backend(ABC):
 class NumpyBackend(Backend):
     """NumPy-based computational backend."""
 
-    def evpi(self, net_benefit_array):
+    def evpi(self, net_benefit_array: ArrayLike) -> float:
         """Calculate EVPI using NumPy."""
         # Ensure input is a NumPy array
         nb_array = np.asarray(net_benefit_array)
@@ -40,13 +86,13 @@ class NumpyBackend(Backend):
         expected_max_nb = np.mean(max_nb)
 
         # EVPI is the difference
-        evpi = expected_max_nb - max_expected_nb
+        return cast("float", expected_max_nb - max_expected_nb)
 
-        return evpi
-
-    def enbs_simple(self, net_benefit_array, research_cost):
+    def enbs_simple(
+        self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+    ) -> float:
         """Calculate ENBS directly from net benefit array.
-        
+
         This is a simplified version that calculates ENBS as:
         ENBS = EVPI - research_cost
         where EVPI is calculated from the net benefit array.
@@ -54,12 +100,14 @@ class NumpyBackend(Backend):
         # First calculate EVPI
         evpi = self.evpi(net_benefit_array)
         # Then calculate ENBS
-        enbs_result = evpi - research_cost
+        enbs_result = evpi - float(np.asarray(research_cost, dtype=float))
         return float(max(0.0, enbs_result))
 
-    def enbs_simple_jit(self, net_benefit_array, research_cost):
+    def enbs_simple_jit(
+        self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+    ) -> float:
         """JIT-compiled version of ENBS calculation.
-        
+
         This is a simplified version that calculates ENBS as:
         ENBS = EVPI - research_cost
         """
@@ -70,363 +118,489 @@ class NumpyBackend(Backend):
 # Try to import JAX with performance optimization
 try:
     import jax
+    from jax import vmap
     import jax.numpy as jnp
-    from jax import jit, random, vmap
-    
+
     # Enable 64-bit precision for better numerical stability and performance
     jax.config.update("jax_enable_x64", True)
 
-        # Try to import optional dependencies
+    # Try to import optional dependencies
     SKLEARN_AVAILABLE = False
     try:
         from sklearn.linear_model import LinearRegression as SklearnLinearRegression
+
         SKLEARN_AVAILABLE = True
     except ImportError:
         SklearnLinearRegression = None
 
-    class JaxBackend(Backend):
+    class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""
 
-        def evpi(self, net_benefit_array):
+        def evpi(self, net_benefit_array: ArrayLike) -> float:
             """Calculate EVPI using JAX with performance optimizations."""
             # Optimize JAX array creation and computation
             nb_array = jnp.asarray(net_benefit_array, dtype=jnp.float64)
-            
+
             # Use vmap for vectorized computation
             max_nb_vmap = vmap(jnp.max)(nb_array)
             expected_nb_options = jnp.mean(nb_array, axis=0)
-            
+
             # Optimized computation with JIT compilation hints
             max_expected_nb = jnp.max(expected_nb_options)
             expected_max_nb = jnp.mean(max_nb_vmap)
-            
+
             evpi = expected_max_nb - max_expected_nb
 
             return float(evpi)
 
-        def evpi_jit(self, net_benefit_array):
+        def evpi_jit(self, net_benefit_array: ArrayLike) -> float:
             """JIT-compiled version of EVPI calculation."""
-            @jax.jit
-            def _evpi_jit(nb_array):
+
+            @jax.jit  # type: ignore[untyped-decorator]
+            def _evpi_jit(nb_array: ArrayLike) -> float:
                 # Ensure input is a JAX array with proper dtype
                 nb_array = jnp.asarray(nb_array, dtype=jnp.float64)
-                
+
                 # Optimized vectorized computation
                 max_nb = vmap(jnp.max)(nb_array)
-                
+
                 # Calculate the expected net benefit for each decision option
                 expected_nb_options = jnp.mean(nb_array, axis=0)
-                
+
                 # Find the maximum expected net benefit
                 max_expected_nb = jnp.max(expected_nb_options)
-                
+
                 # Calculate the expected maximum net benefit
                 expected_max_nb = jnp.mean(max_nb)
-                
+
                 # EVPI is the difference
-                evpi = expected_max_nb - max_expected_nb
-                
+                expected_max_nb - max_expected_nb
+
                 # Optimized calculation with memory efficiency
                 with jax.default_matmul_precision("float32"):
                     max_expected_nb = jnp.max(expected_nb_options)
                     expected_max_nb = jnp.mean(max_nb)
-                
-                evpi = expected_max_nb - max_expected_nb
-                return evpi
-                
-            return _evpi_jit(net_benefit_array)
 
-        def evppi(self, net_benefit_array, parameter_samples, parameters_of_interest):
+                return cast("float", expected_max_nb - max_expected_nb)
+
+            return cast("float", _evpi_jit(net_benefit_array))
+
+        def evppi(
+            self,
+            net_benefit_array: ArrayLike,
+            parameter_samples: Mapping[str, np.ndarray] | np.ndarray,
+            parameters_of_interest: Sequence[str],
+        ) -> float:
             """Calculate EVPPI using JAX with regression-based approach."""
             # Ensure inputs are JAX arrays with proper dtype
-            nb_array = jnp.asarray(net_benefit_array, dtype=jnp.float64)
-            
+            nb_array = np.asarray(net_benefit_array, dtype=float)
+
             # Convert parameter samples to JAX array
             if isinstance(parameter_samples, dict):
                 # Stack parameter values into a 2D array
-                param_values = [parameter_samples[name] for name in parameters_of_interest]
-                x = jnp.column_stack(param_values)
+                param_values = [
+                    parameter_samples[name] for name in parameters_of_interest
+                ]
+                x = np.column_stack(param_values)
             else:
-                x = jnp.asarray(parameter_samples)
-            
+                x = np.asarray(parameter_samples, dtype=float)
+
             n_samples, n_strategies = nb_array.shape
-            
+
             if n_strategies <= 1:
                 return 0.0
-                
+
             # Use simple linear regression (will need sklearn for more complex cases)
             # For now, implement a basic version that can be JIT-compiled
             if x.ndim == 1:
                 x = x.reshape(-1, 1)
-                
+
             # Calculate E_p [max_d E[NB_d|p]] using regression approximation
             # This is a simplified version - full implementation would use sklearn
             try:
                 # Use a simple polynomial regression approach
                 # Add bias term
                 X_with_bias = jnp.column_stack([jnp.ones(x.shape[0]), x])
-                
+
                 # For each strategy, fit a simple linear model
                 max_fitted_nb = jnp.zeros(n_samples)
-                
+
                 for i in range(n_strategies):
                     y = nb_array[:, i]
-                    
+
                     # Solve normal equations: (X^T X)^-1 X^T y
                     XtX = jnp.dot(X_with_bias.T, X_with_bias)
                     Xty = jnp.dot(X_with_bias.T, y)
-                    
+
                     # Add small regularization for numerical stability
                     reg_matrix = jnp.eye(XtX.shape[0]) * 1e-8
                     beta = jnp.linalg.solve(XtX + reg_matrix, Xty)
-                    
+
                     # Predict on full dataset
                     predictions = jnp.dot(X_with_bias, beta)
                     max_fitted_nb = jnp.maximum(max_fitted_nb, predictions)
-                
+
                 e_max_enb_conditional = jnp.mean(max_fitted_nb)
-                
+
             except Exception:
                 # Fallback to simpler calculation if regression fails
                 e_max_enb_conditional = jnp.mean(jnp.max(nb_array, axis=1))
-            
+
             # Calculate max_d E[NB_d]
             max_e_nb = jnp.max(jnp.mean(nb_array, axis=0))
-            
+
             # EVPPI is the difference
             evppi = e_max_enb_conditional - max_e_nb
-            
-            return jnp.maximum(0.0, float(evppi))
 
-        def evppi_jit(self, net_benefit_array, parameter_samples, parameters_of_interest):
+            return float(jnp.maximum(0.0, float(evppi)))
+
+        def evppi_jit(
+            self,
+            net_benefit_array: ArrayLike,
+            parameter_samples: Mapping[str, np.ndarray] | np.ndarray,
+            parameters_of_interest: Sequence[str],
+        ) -> float:
             """JIT-compiled version of EVPPI calculation."""
             # Parameters of interest contains strings which can't be traced by JAX
             # So we need to extract the relevant data first, then JIT the numeric computation
-            
+
             # Convert inputs to JAX arrays
-            nb_array = jnp.asarray(net_benefit_array)
-            
+            nb_array = np.asarray(net_benefit_array, dtype=float)
+
             # Convert parameter samples to JAX array
             if isinstance(parameter_samples, dict):
                 # Stack parameter values into a 2D array
-                param_values = [parameter_samples[name] for name in parameters_of_interest]
-                x = jnp.column_stack(param_values)
+                param_values = [
+                    parameter_samples[name] for name in parameters_of_interest
+                ]
+                x = np.column_stack(param_values)
             else:
-                x = jnp.asarray(parameter_samples)
-            
-            @jax.jit
-            def _evppi_jit_computation(nb_array, x):
+                x = np.asarray(parameter_samples, dtype=float)
+
+            @jax.jit  # type: ignore[untyped-decorator]
+            def _evppi_jit_computation(nb_array: np.ndarray, x: np.ndarray) -> float:
                 """Core EVPPI computation that can be JIT-compiled."""
                 n_samples, n_strategies = nb_array.shape
-                
+
                 if n_strategies <= 1:
                     return 0.0
-                    
+
                 if x.ndim == 1:
                     x = x.reshape(-1, 1)
-                    
+
                 # Use a simple polynomial regression approach
                 # Add bias term
                 X_with_bias = jnp.column_stack([jnp.ones(x.shape[0]), x])
-                
+
                 # For each strategy, fit a simple linear model
                 max_fitted_nb = jnp.zeros(n_samples)
-                
+
                 for i in range(n_strategies):
                     y = nb_array[:, i]
-                    
+
                     # Solve normal equations: (X^T X)^-1 X^T y
                     XtX = jnp.dot(X_with_bias.T, X_with_bias)
                     Xty = jnp.dot(X_with_bias.T, y)
-                    
+
                     # Add small regularization for numerical stability
                     reg_matrix = jnp.eye(XtX.shape[0]) * 1e-8
                     beta = jnp.linalg.solve(XtX + reg_matrix, Xty)
-                    
+
                     # Predict on full dataset
                     predictions = jnp.dot(X_with_bias, beta)
                     max_fitted_nb = jnp.maximum(max_fitted_nb, predictions)
-                
+
                 e_max_enb_conditional = jnp.mean(max_fitted_nb)
-                
+
                 # Calculate max_d E[NB_d]
                 max_e_nb = jnp.max(jnp.mean(nb_array, axis=0))
-                
+
                 # EVPPI is the difference
                 evppi = e_max_enb_conditional - max_e_nb
-                
-                return jnp.maximum(0.0, evppi)
-            
-            return _evppi_jit_computation(nb_array, x)
 
-        def _simulate_trial_data_jax(self, true_parameters, trial_design):
+                return jnp.maximum(0.0, evppi)
+
+            return float(_evppi_jit_computation(nb_array, x))
+
+        def _simulate_trial_data_jax(
+            self,
+            true_parameters: Mapping[str, float],
+            trial_design: TrialDesignProtocol,
+        ) -> dict[str, np.ndarray]:
             """Simulate trial data using JAX for parallel computation."""
-            from voiage.schema import TrialArm
-            
-            data = {}
+            data: dict[str, np.ndarray] = {}
             for arm in trial_design.arms:
-                mean = float(true_parameters[f"mean_{arm.name.lower().replace(' ', '_')}"])
+                mean = true_parameters[f"mean_{arm.name.lower().replace(' ', '_')}"]
                 std_dev = float(true_parameters["sd_outcome"])
                 # Use JAX random for reproducible random sampling
-                data[arm.name] = jnp.asarray(
-                    jax.random.normal(jax.random.PRNGKey(0), (arm.sample_size,)) * std_dev + mean,
-                    dtype=jnp.float64
+                data[arm.name] = np.asarray(
+                    jax.random.normal(jax.random.PRNGKey(0), (arm.sample_size,))
+                    * std_dev
+                    + mean,
+                    dtype=jnp.float64,
                 )
             return data
 
-        def _bayesian_update_jax(self, prior_samples, trial_data, trial_design):
+        def _bayesian_update_jax(
+            self,
+            prior_samples: ParameterSetProtocol,
+            trial_data: Mapping[str, np.ndarray],
+            trial_design: TrialDesignProtocol,
+        ) -> ParameterSetProtocol:
             """Perform Bayesian update using JAX."""
             from voiage.stats import normal_normal_update
-            
-            posterior_samples = {}
+
+            posterior_samples: dict[str, np.ndarray] = {}
             for param_name, prior_values in prior_samples.parameters.items():
                 if "mean" in param_name:
                     arm_name = param_name.replace("mean_", "").replace("_", " ").title()
                     if arm_name in trial_data:
                         data = trial_data[arm_name]
-                        posterior_mean, posterior_std = normal_normal_update(
-                            jnp.asarray(prior_values, dtype=jnp.float64),
-                            prior_samples.parameters["sd_outcome"],
-                            data
+                        posterior_mean, _posterior_std = normal_normal_update(
+                            np.asarray(prior_values, dtype=float),
+                            np.asarray(
+                                prior_samples.parameters["sd_outcome"], dtype=float
+                            ),
+                            float(np.asarray(data, dtype=float).mean()),
+                            float(np.asarray(data, dtype=float).std(ddof=1)),
+                            int(np.asarray(data).shape[0]),
                         )
-                        posterior_samples[param_name] = posterior_mean
+                        posterior_samples[param_name] = np.asarray(
+                            posterior_mean, dtype=float
+                        )
                     else:
-                        posterior_samples[param_name] = prior_values
+                        posterior_samples[param_name] = np.asarray(
+                            prior_values, dtype=float
+                        )
                 else:
-                    posterior_samples[param_name] = prior_values
-            
+                    posterior_samples[param_name] = np.asarray(
+                        prior_values, dtype=float
+                    )
+
             return prior_samples.replace_parameters(posterior_samples)
 
-        @jax.jit
-        def _evsi_two_loop_jax_core(self, model_func, param_keys, param_values, trial_design, n_outer_loops, n_inner_loops):
-            """Core JAX-compiled two-loop EVSI computation."""
-            _ = []  # max_nb_post_study = []
-            
-            # JAX parallel computation for outer loop
-            def process_outer_sample(i):
-                # Select true parameters for this sample
-                true_params = {}
-                for j, key in enumerate(param_keys):
-                    true_params[key] = param_values[j, i]
-                
-                # Simulate trial data
-                trial_data = {}
-                for arm in trial_design.arms:
-                    mean = true_params[f"mean_{arm.name.lower().replace(' ', '_')}"]
-                    std_dev = true_params["sd_outcome"]
-                    # Simple random simulation
-                    trial_data[arm.name] = jnp.asarray(
-                        jax.random.normal(jax.random.PRNGKey(i), (arm.sample_size,)) * std_dev + mean,
-                        dtype=jnp.float64
-                    )
-                
-                # Note: In full implementation, this would call a JAX-optimized Bayesian update
-                # For now, fall back to numpy
-                return 0.0  # Placeholder
-            
-            # Apply outer loop computation
-            results = jax.vmap(process_outer_sample)(jnp.arange(n_outer_loops))
-            return float(jnp.mean(results))
+        def _evsi_two_loop_jax_core(
+            self,
+            model_func: ModelFuncProtocol,
+            psa_prior: ParameterSetProtocol,
+            trial_design: TrialDesignProtocol,
+            n_outer_loops: int,
+            n_inner_loops: int,
+        ) -> float:
+            """Core JAX-assisted two-loop EVSI computation.
 
-        def _evsi_two_loop_jax(self, model_func, psa_prior, trial_design, n_outer_loops, n_inner_loops):
-            """EVSI using JAX-optimized two-loop Monte Carlo."""
-            # Convert parameters to JAX arrays
-            param_names = list(psa_prior.parameters.keys())
-            param_arrays = [jnp.asarray(psa_prior.parameters[name], dtype=jnp.float64) for name in param_names]
-            param_matrix = jnp.stack(param_arrays, axis=1)  # shape: (n_samples, n_params)
-            
-            try:
-                # Try the JAX implementation
-                return self._evsi_two_loop_jax_core(
-                    model_func, param_names, param_matrix.T, trial_design, n_outer_loops, n_inner_loops
+            The economic model and parameter-set replacement API are Python
+            callables, so the whole two-loop workflow cannot be JIT-compiled.
+            This helper uses JAX for reproducible trial simulation and sampling,
+            while keeping model evaluation in Python.
+            """
+            n_samples = int(psa_prior.n_samples)
+            replace_outer = n_outer_loops > n_samples
+            outer_indices = np.asarray(
+                jax.random.choice(
+                    jax.random.PRNGKey(0),
+                    n_samples,
+                    shape=(n_outer_loops,),
+                    replace=replace_outer,
+                ),
+                dtype=int,
+            )
+
+            max_nb_post_study = []
+            for loop_index, sample_index in enumerate(outer_indices):
+                true_params = {
+                    name: float(np.asarray(values, dtype=float)[sample_index])
+                    for name, values in psa_prior.parameters.items()
+                }
+                trial_data = self._simulate_trial_data_jax(true_params, trial_design)
+                posterior_psa = self._bayesian_update_jax(
+                    psa_prior, trial_data, trial_design
                 )
-            except Exception:
-                # Fallback to numpy implementation if JAX fails
-                from voiage.methods.sample_information import evsi as numpy_evsi
-                return numpy_evsi(model_func, psa_prior, trial_design, 
-                                method='two_loop', n_outer_loops=n_outer_loops, n_inner_loops=n_inner_loops)
+                inner_psa = self._resample_parameter_set_jax(
+                    posterior_psa, n_inner_loops, seed=loop_index + 1
+                )
+                nb_posterior = np.asarray(model_func(inner_psa).values, dtype=float)
+                max_nb_post_study.append(float(np.max(np.mean(nb_posterior, axis=0))))
 
-        def _evsi_regression_jax(self, model_func, psa_prior, trial_design, n_regression_samples):
+            return float(np.mean(max_nb_post_study))
+
+        def _resample_parameter_set_jax(
+            self,
+            parameter_set: ParameterSetProtocol,
+            n_samples: int,
+            seed: int,
+        ) -> ParameterSetProtocol:
+            """Return a JAX-selected subset of a parameter set for inner EVSI loops."""
+            available_samples = int(parameter_set.n_samples)
+            if n_samples >= available_samples:
+                return parameter_set
+
+            indices = np.asarray(
+                jax.random.choice(
+                    jax.random.PRNGKey(seed),
+                    available_samples,
+                    shape=(n_samples,),
+                    replace=False,
+                ),
+                dtype=int,
+            )
+            return parameter_set.replace_parameters(
+                {
+                    name: np.asarray(values, dtype=float)[indices]
+                    for name, values in parameter_set.parameters.items()
+                }
+            )
+
+        def _evsi_two_loop_jax(
+            self,
+            model_func: ModelFuncProtocol,
+            psa_prior: ParameterSetProtocol,
+            trial_design: TrialDesignProtocol,
+            n_outer_loops: int,
+            n_inner_loops: int,
+        ) -> float:
+            """EVSI using JAX-optimized two-loop Monte Carlo."""
+            return self._evsi_two_loop_jax_core(
+                model_func,
+                psa_prior,
+                trial_design,
+                n_outer_loops,
+                n_inner_loops,
+            )
+
+        def _evsi_regression_jax(
+            self,
+            model_func: ModelFuncProtocol,
+            psa_prior: ParameterSetProtocol,
+            trial_design: TrialDesignProtocol,
+            n_regression_samples: int,
+        ) -> float:
             """EVSI using JAX-accelerated regression approach."""
             if not SKLEARN_AVAILABLE:
                 # Fall back to two-loop method
-                return self._evsi_two_loop_jax(model_func, psa_prior, trial_design, n_regression_samples, 100)
-            
+                return self._evsi_two_loop_jax(
+                    model_func, psa_prior, trial_design, n_regression_samples, 100
+                )
+
             # Use sklearn with JAX acceleration for array operations
             try:
                 # Get parameter samples
                 n_samples = psa_prior.n_samples
                 if n_regression_samples >= n_samples:
-                    indices = jnp.arange(n_samples)
+                    indices = np.arange(n_samples)
                 else:
                     # JAX-based random selection
                     key = jax.random.PRNGKey(42)
-                    indices = jax.random.choice(key, n_samples, shape=(n_regression_samples,), replace=False)
-                
+                    indices = jax.random.choice(
+                        key, n_samples, shape=(n_regression_samples,), replace=False
+                    )
+
                 # Create parameter matrix
                 param_names = list(psa_prior.parameters.keys())
-                param_matrix = jnp.stack([psa_prior.parameters[name] for name in param_names], axis=1)
-                sampled_params = param_matrix[indices] if n_regression_samples < n_samples else param_matrix
-                
+                param_matrix = np.stack(
+                    [
+                        np.asarray(psa_prior.parameters[name], dtype=float)
+                        for name in param_names
+                    ],
+                    axis=1,
+                )
+                sampled_params = (
+                    param_matrix[indices]
+                    if n_regression_samples < n_samples
+                    else param_matrix
+                )
+
                 # Run model to get posterior net benefits
-                nb_posterior_list = []
-                for i in range(len(indices) if n_regression_samples < n_samples else n_samples):
+                nb_posterior_list: list[np.ndarray] = []
+                for i in range(
+                    len(indices) if n_regression_samples < n_samples else n_samples
+                ):
                     # Simulate trial data and perform Bayesian update
                     # For now, use a simplified approach
-                    true_params = {name: sampled_params[i, j] for j, name in enumerate(param_names)}
-                    trial_data = self._simulate_trial_data_jax(true_params, trial_design)
-                    posterior_psa = self._bayesian_update_jax(psa_prior, trial_data, trial_design)
-                    nb_posterior = model_func(posterior_psa).values
+                    true_params = {
+                        name: sampled_params[i, j] for j, name in enumerate(param_names)
+                    }
+                    trial_data = self._simulate_trial_data_jax(
+                        true_params, trial_design
+                    )
+                    posterior_psa = self._bayesian_update_jax(
+                        psa_prior, trial_data, trial_design
+                    )
+                    nb_posterior = np.asarray(
+                        model_func(posterior_psa).values, dtype=float
+                    )
                     nb_posterior_list.append(nb_posterior)
-                
+
                 # Stack and analyze results
-                nb_posterior_array = jnp.stack(nb_posterior_list, axis=0)
+                nb_posterior_array = np.stack(nb_posterior_list, axis=0)
                 max_nb_posterior = jnp.max(jnp.mean(nb_posterior_array, axis=1), axis=1)
-                
+
                 # Simple regression with JAX
                 if sampled_params.ndim == 1:
-                    X = jnp.column_stack([jnp.ones(len(sampled_params)), sampled_params])
+                    X = np.column_stack([np.ones(len(sampled_params)), sampled_params])
                 else:
-                    X = jnp.column_stack([jnp.ones(sampled_params.shape[0]), sampled_params])
-                
+                    X = np.column_stack(
+                        [np.ones(sampled_params.shape[0]), sampled_params]
+                    )
+
                 # Solve normal equations
                 XtX = jnp.dot(X.T, X)
                 Xty = jnp.dot(X.T, max_nb_posterior)
                 reg_matrix = jnp.eye(XtX.shape[0]) * 1e-8
                 beta = jnp.linalg.solve(XtX + reg_matrix, Xty)
-                
+
                 # Predict for all samples
-                param_matrix = jnp.stack([psa_prior.parameters[name] for name in param_names], axis=1)
+                param_matrix = np.stack(
+                    [
+                        np.asarray(psa_prior.parameters[name], dtype=float)
+                        for name in param_names
+                    ],
+                    axis=1,
+                )
                 if param_matrix.ndim == 1:
-                    X_all = jnp.column_stack([jnp.ones(param_matrix.shape[0]), param_matrix])
+                    X_all = np.column_stack(
+                        [np.ones(param_matrix.shape[0]), param_matrix]
+                    )
                 else:
-                    X_all = jnp.column_stack([jnp.ones(param_matrix.shape[0]), param_matrix])
-                
+                    X_all = np.column_stack(
+                        [np.ones(param_matrix.shape[0]), param_matrix]
+                    )
+
                 predicted_max_nb = jnp.dot(X_all, beta)
-                return float(jnp.mean(predicted_max_nb))
-                
+                return cast("float", jnp.mean(predicted_max_nb))
+
             except Exception:
                 # Fallback to numpy implementation
                 from voiage.methods.sample_information import evsi as numpy_evsi
-                return numpy_evsi(model_func, psa_prior, trial_design, 
-                                method='regression', n_regression_samples=n_regression_samples)
 
-        def evsi(self, model_func, psa_prior, trial_design, **kwargs):
+                return numpy_evsi(
+                    cast("Callable[[ParameterSet], ValueArray]", model_func),
+                    cast("ParameterSet", psa_prior),
+                    cast("TrialDesign", trial_design),
+                    method="regression",
+                    n_outer_loops=n_regression_samples,
+                )
+
+        def evsi(
+            self,
+            model_func: ModelFuncProtocol,
+            psa_prior: ParameterSetProtocol,
+            trial_design: TrialDesignProtocol,
+            **kwargs: object,
+        ) -> float:
             """Calculate EVSI using JAX-optimized computation."""
             # For now, use numpy/scikit-learn based approach but with JAX acceleration
             # JAX implementation complete - full optimization achieved with JIT compilation
-            
-            
-            
+
             # JAX implementation complete - full optimization achieved
-            method = kwargs.get('method', 'two_loop')
-            n_outer_loops = kwargs.get('n_outer_loops', 100)
-            n_inner_loops = kwargs.get('n_inner_loops', 1000)
-            
+            method = str(kwargs.get("method", "two_loop"))
+            n_outer_loops = cast("int", kwargs.get("n_outer_loops", 100))
+            n_inner_loops = cast("int", kwargs.get("n_inner_loops", 1000))
+
             # Get prior net benefits to calculate baseline
-            nb_prior_values = jnp.asarray(model_func(psa_prior).values, dtype=jnp.float64)
-            mean_nb_per_strategy_prior = jnp.mean(nb_prior_values, axis=0)
-            max_expected_nb_current_info = jnp.max(mean_nb_per_strategy_prior)
+            nb_prior_values = np.asarray(model_func(psa_prior).values, dtype=float)
+            mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
+            max_expected_nb_current_info = float(np.max(mean_nb_per_strategy_prior))
 
             if method == "two_loop":
                 expected_max_nb_post_study = self._evsi_two_loop_jax(
@@ -434,51 +608,78 @@ try:
                 )
             elif method == "regression":
                 expected_max_nb_post_study = self._evsi_regression_jax(
-                    model_func, psa_prior, trial_design, kwargs.get('n_regression_samples', 1000)
+                    model_func,
+                    psa_prior,
+                    trial_design,
+                    cast("int", kwargs.get("n_regression_samples", 1000)),
                 )
             else:
-                raise ValueError(f"EVSI method '{method}' not recognized.")
+                raise_value_error(f"EVSI method '{method}' not recognized.")
 
-            per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
-            per_decision_evsi = jnp.maximum(0.0, per_decision_evsi)
-            
+            per_decision_evsi = float(
+                expected_max_nb_post_study - max_expected_nb_current_info
+            )
+            per_decision_evsi = max(0.0, per_decision_evsi)
+
             # Handle population, discount rate, time horizon scaling
-            population = kwargs.get('population')
-            time_horizon = kwargs.get('time_horizon')
-            discount_rate = kwargs.get('discount_rate', 0.0)
-            
+            population = kwargs.get("population")
+            time_horizon = kwargs.get("time_horizon")
+            discount_rate = kwargs.get("discount_rate", 0.0)
+
             if population is not None and time_horizon is not None:
-                if discount_rate > 0:
-                    annuity = (1 - (1 + discount_rate) ** -time_horizon) / discount_rate
+                population_value = cast("float", population)
+                time_horizon_value = cast("float", time_horizon)
+                discount_rate_value = cast("float", discount_rate)
+                if discount_rate_value > 0:
+                    annuity = (
+                        1 - (1 + discount_rate_value) ** -time_horizon_value
+                    ) / discount_rate_value
                 else:
-                    annuity = float(time_horizon)
-                return float(per_decision_evsi * population * annuity)
-            
-            return float(per_decision_evsi)
+                    annuity = time_horizon_value
+                return float(per_decision_evsi * population_value * annuity)
 
-        def evsi_jit(self, model_func, psa_prior, trial_design, **kwargs):
+            return per_decision_evsi
+
+        def evsi_jit(
+            self,
+            model_func: ModelFuncProtocol,
+            psa_prior: ParameterSetProtocol,
+            trial_design: TrialDesignProtocol,
+            **kwargs: object,
+        ) -> float:
             """JIT-compiled version of EVSI calculation."""
-            return jax.jit(self.evsi)(model_func, psa_prior, trial_design, **kwargs)
+            return cast(
+                "float",
+                jax.jit(self.evsi)(model_func, psa_prior, trial_design, **kwargs),
+            )
 
-        def enbs(self, evsi_result, research_cost):
+        def enbs(self, evsi_result: ArrayLike, research_cost: ArrayLike) -> float:
             """Calculate ENBS using JAX."""
-            evsi_val = jnp.asarray(evsi_result)
-            cost_val = jnp.asarray(research_cost)
+            evsi_val = float(np.asarray(evsi_result, dtype=float))
+            cost_val = float(np.asarray(research_cost, dtype=float))
             enbs_result = evsi_val - cost_val
-            return float(jnp.maximum(0.0, enbs_result))
+            return float(max(0.0, enbs_result))
 
-        def enbs_jit(self, evsi_result, research_cost):
+        def enbs_jit(self, evsi_result: ArrayLike, research_cost: ArrayLike) -> float:
             """JIT-compiled version of ENBS calculation."""
-            @jax.jit
-            def _enbs_jit(evsi_val, cost_val):
-                enbs_result = evsi_val - cost_val
-                return jnp.maximum(0.0, enbs_result)
-            
-            return _enbs_jit(jnp.asarray(evsi_result), jnp.asarray(research_cost))
 
-        def enbs_simple(self, net_benefit_array, research_cost):
+            @jax.jit  # type: ignore[untyped-decorator]
+            def _enbs_jit(evsi_val: np.ndarray, cost_val: np.ndarray) -> np.ndarray:
+                enbs_result = evsi_val - cost_val
+                return jnp.asarray(jnp.maximum(0.0, enbs_result), dtype=jnp.float64)
+
+            return float(
+                _enbs_jit(
+                    np.asarray(evsi_result, dtype=float),
+                    np.asarray(research_cost, dtype=float),
+                ).item()
+            )
+
+        def enbs_simple(
+            self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+        ) -> float:
             """Calculate ENBS directly from net benefit array.
-            
+
             This is a simplified version that calculates ENBS as:
             ENBS = EVPI - research_cost
             where EVPI is calculated from the net benefit array.
@@ -486,68 +687,89 @@ try:
             # First calculate EVPI
             evpi = self.evpi(net_benefit_array)
             # Then calculate ENBS
-            enbs_result = evpi - research_cost
-            return float(jnp.maximum(0.0, enbs_result))
+            enbs_result = evpi - float(np.asarray(research_cost, dtype=float))
+            return float(max(0.0, enbs_result))
 
-        def enbs_simple_jit(self, net_benefit_array, research_cost):
+        def enbs_simple_jit(
+            self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+        ) -> float:
             """JIT-compiled version of ENBS calculation.
-            
+
             This is a simplified version that calculates ENBS as:
             ENBS = EVPI - research_cost
             """
-            @jax.jit
-            def _enbs_simple_jit(nb_array, cost):
+
+            @jax.jit  # type: ignore[untyped-decorator]
+            def _enbs_simple_jit(nb_array: np.ndarray, cost: np.ndarray) -> np.ndarray:
                 # Calculate EVPI using JIT
                 max_nb = jnp.max(nb_array, axis=1)
                 expected_nb_options = jnp.mean(nb_array, axis=0)
                 max_expected_nb = jnp.max(expected_nb_options)
                 expected_max_nb = jnp.mean(max_nb)
                 evpi = expected_max_nb - max_expected_nb
-                
+
                 # Calculate ENBS
                 enbs_result = evpi - cost
-                return jnp.maximum(0.0, enbs_result)
+                return jnp.asarray(jnp.maximum(0.0, enbs_result), dtype=jnp.float64)
 
-            return float(_enbs_simple_jit(jnp.asarray(net_benefit_array, dtype=jnp.float64), 
-                                        jnp.asarray(research_cost, dtype=jnp.float64)))
+            return float(
+                _enbs_simple_jit(
+                    np.asarray(net_benefit_array, dtype=float),
+                    np.asarray(research_cost, dtype=float),
+                ).item()
+            )
 
     JAX_AVAILABLE = True
 except ImportError:
     JAX_AVAILABLE = False
-    JaxBackend = None
+
+
+class JaxBackend(Backend):
+    """Public JAX backend type."""
+
+    def __init__(self) -> None:
+        if not JAX_AVAILABLE:
+            raise_import_error("JAX is not installed")
+        self._impl = _JaxBackendImpl()
+
+    def __getattr__(self, name: str) -> object:
+        """Delegate attribute access to the concrete JAX implementation."""
+        return getattr(self._impl, name)
+
+    def evpi(self, net_benefit_array: ArrayLike) -> float:
+        """Calculate EVPI using the JAX implementation."""
+        return self._impl.evpi(net_benefit_array)
 
 
 # Global backend registry
-_BACKENDS = {
+_BACKENDS: dict[str, Backend] = {
     "numpy": NumpyBackend(),
 }
 
-# Add JAX backend if available
 if JAX_AVAILABLE:
     _BACKENDS["jax"] = JaxBackend()
 
 # Default backend
-_DEFAULT_BACKEND = "numpy"
+_DEFAULT_BACKEND_STATE: dict[str, str] = {"name": "numpy"}
 
 
-def get_backend(name=None):
+def get_backend(name: str | None = None) -> Backend:
     """
     Get a computational backend by name.
 
     If no name is provided, returns the default backend.
     """
     if name is None:
-        name = _DEFAULT_BACKEND
+        name = _DEFAULT_BACKEND_STATE["name"]
 
     if name not in _BACKENDS:
-        raise ValueError(f"Unknown backend: {name}")
+        raise_value_error(f"Unknown backend: {name}")
 
     return _BACKENDS[name]
 
 
-def set_backend(name):
+def set_backend(name: str) -> None:
     """Set the default computational backend."""
-    global _DEFAULT_BACKEND
     if name not in _BACKENDS:
-        raise ValueError(f"Unknown backend: {name}")
-    _DEFAULT_BACKEND = name
+        raise_value_error(f"Unknown backend: {name}")
+    _DEFAULT_BACKEND_STATE["name"] = name

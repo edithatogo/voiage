@@ -22,7 +22,7 @@ from voiage.config_objects import (
 )
 
 
-def test_voi_analysis_config():
+def test_voi_analysis_config() -> None:
     """Test VOIAnalysisConfig."""
     # Test default configuration
     config = VOIAnalysisConfig()
@@ -48,7 +48,7 @@ def test_voi_analysis_config():
         enable_caching=True,
         streaming_window_size=5000,
         n_regression_samples=5000,
-        n_simulations=2000
+        n_simulations=2000,
     )
 
     assert config.population == 100000
@@ -69,7 +69,7 @@ def test_voi_analysis_config():
     assert config_dict["time_horizon"] == 10
 
 
-def test_streaming_config():
+def test_streaming_config() -> None:
     """Test StreamingConfig."""
     # Test default configuration
     config = StreamingConfig()
@@ -78,11 +78,7 @@ def test_streaming_config():
     assert config.buffer_size is None
 
     # Test custom configuration
-    config = StreamingConfig(
-        window_size=2000,
-        update_frequency=50,
-        buffer_size=10000
-    )
+    config = StreamingConfig(window_size=2000, update_frequency=50, buffer_size=10000)
 
     assert config.window_size == 2000
     assert config.update_frequency == 50
@@ -99,7 +95,7 @@ def test_streaming_config():
         StreamingConfig(buffer_size=-1)
 
 
-def test_metamodel_config():
+def test_metamodel_config() -> None:
     """Test MetamodelConfig."""
     # Test default configuration
     config = MetamodelConfig()
@@ -113,7 +109,7 @@ def test_metamodel_config():
         n_samples=5000,
         n_folds=10,
         gp_length_scale=2.0,
-        gp_noise_level=0.05
+        gp_noise_level=0.05,
     )
 
     assert config.method == "gp"
@@ -127,7 +123,7 @@ def test_metamodel_config():
         MetamodelConfig(method="invalid_method")
 
 
-def test_optimization_config():
+def test_optimization_config() -> None:
     """Test OptimizationConfig."""
     # Test default configuration
     config = OptimizationConfig()
@@ -141,7 +137,7 @@ def test_optimization_config():
         n_iterations=200,
         n_initial_points=20,
         acquisition_function="ucb",
-        kappa=3.0
+        kappa=3.0,
     )
 
     assert config.algorithm == "bayesian"
@@ -158,7 +154,7 @@ def test_optimization_config():
         OptimizationConfig(acquisition_function="invalid_function")
 
 
-def test_healthcare_config():
+def test_healthcare_config() -> None:
     """Test HealthcareConfig."""
     # Test default configuration
     config = HealthcareConfig()
@@ -174,7 +170,7 @@ def test_healthcare_config():
         cycle_length=0.5,
         max_cycles=100,
         markov_cohort_size=5000,
-        markov_start_age=30.0
+        markov_start_age=30.0,
     )
 
     assert config.qaly_discount_rate == 0.05
@@ -189,13 +185,22 @@ def test_healthcare_config():
         HealthcareConfig(qaly_discount_rate=1.5)
 
     with pytest.raises(ValueError):
+        HealthcareConfig(cost_discount_rate=-0.1)
+
+    with pytest.raises(ValueError):
         HealthcareConfig(cycle_length=-1)
 
     with pytest.raises(ValueError):
         HealthcareConfig(max_cycles=0)
 
+    with pytest.raises(ValueError):
+        HealthcareConfig(markov_cohort_size=0)
 
-def test_environmental_config():
+    with pytest.raises(ValueError):
+        HealthcareConfig(markov_start_age=-1)
+
+
+def test_environmental_config() -> None:
     """Test EnvironmentalConfig."""
     # Test default configuration
     config = EnvironmentalConfig()
@@ -211,7 +216,7 @@ def test_environmental_config():
         water_cost=0.003,
         biodiversity_impact_factor=0.02,
         social_cost_of_carbon=75,
-        ecosystem_service_value=150
+        ecosystem_service_value=150,
     )
 
     assert config.carbon_intensity == 0.3
@@ -229,8 +234,23 @@ def test_environmental_config():
     with pytest.raises(ValueError):
         EnvironmentalConfig(energy_consumption=-1)
 
+    with pytest.raises(ValueError):
+        EnvironmentalConfig(water_intensity=-1)
 
-def test_financial_config():
+    with pytest.raises(ValueError):
+        EnvironmentalConfig(water_cost=-1)
+
+    with pytest.raises(ValueError):
+        EnvironmentalConfig(biodiversity_impact_factor=-1)
+
+    with pytest.raises(ValueError):
+        EnvironmentalConfig(social_cost_of_carbon=-1)
+
+    with pytest.raises(ValueError):
+        EnvironmentalConfig(ecosystem_service_value=-1)
+
+
+def test_financial_config() -> None:
     """Test FinancialConfig."""
     # Test default configuration
     config = FinancialConfig()
@@ -246,7 +266,11 @@ def test_financial_config():
         sharpe_ratio_risk_free_rate=0.0002,
         mc_n_simulations=20000,
         mc_time_horizon=504,
-        stress_test_scenarios=["market_crash", "interest_rate_shock", "currency_crisis"]
+        stress_test_scenarios=[
+            "market_crash",
+            "interest_rate_shock",
+            "currency_crisis",
+        ],
     )
 
     assert config.var_confidence_level == 0.99
@@ -261,10 +285,16 @@ def test_financial_config():
         FinancialConfig(var_confidence_level=1.5)
 
     with pytest.raises(ValueError):
+        FinancialConfig(cvar_confidence_level=0)
+
+    with pytest.raises(ValueError):
         FinancialConfig(mc_n_simulations=0)
 
+    with pytest.raises(ValueError):
+        FinancialConfig(mc_time_horizon=0)
 
-def test_parallel_config():
+
+def test_parallel_config() -> None:
     """Test ParallelConfig."""
     # Test default configuration
     config = ParallelConfig()
@@ -278,7 +308,7 @@ def test_parallel_config():
         use_processes=False,
         max_workers=8,
         memory_limit_mb=8192,
-        chunk_size=1000
+        chunk_size=1000,
     )
 
     assert config.n_workers == 4
@@ -294,8 +324,14 @@ def test_parallel_config():
     with pytest.raises(ValueError):
         ParallelConfig(max_workers=0)
 
+    with pytest.raises(ValueError):
+        ParallelConfig(memory_limit_mb=0)
 
-def test_factory_functions():
+    with pytest.raises(ValueError):
+        ParallelConfig(chunk_size=0)
+
+
+def test_factory_functions() -> None:
     """Test factory functions."""
     # Test create_default_config
     config = create_default_config()

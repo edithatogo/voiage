@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/preference/v1/schemas/preference-set.schema.json",
+  "title": "PreferenceSetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method_maturity", "preference_profiles"],
+  "properties": {
+    "method_maturity": {
+      "type": "string",
+      "const": "fixture-backed"
+    },
+    "preference_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "utility_weights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "equity_weights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "willingness_to_pay": {
+            "type": "number"
+          },
+          "discount_rate": {
+            "type": "number"
+          },
+          "population": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "stakeholder_metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

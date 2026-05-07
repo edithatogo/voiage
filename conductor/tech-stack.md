@@ -1,0 +1,65 @@
+# voiage - Technology Stack
+
+## Core Language
+- **Python**: >=3.10,<3.15
+- **Rust**: Stable toolchain for the execution core and native benchmarks
+
+## Core Libraries
+- **NumPy**: >=1.20,<2.0 - Fundamental array computing
+- **SciPy**: >=1.7,<1.15 - Scientific computing algorithms
+- **pandas**: >=1.3,<3.0 - Data manipulation and analysis
+- **xarray**: >=0.19,<2025.0 - Labeled multi-dimensional arrays
+
+## High-Performance Computing
+- **JAX**: >=0.4,<0.5 - High-performance numerical computing with GPU/TPU support
+- **NumPyro**: >=0.13,<0.20 - Probabilistic programming with JAX
+- **Spack**: HPC source package manager for reproducible scientific stacks
+- **EasyBuild**: Automated scientific software build/install framework for HPC
+- **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
+
+## Machine Learning & Statistics
+- **scikit-learn**: >=1.0,<2.0 - Machine learning algorithms (regression-based EVSI)
+- **statsmodels**: >=0.13,<1.0 - Statistical models and tests
+
+## CLI
+- **Typer**: >=0.9,<1.0 - Modern CLI framework with auto-completion
+
+## Visualization
+- **matplotlib**: >=3.4,<4.0 - 2D plotting library
+- **seaborn**: >=0.11,<1.0 - Statistical data visualization
+
+## Testing
+- **pytest**: >=7.0,<9.0 - Testing framework
+- **pytest-cov**: >=3.0,<6.0 - Coverage reporting
+- **hypothesis**: >=6.0,<7.0 - Property-based testing
+
+## Code Quality
+- **Ruff**: >=0.1.9,<1.0 - Fast Python linter, formatter, and security-rule checker
+- **ty**: >=0.0.1,<1.0 - Static type checking
+- **tox**: >=4.0,<5.0 - Test environment automation
+- **nox**: >=2024.0 - Python-coded session orchestration backed by uv
+- **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
+
+## Documentation
+- **Sphinx**: >=7.0,<8.0 - Documentation generator
+- **sphinx-rtd-theme**: >=1.0,<2.0 - Read the Docs theme
+- **Vale**: prose linting for Markdown and reStructuredText
+- **Starlight**: Astro-based docs site platform candidate, with versioning via
+  `starlight-versions`, link validation via `starlight-links-validator`, and
+  optional UX plugins such as `starlight-image-zoom`,
+  `starlight-heading-badges`, `starlight-sidebar-topics`, and
+  `starlight-utils`
+- **cbindgen**: optional header generation for a narrow Rust C ABI edge
+- **WASM / N-API**: conditional TypeScript interop options if a native JS edge
+  becomes necessary
+
+## Optional Dependencies
+- **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)
+
+## Binding and Release Targets
+- **R**: CRAN-style package checks and GitHub Releases for source archives
+- **Julia**: General registry with TagBot synchronization
+- **TypeScript**: npm with provenance
+- **Go**: tagged modules via the Go module proxy
+- **Rust**: crates.io
+- **.NET**: NuGet targeting `net11.0`

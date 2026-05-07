@@ -10,10 +10,12 @@ from voiage.schema import ParameterSet, ValueArray
 class TestValueArrayComprehensive:
     """Tests for ValueArray to improve schema coverage."""
 
-    def test_value_array_creation_from_numpy(self):
+    def test_value_array_creation_from_numpy(self) -> None:
         """Test ValueArray creation from numpy array."""
         # Test with strategy names
-        data = np.array([[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64)
+        data = np.array(
+            [[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64
+        )
         strategies = ["Strategy A", "Strategy B"]
 
         value_array = ValueArray.from_numpy(data, strategy_names=strategies)
@@ -28,7 +30,7 @@ class TestValueArrayComprehensive:
         np.testing.assert_array_equal(value_array.values.values, data)
         print("✅ ValueArray.from_numpy with strategy names works")
 
-    def test_value_array_creation_without_strategy_names(self):
+    def test_value_array_creation_without_strategy_names(self) -> None:
         """Test ValueArray creation from numpy without strategy names."""
         data = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
 
@@ -42,7 +44,7 @@ class TestValueArrayComprehensive:
         assert len(value_array.strategy_names) == 2
         print("✅ ValueArray.from_numpy without strategy names works")
 
-    def test_value_array_creation_from_xarray_dataset(self):
+    def test_value_array_creation_from_xarray_dataset(self) -> None:
         """Test ValueArray creation from xarray Dataset."""
         # Create a dataset with the expected structure
         data = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
@@ -67,9 +69,11 @@ class TestValueArrayComprehensive:
         np.testing.assert_array_equal(value_array.values.values, data)
         print("✅ ValueArray creation from xarray Dataset works")
 
-    def test_value_array_property_accessors(self):
+    def test_value_array_property_accessors(self) -> None:
         """Test all ValueArray property accessors."""
-        data = np.array([[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64)
+        data = np.array(
+            [[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64
+        )
         value_array = ValueArray.from_numpy(data, strategy_names=["S1", "S2"])
 
         # Test property access
@@ -81,7 +85,7 @@ class TestValueArrayComprehensive:
 
         print("✅ ValueArray property accessors work")
 
-    def test_value_array_str_repr(self):
+    def test_value_array_str_repr(self) -> None:
         """Test ValueArray string representation."""
         data = np.array([[100.0, 150.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(data, strategy_names=["Strat A", "Strat B"])
@@ -96,7 +100,7 @@ class TestValueArrayComprehensive:
         assert "ValueArray" in repr_repr
         print("✅ ValueArray string representations work")
 
-    def test_value_array_equality(self):
+    def test_value_array_equality(self) -> None:
         """Test ValueArray equality comparisons."""
         data1 = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         data2 = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
@@ -116,7 +120,7 @@ class TestValueArrayComprehensive:
 
         print("✅ ValueArray equality comparisons work")
 
-    def test_value_array_copy_method(self):
+    def test_value_array_copy_method(self) -> None:
         """Test ValueArray copy functionality."""
         data = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
         original_array = ValueArray.from_numpy(data, strategy_names=["S1", "S2"])
@@ -134,10 +138,12 @@ class TestValueArrayComprehensive:
 
         print("✅ ValueArray copy functionality works")
 
-    def test_value_array_get_strategy_index(self):
+    def test_value_array_get_strategy_index(self) -> None:
         """Test getting strategy index by name."""
         data = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        value_array = ValueArray.from_numpy(data, strategy_names=["Treatment A", "Treatment B"])
+        value_array = ValueArray.from_numpy(
+            data, strategy_names=["Treatment A", "Treatment B"]
+        )
 
         # Test getting strategy index
         idx_a = value_array.get_strategy_index("Treatment A")
@@ -152,7 +158,7 @@ class TestValueArrayComprehensive:
 
         print("✅ ValueArray get_strategy_index works")
 
-    def test_value_array_slice_by_strategy(self):
+    def test_value_array_slice_by_strategy(self) -> None:
         """Test slicing ValueArray by strategy names."""
         data = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
         value_array = ValueArray.from_numpy(data, strategy_names=["S1", "S2", "S3"])
@@ -170,11 +176,13 @@ class TestValueArrayComprehensive:
 
         print("✅ ValueArray slice_by_strategies works")
 
-    def test_value_array_edge_cases(self):
+    def test_value_array_edge_cases(self) -> None:
         """Test ValueArray with edge cases."""
         # Test with single sample and single strategy
         single_data = np.array([[100.0]], dtype=np.float64)
-        single_value_array = ValueArray.from_numpy(single_data, strategy_names=["Single"])
+        single_value_array = ValueArray.from_numpy(
+            single_data, strategy_names=["Single"]
+        )
 
         assert single_value_array.n_samples == 1
         assert single_value_array.n_strategies == 1
@@ -182,7 +190,9 @@ class TestValueArrayComprehensive:
 
         # Test with many samples but few strategies
         many_samples_data = np.random.rand(100, 2).astype(np.float64)
-        many_samples_array = ValueArray.from_numpy(many_samples_data, strategy_names=["A", "B"])
+        many_samples_array = ValueArray.from_numpy(
+            many_samples_data, strategy_names=["A", "B"]
+        )
 
         assert many_samples_array.n_samples == 100
         assert many_samples_array.n_strategies == 2
@@ -190,7 +200,9 @@ class TestValueArrayComprehensive:
 
         # Test with many strategies but few samples
         many_strategies_data = np.random.rand(2, 50).astype(np.float64)
-        many_strategies_array = ValueArray.from_numpy(many_strategies_data, strategy_names=[f"S{i}" for i in range(50)])
+        many_strategies_array = ValueArray.from_numpy(
+            many_strategies_data, strategy_names=[f"S{i}" for i in range(50)]
+        )
 
         assert many_strategies_array.n_samples == 2
         assert many_strategies_array.n_strategies == 50
@@ -202,7 +214,7 @@ class TestValueArrayComprehensive:
 class TestParameterSetComprehensive:
     """Tests for ParameterSet to improve schema coverage."""
 
-    def test_parameter_set_creation_from_numpy_dict(self):
+    def test_parameter_set_creation_from_numpy_dict(self) -> None:
         """Test ParameterSet creation from numpy dict."""
         # Test with numpy arrays
         param_dict = {
@@ -220,12 +232,16 @@ class TestParameterSetComprehensive:
         assert "param2" in param_set.parameters
 
         # Check values
-        np.testing.assert_array_equal(param_set.parameters["param1"], param_dict["param1"])
-        np.testing.assert_array_equal(param_set.parameters["param2"], param_dict["param2"])
+        np.testing.assert_array_equal(
+            param_set.parameters["param1"], param_dict["param1"]
+        )
+        np.testing.assert_array_equal(
+            param_set.parameters["param2"], param_dict["param2"]
+        )
 
         print("✅ ParameterSet.from_numpy_or_dict with numpy arrays works")
 
-    def test_parameter_set_creation_with_float_dict(self):
+    def test_parameter_set_creation_with_float_dict(self) -> None:
         """Test ParameterSet creation with Python float dict."""
         # Test with Python lists/floats that will be converted to numpy
         param_dict = {
@@ -242,7 +258,7 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet.from_numpy_or_dict with float lists works")
 
-    def test_parameter_set_creation_from_xarray_dataset(self):
+    def test_parameter_set_creation_from_xarray_dataset(self) -> None:
         """Test ParameterSet creation from xarray Dataset."""
         # Create dataset with parameter data
         n_samples = 5
@@ -252,9 +268,9 @@ class TestParameterSetComprehensive:
         dataset = xr.Dataset(
             {
                 "param1": (("n_samples",), param1_values),
-                "param2": (("n_samples",), param2_values)
+                "param2": (("n_samples",), param2_values),
             },
-            coords={"n_samples": np.arange(n_samples)}
+            coords={"n_samples": np.arange(n_samples)},
         )
 
         param_set = ParameterSet(dataset=dataset)
@@ -267,11 +283,11 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet creation from xarray Dataset works")
 
-    def test_parameter_set_property_accessors(self):
+    def test_parameter_set_property_accessors(self) -> None:
         """Test all ParameterSet property accessors."""
         param_dict = {
             "cost_param": np.array([100.0, 120.0, 110.0]),
-            "eff_param": np.array([0.8, 0.9, 0.85])
+            "eff_param": np.array([0.8, 0.9, 0.85]),
         }
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
 
@@ -286,7 +302,7 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet property accessors work")
 
-    def test_parameter_set_str_repr(self):
+    def test_parameter_set_str_repr(self) -> None:
         """Test ParameterSet string representation."""
         param_dict = {"param1": np.array([0.1, 0.2])}
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
@@ -302,11 +318,14 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet string representations work")
 
-    def test_parameter_set_equality(self):
+    def test_parameter_set_equality(self) -> None:
         """Test ParameterSet equality comparisons."""
         param_dict1 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
         param_dict2 = {"param1": np.array([0.1, 0.2]), "param2": np.array([10.0, 20.0])}
-        param_dict3 = {"param1": np.array([0.1, 0.3]), "param2": np.array([10.0, 20.0])}  # Different values
+        param_dict3 = {
+            "param1": np.array([0.1, 0.3]),
+            "param2": np.array([10.0, 20.0]),
+        }  # Different values
 
         param_set1 = ParameterSet.from_numpy_or_dict(param_dict1)
         param_set2 = ParameterSet.from_numpy_or_dict(param_dict2)
@@ -323,12 +342,12 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet equality comparisons work")
 
-    def test_parameter_set_subset_by_parameters(self):
+    def test_parameter_set_subset_by_parameters(self) -> None:
         """Test subsetting ParameterSet by parameter names."""
         param_dict = {
             "param1": np.array([0.1, 0.2, 0.3]),
             "param2": np.array([10.0, 20.0, 30.0]),
-            "param3": np.array([100.0, 200.0, 300.0])
+            "param3": np.array([100.0, 200.0, 300.0]),
         }
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
 
@@ -341,16 +360,20 @@ class TestParameterSetComprehensive:
         assert set(subset.parameter_names) == {"param1", "param2"}
 
         # Check values are preserved
-        np.testing.assert_array_equal(subset.parameters["param1"], np.array([0.1, 0.2, 0.3]))
-        np.testing.assert_array_equal(subset.parameters["param2"], np.array([10.0, 20.0, 30.0]))
+        np.testing.assert_array_equal(
+            subset.parameters["param1"], np.array([0.1, 0.2, 0.3])
+        )
+        np.testing.assert_array_equal(
+            subset.parameters["param2"], np.array([10.0, 20.0, 30.0])
+        )
 
         print("✅ ParameterSet subset_by_parameters works")
 
-    def test_parameter_set_copy_method(self):
+    def test_parameter_set_copy_method(self) -> None:
         """Test ParameterSet copy functionality."""
         param_dict = {
             "param1": np.array([0.1, 0.2, 0.3]),
-            "param2": np.array([10.0, 20.0, 30.0])
+            "param2": np.array([10.0, 20.0, 30.0]),
         }
         original = ParameterSet.from_numpy_or_dict(param_dict)
 
@@ -367,7 +390,7 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet copy functionality works")
 
-    def test_parameter_set_edge_cases(self):
+    def test_parameter_set_edge_cases(self) -> None:
         """Test ParameterSet with edge cases."""
         # Test with single sample
         single_sample_dict = {"param1": np.array([0.1])}
@@ -378,7 +401,9 @@ class TestParameterSetComprehensive:
         assert "param1" in single_param_set.parameters
 
         # Test with single parameter, many samples
-        many_samples_dict = {"param1": np.array([i*0.1 for i in range(100)])}  # 100 samples
+        many_samples_dict = {
+            "param1": np.array([i * 0.1 for i in range(100)])
+        }  # 100 samples
         many_samples_param_set = ParameterSet.from_numpy_or_dict(many_samples_dict)
 
         assert many_samples_param_set.n_samples == 100
@@ -386,7 +411,9 @@ class TestParameterSetComprehensive:
         assert many_samples_param_set.parameters["param1"].shape[0] == 100
 
         # Test with many parameters, few samples
-        many_params_dict = {f"param_{i}": np.array([i*0.1, (i+1)*0.1]) for i in range(50)}
+        many_params_dict = {
+            f"param_{i}": np.array([i * 0.1, (i + 1) * 0.1]) for i in range(50)
+        }
         many_params_param_set = ParameterSet.from_numpy_or_dict(many_params_dict)
 
         assert many_params_param_set.n_samples == 2
@@ -394,11 +421,11 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet edge cases handled properly")
 
-    def test_parameter_set_get_parameter_statistics(self):
+    def test_parameter_set_get_parameter_statistics(self) -> None:
         """Test getting parameter statistics."""
         param_dict = {
             "param1": np.array([0.1, 0.2, 0.3, 0.4]),
-            "param2": np.array([10.0, 20.0, 30.0, 40.0])
+            "param2": np.array([10.0, 20.0, 30.0, 40.0]),
         }
         param_set = ParameterSet.from_numpy_or_dict(param_dict)
 

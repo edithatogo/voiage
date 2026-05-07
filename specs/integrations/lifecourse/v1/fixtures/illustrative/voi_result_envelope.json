@@ -1,0 +1,74 @@
+{
+  "schema_version": "v1",
+  "analysis_id": "lifecourse-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "supported_result_families": ["evpi", "evppi", "evsi", "enbs"],
+  "compatibility": {
+    "voiage_version": "0.2.0",
+    "lifecourse_profile_version": "v1",
+    "heoml_profile_version": "0.1"
+  },
+  "method_settings": {
+    "evpi": {
+      "method": "nested-monte-carlo",
+      "seed": 101,
+      "execution_mode": "deterministic"
+    },
+    "evppi": {
+      "method": "gam",
+      "parameters_of_interest": ["prob_screen_positive", "incremental_cost"],
+      "seed": 102,
+      "execution_mode": "deterministic"
+    },
+    "evsi": {
+      "method": "two-loop-monte-carlo",
+      "seed": 103,
+      "execution_mode": "deterministic"
+    },
+    "enbs": {
+      "method": "decision-rule",
+      "seed": 104,
+      "execution_mode": "deterministic"
+    }
+  },
+  "scaling": {
+    "population": 10000,
+    "time_horizon_years": 10,
+    "discount_rate": 0.035,
+    "willingness_to_pay_thresholds": [50000]
+  },
+  "diagnostics": {
+    "notes": "Illustrative result-envelope fixture for lifecourse handoff."
+  },
+  "package_version": {
+    "producer": "lifecourse@contract-v1",
+    "voiage": "0.2.0"
+  },
+  "provenance": {
+    "heoml_version": "0.1",
+    "heoml_manifest_id": "heoml-run-bundle-v1-example",
+    "run_id": "lifecourse-screening-001"
+  },
+  "result_payloads": {
+    "evpi": {
+      "expected_current_value": 118.33333333333333,
+      "expected_perfect_information": 125.0,
+      "value": 6.666666666666671
+    },
+    "evppi": {
+      "parameter_names": ["prob_screen_positive", "incremental_cost"],
+      "value": 3.5
+    },
+    "evsi": {
+      "trial_design": {
+        "sample_size": 250,
+        "design": "illustrative"
+      },
+      "value": 2.25
+    },
+    "enbs": {
+      "research_cost": 25000.0,
+      "net_value": -24997.75
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/validation/v1/schemas/validation-set.schema.json",
+  "title": "ValidationSetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method_maturity", "validation_profiles"],
+  "properties": {
+    "method_maturity": {
+      "type": "string",
+      "const": "fixture-backed"
+    },
+    "validation_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "validation_cohort": {
+            "type": "string",
+            "minLength": 1
+          },
+          "discrepancy_penalty": {
+            "type": "number",
+            "minimum": 0
+          },
+          "recalibration_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "population": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "validation_metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
