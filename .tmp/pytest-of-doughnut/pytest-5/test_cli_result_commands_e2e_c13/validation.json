@@ -1,0 +1,1 @@
+{"net_benefit": [[[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]], [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]]], "strategy_names": ["A", "B", "C"], "validation_profiles": [{"id": "external_validation", "label": "External validation", "weight": 0.6}, {"id": "discrepancy_reduction", "label": "Discrepancy reduction", "weight": 0.4}], "reference_validation_profile": "external_validation"}

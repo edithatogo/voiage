@@ -1,0 +1,9 @@
+{
+  "track_id": "hpc-acceleration-abstraction-contract_20260511",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-05-11T19:03:00Z",
+  "completed_at": "2026-05-11T19:06:00Z",
+  "updated_at": "2026-05-11T19:06:00Z",
+  "description": "Define a standardized hardware acceleration path so GPU/TPU/ASIC work shares one contract-first backend strategy."
+}

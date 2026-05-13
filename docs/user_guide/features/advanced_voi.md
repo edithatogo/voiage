@@ -272,19 +272,27 @@ Sequential decision VOI methods evaluate value of information in multi-stage dec
 
 ```python
 import numpy as np
-from voiage.methods.sequential import sequential_evpi
+from voiage.methods.sequential import sequential_voi
+from voiage.schema import DynamicSpec, ParameterSet
 
 # Define sequential decision parameters
-decision_stages = 3
-transition_probabilities = np.array([[0.8, 0.2], [0.3, 0.7]])
+initial_psa = ParameterSet.from_numpy_or_dict(
+    {
+        "net_benefit_standard": np.array([0.0, 10.0, 0.0, 10.0]),
+        "net_benefit_new": np.array([5.0, 5.0, 5.0, 5.0]),
+    }
+)
+dynamic_spec = DynamicSpec(time_steps=[0.0, 1.0, 2.0])
 
-# Calculate sequential EVPI
-evpi_result = sequential_evpi(
-    decision_stages=decision_stages,
-    transition_probabilities=transition_probabilities
+# Calculate sequential VOI
+sequential_result = sequential_voi(
+    step_model=lambda psa, action, spec: {"next_psa": psa},
+    initial_psa=initial_psa,
+    dynamic_specification=dynamic_spec,
+    wtp=50000.0,
 )
 
-print(f"Sequential EVPI: {evpi_result:.2f}")
+print(f"Sequential VOI: {sequential_result:.2f}")
 ```
 
 ## Structural Uncertainty VOI

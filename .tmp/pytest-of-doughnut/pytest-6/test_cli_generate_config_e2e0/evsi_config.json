@@ -1,0 +1,15 @@
+{
+  "command": "calculate-evsi",
+  "description": "Template for EVSI analysis inputs.",
+  "discount_rate": null,
+  "metamodel": "linear",
+  "method": "two_loop",
+  "model": "your.module:callable",
+  "n_inner_loops": 1000,
+  "n_outer_loops": 100,
+  "net_benefit_file": null,
+  "parameter_file": "parameters.csv",
+  "population": null,
+  "time_horizon": null,
+  "trial_design_file": "trial_design.json"
+}

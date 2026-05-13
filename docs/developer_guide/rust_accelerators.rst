@@ -29,11 +29,45 @@ already numeric arrays, and the output can remain a stable summary envelope.
 That makes them the only sensible candidates for accelerator feasibility
 work in the short term.
 
+Apple Metal adapter strategy
+----------------------------
+
+For the first accelerator track, the preferred strategy is to treat Apple
+Metal as an internal execution adapter rather than a new public API surface.
+That means:
+
+* the Apple Metal path should target the committed scalar EVPI and
+  memory/throughput baselines first;
+* the CPU fallback remains authoritative and should continue to produce the
+  reference result envelope;
+* the Apple Metal implementation should not require public API changes just
+  to route work onto the device;
+* any new backend code should translate the existing Rust contract into a
+  backend-specific execution plan, then return the same summary envelope.
+
+Discrete GPU deployment assumptions
+-----------------------------------
+
+For discrete GPU execution, the current implementation lane should build on the
+existing GPU helper layer rather than introduce a brand-new public contract.
+That means:
+
+* use the current GPU backend detection and transfer helpers as the adapter
+  boundary;
+* prefer JAX when it is available and the workload is dense enough to benefit
+  from vectorization or compilation;
+* fall back to CuPy or PyTorch CUDA where those runtimes are present;
+* keep CPU fallback authoritative and preserve the same result envelope;
+* document the backend choice alongside benchmark evidence so the deployment
+  assumption stays reviewable.
+
 Why TPU or custom-circuit support is only conditional
 ------------------------------------------------------
 
-TPU and custom-circuit support are only useful when the workload is large,
-regular, and worth paying the control-flow and deployment cost.
+TPU support should reuse the existing JAX-oriented acceleration path when the
+runtime environment exposes TPU devices. Custom-circuit support remains a
+separate feasibility question. Both are only useful when the workload is
+large, regular, and worth paying the control-flow and deployment cost.
 
 That means they are conditional on all of the following:
 
@@ -62,6 +96,47 @@ profiling track proves otherwise:
 * methods whose main cost is regression fitting or host-side orchestration
 * anything that requires a new public result shape just to use the device
 * host-specific optimization tricks that cannot be reproduced on Linux CI
+
+FPGA implementation lane
+------------------------
+
+FPGA support should be treated as a separate execution lane with a narrow
+kernel shape and an explicit deployment assumption. The current practical
+assumptions are:
+
+* use the same scalar result envelope as the CPU reference path;
+* prefer batchable, deterministic summary kernels over irregular control flow;
+* keep the backend optional and behind the shared accelerator abstraction;
+* document the toolchain choice and hardware assumptions before implementation;
+* require benchmark evidence before any claim of practical benefit.
+
+The repository now exposes an explicit ``fpga`` execution-adapter name that
+fails with a clear ``NotImplementedError`` until a real FPGA runtime is added.
+The placeholder state is also discoverable through
+``voiage.parallel.is_placeholder_execution_adapter("fpga")``.
+
+ASIC implementation lane
+------------------------
+
+ASIC or custom-circuit support should be treated as the most constrained
+deployment lane. The implementation assumption is that it will likely reuse the
+same contract-shaped summary kernels as the other accelerators, but only for
+workloads that are dense, regular, and materially worth the hardware and
+deployment cost.
+
+The practical requirements are:
+
+* preserve the CPU summary envelope as the reference contract;
+* keep the backend optional and evidence-gated;
+* make the deployment assumptions explicit before any implementation work;
+* require reproducible CPU/ASIC comparison packets before any promotion;
+* avoid any public API change just to expose a custom-circuit path.
+
+The repository now exposes an explicit ``asic`` execution-adapter name that
+fails with a clear ``NotImplementedError`` until a real ASIC/custom-circuit
+runtime is added.
+The placeholder state is also discoverable through
+``voiage.parallel.is_placeholder_execution_adapter("asic")``.
 
 Those cases are either too small to benefit from offloading, or they are
 shaped by control flow rather than throughput. They should remain on the CPU

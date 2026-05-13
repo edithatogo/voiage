@@ -8,6 +8,7 @@ from voiage.analysis import DecisionAnalysis
 from voiage.config_objects import HealthcareConfig, VOIAnalysisConfig
 from voiage.factory import (
     create_configured_analysis,
+    create_distributed_large_scale_analysis,
     create_environmental_analysis,
     create_financial_analysis,
     create_healthcare_analysis,
@@ -153,6 +154,31 @@ def test_create_large_scale_analysis() -> None:
     # Check that parameters were set correctly
     assert analysis.use_jit
     assert analysis.enable_caching
+
+
+def test_create_distributed_large_scale_analysis() -> None:
+    """Test creating a distributed large-scale VOI analysis."""
+    net_benefits = np.random.randn(100, 3).astype(np.float64)
+
+    analysis, cluster_config = create_distributed_large_scale_analysis(
+        nb_array=net_benefits,
+        chunk_size=5000,
+        n_nodes=2,
+        workers_per_node=2,
+        scheduler="ray",
+        scheduler_address="ray://cluster:10001",
+        use_processes=False,
+        memory_limit_mb=1024,
+    )
+
+    assert isinstance(analysis, FluentDecisionAnalysis)
+    assert analysis.use_jit
+    assert analysis.enable_caching
+    assert cluster_config.n_nodes == 2
+    assert cluster_config.workers_per_node == 2
+    assert cluster_config.scheduler == "ray"
+    assert cluster_config.scheduler_address == "ray://cluster:10001"
+    assert not cluster_config.use_processes
 
 
 def test_create_metamodel_analysis() -> None:

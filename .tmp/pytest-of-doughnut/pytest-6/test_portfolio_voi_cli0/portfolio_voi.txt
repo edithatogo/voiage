@@ -1,0 +1,3 @@
+Selected studies: Study Alpha, Study Beta
+Total value: 190.000000
+Total cost: 110.000000

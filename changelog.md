@@ -8,10 +8,94 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Marked the historical TPU and ASIC feasibility records as superseded so the
+  archived roadmap and track pages clearly point to the current hardware-
+  dependent follow-up state.
+- Clarified the Conductor registry so TPU and ASIC feasibility are recorded as
+  future hardware-dependent follow-up only, not as open implementation tracks.
+- Repointed the HPC accelerator docs from the old feasibility links to the
+  current TPU and ASIC implementation track locations.
+- Clarified that GitHub CI covers CPU-first and distributed CPU paths while
+  FPGA and ASIC remain deferred hardware-backed follow-up work.
+- Added explicit later-action notes to the FPGA and ASIC working notes so the
+  remaining hardware-dependent work can be resumed cleanly when devices are
+  available.
+- Clarified the HPC distribution contract so FPGA and ASIC are documented as
+  explicit placeholder schedulers rather than hidden runtime claims.
+- Added `scheduler_is_placeholder` to the distributed config template so the
+  generated config matches the CLI payload contract.
+- Added a `scheduler_is_placeholder` flag to the distributed CLI payload so
+  FPGA and ASIC placeholder backends are visible in machine-readable output.
+- Clarified that the FPGA and ASIC scheduler names are placeholder adapters in
+  the public performance guide and developer accelerator guide.
+- Added a placeholder-adapter detection helper so unsupported FPGA/ASIC
+  scheduler names can be identified programmatically.
+- Updated the HPC-native roadmap wording so FPGA and ASIC are clearly marked
+  as explicit adapter placeholders with real runtimes still pending.
+- Added an execution-adapter discovery helper so the supported scheduler names
+  are enumerated consistently across the CLI and parallel module exports.
+- Aligned the FPGA and ASIC Conductor plans and registry notes with the
+  explicit placeholder adapters and their documentation.
+- Added CLI help and config-template coverage for the explicit FPGA/ASIC
+  scheduler placeholders so the new adapter names stay visible to users.
+- Aligned the open FPGA and ASIC Conductor tracks with the new explicit
+  adapter placeholders so their remaining runtime and evidence tasks stay
+  clearly open.
+- Added explicit `fpga` and `asic` execution-adapter placeholders with
+  deterministic `NotImplementedError` failures so the remaining accelerator
+  lanes have a stable code surface without claiming unsupported runtimes.
+- Clarified the remaining FPGA and ASIC track working notes so the open
+  implementation lanes explicitly record their runtime/toolchain blockers.
+- Archived the umbrella HPC capability implementation program and the CPU
+  cluster parallelism implementation track after completing the CPU cluster,
+  Metal, GPU, TPU, FPGA, and ASIC lane setup work.
+- Added a new Conductor track `binding-registry-live-verification_20260511` with
+  a machine-readable registry-audit snapshot so live Python, R, Julia,
+  TypeScript, Go, Rust, and .NET release confirmations are tracked as explicit
+  evidence.
+- Added the registry evidence refresh utility
+  (`scripts/refresh_binding_registry_audit.py`) with offline refresh support and
+  schema fields for `checked_at` and `evidence_confidence`.
+- Added a dedicated
+  `docs/developer_guide/hpc_acceleration_abstraction_contract.rst` reference
+  that defines the shared GPU/TPU/ASIC abstraction decision and benchmark
+  contract.
+- Added the missing `tests/test_r_release_workflow.py` contract test so all
+  non-Python binding releases have explicit workflow assertions.
+- Added a new Conductor track `hpc-acceleration-abstraction-contract_20260511`
+  to lock a shared GPU/TPU/ASIC acceleration policy before expansion beyond
+  Apple Metal.
+- Updated the Apple Metal Phase-3 handoff guide to the current unified review packet
+  schema produced by `compile_phase_3_handoff_packet`, including a single
+  top-level `benchmarks` packet for scalar and memory and explicit `apple_metal`
+  status handling.
+- Updated the accelerator track registry with explicit in-progress status for
+  discrete GPU, TPU, and ASIC feasibility tracks and added a Phase-3 evidence
+  manifest to the Apple integrated GPU optimization track that points to existing
+  CPU-reference proof artifacts.
+- Added a memory/throughput benchmark helper for the Apple Metal prototype so the committed Apple workloads can be compared against the same cold/warm sample shape used by the Rust baselines.
+- Added an optional Apple Metal backend prototype that routes EVPI and ENBS-style reductions through a PyTorch MPS path on Apple Silicon when the runtime supports it.
+- Added a dedicated Apple Metal backend prototype track so the Apple integrated GPU benchmark step has a real device-backed implementation to measure against the committed CPU baselines.
+- Added a live registry audit note and test that records the current published state for the language bindings, including the packages that still return 404 or no released versions.
+- Added HPC-native roadmap baseline anchors, Apple Metal adapter strategy guidance, and Apple deployment requirements in the public guide so the first accelerator track has a concrete CPU comparison set and contract-preserving execution guidance.
+- Published the HPC-native enablement roadmap with Apple-first baseline references in the developer guide and recorded the umbrella roadmap track completion.
+- Added a .NET release workflow contract test and clarified the binding submission checklist so the thin adapter role and NuGet publish path are explicit.
+- Added a Rust release workflow contract test and clarified the binding submission checklist so the canonical core role and crates.io publish path are explicit.
+- Added a Go release workflow contract test and clarified the binding submission checklist so the thin adapter role and module-proxy indexing path are explicit.
+- Added a TypeScript release workflow contract test and clarified the binding submission checklist so the thin adapter role and automated npm provenance path are explicit.
+- Added a Julia release workflow contract test and clarified the binding submission checklist so the thin adapter role and the external Julia General registry boundary are explicit.
+- Added an R release workflow contract test and clarified the binding submission checklist so the thin reticulate bridge role and the external CRAN/r-universe boundary are explicit.
 - Added the SOTA strategy orchestration guide and archived track to codify the dependency graph, shared gates, and parallel lanes for the packaging, HPC, Rust-core, and docs strategy work.
 - Marked the packaging, HPC, Rust ABI, and polyglot docs strategy tracks complete and summarized the current-state / future-state guidance in the roadmap.
+- Recorded the Python cleanup-against-spec completion in the track docs, including the stable v1 compliance result, the EVPPI raw-dict compatibility alias migration note, and the deliberate follow-up boundary around xarray/JAX/Arrow/pandas cleanup.
+- Added a binding submission checklist that separates in-repo publishing automation from external registry-side submission steps for Python, R, Julia, TypeScript, Go, Rust, and .NET.
+- Added an explicit HPC distribution contract page and a new Conductor release program with child tracks for Python, R, Julia, TypeScript, Go, Rust, and .NET submission readiness.
+- Added an HPC-native enablement roadmap with Apple integrated GPU, discrete GPU, TPU, and ASIC child tracks to stage accelerator work before claiming HPC-native status.
+- Reordered the roadmap so registry deployment completion is the prerequisite for the HPC-native enablement stage.
+- Added a Python release workflow contract test and clarified the checklist so the Python façade is explicitly called the stable release surface.
 
 ### Fixed
+- Replaced the sequential CLI's empty step stub with a pass-through progression model and covered it with focused CLI regression tests.
 - Restored the E2E CLI job to install the test runner dependencies it needs
   and converted the remaining comprehensive CLI help checks to the in-process
   Typer runner so the matrix stays stable across Python versions.

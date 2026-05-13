@@ -6,7 +6,7 @@ This guide helps users migrate from other Value of Information tools to voiage, 
 
 ### Key Differences
 
-1. **Data Structures**: BCEA uses data frames, while voiage uses xarray-based data structures
+1. **Data Structures**: BCEA uses data frames, while voiage uses xarray-based data structures. `ValueArray` and `ParameterSet` keep xarray Datasets as the canonical in-memory representation.
 2. **Function Names**: Function names differ between the two libraries
 3. **Output Format**: voiage provides more structured output with better error handling
 
@@ -38,6 +38,16 @@ analysis = DecisionAnalysis(nb_array=value_array)
 
 # Calculate EVPI
 evpi_result = analysis.evpi()
+```
+
+If you already have an xarray Dataset, use the dataset round-trip helpers
+directly:
+
+```python
+from voiage.schema import ValueArray
+
+value_array = ValueArray.from_dataset(dataset)
+dataset_copy = value_array.to_dataset()
 ```
 
 ## From dampack (R)
@@ -84,6 +94,10 @@ evppi_result = analysis.evppi()
 If you are calling the lower-level `voiage.methods.basic.evppi` wrapper
 directly, prefer `ParameterSet` inputs. Raw dict inputs still work as a
 compatibility alias, but they now emit a deprecation warning.
+
+For larger portable interchange artifacts, the core contract now treats JSON as
+the committed fixture format and reserves Arrow/Parquet for binary exchange
+paths where an optional backend is available.
 
 ## From voi (R)
 

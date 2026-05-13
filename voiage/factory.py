@@ -13,6 +13,7 @@ from voiage.config_objects import (
     VOIAnalysisConfig,
 )
 from voiage.fluent import FluentDecisionAnalysis, create_analysis
+from voiage.parallel.distributed import ClusterExecutionConfig
 from voiage.schema import ParameterSet, ValueArray
 
 # Factory methods for common analysis patterns
@@ -214,6 +215,9 @@ def create_large_scale_analysis(
 
     This factory method creates a FluentDecisionAnalysis object configured for
     handling large datasets with chunked processing and parallel execution.
+    For explicit CPU-cluster or distributed execution, use
+    ``create_distributed_large_scale_analysis`` to obtain the matching
+    ``ClusterExecutionConfig`` alongside the analysis object.
 
     Args:
         nb_array: Net benefit array
@@ -238,6 +242,52 @@ def create_large_scale_analysis(
         .with_jit(config.use_jit)
         .with_caching(config.enable_caching)
     )
+
+
+def create_distributed_large_scale_analysis(
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray] | None = None,
+    chunk_size: int = 10000,
+    n_nodes: int = 1,
+    workers_per_node: int | None = None,
+    scheduler: str = "process",
+    scheduler_address: str | None = None,
+    use_processes: bool = True,
+    memory_limit_mb: float | None = None,
+) -> tuple[FluentDecisionAnalysis, ClusterExecutionConfig]:
+    """
+    Create a large-scale analysis plus a cluster execution configuration.
+
+    This keeps the analysis object itself unchanged while making the CPU-cluster
+    execution contract explicit for callers that want to fan work out across
+    nodes, schedulers, or distributed executors.
+    """
+    ParallelConfig(
+        n_workers=None,
+        use_processes=use_processes,
+        memory_limit_mb=memory_limit_mb,
+        chunk_size=chunk_size,
+    )
+
+    config = VOIAnalysisConfig(
+        chunk_size=chunk_size, use_jit=True, backend="numpy", enable_caching=True
+    )
+    cluster_config = ClusterExecutionConfig(
+        n_nodes=n_nodes,
+        workers_per_node=workers_per_node,
+        use_processes=use_processes,
+        chunk_count=chunk_size,
+        scheduler=scheduler,
+        scheduler_address=scheduler_address,
+    )
+
+    analysis = (
+        create_analysis(nb_array, parameter_samples)
+        .with_backend(config.backend)
+        .with_jit(config.use_jit)
+        .with_caching(config.enable_caching)
+    )
+    return analysis, cluster_config
 
 
 def create_metamodel_analysis(

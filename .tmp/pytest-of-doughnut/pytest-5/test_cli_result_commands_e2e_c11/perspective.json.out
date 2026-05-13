@@ -1,0 +1,86 @@
+{
+  "analysis_id": "perspective-screening-001",
+  "analysis_type": "value_of_perspective",
+  "consensus_strategy": "B",
+  "decision_problem_id": "screening-program-001",
+  "diagnostics": {
+    "n_perspectives": 2,
+    "n_samples": 2,
+    "n_strategies": 3,
+    "regret_definition": "row i, column j is regret in perspective i when using the strategy optimal under perspective j"
+  },
+  "expected_net_benefits": [
+    [
+      10.0,
+      8.0,
+      5.0
+    ],
+    [
+      7.0,
+      11.0,
+      9.0
+    ]
+  ],
+  "method_maturity": "fixture-backed",
+  "optimal_strategy_by_perspective": {
+    "payer": "A",
+    "societal": "B"
+  },
+  "pareto_strategies": [
+    "A",
+    "B"
+  ],
+  "perspective_ids": [
+    "payer",
+    "societal"
+  ],
+  "reference_perspective": "payer",
+  "regret_matrix": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      4.0,
+      0.0
+    ]
+  ],
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "value_of_perspective",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {
+      "n_perspectives": 2,
+      "n_samples": 2,
+      "n_strategies": 3
+    },
+    "estimator": null,
+    "method_family": "value_of_perspective",
+    "method_maturity": "fixture-backed",
+    "perspective_ids": [
+      "payer",
+      "societal"
+    ],
+    "perspective_labels": [
+      "payer",
+      "societal"
+    ],
+    "population": null,
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {},
+    "seed": null
+  },
+  "robust_strategy": "B",
+  "strategy_names": [
+    "A",
+    "B",
+    "C"
+  ],
+  "switching_values": {
+    "payer": 0.0,
+    "societal": 4.0
+  },
+  "value": 3.0
+}

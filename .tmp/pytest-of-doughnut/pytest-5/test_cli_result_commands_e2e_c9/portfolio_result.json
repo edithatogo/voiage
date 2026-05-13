@@ -1,0 +1,9 @@
+{
+  "command": "calculate-portfolio-voi",
+  "optimization_method": "dynamic_programming",
+  "selected_studies": [
+    "Study Alpha"
+  ],
+  "total_cost": 50.0,
+  "total_value": 100.0
+}

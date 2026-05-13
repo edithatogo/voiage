@@ -1,0 +1,39 @@
+---
+title: SOTA Strategy Orchestration
+description: Strategic orchestration of method development and dependency matrix
+---
+
+This guide turns the Phase 11 strategy work into a dependency-aware execution model that can be split cleanly across subagents.
+
+## Why this exists
+
+The repository has four strategic workstreams that share a few decisions and artifacts:
+- Packaging review readiness
+- HPC distribution and acceleration strategy
+- Rust-core ABI and migration strategy
+- Polyglot repo and documentation architecture
+
+## Shared prerequisites
+
+1. **Release and publishing playbooks** per language binding — registry target, provenance, rollback, version-sync rules
+2. **Rust-core compatibility matrix** — binding version compatibility with Rust core versions
+3. **Benchmark and accelerator evidence gates** — measured evidence before GPU/TPU/custom-circuit claims
+4. **Documentation navigation and versioning rules** — when a docs-version switch is justified
+5. **Distribution metadata and review checklists** — pyOpenSci, rOpenSci, JOSS, Spack, EasyBuild artifacts
+6. **Registry deployment before HPC-native escalation** — finish language release submission program first
+
+## Parallel lane map
+
+| Lane | Blocking prerequisite | Parallelizable with |
+|------|----------------------|---------------------|
+| Packaging review readiness | Release playbook + metadata | HPC, docs, ABI |
+| HPC distribution & acceleration | Release artifact policy | Packaging, docs |
+| Rust-core ABI & migration | Stable contracts + versioning | Packaging, docs, HPC |
+| Polyglot repo & documentation | Docs inventory + navigation | Packaging, HPC, ABI |
+
+## Recommended execution order
+
+1. Lock shared prerequisites
+2. Run the four lanes in parallel
+3. Review lane outputs for conflicts
+4. Turn reviewed outputs into implementation tracks or repo changes

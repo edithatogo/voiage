@@ -1,0 +1,1 @@
+{"net_benefit": [[[10.0, 7.0], [8.0, 11.0]], [[10.0, 7.0], [8.0, 11.0]]], "strategy_names": ["Strategy A", "Strategy B"], "preference_profiles": [{"id": "access_first", "label": "Access first", "weight": 0.5}, {"id": "outcomes_first", "label": "Outcomes first", "weight": 0.5}], "reference_preference_profile": "access_first"}

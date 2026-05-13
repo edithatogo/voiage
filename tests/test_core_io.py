@@ -74,12 +74,45 @@ def test_value_array_csv_skip_header(tmp_path: Path) -> None:
     assert restored.strategy_names == ["Option 1", "Option 2"]
 
 
+def test_value_array_csv_single_row_round_trip(tmp_path: Path) -> None:
+    filepath = tmp_path / "single_row_value_array.csv"
+    filepath.write_text("1,2\n")
+
+    restored = read_value_array_csv(str(filepath), option_names=["A", "B"])
+
+    assert restored.numpy_values.shape == (1, 2)
+    assert restored.numpy_values.tolist() == [[1.0, 2.0]]
+    assert restored.strategy_names == ["A", "B"]
+
+
 def test_value_array_csv_option_name_mismatch(tmp_path: Path) -> None:
     filepath = tmp_path / "value_array.csv"
     filepath.write_text("1,2\n3,4\n")
 
-    with pytest.raises(FileFormatError, match="option_names"):
+    with pytest.raises(FileFormatError, match="strategies"):
         read_value_array_csv(str(filepath), option_names=["A"])
+
+
+def test_value_array_csv_rejects_empty_option_names(tmp_path: Path) -> None:
+    filepath = tmp_path / "value_array.csv"
+    filepath.write_text("1,2\n3,4\n")
+
+    with pytest.raises(FileFormatError, match="strategies"):
+        read_value_array_csv(str(filepath), option_names=[])
+
+
+def test_value_array_csv_normalizes_empty_body_with_explicit_names(
+    tmp_path: Path,
+) -> None:
+    filepath = tmp_path / "value_array_empty.csv"
+    filepath.write_text("A,B\n\n")
+
+    restored = read_value_array_csv(
+        str(filepath), option_names=[1, 2], skip_header=True
+    )
+
+    assert restored.numpy_values.shape == (0, 2)
+    assert restored.strategy_names == ["1", "2"]
 
 
 def test_parameter_set_csv_round_trip(tmp_path: Path) -> None:
@@ -116,8 +149,30 @@ def test_parameter_set_csv_parameter_name_mismatch(tmp_path: Path) -> None:
     filepath = tmp_path / "parameter_set.csv"
     filepath.write_text("10,0.1\n20,0.2\n")
 
-    with pytest.raises(FileFormatError, match="parameter_names"):
+    with pytest.raises(FileFormatError, match="parameters"):
         read_parameter_set_csv(str(filepath), parameter_names=["cost"])
+
+
+def test_parameter_set_csv_rejects_empty_parameter_names(tmp_path: Path) -> None:
+    filepath = tmp_path / "parameter_set.csv"
+    filepath.write_text("10,0.1\n20,0.2\n")
+
+    with pytest.raises(FileFormatError, match="parameters"):
+        read_parameter_set_csv(str(filepath), parameter_names=[])
+
+
+def test_parameter_set_csv_normalizes_empty_body_with_explicit_names(
+    tmp_path: Path,
+) -> None:
+    filepath = tmp_path / "parameter_set_empty.csv"
+    filepath.write_text("cost,effect\n\n")
+
+    restored = read_parameter_set_csv(
+        str(filepath), parameter_names=[1, 2], skip_header=True
+    )
+
+    assert restored.n_samples == 0
+    assert restored.parameter_names == ["1", "2"]
 
 
 def test_import_callable_resolves_builtin_callables() -> None:
@@ -141,6 +196,9 @@ def test_import_callable_rejects_missing_or_non_callable_targets() -> None:
         match=r"'builtins.__name__' does not resolve to a callable object",
     ):
         import_callable("builtins.__name__")
+
+    with pytest.raises(FileFormatError, match="could not import module"):
+        import_callable("does_not_exist.callable")
 
 
 def test_read_value_array_csv_missing_file(tmp_path: Path) -> None:
@@ -171,6 +229,14 @@ def test_write_value_array_csv_raises_os_error(
         write_value_array_csv(_value_array(), str(filepath))
 
 
+def test_write_value_array_csv_can_skip_header(tmp_path: Path) -> None:
+    filepath = tmp_path / "value_array_no_header.csv"
+
+    write_value_array_csv(_value_array(), str(filepath), write_header=False)
+
+    assert filepath.read_text().splitlines() == ["1.0,2.0", "3.0,4.0"]
+
+
 def test_write_parameter_set_csv_raises_os_error(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -183,3 +249,15 @@ def test_write_parameter_set_csv_raises_os_error(
 
     with pytest.raises(OSError, match="Failed to write ParameterSet"):
         write_parameter_set_csv(_parameter_set(), str(filepath))
+
+
+def test_write_parameter_set_csv_can_skip_header(tmp_path: Path) -> None:
+    filepath = tmp_path / "parameter_set_no_header.csv"
+
+    write_parameter_set_csv(_parameter_set(), str(filepath), write_header=False)
+
+    assert filepath.read_text().splitlines() == [
+        "10.0,0.1",
+        "20.0,0.2",
+        "30.0,0.3",
+    ]

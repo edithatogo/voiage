@@ -1,0 +1,8 @@
+{
+  "track_id": "apple-metal-backend-prototype_20260510",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-05-10T16:28:35Z",
+  "updated_at": "2026-05-11T17:54:00Z",
+  "description": "Implement a real Metal-backed internal execution prototype for Apple workloads so the Apple benchmark track can compare against a device-backed path."
+}

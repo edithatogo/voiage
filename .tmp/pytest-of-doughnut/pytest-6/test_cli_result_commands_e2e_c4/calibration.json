@@ -1,0 +1,27 @@
+{
+  "command": "calculate-calibration",
+  "metric": "Calibration VOI",
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "calculate-calibration",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {},
+    "estimator": "sophisticated",
+    "method_family": "calibration",
+    "method_maturity": "stable",
+    "population": null,
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {
+      "calibration_process_spec": "calibration_process.json",
+      "calibration_study_design": "calibration_design.json",
+      "discount_rate": null,
+      "n_outer_loops": 20,
+      "population": null,
+      "time_horizon": null
+    },
+    "seed": null
+  },
+  "value": 3.5
+}

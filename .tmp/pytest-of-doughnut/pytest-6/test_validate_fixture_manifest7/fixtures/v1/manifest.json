@@ -1,0 +1,1 @@
+{"version": "v1", "normative": [{"name": "invalid output", "method_family": "evpi", "input_artifact": "normative/inputs/input.json", "expected_output_artifact": "normative/result.json", "tolerance_policy": "exact", "provenance": {"seed": 101, "execution_mode": "deterministic"}}], "illustrative": []}

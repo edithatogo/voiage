@@ -1,0 +1,27 @@
+{
+  "command": "calculate-observational",
+  "metric": "Observational VOI",
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "calculate-observational",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {},
+    "estimator": "basic",
+    "method_family": "observational",
+    "method_maturity": "stable",
+    "population": null,
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {
+      "bias_models": "bias_models.json",
+      "discount_rate": null,
+      "n_outer_loops": 20,
+      "observational_study_design": "observational_design.json",
+      "population": null,
+      "time_horizon": null
+    },
+    "seed": null
+  },
+  "value": 4.5
+}

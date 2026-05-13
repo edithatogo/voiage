@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import cast
 
+from jsonschema import Draft202012Validator
 import numpy as np
 import pytest
 from typer.testing import CliRunner
@@ -43,6 +44,8 @@ def _write_perspective_surface(path: Path) -> None:
                     [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
                     [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
                 ],
+                "analysis_id": "perspective-screening-001",
+                "decision_problem_id": "screening-program-001",
                 "strategy_names": ["A", "B", "C"],
                 "perspective_names": ["payer", "societal"],
                 "perspective_weights": {"payer": 0.25, "societal": 0.75},
@@ -56,6 +59,9 @@ def _write_perspective_surface(path: Path) -> None:
 def test_perspective_contract_files_are_valid_json() -> None:
     """The fixture-backed contract scaffold should contain parseable JSON."""
     contract_root = Path("specs/frontier/perspective/v1")
+    schema = json.loads(
+        (contract_root / "schemas/value-of-perspective-result.schema.json").read_text()
+    )
     for relative_path in [
         "schemas/perspective-set.schema.json",
         "schemas/value-of-perspective-result.schema.json",
@@ -63,6 +69,14 @@ def test_perspective_contract_files_are_valid_json() -> None:
     ]:
         payload = json.loads((contract_root / relative_path).read_text())
         assert isinstance(payload, dict)
+    fixture = json.loads(
+        (contract_root / "fixtures/normative/value-of-perspective.json").read_text()
+    )
+    example = json.loads(
+        (contract_root / "examples/value-of-perspective.example.json").read_text()
+    )
+    Draft202012Validator(schema).validate(fixture)
+    Draft202012Validator(schema).validate(example)
 
 
 def test_perspective_fixture_manifest_and_payload_are_deterministic() -> None:
@@ -329,9 +343,12 @@ def test_cli_calculate_perspective_outputs_json(tmp_path: Path) -> None:
 
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
-    assert payload["command"] == "calculate-perspective"
+    assert payload["analysis_id"] == "perspective-screening-001"
+    assert payload["decision_problem_id"] == "screening-program-001"
+    assert payload["analysis_type"] == "value_of_perspective"
     assert payload["method_maturity"] == "fixture-backed"
     assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
+    assert payload["switching_values"] == {"payer": 0.0, "societal": 4.0}
     assert payload["consensus_strategy"] == "B"
     assert payload["robust_strategy"] == "B"
     assert payload["pareto_strategies"] == ["A", "B"]

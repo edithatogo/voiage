@@ -1,0 +1,9 @@
+{
+  "command": "calculate-structural-evppi",
+  "metric": "Structural EVPPI",
+  "structures_of_interest": [
+    0,
+    1
+  ],
+  "value": 5.5
+}

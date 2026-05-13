@@ -37,6 +37,9 @@ Shared decisions that should be treated as prerequisites
    - keep the current Sphinx docs authoritative until a later migration track changes that
 5. Distribution metadata and review checklists
    - keep pyOpenSci, rOpenSci, JOSS, Spack, EasyBuild, and community-alignment artifacts explicit
+6. Registry deployment before HPC-native escalation
+   - finish the language release submission program before treating HPC-native
+     work as the next implementation stage
 
 Parallel lane map
 -----------------

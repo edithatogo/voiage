@@ -9,6 +9,10 @@ The contract scope is the stable v1 core surface:
 - Schemas: `intervention`, `decision-problem`, `trial-design`, `parameter-set`, `value-array`
 - Results: `evpi`, `evppi`, `evsi`, `enbs`, `ceac`
 
+The cleanup is now recorded as complete for the stable v1 surface. The xarray
+dataset boundary, optional JAX backend behavior, and fixture-format alignment
+have all been verified against the current Python implementation.
+
 ## Findings
 
 ### Must-fix for v1 compliance
@@ -20,7 +24,7 @@ The public API, core result plumbing, and plotting helpers inspected so far are 
 ### Compatibility alias or deprecation path
 
 - `voiage.methods.basic.evppi(...)` accepts raw `dict[str, np.ndarray]` parameter samples in addition to `np.ndarray` and `ParameterSet`.
-- That path is intentional compatibility behavior, now paired with a deprecation warning so callers can migrate deliberately.
+- That path is intentional compatibility behavior, now paired with a deprecation warning and a migration note so callers can migrate deliberately.
 - If the project later wants to narrow the public surface further, that should be handled as an explicit deprecation path rather than a silent removal.
 
 ### Deferred follow-up outside the stable v1 scope

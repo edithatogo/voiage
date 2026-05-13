@@ -60,6 +60,8 @@ Rayon is a good fit for outer-loop work that is already batch-oriented:
 - Scenario batches and threshold grids.
 - Independent subgroup or perspective comparisons.
 - Cross-validation or bootstrap-style repetitions.
+- Cluster-sized CPU runs that fan out the same batchable workload across
+  multiple workers or nodes without changing the scalar result shape.
 
 Rayon is usually not a good fit for:
 
@@ -68,6 +70,7 @@ Rayon is usually not a good fit for:
   saved compute.
 - Workloads that need strict ordered side effects.
 - Logic that is already memory-bound and does not scale with extra threads.
+- Workloads that need interactive, stateful coordination between workers.
 
 SIMD measurement guidance
 -------------------------
@@ -108,11 +111,14 @@ Use representative workloads, not only synthetic microbenchmarks:
 - a small case that exercises overhead
 - a medium case that reflects typical use
 - a larger case that shows whether parallelism scales
+- a local multi-core CPU comparison before any scheduler-backed cluster run
+  so the host bottleneck is visible
 
 For each benchmark, document:
 
 - input size
 - scalar baseline result
+- local multi-core CPU result, when available
 - Rayon result
 - SIMD result
 - target architecture and compiler flags
@@ -130,3 +136,11 @@ optimization rather than a default architecture decision. Parallel variants
 must preserve the same public contract, diagnostics, and reporting payloads as
 the scalar path.
 
+Cluster and distributed CPU execution should use the same contract discipline:
+
+- partition work into deterministic chunks
+- keep the local scalar path as the reference implementation
+- use executor-backed fan-out when workloads are large enough to justify it
+- preserve result ordering and aggregation semantics across nodes
+- treat MPI, SLURM, Dask, Ray, or similar schedulers as deployment-specific
+  executors rather than as a separate public result model

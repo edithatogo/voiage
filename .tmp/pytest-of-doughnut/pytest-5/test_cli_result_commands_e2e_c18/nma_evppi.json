@@ -1,0 +1,9 @@
+{
+  "command": "calculate-nma-voi",
+  "metric": "NMA-EVPPI",
+  "parameters_of_interest": [
+    "effect_A",
+    "effect_B"
+  ],
+  "value": 7.5
+}

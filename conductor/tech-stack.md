@@ -41,14 +41,16 @@
 - **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
 
 ## Documentation
-- **Sphinx**: >=7.0,<8.0 - Documentation generator
-- **sphinx-rtd-theme**: >=1.0,<2.0 - Read the Docs theme
-- **Vale**: prose linting for Markdown and reStructuredText
-- **Starlight**: Astro-based docs site platform candidate, with versioning via
-  `starlight-versions`, link validation via `starlight-links-validator`, and
-  optional UX plugins such as `starlight-image-zoom`,
-  `starlight-heading-badges`, `starlight-sidebar-topics`, and
-  `starlight-utils`
+- **Starlight**: >=0.32.0 - Astro-based documentation site (replaced Sphinx)
+- **@astrojs/starlight**: Primary docs framework with built-in search (Pagefind), 
+  i18n, and MDX support
+- **starlight-versions**: >=0.4.0 - Versioned documentation navigation
+- **starlight-links-validator**: >=0.14.0 - Broken-link validation in CI
+- **starlight-llms-txt**: >=0.5.0 - LLM-friendly text export
+- **starlight-polyglot**: Auto-generated multi-language API reference from
+  Python docstrings and TypeScript type definitions
+- **Vale**: prose linting for Markdown
+- **pnpm**: Package manager for the Starlight/Astro site
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 - **WASM / N-API**: conditional TypeScript interop options if a native JS edge
   becomes necessary

@@ -1,0 +1,8 @@
+{
+  "track_id": "hpc-distribution-contract_20260511",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-05-10T15:11:27Z",
+  "updated_at": "2026-05-10T16:02:04Z",
+  "description": "Define the HPC-facing contract, distribution targets, and accelerator boundaries for voiage."
+}

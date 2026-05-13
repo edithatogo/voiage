@@ -1,0 +1,27 @@
+{
+  "command": "calculate-evsi",
+  "metric": "EVSI",
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "calculate-evsi",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {},
+    "estimator": "two_loop",
+    "method_family": "evsi",
+    "method_maturity": "stable",
+    "population": null,
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {
+      "discount_rate": null,
+      "metamodel": "linear",
+      "n_inner_loops": 1000,
+      "n_outer_loops": 100,
+      "population": null,
+      "time_horizon": null
+    },
+    "seed": null
+  },
+  "value": 5.5
+}

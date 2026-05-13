@@ -1,0 +1,8 @@
+{
+  "track_id": "remove-cli-sequential-step-stub_20260510",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-05-10T13:56:06Z",
+  "updated_at": "2026-05-10T14:12:14Z",
+  "description": "Replace the CLI sequential-step stub with a real implementation path or an explicit unsupported-path contract."
+}

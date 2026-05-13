@@ -1,6 +1,6 @@
 """Input/Output utilities for voiage."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 import csv
 import importlib
 from typing import Any
@@ -12,9 +12,11 @@ from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
 from voiage.schema import ParameterSet, ValueArray
 
-_OPTION_NAME_COUNT_MISMATCH = "Number of option_names does not match number of columns."
+_OPTION_NAME_COUNT_MISMATCH = (
+    "Number of option_names does not match number of strategies."
+)
 _PARAMETER_NAME_COUNT_MISMATCH = (
-    "Number of parameter_names does not match number of columns."
+    "Number of parameter_names does not match number of parameters."
 )
 
 
@@ -36,6 +38,45 @@ def _read_parameter_set_error(filepath: str, exc: Exception) -> "FileFormatError
 
 def _write_parameter_set_error(filepath: str, exc: Exception) -> OSError:
     return OSError(f"Failed to write ParameterSet to CSV file '{filepath}': {exc}")
+
+
+def _read_csv_values(
+    filepath: str,
+    delimiter: str,
+    skip_header: bool,
+    dtype: object,
+) -> np.ndarray:
+    """Read CSV rows into a normalized 2D NumPy array."""
+    with open(filepath, newline="") as csvfile:
+        reader = csv.reader(csvfile, delimiter=delimiter)
+        if skip_header:
+            next(reader, None)
+
+        rows = [row for row in reader if any(cell.strip() for cell in row)]
+
+    if not rows:
+        return np.empty((0, 0), dtype=dtype)
+
+    values = np.asarray([list(map(dtype, row)) for row in rows], dtype=dtype)
+    if values.ndim == 1:
+        values = values.reshape(1, -1)
+    return values
+
+
+def _normalize_csv_names(
+    names: Sequence[object] | None,
+    count: int,
+    default_prefix: str,
+    mismatch_message: str,
+) -> list[str]:
+    """Normalize CSV labels to strings and validate their length."""
+    if names is None:
+        return [f"{default_prefix}{i + 1}" for i in range(count)]
+
+    normalized_names = [str(name) for name in names]
+    if len(normalized_names) != count:
+        raise FileFormatError(mismatch_message)
+    return normalized_names
 
 
 class FileFormatError(InputError):
@@ -71,27 +112,24 @@ def import_callable(path: str) -> Callable[..., Any]:
 
 def read_value_array_csv(
     filepath: str,
-    option_names: list[str] | None = None,
+    option_names: Sequence[object] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
     dtype: object = DEFAULT_DTYPE,
 ) -> ValueArray:
     """Read a ValueArray from a CSV file."""
     try:
-        with open(filepath, newline="") as csvfile:
-            reader = csv.reader(csvfile, delimiter=delimiter)
-            if skip_header:
-                next(reader)
+        values = _read_csv_values(filepath, delimiter, skip_header, dtype)
+        expected_option_count = len(option_names) if option_names is not None else None
+        if expected_option_count is not None and values.shape[1] == 0:
+            values = np.empty((0, expected_option_count), dtype=dtype)
 
-            data = [list(map(dtype, row)) for row in reader]
-            values = np.array(data, dtype=dtype)
-
-        if option_names and len(option_names) != values.shape[1]:
-            raise FileFormatError(_OPTION_NAME_COUNT_MISMATCH)
-
-        final_option_names = option_names or [
-            f"Option {i + 1}" for i in range(values.shape[1])
-        ]
+        final_option_names = _normalize_csv_names(
+            option_names,
+            values.shape[1],
+            "Option ",
+            _OPTION_NAME_COUNT_MISMATCH,
+        )
 
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), values)},
@@ -126,34 +164,32 @@ def write_value_array_csv(
 
 def read_parameter_set_csv(
     filepath: str,
-    parameter_names: list[str] | None = None,
+    parameter_names: Sequence[object] | None = None,
     delimiter: str = ",",
     skip_header: bool = False,
     dtype: object = DEFAULT_DTYPE,
 ) -> ParameterSet:
     """Read PSA samples from a CSV file into a ParameterSet object."""
     try:
-        with open(filepath, newline="") as csvfile:
-            reader = csv.reader(csvfile, delimiter=delimiter)
-            if skip_header:
-                next(reader)
+        values = _read_csv_values(filepath, delimiter, skip_header, dtype)
+        expected_parameter_count = (
+            len(parameter_names) if parameter_names is not None else None
+        )
+        if expected_parameter_count is not None and values.shape[1] == 0:
+            values = np.empty((0, expected_parameter_count), dtype=dtype)
 
-            data = [list(map(dtype, row)) for row in reader]
-            values = np.array(data, dtype=dtype)
-
-        if parameter_names and len(parameter_names) != values.shape[1]:
-            raise FileFormatError(_PARAMETER_NAME_COUNT_MISMATCH)
-
-        final_parameter_names = parameter_names or [
-            f"param_{i + 1}" for i in range(values.shape[1])
-        ]
-
-        param_dict = {
-            name: values[:, i] for i, name in enumerate(final_parameter_names)
-        }
+        final_parameter_names = _normalize_csv_names(
+            parameter_names,
+            values.shape[1],
+            "param_",
+            _PARAMETER_NAME_COUNT_MISMATCH,
+        )
 
         dataset = xr.Dataset(
-            {k: (("n_samples",), v) for k, v in param_dict.items()},
+            {
+                name: (("n_samples",), values[:, i])
+                for i, name in enumerate(final_parameter_names)
+            },
             coords={"n_samples": np.arange(values.shape[0])},
         )
         return ParameterSet(dataset=dataset)

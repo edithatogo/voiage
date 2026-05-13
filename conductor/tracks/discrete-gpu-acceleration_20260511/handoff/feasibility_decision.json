@@ -1,0 +1,10 @@
+{
+  "track": "discrete-gpu-acceleration_20260511",
+  "decision": "feasibility_hold",
+  "phase": "phase_3",
+  "decision_reason": "No production-ready Apple Metal evidence yet; no repeatable integrated speedup to justify discrete expansion.",
+  "contract": "hpc_acceleration_abstraction_contract",
+  "contract_rule": "cpu_reference_only",
+  "next_action": "resume only after a confirmed apple_metal comparison packet demonstrates repeatable performance win",
+  "updated_at": "2026-05-11T00:00:00Z"
+}

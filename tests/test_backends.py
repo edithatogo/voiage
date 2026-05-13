@@ -1,6 +1,9 @@
 """Tests for the computational backends."""
 
-from types import SimpleNamespace
+import importlib
+import pathlib
+import sys
+from types import ModuleType, SimpleNamespace
 
 import numpy as np
 import pytest
@@ -8,6 +11,48 @@ import pytest
 from voiage import main_backends
 from voiage.backends import NumpyBackend, get_backend, set_backend
 from voiage.schema import DecisionOption, TrialDesign
+
+
+def _import_module_without_jax(
+    module_name: str, monkeypatch: pytest.MonkeyPatch
+) -> ModuleType:
+    """Import a voiage submodule in an isolated package without JAX."""
+
+    class BlockJaxFinder:
+        def find_spec(
+            self,
+            fullname: str,
+            path: object | None = None,
+            target: object | None = None,
+        ) -> object | None:
+            if fullname == "jax" or fullname.startswith("jax."):
+                raise ImportError("blocked jax")
+            return None
+
+    package = ModuleType("voiage")
+    package.__path__ = [str(pathlib.Path(__file__).resolve().parents[1] / "voiage")]
+
+    monkeypatch.setattr(sys, "meta_path", [BlockJaxFinder(), *sys.meta_path])
+    monkeypatch.setitem(sys.modules, "voiage", package)
+    for name in (
+        "jax",
+        "jax.numpy",
+        "voiage.analysis",
+        "voiage.backends",
+        "voiage.backends.advanced_jax_regression",
+        "voiage.backends.enhanced_jax_backend",
+        "voiage.backends.gpu_acceleration",
+        "voiage.backends.performance_profiler",
+        "voiage.config",
+        "voiage.core",
+        "voiage.core.utils",
+        "voiage.exceptions",
+        "voiage.main_backends",
+        "voiage.schema",
+    ):
+        monkeypatch.delitem(sys.modules, name, raising=False)
+
+    return importlib.import_module(module_name)
 
 
 def test_numpy_backend() -> None:
@@ -545,3 +590,31 @@ def test_jax_backend_evppi_uses_simple_fallback_when_regression_fails(
     monkeypatch.setattr(main_backends.jnp.linalg, "solve", fail_solve)
 
     assert backend.evppi(net_benefit_array, parameter_samples, ["risk"]) >= 0.0
+
+
+def test_main_backends_imports_and_operates_without_jax(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The public backend module should still import and serve NumPy paths."""
+    module = _import_module_without_jax("voiage.main_backends", monkeypatch)
+
+    backend = module.get_backend()
+
+    assert module.JAX_AVAILABLE is False
+    assert backend.__class__.__name__ == "NumpyBackend"
+    assert module.get_backend("numpy").__class__.__name__ == "NumpyBackend"
+    with pytest.raises(ValueError):
+        module.get_backend("jax")
+
+
+def test_analysis_imports_and_operates_without_jax(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The analysis module should keep working when JAX cannot be imported."""
+    module = _import_module_without_jax("voiage.analysis", monkeypatch)
+
+    analysis = module.DecisionAnalysis(np.array([[1.0, 2.0], [3.0, 1.5]]))
+
+    assert module.JAX_AVAILABLE is False
+    assert analysis.backend.__class__.__name__ == "NumpyBackend"
+    assert analysis.evpi() == pytest.approx(0.5)

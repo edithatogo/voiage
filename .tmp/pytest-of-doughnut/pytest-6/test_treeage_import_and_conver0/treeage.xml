@@ -1,0 +1,6 @@
+<treeage>
+          <model type="decision_tree" />
+          <node id="decision_1" type="decision" name="Choose treatment" />
+          <node id="terminal_1" type="terminal" name="Outcome" />
+          <probability from="decision_1" to="terminal_1" value="0.7" />
+        </treeage>

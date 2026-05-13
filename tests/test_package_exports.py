@@ -304,12 +304,17 @@ def test_backends_package_exports_are_curated() -> None:
     """Backend package exports should remain stable curated symbols."""
     assert backends_module.__all__ == [
         "JAX_AVAILABLE",
+        "AppleMetalBackend",
         "Backend",
         "GpuAcceleration",
         "JaxAdvancedRegression",
         "JaxBackend",
         "JaxPerformanceProfiler",
         "NumpyBackend",
+        "benchmark_evpi",
+        "compile_phase_3_handoff_packet",
+        "benchmark_mps_vs_cpu",
+        "benchmark_memory_throughput",
         "get_backend",
         "set_backend",
     ]

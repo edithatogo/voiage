@@ -11,6 +11,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
+*   **HPC Native Enablement:** 🔄 **In Progress** - the original feasibility framing remains documented, but active implementation now runs through the `hpc-capability-implementation-program_20260511` track family covering CPU cluster parallelism, Apple Metal, discrete GPU, TPU, FPGA, and ASIC implementation lanes.
 
 ---
 
@@ -427,6 +428,134 @@ release ecosystem, Rust ABI and migration boundary, and repo/docs structure.
         `polyglot-repo-docs-architecture_20260507`.
     *   Depends on the docs navigation and versioning rules in the
         orchestration guide.
+
+### Phase 12: Registry Deployment Completion 📋 **IN PROGRESS**
+
+**Goal:** Finish the remaining language release submission work and make the
+repository explicit about what is automated here versus what still depends on
+external registry-side action.
+
+1.  **Release And HPC Registry Program:**
+    *   Complete the Python, R, Julia, TypeScript, Go, Rust, and .NET release
+        submission tracks.
+    *   Keep the HPC distribution contract separate but complete the registry
+        and submission baseline first.
+    *   Covered by Conductor track:
+        `release-and-hpc-registry-program_20260511`.
+2.  **HPC Registry Readiness Program:**
+    *   Make Spack, EasyBuild, HPSF, and E4S submission-readiness requirements
+        explicit and maintainable in one track.
+    *   Add concrete external-action checklists for each target ecosystem and keep
+        the boundary against direct in-repo publishing clear.
+    *   The readiness packet is now explicit and the corresponding Conductor
+        tracks are completed.
+    *   Covered by Conductor tracks:
+        `hpc-registry-readiness_20260511`,
+        `spack-registry-readiness_20260511`,
+        `easybuild-registry-readiness_20260511`,
+        `hpsf-curation-readiness_20260511`,
+        `e4s-curation-readiness_20260511`.
+3.  **Binding Registry Live Verification:**
+    *   Maintain a live status snapshot for every language package in the target
+        registries and keep external/manual actions explicit.
+    *   Keep evidence links current so the release matrix remains reviewable
+        without guessing.
+    *   Covered by Conductor track:
+        `binding-registry-live-verification_20260511`.
+4.  **HPC Distribution Contract:**
+    *   Keep the HPC-facing contract explicit about Spack, EasyBuild, HPSF,
+        E4S, and the current non-native boundary.
+    *   Covered by Conductor track:
+        `hpc-distribution-contract_20260511`.
+
+### Phase 13: HPC Native Enablement Roadmap 📋 **IN PROGRESS**
+
+**Goal:** Move the project from HPC-friendly to evidence-backed HPC-native by
+starting with Apple integrated GPU optimization and then widening to broader
+GPU, TPU, and ASIC feasibility.
+
+1.  **Apple Integrated GPU Optimization:**
+    *   Use Metal-backed acceleration on Apple Silicon as the first
+        accelerator stage.
+    *   Prove that representative VOI workloads can benefit from integrated
+        GPU execution without changing the public contract.
+    *   Completion decision (current): prototype comparison path is defined and
+      CPU-reference proof is present (`phase_3_cpu_reference.json`,
+      `phase_3_handoff_bundle.json` in the prototype handoff dir). Device-backed
+      speedup evidence is deferred until Apple Silicon/MPS hardware is available.
+    *   Treat the committed `scalar_cpu_baseline` and
+        `memory_throughput_baseline` artifacts in `bindings/rust/benches/`
+        as the initial CPU comparison set.
+    *   The benchmark comparison is now staged behind the
+        `apple-metal-backend-prototype_20260510` implementation track, which
+        creates the device-backed path needed for an actual comparison.
+    *   Covered by Conductor track:
+        `apple-metal-integrated-gpu-optimization_20260511`.
+2.  **Discrete GPU Acceleration:**
+    *   Expand beyond Apple integrated GPUs only after the Metal path has
+        benchmark-backed evidence.
+    *   Use the shared abstraction contract defined in
+        `hpc-acceleration-abstraction-contract_20260511` before implementation.
+    *   Track decision: feasibility hold pending confirmed Apple-integrated
+        comparison evidence suitable for repeatable transfer to discrete backends.
+    *   Covered by Conductor track:
+        `discrete-gpu-acceleration_20260511`.
+3.  **TPU Feasibility:**
+    *   Treat TPU as a follow-on feasibility question for large, dense, and
+        contract-stable workloads.
+    *   Use the same abstraction contract and transition criteria as other accelerator
+      stages.
+    *   Track decision: feasibility hold; no TPU implementation until contract-safe
+        evidence and upstream gains justify compilation/runtime overhead.
+    *   Covered by Conductor track:
+        `tpu-acceleration-feasibility_20260511`.
+4.  **ASIC / Custom-Circuit Feasibility:**
+    *   Treat ASIC-style acceleration as the last-stage feasibility question.
+    *   Require the shared contract gate before considering non-CPU production slices.
+    *   Track decision: hold at feasibility level until upstream GPU/TPU phases
+        produce durable evidence.
+    *   Covered by Conductor track:
+        `asic-acceleration-feasibility_20260511`.
+
+### Phase 14: HPC Capability Implementation Program 📋 **IN PROGRESS**
+
+**Goal:** Turn the HPC roadmap into an implementation program that is no longer limited to feasibility holds. This phase covers CPU-cluster parallelism, scheduler-backed distributed execution, Apple Metal hardening, discrete GPU enablement, TPU implementation, FPGA implementation, and ASIC implementation under the shared Rust/Python contract.
+
+1.  **CPU Cluster Parallelism Implementation:**
+    *   Extend the Rust execution core to use multi-core CPU parallelism as the default HPC lane.
+    *   Preserve scalar reference behavior while making Rayon-style batching and SIMD the implementation detail.
+    *   Covered by Conductor track:
+        `cpu-cluster-parallelism-implementation_20260511`.
+2.  **Distributed Scheduler Backend Implementation:**
+    *   Add scheduler-facing adapters for cluster-oriented execution without changing the stable analysis contract.
+    *   Keep Dask, Ray, and similar runtimes optional so the core remains runnable in a local CPU-only environment.
+    *   Covered by Conductor track:
+        `distributed-scheduler-backend-implementation_20260511`.
+3.  **Apple Metal Implementation:**
+    *   Promote the Apple Silicon path from prototype optimization into a durable implementation lane.
+    *   Keep the public contract stable while refining device-aware scheduling and backend selection.
+    *   Covered by Conductor track:
+        `apple-metal-implementation_20260511`.
+4.  **Discrete GPU Implementation:**
+    *   Implement the discrete GPU backend path against the shared accelerator abstraction.
+    *   Treat this as an execution lane rather than a feasibility question, but keep contract-safe fallbacks intact.
+    *   Covered by Conductor track:
+        `discrete-gpu-implementation_20260511`.
+5.  **TPU Implementation:**
+    *   Implement the TPU path where the contract and workload shape justify it.
+    *   Keep compilation/runtime boundaries explicit and verify they remain transparent to users.
+    *   Covered by Conductor track:
+        `tpu-implementation_20260511`.
+6.  **FPGA Implementation:**
+    *   Implement an FPGA-oriented execution path or adapter once the shared abstraction is stable enough to host it.
+    *   Keep this lane separate from the baseline CPU path and document any constraints clearly.
+    *   Covered by Conductor track:
+        `fpga-implementation_20260511`.
+7.  **ASIC Implementation:**
+    *   Implement the ASIC/custom-circuit path as an advanced deployment target under the same contract discipline.
+    *   Preserve portable CPU behavior as the authoritative reference path.
+    *   Covered by Conductor track:
+        `asic-implementation_20260511`.
 
 #### Current State
 

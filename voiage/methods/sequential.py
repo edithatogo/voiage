@@ -22,6 +22,20 @@ SequentialStepModel = Callable[
 ]
 
 
+def _advance_psa(
+    step_model: SequentialStepModel,
+    current_psa: PSASample,
+    dynamic_specification: DynamicSpec,
+) -> PSASample:
+    """Advance the PSA state when the step model yields a valid next state."""
+    outcomes = step_model(current_psa, "progression_action", dynamic_specification)
+    if isinstance(outcomes, dict):
+        next_psa = outcomes.get("next_psa")
+        if isinstance(next_psa, PSASample):
+            return next_psa
+    return current_psa
+
+
 def sequential_voi(
     step_model: SequentialStepModel,
     initial_psa: PSASample,
@@ -109,16 +123,12 @@ def _sequential_voi_backward_induction(
     if n_steps == 0:
         return 0.0
 
-    # For simplicity, we'll calculate a basic sequential VOI as the sum of
-    # EVPI at each time step, appropriately discounted
-
     total_voi = 0.0
     current_psa = initial_psa
 
-    # Work backwards from the last time step
-    for i in range(n_steps - 1, -1, -1):
-        time_step = time_steps[i]
-
+    # Evaluate the decision horizon in chronological order so each step can
+    # update the PSA state before the next time point is evaluated.
+    for time_step in time_steps:
         # Calculate discount factor for this time step
         discount_factor = 1.0
         if discount_rate is not None and discount_rate > 0:
@@ -132,11 +142,8 @@ def _sequential_voi_backward_induction(
         # Add discounted EVPI to total VOI
         total_voi += evpi_at_step * discount_factor
 
-        # If not at the first step, simulate progression to previous state
-        if i > 0:
-            # This is a simplified simulation - in practice, this would use the step_model
-            # to simulate how the PSA evolves over time
-            pass
+        # Simulate the next state when the model provides a valid transition.
+        current_psa = _advance_psa(step_model, current_psa, dynamic_specification)
 
     # Apply population scaling if provided
     if population is not None and time_horizon is not None:
@@ -298,11 +305,7 @@ def _sequential_voi_generator(
 
         # Simulate progression to next state (simplified)
         if t_idx < len(time_steps) - 1:
-            outcomes = step_model(
-                current_psa, "progression_action", dynamic_specification
-            )
-            if "next_psa" in outcomes and isinstance(outcomes["next_psa"], PSASample):
-                current_psa = outcomes["next_psa"]
+            current_psa = _advance_psa(step_model, current_psa, dynamic_specification)
 
 
 if __name__ == "__main__":  # pragma: no cover

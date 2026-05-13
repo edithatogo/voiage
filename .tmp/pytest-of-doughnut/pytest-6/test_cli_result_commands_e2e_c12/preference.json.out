@@ -1,0 +1,91 @@
+{
+  "analysis_id": "preference-screening-001",
+  "analysis_type": "value_of_preference_information",
+  "command": "calculate-preference",
+  "consensus_strategy": "B",
+  "decision_problem_id": "screening-program-001",
+  "diagnostics": {
+    "individualized_care_weighted_expected_net_benefit": 10.75,
+    "n_preference_profiles": 2,
+    "n_samples": 2,
+    "n_strategies": 3,
+    "reference_preference_profile": "access_first",
+    "regret_definition": "row i, column j is regret in profile i when using the strategy optimal under profile j"
+  },
+  "expected_net_benefits": [
+    [
+      10.0,
+      8.0,
+      5.0
+    ],
+    [
+      7.0,
+      11.0,
+      9.0
+    ]
+  ],
+  "individualized_care_value": 0.5,
+  "method_maturity": "fixture-backed",
+  "metric": "Value of Preference",
+  "optimal_strategy_by_preference_profile": {
+    "access_first": "A",
+    "outcomes_first": "B"
+  },
+  "pareto_strategies": [
+    "A",
+    "B"
+  ],
+  "preference_profile_ids": [
+    "access_first",
+    "outcomes_first"
+  ],
+  "reference_preference_profile": "access_first",
+  "regret_matrix": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      4.0,
+      0.0
+    ]
+  ],
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "value_of_preference_information",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {
+      "n_preference_profiles": 2,
+      "n_samples": 2,
+      "n_strategies": 3
+    },
+    "estimator": "profile_mean",
+    "method_family": "value_of_preference_information",
+    "method_maturity": "fixture-backed",
+    "population": null,
+    "preference_profile_ids": [
+      "access_first",
+      "outcomes_first"
+    ],
+    "preference_profile_labels": [
+      "Access first",
+      "Outcomes first"
+    ],
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {},
+    "seed": null
+  },
+  "robust_strategy": "B",
+  "strategy_names": [
+    "A",
+    "B",
+    "C"
+  ],
+  "switching_values": {
+    "access_first": 0.0,
+    "outcomes_first": 4.0
+  },
+  "value": 3.0
+}

@@ -1,0 +1,43 @@
+---
+title: HPC Distribution Contract
+description: HPC distribution strategy for voiage
+---
+
+This page defines the HPC-facing contract for `voiage`. It is the written reference for what the project should look like when someone asks whether it is ready for HPC-adjacent distribution, curation, or registry handoff.
+
+## Contract posture
+
+- `voiage` is HPC-deployable and HPC-friendly
+- `voiage` is not HPC-native
+- CPU-first portability matters more than speculative accelerator work
+- No GPU, TPU, or custom-circuit claim without benchmark and deployment evidence
+
+## Target ecosystems
+
+- **Spack** and **EasyBuild** — concrete packaging paths
+- **HPSF** and **E4S** — curation and visibility paths on top of package recipes
+
+## Required contract outcomes
+
+- Installable on standard HPC systems without hidden network fetches during build
+- Deterministic and reproducible source release
+- Dependency versions pinned or clearly recorded
+- CPU-first runtime model unless evidence supports a new accelerator track
+- Scheduler-facing adapter boundary for cluster/distributed execution
+- Unsupported accelerator schedulers (`fpga`, `asic`) exposed as explicit placeholders
+- All accelerator escalation decisions captured in the HPC acceleration abstraction contract
+
+## Acceptance criteria
+
+The contract is satisfied when:
+- the repo can describe itself as HPC-deployable and HPC-friendly without claiming HPC-native status
+- the HPC distribution matrix covers Spack, EasyBuild, HPSF, and E4S
+- accelerator escalation criteria are written down before any implementation is proposed
+- Phase-3 handoff uses the unified review packet with runtime metadata and review status preserved
+
+## Out of scope
+
+- Building or maintaining a real HPC cluster deployment
+- Hard-coding a single distributed scheduler backend into the stable contract
+- Implementing GPU, TPU, or custom-circuit kernels
+- Claiming HPC-native status without benchmark-backed evidence

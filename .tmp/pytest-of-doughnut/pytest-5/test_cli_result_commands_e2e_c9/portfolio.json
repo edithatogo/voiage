@@ -1,0 +1,1 @@
+{"budget_constraint": 120, "optimization_method": "dynamic_programming", "studies": [{"name": "Study Alpha", "cost": 50, "value": 100, "design": {"arms": [{"name": "Arm A", "sample_size": 10}]}}]}

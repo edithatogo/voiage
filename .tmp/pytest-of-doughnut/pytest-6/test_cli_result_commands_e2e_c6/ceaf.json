@@ -1,0 +1,50 @@
+{
+  "acceptability_probabilities": [
+    1.0,
+    1.0
+  ],
+  "command": "calculate-ceaf",
+  "expected_net_benefit": [
+    12.5,
+    15.5
+  ],
+  "metric": "CEAF",
+  "optimal_strategy_indices": [
+    1,
+    0
+  ],
+  "optimal_strategy_names": [
+    "Strategy B",
+    "Strategy A"
+  ],
+  "probability_lower": [
+    1.0,
+    1.0
+  ],
+  "probability_upper": [
+    1.0,
+    1.0
+  ],
+  "reporting": {
+    "analysis_id": null,
+    "analysis_type": "calculate_ceaf",
+    "decision_context": null,
+    "decision_problem_id": null,
+    "diagnostics": {
+      "n_samples": 2,
+      "n_thresholds": 2
+    },
+    "estimator": "frontier_probability",
+    "method_family": "cost_effectiveness_acceptability_frontier",
+    "method_maturity": "stable",
+    "population": null,
+    "provenance": {},
+    "reporting_standard": "CHEERS-VOI",
+    "reproducibility": {},
+    "seed": null
+  },
+  "wtp_thresholds": [
+    0.0,
+    50000.0
+  ]
+}

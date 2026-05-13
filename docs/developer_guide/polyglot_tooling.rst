@@ -29,6 +29,11 @@ and conformance checks documented in the release matrix:
 
 The release matrix in `docs/release/polyglot-bindings.md` describes the
 package-manager targets and tag conventions that go with those gates.
+For a compact per-language submission status view that separates repository-
+managed automation from registry-side approval or indexing, see
+`docs/release/binding-submission-checklist.md`.
+For the HPC-facing distribution and acceleration boundary, see
+`docs/developer_guide/hpc_distribution_contract.rst`.
 
 The canonical version source and the manifest lockstep rule are documented in
 `docs/developer_guide/versioning_and_release_policy.rst`. Use that policy page
@@ -48,6 +53,10 @@ Each binding follows the release conventions of its own ecosystem:
 * .NET uses ``dotnet-v*`` tags and publishes ``net11.0`` packages to NuGet.
 * R uses ``r-v*`` tags and publishes source artifacts through GitHub Releases,
   with CRAN or r-universe still handled externally.
+
+The checklist at `docs/release/binding-submission-checklist.md` is the
+canonical place to distinguish repository-managed release automation from
+external registry submission or indexing.
 
 Logging policy
 --------------

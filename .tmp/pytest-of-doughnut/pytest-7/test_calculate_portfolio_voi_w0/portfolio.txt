@@ -1,0 +1,3 @@
+Selected studies: Study Alpha
+Total value: 100.000000
+Total cost: 50.000000

@@ -1,0 +1,35 @@
+---
+title: Rust Parallelism
+description: Parallel computation in Rust — concurrency policy and measurement approach
+---
+
+This page documents the concurrency policy for the Rust core work and the measurement approach for scalar, Rayon-based, and SIMD-oriented implementations.
+
+## Concurrency policy
+
+The Rust core treats parallelism as an implementation detail behind the core contract, not as part of the public result shape.
+
+**Preferred order of implementation:**
+
+1. Scalar reference implementation
+2. Deterministic batch parallelism with Rayon when the workload naturally decomposes
+3. SIMD acceleration when the inner loop is dense, uniform, and safe to vectorize
+
+## Safety constraints
+
+- No data races or mutation of shared result state without synchronization
+- No dependence on iteration order for stable outputs
+- No assumption that Rayon will always be available at runtime
+- No vectorization shortcut that changes rounding beyond the published tolerance
+
+## Workloads that benefit from Rayon
+
+Rayon is a good fit for outer-loop batch-oriented work: Monte Carlo samples, parameter draws for EVPPI, scenario batches, threshold grids, and cross-validation repetitions.
+
+## SIMD measurement
+
+SIMD should be measured separately from Rayon. Compare scalar, scalar+Rayon, scalar+SIMD, and scalar+Rayon+SIMD against the same deterministic inputs and tolerances.
+
+## Summary
+
+The Rust core keeps scalar behavior as the source of truth, adds Rayon only for clearly batchable workloads, and treats SIMD as a measured optimization rather than a default architecture decision.

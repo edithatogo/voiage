@@ -18,5 +18,8 @@ boundaries.
    how_to_contribute
    implementing_new_methods
    polyglot_tooling
+   hpc_acceleration_abstraction_contract
+   hpc_distribution_contract
+   hpc_native_roadmap
    sota_strategy_orchestration
    starlight_docs_platform

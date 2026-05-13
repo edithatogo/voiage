@@ -1,0 +1,38 @@
+---
+title: Profiling
+description: Performance profiling guidelines for the Rust core
+---
+
+import StarlightLinks from '@astrojs/starlight/components';
+
+This guide documents the Rust-core profiling workflow around the committed scalar CPU baseline. It describes the measured baseline, the JSON artifact contract, and the criteria for deciding when SIMD or accelerator work deserves a follow-on track.
+
+## Baseline scaffold
+
+The current benchmark scaffold lives in `bindings/rust/benches/`:
+
+- `scalar_cpu_baseline.rs` — deterministic EVPI workload
+- `scalar_cpu_baseline.json` — workload, expected value, and regression policy
+- `README.md` — local entrypoint and comparison rule
+
+The baseline is intentionally scalar and deterministic with a fixed two-strategy EVPI matrix and an expected result of `3.0`.
+
+## Workflow
+
+1. Run the scalar benchmark and confirm the EVPI result matches the committed artifact.
+2. Record timing, memory, or throughput measurements in the same artifact family.
+3. Compare the new artifact against the committed baseline before promoting an optimization claim.
+
+## Promotion criteria
+
+SIMD, Rayon, and accelerator work should be promoted only when:
+- the scalar baseline is stable and reproducible
+- the hot path shows a measurable gain
+- the change preserves the same result semantics and tolerance policy
+- the optimization is an internal execution change, not a new public contract
+
+## Related guides
+
+- [Rust Core Handoff](./rust-core-handoff)
+- [Rust Parallelism](./rust-parallelism)
+- [Rust Accelerators](./rust-accelerators)

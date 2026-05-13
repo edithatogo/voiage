@@ -1,0 +1,10 @@
+{
+  "track": "tpu-acceleration-feasibility_20260511",
+  "decision": "feasibility_hold",
+  "phase": "phase_3",
+  "decision_reason": "No confirmed integrated/continuous GPU uplift yet; no TPU-specific compile/runtime evidence available.",
+  "contract": "hpc_acceleration_abstraction_contract",
+  "contract_rule": "contract_preserve",
+  "next_action": "revisit only after discrete or Apple hardware-backed benchmark packets confirm repeatable wins",
+  "updated_at": "2026-05-11T00:00:00Z"
+}

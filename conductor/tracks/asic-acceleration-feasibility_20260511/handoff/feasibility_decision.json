@@ -1,0 +1,10 @@
+{
+  "track": "asic-acceleration-feasibility_20260511",
+  "decision": "feasibility_hold",
+  "phase": "phase_3",
+  "decision_reason": "No upstream GPU/TPU evidence and no continuous production-scale profile indicating ASIC return-on-investment.",
+  "contract": "hpc_acceleration_abstraction_contract",
+  "contract_rule": "cpu_authoritative",
+  "next_action": "revisit only if discrete/TPU stages produce repeated contract-safe accelerations at scale",
+  "updated_at": "2026-05-11T00:00:00Z"
+}
