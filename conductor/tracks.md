@@ -356,3 +356,8 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ## [x] Track: ASIC Acceleration Feasibility [completed: 2026-05-11]
 *Link: [./tracks/asic-acceleration-feasibility_20260511/](./tracks/asic-acceleration-feasibility_20260511/)*
 *Status: future hardware-dependent follow-up only; no ASIC implementation track is open.*
+
+---
+
+## [x] Track: Starlight Documentation Migration [completed: 2026-05-17]
+*Link: [./tracks/starlight_migration_20260513/](./tracks/starlight_migration_20260513/)*
