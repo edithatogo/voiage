@@ -62,7 +62,7 @@ jobs:
     - name: Upload to GitHub Pages
       uses: actions/upload-pages-artifact@v3
       with:
-        path: 'dist'
+        path: 'docs/astro-site/dist'
 
     - name: Deploy to GitHub Pages
       id: deployment

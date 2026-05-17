@@ -8,8 +8,6 @@ import starlightPolyglot from "starlight-polyglot";
 export default defineConfig({
   site: "https://edithatogo.github.io/voiage",
   base: "/voiage",
-  outDir: "../../dist",
-
   trailingSlash: "never",
 
   integrations: [
