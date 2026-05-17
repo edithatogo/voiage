@@ -137,3 +137,5 @@ bindings/**/*.snupkg
 bindings/julia/Manifest.toml
 bindings/typescript/*.tgz
 !bindings/rust/Cargo.lock
+docs/astro-site/node_modules/
+docs/astro-site/dist/

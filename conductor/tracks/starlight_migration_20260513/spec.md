@@ -7,7 +7,7 @@
 - **REQ-MIG-002**: Replace Sphinx documentation system with Starlight + polyglot
 
 ## Status
-Active
+**Completed** — 2026-05-14
 
 ## Objective
 Migrate the voiage documentation system from Sphinx (RST-based) to Starlight
@@ -57,9 +57,9 @@ while preserving the existing Sphinx source files as a backup.
 | Broken links in migrated content | starlight-links-validator plugin catches issues in CI |
 
 ## Acceptance Criteria
-- [ ] Starlight site builds successfully with `pnpm run build`
-- [ ] All existing documentation sections have MDX equivalents
-- [ ] Polyglot API reference renders in the site
-- [ ] CI pipeline deploys Starlight site to GitHub Pages
-- [ ] Tech-stack.md accurately reflects the new documentation toolchain
-- [ ] Sphinx source files remain intact as backup
+- [x] Starlight site builds successfully with `pnpm run build`
+- [x] All existing documentation sections have MDX equivalents
+- [x] Polyglot API reference renders in the site
+- [x] CI pipeline deploys Starlight site to GitHub Pages
+- [x] Tech-stack.md accurately reflects the new documentation toolchain
+- [x] Sphinx source files remain intact as backup

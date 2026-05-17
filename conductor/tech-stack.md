@@ -40,17 +40,21 @@
 - **nox**: >=2024.0 - Python-coded session orchestration backed by uv
 - **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
 
-## Documentation
-- **Starlight**: >=0.32.0 - Astro-based documentation site (replaced Sphinx)
-- **@astrojs/starlight**: Primary docs framework with built-in search (Pagefind), 
-  i18n, and MDX support
-- **starlight-versions**: >=0.4.0 - Versioned documentation navigation
-- **starlight-links-validator**: >=0.14.0 - Broken-link validation in CI
-- **starlight-llms-txt**: >=0.5.0 - LLM-friendly text export
+## Documentation (Current)
+- **Starlight**: >=0.32.0 — Primary documentation framework (Astro-based, MDX)
+- **@astrojs/starlight**: Docs framework with built-in search (Pagefind), 
+  i18n, and MDX support — **replaces Sphinx**
+- **starlight-versions**: >=0.4.0 — Versioned documentation navigation
+- **starlight-links-validator**: >=0.14.0 — Broken-link validation in CI
+- **starlight-llms-txt**: >=0.5.0 — LLM-friendly text export
 - **starlight-polyglot**: Auto-generated multi-language API reference from
   Python docstrings and TypeScript type definitions
 - **Vale**: prose linting for Markdown
 - **pnpm**: Package manager for the Starlight/Astro site
+
+## Documentation (Legacy — Sphinx)
+- **Sphinx**: v7.x (deprecated) — Retained as backup; all new docs go to Starlight
+- **sphinx-rtd-theme**: ReadTheDocs theme for the legacy site
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 - **WASM / N-API**: conditional TypeScript interop options if a native JS edge
   becomes necessary

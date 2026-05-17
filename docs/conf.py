@@ -3,7 +3,17 @@
 """
 Configuration file for the Sphinx documentation builder.
 
-This file is execfile()d with the current directory set to its containing dir.
+⚠️  DEPRECATION NOTICE ⚠️
+
+Sphinx-based documentation has been replaced by Starlight (Astro/MDX).
+
+The official documentation site is now built from docs/astro-site/ using
+@astrojs/starlight with starlight-polyglot for auto-generated API references.
+
+This Sphinx configuration is retained as a backup only. All new documentation
+content must be authored as MDX files in docs/astro-site/src/content/docs/.
+
+Sphinx build support may be removed in a future release.
 """
 
 import os
