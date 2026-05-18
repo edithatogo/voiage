@@ -16,7 +16,7 @@
     "starlight-versions": "^0.4.0",
     "starlight-links-validator": "^0.14.0",
     "starlight-llms-txt": "^0.5.0",
-    "starlight-polyglot": "file:/Users/doughnut/GitHub/starlight-polyglot/packages/starlight-polyglot",
+    ": "@edithatogo/starlight-polyglot": "file:/Users/doughnut/GitHub/starlight-polyglot/packages/starlight-polyglot",
     "typescript": "^5.7.0"
   }
 }
