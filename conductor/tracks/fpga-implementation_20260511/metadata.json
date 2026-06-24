@@ -1,8 +1,8 @@
 {
   "track_id": "fpga-implementation_20260511",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-05-11T22:15:00Z",
-  "updated_at": "2026-05-11T22:15:00Z",
+  "updated_at": "2026-06-24T03:16:25Z",
   "description": "Implement FPGA acceleration as a first-class HPC lane."
 }

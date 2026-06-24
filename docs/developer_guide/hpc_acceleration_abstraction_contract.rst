@@ -13,14 +13,20 @@ Current completion decision:
 * The current concrete progression is:
   `apple-metal-backend-prototype_20260510` (complete), then
   `apple-metal-integrated-gpu-optimization_20260511` (in progress).
-* Discrete GPU, TPU, and ASIC tracks are active but explicitly follow-on and
-  remain constrained by this abstraction contract.
+* The Colab accelerator validation handoff now records successful T4 GPU and
+  v5e TPU runs for the compact EVPI parity workload. These runs are evidence
+  that the shared JAX path can expose GPU/TPU devices without changing the
+  public contract.
+* Discrete GPU, TPU, FPGA, and ASIC tracks remain constrained by this
+  abstraction contract; broader speedup and deployment claims still need larger
+  benchmark packets.
 
 The contract applies to:
 
 * Apple integrated GPU (Metal on macOS),
 * discrete CUDA/ROCm-class GPU paths,
 * TPU via compiler-backed execution,
+* FPGA execution-adapter feasibility,
 * and ASIC/custom-circuit feasibility.
 
 Standard interface
@@ -78,6 +84,25 @@ For each hardware class, progression from feasibility to implementation requires
 4. A public decision record in `Conductor` describing why the class stays
    optional or proceeds.
 
+Current hardware evidence
+-------------------------
+
+The current hardware-backed Colab evidence lives under
+``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/``:
+
+* ``colab_gpu_accelerator_evidence.json`` records a T4 GPU run with
+  ``jax_devices == ["cuda:0"]``, ``jax_platforms == ["gpu"]``, and
+  ``cpu_evpi == jax_evpi == 1.25``.
+* ``colab_tpu_accelerator_evidence.json`` records a v5e TPU run with
+  ``jax_devices == ["TPU_0(process=0,(0,0,0,0))"]``,
+  ``jax_platforms == ["tpu"]``, and ``cpu_evpi == jax_evpi == 1.25``.
+* ``colab_accelerator_evidence_manifest.json`` records the notebook URL,
+  runtime labels, restart caveat, and passed contract checks.
+
+These artifacts are parity and visibility evidence. They do not replace the
+larger warm-up, timing, and throughput packets required before claiming
+production accelerator speedup.
+
 HPC roadmap dependency
 ----------------------
 
@@ -85,5 +110,6 @@ This contract is the upstream dependency for:
 
 * `discrete-gpu-acceleration_20260511`,
 * `tpu-implementation_20260511`,
+* `fpga-implementation_20260511`,
 * `asic-implementation_20260511`,
 * and `apple-metal-integrated-gpu-optimization_20260511`.

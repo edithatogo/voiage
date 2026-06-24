@@ -8,11 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
+  fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
+  committed probe manifests, and a GitHub Actions smoke workflow for free-runner
+  evidence collection.
+- Added a Colab accelerator validation notebook that can be uploaded with
+  `colab-cli` to check JAX CPU/GPU/TPU device visibility, EVPI parity, and the
+  explicit FPGA/ASIC placeholder-adapter contract.
+- Added the captured Colab T4 GPU and v5e TPU evidence packets under the HPC
+  acceleration abstraction handoff so hardware-backed validation results are
+  available in the repository.
+- Updated the HPC roadmap, accelerator contract, distribution contract, and
+  Conductor feasibility records so they cite the actual Colab CPU/GPU/TPU
+  evidence without overstating production accelerator readiness.
+- Cleaned the HPC tracking records so FPGA is included in the shared
+  accelerator abstraction scope, Colab packets are described as visibility and
+  parity evidence rather than throughput packets, and completed spec-track
+  metadata no longer conflicts with the track registry.
 - Marked the historical TPU and ASIC feasibility records as superseded so the
   archived roadmap and track pages clearly point to the current hardware-
   dependent follow-up state.
-- Clarified the Conductor registry so TPU and ASIC feasibility are recorded as
-  future hardware-dependent follow-up only, not as open implementation tracks.
+- Clarified the Conductor registry so TPU feasibility is backed by compact
+  Colab runtime evidence, while ASIC feasibility remains complete and the
+  separate ASIC implementation lane stays open only for placeholder/runtime
+  follow-up.
 - Repointed the HPC accelerator docs from the old feasibility links to the
   current TPU and ASIC implementation track locations.
 - Clarified that GitHub CI covers CPU-first and distributed CPU paths while
@@ -58,13 +77,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   schema fields for `checked_at` and `evidence_confidence`.
 - Added a dedicated
   `docs/developer_guide/hpc_acceleration_abstraction_contract.rst` reference
-  that defines the shared GPU/TPU/ASIC abstraction decision and benchmark
+  that defines the shared GPU/TPU/FPGA/ASIC abstraction decision and benchmark
   contract.
 - Added the missing `tests/test_r_release_workflow.py` contract test so all
   non-Python binding releases have explicit workflow assertions.
 - Added a new Conductor track `hpc-acceleration-abstraction-contract_20260511`
-  to lock a shared GPU/TPU/ASIC acceleration policy before expansion beyond
-  Apple Metal.
+  to lock a shared GPU/TPU/FPGA/ASIC acceleration policy before expansion
+  beyond Apple Metal.
 - Updated the Apple Metal Phase-3 handoff guide to the current unified review packet
   schema produced by `compile_phase_3_handoff_packet`, including a single
   top-level `benchmarks` packet for scalar and memory and explicit `apple_metal`
@@ -524,7 +543,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Provided backward-compatible wrappers and aliases in `voiage.core.data_structures` to ensure that existing code continues to work.
   - The functional API in `voiage.methods.basic` now uses the new `DecisionAnalysis` class, providing a consistent implementation.
 
-## [Unreleased]
+## [0.1.0]
 
 ### Added
 - Initial project structure and placeholder files.

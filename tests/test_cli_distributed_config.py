@@ -13,7 +13,9 @@ def test_generate_distributed_large_scale_config_template() -> None:
     assert payload["use_processes"] is True
 
 
-def test_generate_distributed_large_scale_config_template_includes_scheduler_metadata() -> None:
+def test_generate_distributed_large_scale_config_template_includes_scheduler_metadata() -> (
+    None
+):
     """The distributed template should carry scheduler metadata defaults."""
     payload = _generate_config_template("distributed-large-scale")
 

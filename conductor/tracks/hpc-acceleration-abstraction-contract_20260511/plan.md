@@ -2,7 +2,7 @@
 
 ## Phase 1: Define the Candidate Stack and Decision Rule [checkpoint: ]
 
-- [x] Task: Compare abstraction candidates for GPU/TPU/ASIC viability against project risk profile.
+- [x] Task: Compare abstraction candidates for GPU/TPU/FPGA/ASIC viability against project risk profile.
   - [x] Prefer paths that preserve dense-tensor workloads and deterministic contract output.
   - [x] Record per-target support, deployment friction, and reproducibility implications.
 - [x] Task: Capture the chosen standardization recommendation for integrated and discrete accelerators.

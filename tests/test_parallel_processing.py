@@ -26,8 +26,8 @@ from voiage.parallel.distributed import (
     partition_workload,
 )
 from voiage.parallel.monte_carlo import (
-    distributed_monte_carlo_simulation,
     _monte_carlo_worker,
+    distributed_monte_carlo_simulation,
     parallel_bootstrap_sampling,
     parallel_evsi_calculation,
     parallel_monte_carlo_simulation,
@@ -350,7 +350,7 @@ def test_distributed_reduce_and_chunk_map() -> None:
     """Test distributed reduction and chunk mapping."""
     mapped = distributed_chunk_map(
         [[1, 2], [3]],
-        lambda chunk: sum(chunk),
+        sum,
         use_processes=False,
     )
     reduced = distributed_reduce(
@@ -465,10 +465,8 @@ def test_execution_adapter_resolution() -> None:
 def test_dask_cluster_adapter_soft_dependency_gate() -> None:
     """The Dask adapter should fail clearly when the optional dependency is absent."""
     adapter = DaskClusterAdapter()
-    try:
+    with pytest.raises(ImportError, match="dask.distributed"):
         adapter.create_executor(1)
-    except ImportError as exc:
-        assert "dask.distributed" in str(exc)
 
 
 def test_dask_cluster_adapter_with_dependency() -> None:
@@ -509,7 +507,9 @@ def test_fpga_cluster_adapter_explicit_placeholder() -> None:
 def test_asic_cluster_adapter_explicit_placeholder() -> None:
     """The ASIC adapter should fail explicitly until a runtime exists."""
     adapter = AsicClusterAdapter()
-    with pytest.raises(NotImplementedError, match="ASIC/custom-circuit execution is not implemented"):
+    with pytest.raises(
+        NotImplementedError, match="ASIC/custom-circuit execution is not implemented"
+    ):
         adapter.create_executor(1)
 
 
@@ -517,7 +517,9 @@ def test_placeholder_adapters_are_exported() -> None:
     """The parallel package should export the placeholder accelerator adapters."""
     from voiage.parallel import AsicClusterAdapter as ExportedAsicClusterAdapter
     from voiage.parallel import FpgaClusterAdapter as ExportedFpgaClusterAdapter
-    from voiage.parallel import available_execution_adapters as exported_available_execution_adapters
+    from voiage.parallel import (
+        available_execution_adapters as exported_available_execution_adapters,
+    )
 
     assert ExportedFpgaClusterAdapter is FpgaClusterAdapter
     assert ExportedAsicClusterAdapter is AsicClusterAdapter

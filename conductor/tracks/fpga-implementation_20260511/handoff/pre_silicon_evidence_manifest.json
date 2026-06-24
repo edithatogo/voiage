@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-06-24T03:11:49+00:00",
+  "track": "fpga-implementation_20260511",
+  "target": "fpga",
+  "evidence_kind": "ci_pre_silicon",
+  "claim_boundary": "Pre-silicon simulation/synthesis evidence only; no physical runtime or production accelerator speedup claim.",
+  "free_runner_order": [
+    "GitHub Actions with YosysHQ/setup-oss-cad-suite",
+    "GitHub Codespaces",
+    "Google Cloud Shell"
+  ],
+  "physical_gate": "Physical FPGA board runtime remains future external evidence.",
+  "input_fixture": {
+    "path": "hardware/pre_silicon/fixtures/evpi_fixed_point_fixture.json",
+    "sha256": "9473518c51f7a18007d634c7120d87138b2b2e969d2cdb66fed38e3cf0a70ae9",
+    "kernel": "evpi_fixed_point",
+    "scale": 1000,
+    "case_count": 4
+  },
+  "source_files": {
+    "hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v": "5a72984b7abd3e976457487b5d4d33276f7e028345c924d7f2e1e250ac13cae2",
+    "hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v": "152ceabdb18f8395758364546db6ee5e52fad39fa20a3171d0b06718ef01e9ed",
+    "hardware/pre_silicon/fixtures/evpi_fixed_point_fixture.json": "9473518c51f7a18007d634c7120d87138b2b2e969d2cdb66fed38e3cf0a70ae9"
+  },
+  "tools": [
+    {
+      "name": "nextpnr-ice40",
+      "available": false,
+      "version": null,
+      "version_command": [
+        "nextpnr-ice40",
+        "--version"
+      ]
+    },
+    {
+      "name": "verilator",
+      "available": false,
+      "version": null,
+      "version_command": [
+        "verilator",
+        "--version"
+      ]
+    },
+    {
+      "name": "yosys",
+      "available": false,
+      "version": null,
+      "version_command": [
+        "yosys",
+        "--version"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "name": "verilator_lint",
+      "status": "not_run_probe",
+      "required_tools": [
+        "verilator"
+      ],
+      "missing_tools": [
+        "verilator"
+      ],
+      "missing_artifacts": [],
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v",
+        "hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v"
+      ],
+      "returncode": null,
+      "log_path": "reports/fpga/verilator_lint.log",
+      "output_artifacts": [
+        "reports/fpga/verilator_lint.log"
+      ]
+    },
+    {
+      "name": "verilator_testbench_simulation_build",
+      "status": "not_run_probe",
+      "required_tools": [
+        "verilator"
+      ],
+      "missing_tools": [
+        "verilator"
+      ],
+      "missing_artifacts": [],
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--top-module",
+        "evpi_fixed_point_kernel_tb",
+        "--Mdir",
+        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj",
+        "hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v",
+        "hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v"
+      ],
+      "returncode": null,
+      "log_path": "reports/fpga/verilator_testbench_build.log",
+      "output_artifacts": [
+        "artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb",
+        "reports/fpga/verilator_testbench_build.log"
+      ]
+    },
+    {
+      "name": "verilator_testbench_simulation_run",
+      "status": "not_run_probe",
+      "required_tools": [],
+      "missing_tools": [],
+      "missing_artifacts": [
+        "artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb"
+      ],
+      "argv": [
+        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb"
+      ],
+      "returncode": null,
+      "log_path": "reports/fpga/verilator_testbench_run.log",
+      "output_artifacts": [
+        "reports/fpga/verilator_testbench_run.log"
+      ]
+    },
+    {
+      "name": "yosys_synth_ice40_json",
+      "status": "not_run_probe",
+      "required_tools": [
+        "yosys"
+      ],
+      "missing_tools": [
+        "yosys"
+      ],
+      "missing_artifacts": [],
+      "argv": [
+        "yosys",
+        "-p",
+        "read_verilog hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v; synth_ice40 -top evpi_fixed_point_kernel -json conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json; stat"
+      ],
+      "returncode": null,
+      "log_path": "reports/fpga/yosys_synth_ice40.log",
+      "output_artifacts": [
+        "artifacts/fpga/evpi_fixed_point_ice40.json",
+        "reports/fpga/yosys_synth_ice40.log"
+      ]
+    },
+    {
+      "name": "nextpnr_ice40_place_route",
+      "status": "not_run_probe",
+      "required_tools": [
+        "nextpnr-ice40"
+      ],
+      "missing_tools": [
+        "nextpnr-ice40"
+      ],
+      "missing_artifacts": [],
+      "argv": [
+        "nextpnr-ice40",
+        "--up5k",
+        "--package",
+        "sg48",
+        "--json",
+        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json",
+        "--asc",
+        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.asc"
+      ],
+      "returncode": null,
+      "log_path": "reports/fpga/nextpnr_ice40.log",
+      "output_artifacts": [
+        "artifacts/fpga/evpi_fixed_point_ice40.asc",
+        "reports/fpga/nextpnr_ice40.log"
+      ]
+    }
+  ]
+}

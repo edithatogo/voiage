@@ -26,9 +26,7 @@ def test_python_release_workflow_matches_documented_tag_flow() -> None:
 
 
 def test_python_release_docs_keep_conda_boundary_explicit() -> None:
-    release_docs = Path("docs/release/polyglot-bindings.md").read_text(
-        encoding="utf-8"
-    )
+    release_docs = Path("docs/release/polyglot-bindings.md").read_text(encoding="utf-8")
     checklist = Path("docs/release/binding-submission-checklist.md").read_text(
         encoding="utf-8"
     )

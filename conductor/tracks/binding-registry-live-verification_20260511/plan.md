@@ -10,11 +10,11 @@
 ## Phase 2: Record Live Status for Each Binding [checkpoint: ]
 
 - [x] Task: Record current live status for Python artifacts and publishable channels.
-  - [ ] Keep external conda-forge/CRAN/Julia feedstock/Jupyter tasks as `external_manual` until verified.
+  - [x] Keep external conda-forge/CRAN/Julia feedstock/Jupyter tasks as `external_manual` until verified.
 - [x] Task: Record current live status for TypeScript and Rust package channels.
 - [x] Task: Record current live status for Go module proxy and .NET NuGet channels.
 - [x] Task: Add per-binding owners/next-step notes for each unresolved item.
-- [x] Task: Conductor - Automated Review And Checkpoint 'Phase 2: Record Live Status for Each Binding' (Protocol in workflow in workflow.md)
+- [x] Task: Conductor - Automated Review And Checkpoint 'Phase 2: Record Live Status for Each Binding' (Protocol in workflow.md)
 
 ## Phase 3: Keep Registry Bookkeeping Obvious [checkpoint: ]
 

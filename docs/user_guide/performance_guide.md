@@ -192,9 +192,25 @@ feasibility hold**:
 - FPGA: separate execution lane; still benchmark-driven and optional.
 - ASIC: contract-gated custom-circuit lane; still benchmark-driven and optional.
 
+The repository now includes a pre-silicon evidence harness under
+`hardware/pre_silicon/`. It contains a deterministic fixed-point EVPI-style RTL
+kernel, CPU fixture cases, and a manifest generator for FPGA/ASIC evidence
+packets. These artifacts are intended for free CI runners and Docker-based EDA
+flows:
+
+- FPGA first pass: GitHub Actions with OSS CAD Suite, Verilator, Yosys, and
+  nextpnr.
+- ASIC first pass: GitHub Actions with Docker, OpenROAD/OpenLane, and SKY130
+  RTL-to-GDS planning.
+- Fallbacks: GitHub Codespaces and Google Cloud Shell for manual debugging.
+
+These are pre-silicon artifacts only. They do not prove physical FPGA board
+runtime, fabricated ASIC runtime, or production accelerator speedup.
+
 The roadmap decision packets live at:
 
 - `conductor/tracks/tpu-implementation_20260511/working-notes.md`
+- `conductor/tracks/fpga-implementation_20260511/working-notes.md`
 - `conductor/tracks/asic-implementation_20260511/working-notes.md`
 
 #### Apple Metal Backend

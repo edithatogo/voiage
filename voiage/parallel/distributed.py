@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable, Sequence
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from dataclasses import dataclass
 import multiprocessing as mp
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
-import numpy as np
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable, Sequence
+
+    import numpy as np
 
 _ChunkResult = TypeVar("_ChunkResult")
 _Item = TypeVar("_Item")
@@ -27,6 +29,7 @@ class ClusterExecutionConfig:
     scheduler_address: str | None = None
 
     def __post_init__(self) -> None:
+        """Validate cluster sizing and scheduler configuration."""
         if self.n_nodes <= 0:
             raise ValueError("n_nodes must be positive")
         if self.workers_per_node is not None and self.workers_per_node <= 0:
@@ -87,7 +90,6 @@ def distributed_map(
     incoming item sequence even when the underlying executor completes tasks out
     of order.
     """
-
     if config is None:
         config = ClusterExecutionConfig()
 
@@ -166,4 +168,7 @@ def chunked_numpy_partition(data: np.ndarray, partition_count: int) -> list[np.n
     """Partition a 1D numpy array into balanced views for distributed CPU work."""
     if data.ndim != 1:
         raise ValueError("data must be one-dimensional")
-    return [data[slice_.start : slice_.stop] for slice_ in partition_workload(len(data), partition_count)]
+    return [
+        data[slice_.start : slice_.stop]
+        for slice_ in partition_workload(len(data), partition_count)
+    ]

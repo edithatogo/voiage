@@ -48,8 +48,9 @@ That means:
 Discrete GPU deployment assumptions
 -----------------------------------
 
-For discrete GPU execution, the current implementation lane should build on the
-existing GPU helper layer rather than introduce a brand-new public contract.
+For discrete GPU execution, any future production implementation lane should
+build on the existing GPU helper layer rather than introduce a brand-new public
+contract.
 That means:
 
 * use the current GPU backend detection and transfer helpers as the adapter
@@ -60,6 +61,12 @@ That means:
 * keep CPU fallback authoritative and preserve the same result envelope;
 * document the backend choice alongside benchmark evidence so the deployment
   assumption stays reviewable.
+
+The current Colab evidence packet validates the narrow JAX path on a T4 GPU:
+``jax_devices == ["cuda:0"]``, ``jax_platforms == ["gpu"]``, and
+``cpu_evpi == jax_evpi == 1.25``. This proves contract-preserving device
+visibility for the compact EVPI workload. It is not yet a Rust-core production
+GPU speedup claim.
 
 Why TPU or custom-circuit support is only conditional
 ------------------------------------------------------
@@ -83,6 +90,13 @@ In practice, that makes TPU or custom-circuit support a follow-on feasibility
 question, not a default direction. The current Rust core is still a contract-
 first library, so the accelerator path must prove it can preserve the same
 result envelopes and deterministic tests.
+
+The current Colab evidence packet validates the narrow JAX path on a v5e TPU:
+``jax_devices == ["TPU_0(process=0,(0,0,0,0))"]``,
+``jax_platforms == ["tpu"]``, and ``cpu_evpi == jax_evpi == 1.25``. This
+removes the earlier "no TPU runtime evidence" gap for the compact validation
+workload, but larger workload and speedup evidence are still required before
+promoting TPU as a practical acceleration lane.
 
 Non-goals
 ---------
@@ -115,6 +129,18 @@ fails with a clear ``NotImplementedError`` until a real FPGA runtime is added.
 The placeholder state is also discoverable through
 ``voiage.parallel.is_placeholder_execution_adapter("fpga")``.
 
+The first repo-owned FPGA evidence path is pre-silicon only:
+
+* committed fixed-point EVPI-style RTL and CPU fixtures under
+  ``hardware/pre_silicon/``;
+* Verilator lint/testbench planning;
+* Yosys synthesis planning;
+* nextpnr place-and-route planning; and
+* GitHub Actions with OSS CAD Suite as the default free runner.
+
+Codespaces and Google Cloud Shell are documented fallback runners for manual
+debugging. Physical FPGA board runtime remains a future external evidence gate.
+
 ASIC implementation lane
 ------------------------
 
@@ -137,6 +163,18 @@ fails with a clear ``NotImplementedError`` until a real ASIC/custom-circuit
 runtime is added.
 The placeholder state is also discoverable through
 ``voiage.parallel.is_placeholder_execution_adapter("asic")``.
+
+The first repo-owned ASIC evidence path is also pre-silicon only:
+
+* reuse of the committed fixed-point EVPI-style RTL and CPU fixtures;
+* Verilator lint/testbench planning;
+* Yosys synthesis planning;
+* OpenROAD/OpenLane/SKY130 RTL-to-GDS planning; and
+* GitHub Actions with Docker as the default free runner.
+
+Codespaces and Google Cloud Shell are documented fallback runners for manual
+debugging. Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain
+future external evidence gates.
 
 Those cases are either too small to benefit from offloading, or they are
 shaped by control flow rather than throughput. They should remain on the CPU

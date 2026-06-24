@@ -10,8 +10,12 @@ The contract intentionally stays conservative:
 * ``voiage`` is HPC-deployable and HPC-friendly.
 * ``voiage`` is not HPC-native.
 * CPU-first portability matters more than speculative accelerator work.
-* No GPU, TPU, or custom-circuit claim should be made without benchmark and
-  deployment evidence that justifies a dedicated implementation track.
+* GPU and TPU claims must be scoped to the evidence available. The current
+  Colab packets prove JAX device visibility and EVPI parity on T4 GPU and v5e
+  TPU, but they do not prove production speedup.
+* No production accelerator or custom-circuit claim should be made without
+  benchmark and deployment evidence that justifies a dedicated implementation
+  track.
 * This contract does **not** imply that live Spack/EasyBuild/HPSF/E4S submissions are already complete.
 
 Target ecosystems
@@ -53,8 +57,9 @@ The HPC-facing version of the project must be able to state:
   EasyBuild;
 * the curation story for HPSF and E4S is explicit and does not overclaim
   registry status.
-* GitHub CI is used to validate CPU-first and distributed CPU paths, while
-  FPGA and ASIC remain deferred hardware-backed follow-up work.
+* GitHub CI is used to validate CPU-first and distributed CPU paths, Colab
+  evidence validates the compact GPU/TPU JAX path, and FPGA/ASIC remain
+  deferred hardware-backed follow-up work.
 
 Acceptance criteria
 -------------------
@@ -70,14 +75,18 @@ The contract is satisfied when:
   implementation is proposed;
 * the release and roadmap docs point readers at this contract instead of
   implying that HPC registry status is already solved.
-* Phase-3 handoff and accelerator evidence uses the unified review packet emitted by
-   ``benchmark_mps_vs_cpu``, with ``runtime`` metadata and ``review`` status preserved
-   and no public API shape change. Handoff evidence should be stored as
-   ``phase_3_cpu_reference.json`` and ``phase_3_handoff_bundle.json`` in the
-   Apple Metal prototype track directory.
-* The Apple Metal prototype track is complete. Full device-backed acceleration
+* Apple Metal Phase-3 handoff evidence uses the unified review packet emitted
+  by ``benchmark_mps_vs_cpu``, with ``runtime`` metadata and ``review`` status
+  preserved and no public API shape change. Handoff evidence should be stored
+  as ``phase_3_cpu_reference.json`` and ``phase_3_handoff_bundle.json`` in the
+  Apple Metal prototype track directory.
+* The Apple Metal prototype track is complete. Apple Silicon MPS acceleration
   evidence remains pending until Apple Silicon capture is available for the
   integrated GPU optimization track.
+* Colab GPU/TPU visibility and parity evidence is stored under
+  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/``
+  and currently proves T4 GPU and v5e TPU runtime visibility plus EVPI parity;
+  these Colab packets are not timing, warm-up, or throughput review packets.
 * The HPC registry readiness evidence packet is maintained as external handoff
   work, not as a repository-owned publish operation.
 
@@ -94,5 +103,6 @@ Out of scope
 
 * Building or maintaining a real HPC cluster deployment.
 * Hard-coding a single distributed scheduler backend into the stable contract.
-* Implementing GPU, TPU, or custom-circuit kernels.
+* Implementing production GPU, TPU, or custom-circuit kernels beyond the
+  compact JAX validation path.
 * Claiming HPC-native status before there is benchmark-backed evidence for it.

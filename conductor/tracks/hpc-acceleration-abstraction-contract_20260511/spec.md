@@ -33,13 +33,13 @@ and fallback behavior.
 
 ## Acceptance Criteria
 
-1. A single acceleration abstraction decision is recorded for next-phase GPU/TPU/ASIC work.
+1. A single acceleration abstraction decision is recorded for next-phase GPU/TPU/FPGA/ASIC work.
 2. The decision is explicit about when and why to keep current NumPy/JAX/Metal paths.
 3. Discrete GPU, TPU, and ASIC track contracts reference the same benchmark and fallback rules as Apple Metal.
 4. The roadmap is updated so standardization is a prerequisite, not an afterthought.
 
 ## Out of Scope
 
-1. Immediate implementation of discrete GPU/TPU/ASIC kernels.
+1. Immediate implementation of discrete GPU/TPU/FPGA/ASIC kernels.
 2. Changing the existing public APIs solely to fit backend availability.
 3. In-repo credentialed registry publication actions.

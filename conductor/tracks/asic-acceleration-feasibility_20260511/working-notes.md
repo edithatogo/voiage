@@ -5,7 +5,8 @@
 ASIC adoption requires sustained regular dense kernels and a large volume of evidence.
 Current stage remains **analysis-only** because:
 
-- GPU/TPU feasibility preconditions are not yet satisfied,
+- compact GPU/TPU visibility and parity evidence now exists, but production
+  acceleration preconditions are not yet satisfied,
 - no confirmed large-throughput proof exists to justify a hardening investment,
 - project policy keeps CPU and shared abstraction contracts as the reference path.
 
@@ -16,8 +17,10 @@ computation with predictable tensor sizes and minimal host-device interaction.
 
 ## Decision
 
-Current decision: **stay at feasibility/feasibility-review only**.
-No implementation track will be opened until both workload regularity and lower-level
+Current decision: **stay at production ASIC feasibility/feasibility-review only**.
+The separate ASIC implementation track has completed the free CI pre-silicon
+evidence scope. Tiny Tapeout, SkyWater MPW, fabricated-silicon runtime, and any
+production ASIC work must wait until both workload regularity and lower-level
 benchmarks from earlier tracks show sustained, validated gains.
 
 ## Decision Packet (Reviewer-ready)

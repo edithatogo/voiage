@@ -3,45 +3,36 @@
 This document lists the actionable tasks for `voiage` development. Agents should pick tasks from the "To Do" list.
 
 ## To Do
-*   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
-*   [x] Add a uv-backed Nox runner that mirrors the main tox sessions.
-*   [x] Expand the supported Python test matrix to 3.13 and 3.14 across tox, CI, and docs.
-*   [x] Split the JAX/NumPy/SciPy dependency pins by Python version so 3.10 keeps the legacy stack and 3.11-3.14 can run the newer wheel set.
-*   [x] Tighten CLI completeness coverage with a registry-level command-surface assertion and a backend-consistency integration test.
-*   [x] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
-    *   Keep the list as a naming and boundary exercise, not an implementation plan.
-    *   Require CLI support and an explicit MCP decision for any future module.
-    *   Keep PM4Py in the process-mining ecosystem-only bucket.
-
-*   [x] Specify the stable warning and diagnostic payloads used to report unsupported capabilities, degraded paths, and approximation caveats.
-    *   Added the diagnostics contract document, schema/example pair, and contract validation coverage under `specs/core-api/`.
-*   [x] Define the capability, stability, and maturity metadata contract for the stable core API.
-    *   Added the method-metadata contract document, schema/example pair, and validation coverage, and recorded the explicit approximation-status rule.
-*   [x] Complete the remaining docs-developer-experience notebook slices.
-    *   Added NMA and structural VOI validation notebooks, plus financial, environmental, engineering, and JAX performance tutorials, and verified they execute.
-*   [x] Expand the Sphinx API reference surface and optional-import handling.
-    *   Added the missing public method submodules to the rendered API reference and configured autodoc mocks for optional third-party dependencies.
-*   [x] Wire the CLI benchmark regression checks into CI and close the no-ignored-tests bookkeeping.
-    *   Added the benchmark-regression CI job, confirmed pytest config no longer carries ignore patterns, and recorded the regression suite in the CLI integration track.
-*   [x] Restore the full repository verification gate to a passing state.
-    *   The `ruff`, `ty`, and full `pytest --cov=voiage --cov-fail-under=90` checks now pass again after the new notebook and coverage fixes.
-*   [x] Close the remaining docs-developer-experience onboarding checklist items and the CLI completeness bookkeeping.
-    *   Marked the developer-onboarding documentation phases complete and closed the CLI command-surface coverage gate after the backend-consistency test landed.
-*   [x] Overhaul the README landing page with the current feature set, working quick-start, badges, comparison table, documentation links, and help/value sections.
-    *   Refreshed the top-level project overview so it matches the present implementation and roadmap.
-*   [x] Add the remaining CLI branch coverage tests for the internal helpers, calibration/observational, sequential/NMA, adaptive/portfolio, and plot command families.
-    *   The CLI coverage gate is now back above 90% with focused regression tests for the previously uncovered branches.
-*   [x] Clarify the R package release channel and registry caveats in the polyglot publishing docs.
-    *   Documented that the R binding currently publishes source archives through GitHub Releases, while CRAN and r-universe remain external registry targets.
-
-*   [x] Reflect the implemented preference / individualized-care runtime, CLI surface, and fixture-backed conformance in the frontier roadmap.
-    *   Updated the roadmap wording so the preference frontier now reads as implemented at the runtime, CLI, and fixture-backed conformance layers, with only cross-language parity follow-through remaining.
+*None at the moment.*
 
 ## In Progress
 
 *None at the moment.*
 
 ## Done
+
+*   [x] Add free-runner pre-silicon FPGA/ASIC evidence tracks.
+    *   Added a deterministic fixed-point EVPI-style RTL kernel, CPU fixture,
+        manifest generator, committed FPGA/ASIC probe manifests, and GitHub
+        Actions smoke workflow.
+    *   Updated the FPGA and ASIC Conductor tracks so free CI evidence is
+        first-pass progress while physical board, Tiny Tapeout, SkyWater MPW,
+        and fabricated-silicon runtime remain external follow-up gates.
+
+*   [x] Clean up HPC and Conductor tracking records after Colab GPU/TPU evidence capture.
+    *   Normalized the HPC roadmap, accelerator/distribution docs, ASIC feasibility notes, and completed spec-track metadata so they distinguish visibility/parity evidence from production speedup evidence.
+    *   Added regression coverage for Colab evidence paths, hardware-scope wording, and Conductor status contradictions.
+
+*   [x] Add a Colab accelerator validation notebook for the HPC workflow.
+    *   Added a compact notebook that clones the repo in Colab, installs the
+        package, probes JAX CPU/GPU/TPU device visibility, checks EVPI parity,
+        writes an evidence packet, and confirms FPGA/ASIC remain explicit
+        placeholder adapters.
+    *   Captured and persisted successful Colab T4 GPU and v5e TPU evidence
+        payloads under the HPC acceleration abstraction handoff.
+    *   Updated the HPC docs and Conductor feasibility records to cite the
+        GPU/TPU evidence while keeping production speedup, FPGA, and ASIC
+        claims evidence-gated.
 
 *   [x] Create the SOTA strategy orchestration and dependency matrix guide.
     *   Codified the dependency graph, shared gates, and parallel lanes for the strategy work, then linked the guide into the developer docs.

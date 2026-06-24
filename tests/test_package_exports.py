@@ -312,9 +312,9 @@ def test_backends_package_exports_are_curated() -> None:
         "JaxPerformanceProfiler",
         "NumpyBackend",
         "benchmark_evpi",
-        "compile_phase_3_handoff_packet",
-        "benchmark_mps_vs_cpu",
         "benchmark_memory_throughput",
+        "benchmark_mps_vs_cpu",
+        "compile_phase_3_handoff_packet",
         "get_backend",
         "set_backend",
     ]

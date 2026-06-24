@@ -34,7 +34,9 @@ class _FakeTensor:
 
     def __sub__(self, other: object) -> "_FakeTensor":
         other_array = other.array if isinstance(other, _FakeTensor) else other
-        return _FakeTensor(self.array - np.asarray(other_array, dtype=float), self.device)
+        return _FakeTensor(
+            self.array - np.asarray(other_array, dtype=float), self.device
+        )
 
 
 class _FakeMPSBackend:
@@ -114,9 +116,9 @@ def test_apple_metal_backend_evpi_and_enbs_simple() -> None:
         net_benefit_array = np.array([[10.0, 1.0], [2.0, 8.0]])
 
         assert backend.evpi(net_benefit_array) == pytest.approx(3.0)
-        assert backend.enbs_simple(net_benefit_array, research_cost=1.0) == pytest.approx(
-            2.0
-        )
+        assert backend.enbs_simple(
+            net_benefit_array, research_cost=1.0
+        ) == pytest.approx(2.0)
         assert backend.enbs_simple_jit(
             net_benefit_array, research_cost=1.0
         ) == pytest.approx(2.0)
@@ -267,7 +269,10 @@ def test_memory_benchmark_payload_includes_required_flat_fields() -> None:
         )
 
     assert payload["mean_latency_ns"] == payload["summary"]["mean_latency_ns"]
-    assert payload["throughput_ops_per_sec"] == payload["summary"]["throughput_ops_per_sec"]
+    assert (
+        payload["throughput_ops_per_sec"]
+        == payload["summary"]["throughput_ops_per_sec"]
+    )
 
 
 def test_benchmark_mps_vs_cpu_reports_unavailable_without_torch() -> None:
@@ -395,14 +400,14 @@ def test_phase_3_handoff_compiles_scalar_and_memory_review_packets() -> None:
         assert scalar_payload["benchmark"] == "benchmark_evpi"
         assert memory_payload["benchmark"] == "benchmark_memory_throughput"
         assert set(scalar_payload["review"]["required_fields"]) == {
-                "backend",
-                "device",
-                "workload.shape",
-                "workload.sha256",
-                "repeats",
-                "warmup_runs",
-                "mean_latency_ns",
-                "throughput_ops_per_sec",
+            "backend",
+            "device",
+            "workload.shape",
+            "workload.sha256",
+            "repeats",
+            "warmup_runs",
+            "mean_latency_ns",
+            "throughput_ops_per_sec",
         }
 
 
