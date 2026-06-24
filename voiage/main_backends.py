@@ -872,7 +872,7 @@ def _payload_throughput(payload: dict[str, object]) -> float:
 
 def _array_signature(values: ArrayLike) -> dict[str, object]:
     """Return a stable workload fingerprint for benchmark reproducibility checks."""
-    array = np.asarray(values, dtype="<f8", order="C", copy=True)
+    array = np.array(values, dtype="<f8", order="C", copy=True)
     return {
         "shape": list(array.shape),
         "dtype": str(array.dtype),
