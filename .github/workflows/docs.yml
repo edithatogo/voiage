@@ -60,7 +60,7 @@ jobs:
       run: pnpm run build
 
     - name: Upload to GitHub Pages
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: 'docs/astro-site/dist'
 
