@@ -11,7 +11,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
-*   **HPC Native Enablement:** 🔄 **In Progress** - the original feasibility framing remains documented, but active implementation now runs through the `hpc-capability-implementation-program_20260511` track family covering CPU cluster parallelism, Apple Metal, discrete GPU, TPU, FPGA, and ASIC implementation lanes.
+*   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 ---
 
@@ -429,11 +429,16 @@ release ecosystem, Rust ABI and migration boundary, and repo/docs structure.
     *   Depends on the docs navigation and versioning rules in the
         orchestration guide.
 
-### Phase 12: Registry Deployment Completion 📋 **IN PROGRESS**
+### Phase 12: Registry Deployment Completion ✅/🔄 **READINESS COMPLETE, LIVE CHECKS REFRESHABLE**
 
 **Goal:** Finish the remaining language release submission work and make the
 repository explicit about what is automated here versus what still depends on
 external registry-side action.
+
+Completion decision: repository-side submission workflows and HPC readiness
+handoffs are complete. Live registry status remains a refreshable evidence
+artifact because external registry indexing, approvals, and propagation are not
+owned by this repository.
 
 1.  **Release And HPC Registry Program:**
     *   Complete the Python, R, Julia, TypeScript, Go, Rust, and .NET release
@@ -468,11 +473,11 @@ external registry-side action.
     *   Covered by Conductor track:
         `hpc-distribution-contract_20260511`.
 
-### Phase 13: HPC Native Enablement Roadmap 📋 **IN PROGRESS**
+### Phase 13: HPC Native Enablement Roadmap ✅/🔄 **SETUP COMPLETE, SPEEDUP EVIDENCE-GATED**
 
 **Goal:** Move the project from HPC-friendly to evidence-backed HPC-native by
 starting with Apple integrated GPU optimization and then widening to broader
-GPU, TPU, and ASIC feasibility.
+GPU, TPU, FPGA, and ASIC feasibility.
 
 1.  **Apple Integrated GPU Optimization:**
     *   Use Metal-backed acceleration on Apple Silicon as the first
@@ -505,8 +510,9 @@ GPU, TPU, and ASIC feasibility.
         contract-stable workloads.
     *   Use the same abstraction contract and transition criteria as other accelerator
       stages.
-    *   Track decision: feasibility hold; no TPU implementation until contract-safe
-        evidence and upstream gains justify compilation/runtime overhead.
+    *   Track decision: compact Colab v5e runtime validation has passed for
+        TPU visibility and EVPI parity, but production-scale TPU speedup remains
+        gated by contract-safe workload and benchmark evidence.
     *   Covered by Conductor track:
         `tpu-acceleration-feasibility_20260511`.
 4.  **ASIC / Custom-Circuit Feasibility:**
@@ -517,9 +523,18 @@ GPU, TPU, and ASIC feasibility.
     *   Covered by Conductor track:
         `asic-acceleration-feasibility_20260511`.
 
-### Phase 14: HPC Capability Implementation Program 📋 **IN PROGRESS**
+### Phase 14: HPC Capability Implementation Program ✅ **SETUP COMPLETE**
 
-**Goal:** Turn the HPC roadmap into an implementation program that is no longer limited to feasibility holds. This phase covers CPU-cluster parallelism, scheduler-backed distributed execution, Apple Metal hardening, discrete GPU enablement, TPU implementation, FPGA implementation, and ASIC implementation under the shared Rust/Python contract.
+**Goal:** Turn the HPC roadmap into an implementation program that is no longer
+limited to feasibility holds. This phase covers CPU-cluster parallelism,
+scheduler-backed distributed execution, Apple Metal hardening, discrete GPU
+enablement, TPU implementation, FPGA implementation, and ASIC implementation
+under the shared Rust/Python contract.
+
+Completion decision: the umbrella setup program is complete and archived.
+CPU/distributed lanes, Apple/GPU/TPU setup, and explicit FPGA/ASIC placeholder
+lanes are tracked. Production accelerator speedup and real FPGA/ASIC hardware
+validation remain future evidence-gated work.
 
 1.  **CPU Cluster Parallelism Implementation:**
     *   Extend the Rust execution core to use multi-core CPU parallelism as the default HPC lane.
@@ -547,13 +562,13 @@ GPU, TPU, and ASIC feasibility.
     *   Covered by Conductor track:
         `tpu-implementation_20260511`.
 6.  **FPGA Implementation:**
-    *   Implement an FPGA-oriented execution path or adapter once the shared abstraction is stable enough to host it.
-    *   Keep this lane separate from the baseline CPU path and document any constraints clearly.
+    *   Status: free CI pre-silicon evidence path complete with explicit adapter placeholder behavior preserved.
+    *   Keep physical FPGA board runtime and production speedup claims as future external evidence gates.
     *   Covered by Conductor track:
         `fpga-implementation_20260511`.
 7.  **ASIC Implementation:**
-    *   Implement the ASIC/custom-circuit path as an advanced deployment target under the same contract discipline.
-    *   Preserve portable CPU behavior as the authoritative reference path.
+    *   Status: free CI pre-silicon evidence path complete with explicit adapter placeholder behavior preserved.
+    *   Keep Tiny Tapeout, SkyWater MPW, fabricated-silicon runtime, and production ASIC speedup claims as future external evidence gates.
     *   Covered by Conductor track:
         `asic-implementation_20260511`.
 

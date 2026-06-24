@@ -9,7 +9,11 @@ def test_hpc_native_roadmap_sequence_and_baselines() -> None:
     accelerator_text = (root / "docs" / "developer_guide" / "rust_accelerators.rst").read_text()
     notes_text = (root / "conductor" / "tracks" / "apple-metal-integrated-gpu-optimization_20260511" / "working-notes.md").read_text()
 
-    assert "Phase 13: HPC Native Enablement Roadmap 📋 **IN PROGRESS**" in roadmap_text
+    assert (
+        "Phase 13: HPC Native Enablement Roadmap ✅/🔄 **SETUP COMPLETE, SPEEDUP EVIDENCE-GATED**"
+        in roadmap_text
+    )
+    assert "Phase 14: HPC Capability Implementation Program ✅ **SETUP COMPLETE**" in roadmap_text
     assert "Apple Integrated GPU Optimization" in roadmap_text
     assert "Discrete GPU Acceleration" in roadmap_text
     assert "TPU Feasibility" in roadmap_text

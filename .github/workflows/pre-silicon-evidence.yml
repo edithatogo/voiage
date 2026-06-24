@@ -1,0 +1,89 @@
+name: Pre-Silicon FPGA/ASIC Evidence
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "hardware/pre_silicon/**"
+      - "scripts/pre_silicon_evidence.py"
+      - "tests/test_pre_silicon_evidence_tracks.py"
+      - "conductor/tracks/fpga-implementation_20260511/**"
+      - "conductor/tracks/asic-implementation_20260511/**"
+
+permissions:
+  contents: read
+
+jobs:
+  manifest-smoke:
+    name: Manifest Smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate probe manifests
+        run: |
+          python scripts/pre_silicon_evidence.py all \
+            --output-root pre-silicon-evidence \
+            --probe-only
+          python -m json.tool pre-silicon-evidence/fpga/pre_silicon_evidence_manifest.json >/dev/null
+          python -m json.tool pre-silicon-evidence/asic/pre_silicon_evidence_manifest.json >/dev/null
+
+      - name: Upload probe manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: pre-silicon-probe-manifests
+          path: pre-silicon-evidence/
+
+  fpga-oss-cad-suite:
+    name: FPGA OSS CAD Suite Evidence
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate FPGA pre-silicon evidence
+        run: |
+          python scripts/pre_silicon_evidence.py fpga \
+            --output-root pre-silicon-evidence/fpga
+
+      - name: Upload FPGA evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpga-pre-silicon-evidence
+          path: pre-silicon-evidence/fpga/
+
+  asic-openroad-docker-probe:
+    name: ASIC OpenROAD/OpenLane Docker Probe
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Probe OpenLane container availability
+        run: |
+          docker pull ghcr.io/the-openroad-project/openlane:latest || true
+          docker run --rm ghcr.io/the-openroad-project/openlane:latest openroad -version || true
+
+      - name: Generate ASIC pre-silicon evidence manifest
+        run: |
+          python scripts/pre_silicon_evidence.py asic \
+            --output-root pre-silicon-evidence/asic
+
+      - name: Upload ASIC evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: asic-pre-silicon-evidence
+          path: pre-silicon-evidence/asic/

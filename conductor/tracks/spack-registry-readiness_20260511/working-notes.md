@@ -19,7 +19,7 @@
 - Python dependency bounds matching the repository canonical constraints
 - Runtime behavior expectations (CPU-first reference contract)
 
-## External blocker
+## External maintainer gate
 
 Spack submission PR and approval still happen in the Spack ecosystem, outside
-this repository.
+this completed readiness track.

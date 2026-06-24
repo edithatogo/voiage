@@ -5,5 +5,5 @@
   "created_at": "2026-05-11T19:03:00Z",
   "completed_at": "2026-05-11T19:06:00Z",
   "updated_at": "2026-05-11T19:06:00Z",
-  "description": "Define a standardized hardware acceleration path so GPU/TPU/ASIC work shares one contract-first backend strategy."
+  "description": "Define a standardized hardware acceleration path so GPU/TPU/FPGA/ASIC work shares one contract-first backend strategy."
 }

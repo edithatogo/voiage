@@ -46,3 +46,4 @@ Performance and Benchmarking
 ----------------------------
 
 * `JAX Performance <../../examples/jax_performance.ipynb>`_
+* `Colab Accelerator Validation <../../examples/colab_accelerator_validation.ipynb>`_

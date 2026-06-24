@@ -6,17 +6,19 @@ an HPC-native claim. The repository should not treat HPC-native as a current
 status. It should treat it as an evidence-backed endpoint that requires
 progressive accelerator work and benchmark proof.
 
-Current completion decision (as of 2026-05-11):
+Current completion decision:
 
 * `apple-metal-backend-prototype_20260510` is complete and has delivered the
   Phase-3 CPU reference artifacts for deterministic review.
 * `apple-metal-integrated-gpu-optimization_20260511` has completed the CPU-first
   Phase-3 review packet and is awaiting Apple Silicon + MPS device access for a
   full ``apple_metal`` payload capture.
-* Discrete GPU is now represented as an implementation lane; TPU is implemented
-  through the existing JAX-oriented backend path; FPGA and ASIC now expose
-  explicit adapter placeholders, but their real runtimes and comparison
-  evidence remain open.
+* Colab validation has now captured contract-preserving CPU/JAX parity on a
+  T4 GPU and a v5e TPU through the shared JAX-oriented path. These artifacts
+  prove device visibility and result parity for the validation workload; they
+  do not yet prove production-scale speedup.
+* FPGA and ASIC now expose explicit adapter placeholders, but their real
+  runtimes and comparison evidence remain open.
 
 The registry-deployment program is the prerequisite stage. Once the release
 submission tracks are complete, this roadmap can proceed with accelerator work
@@ -57,20 +59,42 @@ Roadmap sequence
 Current evidence status
 -----------------------
 
-As of 2026-05-11, the reviewer-closure decisions are:
+As of the Colab capture on 2026-06-23 UTC, the reviewer-closure decisions are:
 
-* **Discrete GPU**: implementation lane (`conductor/tracks/discrete-gpu-implementation_20260511/` archived)
+* **CPU reference**: the deterministic scalar CPU baselines remain the
+  authoritative comparison set through the Apple Metal prototype handoff.
+* **Discrete GPU**: the implementation lane is archived
+  (`conductor/archive/discrete-gpu-implementation_20260511/`), and a
+  hardware-backed Colab T4 validation packet now confirms JAX GPU device
+  visibility, EVPI parity, and placeholder-adapter reporting:
+  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json``.
+  This is a contract validation artifact, not a production speedup claim.
 * **TPU**: implementation lane through the JAX-oriented backend path with
-  comparison evidence still pending (`conductor/tracks/tpu-implementation_20260511/`)
-* **FPGA**: implementation lane with toolchain and kernel definition complete
-  and explicit adapter placeholder exposure complete; real runtime and
-  comparison evidence still pending (`conductor/tracks/fpga-implementation_20260511/`)
-* **ASIC / custom-circuit**: implementation lane with deployment assumptions
-  defined, explicit adapter placeholder exposure complete, and comparison
-  evidence still pending (`conductor/tracks/asic-implementation_20260511/`)
+  hardware-backed Colab v5e validation now confirming JAX TPU device
+  visibility, EVPI parity, and placeholder-adapter reporting:
+  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json``.
+  This closes the "no TPU runtime evidence" gap for the compact validation
+  workload, while larger workload and speedup evidence remain future work.
+* **FPGA**: implementation lane with explicit adapter placeholder exposure and
+  free CI pre-silicon evidence complete. The committed evidence path includes
+  a fixed-point EVPI-style RTL kernel, CPU fixtures, Verilator simulation
+  planning, Yosys synthesis planning, nextpnr place-route planning, and probe
+  manifests (`conductor/tracks/fpga-implementation_20260511/`). Physical FPGA
+  board runtime remains a future external evidence gate.
+* **ASIC / custom-circuit**: implementation lane with explicit adapter
+  placeholder exposure and free CI pre-silicon evidence complete. The committed
+  evidence path reuses the fixed-point RTL kernel and CPU fixtures, records
+  Verilator/Yosys/OpenROAD/OpenLane/SKY130 RTL-to-GDS command status targets,
+  and includes probe manifests (`conductor/tracks/asic-implementation_20260511/`).
+  Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain future
+  external evidence gates.
 
-These holds were set to keep the roadmap hardware-safe until a deterministic,
-repeatable hardware stage demonstrates contract-preserving speedup.
+The GPU and TPU artifacts are indexed by
+``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json``.
+Remaining holds are now about repeatable acceleration, production-sized
+workloads, physical FPGA board runtime, and fabricated ASIC evidence, not about
+basic JAX device visibility for GPU or TPU or about repo-owned FPGA/ASIC
+pre-silicon scaffolding.
 
 Apple deployment requirements
 -----------------------------
@@ -91,11 +115,24 @@ The current Apple Metal track has established the committed CPU baselines and th
 contract-preserving adapter strategy. Phase-3 remains the review milestone where
 the Metal-backed implementation is measured against the CPU reference.
 
+The Colab accelerator validation notebook has separately produced lightweight
+JAX comparison evidence:
+
+* T4 GPU: ``jax_devices == ["cuda:0"]``, ``jax_platforms == ["gpu"]``,
+  ``cpu_evpi == jax_evpi == 1.25``.
+* v5e TPU: ``jax_devices == ["TPU_0(process=0,(0,0,0,0))"]``,
+  ``jax_platforms == ["tpu"]``, ``cpu_evpi == jax_evpi == 1.25``.
+
+Those runs validate runtime visibility and numerical parity for the compact
+EVPI workload. They should be used as hardware-evidence anchors for the shared
+JAX path, but they are not sufficient by themselves to claim HPC-native
+acceleration or production workload speedup.
+
 Standardized accelerator stack
 ------------------------------
 
 The repository is expected to use one shared backend abstraction policy for
-future GPU/TPU/ASIC decisions. See
+future GPU/TPU/FPGA/ASIC decisions. See
 `hpc_acceleration_abstraction_contract.rst <hpc_acceleration_abstraction_contract.rst>`_
 for the shared policy. A dedicated Conductor track captures that policy
 before implementation widens beyond Apple Metal, so tracks are evaluated against

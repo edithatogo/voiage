@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-06-23T17:13:22.699087+00:00",
+  "python_version": "3.12.13",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+  "jax_version": "0.7.2",
+  "jax_devices": [
+    "cuda:0"
+  ],
+  "jax_platforms": [
+    "gpu"
+  ],
+  "has_gpu": true,
+  "has_tpu": false,
+  "cpu_evpi": 1.25,
+  "jax_evpi": 1.25,
+  "available_execution_adapters": [
+    "process",
+    "thread",
+    "dask",
+    "ray",
+    "fpga",
+    "asic"
+  ],
+  "fpga_is_placeholder": true,
+  "asic_is_placeholder": true
+}

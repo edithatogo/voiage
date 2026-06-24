@@ -1,8 +1,9 @@
 {
   "track_id": "canonical-schemas-core-contracts",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-04-16T13:11:48Z",
-  "updated_at": "2026-04-16T13:11:48Z",
+  "updated_at": "2026-04-18T00:00:00Z",
+  "completed_at": "2026-04-18T00:00:00Z",
   "description": "Define the machine-readable canonical schemas and core method result contracts for the stable API."
 }

@@ -2,9 +2,13 @@
   "track": "tpu-acceleration-feasibility_20260511",
   "decision": "feasibility_hold",
   "phase": "phase_3",
-  "decision_reason": "No confirmed integrated/continuous GPU uplift yet; no TPU-specific compile/runtime evidence available.",
+  "decision_reason": "Colab v5e evidence now confirms TPU runtime visibility and EVPI parity for the compact validation workload, but no large-workload compile/runtime speedup evidence is available.",
   "contract": "hpc_acceleration_abstraction_contract",
-  "contract_rule": "contract_preserve",
-  "next_action": "revisit only after discrete or Apple hardware-backed benchmark packets confirm repeatable wins",
-  "updated_at": "2026-05-11T00:00:00Z"
+  "contract_rule": "contract_preserve_with_colab_tpu_parity",
+  "evidence": {
+    "colab_tpu": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json",
+    "manifest": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json"
+  },
+  "next_action": "revisit production TPU acceleration only after discrete, Apple, or TPU-specific large-workload benchmark packets confirm repeatable wins",
+  "updated_at": "2026-06-23T17:20:00Z"
 }

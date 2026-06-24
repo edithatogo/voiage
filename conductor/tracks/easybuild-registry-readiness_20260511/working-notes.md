@@ -19,6 +19,7 @@
 - Python binding behavior matrix (CPU-first contract)
 - Dependency constraints from `pyproject.toml` and lock-sensitive releases
 
-## External blocker
+## External maintainer gate
 
-External EasyBuild repository approval is required to close this track.
+External EasyBuild repository approval is outside this completed readiness
+track.

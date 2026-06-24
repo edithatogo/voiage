@@ -280,15 +280,15 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: FPGA Implementation
+## [x] Track: FPGA Implementation [completed: 2026-06-24]
 *Link: [./tracks/fpga-implementation_20260511/](./tracks/fpga-implementation_20260511/)*
-*Status: explicit adapter placeholder and docs landed; runtime and evidence remain open.*
+*Status: free CI pre-silicon evidence path is implemented; physical FPGA board runtime remains a future external gate.*
 
 ---
 
-## [ ] Track: ASIC Implementation
+## [x] Track: ASIC Implementation [completed: 2026-06-24]
 *Link: [./tracks/asic-implementation_20260511/](./tracks/asic-implementation_20260511/)*
-*Status: explicit adapter placeholder and docs landed; runtime and evidence remain open.*
+*Status: free CI pre-silicon evidence path is implemented; Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain future external gates.*
 
 ---
 
@@ -349,13 +349,13 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ## [x] Track: TPU Acceleration Feasibility [completed: 2026-05-11]
 *Link: [./tracks/tpu-acceleration-feasibility_20260511/](./tracks/tpu-acceleration-feasibility_20260511/)*
-*Status: future hardware-dependent follow-up only; no TPU implementation track is open.*
+*Status: Colab v5e runtime visibility and EVPI parity evidence captured; production-scale TPU speedup remains evidence-gated.*
 
 ---
 
 ## [x] Track: ASIC Acceleration Feasibility [completed: 2026-05-11]
 *Link: [./tracks/asic-acceleration-feasibility_20260511/](./tracks/asic-acceleration-feasibility_20260511/)*
-*Status: future hardware-dependent follow-up only; no ASIC implementation track is open.*
+*Status: feasibility decision is complete; fabricated-silicon evidence remains a future external gate after the completed pre-silicon implementation track.*
 
 ---
 
