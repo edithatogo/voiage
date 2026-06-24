@@ -29,6 +29,7 @@ from voiage.core.io import (
     read_parameter_set_csv,
     read_value_array_csv,
 )
+from voiage.factory import create_distributed_large_scale_analysis
 from voiage.methods.adaptive import (
     adaptive_evsi,
     bayesian_adaptive_trial_simulator,
@@ -89,9 +90,7 @@ from voiage.methods.validation import (
 from voiage.methods.validation import (
     value_of_model_validation as calculate_validation_result,
 )
-from voiage.factory import create_distributed_large_scale_analysis
-from voiage.parallel import get_execution_adapter
-from voiage.parallel import is_placeholder_execution_adapter
+from voiage.parallel import get_execution_adapter, is_placeholder_execution_adapter
 from voiage.plot.ceac import plot_ceac as render_ceac
 from voiage.plot.ceaf import plot_ceaf as render_ceaf
 from voiage.plot.dominance import plot_cost_effectiveness_plane as render_dominance
@@ -1089,9 +1088,7 @@ def create_distributed_large_scale(
     chunk_size: int = typer.Option(
         10000, "--chunk-size", help="Chunk size for distributed execution"
     ),
-    n_nodes: int = typer.Option(
-        1, "--n-nodes", help="Number of CPU nodes to target"
-    ),
+    n_nodes: int = typer.Option(1, "--n-nodes", help="Number of CPU nodes to target"),
     workers_per_node: int | None = typer.Option(
         None, "--workers-per-node", help="Workers to use on each node"
     ),

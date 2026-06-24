@@ -58,8 +58,8 @@ def test_colab_accelerator_validation_notebook_documents_hardware_contract() -> 
         "jax.devices()",
         "np.testing.assert_allclose(cpu_evpi, jax_evpi",
         "available_execution_adapters",
-        "is_placeholder_execution_adapter(\"fpga\")",
-        "is_placeholder_execution_adapter(\"asic\")",
+        'is_placeholder_execution_adapter("fpga")',
+        'is_placeholder_execution_adapter("asic")',
         "colab_accelerator_evidence.json",
     ):
         assert needle in sources

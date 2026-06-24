@@ -29,7 +29,10 @@ def test_registry_audit_documents_current_live_status() -> None:
     assert ".NET `Voiage.Core` on NuGet returned `404`" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
     assert "reported no released versions" in audit_text
-    assert "submissions have not been confirmed as published for these package names" in audit_text
+    assert (
+        "submissions have not been confirmed as published for these package names"
+        in audit_text
+    )
 
 
 def test_registry_audit_snapshot_matches_expected_channels() -> None:

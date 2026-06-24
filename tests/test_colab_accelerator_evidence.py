@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 EVIDENCE_ROOT = Path(
     "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff"
 )

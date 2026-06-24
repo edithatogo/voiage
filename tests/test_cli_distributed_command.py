@@ -4,7 +4,6 @@ from typer.testing import CliRunner
 
 from voiage import cli
 
-
 runner = CliRunner()
 
 
@@ -42,7 +41,9 @@ def test_create_distributed_large_scale_command(tmp_path) -> None:
     assert '"chunk_size": 5000' in result.stdout
 
 
-def test_create_distributed_large_scale_command_with_scheduler_address(tmp_path) -> None:
+def test_create_distributed_large_scale_command_with_scheduler_address(
+    tmp_path,
+) -> None:
     """The CLI should surface a remote scheduler address in the payload."""
     net_benefit_file = tmp_path / "net_benefits.csv"
     net_benefit_file.write_text("1,2\n3,4\n", encoding="utf-8")

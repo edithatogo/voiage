@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -9,12 +9,17 @@ import pytest
 from voiage import versioning
 from voiage.core import gpu_acceleration as gpu
 
+if TYPE_CHECKING:
+    from pathlib import Path
+
 
 def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
     pyproject = tmp_path / "pyproject.toml"
     pyproject.write_text("[tool]\nname = 'voiage'\n", encoding="utf-8")
 
-    with pytest.raises(versioning.VersionSyncError, match="missing \\[project\\] table"):
+    with pytest.raises(
+        versioning.VersionSyncError, match="missing \\[project\\] table"
+    ):
         versioning._read_canonical_version(pyproject)
 
     description = tmp_path / "DESCRIPTION"
@@ -33,7 +38,9 @@ def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
         versioning._read_json_version(json_empty)
 
     csproj = tmp_path / "Voiage.Core.csproj"
-    csproj.write_text("<Project><PropertyGroup></PropertyGroup></Project>", encoding="utf-8")
+    csproj.write_text(
+        "<Project><PropertyGroup></PropertyGroup></Project>", encoding="utf-8"
+    )
     with pytest.raises(versioning.VersionSyncError, match="missing <Version>"):
         versioning._read_csproj_version(csproj)
 
@@ -69,7 +76,9 @@ def test_versioning_load_helpers_and_version_extractors(
     assert versioning._read_cargo_version(cargo_path) == "1.2.3"
 
     monkeypatch.setattr(versioning.tomllib, "load", lambda handle: [])
-    with pytest.raises(versioning.VersionSyncError, match="expected TOML document object"):
+    with pytest.raises(
+        versioning.VersionSyncError, match="expected TOML document object"
+    ):
         versioning._load_toml(toml_path)
 
     monkeypatch.setattr(versioning.json, "load", lambda handle: [])

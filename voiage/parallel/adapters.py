@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from dataclasses import dataclass
 from threading import Thread
-from typing import Protocol, TypeVar
+from typing import TYPE_CHECKING, Protocol, TypeVar
+
+from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 _Result = TypeVar("_Result")
 
@@ -28,6 +32,7 @@ class LocalProcessAdapter:
     name: str = "local-process"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Create a local process-pool executor."""
         return ProcessPoolExecutor(max_workers=n_workers)
 
 
@@ -38,6 +43,7 @@ class LocalThreadAdapter:
     name: str = "local-thread"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Create a local thread-pool executor."""
         return ThreadPoolExecutor(max_workers=n_workers)
 
 
@@ -50,6 +56,7 @@ class DaskClusterAdapter:
     name: str = "dask-cluster"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Create an executor backed by Dask."""
         try:
             from dask.distributed import Client, LocalCluster
         except Exception as exc:  # pragma: no cover - soft dependency gate
@@ -77,7 +84,7 @@ class _DaskExecutor:
     def shutdown(self, wait: bool = True) -> None:
         self._client.close()
 
-    def __enter__(self) -> "_DaskExecutor":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
@@ -92,6 +99,7 @@ class RayClusterAdapter:
     name: str = "ray-cluster"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Create an executor backed by Ray."""
         try:
             import ray
         except Exception as exc:  # pragma: no cover - soft dependency gate
@@ -135,7 +143,7 @@ class _RayExecutor:
         if hasattr(self._ray, "shutdown"):
             self._ray.shutdown()
 
-    def __enter__(self) -> "_RayExecutor":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
@@ -154,6 +162,7 @@ class FpgaClusterAdapter:
     name: str = "fpga-cluster"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Raise until a real FPGA executor exists."""
         raise NotImplementedError(
             "FPGA execution is not implemented in voiage yet; "
             "the lane remains evidence-gated."
@@ -172,6 +181,7 @@ class AsicClusterAdapter:
     name: str = "asic-cluster"
 
     def create_executor(self, n_workers: int) -> Executor:
+        """Raise until a real ASIC/custom-circuit executor exists."""
         raise NotImplementedError(
             "ASIC/custom-circuit execution is not implemented in voiage yet; "
             "the lane remains evidence-gated."
@@ -214,7 +224,9 @@ def is_placeholder_execution_adapter(name: str) -> bool:
     return normalized in {"fpga", "fpga-cluster", "asic", "asic-cluster"}
 
 
-def build_executor_factory(adapter: ExecutionAdapter) -> Callable[[int, bool], Executor]:
+def build_executor_factory(
+    adapter: ExecutionAdapter,
+) -> Callable[[int, bool], Executor]:
     """Adapt a scheduler-facing adapter to the distributed executor factory signature."""
 
     def factory(n_workers: int, use_processes: bool) -> Executor:

@@ -10,8 +10,8 @@ from typing import TypeVar
 import numpy as np
 
 from voiage.exceptions import raise_value_error
-from voiage.schema import ParameterSet, TrialDesign, ValueArray
 from voiage.parallel.distributed import ClusterExecutionConfig, distributed_map
+from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
 _ParallelResult = TypeVar("_ParallelResult")
 
@@ -278,7 +278,6 @@ def distributed_monte_carlo_simulation(
     in a distributed executor implementation for multi-node or scheduler-backed
     execution.
     """
-
     if cluster_config is None:
         cluster_config = ClusterExecutionConfig()
 

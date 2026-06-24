@@ -887,7 +887,11 @@ def _array_signature(values: ArrayLike) -> dict[str, object]:
 def _runtime_manifest() -> dict[str, object]:
     """Return a compact runtime manifest for review packets."""
     mps_available = None
-    if torch is not None and hasattr(torch, "backends") and hasattr(torch.backends, "mps"):
+    if (
+        torch is not None
+        and hasattr(torch, "backends")
+        and hasattr(torch.backends, "mps")
+    ):
         try:
             mps_available = {
                 "built": bool(torch.backends.mps.is_built()),
@@ -1165,8 +1169,9 @@ def benchmark_mps_vs_cpu(
     net_benefit_array: ArrayLike,
     repeats: int = 1_000,
     warmup_runs: int = 1,
-    benchmark: Callable[[Backend, ArrayLike, int, int], dict[str, object]]
-    = benchmark_memory_throughput,
+    benchmark: Callable[
+        [Backend, ArrayLike, int, int], dict[str, object]
+    ] = benchmark_memory_throughput,
 ) -> dict[str, object]:
     """Compare a CPU benchmark payload against an optional Apple Metal payload.
 
@@ -1239,7 +1244,9 @@ def benchmark_mps_vs_cpu(
         "apple_metal_error": apple_error,
         "review": {
             "phase": "phase_3",
-            "status": "device_comparison_available" if apple_payload else "cpu_reference_only",
+            "status": "device_comparison_available"
+            if apple_payload
+            else "cpu_reference_only",
             "required_fields": [
                 "backend",
                 "device",
