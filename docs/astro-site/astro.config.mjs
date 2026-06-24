@@ -1,9 +1,6 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-import starlightVersions from "starlight-versions";
-import starlightLinksValidator from "starlight-links-validator";
 import starlightLlmsTxt from "starlight-llms-txt";
-import starlightPolyglot from "starlight-polyglot";
 
 export default defineConfig({
   site: "https://edithatogo.github.io/voiage",
@@ -17,11 +14,6 @@ export default defineConfig({
         "Cross-domain Value of Information (VOI) analysis library for Python, R, Julia, TypeScript, Go, Rust, and .NET",
       favicon: "/favicon.ico",
 
-      logo: {
-        source: "/img/voiage-logo.svg",
-        replacesTitle: false,
-      },
-
       social: {
         github: "https://github.com/edithatogo/voiage",
       },
@@ -33,49 +25,17 @@ export default defineConfig({
 
       lastUpdated: true,
 
-      components: {
-        ThemeProvider: "starlight-versions/components/ThemeProvider",
-        ThemeSelect: "starlight-versions/components/VersionPicker",
-      },
-
       plugins: [
-        starlightVersions({
-          versions: [
-            { slug: "latest", label: "v0.3.x (latest)" },
-            { slug: "v0.2", label: "v0.2.x" },
-          ],
-          defaultVersion: "latest",
-        }),
-
-        starlightLinksValidator(),
-
         starlightLlmsTxt(),
 
-        starlightPolyglot({
-          languages: [
-            {
-              id: "python",
-              label: "Python",
-              entryPoints: ["voiage"],
-              output: "api/python",
-            },
-            {
-              id: "typescript",
-              label: "TypeScript",
-              entryPoints: ["voiage"],
-              output: "api/typescript",
-            },
-          ],
-          defaultLanguage: "python",
-        }),
       ],
 
       sidebar: [
         {
           label: "Start Here",
           items: [
-            { slug: "getting-started", label: "Getting Started" },
-            { slug: "introduction", label: "Introduction" },
+            { link: "/getting-started/", label: "Getting Started" },
+            { link: "/introduction/", label: "Introduction" },
           ],
         },
         {
@@ -88,7 +48,7 @@ export default defineConfig({
         },
         {
           label: "Cross-Domain Usage",
-          slug: "cross-domain-usage",
+          link: "/cross-domain-usage/",
         },
         {
           label: "API Reference",
@@ -104,23 +64,23 @@ export default defineConfig({
         },
         {
           label: "CLI Reference",
-          slug: "cli-reference",
+          link: "/cli-reference/",
         },
         {
           label: "Data Structures",
-          slug: "data-structures",
+          link: "/data-structures/",
         },
         {
           label: "Backends",
-          slug: "backends",
+          link: "/backends/",
         },
         {
           label: "Contributing",
-          slug: "contributing",
+          link: "/contributing/",
         },
         {
           label: "Changelog",
-          slug: "changelog",
+          link: "/changelog/",
         },
       ],
     }),
