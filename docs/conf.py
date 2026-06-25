@@ -93,6 +93,8 @@ intersphinx_mapping = {
     "pymc": ("https://www.pymc.io/projects/docs/en/stable/", None),
     # 'jax': ('https://jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
 }
+intersphinx_timeout = 5
+suppress_warnings = ["intersphinx.inventory"]
 
 templates_path = ["_templates"]  # Directory for custom templates
 source_suffix = ".rst"  # Default source file type (.md also possible with myst_parser)

@@ -28,7 +28,8 @@ test_that("the R submission checklist records the bridge role and external regis
   checklist_path <- repo_file("docs", "release", "binding-submission-checklist.md")
   checklist_text <- readLines(checklist_path, warn = FALSE)
 
-  expect_true(any(grepl("The R package remains the thin reticulate bridge to the Python façade", checklist_text, fixed = TRUE)))
+  expect_true(any(grepl("The R package remains the thin reticulate bridge", checklist_text, fixed = TRUE)))
+  expect_true(any(grepl("shared contract", checklist_text, fixed = TRUE)))
   expect_true(any(grepl("CRAN submission remains external/manual", checklist_text, fixed = TRUE)))
   expect_true(any(grepl("r-universe indexing remains external/manual", checklist_text, fixed = TRUE)))
 })
