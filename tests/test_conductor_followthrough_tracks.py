@@ -33,13 +33,26 @@ TRACK_IDS = (
     "fpga-physical-board-runtime-evidence_20260625",
     "asic-mpw-shuttle-and-silicon-evidence_20260625",
     "custom-circuit-production-acceleration-review_20260625",
+    "causal-identification-transportability-voi-mature-stable_20260625",
+    "data-quality-measurement-privacy-linkage-voi-mature-stable_20260625",
+    "computational-model-refinement-voi-mature-stable_20260625",
+    "expert-elicitation-evidence-synthesis-voi-mature-stable_20260625",
+    "dynamic-real-options-voi-mature-stable_20260625",
+    "perspective-uncertainty-voi-mature-stable_20260625",
+    "monitoring-surveillance-voi-mature-stable_20260625",
+    "implementation-strategy-comparison-voi-mature-stable_20260625",
+    "equity-information-voi-mature-stable_20260625",
+    "explainability-transparency-voi-mature-stable_20260625",
+    "interoperability-standardization-voi-mature-stable_20260625",
+    "ambiguity-distribution-shift-voi-mature-stable_20260625",
 )
 
 CROSS_CUTTING_TRACKS = TRACK_IDS[:6]
 REGISTRY_TRACKS = TRACK_IDS[6:14]
 FRONTIER_TRACKS = TRACK_IDS[14:20]
 HPC_TRACKS = TRACK_IDS[20:26]
-CUSTOM_CIRCUIT_TRACKS = TRACK_IDS[26:]
+CUSTOM_CIRCUIT_TRACKS = TRACK_IDS[26:29]
+METHOD_MATURE_STABLE_TRACKS = TRACK_IDS[29:]
 
 
 def _read(path: str | Path) -> str:
@@ -198,3 +211,71 @@ def test_conductor_setup_records_strict_followthrough_policy() -> None:
     assert "Colab CLI (`colab`)" in tech_stack
     assert "Google Cloud CLI (`gcloud`)" in tech_stack
     assert "Follow-Through Expansion (created June 25, 2026)" in roadmap
+
+
+def test_dedicated_method_tracks_cover_runtime_to_stable_paths() -> None:
+    """Each requested frontier method should have its own mature/stable path."""
+    expected_keywords = {
+        "causal-identification-transportability-voi-mature-stable_20260625": (
+            "causal-identification",
+            "transportability",
+            "external-validity",
+        ),
+        "data-quality-measurement-privacy-linkage-voi-mature-stable_20260625": (
+            "data-quality",
+            "measurement-error",
+            "privacy",
+            "linkage",
+        ),
+        "computational-model-refinement-voi-mature-stable_20260625": (
+            "computational VOI",
+            "model refinement",
+            "multi-fidelity",
+        ),
+        "expert-elicitation-evidence-synthesis-voi-mature-stable_20260625": (
+            "expert-elicitation",
+            "evidence-synthesis",
+            "calibration",
+        ),
+        "dynamic-real-options-voi-mature-stable_20260625": (
+            "dynamic real-options",
+            "irreversibility",
+            "policy lock-in",
+        ),
+        "perspective-uncertainty-voi-mature-stable_20260625": (
+            "value of perspective",
+            "perspective uncertainty",
+            "stakeholder weights",
+        ),
+    }
+
+    for track_id, needles in expected_keywords.items():
+        text = _track_text(track_id)
+        assert "mature/stable" in text
+        assert "runtime implementation" in text
+        assert "Cross-language conformance" in text
+        assert "Rust parity" in text
+        assert "release notes" in text
+        for needle in needles:
+            assert needle in text
+
+
+def test_recommended_method_tracks_are_recorded() -> None:
+    """Recommended VOI extensions should be represented as active tracks."""
+    expected_tracks = (
+        "monitoring-surveillance-voi-mature-stable_20260625",
+        "implementation-strategy-comparison-voi-mature-stable_20260625",
+        "equity-information-voi-mature-stable_20260625",
+        "explainability-transparency-voi-mature-stable_20260625",
+        "interoperability-standardization-voi-mature-stable_20260625",
+        "ambiguity-distribution-shift-voi-mature-stable_20260625",
+    )
+    docs = _read("docs/sota_voi_frontier.md")
+
+    for track_id in expected_tracks:
+        text = _track_text(track_id)
+        assert track_id in docs
+        assert "mature/stable" in text
+        assert "stable promotion" in text
+        assert "CLI" in text
+        assert "property" in text

@@ -28,6 +28,14 @@ analysis dimension rather than a hidden modelling assumption. A decision problem
 can be evaluated simultaneously from payer, societal, patient, provider,
 regulator, equity-weighted, or custom stakeholder perspectives.
 
+VOP is worth keeping as a first-class frontier method because perspective choice
+is often a genuine uncertainty in the decision problem, not merely a plotting or
+sensitivity-analysis option. A perspective-uncertainty analysis asks how much
+value would be created by resolving uncertainty over the relevant stakeholder
+objective, perspective weights, or perspective-specific net-benefit definition.
+That makes it a natural companion to preference, equity, implementation, and
+robust VOI rather than a duplicate of ordinary subgroup or scenario analysis.
+
 The first contract should represent net benefit as:
 
 ```text
@@ -198,6 +206,18 @@ work is split into active promotion and runtime-completion tracks:
 - `validation-threshold-voi-stable-promotion_20260625`
 - `distributional-implementation-voi-stable-promotion_20260625`
 - `adjacent-frontier-runtime-completion_20260625`
+- `perspective-uncertainty-voi-mature-stable_20260625`
+- `causal-identification-transportability-voi-mature-stable_20260625`
+- `data-quality-measurement-privacy-linkage-voi-mature-stable_20260625`
+- `computational-model-refinement-voi-mature-stable_20260625`
+- `expert-elicitation-evidence-synthesis-voi-mature-stable_20260625`
+- `dynamic-real-options-voi-mature-stable_20260625`
+- `monitoring-surveillance-voi-mature-stable_20260625`
+- `implementation-strategy-comparison-voi-mature-stable_20260625`
+- `equity-information-voi-mature-stable_20260625`
+- `explainability-transparency-voi-mature-stable_20260625`
+- `interoperability-standardization-voi-mature-stable_20260625`
+- `ambiguity-distribution-shift-voi-mature-stable_20260625`
 
 These tracks must not mark a frontier family stable until runtime behavior,
 schemas, CLI examples, documentation, deterministic fixtures, cross-language

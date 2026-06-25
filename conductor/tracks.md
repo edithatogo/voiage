@@ -535,3 +535,75 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ## [ ] Track: Custom-Circuit Production Acceleration Review
 *Link: [./tracks/custom-circuit-production-acceleration-review_20260625/](./tracks/custom-circuit-production-acceleration-review_20260625/)*
 *Status: follow-through track for the final go/no-go decision on production FPGA/ASIC acceleration claims.*
+
+---
+
+## [ ] Track: Causal Identification Transportability And External Validity VOI Mature Stable Path
+*Link: [./tracks/causal-identification-transportability-voi-mature-stable_20260625/](./tracks/causal-identification-transportability-voi-mature-stable_20260625/)*
+*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+
+---
+
+## [ ] Track: Data Quality Measurement Privacy And Linkage VOI Mature Stable Path
+*Link: [./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/](./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/)*
+*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+
+---
+
+## [ ] Track: Computational VOI And Model Refinement Mature Stable Path
+*Link: [./tracks/computational-model-refinement-voi-mature-stable_20260625/](./tracks/computational-model-refinement-voi-mature-stable_20260625/)*
+*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+
+---
+
+## [ ] Track: Expert Elicitation And Evidence Synthesis Design VOI Mature Stable Path
+*Link: [./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/](./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/)*
+*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+
+---
+
+## [ ] Track: Dynamic Real Options VOI Mature Stable Path
+*Link: [./tracks/dynamic-real-options-voi-mature-stable_20260625/](./tracks/dynamic-real-options-voi-mature-stable_20260625/)*
+*Status: dedicated method track from scaffolded contract through runtime implementation and mature/stable promotion review.*
+
+---
+
+## [ ] Track: Perspective Uncertainty VOI Mature Stable Path
+*Link: [./tracks/perspective-uncertainty-voi-mature-stable_20260625/](./tracks/perspective-uncertainty-voi-mature-stable_20260625/)*
+*Status: dedicated track for treating Value of Perspective as perspective uncertainty and promoting it through stable frontier status.*
+
+---
+
+## [ ] Track: Monitoring And Surveillance VOI Mature Stable Path
+*Link: [./tracks/monitoring-surveillance-voi-mature-stable_20260625/](./tracks/monitoring-surveillance-voi-mature-stable_20260625/)*
+*Status: recommended method track for value of ongoing monitoring, surveillance, and signal-detection information.*
+
+---
+
+## [ ] Track: Implementation Strategy Comparison VOI Mature Stable Path
+*Link: [./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/](./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/)*
+*Status: recommended method track for comparing implementation strategies, uptake, adherence, coverage, delay, and scale-up evidence.*
+
+---
+
+## [ ] Track: Equity Information VOI Mature Stable Path
+*Link: [./tracks/equity-information-voi-mature-stable_20260625/](./tracks/equity-information-voi-mature-stable_20260625/)*
+*Status: recommended method track for value of resolving equity-relevant uncertainty beyond subgroup heterogeneity alone.*
+
+---
+
+## [ ] Track: Explainability And Transparency VOI Mature Stable Path
+*Link: [./tracks/explainability-transparency-voi-mature-stable_20260625/](./tracks/explainability-transparency-voi-mature-stable_20260625/)*
+*Status: recommended method track for value of interpretability, transparency, trust, and model-governance information.*
+
+---
+
+## [ ] Track: Interoperability And Standardization VOI Mature Stable Path
+*Link: [./tracks/interoperability-standardization-voi-mature-stable_20260625/](./tracks/interoperability-standardization-voi-mature-stable_20260625/)*
+*Status: recommended method track for value of harmonization, interoperability, and data-standardization information.*
+
+---
+
+## [ ] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
+*Link: [./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/](./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
+*Status: recommended method track for VOI under ambiguity sets, drift, robustness, and distribution shift.*

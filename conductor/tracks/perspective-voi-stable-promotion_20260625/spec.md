@@ -2,7 +2,7 @@
 
 ## Overview
 
-Promote Value of Perspective from experimental to stable with cross-language fixtures, CLI/docs/examples, Rust parity, and release notes.
+Promote Value of Perspective, including perspective uncertainty, from experimental to stable with cross-language fixtures, CLI/docs/examples, Rust parity, and release notes.
 
 This is a follow-through track in the Frontier promotion lane. It converts prior readiness, setup, fixture-backed, or visibility evidence into live evidence, stable promotion, production-speedup proof, or an explicit external gate. Completed readiness tracks remain complete unless this track finds a concrete inconsistency.
 
@@ -17,7 +17,8 @@ GitHub Actions and `gh` are preferred for reproducible checks, workflow monitori
 1. Audit the existing perspective runtime, CLI, plot helper, schemas, and deterministic fixtures.
 2. Add cross-language conformance expectations and Rust-kernel parity where numerically appropriate.
 3. Validate examples across payer, societal, patient, provider, regulator, equity-weighted, and custom perspectives.
-4. Update maturity metadata only after compatibility and release-note gates pass.
+4. Add a specific perspective-uncertainty review that treats uncertainty over stakeholder perspective, objective function, and perspective weights as decision-relevant uncertainty rather than ordinary sensitivity analysis.
+5. Update maturity metadata only after compatibility and release-note gates pass.
 
 ## Non-Functional Requirements
 
@@ -29,13 +30,13 @@ GitHub Actions and `gh` are preferred for reproducible checks, workflow monitori
 
 ## Acceptance Criteria
 
-1. Perspective VOI has stable promotion evidence and no experimental-only wording in stable docs.
+1. Perspective VOI and perspective uncertainty have stable promotion evidence and no experimental-only wording in stable docs.
 2. Fixture parity passes across Python and relevant binding contracts.
 3. The changelog records the stable promotion decision and compatibility boundary.
 
 ## Required Keywords For Validation
 
-`Value of Perspective`, `cross-language fixtures`, `Rust parity`, `stable`, `release note`
+`Value of Perspective`, `perspective uncertainty`, `cross-language fixtures`, `Rust parity`, `stable`, `release note`
 
 ## Out Of Scope
 

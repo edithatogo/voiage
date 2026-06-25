@@ -2,9 +2,17 @@
 
 ## Overview
 
-Implement runtime paths for dynamic real-options, causal transportability, data quality/privacy/linkage, computational refinement, and expert synthesis, then hand them to stable promotion with cross-language parity and release-note gates.
+Implement runtime paths for dynamic real-options, causal transportability, data quality/privacy/linkage, computational refinement, and expert synthesis, then hand them to dedicated method-family mature/stable tracks with cross-language parity and release-note gates.
 
 This is a follow-through track in the Frontier runtime completion lane. It converts prior readiness, setup, fixture-backed, or visibility evidence into live evidence, stable promotion, production-speedup proof, or an explicit external gate. Completed readiness tracks remain complete unless this track finds a concrete inconsistency.
+
+The umbrella runtime scope is now decomposed into dedicated mature/stable tracks:
+
+- `causal-identification-transportability-voi-mature-stable_20260625`
+- `data-quality-measurement-privacy-linkage-voi-mature-stable_20260625`
+- `computational-model-refinement-voi-mature-stable_20260625`
+- `expert-elicitation-evidence-synthesis-voi-mature-stable_20260625`
+- `dynamic-real-options-voi-mature-stable_20260625`
 
 ## Tooling And Execution Boundary
 
@@ -17,7 +25,7 @@ GitHub Actions and `gh` are preferred for reproducible checks, workflow monitori
 1. Map each contract-only adjacent family to runtime APIs, result envelopes, diagnostics, and CLI commands.
 2. Implement deterministic kernels or explicit approximation policies with Rust parity where appropriate.
 3. Add synthetic fixtures, property tests, open-data examples, and docs for each family.
-4. Promote families only through the shared frontier stable-promotion program after runtime completion, cross-language fixture review, and release-note preparation.
+4. Promote families only through their dedicated mature/stable tracks and the shared frontier stable-promotion program after runtime completion, cross-language fixture review, and release-note preparation.
 
 ## Non-Functional Requirements
 

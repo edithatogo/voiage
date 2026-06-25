@@ -26,6 +26,13 @@ production-scale HPC speedup evidence, physical FPGA board runtime, ASIC
 MPW/fabricated-silicon evidence, and TPU production-scale Colab/GCloud
 evidence. These tracks do not reopen the completed readiness/setup tracks; they
 turn the remaining external gates into evidence-producing follow-through work.
+The adjacent-frontier runtime work is now decomposed further into dedicated
+mature/stable tracks for causal/transportability, data-quality/privacy/linkage,
+computational/model-refinement, expert-elicitation/evidence-synthesis, dynamic
+real-options, and perspective-uncertainty VOI, plus recommended tracks for
+monitoring/surveillance, implementation-strategy comparison, equity-information,
+explainability/transparency, interoperability/standardization, and
+ambiguity/distribution-shift VOI.
 
 ---
 

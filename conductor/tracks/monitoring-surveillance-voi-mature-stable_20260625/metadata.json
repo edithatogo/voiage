@@ -1,0 +1,8 @@
+{
+  "track_id": "monitoring-surveillance-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add value of monitoring and surveillance information as a mature/stable VOI method for ongoing data collection and signal detection decisions."
+}

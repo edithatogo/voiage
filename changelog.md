@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   production-scale HPC speedup evidence, TPU Colab/GCloud benchmarking,
   physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
   custom-circuit production review.
+- Added dedicated mature/stable-path tracks for causal/transportability VOI,
+  data-quality/privacy/linkage VOI, computational/model-refinement VOI,
+  expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
+  perspective uncertainty, monitoring/surveillance VOI, implementation-strategy
+  comparison, equity-information VOI, explainability/transparency VOI,
+  interoperability/standardization VOI, and ambiguity/distribution-shift VOI.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner

@@ -24,6 +24,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Updated Conductor workflow and docs so the tracks require commit notes,
         git notes, phase checkpoints, GitHub Actions monitoring, >90% coverage,
         and explicit readiness-vs-external-evidence boundaries.
+*   [x] Split adjacent and recommended VOI methods into dedicated mature/stable
+    tracks.
+    *   Added method-family tracks for causal/transportability VOI,
+        data-quality/privacy/linkage VOI, computational/model-refinement VOI,
+        expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
+        perspective uncertainty, monitoring/surveillance VOI,
+        implementation-strategy comparison, equity-information VOI,
+        explainability/transparency VOI, interoperability/standardization VOI,
+        and ambiguity/distribution-shift VOI.
 
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
