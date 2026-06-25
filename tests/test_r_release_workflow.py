@@ -6,6 +6,9 @@ def test_r_release_workflow_and_checklist_align() -> None:
     workflow_text = (root / ".github" / "workflows" / "bindings-release.yml").read_text(
         encoding="utf-8"
     )
+    ci_workflow_text = (root / ".github" / "workflows" / "bindings-ci.yml").read_text(
+        encoding="utf-8"
+    )
     checklist_text = (
         root / "docs" / "release" / "binding-submission-checklist.md"
     ).read_text(encoding="utf-8")
@@ -17,6 +20,8 @@ def test_r_release_workflow_and_checklist_align() -> None:
         in workflow_text
     )
     assert "Rscript tools/build-manual.R" in workflow_text
+    assert "r-lib/actions/setup-tinytex@v2" in workflow_text
+    assert "r-lib/actions/setup-tinytex@v2" in ci_workflow_text
     assert "softprops/action-gh-release@v2" in workflow_text
 
     assert (

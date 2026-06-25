@@ -395,8 +395,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   environment with the declared JAX-compatible dependency floor, and preventing
   transient intersphinx inventory fetch failures from breaking the backup Sphinx
   docs gate.
-- Added explicit TinyTeX setup to the R binding release workflow so the required
-  PDF manual artifact can be built on GitHub-hosted Linux runners.
+- Added explicit TinyTeX setup to the R binding CI and release workflows so the
+  required PDF manual artifact can be built on GitHub-hosted Linux runners.
 - Made the calibration VOI modeler optional by defaulting to the built-in calibration modeler when no custom modeler is supplied.
 - Replaced the JAX two-loop EVSI placeholder/fallback path with a real JAX-assisted posterior update and resampling implementation.
 - Replaced the sequential VOI step-level EVPI variance heuristic with the standard `E[max NB] - max(E[NB])` calculation for explicit strategy payoff samples.

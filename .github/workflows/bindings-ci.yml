@@ -108,6 +108,7 @@ jobs:
         with:
           working-directory: r-package/voiageR
           extra-packages: any::rcmdcheck
+      - uses: r-lib/actions/setup-tinytex@v2
       - run: R CMD build .
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
       - name: Build PDF manual
