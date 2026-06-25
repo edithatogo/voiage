@@ -17,6 +17,16 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
+**Follow-Through Expansion (created June 25, 2026):** 🔄 **ACTIVE** - new
+Conductor tracks now cover architecture/dependency governance, commit-note and
+checkpoint hardening, strict CI/CD gates, dataset/example registry work, Rust
+frontier numerics migration, bleeding-edge Bayesian design/amortized VOI, live
+external registry publication and indexing, frontier method stable promotion,
+production-scale HPC speedup evidence, physical FPGA board runtime, ASIC
+MPW/fabricated-silicon evidence, and TPU production-scale Colab/GCloud
+evidence. These tracks do not reopen the completed readiness/setup tracks; they
+turn the remaining external gates into evidence-producing follow-through work.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

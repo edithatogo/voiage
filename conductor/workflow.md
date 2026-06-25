@@ -5,7 +5,9 @@
 1. **The Plan is the Source of Truth:** All work must be tracked in `plan.md`
 2. **The Tech Stack is Deliberate:** Changes to the tech stack must be documented in `tech-stack.md` *before* implementation
 3. **Test-Driven Development:** Write unit tests before implementing functionality
-4. **High Code Coverage:** Aim for >80% code coverage for all modules
+4. **High Code Coverage:** Maintain the repository-wide >90% coverage gate for
+   Python code and add equivalent language-native checks for binding or Rust
+   changes.
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
 
@@ -36,7 +38,9 @@ All tasks follow a strict lifecycle:
    ```bash
    pytest --cov=app --cov-report=html
    ```
-   Target: >80% coverage for new code. The specific tools and commands will vary by language and framework.
+   Target: >90% coverage for new Python code. The specific tools and commands
+   will vary by language and framework, but coverage must not weaken the
+   repository-wide 90 percent gate.
 
 7. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
@@ -126,7 +130,8 @@ All tasks follow a strict lifecycle:
 Before marking any task complete, verify:
 
 - [ ] All tests pass
-- [ ] Code coverage meets requirements (>80%)
+- [ ] Code coverage meets requirements (>90% for Python and no weaker than the
+  active language-specific gate for non-Python changes)
 - [ ] Code follows project's code style guidelines (as defined in `code_styleguides/`)
 - [ ] All public functions/methods are documented (e.g., docstrings, JSDoc, GoDoc)
 - [ ] Type safety is enforced (e.g., type hints, TypeScript types, Go types)
@@ -135,6 +140,15 @@ Before marking any task complete, verify:
 - [ ] Documentation updated if needed
 - [ ] No security vulnerabilities introduced
 - [ ] For non-Python bindings, CI/CD includes language-specific build/test/lint/type/doc gates, shared conformance-fixture validation, package dry-run checks, and release publishing to the relevant package manager or registry. .NET bindings must target .NET 11 (`net11.0`) unless the active track explicitly changes that target.
+- [ ] Follow-through registry, frontier-promotion, HPC-speedup, FPGA, and ASIC
+  tracks must preserve the distinction between repository readiness and
+  external evidence. A track cannot be marked complete by readiness artifacts
+  alone when its acceptance criteria require registry approval, indexing,
+  hardware runtime, cloud quota, fabricated silicon, production speedup, or
+  cross-language parity evidence.
+- [ ] Every follow-through task must record the command or portal used, runner
+  class, artifact path, timestamp, result state, next action, and any blocked
+  external gate before completion.
 
 ## Development Commands
 
@@ -201,7 +215,7 @@ Before requesting review:
 3. **Testing**
    - Unit tests comprehensive
    - Integration tests pass
-   - Coverage adequate (>80%)
+   - Coverage adequate (>90% for Python changes)
 
 4. **Security**
    - No hardcoded secrets
@@ -343,7 +357,7 @@ A task is complete when:
 
 ### Pre-Deployment Checklist
 - [ ] All tests passing
-- [ ] Coverage >80%
+- [ ] Coverage >90%
 - [ ] No linting errors
 - [ ] Mobile testing complete
 - [ ] Environment variables configured

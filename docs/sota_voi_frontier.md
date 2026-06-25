@@ -188,13 +188,20 @@ SOTA roadmap should also keep these adjacent families visible:
 
 ## Track Ownership
 
-The implementation plan lives in:
+The original SOTA frontier implementation plan lives in the archived
+`conductor/tracks/sota-voi-frontier_20260429/` record. Current follow-through
+work is split into active promotion and runtime-completion tracks:
 
-`conductor/tracks/sota-voi-frontier_20260429/`
+- `frontier-stable-promotion-program_20260625`
+- `perspective-voi-stable-promotion_20260625`
+- `preference-voi-stable-promotion_20260625`
+- `validation-threshold-voi-stable-promotion_20260625`
+- `distributional-implementation-voi-stable-promotion_20260625`
+- `adjacent-frontier-runtime-completion_20260625`
 
-Value of Perspective should be implemented first because it is clearly
-differentiating, directly connected to the user's work, and can reuse the
-existing net-benefit-first architecture.
+These tracks must not mark a frontier family stable until runtime behavior,
+schemas, CLI examples, documentation, deterministic fixtures, cross-language
+parity, and any Rust-kernel parity gates are satisfied.
 
 ## References And Starting Points
 

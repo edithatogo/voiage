@@ -11,6 +11,20 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Create follow-through Conductor tracks for remaining roadmap and
+    external gates.
+    *   Added active tracks for architecture/dependency governance, commit
+        note/checkpoint hardening, strict CI/CD gates, dataset/example registry
+        work, Rust frontier numerics migration, bleeding-edge Bayesian
+        design/amortized VOI, live registry publication and indexing, frontier
+        stable promotion, adjacent frontier runtime completion, production-scale
+        HPC speedup evidence, TPU Colab/GCloud production benchmarking,
+        physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
+        custom-circuit production acceleration review.
+    *   Updated Conductor workflow and docs so the tracks require commit notes,
+        git notes, phase checkpoints, GitHub Actions monitoring, >90% coverage,
+        and explicit readiness-vs-external-evidence boundaries.
+
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
         legacy egg-info generated artifacts, and R CMD check output from

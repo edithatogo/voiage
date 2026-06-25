@@ -1,0 +1,8 @@
+{
+  "track_id": "e4s-inclusion-followthrough_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Prepare E4S inclusion handoff, Spack/EasyBuild dependency evidence, and external status tracking."
+}

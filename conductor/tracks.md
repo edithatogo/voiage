@@ -361,3 +361,177 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ## [x] Track: Starlight Documentation Migration [completed: 2026-05-17]
 *Link: [./tracks/starlight_migration_20260513/](./tracks/starlight_migration_20260513/)*
+
+---
+
+## [ ] Track: VOI Frontier Architecture And Dependency Governance
+*Link: [./tracks/voi-frontier-architecture-dependency-governance_20260625/](./tracks/voi-frontier-architecture-dependency-governance_20260625/)*
+*Status: cross-cutting track for architecture, dependency policy, backend boundaries, and maturity taxonomy before downstream implementation widens.*
+
+---
+
+## [ ] Track: Conductor Commit Note And Checkpoint Hardening
+*Link: [./tracks/conductor-commit-note-checkpoint-hardening_20260625/](./tracks/conductor-commit-note-checkpoint-hardening_20260625/)*
+*Status: cross-cutting track for commit notes, git notes, plan SHA updates, phase checkpoints, and GitHub Actions monitoring discipline.*
+
+---
+
+## [ ] Track: Strict CI/CD Quality Gates
+*Link: [./tracks/strict-ci-cd-quality-gates_20260625/](./tracks/strict-ci-cd-quality-gates_20260625/)*
+*Status: cross-cutting track for linting, formatting, typing, docstrings, coverage, unit/integration/e2e/property/mutation tests, profiling, security, docs, and bindings.*
+
+---
+
+## [ ] Track: Dataset Registry And Example Corpus
+*Link: [./tracks/dataset-registry-and-example-corpus_20260625/](./tracks/dataset-registry-and-example-corpus_20260625/)*
+*Status: cross-cutting track for deterministic synthetic datasets and real open-data example sources for every analysis family.*
+
+---
+
+## [ ] Track: Rust Frontier Numerics Migration Completion
+*Link: [./tracks/rust-frontier-numerics-migration-completion_20260625/](./tracks/rust-frontier-numerics-migration-completion_20260625/)*
+*Status: cross-cutting track for completing Rust numerical-kernel ownership while preserving Python as the public facade.*
+
+---
+
+## [ ] Track: Bayesian Experimental Design And Amortized VOI
+*Link: [./tracks/bayesian-experimental-design-and-amortized-voi_20260625/](./tracks/bayesian-experimental-design-and-amortized-voi_20260625/)*
+*Status: bleeding-edge methods track for expected information gain, Bayesian optimal experimental design, active learning, simulation-based inference, and amortized EVSI.*
+
+---
+
+## [ ] Track: External Registry Publication Program
+*Link: [./tracks/external-registry-publication-program_20260625/](./tracks/external-registry-publication-program_20260625/)*
+*Status: follow-through track for live registry submission, indexing, approval, and blocked-state evidence after completed readiness work.*
+
+---
+
+## [ ] Track: Conda-Forge Feedstock Publication
+*Link: [./tracks/conda-forge-feedstock-publication_20260625/](./tracks/conda-forge-feedstock-publication_20260625/)*
+*Status: follow-through track for conda-forge feedstock PR, rerender, merge, and package-index evidence.*
+
+---
+
+## [ ] Track: R CRAN And R-Universe Publication
+*Link: [./tracks/r-cran-runiverse-publication_20260625/](./tracks/r-cran-runiverse-publication_20260625/)*
+*Status: follow-through track for CRAN-quality submission evidence and r-universe indexing status.*
+
+---
+
+## [ ] Track: Julia General Registry Publication
+*Link: [./tracks/julia-general-registry-publication_20260625/](./tracks/julia-general-registry-publication_20260625/)*
+*Status: follow-through track for Julia General registration, TagBot verification, and external registry approval evidence.*
+
+---
+
+## [ ] Track: Spack Package Merge Follow-Through
+*Link: [./tracks/spack-package-merge-followthrough_20260625/](./tracks/spack-package-merge-followthrough_20260625/)*
+*Status: follow-through track for upstream Spack PR, CI, maintainer review, merge, and package visibility evidence.*
+
+---
+
+## [ ] Track: EasyBuild Easyconfig Merge Follow-Through
+*Link: [./tracks/easybuild-easyconfig-merge-followthrough_20260625/](./tracks/easybuild-easyconfig-merge-followthrough_20260625/)*
+*Status: follow-through track for upstream EasyBuild easyconfig PR, dry-run/build evidence, maintainer review, and merge status.*
+
+---
+
+## [ ] Track: HPSF Curation Submission Follow-Through
+*Link: [./tracks/hpsf-curation-submission-followthrough_20260625/](./tracks/hpsf-curation-submission-followthrough_20260625/)*
+*Status: follow-through track for HPSF listing or curation submission evidence and external review status.*
+
+---
+
+## [ ] Track: E4S Inclusion Follow-Through
+*Link: [./tracks/e4s-inclusion-followthrough_20260625/](./tracks/e4s-inclusion-followthrough_20260625/)*
+*Status: follow-through track for E4S inclusion evidence, depending on verified Spack/EasyBuild progress.*
+
+---
+
+## [ ] Track: Frontier Stable Promotion Program
+*Link: [./tracks/frontier-stable-promotion-program_20260625/](./tracks/frontier-stable-promotion-program_20260625/)*
+*Status: follow-through track for stable-promotion criteria, parity matrix, and maturity-label governance across frontier VOI families.*
+
+---
+
+## [ ] Track: Perspective VOI Stable Promotion
+*Link: [./tracks/perspective-voi-stable-promotion_20260625/](./tracks/perspective-voi-stable-promotion_20260625/)*
+*Status: follow-through track for Value of Perspective cross-language parity, Rust parity, examples, and stable promotion.*
+
+---
+
+## [ ] Track: Preference VOI Stable Promotion
+*Link: [./tracks/preference-voi-stable-promotion_20260625/](./tracks/preference-voi-stable-promotion_20260625/)*
+*Status: follow-through track for preference VOI and preference heterogeneity stable promotion.*
+
+---
+
+## [ ] Track: Validation And Threshold VOI Stable Promotion
+*Link: [./tracks/validation-threshold-voi-stable-promotion_20260625/](./tracks/validation-threshold-voi-stable-promotion_20260625/)*
+*Status: follow-through track for validation, threshold, tipping-point, and robust VOI stable promotion.*
+
+---
+
+## [ ] Track: Distributional And Implementation VOI Stable Promotion
+*Link: [./tracks/distributional-implementation-voi-stable-promotion_20260625/](./tracks/distributional-implementation-voi-stable-promotion_20260625/)*
+*Status: follow-through track for distributional/equity and implementation-adjusted VOI stable promotion.*
+
+---
+
+## [ ] Track: Adjacent Frontier Runtime Completion
+*Link: [./tracks/adjacent-frontier-runtime-completion_20260625/](./tracks/adjacent-frontier-runtime-completion_20260625/)*
+*Status: follow-through track for runtime implementation of dynamic real-options, causal transportability, data-quality/privacy/linkage, computational refinement, and expert synthesis VOI.*
+
+---
+
+## [ ] Track: HPC Production Speedup Evidence Program
+*Link: [./tracks/hpc-production-speedup-evidence-program_20260625/](./tracks/hpc-production-speedup-evidence-program_20260625/)*
+*Status: follow-through track for production-scale benchmark evidence before any HPC-native speedup claim.*
+
+---
+
+## [ ] Track: CPU Cluster Production Benchmark Evidence
+*Link: [./tracks/cpu-cluster-production-benchmark-evidence_20260625/](./tracks/cpu-cluster-production-benchmark-evidence_20260625/)*
+*Status: follow-through track for distributed CPU and cluster benchmark evidence on larger workloads.*
+
+---
+
+## [ ] Track: Apple Metal Production Speedup Evidence
+*Link: [./tracks/apple-metal-production-speedup-evidence_20260625/](./tracks/apple-metal-production-speedup-evidence_20260625/)*
+*Status: follow-through track for Apple Silicon Metal/MPS production-speedup evidence or explicit hardware-unavailable status.*
+
+---
+
+## [ ] Track: Discrete GPU Production Speedup Evidence
+*Link: [./tracks/discrete-gpu-production-speedup-evidence_20260625/](./tracks/discrete-gpu-production-speedup-evidence_20260625/)*
+*Status: follow-through track for CUDA-class GPU production-sized benchmark evidence through Colab or other available runners.*
+
+---
+
+## [ ] Track: TPU Production-Scale Colab Evidence
+*Link: [./tracks/tpu-production-scale-colab-evidence_20260625/](./tracks/tpu-production-scale-colab-evidence_20260625/)*
+*Status: follow-through track for production-scale TPU benchmark evidence after compact Colab v5e visibility and parity proof.*
+
+---
+
+## [ ] Track: Accelerator Evidence Automation
+*Link: [./tracks/accelerator-evidence-automation_20260625/](./tracks/accelerator-evidence-automation_20260625/)*
+*Status: follow-through track for common GPU/TPU/Metal evidence schemas, Colab execution, GitHub artifact ingestion, and validation.*
+
+---
+
+## [ ] Track: FPGA Physical Board Runtime Evidence
+*Link: [./tracks/fpga-physical-board-runtime-evidence_20260625/](./tracks/fpga-physical-board-runtime-evidence_20260625/)*
+*Status: follow-through track for physical FPGA board runtime, bitstream, CPU parity, and speedup evidence when hardware exists.*
+
+---
+
+## [ ] Track: ASIC MPW Shuttle And Silicon Evidence
+*Link: [./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/](./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/)*
+*Status: follow-through track for Tiny Tapeout/SkyWater MPW, fabricated silicon, and real ASIC runtime evidence.*
+
+---
+
+## [ ] Track: Custom-Circuit Production Acceleration Review
+*Link: [./tracks/custom-circuit-production-acceleration-review_20260625/](./tracks/custom-circuit-production-acceleration-review_20260625/)*
+*Status: follow-through track for the final go/no-go decision on production FPGA/ASIC acceleration claims.*

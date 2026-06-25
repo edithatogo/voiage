@@ -105,6 +105,35 @@ workloads, physical FPGA board runtime, and fabricated ASIC evidence, not about
 basic JAX device visibility for GPU or TPU or about repo-owned FPGA/ASIC
 pre-silicon scaffolding.
 
+Active follow-through tracks
+----------------------------
+
+The completed setup and readiness tracks are no longer the place to prove live
+speedup or hardware outcomes. The active production-evidence tracks are:
+
+* ``hpc-production-speedup-evidence-program_20260625`` for the shared
+  benchmark packet contract, CPU fallback proof, and production-speedup gating.
+* ``cpu-cluster-production-benchmark-evidence_20260625`` for larger CPU
+  cluster and distributed scheduler workloads.
+* ``apple-metal-production-speedup-evidence_20260625`` for Apple Silicon
+  Metal/MPS timing, throughput, warm-up, and CPU comparison packets.
+* ``discrete-gpu-production-speedup-evidence_20260625`` for CUDA-class GPU
+  evidence through Colab or other available runners.
+* ``tpu-production-scale-colab-evidence_20260625`` for production-scale TPU
+  evidence using ``colab`` and, when project/quota/billing access exists,
+  ``gcloud``.
+* ``accelerator-evidence-automation_20260625`` for common JSON schemas,
+  artifact ingestion, ``gh run watch`` monitoring, and blocked-run reporting.
+* ``fpga-physical-board-runtime-evidence_20260625`` for board runtime,
+  bitstream, CPU parity, and speedup evidence when hardware exists.
+* ``asic-mpw-shuttle-and-silicon-evidence_20260625`` for Tiny Tapeout or
+  SkyWater MPW submission state, fabricated silicon, and runtime evidence.
+* ``custom-circuit-production-acceleration-review_20260625`` for the final
+  go/no-go decision on FPGA/ASIC production acceleration claims.
+
+Until those tracks produce production-sized benchmark packets, the correct
+status remains setup/visibility/parity evidence rather than HPC-native speedup.
+
 Apple deployment requirements
 -----------------------------
 

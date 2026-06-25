@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added active Conductor tracks for architecture/dependency governance, commit
+  note/checkpoint hardening, strict CI/CD gates, dataset/example registry work,
+  Rust frontier numerics migration, bleeding-edge Bayesian design/amortized VOI,
+  external registry publication, frontier-method stable promotion,
+  production-scale HPC speedup evidence, TPU Colab/GCloud benchmarking,
+  physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
+  custom-circuit production review.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner
