@@ -32,7 +32,9 @@ computational/model-refinement, expert-elicitation/evidence-synthesis, dynamic
 real-options, and perspective-uncertainty VOI, plus recommended tracks for
 monitoring/surveillance, implementation-strategy comparison, equity-information,
 explainability/transparency, interoperability/standardization, and
-ambiguity/distribution-shift VOI.
+ambiguity/distribution-shift VOI. Additional recommended mature/stable tracks
+now cover adaptive-learning and bandit VOI, capacity and budget-constrained
+VOI, federated/privacy-preserving VOI, and AI-assisted evidence-triage VOI.
 
 ---
 

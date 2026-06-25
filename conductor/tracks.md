@@ -607,3 +607,27 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ## [ ] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
 *Link: [./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/](./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
 *Status: recommended method track for VOI under ambiguity sets, drift, robustness, and distribution shift.*
+
+---
+
+## [ ] Track: Adaptive Learning And Bandit VOI Mature Stable Path
+*Link: [./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/](./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/)*
+*Status: recommended method track for adaptive learning, sequential allocation, exploration, exploitation, and stopping decisions.*
+
+---
+
+## [ ] Track: Capacity And Budget-Constrained VOI Mature Stable Path
+*Link: [./tracks/capacity-budget-constrained-voi-mature-stable_20260625/](./tracks/capacity-budget-constrained-voi-mature-stable_20260625/)*
+*Status: recommended method track for VOI under budget, capacity, workforce, queueing, supply, and resource-feasibility constraints.*
+
+---
+
+## [ ] Track: Federated And Privacy-Preserving VOI Mature Stable Path
+*Link: [./tracks/federated-privacy-preserving-voi-mature-stable_20260625/](./tracks/federated-privacy-preserving-voi-mature-stable_20260625/)*
+*Status: recommended method track for federated, privacy-preserving, secure-aggregation, and site-governed evidence generation.*
+
+---
+
+## [ ] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
+*Link: [./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
+*Status: recommended method track for valuing AI-assisted screening, extraction, prioritization, audit, and evidence-review automation.*

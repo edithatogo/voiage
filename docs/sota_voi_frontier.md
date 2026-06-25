@@ -193,6 +193,18 @@ SOTA roadmap should also keep these adjacent families visible:
 - expert-elicitation and evidence-synthesis design VOI, where the decision is
   whether to elicit uncertain parameters, resolve conflicting sources, or invest
   in a better synthesis process
+- adaptive learning and bandit VOI, where the decision is whether continued
+  exploration, online allocation, or adaptive sampling is worth the regret and
+  operational burden
+- capacity and budget-constrained VOI, where the value of information changes
+  because feasible decisions depend on resource, workforce, supply, queueing, or
+  budget-impact constraints
+- federated and privacy-preserving VOI, where evidence must be generated across
+  sites without centralizing sensitive data and the privacy budget or disclosure
+  control is decision-relevant
+- AI-assisted evidence triage VOI, where screening, extraction, summarization,
+  prioritization, or review automation may reduce evidence-generation burden but
+  introduces false-inclusion, false-exclusion, audit, and drift uncertainty
 
 ## Track Ownership
 
@@ -218,6 +230,10 @@ work is split into active promotion and runtime-completion tracks:
 - `explainability-transparency-voi-mature-stable_20260625`
 - `interoperability-standardization-voi-mature-stable_20260625`
 - `ambiguity-distribution-shift-voi-mature-stable_20260625`
+- `adaptive-learning-bandit-voi-mature-stable_20260625`
+- `capacity-budget-constrained-voi-mature-stable_20260625`
+- `federated-privacy-preserving-voi-mature-stable_20260625`
+- `ai-assisted-evidence-triage-voi-mature-stable_20260625`
 
 These tracks must not mark a frontier family stable until runtime behavior,
 schemas, CLI examples, documentation, deterministic fixtures, cross-language

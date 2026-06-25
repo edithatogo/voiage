@@ -45,6 +45,10 @@ TRACK_IDS = (
     "explainability-transparency-voi-mature-stable_20260625",
     "interoperability-standardization-voi-mature-stable_20260625",
     "ambiguity-distribution-shift-voi-mature-stable_20260625",
+    "adaptive-learning-bandit-voi-mature-stable_20260625",
+    "capacity-budget-constrained-voi-mature-stable_20260625",
+    "federated-privacy-preserving-voi-mature-stable_20260625",
+    "ai-assisted-evidence-triage-voi-mature-stable_20260625",
 )
 
 CROSS_CUTTING_TRACKS = TRACK_IDS[:6]
@@ -269,6 +273,10 @@ def test_recommended_method_tracks_are_recorded() -> None:
         "explainability-transparency-voi-mature-stable_20260625",
         "interoperability-standardization-voi-mature-stable_20260625",
         "ambiguity-distribution-shift-voi-mature-stable_20260625",
+        "adaptive-learning-bandit-voi-mature-stable_20260625",
+        "capacity-budget-constrained-voi-mature-stable_20260625",
+        "federated-privacy-preserving-voi-mature-stable_20260625",
+        "ai-assisted-evidence-triage-voi-mature-stable_20260625",
     )
     docs = _read("docs/sota_voi_frontier.md")
 
@@ -279,3 +287,40 @@ def test_recommended_method_tracks_are_recorded() -> None:
         assert "stable promotion" in text
         assert "CLI" in text
         assert "property" in text
+
+
+def test_extended_recommended_method_tracks_are_recorded() -> None:
+    """Additional recommended VOI extensions should be explicit tracks."""
+    expected_keywords = {
+        "adaptive-learning-bandit-voi-mature-stable_20260625": (
+            "adaptive learning",
+            "bandit VOI",
+            "sequential allocation",
+        ),
+        "capacity-budget-constrained-voi-mature-stable_20260625": (
+            "capacity-constrained",
+            "budget-constrained",
+            "resource constraints",
+        ),
+        "federated-privacy-preserving-voi-mature-stable_20260625": (
+            "federated",
+            "privacy-preserving",
+            "secure aggregation",
+        ),
+        "ai-assisted-evidence-triage-voi-mature-stable_20260625": (
+            "AI-assisted",
+            "evidence triage",
+            "human-in-the-loop",
+        ),
+    }
+    docs = _read("docs/sota_voi_frontier.md")
+
+    for track_id, needles in expected_keywords.items():
+        text = _track_text(track_id)
+        assert track_id in docs
+        assert "mature/stable" in text
+        assert "stable promotion" in text
+        assert "Cross-language conformance" in text
+        assert "Rust parity" in text
+        for needle in needles:
+            assert needle in text
