@@ -1,0 +1,8 @@
+{
+  "track_id": "regulatory-market-access-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add regulatory and market-access VOI as a mature/stable method family for approval, reimbursement, label, pricing, and evidence-package decisions."
+}

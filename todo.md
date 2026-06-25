@@ -38,6 +38,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Added mature/stable tracks for adaptive-learning and bandit VOI,
         capacity and budget-constrained VOI, federated/privacy-preserving VOI,
         and AI-assisted evidence-triage VOI.
+*   [x] Incorporate additional recommended VOI frontier features into dedicated
+    tracks.
+    *   Added mature/stable tracks for regulatory/market-access VOI,
+        replication/reproducibility VOI, evidence-obsolescence/refresh VOI, and
+        strategic behavior/game-theoretic VOI.
 
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,

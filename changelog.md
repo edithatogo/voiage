@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added additional recommended Conductor frontier tracks for regulatory and
+  market-access VOI, replication and reproducibility VOI, evidence
+  obsolescence and refresh VOI, and strategic behavior/game-theoretic VOI.
 - Added more recommended Conductor frontier tracks for adaptive-learning and
   bandit VOI, capacity and budget-constrained VOI,
   federated/privacy-preserving VOI, and AI-assisted evidence-triage VOI.

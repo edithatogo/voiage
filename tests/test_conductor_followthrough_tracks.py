@@ -49,6 +49,10 @@ TRACK_IDS = (
     "capacity-budget-constrained-voi-mature-stable_20260625",
     "federated-privacy-preserving-voi-mature-stable_20260625",
     "ai-assisted-evidence-triage-voi-mature-stable_20260625",
+    "regulatory-market-access-voi-mature-stable_20260625",
+    "replication-reproducibility-voi-mature-stable_20260625",
+    "evidence-obsolescence-refresh-voi-mature-stable_20260625",
+    "strategic-behavior-game-theoretic-voi-mature-stable_20260625",
 )
 
 CROSS_CUTTING_TRACKS = TRACK_IDS[:6]
@@ -311,6 +315,26 @@ def test_extended_recommended_method_tracks_are_recorded() -> None:
             "AI-assisted",
             "evidence triage",
             "human-in-the-loop",
+        ),
+        "regulatory-market-access-voi-mature-stable_20260625": (
+            "regulatory",
+            "market-access",
+            "approval probability",
+        ),
+        "replication-reproducibility-voi-mature-stable_20260625": (
+            "replication",
+            "reproducibility",
+            "reanalysis",
+        ),
+        "evidence-obsolescence-refresh-voi-mature-stable_20260625": (
+            "evidence obsolescence",
+            "refresh VOI",
+            "living evidence",
+        ),
+        "strategic-behavior-game-theoretic-voi-mature-stable_20260625": (
+            "strategic behavior",
+            "game-theoretic VOI",
+            "equilibrium",
         ),
     }
     docs = _read("docs/sota_voi_frontier.md")

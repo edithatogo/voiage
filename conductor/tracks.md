@@ -631,3 +631,27 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ## [ ] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
 *Link: [./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
 *Status: recommended method track for valuing AI-assisted screening, extraction, prioritization, audit, and evidence-review automation.*
+
+---
+
+## [ ] Track: Regulatory And Market-Access VOI Mature Stable Path
+*Link: [./tracks/regulatory-market-access-voi-mature-stable_20260625/](./tracks/regulatory-market-access-voi-mature-stable_20260625/)*
+*Status: recommended method track for valuing evidence that changes approval, reimbursement, label, pricing, coverage, or access decisions.*
+
+---
+
+## [ ] Track: Replication And Reproducibility VOI Mature Stable Path
+*Link: [./tracks/replication-reproducibility-voi-mature-stable_20260625/](./tracks/replication-reproducibility-voi-mature-stable_20260625/)*
+*Status: recommended method track for valuing independent replication, audit, reanalysis, reproducibility, and credibility checks.*
+
+---
+
+## [ ] Track: Evidence Obsolescence And Refresh VOI Mature Stable Path
+*Link: [./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/](./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/)*
+*Status: recommended method track for valuing living evidence, guideline updates, evidence refresh cadence, and model refresh timing.*
+
+---
+
+## [ ] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path
+*Link: [./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/](./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/)*
+*Status: recommended method track for VOI when actors respond strategically to information, incentives, prices, or policy.*

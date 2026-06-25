@@ -205,6 +205,14 @@ SOTA roadmap should also keep these adjacent families visible:
 - AI-assisted evidence triage VOI, where screening, extraction, summarization,
   prioritization, or review automation may reduce evidence-generation burden but
   introduces false-inclusion, false-exclusion, audit, and drift uncertainty
+- regulatory and market-access VOI, where evidence can change approval,
+  reimbursement, label, pricing, or coverage conditions before implementation
+- replication and reproducibility VOI, where the decision is whether independent
+  replication, audit, reanalysis, or reproducibility work is worth its cost
+- evidence obsolescence and refresh VOI, where living evidence, guideline
+  updates, or model refreshes have value because existing evidence decays
+- strategic behavior and game-theoretic VOI, where other actors respond to
+  information, incentives, prices, or policy in ways that change decision value
 
 ## Track Ownership
 
@@ -234,6 +242,10 @@ work is split into active promotion and runtime-completion tracks:
 - `capacity-budget-constrained-voi-mature-stable_20260625`
 - `federated-privacy-preserving-voi-mature-stable_20260625`
 - `ai-assisted-evidence-triage-voi-mature-stable_20260625`
+- `regulatory-market-access-voi-mature-stable_20260625`
+- `replication-reproducibility-voi-mature-stable_20260625`
+- `evidence-obsolescence-refresh-voi-mature-stable_20260625`
+- `strategic-behavior-game-theoretic-voi-mature-stable_20260625`
 
 These tracks must not mark a frontier family stable until runtime behavior,
 schemas, CLI examples, documentation, deterministic fixtures, cross-language
