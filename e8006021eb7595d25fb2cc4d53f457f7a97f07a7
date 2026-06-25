@@ -1,0 +1,11 @@
+Conductor track expansion follow-through
+
+Summary:
+- Added dedicated mature/stable tracks for causal identification/transportability/external-validity VOI, data-quality/measurement-error/privacy/linkage VOI, computational/model-refinement VOI, expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI, and perspective uncertainty VOI.
+- Added recommended adjacent method tracks for monitoring/surveillance, implementation strategy comparison, equity information, explainability/transparency, interoperability/standardization, and ambiguity/distribution shift.
+- Updated frontier docs, roadmap, todo, changelog, and Conductor validation tests.
+
+Verification:
+- git diff --check
+- uv run pytest tests/test_conductor_followthrough_tracks.py tests/test_registry_audit.py tests/test_hpc_evidence_docs.py --no-cov: 22 passed
+- uv run --with ruff ruff check tests/test_conductor_followthrough_tracks.py: passed
