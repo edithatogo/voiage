@@ -21,6 +21,7 @@ test_that("the R release workflow is tied to r-v tags and source artifacts", {
   expect_true(any(grepl("Verify DESCRIPTION version matches release tag", workflow_text, fixed = TRUE)))
   expect_true(any(grepl("R CMD build", workflow_text, fixed = TRUE)))
   expect_true(any(grepl("tools/build-manual.R", workflow_text, fixed = TRUE)))
+  expect_true(any(grepl("r-lib/actions/setup-tinytex@v2", workflow_text, fixed = TRUE)))
   expect_true(any(grepl("softprops/action-gh-release@v2", workflow_text, fixed = TRUE)))
 })
 

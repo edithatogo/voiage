@@ -242,6 +242,7 @@ jobs:
         with:
           working-directory: r-package/voiageR
           extra-packages: any::rcmdcheck
+      - uses: r-lib/actions/setup-tinytex@v2
 
       - name: Capture release version
         run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#r-v}" >> "$GITHUB_ENV"
