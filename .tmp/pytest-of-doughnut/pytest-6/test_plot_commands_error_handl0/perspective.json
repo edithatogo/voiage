@@ -1,1 +1,0 @@
-{"net_benefit": [[[10.0, 7.0], [8.0, 11.0]], [[10.0, 7.0], [8.0, 11.0]]], "strategy_names": ["A", "B"], "perspective_names": ["payer", "societal"], "perspective_weights": {"payer": 0.4, "societal": 0.6}, "reference_perspective": "payer"}

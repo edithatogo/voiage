@@ -113,48 +113,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reordered the roadmap so registry deployment completion is the prerequisite for the HPC-native enablement stage.
 - Added a Python release workflow contract test and clarified the checklist so the Python façade is explicitly called the stable release surface.
 
-### Fixed
-- Replaced the sequential CLI's empty step stub with a pass-through progression model and covered it with focused CLI regression tests.
-- Restored the E2E CLI job to install the test runner dependencies it needs
-  and converted the remaining comprehensive CLI help checks to the in-process
-  Typer runner so the matrix stays stable across Python versions.
-- Restored the GitHub Actions tool split so the CI jobs that invoke `tox`,
-  `ruff`, `bandit`, and `vulture` install the dev toolset they need, and
-  cleaned up the strategy orchestration guide table so the docs site builds
-  without warnings.
-- Regenerated the Rust core `Cargo.lock` so the benchmark workflow can run the scalar baseline with `--locked` again.
-- Switched the adaptive EVSI help assertion to the in-process Typer runner so the CLI help test stays stable across Python versions in CI.
-- Cleaned up the frontier family README wording so the experimental contracts now use current fixture-backed status language instead of stale "planned" phrasing.
-
-### Fixed
-- Added strategy Conductor tracks for SOTA packaging/review readiness, HPC
-  distribution and acceleration, Rust-core ABI and migration policy, and
-  polyglot repo/docs architecture.
-- Extended the roadmap with a SOTA HPC and community-review program, plus
-  current-state and future-state mermaid architecture diagrams.
-- Reflected the current docs/release state in the conductor setup, including
-  community-review targets, HPC distribution tooling, and optional ABI
-  tooling.
-- Split the CI and test dependency slices so linting, e2e, coverage, and prose
-  checks each run with the tools they actually need, then added unit coverage
-  for the new validation and threshold CLI error paths so the repository-wide
-  coverage gate stays above 90%.
-- Disabled coverage enforcement for benchmark-only runs so the benchmark
-  workflow and task alias exercise the benchmark suite without tripping the
-  repository-wide coverage gate.
-- Archived the Starlight documentation-platform track after recording the
-  versioning policy, plugin baseline, migration boundary, and future
-  validation gates in the conductor setup.
-- Aligned the validation and threshold frontier docs, schemas, examples, and
-  runtime maturity labels so the contract surface now consistently reports
-  fixture-backed status across the user guide, specs, and runtime output.
-- Refreshed the Conductor product, tech-stack, and roadmap setup docs so they
-  reflect the Rust-core direction, the current language matrix, and the
-  updated project date.
-- Added a Starlight documentation-platform track and recorded the initial
-  versioning and plugin baseline in the roadmap and conductor setup.
-
-### Added
 - Added the community support surface with `SUPPORT.md`, `CODE_OF_CONDUCT.md`,
   `SECURITY.md`, a support-question issue template, and contributor-facing
   links from the main docs.
@@ -174,72 +132,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   conformance slices complete in the roadmap and backlog, leaving CLI
   integration as the remaining open step.
 
-### Fixed
-- Archived the Rust EVSI stochastic-kernel follow-on track after landing the
-  seeded bootstrap kernel, the fixture-backed parity checks, and the benchmark
-  baseline.
-- Clarified that the Rust EVSI stochastic-kernel follow-on track is kernel-only
-  and that the EVSI summary envelope already lives in the Rust core contract.
-- Added a new Conductor track for the Rust EVSI stochastic-kernel follow-on,
-  keeping the already-owned EVSI summary contract separate from the future
-  kernel implementation.
-- Archived the Rust-core numerics engine track after making the EVSI summary
-  boundary explicit and documenting that the stochastic kernel remains a
-  future follow-on decision outside the current Rust core surface.
-- Archived the Rust-core performance and profiling track after documenting the
-  handoff, parallelism, and accelerator feasibility boundaries, and updated
-  the Conductor registry to point at the archive.
-- Added Rust-core developer guidance for the handoff boundary, Rayon/SIMD
-  parallelism policy, and GPU/TPU/custom-circuit feasibility limits, with
-  links from the developer guide index and the Rust binding README.
-- Added a deterministic Rust EVPPI summary envelope in the `voiage-core` crate, alongside a full round-trip test for the new partial-information contract.
-- Closed the Rust profiling memory/throughput measurement checkpoint and reconciled the numerics plan around the new EVSI summary contract boundary.
-- Added a deterministic Rust EVSI summary envelope and expanded the Rust profiling baseline with a machine-readable memory/throughput artifact plus CI upload for the scalar benchmark.
-- Archived the completed Rust-core migration foundation, domain model, bindings/release, and SOTA VOI frontier tracks after the latest review and implementation slices landed, and reconciled the Conductor registry to the archived paths.
-- Advanced the Rust-core migration with the migration foundation handoff, the Rust domain-model API boundary, deterministic summary methods in `voiage-core`, a scalar CPU benchmark baseline, and the new preference heterogeneity surface in the Python API.
-- Added the first Rust-core migration slices in the `voiage-core` crate, including the domain model, deterministic EVPI/ENBS kernels, and a scalar CPU benchmark baseline, then aligned the migration, binding, and release docs with that core-first shape.
-- Added a repo-level smoke layer for the polyglot binding walkthrough READMEs, linked the tutorial entry points from the top-level docs and release guidance, and archived the completed R manual/vignette and polyglot tutorial-surface tracks.
-- Added the R package narrative vignette and a deterministic PDF manual build helper, then documented the non-interactive build and verification path in the release and contributor guidance.
-- Reworded the roadmap, backlog, README, and polyglot release docs so the R manual/vignette track and the polyglot tutorial surface track now reflect the current doc state: package help pages, the vignette, and the manual build path are in place, while verification and non-Python walkthrough alignment remain tracked work.
-- Re-scoped the roadmap and backlog so the Rust-core migration is explicit about a Rust execution core, Python façade, thin bindings/adapters, and scalar-first profiling, and aligned the release docs with that ownership model.
-- Reworked the R package's Python-module cache to use a private environment and normalized EVSI prior-sample forwarding, which removed the remaining `R CMD check` warning path and let `r-package/voiageR` pass the full build-and-check flow cleanly.
-- Tightened the R binding metadata and namespace, and updated the package tests so `r-package/voiageR` now passes `R CMD build` and `R CMD check --no-manual`.
-- Clarified the R package's current release channel and caveats in the polyglot publishing docs so the public guidance now distinguishes GitHub Releases from the external CRAN and r-universe registry flows.
-- Archived the remaining completed Conductor tracks for the first external bindings release matrix, dynamic real-options VOI, adjacent frontier extensions, and the lifecourse integration contract so the active registry now only shows live work.
-- Closed out the remaining documentation and CLI integration bookkeeping by archiving the docs-developer-experience and cli-integration-testing tracks after the docs, notebook, benchmark, and branch-coverage work landed.
-- Refreshed the README with the current feature matrix, a working quick-start, comparison table, documentation links, and help/value sections so the landing page matches the implemented surface.
-- Restored the repository verification gate by fixing the remaining style issues in the regression tests and getting the full `ruff`, `ty`, and `pytest --cov=voiage --cov-fail-under=90` suite back to green.
-- Closed the remaining docs-developer-experience onboarding checklist items and the CLI completeness bookkeeping after the backend-consistency and command-surface coverage landed.
-- Added an executed advanced methods tutorial notebook covering structural VOI,
-  NMA VOI, adaptive trial VOI, portfolio VOI, sequential VOI, efficient EVSI,
-  CEAF, and extended dominance.
-- Wired the benchmark regression checks into the main CI workflow so the committed core metrics regression suite now runs on every push and pull request.
-- Archived the completed numerics diagnostics and extension-model track after adding the extension-evolution contract, and removed duplicate live track entries for the already-complete cross-language and ecosystem bookkeeping.
-- Marked the Python cleanup phase for public imports, result payload shapes,
-  and diagnostic behavior as complete after confirming the curated package
-  exports and compatibility warning paths already match the stable contract.
-- Added a deprecation warning to the lower-level EVPPI wrapper when raw dict
-  parameter samples are passed, and documented the `ParameterSet` path as the
-  stable contract-facing form.
-- Added a developer-guide page documenting the polyglot tooling split, release versioning contract, and logging policy for contributors and maintainers.
-- Aligned the Python release metadata and conda update path so the feedstock
-  recipe uses the PyPI sdist hash, the changelog filename matches the on-disk
-  file, and the release docs describe the live automation accurately.
-- Restored the CI and tox lint path for Bandit by adding it to the dev tool
-  set and wiring the security check into the local lint env, and committed the
-  Vale configuration files that the prose job expects at the repository root.
-- Relaxed two CLI test assertions so they accept the rich help and error
-  rendering used by Typer across local and CI environments.
-- Fixed the coverage-report workflow by installing tox through the locked dev
-  environment and relaxed the main CLI help assertion so it no longer depends
-  on a specific rich-rendered option line in GitHub Actions.
-- Marked the CLI E2E suite as `e2e` in pytest collection and removed the
-  coverage gate from the integration and E2E CI jobs so those jobs exercise
-  their own scope instead of failing on the global unit-test threshold.
-- Split the coverage gate into its own CI job so the unit matrix can collect
-  coverage for Codecov without enforcing the repo-wide threshold twice.
-
-### Added
 - Reconciled the Rust numerics and profiling track bookkeeping so the open work now reads as EVPPI, EVSI/frontier-adjacent kernels, and the remaining profiling measurement and guidance phases rather than stale placeholders.
 - Added a Rust-core migration program to the Conductor backlog with separate tracks for the migration foundation, domain model, numerics engine, profiling/backends, and bindings/release adaptation.
 - Added a new Conductor track for publication-quality R package documentation, including a PDF reference manual and a narrative vignette path.
@@ -481,6 +373,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Seeded the normative EVSI conformance fixture under `specs/core-api/fixtures/v1/normative/` and registered it in the versioned manifest.
 - Added the versioned core API fixture scaffold under `specs/core-api/fixtures/v1/`, including the initial manifest contract and validator coverage for the normative and illustrative subtrees.
 
+- **Structural Uncertainty VOI Methods**:
+  - `structural_evpi()`: Calculate Expected Value of Perfect Information for Model Structure
+  - `structural_evppi()`: Calculate Expected Value of Partial Perfect Information for Model Structure
+  - `structural_evpi_jit()`: JAX-accelerated version with JIT compilation
+  - `structural_evppi_jit()`: JAX-accelerated version with JIT compilation
+  - CLI commands: `voiage calculate-structural-evpi` and `voiage calculate-structural-evppi`
+  - JSON config file support for defining multiple model structures
+
+- **Network Meta-Analysis VOI Methods**:
+  - `NetworkMetaAnalysisData`: Data structure for NMA inputs with validation
+  - `calculate_nma_evpi()`: Calculate EVPI for Network Meta-Analysis
+  - `calculate_nma_evppi()`: Calculate EVPPI for Network Meta-Analysis
+  - CLI command: `voiage calculate-nma-voi`
+  - Support for willingness-to-pay thresholds
+  - Dictionary-to-NMA data conversion for ease of use
+
 ### Changed
 - Made the calibration VOI modeler optional by defaulting to the built-in calibration modeler when no custom modeler is supplied.
 - Replaced the JAX two-loop EVSI placeholder/fallback path with a real JAX-assisted posterior update and resampling implementation.
@@ -507,24 +415,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Clarified the EVPI/EVPPI validation notebook and marked the benchmark notebook TODO complete.
 - Expanded regression coverage across deterministic public modules, including backend helpers, ecosystem-import/export paths, health-economics utilities, CLI flows, schema validation, and the fluent API.
 
-### Added
-- **Structural Uncertainty VOI Methods**:
-  - `structural_evpi()`: Calculate Expected Value of Perfect Information for Model Structure
-  - `structural_evppi()`: Calculate Expected Value of Partial Perfect Information for Model Structure
-  - `structural_evpi_jit()`: JAX-accelerated version with JIT compilation
-  - `structural_evppi_jit()`: JAX-accelerated version with JIT compilation
-  - CLI commands: `voiage calculate-structural-evpi` and `voiage calculate-structural-evppi`
-  - JSON config file support for defining multiple model structures
-
-- **Network Meta-Analysis VOI Methods**:
-  - `NetworkMetaAnalysisData`: Data structure for NMA inputs with validation
-  - `calculate_nma_evpi()`: Calculate EVPI for Network Meta-Analysis
-  - `calculate_nma_evppi()`: Calculate EVPPI for Network Meta-Analysis
-  - CLI command: `voiage calculate-nma-voi`
-  - Support for willingness-to-pay thresholds
-  - Dictionary-to-NMA data conversion for ease of use
-
-### Changed
 - Migrated from pip/tox to uv for 10-100x faster dependency resolution
 - Expanded Ruff configuration with comprehensive rule sets
 - Standardized static type checking on ty
@@ -532,6 +422,148 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added integration and E2E test structure with pytest markers
 - Modernized CI/CD with uv caching, CodeQL, benchmark tracking
 - Added Renovate configuration for automated dependency updates
+
+### Fixed
+- Removed tracked generated artifacts from version control, including pytest
+  temp output, coverage reports, macOS metadata, legacy egg-info files, and R
+  CMD check output, and added repo-local ignore rules for those generated
+  paths.
+- Removed tracked backup files and added repo-local ignore/test coverage so
+  editor or one-off `.bak` snapshots do not re-enter version control.
+- Removed root-level legacy `test_*.py` scratch files and `test_results_*`
+  logs so the maintained test suite is anchored under `tests/`.
+- Removed stale root-level completion and coverage reports, obsolete local-path
+  mutation/demo scripts, and generated result outputs that duplicated the
+  canonical roadmap, changelog, docs, and maintained test suite.
+- Removed generated `*.nbconvert.ipynb` notebooks and converted remaining
+  `file:///Users/.../voiage` documentation links to portable repository paths.
+- Reconciled roadmap status labels so completed spec, polyglot, ecosystem,
+  frontier, and Rust-core foundation phases no longer appear as planned while
+  external registry, hardware, and speedup evidence gates remain explicit.
+- Removed stale Qoder, repository-map, and legacy roadmap mirror documents that
+  duplicated the canonical roadmap/todo files and described outdated placeholder
+  or v0.1-era state.
+- Removed remaining root-level Qoder quest files plus duplicate planning,
+  branch-architecture, CLI-changelog, repository-structure, and outdated todo
+  mirrors so project state stays anchored in `roadmap.md`, `todo.md`, and
+  `changelog.md`.
+- Removed legacy root JAX audit/setup, coverage-analysis, benchmark,
+  verification, review, and testing-approach scaffolding that was not wired
+  into the maintained package, docs, tox, or CI surfaces.
+- Fixed the Taskipy `profile` command to point at the tracked profiling script
+  and updated that script to use the current public `ValueArray` and
+  `ParameterSet` APIs.
+- Removed root-level generated CLI sample CSVs and pointed the README and CLI
+  example script at the maintained `examples/cli_samples/` fixtures.
+- Added the XML parser used by the ecosystem integration module to the base
+  runtime dependencies and made the CLI example fail fast on command failures.
+- Rewrote the stale root product, technology stack, workflow, and product
+  guideline mirrors so they match the current roadmap, AGENTS workflow,
+  Sphinx/Starlight documentation boundary, and >90% coverage gate.
+- Fixed Sphinx formatting in the HPC developer-guide pages so the docs gate
+  passes with warnings treated as errors.
+- Replaced the sequential CLI's empty step stub with a pass-through progression model and covered it with focused CLI regression tests.
+- Restored the E2E CLI job to install the test runner dependencies it needs
+  and converted the remaining comprehensive CLI help checks to the in-process
+  Typer runner so the matrix stays stable across Python versions.
+- Restored the GitHub Actions tool split so the CI jobs that invoke `tox`,
+  `ruff`, `bandit`, and `vulture` install the dev toolset they need, and
+  cleaned up the strategy orchestration guide table so the docs site builds
+  without warnings.
+- Regenerated the Rust core `Cargo.lock` so the benchmark workflow can run the scalar baseline with `--locked` again.
+- Switched the adaptive EVSI help assertion to the in-process Typer runner so the CLI help test stays stable across Python versions in CI.
+- Cleaned up the frontier family README wording so the experimental contracts now use current fixture-backed status language instead of stale "planned" phrasing.
+
+- Added strategy Conductor tracks for SOTA packaging/review readiness, HPC
+  distribution and acceleration, Rust-core ABI and migration policy, and
+  polyglot repo/docs architecture.
+- Extended the roadmap with a SOTA HPC and community-review program, plus
+  current-state and future-state mermaid architecture diagrams.
+- Reflected the current docs/release state in the conductor setup, including
+  community-review targets, HPC distribution tooling, and optional ABI
+  tooling.
+- Split the CI and test dependency slices so linting, e2e, coverage, and prose
+  checks each run with the tools they actually need, then added unit coverage
+  for the new validation and threshold CLI error paths so the repository-wide
+  coverage gate stays above 90%.
+- Disabled coverage enforcement for benchmark-only runs so the benchmark
+  workflow and task alias exercise the benchmark suite without tripping the
+  repository-wide coverage gate.
+- Archived the Starlight documentation-platform track after recording the
+  versioning policy, plugin baseline, migration boundary, and future
+  validation gates in the conductor setup.
+- Aligned the validation and threshold frontier docs, schemas, examples, and
+  runtime maturity labels so the contract surface now consistently reports
+  fixture-backed status across the user guide, specs, and runtime output.
+- Refreshed the Conductor product, tech-stack, and roadmap setup docs so they
+  reflect the Rust-core direction, the current language matrix, and the
+  updated project date.
+- Added a Starlight documentation-platform track and recorded the initial
+  versioning and plugin baseline in the roadmap and conductor setup.
+
+- Archived the Rust EVSI stochastic-kernel follow-on track after landing the
+  seeded bootstrap kernel, the fixture-backed parity checks, and the benchmark
+  baseline.
+- Clarified that the Rust EVSI stochastic-kernel follow-on track is kernel-only
+  and that the EVSI summary envelope already lives in the Rust core contract.
+- Added a new Conductor track for the Rust EVSI stochastic-kernel follow-on,
+  keeping the already-owned EVSI summary contract separate from the future
+  kernel implementation.
+- Archived the Rust-core numerics engine track after making the EVSI summary
+  boundary explicit and documenting that the stochastic kernel remains a
+  future follow-on decision outside the current Rust core surface.
+- Archived the Rust-core performance and profiling track after documenting the
+  handoff, parallelism, and accelerator feasibility boundaries, and updated
+  the Conductor registry to point at the archive.
+- Added Rust-core developer guidance for the handoff boundary, Rayon/SIMD
+  parallelism policy, and GPU/TPU/custom-circuit feasibility limits, with
+  links from the developer guide index and the Rust binding README.
+- Added a deterministic Rust EVPPI summary envelope in the `voiage-core` crate, alongside a full round-trip test for the new partial-information contract.
+- Closed the Rust profiling memory/throughput measurement checkpoint and reconciled the numerics plan around the new EVSI summary contract boundary.
+- Added a deterministic Rust EVSI summary envelope and expanded the Rust profiling baseline with a machine-readable memory/throughput artifact plus CI upload for the scalar benchmark.
+- Archived the completed Rust-core migration foundation, domain model, bindings/release, and SOTA VOI frontier tracks after the latest review and implementation slices landed, and reconciled the Conductor registry to the archived paths.
+- Advanced the Rust-core migration with the migration foundation handoff, the Rust domain-model API boundary, deterministic summary methods in `voiage-core`, a scalar CPU benchmark baseline, and the new preference heterogeneity surface in the Python API.
+- Added the first Rust-core migration slices in the `voiage-core` crate, including the domain model, deterministic EVPI/ENBS kernels, and a scalar CPU benchmark baseline, then aligned the migration, binding, and release docs with that core-first shape.
+- Added a repo-level smoke layer for the polyglot binding walkthrough READMEs, linked the tutorial entry points from the top-level docs and release guidance, and archived the completed R manual/vignette and polyglot tutorial-surface tracks.
+- Added the R package narrative vignette and a deterministic PDF manual build helper, then documented the non-interactive build and verification path in the release and contributor guidance.
+- Reworded the roadmap, backlog, README, and polyglot release docs so the R manual/vignette track and the polyglot tutorial surface track now reflect the current doc state: package help pages, the vignette, and the manual build path are in place, while verification and non-Python walkthrough alignment remain tracked work.
+- Re-scoped the roadmap and backlog so the Rust-core migration is explicit about a Rust execution core, Python façade, thin bindings/adapters, and scalar-first profiling, and aligned the release docs with that ownership model.
+- Reworked the R package's Python-module cache to use a private environment and normalized EVSI prior-sample forwarding, which removed the remaining `R CMD check` warning path and let `r-package/voiageR` pass the full build-and-check flow cleanly.
+- Tightened the R binding metadata and namespace, and updated the package tests so `r-package/voiageR` now passes `R CMD build` and `R CMD check --no-manual`.
+- Clarified the R package's current release channel and caveats in the polyglot publishing docs so the public guidance now distinguishes GitHub Releases from the external CRAN and r-universe registry flows.
+- Archived the remaining completed Conductor tracks for the first external bindings release matrix, dynamic real-options VOI, adjacent frontier extensions, and the lifecourse integration contract so the active registry now only shows live work.
+- Closed out the remaining documentation and CLI integration bookkeeping by archiving the docs-developer-experience and cli-integration-testing tracks after the docs, notebook, benchmark, and branch-coverage work landed.
+- Refreshed the README with the current feature matrix, a working quick-start, comparison table, documentation links, and help/value sections so the landing page matches the implemented surface.
+- Restored the repository verification gate by fixing the remaining style issues in the regression tests and getting the full `ruff`, `ty`, and `pytest --cov=voiage --cov-fail-under=90` suite back to green.
+- Closed the remaining docs-developer-experience onboarding checklist items and the CLI completeness bookkeeping after the backend-consistency and command-surface coverage landed.
+- Added an executed advanced methods tutorial notebook covering structural VOI,
+  NMA VOI, adaptive trial VOI, portfolio VOI, sequential VOI, efficient EVSI,
+  CEAF, and extended dominance.
+- Wired the benchmark regression checks into the main CI workflow so the committed core metrics regression suite now runs on every push and pull request.
+- Archived the completed numerics diagnostics and extension-model track after adding the extension-evolution contract, and removed duplicate live track entries for the already-complete cross-language and ecosystem bookkeeping.
+- Marked the Python cleanup phase for public imports, result payload shapes,
+  and diagnostic behavior as complete after confirming the curated package
+  exports and compatibility warning paths already match the stable contract.
+- Added a deprecation warning to the lower-level EVPPI wrapper when raw dict
+  parameter samples are passed, and documented the `ParameterSet` path as the
+  stable contract-facing form.
+- Added a developer-guide page documenting the polyglot tooling split, release versioning contract, and logging policy for contributors and maintainers.
+- Aligned the Python release metadata and conda update path so the feedstock
+  recipe uses the PyPI sdist hash, the changelog filename matches the on-disk
+  file, and the release docs describe the live automation accurately.
+- Restored the CI and tox lint path for Bandit by adding it to the dev tool
+  set and wiring the security check into the local lint env, and committed the
+  Vale configuration files that the prose job expects at the repository root.
+- Relaxed two CLI test assertions so they accept the rich help and error
+  rendering used by Typer across local and CI environments.
+- Fixed the coverage-report workflow by installing tox through the locked dev
+  environment and relaxed the main CLI help assertion so it no longer depends
+  on a specific rich-rendered option line in GitHub Actions.
+- Marked the CLI E2E suite as `e2e` in pytest collection and removed the
+  coverage gate from the integration and E2E CI jobs so those jobs exercise
+  their own scope instead of failing on the global unit-test threshold.
+- Split the coverage gate into its own CI job so the unit matrix can collect
+  coverage for Codecov without enforcing the repo-wide threshold twice.
 
 ## [0.2.0] - 2025-08-02
 

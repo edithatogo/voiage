@@ -1,5 +1,9 @@
 """Tests for parallel processing utilities in Value of Information analysis."""
 
+from concurrent.futures import Future
+import sys
+import types
+
 import numpy as np
 import pytest
 import xarray as xr
@@ -12,6 +16,7 @@ from voiage.parallel.adapters import (
     LocalProcessAdapter,
     LocalThreadAdapter,
     RayClusterAdapter,
+    _RayExecutor,
     available_execution_adapters,
     build_executor_factory,
     get_execution_adapter,
@@ -19,6 +24,7 @@ from voiage.parallel.adapters import (
 )
 from voiage.parallel.distributed import (
     ClusterExecutionConfig,
+    chunked_numpy_partition,
     distributed_chunk_map,
     distributed_map,
     distributed_reduce,
@@ -460,6 +466,228 @@ def test_execution_adapter_resolution() -> None:
     with factory(2, use_processes=False) as executor:
         future = executor.submit(lambda value: value + 1, 1)
         assert future.result() == 2
+
+
+def test_local_adapters_create_expected_executor_types() -> None:
+    """Local adapters should instantiate concrete executor pools."""
+    with LocalThreadAdapter().create_executor(1) as executor:
+        future = executor.submit(lambda value: value + 1, 1)
+        assert future.result() == 2
+
+    process_executor = LocalProcessAdapter().create_executor(1)
+    try:
+        assert process_executor._max_workers == 1
+    finally:
+        process_executor.shutdown()
+
+
+def test_execution_adapter_aliases_and_unknown_name() -> None:
+    """All public aliases should resolve while unknown names fail clearly."""
+    assert isinstance(get_execution_adapter(" processes "), LocalProcessAdapter)
+    assert isinstance(get_execution_adapter("local-process"), LocalProcessAdapter)
+    assert isinstance(get_execution_adapter("threads"), LocalThreadAdapter)
+    assert isinstance(get_execution_adapter("local-thread"), LocalThreadAdapter)
+    assert isinstance(get_execution_adapter("distributed"), DaskClusterAdapter)
+    assert isinstance(get_execution_adapter("dask-cluster"), DaskClusterAdapter)
+    assert isinstance(get_execution_adapter("ray-cluster"), RayClusterAdapter)
+    assert isinstance(get_execution_adapter("fpga-cluster"), FpgaClusterAdapter)
+    assert isinstance(get_execution_adapter("asic-cluster"), AsicClusterAdapter)
+
+    with pytest.raises(ValueError, match="Unknown execution adapter"):
+        get_execution_adapter("quantum")
+
+
+def test_build_executor_factory_falls_back_to_threads() -> None:
+    """Adapter factory should fall back to threads if process-style creation fails."""
+
+    class FailingAdapter:
+        name = "failing"
+
+        def create_executor(self, n_workers: int):
+            raise RuntimeError("boom")
+
+    factory = build_executor_factory(FailingAdapter())
+    with factory(1, use_processes=True) as executor:
+        future = executor.submit(lambda value: value + 1, 1)
+        assert future.result() == 2
+
+
+def _install_fake_dask(monkeypatch: pytest.MonkeyPatch) -> list[object]:
+    distributed_module = types.ModuleType("dask.distributed")
+    targets: list[object] = []
+
+    class FakeLocalCluster:
+        def __init__(self, n_workers: int, threads_per_worker: int) -> None:
+            self.n_workers = n_workers
+            self.threads_per_worker = threads_per_worker
+
+    class FakeClient:
+        def __init__(self, target: object) -> None:
+            self.target = target
+            self.closed = False
+            targets.append(target)
+
+        def submit(self, fn, *args, **kwargs):
+            future: Future = Future()
+            future.set_result(fn(*args, **kwargs))
+            return future
+
+        def close(self) -> None:
+            self.closed = True
+
+    distributed_module.Client = FakeClient
+    distributed_module.LocalCluster = FakeLocalCluster
+    dask_module = types.ModuleType("dask")
+    dask_module.distributed = distributed_module
+
+    monkeypatch.setitem(sys.modules, "dask", dask_module)
+    monkeypatch.setitem(sys.modules, "dask.distributed", distributed_module)
+    return targets
+
+
+def test_dask_cluster_adapter_with_fake_local_cluster(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The Dask adapter should wrap a LocalCluster when no address is supplied."""
+    fake_targets = _install_fake_dask(monkeypatch)
+
+    with DaskClusterAdapter().create_executor(2) as executor:
+        future = executor.submit(lambda value: value + 2, 3)
+        assert future.result() == 5
+
+    target = fake_targets[-1]
+    assert target.n_workers == 2
+    assert target.threads_per_worker == 1
+
+
+def test_dask_cluster_adapter_with_fake_scheduler_address(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The Dask adapter should pass explicit scheduler addresses to Client."""
+    fake_targets = _install_fake_dask(monkeypatch)
+
+    executor = DaskClusterAdapter(
+        scheduler_address="tcp://scheduler:8786"
+    ).create_executor(4)
+    try:
+        assert executor.submit(lambda value: value * 2, 4).result() == 8
+    finally:
+        executor.shutdown()
+
+    assert fake_targets[-1] == "tcp://scheduler:8786"
+
+
+class _FakeRemoteFunction:
+    def __init__(self, fn) -> None:
+        self._fn = fn
+
+    def remote(self):
+        return self._fn()
+
+
+class _FakeRayModule:
+    def __init__(self, *, initialized: bool = False) -> None:
+        self._initialized = initialized
+        self.init_kwargs: list[dict[str, object]] = []
+        self.shutdown_called = False
+
+    def is_initialized(self) -> bool:
+        return self._initialized
+
+    def init(self, **kwargs: object) -> None:
+        self.init_kwargs.append(kwargs)
+        self._initialized = True
+
+    def remote(self, fn):
+        return _FakeRemoteFunction(fn)
+
+    def get(self, value):
+        return value
+
+    def shutdown(self) -> None:
+        self.shutdown_called = True
+
+
+def test_ray_cluster_adapter_with_fake_module(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The Ray adapter should initialize and wrap a Ray-like module."""
+    fake_ray = _FakeRayModule()
+    monkeypatch.setitem(sys.modules, "ray", fake_ray)
+
+    with RayClusterAdapter().create_executor(3) as executor:
+        future = executor.submit(lambda value: value + 7, 5)
+        assert future.result(timeout=5) == 12
+
+    assert fake_ray.init_kwargs == [{"num_cpus": 3}]
+    assert fake_ray.shutdown_called is True
+
+
+def test_ray_cluster_adapter_with_fake_address(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The Ray adapter should initialize using an explicit cluster address."""
+    fake_ray = _FakeRayModule()
+    monkeypatch.setitem(sys.modules, "ray", fake_ray)
+
+    executor = RayClusterAdapter(address="ray://cluster").create_executor(2)
+    try:
+        assert executor.submit(lambda value: value * 3, 4).result(timeout=5) == 12
+    finally:
+        executor.shutdown()
+
+    assert fake_ray.init_kwargs == [{"address": "ray://cluster"}]
+
+
+def test_ray_executor_skips_shutdown_when_unavailable() -> None:
+    """Ray-like modules without shutdown should still satisfy the executor API."""
+
+    def remote(fn):
+        return _FakeRemoteFunction(fn)
+
+    def get(value):
+        return value
+
+    fake_ray = types.SimpleNamespace(
+        remote=remote,
+        get=get,
+    )
+    wrapped = _RayExecutor(fake_ray)
+
+    assert wrapped.submit(lambda: "ok").result(timeout=5) == "ok"
+    wrapped.shutdown()
+
+
+def test_distributed_validation_and_fallback_branches() -> None:
+    """Distributed helpers should validate inputs and fall back deterministically."""
+    for kwargs, match in (
+        ({"n_nodes": 0}, "n_nodes"),
+        ({"workers_per_node": 0}, "workers_per_node"),
+        ({"chunk_count": 0}, "chunk_count"),
+        ({"scheduler": " "}, "scheduler"),
+    ):
+        with pytest.raises(ValueError, match=match):
+            ClusterExecutionConfig(**kwargs)
+
+    assert ClusterExecutionConfig(n_nodes=1).total_workers >= 1
+
+    with pytest.raises(ValueError, match="total_items"):
+        partition_workload(-1, 1)
+    with pytest.raises(ValueError, match="partition_count"):
+        partition_workload(1, 0)
+    assert partition_workload(0, 3) == []
+
+    def failing_factory(n_workers: int, use_processes: bool):
+        raise TypeError("executor unavailable")
+
+    assert distributed_map(
+        [1, 2], lambda value: value + 1, executor_factory=failing_factory
+    ) == [
+        2,
+        3,
+    ]
+    assert distributed_map([], lambda value: value) == []
+
+    chunks = chunked_numpy_partition(np.array([1, 2, 3, 4]), 3)
+    assert [chunk.tolist() for chunk in chunks] == [[1, 2], [3], [4]]
+    with pytest.raises(ValueError, match="one-dimensional"):
+        chunked_numpy_partition(np.array([[1, 2]]), 2)
 
 
 def test_dask_cluster_adapter_soft_dependency_gate() -> None:

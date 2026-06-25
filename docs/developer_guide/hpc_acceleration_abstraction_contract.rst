@@ -1,5 +1,5 @@
 HPC Acceleration Abstraction Contract
-====================================
+=====================================
 
 Purpose
 -------
@@ -30,7 +30,7 @@ The contract applies to:
 * and ASIC/custom-circuit feasibility.
 
 Standard interface
------------------
+------------------
 
 All accelerator tracks must preserve this contract:
 
@@ -48,7 +48,7 @@ All accelerator tracks must preserve this contract:
 * On failure or unsupported paths, fallback to CPU must be automatic and explicit.
 
 Standardized acceleration candidates
------------------------------------
+------------------------------------
 
 The first-generation contract decision is:
 
@@ -73,7 +73,7 @@ No single vendor API should define the contract by itself. The shared abstractio
 is the only contract-boundary decision; backend engines may evolve underneath it.
 
 Transition criteria to feasibility follow-on
-------------------------------------------
+--------------------------------------------
 
 For each hardware class, progression from feasibility to implementation requires:
 

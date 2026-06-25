@@ -1,9 +1,0 @@
-{
-  "command": "calculate-nma-voi",
-  "metric": "NMA-EVPPI",
-  "parameters_of_interest": [
-    "hazard_ratio",
-    "cost_offset"
-  ],
-  "value": 1.25
-}

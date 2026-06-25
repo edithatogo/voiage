@@ -1,6 +1,0 @@
-{
-  "command": "calculate-adaptive-evsi",
-  "metric": "Adaptive EVSI",
-  "simulator": "bayesian",
-  "value": 2.5
-}

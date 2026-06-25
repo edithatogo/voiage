@@ -4417,6 +4417,7 @@ name = "voiage"
 version = "0.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "defusedxml" },
     { name = "jax", version = "0.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "jax", version = "0.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "matplotlib" },
@@ -4439,7 +4440,6 @@ dependencies = [
 
 [package.optional-dependencies]
 ci = [
-    { name = "defusedxml" },
     { name = "docutils" },
     { name = "hypothesis" },
     { name = "jsonschema" },
@@ -4481,7 +4481,7 @@ plotting = [
 [package.metadata]
 requires-dist = [
     { name = "bandit", marker = "extra == 'dev'", specifier = ">=1.7,<2.0" },
-    { name = "defusedxml", marker = "extra == 'ci'", specifier = ">=0.7" },
+    { name = "defusedxml", specifier = ">=0.7" },
     { name = "docutils", marker = "extra == 'ci'", specifier = ">=0.18,<0.22" },
     { name = "hypothesis", marker = "extra == 'ci'", specifier = ">=6.0,<7.0" },
     { name = "ipykernel", marker = "extra == 'dev'" },

@@ -1,1 +1,0 @@
-{"markov_models": [{"name": "base"}], "state_transitions": [{"from": "stable", "to": "dead"}], "cost_effectiveness_results": {"Drug A": {"nmb": 1000.0}}}

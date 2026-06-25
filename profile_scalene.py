@@ -2,14 +2,14 @@
 Performance profiling script for voiage using Scalene.
 
 Usage:
-    scalene voiage/profile_scalene.py
-    scalene --cli voiage/profile_scalene.py
-    scalene --html --outfile profile.html voiage/profile_scalene.py
+    scalene profile_scalene.py
+    scalene --cli profile_scalene.py
+    scalene --html --outfile profile.html profile_scalene.py
 """
 
 import numpy as np
 
-from voiage.analysis import evpi, evppi
+from voiage import ParameterSet, ValueArray, evpi, evppi
 
 
 def profile_evpi():
@@ -19,9 +19,12 @@ def profile_evpi():
     n_strategies = 5
 
     print(f"Profiling EVPI with {n_simulations} simulations, {n_strategies} strategies...")
-    psa_outputs = np.random.rand(n_simulations, n_strategies) * 1000
+    values = ValueArray.from_numpy(
+        np.random.rand(n_simulations, n_strategies) * 1000,
+        [f"Strategy {i}" for i in range(n_strategies)],
+    )
 
-    evpi_value = evpi({}, psa_outputs)
+    evpi_value = evpi(values)
     print(f"EVPI: {evpi_value:.4f}")
 
 
@@ -32,16 +35,21 @@ def profile_evppi():
     n_parameters = 10
 
     print(f"Profiling EVPPI with {n_simulations} simulations, {n_parameters} parameters...")
-    psa_inputs = {f'param_{i}': np.random.rand(n_simulations) for i in range(n_parameters)}
-    psa_outputs = np.random.rand(n_simulations, 3) * 1000
+    parameters = ParameterSet.from_numpy_or_dict(
+        {f"param_{i}": np.random.rand(n_simulations) for i in range(n_parameters)}
+    )
+    values = ValueArray.from_numpy(
+        np.random.rand(n_simulations, 3) * 1000,
+        ["Standard care", "New treatment", "Comparator"],
+    )
 
-    evppi_value = evppi(psa_inputs, psa_outputs)
+    evppi_value = evppi(values, parameters, ["param_0"])
     print(f"EVPPI: {evppi_value:.4f}")
 
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("voiage Performance Profing")
+    print("voiage Performance Profiling")
     print("=" * 60)
 
     profile_evpi()

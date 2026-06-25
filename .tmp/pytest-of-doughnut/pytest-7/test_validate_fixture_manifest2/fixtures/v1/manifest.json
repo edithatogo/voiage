@@ -1,1 +1,0 @@
-{"version": "v1", "normative": [{"name": "missing provenance", "method_family": "evpi", "input_artifact": "normative/result.json", "expected_output_artifact": "normative/result.json", "tolerance_policy": "exact"}], "illustrative": []}

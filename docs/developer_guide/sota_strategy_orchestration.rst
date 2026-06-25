@@ -24,21 +24,32 @@ Shared decisions that should be treated as prerequisites
 --------------------------------------------------------
 
 1. Release and publishing playbooks per language binding
-   - define the registry target, provenance, rollback, and version-sync rules
-   - keep this separate from the individual binding implementation tracks
+
+   * define the registry target, provenance, rollback, and version-sync rules
+   * keep this separate from the individual binding implementation tracks
+
 2. Rust-core compatibility matrix
-   - define which binding versions are compatible with which Rust core versions
-   - record the no-breaking-change rule for the current Python/R/Julia/TS/Go/.NET APIs
+
+   * define which binding versions are compatible with which Rust core versions
+   * record the no-breaking-change rule for the current Python/R/Julia/TS/Go/.NET APIs
+
 3. Benchmark and accelerator evidence gates
-   - require measured evidence before any GPU, TPU, or custom-circuit claim
-   - keep HPC distribution separate from accelerator promotion
+
+   * require measured evidence before any GPU, TPU, or custom-circuit claim
+   * keep HPC distribution separate from accelerator promotion
+
 4. Documentation navigation and versioning rules
-   - decide when a docs-version switch is justified
-   - keep the current Sphinx docs authoritative until a later migration track changes that
+
+   * decide when a docs-version switch is justified
+   * keep the current Sphinx docs authoritative until a later migration track changes that
+
 5. Distribution metadata and review checklists
-   - keep pyOpenSci, rOpenSci, JOSS, Spack, EasyBuild, and community-alignment artifacts explicit
+
+   * keep pyOpenSci, rOpenSci, JOSS, Spack, EasyBuild, and community-alignment artifacts explicit
+
 6. Registry deployment before HPC-native escalation
-   - finish the language release submission program before treating HPC-native
+
+   * finish the language release submission program before treating HPC-native
      work as the next implementation stage
 
 Parallel lane map

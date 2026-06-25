@@ -1190,8 +1190,8 @@ def benchmark_mps_vs_cpu(
     cpu_payload = benchmark(
         NumpyBackend(),
         net_benefit_array,
-        repeats=repeats,
-        warmup_runs=warmup_runs,
+        repeats,
+        warmup_runs,
     )
 
     apple_payload: dict[str, object] | None = None
@@ -1200,8 +1200,8 @@ def benchmark_mps_vs_cpu(
         apple_payload = benchmark(
             get_backend("apple_metal"),
             net_benefit_array,
-            repeats=repeats,
-            warmup_runs=warmup_runs,
+            repeats,
+            warmup_runs,
         )
     except Exception as exc:  # pragma: no cover - platform-dependent
         apple_error = str(exc)

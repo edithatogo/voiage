@@ -1,1 +1,0 @@
-{"treatment_effects": {"Placebo-Drug_A": [0.5, 0.6, 0.4], "Placebo-Drug_B": [0.7, 0.8, 0.6]}, "n_studies": 3, "treatments": ["Placebo", "Drug_A", "Drug_B"], "outcome_type": "continuous"}

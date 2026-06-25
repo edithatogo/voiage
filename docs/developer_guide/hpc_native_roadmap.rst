@@ -28,32 +28,41 @@ Roadmap sequence
 -----------------
 
 1. Integrated GPU optimization on Apple Silicon
-   - prioritize Metal-backed acceleration and Apple-friendly integrated GPU
+
+   * prioritize Metal-backed acceleration and Apple-friendly integrated GPU
      paths first
-   - prove that the contract stays stable on the CPU fallback path
-   - establish representative workloads and repeatable benchmark gains
-   - start from the committed ``scalar_cpu_baseline`` and
+   * prove that the contract stays stable on the CPU fallback path
+   * establish representative workloads and repeatable benchmark gains
+   * start from the committed ``scalar_cpu_baseline`` and
      ``memory_throughput_baseline`` artifacts in ``bindings/rust/benches/``
      as the initial CPU comparison set
+
 2. Discrete GPU acceleration
-   - expand beyond integrated GPUs only after the Metal path is measured and
+
+   * expand beyond integrated GPUs only after the Metal path is measured and
      contract-safe
-   - compare backend candidates where the workload shape justifies it
-   - use a shared abstraction contract for backend execution to avoid one-off
+   * compare backend candidates where the workload shape justifies it
+   * use a shared abstraction contract for backend execution to avoid one-off
      hardware-specific implementation drift
+
 3. TPU implementation
-   - reuse the existing JAX-oriented acceleration path where TPU devices are
+
+   * reuse the existing JAX-oriented acceleration path where TPU devices are
      available
-   - require proof that device transfer and compilation overhead are worth it
-   - keep CPU fallback authoritative and the public contract stable
+   * require proof that device transfer and compilation overhead are worth it
+   * keep CPU fallback authoritative and the public contract stable
+
 4. FPGA implementation
-   - define the toolchain and kernel shape before implementation widens
-   - keep the backend optional and benchmark-driven
+
+   * define the toolchain and kernel shape before implementation widens
+   * keep the backend optional and benchmark-driven
+
 5. ASIC / custom-circuit implementation
-   - treat as the last-stage execution lane
-   - require strong evidence that the workload is regular enough to justify
+
+   * treat as the last-stage execution lane
+   * require strong evidence that the workload is regular enough to justify
      the hardware and deployment cost
-   - confirm fallback contract and benchmark packet compatibility before any
+   * confirm fallback contract and benchmark packet compatibility before any
      non-CPU implementation slice is approved
 
 Current evidence status
@@ -231,7 +240,7 @@ The implementation tracks for each stage are registered in the Conductor
 tracks file and should be executed in order.
 
 Registry-readiness track alignment
--------------------------------
+----------------------------------
 
 The HPC registry path is coordinated separately from accelerator implementation by:
 

@@ -1,7 +1,0 @@
-{
-  "command": "calculate-sequential-voi",
-  "metric": "Sequential VOI",
-  "optimization_method": "backward_induction",
-  "value": 3.5,
-  "wtp": 0.0
-}

@@ -11,6 +11,47 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
+    *   Removed committed pytest temp output, coverage reports, macOS metadata,
+        legacy egg-info generated artifacts, and R CMD check output from
+        version control.
+    *   Removed tracked backup snapshots and added ignore/test coverage for
+        common editor backup suffixes.
+    *   Removed root-level legacy test scratch files and test result logs so
+        active verification remains anchored under `tests/`.
+    *   Removed stale root completion/coverage report mirrors, obsolete
+        local-path mutation/demo scripts, and generated result outputs.
+    *   Removed generated nbconvert notebooks and normalized local file links
+        to portable repository-relative paths.
+    *   Removed stale Qoder, repository-map, and legacy roadmap mirror
+        documents that duplicated canonical project status files and described
+        outdated placeholder or v0.1-era state.
+    *   Removed remaining root Qoder quest output and duplicate planning,
+        branch-architecture, CLI-changelog, repository-structure, and outdated
+        todo mirrors.
+    *   Removed legacy root JAX audit/setup, coverage-analysis, benchmark,
+        verification, review, and testing-approach scaffolding that was not
+        wired into maintained package, docs, tox, or CI surfaces.
+    *   Fixed the Taskipy profile command and profiling script so the entry
+        point targets the tracked script and current public API.
+    *   Removed root-level generated CLI sample CSVs and pointed the README
+        and CLI example script at the maintained `examples/cli_samples/`
+        fixtures.
+    *   Added the XML parser used by the ecosystem integration module to the
+        base runtime dependencies and made the CLI example fail fast on
+        command failures.
+    *   Rewrote the stale root product, technology stack, workflow, and product
+        guideline mirrors so they match the current roadmap, AGENTS workflow,
+        Sphinx/Starlight documentation boundary, and >90% coverage gate.
+    *   Fixed Sphinx heading and nested-list formatting in HPC developer docs
+        so the warning-as-error docs gate passes.
+    *   Added repo-local ignore coverage for macOS, tooling-cache, coverage,
+        and temporary-output paths so local verification does not pollute
+        future cleanup passes.
+    *   Updated the roadmap so completed Conductor/spec/ecosystem phases are
+        marked as repository-complete while external registry and hardware
+        evidence gates remain explicit.
+
 *   [x] Add free-runner pre-silicon FPGA/ASIC evidence tracks.
     *   Added a deterministic fixed-point EVPI-style RTL kernel, CPU fixture,
         manifest generator, committed FPGA/ASIC probe manifests, and GitHub

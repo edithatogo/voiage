@@ -1,1 +1,0 @@
-{"treatments": [{"name": "Standard Care", "effectiveness": 1.0, "cost": 100.0}, {"name": "Drug A", "effectiveness": 1.2, "cost": 150.0}], "cost_effectiveness": {"Drug A": {"mean_cost": 150.0, "mean_effectiveness": 1.2, "icer": 25000.0}}, "icer_distributions": {"Drug A": [25000.0, 26000.0]}}
