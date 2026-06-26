@@ -8,17 +8,17 @@
 - [x] Task: Add or update validation tests for the new policy, architecture, or method boundary. (4ebe888)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [~] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update. (ed77831)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
 
 ## Phase 2: Implementation Or Evidence Artifact [checkpoint: ]
 
-- [ ] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
+- [x] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track. (ac6e66b)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run focused validation and record command, runner, status, and artifact paths.
+- [~] Task: Run focused validation and record command, runner, status, and artifact paths.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
