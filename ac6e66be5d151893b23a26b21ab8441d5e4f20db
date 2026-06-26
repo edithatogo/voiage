@@ -1,0 +1,12 @@
+Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
+
+Summary:
+- Created voiage/governance.py with MATURITY_LEVELS, MATURITY_PROMOTION_ORDER, BACKEND_OWNERSHIP, DEPENDENCY_POLICY, and validation functions.
+- Created docs/developer_guide/frontier_governance.rst covering architecture, dependency policy, maturity taxonomy, backend boundary, and no conflicts.
+- Created specs/frontier/governance/README.md documenting the governance contract subtree.
+- All 14 governance tests pass.
+
+Files:
+- voiage/governance.py (new)
+- docs/developer_guide/frontier_governance.rst (new)
+- specs/frontier/governance/README.md (new)
