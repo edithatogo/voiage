@@ -5,10 +5,10 @@
 - [x] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes. (27c667c)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [~] Task: Add or update validation tests for the new policy, architecture, or method boundary.
+- [x] Task: Add or update validation tests for the new policy, architecture, or method boundary. (4ebe888)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [~] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
