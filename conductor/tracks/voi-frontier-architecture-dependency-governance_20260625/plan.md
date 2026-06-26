@@ -28,10 +28,10 @@
 
 ## Phase 3: Integration And Cross-Track Review [checkpoint: ]
 
-- [ ] Task: Verify this track does not conflict with registry, frontier, Rust, dataset, or HPC follow-through tracks.
+- [x] Task: Verify this track does not conflict with registry, frontier, Rust, dataset, or HPC follow-through tracks. (998ec70)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run applicable tox/Rust/binding/docs gates and record any blocked external or expensive gates.
+- [~] Task: Run applicable tox/Rust/binding/docs gates and record any blocked external or expensive gates.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Commit the integration/review changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.

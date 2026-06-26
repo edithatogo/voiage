@@ -27,7 +27,6 @@ from voiage.governance import (
     validate_maturity_label,
 )
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 GOVERNANCE_DOC = REPO_ROOT / "docs" / "developer_guide" / "frontier_governance.rst"
 REGISTRY_MANIFEST = REPO_ROOT / "specs" / "frontier" / "fixtures" / "manifest.json"
@@ -86,7 +85,7 @@ def test_backend_ownership_covers_all_layers() -> None:
 
 
 def test_backend_ownership_defines_owner_and_boundary() -> None:
-    for layer, meta in BACKEND_OWNERSHIP.items():
+    for meta in BACKEND_OWNERSHIP.values():
         assert "owner" in meta
         assert "boundary" in meta
         assert meta["owner"]
