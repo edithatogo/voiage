@@ -2,10 +2,10 @@
 
 ## Phase 1: Architecture And Gate Definition [checkpoint: ]
 
-- [ ] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes.
+- [x] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes. (27c667c)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Add or update validation tests for the new policy, architecture, or method boundary.
+- [~] Task: Add or update validation tests for the new policy, architecture, or method boundary.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
