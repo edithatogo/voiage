@@ -364,19 +364,20 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: VOI Frontier Architecture And Dependency Governance
+## [x] Track: VOI Frontier Architecture And Dependency Governance [completed: 2026-06-27]
 *Link: [./tracks/voi-frontier-architecture-dependency-governance_20260625/](./tracks/voi-frontier-architecture-dependency-governance_20260625/)*
 *Status: cross-cutting track for architecture, dependency policy, backend boundaries, and maturity taxonomy before downstream implementation widens.*
 
 ---
 
-## [ ] Track: Conductor Commit Note And Checkpoint Hardening
+## [x] Track: Conductor Commit Note And Checkpoint Hardening
 *Link: [./tracks/conductor-commit-note-checkpoint-hardening_20260625/](./tracks/conductor-commit-note-checkpoint-hardening_20260625/)*
 *Status: cross-cutting track for commit notes, git notes, plan SHA updates, phase checkpoints, and GitHub Actions monitoring discipline.*
+*completed: 2026-06-26T17:10:10Z*
 
 ---
 
-## [ ] Track: Strict CI/CD Quality Gates
+## [~] Track: Strict CI/CD Quality Gates
 *Link: [./tracks/strict-ci-cd-quality-gates_20260625/](./tracks/strict-ci-cd-quality-gates_20260625/)*
 *Status: cross-cutting track for linting, formatting, typing, docstrings, coverage, unit/integration/e2e/property/mutation tests, profiling, security, docs, and bindings.*
 

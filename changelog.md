@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added `voiage.governance` module defining the frontier VOI method maturity
+  taxonomy (planned → experimental → fixture-backed → stable), backend
+  boundary ownership rules (schema, methods, backends, CLI, Rust core), and
+  dependency policy (base vs. optional split). All governance rules are
+  testable via `voiage.governance.validate_*` functions.
+- Added `docs/developer_guide/frontier_governance.rst` documenting the
+  architecture, dependency policy, maturity taxonomy, backend boundary, and
+  non-conflicting implementation sequence.
+- Added `specs/frontier/governance/README.md` describing the governance spec
+  subtree and validation entrypoints.
 - Added additional recommended Conductor frontier tracks for regulatory and
   market-access VOI, replication and reproducibility VOI, evidence
   obsolescence and refresh VOI, and strategic behavior/game-theoretic VOI.
