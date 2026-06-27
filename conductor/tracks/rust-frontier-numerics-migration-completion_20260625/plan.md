@@ -1,6 +1,6 @@
 # Track Implementation Plan: Rust Frontier Numerics Migration Completion
 
-## Phase 1: Architecture And Gate Definition [checkpoint: ]
+## Phase 1: Architecture And Gate Definition [checkpoint: 18e6386]
 
 - [x] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
@@ -8,7 +8,7 @@
 - [x] Task: Add or update validation tests for the new policy, architecture, or method boundary.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [~] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update. (18e6386)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
