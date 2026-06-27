@@ -60,6 +60,7 @@ def test_dataset_registry_has_snapshots() -> None:
         "snapshots so default tests do not require live network access."
     )
 
+
 # Synthetic dataset tests
 
 
@@ -74,9 +75,18 @@ def test_synthetic_datasets_directory_exists() -> None:
 
 
 ANALYSIS_FAMILIES = (
-    "evpi", "evppi", "evsi", "enbs", "nma",
-    "structural_voi", "calibration_voi", "adaptive_trial_voi",
-    "portfolio_voi", "sequential_voi", "ceac", "heterogeneity",
+    "evpi",
+    "evppi",
+    "evsi",
+    "enbs",
+    "nma",
+    "structural_voi",
+    "calibration_voi",
+    "adaptive_trial_voi",
+    "portfolio_voi",
+    "sequential_voi",
+    "ceac",
+    "heterogeneity",
 )
 
 
@@ -106,7 +116,12 @@ def test_every_analysis_family_has_synthetic_dataset() -> None:
 
 
 REQUIRED_OPEN_DATA_SOURCES = (
-    "NHANES", "MEPS", "ClinicalTrials.gov", "World Bank", "NOAA", "EPA",
+    "NHANES",
+    "MEPS",
+    "ClinicalTrials.gov",
+    "World Bank",
+    "NOAA",
+    "EPA",
 )
 
 
@@ -123,8 +138,7 @@ def test_required_open_data_sources_are_mapped() -> None:
             for key, entry in registry.items()
         )
         assert found, (
-            f"Required open data source {source!r} not found in "
-            f"registry.json."
+            f"Required open data source {source!r} not found in registry.json."
         )
 
 

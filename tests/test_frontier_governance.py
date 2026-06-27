@@ -37,6 +37,7 @@ GOVERNANCE_SPEC_DIR = REPO_ROOT / "specs" / "frontier" / "governance"
 # Maturity taxonomy
 # --------------------------------------------------------------------------- #
 
+
 def test_maturity_levels_are_ordered() -> None:
     """The maturity taxonomy must define an ordered promotion ladder."""
     assert len(MATURITY_PROMOTION_ORDER) >= 4
@@ -78,6 +79,7 @@ def test_registry_families_use_governed_maturity_labels() -> None:
 # Backend boundary
 # --------------------------------------------------------------------------- #
 
+
 def test_backend_ownership_covers_all_layers() -> None:
     """Backend ownership must cover schema, methods, backends, CLI, and Rust core."""
     required_layers = {"schema", "methods", "backends", "cli", "rust_core"}
@@ -94,16 +96,21 @@ def test_backend_ownership_defines_owner_and_boundary() -> None:
 
 def test_validate_backend_boundary_rejects_cross_layer_leak() -> None:
     with pytest.raises(ValueError):
-        validate_backend_boundary(layer="methods", responsibility="backend selection dispatch")
+        validate_backend_boundary(
+            layer="methods", responsibility="backend selection dispatch"
+        )
 
 
 def test_validate_backend_boundary_accepts_owned_responsibility() -> None:
-    validate_backend_boundary(layer="backends", responsibility="NumPy/JAX dispatch")  # no raise
+    validate_backend_boundary(
+        layer="backends", responsibility="NumPy/JAX dispatch"
+    )  # no raise
 
 
 # --------------------------------------------------------------------------- #
 # Dependency policy
 # --------------------------------------------------------------------------- #
+
 
 def test_dependency_policy_separates_base_from_optional() -> None:
     assert "base" in DEPENDENCY_POLICY
@@ -128,6 +135,7 @@ def test_validate_dependency_policy_passes_for_clean_split() -> None:
 # --------------------------------------------------------------------------- #
 # Governance documentation
 # --------------------------------------------------------------------------- #
+
 
 def test_governance_document_exists_and_covers_keywords() -> None:
     """The governance RST must exist and cover all required keywords."""
