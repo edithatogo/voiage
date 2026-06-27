@@ -381,15 +381,6 @@ This file tracks the major implementation tracks for the project. Active tracks 
 *Link: [./tracks/strict-ci-cd-quality-gates_20260625/](./tracks/strict-ci-cd-quality-gates_20260625/)*
 *Status: cross-cutting track for linting, formatting, typing, docstrings, coverage, unit/integration/e2e/property/mutation tests, profiling, security, docs, and bindings.*
 
----
-
-## [x] Track: Dataset Registry And Example Corpus
-*Link: [./tracks/dataset-registry-and-example-corpus_20260625/](./tracks/dataset-registry-and-example-corpus_20260625/)*
-*Status: cross-cutting track for deterministic synthetic datasets and real open-data example sources for every analysis family.*
-*completed: 2026-06-27*
-
----
-
 ## [ ] Track: Rust Frontier Numerics Migration Completion
 *Link: [./tracks/rust-frontier-numerics-migration-completion_20260625/](./tracks/rust-frontier-numerics-migration-completion_20260625/)*
 *Status: cross-cutting track for completing Rust numerical-kernel ownership while preserving Python as the public facade.*
