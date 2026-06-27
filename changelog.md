@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added `specs/rust/migration_matrix.json`: machine-readable Rust numerics
+  migration matrix tracking kernel owner, Rust status, Python wrapper status,
+  parity status, benchmark status, and migration priority for every numerical
+  kernel.
+- Added `docs/developer_guide/rust_python_bridge_policy.rst`: decision record
+  covering the PyO3/maturin deferral, Python facade preservation, fallback
+  behavior, fixture parity, and benchmark gates.
+- Added `tests/test_rust_migration_matrix.py`: 10 regression tests enforcing
+  matrix structure, governed status enums, core kernel coverage, and policy
+  keyword coverage.
 - Added `voiage.governance` module defining the frontier VOI method maturity
   taxonomy (planned → experimental → fixture-backed → stable), backend
   boundary ownership rules (schema, methods, backends, CLI, Rust core), and
