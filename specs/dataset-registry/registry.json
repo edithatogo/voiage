@@ -1,0 +1,50 @@
+{
+  "nhanes": {
+    "source_url": "https://www.cdc.gov/nchs/nhanes/index.htm",
+    "license": "Public Domain (CDC/ATSDR)",
+    "citation": "CDC National Center for Health Statistics. National Health and Nutrition Examination Survey (NHANES) data. https://www.cdc.gov/nchs/nhanes/index.htm",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
+    "method_tags": ["evpi", "evppi", "evsi", "enbs", "ceac", "heterogeneity"]
+  },
+  "meps": {
+    "source_url": "https://meps.ahrq.gov/mepsweb/",
+    "license": "Public Domain (AHRQ)",
+    "citation": "Agency for Healthcare Research and Quality. Medical Expenditure Panel Survey (MEPS) data. https://meps.ahrq.gov/mepsweb/",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
+    "method_tags": ["evpi", "evppi", "evsi", "enbs", "ceac"]
+  },
+  "clinicaltrials_gov": {
+    "source_url": "https://clinicaltrials.gov/",
+    "license": "Public Domain (U.S. National Library of Medicine)",
+    "citation": "U.S. National Library of Medicine. ClinicalTrials.gov registry. https://clinicaltrials.gov/",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/trial-design.schema.json",
+    "method_tags": ["adaptive_trial_voi", "evsi", "nma"]
+  },
+  "world_bank": {
+    "source_url": "https://data.worldbank.org/",
+    "license": "CC BY-4.0 (World Bank)",
+    "citation": "The World Bank. World Bank Open Data. https://data.worldbank.org/",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
+    "method_tags": ["portfolio_voi", "sequential_voi"]
+  },
+  "noaa": {
+    "source_url": "https://www.noaa.gov/data",
+    "license": "Public Domain (U.S. Government)",
+    "citation": "National Oceanic and Atmospheric Administration. NOAA Open Data. https://www.noaa.gov/data",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
+    "method_tags": ["evpi", "sequential_voi"]
+  },
+  "epa": {
+    "source_url": "https://www.epa.gov/data",
+    "license": "Public Domain (U.S. Government)",
+    "citation": "U.S. Environmental Protection Agency. EPA Data. https://www.epa.gov/data",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
+    "method_tags": ["evpi", "evppi", "calibration_voi"]
+  }
+}

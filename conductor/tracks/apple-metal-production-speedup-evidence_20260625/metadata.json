@@ -1,0 +1,8 @@
+{
+  "track_id": "apple-metal-production-speedup-evidence_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Capture Apple Silicon Metal/MPS speedup against CPU baselines while preserving CPU fallback behavior."
+}

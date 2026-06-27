@@ -1,0 +1,8 @@
+{
+  "track_id": "replication-reproducibility-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add replication and reproducibility VOI as a mature/stable method family for deciding whether independent replication, audit, or reproducibility work is worth its cost."
+}

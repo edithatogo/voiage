@@ -97,3 +97,12 @@ Compatibility notes
   become release-bound.
 * Any new binding must describe how it forwards to the Rust core before it
   introduces extra result-shape behavior of its own.
+
+See also
+========
+
+* :doc:`rust_python_bridge_policy` for the PyO3/maturin decision and the
+  Python facade preservation rule.
+* ``specs/rust/migration_matrix.json`` for the machine-readable kernel
+  migration inventory.
+

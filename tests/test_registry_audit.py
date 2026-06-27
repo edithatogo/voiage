@@ -3,6 +3,7 @@ from pathlib import Path
 
 from scripts.refresh_binding_registry_audit import (
     Channel,
+    _evaluator_external_manual,
     _evaluator_go_module_proxy,
     _snapshot_entry,
 )
@@ -29,6 +30,9 @@ def test_registry_audit_documents_current_live_status() -> None:
     assert ".NET `Voiage.Core` on NuGet returned `404`" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
     assert "reported no released versions" in audit_text
+    assert "conda-forge-feedstock-publication_20260625" in audit_text
+    assert "spack-package-merge-followthrough_20260625" in audit_text
+    assert "e4s-inclusion-followthrough_20260625" in audit_text
     assert (
         "submissions have not been confirmed as published for these package names"
         in audit_text
@@ -51,9 +55,21 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
         "go",
         "rust",
         "dotnet",
+        "conda_forge",
+        "r_universe",
+        "spack",
+        "easybuild",
+        "hpsf",
+        "e4s",
     }
     assert snapshot["snapshot"]["python"]["package"] == "voiage"
     assert snapshot["snapshot"]["typescript"]["package"] == "@voiage/core"
+    assert snapshot["snapshot"]["conda_forge"]["registry"] == "conda-forge"
+    assert snapshot["snapshot"]["r_universe"]["registry"] == "r-universe"
+    assert snapshot["snapshot"]["spack"]["registry"] == "Spack"
+    assert snapshot["snapshot"]["easybuild"]["registry"] == "EasyBuild"
+    assert snapshot["snapshot"]["hpsf"]["status"] == "external_manual"
+    assert snapshot["snapshot"]["e4s"]["status"] == "external_manual"
 
 
 def test_go_module_proxy_classifier_no_released_versions() -> None:
@@ -87,3 +103,10 @@ def test_snapshot_entry_is_stable_shape() -> None:
     assert entry["package"] == "voiage"
     assert entry["status"] == "confirmed"
     assert "checked_at" in entry
+
+
+def test_external_manual_classifier_keeps_curation_targets_conservative() -> None:
+    assert _evaluator_external_manual(200, b"available", None) == "external_manual"
+    assert _evaluator_external_manual(None, None, "network unavailable") == (
+        "external_manual"
+    )

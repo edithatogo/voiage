@@ -1,0 +1,8 @@
+{
+  "track_id": "perspective-voi-stable-promotion_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Promote Value of Perspective from experimental to stable with cross-language fixtures, CLI/docs/examples, Rust parity, and release notes."
+}

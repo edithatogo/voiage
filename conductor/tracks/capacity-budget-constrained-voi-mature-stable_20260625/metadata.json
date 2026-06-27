@@ -1,0 +1,8 @@
+{
+  "track_id": "capacity-budget-constrained-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add capacity and budget-constrained VOI as a mature/stable method family for decisions where resource constraints change information value."
+}

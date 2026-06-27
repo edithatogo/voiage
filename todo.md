@@ -11,6 +11,39 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Create follow-through Conductor tracks for remaining roadmap and
+    external gates.
+    *   Added active tracks for architecture/dependency governance, commit
+        note/checkpoint hardening, strict CI/CD gates, dataset/example registry
+        work, Rust frontier numerics migration, bleeding-edge Bayesian
+        design/amortized VOI, live registry publication and indexing, frontier
+        stable promotion, adjacent frontier runtime completion, production-scale
+        HPC speedup evidence, TPU Colab/GCloud production benchmarking,
+        physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
+        custom-circuit production acceleration review.
+    *   Updated Conductor workflow and docs so the tracks require commit notes,
+        git notes, phase checkpoints, GitHub Actions monitoring, >90% coverage,
+        and explicit readiness-vs-external-evidence boundaries.
+*   [x] Split adjacent and recommended VOI methods into dedicated mature/stable
+    tracks.
+    *   Added method-family tracks for causal/transportability VOI,
+        data-quality/privacy/linkage VOI, computational/model-refinement VOI,
+        expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
+        perspective uncertainty, monitoring/surveillance VOI,
+        implementation-strategy comparison, equity-information VOI,
+        explainability/transparency VOI, interoperability/standardization VOI,
+        and ambiguity/distribution-shift VOI.
+*   [x] Incorporate the next recommended VOI frontier features into dedicated
+    tracks.
+    *   Added mature/stable tracks for adaptive-learning and bandit VOI,
+        capacity and budget-constrained VOI, federated/privacy-preserving VOI,
+        and AI-assisted evidence-triage VOI.
+*   [x] Incorporate additional recommended VOI frontier features into dedicated
+    tracks.
+    *   Added mature/stable tracks for regulatory/market-access VOI,
+        replication/reproducibility VOI, evidence-obsolescence/refresh VOI, and
+        strategic behavior/game-theoretic VOI.
+
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
         legacy egg-info generated artifacts, and R CMD check output from

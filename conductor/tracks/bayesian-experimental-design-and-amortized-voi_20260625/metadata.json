@@ -1,0 +1,8 @@
+{
+  "track_id": "bayesian-experimental-design-and-amortized-voi_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add recommended bleeding-edge VOI methods for expected information gain, Bayesian optimal experimental design, active learning, simulation-based inference, and amortized EVSI."
+}

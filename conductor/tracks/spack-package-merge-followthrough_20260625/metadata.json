@@ -1,0 +1,8 @@
+{
+  "track_id": "spack-package-merge-followthrough_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Convert Spack readiness into upstream package PR, CI evidence, maintainer review, and merge tracking."
+}

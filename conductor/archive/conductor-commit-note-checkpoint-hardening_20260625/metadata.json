@@ -1,0 +1,8 @@
+{
+  "track_id": "conductor-commit-note-checkpoint-hardening_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Harden Conductor setup so every track task requires commits, commit notes, git notes, plan SHA updates, phase checkpoints, and GitHub Actions monitoring."
+}

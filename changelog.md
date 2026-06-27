@@ -7,7 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
+  `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
+  directories after archiving to `conductor/archive/`.
+- Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
+
 ### Added
+- Added `specs/rust/migration_matrix.json`: machine-readable Rust numerics
+  migration matrix tracking kernel owner, Rust status, Python wrapper status,
+  parity status, benchmark status, and migration priority for every numerical
+  kernel.
+- Added `docs/developer_guide/rust_python_bridge_policy.rst`: decision record
+  covering the PyO3/maturin deferral, Python facade preservation, fallback
+  behavior, fixture parity, and benchmark gates.
+- Added `tests/test_rust_migration_matrix.py`: 10 regression tests enforcing
+  matrix structure, governed status enums, core kernel coverage, and policy
+  keyword coverage.
+- Added `voiage.governance` module defining the frontier VOI method maturity
+  taxonomy (planned → experimental → fixture-backed → stable), backend
+  boundary ownership rules (schema, methods, backends, CLI, Rust core), and
+  dependency policy (base vs. optional split). All governance rules are
+  testable via `voiage.governance.validate_*` functions.
+- Added `docs/developer_guide/frontier_governance.rst` documenting the
+  architecture, dependency policy, maturity taxonomy, backend boundary, and
+  non-conflicting implementation sequence.
+- Added `specs/frontier/governance/README.md` describing the governance spec
+  subtree and validation entrypoints.
+- Added additional recommended Conductor frontier tracks for regulatory and
+  market-access VOI, replication and reproducibility VOI, evidence
+  obsolescence and refresh VOI, and strategic behavior/game-theoretic VOI.
+- Added more recommended Conductor frontier tracks for adaptive-learning and
+  bandit VOI, capacity and budget-constrained VOI,
+  federated/privacy-preserving VOI, and AI-assisted evidence-triage VOI.
+- Added active Conductor tracks for architecture/dependency governance, commit
+  note/checkpoint hardening, strict CI/CD gates, dataset/example registry work,
+  Rust frontier numerics migration, bleeding-edge Bayesian design/amortized VOI,
+  external registry publication, frontier-method stable promotion,
+  production-scale HPC speedup evidence, TPU Colab/GCloud benchmarking,
+  physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
+  custom-circuit production review.
+- Added dedicated mature/stable-path tracks for causal/transportability VOI,
+  data-quality/privacy/linkage VOI, computational/model-refinement VOI,
+  expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
+  perspective uncertainty, monitoring/surveillance VOI, implementation-strategy
+  comparison, equity-information VOI, explainability/transparency VOI,
+  interoperability/standardization VOI, and ambiguity/distribution-shift VOI.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner

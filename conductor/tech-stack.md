@@ -69,3 +69,16 @@
 - **Go**: tagged modules via the Go module proxy
 - **Rust**: crates.io
 - **.NET**: NuGet targeting `net11.0`
+
+## Follow-Through Evidence Tooling
+- **GitHub Actions**: repeatable release, registry-audit, benchmark, pre-silicon,
+  and evidence-artifact workflows
+- **GitHub CLI (`gh`)**: workflow monitoring, PR tracking, issue/release
+  evidence, and artifact retrieval
+- **Colab CLI (`colab`)**: best-effort GPU/TPU notebook execution and evidence
+  JSON capture when free runtimes are available
+- **Google Cloud CLI (`gcloud`)**: optional TPU/GPU or Cloud Shell workflows only
+  when project, quota, billing, and authentication are available
+- **Browser / Chrome automation**: external registry, curation, or hardware
+  portal workflows only; pause before login-bound irreversible submissions,
+  account actions, or paid resource use
