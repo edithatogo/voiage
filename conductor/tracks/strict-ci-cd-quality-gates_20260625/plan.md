@@ -11,7 +11,7 @@
 - [x] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update. (2b2842a)
     - [x] Keep evidence, command output, blocked states, and external gates explicit.
     - [x] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
 
 ## Phase 2: Implementation Or Evidence Artifact [checkpoint: ]
 
