@@ -15,15 +15,15 @@
 
 ## Phase 2: Implementation Or Evidence Artifact [checkpoint: ]
 
-- [ ] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
-    - [ ] Keep evidence, command output, blocked states, and external gates explicit.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run focused validation and record command, runner, status, and artifact paths.
-    - [ ] Keep evidence, command output, blocked states, and external gates explicit.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Keep evidence, command output, blocked states, and external gates explicit.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
+- [x] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
+    - [x] Keep evidence, command output, blocked states, and external gates explicit.
+    - [x] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
+- [x] Task: Run focused validation and record command, runner, status, and artifact paths.
+    - [x] Keep evidence, command output, blocked states, and external gates explicit.
+    - [x] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
+- [x] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update. (99f81e6)
+    - [x] Keep evidence, command output, blocked states, and external gates explicit.
+    - [x] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Implementation Or Evidence Artifact' (Protocol in workflow.md)
 
 ## Phase 3: Integration And Cross-Track Review [checkpoint: ]
