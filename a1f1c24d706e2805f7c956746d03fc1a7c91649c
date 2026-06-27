@@ -1,0 +1,11 @@
+Task: Add or update validation tests for the new policy, architecture, or method boundary.
+
+Summary: Created dataset registry structure, validation tests, synthetic datasets, open data mappings, and documentation.
+
+Files:
+  + tests/test_dataset_registry.py (9 validation tests)
+  + specs/dataset-registry/registry.json (6 open data sources)
+  + specs/dataset-registry/synthetic/manifest.json + 12 synthetic files
+  + specs/dataset-registry/snapshots/nhanes_snapshot.json
+  + docs/dataset-registry.rst (license, citation, transform, refresh policy)
+  + specs/dataset-registry/transforms/ (directory, empty, for future scripts)
