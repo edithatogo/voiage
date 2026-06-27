@@ -67,8 +67,33 @@ def _read(path: str | Path) -> str:
     return Path(path).read_text(encoding="utf-8")
 
 
+def _resolve_track_root(track_id: str) -> Path:
+    """Resolve a track's root directory, checking active tracks first
+    then falling back to the archive directory."""
+    active = Path("conductor/tracks") / track_id
+    if active.is_dir():
+        return active
+    archived = Path("conductor/archive") / track_id
+    if archived.is_dir():
+        return archived
+    msg = f"Track directory not found for {track_id} in conductor/tracks/ or conductor/archive/"
+    raise FileNotFoundError(msg)
+
+
+def _track_roots(track_id: str) -> tuple[Path, bool]:
+    """Returns (root_path, is_archived) for a track."""
+    active = Path("conductor/tracks") / track_id
+    if active.is_dir():
+        return active, False
+    archived = Path("conductor/archive") / track_id
+    if archived.is_dir():
+        return archived, True
+    msg = f"Track directory not found for {track_id} in conductor/tracks/ or conductor/archive/"
+    raise FileNotFoundError(msg)
+
+
 def _track_text(track_id: str) -> str:
-    track_root = Path("conductor/tracks") / track_id
+    track_root, _ = _track_roots(track_id)
     return "\n".join(
         (
             _read(track_root / "spec.md"),
@@ -83,7 +108,7 @@ def test_followthrough_tracks_have_required_conductor_artifacts() -> None:
     registry = _read("conductor/tracks.md")
 
     for track_id in TRACK_IDS:
-        track_root = Path("conductor/tracks") / track_id
+        track_root, is_archived = _track_roots(track_id)
         metadata = json.loads(_read(track_root / "metadata.json"))
         spec = _read(track_root / "spec.md")
         plan = _read(track_root / "plan.md")
@@ -91,19 +116,22 @@ def test_followthrough_tracks_have_required_conductor_artifacts() -> None:
 
         assert track_root.is_dir()
         assert metadata["track_id"] == track_id
-        assert metadata["status"] == "new"
+        if not is_archived:
+            assert metadata["status"] == "new"
         assert metadata["type"] == "feature"
         assert "# Track Specification:" in spec
         assert "# Track Implementation Plan:" in plan
         assert "[Specification](./spec.md)" in index
-        assert f"./tracks/{track_id}/" in registry
-        assert f"*Link: [./tracks/{track_id}/]" in registry
+        if not is_archived:
+            assert f"./tracks/{track_id}/" in registry
+            assert f"*Link: [./tracks/{track_id}/]" in registry
 
 
 def test_followthrough_plans_encode_commit_notes_and_phase_checkpoints() -> None:
     """New tracks should follow the stricter Conductor checkpoint workflow."""
     for track_id in TRACK_IDS:
-        plan = _read(Path("conductor/tracks") / track_id / "plan.md")
+        track_root, _ = _track_roots(track_id)
+        plan = _read(track_root / "plan.md")
         text = _track_text(track_id)
 
         assert "git note" in plan
