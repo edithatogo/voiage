@@ -28,7 +28,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Implementation Or Evidence Artifact' (Protocol in workflow.md)
 
-## Phase 3: Integration And Cross-Track Review [checkpoint: ]
+## Phase 3: Integration And Cross-Track Review [checkpoint: aa58d2a]
 
 - [x] Task: Verify this track does not conflict with registry, frontier, Rust, dataset, or HPC follow-through tracks.
     - Evidence: All new files are additive in distinct directories (specs/rust/, docs/developer_guide/, tests/). No overlap with registry, frontier, Rust-core, dataset, or HPC track deliverables.
@@ -41,7 +41,7 @@
     - No Rust/binding code changed; no language-native gates applicable. No blocked external or expensive gates.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [~] Task: Commit the integration/review changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the integration/review changes, attach a git note summary, record the short SHA in this plan, and commit the plan update. (aa58d2a)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Integration And Cross-Track Review' (Protocol in workflow.md)
