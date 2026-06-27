@@ -383,9 +383,10 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 ---
 
-## [ ] Track: Dataset Registry And Example Corpus
+## [x] Track: Dataset Registry And Example Corpus
 *Link: [./tracks/dataset-registry-and-example-corpus_20260625/](./tracks/dataset-registry-and-example-corpus_20260625/)*
 *Status: cross-cutting track for deterministic synthetic datasets and real open-data example sources for every analysis family.*
+*completed: 2026-06-27*
 
 ---
 
