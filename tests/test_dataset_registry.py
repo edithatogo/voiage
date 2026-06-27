@@ -119,7 +119,7 @@ def test_required_open_data_sources_are_mapped() -> None:
     for source in REQUIRED_OPEN_DATA_SOURCES:
         found = any(
             source.lower() in entry.get("source_url", "").lower()
-            or source.lower() in key.lower().replace('_', ' ')
+            or source.lower() in key.lower().replace("_", " ")
             for key, entry in registry.items()
         )
         assert found, (
