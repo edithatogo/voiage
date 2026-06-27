@@ -164,3 +164,6 @@ r-package/**/*.Rcheck/
 docs/astro-site/node_modules/
 docs/astro-site/dist/
 package-lock.json
+
+# Conductor tool runtime state
+conductor/setup_state.json

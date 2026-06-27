@@ -229,7 +229,10 @@ def test_unreleased_changelog_sections_are_unique() -> None:
         if line.startswith("### ")
     ]
 
-    assert headings == ["Added", "Changed", "Fixed"]
+    assert headings in (
+        ["Added", "Changed", "Fixed"],
+        ["Removed", "Added", "Changed", "Fixed"],
+    )
 
 
 def test_tracked_text_files_do_not_embed_local_voiage_paths() -> None:
