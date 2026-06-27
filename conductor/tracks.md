@@ -365,7 +365,7 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 ## [x] Track: VOI Frontier Architecture And Dependency Governance [completed: 2026-06-27]
-*Link: [./tracks/voi-frontier-architecture-dependency-governance_20260625/](./tracks/voi-frontier-architecture-dependency-governance_20260625/)*
+*Link: [./archive/voi-frontier-architecture-dependency-governance_20260625/](./archive/voi-frontier-architecture-dependency-governance_20260625/)*
 *Status: cross-cutting track for architecture, dependency policy, backend boundaries, and maturity taxonomy before downstream implementation widens.*
 
 ---
