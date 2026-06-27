@@ -51,7 +51,7 @@ All tasks follow a strict lifecycle:
 8. **Commit Code Changes:**
    - Stage all code changes related to the task.
    - Propose a clear, concise commit message e.g, `feat(ui): Create basic HTML structure for calculator`.
-   - Perform the commit.
+   - Perform the commit. Every task must produce a commit note and commit.
 
 9. **Attach Task Summary with Git Notes:**
    - **Step 9.1: Get Commit Hash:** Obtain the hash of the *just-completed commit* (`git log -1 --format="%H"`).
@@ -62,13 +62,14 @@ All tasks follow a strict lifecycle:
      git notes add -m "<note content>" <commit_hash>
      ```
 
-10. **Get and Record Task Commit SHA:**
-    - **Step 10.1: Update Plan:** Read `plan.md`, find the line for the completed task, update its status from `[~]` to `[x]`, and append the first 7 characters of the *just-completed commit's* commit hash.
-    - **Step 10.2: Write Plan:** Write the updated content back to `plan.md`.
+10. **Get and Record Task Short Commit SHA:**
+    - **Step 10.1: Record short commit SHA:** Obtain the first 7 characters of the *just-completed commit's* hash.
+    - **Step 10.2: Update Plan:** Read `plan.md`, find the line for the completed task, update its status from `[~]` to `[x]`, and append the short commit SHA.
+    - **Step 10.3: Write Plan:** Write the updated content back to `plan.md`.
 
 11. **Commit Plan Update:**
     - **Action:** Stage the modified `plan.md` file.
-    - **Action:** Commit this change with a descriptive message (e.g., `conductor(plan): Mark task 'Create user model' as complete`).
+    - **Action:** Commit this change with a descriptive message (e.g., `conductor(plan): Mark task 'Create user model' as complete`). plan-update commits are mandatory for every task.
 
 ### Phase Completion Verification and Checkpointing Protocol
 
