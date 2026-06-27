@@ -13,7 +13,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Architecture And Gate Definition' (Protocol in workflow.md)
 
-## Phase 2: Implementation Or Evidence Artifact [checkpoint: ]
+## Phase 2: Implementation Or Evidence Artifact [checkpoint: f53fe77]
 
 - [x] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
@@ -23,7 +23,7 @@
     - Evidence: `uv run sphinx-build -b html -q docs docs/_build/html` -> success (only pre-existing toctree warnings).
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [~] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update. (f53fe77)
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Implementation Or Evidence Artifact' (Protocol in workflow.md)
