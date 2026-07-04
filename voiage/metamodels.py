@@ -511,9 +511,17 @@ class FlaxMetamodel:  # pragma: no cover
             state = state.apply_gradients(grads=grads)
             return state, loss
 
-        train_step_jit = jax.jit(train_step)
-        for _ in range(self.n_epochs):
-            self.state, _ = train_step_jit(self.state, x_np, y_np)
+        def scan_fn(
+            carry: train_state.TrainState, _: object
+        ) -> tuple[train_state.TrainState, float]:
+            state = carry
+            state, loss = train_step(state, x_np, y_np)
+            return state, loss
+
+        scan_fn_jit = jax.jit(
+            lambda state: jax.lax.scan(scan_fn, state, None, length=self.n_epochs)
+        )
+        self.state, _ = scan_fn_jit(self.state)
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters."""
