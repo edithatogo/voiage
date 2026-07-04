@@ -551,8 +551,6 @@ def calculate_nma_consistency(
     float
         A simple variance-based consistency score.
     """
-    # For a simple consistency check, we'll calculate the variance of treatment effects
-    # for the same treatment comparisons across different studies
     if len(treatment_effects) < 2:
         return 0.0
 
