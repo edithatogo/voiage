@@ -633,13 +633,10 @@ if __name__ == "__main__":  # pragma: no cover
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray and PSASample
 
-    from voiage.schema import (
-        DecisionOption as TrialArm,
-    )
+    from voiage.schema import DecisionOption, TrialDesign
     from voiage.schema import (
         ParameterSet as PSASample,
     )
-    from voiage.schema import TrialDesign
     from voiage.schema import (
         ValueArray as NetBenefitArray,
     )
@@ -654,8 +651,8 @@ if __name__ == "__main__":  # pragma: no cover
     }
     trial_design = TrialDesign(
         [
-            TrialArm(name="Treatment A", sample_size=50),
-            TrialArm(name="Treatment B", sample_size=50),
+            DecisionOption(name="Treatment A", sample_size=50),
+            DecisionOption(name="Treatment B", sample_size=50),
         ]
     )
 
