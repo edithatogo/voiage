@@ -154,6 +154,23 @@ def test_optimization_config() -> None:
         OptimizationConfig(acquisition_function="invalid_function")
 
 
+def test_create_optimization_config() -> None:
+    """Test create_optimization_config factory function."""
+    # Test default
+    config = create_optimization_config()
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "grid"
+
+    # Test custom valid algorithm
+    config = create_optimization_config(algorithm="bayesian")
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "bayesian"
+
+    # Test validation
+    with pytest.raises(ValueError):
+        create_optimization_config(algorithm="invalid_algorithm")
+
+
 def test_healthcare_config() -> None:
     """Test HealthcareConfig."""
     # Test default configuration
@@ -366,15 +383,6 @@ def test_factory_functions() -> None:
     assert isinstance(config, MetamodelConfig)
     assert config.method == "gp"
 
-    # Test create_optimization_config
-    config = create_optimization_config()
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "grid"
-
-    config = create_optimization_config(algorithm="bayesian")
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "bayesian"
-
 
 if __name__ == "__main__":
     test_voi_analysis_config()
@@ -386,4 +394,5 @@ if __name__ == "__main__":
     test_financial_config()
     test_parallel_config()
     test_factory_functions()
+    test_create_optimization_config()
     print("All configuration objects tests passed!")
