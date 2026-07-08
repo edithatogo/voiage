@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- 🧹 Code Health: Removed a stale commented-out example block from `voiage/exceptions.py`.
+
 ### Added
 - Completed the shared code-scanning rollout by enforcing the pinned
   organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
