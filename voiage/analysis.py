@@ -22,11 +22,12 @@ from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArra
 # Check for JAX availability
 JAX_AVAILABLE = False
 try:
-    import jax.numpy as jnp
+    # test_backends.py tests this by monkeypatching __import__ to raise ImportError
+    import jax.numpy  # noqa: F401
 
     JAX_AVAILABLE = True
 except ImportError:
-    jnp = None
+    pass
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
