@@ -11,7 +11,7 @@ It uses Typer for command-line argument parsing.
 # Typer argument declarations intentionally call helper constructors in defaults.
 # ruff: noqa: B008, TRY301
 
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable
 import csv
 import io
 import json
@@ -2117,7 +2117,7 @@ def calculate_sequential_voi(
         if "time_steps" not in dynamic_spec_obj:
             raise TypeError("Dynamic spec file must contain 'time_steps'.")
 
-        time_steps = cast("Sequence[float]", dynamic_spec_obj["time_steps"])
+        time_steps = cast("list[float]", dynamic_spec_obj["time_steps"])
         dynamic_spec = DynamicSpec(time_steps=time_steps)
         result = sequential_voi(
             step_model=_sequential_passthrough_step_model,
@@ -2702,7 +2702,7 @@ def calculate_perspective(
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),
@@ -3276,7 +3276,7 @@ def plot_perspective_regret(
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),
