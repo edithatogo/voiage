@@ -12,6 +12,7 @@ Author: voiage Development Team
 Version: 2.0.0
 """
 
+import concurrent.futures
 from dataclasses import dataclass
 from html import escape
 import json
@@ -638,35 +639,45 @@ def load_heoml_run_bundle(manifest_path: str) -> HeomlRunBundle:
 
     bundle_root = path_obj.parent
 
-    value_array = None
     voi_artifact = artifact_by_category.get("voi") or artifact_by_category.get(
         "net_benefits"
     )
-    if voi_artifact is not None:
+    parameter_artifact = artifact_by_category.get(
+        "parameter"
+    ) or artifact_by_category.get("parameter_samples")
+
+    def load_voi() -> ValueArray | None:
+        if voi_artifact is None:
+            return None
         voi_path = bundle_root / voi_artifact["path"]
         voi_frame = _load_tabular_artifact(voi_path)
         if "sample_index" in voi_frame.columns:
             voi_frame = voi_frame.drop(columns=["sample_index"])
-        value_array = ValueArray.from_numpy(
+        return ValueArray.from_numpy(
             voi_frame.to_numpy(),
             strategy_names=[str(column) for column in voi_frame.columns],
         )
 
-    parameter_set = None
-    parameter_artifact = artifact_by_category.get(
-        "parameter"
-    ) or artifact_by_category.get("parameter_samples")
-    if parameter_artifact is not None:
+    def load_parameter() -> ParameterSet | None:
+        if parameter_artifact is None:
+            return None
         parameter_path = bundle_root / parameter_artifact["path"]
         parameter_frame = _load_tabular_artifact(parameter_path)
         if "sample_index" in parameter_frame.columns:
             parameter_frame = parameter_frame.drop(columns=["sample_index"])
-        parameter_set = ParameterSet.from_numpy_or_dict(
+        return ParameterSet.from_numpy_or_dict(
             {
                 str(column): parameter_frame[column].to_numpy()
                 for column in parameter_frame.columns
             }
         )
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        future_voi = executor.submit(load_voi)
+        future_param = executor.submit(load_parameter)
+
+        value_array = future_voi.result()
+        parameter_set = future_param.result()
 
     run_section = manifest.get("run")
     manifest_id = None
