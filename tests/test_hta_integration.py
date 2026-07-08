@@ -323,3 +323,26 @@ def test_hta_utility_functions_create_evaluate_compare_and_report() -> None:
     assert default_strategy["target_frameworks"] == ["nice", "cadth", "icer"]
     assert "Technology: ExampleTx" in report
     assert "DECISION: approval" in report
+
+
+def test_framework_evaluation_handles_exceptions() -> None:
+    """Multi-framework evaluation should catch exceptions, warn, and continue."""
+    from unittest.mock import patch
+
+    framework = HTAIntegrationFramework()
+    submission = HTASubmission()
+
+    with patch.object(
+        HTAIntegrationFramework,
+        "evaluate_for_framework",
+        side_effect=Exception("Mocked evaluation failure"),
+    ):
+        with pytest.warns(
+            UserWarning,
+            match="Error evaluating HTAFramework.NICE: Mocked evaluation failure",
+        ):
+            evaluations = framework.evaluate_multiple_frameworks(
+                submission, [HTAFramework.NICE]
+            )
+
+    assert len(evaluations) == 0
