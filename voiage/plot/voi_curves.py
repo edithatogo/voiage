@@ -7,14 +7,12 @@ import numpy as np
 # Attempt to import Matplotlib, but make it optional
 try:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:  # pragma: no cover
     MATPLOTLIB_AVAILABLE = False
-    Figure = None  # type: ignore
     Axes = None  # type: ignore
     Axes3D = None  # type: ignore
 
