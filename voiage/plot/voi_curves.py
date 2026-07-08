@@ -227,10 +227,6 @@ def plot_evsi_vs_sample_size(
     ax1.legend(lines, labels, loc="best")  # type: ignore
     ax1.set_title(title)  # type: ignore
 
-    # Ensure layout is tight if a secondary axis was created
-    # if use_secondary_axis and fig is not None: # fig would be defined if ax was None
-    # fig.tight_layout() # Often helpful with twin axes
-
     return ax1  # type: ignore
 
 
