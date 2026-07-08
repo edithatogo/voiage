@@ -241,14 +241,11 @@ def switching_values(
 def samplewise_profile_change_probability(values: np.ndarray) -> np.ndarray:
     """Compute profile-by-profile strategy-change probabilities."""
     samplewise_optima = np.argmax(values, axis=1)
-    n_profiles = values.shape[2]
-    matrix = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        for j in range(n_profiles):
-            matrix[i, j] = float(
-                np.mean(samplewise_optima[:, i] != samplewise_optima[:, j])
-            )
-    return matrix
+    return np.mean(
+        samplewise_optima[:, :, None] != samplewise_optima[:, None, :],
+        axis=0,
+        dtype=DEFAULT_DTYPE,
+    )
 
 
 def samplewise_profile_regret(
