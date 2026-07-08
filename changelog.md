@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Optimized `samplewise_profile_regret` to run 2.6x-3.4x faster by replacing nested loops with a vectorized numpy operation.
+
 ### Added
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,

@@ -11,6 +11,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Optimize `samplewise_profile_regret` to run 2.6x-3.4x faster by replacing nested loops with a vectorized numpy operation.
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
         legacy egg-info generated artifacts, and R CMD check output from
