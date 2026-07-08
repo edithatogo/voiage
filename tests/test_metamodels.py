@@ -272,3 +272,30 @@ def test_cross_validate(sample_data) -> None:
 
 if __name__ == "__main__":
     pytest.main([__file__])
+
+
+def test_sparse_matrix_protocol_toarray() -> None:
+    """Test that the _SparseMatrixProtocol correctly identifies valid implementations."""
+    from voiage.metamodels import _SparseMatrixProtocol
+
+    class ValidSparseMatrix:
+        def toarray(self) -> np.ndarray:
+            return np.array([1, 2, 3])
+
+    class InvalidSparseMatrix:
+        def to_array(self) -> np.ndarray:
+            return np.array([1, 2, 3])
+
+    valid_instance = ValidSparseMatrix()
+    invalid_instance = InvalidSparseMatrix()
+
+    # The protocol should correctly identify classes that implement `toarray`
+    assert isinstance(valid_instance, _SparseMatrixProtocol)
+
+    # The protocol should correctly reject classes that do not implement `toarray`
+    assert not isinstance(invalid_instance, _SparseMatrixProtocol)
+
+    # Sanity check the method itself
+    result = valid_instance.toarray()
+    assert isinstance(result, np.ndarray)
+    np.testing.assert_array_equal(result, np.array([1, 2, 3]))
