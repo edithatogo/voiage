@@ -190,23 +190,10 @@ def optimal_strategy_summary(
 
 def pareto_strategy_indices(expected: np.ndarray) -> list[int]:
     """Return the indices of non-dominated strategies."""
-    n_strategies = expected.shape[1]
-    pareto: list[int] = []
-    for candidate in range(n_strategies):
-        candidate_profile_values = expected[:, candidate]
-        dominated = False
-        for challenger in range(n_strategies):
-            if challenger == candidate:
-                continue
-            challenger_profile_values = expected[:, challenger]
-            if np.all(challenger_profile_values >= candidate_profile_values) and np.any(
-                challenger_profile_values > candidate_profile_values
-            ):
-                dominated = True
-                break
-        if not dominated:
-            pareto.append(candidate)
-    return pareto
+    values = expected.T
+    ge = np.all(values[:, None, :] >= values[None, :, :], axis=2)
+    gt = np.any(values[:, None, :] > values[None, :, :], axis=2)
+    return np.where(~np.any(ge & gt, axis=0))[0].tolist()
 
 
 def regret_matrix(
