@@ -75,78 +75,62 @@ def sophisticated_adaptive_trial_simulator(
     n_strategies = 2  # Control and Treatment
     net_benefits = np.zeros((n_samples, n_strategies))
 
-    # For each parameter sample, simulate an adaptive trial
-    for i in range(n_samples):
-        # Extract parameters for this sample
-        te = treatment_effect[i]
-        cr = control_rate[i]
-        cpp = cost_per_patient[i]
+    # Ensure rates are between 0 and 1
+    treatment_rates = np.clip(control_rate + treatment_effect, 0, 1)
+    control_rates = np.clip(control_rate, 0, 1)
 
-        # Simulate base trial outcomes
-        # In a real implementation, this would involve complex trial simulation
-        # For this example, we'll use a simplified approach
+    # Simulate some data to make the analysis more realistic
+    n_patients_per_arm = 100  # Base sample size per arm
+    treatment_outcomes = np.random.binomial(n_patients_per_arm, treatment_rates)
+    control_outcomes = np.random.binomial(n_patients_per_arm, control_rates)
 
-        # Simulate treatment outcomes
-        treatment_rate = cr + te
-        # Ensure rates are between 0 and 1
-        treatment_rate = np.clip(treatment_rate, 0, 1)
-        cr = np.clip(cr, 0, 1)
+    # Calculate trial costs
+    total_patients = sum(arm.sample_size for arm in base_design.arms)
+    _ = total_patients * cost_per_patient  # Calculate trial costs
 
-        # Simulate some data to make the analysis more realistic
-        n_patients_per_arm = 100  # Base sample size per arm
-        treatment_outcomes = np.random.binomial(n_patients_per_arm, treatment_rate)
-        control_outcomes = np.random.binomial(n_patients_per_arm, cr)
+    # Apply adaptive rules
+    interim_points = adaptive_rules.get("interim_analysis_points", [])
+    early_stopping = adaptive_rules.get("early_stopping_rules", {})
 
-        # Calculate trial costs
-        total_patients = sum(arm.sample_size for arm in base_design.arms)
-        _ = total_patients * cpp  # Calculate trial costs
+    # Simulate interim analyses
+    adjusted_sample_sizes = np.full(n_samples, total_patients)
+    stopped_early = np.zeros(n_samples, dtype=bool)
 
-        # Apply adaptive rules
-        interim_points = adaptive_rules.get("interim_analysis_points", [])
-        early_stopping = adaptive_rules.get("early_stopping_rules", {})
-
-        # Simulate interim analyses
-        _ = False  # trial_stopped_early = False
-        adjusted_sample_size = total_patients
+    if early_stopping:
+        efficacy_threshold = early_stopping.get("efficacy", 0.95)
+        futility_threshold = early_stopping.get("futility", 0.1)
 
         for interim_point in interim_points:
-            # At interim analysis, decide whether to stop early
-            if early_stopping:
-                efficacy_threshold = early_stopping.get("efficacy", 0.95)
-                futility_threshold = early_stopping.get("futility", 0.1)
-
-                # Simplified interim decision rule based on observed data
+            interim_n = int(n_patients_per_arm * interim_point)
+            if interim_n > 0:
                 # Calculate interim treatment effect
-                interim_n = int(n_patients_per_arm * interim_point)
-                if interim_n > 0:
-                    interim_treatment_rate = treatment_outcomes / n_patients_per_arm
-                    interim_control_rate = control_outcomes / n_patients_per_arm
-                    interim_effect = interim_treatment_rate - interim_control_rate
+                interim_effect = (
+                    treatment_outcomes - control_outcomes
+                ) / n_patients_per_arm
 
-                    # Make decision based on interim effect
-                    if interim_effect > efficacy_threshold:
-                        # Stop for efficacy
-                        _ = True  # trial_stopped_early = True
-                        adjusted_sample_size = int(total_patients * interim_point)
-                        break
-                    if interim_effect < futility_threshold:
-                        # Stop for futility
-                        _ = True  # trial_stopped_early = True
-                        adjusted_sample_size = int(total_patients * interim_point)
-                        break
+                # Make decision based on interim effect
+                stop_condition = (interim_effect > efficacy_threshold) | (
+                    interim_effect < futility_threshold
+                )
+                newly_stopped = stop_condition & ~stopped_early
 
-        # Adjust costs based on early stopping
-        adjusted_cost = adjusted_sample_size * cpp
+                adjusted_sample_sizes[newly_stopped] = int(
+                    total_patients * interim_point
+                )
+                stopped_early |= newly_stopped
 
-        # Calculate net benefits for each strategy with more realistic values
-        # Strategy 0: Control only
-        control_benefit = control_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 0] = control_benefit - adjusted_cost
+    # Adjust costs based on early stopping
+    adjusted_costs = adjusted_sample_sizes * cost_per_patient
 
-        # Strategy 1: Treatment
-        # Benefit is proportional to treatment effect
-        treatment_benefit = treatment_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 1] = treatment_benefit - adjusted_cost
+    # Calculate net benefits for each strategy with more realistic values
+    # Strategy 0: Control only
+    control_benefits = control_outcomes * 1000  # Benefit per successful outcome
+    net_benefits[:, 0] = control_benefits - adjusted_costs
+
+    # Strategy 1: Treatment
+    # Benefit is proportional to treatment effect
+    treatment_benefits = treatment_outcomes * 1000  # Benefit per successful outcome
+    net_benefits[:, 1] = treatment_benefits - adjusted_costs
 
     # Add some noise to make the differences more pronounced
     net_benefits += np.random.normal(0, 500, net_benefits.shape)
@@ -333,29 +317,16 @@ def bayesian_adaptive_trial_simulator(
     n_strategies = 2  # Control and Treatment
     net_benefits = np.zeros((n_samples, n_strategies))
 
-    # Calculate net benefits for each strategy
-    for i in range(n_samples):
-        # Extract updated parameters for this sample
-        te = updated_treatment_effect[i]
-        cr = updated_control_rate[i]
-        cpp = updated_cost_per_patient[i]
+    # Adjust costs based on early stopping
+    adjusted_costs = adjusted_sample_size * updated_cost_per_patient
 
-        # Ensure rates are between 0 and 1
-        _ = np.clip(cr + te, 0, 1)
-        cr = np.clip(cr, 0, 1)
+    # Strategy 0: Control only
+    control_benefits = control_outcomes * 1000
+    net_benefits[:, 0] = control_benefits - adjusted_costs
 
-        # Adjust costs based on early stopping
-        adjusted_cost = adjusted_sample_size * cpp
-
-        # Calculate net benefits for each strategy with more realistic values
-        # Strategy 0: Control only
-        control_benefit = control_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 0] = control_benefit - adjusted_cost
-
-        # Strategy 1: Treatment
-        # Benefit is proportional to treatment effect
-        treatment_benefit = treatment_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 1] = treatment_benefit - adjusted_cost
+    # Strategy 1: Treatment
+    treatment_benefits = treatment_outcomes * 1000
+    net_benefits[:, 1] = treatment_benefits - adjusted_costs
 
     # Add some noise to make the differences more pronounced
     net_benefits += np.random.normal(0, 500, net_benefits.shape)
