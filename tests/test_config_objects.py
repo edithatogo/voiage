@@ -331,6 +331,40 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_metamodel_config() -> None:
+    """Test create_metamodel_config factory function."""
+    # Test default
+    config = create_metamodel_config()
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "gam"
+
+    # Test custom
+    config = create_metamodel_config(method="gp")
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "gp"
+
+    # Test invalid method
+    with pytest.raises(ValueError):
+        create_metamodel_config(method="invalid_method")
+
+
+def test_create_optimization_config() -> None:
+    """Test create_optimization_config factory function."""
+    # Test default
+    config = create_optimization_config()
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "grid"
+
+    # Test custom
+    config = create_optimization_config(algorithm="bayesian")
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "bayesian"
+
+    # Test invalid algorithm
+    with pytest.raises(ValueError):
+        create_optimization_config(algorithm="invalid_algorithm")
+
+
 def test_factory_functions() -> None:
     """Test factory functions."""
     # Test create_default_config
@@ -357,24 +391,6 @@ def test_factory_functions() -> None:
     config = create_streaming_config()
     assert isinstance(config, StreamingConfig)
 
-    # Test create_metamodel_config
-    config = create_metamodel_config()
-    assert isinstance(config, MetamodelConfig)
-    assert config.method == "gam"
-
-    config = create_metamodel_config(method="gp")
-    assert isinstance(config, MetamodelConfig)
-    assert config.method == "gp"
-
-    # Test create_optimization_config
-    config = create_optimization_config()
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "grid"
-
-    config = create_optimization_config(algorithm="bayesian")
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "bayesian"
-
 
 if __name__ == "__main__":
     test_voi_analysis_config()
@@ -385,5 +401,7 @@ if __name__ == "__main__":
     test_environmental_config()
     test_financial_config()
     test_parallel_config()
+    test_create_metamodel_config()
+    test_create_optimization_config()
     test_factory_functions()
     print("All configuration objects tests passed!")
