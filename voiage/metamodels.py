@@ -95,7 +95,6 @@ except ImportError:
     gam_spline = None
 
 try:
-    import arviz as az
     import pymc as pm
     import pymc_bart as pmb
 
@@ -103,7 +102,6 @@ try:
 except ImportError:
     PYMC_AVAILABLE = False
     pm = None
-    az = None
     pmb = None
 
 from voiage.exceptions import (
