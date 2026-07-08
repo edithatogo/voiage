@@ -331,15 +331,23 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_healthcare_config() -> None:
+    """Test create_healthcare_config factory function."""
+    config = create_healthcare_config()
+    assert isinstance(config, HealthcareConfig)
+    assert config.qaly_discount_rate == 0.03
+    assert config.cost_discount_rate == 0.03
+    assert config.cycle_length == 1.0
+    assert config.max_cycles == 50
+    assert config.markov_cohort_size == 10000
+    assert config.markov_start_age == 25.0
+
+
 def test_factory_functions() -> None:
     """Test factory functions."""
     # Test create_default_config
     config = create_default_config()
     assert isinstance(config, VOIAnalysisConfig)
-
-    # Test create_healthcare_config
-    config = create_healthcare_config()
-    assert isinstance(config, HealthcareConfig)
 
     # Test create_environmental_config
     config = create_environmental_config()
@@ -385,5 +393,6 @@ if __name__ == "__main__":
     test_environmental_config()
     test_financial_config()
     test_parallel_config()
+    test_create_healthcare_config()
     test_factory_functions()
     print("All configuration objects tests passed!")
