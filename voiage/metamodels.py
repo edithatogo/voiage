@@ -70,21 +70,6 @@ try:
     if "complex" not in np.__dict__:
         np.__dict__["complex"] = complex
 
-    # Also patch scipy sparse matrix attributes if needed
-    try:
-        import scipy.sparse
-
-        if hasattr(scipy.sparse, "csr_matrix") and not hasattr(
-            scipy.sparse.csr_matrix, "A"
-        ):
-            # Add the A property as an alias to toarray()
-            def _get_a(self: _SparseMatrixProtocol) -> np.ndarray:
-                return np.asarray(self.toarray())
-
-            scipy.sparse.csr_matrix.A = property(_get_a)
-    except ImportError:
-        pass
-
     from pygam import LinearGAM
     from pygam import s as gam_spline
 
@@ -144,15 +129,6 @@ class _TinyGPProtocol(Protocol):
         self, y: np.ndarray, x: np.ndarray
     ) -> tuple[object, _TinyGPConditionProtocol]:
         """Condition the GP on observed targets."""
-        ...
-
-
-@runtime_checkable
-class _SparseMatrixProtocol(Protocol):
-    """Protocol for sparse matrices exposing ``toarray``."""
-
-    def toarray(self) -> np.ndarray:
-        """Convert the sparse matrix to a dense array."""
         ...
 
 
