@@ -9,14 +9,12 @@ try:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:  # pragma: no cover
     MATPLOTLIB_AVAILABLE = False
     Figure = None  # type: ignore
     Axes = None  # type: ignore
-    Axes3D = None  # type: ignore
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error, raise_plotting_error
