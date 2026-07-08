@@ -331,12 +331,27 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
-def test_factory_functions() -> None:
-    """Test factory functions."""
-    # Test create_default_config
+def test_create_default_config() -> None:
+    """Test create_default_config factory function."""
     config = create_default_config()
     assert isinstance(config, VOIAnalysisConfig)
 
+    # Check default values
+    assert config.population is None
+    assert config.time_horizon is None
+    assert config.discount_rate is None
+    assert config.chunk_size is None
+    assert config.use_jit is False
+    assert config.backend == "numpy"
+    assert config.enable_caching is False
+    assert config.streaming_window_size is None
+    assert config.n_regression_samples is None
+    assert config.regression_model is None
+    assert config.n_simulations == 1000
+
+
+def test_factory_functions() -> None:
+    """Test factory functions."""
     # Test create_healthcare_config
     config = create_healthcare_config()
     assert isinstance(config, HealthcareConfig)
@@ -377,6 +392,7 @@ def test_factory_functions() -> None:
 
 
 if __name__ == "__main__":
+    test_create_default_config()
     test_voi_analysis_config()
     test_streaming_config()
     test_metamodel_config()
