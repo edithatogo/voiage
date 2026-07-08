@@ -10,6 +10,8 @@ from voiage.metamodels import (
     BARTMetamodel,
     GAMMetamodel,
     RandomForestMetamodel,
+    _safe_r2_score,
+    _safe_rmse,
     calculate_diagnostics,
     cross_validate,
 )
@@ -268,6 +270,55 @@ def test_cross_validate(sample_data) -> None:
     # All RMSE and MAE values should be non-negative
     assert cv_results["cv_rmse_mean"] >= 0
     assert cv_results["cv_mae_mean"] >= 0
+
+
+def test_safe_r2_score_normal():
+    """Test _safe_r2_score with normal inputs."""
+    y_true = np.array([3, -0.5, 2, 7])
+    y_pred = np.array([2.5, 0.0, 2, 8])
+    # scikit-learn r2_score for this is ~0.948
+    expected = 0.9486081370449679
+    result = _safe_r2_score(y_true, y_pred)
+    assert np.isclose(result, expected)
+
+
+def test_safe_r2_score_empty_targets():
+    """Test _safe_r2_score with empty targets."""
+    y_true = np.array([])
+    y_pred = np.array([])
+    with pytest.raises(ValueError, match=r"Cannot compute R\^2 for empty targets."):
+        _safe_r2_score(y_true, y_pred)
+
+
+def test_safe_r2_score_constant_targets():
+    """Test _safe_r2_score with constant targets."""
+    # Perfect prediction for constant targets
+    y_true = np.array([5.0, 5.0, 5.0])
+    y_pred = np.array([5.0, 5.0, 5.0])
+    assert _safe_r2_score(y_true, y_pred) == 1.0
+
+    # Imperfect prediction for constant targets
+    y_true = np.array([5.0, 5.0, 5.0])
+    y_pred = np.array([5.0, 4.0, 5.0])
+    assert _safe_r2_score(y_true, y_pred) == 0.0
+
+
+def test_safe_rmse_normal():
+    """Test _safe_rmse with normal inputs."""
+    y_true = np.array([3, -0.5, 2, 7])
+    y_pred = np.array([2.5, 0.0, 2, 8])
+    # Expected RMSE = sqrt(mean(squared_errors)) = sqrt((0.25 + 0.25 + 0 + 1) / 4) = sqrt(0.375) ~ 0.61237
+    expected = 0.6123724356957945
+    result = _safe_rmse(y_true, y_pred)
+    assert np.isclose(result, expected)
+
+
+def test_safe_rmse_empty_targets():
+    """Test _safe_rmse with empty targets."""
+    y_true = np.array([])
+    y_pred = np.array([])
+    with pytest.raises(ValueError, match="Cannot compute RMSE for empty targets."):
+        _safe_rmse(y_true, y_pred)
 
 
 if __name__ == "__main__":
