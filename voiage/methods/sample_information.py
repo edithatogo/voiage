@@ -6,6 +6,7 @@ Implementation of Value of Information methods related to sample information.
 """
 
 from collections.abc import Callable, Sequence
+import importlib.util
 from typing import Any
 
 import numpy as np
@@ -17,12 +18,7 @@ from voiage.exceptions import (
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
 from voiage.stats import normal_normal_update
 
-try:
-    import sklearn  # noqa: F401
-
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    SKLEARN_AVAILABLE = False
+SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
