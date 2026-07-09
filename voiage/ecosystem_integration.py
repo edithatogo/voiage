@@ -317,43 +317,33 @@ class RPackageConnector(EcosystemConnector):
 
             # Generate simulation data
             treatments = list(health_analysis.treatments.values())
-            simulation_costs.extend(
+            base_costs = np.array(
                 [
-                    treatment.cost_per_cycle
-                    * treatment.cycles_required
-                    * (1 + np.random.normal(0, 0.1))
+                    treatment.cost_per_cycle * treatment.cycles_required
                     for treatment in treatments
                 ]
-                for _ in range(num_simulations)
             )
-            simulation_effectiveness.extend(
-                [
-                    treatment.effectiveness * (1 + np.random.normal(0, 0.05))
-                    for treatment in treatments
-                ]
-                for _ in range(num_simulations)
+            costs_arr = base_costs * (
+                1 + np.random.normal(0, 0.1, (num_simulations, len(treatments)))
             )
+            simulation_costs.extend(costs_arr.tolist())
+
+            base_effs = np.array([treatment.effectiveness for treatment in treatments])
+            effs_arr = base_effs * (
+                1 + np.random.normal(0, 0.05, (num_simulations, len(treatments)))
+            )
+            simulation_effectiveness.extend(effs_arr.tolist())
 
             # Calculate ICER for each simulation
             if len(treatments_data) >= 2:
-                for treatment_index in range(1, len(treatments_data)):
-                    sim_icer = []
+                cost_diffs = costs_arr[:, 1:] - costs_arr[:, 0:1]
+                eff_diffs = effs_arr[:, 1:] - effs_arr[:, 0:1]
 
-                    for j in range(num_simulations):
-                        cost_diff = (
-                            simulation_costs[j][treatment_index]
-                            - simulation_costs[j][0]
-                        )
-                        eff_diff = (
-                            simulation_effectiveness[j][treatment_index]
-                            - simulation_effectiveness[j][0]
-                        )
+                # Calculate ICER: cost_diff / eff_diff if eff_diff > 0 else np.inf
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    icers = np.where(eff_diffs > 0, cost_diffs / eff_diffs, np.inf)
 
-                        icer = cost_diff / eff_diff if eff_diff > 0 else np.inf
-
-                        sim_icer.append(icer)
-
-                    simulation_icer.append(sim_icer)
+                simulation_icer.extend(icers.T.tolist())
 
             # Save to JSON
             with open(output_path, "w") as f:
@@ -825,8 +815,8 @@ class WorkflowConnector(EcosystemConnector):
                         "# Cost-effectiveness plane\\n",
                         "plt.figure(figsize=(10, 6))\\n",
                         'plt.scatter(results_df["QALY"], results_df["Cost"])\\n',
-                        "for i, row in results_df.iterrows():\\n",
-                        '    plt.annotate(row["Treatment"], (row["QALY"], row["Cost"]))\\n',
+                        "for row in results_df.itertuples():\\n",
+                        "    plt.annotate(row.Treatment, (row.QALY, row.Cost))\\n",
                         'plt.xlabel("Effectiveness (QALYs)")\\n',
                         'plt.ylabel("Cost")\\n',
                         'plt.title("Cost-Effectiveness Plane")\\n',

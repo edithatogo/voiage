@@ -67,6 +67,30 @@ def test_voi_analysis_config() -> None:
     assert isinstance(config_dict, dict)
     assert config_dict["population"] == 100000
     assert config_dict["time_horizon"] == 10
+    assert config_dict["discount_rate"] == 0.03
+    assert config_dict["chunk_size"] == 1000
+    assert config_dict["use_jit"] is True
+    assert config_dict["backend"] == "jax"
+    assert config_dict["enable_caching"] is True
+    assert config_dict["streaming_window_size"] == 5000
+    assert config_dict["n_regression_samples"] == 5000
+    assert config_dict["regression_model"] is None
+    assert config_dict["n_simulations"] == 2000
+
+    # Test to_dict method on default config
+    default_config = VOIAnalysisConfig()
+    default_dict = default_config.to_dict()
+    assert default_dict["population"] is None
+    assert default_dict["time_horizon"] is None
+    assert default_dict["discount_rate"] is None
+    assert default_dict["chunk_size"] is None
+    assert default_dict["use_jit"] is False
+    assert default_dict["backend"] == "numpy"
+    assert default_dict["enable_caching"] is False
+    assert default_dict["streaming_window_size"] is None
+    assert default_dict["n_regression_samples"] is None
+    assert default_dict["regression_model"] is None
+    assert default_dict["n_simulations"] == 1000
 
 
 def test_streaming_config() -> None:
@@ -152,6 +176,23 @@ def test_optimization_config() -> None:
 
     with pytest.raises(ValueError):
         OptimizationConfig(acquisition_function="invalid_function")
+
+
+def test_create_optimization_config() -> None:
+    """Test create_optimization_config factory function."""
+    # Test default
+    config = create_optimization_config()
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "grid"
+
+    # Test custom valid algorithm
+    config = create_optimization_config(algorithm="bayesian")
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "bayesian"
+
+    # Test validation
+    with pytest.raises(ValueError):
+        create_optimization_config(algorithm="invalid_algorithm")
 
 
 def test_healthcare_config() -> None:
@@ -331,15 +372,57 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_environmental_config() -> None:
+    """Test create_environmental_config factory function."""
+    config = create_environmental_config()
+    assert isinstance(config, EnvironmentalConfig)
+    # Check default properties
+    assert config.carbon_intensity == 0.5
+    assert config.energy_consumption == 10000
+    assert config.water_intensity == 0.1
+    assert config.water_cost == 0.002
+    assert config.biodiversity_impact_factor == 0.01
+    assert config.social_cost_of_carbon == 50
+def test_create_healthcare_config() -> None:
+    """Test create_healthcare_config factory function."""
+    config = create_healthcare_config()
+    assert isinstance(config, HealthcareConfig)
+    assert config.qaly_discount_rate == 0.03
+    assert config.cost_discount_rate == 0.03
+    assert config.cycle_length == 1.0
+    assert config.max_cycles == 50
+    assert config.markov_cohort_size == 10000
+    assert config.markov_start_age == 25.0
+
+
+def test_create_parallel_config() -> None:
+    """Test create_parallel_config factory function."""
+    config = create_parallel_config()
+    assert isinstance(config, ParallelConfig)
+    assert config.n_workers is None
+    assert config.use_processes is True
+    assert config.max_workers is None
+    assert config.memory_limit_mb is None
+    assert config.chunk_size is None
+
+
+def test_create_financial_config() -> None:
+    """Test create_financial_config factory function."""
+    config = create_financial_config()
+    assert isinstance(config, FinancialConfig)
+    assert config.var_confidence_level == 0.95
+    assert config.cvar_confidence_level == 0.95
+    assert config.sharpe_ratio_risk_free_rate == 0.0001
+    assert config.mc_n_simulations == 10000
+    assert config.mc_time_horizon == 252
+    assert config.stress_test_scenarios == ["market_crash", "interest_rate_shock"]
+
+
 def test_factory_functions() -> None:
     """Test factory functions."""
     # Test create_default_config
     config = create_default_config()
     assert isinstance(config, VOIAnalysisConfig)
-
-    # Test create_healthcare_config
-    config = create_healthcare_config()
-    assert isinstance(config, HealthcareConfig)
 
     # Test create_environmental_config
     config = create_environmental_config()
@@ -366,15 +449,6 @@ def test_factory_functions() -> None:
     assert isinstance(config, MetamodelConfig)
     assert config.method == "gp"
 
-    # Test create_optimization_config
-    config = create_optimization_config()
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "grid"
-
-    config = create_optimization_config(algorithm="bayesian")
-    assert isinstance(config, OptimizationConfig)
-    assert config.algorithm == "bayesian"
-
 
 if __name__ == "__main__":
     test_voi_analysis_config()
@@ -385,5 +459,8 @@ if __name__ == "__main__":
     test_environmental_config()
     test_financial_config()
     test_parallel_config()
+    test_create_healthcare_config()
+    test_create_parallel_config()
     test_factory_functions()
+    test_create_optimization_config()
     print("All configuration objects tests passed!")
