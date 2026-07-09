@@ -209,19 +209,19 @@ def calculate_strong_dominance(
     [1]
     """
     cost_arr, effect_arr, _ = _validate_cost_effect_inputs(costs, effects, None)
-    dominated: list[int] = []
-    for idx in range(len(cost_arr)):
-        other_indices = [other for other in range(len(cost_arr)) if other != idx]
-        for other in other_indices:
-            no_more_costly = cost_arr[other] <= cost_arr[idx]
-            no_less_effective = effect_arr[other] >= effect_arr[idx]
-            strict_improvement = (
-                cost_arr[other] < cost_arr[idx] or effect_arr[other] > effect_arr[idx]
-            )
-            if no_more_costly and no_less_effective and strict_improvement:
-                dominated.append(idx)
-                break
-    return sorted(dominated)
+
+    no_more_costly = cost_arr[:, None] <= cost_arr[None, :]
+    no_less_effective = effect_arr[:, None] >= effect_arr[None, :]
+    strict_improvement = (cost_arr[:, None] < cost_arr[None, :]) | (
+        effect_arr[:, None] > effect_arr[None, :]
+    )
+
+    np.fill_diagonal(strict_improvement, False)
+
+    dominated_matrix = no_more_costly & no_less_effective & strict_improvement
+    is_dominated = np.any(dominated_matrix, axis=0)
+
+    return np.where(is_dominated)[0].tolist()
 
 
 def cost_effectiveness_frontier(
