@@ -10,6 +10,7 @@ import requests
 
 
 
+
 def check_github_actions_status(owner, repo):
     """
     Check the status of GitHub Actions workflows for a repository.
@@ -18,8 +19,12 @@ def check_github_actions_status(owner, repo):
         owner: Repository owner
         repo: Repository name
 
+<<<<<<< HEAD
+    Returns:
+=======
     Returns
     -------
+>>>>>>> origin/main
         dict: Workflow status information
     """
     # GitHub API endpoint for workflow runs
@@ -58,6 +63,22 @@ def check_github_actions_status(owner, repo):
         ):
             print("\n✅ Documentation workflow completed successfully!")
             return True
+<<<<<<< HEAD
+        else:
+            print(
+                f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}"
+            )
+            return False
+    else:
+        print("No documentation deployment workflow found.")
+        # Print all workflows to see what's available
+        all_workflows = []
+        for run in workflow_runs.get("workflow_runs", []):
+            all_workflows.append(run["name"])
+        unique_workflows = list(set(all_workflows))
+        print(f"Available workflows: {unique_workflows}")
+        return None
+=======
         print(
             f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}"
         )
@@ -72,6 +93,8 @@ def check_github_actions_status(owner, repo):
     return None
 
 
+>>>>>>> origin/main
+
 
 def check_github_pages(owner, repo):
     """
@@ -81,8 +104,12 @@ def check_github_pages(owner, repo):
         owner: Repository owner
         repo: Repository name
 
+<<<<<<< HEAD
+    Returns:
+=======
     Returns
     -------
+>>>>>>> origin/main
         bool: True if GitHub Pages is accessible, False otherwise
     """
     # GitHub Pages URL

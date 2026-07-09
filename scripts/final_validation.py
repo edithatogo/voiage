@@ -15,8 +15,11 @@ def validate_basic_functionality():
     try:
         # Import core modules
         from voiage.analysis import DecisionAnalysis
+<<<<<<< HEAD
+=======
         from voiage.methods.basic import evpi
         from voiage.schema import ParameterSet, ValueArray
+>>>>>>> origin/main
 
         print("✅ Core modules imported successfully")
 
@@ -73,6 +76,10 @@ def validate_advanced_functionality():
         from voiage.methods.network_nma import evsi_nma
         from voiage.methods.observational import voi_observational
         from voiage.methods.structural import structural_evpi
+<<<<<<< HEAD
+        from voiage.methods.portfolio import portfolio_voi
+=======
+>>>>>>> origin/main
 
         print("✅ Advanced modules imported successfully")
 
