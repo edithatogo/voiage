@@ -372,6 +372,25 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_default_config() -> None:
+    """Test create_default_config factory function."""
+    config = create_default_config()
+    assert isinstance(config, VOIAnalysisConfig)
+
+    # Check default values
+    assert config.population is None
+    assert config.time_horizon is None
+    assert config.discount_rate is None
+    assert config.chunk_size is None
+    assert config.use_jit is False
+    assert config.backend == "numpy"
+    assert config.enable_caching is False
+    assert config.streaming_window_size is None
+    assert config.n_regression_samples is None
+    assert config.regression_model is None
+    assert config.n_simulations == 1000
+
+
 def test_create_environmental_config() -> None:
     """Test create_environmental_config factory function."""
     config = create_environmental_config()
@@ -450,7 +469,19 @@ def test_factory_functions() -> None:
     assert config.method == "gp"
 
 
+def test_create_streaming_config() -> None:
+    """Test create_streaming_config factory function."""
+    config = create_streaming_config()
+    assert isinstance(config, StreamingConfig)
+
+    # Check default values are set correctly
+    assert config.window_size == 1000
+    assert config.update_frequency == 100
+    assert config.buffer_size is None
+
+
 if __name__ == "__main__":
+    test_create_default_config()
     test_voi_analysis_config()
     test_streaming_config()
     test_metamodel_config()
@@ -463,15 +494,5 @@ if __name__ == "__main__":
     test_create_parallel_config()
     test_factory_functions()
     test_create_optimization_config()
+    test_create_streaming_config()
     print("All configuration objects tests passed!")
-
-
-def test_create_streaming_config() -> None:
-    """Test create_streaming_config factory function."""
-    config = create_streaming_config()
-    assert isinstance(config, StreamingConfig)
-
-    # Check default values are set correctly
-    assert config.window_size == 1000
-    assert config.update_frequency == 100
-    assert config.buffer_size is None
