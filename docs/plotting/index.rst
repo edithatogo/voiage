@@ -11,4 +11,3 @@ guide examples.
    ../user_guide/features/advanced_voi
    ../user_guide/features/portfolio_optimization
    ../user_guide/features/network_nma
-

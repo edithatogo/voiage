@@ -102,4 +102,3 @@ Use this document together with `numerical-equivalence.md` and `diagnostics.md`:
 - `diagnostics.md` defines warnings and degraded-path reporting.
 - `method-metadata.md` defines the stable capability, stability, and maturity
   metadata that bindings should surface alongside the method result.
-
