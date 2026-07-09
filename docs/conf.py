@@ -177,18 +177,12 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
-# This function can be used to dynamically skip members during autodoc
-# def autodoc_skip_member(app, what, name, obj, skip, options):
-#     # Example: skip private members not starting with an underscore (if any)
-#     # if what == "method" and not name.startswith("_") and name.startswith("__"):
-#     #     return True
-#     return skip
-
-# def setup(app):
-#     app.connect("autodoc-skip-member", autodoc_skip_member)
+<<<<<<< HEAD
+=======
 
 # Add path for custom Sphinx extensions if any
 # sys.path.append(os.path.abspath('_extensions'))
 # extensions.append('my_custom_extension')
+>>>>>>> origin/main
 
 print("Sphinx conf.py loaded.")

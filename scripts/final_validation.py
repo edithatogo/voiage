@@ -17,6 +17,7 @@ def validate_basic_functionality():
         from voiage.analysis import DecisionAnalysis
         from voiage.methods.basic import evpi
         from voiage.schema import ParameterSet, ValueArray
+
         print("✅ Core modules imported successfully")
 
         # Create sample data
@@ -40,13 +41,15 @@ def validate_basic_functionality():
         parameters = {
             "effectiveness": np.random.beta(2, 1, n_samples),
             "cost": np.random.normal(50, 5, n_samples),
-            "quality_of_life": np.random.normal(0.7, 0.1, n_samples)
+            "quality_of_life": np.random.normal(0.7, 0.1, n_samples),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(parameters)
         print("✅ Parameter samples created successfully")
 
         # Create DecisionAnalysis
-        analysis = DecisionAnalysis(nb_array=value_array, parameter_samples=parameter_set)
+        analysis = DecisionAnalysis(
+            nb_array=value_array, parameter_samples=parameter_set
+        )
         print("✅ DecisionAnalysis created successfully")
 
         # Calculate EVPI using DecisionAnalysis
@@ -70,6 +73,7 @@ def validate_advanced_functionality():
         from voiage.methods.network_nma import evsi_nma
         from voiage.methods.observational import voi_observational
         from voiage.methods.structural import structural_evpi
+
         print("✅ Advanced modules imported successfully")
 
         # Create sample data for advanced methods
@@ -86,15 +90,17 @@ def validate_advanced_functionality():
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         def simple_nma_modeler(psa_samples, trial_design=None, trial_data=None):
@@ -106,15 +112,17 @@ def validate_advanced_functionality():
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         def simple_obs_modeler(psa_samples, study_design, bias_models):
@@ -126,15 +134,17 @@ def validate_advanced_functionality():
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         def simple_struct_modeler(psa_samples):
@@ -146,15 +156,17 @@ def validate_advanced_functionality():
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             from voiage.schema import ValueArray
+
             return ValueArray(dataset=dataset)
 
         # Create parameter samples
@@ -169,11 +181,15 @@ def validate_advanced_functionality():
                 base_trial_design=None,
                 adaptive_rules={},
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
-            print(f"✅ Adaptive EVSI calculated successfully: {evsi_adaptive_result:.2f}")
+            print(
+                f"✅ Adaptive EVSI calculated successfully: {evsi_adaptive_result:.2f}"
+            )
         except Exception as e:
-            print(f"⚠️  Adaptive EVSI calculation had issues (expected in minimal test): {e}")
+            print(
+                f"⚠️  Adaptive EVSI calculation had issues (expected in minimal test): {e}"
+            )
 
         # Test NMA EVSI (basic functionality)
         try:
@@ -182,7 +198,7 @@ def validate_advanced_functionality():
                 psa_prior_nma=dummy_psa,
                 trial_design_new_study=None,
                 n_outer_loops=3,
-                n_inner_loops=5
+                n_inner_loops=5,
             )
             print(f"✅ NMA EVSI calculated successfully: {evsi_nma_result:.2f}")
         except Exception as e:
@@ -193,12 +209,12 @@ def validate_advanced_functionality():
             observational_study_design = {
                 "study_type": "cohort",
                 "sample_size": 1000,
-                "variables_collected": ["treatment", "outcome"]
+                "variables_collected": ["treatment", "outcome"],
             }
 
             bias_models = {
                 "confounding": {"strength": 0.3},
-                "selection_bias": {"probability": 0.1}
+                "selection_bias": {"probability": 0.1},
             }
 
             voi_obs_result = voi_observational(
@@ -206,26 +222,36 @@ def validate_advanced_functionality():
                 psa_prior=dummy_psa,
                 observational_study_design=observational_study_design,
                 bias_models=bias_models,
-                n_outer_loops=3
+                n_outer_loops=3,
             )
             print(f"✅ Observational VOI calculated successfully: {voi_obs_result:.2f}")
         except Exception as e:
-            print(f"⚠️  Observational VOI calculation had issues (expected in minimal test): {e}")
+            print(
+                f"⚠️  Observational VOI calculation had issues (expected in minimal test): {e}"
+            )
 
         # Test structural EVPI (basic functionality)
         try:
             struct_evpi_result = structural_evpi(
-                model_structure_evaluators=[simple_struct_modeler, simple_struct_modeler],
+                model_structure_evaluators=[
+                    simple_struct_modeler,
+                    simple_struct_modeler,
+                ],
                 structure_probabilities=[0.6, 0.4],
                 psa_samples_per_structure=[dummy_psa, dummy_psa],
-                n_outer_loops=3
+                n_outer_loops=3,
             )
-            print(f"✅ Structural EVPI calculated successfully: {struct_evpi_result:.2f}")
+            print(
+                f"✅ Structural EVPI calculated successfully: {struct_evpi_result:.2f}"
+            )
         except Exception as e:
-            print(f"⚠️  Structural EVPI calculation had issues (expected in minimal test): {e}")
+            print(
+                f"⚠️  Structural EVPI calculation had issues (expected in minimal test): {e}"
+            )
 
         # Test portfolio VOI (basic functionality)
         try:
+
             def simple_value_calculator(study):
                 return 100.0  # Simple fixed value
 
@@ -250,6 +276,7 @@ def validate_cli_functionality():
     try:
         # Import CLI modules
         from voiage.cli import app
+
         print("✅ CLI modules imported successfully")
 
         # Test that CLI app exists and has commands
@@ -272,6 +299,7 @@ def validate_web_api_functionality():
     try:
         # Import web API modules
         from voiage.web.main import app
+
         print("✅ Web API modules imported successfully")
 
         # Test that web app exists
@@ -292,6 +320,7 @@ def validate_documentation_system():
     try:
         # Check that docs directory exists
         import os
+
         if os.path.exists("docs") and os.path.isdir("docs"):
             print("✅ Documentation directory exists")
         else:
@@ -330,7 +359,9 @@ def main():
     if all(results):
         print("🎉 All validation tests passed!")
         print("✅ voiage library is working correctly after enhancements!")
-        print("🏆 Project successfully enhanced with comprehensive automation and tooling!")
+        print(
+            "🏆 Project successfully enhanced with comprehensive automation and tooling!"
+        )
         return 0
     print("❌ Some validation tests failed!")
     print("Please check the error messages above.")

@@ -17,6 +17,7 @@ def validate_core_functionality():
         from voiage.analysis import DecisionAnalysis
         from voiage.methods.basic import evpi
         from voiage.schema import ParameterSet, ValueArray
+
         print("✅ Core modules imported successfully")
 
         # Create sample data
@@ -40,13 +41,15 @@ def validate_core_functionality():
         parameters = {
             "effectiveness": np.random.beta(2, 1, n_samples),
             "cost": np.random.normal(50, 5, n_samples),
-            "quality_of_life": np.random.normal(0.7, 0.1, n_samples)
+            "quality_of_life": np.random.normal(0.7, 0.1, n_samples),
         }
         parameter_set = ParameterSet.from_numpy_or_dict(parameters)
         print("✅ Parameter samples created successfully")
 
         # Create DecisionAnalysis
-        analysis = DecisionAnalysis(nb_array=value_array, parameter_samples=parameter_set)
+        analysis = DecisionAnalysis(
+            nb_array=value_array, parameter_samples=parameter_set
+        )
         print("✅ DecisionAnalysis created successfully")
 
         # Calculate EVPI using DecisionAnalysis
@@ -68,6 +71,7 @@ def validate_structural_functionality():
         # Import structural module
         from voiage.methods.structural import structural_evpi
         from voiage.schema import ParameterSet, ValueArray
+
         print("✅ Structural module imported successfully")
 
         # Create simple modelers for testing
@@ -80,13 +84,14 @@ def validate_structural_functionality():
             nb_values[:, 1] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             return ValueArray(dataset=dataset)
 
@@ -99,13 +104,14 @@ def validate_structural_functionality():
             nb_values[:, 0] += 100
 
             import xarray as xr
+
             dataset = xr.Dataset(
                 {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
                 coords={
                     "n_samples": np.arange(n_samples),
                     "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-                }
+                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+                },
             )
             return ValueArray(dataset=dataset)
 
@@ -120,7 +126,7 @@ def validate_structural_functionality():
         result = structural_evpi(
             model_structure_evaluators=[simple_modeler1, simple_modeler2],
             structure_probabilities=[0.6, 0.4],
-            psa_samples_per_structure=[psa1, psa2]
+            psa_samples_per_structure=[psa1, psa2],
         )
         print(f"✅ Structural EVPI calculated successfully: {result:.2f}")
 
@@ -138,6 +144,7 @@ def validate_cli_functionality():
     try:
         # Import CLI modules
         from voiage.cli import app
+
         print("✅ CLI modules imported successfully")
 
         # Test that CLI app exists
@@ -160,6 +167,7 @@ def validate_web_api_functionality():
     try:
         # Import web API modules
         from voiage.web.main import app
+
         print("✅ Web API modules imported successfully")
 
         # Test that web app exists
@@ -192,7 +200,9 @@ def main():
     if all(results):
         print("🎉 All validation tests passed!")
         print("✅ voiage library is working correctly!")
-        print("🏆 Project successfully enhanced with comprehensive automation and tooling!")
+        print(
+            "🏆 Project successfully enhanced with comprehensive automation and tooling!"
+        )
         return 0
     print("❌ Some validation tests failed!")
     print("Please check the error messages above.")
