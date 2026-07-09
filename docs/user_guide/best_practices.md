@@ -105,7 +105,7 @@ def check_evpi_convergence(value_array, sample_sizes=[100, 200, 500, 1000]):
     results = []
     for n in sample_sizes:
         subset_array = ValueArray.from_numpy(
-            value_array.values[:n], 
+            value_array.values[:n],
             value_array.strategy_names
         )
         analysis = DecisionAnalysis(nb_array=subset_array, parameter_samples=None)
@@ -126,17 +126,17 @@ def validate_parameters(parameters):
     """Validate parameter inputs for common issues."""
     if not isinstance(parameters, dict):
         raise ValueError("Parameters must be a dictionary")
-    
+
     for name, values in parameters.items():
         if not isinstance(values, np.ndarray):
             raise ValueError(f"Parameter {name} must be a numpy array")
-        
+
         if len(values) < 100:
             warnings.warn(f"Parameter {name} has fewer than 100 samples, results may be unstable")
-        
+
         if np.any(np.isnan(values)):
             raise ValueError(f"Parameter {name} contains NaN values")
-    
+
     return True
 ```
 
@@ -146,7 +146,7 @@ def validate_parameters(parameters):
 
 **Problem**: Using too few samples leads to unstable VOI estimates.
 
-**Solution**: 
+**Solution**:
 - Start with at least 1,000 samples for basic analysis
 - Use 10,000+ samples for final results
 - Check for convergence before reporting results
@@ -268,13 +268,13 @@ def test_evpi_calculation():
         [100, 0],  # Sample 3: Strategy A better
         [50, 0]    # Sample 4: Strategy A better
     ])
-    
+
     value_array = ValueArray.from_numpy(net_benefits, ["A", "B"])
     analysis = DecisionAnalysis(nb_array=value_array, parameter_samples=None)
-    
+
     evpi_result = analysis.evpi()
     expected_evpi = 25.0  # Known result for this simple case
-    
+
     assert abs(evpi_result - expected_evpi) < 1e-10
 ```
 
@@ -286,21 +286,21 @@ def test_complete_voi_workflow():
     """Test a complete VOI analysis workflow."""
     # Generate test data
     parameters = generate_test_parameters(n_samples=1000)
-    
+
     # Calculate net benefits
     net_benefits = calculate_net_benefits(parameters)
-    
+
     # Create schema objects
     value_array = ValueArray.from_numpy(net_benefits, ["Strategy A", "Strategy B"])
     psa_samples = ParameterSet.from_numpy_or_dict(parameters)
-    
+
     # Perform VOI analysis
     analysis = DecisionAnalysis(nb_array=value_array, parameter_samples=psa_samples)
-    
+
     # Calculate VOI metrics
     evpi_result = analysis.evpi()
     evppi_result = analysis.evppi()
-    
+
     # Validate results
     assert evpi_result >= 0
     assert evppi_result >= 0
@@ -316,10 +316,10 @@ def voi_analysis_with_reproducibility():
     """Perform VOI analysis with reproducible results."""
     # Set seed for reproducibility
     np.random.seed(42)
-    
+
     # Generate data
     parameters = generate_parameters(n_samples=10000)
-    
+
     # Perform analysis
     # Results will be identical across runs
 ```
