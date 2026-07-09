@@ -5,6 +5,7 @@ This script uses the GitHub API to determine if the docs workflow has run succes
 and if the GitHub Pages documentation is available.
 """
 
+
 import requests
 
 
