@@ -456,6 +456,171 @@ class DecisionAnalysis:
             evppi_value = self.evppi()
             yield evppi_value
 
+
+    def _scale_to_population(
+        self,
+        value: float,
+        population: float,
+        time_horizon: float,
+        discount_rate: float | None,
+        metric_name: str,
+    ) -> float:
+        """Scale a per-decision value to a population level."""
+        # Validate population parameter
+        if not isinstance(population, (int, float)):
+            raise_input_error(
+                f"Population must be a number. Got {type(population)}."
+            )
+        if population <= 0:
+            raise_input_error(f"Population must be positive. Got {population}.")
+        if not np.isfinite(population):
+            raise_input_error(f"Population must be finite. Got {population}.")
+
+        # Validate time_horizon parameter
+        if not isinstance(time_horizon, (int, float)):
+            raise_input_error(
+                f"Time horizon must be a number. Got {type(time_horizon)}."
+            )
+        if time_horizon <= 0:
+            raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
+        if not np.isfinite(time_horizon):
+            raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
+
+        # Validate discount_rate parameter
+        current_dr = discount_rate
+        if current_dr is None:
+            current_dr = 0.0
+
+        if not isinstance(current_dr, (int, float)):
+            raise_input_error(
+                f"Discount rate must be a number. Got {type(current_dr)}."
+            )
+        if not (0 <= current_dr <= 1):
+            raise_input_error(
+                f"Discount rate must be between 0 and 1. Got {current_dr}."
+            )
+        if not np.isfinite(current_dr):
+            raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
+
+        # Calculate annuity factor
+        if current_dr == 0:
+            annuity_factor = time_horizon
+        else:
+            annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+
+        result = float(value * population * annuity_factor)
+
+        # Validate result
+        if not np.isfinite(result):
+            raise_calculation_error(f"Calculated {metric_name} is not finite: {result}")
+
+        return result
+
+    def _prepare_evppi_inputs(
+        self,
+        parameters_of_interest: list[str] | None,
+        nb_values: np.ndarray,
+    ) -> tuple[np.ndarray, np.ndarray]:
+        """Validate and extract inputs for EVPPI regression."""
+        if not SKLEARN_AVAILABLE:
+            raise_optional_dependency_error(
+                "scikit-learn is required for EVPPI calculation. "
+                "Please install it (e.g., `pip install scikit-learn`)."
+            )
+
+        if self.parameter_samples is None:
+            raise_input_error(
+                "`parameter_samples` must be provided for EVPPI calculation."
+            )
+
+        if parameters_of_interest is None:
+            parameters_of_interest = list(self.parameter_samples.parameter_names)
+
+        if not isinstance(parameters_of_interest, list):
+            raise_input_error(
+                "`parameters_of_interest` must be a list of parameter names."
+            )
+
+        # Validate that all parameters of interest exist in the parameter set
+        param_names = self.parameter_samples.parameter_names
+        for param in parameters_of_interest:
+            if param not in param_names:
+                raise_input_error(
+                    "All `parameters_of_interest` must be in the ParameterSet"
+                )
+
+        check_input_array(nb_values, expected_ndim=2, name="nb_array")
+
+        x_all = self._get_parameter_samples_as_ndarray()
+
+        # Select only the columns corresponding to parameters of interest
+        x_indices = [
+            i for i, name in enumerate(param_names) if name in parameters_of_interest
+        ]
+        x = x_all[:, x_indices]
+
+        return x, nb_values
+
+    def _fit_evppi_regression(
+        self,
+        x: np.ndarray,
+        nb_values: np.ndarray,
+        n_regression_samples: int | None,
+        regression_model: RegressionModelProtocol | type[RegressionModelProtocol] | None,
+    ) -> np.ndarray:
+        """Subsample and fit the regression model for each strategy."""
+        n_samples, n_strategies = nb_values.shape
+
+        if n_regression_samples is not None:
+            if not isinstance(n_regression_samples, int):
+                raise_input_error(
+                    f"n_regression_samples must be an integer. Got {type(n_regression_samples)}."
+                )
+            if n_regression_samples <= 0:
+                raise_input_error(
+                    f"n_regression_samples must be positive. Got {n_regression_samples}."
+                )
+            if not np.isfinite(n_regression_samples):
+                raise_input_error(
+                    f"n_regression_samples must be finite. Got {n_regression_samples}."
+                )
+            if n_regression_samples > n_samples:
+                raise_input_error(
+                    f"n_regression_samples ({n_regression_samples}) cannot exceed total samples ({n_samples})."
+                )
+
+            # Subsample for regression fitting
+            indices = np.random.choice(n_samples, n_regression_samples, replace=False)
+            x_fit = x[indices, :]
+            nb_values_fit = nb_values[indices, :]
+        else:
+            x_fit = x
+            nb_values_fit = nb_values
+
+        # Fit regression model for each strategy
+        fitted_nb_on_params = np.zeros_like(nb_values, dtype=DEFAULT_DTYPE)
+
+        for i in range(n_strategies):
+            y_fit = nb_values_fit[:, i]
+
+            if regression_model is None:
+                model: RegressionModelProtocol = SklearnLinearRegression()
+            elif isinstance(regression_model, type):
+                model = regression_model()
+            else:
+                model = regression_model
+
+            try:
+                model.fit(x_fit, y_fit)
+                # Predict on the full set of parameter samples X
+                fitted_nb_on_params[:, i] = model.predict(x)
+            except Exception as e:
+                raise_calculation_error(
+                    f"Error during regression for strategy {i}: {e}", e
+                )
+
+        return fitted_nb_on_params
+
     def evpi(
         self,
         population: float | None = None,
@@ -518,57 +683,12 @@ class DecisionAnalysis:
             raise_calculation_error(f"Error during EVPI calculation: {e}", e)
 
         if population is not None and time_horizon is not None:
-            # Validate population parameter
-            if not isinstance(population, (int, float)):
-                raise_input_error(
-                    f"Population must be a number. Got {type(population)}."
-                )
-            if population <= 0:
-                raise_input_error(f"Population must be positive. Got {population}.")
-            if not np.isfinite(population):
-                raise_input_error(f"Population must be finite. Got {population}.")
-
-            # Validate time_horizon parameter
-            if not isinstance(time_horizon, (int, float)):
-                raise_input_error(
-                    f"Time horizon must be a number. Got {type(time_horizon)}."
-                )
-            if time_horizon <= 0:
-                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
-            if not np.isfinite(time_horizon):
-                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
-
-            # Validate discount_rate parameter
-            current_dr = discount_rate
-            if current_dr is None:
-                current_dr = 0.0  # Default to no discounting if not provided
-
-            if not isinstance(current_dr, (int, float)):
-                raise_input_error(
-                    f"Discount rate must be a number. Got {type(current_dr)}."
-                )
-            if not (0 <= current_dr <= 1):
-                raise_input_error(
-                    f"Discount rate must be between 0 and 1. Got {current_dr}."
-                )
-            if not np.isfinite(current_dr):
-                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
-
-            # Calculate annuity factor
-            if current_dr == 0:
-                annuity_factor = time_horizon
-            else:
-                annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
-
-            result = float(per_decision_evpi * population * annuity_factor)
-
-            # Validate result
-            if not np.isfinite(result):
-                raise_calculation_error(f"Calculated EVPI is not finite: {result}")
-
-            # Cache the result
+            result = self._scale_to_population(
+                per_decision_evpi, population, time_horizon, discount_rate, "EVPI"
+            )
             self._cache_set(cache_key, result)
             return result
+
         if (
             population is not None
             or time_horizon is not None
@@ -710,99 +830,28 @@ class DecisionAnalysis:
         if cached_result is not None:
             return float(cached_result)
 
-        if not SKLEARN_AVAILABLE:
-            raise_optional_dependency_error(
-                "scikit-learn is required for EVPPI calculation. "
-                "Please install it (e.g., `pip install scikit-learn`)."
-            )
-
-        if self.parameter_samples is None:
-            raise_input_error(
-                "`parameter_samples` must be provided for EVPPI calculation."
-            )
-
-        if parameters_of_interest is None:
-            parameters_of_interest = list(self.parameter_samples.parameter_names)
-
-        if not isinstance(parameters_of_interest, list):
-            raise_input_error(
-                "`parameters_of_interest` must be a list of parameter names."
-            )
-
-        # Validate that all parameters of interest exist in the parameter set
-        param_names = self.parameter_samples.parameter_names
-        for param in parameters_of_interest:
-            if param not in param_names:
-                raise_input_error(
-                    "All `parameters_of_interest` must be in the ParameterSet"
-                )
+        # Check cache first
+        cache_key = (
+            "evppi_"
+            f"{tuple(parameters_of_interest) if parameters_of_interest is not None else '__all__'}_"
+            f"{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{regression_model!s}"
+        )
+        cached_result = self._cache_get(cache_key)
+        if cached_result is not None:
+            return float(cached_result)
 
         nb_values = self.nb_array.numpy_values
-        check_input_array(nb_values, expected_ndim=2, name="nb_array")
-        n_samples, n_strategies = nb_values.shape
-
-        if n_strategies == 0:
+        if nb_values.size == 0:
+            raise_input_error("`nb_array` cannot be empty")
+        _, n_strategies = nb_values.shape
+        if n_strategies <= 1:
             return 0.0
-        if n_strategies == 1:  # Single strategy
-            return 0.0
-        if n_samples == 0:
-            raise_input_error("`nb_array` cannot be empty (no samples).")
 
-        x_all = self._get_parameter_samples_as_ndarray()
+        x, nb_values = self._prepare_evppi_inputs(parameters_of_interest, nb_values)
 
-        # Select only the columns corresponding to parameters of interest
-        x_indices = [
-            i for i, name in enumerate(param_names) if name in parameters_of_interest
-        ]
-        x = x_all[:, x_indices]
-
-        if n_regression_samples is not None:
-            if not isinstance(n_regression_samples, int):
-                raise_input_error(
-                    f"n_regression_samples must be an integer. Got {type(n_regression_samples)}."
-                )
-            if n_regression_samples <= 0:
-                raise_input_error(
-                    f"n_regression_samples must be positive. Got {n_regression_samples}."
-                )
-            if not np.isfinite(n_regression_samples):
-                raise_input_error(
-                    f"n_regression_samples must be finite. Got {n_regression_samples}."
-                )
-            if n_regression_samples > n_samples:
-                raise_input_error(
-                    f"n_regression_samples ({n_regression_samples}) cannot exceed total samples ({n_samples})."
-                )
-
-            # Subsample for regression fitting
-            indices = np.random.choice(n_samples, n_regression_samples, replace=False)
-            x_fit = x[indices, :]
-            nb_values_fit = nb_values[indices, :]
-        else:
-            x_fit = x
-            nb_values_fit = nb_values
-
-        # Fit regression model for each strategy
-        fitted_nb_on_params = np.zeros_like(nb_values, dtype=DEFAULT_DTYPE)
-
-        for i in range(n_strategies):
-            y_fit = nb_values_fit[:, i]
-
-            if regression_model is None:
-                model: RegressionModelProtocol = SklearnLinearRegression()
-            elif isinstance(regression_model, type):
-                model = regression_model()
-            else:
-                model = regression_model
-
-            try:
-                model.fit(x_fit, y_fit)
-                # Predict on the full set of parameter samples X
-                fitted_nb_on_params[:, i] = model.predict(x)
-            except Exception as e:
-                raise_calculation_error(
-                    f"Error during regression for strategy {i}: {e}", e
-                )
+        fitted_nb_on_params = self._fit_evppi_regression(
+            x, nb_values, n_regression_samples, regression_model
+        )
 
         # Calculate E_p [max_d E[NB_d|p]]
         # This is the mean of the maximum (over strategies) of the fitted net benefits
@@ -821,57 +870,12 @@ class DecisionAnalysis:
         per_decision_evppi = max(0.0, per_decision_evppi)
 
         if population is not None and time_horizon is not None:
-            # Validate population parameter
-            if not isinstance(population, (int, float)):
-                raise_input_error(
-                    f"Population must be a number. Got {type(population)}."
-                )
-            if population <= 0:
-                raise_input_error(f"Population must be positive. Got {population}.")
-            if not np.isfinite(population):
-                raise_input_error(f"Population must be finite. Got {population}.")
-
-            # Validate time_horizon parameter
-            if not isinstance(time_horizon, (int, float)):
-                raise_input_error(
-                    f"Time horizon must be a number. Got {type(time_horizon)}."
-                )
-            if time_horizon <= 0:
-                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
-            if not np.isfinite(time_horizon):
-                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
-
-            # Validate discount_rate parameter
-            current_dr = discount_rate
-            if current_dr is None:
-                current_dr = 0.0
-
-            if not isinstance(current_dr, (int, float)):
-                raise_input_error(
-                    f"Discount rate must be a number. Got {type(current_dr)}."
-                )
-            if not (0 <= current_dr <= 1):
-                raise_input_error(
-                    f"Discount rate must be between 0 and 1. Got {current_dr}."
-                )
-            if not np.isfinite(current_dr):
-                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
-
-            # Calculate annuity factor
-            if current_dr == 0:
-                annuity_factor = time_horizon
-            else:
-                annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
-
-            result = float(per_decision_evppi * population * annuity_factor)
-
-            # Validate result
-            if not np.isfinite(result):
-                raise_calculation_error(f"Calculated EVPPI is not finite: {result}")
-
-            # Cache the result
+            result = self._scale_to_population(
+                per_decision_evppi, population, time_horizon, discount_rate, "EVPPI"
+            )
             self._cache_set(cache_key, result)
             return result
+
         if (
             population is not None
             or time_horizon is not None
@@ -946,57 +950,12 @@ class DecisionAnalysis:
             raise_calculation_error(f"Error during ENBS calculation: {e}", e)
 
         if population is not None and time_horizon is not None:
-            # Validate population parameter
-            if not isinstance(population, (int, float)):
-                raise_input_error(
-                    f"Population must be a number. Got {type(population)}."
-                )
-            if population <= 0:
-                raise_input_error(f"Population must be positive. Got {population}.")
-            if not np.isfinite(population):
-                raise_input_error(f"Population must be finite. Got {population}.")
-
-            # Validate time_horizon parameter
-            if not isinstance(time_horizon, (int, float)):
-                raise_input_error(
-                    f"Time horizon must be a number. Got {type(time_horizon)}."
-                )
-            if time_horizon <= 0:
-                raise_input_error(f"Time horizon must be positive. Got {time_horizon}.")
-            if not np.isfinite(time_horizon):
-                raise_input_error(f"Time horizon must be finite. Got {time_horizon}.")
-
-            # Validate discount_rate parameter
-            current_dr = discount_rate
-            if current_dr is None:
-                current_dr = 0.0  # Default to no discounting if not provided
-
-            if not isinstance(current_dr, (int, float)):
-                raise_input_error(
-                    f"Discount rate must be a number. Got {type(current_dr)}."
-                )
-            if not (0 <= current_dr <= 1):
-                raise_input_error(
-                    f"Discount rate must be between 0 and 1. Got {current_dr}."
-                )
-            if not np.isfinite(current_dr):
-                raise_input_error(f"Discount rate must be finite. Got {current_dr}.")
-
-            # Calculate annuity factor
-            if current_dr == 0:
-                annuity_factor = time_horizon
-            else:
-                annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
-
-            result = float(per_decision_enbs * population * annuity_factor)
-
-            # Validate result
-            if not np.isfinite(result):
-                raise_calculation_error(f"Calculated ENBS is not finite: {result}")
-
-            # Cache the result
+            result = self._scale_to_population(
+                per_decision_enbs, population, time_horizon, discount_rate, "ENBS"
+            )
             self._cache_set(cache_key, result)
             return result
+
         if (
             population is not None
             or time_horizon is not None

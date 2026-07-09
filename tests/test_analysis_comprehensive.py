@@ -304,7 +304,7 @@ class TestDecisionAnalysisComprehensive:
 
         analysis = DecisionAnalysis(nb_array=nb_data, parameter_samples=param_samples)
 
-        with pytest.raises(InputError, match="nb_array cannot be empty"):
+        with pytest.raises(InputError, match="`nb_array` cannot be empty"):
             analysis.evppi()
 
     def test_get_parameter_samples_as_ndarray(self) -> None:
