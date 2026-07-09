@@ -200,13 +200,8 @@ def regret_matrix(
     expected: np.ndarray, optimal_strategy_indices: np.ndarray
 ) -> np.ndarray:
     """Compute the profile-by-profile regret matrix."""
-    n_profiles = expected.shape[0]
-    regret = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        best_value = expected[i, optimal_strategy_indices[i]]
-        for j in range(n_profiles):
-            regret[i, j] = best_value - expected[i, optimal_strategy_indices[j]]
-    return regret
+    best_values = expected[np.arange(expected.shape[0]), optimal_strategy_indices]
+    return best_values[:, None] - expected[:, optimal_strategy_indices]
 
 
 def switching_values(
@@ -228,14 +223,11 @@ def switching_values(
 def samplewise_profile_change_probability(values: np.ndarray) -> np.ndarray:
     """Compute profile-by-profile strategy-change probabilities."""
     samplewise_optima = np.argmax(values, axis=1)
-    n_profiles = values.shape[2]
-    matrix = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        for j in range(n_profiles):
-            matrix[i, j] = float(
-                np.mean(samplewise_optima[:, i] != samplewise_optima[:, j])
-            )
-    return matrix
+    return np.mean(
+        samplewise_optima[:, :, None] != samplewise_optima[:, None, :],
+        axis=0,
+        dtype=DEFAULT_DTYPE,
+    )
 
 
 def samplewise_profile_regret(

@@ -4,6 +4,7 @@ Final validation script to ensure the voiage library is working correctly after 
 """
 
 import sys
+
 import numpy as np
 
 
@@ -13,9 +14,12 @@ def validate_basic_functionality():
 
     try:
         # Import core modules
-        from voiage.schema import ParameterSet, ValueArray
-        from voiage.methods.basic import evpi
         from voiage.analysis import DecisionAnalysis
+<<<<<<< HEAD
+=======
+        from voiage.methods.basic import evpi
+        from voiage.schema import ParameterSet, ValueArray
+>>>>>>> origin/main
 
         print("✅ Core modules imported successfully")
 
@@ -72,7 +76,10 @@ def validate_advanced_functionality():
         from voiage.methods.network_nma import evsi_nma
         from voiage.methods.observational import voi_observational
         from voiage.methods.structural import structural_evpi
+<<<<<<< HEAD
         from voiage.methods.portfolio import portfolio_voi
+=======
+>>>>>>> origin/main
 
         print("✅ Advanced modules imported successfully")
 
@@ -363,10 +370,9 @@ def main():
             "🏆 Project successfully enhanced with comprehensive automation and tooling!"
         )
         return 0
-    else:
-        print("❌ Some validation tests failed!")
-        print("Please check the error messages above.")
-        return 1
+    print("❌ Some validation tests failed!")
+    print("Please check the error messages above.")
+    return 1
 
 
 if __name__ == "__main__":

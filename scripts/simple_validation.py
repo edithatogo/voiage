@@ -4,6 +4,7 @@ Simple validation script to ensure the voiage library is working correctly.
 """
 
 import sys
+
 import numpy as np
 
 
@@ -13,9 +14,12 @@ def validate_core_functionality():
 
     try:
         # Import core modules
-        from voiage.schema import ParameterSet, ValueArray
-        from voiage.methods.basic import evpi
         from voiage.analysis import DecisionAnalysis
+<<<<<<< HEAD
+=======
+        from voiage.methods.basic import evpi
+        from voiage.schema import ParameterSet, ValueArray
+>>>>>>> origin/main
 
         print("✅ Core modules imported successfully")
 
@@ -203,10 +207,9 @@ def main():
             "🏆 Project successfully enhanced with comprehensive automation and tooling!"
         )
         return 0
-    else:
-        print("❌ Some validation tests failed!")
-        print("Please check the error messages above.")
-        return 1
+    print("❌ Some validation tests failed!")
+    print("Please check the error messages above.")
+    return 1
 
 
 if __name__ == "__main__":

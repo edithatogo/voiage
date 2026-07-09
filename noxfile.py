@@ -4,7 +4,6 @@ The repository still uses tox as the CI source of truth, but Nox provides a
 uv-backed local runner with the same core sessions.
 """
 
-from __future__ import annotations
 
 import nox
 
