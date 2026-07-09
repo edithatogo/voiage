@@ -272,6 +272,42 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+def test_tinygp_condition_protocol() -> None:
+    """Test that the _TinyGPConditionProtocol can be checked at runtime."""
+    from voiage.metamodels import _TinyGPConditionProtocol
+
+    class ValidCondition:
+        def __init__(self) -> None:
+            self.loc = np.array([1.0, 2.0])
+
+    class InvalidCondition:
+        pass
+
+    assert isinstance(ValidCondition(), _TinyGPConditionProtocol)
+    assert not isinstance(InvalidCondition(), _TinyGPConditionProtocol)
+
+
+def test_tinygp_protocol() -> None:
+    """Test that the _TinyGPProtocol can be checked at runtime."""
+    from voiage.metamodels import _TinyGPConditionProtocol, _TinyGPProtocol
+
+    class MockCondition:
+        def __init__(self) -> None:
+            self.loc = np.array([1.0])
+
+    class ValidGP:
+        def condition(
+            self, y: np.ndarray, x: np.ndarray
+        ) -> tuple[object, _TinyGPConditionProtocol]:
+            return (object(), MockCondition())  # type: ignore[return-value]
+
+    class InvalidGP:
+        pass
+
+    assert isinstance(ValidGP(), _TinyGPProtocol)
+    assert not isinstance(InvalidGP(), _TinyGPProtocol)
+
+
 def test_safe_r2_score_normal():
     """Test _safe_r2_score with normal inputs."""
     y_true = np.array([3, -0.5, 2, 7])

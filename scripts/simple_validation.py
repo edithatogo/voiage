@@ -15,11 +15,8 @@ def validate_core_functionality():
     try:
         # Import core modules
         from voiage.analysis import DecisionAnalysis
-<<<<<<< HEAD
-=======
         from voiage.methods.basic import evpi
         from voiage.schema import ParameterSet, ValueArray
->>>>>>> origin/main
 
         print("✅ Core modules imported successfully")
 
