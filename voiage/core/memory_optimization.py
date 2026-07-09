@@ -147,16 +147,12 @@ class MemoryOptimizer:
             if hasattr(obj, "dataset") and hasattr(obj.dataset, "nbytes"):
                 return float(obj.dataset.nbytes)
         elif isinstance(obj, dict):
-            total = 0.0
-            for key, value in obj.items():
-                total += self.estimate_memory_usage(key)
-                total += self.estimate_memory_usage(value)
-            return total
+            return sum(
+                self.estimate_memory_usage(k) + self.estimate_memory_usage(v)
+                for k, v in obj.items()
+            )
         elif isinstance(obj, (list, tuple)):
-            total = 0.0
-            for item in obj:
-                total += self.estimate_memory_usage(item)
-            return total
+            return sum(self.estimate_memory_usage(item) for item in obj)
 
         # For other objects, use a rough estimate
         return float(len(str(obj)) if hasattr(obj, "__str__") else 0)
