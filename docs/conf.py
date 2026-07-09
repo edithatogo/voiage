@@ -177,9 +177,12 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
+<<<<<<< HEAD
+=======
 
 # Add path for custom Sphinx extensions if any
 # sys.path.append(os.path.abspath('_extensions'))
 # extensions.append('my_custom_extension')
+>>>>>>> origin/main
 
 print("Sphinx conf.py loaded.")
