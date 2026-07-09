@@ -298,6 +298,44 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+<<<<<<< HEAD
+def test_flax_metamodel(sample_data) -> None:
+    """Test the FlaxMetamodel."""
+    try:
+        from voiage.metamodels import FlaxMetamodel
+    except ImportError:
+        pytest.skip("FlaxMetamodel not available")
+
+    x, y = sample_data
+
+    # Try to create the model
+    try:
+        model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
+    except ImportError:
+        pytest.skip("FlaxMetamodel dependencies (flax/jax) not available")
+
+    # Test rmse on unfitted model
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.rmse(x, y)
+
+    # Fit the model
+    model.fit(x, y)
+
+    # Test prediction
+    y_pred = model.predict(x)
+    assert isinstance(y_pred, np.ndarray)
+
+    # Test scoring
+    score = model.score(x, y)
+    assert isinstance(score, float)
+    # R^2 can be negative, potentially < -1 for arbitrarily bad models.
+    # Just asserting it's a float.
+
+    # Test RMSE
+    rmse = model.rmse(x, y)
+    assert isinstance(rmse, float)
+    assert rmse >= 0
+=======
 def test_tinygp_condition_protocol() -> None:
     """Test that the _TinyGPConditionProtocol can be checked at runtime."""
     from voiage.metamodels import _TinyGPConditionProtocol
@@ -401,6 +439,7 @@ def test_safe_rmse() -> None:
     y_empty = np.array([])
     with pytest.raises(ValueError, match="Cannot compute RMSE for empty targets."):
         _safe_rmse(y_empty, y_empty)
+>>>>>>> origin/main
 
 
 if __name__ == "__main__":
