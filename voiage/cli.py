@@ -80,7 +80,7 @@ from voiage.methods.threshold import (
     ThresholdResult,
 )
 from voiage.methods.threshold import (
-    value_of_threshold_information as calculate_threshold_result,
+    value_of_threshold as calculate_threshold_result,
 )
 from voiage.methods.validation import (
     ModelValidationResult,
