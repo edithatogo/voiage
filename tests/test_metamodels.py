@@ -270,5 +270,49 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+def test_unfitted_model_errors(sample_data) -> None:
+    """Test that unfitted models raise RuntimeError when methods are called."""
+    x, y = sample_data
+
+    # Test RandomForestMetamodel
+    if SKLEARN_AVAILABLE:
+        rf_model = RandomForestMetamodel()
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            rf_model.predict(x)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            rf_model.score(x, y)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            rf_model.rmse(x, y)
+
+    # Test GAMMetamodel
+    try:
+        import pygam  # type: ignore # noqa: F401
+
+        gam_model = GAMMetamodel()
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            gam_model.predict(x)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            gam_model.score(x, y)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            gam_model.rmse(x, y)
+    except ImportError:
+        pass
+
+    # Test BARTMetamodel
+    try:
+        import pymc  # type: ignore # noqa: F401
+        import pymc_bart  # type: ignore # noqa: F401
+
+        bart_model = BARTMetamodel()
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            bart_model.predict(x)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            bart_model.score(x, y)
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            bart_model.rmse(x, y)
+    except ImportError:
+        pass
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
