@@ -298,7 +298,6 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
-<<<<<<< HEAD
 def test_flax_metamodel(sample_data) -> None:
     """Test the FlaxMetamodel."""
     try:
@@ -335,7 +334,8 @@ def test_flax_metamodel(sample_data) -> None:
     rmse = model.rmse(x, y)
     assert isinstance(rmse, float)
     assert rmse >= 0
-=======
+
+
 def test_tinygp_condition_protocol() -> None:
     """Test that the _TinyGPConditionProtocol can be checked at runtime."""
     from voiage.metamodels import _TinyGPConditionProtocol
@@ -439,7 +439,6 @@ def test_safe_rmse() -> None:
     y_empty = np.array([])
     with pytest.raises(ValueError, match="Cannot compute RMSE for empty targets."):
         _safe_rmse(y_empty, y_empty)
->>>>>>> origin/main
 
 
 if __name__ == "__main__":
