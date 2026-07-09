@@ -137,11 +137,11 @@ try:
     # Try to import optional dependencies
     SKLEARN_AVAILABLE = False
     try:
-        from sklearn.linear_model import LinearRegression as SklearnLinearRegression
+        import sklearn  # noqa: F401
 
         SKLEARN_AVAILABLE = True
     except ImportError:
-        SklearnLinearRegression = None
+        pass
 
     class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""

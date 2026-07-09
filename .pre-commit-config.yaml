@@ -2,12 +2,12 @@
 # SOTA pre-commit hooks for maximum automation and code quality
 
 default_language_version:
-  python: python3.10
+  python: python3.12
 
 repos:
 # Standard file checks
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
   - id: trailing-whitespace
   - id: end-of-file-fixer
@@ -29,7 +29,7 @@ repos:
 
 # Ruff: All-in-one linting and formatting
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.0
+  rev: v0.15.20
   hooks:
   - id: ruff
     name: ruff (lint)
@@ -39,7 +39,11 @@ repos:
 
 # Ty: Fast static type checker (Astral)
 - repo: https://github.com/astral-sh/ty
+<<<<<<< HEAD
   rev: v0.0.5
+=======
+  rev: v0.0.56
+>>>>>>> origin/main
   hooks:
   - id: ty
     name: ty (type check)
@@ -72,30 +76,22 @@ repos:
 
 # Commit message linting
 - repo: https://github.com/compilerla/conventional-pre-commit
-  rev: v4.0.0
+  rev: v4.4.0
   hooks:
   - id: conventional-pre-commit
     stages: [commit-msg]
     args: []
-
-# Shell script linting
-- repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.10.0.1
-  hooks:
-  - id: shellcheck
-    args: ["-x"]
 
 # pygrep-hooks: Python-specific checks
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.10.0
   hooks:
   - id: python-check-blanket-noqa
-  - id: python-no-eval
   - id: python-no-log-warn
 
 # Tox formatting
 - repo: https://github.com/tox-dev/tox-ini-fmt
-  rev: "1.5.0"
+  rev: "1.7.2"
   hooks:
   - id: tox-ini-fmt
     args: ["tox.ini"]

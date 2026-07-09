@@ -551,8 +551,6 @@ def calculate_nma_consistency(
     float
         A simple variance-based consistency score.
     """
-    # For a simple consistency check, we'll calculate the variance of treatment effects
-    # for the same treatment comparisons across different studies
     if len(treatment_effects) < 2:
         return 0.0
 
@@ -633,13 +631,10 @@ if __name__ == "__main__":  # pragma: no cover
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray and PSASample
 
-    from voiage.schema import (
-        DecisionOption as TrialArm,
-    )
+    from voiage.schema import DecisionOption, TrialDesign
     from voiage.schema import (
         ParameterSet as PSASample,
     )
-    from voiage.schema import TrialDesign
     from voiage.schema import (
         ValueArray as NetBenefitArray,
     )
@@ -654,8 +649,8 @@ if __name__ == "__main__":  # pragma: no cover
     }
     trial_design = TrialDesign(
         [
-            TrialArm(name="Treatment A", sample_size=50),
-            TrialArm(name="Treatment B", sample_size=50),
+            DecisionOption(name="Treatment A", sample_size=50),
+            DecisionOption(name="Treatment B", sample_size=50),
         ]
     )
 
