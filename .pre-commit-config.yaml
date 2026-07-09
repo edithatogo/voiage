@@ -39,7 +39,11 @@ repos:
 
 # Ty: Fast static type checker (Astral)
 - repo: https://github.com/astral-sh/ty
+<<<<<<< HEAD
+  rev: v0.0.5
+=======
   rev: v0.0.56
+>>>>>>> origin/main
   hooks:
   - id: ty
     name: ty (type check)
