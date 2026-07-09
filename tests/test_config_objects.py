@@ -331,6 +331,17 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_environmental_config() -> None:
+    """Test create_environmental_config factory function."""
+    config = create_environmental_config()
+    assert isinstance(config, EnvironmentalConfig)
+    # Check default properties
+    assert config.carbon_intensity == 0.5
+    assert config.energy_consumption == 10000
+    assert config.water_intensity == 0.1
+    assert config.water_cost == 0.002
+    assert config.biodiversity_impact_factor == 0.01
+    assert config.social_cost_of_carbon == 50
 def test_create_healthcare_config() -> None:
     """Test create_healthcare_config factory function."""
     config = create_healthcare_config()
