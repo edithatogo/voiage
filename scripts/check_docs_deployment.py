@@ -5,7 +5,10 @@ This script uses the GitHub API to determine if the docs workflow has run succes
 and if the GitHub Pages documentation is available.
 """
 
+
 import requests
+
+
 
 
 def check_github_actions_status(owner, repo):
@@ -68,6 +71,8 @@ def check_github_actions_status(owner, repo):
     unique_workflows = list(set(all_workflows))
     print(f"Available workflows: {unique_workflows}")
     return None
+
+
 
 
 def check_github_pages(owner, repo):
