@@ -464,3 +464,14 @@ if __name__ == "__main__":
     test_factory_functions()
     test_create_optimization_config()
     print("All configuration objects tests passed!")
+
+
+def test_create_streaming_config() -> None:
+    """Test create_streaming_config factory function."""
+    config = create_streaming_config()
+    assert isinstance(config, StreamingConfig)
+
+    # Check default values are set correctly
+    assert config.window_size == 1000
+    assert config.update_frequency == 100
+    assert config.buffer_size is None
