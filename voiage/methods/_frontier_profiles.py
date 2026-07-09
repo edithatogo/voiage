@@ -213,13 +213,8 @@ def regret_matrix(
     expected: np.ndarray, optimal_strategy_indices: np.ndarray
 ) -> np.ndarray:
     """Compute the profile-by-profile regret matrix."""
-    n_profiles = expected.shape[0]
-    regret = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        best_value = expected[i, optimal_strategy_indices[i]]
-        for j in range(n_profiles):
-            regret[i, j] = best_value - expected[i, optimal_strategy_indices[j]]
-    return regret
+    best_values = expected[np.arange(expected.shape[0]), optimal_strategy_indices]
+    return best_values[:, None] - expected[:, optimal_strategy_indices]
 
 
 def switching_values(
