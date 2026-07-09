@@ -522,12 +522,12 @@ if __name__ == "__main__":  # pragma: no cover
     import numpy as np  # np is used by NetBenefitArray call and PSASample
 
     from voiage.schema import (
-        DecisionOption as TrialArm,
+        DecisionOption,
+        TrialDesign,
     )
     from voiage.schema import (
         ParameterSet as PSASample,
     )
-    from voiage.schema import TrialDesign
     from voiage.schema import (
         ValueArray as NetBenefitArray,
     )
@@ -563,8 +563,8 @@ if __name__ == "__main__":  # pragma: no cover
     # Create test trial design
     dummy_design = TrialDesign(
         arms=[
-            TrialArm(name="Treatment A", sample_size=100),
-            TrialArm(name="Treatment B", sample_size=100),
+            DecisionOption(name="Treatment A", sample_size=100),
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
     )
 
