@@ -22,7 +22,7 @@ from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArra
 # Check for JAX availability
 JAX_AVAILABLE = False
 try:
-    import jax  # noqa: F401
+    import jax.numpy  # noqa: F401
 
     JAX_AVAILABLE = True
 except ImportError:
