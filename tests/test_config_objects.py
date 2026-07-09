@@ -331,6 +331,17 @@ def test_parallel_config() -> None:
         ParallelConfig(chunk_size=0)
 
 
+def test_create_parallel_config() -> None:
+    """Test create_parallel_config factory function."""
+    config = create_parallel_config()
+    assert isinstance(config, ParallelConfig)
+    assert config.n_workers is None
+    assert config.use_processes is True
+    assert config.max_workers is None
+    assert config.memory_limit_mb is None
+    assert config.chunk_size is None
+
+
 def test_create_financial_config() -> None:
     """Test create_financial_config factory function."""
     config = create_financial_config()
@@ -397,5 +408,6 @@ if __name__ == "__main__":
     test_environmental_config()
     test_financial_config()
     test_parallel_config()
+    test_create_parallel_config()
     test_factory_functions()
     print("All configuration objects tests passed!")
