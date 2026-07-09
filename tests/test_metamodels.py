@@ -299,6 +299,7 @@ def test_cross_validate(sample_data) -> None:
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def test_unfitted_model_errors(sample_data) -> None:
     """Test that unfitted models raise RuntimeError when methods are called."""
     x, y = sample_data
@@ -343,6 +344,46 @@ def test_unfitted_model_errors(sample_data) -> None:
         pass
 
 =======
+=======
+def test_flax_metamodel(sample_data) -> None:
+    """Test the FlaxMetamodel."""
+    try:
+        from voiage.metamodels import FlaxMetamodel
+    except ImportError:
+        pytest.skip("FlaxMetamodel not available")
+
+    x, y = sample_data
+
+    # Try to create the model
+    try:
+        model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
+    except ImportError:
+        pytest.skip("FlaxMetamodel dependencies (flax/jax) not available")
+
+    # Test rmse on unfitted model
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.rmse(x, y)
+
+    # Fit the model
+    model.fit(x, y)
+
+    # Test prediction
+    y_pred = model.predict(x)
+    assert isinstance(y_pred, np.ndarray)
+
+    # Test scoring
+    score = model.score(x, y)
+    assert isinstance(score, float)
+    # R^2 can be negative, potentially < -1 for arbitrarily bad models.
+    # Just asserting it's a float.
+
+    # Test RMSE
+    rmse = model.rmse(x, y)
+    assert isinstance(rmse, float)
+    assert rmse >= 0
+
+
+>>>>>>> origin/main
 def test_tinygp_condition_protocol() -> None:
     """Test that the _TinyGPConditionProtocol can be checked at runtime."""
     from voiage.metamodels import _TinyGPConditionProtocol
