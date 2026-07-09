@@ -4,7 +4,7 @@ from collections.abc import Callable
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from functools import partial
-import multiprocessing as mp
+import os
 from typing import TypeVar
 
 import numpy as np
@@ -223,7 +223,7 @@ def parallel_monte_carlo_simulation(
         float: Expected maximum net benefit from posterior analysis
     """
     if n_workers is None:
-        n_workers = mp.cpu_count()
+        n_workers = os.cpu_count() or 1
 
     # Distribute simulations across workers
     simulations_per_worker = [n_simulations // n_workers] * n_workers
@@ -400,7 +400,7 @@ def parallel_bootstrap_sampling(
         Dict with bootstrap statistics (mean, std, percentiles)
     """
     if n_workers is None:
-        n_workers = mp.cpu_count()
+        n_workers = os.cpu_count() or 1
 
     # Distribute bootstrap samples across workers
     samples_per_worker = [n_bootstrap_samples // n_workers] * n_workers
