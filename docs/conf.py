@@ -18,7 +18,6 @@ Sphinx build support may be removed in a future release.
 
 import os
 import sys
-from typing import Dict
 
 # -- Path setup --------------------------------------------------------------
 sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
@@ -135,7 +134,7 @@ htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',
@@ -178,5 +177,12 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
+<<<<<<< HEAD
+=======
+
+# Add path for custom Sphinx extensions if any
+# sys.path.append(os.path.abspath('_extensions'))
+# extensions.append('my_custom_extension')
+>>>>>>> origin/main
 
 print("Sphinx conf.py loaded.")
