@@ -5,9 +5,9 @@ This script uses the GitHub API to determine if the docs workflow has run succes
 and if the GitHub Pages documentation is available.
 """
 
+
 import requests
-import json
-from datetime import datetime
+
 
 
 def check_github_actions_status(owner, repo):
@@ -18,7 +18,8 @@ def check_github_actions_status(owner, repo):
         owner: Repository owner
         repo: Repository name
 
-    Returns:
+    Returns
+    -------
         dict: Workflow status information
     """
     # GitHub API endpoint for workflow runs
@@ -57,20 +58,19 @@ def check_github_actions_status(owner, repo):
         ):
             print("\n✅ Documentation workflow completed successfully!")
             return True
-        else:
-            print(
-                f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}"
-            )
-            return False
-    else:
-        print("No documentation deployment workflow found.")
-        # Print all workflows to see what's available
-        all_workflows = []
-        for run in workflow_runs.get("workflow_runs", []):
-            all_workflows.append(run["name"])
-        unique_workflows = list(set(all_workflows))
-        print(f"Available workflows: {unique_workflows}")
-        return None
+        print(
+            f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}"
+        )
+        return False
+    print("No documentation deployment workflow found.")
+    # Print all workflows to see what's available
+    all_workflows = []
+    for run in workflow_runs.get("workflow_runs", []):
+        all_workflows.append(run["name"])
+    unique_workflows = list(set(all_workflows))
+    print(f"Available workflows: {unique_workflows}")
+    return None
+
 
 
 def check_github_pages(owner, repo):
@@ -81,7 +81,8 @@ def check_github_pages(owner, repo):
         owner: Repository owner
         repo: Repository name
 
-    Returns:
+    Returns
+    -------
         bool: True if GitHub Pages is accessible, False otherwise
     """
     # GitHub Pages URL
@@ -92,10 +93,9 @@ def check_github_pages(owner, repo):
         if response.status_code == 200:
             print(f"✅ GitHub Pages is accessible at {pages_url}")
             return True
-        else:
-            print(f"❌ GitHub Pages returned status code: {response.status_code}")
-            print(f"   URL: {pages_url}")
-            return False
+        print(f"❌ GitHub Pages returned status code: {response.status_code}")
+        print(f"   URL: {pages_url}")
+        return False
     except requests.exceptions.RequestException as e:
         print(f"❌ Error accessing GitHub Pages: {e}")
         print(f"   URL: {pages_url}")

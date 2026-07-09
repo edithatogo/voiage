@@ -18,7 +18,6 @@ Sphinx build support may be removed in a future release.
 
 import os
 import sys
-from typing import Dict
 
 # -- Path setup --------------------------------------------------------------
 sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
@@ -135,7 +134,7 @@ htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',
@@ -178,15 +177,6 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
-# This function can be used to dynamically skip members during autodoc
-# def autodoc_skip_member(app, what, name, obj, skip, options):
-#     # Example: skip private members not starting with an underscore (if any)
-#     # if what == "method" and not name.startswith("_") and name.startswith("__"):
-#     #     return True
-#     return skip
-
-# def setup(app):
-#     app.connect("autodoc-skip-member", autodoc_skip_member)
 
 # Add path for custom Sphinx extensions if any
 # sys.path.append(os.path.abspath('_extensions'))

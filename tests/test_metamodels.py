@@ -10,6 +10,7 @@ from voiage.metamodels import (
     BARTMetamodel,
     GAMMetamodel,
     RandomForestMetamodel,
+    _safe_rmse,
     calculate_diagnostics,
     cross_validate,
 )
@@ -270,5 +271,52 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+def test_safe_rmse() -> None:
+    """Test the _safe_rmse helper function."""
+    # Happy path: identical arrays
+    y_true = np.array([1.0, 2.0, 3.0])
+    y_pred = np.array([1.0, 2.0, 3.0])
+    assert _safe_rmse(y_true, y_pred) == 0.0
+
+    # Happy path: different values
+    y_pred_diff = np.array([1.0, 2.0, 4.0])
+    # MSE = ((1-1)^2 + (2-2)^2 + (3-4)^2) / 3 = (0 + 0 + 1) / 3 = 1/3
+    # RMSE = sqrt(1/3) = 0.57735...
+    expected_rmse = float(np.sqrt(1 / 3))
+    assert np.isclose(_safe_rmse(y_true, y_pred_diff), expected_rmse)
+
+    # Edge case: empty arrays should raise ValueError
+    y_empty = np.array([])
+    with pytest.raises(ValueError, match="Cannot compute RMSE for empty targets."):
+        _safe_rmse(y_empty, y_empty)
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
+
+
+def test_sparse_matrix_protocol_toarray() -> None:
+    """Test that the _SparseMatrixProtocol correctly identifies valid implementations."""
+    from voiage.metamodels import _SparseMatrixProtocol
+
+    class ValidSparseMatrix:
+        def toarray(self) -> np.ndarray:
+            return np.array([1, 2, 3])
+
+    class InvalidSparseMatrix:
+        def to_array(self) -> np.ndarray:
+            return np.array([1, 2, 3])
+
+    valid_instance = ValidSparseMatrix()
+    invalid_instance = InvalidSparseMatrix()
+
+    # The protocol should correctly identify classes that implement `toarray`
+    assert isinstance(valid_instance, _SparseMatrixProtocol)
+
+    # The protocol should correctly reject classes that do not implement `toarray`
+    assert not isinstance(invalid_instance, _SparseMatrixProtocol)
+
+    # Sanity check the method itself
+    result = valid_instance.toarray()
+    assert isinstance(result, np.ndarray)
+    np.testing.assert_array_equal(result, np.array([1, 2, 3]))
