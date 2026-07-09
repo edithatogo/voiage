@@ -12,6 +12,7 @@ Author: voiage Development Team
 Version: 2.0.0
 """
 
+import concurrent.futures
 from dataclasses import dataclass
 from html import escape
 import json
@@ -317,43 +318,33 @@ class RPackageConnector(EcosystemConnector):
 
             # Generate simulation data
             treatments = list(health_analysis.treatments.values())
-            simulation_costs.extend(
+            base_costs = np.array(
                 [
-                    treatment.cost_per_cycle
-                    * treatment.cycles_required
-                    * (1 + np.random.normal(0, 0.1))
+                    treatment.cost_per_cycle * treatment.cycles_required
                     for treatment in treatments
                 ]
-                for _ in range(num_simulations)
             )
-            simulation_effectiveness.extend(
-                [
-                    treatment.effectiveness * (1 + np.random.normal(0, 0.05))
-                    for treatment in treatments
-                ]
-                for _ in range(num_simulations)
+            costs_arr = base_costs * (
+                1 + np.random.normal(0, 0.1, (num_simulations, len(treatments)))
             )
+            simulation_costs.extend(costs_arr.tolist())
+
+            base_effs = np.array([treatment.effectiveness for treatment in treatments])
+            effs_arr = base_effs * (
+                1 + np.random.normal(0, 0.05, (num_simulations, len(treatments)))
+            )
+            simulation_effectiveness.extend(effs_arr.tolist())
 
             # Calculate ICER for each simulation
             if len(treatments_data) >= 2:
-                for treatment_index in range(1, len(treatments_data)):
-                    sim_icer = []
+                cost_diffs = costs_arr[:, 1:] - costs_arr[:, 0:1]
+                eff_diffs = effs_arr[:, 1:] - effs_arr[:, 0:1]
 
-                    for j in range(num_simulations):
-                        cost_diff = (
-                            simulation_costs[j][treatment_index]
-                            - simulation_costs[j][0]
-                        )
-                        eff_diff = (
-                            simulation_effectiveness[j][treatment_index]
-                            - simulation_effectiveness[j][0]
-                        )
+                # Calculate ICER: cost_diff / eff_diff if eff_diff > 0 else np.inf
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    icers = np.where(eff_diffs > 0, cost_diffs / eff_diffs, np.inf)
 
-                        icer = cost_diff / eff_diff if eff_diff > 0 else np.inf
-
-                        sim_icer.append(icer)
-
-                    simulation_icer.append(sim_icer)
+                simulation_icer.extend(icers.T.tolist())
 
             # Save to JSON
             with open(output_path, "w") as f:
@@ -638,35 +629,45 @@ def load_heoml_run_bundle(manifest_path: str) -> HeomlRunBundle:
 
     bundle_root = path_obj.parent
 
-    value_array = None
     voi_artifact = artifact_by_category.get("voi") or artifact_by_category.get(
         "net_benefits"
     )
-    if voi_artifact is not None:
+    parameter_artifact = artifact_by_category.get(
+        "parameter"
+    ) or artifact_by_category.get("parameter_samples")
+
+    def load_voi() -> ValueArray | None:
+        if voi_artifact is None:
+            return None
         voi_path = bundle_root / voi_artifact["path"]
         voi_frame = _load_tabular_artifact(voi_path)
         if "sample_index" in voi_frame.columns:
             voi_frame = voi_frame.drop(columns=["sample_index"])
-        value_array = ValueArray.from_numpy(
+        return ValueArray.from_numpy(
             voi_frame.to_numpy(),
             strategy_names=[str(column) for column in voi_frame.columns],
         )
 
-    parameter_set = None
-    parameter_artifact = artifact_by_category.get(
-        "parameter"
-    ) or artifact_by_category.get("parameter_samples")
-    if parameter_artifact is not None:
+    def load_parameter() -> ParameterSet | None:
+        if parameter_artifact is None:
+            return None
         parameter_path = bundle_root / parameter_artifact["path"]
         parameter_frame = _load_tabular_artifact(parameter_path)
         if "sample_index" in parameter_frame.columns:
             parameter_frame = parameter_frame.drop(columns=["sample_index"])
-        parameter_set = ParameterSet.from_numpy_or_dict(
+        return ParameterSet.from_numpy_or_dict(
             {
                 str(column): parameter_frame[column].to_numpy()
                 for column in parameter_frame.columns
             }
         )
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        future_voi = executor.submit(load_voi)
+        future_param = executor.submit(load_parameter)
+
+        value_array = future_voi.result()
+        parameter_set = future_param.result()
 
     run_section = manifest.get("run")
     manifest_id = None
@@ -825,8 +826,8 @@ class WorkflowConnector(EcosystemConnector):
                         "# Cost-effectiveness plane\\n",
                         "plt.figure(figsize=(10, 6))\\n",
                         'plt.scatter(results_df["QALY"], results_df["Cost"])\\n',
-                        "for i, row in results_df.iterrows():\\n",
-                        '    plt.annotate(row["Treatment"], (row["QALY"], row["Cost"]))\\n',
+                        "for row in results_df.itertuples():\\n",
+                        "    plt.annotate(row.Treatment, (row.QALY, row.Cost))\\n",
                         'plt.xlabel("Effectiveness (QALYs)")\\n',
                         'plt.ylabel("Cost")\\n',
                         'plt.title("Cost-Effectiveness Plane")\\n',
