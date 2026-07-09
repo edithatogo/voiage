@@ -16,9 +16,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SNAPSHOT_PATH = (
-    REPO_ROOT / "docs" / "release" / "registry_audit_snapshot.json"
-)
+DEFAULT_SNAPSHOT_PATH = REPO_ROOT / "docs" / "release" / "registry_audit_snapshot.json"
 DEFAULT_TIMEOUT_SECONDS = 8
 
 
@@ -159,12 +157,10 @@ CHANNELS: tuple[Channel, ...] = (
         package="github.com/edithatogo/voiage/bindings/go",
         registry="Go module proxy",
         registry_url=(
-            "https://proxy.golang.org/github.com/edithatogo/"
-            "voiage/bindings/go/@v/list"
+            "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list"
         ),
         check_url=(
-            "https://proxy.golang.org/github.com/edithatogo/"
-            "voiage/bindings/go/@v/list"
+            "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list"
         ),
         notes="Semver tags under bindings/go/v* are in-repo publication boundary.",
         evaluator=_evaluator_go_module_proxy,
@@ -186,8 +182,7 @@ CHANNELS: tuple[Channel, ...] = (
         registry="NuGet",
         registry_url="https://www.nuget.org/packages/Voiage.Core",
         check_url=(
-            "https://api.nuget.org/v3/registration5-semver1/"
-            "voiage.core/index.json"
+            "https://api.nuget.org/v3/registration5-semver1/voiage.core/index.json"
         ),
         notes="Automated NuGet publish exists on dotnet-v* tags.",
         evaluator=_evaluator_http_hit_if_200,
@@ -202,21 +197,15 @@ def _status_details(status: str) -> str:
     if status == "not_found":
         return "Manual check returned HTTP 404."
     if status == "not_present":
-        return (
-            "General registry contents lookup returned no active package entry."
-        )
+        return "General registry contents lookup returned no active package entry."
     if status == "no_released_versions":
-        return (
-            "Endpoint was reachable but reported no released versions."
-        )
+        return "Endpoint was reachable but reported no released versions."
     if status == "not_checked":
         return (
             "Status was not refreshed because the registry endpoint "
             "could not be reached."
         )
-    return (
-        "Manual check did not produce a confirmed publication state."
-    )
+    return "Manual check did not produce a confirmed publication state."
 
 
 def _snapshot_entry(channel: Channel, status: str) -> dict[str, object]:

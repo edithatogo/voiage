@@ -1,5 +1,7 @@
 """Focused regression tests for NICE HTA threshold logic."""
 
+from unittest.mock import patch
+
 import pytest
 
 from voiage.hta_integration import (
@@ -323,3 +325,19 @@ def test_hta_utility_functions_create_evaluate_compare_and_report() -> None:
     assert default_strategy["target_frameworks"] == ["nice", "cadth", "icer"]
     assert "Technology: ExampleTx" in report
     assert "DECISION: approval" in report
+
+
+def test_evaluate_multiple_frameworks_skips_none_evaluation() -> None:
+    """Multi-framework evaluation should skip evaluations that return None due to exceptions."""
+    framework = HTAIntegrationFramework()
+    submission = HTASubmission()
+
+    with patch.object(
+        framework, "evaluate_for_framework", side_effect=Exception("Simulated failure")
+    ):
+        with pytest.warns(UserWarning, match="Error evaluating"):
+            evaluations = framework.evaluate_multiple_frameworks(
+                submission, [HTAFramework.NICE, HTAFramework.CADTH]
+            )
+
+    assert evaluations == {}
