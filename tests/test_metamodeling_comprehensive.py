@@ -246,6 +246,13 @@ def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
         model.fit(x, y)
         y_pred = model.predict(x)
         assert y_pred.shape == (100,)  # GP model outputs shape
+
+        r2 = model.score(x, y)
+        assert isinstance(r2, float)
+
+        rmse = model.rmse(x, y)
+        assert isinstance(rmse, float)
+        assert rmse >= 0
     except ImportError:
         # This is expected if dependencies are missing
         pass
