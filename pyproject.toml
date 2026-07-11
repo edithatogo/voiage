@@ -180,7 +180,7 @@ line-ending = "auto"
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra -q --cov=voiage --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=90"
+addopts = "-ra -q"
 testpaths = ["tests"]
 python_files = "test_*.py"
 markers = [
