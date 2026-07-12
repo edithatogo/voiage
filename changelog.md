@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a fail-closed repository harness for workflow permissions, immutable
+  GitHub Action pins, required governance files, and security workflow
+  presence; wired it into tox and contributor documentation.
+- Added dependency review, OpenSSF Scorecard, Zizmor workflow auditing,
+  Dependabot configuration, and release artifact provenance attestations.
+- Hardened existing GitHub workflows with least-privilege permissions, pinned
+  action commits, and a repaired blocking CodeQL alert gate.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner

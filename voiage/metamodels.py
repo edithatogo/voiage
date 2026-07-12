@@ -113,6 +113,15 @@ class _PredictorProtocol(Protocol):
 
 
 @runtime_checkable
+class _SparseMatrixProtocol(Protocol):
+    """Protocol for sparse matrices that expose a dense conversion."""
+
+    def toarray(self) -> object:
+        """Return the matrix as a dense array."""
+        ...
+
+
+@runtime_checkable
 class _TinyGPConditionProtocol(Protocol):
     """Protocol for tinygp conditional predictions."""
 

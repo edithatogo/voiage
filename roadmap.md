@@ -106,8 +106,14 @@ Across the completed lanes, external registry, hardware, and speedup evidence ga
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.
 3.  **Security & Quality:**
-    *   **Status: `✅ Done`**
-    *   CodeQL security scanning, Ruff linting/security rules, ty type checking, and mutation testing support.
+    *   **Status: `✅ Done / hosted controls applied`**
+    *   CodeQL security scanning, Ruff linting/security rules, ty type checking,
+        mutation testing support, a fail-closed repository harness, immutable
+        GitHub Action pins, dependency review, OpenSSF Scorecard, Zizmor
+        workflow auditing, release provenance attestations, and an active
+        protected-main ruleset are in place. Organization-level Actions policy,
+        environment approvals, and plan-dependent secret-scanning features
+        remain explicit administrator-owned gates.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
     *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.

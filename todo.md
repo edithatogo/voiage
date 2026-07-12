@@ -11,6 +11,19 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Set up maximal repository harness engineering and GitHub security and
+    quality controls.
+    *   Added the fail-closed workflow/governance harness and tox gate,
+        immutable action pins, least-privilege permissions, CodeQL gate repair,
+        dependency review, OpenSSF Scorecard, Zizmor auditing, Dependabot, and
+        release provenance attestation.
+    *   Applied repository merge/signoff settings and the active
+        `main-maximal-quality` GitHub ruleset requiring pull requests,
+        CODEOWNERS review, signed commits, linear history, and required CI,
+        dependency-review, and CodeQL checks.
+    *   Kept organization-owned policy, environment approvals, and unavailable
+        plan-dependent secret-scanning enhancements explicitly external.
+
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
         legacy egg-info generated artifacts, and R CMD check output from

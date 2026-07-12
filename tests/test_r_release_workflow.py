@@ -20,9 +20,9 @@ def test_r_release_workflow_and_checklist_align() -> None:
         in workflow_text
     )
     assert "Rscript tools/build-manual.R" in workflow_text
-    assert "r-lib/actions/setup-tinytex@v2" in workflow_text
-    assert "r-lib/actions/setup-tinytex@v2" in ci_workflow_text
-    assert "softprops/action-gh-release@v2" in workflow_text
+    assert "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6" in workflow_text
+    assert "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6" in ci_workflow_text
+    assert "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65" in workflow_text
 
     assert (
         "The R package remains the thin reticulate bridge over the shared contract."
