@@ -23,7 +23,6 @@ except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10.
 from collections.abc import Callable
 
 REPO_ROOT = Path.cwd()
-PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 _DESCRIPTION_VERSION_RE = re.compile(r"^Version:\s*(?P<version>\S+)\s*$")
 
 
