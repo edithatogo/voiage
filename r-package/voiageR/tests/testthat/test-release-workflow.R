@@ -21,8 +21,8 @@ test_that("the R release workflow is tied to r-v tags and source artifacts", {
   expect_true(any(grepl("Verify DESCRIPTION version matches release tag", workflow_text, fixed = TRUE)))
   expect_true(any(grepl("R CMD build", workflow_text, fixed = TRUE)))
   expect_true(any(grepl("tools/build-manual.R", workflow_text, fixed = TRUE)))
-  expect_true(any(grepl("r-lib/actions/setup-tinytex@v2", workflow_text, fixed = TRUE)))
-  expect_true(any(grepl("softprops/action-gh-release@v2", workflow_text, fixed = TRUE)))
+  expect_true(any(grepl("r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6", workflow_text, fixed = TRUE)))
+  expect_true(any(grepl("softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65", workflow_text, fixed = TRUE)))
 })
 
 test_that("the R submission checklist records the bridge role and external registries", {

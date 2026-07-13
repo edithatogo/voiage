@@ -113,7 +113,7 @@ class _PredictorProtocol(Protocol):
 
 
 @runtime_checkable
-class _SparseMatrixProtocol(Protocol):
+class _SparseMatrixProtocol(Protocol):  # noqa: PYI046
     """Protocol for sparse matrices that expose a dense conversion."""
 
     def toarray(self) -> object:
