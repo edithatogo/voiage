@@ -9,7 +9,6 @@ realistic economic model for adaptive clinical trials.
 import sys
 import os
 import numpy as np
-import xarray as xr
 
 # Add the parent directory to the path to import voiage
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
