@@ -11,6 +11,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Remediate the current lockfile dependency advisories.
+    *   Updated the Python lockfile through the patched Jupyter Server,
+        JupyterLab, mistune, soupsieve, bleach, tornado, idna, urllib3, and
+        pytest releases; upgraded Astro/Starlight within a compatible major
+        line; pinned the transitive esbuild resolution to a patched release;
+        and updated the Starlight configuration for the current APIs.
+    *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
+        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        dependency environments, coverage, docs, type, contract, and harness
+        gates.
+
 *   [x] Set up maximal repository harness engineering and GitHub security and
     quality controls.
     *   Added the fail-closed workflow/governance harness and tox gate,

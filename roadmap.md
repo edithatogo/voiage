@@ -113,7 +113,10 @@ Across the completed lanes, external registry, hardware, and speedup evidence ga
         workflow auditing, release provenance attestations, and an active
         protected-main ruleset are in place. Organization-level Actions policy,
         environment approvals, and plan-dependent secret-scanning features
-        remain explicit administrator-owned gates.
+        remain explicit administrator-owned gates. The repository lockfiles
+        now carry patched Python and Starlight documentation dependencies for
+        the current advisory set; future advisories remain Dependabot-owned
+        follow-up work.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
     *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.
