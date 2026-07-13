@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Archived all completed Conductor track records under `conductor/archive/` and
+  updated the regression tests and integration documentation to read those
+  historical records from their canonical archived locations.
 - Updated the Python and Starlight documentation dependency lockfiles to
   patched releases for the current Dependabot advisories, including the
   critical Jupyter Server advisory, and added a pnpm esbuild override to keep

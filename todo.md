@@ -11,6 +11,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Archive completed Conductor track records and repair their regression
+    test and documentation references.
+    *   Moved all completed registered tracks from `conductor/tracks/` to
+        `conductor/archive/`, updated the registry/index links, and verified
+        the archived evidence and status tests.
+
 *   [x] Remediate the current lockfile dependency advisories.
     *   Updated the Python lockfile through the patched Jupyter Server,
         JupyterLab, mistune, soupsieve, bleach, tornado, idna, urllib3, and

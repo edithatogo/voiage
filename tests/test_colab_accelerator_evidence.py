@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 EVIDENCE_ROOT = Path(
-    "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff"
+    "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff"
 )
 
 
