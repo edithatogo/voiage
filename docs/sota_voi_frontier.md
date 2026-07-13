@@ -190,7 +190,7 @@ SOTA roadmap should also keep these adjacent families visible:
 
 The implementation plan lives in:
 
-`conductor/tracks/sota-voi-frontier_20260429/`
+`conductor/archive/sota-voi-frontier_20260429/`
 
 Value of Perspective should be implemented first because it is clearly
 differentiating, directly connected to the user's work, and can reuse the

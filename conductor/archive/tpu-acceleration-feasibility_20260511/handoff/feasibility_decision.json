@@ -6,8 +6,8 @@
   "contract": "hpc_acceleration_abstraction_contract",
   "contract_rule": "contract_preserve_with_colab_tpu_parity",
   "evidence": {
-    "colab_tpu": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json",
-    "manifest": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json"
+    "colab_tpu": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json",
+    "manifest": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json"
   },
   "next_action": "revisit production TPU acceleration only after discrete, Apple, or TPU-specific large-workload benchmark packets confirm repeatable wins",
   "updated_at": "2026-06-23T17:20:00Z"

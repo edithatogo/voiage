@@ -92,7 +92,7 @@
         "--top-module",
         "evpi_fixed_point_kernel_tb",
         "--Mdir",
-        "conductor/tracks/asic-implementation_20260511/handoff/artifacts/asic/verilator_obj",
+        "conductor/archive/asic-implementation_20260511/handoff/artifacts/asic/verilator_obj",
         "hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v",
         "hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v"
       ],
@@ -112,7 +112,7 @@
         "artifacts/asic/verilator_obj/Vevpi_fixed_point_kernel_tb"
       ],
       "argv": [
-        "conductor/tracks/asic-implementation_20260511/handoff/artifacts/asic/verilator_obj/Vevpi_fixed_point_kernel_tb"
+        "conductor/archive/asic-implementation_20260511/handoff/artifacts/asic/verilator_obj/Vevpi_fixed_point_kernel_tb"
       ],
       "returncode": null,
       "log_path": "reports/asic/verilator_testbench_run.log",
@@ -133,7 +133,7 @@
       "argv": [
         "yosys",
         "-p",
-        "read_verilog hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v; synth -top evpi_fixed_point_kernel; write_verilog conductor/tracks/asic-implementation_20260511/handoff/artifacts/asic/evpi_fixed_point_netlist.v; stat"
+        "read_verilog hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v; synth -top evpi_fixed_point_kernel; write_verilog conductor/archive/asic-implementation_20260511/handoff/artifacts/asic/evpi_fixed_point_netlist.v; stat"
       ],
       "returncode": null,
       "log_path": "reports/asic/yosys_synth_asic.log",

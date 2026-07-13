@@ -7,8 +7,8 @@
   "contract_rule": "cpu_authoritative",
   "next_action": "revisit only if discrete/TPU stages produce repeated contract-safe accelerations at scale",
   "upstream_evidence": {
-    "colab_gpu": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json",
-    "colab_tpu": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json"
+    "colab_gpu": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json",
+    "colab_tpu": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json"
   },
   "updated_at": "2026-06-23T17:20:00Z"
 }

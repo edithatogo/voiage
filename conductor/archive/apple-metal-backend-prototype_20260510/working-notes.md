@@ -8,14 +8,14 @@ measurable, reproducible, and ready for handoff to
 
 ## Closure Deliverables
 
-1. `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
+1. `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
    - Contains both workloads (`scalar_cpu_baseline`, `memory_throughput_baseline`).
    - Contains at least two independent runs per workload.
    - Captures review metadata (`review.phase == "phase_3"`) and payload schema
      (`payload_version == "1.0.0"`).
-2. `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
+2. `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
    - CPU-only reproducibility packet for environments without MPS.
-3. `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
+3. `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
    - Exact `python -m pip freeze` output captured at handoff time.
 4. One handoff note to the integrated optimization track that references:
    - workload ordering recommendation,
@@ -27,7 +27,7 @@ measurable, reproducible, and ready for handoff to
 ### Required CPU-only packet (no Metal hardware needed)
 
 ```bash
-mkdir -p conductor/tracks/apple-metal-backend-prototype_20260510/handoff && \
+mkdir -p conductor/archive/apple-metal-backend-prototype_20260510/handoff && \
 python3 - <<'PY'
 import hashlib
 import json
@@ -43,7 +43,7 @@ from voiage.main_backends import (
     benchmark_mps_vs_cpu,
 )
 
-ARTIFACT_DIR = Path("conductor/tracks/apple-metal-backend-prototype_20260510/handoff")
+ARTIFACT_DIR = Path("conductor/archive/apple-metal-backend-prototype_20260510/handoff")
 NB = np.array([[10.0, 1.0], [2.0, 8.0]], dtype=float)
 
 cpu_ref = {
@@ -87,7 +87,7 @@ bundle_path = ARTIFACT_DIR / "phase_3_cpu_reference.json"
 bundle_path.write_text(json.dumps(cpu_ref, indent=2, sort_keys=True))
 print(f"wrote {bundle_path}")
 PY
-python3 -m pip freeze > conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt
+python3 -m pip freeze > conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt
 ```
 
 ### Required full comparison packet (Metal-backed path when available)
@@ -106,7 +106,7 @@ from voiage.main_backends import (
     benchmark_mps_vs_cpu,
 )
 
-ARTIFACT_DIR = Path("conductor/tracks/apple-metal-backend-prototype_20260510/handoff")
+ARTIFACT_DIR = Path("conductor/archive/apple-metal-backend-prototype_20260510/handoff")
 NB = np.array([[10.0, 1.0], [2.0, 8.0]])
 ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -157,7 +157,7 @@ import json
 from pathlib import Path
 
 ARTIFACT = Path(
-    "conductor/tracks/apple-metal-backend-prototype_20260510/"
+    "conductor/archive/apple-metal-backend-prototype_20260510/"
     "handoff/phase_3_handoff_bundle.json"
 )
 
@@ -188,7 +188,7 @@ PY
   `review`, and reproducibility fields.
 - [x] The optimization target selection statement is passed to the
   integrated GPU track.
-- [x] Track artifacts are present in `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/`.
+- [x] Track artifacts are present in `conductor/archive/apple-metal-backend-prototype_20260510/handoff/`.
 
 ## Closure Conditions
 
