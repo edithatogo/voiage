@@ -13,7 +13,10 @@ def test_go_release_workflow_and_checklist_align() -> None:
     assert "bindings/go/v*" in workflow_text
     assert "go test -mod=readonly ./..." in workflow_text
     assert "go vet -mod=readonly ./..." in workflow_text
-    assert "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65" in workflow_text
+    assert (
+        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        in workflow_text
+    )
 
     assert (
         "The Go binding remains the thin adapter over the shared contract."
