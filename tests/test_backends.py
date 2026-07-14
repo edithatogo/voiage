@@ -340,8 +340,9 @@ def test_enhanced_jax_backend_numpy_sampling_fallback(monkeypatch) -> None:
 @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
 def test_enhanced_jax_backend_compute_evpi_subset() -> None:
     """Test compute_evpi_subset logic indirectly via parallel_monte_carlo."""
-    from voiage.backends.enhanced_jax_backend import EnhancedJaxBackend
     import numpy as np
+
+    from voiage.backends.enhanced_jax_backend import EnhancedJaxBackend
 
     backend = EnhancedJaxBackend()
 
@@ -369,9 +370,10 @@ def test_enhanced_jax_backend_compute_evpi_subset() -> None:
 @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
 def test_enhanced_jax_backend_compute_evpi_subset_no_jax(monkeypatch) -> None:
     """Test compute_evpi_subset logic indirectly without JAX."""
+    import numpy as np
+
     from voiage.backends import enhanced_jax_backend
     from voiage.backends.enhanced_jax_backend import EnhancedJaxBackend
-    import numpy as np
 
     backend = EnhancedJaxBackend()
     monkeypatch.setattr(enhanced_jax_backend, "HAS_JAX", False)
