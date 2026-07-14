@@ -2,62 +2,57 @@
 
 """Plotting functions for various VOI curves."""
 
-from typing import List, Optional, Union
-
 import numpy as np
 
 # Attempt to import Matplotlib, but make it optional
 try:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
 
     MATPLOTLIB_AVAILABLE = True
-except ImportError:
+except ImportError:  # pragma: no cover
     MATPLOTLIB_AVAILABLE = False
-    Figure = None  # type: ignore
     Axes = None  # type: ignore
-    Axes3D = None  # type: ignore
 
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import InputError, PlottingError
+from voiage.exceptions import raise_input_error, raise_plotting_error
 
 
 def plot_evpi_vs_wtp(
-    evpi_values: Union[np.ndarray, List[float]],
-    wtp_thresholds: Union[np.ndarray, List[float]],
+    evpi_values: np.ndarray | list[float],
+    wtp_thresholds: np.ndarray | list[float],
     xlabel: str = "Willingness-to-Pay Threshold",
     ylabel: str = "EVPI",
     title: str = "Expected Value of Perfect Information vs. WTP",
-    ax: Optional[Axes] = None,
-    **plot_kwargs,
+    ax: Axes | None = None,
+    **plot_kwargs: object,
 ) -> Axes:
-    """Plot EVPI against a range of Willingness-to-Pay (WTP) thresholds.
+    """Plot EVPI against willingness-to-pay thresholds.
 
-    Args:
-        evpi_values (Union[np.ndarray, List[float]]):
-            Array or list of EVPI values corresponding to each WTP threshold.
-        wtp_thresholds (Union[np.ndarray, List[float]]):
-            Array or list of WTP thresholds. Must be the same length as evpi_values.
-        xlabel (str): Label for the x-axis.
-        ylabel (str): Label for the y-axis.
-        title (str): Title of the plot.
-        ax (Optional[Axes]): Matplotlib Axes object to plot on. If None, a new
-                             figure and axes are created.
-        **plot_kwargs: Additional keyword arguments passed to `ax.plot()`.
+    Parameters
+    ----------
+    evpi_values : numpy.ndarray or list[float]
+        EVPI values for each threshold.
+    wtp_thresholds : numpy.ndarray or list[float]
+        Willingness-to-pay thresholds.
+    xlabel : str, default="Willingness-to-Pay Threshold"
+        X-axis label.
+    ylabel : str, default="EVPI"
+        Y-axis label.
+    title : str, default="Expected Value of Perfect Information vs. WTP"
+        Plot title.
+    ax : matplotlib.axes.Axes, optional
+        Axes to draw on.
+    **plot_kwargs : object
+        Keyword arguments forwarded to ``ax.plot``.
 
     Returns
     -------
-        Axes: The Matplotlib Axes object with the plot.
-
-    Raises
-    ------
-        PlottingError: If Matplotlib is not installed.
-        InputError: If input array lengths do not match.
+    matplotlib.axes.Axes
+        Axes containing the EVPI curve.
     """
     if not MATPLOTLIB_AVAILABLE:
-        raise PlottingError(
+        raise_plotting_error(
             "Matplotlib is required for plotting functions but not installed."
         )
 
@@ -65,16 +60,16 @@ def plot_evpi_vs_wtp(
     wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
 
     if evpi_arr.ndim != 1 or wtp_arr.ndim != 1:
-        raise InputError("evpi_values and wtp_thresholds must be 1-dimensional.")
+        raise_input_error("evpi_values and wtp_thresholds must be 1-dimensional.")
     if len(evpi_arr) != len(wtp_arr):
-        raise InputError("Length of evpi_values must match length of wtp_thresholds.")
+        raise_input_error("Length of evpi_values must match length of wtp_thresholds.")
     if len(evpi_arr) == 0:
         # print("Warning: No data to plot for EVPI vs WTP.")
         # Create an empty plot or raise error? For now, allow empty plot.
         pass
 
     if ax is None:
-        fig, ax = plt.subplots()  # type: ignore
+        _fig, ax = plt.subplots()  # type: ignore
 
     ax.plot(wtp_arr, evpi_arr, **plot_kwargs)  # type: ignore
     ax.set_xlabel(xlabel)  # type: ignore
@@ -86,33 +81,26 @@ def plot_evpi_vs_wtp(
 
 
 def _plot_enbs_and_costs(
-    ax,
-    ss_arr,
-    enbs_values,
-    research_costs,
-    ylabel_enbs,
-    plot_enbs_kwargs,
-    plot_cost_kwargs,
-):
-    lines = []
-    labels = []
+    ax: Axes,
+    ss_arr: np.ndarray,
+    enbs_values: np.ndarray | list[float] | None,
+    research_costs: np.ndarray | list[float] | None,
+    ylabel_enbs: str,
+    plot_enbs_kwargs: dict[str, object],
+    plot_cost_kwargs: dict[str, object],
+) -> tuple[list[object], list[str]]:
+    lines: list[object] = []
+    labels: list[str] = []
 
     # Plot ENBS and Costs if provided, potentially on a secondary y-axis if scales differ significantly
     if enbs_values is not None or research_costs is not None:
-        # Determine if secondary axis is needed based on scale relative to EVSI
-        use_secondary_axis = False
         if enbs_values is not None:
             enbs_arr = np.asarray(enbs_values, dtype=DEFAULT_DTYPE)
             if len(enbs_arr) != len(ss_arr):
-                raise InputError("Length of enbs_values mismatch.")
+                raise_input_error("Length of enbs_values mismatch.")
 
-        ax2 = ax  # Default to same axis
-        if use_secondary_axis:
-            ax2 = ax.twinx()  # type: ignore
-            ax2.set_ylabel(ylabel_enbs)  # type: ignore
-        elif (
-            enbs_values is not None or research_costs is not None
-        ):  # If plotting more than EVSI on ax1
+        ax2 = ax
+        if enbs_values is not None or research_costs is not None:
             ax.set_ylabel(f"{ax.get_ylabel()} / {ylabel_enbs}")
 
         if enbs_values is not None:
@@ -126,7 +114,7 @@ def _plot_enbs_and_costs(
         if research_costs is not None:
             cost_arr = np.asarray(research_costs, dtype=DEFAULT_DTYPE)
             if len(cost_arr) != len(ss_arr):
-                raise InputError("Length of research_costs mismatch.")
+                raise_input_error("Length of research_costs mismatch.")
             ln3 = ax2.plot(ss_arr, cost_arr, **plot_cost_kwargs)  # type: ignore
             lines.extend(ln3)
             labels.extend([plot_line.get_label() for plot_line in ln3])
@@ -135,46 +123,55 @@ def _plot_enbs_and_costs(
 
 
 def plot_evsi_vs_sample_size(
-    evsi_values: Union[np.ndarray, List[float]],
-    sample_sizes: Union[np.ndarray, List[int], List[float]],
-    enbs_values: Optional[Union[np.ndarray, List[float]]] = None,
-    research_costs: Optional[Union[np.ndarray, List[float]]] = None,
+    evsi_values: np.ndarray | list[float],
+    sample_sizes: np.ndarray | list[int] | list[float],
+    enbs_values: np.ndarray | list[float] | None = None,
+    research_costs: np.ndarray | list[float] | None = None,
     xlabel: str = "Sample Size (per arm or total)",
     ylabel_evsi: str = "EVSI",
     ylabel_enbs: str = "ENBS / Cost",
     title: str = "Expected Value of Sample Information vs. Sample Size",
-    ax: Optional[Axes] = None,
-    plot_evsi_kwargs: Optional[dict] = None,
-    plot_enbs_kwargs: Optional[dict] = None,
-    plot_cost_kwargs: Optional[dict] = None,
+    ax: Axes | None = None,
+    plot_evsi_kwargs: dict | None = None,
+    plot_enbs_kwargs: dict | None = None,
+    plot_cost_kwargs: dict | None = None,
 ) -> Axes:
-    """Plot EVSI and optionally ENBS and research costs against sample sizes.
+    """Plot EVSI against sample size with optional ENBS and cost curves.
 
-    Args:
-        evsi_values (Union[np.ndarray, List[float]]): EVSI values.
-        sample_sizes (Union[np.ndarray, List[int], List[float]]): Corresponding sample sizes.
-        enbs_values (Optional[Union[np.ndarray, List[float]]]): Optional ENBS values.
-        research_costs (Optional[Union[np.ndarray, List[float]]]): Optional research costs.
-        xlabel (str): X-axis label.
-        ylabel_evsi (str): Y-axis label for EVSI (if ENBS/costs not plotted on same axis).
-        ylabel_enbs (str): Y-axis label if ENBS/costs are plotted (can be secondary y-axis).
-        title (str): Plot title.
-        ax (Optional[Axes]): Matplotlib Axes to plot on. If None, new figure/axes created.
-        plot_evsi_kwargs (Optional[dict]): Kwargs for EVSI plot line.
-        plot_enbs_kwargs (Optional[dict]): Kwargs for ENBS plot line.
-        plot_cost_kwargs (Optional[dict]): Kwargs for research cost plot line.
+    Parameters
+    ----------
+    evsi_values : numpy.ndarray or list[float]
+        EVSI values.
+    sample_sizes : numpy.ndarray or list[int] or list[float]
+        Sample sizes corresponding to the EVSI values.
+    enbs_values : numpy.ndarray or list[float], optional
+        Optional ENBS values.
+    research_costs : numpy.ndarray or list[float], optional
+        Optional research costs.
+    xlabel : str, default="Sample Size (per arm or total)"
+        X-axis label.
+    ylabel_evsi : str, default="EVSI"
+        Y-axis label for EVSI.
+    ylabel_enbs : str, default="ENBS / Cost"
+        Y-axis label for ENBS and cost curves.
+    title : str, default="Expected Value of Sample Information vs. Sample Size"
+        Plot title.
+    ax : matplotlib.axes.Axes, optional
+        Axes to draw on.
+    plot_evsi_kwargs : dict, optional
+        Keyword arguments for the EVSI line.
+    plot_enbs_kwargs : dict, optional
+        Keyword arguments for the ENBS line.
+    plot_cost_kwargs : dict, optional
+        Keyword arguments for the research cost line.
 
     Returns
     -------
-        Axes: The Matplotlib Axes object.
-
-    Raises
-    ------
-        PlottingError: If Matplotlib is not installed.
-        InputError: If input array lengths do not match.
+    matplotlib.axes.Axes
+        Axes containing the EVSI plot.
     """
     if not MATPLOTLIB_AVAILABLE:
-        raise PlottingError(
+        raise_plotting_error(
             "Matplotlib is required for plotting functions but not installed."
         )
 
@@ -182,9 +179,9 @@ def plot_evsi_vs_sample_size(
     ss_arr = np.asarray(sample_sizes)  # Can be int or float
 
     if evsi_arr.ndim != 1 or ss_arr.ndim != 1:
-        raise InputError("evsi_values and sample_sizes must be 1-dimensional.")
+        raise_input_error("evsi_values and sample_sizes must be 1-dimensional.")
     if len(evsi_arr) != len(ss_arr):
-        raise InputError("Length of evsi_values must match length of sample_sizes.")
+        raise_input_error("Length of evsi_values must match length of sample_sizes.")
 
     _plot_evsi_kwargs = {"label": "EVSI", "color": "blue"}
     if plot_evsi_kwargs:
@@ -199,7 +196,7 @@ def plot_evsi_vs_sample_size(
         _plot_cost_kwargs.update(plot_cost_kwargs)
 
     if ax is None:
-        fig, ax1 = plt.subplots()  # type: ignore
+        _fig, ax1 = plt.subplots()  # type: ignore
     else:
         ax1 = ax
 
@@ -226,68 +223,67 @@ def plot_evsi_vs_sample_size(
     ax1.legend(lines, labels, loc="best")  # type: ignore
     ax1.set_title(title)  # type: ignore
 
-    # Ensure layout is tight if a secondary axis was created
-    # if use_secondary_axis and fig is not None: # fig would be defined if ax was None
-    # fig.tight_layout() # Often helpful with twin axes
-
     return ax1  # type: ignore
 
 
 def plot_evppi_surface(
     evppi_values: np.ndarray,
-    param_names: List[str],
-    wtp_thresholds: Union[np.ndarray, List[float]],
+    param_names: list[str],
+    wtp_thresholds: np.ndarray | list[float],
     xlabel: str = "Parameter",
     ylabel: str = "Willingness-to-Pay Threshold",
     zlabel: str = "EVPPI",
     title: str = "EVPPI Surface",
-    ax: Optional[Axes] = None,
-    **plot_kwargs,
+    ax: Axes | None = None,
+    **plot_kwargs: object,
 ) -> Axes:
-    """Plot a 3D surface of EVPPI values.
+    """Plot a 3D EVPPI surface.
 
-    Args:
-        evppi_values (np.ndarray):
-            2D array of EVPPI values (n_params, n_wtp_thresholds).
-        param_names (List[str]):
-            List of parameter names.
-        wtp_thresholds (Union[np.ndarray, List[float]]):
-            Array or list of WTP thresholds.
-        xlabel (str): Label for the x-axis.
-        ylabel (str): Label for the y-axis.
-        zlabel (str): Label for the z-axis.
-        title (str): Title of the plot.
-        ax (Optional[Axes]): Matplotlib Axes object to plot on. If None, a new
-                             figure and axes are created.
-        **plot_kwargs: Additional keyword arguments passed to `ax.plot_surface()`.
+    Parameters
+    ----------
+    evppi_values : numpy.ndarray
+        2D array of EVPPI values with shape ``(n_params, n_wtp_thresholds)``.
+    param_names : list[str]
+        Parameter names.
+    wtp_thresholds : numpy.ndarray or list[float]
+        Willingness-to-pay thresholds.
+    xlabel : str, default="Parameter"
+        X-axis label.
+    ylabel : str, default="Willingness-to-Pay Threshold"
+        Y-axis label.
+    zlabel : str, default="EVPPI"
+        Z-axis label.
+    title : str, default="EVPPI Surface"
+        Plot title.
+    ax : matplotlib.axes.Axes, optional
+        Axes to draw on.
+    **plot_kwargs : object
+        Keyword arguments forwarded to ``ax.plot_surface``.
 
     Returns
     -------
-        Axes: The Matplotlib Axes object with the plot.
-
-    Raises
-    ------
-        PlottingError: If Matplotlib is not installed.
-        InputError: If input dimensions or lengths are mismatched.
+    matplotlib.axes.Axes
+        Axes containing the EVPPI surface.
     """
     if not MATPLOTLIB_AVAILABLE:
-        raise PlottingError(
+        raise_plotting_error(
             "Matplotlib is required for plotting functions but not installed."
         )
 
     evppi_arr = np.asarray(evppi_values, dtype=DEFAULT_DTYPE)
     wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
 
-    if evppi_arr.ndim != 2:
-        raise InputError(
+    expected_ndim = 2
+    if evppi_arr.ndim != expected_ndim:
+        raise_input_error(
             "evppi_values must be a 2D array (n_params x n_wtp_thresholds)."
         )
     if len(param_names) != evppi_arr.shape[0]:
-        raise InputError(
+        raise_input_error(
             "Length of param_names must match the first dimension of evppi_values."
         )
     if len(wtp_arr) != evppi_arr.shape[1]:
-        raise InputError(
+        raise_input_error(
             "Length of wtp_thresholds must match the second dimension of evppi_values."
         )
 
@@ -312,7 +308,7 @@ def plot_evppi_surface(
 # - plot_dynamic_voi (VOI metrics over time steps)
 # - plot_evppi_vs_parameters (e.g., Tornado diagram if applicable, or heatmap for 2 params)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     if not MATPLOTLIB_AVAILABLE:
         print("Matplotlib not installed. Skipping plot generation examples.")
     else:

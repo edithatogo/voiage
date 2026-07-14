@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/results/evppi.schema.json",
+  "title": "EVPPIV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "parameter_names",
+    "evppi"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "evppi"
+    },
+    "parameter_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Parameter or parameter-group labels for the EVPPI analysis."
+    },
+    "evppi": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Expected value of partial perfect information."
+    },
+    "method": {
+      "type": "string",
+      "description": "Optional estimator label such as GAM, GP, INLA, earth, BART, or MC."
+    },
+    "expected_current_value": {
+      "type": "number"
+    },
+    "expected_perfect_information": {
+      "type": "number"
+    },
+    "diagnostics": {
+      "type": "object",
+      "description": "Extension boundary for estimator diagnostics."
+    }
+  }
+}

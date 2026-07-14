@@ -55,7 +55,7 @@ pip install voiage
 For development or the latest features, you can install from source:
 
 ```bash
-git clone https://github.com/your-username/voiage.git
+git clone https://github.com/edithatogo/voiage.git
 cd voiage
 pip install -e .
 ```
@@ -63,7 +63,7 @@ pip install -e .
 ### What are the system requirements?
 
 voiage requires:
-- Python 3.7 or higher
+- Python 3.10-3.14
 - NumPy, SciPy, Pandas, xarray
 - Matplotlib for plotting (optional)
 - scikit-learn for some advanced metamodels (optional)
@@ -239,8 +239,8 @@ optimized_array = optimizer.optimize_array_dtype(large_net_benefits)
 
 # Use chunked computation
 chunked_results = optimizer.chunked_computation(
-    your_function, 
-    large_data, 
+    your_function,
+    large_data,
     chunk_size=10000
 )
 ```

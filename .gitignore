@@ -4,6 +4,15 @@ __pycache__/
 *.py[cod]
 *.class
 
+# OS/editor metadata
+.DS_Store
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*~
+
 # C extensions
 *.so
 
@@ -39,18 +48,31 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
+/test_*.py
+/test_results_*
+/baseline_performance_results.json
+/demo_*.txt
+/example_net_benefits.csv
+/example_parameters.csv
+/jax_audit_results.json
+/test.csv
 htmlcov/
+coverage_html_report/
 .tox/
 .nox/
 .coverage
 .coverage.*
 .cache
+.tmp/
 nosetests.xml
 coverage.xml
+coverage.json
+*_coverage.json
 *.cover
 *.py,cover
 .hypothesis/
 .pytest_cache/
+.ruff_cache/
 
 # Translations
 *.mo
@@ -77,6 +99,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+examples/*.nbconvert.ipynb
 
 # IPython
 profile_default/
@@ -128,21 +151,19 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# AI-generated working files and paper development
-/paper/.quarto/
-/paper/_freeze/
-/paper/_site/
-/paper/*.html
-/paper/*.pdf
-/paper/*.tex
-/paper/*.log
-/paper/*.aux
-/paper/*.bbl
-/paper/*.blg
-/paper/*.fls
-/paper/*.fdb_latexmk
-/paper/*.synctex.gz
-/paper/Untitled*.ipynb
-/paper/ai_working_*.py
-/paper/ai_*.txt
-/paper/.quarto-wrapped/
+# Polyglot binding build artifacts
+bindings/**/bin/
+bindings/**/obj/
+bindings/**/target/
+bindings/**/*.nupkg
+bindings/**/*.snupkg
+bindings/julia/Manifest.toml
+bindings/typescript/*.tgz
+r-package/**/*.Rcheck/
+!bindings/rust/Cargo.lock
+docs/astro-site/node_modules/
+docs/astro-site/dist/
+package-lock.json
+
+# Conductor tool runtime state
+conductor/setup_state.json

@@ -1,5 +1,5 @@
 voiage.analysis module
-====================
+======================
 
 .. automodule:: voiage.analysis
    :members:

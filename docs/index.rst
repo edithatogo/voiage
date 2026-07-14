@@ -51,13 +51,13 @@ Content will be expanded as features are implemented.
 
 Quick Links
 -----------
-* `GitHub Repository <https://github.com/doughnut/voiage>`_
+* `GitHub Repository <https://github.com/edithatogo/voiage>`_
 * `TestPyPI Page <https://test.pypi.org/project/voiage/>`_ (for v0.1 release)
 
 
 Getting Help
 ------------
-If you encounter any issues or have questions, please `raise an issue on GitHub <https://github.com/doughnut/voiage/issues>`_.
+If you encounter any issues or have questions, please `raise an issue on GitHub <https://github.com/edithatogo/voiage/issues>`_.
 
 
 .. include:: introduction.rst
@@ -88,5 +88,11 @@ If you encounter any issues or have questions, please `raise an issue on GitHub 
    :maxdepth: 2
    :caption: Development:
 
+   developer_guide/index
+   methods/index
+   plotting/index
+   cli_reference
+   data_structures
+   backends
    contributing
    changelog

@@ -1,9 +1,11 @@
-# Export all functions
-exportPattern("^[[:alpha:]]+")
+export(evpi)
+export(evppi)
+export(evsi)
+export(init_voiage)
+export(is_voiage_available)
+export(set_voiage_env)
 
-# Import from reticulate
 importFrom(reticulate, import)
 importFrom(reticulate, py_module_available)
-importFrom(reticulate, py_config)
-importFrom(reticulate, use_virtualenv)
 importFrom(reticulate, use_condaenv)
+importFrom(reticulate, use_virtualenv)

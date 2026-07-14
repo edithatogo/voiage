@@ -3,12 +3,21 @@
 """
 Configuration file for the Sphinx documentation builder.
 
-This file is execfile()d with the current directory set to its containing dir.
+⚠️  DEPRECATION NOTICE ⚠️
+
+Sphinx-based documentation has been replaced by Starlight (Astro/MDX).
+
+The official documentation site is now built from docs/astro-site/ using
+@astrojs/starlight with starlight-polyglot for auto-generated API references.
+
+This Sphinx configuration is retained as a backup only. All new documentation
+content must be authored as MDX files in docs/astro-site/src/content/docs/.
+
+Sphinx build support may be removed in a future release.
 """
 
 import os
 import sys
-from typing import Dict
 
 # -- Path setup --------------------------------------------------------------
 sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
@@ -44,6 +53,14 @@ extensions = [
 ]
 
 # Autodoc settings
+autodoc_mock_imports = [
+    "cupy",
+    "jax",
+    "matplotlib",
+    "pymc",
+    "pymc_bart",
+    "sklearn",
+]
 autodoc_member_order = "bysource"  # Order members by source order
 autosummary_generate = True  # Turn on remote generation for autosummary
 
@@ -66,15 +83,17 @@ napoleon_attr_annotations = True
 
 # Intersphinx mapping (example: link to Python, NumPy, SciPy, Pandas docs)
 intersphinx_mapping = {
-    "python": ("https.docs.python.org/3", None),
-    "numpy": ("https.numpy.org/doc/stable/", None),
-    "scipy": ("https.docs.scipy.org/doc/scipy/", None),
-    "pandas": ("https.pandas.pydata.org/pandas-docs/stable/", None),
-    "matplotlib": ("https.matplotlib.org/stable/", None),
-    "sklearn": ("https.scikit-learn.org/stable/", None),
-    "pymc": ("https.www.pymc.io/projects/docs/en/stable/", None),
-    # 'jax': ('https.jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "matplotlib": ("https://matplotlib.org/stable/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "pymc": ("https://www.pymc.io/projects/docs/en/stable/", None),
+    # 'jax': ('https://jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
 }
+intersphinx_timeout = 5
+suppress_warnings = ["intersphinx.inventory"]
 
 templates_path = ["_templates"]  # Directory for custom templates
 source_suffix = ".rst"  # Default source file type (.md also possible with myst_parser)
@@ -97,7 +116,6 @@ html_static_path = ["_static"]  # Directory for static files (CSS, images)
 # Theme options are theme-specific
 html_theme_options = {
     "logo_only": False,
-    "display_version": True,
     "prev_next_buttons_location": "bottom",
     "style_external_links": False,
     # 'style_nav_header_background': 'white',
@@ -115,7 +133,7 @@ htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',
@@ -158,18 +176,7 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
-# This function can be used to dynamically skip members during autodoc
-# def autodoc_skip_member(app, what, name, obj, skip, options):
-#     # Example: skip private members not starting with an underscore (if any)
-#     # if what == "method" and not name.startswith("_") and name.startswith("__"):
-#     #     return True
-#     return skip
-
-# def setup(app):
-#     app.connect("autodoc-skip-member", autodoc_skip_member)
-
 # Add path for custom Sphinx extensions if any
 # sys.path.append(os.path.abspath('_extensions'))
 # extensions.append('my_custom_extension')
-
 print("Sphinx conf.py loaded.")

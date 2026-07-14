@@ -1,0 +1,40 @@
+---
+title: HPC Acceleration Abstraction Contract
+description: HPC backend abstraction contract for accelerator paths
+---
+
+This contract preserves one runtime shape for every accelerator path and prevents incompatible hardware-specific behavior from fragmenting the public API.
+
+## Scope
+
+The contract applies to:
+- Apple integrated GPU (Metal on macOS)
+- Discrete CUDA/ROCm-class GPU paths
+- TPU via compiler-backed execution
+- ASIC/custom-circuit feasibility
+
+## Standard interface
+
+All accelerator tracks must preserve this contract:
+
+- CPU is the reference implementation
+- Output envelopes and diagnostics must be bit-for-bit equivalent (within documented tolerance) to the CPU reference
+- Public APIs remain unchanged by backend selection
+- Benchmark packets must include runtime metadata, workload fingerprint, and comparison fields
+- On failure or unsupported paths, fallback to CPU must be automatic and explicit
+
+## Standardized acceleration candidates
+
+1. Keep NumPy as the required portable baseline in-core implementation
+2. Keep Apple Metal as the integrated-GPU first-class pilot path
+3. Evaluate a standard compiler path for dense-kernel workloads before broad discrete GPU or TPU implementation
+
+The immediate single-library candidates: **JAX/XLA** for dense tensor program lowering, **PyTorch MPS/CUDA APIs** for pragmatic incremental execution, and **XLA-style IR boundaries** where supported.
+
+## Transition criteria
+
+Progression from feasibility to implementation requires:
+- A preserved contract comparison packet (CPU + target device)
+- Reproducible benchmark evidence with warm-up and repeatable timings
+- Clear owner and next-step fields for unresolved tasks
+- A public decision record in Conductor

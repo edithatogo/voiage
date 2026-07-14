@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/computational/v1/schemas/computational-set.schema.json",
+  "title": "ComputationalSetV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_type",
+    "compute_budget_ids",
+    "strategy_names",
+    "compute_costs",
+    "approximation_errors",
+    "refinement_weights"
+  ],
+  "properties": {
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_computational_refinement"
+    },
+    "compute_budget_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "compute_costs": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "approximation_errors": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "refinement_weights": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "model_family_labels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "operational_context": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

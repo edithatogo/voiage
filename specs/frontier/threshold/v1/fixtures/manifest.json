@@ -1,0 +1,22 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "screening program threshold comparison",
+      "method_family": "value_of_threshold_information",
+      "input_artifact": "normative/threshold-surface.json",
+      "expected_output_artifact": "normative/value-of-threshold.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 701,
+        "execution_mode": "deterministic"
+      }
+    }
+  ],
+  "illustrative": [],
+  "notes": [
+    "This fixture anchors the threshold frontier runtime contract.",
+    "The runtime output should match the committed JSON payload exactly."
+  ]
+}

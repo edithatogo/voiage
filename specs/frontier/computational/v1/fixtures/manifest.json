@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "compute budget refinement comparison",
+      "method_family": "value_of_computational_refinement",
+      "input_artifact": "normative/computational-set.json",
+      "expected_output_artifact": "normative/value-of-computational.json",
+      "tolerance_policy": "exact",
+      "provenance": {
+        "seed": 403,
+        "execution_mode": "deterministic"
+      }
+    }
+  ]
+}

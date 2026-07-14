@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/results/enbs.schema.json",
+  "title": "ENBSV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "trial_design_id",
+    "sample_size",
+    "design_cost",
+    "enbs"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "enbs"
+    },
+    "trial_design_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "design_cost": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Cost of running the proposed design."
+    },
+    "enbs": {
+      "type": "number",
+      "description": "Expected net benefit of sampling."
+    },
+    "expected_sample_value": {
+      "type": "number"
+    },
+    "expected_perfect_information": {
+      "type": "number"
+    },
+    "method": {
+      "type": "string"
+    },
+    "diagnostics": {
+      "type": "object",
+      "description": "Extension boundary for optimizer or estimator diagnostics."
+    }
+  }
+}

@@ -8,6 +8,7 @@ from voiage.analysis import DecisionAnalysis
 from voiage.config_objects import HealthcareConfig, VOIAnalysisConfig
 from voiage.factory import (
     create_configured_analysis,
+    create_distributed_large_scale_analysis,
     create_environmental_analysis,
     create_financial_analysis,
     create_healthcare_analysis,
@@ -20,17 +21,17 @@ from voiage.fluent import FluentDecisionAnalysis
 from voiage.schema import ParameterSet, ValueArray
 
 
-def test_create_standard_analysis():
+def test_create_standard_analysis() -> None:
     """Test creating a standard VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
     param_data = {
-        'param1': np.random.randn(100).astype(np.float64),
-        'param2': np.random.randn(100).astype(np.float64)
+        "param1": np.random.randn(100).astype(np.float64),
+        "param2": np.random.randn(100).astype(np.float64),
     }
     dataset = xr.Dataset(
         {k: (("n_samples",), v) for k, v in param_data.items()},
-        coords={"n_samples": np.arange(len(param_data['param1']))},
+        coords={"n_samples": np.arange(len(param_data["param1"]))},
     )
     parameters = ParameterSet(dataset=dataset)
 
@@ -40,22 +41,22 @@ def test_create_standard_analysis():
         parameter_samples=parameters,
         use_jit=True,
         backend="numpy",
-        enable_caching=True
+        enable_caching=True,
     )
 
     # Check that we got the right type of object
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True
+    assert analysis.use_jit
+    assert analysis.enable_caching
 
     # Check that data was set correctly
     assert isinstance(analysis.nb_array, ValueArray)
     assert analysis.parameter_samples is not None
 
 
-def test_create_streaming_analysis():
+def test_create_streaming_analysis() -> None:
     """Test creating a streaming VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
@@ -66,7 +67,7 @@ def test_create_streaming_analysis():
         window_size=500,
         update_frequency=50,
         use_jit=True,
-        backend="numpy"
+        backend="numpy",
     )
 
     # Check that we got the right type of object
@@ -76,29 +77,26 @@ def test_create_streaming_analysis():
     assert analysis.streaming_window_size == 500
 
     # Check that other parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True  # Enabled by default in streaming
+    assert analysis.use_jit
+    assert analysis.enable_caching  # Enabled by default in streaming
 
 
-def test_create_healthcare_analysis():
+def test_create_healthcare_analysis() -> None:
     """Test creating a healthcare VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
 
     # Create healthcare analysis
-    analysis = create_healthcare_analysis(
-        nb_array=net_benefits,
-        use_jit=True
-    )
+    analysis = create_healthcare_analysis(nb_array=net_benefits, use_jit=True)
 
     # Check that we got the right type of object
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
+    assert analysis.use_jit
 
 
-def test_create_environmental_analysis():
+def test_create_environmental_analysis() -> None:
     """Test creating an environmental VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
@@ -108,18 +106,18 @@ def test_create_environmental_analysis():
         nb_array=net_benefits,
         carbon_intensity=0.6,
         energy_consumption=15000,
-        water_intensity=0.15
+        water_intensity=0.15,
     )
 
     # Check that we got the right type of object
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True
+    assert analysis.use_jit
+    assert analysis.enable_caching
 
 
-def test_create_financial_analysis():
+def test_create_financial_analysis() -> None:
     """Test creating a financial VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
@@ -129,66 +127,82 @@ def test_create_financial_analysis():
         nb_array=net_benefits,
         var_confidence_level=0.99,
         cvar_confidence_level=0.99,
-        mc_n_simulations=5000
+        mc_n_simulations=5000,
     )
 
     # Check that we got the right type of object
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True
+    assert analysis.use_jit
+    assert analysis.enable_caching
 
 
-def test_create_large_scale_analysis():
+def test_create_large_scale_analysis() -> None:
     """Test creating a large-scale VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
 
     # Create large-scale analysis
     analysis = create_large_scale_analysis(
-        nb_array=net_benefits,
-        chunk_size=5000,
-        n_workers=4,
-        memory_limit_mb=1024
+        nb_array=net_benefits, chunk_size=5000, n_workers=4, memory_limit_mb=1024
     )
 
     # Check that we got the right type of object
     assert isinstance(analysis, FluentDecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True
+    assert analysis.use_jit
+    assert analysis.enable_caching
 
 
-def test_create_metamodel_analysis():
+def test_create_distributed_large_scale_analysis() -> None:
+    """Test creating a distributed large-scale VOI analysis."""
+    net_benefits = np.random.randn(100, 3).astype(np.float64)
+
+    analysis, cluster_config = create_distributed_large_scale_analysis(
+        nb_array=net_benefits,
+        chunk_size=5000,
+        n_nodes=2,
+        workers_per_node=2,
+        scheduler="ray",
+        scheduler_address="ray://cluster:10001",
+        use_processes=False,
+        memory_limit_mb=1024,
+    )
+
+    assert isinstance(analysis, FluentDecisionAnalysis)
+    assert analysis.use_jit
+    assert analysis.enable_caching
+    assert cluster_config.n_nodes == 2
+    assert cluster_config.workers_per_node == 2
+    assert cluster_config.scheduler == "ray"
+    assert cluster_config.scheduler_address == "ray://cluster:10001"
+    assert not cluster_config.use_processes
+
+
+def test_create_metamodel_analysis() -> None:
     """Test creating a metamodel VOI analysis."""
     # Create test data
     net_benefits = np.random.randn(100, 3).astype(np.float64)
 
     # Create metamodel analysis
     analysis = create_metamodel_analysis(
-        nb_array=net_benefits,
-        method="gp",
-        n_samples=5000,
-        n_folds=3
+        nb_array=net_benefits, method="gp", n_samples=5000, n_folds=3
     )
 
     # Check that we got the right type of object
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == False  # Metamodels don't use JIT by default
+    assert not analysis.use_jit  # Metamodels don't use JIT by default
 
 
-def test_create_configured_analysis():
+def test_create_configured_analysis() -> None:
     """Test creating a VOI analysis from a configuration object."""
     # Create configuration
     config = VOIAnalysisConfig(
-        use_jit=True,
-        backend="numpy",
-        enable_caching=True,
-        streaming_window_size=1000
+        use_jit=True, backend="numpy", enable_caching=True, streaming_window_size=1000
     )
 
     # Create analysis from configuration
@@ -198,24 +212,24 @@ def test_create_configured_analysis():
     assert isinstance(analysis, DecisionAnalysis)
 
     # Check that parameters were set correctly
-    assert analysis.use_jit == True
-    assert analysis.enable_caching == True
+    assert analysis.use_jit
+    assert analysis.enable_caching
     assert analysis.streaming_window_size == 1000
 
 
-def test_healthcare_config_validation():
+def test_healthcare_config_validation() -> None:
     """Test that healthcare configuration validates parameters correctly."""
     # This should work fine
-    config = HealthcareConfig(
-        qaly_discount_rate=0.03,
-        cost_discount_rate=0.03
-    )
+    # HealthcareConfig(
+    #    qaly_discount_rate=0.03,
+    #    cost_discount_rate=0.03
+    # )
 
     # This should raise a ValueError
     with pytest.raises(ValueError):
         HealthcareConfig(
             qaly_discount_rate=1.5,  # Invalid - should be between 0 and 1
-            cost_discount_rate=0.03
+            cost_discount_rate=0.03,
         )
 
 

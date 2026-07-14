@@ -1,5 +1,5 @@
 voiage.metamodels module
-=====================
+========================
 
 .. automodule:: voiage.metamodels
    :members:

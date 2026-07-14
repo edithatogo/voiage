@@ -1,0 +1,92 @@
+{
+  "version": "v1",
+  "normative": [
+    {
+      "name": "evpi canonical case",
+      "method_family": "evpi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
+      "expected_output_artifact": "normative/evpi.json",
+      "provenance": {
+        "seed": 101,
+        "execution_mode": "deterministic"
+      },
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "evppi canonical case",
+      "method_family": "evppi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
+      "expected_output_artifact": "normative/evppi.json",
+      "provenance": {
+        "seed": 102,
+        "execution_mode": "deterministic"
+      },
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "evsi canonical case",
+      "method_family": "evsi",
+      "input_artifact": "normative/inputs/screening-program-001.json",
+      "expected_output_artifact": "normative/evsi.json",
+      "provenance": {
+        "seed": 103,
+        "execution_mode": "deterministic"
+      },
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "enbs canonical case",
+      "method_family": "enbs",
+      "input_artifact": "normative/inputs/screening-program-001.json",
+      "expected_output_artifact": "normative/enbs.json",
+      "provenance": {
+        "seed": 104,
+        "execution_mode": "deterministic"
+      },
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "ceac canonical case",
+      "method_family": "ceac",
+      "input_artifact": "normative/inputs/screening-program-001.json",
+      "expected_output_artifact": "normative/ceac.json",
+      "provenance": {
+        "seed": 105,
+        "execution_mode": "deterministic"
+      },
+      "tolerance_policy": "exact"
+    }
+  ],
+  "illustrative": [
+    {
+      "name": "evpi illustrative example",
+      "method_family": "evpi",
+      "expected_output_artifact": "illustrative/evpi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "evppi illustrative example",
+      "method_family": "evppi",
+      "expected_output_artifact": "illustrative/evppi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "evsi illustrative example",
+      "method_family": "evsi",
+      "expected_output_artifact": "illustrative/evsi.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "enbs illustrative example",
+      "method_family": "enbs",
+      "expected_output_artifact": "illustrative/enbs.example.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "ceac illustrative example",
+      "method_family": "ceac",
+      "expected_output_artifact": "illustrative/ceac.example.json",
+      "tolerance_policy": "exact"
+    }
+  ]
+}

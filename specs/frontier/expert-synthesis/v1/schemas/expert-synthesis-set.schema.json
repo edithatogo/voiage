@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/expert-synthesis/v1/schemas/expert-synthesis-set.schema.json",
+  "title": "ExpertSynthesisSetV1Planned",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_type",
+    "expert_profile_ids",
+    "strategy_names",
+    "elicitation_costs",
+    "synthesis_penalties"
+  ],
+  "properties": {
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_expert_synthesis"
+    },
+    "expert_profile_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "elicitation_costs": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "synthesis_penalties": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "design_objectives": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

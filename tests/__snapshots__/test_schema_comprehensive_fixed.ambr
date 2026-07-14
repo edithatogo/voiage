@@ -1,0 +1,113 @@
+# serializer version: 1
+# name: TestParameterSetComprehensive.test_parameter_set_snapshot_basic
+  dict({
+    'n_samples': 3,
+    'param_names': list([
+      'param1',
+      'param2',
+    ]),
+    'param_values': dict({
+      'param1': list([
+        0.1,
+        0.2,
+        0.3,
+      ]),
+      'param2': list([
+        10.0,
+        20.0,
+        30.0,
+      ]),
+    }),
+  })
+# ---
+# name: TestParameterSetComprehensive.test_parameter_set_snapshot_edge_cases
+  dict({
+    'many_params': dict({
+      'n_param_sets': 5,
+      'n_samples': 2,
+      'param_names': list([
+        'param0',
+        'param1',
+        'param2',
+        'param3',
+        'param4',
+      ]),
+    }),
+    'single': dict({
+      'n_samples': 1,
+      'param_names': list([
+        'single_param',
+      ]),
+      'param_values': dict({
+        'single_param': list([
+          42.0,
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: TestValueArrayComprehensive.test_value_array_snapshot_basic
+  dict({
+    'n_samples': 3,
+    'n_strategies': 3,
+    'strategy_names': list([
+      'Strategy A',
+      'Strategy B',
+      'Strategy C',
+    ]),
+    'values': list([
+      list([
+        100.0,
+        150.0,
+        120.0,
+      ]),
+      list([
+        90.0,
+        140.0,
+        130.0,
+      ]),
+      list([
+        110.0,
+        130.0,
+        140.0,
+      ]),
+    ]),
+  })
+# ---
+# name: TestValueArrayComprehensive.test_value_array_snapshot_edge_cases
+  dict({
+    'identical_strategies': dict({
+      'n_samples': 3,
+      'n_strategies': 2,
+      'values': list([
+        list([
+          100.0,
+          100.0,
+        ]),
+        list([
+          110.0,
+          110.0,
+        ]),
+        list([
+          90.0,
+          90.0,
+        ]),
+      ]),
+    }),
+    'single_strategy': dict({
+      'n_samples': 3,
+      'n_strategies': 1,
+      'values': list([
+        list([
+          100.0,
+        ]),
+        list([
+          110.0,
+        ]),
+        list([
+          90.0,
+        ]),
+      ]),
+    }),
+  })
+# ---

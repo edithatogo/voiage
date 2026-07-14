@@ -1,0 +1,12 @@
+{
+  "analysis_id": "lifecourse-screening-001-evpi",
+  "analysis_type": "evpi",
+  "decision_problem_id": "screening-program-001",
+  "willingness_to_pay": 50000,
+  "expected_current_value": 118.33333333333333,
+  "expected_perfect_information": 125.0,
+  "evpi": 6.666666666666671,
+  "strategy_names": ["Usual care", "Targeted screening"],
+  "expected_net_benefit_by_strategy": [118.33333333333333, 116.0],
+  "method": "nested-monte-carlo"
+}

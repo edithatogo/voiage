@@ -1,0 +1,85 @@
+{
+  "analysis_id": "causal-transportability-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_causal_transportability",
+  "method_maturity": "planned",
+  "value": 4.2,
+  "causal_identification_value": 1.3,
+  "transportability_value": 1.8,
+  "external_validity_value": 1.1,
+  "source_population_ids": [
+    "trial_population",
+    "real_world_population"
+  ],
+  "target_population_ids": [
+    "urban_target",
+    "rural_target"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "adapted_policy",
+    "transported_policy"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      12.5,
+      13.8
+    ],
+    [
+      9.5,
+      11.0,
+      12.2
+    ]
+  ],
+  "optimal_strategy_by_target_population": {
+    "urban_target": "transported_policy",
+    "rural_target": "adapted_policy"
+  },
+  "transport_weight_matrix": [
+    [
+      1.0,
+      0.7
+    ],
+    [
+      0.8,
+      0.9
+    ]
+  ],
+  "validity_penalty_matrix": [
+    [
+      0.0,
+      2.0
+    ],
+    [
+      0.5,
+      0.4
+    ]
+  ],
+  "consensus_strategy": "transported_policy",
+  "robust_strategy": "adapted_policy",
+  "pareto_strategies": [
+    "adapted_policy",
+    "transported_policy"
+  ],
+  "reference_target_population": "urban_target",
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_causal_transportability",
+    "method_family": "value_of_causal_transportability",
+    "method_maturity": "planned",
+    "analysis_id": "causal-transportability-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "decision_context": null,
+    "population": null,
+    "estimator": null,
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_sources": 2,
+      "n_targets": 2,
+      "n_strategies": 3
+    }
+  }
+}

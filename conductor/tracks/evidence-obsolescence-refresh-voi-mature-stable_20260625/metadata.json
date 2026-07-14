@@ -1,0 +1,8 @@
+{
+  "track_id": "evidence-obsolescence-refresh-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add evidence obsolescence and refresh VOI as a mature/stable method family for deciding when living evidence, surveillance updates, or model refreshes are worth doing."
+}

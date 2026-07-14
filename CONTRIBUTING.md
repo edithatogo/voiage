@@ -6,8 +6,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Prerequisites
 
-*   Python 3.8+
-*   [Poetry](https://python-poetry.org/docs/#installation) for dependency management (recommended)
+*   Python 3.10-3.14
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
 
 ### Setting Up the Development Environment
@@ -21,14 +20,9 @@ We welcome contributions from the community, whether from humans or AI agents. T
         ```
 
 2.  **Install Dependencies:**
-    *   If using Poetry:
-        ```bash
-        poetry install
-        ```
-    *   If using pip:
-        ```bash
-        pip install -e .[dev]
-        ```
+    ```bash
+    pip install -e ".[dev]"
+    ```
 
 3.  **Install Pre-commit Hooks:**
     *   This will install the hooks defined in `.pre-commit-config.yaml`, which automatically run checks before each commit.
@@ -51,9 +45,22 @@ We welcome contributions from the community, whether from humans or AI agents. T
 3.  **Verify Changes:**
     *   Run the full suite of tests, linting, and type checks using `tox`. This is the same check that runs in our CI pipeline.
         ```bash
-        tox
+    tox
         ```
     *   Fix any errors reported by `tox` before proceeding.
+    *   Run the repository-owned security and workflow harness directly when
+        changing CI or release automation:
+        ```bash
+        uv run python scripts/repo_harness.py
+        ```
+    *   Frontier contract changes should also pass the dedicated registry check:
+        ```bash
+        tox -e frontier-contract
+        ```
+    *   If you prefer the uv-backed runner, `nox` mirrors the same core sessions:
+        ```bash
+        uv run nox
+        ```
 
 4.  **Commit Changes:**
     *   Stage your changes (`git add .`).
@@ -65,22 +72,36 @@ We welcome contributions from the community, whether from humans or AI agents. T
 5.  **Push and Open a Pull Request:**
     *   Push your branch to your fork and open a pull request against the `main` branch of the original repository.
 
+For a more detailed walkthrough of the Conductor workflow, docs structure, and
+testing expectations, see `docs/developer_guide/how_to_contribute.rst`.
+For the repository security model and hosted GitHub gates, see
+`docs/developer_guide/quality_and_security.rst`.
+
+For help requests, support questions, and security reporting, see
+[`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and
+[`SECURITY.md`](SECURITY.md).
+
 ## Code Style and Conventions
 
 ### Formatting and Linting
 
-*   We use **Ruff** for all formatting and linting to ensure a consistent code style.
+*   We use **Ruff** for formatting, linting, and security-rule checks to ensure a consistent code style.
 *   The configuration is defined in `pyproject.toml`.
 *   The pre-commit hooks will automatically format your code. You can also run it manually:
     ```bash
     ruff format .
     ruff check --fix .
     ```
+*   We use **Vale** to lint prose in Markdown and reStructuredText docs. Run it
+    from the repository root with:
+    ```bash
+    uv run bash scripts/vale_prose.sh
+    ```
 
 ### Type Hinting
 
 *   All new functions and methods must include type hints.
-*   We use **MyPy** for static type analysis. The pre-commit hook will run `mypy` on your changes.
+*   We use **ty** for static type analysis. The pre-commit hook will run `ty check` on your changes.
 
 ### Testing
 
@@ -91,6 +112,23 @@ We welcome contributions from the community, whether from humans or AI agents. T
     ```bash
     pytest
     ```
+
+### R Package Documentation
+
+*   The R package keeps its narrative docs deterministic and non-interactive.
+*   From `r-package/voiageR`, build the PDF manual with:
+    ```bash
+    Rscript tools/build-manual.R . build/voiageR-manual.pdf
+    ```
+*   The vignette is source-controlled under `r-package/voiageR/vignettes/`
+    and should remain runnable without interactive prompts or live notebook
+    state.
+*   Before release, verify the package metadata and reference docs with:
+    ```bash
+    R CMD build .
+    R CMD check --as-cran --no-manual voiageR_<version>.tar.gz
+    ```
+    Replace `<version>` with the tarball version produced by your local build.
 
 ### Commit Messages
 
@@ -119,3 +157,11 @@ Each commit message should be in the format:
 
 *   Public functions and classes should have docstrings following the **NumPy docstring convention**.
 *   The project's documentation is in the `docs/` directory and is built with Sphinx.
+*   The R package documentation track ships a narrative vignette at
+    `r-package/voiageR/vignettes/voiageR-getting-started.Rmd` and a
+    deterministic PDF manual helper at `r-package/voiageR/tools/build-manual.R`.
+    From the package root, you can verify both with:
+    ```bash
+    Rscript tools/build-manual.R . "$RUNNER_TEMP/voiageR-manual.pdf"
+    Rscript -e 'rmarkdown::render("vignettes/voiageR-getting-started.Rmd", output_format = "html_vignette", quiet = TRUE)'
+    ```

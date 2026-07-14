@@ -1,0 +1,8 @@
+{
+  "track_id": "adjacent-frontier-runtime-completion_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Implement runtime paths for dynamic real-options, causal transportability, data quality/privacy/linkage, computational refinement, and expert synthesis."
+}

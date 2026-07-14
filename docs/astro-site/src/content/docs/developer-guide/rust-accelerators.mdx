@@ -1,0 +1,34 @@
+---
+title: Rust Accelerators
+description: Rust accelerator modules and feasibility boundaries
+---
+
+This note records the workloads plausibly worth accelerating in the Rust core, and the cases where GPU, TPU, or custom-circuit work is not worth the complexity.
+
+**Rule:** accelerate only workloads that are compute-bound, shape-stable, and already covered by a deterministic contract.
+
+## Plausibly GPU-bound workloads
+
+- Scalar summary kernels over many repeated PSA samples
+- Large matrix reductions for EVPI-style workloads
+- Frontier-style sweeps where the input surface is dense and regular
+- Repeated dominance or CEAF scans over wide strategy sets
+
+## Apple Metal adapter strategy
+
+Treat Apple Metal as an internal execution adapter rather than a new public API surface. The CPU fallback remains authoritative and the reference result envelope.
+
+## Discrete GPU & TPU
+
+Build on the existing GPU helper layer; prefer JAX when available; fall back to CuPy or PyTorch CUDA. TPU support reuses the JAX-oriented acceleration path.
+
+## Non-goals
+
+- Small scalar workloads with few strategies or samples
+- Code paths dominated by validation, serialization, or reporting
+- Irregular branching logic such as dynamic study-design selection
+- Anything requiring a new public result shape just to use the device
+
+## FPGA and ASIC lanes
+
+Exposed as explicit execution-adapter placeholders (`voiage.parallel.is_placeholder_execution_adapter("fpga")`) that fail with `NotImplementedError` until real runtimes are added.

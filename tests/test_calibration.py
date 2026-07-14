@@ -26,8 +26,8 @@ def mock_cal_modeler(psa_samples, study_design, process_spec):
         coords={
             "n_samples": np.arange(n_samples),
             "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-        }
+            "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+        },
     )
     return ValueArray(dataset=dataset)
 
@@ -37,7 +37,7 @@ def sample_psa():
     """Create a sample ParameterSet for testing."""
     params = {
         "effectiveness": np.random.normal(0.7, 0.1, 50),
-        "cost": np.random.normal(5000, 500, 50)
+        "cost": np.random.normal(5000, 500, 50),
     }
     return ParameterSet.from_numpy_or_dict(params)
 
@@ -48,34 +48,35 @@ def sample_study_design():
     return {
         "experiment_type": "lab",
         "sample_size": 100,
-        "variables_measured": ["parameter_a", "parameter_b"]
+        "variables_measured": ["parameter_a", "parameter_b"],
     }
 
 
 @pytest.fixture()
 def sample_process_spec():
     """Create a sample calibration process specification for testing."""
-    return {
-        "method": "bayesian",
-        "likelihood_function": "normal"
-    }
+    return {"method": "bayesian", "likelihood_function": "normal"}
 
 
-def test_voi_calibration_basic(sample_psa, sample_study_design, sample_process_spec):
+def test_voi_calibration_basic(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test basic functionality of voi_calibration."""
     result = voi_calibration(
         cal_study_modeler=mock_cal_modeler,
         psa_prior=sample_psa,
         calibration_study_design=sample_study_design,
         calibration_process_spec=sample_process_spec,
-        n_outer_loops=5
+        n_outer_loops=5,
     )
 
     assert isinstance(result, float)
     assert result >= 0  # VOI should be non-negative
 
 
-def test_voi_calibration_with_population_scaling(sample_psa, sample_study_design, sample_process_spec):
+def test_voi_calibration_with_population_scaling(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test voi_calibration with population scaling."""
     result = voi_calibration(
         cal_study_modeler=mock_cal_modeler,
@@ -85,22 +86,26 @@ def test_voi_calibration_with_population_scaling(sample_psa, sample_study_design
         population=100000,
         time_horizon=10,
         discount_rate=0.03,
-        n_outer_loops=5
+        n_outer_loops=5,
     )
 
     assert isinstance(result, float)
     assert result >= 0
 
 
-def test_voi_calibration_input_validation(sample_psa, sample_study_design, sample_process_spec):
+def test_voi_calibration_input_validation(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test input validation for voi_calibration."""
     # Test invalid cal_study_modeler
-    with pytest.raises(InputError, match="`cal_study_modeler` must be a callable function"):
+    with pytest.raises(
+        InputError, match="`cal_study_modeler` must be a callable function"
+    ):
         voi_calibration(
             cal_study_modeler="not_a_function",
             psa_prior=sample_psa,
             calibration_study_design=sample_study_design,
-            calibration_process_spec=sample_process_spec
+            calibration_process_spec=sample_process_spec,
         )
 
     # Test invalid psa_prior
@@ -109,25 +114,29 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             cal_study_modeler=mock_cal_modeler,
             psa_prior="not_a_psa",
             calibration_study_design=sample_study_design,
-            calibration_process_spec=sample_process_spec
+            calibration_process_spec=sample_process_spec,
         )
 
     # Test invalid calibration_study_design
-    with pytest.raises(InputError, match="`calibration_study_design` must be a dictionary"):
+    with pytest.raises(
+        InputError, match="`calibration_study_design` must be a dictionary"
+    ):
         voi_calibration(
             cal_study_modeler=mock_cal_modeler,
             psa_prior=sample_psa,
             calibration_study_design="not_a_dict",
-            calibration_process_spec=sample_process_spec
+            calibration_process_spec=sample_process_spec,
         )
 
     # Test invalid calibration_process_spec
-    with pytest.raises(InputError, match="`calibration_process_spec` must be a dictionary"):
+    with pytest.raises(
+        InputError, match="`calibration_process_spec` must be a dictionary"
+    ):
         voi_calibration(
             cal_study_modeler=mock_cal_modeler,
             psa_prior=sample_psa,
             calibration_study_design=sample_study_design,
-            calibration_process_spec="not_a_dict"
+            calibration_process_spec="not_a_dict",
         )
 
     # Test invalid loop parameters
@@ -137,11 +146,13 @@ def test_voi_calibration_input_validation(sample_psa, sample_study_design, sampl
             psa_prior=sample_psa,
             calibration_study_design=sample_study_design,
             calibration_process_spec=sample_process_spec,
-            n_outer_loops=0
+            n_outer_loops=0,
         )
 
 
-def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_design, sample_process_spec):
+def test_voi_calibration_population_scaling_validation(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test population scaling validation in voi_calibration."""
     # Test invalid population
     with pytest.raises(InputError, match="Population must be positive"):
@@ -151,7 +162,7 @@ def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_
             calibration_study_design=sample_study_design,
             calibration_process_spec=sample_process_spec,
             population=0,
-            time_horizon=10
+            time_horizon=10,
         )
 
     # Test invalid time_horizon
@@ -162,7 +173,7 @@ def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_
             calibration_study_design=sample_study_design,
             calibration_process_spec=sample_process_spec,
             population=1000,
-            time_horizon=0
+            time_horizon=0,
         )
 
     # Test invalid discount_rate
@@ -174,11 +185,13 @@ def test_voi_calibration_population_scaling_validation(sample_psa, sample_study_
             calibration_process_spec=sample_process_spec,
             population=1000,
             time_horizon=10,
-            discount_rate=1.5
+            discount_rate=1.5,
         )
 
 
-def test_voi_calibration_edge_cases(sample_psa, sample_study_design, sample_process_spec):
+def test_voi_calibration_edge_cases(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test edge cases for voi_calibration."""
     # Test with very small number of loops
     result = voi_calibration(
@@ -186,18 +199,22 @@ def test_voi_calibration_edge_cases(sample_psa, sample_study_design, sample_proc
         psa_prior=sample_psa,
         calibration_study_design=sample_study_design,
         calibration_process_spec=sample_process_spec,
-        n_outer_loops=1
+        n_outer_loops=1,
     )
 
     assert isinstance(result, float)
     assert result >= 0
 
 
-def test_sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec):
+def test_sophisticated_calibration_modeler(
+    sample_psa, sample_study_design, sample_process_spec
+) -> None:
     """Test the sophisticated calibration modeler."""
     from voiage.methods.calibration import sophisticated_calibration_modeler
 
-    result = sophisticated_calibration_modeler(sample_psa, sample_study_design, sample_process_spec)
+    result = sophisticated_calibration_modeler(
+        sample_psa, sample_study_design, sample_process_spec
+    )
 
     assert isinstance(result, ValueArray)
     assert result.values.shape[0] == sample_psa.n_samples
@@ -208,7 +225,9 @@ def test_sophisticated_calibration_modeler(sample_psa, sample_study_design, samp
     assert not np.any(np.isnan(result.values))
 
 
-def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_design):
+def test_voi_calibration_with_sophisticated_modeler(
+    sample_psa, sample_study_design
+) -> None:
     """Test voi_calibration with the sophisticated modeler."""
     from voiage.methods.calibration import (
         sophisticated_calibration_modeler,
@@ -219,10 +238,7 @@ def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_des
     process_spec = {
         "method": "bayesian",
         "likelihood_function": "normal",
-        "calibration_targets": {
-            "target_effectiveness": 0.75,
-            "target_cost": 4800
-        }
+        "calibration_targets": {"target_effectiveness": 0.75, "target_cost": 4800},
     }
 
     result = voi_calibration(
@@ -230,11 +246,57 @@ def test_voi_calibration_with_sophisticated_modeler(sample_psa, sample_study_des
         psa_prior=sample_psa,
         calibration_study_design=sample_study_design,
         calibration_process_spec=process_spec,
-        n_outer_loops=5
+        n_outer_loops=5,
     )
 
     assert isinstance(result, float)
     assert result >= 0  # VOI should be non-negative
+
+
+def test_voi_calibration_uses_default_modeler(
+    sample_psa,
+    sample_study_design,
+) -> None:
+    """voi_calibration should run with the built-in modeler by default."""
+    result = voi_calibration(
+        psa_prior=sample_psa,
+        calibration_study_design=sample_study_design,
+        calibration_process_spec={
+            "method": "bayesian",
+            "calibration_targets": {"target_effectiveness": 0.75},
+        },
+        n_outer_loops=2,
+    )
+
+    assert isinstance(result, float)
+    assert result >= 0.0
+
+
+def test_voi_calibration_uses_prior_value_when_post_modeler_fails(
+    sample_psa,
+    sample_study_design,
+    sample_process_spec,
+) -> None:
+    """Post-calibration model failures should fall back to current information value."""
+    calls = 0
+
+    def partly_failing_modeler(psa_samples, study_design, process_spec):
+        nonlocal calls
+        calls += 1
+        if calls > 1:
+            msg = "post-calibration model failed"
+            raise RuntimeError(msg)
+        return mock_cal_modeler(psa_samples, study_design, process_spec)
+
+    result = voi_calibration(
+        cal_study_modeler=partly_failing_modeler,
+        psa_prior=sample_psa,
+        calibration_study_design=sample_study_design,
+        calibration_process_spec=sample_process_spec,
+        n_outer_loops=2,
+    )
+
+    assert result == pytest.approx(0.0)
 
 
 if __name__ == "__main__":

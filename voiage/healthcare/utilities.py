@@ -1,14 +1,14 @@
 """Healthcare-specific utilities for Value of Information analysis."""
 
-from typing import Dict, List, Optional, Union
-
 import numpy as np
+
+from voiage.exceptions import raise_input_error
 
 
 def calculate_qaly(
-    utility_values: Union[np.ndarray, List[float]],
-    time_years: Union[np.ndarray, List[float]],
-    discount_rate: float = 0.03
+    utility_values: np.ndarray | list[float],
+    time_years: np.ndarray | list[float],
+    discount_rate: float = 0.03,
 ) -> float:
     """
     Calculate Quality-Adjusted Life Years (QALYs) over time.
@@ -38,13 +38,13 @@ def calculate_qaly(
 
     # Validate inputs
     if len(utility_values) != len(time_years):
-        raise ValueError("utility_values and time_years must have the same length")
+        raise_input_error("utility_values and time_years must have the same length")
 
     if np.any(utility_values < 0) or np.any(utility_values > 1):
-        raise ValueError("Utility values must be between 0 and 1")
+        raise_input_error("Utility values must be between 0 and 1")
 
     if discount_rate < 0:
-        raise ValueError("Discount rate must be non-negative")
+        raise_input_error("Discount rate must be non-negative")
 
     # Calculate mid-year discounting
     cumulative_time = np.cumsum(time_years) - (time_years / 2)
@@ -54,15 +54,11 @@ def calculate_qaly(
     qaly_periods = utility_values * time_years * discount_factors
 
     # Sum all periods
-    total_qaly = np.sum(qaly_periods)
-
-    return float(total_qaly)
+    return float(np.sum(qaly_periods))
 
 
 def discount_qaly(
-    qaly_value: float,
-    time_horizon: float,
-    discount_rate: float = 0.03
+    qaly_value: float, time_horizon: float, discount_rate: float = 0.03
 ) -> float:
     """
     Discount a QALY value to present value.
@@ -77,20 +73,19 @@ def discount_qaly(
         float: Discounted QALY value
     """
     if time_horizon < 0:
-        raise ValueError("Time horizon must be non-negative")
+        raise_input_error("Time horizon must be non-negative")
 
     if discount_rate < 0:
-        raise ValueError("Discount rate must be non-negative")
+        raise_input_error("Discount rate must be non-negative")
 
-    discounted_value = qaly_value / ((1 + discount_rate) ** time_horizon)
-    return discounted_value
+    return float(qaly_value / ((1 + discount_rate) ** time_horizon))
 
 
 def aggregate_qaly_over_time(
-    utility_trajectories: Dict[str, np.ndarray],
+    utility_trajectories: dict[str, np.ndarray],
     time_points: np.ndarray,
-    discount_rate: float = 0.03
-) -> Dict[str, float]:
+    discount_rate: float = 0.03,
+) -> dict[str, float]:
     """
     Aggregate QALYs over time for multiple health states or strategies.
 
@@ -103,18 +98,20 @@ def aggregate_qaly_over_time(
     -------
         Dict[str, float]: Dictionary mapping strategy names to total QALYs
     """
-    results = {}
+    results: dict[str, float] = {}
 
     # Calculate time intervals
     if len(time_points) < 2:
-        raise ValueError("At least two time points are required")
+        raise_input_error("At least two time points are required")
 
     time_intervals = np.diff(time_points)
 
     # For each strategy, calculate QALYs
     for strategy_name, utilities in utility_trajectories.items():
         if len(utilities) != len(time_points):
-            raise ValueError(f"Utility array for {strategy_name} must match time points length")
+            raise_input_error(
+                f"Utility array for {strategy_name} must match time points length"
+            )
 
         # Use utility values at the beginning of each interval
         interval_utilities = utilities[:-1]
@@ -128,7 +125,7 @@ def markov_cohort_model(
     transition_matrix: np.ndarray,
     initial_state: np.ndarray,
     n_cycles: int,
-    cycle_length: float = 1.0
+    cycle_length: float = 1.0,
 ) -> np.ndarray:
     """
     Simulate a Markov cohort model for disease progression.
@@ -146,37 +143,35 @@ def markov_cohort_model(
     # Validate inputs
     n_states = transition_matrix.shape[0]
     if transition_matrix.shape != (n_states, n_states):
-        raise ValueError("Transition matrix must be square")
+        raise_input_error("Transition matrix must be square")
 
     if len(initial_state) != n_states:
-        raise ValueError("Initial state vector must match number of states")
+        raise_input_error("Initial state vector must match number of states")
 
     if not np.isclose(np.sum(initial_state), 1.0):
-        raise ValueError("Initial state probabilities must sum to 1")
+        raise_input_error("Initial state probabilities must sum to 1")
 
     if not np.all(transition_matrix >= 0):
-        raise ValueError("Transition probabilities must be non-negative")
+        raise_input_error("Transition probabilities must be non-negative")
 
     if not np.all(np.isclose(np.sum(transition_matrix, axis=1), 1.0)):
-        raise ValueError("Each row of transition matrix must sum to 1")
+        raise_input_error("Each row of transition matrix must sum to 1")
 
     # Initialize results array
-    state_trajectories = np.zeros((n_cycles + 1, n_states))
+    state_trajectories = np.empty((n_cycles + 1, n_states))
     state_trajectories[0] = initial_state
 
     # Simulate transitions
-    current_state = initial_state.copy()
     for i in range(1, n_cycles + 1):
-        current_state = np.dot(current_state, transition_matrix)
-        state_trajectories[i] = current_state
+        np.dot(state_trajectories[i - 1], transition_matrix, out=state_trajectories[i])
 
     return state_trajectories
 
 
 def disease_progression_model(
-    base_transition_probs: Dict[str, Dict[str, float]],
-    covariates: Optional[Dict[str, float]] = None,
-    covariate_effects: Optional[Dict[str, Dict[str, float]]] = None
+    base_transition_probs: dict[str, dict[str, float]],
+    covariates: dict[str, float] | None = None,
+    covariate_effects: dict[str, dict[tuple[str, str], float]] | None = None,
 ) -> np.ndarray:
     """
     Create a transition matrix for disease progression modeling.
@@ -195,7 +190,7 @@ def disease_progression_model(
     for transitions in base_transition_probs.values():
         all_states.update(transitions.keys())
 
-    states = sorted(list(all_states))
+    states = sorted(all_states)
     n_states = len(states)
     state_index = {state: i for i, state in enumerate(states)}
 
@@ -213,19 +208,23 @@ def disease_progression_model(
 
         # If probabilities don't sum to 1, assume remaining probability stays in same state
         if total_prob < 1.0:
-            transition_matrix[from_idx, from_idx] += (1.0 - total_prob)
+            transition_matrix[from_idx, from_idx] += 1.0 - total_prob
 
     # Apply covariate effects if provided
     if covariates is not None and covariate_effects is not None:
         for covariate_name, covariate_value in covariates.items():
             if covariate_name in covariate_effects:
-                effects = covariate_effects[covariate_name]
+                effects: dict[tuple[str, str], float] = covariate_effects[
+                    covariate_name
+                ]
                 for (from_state, to_state), effect_size in effects.items():
                     if from_state in state_index and to_state in state_index:
                         from_idx = state_index[from_state]
                         to_idx = state_index[to_state]
                         # Apply multiplicative effect
-                        transition_matrix[from_idx, to_idx] *= np.exp(effect_size * covariate_value)
+                        transition_matrix[from_idx, to_idx] *= np.exp(
+                            effect_size * covariate_value
+                        )
 
                 # Renormalize each row to sum to 1
                 row_sums = np.sum(transition_matrix, axis=1, keepdims=True)

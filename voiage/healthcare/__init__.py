@@ -9,9 +9,9 @@ from .utilities import (
 )
 
 __all__ = [
+    "aggregate_qaly_over_time",
     "calculate_qaly",
     "discount_qaly",
-    "aggregate_qaly_over_time",
-    "markov_cohort_model",
     "disease_progression_model",
+    "markov_cohort_model",
 ]

@@ -1,0 +1,11 @@
+{
+  "track_id": "apple-metal-integrated-gpu-optimization_20260511",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-05-10T15:11:27Z",
+  "updated_at": "2026-05-11T21:15:00Z",
+  "completed_at": "2026-05-11T21:15:00Z",
+  "track_decision": "cpu_reference_first",
+  "decision_reason": "The track is closed with a reproducible CPU-only comparison packet and explicit deferred hardware-backed comparison due to unavailable Apple Silicon in this environment.",
+  "description": "Optimize Apple integrated GPUs using Metal-backed acceleration before broader accelerator expansion."
+}

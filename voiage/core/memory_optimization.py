@@ -1,7 +1,7 @@
 """Memory optimization utilities for Value of Information analysis."""
 
+from collections.abc import Callable
 import gc
-from typing import Any, Callable, List, Optional
 import warnings
 
 import numpy as np
@@ -13,7 +13,7 @@ from voiage.schema import ParameterSet, ValueArray
 class MemoryOptimizer:
     """Utility class for memory optimization in VOI analyses."""
 
-    def __init__(self, memory_limit_mb: Optional[float] = None):
+    def __init__(self, memory_limit_mb: float | None = None):
         """
         Initialize the memory optimizer.
 
@@ -35,7 +35,7 @@ class MemoryOptimizer:
         -------
             float: Current memory usage in bytes
         """
-        return psutil.virtual_memory().used
+        return float(psutil.virtual_memory().used)
 
     def get_available_memory(self) -> float:
         """
@@ -45,7 +45,9 @@ class MemoryOptimizer:
         -------
             float: Available memory in bytes
         """
-        return self.memory_limit_bytes - self.get_memory_usage()
+        # Treat the configured limit as a budget cap rather than as total RAM.
+        system_available = psutil.virtual_memory().available
+        return float(min(self.memory_limit_bytes, system_available))
 
     def is_memory_available(self, required_bytes: float) -> bool:
         """
@@ -85,17 +87,28 @@ class MemoryOptimizer:
         # For integer types, check if we can use smaller types
         if np.issubdtype(arr.dtype, np.integer):
             # Try to find the smallest integer type that can hold all values
-            if np.min(arr) >= np.iinfo(np.int8).min and np.max(arr) <= np.iinfo(np.int8).max:
+            if (
+                np.min(arr) >= np.iinfo(np.int8).min
+                and np.max(arr) <= np.iinfo(np.int8).max
+            ):
                 return arr.astype(np.int8)
-            elif np.min(arr) >= np.iinfo(np.int16).min and np.max(arr) <= np.iinfo(np.int16).max:
+            if (
+                np.min(arr) >= np.iinfo(np.int16).min
+                and np.max(arr) <= np.iinfo(np.int16).max
+            ):
                 return arr.astype(np.int16)
-            elif np.min(arr) >= np.iinfo(np.int32).min and np.max(arr) <= np.iinfo(np.int32).max:
+            if (
+                np.min(arr) >= np.iinfo(np.int32).min
+                and np.max(arr) <= np.iinfo(np.int32).max
+            ):
                 return arr.astype(np.int32)
 
         # If no optimization is possible, return original array
         return arr
 
-    def chunk_large_array(self, arr: np.ndarray, max_chunk_size: int) -> List[np.ndarray]:
+    def chunk_large_array(
+        self, arr: np.ndarray, max_chunk_size: int
+    ) -> list[np.ndarray]:
         """
         Split a large array into chunks to reduce memory usage.
 
@@ -117,7 +130,7 @@ class MemoryOptimizer:
 
         return chunks
 
-    def estimate_memory_usage(self, obj: Any) -> float:
+    def estimate_memory_usage(self, obj: object) -> float:
         """
         Estimate memory usage of an object in bytes.
 
@@ -129,24 +142,20 @@ class MemoryOptimizer:
             float: Estimated memory usage in bytes
         """
         if isinstance(obj, np.ndarray):
-            return obj.nbytes
-        elif isinstance(obj, (ValueArray, ParameterSet)):
-            if hasattr(obj, 'dataset') and hasattr(obj.dataset, 'nbytes'):
-                return obj.dataset.nbytes
+            return float(obj.nbytes)
+        if isinstance(obj, (ValueArray, ParameterSet)):
+            if hasattr(obj, "dataset") and hasattr(obj.dataset, "nbytes"):
+                return float(obj.dataset.nbytes)
         elif isinstance(obj, dict):
-            total = 0
-            for key, value in obj.items():
-                total += self.estimate_memory_usage(key)
-                total += self.estimate_memory_usage(value)
-            return total
+            return sum(
+                self.estimate_memory_usage(k) + self.estimate_memory_usage(v)
+                for k, v in obj.items()
+            )
         elif isinstance(obj, (list, tuple)):
-            total = 0
-            for item in obj:
-                total += self.estimate_memory_usage(item)
-            return total
+            return sum(self.estimate_memory_usage(item) for item in obj)
 
         # For other objects, use a rough estimate
-        return len(str(obj)) if hasattr(obj, '__str__') else 0
+        return float(len(str(obj)) if hasattr(obj, "__str__") else 0)
 
     def force_garbage_collection(self) -> None:
         """Force garbage collection to free memory."""
@@ -164,7 +173,8 @@ class MemoryOptimizer:
             warnings.warn(
                 f"Memory usage is high: {usage_ratio:.1%} of limit. "
                 f"Consider optimizing memory usage or increasing limit.",
-                ResourceWarning
+                ResourceWarning,
+                stacklevel=2,
             )
 
 
@@ -182,7 +192,7 @@ def optimize_value_array(value_array: ValueArray) -> ValueArray:
     optimizer = MemoryOptimizer()
 
     # Get the underlying numpy array
-    values = value_array.values
+    values = value_array.numpy_values
 
     # Optimize the data type
     optimized_values = optimizer.optimize_array_dtype(values)
@@ -221,11 +231,11 @@ def optimize_parameter_set(parameter_set: ParameterSet) -> ParameterSet:
 
 
 def chunked_computation(
-    func: Callable[[np.ndarray], Any],
+    func: Callable[[np.ndarray], object],
     data: np.ndarray,
-    chunk_size: Optional[int] = None,
-    memory_optimizer: Optional[MemoryOptimizer] = None
-) -> List[Any]:
+    chunk_size: int | None = None,
+    memory_optimizer: MemoryOptimizer | None = None,
+) -> list[object]:
     """
     Perform computation on data in chunks to reduce memory usage.
 
@@ -237,7 +247,7 @@ def chunked_computation(
 
     Returns
     -------
-        List[Any]: List of results from each chunk
+        list[object]: List of results from each chunk
     """
     if memory_optimizer is None:
         memory_optimizer = MemoryOptimizer()
@@ -248,7 +258,9 @@ def chunked_computation(
         data_memory = memory_optimizer.estimate_memory_usage(data)
 
         # If data is already small enough, process it directly
-        if memory_optimizer.is_memory_available(data_memory * 2):  # Allow for result storage
+        if memory_optimizer.is_memory_available(
+            data_memory * 2
+        ):  # Allow for result storage
             return [func(data)]
 
         # Otherwise, estimate chunk size based on available memory
@@ -271,8 +283,7 @@ def chunked_computation(
 
 
 def memory_efficient_evpi_computation(
-    net_benefit_array: np.ndarray,
-    chunk_size: Optional[int] = None
+    net_benefit_array: np.ndarray, chunk_size: int | None = None
 ) -> float:
     """
     Compute EVPI in a memory-efficient way using chunked computation.
@@ -287,10 +298,15 @@ def memory_efficient_evpi_computation(
     """
     optimizer = MemoryOptimizer()
 
+    if net_benefit_array.size == 0:
+        return 0.0
+
     # If array is small enough, compute directly
     if chunk_size is None:
         array_memory = optimizer.estimate_memory_usage(net_benefit_array)
-        if optimizer.is_memory_available(array_memory * 4):  # Allow for intermediate arrays
+        if optimizer.is_memory_available(
+            array_memory * 4
+        ):  # Allow for intermediate arrays
             # Standard EVPI computation
             max_nb = np.max(net_benefit_array, axis=1)
             expected_nb_options = np.mean(net_benefit_array, axis=0)
@@ -338,13 +354,13 @@ def memory_efficient_evpi_computation(
 
 
 # Example usage function
-def example_memory_optimization():
-    """Example of how to use memory optimization utilities."""
+def example_memory_optimization() -> None:
+    """Use memory optimization utilities."""
     # Create a large sample dataset
     np.random.seed(42)
     large_net_benefits = np.random.randn(10000, 5).astype(np.float64)
 
-    print(f"Original array size: {large_net_benefits.nbytes / (1024*1024):.2f} MB")
+    print(f"Original array size: {large_net_benefits.nbytes / (1024 * 1024):.2f} MB")
     print(f"Original dtype: {large_net_benefits.dtype}")
 
     # Create memory optimizer
@@ -352,12 +368,12 @@ def example_memory_optimization():
 
     # Optimize array dtype
     optimized_array = optimizer.optimize_array_dtype(large_net_benefits)
-    print(f"Optimized array size: {optimized_array.nbytes / (1024*1024):.2f} MB")
+    print(f"Optimized array size: {optimized_array.nbytes / (1024 * 1024):.2f} MB")
     print(f"Optimized dtype: {optimized_array.dtype}")
 
     # Check available memory
     available_memory = optimizer.get_available_memory()
-    print(f"Available memory: {available_memory / (1024*1024):.2f} MB")
+    print(f"Available memory: {available_memory / (1024 * 1024):.2f} MB")
 
     # Perform memory-efficient EVPI computation
     evpi_result = memory_efficient_evpi_computation(large_net_benefits, chunk_size=1000)
@@ -368,5 +384,5 @@ def example_memory_optimization():
     print("Garbage collection completed")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     example_memory_optimization()

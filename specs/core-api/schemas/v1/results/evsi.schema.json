@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/results/evsi.schema.json",
+  "title": "EVSIV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "trial_design_id",
+    "sample_size",
+    "evsi"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "evsi"
+    },
+    "trial_design_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the trial design used for the analysis."
+    },
+    "sample_size": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total sample size represented by the trial design."
+    },
+    "evsi": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Expected value of sample information."
+    },
+    "expected_current_value": {
+      "type": "number"
+    },
+    "expected_sample_value": {
+      "type": "number"
+    },
+    "expected_perfect_information": {
+      "type": "number"
+    },
+    "method": {
+      "type": "string",
+      "description": "Optional EVSI estimator label."
+    },
+    "diagnostics": {
+      "type": "object",
+      "description": "Extension boundary for estimator diagnostics."
+    }
+  }
+}

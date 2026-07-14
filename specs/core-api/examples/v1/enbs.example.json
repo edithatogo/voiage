@@ -1,0 +1,15 @@
+{
+  "analysis_id": "enbs-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "enbs",
+  "trial_design_id": "screening-trial-design-001",
+  "sample_size": 240,
+  "design_cost": 180000.0,
+  "enbs": 12500.0,
+  "expected_sample_value": 1527.75,
+  "expected_perfect_information": 1630.0,
+  "method": "sample-size-optimization",
+  "diagnostics": {
+    "notes": "Compact example payload."
+  }
+}

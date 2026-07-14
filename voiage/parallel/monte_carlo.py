@@ -1,12 +1,37 @@
 """Parallel processing utilities for Monte Carlo simulations in Value of Information analysis."""
 
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-import multiprocessing as mp
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
+from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
+from concurrent.futures.process import BrokenProcessPool
+from functools import partial
+import os
+from typing import TypeVar
 
 import numpy as np
 
+from voiage.exceptions import raise_value_error
+from voiage.parallel.distributed import ClusterExecutionConfig, distributed_map
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
+
+_ParallelResult = TypeVar("_ParallelResult")
+
+
+def _execute_parallel_work(
+    *,
+    n_workers: int,
+    use_processes: bool,
+    work: Callable[[Executor], _ParallelResult],
+) -> _ParallelResult:
+    """Run parallel work with a process-first strategy and a thread fallback."""
+    if use_processes:
+        try:
+            with ProcessPoolExecutor(max_workers=n_workers) as executor:
+                return work(executor)
+        except (BrokenProcessPool, OSError, RuntimeError):
+            pass
+
+    with ThreadPoolExecutor(max_workers=n_workers) as executor:
+        return work(executor)
 
 
 def _monte_carlo_worker(
@@ -15,8 +40,8 @@ def _monte_carlo_worker(
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
     n_simulations: int,
-    seed_offset: int = 0
-) -> Tuple[float, int]:
+    seed_offset: int = 0,
+) -> tuple[float, int]:
     """
     Worker function for parallel Monte Carlo simulation.
 
@@ -51,15 +76,21 @@ def _monte_carlo_worker(
         posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design)
 
         # Run model on posterior samples
-        nb_posterior = model_func(posterior_psa).values
+        nb_posterior = model_func(posterior_psa).numpy_values
         mean_nb_per_strategy = np.mean(nb_posterior, axis=0)
         max_nb_post_study.append(np.max(mean_nb_per_strategy))
 
-    expected_max_nb = np.mean(max_nb_post_study) if max_nb_post_study else 0.0
+    expected_max_nb = float(np.mean(max_nb_post_study)) if max_nb_post_study else 0.0
     return expected_max_nb, n_simulations
 
 
-def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, statistic_func) -> List[float]:
+def _bootstrap_worker(
+    worker_id: int,
+    n_samples: int,
+    seed_offset: int,
+    data: np.ndarray,
+    statistic_func: Callable[[np.ndarray], float],
+) -> list[float]:
     """Worker function for bootstrap sampling."""
     np.random.seed(seed_offset + worker_id)
     results = []
@@ -73,7 +104,27 @@ def _bootstrap_worker(worker_id: int, n_samples: int, seed_offset: int, data, st
     return results
 
 
-def _simulate_trial_data(true_parameters: Dict[str, float], trial_design: TrialDesign) -> Dict[str, np.ndarray]:
+def _distributed_monte_carlo_worker(
+    item: tuple[int, int],
+    model_func: Callable[[ParameterSet], ValueArray],
+    psa_prior: ParameterSet,
+    trial_design: TrialDesign,
+) -> tuple[float, int]:
+    """Run a distributed Monte Carlo chunk in a process-safe top-level worker."""
+    worker_id, n_sims = item
+    return _monte_carlo_worker(
+        worker_id=worker_id,
+        model_func=model_func,
+        psa_prior=psa_prior,
+        trial_design=trial_design,
+        n_simulations=n_sims,
+        seed_offset=worker_id * 1000,
+    )
+
+
+def _simulate_trial_data(
+    true_parameters: dict[str, float], trial_design: TrialDesign
+) -> dict[str, np.ndarray]:
     """Simulate trial data based on true parameters."""
     data = {}
     for arm in trial_design.arms:
@@ -91,8 +142,8 @@ def _simulate_trial_data(true_parameters: Dict[str, float], trial_design: TrialD
 
 def _bayesian_update(
     prior_samples: ParameterSet,
-    trial_data: Dict[str, np.ndarray],
-    trial_design: TrialDesign
+    trial_data: dict[str, np.ndarray],
+    trial_design: TrialDesign,
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
     import xarray as xr
@@ -111,7 +162,9 @@ def _bayesian_update(
                 # Get standard deviation from prior
                 std_dev_name = "sd_outcome"
                 if std_dev_name in prior_samples.parameters:
-                    prior_std = prior_samples.parameters[std_dev_name]
+                    prior_std: float | np.ndarray = prior_samples.parameters[
+                        std_dev_name
+                    ]
                     # Use mean of std dev if it's an array
                     if isinstance(prior_std, np.ndarray):
                         prior_std = np.mean(prior_std)
@@ -151,8 +204,8 @@ def parallel_monte_carlo_simulation(
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
     n_simulations: int = 1000,
-    n_workers: Optional[int] = None,
-    use_processes: bool = True
+    n_workers: int | None = None,
+    use_processes: bool = True,
 ) -> float:
     """
     Perform Monte Carlo simulation using parallel processing.
@@ -170,7 +223,7 @@ def parallel_monte_carlo_simulation(
         float: Expected maximum net benefit from posterior analysis
     """
     if n_workers is None:
-        n_workers = mp.cpu_count()
+        n_workers = os.cpu_count() or 1
 
     # Distribute simulations across workers
     simulations_per_worker = [n_simulations // n_workers] * n_workers
@@ -178,11 +231,7 @@ def parallel_monte_carlo_simulation(
     for i in range(n_simulations % n_workers):
         simulations_per_worker[i] += 1
 
-    # Choose executor type
-    executor_class = ProcessPoolExecutor if use_processes else ThreadPoolExecutor
-
-    # Run simulations in parallel
-    with executor_class(max_workers=n_workers) as executor:
+    def run_work(executor: Executor) -> float:
         futures = []
         for i, n_sims in enumerate(simulations_per_worker):
             future = executor.submit(
@@ -192,11 +241,10 @@ def parallel_monte_carlo_simulation(
                 psa_prior=psa_prior,
                 trial_design=trial_design,
                 n_simulations=n_sims,
-                seed_offset=i * 1000  # Ensure different randomness across workers
+                seed_offset=i * 1000,  # Ensure different randomness across workers
             )
             futures.append(future)
 
-        # Collect results
         total_expected_max_nb = 0.0
         total_simulations = 0
 
@@ -205,23 +253,74 @@ def parallel_monte_carlo_simulation(
             total_expected_max_nb += expected_max_nb * n_sims_processed
             total_simulations += n_sims_processed
 
-    # Return weighted average
-    if total_simulations > 0:
-        return total_expected_max_nb / total_simulations
-    else:
-        return 0.0
+        return (
+            total_expected_max_nb / total_simulations if total_simulations > 0 else 0.0
+        )
+
+    return _execute_parallel_work(
+        n_workers=n_workers,
+        use_processes=use_processes,
+        work=run_work,
+    )
+
+
+def distributed_monte_carlo_simulation(
+    model_func: Callable[[ParameterSet], ValueArray],
+    psa_prior: ParameterSet,
+    trial_design: TrialDesign,
+    n_simulations: int = 1000,
+    cluster_config: ClusterExecutionConfig | None = None,
+    executor_factory: Callable[[int, bool], Executor] | None = None,
+) -> float:
+    """Run Monte Carlo simulation through a cluster-oriented execution abstraction.
+
+    This keeps the CPU contract deterministic while allowing the caller to plug
+    in a distributed executor implementation for multi-node or scheduler-backed
+    execution.
+    """
+    if cluster_config is None:
+        cluster_config = ClusterExecutionConfig()
+
+    n_workers = cluster_config.total_workers
+    simulations_per_worker = [n_simulations // n_workers] * n_workers
+    for i in range(n_simulations % n_workers):
+        simulations_per_worker[i] += 1
+
+    work_items = [(i, n_sims) for i, n_sims in enumerate(simulations_per_worker)]
+
+    results = distributed_map(
+        work_items,
+        partial(
+            _distributed_monte_carlo_worker,
+            model_func=model_func,
+            psa_prior=psa_prior,
+            trial_design=trial_design,
+        ),
+        config=cluster_config,
+        n_workers=n_workers,
+        use_processes=cluster_config.use_processes,
+        executor_factory=executor_factory,
+    )
+
+    total_expected_max_nb = 0.0
+    total_simulations = 0
+    for expected_max_nb, n_sims_processed in results:
+        total_expected_max_nb += expected_max_nb * n_sims_processed
+        total_simulations += n_sims_processed
+
+    return total_expected_max_nb / total_simulations if total_simulations > 0 else 0.0
 
 
 def parallel_evsi_calculation(
     model_func: Callable[[ParameterSet], ValueArray],
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_simulations: int = 1000,
-    n_workers: Optional[int] = None,
-    use_processes: bool = True
+    n_workers: int | None = None,
+    use_processes: bool = True,
 ) -> float:
     """
     Calculate EVSI using parallel Monte Carlo simulation.
@@ -242,7 +341,7 @@ def parallel_evsi_calculation(
         float: EVSI value
     """
     # Calculate baseline expected net benefit with current information
-    nb_prior_values = model_func(psa_prior).values
+    nb_prior_values = model_func(psa_prior).numpy_values
     mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
@@ -253,7 +352,7 @@ def parallel_evsi_calculation(
         trial_design=trial_design,
         n_simulations=n_simulations,
         n_workers=n_workers,
-        use_processes=use_processes
+        use_processes=use_processes,
     )
 
     # Calculate EVSI
@@ -263,18 +362,18 @@ def parallel_evsi_calculation(
     # Apply population scaling if provided
     if population is not None and time_horizon is not None:
         if population <= 0:
-            raise ValueError("Population must be positive.")
+            raise_value_error("Population must be positive.")
         if time_horizon <= 0:
-            raise ValueError("Time horizon must be positive.")
+            raise_value_error("Time horizon must be positive.")
 
         dr = discount_rate if discount_rate is not None else 0.0
         if not (0 <= dr <= 1):
-            raise ValueError("Discount rate must be between 0 and 1.")
+            raise_value_error("Discount rate must be between 0 and 1.")
 
         annuity = (
             (1 - (1 + dr) ** -time_horizon) / dr if dr > 0 else float(time_horizon)
         )
-        return per_decision_evsi * population * annuity
+        return float(per_decision_evsi * population * annuity)
 
     return float(per_decision_evsi)
 
@@ -283,9 +382,9 @@ def parallel_bootstrap_sampling(
     data: np.ndarray,
     statistic_func: Callable[[np.ndarray], float],
     n_bootstrap_samples: int = 1000,
-    n_workers: Optional[int] = None,
-    use_processes: bool = True
-) -> Dict[str, Union[float, np.ndarray]]:
+    n_workers: int | None = None,
+    use_processes: bool = True,
+) -> dict[str, float | np.ndarray]:
     """
     Perform bootstrap sampling using parallel processing.
 
@@ -301,18 +400,14 @@ def parallel_bootstrap_sampling(
         Dict with bootstrap statistics (mean, std, percentiles)
     """
     if n_workers is None:
-        n_workers = mp.cpu_count()
+        n_workers = os.cpu_count() or 1
 
     # Distribute bootstrap samples across workers
     samples_per_worker = [n_bootstrap_samples // n_workers] * n_workers
     for i in range(n_bootstrap_samples % n_workers):
         samples_per_worker[i] += 1
 
-    # Choose executor type
-    executor_class = ProcessPoolExecutor if use_processes else ThreadPoolExecutor
-
-    # Run bootstrap sampling in parallel
-    with executor_class(max_workers=n_workers) as executor:
+    def run_work(executor: Executor) -> dict[str, float | np.ndarray]:
         futures = []
         for i, n_samples in enumerate(samples_per_worker):
             future = executor.submit(
@@ -321,22 +416,26 @@ def parallel_bootstrap_sampling(
                 n_samples=n_samples,
                 seed_offset=i * 1000,
                 data=data,
-                statistic_func=statistic_func
+                statistic_func=statistic_func,
             )
             futures.append(future)
 
-        # Collect results
         all_bootstrap_stats = []
         for future in futures:
             worker_stats = future.result()
             all_bootstrap_stats.extend(worker_stats)
 
-    # Calculate statistics
-    bootstrap_array = np.array(all_bootstrap_stats)
-    return {
-        "mean": np.mean(bootstrap_array),
-        "std": np.std(bootstrap_array),
-        "percentile_2.5": np.percentile(bootstrap_array, 2.5),
-        "percentile_97.5": np.percentile(bootstrap_array, 97.5),
-        "samples": bootstrap_array
-    }
+        bootstrap_array = np.array(all_bootstrap_stats)
+        return {
+            "mean": np.mean(bootstrap_array),
+            "std": np.std(bootstrap_array),
+            "percentile_2.5": np.percentile(bootstrap_array, 2.5),
+            "percentile_97.5": np.percentile(bootstrap_array, 97.5),
+            "samples": bootstrap_array,
+        }
+
+    return _execute_parallel_work(
+        n_workers=n_workers,
+        use_processes=use_processes,
+        work=run_work,
+    )

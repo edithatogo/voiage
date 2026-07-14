@@ -1,0 +1,121 @@
+# serializer version: 1
+# name: TestVOISnapshotTests.test_basic_evpi_snapshot
+  dict({
+    'evpi_result': 0.0,
+    'expected_max_nb': 140.0,
+    'input_data': list([
+      list([
+        100.0,
+        150.0,
+      ]),
+      list([
+        90.0,
+        140.0,
+      ]),
+      list([
+        110.0,
+        130.0,
+      ]),
+    ]),
+    'max_expected_nb': 140.0,
+    'strategy_names': list([
+      'Strategy A',
+      'Strategy B',
+    ]),
+  })
+# ---
+# name: TestVOISnapshotTests.test_complex_scenario_snapshot
+  dict({
+    'dimensions': tuple(
+      20,
+      3,
+    ),
+    'evpi_result': 25396.5271154901,
+    'scenario': 'complex_20_samples_3_strategies',
+    'statistical_summary': dict({
+      'max_per_strategy': list([
+        94888.55372533333,
+        96563.20330745593,
+        96990.98521619943,
+      ]),
+      'mean_per_strategy': list([
+        47053.89323529437,
+        45696.96082176899,
+        47499.37674648483,
+      ]),
+      'min_per_strategy': list([
+        3438.8521115218396,
+        2058.4494295802447,
+        4645.041271999772,
+      ]),
+      'overall_mean': 46750.07693451606,
+      'overall_std': 30287.432683017614,
+      'std_per_strategy': list([
+        25220.014160603092,
+        35045.98160776306,
+        29764.962394945527,
+      ]),
+    }),
+  })
+# ---
+# name: TestVOISnapshotTests.test_edge_cases_snapshot
+  dict({
+    'identical_strategies_data': list([
+      list([
+        100.0,
+        100.0,
+      ]),
+      list([
+        110.0,
+        110.0,
+      ]),
+      list([
+        90.0,
+        90.0,
+      ]),
+    ]),
+    'identical_strategies_evpi': 0.0,
+    'single_strategy_data': list([
+      list([
+        100.0,
+      ]),
+      list([
+        110.0,
+      ]),
+      list([
+        90.0,
+      ]),
+    ]),
+    'single_strategy_evpi': 0.0,
+  })
+# ---
+# name: TestVOISnapshotTests.test_evpi_with_scaling_snapshot
+  dict({
+    'discount_rate': 0.035,
+    'evpi_result': 2772201774.1926537,
+    'nb_data': list([
+      list([
+        100000.0,
+        150000.0,
+        120000.0,
+      ]),
+      list([
+        90000.0,
+        140000.0,
+        130000.0,
+      ]),
+      list([
+        110000.0,
+        130000.0,
+        140000.0,
+      ]),
+    ]),
+    'population': 100000,
+    'strategy_names': list([
+      'Treatment X',
+      'Treatment Y',
+      'Standard Care',
+    ]),
+    'time_horizon': 10,
+  })
+# ---

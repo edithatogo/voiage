@@ -6,7 +6,7 @@ This guide helps users migrate from other Value of Information tools to voiage, 
 
 ### Key Differences
 
-1. **Data Structures**: BCEA uses data frames, while voiage uses xarray-based data structures
+1. **Data Structures**: BCEA uses data frames, while voiage uses xarray-based data structures. `ValueArray` and `ParameterSet` keep xarray Datasets as the canonical in-memory representation.
 2. **Function Names**: Function names differ between the two libraries
 3. **Output Format**: voiage provides more structured output with better error handling
 
@@ -38,6 +38,16 @@ analysis = DecisionAnalysis(nb_array=value_array)
 
 # Calculate EVPI
 evpi_result = analysis.evpi()
+```
+
+If you already have an xarray Dataset, use the dataset round-trip helpers
+directly:
+
+```python
+from voiage.schema import ValueArray
+
+value_array = ValueArray.from_dataset(dataset)
+dataset_copy = value_array.to_dataset()
 ```
 
 ## From dampack (R)
@@ -80,6 +90,14 @@ evpi_result = analysis.evpi()
 # Calculate EVPPI
 evppi_result = analysis.evppi()
 ```
+
+If you are calling the lower-level `voiage.methods.basic.evppi` wrapper
+directly, prefer `ParameterSet` inputs. Raw dict inputs still work as a
+compatibility alias, but they now emit a deprecation warning.
+
+For larger portable interchange artifacts, the core contract now treats JSON as
+the committed fixture format and reserves Arrow/Parquet for binary exchange
+paths where an optional backend is available.
 
 ## From voi (R)
 
@@ -129,13 +147,40 @@ evppi_result = analysis.evppi()
 | EVPI | ✅ | ✅ | ✅ | ✅ |
 | EVPPI | ✅ | ✅ | ✅ | ✅ |
 | EVSI | ✅ | ✅ | ✅ | ✅ |
-| Portfolio Optimization | ❌ | ✅ | ❌ | ✅ |
-| Network Meta-Analysis | ❌ | ❌ | ❌ | ✅ |
-| Adaptive Trials | ❌ | ❌ | ❌ | ✅ |
-| Calibration | ❌ | ❌ | ❌ | ✅ |
-| Observational Studies | ❌ | ❌ | ❌ | ✅ |
+| ENBS | ❌ | ❌ | ✅ | ✅ |
+| CEAF / dominance / heterogeneity | ❌ | Partial | ❌ | ✅ |
+| Structural uncertainty VOI | ❌ | ❌ | ❌ | ✅ |
+| Network Meta-Analysis VOI | ❌ | ❌ | ❌ | ✅ |
+| Adaptive trials | ❌ | ❌ | ❌ | ✅ |
+| Calibration VOI | ❌ | ❌ | ❌ | ✅ |
+| Observational studies | ❌ | ❌ | ❌ | ✅ |
+| Portfolio optimization | ❌ | ✅ | ❌ | ✅ |
+| Sequential VOI | ❌ | ❌ | ❌ | ✅ |
 | Python API | ❌ | ❌ | ❌ | ✅ |
-| Cross-Domain Usage | Limited | Limited | Limited | ✅ |
+| CLI workflow | ❌ | Partial | ❌ | ✅ |
+| Cross-language scaffolds | ❌ | ❌ | ❌ | 🚧 |
+| HEOML / ecosystem contracts | ❌ | ❌ | ❌ | 🚧 |
+| Value of Perspective | ❌ | ❌ | ❌ | 🚧 |
+| Distributional/equity VOI | ❌ | ❌ | ❌ | 🚧 |
+| Implementation-adjusted VOI | ❌ | ❌ | ❌ | 🚧 |
+| Frontier contract registry and validator | ❌ | ❌ | ❌ | ✅ |
+| Preference-information / individualized-care VOI | ❌ | ❌ | Runtime + CLI + fixture-backed conformance | 🚧 |
+| Validation, threshold, and robust VOI | ❌ | ❌ | Runtime + CLI + fixture-backed conformance | 🚧 |
+| Causal, data-quality, computational, and elicitation VOI | ❌ | ❌ | ❌ | 📋 |
+| Cross-domain usage | Limited | Limited | Limited | ✅ |
+
+Current roadmap context:
+
+- Core method work is complete.
+- The active focus is spec-first expansion, conformance fixtures, cross-language binding scaffolds, and ecosystem contracts.
+- The SOTA frontier track now includes implemented Value of Perspective,
+  preference/individualized-care, model-validation, threshold/robust,
+  distributional/equity, and implementation-adjusted APIs, along with a
+  registry-backed frontier contract layer that validates the committed
+  deterministic fixtures.
+- Preference/individualized-care now has an implemented runtime surface, CLI
+  entrypoint, and fixture-backed conformance contract; model-validation and
+  threshold/robust also have runtime, CLI, and fixture-backed coverage.
 
 ## Best Practices for Migration
 

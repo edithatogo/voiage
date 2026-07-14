@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/implementation/v1/schemas/implementation-adjusted-result.schema.json",
+  "title": "ImplementationAdjustedResultV1Experimental",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "method_maturity",
+    "value",
+    "baseline_expected_net_benefits",
+    "baseline_optimal_strategy_index",
+    "baseline_optimal_strategy_name",
+    "adjusted_expected_net_benefits",
+    "adjusted_optimal_strategy_index",
+    "adjusted_optimal_strategy_name",
+    "implementation_multiplier",
+    "uptake",
+    "adherence",
+    "coverage",
+    "implementation_delay",
+    "implementation_uncertainty",
+    "discount_rate",
+    "time_horizon",
+    "population",
+    "reporting"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "value_of_implementation"
+    },
+    "method_maturity": {
+      "type": "string",
+      "const": "experimental"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0
+    },
+    "baseline_expected_net_benefits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "baseline_optimal_strategy_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "baseline_optimal_strategy_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adjusted_expected_net_benefits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "adjusted_optimal_strategy_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "adjusted_optimal_strategy_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_multiplier": {
+      "type": "number",
+      "minimum": 0
+    },
+    "uptake": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "adherence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "implementation_delay": {
+      "type": "number",
+      "minimum": 0
+    },
+    "implementation_uncertainty": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "discount_rate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "time_horizon": {
+      "type": ["number", "null"],
+      "exclusiveMinimum": 0
+    },
+    "population": {
+      "type": ["number", "null"],
+      "exclusiveMinimum": 0
+    },
+    "reporting": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  }
+}

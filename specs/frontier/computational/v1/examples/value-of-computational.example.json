@@ -1,0 +1,96 @@
+{
+  "analysis_id": "computational-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_computational_refinement",
+  "method_maturity": "planned",
+  "value": 2.9,
+  "compute_value": 1.2,
+  "approximation_error_value": 0.9,
+  "refinement_value": 0.8,
+  "compute_budget_ids": [
+    "baseline_compute",
+    "enhanced_compute"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "refine_model",
+    "approximate_fast"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      11.4,
+      11.0
+    ],
+    [
+      9.7,
+      12.1,
+      11.8
+    ]
+  ],
+  "optimal_strategy_by_compute_budget": {
+    "baseline_compute": "refine_model",
+    "enhanced_compute": "refine_model"
+  },
+  "compute_cost_matrix": [
+    [
+      0.0,
+      2.0,
+      1.0
+    ],
+    [
+      0.0,
+      3.0,
+      1.5
+    ]
+  ],
+  "approximation_error_matrix": [
+    [
+      0.3,
+      0.1,
+      0.2
+    ],
+    [
+      0.25,
+      0.08,
+      0.15
+    ]
+  ],
+  "refinement_weight_matrix": [
+    [
+      0.5,
+      0.9,
+      0.6
+    ],
+    [
+      0.4,
+      1.0,
+      0.7
+    ]
+  ],
+  "consensus_strategy": "refine_model",
+  "robust_strategy": "approximate_fast",
+  "pareto_strategies": [
+    "refine_model",
+    "approximate_fast"
+  ],
+  "reference_compute_budget": "baseline_compute",
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_computational_refinement",
+    "method_family": "value_of_computational_refinement",
+    "method_maturity": "planned",
+    "analysis_id": "computational-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "decision_context": "screening-program",
+    "population": null,
+    "estimator": null,
+    "seed": null,
+    "provenance": {},
+    "reproducibility": {},
+    "diagnostics": {
+      "n_budgets": 2,
+      "n_strategies": 3
+    }
+  }
+}

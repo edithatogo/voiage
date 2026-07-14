@@ -12,7 +12,7 @@ from voiage.financial.risk_analysis import (
 )
 
 
-def test_calculate_value_at_risk():
+def test_calculate_value_at_risk() -> None:
     """Test Value at Risk calculation."""
     # Generate normal returns with known properties
     np.random.seed(42)
@@ -25,7 +25,7 @@ def test_calculate_value_at_risk():
     assert abs(var_95 - expected_var_95) < 0.005  # Allow some tolerance
 
 
-def test_calculate_value_at_risk_invalid_inputs():
+def test_calculate_value_at_risk_invalid_inputs() -> None:
     """Test Value at Risk calculation with invalid inputs."""
     # Empty returns array
     with pytest.raises(ValueError):
@@ -40,7 +40,7 @@ def test_calculate_value_at_risk_invalid_inputs():
         calculate_value_at_risk(returns, -0.1)
 
 
-def test_calculate_conditional_value_at_risk():
+def test_calculate_conditional_value_at_risk() -> None:
     """Test Conditional Value at Risk calculation."""
     # Generate normal returns
     np.random.seed(42)
@@ -53,7 +53,27 @@ def test_calculate_conditional_value_at_risk():
     assert cvar_95 >= var_95
 
 
-def test_calculate_sharpe_ratio():
+def test_calculate_conditional_value_at_risk_invalid_inputs() -> None:
+    """Test CVaR validation branches."""
+    with pytest.raises(ValueError):
+        calculate_conditional_value_at_risk([], 0.95)
+
+    with pytest.raises(ValueError):
+        calculate_conditional_value_at_risk([0.01, -0.02], 1.0)
+
+
+def test_calculate_conditional_value_at_risk_returns_var_when_tail_empty(
+    monkeypatch,
+) -> None:
+    """CVaR should fall back to VaR if no returns are in the tail."""
+    import voiage.financial.risk_analysis as risk
+
+    monkeypatch.setattr(risk, "calculate_value_at_risk", lambda *_args: 10.0)
+
+    assert calculate_conditional_value_at_risk(np.array([1.0, 2.0]), 0.95) == 10.0
+
+
+def test_calculate_sharpe_ratio() -> None:
     """Test Sharpe ratio calculation."""
     # Generate returns with positive mean
     np.random.seed(42)
@@ -70,14 +90,21 @@ def test_calculate_sharpe_ratio():
     # But due to floating point precision, it might be a very large number
     assert sharpe_const > 1000000
 
+    assert calculate_sharpe_ratio([0.0] * 10, 0.005) < -1000000
+    assert calculate_sharpe_ratio([0.005] * 10, 0.005) == 0.0
+    assert calculate_sharpe_ratio(returns, risk_free_rate, annualize=True) != sharpe
 
-def test_monte_carlo_var():
+    with pytest.raises(ValueError):
+        calculate_sharpe_ratio([])
+
+
+def test_monte_carlo_var() -> None:
     """Test Monte Carlo VaR calculation."""
     # Test with realistic parameters
     initial_value = 100000  # $100,000 portfolio
-    expected_return = 0.08   # 8% expected annual return
-    volatility = 0.15        # 15% annual volatility
-    time_horizon = 1.0       # 1 year
+    expected_return = 0.08  # 8% expected annual return
+    volatility = 0.15  # 15% annual volatility
+    time_horizon = 1.0  # 1 year
 
     var_mc = monte_carlo_var(
         initial_value, expected_return, volatility, time_horizon, 0.95, 10000
@@ -90,7 +117,7 @@ def test_monte_carlo_var():
     assert var_mc < initial_value * 0.5
 
 
-def test_monte_carlo_var_invalid_inputs():
+def test_monte_carlo_var_invalid_inputs() -> None:
     """Test Monte Carlo VaR with invalid inputs."""
     # Invalid initial value
     with pytest.raises(ValueError):
@@ -104,18 +131,18 @@ def test_monte_carlo_var_invalid_inputs():
     with pytest.raises(ValueError):
         monte_carlo_var(100000, 0.08, 0.15, 1.0, 0.95, -1000)
 
+    with pytest.raises(ValueError):
+        monte_carlo_var(100000, 0.08, 0.15, 0.0)
 
-def test_stress_testing():
+
+def test_stress_testing() -> None:
     """Test stress testing functionality."""
     # Generate base returns
     np.random.seed(42)
     base_returns = np.random.normal(0.001, 0.02, 1000)
 
     # Define stress scenarios
-    stress_scenarios = {
-        "moderate_stress": 1.5,
-        "severe_stress": 2.5
-    }
+    stress_scenarios = {"moderate_stress": 1.5, "severe_stress": 2.5}
 
     results = stress_testing(base_returns, stress_scenarios)
 
@@ -127,6 +154,16 @@ def test_stress_testing():
     # Stress scenarios should have higher VaR
     assert results["moderate_stress"] >= results["base_case"]
     assert results["severe_stress"] >= results["moderate_stress"]
+
+
+def test_stress_testing_validates_and_accepts_lists() -> None:
+    """Stress testing should validate input and convert list returns."""
+    results = stress_testing([0.01, -0.02, 0.03], {"shock": 2.0})
+
+    assert set(results) == {"base_case", "shock"}
+
+    with pytest.raises(ValueError):
+        stress_testing([], {"shock": 2.0})
 
 
 if __name__ == "__main__":

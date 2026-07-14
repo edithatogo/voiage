@@ -1,0 +1,20 @@
+{
+  "decision_problem_id": "screening-program-001",
+  "title": "Screening program choice",
+  "analysis_type": "net-benefit-first",
+  "currency": "AUD",
+  "willingness_to_pay": 50000,
+  "outcome_names": ["cost", "effect", "net_benefit"],
+  "interventions": [
+    {
+      "intervention_id": "usual-care",
+      "name": "Usual care",
+      "is_reference": true
+    },
+    {
+      "intervention_id": "screening",
+      "name": "Targeted screening",
+      "description": "A targeted screening pathway for the at-risk cohort."
+    }
+  ]
+}

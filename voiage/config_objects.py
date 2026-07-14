@@ -1,7 +1,41 @@
 """Configuration objects for complex parameter sets in Value of Information analysis."""
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any
+
+from voiage.exceptions import raise_value_error
+
+_WINDOW_SIZE_POSITIVE = "Window size must be positive"
+_UPDATE_FREQUENCY_POSITIVE = "Update frequency must be positive"
+_BUFFER_SIZE_POSITIVE = "Buffer size must be positive"
+_QALY_DISCOUNT_RATE_RANGE = "QALY discount rate must be between 0 and 1"
+_COST_DISCOUNT_RATE_RANGE = "Cost discount rate must be between 0 and 1"
+_CYCLE_LENGTH_POSITIVE = "Cycle length must be positive"
+_MAX_CYCLES_POSITIVE = "Max cycles must be positive"
+_MARKOV_COHORT_SIZE_POSITIVE = "Markov cohort size must be positive"
+_MARKOV_START_AGE_NON_NEGATIVE = "Markov start age must be non-negative"
+_CARBON_INTENSITY_NON_NEGATIVE = "Carbon intensity must be non-negative"
+_ENERGY_CONSUMPTION_NON_NEGATIVE = "Energy consumption must be non-negative"
+_WATER_INTENSITY_NON_NEGATIVE = "Water intensity must be non-negative"
+_WATER_COST_NON_NEGATIVE = "Water cost must be non-negative"
+_BIODIVERSITY_IMPACT_FACTOR_NON_NEGATIVE = (
+    "Biodiversity impact factor must be non-negative"
+)
+_SOCIAL_COST_OF_CARBON_NON_NEGATIVE = "Social cost of carbon must be non-negative"
+_ECOSYSTEM_SERVICE_VALUE_NON_NEGATIVE = "Ecosystem service value must be non-negative"
+_VAR_CONFIDENCE_LEVEL_RANGE = "VaR confidence level must be between 0 and 1"
+_CVAR_CONFIDENCE_LEVEL_RANGE = "CVaR confidence level must be between 0 and 1"
+_MC_SIMULATIONS_POSITIVE = "Monte Carlo simulations must be positive"
+_MC_TIME_HORIZON_POSITIVE = "Monte Carlo time horizon must be positive"
+_N_WORKERS_POSITIVE = "Number of workers must be positive"
+_MAX_WORKERS_POSITIVE = "Maximum workers must be positive"
+_MEMORY_LIMIT_POSITIVE = "Memory limit must be positive"
+_CHUNK_SIZE_POSITIVE = "Chunk size must be positive"
+
+
+def _choice_error(label: str, options: list[str]) -> str:
+    """Format a stable validation error for enum-like configuration fields."""
+    return f"{label} must be one of {options}"
 
 
 @dataclass
@@ -9,27 +43,27 @@ class VOIAnalysisConfig:
     """Configuration for a Value of Information analysis."""
 
     # Basic analysis parameters
-    population: Optional[float] = None
-    time_horizon: Optional[float] = None
-    discount_rate: Optional[float] = None
+    population: float | None = None
+    time_horizon: float | None = None
+    discount_rate: float | None = None
 
     # Computational parameters
-    chunk_size: Optional[int] = None
+    chunk_size: int | None = None
     use_jit: bool = False
     backend: str = "numpy"
     enable_caching: bool = False
 
     # Streaming parameters
-    streaming_window_size: Optional[int] = None
+    streaming_window_size: int | None = None
 
     # EVPPI parameters
-    n_regression_samples: Optional[int] = None
-    regression_model: Optional[Any] = None
+    n_regression_samples: int | None = None
+    regression_model: Any | None = None
 
     # EVSI parameters
     n_simulations: int = 1000
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert configuration to dictionary."""
         return {
             "population": self.population,
@@ -42,7 +76,7 @@ class VOIAnalysisConfig:
             "streaming_window_size": self.streaming_window_size,
             "n_regression_samples": self.n_regression_samples,
             "regression_model": self.regression_model,
-            "n_simulations": self.n_simulations
+            "n_simulations": self.n_simulations,
         }
 
 
@@ -52,16 +86,16 @@ class StreamingConfig:
 
     window_size: int = 1000
     update_frequency: int = 100
-    buffer_size: Optional[int] = None
+    buffer_size: int | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
         if self.window_size <= 0:
-            raise ValueError("Window size must be positive")
+            raise_value_error(_WINDOW_SIZE_POSITIVE)
         if self.update_frequency <= 0:
-            raise ValueError("Update frequency must be positive")
+            raise_value_error(_UPDATE_FREQUENCY_POSITIVE)
         if self.buffer_size is not None and self.buffer_size <= 0:
-            raise ValueError("Buffer size must be positive")
+            raise_value_error(_BUFFER_SIZE_POSITIVE)
 
 
 @dataclass
@@ -89,19 +123,19 @@ class MetamodelConfig:
 
     # RF-specific parameters
     rf_n_estimators: int = 100
-    rf_max_depth: Optional[int] = None
+    rf_max_depth: int | None = None
 
     # NN-specific parameters
-    nn_hidden_layers: List[int] = field(default_factory=lambda: [64, 32])
+    nn_hidden_layers: list[int] = field(default_factory=lambda: [64, 32])
     nn_learning_rate: float = 0.001
     nn_epochs: int = 1000
     nn_batch_size: int = 32
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
-        valid_methods = ['gam', 'gp', 'bart', 'rf', 'nn']
+        valid_methods = ["gam", "gp", "bart", "rf", "nn"]
         if self.method not in valid_methods:
-            raise ValueError(f"Method must be one of {valid_methods}")
+            raise_value_error(_choice_error("Method", valid_methods))
 
 
 @dataclass
@@ -119,22 +153,22 @@ class OptimizationConfig:
     grid_resolution: int = 10
 
     # Random search parameters
-    random_seed: Optional[int] = None
+    random_seed: int | None = None
 
     # Bayesian optimization parameters
     acquisition_function: str = "ei"  # 'ei', 'ucb', 'poi'
     kappa: float = 2.576  # For UCB
     xi: float = 0.01  # For EI and POI
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
-        valid_algorithms = ['grid', 'random', 'bayesian']
+        valid_algorithms = ["grid", "random", "bayesian"]
         if self.algorithm not in valid_algorithms:
-            raise ValueError(f"Algorithm must be one of {valid_algorithms}")
+            raise_value_error(_choice_error("Algorithm", valid_algorithms))
 
-        valid_acq_funcs = ['ei', 'ucb', 'poi']
+        valid_acq_funcs = ["ei", "ucb", "poi"]
         if self.acquisition_function not in valid_acq_funcs:
-            raise ValueError(f"Acquisition function must be one of {valid_acq_funcs}")
+            raise_value_error(_choice_error("Acquisition function", valid_acq_funcs))
 
 
 @dataclass
@@ -153,20 +187,20 @@ class HealthcareConfig:
     markov_cohort_size: int = 10000
     markov_start_age: float = 25.0
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
         if not (0 <= self.qaly_discount_rate <= 1):
-            raise ValueError("QALY discount rate must be between 0 and 1")
+            raise_value_error(_QALY_DISCOUNT_RATE_RANGE)
         if not (0 <= self.cost_discount_rate <= 1):
-            raise ValueError("Cost discount rate must be between 0 and 1")
+            raise_value_error(_COST_DISCOUNT_RATE_RANGE)
         if self.cycle_length <= 0:
-            raise ValueError("Cycle length must be positive")
+            raise_value_error(_CYCLE_LENGTH_POSITIVE)
         if self.max_cycles <= 0:
-            raise ValueError("Max cycles must be positive")
+            raise_value_error(_MAX_CYCLES_POSITIVE)
         if self.markov_cohort_size <= 0:
-            raise ValueError("Markov cohort size must be positive")
+            raise_value_error(_MARKOV_COHORT_SIZE_POSITIVE)
         if self.markov_start_age < 0:
-            raise ValueError("Markov start age must be non-negative")
+            raise_value_error(_MARKOV_START_AGE_NON_NEGATIVE)
 
 
 @dataclass
@@ -188,22 +222,22 @@ class EnvironmentalConfig:
     social_cost_of_carbon: float = 50  # $/ton CO2
     ecosystem_service_value: float = 100  # $/impact unit
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
         if self.carbon_intensity < 0:
-            raise ValueError("Carbon intensity must be non-negative")
+            raise_value_error(_CARBON_INTENSITY_NON_NEGATIVE)
         if self.energy_consumption < 0:
-            raise ValueError("Energy consumption must be non-negative")
+            raise_value_error(_ENERGY_CONSUMPTION_NON_NEGATIVE)
         if self.water_intensity < 0:
-            raise ValueError("Water intensity must be non-negative")
+            raise_value_error(_WATER_INTENSITY_NON_NEGATIVE)
         if self.water_cost < 0:
-            raise ValueError("Water cost must be non-negative")
+            raise_value_error(_WATER_COST_NON_NEGATIVE)
         if self.biodiversity_impact_factor < 0:
-            raise ValueError("Biodiversity impact factor must be non-negative")
+            raise_value_error(_BIODIVERSITY_IMPACT_FACTOR_NON_NEGATIVE)
         if self.social_cost_of_carbon < 0:
-            raise ValueError("Social cost of carbon must be non-negative")
+            raise_value_error(_SOCIAL_COST_OF_CARBON_NON_NEGATIVE)
         if self.ecosystem_service_value < 0:
-            raise ValueError("Ecosystem service value must be non-negative")
+            raise_value_error(_ECOSYSTEM_SERVICE_VALUE_NON_NEGATIVE)
 
 
 @dataclass
@@ -220,18 +254,20 @@ class FinancialConfig:
     mc_time_horizon: int = 252  # Trading days
 
     # Stress testing parameters
-    stress_test_scenarios: List[str] = field(default_factory=lambda: ["market_crash", "interest_rate_shock"])
+    stress_test_scenarios: list[str] = field(
+        default_factory=lambda: ["market_crash", "interest_rate_shock"]
+    )
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
         if not (0 < self.var_confidence_level < 1):
-            raise ValueError("VaR confidence level must be between 0 and 1")
+            raise_value_error(_VAR_CONFIDENCE_LEVEL_RANGE)
         if not (0 < self.cvar_confidence_level < 1):
-            raise ValueError("CVaR confidence level must be between 0 and 1")
+            raise_value_error(_CVAR_CONFIDENCE_LEVEL_RANGE)
         if self.mc_n_simulations <= 0:
-            raise ValueError("Monte Carlo simulations must be positive")
+            raise_value_error(_MC_SIMULATIONS_POSITIVE)
         if self.mc_time_horizon <= 0:
-            raise ValueError("Monte Carlo time horizon must be positive")
+            raise_value_error(_MC_TIME_HORIZON_POSITIVE)
 
 
 @dataclass
@@ -239,24 +275,24 @@ class ParallelConfig:
     """Configuration for parallel processing."""
 
     # Parallel processing parameters
-    n_workers: Optional[int] = None
+    n_workers: int | None = None
     use_processes: bool = True
-    max_workers: Optional[int] = None
+    max_workers: int | None = None
 
     # Memory management
-    memory_limit_mb: Optional[float] = None
-    chunk_size: Optional[int] = None
+    memory_limit_mb: float | None = None
+    chunk_size: int | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration parameters."""
         if self.n_workers is not None and self.n_workers <= 0:
-            raise ValueError("Number of workers must be positive")
+            raise_value_error(_N_WORKERS_POSITIVE)
         if self.max_workers is not None and self.max_workers <= 0:
-            raise ValueError("Maximum workers must be positive")
+            raise_value_error(_MAX_WORKERS_POSITIVE)
         if self.memory_limit_mb is not None and self.memory_limit_mb <= 0:
-            raise ValueError("Memory limit must be positive")
+            raise_value_error(_MEMORY_LIMIT_POSITIVE)
         if self.chunk_size is not None and self.chunk_size <= 0:
-            raise ValueError("Chunk size must be positive")
+            raise_value_error(_CHUNK_SIZE_POSITIVE)
 
 
 # Factory functions for creating common configurations

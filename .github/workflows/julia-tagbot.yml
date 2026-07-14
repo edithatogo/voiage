@@ -1,0 +1,19 @@
+name: Julia Registry Sync
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tagbot:
+    name: TagBot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: JuliaRegistries/TagBot@e4c81aa138ef4179bddea165bb4a9680c223aca4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ssh: ${{ secrets.DOCUMENTER_KEY }}

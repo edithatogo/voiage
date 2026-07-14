@@ -35,7 +35,7 @@ Agents must follow this sequence for every contribution:
 *   **`todo.md`**: The actionable backlog of tasks for agents.
 *   **`changelog.md`**: A log of all user-facing changes.
 *   **`CONTRIBUTING.md`**: Technical guidelines for development (code style, testing, etc.).
-*   **`pyproject.toml`**: Defines project dependencies and tool configurations (Ruff, MyPy, etc.).
+*   **`pyproject.toml`**: Defines project dependencies and tool configurations (Ruff, ty, etc.).
 *   **`tox.ini`**: Defines the test environments for verification.
 
 ## Development Philosophy

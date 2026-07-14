@@ -1,60 +1,16 @@
 # voiage/methods/calibration.py
 
-"""Implementation of VOI methods for model calibration.
+"""Value of information helpers for model calibration studies.
 
-This module provides functions for calculating the Value of Information (VOI)
-for data collected to calibrate a model. These methods assess the value of
-collecting specific data primarily intended to improve the calibration of a
-simulation model or its parameters, rather than directly comparing treatment
-effectiveness (though improved calibration indirectly benefits such comparisons).
-
-The main function [voi_calibration][voiage.methods.calibration.voi_calibration]
-calculates the VOI for calibration studies using Monte Carlo simulation.
-
-Example usage:
-```python
-from voiage.methods.calibration import voi_calibration
-from voiage.schema import ParameterSet
-
-# Define your calibration study modeler
-def cal_study_modeler(psa_samples, study_design, process_spec):
-    # Your implementation here
-    pass
-
-# Create parameter samples
-parameter_set = ParameterSet.from_numpy_or_dict({...})
-
-# Define calibration study design
-calibration_study_design = {
-    "experiment_type": "lab",
-    "sample_size": 100,
-    "variables_measured": ["cost", "effectiveness"]
-}
-
-# Define calibration process specification
-calibration_process_spec = {
-    "method": "bayesian",
-    "likelihood_function": "normal"
-}
-
-# Calculate VOI for calibration
-voi_value = voi_calibration(
-    cal_study_modeler=cal_study_modeler,
-    psa_prior=parameter_set,
-    calibration_study_design=calibration_study_design,
-    calibration_process_spec=calibration_process_spec
-)
-```
-
-Functions:
-- [voi_calibration][voiage.methods.calibration.voi_calibration]: Main function for calibration VOI calculation
+The main entry point is ``voi_calibration``, which estimates the value of
+collecting calibration data under user-supplied study and process models.
 """
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
 
 import numpy as np
 
-from voiage.exceptions import InputError
+from voiage.exceptions import InputError, raise_input_error
 from voiage.schema import (
     ParameterSet as PSASample,
 )
@@ -72,138 +28,79 @@ from voiage.schema import (
 CalibrationStudyModeler = Callable[
     [
         PSASample,
-        Dict[str, Any],
-        Dict[str, Any],
+        dict[str, object],
+        dict[str, object],
     ],  # Prior PSA, Calibration Study Design, Calibration Process Spec
     NetBenefitArray,  # Expected NB conditional on simulated calibration data
 ]
 
 
 def voi_calibration(
-    cal_study_modeler: CalibrationStudyModeler,
-    psa_prior: PSASample,
-    calibration_study_design: Dict[
-        str, Any
-    ],  # Design of data collection for calibration
-    calibration_process_spec: Dict[str, Any],  # How data updates model params
+    cal_study_modeler: CalibrationStudyModeler | None = None,
+    psa_prior: PSASample | None = None,
+    calibration_study_design: dict[str, object] | None = None,
+    calibration_process_spec: dict[str, object] | None = None,
     # wtp: float, # Implicit
-    population: Optional[float] = None,
-    discount_rate: Optional[float] = None,
-    time_horizon: Optional[float] = None,
+    population: float | None = None,
+    discount_rate: float | None = None,
+    time_horizon: float | None = None,
     n_outer_loops: int = 20,
     # method_args for simulation, calibration algorithm details
-    **kwargs: Any,
+    **kwargs: object,
 ) -> float:
-    """Calculate the Value of Information for data collected for Model Calibration.
+    """Calculate the value of information for a calibration study.
 
-    VOI-Calibration assesses the expected value of a study specifically designed
-    to improve the calibration of a (health) economic model. This means reducing
-    uncertainty in key model parameters by comparing model outputs to observed data
-    and adjusting parameters to improve fit.
-
-    Args:
-        cal_study_modeler (CalibrationStudyModeler):
-            A function that simulates the calibration data collection, performs
-            the model calibration process (updating targeted parameters), and then
-            evaluates the economic model with these refined parameters.
-        psa_prior (PSASample):
-            PSA samples representing current (prior) uncertainty about all model parameters,
-            including those targeted for calibration.
-        calibration_study_design (Dict[str, Any]):
-            Specification of the data collection effort for calibration (e.g., type of
-            experiment, sample size, specific outputs to be measured).
-        calibration_process_spec (Dict[str, Any]):
-            Details of the calibration algorithm itself (e.g., Bayesian calibration,
-            likelihood functions, parameter search methods).
-        population (Optional[float]): Population size for scaling.
-        discount_rate (Optional[float]): Discount rate for scaling.
-        time_horizon (Optional[float]): Time horizon for scaling.
-        n_outer_loops (int): Number of outer loops for Monte Carlo simulation (default: 20).
-        **kwargs: Additional arguments.
+    Parameters
+    ----------
+    cal_study_modeler : callable, optional
+        Modeler that maps PSA samples and calibration assumptions to
+        net-benefit samples.
+    psa_prior : ParameterSet
+        Prior PSA samples representing current uncertainty.
+    calibration_study_design : dict[str, object]
+        Calibration study design specification.
+    calibration_process_spec : dict[str, object]
+        Calibration process specification.
+    population : float, optional
+        Population size for population scaling.
+    discount_rate : float, optional
+        Annual discount rate used for population scaling.
+    time_horizon : float, optional
+        Time horizon in years for population scaling.
+    n_outer_loops : int, default=20
+        Number of outer Monte Carlo draws.
+    **kwargs : object
+        Additional modeler-specific options.
 
     Returns
     -------
-        float: The calculated VOI for the calibration study.
+    float
+        Calibration VOI on a per-decision basis unless population scaling is
+        requested.
 
-    Raises
-    ------
-        InputError: If inputs are invalid.
-
-    Example
-    -------
-    ```python
-    from voiage.methods.calibration import voi_calibration
-    from voiage.schema import ParameterSet
-    import numpy as np
-
-    # Simple calibration study modeler
-    def simple_cal_modeler(psa_samples, study_design, process_spec):
-        # This is a simplified example - a real implementation would be much more complex
-        n_samples = psa_samples.n_samples
-        # Create net benefits for 2 strategies
-        nb_values = np.random.rand(n_samples, 2) * 100000
-        # Make strategy 1 slightly better on average
-        nb_values[:, 1] += 5000
-
-        import xarray as xr
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-            }
-        )
-        from voiage.schema import ValueArray
-        return ValueArray(dataset=dataset)
-
-    # Create parameter samples
-    params = {
-        "effectiveness": np.random.normal(0.7, 0.1, 100),
-        "cost": np.random.normal(5000, 500, 100)
-    }
-    parameter_set = ParameterSet.from_numpy_or_dict(params)
-
-    # Define calibration study design
-    calibration_study_design = {
-        "experiment_type": "lab",
-        "sample_size": 100,
-        "variables_measured": ["cost", "effectiveness"]
-    }
-
-    # Define calibration process specification
-    calibration_process_spec = {
-        "method": "bayesian",
-        "likelihood_function": "normal"
-    }
-
-    # Calculate VOI for calibration
-    voi_value = voi_calibration(
-        cal_study_modeler=simple_cal_modeler,
-        psa_prior=parameter_set,
-        calibration_study_design=calibration_study_design,
-        calibration_process_spec=calibration_process_spec,
-        n_outer_loops=10
-    )
-
-    print(f"Calibration VOI: ${voi_value:,.0f}")
-    ```
+    Notes
+    -----
+    If no modeler is supplied, the built-in calibration modeler is used.
     """
     # Validate inputs
+    if cal_study_modeler is None:
+        cal_study_modeler = sophisticated_calibration_modeler
     if not callable(cal_study_modeler):
-        raise InputError("`cal_study_modeler` must be a callable function.")
+        raise_input_error("`cal_study_modeler` must be a callable function.")
     if not isinstance(psa_prior, PSASample):
-        raise InputError("`psa_prior` must be a PSASample object.")
+        raise_input_error("`psa_prior` must be a PSASample object.")
     if not isinstance(calibration_study_design, dict):
-        raise InputError("`calibration_study_design` must be a dictionary.")
+        raise_input_error("`calibration_study_design` must be a dictionary.")
     if not isinstance(calibration_process_spec, dict):
-        raise InputError("`calibration_process_spec` must be a dictionary.")
+        raise_input_error("`calibration_process_spec` must be a dictionary.")
     if n_outer_loops <= 0:
-        raise InputError("n_outer_loops must be positive.")
+        raise_input_error("n_outer_loops must be positive.")
 
     # 1. Calculate max_d E[NB(d) | Prior Info] using `psa_prior`.
-    nb_array_prior = cal_study_modeler(psa_prior, calibration_study_design, calibration_process_spec)
-    mean_nb_per_strategy_prior = np.mean(nb_array_prior.values, axis=0)
+    nb_array_prior = cal_study_modeler(
+        psa_prior, calibration_study_design, calibration_process_spec
+    )
+    mean_nb_per_strategy_prior = np.mean(nb_array_prior.numpy_values, axis=0)
     max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
 
     # 2. Outer loop (simulating different potential datasets D_k from `calibration_study_design`):
@@ -221,7 +118,7 @@ def voi_calibration(
     #        d. Let V_k = max_d E_theta_updated [NB(d, theta_updated)].
 
     max_nb_post_calibration = []
-    for k in range(n_outer_loops):
+    for _k in range(n_outer_loops):
         # Sample a "true" parameter set from the prior
         true_params_idx = np.random.randint(0, psa_prior.n_samples)
 
@@ -239,8 +136,10 @@ def voi_calibration(
         # realistic variation to the modeler's output
         try:
             # Simulate the calibration study with the sampled parameters
-            nb_array_post = cal_study_modeler(psa_prior, calibration_study_design, calibration_process_spec)
-            mean_nb_per_strategy_post = np.mean(nb_array_post.values, axis=0)
+            nb_array_post = cal_study_modeler(
+                psa_prior, calibration_study_design, calibration_process_spec
+            )
+            mean_nb_per_strategy_post = np.mean(nb_array_post.numpy_values, axis=0)
             max_nb_post_calibration.append(np.max(mean_nb_per_strategy_post))
         except Exception:
             # If the modeler fails, use the prior value
@@ -251,19 +150,21 @@ def voi_calibration(
     expected_max_nb_post_calibration: float = np.mean(max_nb_post_calibration)
 
     # 4. VOI-Calibration = E_D [ ... ] - max_d E[NB(d) | Prior Info]
-    per_decision_voi_calibration = expected_max_nb_post_calibration - max_expected_nb_current_info
+    per_decision_voi_calibration = (
+        expected_max_nb_post_calibration - max_expected_nb_current_info
+    )
     per_decision_voi_calibration = max(0.0, per_decision_voi_calibration)
 
     # Population scaling
     if population is not None and time_horizon is not None:
         if population <= 0:
-            raise InputError("Population must be positive.")
+            raise_input_error("Population must be positive.")
         if time_horizon <= 0:
-            raise InputError("Time horizon must be positive.")
+            raise_input_error("Time horizon must be positive.")
 
         dr = discount_rate if discount_rate is not None else 0.0
         if not (0 <= dr <= 1):
-            raise InputError("Discount rate must be between 0 and 1.")
+            raise_input_error("Discount rate must be between 0 and 1.")
 
         annuity = (
             (1 - (1 + dr) ** -time_horizon) / dr if dr > 0 else float(time_horizon)
@@ -273,23 +174,31 @@ def voi_calibration(
     return float(per_decision_voi_calibration)
 
 
-def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
-    """A sophisticated calibration study modeler that demonstrates realistic calibration.
+def sophisticated_calibration_modeler(
+    psa_samples: PSASample,
+    study_design: dict[str, object],
+    process_spec: dict[str, object],
+) -> NetBenefitArray:
+    """Run the built-in calibration study modeler.
 
-    This function simulates a more realistic calibration process where:
-    1. We have a health economic model with several parameters
-    2. We collect data to calibrate specific parameters
-    3. We use Bayesian updating to refine our parameter estimates
-    4. We evaluate the economic model with the refined parameters
-
-    Args:
-        psa_samples (PSASample): Prior parameter samples
-        study_design (dict): Calibration study design specification
-        process_spec (dict): Calibration process specification
+    Parameters
+    ----------
+    psa_samples : ParameterSet
+        Prior parameter samples.
+    study_design : dict[str, object]
+        Calibration study design specification.
+    process_spec : dict[str, object]
+        Calibration process specification.
 
     Returns
     -------
-        ValueArray: Net benefits for each strategy
+    ValueArray
+        Net-benefit samples for the strategies under the calibrated model.
+
+    Notes
+    -----
+    The built-in modeler is a testing-oriented approximation that simulates the
+    effect of calibration by shrinking uncertainty toward target values.
     """
     import xarray as xr
 
@@ -298,9 +207,13 @@ def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
     n_samples = psa_samples.n_samples
 
     # Extract key parameters
-    effectiveness = psa_samples.parameters.get("effectiveness", np.random.normal(0.7, 0.1, n_samples))
+    effectiveness = psa_samples.parameters.get(
+        "effectiveness", np.random.normal(0.7, 0.1, n_samples)
+    )
     cost = psa_samples.parameters.get("cost", np.random.normal(5000, 500, n_samples))
-    utility = psa_samples.parameters.get("utility", np.random.normal(0.8, 0.05, n_samples))
+    utility = psa_samples.parameters.get(
+        "utility", np.random.normal(0.8, 0.05, n_samples)
+    )
 
     # Simulate the calibration process
     # In a real implementation, this would involve:
@@ -319,9 +232,17 @@ def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
 
     # Simulate the effect of calibration by reducing variance and shifting means
     # This represents the information gained from the calibration study
-    calibrated_effectiveness = effectiveness * 0.8 + target_effectiveness * 0.2 + np.random.normal(0, 0.02, n_samples)
-    calibrated_cost = cost * 0.8 + target_cost * 0.2 + np.random.normal(0, 100, n_samples)
-    calibrated_utility = utility + np.random.normal(0, 0.01, n_samples)  # Slight improvement in utility
+    calibrated_effectiveness = (
+        effectiveness * 0.8
+        + target_effectiveness * 0.2
+        + np.random.normal(0, 0.02, n_samples)
+    )
+    calibrated_cost = (
+        cost * 0.8 + target_cost * 0.2 + np.random.normal(0, 100, n_samples)
+    )
+    calibrated_utility = utility + np.random.normal(
+        0, 0.01, n_samples
+    )  # Slight improvement in utility
 
     # Create net benefits for strategies
     # Strategy 0: Standard Care
@@ -340,7 +261,9 @@ def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
 
     # Treatment costs and benefits
     cost_treatment = base_cost_treatment + calibrated_cost * 0.3
-    qaly_treatment = base_qaly_treatment + calibrated_effectiveness * 1.0 + calibrated_utility * 0.3
+    qaly_treatment = (
+        base_qaly_treatment + calibrated_effectiveness * 1.0 + calibrated_utility * 0.3
+    )
 
     # Calculate net benefits (assuming WTP of $50,000/QALY)
     wtp = 50000
@@ -353,19 +276,23 @@ def sophisticated_calibration_modeler(psa_samples, study_design, process_spec):
 
     # Create ValueArray
     dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"),
-                        np.column_stack([nb_standard, nb_treatment]))},
+        {
+            "net_benefit": (
+                ("n_samples", "n_strategies"),
+                np.column_stack([nb_standard, nb_treatment]),
+            )
+        },
         coords={
             "n_samples": np.arange(n_samples),
             "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-        }
+            "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+        },
     )
 
     return ValueArray(dataset=dataset)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print("--- Testing calibration.py ---")
 
     # Add local imports for classes used in this test block
@@ -375,8 +302,10 @@ if __name__ == "__main__":
     from voiage.schema import ValueArray as NetBenefitArray
 
     # Simple calibration study modeler for testing
-    def simple_cal_modeler(psa, design, spec):
-        """Simple calibration study modeler for testing."""
+    def simple_cal_modeler(
+        psa: PSASample, design: dict[str, object], spec: dict[str, object]
+    ) -> NetBenefitArray:
+        """Run simple calibration study modeler for testing."""
         n_samples = psa.n_samples
         # Create net benefits for 2 strategies
         nb_values = np.random.rand(n_samples, 2) * 1000
@@ -384,13 +313,14 @@ if __name__ == "__main__":
         nb_values[:, 1] += 100
 
         import xarray as xr
+
         dataset = xr.Dataset(
             {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
             coords={
                 "n_samples": np.arange(n_samples),
                 "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-            }
+                "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
+            },
         )
         return NetBenefitArray(dataset=dataset)
 
@@ -401,14 +331,11 @@ if __name__ == "__main__":
     dummy_design = {
         "experiment_type": "lab",
         "sample_size": 100,
-        "variables_measured": ["parameter_a", "parameter_b"]
+        "variables_measured": ["parameter_a", "parameter_b"],
     }
 
     # Create test calibration process specification
-    dummy_spec = {
-        "method": "bayesian",
-        "likelihood_function": "normal"
-    }
+    dummy_spec = {"method": "bayesian", "likelihood_function": "normal"}
 
     # Test voi_calibration function
     print("Testing voi_calibration...")
@@ -417,7 +344,7 @@ if __name__ == "__main__":
         psa_prior=dummy_psa,
         calibration_study_design=dummy_design,
         calibration_process_spec=dummy_spec,
-        n_outer_loops=5
+        n_outer_loops=5,
     )
     print(f"Calibration VOI: {voi_value}")
 
@@ -431,7 +358,7 @@ if __name__ == "__main__":
         population=100000,
         time_horizon=10,
         discount_rate=0.03,
-        n_outer_loops=5
+        n_outer_loops=5,
     )
     print(f"Scaled Calibration VOI: {voi_value_scaled}")
 
@@ -440,10 +367,10 @@ if __name__ == "__main__":
     try:
         # Test invalid cal_study_modeler
         voi_calibration(
-            cal_study_modeler="not a function",
+            cal_study_modeler="not a function",  # type: ignore[arg-type]
             psa_prior=dummy_psa,
             calibration_study_design=dummy_design,
-            calibration_process_spec=dummy_spec
+            calibration_process_spec=dummy_spec,
         )
     except InputError as e:
         print(f"Caught expected error for invalid modeler: {e}")
@@ -452,9 +379,9 @@ if __name__ == "__main__":
         # Test invalid psa_prior
         voi_calibration(
             cal_study_modeler=simple_cal_modeler,
-            psa_prior="not a psa",
+            psa_prior="not a psa",  # type: ignore[arg-type]
             calibration_study_design=dummy_design,
-            calibration_process_spec=dummy_spec
+            calibration_process_spec=dummy_spec,
         )
     except InputError as e:
         print(f"Caught expected error for invalid PSA: {e}")
@@ -464,8 +391,8 @@ if __name__ == "__main__":
         voi_calibration(
             cal_study_modeler=simple_cal_modeler,
             psa_prior=dummy_psa,
-            calibration_study_design="not a dict",
-            calibration_process_spec=dummy_spec
+            calibration_study_design="not a dict",  # type: ignore[arg-type]
+            calibration_process_spec=dummy_spec,
         )
     except InputError as e:
         print(f"Caught expected error for invalid study design: {e}")
@@ -476,7 +403,7 @@ if __name__ == "__main__":
             cal_study_modeler=simple_cal_modeler,
             psa_prior=dummy_psa,
             calibration_study_design=dummy_design,
-            calibration_process_spec="not a dict"
+            calibration_process_spec="not a dict",  # type: ignore[arg-type]
         )
     except InputError as e:
         print(f"Caught expected error for invalid process spec: {e}")
@@ -488,7 +415,7 @@ if __name__ == "__main__":
             psa_prior=dummy_psa,
             calibration_study_design=dummy_design,
             calibration_process_spec=dummy_spec,
-            n_outer_loops=0
+            n_outer_loops=0,
         )
     except InputError as e:
         print(f"Caught expected error for invalid loop params: {e}")

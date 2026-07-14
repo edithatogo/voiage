@@ -1,0 +1,203 @@
+name: Benchmark Tracking
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: Performance Benchmarks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: uv sync --extra ci
+
+    - name: Run benchmarks
+      run: |
+        uv run pytest tests/ \
+          -m "benchmark" \
+          --benchmark-only \
+          --benchmark-json=benchmark_results.json \
+          --no-cov \
+          -v
+      env:
+        CI: true
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: benchmark-results
+        path: benchmark_results.json
+        retention-days: 30
+
+  rust-benchmark:
+    name: Rust Profiling Baselines
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bindings/rust
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30
+
+      - name: Run the scalar CPU baseline and capture profiling data
+        run: |
+          mkdir -p target/profiling
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import resource
+          import subprocess
+          import sys
+          import time
+
+          command = [
+              "cargo",
+              "test",
+              "--locked",
+              "--benches",
+              "scalar_cpu_baseline",
+              "--",
+              "--nocapture",
+          ]
+          before = resource.getrusage(resource.RUSAGE_CHILDREN)
+          start = time.perf_counter()
+          timed = subprocess.run(
+              command,
+              text=True,
+              capture_output=True,
+              check=False,
+          )
+          elapsed = time.perf_counter() - start
+          if timed.returncode != 0:
+              print(timed.stdout, end="")
+              print(timed.stderr, end="", file=sys.stderr)
+          after = resource.getrusage(resource.RUSAGE_CHILDREN)
+          rss_delta = after.ru_maxrss - before.ru_maxrss
+          rss_kb = rss_delta // 1024 if sys.platform == "darwin" else rss_delta
+
+          artifact = {
+              "benchmark_name": "scalar_cpu_baseline",
+              "metric_type": "scalar_cpu_memory_throughput",
+              "workload": {
+                  "seed": 42,
+                  "repeats": 10000,
+                  "net_benefits": [[10.0, 1.0], [2.0, 8.0]],
+              },
+              "observed": {
+                  "wall_seconds": round(elapsed, 6),
+                  "maximum_resident_set_size_kb": rss_kb,
+              },
+              "regression_policy": "contract-only",
+              "command": command,
+          }
+
+          out = pathlib.Path("target/profiling/rust_scalar_cpu_baseline.json")
+          out.write_text(json.dumps(artifact, indent=2, sort_keys=True) + "\n")
+          raise SystemExit(timed.returncode)
+          PY
+
+      - name: Upload Rust scalar profiling artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rust-scalar-cpu-baseline
+          path: bindings/rust/target/profiling/rust_scalar_cpu_baseline.json
+          retention-days: 30
+
+      - name: Run the EVSI baseline and capture profiling data
+        run: |
+          mkdir -p target/profiling
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import resource
+          import subprocess
+          import sys
+          import time
+
+          command = [
+              "cargo",
+              "test",
+              "--locked",
+              "--benches",
+              "evsi_stochastic_baseline",
+              "--",
+              "--nocapture",
+          ]
+          repeats = 10000
+          before = resource.getrusage(resource.RUSAGE_CHILDREN)
+          start = time.perf_counter()
+          timed = subprocess.run(
+              command,
+              text=True,
+              capture_output=True,
+              check=False,
+          )
+          elapsed = time.perf_counter() - start
+          if timed.returncode != 0:
+              print(timed.stdout, end="")
+              print(timed.stderr, end="", file=sys.stderr)
+          after = resource.getrusage(resource.RUSAGE_CHILDREN)
+          rss_delta = after.ru_maxrss - before.ru_maxrss
+          rss_kb = rss_delta // 1024 if sys.platform == "darwin" else rss_delta
+          iterations_per_second = repeats / elapsed if elapsed > 0 else None
+
+          artifact = {
+              "benchmark_name": "evsi_stochastic_baseline",
+              "metric_type": "evsi_stochastic_kernel",
+              "workload": {
+                  "analysis_id": "evsi-001",
+                  "repeats": repeats,
+                  "trial_design_id": "screening-trial-design-001",
+                  "current_net_benefit_id": "current-net-benefit-001",
+              },
+              "observed": {
+                  "wall_seconds": round(elapsed, 6),
+                  "maximum_resident_set_size_kb": rss_kb,
+                  "iterations_per_second": round(iterations_per_second, 6)
+                  if iterations_per_second is not None
+                  else None,
+              },
+              "regression_policy": "contract-only",
+              "command": command,
+          }
+
+          out = pathlib.Path("target/profiling/rust_evsi_stochastic_baseline.json")
+          out.write_text(json.dumps(artifact, indent=2, sort_keys=True) + "\n")
+          raise SystemExit(timed.returncode)
+          PY
+
+      - name: Upload Rust EVSI profiling artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rust-evsi-stochastic-baseline
+          path: bindings/rust/target/profiling/rust_evsi_stochastic_baseline.json
+          retention-days: 30

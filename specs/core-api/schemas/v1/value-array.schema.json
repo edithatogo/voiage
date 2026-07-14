@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/value-array.schema.json",
+  "title": "ValueArrayV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["value_array_id", "sample_count", "strategy_names", "net_benefit"],
+  "properties": {
+    "value_array_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for the value array."
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of Monte Carlo samples represented by the matrix."
+    },
+    "strategy_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Ordered list of strategy labels for the columns."
+    },
+    "net_benefit": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "minItems": 1
+      },
+      "minItems": 1,
+      "description": "Sample-by-strategy net-benefit matrix."
+    }
+  }
+}

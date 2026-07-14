@@ -1,0 +1,53 @@
+{
+  "analysis_type": "value_of_computational_refinement",
+  "compute_budget_ids": [
+    "baseline_compute",
+    "enhanced_compute"
+  ],
+  "strategy_names": [
+    "status_quo",
+    "refine_model",
+    "approximate_fast"
+  ],
+  "compute_costs": [
+    [
+      0.0,
+      2.0,
+      1.0
+    ],
+    [
+      0.0,
+      3.0,
+      1.5
+    ]
+  ],
+  "approximation_errors": [
+    [
+      0.3,
+      0.1,
+      0.2
+    ],
+    [
+      0.25,
+      0.08,
+      0.15
+    ]
+  ],
+  "refinement_weights": [
+    [
+      0.5,
+      0.9,
+      0.6
+    ],
+    [
+      0.4,
+      1.0,
+      0.7
+    ]
+  ],
+  "model_family_labels": [
+    "fast approximation",
+    "refined approximation"
+  ],
+  "operational_context": "screening-program"
+}

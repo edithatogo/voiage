@@ -1,0 +1,35 @@
+---
+title: Rust Core Handoff
+description: Rust execution core migration and binding boundary
+---
+
+This guide defines the boundary between the Rust core and the language bindings or adapters that sit on top of it.
+
+## Architecture decision
+
+- **Rust** is the authoritative execution core for deterministic VOI kernels, shared result contracts, diagnostics, and reporting envelopes.
+- **Python** remains the primary façade for orchestration, CLI entrypoints, plotting, and compatibility wrappers.
+- **R, Julia, TypeScript, Go, .NET**, and any future language packages are thin bindings or adapters over the Rust contract.
+
+## What stays in Rust core
+
+- Numeric kernels and summary calculations for stable VOI methods
+- Domain types (`ValueArray`, `ParameterSet`, `TrialDesign`, typed result envelopes)
+- Diagnostics, method metadata, and CHEERS-style reporting payloads
+- Serialization and cross-language contract behavior
+- Validation for invalid shapes, non-finite values, and duplicate IDs
+
+## What stays in bindings
+
+- Parsing native inputs and producing Rust-compatible shapes
+- User-facing CLI or package-manager plumbing
+- Light validation that improves error messages before the Rust call
+- Language-native packaging, release, and registry integration
+
+## Adding a new deterministic method
+
+1. Define the method contract in Rust first.
+2. Reuse existing domain types instead of inventing new wire shapes.
+3. Return a typed summary or `AnalysisEnvelope` with diagnostics and reporting.
+4. Keep the calculation deterministic and test it against fixed inputs.
+5. Add only the smallest wrapper needed in Python or another binding.

@@ -1,0 +1,18 @@
+{
+  "analysis_type": "method_metadata",
+  "method_family": "evsi",
+  "method_maturity": "approximate",
+  "approximation_status": "surrogate",
+  "capability_labels": [
+    "surrogate-regression",
+    "jax-acceleration"
+  ],
+  "analysis_id": "evsi-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "decision_context": "screening-program",
+  "backend": "jax",
+  "notes": [
+    "Approximation status must be explicit when a method is not exact.",
+    "Bindings should not infer exactness from missing metadata."
+  ]
+}

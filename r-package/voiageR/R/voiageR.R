@@ -1,18 +1,28 @@
 #' voiageR: An R Interface to the voiage Python Library
 #'
-#' This package provides an R interface to the voiage Python library for 
-#' Value of Information analysis.
+#' This package provides an R interface to the voiage Python library for
+#' Value of Information analysis, with helper functions for Python
+#' environment management and availability checks.
 #'
 #' @docType package
 #' @name voiageR
 NULL
 
-#' @import reticulate
-#' @import methods
-NULL
+# Global cache
+.voiage_cache <- new.env(parent = emptyenv())
+.voiage_cache$module <- NULL
 
-# Global variables
-.voiage <- NULL
+.set_voiage_module <- function(value) {
+  .voiage_cache$module <- value
+  invisible(NULL)
+}
+
+.get_voiage_module <- function() {
+  if (is.null(.voiage_cache$module)) {
+    init_voiage()
+  }
+  .voiage_cache$module
+}
 
 #' Initialize the voiage Python module
 #'
@@ -26,14 +36,16 @@ NULL
 #' init_voiage()
 #' }
 init_voiage <- function() {
-  # Check if the voiage Python package is available
   if (!py_module_available("voiage")) {
     stop("The voiage Python package is not available. Please install it with: pip install voiage")
   }
-  
-  # Import the voiage module
-  .voiage <<- import("voiage")
-  
+
+  if (!is.null(.voiage_cache$module)) {
+    return(invisible(NULL))
+  }
+
+  .set_voiage_module(import("voiage"))
+
   invisible(NULL)
 }
 
@@ -45,7 +57,6 @@ init_voiage <- function() {
 #' @param population Optional population size for scaling the result.
 #' @param time_horizon Optional time horizon for scaling the result.
 #' @param discount_rate Optional discount rate for scaling the result.
-#' @param ... Additional arguments passed to the underlying Python function.
 #'
 #' @return The calculated EVPI value.
 #' @export
@@ -54,34 +65,24 @@ init_voiage <- function() {
 #' \dontrun{
 #' # Create sample net benefit data
 #' net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
-#' 
+#'
 #' # Calculate EVPI
 #' evpi_value <- evpi(net_benefits)
 #' print(evpi_value)
 #' }
-evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_rate = NULL, ...) {
-  # Initialize if not already done
-  if (is.null(.voiage)) {
-    init_voiage()
-  }
-  
-  # Convert R data structures to Python
+evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_rate = NULL) {
+  .voiage <- .get_voiage_module()
+
   if (is.data.frame(net_benefits)) {
     net_benefits <- as.matrix(net_benefits)
   }
-  
-  # Create DecisionAnalysis object
-  analysis <- .voiage$analysis$DecisionAnalysis(nb_array = net_benefits)
-  
-  # Calculate EVPI
-  result <- analysis$evpi(
+
+  .voiage$evpi(
+    net_benefits,
     population = population,
     time_horizon = time_horizon,
-    discount_rate = discount_rate,
-    ...
+    discount_rate = discount_rate
   )
-  
-  return(result)
 }
 
 #' Calculate Expected Value of Partial Perfect Information (EVPPI)
@@ -90,10 +91,10 @@ evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_
 #'
 #' @param net_benefits A matrix or data frame with rows representing PSA samples and columns representing strategies.
 #' @param parameter_samples A named list or data frame with parameter samples.
+#' @param parameters_of_interest Optional character vector of parameter names to retain.
 #' @param population Optional population size for scaling the result.
 #' @param time_horizon Optional time horizon for scaling the result.
 #' @param discount_rate Optional discount rate for scaling the result.
-#' @param ... Additional arguments passed to the underlying Python function.
 #'
 #' @return The calculated EVPPI value.
 #' @export
@@ -102,44 +103,52 @@ evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_
 #' \dontrun{
 #' # Create sample net benefit data
 #' net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
-#' 
+#'
 #' # Create parameter samples
 #' param_samples <- list(
 #'   param1 = rnorm(1000),
 #'   param2 = rnorm(1000)
 #' )
-#' 
+#'
 #' # Calculate EVPPI
 #' evppi_value <- evppi(net_benefits, param_samples)
 #' print(evppi_value)
 #' }
-evppi <- function(net_benefits, parameter_samples, population = NULL, time_horizon = NULL, 
-                  discount_rate = NULL, ...) {
-  # Initialize if not already done
-  if (is.null(.voiage)) {
-    init_voiage()
-  }
-  
-  # Convert R data structures to Python
+evppi <- function(
+    net_benefits,
+    parameter_samples,
+    parameters_of_interest = NULL,
+    population = NULL,
+    time_horizon = NULL,
+    discount_rate = NULL
+) {
+  .voiage <- .get_voiage_module()
+
   if (is.data.frame(net_benefits)) {
     net_benefits <- as.matrix(net_benefits)
   }
-  
-  # Create DecisionAnalysis object
-  analysis <- .voiage$analysis$DecisionAnalysis(
-    nb_array = net_benefits,
-    parameter_samples = parameter_samples
-  )
-  
-  # Calculate EVPPI
-  result <- analysis$evppi(
+
+  if (is.data.frame(parameter_samples)) {
+    parameter_samples <- as.list(parameter_samples)
+  } else if (is.matrix(parameter_samples)) {
+    parameter_samples <- as.list(as.data.frame(parameter_samples))
+  }
+
+  if (is.null(parameters_of_interest)) {
+    parameters_of_interest <- names(parameter_samples)
+  }
+  if (is.null(parameters_of_interest) || length(parameters_of_interest) == 0) {
+    stop("`parameters_of_interest` must be provided or inferable from `parameter_samples`.")
+  }
+
+  .voiage$evppi(
+    net_benefits,
+    parameter_samples,
+    parameters_of_interest = as.list(parameters_of_interest),
     population = population,
     time_horizon = time_horizon,
-    discount_rate = discount_rate,
-    ...
+    discount_rate = discount_rate
   )
-  
-  return(result)
 }
 
 #' Calculate Expected Value of Sample Information (EVSI)
@@ -148,7 +157,7 @@ evppi <- function(net_benefits, parameter_samples, population = NULL, time_horiz
 #'
 #' @param model_func A function that takes parameter samples and returns net benefits.
 #' @param prior_samples A named list or data frame with prior parameter samples.
-#' @param trial_design A list describing the trial design.
+#' @param trial_design A list of trial arm specifications.
 #' @param population Optional population size for scaling the result.
 #' @param time_horizon Optional time horizon for scaling the result.
 #' @param discount_rate Optional discount rate for scaling the result.
@@ -167,66 +176,74 @@ evppi <- function(net_benefits, parameter_samples, population = NULL, time_horiz
 #'   nb_strategy2 <- params$param2
 #'   return(cbind(nb_strategy1, nb_strategy2))
 #' }
-#' 
+#'
 #' # Create prior samples
 #' prior_samples <- list(
 #'   param1 = rnorm(1000),
 #'   param2 = rnorm(1000)
 #' )
-#' 
+#'
 #' # Define trial design
 #' trial_design <- list(
 #'   treatment = list(name = "Treatment", sample_size = 50),
 #'   control = list(name = "Control", sample_size = 50)
 #' )
-#' 
+#'
 #' # Calculate EVSI
 #' evsi_value <- evsi(model_func, prior_samples, trial_design)
 #' print(evsi_value)
 #' }
-evsi <- function(model_func, prior_samples, trial_design, population = NULL, time_horizon = NULL, 
-                 discount_rate = NULL, n_simulations = 1000, ...) {
-  # Initialize if not already done
-  if (is.null(.voiage)) {
-    init_voiage()
+evsi <- function(
+    model_func,
+    prior_samples,
+    trial_design,
+    population = NULL,
+    time_horizon = NULL,
+    discount_rate = NULL,
+    method = c("two_loop", "regression", "efficient", "moment_based"),
+    n_outer_loops = 100,
+    n_inner_loops = 1000,
+    metamodel = "linear"
+) {
+  .voiage <- .get_voiage_module()
+  method <- match.arg(method)
+
+  if (is.data.frame(trial_design)) {
+    trial_design <- as.list(trial_design)
   }
-  
-  # Create a Python wrapper for the R model function
+
+  if (is.data.frame(prior_samples)) {
+    prior_samples <- as.list(prior_samples)
+  } else if (is.matrix(prior_samples)) {
+    prior_samples <- as.list(as.data.frame(prior_samples))
+  }
+
+  py_trial_design <- .voiage$TrialDesign$from_dict(trial_design)
+  py_prior_samples <- .voiage$ParameterSet$from_numpy_or_dict(prior_samples)
+
   py_model_func <- function(params) {
-    # Convert Python ParameterSet to R list
-    r_params <- list()
-    for (name in names(params$parameters)) {
-      r_params[[name]] <- params$parameters[[name]]
-    }
-    
-    # Call R function
+    r_params <- reticulate::py_to_r(params$parameters)
     result <- model_func(r_params)
-    
-    # Convert result to Python ValueArray
+
     if (is.data.frame(result)) {
       result <- as.matrix(result)
     }
-    
-    return(.voiage$schema$ValueArray$from_numpy(result))
+
+    .voiage$ValueArray$from_numpy(result)
   }
-  
-  # Convert R data structures to Python
-  py_prior_samples <- .voiage$schema$ParameterSet$from_numpy_or_dict(prior_samples)
-  py_trial_design <- .voiage$schema$TrialDesign(arms = trial_design)
-  
-  # Calculate EVSI using parallel processing
-  result <- .voiage$parallel$monte_carlo$parallel_evsi_calculation(
+
+  .voiage$evsi(
     model_func = py_model_func,
     psa_prior = py_prior_samples,
     trial_design = py_trial_design,
     population = population,
     time_horizon = time_horizon,
     discount_rate = discount_rate,
-    n_simulations = n_simulations,
-    ...
+    method = method,
+    n_outer_loops = n_outer_loops,
+    n_inner_loops = n_inner_loops,
+    metamodel = metamodel
   )
-  
-  return(result)
 }
 
 #' Check if voiage Python package is available
@@ -242,7 +259,7 @@ evsi <- function(model_func, prior_samples, trial_design, population = NULL, tim
 #' print(is_available)
 #' }
 is_voiage_available <- function() {
-  return(py_module_available("voiage"))
+  py_module_available("voiage")
 }
 
 #' Set Python environment for voiage
@@ -259,21 +276,20 @@ is_voiage_available <- function() {
 #' \dontrun{
 #' # Use a virtual environment
 #' set_voiage_env("myenv", type = "virtualenv")
-#' 
+#'
 #' # Use a conda environment
 #' set_voiage_env("myenv", type = "conda")
 #' }
 set_voiage_env <- function(env, type = c("virtualenv", "conda")) {
   type <- match.arg(type)
-  
+
   if (type == "virtualenv") {
     use_virtualenv(env)
   } else {
     use_condaenv(env)
   }
-  
-  # Reinitialize voiage after setting environment
-  .voiage <<- NULL
-  
+
+  .set_voiage_module(NULL)
+
   invisible(NULL)
 }

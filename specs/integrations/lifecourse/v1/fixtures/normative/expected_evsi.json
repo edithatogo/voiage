@@ -1,0 +1,11 @@
+{
+  "analysis_id": "lifecourse-screening-001-evsi",
+  "analysis_type": "evsi",
+  "decision_problem_id": "screening-program-001",
+  "trial_design": {
+    "sample_size": 250,
+    "design": "illustrative"
+  },
+  "value": 2.25,
+  "method": "two-loop-monte-carlo"
+}
