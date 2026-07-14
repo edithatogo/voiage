@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- Optimized `samplewise_profile_regret` to run 2.6x-3.4x faster by replacing nested loops with a vectorized numpy operation.
-
 ### Added
 - Completed the shared code-scanning rollout by enforcing the pinned
   organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
@@ -412,6 +409,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Optimized `samplewise_profile_regret` to run 2.6x-3.4x faster by replacing nested loops with a vectorized numpy operation.
 - Avoided importing `ValueArray` at runtime when it is used only for static
   annotations in the basic VOI methods.
 - Updated the protected `main` ruleset for a single-maintainer repository:
