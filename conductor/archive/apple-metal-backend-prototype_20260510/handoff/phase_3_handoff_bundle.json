@@ -1,0 +1,383 @@
+{
+  "generated_at_utc": "2026-05-11T06:59:59.606608+00:00",
+  "payload_version": "1.0.0",
+  "phase": "phase_3",
+  "review_context": "apple_metal_vs_cpu",
+  "review_phase": "phase_3",
+  "run_context": "cpu_reference_only",
+  "runs": [
+    {
+      "outputs": [
+        {
+          "packet": {
+            "apple_metal": null,
+            "apple_metal_error": "PyTorch is required for the Apple Metal backend",
+            "backend": "apple_metal_vs_cpu",
+            "benchmark": "benchmark_evpi",
+            "comparison": {
+              "apple_metal_backend": null,
+              "apple_metal_device": null,
+              "enabled": false,
+              "mean_latency_speedup": 0.0,
+              "result_delta": 0.0,
+              "throughput_speedup": 0.0
+            },
+            "cpu": {
+              "backend": "NumpyBackend",
+              "device": null,
+              "mean_latency_ns": 9000.0,
+              "repeats": 10,
+              "result": 3.0,
+              "throughput_ops_per_sec": 111111.11111111111,
+              "warmup_runs": 1
+            },
+            "payload_version": "1.0.0",
+            "repeats": 10,
+            "review": {
+              "notes": [
+                "CPU payload is the reference contract.",
+                "Apple payload is optional and only present when MPS is available."
+              ],
+              "phase": "phase_3",
+              "required_fields": [
+                "backend",
+                "device",
+                "workload.shape",
+                "workload.sha256",
+                "repeats",
+                "warmup_runs",
+                "mean_latency_ns",
+                "throughput_ops_per_sec"
+              ],
+              "status": "cpu_reference_only"
+            },
+            "runtime": {
+              "backend": {
+                "apple_metal_capability": {
+                  "mps": null,
+                  "platform_is_darwin": true
+                },
+                "torch": null
+              },
+              "machine": "arm64",
+              "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+              "python": "3.14.4",
+              "system": "Darwin"
+            },
+            "warmup_runs": 1,
+            "workflow": "apple_metal_vs_cpu",
+            "workload": {
+              "dtype": "float64",
+              "max": 10.0,
+              "min": 1.0,
+              "nbytes": 32,
+              "sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+              "shape": [
+                2,
+                2
+              ],
+              "size": 4
+            }
+          },
+          "run": 1
+        },
+        {
+          "packet": {
+            "apple_metal": null,
+            "apple_metal_error": "PyTorch is required for the Apple Metal backend",
+            "backend": "apple_metal_vs_cpu",
+            "benchmark": "benchmark_evpi",
+            "comparison": {
+              "apple_metal_backend": null,
+              "apple_metal_device": null,
+              "enabled": false,
+              "mean_latency_speedup": 0.0,
+              "result_delta": 0.0,
+              "throughput_speedup": 0.0
+            },
+            "cpu": {
+              "backend": "NumpyBackend",
+              "device": null,
+              "mean_latency_ns": 8154.2,
+              "repeats": 10,
+              "result": 3.0,
+              "throughput_ops_per_sec": 122636.18748620343,
+              "warmup_runs": 1
+            },
+            "payload_version": "1.0.0",
+            "repeats": 10,
+            "review": {
+              "notes": [
+                "CPU payload is the reference contract.",
+                "Apple payload is optional and only present when MPS is available."
+              ],
+              "phase": "phase_3",
+              "required_fields": [
+                "backend",
+                "device",
+                "workload.shape",
+                "workload.sha256",
+                "repeats",
+                "warmup_runs",
+                "mean_latency_ns",
+                "throughput_ops_per_sec"
+              ],
+              "status": "cpu_reference_only"
+            },
+            "runtime": {
+              "backend": {
+                "apple_metal_capability": {
+                  "mps": null,
+                  "platform_is_darwin": true
+                },
+                "torch": null
+              },
+              "machine": "arm64",
+              "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+              "python": "3.14.4",
+              "system": "Darwin"
+            },
+            "warmup_runs": 1,
+            "workflow": "apple_metal_vs_cpu",
+            "workload": {
+              "dtype": "float64",
+              "max": 10.0,
+              "min": 1.0,
+              "nbytes": 32,
+              "sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+              "shape": [
+                2,
+                2
+              ],
+              "size": 4
+            }
+          },
+          "run": 2
+        }
+      ],
+      "run_count": 2,
+      "workload_hash_sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+      "workload_name": "scalar_evpi"
+    },
+    {
+      "outputs": [
+        {
+          "packet": {
+            "apple_metal": null,
+            "apple_metal_error": "PyTorch is required for the Apple Metal backend",
+            "backend": "apple_metal_vs_cpu",
+            "benchmark": "benchmark_memory_throughput",
+            "comparison": {
+              "apple_metal_backend": null,
+              "apple_metal_device": null,
+              "enabled": false,
+              "mean_latency_speedup": 0.0,
+              "result_delta": 0.0,
+              "throughput_speedup": 0.0
+            },
+            "cpu": {
+              "backend": "NumpyBackend",
+              "device": null,
+              "repeats": 10,
+              "samples": [
+                {
+                  "iteration": 0,
+                  "latency_ns": 76750,
+                  "phase": "cold",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 130293.15960912053
+                },
+                {
+                  "iteration": 1,
+                  "latency_ns": 74042,
+                  "phase": "warm",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 135058.4803219794
+                },
+                {
+                  "iteration": 2,
+                  "latency_ns": 72792,
+                  "phase": "warm",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 137377.73381690297
+                }
+              ],
+              "summary": {
+                "cold_start_latency_ns": 76750,
+                "evpi": 3.0,
+                "mean_latency_ns": 74528,
+                "peak_rss_bytes": 35717120,
+                "throughput_ops_per_sec": 134243.12458266763,
+                "warm_start_latency_ns": 74042
+              },
+              "warmup_runs": 1
+            },
+            "payload_version": "1.0.0",
+            "repeats": 10,
+            "review": {
+              "notes": [
+                "CPU payload is the reference contract.",
+                "Apple payload is optional and only present when MPS is available."
+              ],
+              "phase": "phase_3",
+              "required_fields": [
+                "backend",
+                "device",
+                "workload.shape",
+                "workload.sha256",
+                "repeats",
+                "warmup_runs",
+                "mean_latency_ns",
+                "throughput_ops_per_sec"
+              ],
+              "status": "cpu_reference_only"
+            },
+            "runtime": {
+              "backend": {
+                "apple_metal_capability": {
+                  "mps": null,
+                  "platform_is_darwin": true
+                },
+                "torch": null
+              },
+              "machine": "arm64",
+              "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+              "python": "3.14.4",
+              "system": "Darwin"
+            },
+            "warmup_runs": 1,
+            "workflow": "apple_metal_vs_cpu",
+            "workload": {
+              "dtype": "float64",
+              "max": 10.0,
+              "min": 1.0,
+              "nbytes": 32,
+              "sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+              "shape": [
+                2,
+                2
+              ],
+              "size": 4
+            }
+          },
+          "run": 1
+        },
+        {
+          "packet": {
+            "apple_metal": null,
+            "apple_metal_error": "PyTorch is required for the Apple Metal backend",
+            "backend": "apple_metal_vs_cpu",
+            "benchmark": "benchmark_memory_throughput",
+            "comparison": {
+              "apple_metal_backend": null,
+              "apple_metal_device": null,
+              "enabled": false,
+              "mean_latency_speedup": 0.0,
+              "result_delta": 0.0,
+              "throughput_speedup": 0.0
+            },
+            "cpu": {
+              "backend": "NumpyBackend",
+              "device": null,
+              "repeats": 10,
+              "samples": [
+                {
+                  "iteration": 0,
+                  "latency_ns": 73417,
+                  "phase": "cold",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 136208.23514989717
+                },
+                {
+                  "iteration": 1,
+                  "latency_ns": 72000,
+                  "phase": "warm",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 138888.88888888888
+                },
+                {
+                  "iteration": 2,
+                  "latency_ns": 71916,
+                  "phase": "warm",
+                  "rss_after_bytes": 35717120,
+                  "rss_before_bytes": 35717120,
+                  "throughput_ops_per_sec": 139051.1151899438
+                }
+              ],
+              "summary": {
+                "cold_start_latency_ns": 73417,
+                "evpi": 3.0,
+                "mean_latency_ns": 72444,
+                "peak_rss_bytes": 35717120,
+                "throughput_ops_per_sec": 138049.41307624328,
+                "warm_start_latency_ns": 72000
+              },
+              "warmup_runs": 1
+            },
+            "payload_version": "1.0.0",
+            "repeats": 10,
+            "review": {
+              "notes": [
+                "CPU payload is the reference contract.",
+                "Apple payload is optional and only present when MPS is available."
+              ],
+              "phase": "phase_3",
+              "required_fields": [
+                "backend",
+                "device",
+                "workload.shape",
+                "workload.sha256",
+                "repeats",
+                "warmup_runs",
+                "mean_latency_ns",
+                "throughput_ops_per_sec"
+              ],
+              "status": "cpu_reference_only"
+            },
+            "runtime": {
+              "backend": {
+                "apple_metal_capability": {
+                  "mps": null,
+                  "platform_is_darwin": true
+                },
+                "torch": null
+              },
+              "machine": "arm64",
+              "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+              "python": "3.14.4",
+              "system": "Darwin"
+            },
+            "warmup_runs": 1,
+            "workflow": "apple_metal_vs_cpu",
+            "workload": {
+              "dtype": "float64",
+              "max": 10.0,
+              "min": 1.0,
+              "nbytes": 32,
+              "sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+              "shape": [
+                2,
+                2
+              ],
+              "size": 4
+            }
+          },
+          "run": 2
+        }
+      ],
+      "run_count": 2,
+      "workload_hash_sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+      "workload_name": "memory_throughput"
+    }
+  ],
+  "workload_hash_sha256": "2a90ed92d1ad276d4ac893f943c0e9ec87c95d81388af97fb05ee686f54c08d5",
+  "workload_matrix_shape": [
+    2,
+    2
+  ]
+}

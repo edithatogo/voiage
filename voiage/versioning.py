@@ -5,15 +5,13 @@ the current release line. This module validates that the external binding
 manifests stay in lockstep with that repository version.
 """
 
-from __future__ import annotations
-
 import argparse
 from dataclasses import dataclass
 import json
 from pathlib import Path
 import re
 import sys
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from defusedxml import ElementTree
 
@@ -22,11 +20,9 @@ try:  # Python 3.11+.
 except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10.
     import tomli as tomllib  # type: ignore[import-not-found]
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
+from collections.abc import Callable
 
 REPO_ROOT = Path.cwd()
-PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 _DESCRIPTION_VERSION_RE = re.compile(r"^Version:\s*(?P<version>\S+)\s*$")
 
 
