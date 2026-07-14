@@ -63,12 +63,12 @@ def test_conductor_feasibility_records_reference_colab_evidence() -> None:
     records = "\n".join(
         _read(path)
         for path in (
-            "conductor/tracks/discrete-gpu-acceleration_20260511/working-notes.md",
-            "conductor/tracks/discrete-gpu-acceleration_20260511/handoff/feasibility_decision.json",
-            "conductor/tracks/tpu-acceleration-feasibility_20260511/working-notes.md",
-            "conductor/tracks/tpu-acceleration-feasibility_20260511/handoff/feasibility_decision.json",
-            "conductor/tracks/asic-acceleration-feasibility_20260511/working-notes.md",
-            "conductor/tracks/asic-acceleration-feasibility_20260511/handoff/feasibility_decision.json",
+            "conductor/archive/discrete-gpu-acceleration_20260511/working-notes.md",
+            "conductor/archive/discrete-gpu-acceleration_20260511/handoff/feasibility_decision.json",
+            "conductor/archive/tpu-acceleration-feasibility_20260511/working-notes.md",
+            "conductor/archive/tpu-acceleration-feasibility_20260511/handoff/feasibility_decision.json",
+            "conductor/archive/asic-acceleration-feasibility_20260511/working-notes.md",
+            "conductor/archive/asic-acceleration-feasibility_20260511/handoff/feasibility_decision.json",
         )
     )
 
@@ -85,8 +85,8 @@ def test_conductor_feasibility_records_reference_colab_evidence() -> None:
 
 def test_conductor_tracking_statuses_match_completed_spec_tracks() -> None:
     for path in (
-        Path("conductor/tracks/core-api-spec-foundation/metadata.json"),
-        Path("conductor/tracks/canonical-schemas-core-contracts/metadata.json"),
+        Path("conductor/archive/core-api-spec-foundation/metadata.json"),
+        Path("conductor/archive/canonical-schemas-core-contracts/metadata.json"),
     ):
         metadata = json.loads(path.read_text(encoding="utf-8"))
 
@@ -97,7 +97,7 @@ def test_conductor_tracking_statuses_match_completed_spec_tracks() -> None:
 def test_asic_feasibility_does_not_contradict_pre_silicon_track_completion() -> None:
     tracks = _read("conductor/tracks.md")
     notes = _read(
-        "conductor/tracks/asic-acceleration-feasibility_20260511/working-notes.md"
+        "conductor/archive/asic-acceleration-feasibility_20260511/working-notes.md"
     )
     normalized_notes = " ".join(notes.split())
 
@@ -118,10 +118,14 @@ def test_asic_feasibility_does_not_contradict_pre_silicon_track_completion() -> 
 
 
 def test_registry_tracking_keeps_external_gates_outside_completed_tracks() -> None:
-    plan = _read("conductor/tracks/binding-registry-live-verification_20260511/plan.md")
-    spack = _read("conductor/tracks/spack-registry-readiness_20260511/working-notes.md")
+    plan = _read(
+        "conductor/archive/binding-registry-live-verification_20260511/plan.md"
+    )
+    spack = _read(
+        "conductor/archive/spack-registry-readiness_20260511/working-notes.md"
+    )
     easybuild = _read(
-        "conductor/tracks/easybuild-registry-readiness_20260511/working-notes.md"
+        "conductor/archive/easybuild-registry-readiness_20260511/working-notes.md"
     )
 
     assert "- [x] Keep external conda-forge/CRAN/Julia" in plan

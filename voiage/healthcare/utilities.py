@@ -158,14 +158,12 @@ def markov_cohort_model(
         raise_input_error("Each row of transition matrix must sum to 1")
 
     # Initialize results array
-    state_trajectories = np.zeros((n_cycles + 1, n_states))
+    state_trajectories = np.empty((n_cycles + 1, n_states))
     state_trajectories[0] = initial_state
 
     # Simulate transitions
-    current_state = initial_state.copy()
     for i in range(1, n_cycles + 1):
-        current_state = np.dot(current_state, transition_matrix)
-        state_trajectories[i] = current_state
+        np.dot(state_trajectories[i - 1], transition_matrix, out=state_trajectories[i])
 
     return state_trajectories
 
