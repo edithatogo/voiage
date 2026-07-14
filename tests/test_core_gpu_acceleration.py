@@ -203,14 +203,24 @@ def test_array_to_gpu_unknown_backend(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_array_to_cpu_auto_detect_backends(monkeypatch: pytest.MonkeyPatch) -> None:
+    expected = np.array([1.0, 2.0])
+
     class _FakeJaxArray:
-        pass
+        def __array__(self) -> np.ndarray:
+            return expected
 
     class _FakeCuPyNdArray:
-        pass
+        def get(self) -> np.ndarray:
+            return expected
 
     class _FakeTorchTensorWithIsCuda:
         is_cuda = True
+
+        def cpu(self) -> "_FakeTorchTensorWithIsCuda":
+            return self
+
+        def numpy(self) -> np.ndarray:
+            return expected
 
     monkeypatch.setattr(gpu, "JAX_AVAILABLE", True)
     monkeypatch.setattr(gpu, "jax", SimpleNamespace(Array=_FakeJaxArray))
@@ -221,33 +231,9 @@ def test_array_to_cpu_auto_detect_backends(monkeypatch: pytest.MonkeyPatch) -> N
         gpu, "torch", SimpleNamespace(Tensor=_FakeTorchTensorWithIsCuda)
     )
 
-    # We just need to hit the detection lines
-    # It will fail in np.asarray if we don't mock it, so we mock _validate_backend to capture it
-    captured_backends = []
-
-    def fake_validate(b):
-        captured_backends.append(b)
-        return "none"  # So it errors out cleanly or falls through
-
-    monkeypatch.setattr(gpu, "_validate_backend", fake_validate)
-
-    arr_jax = _FakeJaxArray()
-    try:
-        gpu.array_to_cpu(arr_jax)
-    except Exception:
-        pass
-
-    arr_cp = _FakeCuPyNdArray()
-    try:
-        gpu.array_to_cpu(arr_cp)
-    except Exception:
-        pass
-
-    arr_torch = _FakeTorchTensorWithIsCuda()
-    try:
-        gpu.array_to_cpu(arr_torch)
-    except Exception:
-        pass
+    assert np.array_equal(gpu.array_to_cpu(_FakeJaxArray()), expected)
+    assert np.array_equal(gpu.array_to_cpu(_FakeCuPyNdArray()), expected)
+    assert np.array_equal(gpu.array_to_cpu(_FakeTorchTensorWithIsCuda()), expected)
 
 
 def test_array_to_cpu_unknown_backend(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -318,10 +304,6 @@ def test_gpu_accelerated_evpi_jax_not_available(
 def test_gpu_accelerated_evpi_cupy(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(gpu, "get_gpu_backend", lambda: "cupy")
     monkeypatch.setattr(gpu, "CUPY_AVAILABLE", True)
-
-    class FakeCpMax:
-        def __init__(self, arr, axis=None):
-            pass
 
     class FakeCupy:
         def max(self, arr, axis=None):
@@ -802,60 +784,29 @@ def test_imports_handle_success_cupy_torch(monkeypatch: pytest.MonkeyPatch) -> N
 
 
 def test_imports_handle_success_jax_import2(monkeypatch: pytest.MonkeyPatch) -> None:
-    # JAX isn't actually mocked effectively by changing sys.modules['jax'] unless we also put it in sys.modules['jax.numpy']
-    # And there's an import from jax inside that needs mocking
-    # It's better to just leave it 99% covered, but we can do it if we mock carefully
     import importlib
     import sys
+    from types import ModuleType
 
     jax_orig = sys.modules.get("jax")
     jnp_orig = sys.modules.get("jax.numpy")
 
-    class FakeJax:
-        def jit(self):
-            pass
-
-        def pmap(self):
-            pass
-
-        def vmap(self):
-            pass
-
-        def devices(self):
-            return [_FakeJaxDevice("cpu")]
-
-    sys.modules["jax"] = FakeJax()
-
-    class FakeJnp:
-        pass
-
-    sys.modules["jax.numpy"] = FakeJnp()
-
-    # We must patch the specific from imports
-    import builtins
-
-    original_import = builtins.__import__
-
-    def fake_import(name, globals_dict=None, locals_dict=None, fromlist=(), level=0):
-        if name == "jax" and fromlist and "jit" in fromlist:
-            m = FakeJax()
-            m.jit = lambda: None
-            m.pmap = lambda: None
-            m.vmap = lambda: None
-            return m
-        return original_import(name, globals_dict, locals_dict, fromlist, level)
-
-    builtins.__import__ = fake_import
+    fake_jax = ModuleType("jax")
+    fake_jax.jit = lambda func: func  # type: ignore[attr-defined]
+    fake_jax.pmap = lambda func: func  # type: ignore[attr-defined]
+    fake_jax.vmap = lambda func: func  # type: ignore[attr-defined]
+    fake_jax.devices = lambda: [_FakeJaxDevice("cpu")]  # type: ignore[attr-defined]
+    fake_jnp = ModuleType("jax.numpy")
+    fake_jax.numpy = fake_jnp  # type: ignore[attr-defined]
+    sys.modules["jax"] = fake_jax
+    sys.modules["jax.numpy"] = fake_jnp
 
     try:
         import voiage.core.gpu_acceleration as g
 
         importlib.reload(g)
         assert g.JAX_AVAILABLE
-    except Exception:
-        pass
     finally:
-        builtins.__import__ = original_import
         if jax_orig is not None:
             sys.modules["jax"] = jax_orig
         else:
