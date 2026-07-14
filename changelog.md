@@ -409,6 +409,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- 🧹 Code Health: Removed a stale commented-out example block from `voiage/exceptions.py`.
 - Avoided importing `ValueArray` at runtime when it is used only for static
   annotations in the basic VOI methods.
 - Updated the protected `main` ruleset for a single-maintainer repository:
