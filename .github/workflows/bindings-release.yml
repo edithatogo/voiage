@@ -29,7 +29,7 @@ jobs:
           persist-credentials: false
       # zizmor: ignore[cache-poisoning] -- setup-node cache is not enabled;
       # npm provenance is required for this package release surface.
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # zizmor: ignore[cache-poisoning]
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # zizmor: ignore[cache-poisoning]
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
