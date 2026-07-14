@@ -459,6 +459,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Moved the blocking code-scanning gate into a separate least-privilege job so
+  OpenSSF can verify and publish Scorecard results without rejecting the custom
+  policy step in its privileged analysis job.
 - Removed tracked generated artifacts from version control, including pytest
   temp output, coverage reports, macOS metadata, legacy egg-info files, and R
   CMD check output, and added repo-local ignore rules for those generated
