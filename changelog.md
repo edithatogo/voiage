@@ -1,5 +1,7 @@
 # Changelog
 
+- Completed the shared code-scanning rollout by enforcing the pinned organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
