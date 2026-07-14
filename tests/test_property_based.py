@@ -2,23 +2,50 @@
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
-from hypothesis.extra.numpy import arrays
 import numpy as np
 import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.schema import ParameterSet, ValueArray
 
+
+@st.composite
+def _float_array(
+    draw,
+    *,
+    min_rows: int,
+    max_rows: int,
+    min_cols: int,
+    max_cols: int,
+    min_value: float,
+    max_value: float,
+) -> np.ndarray:
+    """Build a NumPy float array from plain Hypothesis strategies."""
+    n_rows = draw(st.integers(min_value=min_rows, max_value=max_rows))
+    n_cols = draw(st.integers(min_value=min_cols, max_value=max_cols))
+    values = draw(
+        st.lists(
+            st.floats(
+                min_value=min_value,
+                max_value=max_value,
+                allow_nan=False,
+                allow_infinity=False,
+            ),
+            min_size=n_rows * n_cols,
+            max_size=n_rows * n_cols,
+        )
+    )
+    return np.array(values, dtype=np.float64).reshape(n_rows, n_cols)
+
+
 # Strategy for generating valid net benefit arrays
-net_benefit_arrays = arrays(
-    dtype=np.float64,
-    shape=st.tuples(
-        st.integers(min_value=2, max_value=100),  # n_samples
-        st.integers(min_value=2, max_value=5),  # n_strategies
-    ),
-    elements=st.floats(
-        min_value=-1000, max_value=1000, allow_nan=False, allow_infinity=False
-    ),
+net_benefit_arrays = _float_array(
+    min_rows=2,
+    max_rows=100,
+    min_cols=2,
+    max_cols=5,
+    min_value=-1000,
+    max_value=1000,
 )
 
 
@@ -50,18 +77,18 @@ def test_evpi_bounded_by_max_strategy_evpi(nb_array) -> None:
 
 
 @given(
-    net_benefits=arrays(
-        dtype=np.float64,
-        shape=st.integers(min_value=2, max_value=100),
-        elements=st.floats(
+    net_benefits=st.lists(
+        st.floats(
             min_value=-1000, max_value=1000, allow_nan=False, allow_infinity=False
         ),
+        min_size=2,
+        max_size=100,
     )
 )
 @settings(deadline=None)
 def test_evpi_single_strategy_zero(net_benefits) -> None:
     """Test that EVPI is zero for single strategy problems."""
-    nb_array = net_benefits.reshape(-1, 1)
+    nb_array = np.array(net_benefits, dtype=np.float64).reshape(-1, 1)
     value_array = ValueArray.from_numpy(nb_array)
     analysis = DecisionAnalysis(value_array)
     evpi_result = analysis.evpi()
@@ -69,15 +96,13 @@ def test_evpi_single_strategy_zero(net_benefits) -> None:
 
 
 @given(
-    nb_array=arrays(
-        dtype=np.float64,
-        shape=st.tuples(
-            st.integers(min_value=2, max_value=50),
-            st.integers(min_value=2, max_value=5),
-        ),
-        elements=st.floats(
-            min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-        ),
+    nb_array=_float_array(
+        min_rows=2,
+        max_rows=50,
+        min_cols=2,
+        max_cols=5,
+        min_value=-100,
+        max_value=100,
     )
 )
 @settings(deadline=None)
@@ -117,28 +142,24 @@ def test_evpi_population_scaling_properties(n_samples) -> None:
 
 
 # Strategy for generating valid parameter arrays for EVPPI testing
-parameter_arrays = arrays(
-    dtype=np.float64,
-    shape=st.tuples(
-        st.integers(min_value=10, max_value=100),  # n_samples
-        st.integers(min_value=1, max_value=5),  # n_parameters
-    ),
-    elements=st.floats(
-        min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-    ),
+parameter_arrays = _float_array(
+    min_rows=10,
+    max_rows=100,
+    min_cols=1,
+    max_cols=5,
+    min_value=-100,
+    max_value=100,
 )
 
 
 @given(
-    nb_array=arrays(
-        dtype=np.float64,
-        shape=st.tuples(
-            st.integers(min_value=10, max_value=50),
-            st.integers(min_value=2, max_value=5),
-        ),
-        elements=st.floats(
-            min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-        ),
+    nb_array=_float_array(
+        min_rows=10,
+        max_rows=50,
+        min_cols=2,
+        max_cols=5,
+        min_value=-100,
+        max_value=100,
     )
 )
 @settings(deadline=None)
@@ -171,15 +192,13 @@ def test_evppi_non_negative(nb_array) -> None:
 
 
 @given(
-    nb_array=arrays(
-        dtype=np.float64,
-        shape=st.tuples(
-            st.integers(min_value=10, max_value=50),
-            st.integers(min_value=1, max_value=1),
-        ),
-        elements=st.floats(
-            min_value=-100, max_value=100, allow_nan=False, allow_infinity=False
-        ),
+    nb_array=_float_array(
+        min_rows=10,
+        max_rows=50,
+        min_cols=1,
+        max_cols=1,
+        min_value=-100,
+        max_value=100,
     )
 )
 @settings(deadline=None)

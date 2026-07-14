@@ -3,45 +3,116 @@
 This document lists the actionable tasks for `voiage` development. Agents should pick tasks from the "To Do" list.
 
 ## To Do
-*   [x] Restore the coverage-report tox job and stabilize the CLI help assertions under CI rendering.
-*   [x] Add a uv-backed Nox runner that mirrors the main tox sessions.
-*   [x] Expand the supported Python test matrix to 3.13 and 3.14 across tox, CI, and docs.
-*   [x] Split the JAX/NumPy/SciPy dependency pins by Python version so 3.10 keeps the legacy stack and 3.11-3.14 can run the newer wheel set.
-*   [x] Tighten CLI completeness coverage with a registry-level command-surface assertion and a backend-consistency integration test.
-*   [x] Define the HEOR module naming brainstorm for `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`, `quality`, `engines`, `heoml`, and PM4Py as ecosystem-only.
-    *   Keep the list as a naming and boundary exercise, not an implementation plan.
-    *   Require CLI support and an explicit MCP decision for any future module.
-    *   Keep PM4Py in the process-mining ecosystem-only bucket.
-
-*   [x] Specify the stable warning and diagnostic payloads used to report unsupported capabilities, degraded paths, and approximation caveats.
-    *   Added the diagnostics contract document, schema/example pair, and contract validation coverage under `specs/core-api/`.
-*   [x] Define the capability, stability, and maturity metadata contract for the stable core API.
-    *   Added the method-metadata contract document, schema/example pair, and validation coverage, and recorded the explicit approximation-status rule.
-*   [x] Complete the remaining docs-developer-experience notebook slices.
-    *   Added NMA and structural VOI validation notebooks, plus financial, environmental, engineering, and JAX performance tutorials, and verified they execute.
-*   [x] Expand the Sphinx API reference surface and optional-import handling.
-    *   Added the missing public method submodules to the rendered API reference and configured autodoc mocks for optional third-party dependencies.
-*   [x] Wire the CLI benchmark regression checks into CI and close the no-ignored-tests bookkeeping.
-    *   Added the benchmark-regression CI job, confirmed pytest config no longer carries ignore patterns, and recorded the regression suite in the CLI integration track.
-*   [x] Restore the full repository verification gate to a passing state.
-    *   The `ruff`, `ty`, and full `pytest --cov=voiage --cov-fail-under=90` checks now pass again after the new notebook and coverage fixes.
-*   [x] Close the remaining docs-developer-experience onboarding checklist items and the CLI completeness bookkeeping.
-    *   Marked the developer-onboarding documentation phases complete and closed the CLI command-surface coverage gate after the backend-consistency test landed.
-*   [x] Overhaul the README landing page with the current feature set, working quick-start, badges, comparison table, documentation links, and help/value sections.
-    *   Refreshed the top-level project overview so it matches the present implementation and roadmap.
-*   [x] Add the remaining CLI branch coverage tests for the internal helpers, calibration/observational, sequential/NMA, adaptive/portfolio, and plot command families.
-    *   The CLI coverage gate is now back above 90% with focused regression tests for the previously uncovered branches.
-*   [x] Clarify the R package release channel and registry caveats in the polyglot publishing docs.
-    *   Documented that the R binding currently publishes source archives through GitHub Releases, while CRAN and r-universe remain external registry targets.
-
-*   [x] Reflect the implemented preference / individualized-care runtime, CLI surface, and fixture-backed conformance in the frontier roadmap.
-    *   Updated the roadmap wording so the preference frontier now reads as implemented at the runtime, CLI, and fixture-backed conformance layers, with only cross-language parity follow-through remaining.
+*None at the moment.*
 
 ## In Progress
 
 *None at the moment.*
 
 ## Done
+
+*   [x] Restore OpenSSF Scorecard publication after the shared scanning rollout.
+    *   Isolated the custom blocking-alert gate in a dependent least-privilege
+        job that does not violate Scorecard workflow restrictions.
+
+*   [x] Remove the runtime-only `ValueArray` import from the basic VOI methods.
+    *   Moved the annotation dependency behind `TYPE_CHECKING` and retained the
+        existing public type contract without runtime import overhead.
+
+*   [x] Archive completed Conductor track records and repair their regression
+    test and documentation references.
+    *   Moved all completed registered tracks from `conductor/tracks/` to
+        `conductor/archive/`, updated the registry/index links, and verified
+        the archived evidence and status tests.
+
+*   [x] Remediate the current lockfile dependency advisories.
+    *   Updated the Python lockfile through the patched Jupyter Server,
+        JupyterLab, mistune, soupsieve, bleach, tornado, idna, urllib3, and
+        pytest releases; upgraded Astro/Starlight within a compatible major
+        line; pinned the transitive esbuild resolution to a patched release;
+        and updated the Starlight configuration for the current APIs.
+    *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
+        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        dependency environments, coverage, docs, type, contract, and harness
+        gates.
+
+*   [x] Set up maximal repository harness engineering and GitHub security and
+    quality controls.
+    *   Added the fail-closed workflow/governance harness and tox gate,
+        immutable action pins, least-privilege permissions, CodeQL gate repair,
+        dependency review, OpenSSF Scorecard, Zizmor auditing, Dependabot, and
+        release provenance attestation.
+    *   Applied repository merge/signoff settings and the active
+        `main-maximal-quality` GitHub ruleset requiring pull requests,
+        signed commits, linear history, resolved review threads, and required
+        CI, dependency-review, and CodeQL checks. The review count is zero for
+        the repository's single-maintainer operating model.
+    *   Kept organization-owned policy, environment approvals, and unavailable
+        plan-dependent secret-scanning enhancements explicitly external.
+
+*   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
+    *   Removed committed pytest temp output, coverage reports, macOS metadata,
+        legacy egg-info generated artifacts, and R CMD check output from
+        version control.
+    *   Removed tracked backup snapshots and added ignore/test coverage for
+        common editor backup suffixes.
+    *   Removed root-level legacy test scratch files and test result logs so
+        active verification remains anchored under `tests/`.
+    *   Removed stale root completion/coverage report mirrors, obsolete
+        local-path mutation/demo scripts, and generated result outputs.
+    *   Removed generated nbconvert notebooks and normalized local file links
+        to portable repository-relative paths.
+    *   Removed stale Qoder, repository-map, and legacy roadmap mirror
+        documents that duplicated canonical project status files and described
+        outdated placeholder or v0.1-era state.
+    *   Removed remaining root Qoder quest output and duplicate planning,
+        branch-architecture, CLI-changelog, repository-structure, and outdated
+        todo mirrors.
+    *   Removed legacy root JAX audit/setup, coverage-analysis, benchmark,
+        verification, review, and testing-approach scaffolding that was not
+        wired into maintained package, docs, tox, or CI surfaces.
+    *   Fixed the Taskipy profile command and profiling script so the entry
+        point targets the tracked script and current public API.
+    *   Removed root-level generated CLI sample CSVs and pointed the README
+        and CLI example script at the maintained `examples/cli_samples/`
+        fixtures.
+    *   Added the XML parser used by the ecosystem integration module to the
+        base runtime dependencies and made the CLI example fail fast on
+        command failures.
+    *   Rewrote the stale root product, technology stack, workflow, and product
+        guideline mirrors so they match the current roadmap, AGENTS workflow,
+        Sphinx/Starlight documentation boundary, and >90% coverage gate.
+    *   Fixed Sphinx heading and nested-list formatting in HPC developer docs
+        so the warning-as-error docs gate passes.
+    *   Added repo-local ignore coverage for macOS, tooling-cache, coverage,
+        and temporary-output paths so local verification does not pollute
+        future cleanup passes.
+    *   Updated the roadmap so completed Conductor/spec/ecosystem phases are
+        marked as repository-complete while external registry and hardware
+        evidence gates remain explicit.
+
+*   [x] Add free-runner pre-silicon FPGA/ASIC evidence tracks.
+    *   Added a deterministic fixed-point EVPI-style RTL kernel, CPU fixture,
+        manifest generator, committed FPGA/ASIC probe manifests, and GitHub
+        Actions smoke workflow.
+    *   Updated the FPGA and ASIC Conductor tracks so free CI evidence is
+        first-pass progress while physical board, Tiny Tapeout, SkyWater MPW,
+        and fabricated-silicon runtime remain external follow-up gates.
+
+*   [x] Clean up HPC and Conductor tracking records after Colab GPU/TPU evidence capture.
+    *   Normalized the HPC roadmap, accelerator/distribution docs, ASIC feasibility notes, and completed spec-track metadata so they distinguish visibility/parity evidence from production speedup evidence.
+    *   Added regression coverage for Colab evidence paths, hardware-scope wording, and Conductor status contradictions.
+
+*   [x] Add a Colab accelerator validation notebook for the HPC workflow.
+    *   Added a compact notebook that clones the repo in Colab, installs the
+        package, probes JAX CPU/GPU/TPU device visibility, checks EVPI parity,
+        writes an evidence packet, and confirms FPGA/ASIC remain explicit
+        placeholder adapters.
+    *   Captured and persisted successful Colab T4 GPU and v5e TPU evidence
+        payloads under the HPC acceleration abstraction handoff.
+    *   Updated the HPC docs and Conductor feasibility records to cite the
+        GPU/TPU evidence while keeping production speedup, FPGA, and ASIC
+        claims evidence-gated.
 
 *   [x] Create the SOTA strategy orchestration and dependency matrix guide.
     *   Codified the dependency graph, shared gates, and parallel lanes for the strategy work, then linked the guide into the developer docs.

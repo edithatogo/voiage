@@ -29,6 +29,8 @@
       ]
     ]
   ],
+  "analysis_id": "perspective-screening-001",
+  "decision_problem_id": "screening-program-001",
   "strategy_names": [
     "A",
     "B",

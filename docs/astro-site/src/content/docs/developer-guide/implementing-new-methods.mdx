@@ -1,0 +1,41 @@
+---
+title: Implementing New Methods
+description: Extending voiage with new VOI methods
+---
+
+This guide is for contributors adding or extending the stable core VOI methods in `voiage`.
+
+## Current stable method surface
+
+- `evpi`
+- `evppi`
+- `evsi`
+- `enbs`
+- `calculate_ceaf`
+- `calculate_dominance`
+- `value_of_heterogeneity`
+
+## Before you start
+
+Review existing implementations before adding a new method:
+
+- `voiage/methods/basic.py` for EVPI and EVPPI
+- `voiage/methods/sample_information.py` for EVSI and ENBS
+- `voiage/methods/ceaf.py` for CEAF summaries
+- `voiage/methods/dominance.py` for dominance and frontier calculations
+- `voiage/methods/heterogeneity.py` for subgroup-aware value calculations
+
+## Method shape
+
+Keep function signatures explicit, typed, and easy to route from the analysis facade. Accept structured inputs rather than raw arrays where possible, return a dataclass or result object for multi-field summaries, and keep the public wrapper on `DecisionAnalysis` thin.
+
+## Implementation checklist
+
+1. Add the method implementation under `voiage/methods/`
+2. Use existing schema objects or add a new one in `voiage/schema.py`
+3. Add a `DecisionAnalysis` wrapper if the method belongs on the main analysis surface
+4. Export the new method from `voiage/methods/__init__.py`
+5. Add unit tests covering normal inputs, boundary conditions, and validation failures
+6. Add or update user-guide examples
+7. If CLI-visible, add the command or option wiring and test it
+8. Update the changelog and todo tracking entry

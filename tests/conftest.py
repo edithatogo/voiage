@@ -7,6 +7,10 @@ This file can be used to define fixtures, hooks, and plugins that are
 shared across multiple test files.
 """
 
+import os
+
+os.environ.setdefault("MPLBACKEND", "Agg")
+
 import numpy as np
 import pytest
 import xarray as xr

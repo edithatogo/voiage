@@ -5,7 +5,8 @@ Core data structures for voiage.
 
 These structures are designed to hold and manage data used in Value of Information
 analyses. They leverage Python's dataclasses for type hinting and validation where
-appropriate, and are intended to work seamlessly with NumPy and Pandas/xarray.
+appropriate, and use xarray Datasets as the canonical in-memory representation for
+their public contract.
 """
 
 from collections.abc import Sequence
@@ -38,8 +39,8 @@ class ValueArray:
     Attributes
     ----------
     dataset : xarray.Dataset
-        Dataset with ``n_samples`` and ``n_strategies`` dimensions and a
-        ``net_benefit`` data variable.
+        Canonical xarray Dataset with ``n_samples`` and ``n_strategies``
+        dimensions and a ``net_benefit`` data variable.
 
     Examples
     --------
@@ -59,16 +60,63 @@ class ValueArray:
         """Validate the dataset."""
         if not isinstance(self.dataset, xr.Dataset):
             raise_input_error("ValueArray 'dataset' must be a xarray.Dataset.")
-        if "n_samples" not in self.dataset.dims:
+
+        dataset = self.dataset
+        rename_map: dict[str, str] = {}
+        if "n_options" in dataset.dims and "n_strategies" not in dataset.dims:
+            rename_map["n_options"] = "n_strategies"
+        if "option" in dataset.coords and "strategy" not in dataset.coords:
+            rename_map["option"] = "strategy"
+        if "value" in dataset.data_vars and "net_benefit" not in dataset.data_vars:
+            rename_map["value"] = "net_benefit"
+        if rename_map:
+            dataset = dataset.rename(rename_map)
+
+        if "n_strategies" in dataset.dims:
+            n_strategies = int(dataset.sizes["n_strategies"])
+            if "strategy" in dataset.coords:
+                strategy_coord = dataset["strategy"]
+                if strategy_coord.size != n_strategies:
+                    raise_input_error(
+                        "ValueArray 'dataset' must align 'strategy' with 'n_strategies'."
+                    )
+                if strategy_coord.dims != ("n_strategies",):
+                    dataset = dataset.assign_coords(
+                        strategy=(
+                            "n_strategies",
+                            [str(name) for name in strategy_coord.values],
+                        )
+                    )
+            else:
+                dataset = dataset.assign_coords(
+                    strategy=(
+                        "n_strategies",
+                        [f"Strategy {i}" for i in range(n_strategies)],
+                    )
+                )
+
+        if "n_samples" not in dataset.dims:
             raise_input_error("ValueArray 'dataset' must have a 'n_samples' dimension.")
-        if "n_strategies" not in self.dataset.dims:
+        if "n_strategies" not in dataset.dims:
             raise_input_error(
                 "ValueArray 'dataset' must have a 'n_strategies' dimension."
             )
-        if "net_benefit" not in self.dataset.data_vars:
+        if "net_benefit" not in dataset.data_vars:
             raise_input_error(
                 "ValueArray 'dataset' must have a 'net_benefit' data variable."
             )
+        if "strategy" not in dataset.coords:
+            raise_input_error("ValueArray 'dataset' must have a 'strategy' coordinate.")
+        object.__setattr__(self, "dataset", dataset.copy(deep=True))
+
+    @classmethod
+    def from_dataset(cls, dataset: xr.Dataset) -> "ValueArray":
+        """Create a ValueArray from a canonical xarray Dataset."""
+        return cls(dataset=dataset)
+
+    def to_dataset(self: "ValueArray") -> xr.Dataset:
+        """Return a deep copy of the canonical xarray Dataset."""
+        return self.dataset.copy(deep=True)
 
     @property
     def values(self: "ValueArray") -> xr.DataArray:
@@ -104,7 +152,7 @@ class ValueArray:
 
     def copy(self: "ValueArray") -> "ValueArray":
         """Return a deep copy of the ValueArray."""
-        return ValueArray(dataset=self.dataset.copy(deep=True))
+        return type(self).from_dataset(self.dataset)
 
     def get_strategy_index(self: "ValueArray", strategy_name: str) -> int:
         """Return the integer index for a strategy name."""
@@ -119,7 +167,7 @@ class ValueArray:
         """Return a new ValueArray containing only the requested strategies."""
         indices = [self.get_strategy_index(name) for name in strategy_names]
         sliced = self.dataset.isel(n_strategies=indices).copy(deep=True)
-        return ValueArray(dataset=sliced)
+        return type(self).from_dataset(sliced)
 
     def __eq__(self: "ValueArray", other: object) -> bool:
         """Compare ValueArray instances by dataset contents and coordinates."""
@@ -169,7 +217,7 @@ class ValueArray:
                 "strategy": ("n_strategies", strategy_names),
             },
         )
-        return cls(dataset=dataset)
+        return cls.from_dataset(dataset)
 
     @classmethod
     def from_numpy_perspectives(
@@ -229,7 +277,7 @@ class ValueArray:
                 "perspective": ("n_perspectives", perspective_names),
             },
         )
-        return cls(dataset=dataset)
+        return cls.from_dataset(dataset)
 
     @property
     def perspective_names(self: "ValueArray") -> list[str] | None:
@@ -284,7 +332,7 @@ class ValueArray:
                 "strategy": ("n_strategies", strategy_names),
             },
         )
-        return cls(dataset=dataset)
+        return cls.from_dataset(dataset)
 
 
 @dataclass(frozen=True, eq=False)
@@ -294,8 +342,8 @@ class ParameterSet:
     Attributes
     ----------
     dataset : xarray.Dataset
-        Dataset with ``n_samples`` as the sample dimension and one data
-        variable per parameter.
+        Canonical xarray Dataset with ``n_samples`` as the sample dimension
+        and one data variable per parameter.
 
     Examples
     --------
@@ -318,6 +366,20 @@ class ParameterSet:
             raise_input_error(
                 "ParameterSet 'dataset' must have a 'n_samples' dimension."
             )
+        if len(self.dataset.data_vars) == 0:
+            raise_input_error(
+                "ParameterSet 'dataset' must have at least one parameter variable."
+            )
+        object.__setattr__(self, "dataset", self.dataset.copy(deep=True))
+
+    @classmethod
+    def from_dataset(cls, dataset: xr.Dataset) -> "ParameterSet":
+        """Create a ParameterSet from a canonical xarray Dataset."""
+        return cls(dataset=dataset)
+
+    def to_dataset(self: "ParameterSet") -> xr.Dataset:
+        """Return a deep copy of the canonical xarray Dataset."""
+        return self.dataset.copy(deep=True)
 
     @property
     def parameters(self: "ParameterSet") -> dict[str, np.ndarray]:
@@ -346,7 +408,7 @@ class ParameterSet:
 
     def copy(self: "ParameterSet") -> "ParameterSet":
         """Return a deep copy of the ParameterSet."""
-        return ParameterSet(dataset=self.dataset.copy(deep=True))
+        return type(self).from_dataset(self.dataset)
 
     def subset_by_parameters(
         self: "ParameterSet", parameter_names: Sequence[str]
@@ -360,7 +422,7 @@ class ParameterSet:
             missing_names = ", ".join(sorted(missing))
             raise_value_error(f"Parameters not found: {missing_names}")
         subset = self.dataset[parameter_list].copy(deep=True)
-        return ParameterSet(dataset=subset)
+        return type(self).from_dataset(subset)
 
     def __eq__(self: "ParameterSet", other: object) -> bool:
         """Compare ParameterSet instances by dataset contents and coordinates."""
@@ -435,7 +497,7 @@ class ParameterSet:
         else:
             raise_input_error("parameters must be a numpy array or dictionary")
 
-        return cls(dataset=dataset)
+        return cls.from_dataset(dataset)
 
     @classmethod
     def from_jax(
@@ -495,7 +557,7 @@ class ParameterSet:
         else:
             raise_input_error("parameters must be a JAX array or dictionary")
 
-        return cls(dataset=dataset)
+        return cls.from_dataset(dataset)
 
 
 @dataclass(frozen=True)

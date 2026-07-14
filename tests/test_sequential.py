@@ -108,6 +108,35 @@ def test_sequential_voi_generator() -> None:
         assert result["current_evpi"] >= 0
 
 
+def test_sequential_voi_backward_induction_uses_step_model_progression() -> None:
+    """Backward-induction mode should advance the PSA state between steps."""
+    initial_psa = ParameterSet.from_numpy_or_dict(
+        {
+            "net_benefit_standard": np.array([0.0, 10.0, 0.0, 10.0]),
+            "net_benefit_new": np.array([5.0, 5.0, 5.0, 5.0]),
+        }
+    )
+    resolved_psa = ParameterSet.from_numpy_or_dict(
+        {
+            "net_benefit_standard": np.array([8.0, 8.0, 8.0, 8.0]),
+            "net_benefit_new": np.array([5.0, 5.0, 5.0, 5.0]),
+        }
+    )
+
+    def learning_step_model(psa, action, dyn_spec):
+        _ = psa, action, dyn_spec
+        return {"next_psa": resolved_psa}
+
+    result = sequential_voi(
+        learning_step_model,
+        initial_psa,
+        DynamicSpec(time_steps=[0, 1]),
+        optimization_method="backward_induction",
+    )
+
+    assert result == pytest.approx(2.5)
+
+
 def test_sequential_evpi_step_matches_standard_formula() -> None:
     """Step EVPI should use E[max NB] - max(E[NB]) for strategy payoffs."""
     psa = ParameterSet.from_numpy_or_dict(

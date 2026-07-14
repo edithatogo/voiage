@@ -1,96 +1,71 @@
 # voiage - Product Guidelines
 
-## Code Style & Conventions
+## Code Style and Conventions
 
-### Naming Conventions
-- **Modules**: lowercase with underscores (e.g., `health_economics.py`)
-- **Classes**: PascalCase (e.g., `VOIAnalyzer`, `JAXBackend`)
-- **Functions/Methods**: snake_case (e.g., `calculate_evpi`, `run_sampling`)
-- **Constants**: UPPER_SNAKE_CASE (e.g., `DEFAULT_POPULATION`)
-- **Private Members**: prefix with underscore (e.g., `_internal_method`)
+- **Modules**: lowercase with underscores, for example
+  `health_economics.py`.
+- **Classes**: PascalCase, for example `DecisionAnalysis`.
+- **Functions and Methods**: snake_case, for example `calculate_evpi`.
+- **Constants**: upper snake case, for example `DEFAULT_POPULATION`.
+- **Private Members**: prefix with an underscore.
 
-### Documentation Standards
-- **Docstrings**: NumPy-style docstrings for all public functions
-- **Type Hints**: Required for all function signatures
-- **Module Docstrings**: Each module must have a top-level docstring explaining its purpose
-- **Examples**: Include usage examples in docstrings for complex methods
+## Documentation Standards
+
+- Public APIs use NumPy-style docstrings.
+- New or changed functions and methods must be type-hinted.
+- User-facing changes should update docs, examples, or release notes when the
+  behavior is visible outside tests.
+- Sphinx remains in the local docs gate; Starlight/Astro docs-site work must
+  preserve the same user-facing content boundaries.
 
 ## Error Handling
 
-### Custom Exceptions
-- Use domain-specific exceptions from `voiage.exceptions`
-- Graceful degradation: Provide meaningful error messages with actionable guidance
-- Input validation: Validate all inputs at method boundaries
-- Logging: Use Python's logging module for diagnostic information
+- Use domain-specific exceptions from `voiage.exceptions` where available.
+- Validate inputs at method boundaries.
+- Prefer actionable error messages that identify the invalid field or contract.
+- Keep optional integrations fail-soft when the dependency or external format is
+  unavailable, but do not hide failures in examples or CI checks.
 
 ## API Design Principles
 
-### Consistency
-- All VOI methods follow the same signature pattern: `method(inputs, outputs, **kwargs)`
-- Return consistent data types (numpy arrays or xarray DataArrays)
-- Provide both functional and object-oriented interfaces
+- Preserve the stable `ValueArray`, `ParameterSet`, `TrialDesign`, result
+  envelope, and diagnostics contracts.
+- Keep functional and object-oriented APIs behaviorally aligned.
+- Backend, accelerator, and binding implementations must preserve public API
+  behavior before claiming parity.
+- Keep experimental and evidence-gated surfaces explicitly labelled.
 
-### CLI Guidelines
-- Use Typer for CLI implementation
-- All core methods must have CLI commands
-- Support CSV input/output for batch processing
-- Provide `--help` with comprehensive examples
+## CLI Guidelines
 
-### Backend Abstraction
-- Support multiple backends (NumPy, JAX) through factory pattern
-- Backend selection via configuration, not code changes
-- Maintain API parity across backends
+- Use Typer for CLI implementation.
+- Core and frontier methods should expose reproducible CLI commands when they
+  are user-facing.
+- CLI examples should consume maintained fixtures, write generated outputs to
+  temporary or user-selected paths, and fail fast on command failures.
+- Help text should include working examples.
 
 ## Testing Standards
 
-### Coverage Requirements
-- Target: >80% code coverage
-- Critical methods: >95% coverage
-- Use pytest-cov for coverage reporting
-
-### Test Organization
-- Mirror source directory structure in tests/
-- Use fixtures for common test data
-- Property-based testing with Hypothesis for numerical methods
-
-### Performance Testing
-- Include benchmarks for core methods
-- Track regression in performance-critical paths
-- Test JAX acceleration separately
+- Maintain the repository-wide coverage threshold at **>90%**.
+- Add focused regression tests for cleanup rules, bug fixes, and new behavior.
+- Keep generated fixtures deterministic.
+- Use property-based tests where numerical invariants are more valuable than
+  example-only checks.
+- Run focused tests first, then the full tox gate before marking a slice done.
 
 ## Multi-Domain Support
 
-### Domain Modules
-- `voiage.healthcare` - Health economics and HTA
-- `voiage.financial` - Financial VOI applications
-- `voiage.environmental` - Environmental policy VOI
+- Keep core algorithms in `voiage.methods` and shared contracts in the schema
+  and specs surfaces.
+- Domain adapters should remain thin and artifact-first.
+- Healthcare, financial, environmental, engineering, and future domain modules
+  should preserve the same VOI result semantics.
 
-### Domain-Agnostic Core
-- Core algorithms in `voiage.methods`
-- Domain adapters in respective modules
-- Shared utilities in `voiage.core`
+## Release and External Gates
 
-## Release Process
-
-### Versioning
-- Follow semantic versioning (MAJOR.MINOR.PATCH)
-- Update CHANGELOG.md with each release
-- Tag releases in Git with version number
-
-### Quality Gates
-- All tests must pass before release
-- Coverage must not decrease
-- Documentation must be updated
-- Pre-commit hooks must pass
-
-## Branding & UX
-
-### Documentation
-- Comprehensive Sphinx documentation
-- Jupyter notebook examples for each feature
-- Clear migration guides between versions
-
-### Visual Design
-- Consistent plotting styles with matplotlib/seaborn
-- Accessible color palettes for charts
-- Clear labels and legends in all visualizations
+- `pyproject.toml` is the canonical Python package metadata source.
+- `changelog.md` records user-facing changes.
+- Registry, external curation, and hardware evidence gates must be recorded as
+  external gates rather than repo-local completion.
+- Binding and HPC release surfaces should keep generated artifacts separate
+  from source-controlled contracts, fixtures, and workflows.

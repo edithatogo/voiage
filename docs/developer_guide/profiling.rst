@@ -118,9 +118,18 @@ Practical order:
 4. SIMD feasibility
 5. GPU or other accelerator feasibility only if the earlier data justify it
 
+For cluster-sized CPU workloads, the same order applies on the local host
+before any scheduler-backed fan-out is attempted. The cluster lane should
+inherit the scalar workload and measure whether multi-core execution is
+actually the bottleneck relief.
+
 If a candidate optimization needs a different workload, a different result
 shape, or a different correctness policy, it belongs in a follow-on track
 rather than in the baseline profiling contract.
+
+For cluster or distributed CPU execution, the same rule applies: do not move
+to a multi-node deployment model until the single-node CPU baseline is stable
+and the workload shows a repeatable benefit from partitioning and fan-out.
 
 Related guidance
 ----------------

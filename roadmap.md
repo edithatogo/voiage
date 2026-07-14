@@ -4,13 +4,18 @@
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
 
-## Current Status (As of May 2026)
+## Current Status (As of June 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
+*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
+*   **Rust Core Migration:** ✅/🔄 **Foundation Complete, Expansion Evidence-Gated** - Rust core foundations, domain model, deterministic kernels, profiling guidance, binding/release policy, and EVSI stochastic-kernel follow-on are complete. Broader production kernel migration and accelerator optimization remain future benchmark-backed work.
+*   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
+
+Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 ---
 
@@ -88,7 +93,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 ---
 
-### Phase 4: Ecosystem, Community & Future Ports (Ongoing) 🚧 **IN PROGRESS**
+### Phase 4: Ecosystem, Community & Future Ports ✅/🔄 **REPOSITORY COMPLETE, EXTERNAL GATES EXPLICIT**
 
 **Goal:** Grow the user and contributor community and lay the groundwork for R and Julia versions.
 
@@ -101,41 +106,54 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.
 3.  **Security & Quality:**
-    *   **Status: `✅ Done`**
-    *   CodeQL security scanning, Ruff linting/security rules, ty type checking, and mutation testing support.
+    *   **Status: `✅ Done / hosted controls applied`**
+    *   CodeQL security scanning, Ruff linting/security rules, ty type checking,
+        mutation testing support, a fail-closed repository harness, immutable
+        GitHub Action pins, dependency review, OpenSSF Scorecard, Zizmor
+        workflow auditing, release provenance attestations, and an active
+        protected-main ruleset are in place. Organization-level Actions policy,
+        environment approvals, and plan-dependent secret-scanning features
+        remain explicit administrator-owned gates. The repository lockfiles
+        now carry patched Python and Starlight documentation dependencies for
+        the current advisory set; future advisories remain Dependabot-owned
+        follow-up work.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
     *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.
 5.  **Language-Agnostic API Specification:**
-    *   **Status: `📋 Planned`**
-    *   Define a stable core contract around `ValueArray`, `ParameterSet`, `TrialDesign`, and method outputs.
-    *   Use spec-first development with conformance fixtures before expanding bindings.
-    *   Target a core API that can be surfaced consistently from Python first, then R, Julia, TypeScript, Go, and Rust.
-    *   Prioritize deterministic validation, explicit schemas, and backend-agnostic behavior over language-specific convenience wrappers.
+    *   **Status: `✅ Done`**
+    *   The stable core contract around `ValueArray`, `ParameterSet`, `TrialDesign`, method outputs, diagnostics, and extension rules is defined under `specs/core-api/`.
+    *   Spec-first development is backed by conformance fixtures before binding expansion.
+    *   The core API is surfaced from Python first, with R, Julia, TypeScript, Go, Rust, and .NET binding contracts aligned to the same release matrix.
+    *   Deterministic validation, explicit schemas, and backend-agnostic behavior remain the governing compatibility rules.
 6.  **Planning for R/Julia Ports:**
-    *   **Status: `📋 Planned`**
-    *   Treat R and Julia as the first external ports of the shared core API.
-    *   Keep the Python implementation as the reference binding, with additional bindings generated or hand-wrapped from the same canonical spec.
-    *   Treat each external binding as a releasable package with a registry target, automated CI, conformance-fixture validation, and release automation before it is considered complete.
+    *   **Status: `✅ Done`**
+    *   R and Julia are captured as external ports of the shared core API, with TypeScript, Go, Rust, and .NET included in the broader binding release matrix.
+    *   The Python implementation remains the reference binding, with additional bindings generated or hand-wrapped from the same canonical spec.
+    *   Each external binding is treated as a releasable package with a registry target, automated CI, conformance-fixture validation, and release automation before it is considered repository-complete.
     *   Keep the R binding documentation track explicit: the package help pages, a narrative vignette, and a deterministic PDF reference manual are part of the package docs surface, and the completed track is archived with the build/verification guidance centered on `tools/build-manual.R` and the non-interactive `R CMD check --as-cran --no-manual` flow.
     *   Keep the polyglot tutorial surface explicit so the Python notebooks, the R vignette/manual, and the non-Python binding walkthroughs stay aligned around the same canonical use cases; the track is now complete and archived, with the repo-level smoke checks covering the binding walkthrough READMEs.
 
 ---
 
-### Phase 5: Spec, Fixtures & Polyglot Bindings 📋 **PLANNED**
+### Phase 5: Spec, Fixtures & Polyglot Bindings ✅ **COMPLETE**
 
 **Goal:** Mature the library into a broadly usable core analysis engine with stable cross-language contracts.
 
 1.  **Core API Specification:**
+    *   **Status: `✅ Done`**
     *   Define method signatures, schema invariants, and error behavior for the public VOI surface.
     *   Covered by Conductor tracks: `core-api-spec-foundation`, `canonical-schemas-core-contracts`.
 2.  **Conformance Fixtures:**
+    *   **Status: `✅ Done`**
     *   Build canonical input/output fixtures that every binding must pass before release.
     *   Covered by Conductor tracks: `cross-language-conformance-fixtures`, `python-cleanup-against-spec`.
 3.  **Python Cleanup and Stabilization:**
+    *   **Status: `✅ Done`**
     *   Finish the Python-side normalization needed to make the canonical API implementation simple and durable.
     *   Covered by Conductor track: `python-cleanup-against-spec`.
 4.  **First External Bindings:**
+    *   **Status: `✅ Done / external registry gates remain explicit`**
     *   Deliver R and Julia bindings against the same contract, then extend to TypeScript, Go, and Rust if adoption warrants it.
     *   Publishing targets must be planned with the implementation:
         - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
@@ -155,13 +173,13 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 ---
 
-### Phase 6: Ecosystem Integrations 📋 **PLANNED**
+### Phase 6: Ecosystem Integrations ✅ **COMPLETE**
 
 **Goal:** Make `voiage` useful as a stable VOI engine for upstream modelling
 packages while preserving a clean dependency boundary.
 
 1.  **lifecourse Integration Contract:**
-    *   **Status: `📋 Planned`**
+    *   **Status: `✅ Done`**
     *   Define a `lifecourse` VOI artifact profile covering net benefits,
         parameter samples, strategy names, WTP thresholds, scaling metadata,
         provenance, method settings, and diagnostics.
@@ -175,7 +193,7 @@ packages while preserving a clean dependency boundary.
         EVPPI, EVSI, and ENBS behavior consistently.
     *   Covered by Conductor track: `lifecourse-integration-contract_20260429`.
 2.  **Ecosystem Module Incubation:**
-    *   **Status: `📋 Planned`**
+    *   **Status: `✅ Done`**
     *   Define `voiage` as the VOI engine in the HEOR ecosystem spanning
         `lifecourse`, `innovate`, `mars`, HEOML, and future sibling modules.
     *   Keep the ecosystem scope focused on health economics, outcomes
@@ -190,7 +208,7 @@ packages while preserving a clean dependency boundary.
         portable VOI boundary before adapter work begins.
     *   Covered by Conductor track: `ecosystem-module-incubation_20260429`.
 3.  **HEOR Module Naming Brainstorm:**
-    *   **Status: `📋 Planned`**
+    *   **Status: `✅ Done`**
     *   Keep the candidate sibling module names short and consistent:
         `calibrate`, `evidence`, `process`, `report`, `registry`, `workflow`,
         `quality`, `engines`, and `heoml`.
@@ -205,7 +223,7 @@ packages while preserving a clean dependency boundary.
 
 ---
 
-### Phase 7: SOTA VOI Frontier 📋 **PLANNED**
+### Phase 7: SOTA VOI Frontier ✅/🔄 **IMPLEMENTED EXPERIMENTAL SURFACE, PARITY GATED**
 
 **Goal:** Move `voiage` beyond parity with existing VOI packages by adding
 frontier methods that are rarely or not at all available in general-purpose
@@ -233,7 +251,7 @@ VOI tooling.
         fixture sets now anchor both contracts, and cross-language parity is
         the next gate.
 3.  **Preference, Validation, Threshold, and Robust VOI:**
-    *   **Status: `🔄 In Progress`**
+    *   **Status: `✅ Implemented / cross-language parity gated`**
     *   Implement value of preference information and value of individualized care.
     *   The preference heterogeneity contract scaffold now lives under
         `specs/frontier/preference/v1/` and mirrors the multi-profile analysis
@@ -260,7 +278,7 @@ VOI tooling.
         umbrella track with staged-evidence and policy-lock-in subphases. The
         contract scaffold now lives under `specs/frontier/dynamic-real-options/v1/`.
 4.  **Adjacent Frontier Extensions:**
-    *   **Status: `📋 Planned`**
+    *   **Status: `✅ Contract and fixture scaffolds complete / runtime expansion gated`**
     *   Triage causal-identification, transportability, and external-validity
         VOI for target-population decision problems.
     *   Triage data-quality, measurement-error, data-acquisition, privacy, and
@@ -284,7 +302,7 @@ VOI tooling.
         fixtures are now committed for the causal, data-quality,
         computational, and expert-synthesis adjacent families.
 5.  **Documentation and Evidence:**
-    *   **Status: `📋 Planned`**
+    *   **Status: `✅ Fixture-backed documentation baseline complete / stable-method promotion gated`**
     *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
     *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,
         examples, CLI coverage, and method maturity metadata before marking
@@ -301,7 +319,7 @@ VOI tooling.
         deterministic fixture sets anchoring their contracts.
     *   Covered by Conductor track: `sota-voi-frontier_20260429`.
 
-### Phase 8: Rust Core Migration Program 📋 **PLANNED**
+### Phase 8: Rust Core Migration Program ✅/🔄 **FOUNDATION COMPLETE, EXPANSION EVIDENCE-GATED**
 
 **Goal:** Move `voiage` toward a Rust execution core with Python as the primary
 façade, thin language bindings/adapters over the same contract, and
@@ -309,21 +327,26 @@ scalar-first profiling while keeping the cross-language contract stable and the
 binding story explicit.
 
 1.  **Migration Foundation:**
+    *   **Status: `✅ Done`**
     *   Decide the Rust-core boundary, workspace policy, and compatibility model.
     *   Rust is the authoritative execution core for deterministic VOI kernels,
         shared result contracts, and serialization behavior; Python remains the
         façade for CLI, orchestration, plotting, and compatibility wrappers.
     *   Covered by Conductor track: `rust-core-migration-foundation_20260504`.
 2.  **Domain Model Port:**
+    *   **Status: `✅ Done`**
     *   Port the stable data model, result envelopes, diagnostics, and reporting metadata into Rust.
     *   Covered by Conductor track: `rust-core-domain-model_20260504`.
 3.  **Numerics Engine Port:**
+    *   **Status: `✅ Done`**
     *   Port the deterministic VOI methods and fixture-backed kernels into Rust.
     *   Completed by Conductor track: `rust-core-numerics-engine_20260504` (archived).
 4.  **Scalar-First Profiling And Backend Strategy:**
+    *   **Status: `✅ Done`**
     *   Establish scalar-first CPU, memory, throughput, SIMD, GPU, and accelerator feasibility baselines.
     *   Covered by Conductor track: `rust-core-performance-and-profiling_20260504`.
 5.  **Bindings And Release Adaptation:**
+    *   **Status: `✅ Done`**
     *   Recast Python as the façade and R, Julia, TypeScript, Go, and .NET as
         thin bindings/adapters over the Rust core, then update the release
         matrix accordingly.
@@ -427,6 +450,149 @@ release ecosystem, Rust ABI and migration boundary, and repo/docs structure.
         `polyglot-repo-docs-architecture_20260507`.
     *   Depends on the docs navigation and versioning rules in the
         orchestration guide.
+
+### Phase 12: Registry Deployment Completion ✅/🔄 **READINESS COMPLETE, LIVE CHECKS REFRESHABLE**
+
+**Goal:** Finish the remaining language release submission work and make the
+repository explicit about what is automated here versus what still depends on
+external registry-side action.
+
+Completion decision: repository-side submission workflows and HPC readiness
+handoffs are complete. Live registry status remains a refreshable evidence
+artifact because external registry indexing, approvals, and propagation are not
+owned by this repository.
+
+1.  **Release And HPC Registry Program:**
+    *   Complete the Python, R, Julia, TypeScript, Go, Rust, and .NET release
+        submission tracks.
+    *   Keep the HPC distribution contract separate but complete the registry
+        and submission baseline first.
+    *   Covered by Conductor track:
+        `release-and-hpc-registry-program_20260511`.
+2.  **HPC Registry Readiness Program:**
+    *   Make Spack, EasyBuild, HPSF, and E4S submission-readiness requirements
+        explicit and maintainable in one track.
+    *   Add concrete external-action checklists for each target ecosystem and keep
+        the boundary against direct in-repo publishing clear.
+    *   The readiness packet is now explicit and the corresponding Conductor
+        tracks are completed.
+    *   Covered by Conductor tracks:
+        `hpc-registry-readiness_20260511`,
+        `spack-registry-readiness_20260511`,
+        `easybuild-registry-readiness_20260511`,
+        `hpsf-curation-readiness_20260511`,
+        `e4s-curation-readiness_20260511`.
+3.  **Binding Registry Live Verification:**
+    *   Maintain a live status snapshot for every language package in the target
+        registries and keep external/manual actions explicit.
+    *   Keep evidence links current so the release matrix remains reviewable
+        without guessing.
+    *   Covered by Conductor track:
+        `binding-registry-live-verification_20260511`.
+4.  **HPC Distribution Contract:**
+    *   Keep the HPC-facing contract explicit about Spack, EasyBuild, HPSF,
+        E4S, and the current non-native boundary.
+    *   Covered by Conductor track:
+        `hpc-distribution-contract_20260511`.
+
+### Phase 13: HPC Native Enablement Roadmap ✅/🔄 **SETUP COMPLETE, SPEEDUP EVIDENCE-GATED**
+
+**Goal:** Move the project from HPC-friendly to evidence-backed HPC-native by
+starting with Apple integrated GPU optimization and then widening to broader
+GPU, TPU, FPGA, and ASIC feasibility.
+
+1.  **Apple Integrated GPU Optimization:**
+    *   Use Metal-backed acceleration on Apple Silicon as the first
+        accelerator stage.
+    *   Prove that representative VOI workloads can benefit from integrated
+        GPU execution without changing the public contract.
+    *   Completion decision (current): prototype comparison path is defined and
+      CPU-reference proof is present (`phase_3_cpu_reference.json`,
+      `phase_3_handoff_bundle.json` in the prototype handoff dir). Device-backed
+      speedup evidence is deferred until Apple Silicon/MPS hardware is available.
+    *   Treat the committed `scalar_cpu_baseline` and
+        `memory_throughput_baseline` artifacts in `bindings/rust/benches/`
+        as the initial CPU comparison set.
+    *   The benchmark comparison is now staged behind the
+        `apple-metal-backend-prototype_20260510` implementation track, which
+        creates the device-backed path needed for an actual comparison.
+    *   Covered by Conductor track:
+        `apple-metal-integrated-gpu-optimization_20260511`.
+2.  **Discrete GPU Acceleration:**
+    *   Expand beyond Apple integrated GPUs only after the Metal path has
+        benchmark-backed evidence.
+    *   Use the shared abstraction contract defined in
+        `hpc-acceleration-abstraction-contract_20260511` before implementation.
+    *   Track decision: feasibility hold pending confirmed Apple-integrated
+        comparison evidence suitable for repeatable transfer to discrete backends.
+    *   Covered by Conductor track:
+        `discrete-gpu-acceleration_20260511`.
+3.  **TPU Feasibility:**
+    *   Treat TPU as a follow-on feasibility question for large, dense, and
+        contract-stable workloads.
+    *   Use the same abstraction contract and transition criteria as other accelerator
+      stages.
+    *   Track decision: compact Colab v5e runtime validation has passed for
+        TPU visibility and EVPI parity, but production-scale TPU speedup remains
+        gated by contract-safe workload and benchmark evidence.
+    *   Covered by Conductor track:
+        `tpu-acceleration-feasibility_20260511`.
+4.  **ASIC / Custom-Circuit Feasibility:**
+    *   Treat ASIC-style acceleration as the last-stage feasibility question.
+    *   Require the shared contract gate before considering non-CPU production slices.
+    *   Track decision: hold at feasibility level until upstream GPU/TPU phases
+        produce durable evidence.
+    *   Covered by Conductor track:
+        `asic-acceleration-feasibility_20260511`.
+
+### Phase 14: HPC Capability Implementation Program ✅ **SETUP COMPLETE**
+
+**Goal:** Turn the HPC roadmap into an implementation program that is no longer
+limited to feasibility holds. This phase covers CPU-cluster parallelism,
+scheduler-backed distributed execution, Apple Metal hardening, discrete GPU
+enablement, TPU implementation, FPGA implementation, and ASIC implementation
+under the shared Rust/Python contract.
+
+Completion decision: the umbrella setup program is complete and archived.
+CPU/distributed lanes, Apple/GPU/TPU setup, and explicit FPGA/ASIC placeholder
+lanes are tracked. Production accelerator speedup and real FPGA/ASIC hardware
+validation remain future evidence-gated work.
+
+1.  **CPU Cluster Parallelism Implementation:**
+    *   Extend the Rust execution core to use multi-core CPU parallelism as the default HPC lane.
+    *   Preserve scalar reference behavior while making Rayon-style batching and SIMD the implementation detail.
+    *   Covered by Conductor track:
+        `cpu-cluster-parallelism-implementation_20260511`.
+2.  **Distributed Scheduler Backend Implementation:**
+    *   Add scheduler-facing adapters for cluster-oriented execution without changing the stable analysis contract.
+    *   Keep Dask, Ray, and similar runtimes optional so the core remains runnable in a local CPU-only environment.
+    *   Covered by Conductor track:
+        `distributed-scheduler-backend-implementation_20260511`.
+3.  **Apple Metal Implementation:**
+    *   Promote the Apple Silicon path from prototype optimization into a durable implementation lane.
+    *   Keep the public contract stable while refining device-aware scheduling and backend selection.
+    *   Covered by Conductor track:
+        `apple-metal-implementation_20260511`.
+4.  **Discrete GPU Implementation:**
+    *   Implement the discrete GPU backend path against the shared accelerator abstraction.
+    *   Treat this as an execution lane rather than a feasibility question, but keep contract-safe fallbacks intact.
+    *   Covered by Conductor track:
+        `discrete-gpu-implementation_20260511`.
+5.  **TPU Implementation:**
+    *   Implement the TPU path where the contract and workload shape justify it.
+    *   Keep compilation/runtime boundaries explicit and verify they remain transparent to users.
+    *   Covered by Conductor track:
+        `tpu-implementation_20260511`.
+6.  **FPGA Implementation:**
+    *   Status: free CI pre-silicon evidence path complete with explicit adapter placeholder behavior preserved.
+    *   Keep physical FPGA board runtime and production speedup claims as future external evidence gates.
+    *   Covered by Conductor track:
+        `fpga-implementation_20260511`.
+7.  **ASIC Implementation:**
+    *   Status: free CI pre-silicon evidence path complete with explicit adapter placeholder behavior preserved.
+    *   Keep Tiny Tapeout, SkyWater MPW, fabricated-silicon runtime, and production ASIC speedup claims as future external evidence gates.
+    *   Covered by Conductor track:
+        `asic-implementation_20260511`.
 
 #### Current State
 

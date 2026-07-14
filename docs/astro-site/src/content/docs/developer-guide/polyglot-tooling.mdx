@@ -1,0 +1,44 @@
+---
+title: Polyglot Tooling
+description: Multi-language binding tooling and observability
+---
+
+The Python package is the reference implementation, but the project now ships release contracts for several language bindings. This page records the developer-facing expectations that keep those bindings aligned.
+
+## Tooling parity
+
+The Python reference package keeps language-specific tools with a clear local benefit:
+
+- `scalene` for Python-only profiling
+- `mutmut` for Python-only mutation testing
+- `pytest-benchmark` for Python performance regression checks
+- `ruff` and `ty` for Python lint and type gates
+
+Those tools are not forced onto non-Python bindings. The equivalent gates per ecosystem are:
+
+- **TypeScript**: `npm run check` and `npm pack --dry-run`
+- **Go**: `go test` and `go vet`
+- **Rust**: `cargo fmt`, `cargo clippy`, `cargo test`, `cargo package`
+- **Julia**: `Pkg.test`
+- **.NET**: `dotnet build`, `dotnet test`, `dotnet pack`
+- **R**: `R CMD build` and `R CMD check --as-cran`
+
+## Versioning contract
+
+Each binding follows the release conventions of its own ecosystem:
+
+- **Python**: `v*` tags, PyPI/TestPyPI publication, conda-forge via feedstock
+- **TypeScript**: `typescript-v*` tags, npm with provenance
+- **Go**: `bindings/go/v*` tags aligned with module proxy rules
+- **Rust**: `rust-v*` tags, crates.io
+- **Julia**: `julia-v*` tags with TagBot sync and General registry
+- **.NET**: `dotnet-v*` tags, NuGet (`net11.0`)
+- **R**: `r-v*` tags, GitHub Releases with CRAN/r-universe handled externally
+
+## Logging policy
+
+Library code should stay quiet by default. The CLI is the only surface expected to emit user-facing status output.
+
+- `--quiet` suppresses status chatter
+- `--format json` and `--format csv` are the machine-readable output modes
+- Debug or verbose detail must remain opt-in and must not change stdout payloads

@@ -158,7 +158,11 @@ def value_of_implementation(
     if population is not None:
         population = _validate_positive("population", population)
 
-    final_strategy_names = strategy_names or value_array.strategy_names
+    final_strategy_names = (
+        list(strategy_names)
+        if strategy_names is not None
+        else value_array.strategy_names
+    )
     if len(final_strategy_names) != nb_values.shape[1]:
         raise_input_error(
             "`strategy_names` length must match the number of strategies."

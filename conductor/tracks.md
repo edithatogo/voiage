@@ -2,6 +2,8 @@
 
 This file tracks the major implementation tracks for the project. Active tracks are ordered so `conductor-implement` can run them sequentially without needing to infer strategic reprioritization.
 
+All currently registered tracks are complete and archived under `conductor/archive/`. New in-progress tracks belong under `conductor/tracks/` and should be added here without the `[x]` marker until completion.
+
 ---
 
 ## [x] Track: SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]
@@ -40,12 +42,12 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 ## [x] Track: Core API Spec Foundation [completed: 2026-04-18]
-*Link: [./tracks/core-api-spec-foundation/](./tracks/core-api-spec-foundation/)*
+*Link: [./archive/core-api-spec-foundation/](./archive/core-api-spec-foundation/)*
 
 ---
 
 ## [x] Track: Canonical Schemas and Core Method Contracts [completed: 2026-04-18]
-*Link: [./tracks/canonical-schemas-core-contracts/](./tracks/canonical-schemas-core-contracts/)*
+*Link: [./archive/canonical-schemas-core-contracts/](./archive/canonical-schemas-core-contracts/)*
 
 ---
 
@@ -182,3 +184,182 @@ This file tracks the major implementation tracks for the project. Active tracks 
 
 - [x] **Track: Community Engagement And Support** [completed: 2026-05-06]
 *Link: [./archive/community-engagement-support_20260507/](./archive/community-engagement-support_20260507/)*
+
+---
+
+- [x] **Track: Roadmap Completion Program** [completed: 2026-05-10]
+*Link: [./archive/roadmap-completion-program_20260510/](./archive/roadmap-completion-program_20260510/)*
+
+---
+
+- [x] **Track: Core API Spec And Polyglot Contracts** [completed: 2026-05-10]
+*Link: [./archive/core-api-spec-and-polyglot-contracts_20260510/](./archive/core-api-spec-and-polyglot-contracts_20260510/)*
+
+---
+
+- [x] **Track: Frontier Method Followthrough** [completed: 2026-05-10]
+*Link: [./archive/frontier-method-followthrough_20260510/](./archive/frontier-method-followthrough_20260510/)*
+
+---
+
+- [x] **Track: Remove CLI Sequential Step Stub** [completed: 2026-05-10]
+*Link: [./archive/remove-cli-sequential-step-stub_20260510/](./archive/remove-cli-sequential-step-stub_20260510/)*
+
+---
+
+## [x] Track: Release And HPC Registry Program [completed: 2026-05-11]
+*Link: [./archive/release-and-hpc-registry-program_20260511/](./archive/release-and-hpc-registry-program_20260511/)*
+
+---
+
+## [x] Track: HPC Distribution Contract [completed: 2026-05-10]
+*Link: [./archive/hpc-distribution-contract_20260511/](./archive/hpc-distribution-contract_20260511/)*
+
+---
+
+## [x] Track: Python Release Submission [completed: 2026-05-10]
+*Link: [./archive/python-release-submission_20260511/](./archive/python-release-submission_20260511/)*
+
+---
+
+## [x] Track: R Release Submission [completed: 2026-05-10]
+*Link: [./archive/r-release-submission_20260511/](./archive/r-release-submission_20260511/)*
+
+---
+
+## [x] Track: Julia Release Submission [completed: 2026-05-10]
+*Link: [./archive/julia-release-submission_20260511/](./archive/julia-release-submission_20260511/)*
+
+---
+
+## [x] Track: TypeScript Release Submission [completed: 2026-05-10]
+*Link: [./archive/typescript-release-submission_20260511/](./archive/typescript-release-submission_20260511/)*
+
+---
+
+## [x] Track: Go Release Submission [completed: 2026-05-10]
+*Link: [./archive/go-release-submission_20260511/](./archive/go-release-submission_20260511/)*
+
+---
+
+## [x] Track: Rust Release Submission [completed: 2026-05-10]
+*Link: [./archive/rust-release-submission_20260511/](./archive/rust-release-submission_20260511/)*
+
+---
+
+## [x] Track: .NET Release Submission [completed: 2026-05-10]
+*Link: [./archive/dotnet-release-submission_20260511/](./archive/dotnet-release-submission_20260511/)*
+
+---
+
+## [x] Track: HPC Capability Implementation Program [completed: 2026-05-11]
+*Link: [./archive/hpc-capability-implementation-program_20260511/](./archive/hpc-capability-implementation-program_20260511/)*
+
+---
+
+## [x] Track: CPU Cluster Parallelism Implementation [completed: 2026-05-11]
+*Link: [./archive/cpu-cluster-parallelism-implementation_20260511/](./archive/cpu-cluster-parallelism-implementation_20260511/)*
+
+---
+
+## [x] Track: Distributed Scheduler Backend Implementation [completed: 2026-05-11]
+*Link: [./archive/distributed-scheduler-backend-implementation_20260511/](./archive/distributed-scheduler-backend-implementation_20260511/)*
+
+---
+
+## [x] Track: Apple Metal Implementation [completed: 2026-05-11]
+*Link: [./archive/apple-metal-implementation_20260511/](./archive/apple-metal-implementation_20260511/)*
+
+---
+
+## [x] Track: Discrete GPU Implementation [completed: 2026-05-11]
+*Link: [./archive/discrete-gpu-implementation_20260511/](./archive/discrete-gpu-implementation_20260511/)*
+
+---
+
+## [x] Track: TPU Implementation [completed: 2026-05-11]
+*Link: [./archive/tpu-implementation_20260511/](./archive/tpu-implementation_20260511/)*
+
+---
+
+## [x] Track: FPGA Implementation [completed: 2026-06-24]
+*Link: [./archive/fpga-implementation_20260511/](./archive/fpga-implementation_20260511/)*
+*Status: free CI pre-silicon evidence path is implemented; physical FPGA board runtime remains a future external gate.*
+
+---
+
+## [x] Track: ASIC Implementation [completed: 2026-06-24]
+*Link: [./archive/asic-implementation_20260511/](./archive/asic-implementation_20260511/)*
+*Status: free CI pre-silicon evidence path is implemented; Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain future external gates.*
+
+---
+
+## [x] Track: HPC Registry Readiness [completed: 2026-05-11]
+*Link: [./archive/hpc-registry-readiness_20260511/](./archive/hpc-registry-readiness_20260511/)*
+
+---
+
+## [x] Track: Spack Registry Readiness [completed: 2026-05-11]
+*Link: [./archive/spack-registry-readiness_20260511/](./archive/spack-registry-readiness_20260511/)*
+
+---
+
+## [x] Track: EasyBuild Registry Readiness [completed: 2026-05-11]
+*Link: [./archive/easybuild-registry-readiness_20260511/](./archive/easybuild-registry-readiness_20260511/)*
+
+---
+
+## [x] Track: HPSF Curation Readiness [completed: 2026-05-11]
+*Link: [./archive/hpsf-curation-readiness_20260511/](./archive/hpsf-curation-readiness_20260511/)*
+
+---
+
+## [x] Track: E4S Curation Readiness [completed: 2026-05-11]
+*Link: [./archive/e4s-curation-readiness_20260511/](./archive/e4s-curation-readiness_20260511/)*
+
+---
+
+## [x] Track: HPC Native Acceleration Roadmap [completed: 2026-05-10]
+*Link: [./archive/hpc-native-acceleration-roadmap_20260511/](./archive/hpc-native-acceleration-roadmap_20260511/)*
+
+---
+
+## [x] Track: Binding Registry Live Verification [completed: 2026-05-11]
+*Link: [./archive/binding-registry-live-verification_20260511/](./archive/binding-registry-live-verification_20260511/)*
+
+---
+
+## [x] Track: HPC Acceleration Abstraction Contract [completed: 2026-05-11]
+*Link: [./archive/hpc-acceleration-abstraction-contract_20260511/](./archive/hpc-acceleration-abstraction-contract_20260511/)*
+
+---
+
+## [x] Track: Apple Metal Integrated GPU Optimization [completed: 2026-05-11]
+*Link: [./archive/apple-metal-integrated-gpu-optimization_20260511/](./archive/apple-metal-integrated-gpu-optimization_20260511/)*
+
+---
+
+## [x] Track: Apple Metal Backend Prototype [completed: 2026-05-11]
+*Link: [./archive/apple-metal-backend-prototype_20260510/](./archive/apple-metal-backend-prototype_20260510/)*
+
+---
+
+## [x] Track: Discrete GPU Acceleration [completed: 2026-05-11]
+*Link: [./archive/discrete-gpu-acceleration_20260511/](./archive/discrete-gpu-acceleration_20260511/)*
+
+---
+
+## [x] Track: TPU Acceleration Feasibility [completed: 2026-05-11]
+*Link: [./archive/tpu-acceleration-feasibility_20260511/](./archive/tpu-acceleration-feasibility_20260511/)*
+*Status: Colab v5e runtime visibility and EVPI parity evidence captured; production-scale TPU speedup remains evidence-gated.*
+
+---
+
+## [x] Track: ASIC Acceleration Feasibility [completed: 2026-05-11]
+*Link: [./archive/asic-acceleration-feasibility_20260511/](./archive/asic-acceleration-feasibility_20260511/)*
+*Status: feasibility decision is complete; fabricated-silicon evidence remains a future external gate after the completed pre-silicon implementation track.*
+
+---
+
+## [x] Track: Starlight Documentation Migration [completed: 2026-05-17]
+*Link: [./archive/starlight_migration_20260513/](./archive/starlight_migration_20260513/)*

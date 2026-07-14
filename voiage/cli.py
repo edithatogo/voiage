@@ -11,7 +11,7 @@ It uses Typer for command-line argument parsing.
 # Typer argument declarations intentionally call helper constructors in defaults.
 # ruff: noqa: B008, TRY301
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable
 import csv
 import io
 import json
@@ -29,6 +29,7 @@ from voiage.core.io import (
     read_parameter_set_csv,
     read_value_array_csv,
 )
+from voiage.factory import create_distributed_large_scale_analysis
 from voiage.methods.adaptive import (
     adaptive_evsi,
     bayesian_adaptive_trial_simulator,
@@ -67,9 +68,6 @@ from voiage.methods.preference import (
     PreferenceProfile,
     PreferenceProfileSet,
 )
-from voiage.methods.preference import (
-    value_of_preference as calculate_preference_result,
-)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.structural import structural_evpi, structural_evppi
@@ -79,7 +77,7 @@ from voiage.methods.threshold import (
     ThresholdResult,
 )
 from voiage.methods.threshold import (
-    value_of_threshold_information as calculate_threshold_result,
+    value_of_threshold as calculate_threshold_result,
 )
 from voiage.methods.validation import (
     ModelValidationResult,
@@ -89,6 +87,7 @@ from voiage.methods.validation import (
 from voiage.methods.validation import (
     value_of_model_validation as calculate_validation_result,
 )
+from voiage.parallel import get_execution_adapter, is_placeholder_execution_adapter
 from voiage.plot.ceac import plot_ceac as render_ceac
 from voiage.plot.ceaf import plot_ceaf as render_ceaf
 from voiage.plot.dominance import plot_cost_effectiveness_plane as render_dominance
@@ -147,6 +146,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "population": None,
         "discount_rate": None,
         "time_horizon": None,
+    },
+    "distributed-large-scale": {
+        "command": "create-distributed-large-scale",
+        "description": "Template for CPU-cluster or distributed large-scale analysis inputs.",
+        "chunk_size": 10000,
+        "n_nodes": 1,
+        "workers_per_node": None,
+        "scheduler": "process",
+        "scheduler_is_placeholder": False,
+        "scheduler_address": None,
+        "use_processes": True,
+        "memory_limit_mb": None,
     },
     "nma-voi": {
         "command": "calculate-nma-voi",
@@ -412,6 +423,7 @@ def _read_plot_surface(path: Path) -> tuple[ValueArray, list[float]]:
 def _read_perspective_surface(
     path: Path,
 ) -> tuple[
+    dict[str, object],
     ValueArray,
     list[str] | None,
     list[str] | None,
@@ -448,39 +460,48 @@ def _read_perspective_surface(
         perspective_names=cast("list[str] | None", perspective_names),
     )
     return (
+        payload,
         value_array,
         cast("list[str] | None", strategy_names),
         cast("list[str] | None", perspective_names),
         payload.get("perspective_weights"),
         payload.get("reference_perspective"),
+        payload.get("analysis_id"),
+        payload.get("decision_problem_id"),
     )
 
 
 def _perspective_result_payload(
     result: ValueOfPerspectiveResult,
-    command: str,
+    analysis_id: str | None,
+    decision_problem_id: str | None,
 ) -> dict[str, object]:
     """Return a JSON/CSV-safe payload for Value of Perspective results."""
     return {
-        "command": command,
-        "metric": "Value of Perspective",
+        "analysis_id": analysis_id,
+        "decision_problem_id": decision_problem_id,
+        "analysis_type": "value_of_perspective",
         "value": result.value,
         "method_maturity": result.method_maturity,
-        "reporting": result.reporting,
-        "perspectives": result.perspective_ids,
-        "strategies": result.strategy_names,
+        "perspective_ids": result.perspective_ids,
+        "strategy_names": result.strategy_names,
+        "expected_net_benefits": result.expected_net_benefits.tolist(),
         "optimal_strategy_by_perspective": dict(
             zip(result.perspective_ids, result.optimal_strategy_names, strict=True)
         ),
         "regret_matrix": result.regret_matrix.tolist(),
-        "switching_values": result.switching_values.tolist(),
-        "consensus_strategy": result.consensus_strategy_name,
-        "consensus_weighted_expected_net_benefit": (
-            result.consensus_weighted_expected_net_benefit
+        "switching_values": dict(
+            zip(
+                result.perspective_ids,
+                result.switching_values.tolist(),
+                strict=True,
+            )
         ),
+        "consensus_strategy": result.consensus_strategy_name,
         "robust_strategy": result.robust_strategy_name,
         "pareto_strategies": result.pareto_strategy_names,
         "reference_perspective": result.reference_perspective_id,
+        "reporting": result.reporting,
         "diagnostics": result.diagnostics,
     }
 
@@ -822,6 +843,36 @@ def _scalar_result_payload(
     return payload
 
 
+def _distributed_large_scale_payload(
+    *,
+    command: str,
+    scheduler: str,
+    scheduler_address: str | None,
+    cluster_config: object,
+    chunk_size: int,
+    input_files: dict[str, str | None],
+) -> dict[str, object]:
+    """Return a JSON-safe payload for distributed CPU/HPC setup."""
+    return {
+        "command": command,
+        "analysis_type": "distributed_large_scale_preparation",
+        "scheduler": scheduler,
+        "scheduler_is_placeholder": is_placeholder_execution_adapter(scheduler),
+        "scheduler_address": scheduler_address,
+        "chunk_size": chunk_size,
+        "cluster_config": {
+            "n_nodes": getattr(cluster_config, "n_nodes", None),
+            "workers_per_node": getattr(cluster_config, "workers_per_node", None),
+            "use_processes": getattr(cluster_config, "use_processes", None),
+            "chunk_count": getattr(cluster_config, "chunk_count", None),
+            "total_workers": getattr(cluster_config, "total_workers", None),
+            "scheduler": getattr(cluster_config, "scheduler", None),
+            "scheduler_address": getattr(cluster_config, "scheduler_address", None),
+        },
+        "input_files": input_files,
+    }
+
+
 def _read_plot_series(path: Path) -> dict[str, list[float]]:
     """Read a simple plot-series JSON payload."""
     payload = _read_json_file(path)
@@ -1011,6 +1062,103 @@ def calculate_evpi(
             f"Error: Net benefit file not found at '{net_benefit_file}'", err=True
         )
         raise typer.Exit(code=1) from None
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="create-distributed-large-scale")
+def create_distributed_large_scale(
+    net_benefit_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to CSV containing net benefits (samples x strategies)",
+    ),
+    parameter_file: Path | None = typer.Option(
+        None,
+        "--parameters",
+        help="Optional CSV containing parameter samples",
+    ),
+    chunk_size: int = typer.Option(
+        10000, "--chunk-size", help="Chunk size for distributed execution"
+    ),
+    n_nodes: int = typer.Option(1, "--n-nodes", help="Number of CPU nodes to target"),
+    workers_per_node: int | None = typer.Option(
+        None, "--workers-per-node", help="Workers to use on each node"
+    ),
+    scheduler: str = typer.Option(
+        "process",
+        "--scheduler",
+        help="Execution scheduler adapter (process, thread, dask, ray, fpga, or asic)",
+    ),
+    scheduler_address: str | None = typer.Option(
+        None, "--scheduler-address", help="Optional remote scheduler address"
+    ),
+    use_processes: bool = typer.Option(
+        True, "--use-processes/--use-threads", help="Prefer process-based workers"
+    ),
+    memory_limit_mb: float | None = typer.Option(
+        None, "--memory-limit-mb", help="Optional memory limit per worker"
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the distributed config payload"
+    ),
+) -> None:
+    """Prepare a distributed large-scale analysis and emit the cluster plan."""
+    try:
+        _log_cli_debug(
+            "create-distributed-large-scale",
+            net_benefit_file=str(net_benefit_file),
+            parameter_file=str(parameter_file) if parameter_file else None,
+            chunk_size=chunk_size,
+            n_nodes=n_nodes,
+            workers_per_node=workers_per_node,
+            scheduler=scheduler,
+            scheduler_address=scheduler_address,
+            use_processes=use_processes,
+            memory_limit_mb=memory_limit_mb,
+        )
+        net_benefits = read_value_array_csv(str(net_benefit_file), skip_header=True)
+        parameters = (
+            read_parameter_set_csv(str(parameter_file), skip_header=True)
+            if parameter_file is not None
+            else None
+        )
+        adapter = get_execution_adapter(scheduler)
+        _, cluster_config = create_distributed_large_scale_analysis(
+            nb_array=net_benefits,
+            parameter_samples=parameters,
+            chunk_size=chunk_size,
+            n_nodes=n_nodes,
+            workers_per_node=workers_per_node,
+            scheduler=scheduler,
+            scheduler_address=scheduler_address,
+            use_processes=use_processes,
+            memory_limit_mb=memory_limit_mb,
+        )
+        output_text = _format_output(
+            "Distributed large-scale analysis prepared.",
+            _distributed_large_scale_payload(
+                command="create-distributed-large-scale",
+                scheduler=adapter.name,
+                scheduler_address=scheduler_address,
+                cluster_config=cluster_config,
+                chunk_size=chunk_size,
+                input_files={
+                    "net_benefit_file": str(net_benefit_file),
+                    "parameter_file": str(parameter_file) if parameter_file else None,
+                },
+            ),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
@@ -1886,12 +2034,18 @@ def calculate_portfolio_voi(
         raise typer.Exit(code=1) from e
 
 
-def _sequential_step_stub(
+def _sequential_passthrough_step_model(
     psa: ParameterSet, action: object, specification: DynamicSpec
 ) -> dict[str, object]:
-    """Minimal placeholder step model for the CLI sequential VOI wrapper."""
-    _ = psa, action, specification
-    return {}
+    """Default CLI step model that preserves the current PSA state.
+
+    The sequential CLI does not accept a user-supplied transition model yet.
+    Returning the current PSA as the next state keeps the wrapper callable and
+    lets the sequential engine progress deterministically without pretending to
+    model a more complex transition.
+    """
+    _ = action, specification
+    return {"next_psa": psa}
 
 
 @app.command()
@@ -1960,10 +2114,10 @@ def calculate_sequential_voi(
         if "time_steps" not in dynamic_spec_obj:
             raise TypeError("Dynamic spec file must contain 'time_steps'.")
 
-        time_steps = cast("Sequence[float]", dynamic_spec_obj["time_steps"])
+        time_steps = cast("list[float]", dynamic_spec_obj["time_steps"])
         dynamic_spec = DynamicSpec(time_steps=time_steps)
         result = sequential_voi(
-            step_model=_sequential_step_stub,
+            step_model=_sequential_passthrough_step_model,
             initial_psa=initial_psa,
             dynamic_specification=dynamic_spec,
             wtp=wtp,
@@ -1972,6 +2126,25 @@ def calculate_sequential_voi(
             time_horizon=time_horizon,
             optimization_method=optimization_method,
         )
+
+        if optimization_method == "generator" and not isinstance(result, (int, float)):
+            if not isinstance(result, Iterable):
+                raise TypeError(
+                    "Sequential VOI generator did not return an iterable result."
+                )
+            try:
+                total = 0.0
+                for step in result:
+                    if not isinstance(step, dict) or "discounted_evpi" not in step:
+                        raise TypeError(
+                            "Sequential VOI generator did not return numeric step summaries."
+                        )
+                    total += float(step["discounted_evpi"])
+                result = total
+            except (KeyError, TypeError, ValueError) as exc:
+                raise TypeError(
+                    "Sequential VOI generator did not return numeric step summaries."
+                ) from exc
 
         if not isinstance(result, (int, float)):
             raise TypeError("Sequential VOI did not return a numeric result.")
@@ -2506,18 +2679,27 @@ def calculate_perspective(
             output_file=str(output_file) if output_file else None,
         )
         (
+            _payload,
             value_array,
             strategy_names,
             perspective_names,
             perspective_weights,
             reference_perspective,
+            analysis_id,
+            decision_problem_id,
         ) = _read_perspective_surface(surface_file)
+        if not isinstance(analysis_id, str) or not analysis_id.strip():
+            raise TypeError("Perspective surface file must contain 'analysis_id'.")
+        if not isinstance(decision_problem_id, str) or not decision_problem_id.strip():
+            raise TypeError(
+                "Perspective surface file must contain 'decision_problem_id'."
+            )
         result = calculate_perspective_result(
             value_array,
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),
@@ -2529,7 +2711,11 @@ def calculate_perspective(
         )
         output_text = _format_output(
             result_str,
-            _perspective_result_payload(result, "calculate-perspective"),
+            _perspective_result_payload(
+                result,
+                analysis_id,
+                decision_problem_id,
+            ),
         )
 
         typer.echo(output_text)
@@ -2599,6 +2785,10 @@ def calculate_preference(
                 for entry in profile_entries
             ]
         )
+        from voiage.methods.preference import (
+            value_of_preference as calculate_preference_result,
+        )
+
         result = calculate_preference_result(
             value_array,
             preference_profiles=profiles,
@@ -3073,18 +3263,21 @@ def plot_perspective_regret(
             output_file=str(output_file) if output_file else None,
         )
         (
+            _payload,
             value_array,
             strategy_names,
             perspective_names,
             perspective_weights,
             reference_perspective,
+            _analysis_id,
+            _decision_problem_id,
         ) = _read_perspective_surface(surface_file)
         result = calculate_perspective_result(
             value_array,
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),

@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-05-11T07:13:57Z",
+  "snapshot": {
+    "python": {
+      "package": "voiage",
+      "registry": "PyPI",
+      "registry_url": "https://pypi.org/project/voiage/",
+      "status": "not_found",
+      "details": "Manual check returned HTTP 404.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "Automated PyPI/TestPyPI publish exists on tags; external conda-forge feedstock merge is manual.",
+      "checked_at": "2026-05-11T07:13:53Z",
+      "evidence_confidence": "high"
+    },
+    "r": {
+      "package": "voiageR",
+      "registry": "CRAN",
+      "registry_url": "https://cran.r-project.org/web/packages/voiageR/index.html",
+      "status": "unconfirmed",
+      "details": "Manual check did not produce a confirmed publication state.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "GitHub Release source archives are produced from r-v* tags; CRAN and r-universe are external.",
+      "checked_at": "2026-05-11T07:13:53Z",
+      "evidence_confidence": "medium"
+    },
+    "julia": {
+      "package": "Voiage",
+      "registry": "Julia General",
+      "registry_url": "https://github.com/JuliaRegistries/General",
+      "status": "not_present",
+      "details": "General registry contents lookup returned no active package entry.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "TagBot sync and GitHub release artifacts are in-repo. Registry approval still depends on the external Julia ecosystem.",
+      "checked_at": "2026-05-11T07:13:53Z",
+      "evidence_confidence": "medium"
+    },
+    "typescript": {
+      "package": "@voiage/core",
+      "registry": "npm",
+      "registry_url": "https://www.npmjs.com/package/%40voiage%2Fcore",
+      "status": "not_found",
+      "details": "Manual check returned HTTP 404.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "Automated npm publish exists on typescript-v* tags.",
+      "checked_at": "2026-05-11T07:13:54Z",
+      "evidence_confidence": "high"
+    },
+    "go": {
+      "package": "github.com/edithatogo/voiage/bindings/go",
+      "registry": "Go module proxy",
+      "registry_url": "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list",
+      "status": "no_released_versions",
+      "details": "Endpoint was reachable but reported no released versions.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "Semver tags under bindings/go/v* are in-repo publication boundary.",
+      "checked_at": "2026-05-11T07:13:56Z",
+      "evidence_confidence": "medium"
+    },
+    "rust": {
+      "package": "voiage-core",
+      "registry": "crates.io",
+      "registry_url": "https://crates.io/crates/voiage-core",
+      "status": "not_found",
+      "details": "Manual check returned HTTP 404.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "Automated cargo publish exists on rust-v* tags.",
+      "checked_at": "2026-05-11T07:13:57Z",
+      "evidence_confidence": "high"
+    },
+    "dotnet": {
+      "package": "Voiage.Core",
+      "registry": "NuGet",
+      "registry_url": "https://www.nuget.org/packages/Voiage.Core",
+      "status": "not_found",
+      "details": "Manual check returned HTTP 404.",
+      "evidence": "docs/release/binding-submission-checklist.md",
+      "notes": "Automated NuGet publish exists on dotnet-v* tags.",
+      "checked_at": "2026-05-11T07:13:57Z",
+      "evidence_confidence": "high"
+    }
+  }
+}
