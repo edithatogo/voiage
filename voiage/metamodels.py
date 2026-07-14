@@ -2,7 +2,6 @@
 
 """Metamodels for Value of Information analysis."""
 
-
 from typing import Protocol, cast, runtime_checkable
 
 import numpy as np
