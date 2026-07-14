@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Completed the shared code-scanning rollout by enforcing the pinned
+  organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
 - Archived all completed Conductor track records under `conductor/archive/` and
   updated the regression tests and integration documentation to read those
   historical records from their canonical archived locations.
