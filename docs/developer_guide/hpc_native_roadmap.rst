@@ -76,30 +76,30 @@ As of the Colab capture on 2026-06-23 UTC, the reviewer-closure decisions are:
   (`conductor/archive/discrete-gpu-implementation_20260511/`), and a
   hardware-backed Colab T4 validation packet now confirms JAX GPU device
   visibility, EVPI parity, and placeholder-adapter reporting:
-  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json``.
+  ``conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json``.
   This is a contract validation artifact, not a production speedup claim.
 * **TPU**: implementation lane through the JAX-oriented backend path with
   hardware-backed Colab v5e validation now confirming JAX TPU device
   visibility, EVPI parity, and placeholder-adapter reporting:
-  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json``.
+  ``conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json``.
   This closes the "no TPU runtime evidence" gap for the compact validation
   workload, while larger workload and speedup evidence remain future work.
 * **FPGA**: implementation lane with explicit adapter placeholder exposure and
   free CI pre-silicon evidence complete. The committed evidence path includes
   a fixed-point EVPI-style RTL kernel, CPU fixtures, Verilator simulation
   planning, Yosys synthesis planning, nextpnr place-route planning, and probe
-  manifests (`conductor/tracks/fpga-implementation_20260511/`). Physical FPGA
+  manifests (`conductor/archive/fpga-implementation_20260511/`). Physical FPGA
   board runtime remains a future external evidence gate.
 * **ASIC / custom-circuit**: implementation lane with explicit adapter
   placeholder exposure and free CI pre-silicon evidence complete. The committed
   evidence path reuses the fixed-point RTL kernel and CPU fixtures, records
   Verilator/Yosys/OpenROAD/OpenLane/SKY130 RTL-to-GDS command status targets,
-  and includes probe manifests (`conductor/tracks/asic-implementation_20260511/`).
+  and includes probe manifests (`conductor/archive/asic-implementation_20260511/`).
   Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain future
   external evidence gates.
 
 The GPU and TPU artifacts are indexed by
-``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json``.
+``conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_accelerator_evidence_manifest.json``.
 Remaining holds are now about repeatable acceleration, production-sized
 workloads, physical FPGA board runtime, and fabricated ASIC evidence, not about
 basic JAX device visibility for GPU or TPU or about repo-owned FPGA/ASIC
@@ -197,9 +197,9 @@ artifact bundle below so Phase 3 can be reviewed without full Apple Silicon acce
    - ``bindings/rust/benches/scalar_cpu_baseline.rs``
    - ``bindings/rust/benches/memory_throughput_baseline.rs``
    - ``tests/test_apple_metal_backend.py``
-   - ``conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json``
-   - ``conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json``
-   - ``conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt``
+   - ``conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json``
+   - ``conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json``
+   - ``conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt``
 
 2. Confirm the review helper contract in ``voiage/main_backends.py`` still exposes:
 

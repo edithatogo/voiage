@@ -2,6 +2,8 @@
 
 This file tracks the major implementation tracks for the project. Active tracks are ordered so `conductor-implement` can run them sequentially without needing to infer strategic reprioritization.
 
+All currently registered tracks are complete and archived under `conductor/archive/`. New in-progress tracks belong under `conductor/tracks/` and should be added here without the `[x]` marker until completion.
+
 ---
 
 ## [x] Track: SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]
@@ -40,12 +42,12 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 ## [x] Track: Core API Spec Foundation [completed: 2026-04-18]
-*Link: [./tracks/core-api-spec-foundation/](./tracks/core-api-spec-foundation/)*
+*Link: [./archive/core-api-spec-foundation/](./archive/core-api-spec-foundation/)*
 
 ---
 
 ## [x] Track: Canonical Schemas and Core Method Contracts [completed: 2026-04-18]
-*Link: [./tracks/canonical-schemas-core-contracts/](./tracks/canonical-schemas-core-contracts/)*
+*Link: [./archive/canonical-schemas-core-contracts/](./archive/canonical-schemas-core-contracts/)*
 
 ---
 
@@ -186,27 +188,27 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 - [x] **Track: Roadmap Completion Program** [completed: 2026-05-10]
-*Link: [./tracks/roadmap-completion-program_20260510/](./tracks/roadmap-completion-program_20260510/)*
+*Link: [./archive/roadmap-completion-program_20260510/](./archive/roadmap-completion-program_20260510/)*
 
 ---
 
 - [x] **Track: Core API Spec And Polyglot Contracts** [completed: 2026-05-10]
-*Link: [./tracks/core-api-spec-and-polyglot-contracts_20260510/](./tracks/core-api-spec-and-polyglot-contracts_20260510/)*
+*Link: [./archive/core-api-spec-and-polyglot-contracts_20260510/](./archive/core-api-spec-and-polyglot-contracts_20260510/)*
 
 ---
 
 - [x] **Track: Frontier Method Followthrough** [completed: 2026-05-10]
-*Link: [./tracks/frontier-method-followthrough_20260510/](./tracks/frontier-method-followthrough_20260510/)*
+*Link: [./archive/frontier-method-followthrough_20260510/](./archive/frontier-method-followthrough_20260510/)*
 
 ---
 
 - [x] **Track: Remove CLI Sequential Step Stub** [completed: 2026-05-10]
-*Link: [./tracks/remove-cli-sequential-step-stub_20260510/](./tracks/remove-cli-sequential-step-stub_20260510/)*
+*Link: [./archive/remove-cli-sequential-step-stub_20260510/](./archive/remove-cli-sequential-step-stub_20260510/)*
 
 ---
 
 ## [x] Track: Release And HPC Registry Program [completed: 2026-05-11]
-*Link: [./tracks/release-and-hpc-registry-program_20260511/](./tracks/release-and-hpc-registry-program_20260511/)*
+*Link: [./archive/release-and-hpc-registry-program_20260511/](./archive/release-and-hpc-registry-program_20260511/)*
 
 ---
 
@@ -281,39 +283,39 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 ## [x] Track: FPGA Implementation [completed: 2026-06-24]
-*Link: [./tracks/fpga-implementation_20260511/](./tracks/fpga-implementation_20260511/)*
+*Link: [./archive/fpga-implementation_20260511/](./archive/fpga-implementation_20260511/)*
 *Status: free CI pre-silicon evidence path is implemented; physical FPGA board runtime remains a future external gate.*
 
 ---
 
 ## [x] Track: ASIC Implementation [completed: 2026-06-24]
-*Link: [./tracks/asic-implementation_20260511/](./tracks/asic-implementation_20260511/)*
+*Link: [./archive/asic-implementation_20260511/](./archive/asic-implementation_20260511/)*
 *Status: free CI pre-silicon evidence path is implemented; Tiny Tapeout, SkyWater MPW, and fabricated-silicon runtime remain future external gates.*
 
 ---
 
 ## [x] Track: HPC Registry Readiness [completed: 2026-05-11]
-*Link: [./tracks/hpc-registry-readiness_20260511/](./tracks/hpc-registry-readiness_20260511/)*
+*Link: [./archive/hpc-registry-readiness_20260511/](./archive/hpc-registry-readiness_20260511/)*
 
 ---
 
 ## [x] Track: Spack Registry Readiness [completed: 2026-05-11]
-*Link: [./tracks/spack-registry-readiness_20260511/](./tracks/spack-registry-readiness_20260511/)*
+*Link: [./archive/spack-registry-readiness_20260511/](./archive/spack-registry-readiness_20260511/)*
 
 ---
 
 ## [x] Track: EasyBuild Registry Readiness [completed: 2026-05-11]
-*Link: [./tracks/easybuild-registry-readiness_20260511/](./tracks/easybuild-registry-readiness_20260511/)*
+*Link: [./archive/easybuild-registry-readiness_20260511/](./archive/easybuild-registry-readiness_20260511/)*
 
 ---
 
 ## [x] Track: HPSF Curation Readiness [completed: 2026-05-11]
-*Link: [./tracks/hpsf-curation-readiness_20260511/](./tracks/hpsf-curation-readiness_20260511/)*
+*Link: [./archive/hpsf-curation-readiness_20260511/](./archive/hpsf-curation-readiness_20260511/)*
 
 ---
 
 ## [x] Track: E4S Curation Readiness [completed: 2026-05-11]
-*Link: [./tracks/e4s-curation-readiness_20260511/](./tracks/e4s-curation-readiness_20260511/)*
+*Link: [./archive/e4s-curation-readiness_20260511/](./archive/e4s-curation-readiness_20260511/)*
 
 ---
 
@@ -323,321 +325,41 @@ This file tracks the major implementation tracks for the project. Active tracks 
 ---
 
 ## [x] Track: Binding Registry Live Verification [completed: 2026-05-11]
-*Link: [./tracks/binding-registry-live-verification_20260511/](./tracks/binding-registry-live-verification_20260511/)*
+*Link: [./archive/binding-registry-live-verification_20260511/](./archive/binding-registry-live-verification_20260511/)*
 
 ---
 
 ## [x] Track: HPC Acceleration Abstraction Contract [completed: 2026-05-11]
-*Link: [./tracks/hpc-acceleration-abstraction-contract_20260511/](./tracks/hpc-acceleration-abstraction-contract_20260511/)*
+*Link: [./archive/hpc-acceleration-abstraction-contract_20260511/](./archive/hpc-acceleration-abstraction-contract_20260511/)*
 
 ---
 
 ## [x] Track: Apple Metal Integrated GPU Optimization [completed: 2026-05-11]
-*Link: [./tracks/apple-metal-integrated-gpu-optimization_20260511/](./tracks/apple-metal-integrated-gpu-optimization_20260511/)*
+*Link: [./archive/apple-metal-integrated-gpu-optimization_20260511/](./archive/apple-metal-integrated-gpu-optimization_20260511/)*
 
 ---
 
 ## [x] Track: Apple Metal Backend Prototype [completed: 2026-05-11]
-*Link: [./tracks/apple-metal-backend-prototype_20260510/](./tracks/apple-metal-backend-prototype_20260510/)*
+*Link: [./archive/apple-metal-backend-prototype_20260510/](./archive/apple-metal-backend-prototype_20260510/)*
 
 ---
 
 ## [x] Track: Discrete GPU Acceleration [completed: 2026-05-11]
-*Link: [./tracks/discrete-gpu-acceleration_20260511/](./tracks/discrete-gpu-acceleration_20260511/)*
+*Link: [./archive/discrete-gpu-acceleration_20260511/](./archive/discrete-gpu-acceleration_20260511/)*
 
 ---
 
 ## [x] Track: TPU Acceleration Feasibility [completed: 2026-05-11]
-*Link: [./tracks/tpu-acceleration-feasibility_20260511/](./tracks/tpu-acceleration-feasibility_20260511/)*
+*Link: [./archive/tpu-acceleration-feasibility_20260511/](./archive/tpu-acceleration-feasibility_20260511/)*
 *Status: Colab v5e runtime visibility and EVPI parity evidence captured; production-scale TPU speedup remains evidence-gated.*
 
 ---
 
 ## [x] Track: ASIC Acceleration Feasibility [completed: 2026-05-11]
-*Link: [./tracks/asic-acceleration-feasibility_20260511/](./tracks/asic-acceleration-feasibility_20260511/)*
+*Link: [./archive/asic-acceleration-feasibility_20260511/](./archive/asic-acceleration-feasibility_20260511/)*
 *Status: feasibility decision is complete; fabricated-silicon evidence remains a future external gate after the completed pre-silicon implementation track.*
 
 ---
 
 ## [x] Track: Starlight Documentation Migration [completed: 2026-05-17]
-*Link: [./tracks/starlight_migration_20260513/](./tracks/starlight_migration_20260513/)*
-
----
-
-## [x] Track: VOI Frontier Architecture And Dependency Governance [completed: 2026-06-27]
-*Link: [./archive/voi-frontier-architecture-dependency-governance_20260625/](./archive/voi-frontier-architecture-dependency-governance_20260625/)*
-*Status: cross-cutting track for architecture, dependency policy, backend boundaries, and maturity taxonomy before downstream implementation widens.*
-
----
-
-## [~] Track: Strict CI/CD Quality Gates
-*Link: [./tracks/strict-ci-cd-quality-gates_20260625/](./tracks/strict-ci-cd-quality-gates_20260625/)*
-*Status: cross-cutting track for linting, formatting, typing, docstrings, coverage, unit/integration/e2e/property/mutation tests, profiling, security, docs, and bindings.*
-
-## [x] Track: Rust Frontier Numerics Migration Completion [completed: 2026-06-27]
-*Link: [./archive/rust-frontier-numerics-migration-completion_20260625/](./archive/rust-frontier-numerics-migration-completion_20260625/)*
-*Status: cross-cutting track for completing Rust numerical-kernel ownership while preserving Python as the public facade.*
-
----
-
-## [ ] Track: Bayesian Experimental Design And Amortized VOI
-*Link: [./tracks/bayesian-experimental-design-and-amortized-voi_20260625/](./tracks/bayesian-experimental-design-and-amortized-voi_20260625/)*
-*Status: bleeding-edge methods track for expected information gain, Bayesian optimal experimental design, active learning, simulation-based inference, and amortized EVSI.*
-
----
-
-## [ ] Track: External Registry Publication Program
-*Link: [./tracks/external-registry-publication-program_20260625/](./tracks/external-registry-publication-program_20260625/)*
-*Status: follow-through track for live registry submission, indexing, approval, and blocked-state evidence after completed readiness work.*
-
----
-
-## [ ] Track: Conda-Forge Feedstock Publication
-*Link: [./tracks/conda-forge-feedstock-publication_20260625/](./tracks/conda-forge-feedstock-publication_20260625/)*
-*Status: follow-through track for conda-forge feedstock PR, rerender, merge, and package-index evidence.*
-
----
-
-## [ ] Track: R CRAN And R-Universe Publication
-*Link: [./tracks/r-cran-runiverse-publication_20260625/](./tracks/r-cran-runiverse-publication_20260625/)*
-*Status: follow-through track for CRAN-quality submission evidence and r-universe indexing status.*
-
----
-
-## [ ] Track: Julia General Registry Publication
-*Link: [./tracks/julia-general-registry-publication_20260625/](./tracks/julia-general-registry-publication_20260625/)*
-*Status: follow-through track for Julia General registration, TagBot verification, and external registry approval evidence.*
-
----
-
-## [ ] Track: Spack Package Merge Follow-Through
-*Link: [./tracks/spack-package-merge-followthrough_20260625/](./tracks/spack-package-merge-followthrough_20260625/)*
-*Status: follow-through track for upstream Spack PR, CI, maintainer review, merge, and package visibility evidence.*
-
----
-
-## [ ] Track: EasyBuild Easyconfig Merge Follow-Through
-*Link: [./tracks/easybuild-easyconfig-merge-followthrough_20260625/](./tracks/easybuild-easyconfig-merge-followthrough_20260625/)*
-*Status: follow-through track for upstream EasyBuild easyconfig PR, dry-run/build evidence, maintainer review, and merge status.*
-
----
-
-## [ ] Track: HPSF Curation Submission Follow-Through
-*Link: [./tracks/hpsf-curation-submission-followthrough_20260625/](./tracks/hpsf-curation-submission-followthrough_20260625/)*
-*Status: follow-through track for HPSF listing or curation submission evidence and external review status.*
-
----
-
-## [ ] Track: E4S Inclusion Follow-Through
-*Link: [./tracks/e4s-inclusion-followthrough_20260625/](./tracks/e4s-inclusion-followthrough_20260625/)*
-*Status: follow-through track for E4S inclusion evidence, depending on verified Spack/EasyBuild progress.*
-
----
-
-## [ ] Track: Frontier Stable Promotion Program
-*Link: [./tracks/frontier-stable-promotion-program_20260625/](./tracks/frontier-stable-promotion-program_20260625/)*
-*Status: follow-through track for stable-promotion criteria, parity matrix, and maturity-label governance across frontier VOI families.*
-
----
-
-## [ ] Track: Perspective VOI Stable Promotion
-*Link: [./tracks/perspective-voi-stable-promotion_20260625/](./tracks/perspective-voi-stable-promotion_20260625/)*
-*Status: follow-through track for Value of Perspective cross-language parity, Rust parity, examples, and stable promotion.*
-
----
-
-## [ ] Track: Preference VOI Stable Promotion
-*Link: [./tracks/preference-voi-stable-promotion_20260625/](./tracks/preference-voi-stable-promotion_20260625/)*
-*Status: follow-through track for preference VOI and preference heterogeneity stable promotion.*
-
----
-
-## [ ] Track: Validation And Threshold VOI Stable Promotion
-*Link: [./tracks/validation-threshold-voi-stable-promotion_20260625/](./tracks/validation-threshold-voi-stable-promotion_20260625/)*
-*Status: follow-through track for validation, threshold, tipping-point, and robust VOI stable promotion.*
-
----
-
-## [ ] Track: Distributional And Implementation VOI Stable Promotion
-*Link: [./tracks/distributional-implementation-voi-stable-promotion_20260625/](./tracks/distributional-implementation-voi-stable-promotion_20260625/)*
-*Status: follow-through track for distributional/equity and implementation-adjusted VOI stable promotion.*
-
----
-
-## [ ] Track: Adjacent Frontier Runtime Completion
-*Link: [./tracks/adjacent-frontier-runtime-completion_20260625/](./tracks/adjacent-frontier-runtime-completion_20260625/)*
-*Status: follow-through track for runtime implementation of dynamic real-options, causal transportability, data-quality/privacy/linkage, computational refinement, and expert synthesis VOI.*
-
----
-
-## [ ] Track: HPC Production Speedup Evidence Program
-*Link: [./tracks/hpc-production-speedup-evidence-program_20260625/](./tracks/hpc-production-speedup-evidence-program_20260625/)*
-*Status: follow-through track for production-scale benchmark evidence before any HPC-native speedup claim.*
-
----
-
-## [ ] Track: CPU Cluster Production Benchmark Evidence
-*Link: [./tracks/cpu-cluster-production-benchmark-evidence_20260625/](./tracks/cpu-cluster-production-benchmark-evidence_20260625/)*
-*Status: follow-through track for distributed CPU and cluster benchmark evidence on larger workloads.*
-
----
-
-## [ ] Track: Apple Metal Production Speedup Evidence
-*Link: [./tracks/apple-metal-production-speedup-evidence_20260625/](./tracks/apple-metal-production-speedup-evidence_20260625/)*
-*Status: follow-through track for Apple Silicon Metal/MPS production-speedup evidence or explicit hardware-unavailable status.*
-
----
-
-## [ ] Track: Discrete GPU Production Speedup Evidence
-*Link: [./tracks/discrete-gpu-production-speedup-evidence_20260625/](./tracks/discrete-gpu-production-speedup-evidence_20260625/)*
-*Status: follow-through track for CUDA-class GPU production-sized benchmark evidence through Colab or other available runners.*
-
----
-
-## [ ] Track: TPU Production-Scale Colab Evidence
-*Link: [./tracks/tpu-production-scale-colab-evidence_20260625/](./tracks/tpu-production-scale-colab-evidence_20260625/)*
-*Status: follow-through track for production-scale TPU benchmark evidence after compact Colab v5e visibility and parity proof.*
-
----
-
-## [ ] Track: Accelerator Evidence Automation
-*Link: [./tracks/accelerator-evidence-automation_20260625/](./tracks/accelerator-evidence-automation_20260625/)*
-*Status: follow-through track for common GPU/TPU/Metal evidence schemas, Colab execution, GitHub artifact ingestion, and validation.*
-
----
-
-## [ ] Track: FPGA Physical Board Runtime Evidence
-*Link: [./tracks/fpga-physical-board-runtime-evidence_20260625/](./tracks/fpga-physical-board-runtime-evidence_20260625/)*
-*Status: follow-through track for physical FPGA board runtime, bitstream, CPU parity, and speedup evidence when hardware exists.*
-
----
-
-## [ ] Track: ASIC MPW Shuttle And Silicon Evidence
-*Link: [./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/](./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/)*
-*Status: follow-through track for Tiny Tapeout/SkyWater MPW, fabricated silicon, and real ASIC runtime evidence.*
-
----
-
-## [ ] Track: Custom-Circuit Production Acceleration Review
-*Link: [./tracks/custom-circuit-production-acceleration-review_20260625/](./tracks/custom-circuit-production-acceleration-review_20260625/)*
-*Status: follow-through track for the final go/no-go decision on production FPGA/ASIC acceleration claims.*
-
----
-
-## [ ] Track: Causal Identification Transportability And External Validity VOI Mature Stable Path
-*Link: [./tracks/causal-identification-transportability-voi-mature-stable_20260625/](./tracks/causal-identification-transportability-voi-mature-stable_20260625/)*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
-
----
-
-## [ ] Track: Data Quality Measurement Privacy And Linkage VOI Mature Stable Path
-*Link: [./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/](./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/)*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
-
----
-
-## [ ] Track: Computational VOI And Model Refinement Mature Stable Path
-*Link: [./tracks/computational-model-refinement-voi-mature-stable_20260625/](./tracks/computational-model-refinement-voi-mature-stable_20260625/)*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
-
----
-
-## [ ] Track: Expert Elicitation And Evidence Synthesis Design VOI Mature Stable Path
-*Link: [./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/](./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/)*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
-
----
-
-## [ ] Track: Dynamic Real Options VOI Mature Stable Path
-*Link: [./tracks/dynamic-real-options-voi-mature-stable_20260625/](./tracks/dynamic-real-options-voi-mature-stable_20260625/)*
-*Status: dedicated method track from scaffolded contract through runtime implementation and mature/stable promotion review.*
-
----
-
-## [ ] Track: Perspective Uncertainty VOI Mature Stable Path
-*Link: [./tracks/perspective-uncertainty-voi-mature-stable_20260625/](./tracks/perspective-uncertainty-voi-mature-stable_20260625/)*
-*Status: dedicated track for treating Value of Perspective as perspective uncertainty and promoting it through stable frontier status.*
-
----
-
-## [ ] Track: Monitoring And Surveillance VOI Mature Stable Path
-*Link: [./tracks/monitoring-surveillance-voi-mature-stable_20260625/](./tracks/monitoring-surveillance-voi-mature-stable_20260625/)*
-*Status: recommended method track for value of ongoing monitoring, surveillance, and signal-detection information.*
-
----
-
-## [ ] Track: Implementation Strategy Comparison VOI Mature Stable Path
-*Link: [./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/](./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/)*
-*Status: recommended method track for comparing implementation strategies, uptake, adherence, coverage, delay, and scale-up evidence.*
-
----
-
-## [ ] Track: Equity Information VOI Mature Stable Path
-*Link: [./tracks/equity-information-voi-mature-stable_20260625/](./tracks/equity-information-voi-mature-stable_20260625/)*
-*Status: recommended method track for value of resolving equity-relevant uncertainty beyond subgroup heterogeneity alone.*
-
----
-
-## [ ] Track: Explainability And Transparency VOI Mature Stable Path
-*Link: [./tracks/explainability-transparency-voi-mature-stable_20260625/](./tracks/explainability-transparency-voi-mature-stable_20260625/)*
-*Status: recommended method track for value of interpretability, transparency, trust, and model-governance information.*
-
----
-
-## [ ] Track: Interoperability And Standardization VOI Mature Stable Path
-*Link: [./tracks/interoperability-standardization-voi-mature-stable_20260625/](./tracks/interoperability-standardization-voi-mature-stable_20260625/)*
-*Status: recommended method track for value of harmonization, interoperability, and data-standardization information.*
-
----
-
-## [ ] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
-*Link: [./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/](./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
-*Status: recommended method track for VOI under ambiguity sets, drift, robustness, and distribution shift.*
-
----
-
-## [ ] Track: Adaptive Learning And Bandit VOI Mature Stable Path
-*Link: [./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/](./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/)*
-*Status: recommended method track for adaptive learning, sequential allocation, exploration, exploitation, and stopping decisions.*
-
----
-
-## [ ] Track: Capacity And Budget-Constrained VOI Mature Stable Path
-*Link: [./tracks/capacity-budget-constrained-voi-mature-stable_20260625/](./tracks/capacity-budget-constrained-voi-mature-stable_20260625/)*
-*Status: recommended method track for VOI under budget, capacity, workforce, queueing, supply, and resource-feasibility constraints.*
-
----
-
-## [ ] Track: Federated And Privacy-Preserving VOI Mature Stable Path
-*Link: [./tracks/federated-privacy-preserving-voi-mature-stable_20260625/](./tracks/federated-privacy-preserving-voi-mature-stable_20260625/)*
-*Status: recommended method track for federated, privacy-preserving, secure-aggregation, and site-governed evidence generation.*
-
----
-
-## [ ] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
-*Link: [./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
-*Status: recommended method track for valuing AI-assisted screening, extraction, prioritization, audit, and evidence-review automation.*
-
----
-
-## [ ] Track: Regulatory And Market-Access VOI Mature Stable Path
-*Link: [./tracks/regulatory-market-access-voi-mature-stable_20260625/](./tracks/regulatory-market-access-voi-mature-stable_20260625/)*
-*Status: recommended method track for valuing evidence that changes approval, reimbursement, label, pricing, coverage, or access decisions.*
-
----
-
-## [ ] Track: Replication And Reproducibility VOI Mature Stable Path
-*Link: [./tracks/replication-reproducibility-voi-mature-stable_20260625/](./tracks/replication-reproducibility-voi-mature-stable_20260625/)*
-*Status: recommended method track for valuing independent replication, audit, reanalysis, reproducibility, and credibility checks.*
-
----
-
-## [ ] Track: Evidence Obsolescence And Refresh VOI Mature Stable Path
-*Link: [./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/](./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/)*
-*Status: recommended method track for valuing living evidence, guideline updates, evidence refresh cadence, and model refresh timing.*
-
----
-
-## [ ] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path
-*Link: [./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/](./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/)*
-*Status: recommended method track for VOI when actors respond strategically to information, incentives, prices, or policy.*
+*Link: [./archive/starlight_migration_20260513/](./archive/starlight_migration_20260513/)*

@@ -209,9 +209,9 @@ runtime, fabricated ASIC runtime, or production accelerator speedup.
 
 The roadmap decision packets live at:
 
-- `conductor/tracks/tpu-implementation_20260511/working-notes.md`
-- `conductor/tracks/fpga-implementation_20260511/working-notes.md`
-- `conductor/tracks/asic-implementation_20260511/working-notes.md`
+- `conductor/archive/tpu-implementation_20260511/working-notes.md`
+- `conductor/archive/fpga-implementation_20260511/working-notes.md`
+- `conductor/archive/asic-implementation_20260511/working-notes.md`
 
 #### Apple Metal Backend
 

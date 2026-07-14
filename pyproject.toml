@@ -63,7 +63,7 @@ ci = [
     "docutils>=0.18,<0.22",
     "hypothesis>=6.0,<7.0",
     "jsonschema>=4.0,<5.0",
-    "pytest>=8.0,<9.0",
+    "pytest>=9.0.3,<10.0",
     "pytest-benchmark>=4.0,<6.0",
     "pytest-cov>=5.0,<7.0",
     "pytest-integration>=0.2,<0.3",
@@ -235,6 +235,7 @@ lint = "tox -e lint"
 format = "uv run ruff format voiage tests"
 typecheck = "tox -e typecheck"
 security = "uv run ruff check voiage --select=S --ignore=S101"
+harness = "python scripts/repo_harness.py"
 profile = "uv run scalene --cli profile_scalene.py"
 mutmut = "uv run mutmut run --paths-to-mutate voiage/"
 benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only --no-cov"

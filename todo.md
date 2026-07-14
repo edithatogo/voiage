@@ -11,38 +11,44 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
-*   [x] Create follow-through Conductor tracks for remaining roadmap and
-    external gates.
-    *   Added active tracks for architecture/dependency governance, commit
-        note/checkpoint hardening, strict CI/CD gates, dataset/example registry
-        work, Rust frontier numerics migration, bleeding-edge Bayesian
-        design/amortized VOI, live registry publication and indexing, frontier
-        stable promotion, adjacent frontier runtime completion, production-scale
-        HPC speedup evidence, TPU Colab/GCloud production benchmarking,
-        physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
-        custom-circuit production acceleration review.
-    *   Updated Conductor workflow and docs so the tracks require commit notes,
-        git notes, phase checkpoints, GitHub Actions monitoring, >90% coverage,
-        and explicit readiness-vs-external-evidence boundaries.
-*   [x] Split adjacent and recommended VOI methods into dedicated mature/stable
-    tracks.
-    *   Added method-family tracks for causal/transportability VOI,
-        data-quality/privacy/linkage VOI, computational/model-refinement VOI,
-        expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
-        perspective uncertainty, monitoring/surveillance VOI,
-        implementation-strategy comparison, equity-information VOI,
-        explainability/transparency VOI, interoperability/standardization VOI,
-        and ambiguity/distribution-shift VOI.
-*   [x] Incorporate the next recommended VOI frontier features into dedicated
-    tracks.
-    *   Added mature/stable tracks for adaptive-learning and bandit VOI,
-        capacity and budget-constrained VOI, federated/privacy-preserving VOI,
-        and AI-assisted evidence-triage VOI.
-*   [x] Incorporate additional recommended VOI frontier features into dedicated
-    tracks.
-    *   Added mature/stable tracks for regulatory/market-access VOI,
-        replication/reproducibility VOI, evidence-obsolescence/refresh VOI, and
-        strategic behavior/game-theoretic VOI.
+*   [x] Restore OpenSSF Scorecard publication after the shared scanning rollout.
+    *   Isolated the custom blocking-alert gate in a dependent least-privilege
+        job that does not violate Scorecard workflow restrictions.
+
+*   [x] Remove the runtime-only `ValueArray` import from the basic VOI methods.
+    *   Moved the annotation dependency behind `TYPE_CHECKING` and retained the
+        existing public type contract without runtime import overhead.
+
+*   [x] Archive completed Conductor track records and repair their regression
+    test and documentation references.
+    *   Moved all completed registered tracks from `conductor/tracks/` to
+        `conductor/archive/`, updated the registry/index links, and verified
+        the archived evidence and status tests.
+
+*   [x] Remediate the current lockfile dependency advisories.
+    *   Updated the Python lockfile through the patched Jupyter Server,
+        JupyterLab, mistune, soupsieve, bleach, tornado, idna, urllib3, and
+        pytest releases; upgraded Astro/Starlight within a compatible major
+        line; pinned the transitive esbuild resolution to a patched release;
+        and updated the Starlight configuration for the current APIs.
+    *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
+        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        dependency environments, coverage, docs, type, contract, and harness
+        gates.
+
+*   [x] Set up maximal repository harness engineering and GitHub security and
+    quality controls.
+    *   Added the fail-closed workflow/governance harness and tox gate,
+        immutable action pins, least-privilege permissions, CodeQL gate repair,
+        dependency review, OpenSSF Scorecard, Zizmor auditing, Dependabot, and
+        release provenance attestation.
+    *   Applied repository merge/signoff settings and the active
+        `main-maximal-quality` GitHub ruleset requiring pull requests,
+        signed commits, linear history, resolved review threads, and required
+        CI, dependency-review, and CodeQL checks. The review count is zero for
+        the repository's single-maintainer operating model.
+    *   Kept organization-owned policy, environment approvals, and unavailable
+        plan-dependent secret-scanning enhancements explicitly external.
 
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,

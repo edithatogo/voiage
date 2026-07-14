@@ -30,47 +30,47 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from voiage.analysis import DecisionAnalysis
-from voiage.schema import ValueArray, ParameterSet
+from voiage.schema import ValueArray
 
 
 def generate_environmental_data(n_samples=1000):
     """
     Generate synthetic environmental data for pollution control decision.
-    
+
     Parameters:
     n_samples (int): Number of Monte Carlo samples
-    
+
     Returns:
     tuple: (net_benefits, parameters)
-    
+
     Domain Expert Notes:
     - Health benefits should consider both short-term and long-term impacts
     - Compliance rates should account for enforcement mechanisms
     - Technology effectiveness should consider learning effects over time
     """
     np.random.seed(42)
-    
+
     # Generate uncertain parameters
     # Technology effectiveness (0-1 scale, higher means more effective)
     # Beta distribution to reflect that moderate to high effectiveness is more common
     # Domain expert feedback: Consider technological learning effects
     tech_effectiveness = np.random.beta(a=3, b=2, size=n_samples)
-    
+
     # Implementation costs (millions USD)
     # Normal distribution with clipping to ensure realistic cost ranges
     implementation_costs = np.random.normal(loc=15.0, scale=5.0, size=n_samples)
     implementation_costs = np.clip(implementation_costs, 5.0, 30.0)  # Clip to reasonable range
-    
+
     # Public health benefits (millions USD in avoided healthcare costs)
     # Lognormal to reflect that very large health benefits are possible but less likely
     # Domain expert feedback: Consider long-term vs. short-term benefits
     health_benefits = np.random.lognormal(mean=3.5, sigma=0.7, size=n_samples)
-    
+
     # Compliance rate (0-1 scale, higher means better compliance)
     # Beta distribution to reflect that high compliance requires strong enforcement
     # Domain expert feedback: Consider enforcement mechanisms
     compliance_rate = np.random.beta(a=4, b=2, size=n_samples)
-    
+
     # Create parameter dictionary
     parameters = {
         "tech_effectiveness": tech_effectiveness,
@@ -78,21 +78,21 @@ def generate_environmental_data(n_samples=1000):
         "health_benefits": health_benefits,
         "compliance_rate": compliance_rate
     }
-    
+
     return parameters
 
 
 def calculate_net_benefits(parameters, strategies=["No Regulation", "Implement Regulation"]):
     """
     Calculate net benefits for different environmental policy strategies.
-    
+
     Parameters:
     parameters (dict): Dictionary of parameter samples
     strategies (list): List of strategy names
-    
+
     Returns:
     np.ndarray: Net benefits array of shape (n_samples, n_strategies)
-    
+
     Domain Expert Notes:
     - Health benefits are adjusted for technology effectiveness and compliance
     - Long-term benefits may be undervalued in this simplified model
@@ -100,27 +100,27 @@ def calculate_net_benefits(parameters, strategies=["No Regulation", "Implement R
     """
     n_samples = len(parameters["tech_effectiveness"])
     n_strategies = len(strategies)
-    
+
     # Net benefits for each strategy
     net_benefits = np.zeros((n_samples, n_strategies))
-    
+
     # Strategy 0: No regulation (baseline)
     # Net benefit is 0 (no costs, no benefits)
     net_benefits[:, 0] = 0
-    
+
     # Strategy 1: Implement regulation
     tech_effectiveness = parameters["tech_effectiveness"]
     implementation_costs = parameters["implementation_costs"]
     health_benefits = parameters["health_benefits"]
     compliance_rate = parameters["compliance_rate"]
-    
+
     # Adjust health benefits based on technology effectiveness and compliance
     # This reflects that benefits are only realized if technology works and is adopted
     adjusted_health_benefits = health_benefits * tech_effectiveness * compliance_rate
-    
+
     # Net benefit = Health benefits - Implementation costs
     net_benefits[:, 1] = adjusted_health_benefits - implementation_costs
-    
+
     return net_benefits
 
 
@@ -132,34 +132,34 @@ def environmental_voi_analysis():
     print("=" * 40)
     print("Pollution Control Decision Analysis")
     print()
-    
+
     # Generate data
     parameters = generate_environmental_data(n_samples=1000)
     net_benefits = calculate_net_benefits(parameters)
-    
+
     # Create ValueArray
     value_array = ValueArray.from_numpy(net_benefits, ["No Regulation", "Implement Regulation"])
-    
+
     # Create DecisionAnalysis
     analysis = DecisionAnalysis(nb_array=value_array, parameter_samples=parameters)
-    
+
     # Calculate EVPI
     evpi_result = analysis.evpi()
     print(f"Expected Value of Perfect Information (EVPI): ${evpi_result:,.0f}M")
     print("  This is the maximum amount the agency should be willing to pay")
     print("  for perfect information about all uncertain parameters.")
     print()
-    
+
     # Calculate EVPPI for different parameters
     print("Expected Value of Partial Perfect Information (EVPPI):")
-    
+
     # EVPPI for all parameters
     try:
         evppi_result = analysis.evppi()
         print(f"  All Parameters: ${evppi_result:,.0f}M")
     except Exception as e:
         print(f"  All Parameters: Error - {e}")
-    
+
     # Show parameter statistics
     print()
     print("Parameter Uncertainty Summary:")
@@ -168,19 +168,19 @@ def environmental_voi_analysis():
     print(f"  Health Benefits: ${np.mean(parameters['health_benefits']):.1f}M ± ${np.std(parameters['health_benefits']):.1f}M")
     print(f"  Compliance Rate: {np.mean(parameters['compliance_rate']):.2f} ± {np.std(parameters['compliance_rate']):.2f} (0-1 scale)")
     print()
-    
+
     # Optimal decision analysis
     mean_net_benefits = np.mean(net_benefits, axis=0)
     optimal_strategy_idx = np.argmax(mean_net_benefits)
     strategies = ["No Regulation", "Implement Regulation"]
     optimal_strategy = strategies[optimal_strategy_idx]
-    
+
     print("Optimal Decision Analysis:")
     print(f"  Mean Net Benefit - No Regulation: ${mean_net_benefits[0]:,.0f}M")
     print(f"  Mean Net Benefit - Implement Regulation: ${mean_net_benefits[1]:,.0f}M")
     print(f"  Recommended Strategy: {optimal_strategy}")
     print()
-    
+
     # Sensitivity analysis
     print("Sensitivity Analysis:")
     print("  The decision is most sensitive to:")
@@ -188,14 +188,14 @@ def environmental_voi_analysis():
     print("  2. Technology effectiveness (affects benefit realization)")
     print("  3. Implementation costs (direct impact on net benefits)")
     print()
-    
+
     # Additional considerations based on expert feedback
     print("Additional Considerations:")
     print("  - Health benefits: Consider both short-term and long-term impacts")
     print("  - Compliance rates: Strong enforcement mechanisms are critical for high compliance")
     print("  - Technology effectiveness: May improve over time due to learning effects")
     print()
-    
+
     return analysis
 
 

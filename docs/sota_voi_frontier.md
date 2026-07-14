@@ -220,32 +220,7 @@ The original SOTA frontier implementation plan lives in the archived
 `conductor/tracks/sota-voi-frontier_20260429/` record. Current follow-through
 work is split into active promotion and runtime-completion tracks:
 
-- `frontier-stable-promotion-program_20260625`
-- `perspective-voi-stable-promotion_20260625`
-- `preference-voi-stable-promotion_20260625`
-- `validation-threshold-voi-stable-promotion_20260625`
-- `distributional-implementation-voi-stable-promotion_20260625`
-- `adjacent-frontier-runtime-completion_20260625`
-- `perspective-uncertainty-voi-mature-stable_20260625`
-- `causal-identification-transportability-voi-mature-stable_20260625`
-- `data-quality-measurement-privacy-linkage-voi-mature-stable_20260625`
-- `computational-model-refinement-voi-mature-stable_20260625`
-- `expert-elicitation-evidence-synthesis-voi-mature-stable_20260625`
-- `dynamic-real-options-voi-mature-stable_20260625`
-- `monitoring-surveillance-voi-mature-stable_20260625`
-- `implementation-strategy-comparison-voi-mature-stable_20260625`
-- `equity-information-voi-mature-stable_20260625`
-- `explainability-transparency-voi-mature-stable_20260625`
-- `interoperability-standardization-voi-mature-stable_20260625`
-- `ambiguity-distribution-shift-voi-mature-stable_20260625`
-- `adaptive-learning-bandit-voi-mature-stable_20260625`
-- `capacity-budget-constrained-voi-mature-stable_20260625`
-- `federated-privacy-preserving-voi-mature-stable_20260625`
-- `ai-assisted-evidence-triage-voi-mature-stable_20260625`
-- `regulatory-market-access-voi-mature-stable_20260625`
-- `replication-reproducibility-voi-mature-stable_20260625`
-- `evidence-obsolescence-refresh-voi-mature-stable_20260625`
-- `strategic-behavior-game-theoretic-voi-mature-stable_20260625`
+`conductor/archive/sota-voi-frontier_20260429/`
 
 These tracks must not mark a frontier family stable until runtime behavior,
 schemas, CLI examples, documentation, deterministic fixtures, cross-language

@@ -14,45 +14,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
-- Added `specs/rust/migration_matrix.json`: machine-readable Rust numerics
-  migration matrix tracking kernel owner, Rust status, Python wrapper status,
-  parity status, benchmark status, and migration priority for every numerical
-  kernel.
-- Added `docs/developer_guide/rust_python_bridge_policy.rst`: decision record
-  covering the PyO3/maturin deferral, Python facade preservation, fallback
-  behavior, fixture parity, and benchmark gates.
-- Added `tests/test_rust_migration_matrix.py`: 10 regression tests enforcing
-  matrix structure, governed status enums, core kernel coverage, and policy
-  keyword coverage.
-- Added `voiage.governance` module defining the frontier VOI method maturity
-  taxonomy (planned → experimental → fixture-backed → stable), backend
-  boundary ownership rules (schema, methods, backends, CLI, Rust core), and
-  dependency policy (base vs. optional split). All governance rules are
-  testable via `voiage.governance.validate_*` functions.
-- Added `docs/developer_guide/frontier_governance.rst` documenting the
-  architecture, dependency policy, maturity taxonomy, backend boundary, and
-  non-conflicting implementation sequence.
-- Added `specs/frontier/governance/README.md` describing the governance spec
-  subtree and validation entrypoints.
-- Added additional recommended Conductor frontier tracks for regulatory and
-  market-access VOI, replication and reproducibility VOI, evidence
-  obsolescence and refresh VOI, and strategic behavior/game-theoretic VOI.
-- Added more recommended Conductor frontier tracks for adaptive-learning and
-  bandit VOI, capacity and budget-constrained VOI,
-  federated/privacy-preserving VOI, and AI-assisted evidence-triage VOI.
-- Added active Conductor tracks for architecture/dependency governance, commit
-  note/checkpoint hardening, strict CI/CD gates, dataset/example registry work,
-  Rust frontier numerics migration, bleeding-edge Bayesian design/amortized VOI,
-  external registry publication, frontier-method stable promotion,
-  production-scale HPC speedup evidence, TPU Colab/GCloud benchmarking,
-  physical FPGA board runtime, ASIC MPW/fabricated-silicon evidence, and
-  custom-circuit production review.
-- Added dedicated mature/stable-path tracks for causal/transportability VOI,
-  data-quality/privacy/linkage VOI, computational/model-refinement VOI,
-  expert-elicitation/evidence-synthesis VOI, dynamic real-options VOI,
-  perspective uncertainty, monitoring/surveillance VOI, implementation-strategy
-  comparison, equity-information VOI, explainability/transparency VOI,
-  interoperability/standardization VOI, and ambiguity/distribution-shift VOI.
+- Completed the shared code-scanning rollout by enforcing the pinned
+  organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
+- Archived all completed Conductor track records under `conductor/archive/` and
+  updated the regression tests and integration documentation to read those
+  historical records from their canonical archived locations.
+- Updated the Python and Starlight documentation dependency lockfiles to
+  patched releases for the current Dependabot advisories, including the
+  critical Jupyter Server advisory, and added a pnpm esbuild override to keep
+  all resolved documentation builds on the patched release.
+- Updated the Starlight configuration for its current social-link and sidebar
+  APIs, preserving a clean Astro check and static documentation build after
+  the security upgrade.
+- Added a fail-closed repository harness for workflow permissions, immutable
+  GitHub Action pins, required governance files, and security workflow
+  presence; wired it into tox and contributor documentation.
+- Added dependency review, OpenSSF Scorecard, Zizmor workflow auditing,
+  Dependabot configuration, and release artifact provenance attestations.
+- Hardened existing GitHub workflows with least-privilege permissions, pinned
+  action commits, and a repaired blocking CodeQL alert gate.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner
@@ -435,6 +415,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Avoided importing `ValueArray` at runtime when it is used only for static
+  annotations in the basic VOI methods.
+- Updated the protected `main` ruleset for a single-maintainer repository:
+  pull requests, signed commits, linear history, resolved review threads, and
+  required CI/security checks remain enforced without an impossible
+  independent-approval requirement. The CodeQL required-check context now
+  matches the workflow's emitted `CodeQL Analysis (python)` check.
+- Added Dependabot cooldowns and replaced the third-party GitHub release action
+  with the runner-provided `gh release` command across package release jobs.
 - Hardened the release and verification checks by making the R binding release
   checklist test resilient to current wording, aligning the minimum-version tox
   environment with the declared JAX-compatible dependency floor, and preventing
@@ -476,6 +465,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Moved the blocking code-scanning gate into a separate least-privilege job so
+  OpenSSF can verify and publish Scorecard results without rejecting the custom
+  policy step in its privileged analysis job.
 - Removed tracked generated artifacts from version control, including pytest
   temp output, coverage reports, macOS metadata, legacy egg-info files, and R
   CMD check output, and added repo-local ignore rules for those generated
