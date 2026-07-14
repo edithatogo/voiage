@@ -409,7 +409,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
-- Optimized `samplewise_profile_regret` to run 2.6x-3.4x faster by replacing nested loops with a vectorized numpy operation.
+- 🧹 Code Health: Removed a stale commented-out example block from `voiage/exceptions.py`.
 - Avoided importing `ValueArray` at runtime when it is used only for static
   annotations in the basic VOI methods.
 - Updated the protected `main` ruleset for a single-maintainer repository:
@@ -615,6 +615,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - The functional API in `voiage.methods.basic` now uses the new `DecisionAnalysis` class, providing a consistent implementation.
 
 ## [0.1.0]
+
+### Fixed
+- Fixed GitHub Pages deployment workflow by adding required permissions (`pages: write`, `id-token: write`) and environment configuration. Removed deprecated `github_token` parameter from `deploy-pages@v4` action.
 
 ### Added
 - Initial project structure and placeholder files.

@@ -216,6 +216,107 @@ def test_parallel_bootstrap_sampling() -> None:
     assert len(result["samples"]) == 100
 
 
+def test_run_work_in_monte_carlo_executor(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test the run_work inner function of parallel_monte_carlo_simulation directly."""
+    import concurrent.futures
+    from unittest.mock import MagicMock
+
+    # We will intercept the call to _execute_parallel_work
+    # to capture the run_work callback.
+    captured_run_work = []
+
+    def mock_execute_parallel_work(*, n_workers, use_processes, work):
+        captured_run_work.append(work)
+        return 42.0  # arbitrary return value
+
+    monkeypatch.setattr(
+        monte_carlo, "_execute_parallel_work", mock_execute_parallel_work
+    )
+
+    # Set up dummy arguments for parallel_monte_carlo_simulation
+    params_data = {
+        "mean_treatment": np.array([1.0]),
+        "mean_control": np.array([0.5]),
+        "sd_outcome": np.array([0.1]),
+    }
+    dataset = xr.Dataset(
+        {k: (("n_samples",), v) for k, v in params_data.items()},
+        coords={"n_samples": np.arange(1)},
+    )
+    psa_prior = ParameterSet(dataset=dataset)
+    trial_design = TrialDesign(arms=[DecisionOption(name="Treatment", sample_size=50)])
+
+    # Call the simulation to trigger capturing run_work
+    n_sims = 10
+    parallel_monte_carlo_simulation(
+        model_func=simple_model_func,
+        psa_prior=psa_prior,
+        trial_design=trial_design,
+        n_simulations=n_sims,
+        n_workers=2,
+    )
+
+    assert len(captured_run_work) == 1
+    run_work_fn = captured_run_work[0]
+
+    # Create a dummy executor to pass to run_work
+    mock_executor = MagicMock(spec=concurrent.futures.Executor)
+
+    # We need futures that return (expected_max_nb, n_sims_processed)
+    # The simulation divides 10 sims over 2 workers -> [5, 5]
+    f1 = concurrent.futures.Future()
+    f1.set_result((10.0, 5))
+    f2 = concurrent.futures.Future()
+    f2.set_result((20.0, 5))
+
+    mock_executor.submit.side_effect = [f1, f2]
+
+    result = run_work_fn(mock_executor)
+
+    # (10 * 5 + 20 * 5) / 10 = 15.0
+    assert result == 15.0
+    assert mock_executor.submit.call_count == 2
+
+    # Test zero simulations case
+    mock_executor.reset_mock()
+    # If a future returns 0 processed
+    f3 = concurrent.futures.Future()
+    f3.set_result((10.0, 0))
+    f4 = concurrent.futures.Future()
+    f4.set_result((20.0, 0))
+    mock_executor.submit.side_effect = [f3, f4]
+
+    result_zero = run_work_fn(mock_executor)
+    assert result_zero == 0.0
+
+
+def test_parallel_monte_carlo_simulation_remainder_coverage() -> None:
+    """Test parallel Monte Carlo simulation to cover the remainder logic."""
+    # Create parameter set
+    params_data = {
+        "mean_treatment": np.array([1.0]),
+        "mean_control": np.array([0.5]),
+        "sd_outcome": np.array([0.1]),
+    }
+    dataset = xr.Dataset(
+        {k: (("n_samples",), v) for k, v in params_data.items()},
+        coords={"n_samples": np.arange(1)},
+    )
+    psa_prior = ParameterSet(dataset=dataset)
+    trial_design = TrialDesign(arms=[DecisionOption(name="Treatment", sample_size=50)])
+
+    # 11 simulations, 2 workers means a remainder of 1
+    result = parallel_monte_carlo_simulation(
+        model_func=simple_model_func,
+        psa_prior=psa_prior,
+        trial_design=trial_design,
+        n_simulations=11,
+        n_workers=2,
+        use_processes=False,
+    )
+    assert result >= 0
+
+
 def test_parallel_monte_carlo_with_threads() -> None:
     """Test parallel Monte Carlo simulation using threads instead of processes."""
     # Create parameter set
@@ -252,6 +353,49 @@ def test_parallel_monte_carlo_with_threads() -> None:
     # Check that we got a valid result
     assert isinstance(result, float)
     assert result >= 0
+
+
+def test_run_work_in_bootstrap_sampling(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test the run_work inner function of parallel_bootstrap_sampling directly."""
+    import concurrent.futures
+    from unittest.mock import MagicMock
+
+    captured_run_work = []
+
+    def mock_execute_parallel_work(*, n_workers, use_processes, work):
+        captured_run_work.append(work)
+        return {"mean": 42.0}  # arbitrary return value
+
+    monkeypatch.setattr(
+        monte_carlo, "_execute_parallel_work", mock_execute_parallel_work
+    )
+
+    data = np.array([1.0, 2.0, 3.0])
+
+    parallel_bootstrap_sampling(
+        data=data,
+        statistic_func=mean_statistic,
+        n_bootstrap_samples=10,
+        n_workers=2,
+    )
+
+    assert len(captured_run_work) == 1
+    run_work_fn = captured_run_work[0]
+
+    mock_executor = MagicMock(spec=concurrent.futures.Executor)
+
+    f1 = concurrent.futures.Future()
+    f1.set_result([1.0, 2.0, 3.0, 4.0, 5.0])
+    f2 = concurrent.futures.Future()
+    f2.set_result([6.0, 7.0, 8.0, 9.0, 10.0])
+
+    mock_executor.submit.side_effect = [f1, f2]
+
+    result = run_work_fn(mock_executor)
+
+    assert "mean" in result
+    assert result["mean"] == 5.5
+    assert len(result["samples"]) == 10
 
 
 def test_parallel_bootstrap_with_threads() -> None:
