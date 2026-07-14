@@ -125,11 +125,45 @@ def check_conflict_markers(root: Path) -> list[Finding]:
     return findings
 
 
+def check_docs_platform(root: Path) -> list[Finding]:
+    """Keep Astro/Starlight as the repository's only documentation build path."""
+    findings: list[Finding] = []
+    forbidden_files = ("docs/conf.py", "docs/Makefile", "docs/make.bat")
+    findings.extend(
+        Finding(path, "legacy Sphinx build file is forbidden")
+        for path in forbidden_files
+        if (root / path).exists()
+    )
+    active_config = (
+        "pyproject.toml",
+        "tox.ini",
+        "noxfile.py",
+        ".github/workflows/ci.yml",
+    )
+    for relative_path in active_config:
+        path = root / relative_path
+        if path.is_file() and re.search(
+            r"sphinx(?:-build)?", path.read_text(encoding="utf-8"), re.IGNORECASE
+        ):
+            findings.append(
+                Finding(
+                    relative_path, "Sphinx is forbidden in active build configuration"
+                )
+            )
+    site_manifest = root / "docs/astro-site/package.json"
+    if not site_manifest.is_file():
+        findings.append(
+            Finding("docs/astro-site/package.json", "Astro docs manifest is missing")
+        )
+    return findings
+
+
 def collect_findings(root: Path) -> list[Finding]:
     """Run all deterministic harness checks."""
     return (
         check_required_files(root)
         + check_workflows(root)
+        + check_docs_platform(root)
         + check_conflict_markers(root)
     )
 

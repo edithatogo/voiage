@@ -15,8 +15,8 @@
 - New or changed functions and methods must be type-hinted.
 - User-facing changes should update docs, examples, or release notes when the
   behavior is visible outside tests.
-- Sphinx remains in the local docs gate; Starlight/Astro docs-site work must
-  preserve the same user-facing content boundaries.
+- Astro/Starlight documentation changes must preserve the established
+  user-facing content boundaries.
 
 ## Error Handling
 

@@ -118,7 +118,7 @@ Additional validation for release builds:
 
 ### 7. Documentation
 
-**Tools**: Sphinx/Starlight, Vale
+**Tools**: Astro/Starlight, Vale
 
 **Coverage**: 
 - API documentation completeness
@@ -164,7 +164,7 @@ Core dependencies required for basic functionality:
 Heavy or experimental dependencies are optional to avoid base-install conflicts:
 - **Development Tools**: mutmut, scalene, vulture (testing/profiling)
 - **Deep Learning**: PyTorch (optional backend)
-- **Documentation**: Sphinx, Starlight (doc building)
+- **Documentation**: Astro/Starlight (checking and static-site building)
 
 **Policy**: Heavy dependencies in `dev` extra, never in base install
 

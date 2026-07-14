@@ -257,7 +257,10 @@ def test_tracked_text_files_do_not_embed_local_voiage_paths() -> None:
     for path in _tracked_files():
         if not path.endswith(searched_suffixes):
             continue
-        text = Path(path).read_text(encoding="utf-8", errors="ignore")
+        tracked_path = Path(path)
+        if not tracked_path.is_file():
+            continue
+        text = tracked_path.read_text(encoding="utf-8", errors="ignore")
         if any(marker in text for marker in local_markers):
             offenders.append(path)
 
@@ -302,7 +305,7 @@ def test_root_project_state_docs_match_current_protocol() -> None:
         "AGENTS.md",
         "todo.md",
         "roadmap.md",
-        "Sphinx remains in the local developer docs gate",
+        "Astro and Starlight provide the authoritative documentation",
         "Starlight/Astro",
         "external gates",
     ):

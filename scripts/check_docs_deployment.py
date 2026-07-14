@@ -139,7 +139,7 @@ def main():
     print("the GitHub Pages site will not be available.")
     print("\nTo fix: Ensure the docs workflow runs successfully by:")
     print("1. Making sure the docs.yml workflow file is properly configured")
-    print("2. Ensuring there are no errors in the Sphinx documentation build")
+    print("2. Ensuring the Astro/Starlight checks and build complete without errors")
     print("3. Confirming GitHub Pages is enabled in the repository settings")
 
 

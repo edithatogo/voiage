@@ -84,7 +84,7 @@
 ## Branding & UX
 
 ### Documentation
-- Comprehensive Sphinx documentation
+- Comprehensive Astro/Starlight documentation
 - Jupyter notebook examples for each feature
 - Clear migration guides between versions
 

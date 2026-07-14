@@ -52,7 +52,7 @@ evidence-obsolescence/refresh VOI, and strategic behavior/game-theoretic VOI.
     *   `ParameterSet`, `ValueArray`, `TrialDesign`, and other structures in `voiage/schema.py` using xarray backend.
 3.  **CI/CD & Documentation Website:**
     *   **Status: `✅ Done`**
-    *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Sphinx docs, GitHub Pages, automated publishing to PyPI/TestPyPI, plus conda-forge feedstock recipe updates with external feedstock approval.
+    *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Astro/Starlight docs, GitHub Pages, automated publishing to PyPI/TestPyPI, plus conda-forge feedstock recipe updates with external feedstock approval.
 4.  **Community Guidelines:**
     *   **Status: `✅ Done`**
     *   `CONTRIBUTING.md`, `AGENTS.md`, Renovate for dependency updates.
@@ -403,8 +403,7 @@ implementation can proceed without reopening the stack decision.
     *   Keep search integration explicit and avoid adding a non-default search
         provider unless the docs use case needs it.
 3.  **Migration Boundary And Future Validation:**
-    *   Define the handoff boundary between the current Sphinx docs and a
-        future Starlight site.
+    *   Define the content handoff into the authoritative Astro/Starlight site.
     *   Record the build, link-check, version-navigation, and content-smoke
         gates that a later implementation track must satisfy.
     *   Completed by Conductor track: `starlight-docs-platform_20260506` (archived).
@@ -627,7 +626,7 @@ flowchart LR
   PythonFacade --> TS[TypeScript adapter]
   PythonFacade --> Go[Go adapter]
   PythonFacade --> DotNet[.NET adapter]
-  PythonFacade --> Docs[Sphinx docs + notebooks + binding READMEs]
+  PythonFacade --> Docs[Astro and Starlight docs + notebooks + binding READMEs]
   Specs[Conductor tracks + fixtures] --> PythonFacade
   Registry[Package managers and release channels] --> Users
 ```

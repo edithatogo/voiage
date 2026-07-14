@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from scripts.repo_harness import check_workflows, collect_findings
+from scripts.repo_harness import check_docs_platform, check_workflows, collect_findings
 
 ROOT = Path(__file__).parents[1]
 
@@ -24,3 +24,11 @@ def test_unpinned_action_is_rejected(tmp_path: Path) -> None:
     )
     findings = check_workflows(tmp_path)
     assert any("not pinned" in finding.message for finding in findings)
+
+
+def test_sphinx_build_configuration_is_rejected(tmp_path: Path) -> None:
+    """The harness prevents a second documentation toolchain from returning."""
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "docs" / "conf.py").write_text("project = 'legacy'\n", encoding="utf-8")
+    findings = check_docs_platform(tmp_path)
+    assert any("Sphinx" in finding.message for finding in findings)

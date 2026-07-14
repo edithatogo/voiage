@@ -41,9 +41,8 @@ for stable polyglot bindings and native execution-core expansion.
 - **HPC Enablement**: CPU parallelism, scheduler adapters, Apple Metal, discrete
   GPU, TPU, FPGA, and ASIC lanes have contracts and evidence gates. Production
   speedup claims remain gated by benchmark and hardware evidence.
-- **Documentation**: Sphinx remains part of the local developer/docs gate, while
-  the Starlight/Astro site scaffold provides the docs-site migration and Pages
-  path.
+- **Documentation**: Astro and Starlight provide the authoritative documentation
+  site, local docs gate, and GitHub Pages deployment path.
 
 ## Architecture
 

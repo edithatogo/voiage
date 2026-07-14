@@ -415,6 +415,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Made Astro/Starlight the sole documentation toolchain across CI, tox, nox,
+  contributor guidance, and GitHub Pages; removed the legacy Sphinx build files
+  and dependencies, repaired Astro 6 content discovery, and added a harness
+  guard against reintroducing Sphinx build configuration.
 - 🧹 Code Health: Removed a stale commented-out example block from `voiage/exceptions.py`.
 - Avoided importing `ValueArray` at runtime when it is used only for static
   annotations in the basic VOI methods.
