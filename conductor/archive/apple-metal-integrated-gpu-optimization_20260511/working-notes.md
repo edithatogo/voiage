@@ -51,10 +51,10 @@ Any Apple-specific packaging story should assume:
 
 The phase-3 CPU-only comparison evidence is now available from:
 
-- `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
-- `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
-- `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
-- `conductor/tracks/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`
+- `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
+- `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
+- `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
+- `conductor/archive/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`
 
 A device-backed comparison is still pending:
 
@@ -64,13 +64,13 @@ A device-backed comparison is still pending:
 ## No-Hardware Closure Gate
 
 - [x] CPU-only comparison packet has been generated and pinned:
-  - `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
-  - `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
-  - `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
+  - `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json`
+  - `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
+  - `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt`
 - [x] The evidence manifest explicitly marks `status: cpu_reference_only` and
   `pending` device-backed run(s).
 - [x] The phase-3 review packet exists in this track at:
-  `conductor/tracks/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`.
+  `conductor/archive/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`.
 - [x] The track can advance to reviewer-ready "CPU-first" closure until hardware is
   available.
 
@@ -78,8 +78,8 @@ A device-backed comparison is still pending:
 
 - Run both workloads once with `torch.backends.mps.is_available() == true` and
   record populated `apple_metal` fields in:
-  - `conductor/tracks/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
-  - `conductor/tracks/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`
+  - `conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json`
+  - `conductor/archive/apple-metal-integrated-gpu-optimization_20260511/handoff/phase_3_evidence_manifest.json`
 - Update the corresponding manifest `status`/`pending` fields and this section with
   the achieved speedup/delta values.
 

@@ -19,12 +19,12 @@ def _load_json(path: Path) -> dict[str, object]:
 
 
 def test_fpga_and_asic_tracks_iterate_free_pre_silicon_options() -> None:
-    fpga_plan = _read("conductor/tracks/fpga-implementation_20260511/plan.md")
-    asic_plan = _read("conductor/tracks/asic-implementation_20260511/plan.md")
+    fpga_plan = _read("conductor/archive/fpga-implementation_20260511/plan.md")
+    asic_plan = _read("conductor/archive/asic-implementation_20260511/plan.md")
     combined_notes = "\n".join(
         (
-            _read("conductor/tracks/fpga-implementation_20260511/working-notes.md"),
-            _read("conductor/tracks/asic-implementation_20260511/working-notes.md"),
+            _read("conductor/archive/fpga-implementation_20260511/working-notes.md"),
+            _read("conductor/archive/asic-implementation_20260511/working-notes.md"),
         )
     )
 
@@ -78,7 +78,7 @@ def test_committed_pre_silicon_manifests_have_required_evidence_shape() -> None:
         manifest = _load_json(
             ROOT
             / "conductor"
-            / "tracks"
+            / "archive"
             / track
             / "handoff"
             / "pre_silicon_evidence_manifest.json"

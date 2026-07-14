@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Completed the shared code-scanning rollout by enforcing the pinned
+  organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
+- Archived all completed Conductor track records under `conductor/archive/` and
+  updated the regression tests and integration documentation to read those
+  historical records from their canonical archived locations.
+- Updated the Python and Starlight documentation dependency lockfiles to
+  patched releases for the current Dependabot advisories, including the
+  critical Jupyter Server advisory, and added a pnpm esbuild override to keep
+  all resolved documentation builds on the patched release.
+- Updated the Starlight configuration for its current social-link and sidebar
+  APIs, preserving a clean Astro check and static documentation build after
+  the security upgrade.
 - Added a fail-closed repository harness for workflow permissions, immutable
   GitHub Action pins, required governance files, and security workflow
   presence; wired it into tox and contributor documentation.
@@ -397,6 +409,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Avoided importing `ValueArray` at runtime when it is used only for static
+  annotations in the basic VOI methods.
 - Updated the protected `main` ruleset for a single-maintainer repository:
   pull requests, signed commits, linear history, resolved review threads, and
   required CI/security checks remain enforced without an impossible
@@ -445,6 +459,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Moved the blocking code-scanning gate into a separate least-privilege job so
+  OpenSSF can verify and publish Scorecard results without rejecting the custom
+  policy step in its privileged analysis job.
 - Removed tracked generated artifacts from version control, including pytest
   temp output, coverage reports, macOS metadata, legacy egg-info files, and R
   CMD check output, and added repo-local ignore rules for those generated

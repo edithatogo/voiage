@@ -41,3 +41,14 @@ jobs:
           name: scorecard-results
           path: scorecard-results.json
           retention-days: 30
+
+  code-scanning-gate:
+    name: Scorecard code-scanning gate
+    needs: analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: read
+      contents: read
+    steps:
+      - name: Fail on blocking code-scanning alerts
+        uses: edithatogo/.github/.github/actions/code-scanning-gate@90b399a731a17b792352d0c049834a22dbd32523

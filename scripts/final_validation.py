@@ -239,7 +239,6 @@ def validate_advanced_functionality():
                 ],
                 structure_probabilities=[0.6, 0.4],
                 psa_samples_per_structure=[dummy_psa, dummy_psa],
-                n_outer_loops=3,
             )
             print(
                 f"✅ Structural EVPI calculated successfully: {struct_evpi_result:.2f}"
@@ -252,10 +251,6 @@ def validate_advanced_functionality():
         # Test portfolio VOI (basic functionality)
         try:
 
-            def simple_value_calculator(study):
-                return 100.0  # Simple fixed value
-
-            portfolio_spec = None  # This would normally be a PortfolioSpec
             # Since we can't easily create a PortfolioSpec in this minimal test,
             # we'll just note that the function exists and is importable
             print("✅ Portfolio VOI function is importable and available")

@@ -29,7 +29,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from voiage.analysis import DecisionAnalysis
-from voiage.schema import ValueArray, ParameterSet
+from voiage.schema import ValueArray
 
 
 def generate_business_data(n_samples=1000):

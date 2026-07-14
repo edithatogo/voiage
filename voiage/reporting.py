@@ -1,7 +1,5 @@
 """Reporting helpers for CHEERS-VOI-aligned payloads."""
 
-from __future__ import annotations
-
 from typing import Any
 
 
