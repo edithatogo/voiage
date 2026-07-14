@@ -10,7 +10,6 @@ and demonstrates advanced VOI techniques.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
 from voiage.analysis import DecisionAnalysis
@@ -207,7 +206,6 @@ def main():
         selected_params = ["drug_efficacy", "program_effectiveness", "adherence_rate", "baseline_severity"]
 
         # Create combined parameter array (just for this example)
-        param_array = np.column_stack([param_samples[p] for p in selected_params])
 
         # Calculate EVPPI with custom regression model
         # Note: This is a simplified example - in practice, we'd implement a custom method
