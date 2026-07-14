@@ -337,6 +337,60 @@ def test_enhanced_jax_backend_numpy_sampling_fallback(monkeypatch) -> None:
 
 
 @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
+def test_enhanced_jax_backend_compute_evpi_subset() -> None:
+    """Test compute_evpi_subset logic indirectly via parallel_monte_carlo."""
+    import numpy as np
+
+    from voiage.backends.enhanced_jax_backend import EnhancedJaxBackend
+
+    backend = EnhancedJaxBackend()
+
+    # Test case 1: Identical strategies -> EVPI should be 0
+    nb_zeros = np.zeros((10, 2))
+    res_zeros = backend.parallel_monte_carlo(nb_zeros, n_simulations=5, chunk_size=5)
+    assert res_zeros["mean"] == 0.0
+    assert np.all(res_zeros["values"] == 0.0)
+
+    # Test case 2: One strategy strictly dominates -> EVPI should be 0
+    nb_dom = np.array([[10.0, 5.0]] * 10)
+    res_dom = backend.parallel_monte_carlo(nb_dom, n_simulations=5, chunk_size=5)
+    assert res_dom["mean"] == 0.0
+
+    # Test case 3: chunk_size larger than n_samples is capped at n_samples
+    nb_small = np.array([[1.0, 0.0], [0.0, 1.0]])
+    res_large_chunk = backend.parallel_monte_carlo(
+        nb_small, n_simulations=3, chunk_size=100
+    )
+    assert len(res_large_chunk["values"]) == 3
+
+    # Test case 4: Known EVPI behavior for a specific distribution
+    res_evpi = backend.parallel_monte_carlo(nb_small, n_simulations=20, chunk_size=2)
+    assert res_evpi["mean"] >= 0.0
+    assert any(v > 0 for v in res_evpi["values"])
+
+
+@pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
+def test_enhanced_jax_backend_compute_evpi_subset_no_jax(monkeypatch) -> None:
+    """Test compute_evpi_subset logic indirectly without JAX."""
+    import numpy as np
+
+    from voiage.backends import enhanced_jax_backend
+    from voiage.backends.enhanced_jax_backend import EnhancedJaxBackend
+
+    backend = EnhancedJaxBackend()
+    monkeypatch.setattr(enhanced_jax_backend, "HAS_JAX", False)
+
+    nb_zeros = np.zeros((10, 2))
+    res_zeros = backend.parallel_monte_carlo(nb_zeros, n_simulations=5, chunk_size=5)
+    assert res_zeros["mean"] == 0.0
+
+    nb_small = np.array([[1.0, 0.0], [0.0, 1.0]])
+    res_evpi = backend.parallel_monte_carlo(nb_small, n_simulations=20, chunk_size=2)
+    assert res_evpi["mean"] >= 0.0
+    assert any(v > 0 for v in res_evpi["values"])
+
+
+@pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
 def test_jax_backend_evppi_and_enbs_helpers() -> None:
     """Cover JAX EVPPI and ENBS helper paths with deterministic data."""
     backend = get_backend("jax")
