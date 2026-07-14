@@ -45,9 +45,14 @@ We welcome contributions from the community, whether from humans or AI agents. T
 3.  **Verify Changes:**
     *   Run the full suite of tests, linting, and type checks using `tox`. This is the same check that runs in our CI pipeline.
         ```bash
-        tox
+    tox
         ```
     *   Fix any errors reported by `tox` before proceeding.
+    *   Run the repository-owned security and workflow harness directly when
+        changing CI or release automation:
+        ```bash
+        uv run python scripts/repo_harness.py
+        ```
     *   Frontier contract changes should also pass the dedicated registry check:
         ```bash
         tox -e frontier-contract
@@ -69,6 +74,8 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 For a more detailed walkthrough of the Conductor workflow, docs structure, and
 testing expectations, see `docs/developer_guide/how_to_contribute.rst`.
+For the repository security model and hosted GitHub gates, see
+`docs/developer_guide/quality_and_security.rst`.
 
 For help requests, support questions, and security reporting, see
 [`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and

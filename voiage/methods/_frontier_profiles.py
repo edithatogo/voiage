@@ -190,36 +190,18 @@ def optimal_strategy_summary(
 
 def pareto_strategy_indices(expected: np.ndarray) -> list[int]:
     """Return the indices of non-dominated strategies."""
-    n_strategies = expected.shape[1]
-    pareto: list[int] = []
-    for candidate in range(n_strategies):
-        candidate_profile_values = expected[:, candidate]
-        dominated = False
-        for challenger in range(n_strategies):
-            if challenger == candidate:
-                continue
-            challenger_profile_values = expected[:, challenger]
-            if np.all(challenger_profile_values >= candidate_profile_values) and np.any(
-                challenger_profile_values > candidate_profile_values
-            ):
-                dominated = True
-                break
-        if not dominated:
-            pareto.append(candidate)
-    return pareto
+    values = expected.T
+    ge = np.all(values[:, None, :] >= values[None, :, :], axis=2)
+    gt = np.any(values[:, None, :] > values[None, :, :], axis=2)
+    return np.where(~np.any(ge & gt, axis=0))[0].tolist()
 
 
 def regret_matrix(
     expected: np.ndarray, optimal_strategy_indices: np.ndarray
 ) -> np.ndarray:
     """Compute the profile-by-profile regret matrix."""
-    n_profiles = expected.shape[0]
-    regret = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        best_value = expected[i, optimal_strategy_indices[i]]
-        for j in range(n_profiles):
-            regret[i, j] = best_value - expected[i, optimal_strategy_indices[j]]
-    return regret
+    best_values = expected[np.arange(expected.shape[0]), optimal_strategy_indices]
+    return best_values[:, None] - expected[:, optimal_strategy_indices]
 
 
 def switching_values(
@@ -241,14 +223,11 @@ def switching_values(
 def samplewise_profile_change_probability(values: np.ndarray) -> np.ndarray:
     """Compute profile-by-profile strategy-change probabilities."""
     samplewise_optima = np.argmax(values, axis=1)
-    n_profiles = values.shape[2]
-    matrix = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
-    for i in range(n_profiles):
-        for j in range(n_profiles):
-            matrix[i, j] = float(
-                np.mean(samplewise_optima[:, i] != samplewise_optima[:, j])
-            )
-    return matrix
+    return np.mean(
+        samplewise_optima[:, :, None] != samplewise_optima[:, None, :],
+        axis=0,
+        dtype=DEFAULT_DTYPE,
+    )
 
 
 def samplewise_profile_regret(
