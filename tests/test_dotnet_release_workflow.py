@@ -20,10 +20,9 @@ def test_dotnet_release_workflow_and_checklist_align() -> None:
         in workflow_text
     )
     assert 'dotnet nuget push "nupkg/*.nupkg"' in workflow_text
-    assert (
-        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
-        in workflow_text
-    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The .NET binding remains the thin adapter over the shared contract."

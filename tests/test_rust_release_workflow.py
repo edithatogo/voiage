@@ -14,10 +14,9 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert "cargo fmt --check" in workflow_text
     assert "cargo clippy --all-targets --locked -- -D warnings" in workflow_text
     assert "cargo publish --locked" in workflow_text
-    assert (
-        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
-        in workflow_text
-    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The Rust crate remains the canonical execution core and contract owner."

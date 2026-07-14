@@ -16,10 +16,9 @@ def test_python_release_workflow_matches_documented_tag_flow() -> None:
         "Publish to PyPI"
     )
     assert "uv build" in release_workflow
-    assert (
-        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
-        in release_workflow
-    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in release_workflow
+    assert "--generate-notes --verify-tag" in release_workflow
+    assert "GH_TOKEN: ${{ github.token }}" in release_workflow
 
     assert "release:\n    types: [published]" in conda_workflow
     assert "startsWith(github.event.release.tag_name, 'v')" in conda_workflow

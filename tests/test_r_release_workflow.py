@@ -28,10 +28,9 @@ def test_r_release_workflow_and_checklist_align() -> None:
         "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6"
         in ci_workflow_text
     )
-    assert (
-        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
-        in workflow_text
-    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The R package remains the thin reticulate bridge over the shared contract."

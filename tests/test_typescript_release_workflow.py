@@ -13,10 +13,9 @@ def test_typescript_release_workflow_and_checklist_align() -> None:
     assert "typescript-v*" in workflow_text
     assert "npm version --no-git-tag-version --allow-same-version" in workflow_text
     assert "npm publish --provenance --access public" in workflow_text
-    assert (
-        "softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
-        in workflow_text
-    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The TypeScript binding remains the thin adapter over the shared contract."
