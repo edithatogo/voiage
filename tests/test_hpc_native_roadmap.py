@@ -16,7 +16,7 @@ def test_hpc_native_roadmap_sequence_and_baselines() -> None:
     notes_text = (
         root
         / "conductor"
-        / "tracks"
+        / "archive"
         / "apple-metal-integrated-gpu-optimization_20260511"
         / "working-notes.md"
     ).read_text()

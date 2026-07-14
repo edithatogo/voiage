@@ -1,8 +1,0 @@
-{
-  "track_id": "starlight_migration_20260513",
-  "type": "chore",
-  "status": "completed",
-  "created_at": "2026-05-13",
-  "updated_at": "2026-05-17",
-  "description": "Migrated documentation from Sphinx to Starlight with polyglot, versions, links-validator, llms-txt. 51 MDX pages, all RST converted, GitHub Pages deployed."
-}

@@ -75,78 +75,68 @@ def sophisticated_adaptive_trial_simulator(
     n_strategies = 2  # Control and Treatment
     net_benefits = np.zeros((n_samples, n_strategies))
 
-    # For each parameter sample, simulate an adaptive trial
-    for i in range(n_samples):
-        # Extract parameters for this sample
-        te = treatment_effect[i]
-        cr = control_rate[i]
-        cpp = cost_per_patient[i]
+    # Simulate base trial outcomes
+    # In a real implementation, this would involve complex trial simulation
+    # For this example, we'll use a simplified approach
 
-        # Simulate base trial outcomes
-        # In a real implementation, this would involve complex trial simulation
-        # For this example, we'll use a simplified approach
+    # Simulate treatment outcomes
+    treatment_rate = control_rate + treatment_effect
+    # Ensure rates are between 0 and 1
+    treatment_rate = np.clip(treatment_rate, 0, 1)
+    control_rate = np.clip(control_rate, 0, 1)
 
-        # Simulate treatment outcomes
-        treatment_rate = cr + te
-        # Ensure rates are between 0 and 1
-        treatment_rate = np.clip(treatment_rate, 0, 1)
-        cr = np.clip(cr, 0, 1)
+    # Simulate some data to make the analysis more realistic
+    n_patients_per_arm = 100  # Base sample size per arm
+    treatment_outcomes = np.random.binomial(n_patients_per_arm, treatment_rate)
+    control_outcomes = np.random.binomial(n_patients_per_arm, control_rate)
 
-        # Simulate some data to make the analysis more realistic
-        n_patients_per_arm = 100  # Base sample size per arm
-        treatment_outcomes = np.random.binomial(n_patients_per_arm, treatment_rate)
-        control_outcomes = np.random.binomial(n_patients_per_arm, cr)
+    # Calculate trial costs
+    total_patients = sum(arm.sample_size for arm in base_design.arms)
+    _ = total_patients * cost_per_patient  # Calculate trial costs
 
-        # Calculate trial costs
-        total_patients = sum(arm.sample_size for arm in base_design.arms)
-        _ = total_patients * cpp  # Calculate trial costs
+    # Apply adaptive rules
+    interim_points = adaptive_rules.get("interim_analysis_points", [])
+    early_stopping = adaptive_rules.get("early_stopping_rules", {})
 
-        # Apply adaptive rules
-        interim_points = adaptive_rules.get("interim_analysis_points", [])
-        early_stopping = adaptive_rules.get("early_stopping_rules", {})
+    # Simulate interim analyses
+    adjusted_sample_size = np.full(n_samples, total_patients, dtype=int)
 
-        # Simulate interim analyses
-        _ = False  # trial_stopped_early = False
-        adjusted_sample_size = total_patients
+    if early_stopping and interim_points:
+        efficacy_threshold = early_stopping.get("efficacy", 0.95)
+        futility_threshold = early_stopping.get("futility", 0.1)
 
+        interim_treatment_rate = treatment_outcomes / n_patients_per_arm
+        interim_control_rate = control_outcomes / n_patients_per_arm
+        interim_effect = interim_treatment_rate - interim_control_rate
+
+        stop_condition = (interim_effect > efficacy_threshold) | (
+            interim_effect < futility_threshold
+        )
+
+        first_valid_interim = None
         for interim_point in interim_points:
-            # At interim analysis, decide whether to stop early
-            if early_stopping:
-                efficacy_threshold = early_stopping.get("efficacy", 0.95)
-                futility_threshold = early_stopping.get("futility", 0.1)
+            if int(n_patients_per_arm * interim_point) > 0:
+                first_valid_interim = interim_point
+                break
 
-                # Simplified interim decision rule based on observed data
-                # Calculate interim treatment effect
-                interim_n = int(n_patients_per_arm * interim_point)
-                if interim_n > 0:
-                    interim_treatment_rate = treatment_outcomes / n_patients_per_arm
-                    interim_control_rate = control_outcomes / n_patients_per_arm
-                    interim_effect = interim_treatment_rate - interim_control_rate
+        if first_valid_interim is not None:
+            adjusted_val = int(total_patients * first_valid_interim)
+            adjusted_sample_size = np.where(
+                stop_condition, adjusted_val, adjusted_sample_size
+            )
 
-                    # Make decision based on interim effect
-                    if interim_effect > efficacy_threshold:
-                        # Stop for efficacy
-                        _ = True  # trial_stopped_early = True
-                        adjusted_sample_size = int(total_patients * interim_point)
-                        break
-                    if interim_effect < futility_threshold:
-                        # Stop for futility
-                        _ = True  # trial_stopped_early = True
-                        adjusted_sample_size = int(total_patients * interim_point)
-                        break
+    # Adjust costs based on early stopping
+    adjusted_cost = adjusted_sample_size * cost_per_patient
 
-        # Adjust costs based on early stopping
-        adjusted_cost = adjusted_sample_size * cpp
+    # Calculate net benefits for each strategy with more realistic values
+    # Strategy 0: Control only
+    control_benefit = control_outcomes * 1000  # Benefit per successful outcome
+    net_benefits[:, 0] = control_benefit - adjusted_cost
 
-        # Calculate net benefits for each strategy with more realistic values
-        # Strategy 0: Control only
-        control_benefit = control_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 0] = control_benefit - adjusted_cost
-
-        # Strategy 1: Treatment
-        # Benefit is proportional to treatment effect
-        treatment_benefit = treatment_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 1] = treatment_benefit - adjusted_cost
+    # Strategy 1: Treatment
+    # Benefit is proportional to treatment effect
+    treatment_benefit = treatment_outcomes * 1000  # Benefit per successful outcome
+    net_benefits[:, 1] = treatment_benefit - adjusted_cost
 
     # Add some noise to make the differences more pronounced
     net_benefits += np.random.normal(0, 500, net_benefits.shape)
@@ -163,6 +153,153 @@ def sophisticated_adaptive_trial_simulator(
         },
     )
     return NetBenefitArray(dataset=dataset)
+
+
+def _simulate_trial_and_interims(
+    true_treatment_rate: float,
+    true_cr: float,
+    n_patients_per_arm: int,
+    adaptive_rules: dict[str, object],
+) -> tuple[int, int, int]:
+    """Simulate trial data and apply interim analysis rules."""
+    # Simulate full trial data
+    treatment_outcomes = np.random.binomial(n_patients_per_arm, true_treatment_rate)
+    control_outcomes = np.random.binomial(n_patients_per_arm, true_cr)
+
+    # Apply adaptive rules
+    interim_points = adaptive_rules.get("interim_analysis_points", [])
+    early_stopping = adaptive_rules.get("early_stopping_rules", {})
+
+    adjusted_sample_size = 2 * n_patients_per_arm  # Total patients (both arms)
+
+    if isinstance(interim_points, list):
+        for interim_point in interim_points:
+            # At interim analysis, decide whether to stop early
+            if early_stopping and isinstance(early_stopping, dict):
+                efficacy_threshold = early_stopping.get("efficacy", 0.95)
+                futility_threshold = early_stopping.get("futility", 0.1)
+
+                # Calculate interim treatment effect based on partial data
+                interim_n = max(1, int(n_patients_per_arm * interim_point))
+                interim_treatment_outcomes = np.random.binomial(
+                    interim_n, true_treatment_rate
+                )
+                interim_control_outcomes = np.random.binomial(interim_n, true_cr)
+
+                # Calculate interim effect (simplified)
+                if interim_n > 0:
+                    interim_treatment_rate = interim_treatment_outcomes / interim_n
+                    interim_control_rate = interim_control_outcomes / interim_n
+                    interim_effect = interim_treatment_rate - interim_control_rate
+
+                    # Make decision based on interim effect
+                    if interim_effect > efficacy_threshold:
+                        # Stop for efficacy
+                        adjusted_sample_size = int(
+                            2 * n_patients_per_arm * interim_point
+                        )
+                        break
+                    if interim_effect < futility_threshold:
+                        # Stop for futility
+                        adjusted_sample_size = int(
+                            2 * n_patients_per_arm * interim_point
+                        )
+                        break
+
+    return int(treatment_outcomes), int(control_outcomes), adjusted_sample_size
+
+
+def _update_beliefs(
+    n_samples: int,
+    treatment_effect: np.ndarray,
+    control_rate: np.ndarray,
+    true_te: float,
+    true_cr: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Update beliefs based on simulated trial data."""
+    updated_treatment_effect = np.zeros(n_samples)
+    updated_control_rate = np.zeros(n_samples)
+
+    # Data precision (simplified)
+    data_precision = 100.0
+
+    for i in range(n_samples):
+        # Prior mean and variance for treatment effect
+        prior_mean_te = treatment_effect[i]
+        prior_var_te = 0.05**2  # Assumed prior variance
+        prior_precision_te = 1.0 / prior_var_te
+
+        # Posterior precision and mean
+        posterior_precision_te = prior_precision_te + data_precision
+        posterior_var_te = 1.0 / posterior_precision_te
+        # Simulate a data-based estimate
+        data_estimate_te = np.random.normal(
+            true_te, 0.01
+        )  # Small noise around true value
+        posterior_mean_te = (
+            prior_precision_te * prior_mean_te + data_precision * data_estimate_te
+        ) / posterior_precision_te
+
+        updated_treatment_effect[i] = np.random.normal(
+            posterior_mean_te, np.sqrt(posterior_var_te)
+        )
+
+    for i in range(n_samples):
+        # Prior mean and variance for control rate
+        prior_mean_cr = control_rate[i]
+        prior_var_cr = 0.05**2  # Assumed prior variance
+        prior_precision_cr = 1.0 / prior_var_cr
+
+        # Posterior precision and mean
+        posterior_precision_cr = prior_precision_cr + data_precision
+        posterior_var_cr = 1.0 / posterior_precision_cr
+        # Simulate a data-based estimate
+        data_estimate_cr = np.random.normal(
+            true_cr, 0.01
+        )  # Small noise around true value
+        posterior_mean_cr = (
+            prior_precision_cr * prior_mean_cr + data_precision * data_estimate_cr
+        ) / posterior_precision_cr
+
+        updated_control_rate[i] = np.random.normal(
+            posterior_mean_cr, np.sqrt(posterior_var_cr)
+        )
+
+    return updated_treatment_effect, updated_control_rate
+
+
+def _calculate_net_benefits(
+    n_samples: int,
+    updated_treatment_effect: np.ndarray,
+    updated_control_rate: np.ndarray,
+    cost_per_patient: np.ndarray,
+    treatment_outcomes: int,
+    control_outcomes: int,
+    adjusted_sample_size: int,
+) -> np.ndarray:
+    """Calculate net benefits using updated beliefs."""
+    n_strategies = 2
+    net_benefits = np.zeros((n_samples, n_strategies))
+
+    for i in range(n_samples):
+        te = updated_treatment_effect[i]
+        cr = updated_control_rate[i]
+        cpp = cost_per_patient[i]
+
+        # Ensure rates are between 0 and 1
+        _ = np.clip(cr + te, 0, 1)
+        cr = np.clip(cr, 0, 1)
+
+        adjusted_cost = adjusted_sample_size * cpp
+
+        control_benefit = control_outcomes * 1000
+        net_benefits[i, 0] = control_benefit - adjusted_cost
+
+        treatment_benefit = treatment_outcomes * 1000
+        net_benefits[i, 1] = treatment_benefit - adjusted_cost
+
+    net_benefits += np.random.normal(0, 500, net_benefits.shape)
+    return net_benefits
 
 
 def bayesian_adaptive_trial_simulator(
@@ -198,7 +335,6 @@ def bayesian_adaptive_trial_simulator(
 
     # If no true parameters provided, sample from the PSA samples
     if true_parameters is None:
-        # Sample a "true" parameter set from the prior
         true_idx = np.random.randint(0, n_samples)
         true_parameters = {
             name: values[true_idx] for name, values in psa_samples.parameters.items()
@@ -220,154 +356,37 @@ def bayesian_adaptive_trial_simulator(
     true_cr = true_parameters.get("control_rate", 0.3)
     _ = true_parameters.get("cost_per_patient", 5000)
 
-    # Simulate trial data based on true parameters
-    n_patients_per_arm = 100  # Base sample size per arm
-
     # Ensure rates are between 0 and 1
     true_treatment_rate = np.clip(true_cr + true_te, 0, 1)
     true_cr = np.clip(true_cr, 0, 1)
 
-    # Simulate full trial data
-    treatment_outcomes = np.random.binomial(n_patients_per_arm, true_treatment_rate)
-    control_outcomes = np.random.binomial(n_patients_per_arm, true_cr)
-
-    # Apply adaptive rules
-    interim_points = adaptive_rules.get("interim_analysis_points", [])
-    early_stopping = adaptive_rules.get("early_stopping_rules", {})
-
-    # Simulate interim analyses
-    _ = False  # trial_stopped_early = False
-    adjusted_sample_size = 2 * n_patients_per_arm  # Total patients (both arms)
-
-    for interim_point in interim_points:
-        # At interim analysis, decide whether to stop early
-        if early_stopping:
-            efficacy_threshold = early_stopping.get("efficacy", 0.95)
-            futility_threshold = early_stopping.get("futility", 0.1)
-
-            # Calculate interim treatment effect based on partial data
-            interim_n = max(1, int(n_patients_per_arm * interim_point))
-            interim_treatment_outcomes = np.random.binomial(
-                interim_n, true_treatment_rate
-            )
-            interim_control_outcomes = np.random.binomial(interim_n, true_cr)
-
-            # Calculate interim effect (simplified)
-            if interim_n > 0:
-                interim_treatment_rate = interim_treatment_outcomes / interim_n
-                interim_control_rate = interim_control_outcomes / interim_n
-                interim_effect = interim_treatment_rate - interim_control_rate
-
-                # Make decision based on interim effect
-                if interim_effect > efficacy_threshold:
-                    # Stop for efficacy
-                    _ = True  # trial_stopped_early = True
-                    adjusted_sample_size = int(2 * n_patients_per_arm * interim_point)
-                    break
-                if interim_effect < futility_threshold:
-                    # Stop for futility
-                    _ = True  # trial_stopped_early = True
-                    adjusted_sample_size = int(2 * n_patients_per_arm * interim_point)
-                    break
-
-    # Update beliefs based on simulated trial data
-    # For simplicity, we'll use a normal-normal conjugate update
-    updated_treatment_effect = np.zeros(n_samples)
-    updated_control_rate = np.zeros(n_samples)
-    updated_cost_per_patient = np.zeros(n_samples)
-
-    # Update treatment effect
-    for i in range(n_samples):
-        # Prior mean and variance for treatment effect
-        prior_mean_te = treatment_effect[i]
-        prior_var_te = 0.05**2  # Assumed prior variance
-        prior_precision_te = 1.0 / prior_var_te
-
-        # Data precision (simplified)
-        data_precision_te = 100.0  # Assumed data precision
-
-        # Posterior precision and mean
-        posterior_precision_te = prior_precision_te + data_precision_te
-        posterior_var_te = 1.0 / posterior_precision_te
-        # Simulate a data-based estimate
-        data_estimate_te = np.random.normal(
-            true_te, 0.01
-        )  # Small noise around true value
-        posterior_mean_te = (
-            prior_precision_te * prior_mean_te + data_precision_te * data_estimate_te
-        ) / posterior_precision_te
-
-        updated_treatment_effect[i] = np.random.normal(
-            posterior_mean_te, np.sqrt(posterior_var_te)
+    n_patients_per_arm = 100  # Base sample size per arm
+    treatment_outcomes, control_outcomes, adjusted_sample_size = (
+        _simulate_trial_and_interims(
+            true_treatment_rate, true_cr, n_patients_per_arm, adaptive_rules
         )
+    )
 
-    # Update control rate (similar process)
-    for i in range(n_samples):
-        # Prior mean and variance for control rate
-        prior_mean_cr = control_rate[i]
-        prior_var_cr = 0.05**2  # Assumed prior variance
-        prior_precision_cr = 1.0 / prior_var_cr
+    updated_treatment_effect, updated_control_rate = _update_beliefs(
+        n_samples, treatment_effect, control_rate, true_te, true_cr
+    )
 
-        # Data precision (simplified)
-        data_precision_cr = 100.0  # Assumed data precision
-
-        # Posterior precision and mean
-        posterior_precision_cr = prior_precision_cr + data_precision_cr
-        posterior_var_cr = 1.0 / posterior_precision_cr
-        # Simulate a data-based estimate
-        data_estimate_cr = np.random.normal(
-            true_cr, 0.01
-        )  # Small noise around true value
-        posterior_mean_cr = (
-            prior_precision_cr * prior_mean_cr + data_precision_cr * data_estimate_cr
-        ) / posterior_precision_cr
-
-        updated_control_rate[i] = np.random.normal(
-            posterior_mean_cr, np.sqrt(posterior_var_cr)
-        )
-
-    # Cost per patient remains the same (not updated in this example)
-    updated_cost_per_patient = cost_per_patient
-
-    # Calculate net benefits using updated beliefs
-    n_strategies = 2  # Control and Treatment
-    net_benefits = np.zeros((n_samples, n_strategies))
-
-    # Calculate net benefits for each strategy
-    for i in range(n_samples):
-        # Extract updated parameters for this sample
-        te = updated_treatment_effect[i]
-        cr = updated_control_rate[i]
-        cpp = updated_cost_per_patient[i]
-
-        # Ensure rates are between 0 and 1
-        _ = np.clip(cr + te, 0, 1)
-        cr = np.clip(cr, 0, 1)
-
-        # Adjust costs based on early stopping
-        adjusted_cost = adjusted_sample_size * cpp
-
-        # Calculate net benefits for each strategy with more realistic values
-        # Strategy 0: Control only
-        control_benefit = control_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 0] = control_benefit - adjusted_cost
-
-        # Strategy 1: Treatment
-        # Benefit is proportional to treatment effect
-        treatment_benefit = treatment_outcomes * 1000  # Benefit per successful outcome
-        net_benefits[i, 1] = treatment_benefit - adjusted_cost
-
-    # Add some noise to make the differences more pronounced
-    net_benefits += np.random.normal(0, 500, net_benefits.shape)
-
-    # Create ValueArray
+    net_benefits = _calculate_net_benefits(
+        n_samples,
+        updated_treatment_effect,
+        updated_control_rate,
+        cost_per_patient,
+        treatment_outcomes,
+        control_outcomes,
+        adjusted_sample_size,
+    )
     import xarray as xr
 
     dataset = xr.Dataset(
         {"net_benefit": (("n_samples", "n_strategies"), net_benefits)},
         coords={
             "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(n_strategies),
+            "n_strategies": np.arange(2),
             "strategy": ("n_strategies", ["Control Only", "With Treatment"]),
         },
     )
@@ -521,13 +540,10 @@ if __name__ == "__main__":  # pragma: no cover
     # Add local imports for classes used in this test block
     import numpy as np  # np is used by NetBenefitArray call and PSASample
 
-    from voiage.schema import (
-        DecisionOption as TrialArm,
-    )
+    from voiage.schema import DecisionOption, TrialDesign
     from voiage.schema import (
         ParameterSet as PSASample,
     )
-    from voiage.schema import TrialDesign
     from voiage.schema import (
         ValueArray as NetBenefitArray,
     )
@@ -563,8 +579,8 @@ if __name__ == "__main__":  # pragma: no cover
     # Create test trial design
     dummy_design = TrialDesign(
         arms=[
-            TrialArm(name="Treatment A", sample_size=100),
-            TrialArm(name="Treatment B", sample_size=100),
+            DecisionOption(name="Treatment A", sample_size=100),
+            DecisionOption(name="Treatment B", sample_size=100),
         ]
     )
 

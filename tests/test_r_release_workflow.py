@@ -20,9 +20,17 @@ def test_r_release_workflow_and_checklist_align() -> None:
         in workflow_text
     )
     assert "Rscript tools/build-manual.R" in workflow_text
-    assert "r-lib/actions/setup-tinytex@v2" in workflow_text
-    assert "r-lib/actions/setup-tinytex@v2" in ci_workflow_text
-    assert "softprops/action-gh-release@v2" in workflow_text
+    assert (
+        "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6"
+        in workflow_text
+    )
+    assert (
+        "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6"
+        in ci_workflow_text
+    )
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The R package remains the thin reticulate bridge over the shared contract."

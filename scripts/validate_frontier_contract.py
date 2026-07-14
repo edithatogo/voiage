@@ -39,8 +39,13 @@ def _validate_registry() -> list[dict[str, object]]:
         raise ValidationError("frontier registry status must be 'registry'")
 
     schema = _load_json(REGISTRY_SCHEMA)
-    if not isinstance(schema, dict) or schema.get("title") != "FrontierFixtureRegistryV1":
-        raise ValidationError("frontier registry schema title must be 'FrontierFixtureRegistryV1'")
+    if (
+        not isinstance(schema, dict)
+        or schema.get("title") != "FrontierFixtureRegistryV1"
+    ):
+        raise ValidationError(
+            "frontier registry schema title must be 'FrontierFixtureRegistryV1'"
+        )
 
     families = registry.get("families")
     if not isinstance(families, list) or not families:
@@ -51,7 +56,9 @@ def _validate_registry() -> list[dict[str, object]]:
         if not isinstance(item, dict):
             raise ValidationError(f"$.families[{index}]: expected object")
         name = _require_non_empty_string(item.get("name"), f"$.families[{index}].name")
-        relpath = _require_non_empty_string(item.get("path"), f"$.families[{index}].path")
+        relpath = _require_non_empty_string(
+            item.get("path"), f"$.families[{index}].path"
+        )
         maturity = _require_non_empty_string(
             item.get("method_maturity"), f"$.families[{index}].method_maturity"
         )
@@ -74,14 +81,19 @@ def _validate_family_manifest(manifest_path: Path) -> None:
 
     normative = manifest.get("normative")
     if not isinstance(normative, list) or not normative:
-        raise ValidationError(f"{manifest_path}: normative must contain at least one item")
+        raise ValidationError(
+            f"{manifest_path}: normative must contain at least one item"
+        )
 
     fixture_root = manifest_path.parent
     for index, entry in enumerate(normative):
         if not isinstance(entry, dict):
-            raise ValidationError(f"{manifest_path}: normative[{index}] must be an object")
+            raise ValidationError(
+                f"{manifest_path}: normative[{index}] must be an object"
+            )
         input_artifact = _require_non_empty_string(
-            entry.get("input_artifact"), f"{manifest_path}.normative[{index}].input_artifact"
+            entry.get("input_artifact"),
+            f"{manifest_path}.normative[{index}].input_artifact",
         )
         output_artifact = _require_non_empty_string(
             entry.get("expected_output_artifact"),

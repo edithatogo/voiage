@@ -9,14 +9,16 @@ and if the GitHub Pages documentation is available.
 import requests
 
 
+
+
 def check_github_actions_status(owner, repo):
     """
     Check the status of GitHub Actions workflows for a repository.
-    
+
     Args:
         owner: Repository owner
         repo: Repository name
-    
+
     Returns
     -------
         dict: Workflow status information
@@ -28,7 +30,9 @@ def check_github_actions_status(owner, repo):
     response = requests.get(url)
 
     if response.status_code != 200:
-        print(f"Error: Could not fetch workflow runs. Status code: {response.status_code}")
+        print(
+            f"Error: Could not fetch workflow runs. Status code: {response.status_code}"
+        )
         return None
 
     workflow_runs = response.json()
@@ -49,10 +53,15 @@ def check_github_actions_status(owner, repo):
         print(f"URL: {latest_run['html_url']}")
 
         # Check if it was successful
-        if latest_run["status"] == "completed" and latest_run["conclusion"] == "success":
+        if (
+            latest_run["status"] == "completed"
+            and latest_run["conclusion"] == "success"
+        ):
             print("\n✅ Documentation workflow completed successfully!")
             return True
-        print(f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}")
+        print(
+            f"\n❌ Documentation workflow did not complete successfully. Last status: {latest_run['conclusion']}"
+        )
         return False
     print("No documentation deployment workflow found.")
     # Print all workflows to see what's available
@@ -63,14 +72,17 @@ def check_github_actions_status(owner, repo):
     print(f"Available workflows: {unique_workflows}")
     return None
 
+
+
+
 def check_github_pages(owner, repo):
     """
     Check if GitHub Pages is enabled and the documentation is available.
-    
+
     Args:
         owner: Repository owner
         repo: Repository name
-    
+
     Returns
     -------
         bool: True if GitHub Pages is accessible, False otherwise
@@ -91,9 +103,10 @@ def check_github_pages(owner, repo):
         print(f"   URL: {pages_url}")
         return False
 
+
 def main():
     print("Checking GitHub Actions workflow status for documentation deployment...")
-    print("="*60)
+    print("=" * 60)
 
     # Repository information
     owner = "edithatogo"
@@ -102,13 +115,13 @@ def main():
     # Check GitHub Actions workflow status
     workflow_status = check_github_actions_status(owner, repo)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Checking GitHub Pages accessibility...")
 
     # Check if GitHub Pages is accessible
     pages_accessible = check_github_pages(owner, repo)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("SUMMARY:")
     if workflow_status == True:
         print("✅ Documentation workflow has completed successfully")
@@ -128,6 +141,7 @@ def main():
     print("1. Making sure the docs.yml workflow file is properly configured")
     print("2. Ensuring there are no errors in the Sphinx documentation build")
     print("3. Confirming GitHub Pages is enabled in the repository settings")
+
 
 if __name__ == "__main__":
     main()
