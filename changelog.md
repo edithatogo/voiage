@@ -1,7 +1,5 @@
 # Changelog
 
-- Completed the shared code-scanning rollout by enforcing the pinned organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -10,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Completed the shared code-scanning rollout by enforcing the pinned
+  organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
 - Archived all completed Conductor track records under `conductor/archive/` and
   updated the regression tests and integration documentation to read those
   historical records from their canonical archived locations.
