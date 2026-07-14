@@ -234,11 +234,7 @@ def samplewise_profile_regret(
     values: np.ndarray, optimal_strategy_indices: np.ndarray
 ) -> np.ndarray:
     """Compute profile-by-profile samplewise regret."""
-    n_profiles = values.shape[2]
-    matrix = np.empty((n_profiles, n_profiles), dtype=DEFAULT_DTYPE)
     samplewise_max = np.max(values, axis=1)
-    for i in range(n_profiles):
-        for j in range(n_profiles):
-            chosen_values = values[:, optimal_strategy_indices[j], i]
-            matrix[i, j] = float(np.mean(samplewise_max[:, i] - chosen_values))
-    return matrix
+    return np.mean(
+        samplewise_max[:, None, :] - values[:, optimal_strategy_indices, :], axis=0
+    ).T.astype(DEFAULT_DTYPE)
