@@ -1,0 +1,25 @@
+python:
+  - 3.8.* *_cpython
+  - 3.9.* *_cpython
+  - 3.10.* *_cpython
+  - 3.11.* *_cpython
+
+numpy:
+  - 1.20
+  - 1.21
+  - 1.22
+  - 1.23
+
+scipy:
+  - 1.7
+  - 1.8
+  - 1.9
+  - 1.10
+
+pin_run_as_build:
+  numpy:
+    min_pin: x.x
+    max_pin: x.x
+  scipy:
+    min_pin: x.x
+    max_pin: x.x

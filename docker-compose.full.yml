@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  voiage-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - voiage-network
+
+  voiage-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./examples:/app/examples
+      - ./data:/app/data
+    networks:
+      - voiage-network
+
+  voiage-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile.cli
+    volumes:
+      - ./data:/app/data
+    networks:
+      - voiage-network
+
+networks:
+  voiage-network:
+    driver: bridge

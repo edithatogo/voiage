@@ -1,0 +1,143 @@
+---
+title: "Introduction to voiageR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to voiageR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# voiageR: Value of Information Analysis in R
+
+The `voiageR` package provides an R interface to the `voiage` Python library for Value of Information (VOI) analysis. This vignette demonstrates how to use the package to perform common VOI analyses.
+
+## Installation
+
+To use `voiageR`, you first need to install the Python `voiage` package:
+
+```bash
+pip install voiage
+```
+
+Then you can install `voiageR` from GitHub:
+
+```r
+# install.packages("devtools")
+devtools::install_github("doughnut/voiage/r-package/voiageR")
+```
+
+## Basic Usage
+
+### Calculating EVPI
+
+The Expected Value of Perfect Information (EVPI) represents the maximum amount a decision-maker should be willing to pay to eliminate all uncertainty in a decision model.
+
+```{r eval=FALSE}
+library(voiageR)
+
+# Create sample net benefit data
+# 1000 PSA samples, 2 strategies
+net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
+
+# Calculate EVPI
+evpi_value <- evpi(net_benefits)
+print(evpi_value)
+```
+
+You can also scale the EVPI to a population:
+
+```{r eval=FALSE}
+# Calculate population-level EVPI
+evpi_pop <- evpi(
+  net_benefits = net_benefits,
+  population = 100000,
+  time_horizon = 10,
+  discount_rate = 0.03
+)
+print(evpi_pop)
+```
+
+### Calculating EVPPI
+
+The Expected Value of Partial Perfect Information (EVPPI) quantifies the value of learning the true value of a specific subset of model parameters.
+
+```{r eval=FALSE}
+# Create parameter samples
+param_samples <- list(
+  param1 = rnorm(1000),
+  param2 = rnorm(1000)
+)
+
+# Calculate EVPPI
+evppi_value <- evppi(net_benefits, param_samples)
+print(evppi_value)
+```
+
+### Calculating EVSI
+
+The Expected Value of Sample Information (EVSI) estimates the value of conducting a specific study to reduce uncertainty.
+
+```{r eval=FALSE}
+# Define a simple model function
+model_func <- function(params) {
+  # Simple example - in practice, this would be a more complex economic model
+  nb_strategy1 <- params$param1
+  nb_strategy2 <- params$param2
+  return(cbind(nb_strategy1, nb_strategy2))
+}
+
+# Create prior samples
+prior_samples <- list(
+  param1 = rnorm(1000),
+  param2 = rnorm(1000)
+)
+
+# Define trial design
+trial_design <- list(
+  treatment = list(name = "Treatment", sample_size = 50),
+  control = list(name = "Control", sample_size = 50)
+)
+
+# Calculate EVSI
+evsi_value <- evsi(
+  model_func = model_func,
+  prior_samples = prior_samples,
+  trial_design = trial_design,
+  n_simulations = 100
+)
+print(evsi_value)
+```
+
+## Advanced Features
+
+### Using Different Python Environments
+
+If you have installed `voiage` in a specific Python environment, you can specify which environment to use:
+
+```{r eval=FALSE}
+# Use a virtual environment
+set_voiage_env("myenv", type = "virtualenv")
+
+# Use a conda environment
+set_voiage_env("myenv", type = "conda")
+```
+
+### Checking Package Availability
+
+You can check if the `voiage` Python package is available:
+
+```{r eval=FALSE}
+is_available <- is_voiage_available()
+print(is_available)
+```
+
+## Conclusion
+
+The `voiageR` package provides a seamless interface between R and the powerful `voiage` Python library for Value of Information analysis. This allows R users to leverage advanced VOI methods while working in their preferred environment.

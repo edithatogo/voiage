@@ -637,7 +637,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added regression coverage for callable import resolution and schema round-trips.
 
 ### Changed
-- Consolidated changes from `pleides/update`.
+- Updated dependency management with pip-tools
+- Improved code coverage reporting with Codecov
+- Enhanced CI/CD pipeline with additional checks
 
 ### Fixed
 - Hardened the Rust benchmark baselines so they no longer depend on timing assertions, versioned the Rust core `Cargo.lock` so locked CI builds work reliably, split the CI test stack into a lighter `ci` extra to avoid disk exhaustion, and improved the benchmark workflow to print captured Cargo output when a baseline fails in CI.

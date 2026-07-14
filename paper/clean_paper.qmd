@@ -1,0 +1,50 @@
+---
+title: "voiage: A Python Library for Value of Information Analysis"
+shorttitle: "voiage: Value of Information Analysis in Python"
+author:
+  - name: Dylan A Mordaunt
+    affiliation: 
+    - Faculty of Health, Victoria University of Wellington
+    orcid: 0000-0000-0000-0000
+    email: dylan.mordaunt@vuw.ac.nz
+  - name: Additional Collaborators
+    affiliation: 
+    - Various institutions
+    orcid: 0000-0000-0000-0000
+    email: contact@example.com
+date: "`r Sys.Date()`"
+abstract: |
+  Value of Information (VOI) analysis provides methods for estimating the value of collecting additional data to reduce uncertainty in decision-making. Several tools for VOI analysis exist, but there are notable gaps in the Python ecosystem. The voiage library addresses these gaps by providing a comprehensive library for VOI analyses in Python. This paper introduces the voiage library, demonstrating its capabilities with health economic examples relevant to Australia and New Zealand. The library implements core VOI methods including Expected Value of Perfect Information (EVPI), Expected Value of Partial Perfect Information (EVPPI), Expected Value of Sample Information (EVSI), and Expected Net Benefit of Sampling (ENBS), along with advanced techniques such as structural uncertainty VOI, network meta-analysis VOI, adaptive design VOI, portfolio optimization, and value of heterogeneity. The development of voiage was motivated by practical challenges encountered in health economic analyses, including value of information studies and microcosting analyses. The library was designed for Python implementation with computational efficiency and integration with analytical workflows. We demonstrate the application of voiage using health economic decision problems from Australia and New Zealand, showing its utility in supporting healthcare decision-making by quantifying the potential value of future research.
+keywords: 
+  - value of information
+  - decision analysis
+  - health economics
+  - uncertainty quantification
+  - bayesian analysis
+  - cost-effectiveness
+preamble: |
+  \usepackage{jss}
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+bibliography: references_corrected.bib
+---
+
+# Introduction
+
+Value of Information (VOI) analysis is a component of health economic evaluation that quantifies the potential benefit of collecting additional data to reduce uncertainty in decision-making. In healthcare contexts, where decisions involve financial investments and impact population health outcomes, understanding the value of future research investments is important for resource allocation. VOI methods provide a framework to estimate the expected value of eliminating uncertainty about model parameters, helping decision-makers prioritize research investments and optimize study designs.
+
+The importance of VOI analysis in healthcare decision-making has grown over the past two decades, particularly as health technology assessment agencies worldwide have recognized its value for research prioritization. Organizations such as the National Institute for Health and Care Excellence (NICE) in the UK, the Medical Services Advisory Committee (MSAC) in Australia, and Pharmac in New Zealand have begun to incorporate VOI analysis into their health technology assessment frameworks to guide research investments.
+
+The Python ecosystem has lacked a toolkit for conducting value of information analyses. Most existing tools are written in R (such as BCEA, dampack, and voi), proprietary commercial software, or are fragmented across multiple packages with limited functionality. This gap has limited the adoption of VOI methods in Python-based health economic modeling workflows.
+
+The voiage library addresses these limitations by providing an open-source toolkit for VOI analyses in Python. The library implements core VOI methods including Expected Value of Perfect Information (EVPI), Expected Value of Partial Perfect Information (EVPPI), Expected Value of Sample Information (EVSI), and Expected Net Benefit of Sampling (ENBS), along with advanced techniques such as structural uncertainty VOI, network meta-analysis VOI, adaptive design VOI, portfolio optimization, and value of heterogeneity analysis.
+
+Our motivation for developing voiage stems from practical challenges encountered in health economic analyses. In our work on value of information studies and microcosting analyses, we found it necessary to manually implement complex VOI formulae, which was time-consuming and error-prone. Additionally, we were working on a New Zealand-based study exploring perspective uncertainty (i.e., the difference between ICERs from different analytical perspectives), which required a standardized approach to VOI analysis.
+
+Since our primary workflow was in Python, the existing R-based tools were not practically useful for our research pipeline. Furthermore, we found that VOI methods were not being used as extensively as they could be, likely due to limited accessibility of the tools and challenges in integrating them with other analytical tools.
+
+The need for better computational performance also motivated our work. Full Bayesian modeling approaches proved computationally intensive, leading us to leverage libraries that could efficiently utilize hardware accelerators. This approach allows for faster computations, especially important when working with large datasets.
+
+This paper introduces the voiage library, illustrating its core capabilities with health economic examples relevant to Australia and New Zealand. We begin with background on VOI methods and their applications in healthcare decision-making, then describe the architecture and implementation of the voiage library. We illustrate its capabilities with examples from Australian and New Zealand healthcare contexts, and conclude with limitations and future directions for the library.
+
+[Rest of the paper content...]

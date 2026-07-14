@@ -1,0 +1,28 @@
+---
+title: "Test Document for JSS Format"
+author:
+  - name: Test Author
+    affiliation: Test Institution
+date: "`r Sys.Date()`"
+abstract: |
+  This is a test document to verify that the JSS format works correctly.
+preamble: |
+  \usepackage{jss}
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+bibliography: references_corrected.bib
+---
+
+# Introduction
+
+This is a test document to verify that the JSS format works correctly.
+
+## Mathematical Notation
+
+Value of Information (VOI) analysis provides methods for estimating the value of collecting additional data to reduce uncertainty in decision-making [@mordaunt2025voiage].
+
+Expected Value of Perfect Information (EVPI) is calculated as:
+
+$$\text{EVPI} = \mathbb{E}_\theta\left[\max_d \text{NB}(d, \theta)\right] - \max_d \mathbb{E}_\theta\left[\text{NB}(d, \theta)\right]$$
+
+where $\text{NB}(d, \theta)$ is the net benefit of strategy $d$ given parameters $\theta$, and $\mathbb{E}_\theta$ denotes expectation over the parameter uncertainty distribution.

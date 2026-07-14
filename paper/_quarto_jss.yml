@@ -1,0 +1,43 @@
+project:
+  type: manuscript
+  output-dir: jss_output
+  article: paper.qmd
+
+format:
+  pdf:
+    documentclass: jss
+    classoption: article
+    template: jss-latex
+    engine: pdflatex
+    cite-method: biblatex
+    biblatex-chunk-size: 2000
+    biblatex: true
+    biblio-style: jss
+    link-citations: true
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+        \usepackage{booktabs}
+        \usepackage{longtable}
+        \usepackage{array}
+        \usepackage{multirow}
+        \usepackage{wrapfig}
+        \usepackage{float}
+        \usepackage{colortbl}
+        \usepackage{pdflscape}
+        \usepackage{tabu}
+        \usepackage{threeparttable}
+        \usepackage{threeparttablex}
+        \usepackage[normalem]{ulem}
+        \usepackage{makecell}
+        \usepackage{xcolor}
+
+manuscript:
+  format: jss
+  author-running: Mordaunt et al.
+  title-running: "voiage: A Python Library for Value of Information Analysis"
+
+execute:
+  freeze: auto
