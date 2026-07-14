@@ -11,6 +11,45 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Restore OpenSSF Scorecard publication after the shared scanning rollout.
+    *   Isolated the custom blocking-alert gate in a dependent least-privilege
+        job that does not violate Scorecard workflow restrictions.
+
+*   [x] Remove the runtime-only `ValueArray` import from the basic VOI methods.
+    *   Moved the annotation dependency behind `TYPE_CHECKING` and retained the
+        existing public type contract without runtime import overhead.
+
+*   [x] Archive completed Conductor track records and repair their regression
+    test and documentation references.
+    *   Moved all completed registered tracks from `conductor/tracks/` to
+        `conductor/archive/`, updated the registry/index links, and verified
+        the archived evidence and status tests.
+
+*   [x] Remediate the current lockfile dependency advisories.
+    *   Updated the Python lockfile through the patched Jupyter Server,
+        JupyterLab, mistune, soupsieve, bleach, tornado, idna, urllib3, and
+        pytest releases; upgraded Astro/Starlight within a compatible major
+        line; pinned the transitive esbuild resolution to a patched release;
+        and updated the Starlight configuration for the current APIs.
+    *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
+        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        dependency environments, coverage, docs, type, contract, and harness
+        gates.
+
+*   [x] Set up maximal repository harness engineering and GitHub security and
+    quality controls.
+    *   Added the fail-closed workflow/governance harness and tox gate,
+        immutable action pins, least-privilege permissions, CodeQL gate repair,
+        dependency review, OpenSSF Scorecard, Zizmor auditing, Dependabot, and
+        release provenance attestation.
+    *   Applied repository merge/signoff settings and the active
+        `main-maximal-quality` GitHub ruleset requiring pull requests,
+        signed commits, linear history, resolved review threads, and required
+        CI, dependency-review, and CodeQL checks. The review count is zero for
+        the repository's single-maintainer operating model.
+    *   Kept organization-owned policy, environment approvals, and unavailable
+        plan-dependent secret-scanning enhancements explicitly external.
+
 *   [x] Remove tracked generated artifacts and reconcile roadmap status labels.
     *   Removed committed pytest temp output, coverage reports, macOS metadata,
         legacy egg-info generated artifacts, and R CMD check output from

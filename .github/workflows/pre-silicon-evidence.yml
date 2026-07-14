@@ -19,10 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: "3.11"
 
@@ -35,7 +37,7 @@ jobs:
           python -m json.tool pre-silicon-evidence/asic/pre_silicon_evidence_manifest.json >/dev/null
 
       - name: Upload probe manifests
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pre-silicon-probe-manifests
           path: pre-silicon-evidence/
@@ -46,10 +48,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
 
       - name: Set up OSS CAD Suite
-        uses: YosysHQ/setup-oss-cad-suite@v4
+        uses: YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,7 +63,7 @@ jobs:
             --output-root pre-silicon-evidence/fpga
 
       - name: Upload FPGA evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: fpga-pre-silicon-evidence
           path: pre-silicon-evidence/fpga/
@@ -70,7 +74,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
 
       - name: Probe OpenLane container availability
         run: |
@@ -83,7 +89,7 @@ jobs:
             --output-root pre-silicon-evidence/asic
 
       - name: Upload ASIC evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: asic-pre-silicon-evidence
           path: pre-silicon-evidence/asic/

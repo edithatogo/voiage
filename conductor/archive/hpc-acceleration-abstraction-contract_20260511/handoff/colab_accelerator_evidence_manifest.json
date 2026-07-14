@@ -9,7 +9,7 @@
   "runtime_evidence": {
     "gpu": {
       "runtime_label": "T4 (Python 3)",
-      "artifact_path": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json",
+      "artifact_path": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json",
       "status": "passed",
       "notes": [
         "First run hit a NumPy ABI mismatch after the install cell modified packages inside the active kernel.",
@@ -18,7 +18,7 @@
     },
     "tpu": {
       "runtime_label": "v5e1 (Python 3)",
-      "artifact_path": "conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json",
+      "artifact_path": "conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json",
       "status": "passed",
       "notes": [
         "First run hit the same NumPy ABI mismatch after the install cell modified packages inside the active kernel.",

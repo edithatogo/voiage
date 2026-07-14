@@ -13,7 +13,7 @@ jobs:
     name: TagBot
     runs-on: ubuntu-latest
     steps:
-      - uses: JuliaRegistries/TagBot@v1
+      - uses: JuliaRegistries/TagBot@e4c81aa138ef4179bddea165bb4a9680c223aca4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}

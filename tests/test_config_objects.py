@@ -402,6 +402,8 @@ def test_create_environmental_config() -> None:
     assert config.water_cost == 0.002
     assert config.biodiversity_impact_factor == 0.01
     assert config.social_cost_of_carbon == 50
+
+
 def test_create_healthcare_config() -> None:
     """Test create_healthcare_config factory function."""
     config = create_healthcare_config()
