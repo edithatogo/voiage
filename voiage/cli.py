@@ -11,7 +11,7 @@ It uses Typer for command-line argument parsing.
 # Typer argument declarations intentionally call helper constructors in defaults.
 # ruff: noqa: B008, TRY301
 
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable
 import csv
 import io
 import json
@@ -77,7 +77,7 @@ from voiage.methods.threshold import (
     ThresholdResult,
 )
 from voiage.methods.threshold import (
-    value_of_threshold_information as calculate_threshold_result,
+    value_of_threshold as calculate_threshold_result,
 )
 from voiage.methods.validation import (
     ModelValidationResult,
@@ -2114,7 +2114,7 @@ def calculate_sequential_voi(
         if "time_steps" not in dynamic_spec_obj:
             raise TypeError("Dynamic spec file must contain 'time_steps'.")
 
-        time_steps = cast("Sequence[float]", dynamic_spec_obj["time_steps"])
+        time_steps = cast("list[float]", dynamic_spec_obj["time_steps"])
         dynamic_spec = DynamicSpec(time_steps=time_steps)
         result = sequential_voi(
             step_model=_sequential_passthrough_step_model,
@@ -2699,7 +2699,7 @@ def calculate_perspective(
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),
@@ -2788,6 +2788,7 @@ def calculate_preference(
         from voiage.methods.preference import (
             value_of_preference as calculate_preference_result,
         )
+
         result = calculate_preference_result(
             value_array,
             preference_profiles=profiles,
@@ -3276,7 +3277,7 @@ def plot_perspective_regret(
             strategy_names=strategy_names,
             perspective_names=perspective_names,
             perspective_weights=cast(
-                "Sequence[float] | dict[str, float] | None",
+                "list[float] | dict[str, float] | None",
                 perspective_weights,
             ),
             reference_perspective=cast("str | int | None", reference_perspective),

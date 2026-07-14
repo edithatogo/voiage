@@ -14,9 +14,13 @@ export default defineConfig({
         "Cross-domain Value of Information (VOI) analysis library for Python, R, Julia, TypeScript, Go, Rust, and .NET",
       favicon: "/favicon.ico",
 
-      social: {
-        github: "https://github.com/edithatogo/voiage",
-      },
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/edithatogo/voiage",
+        },
+      ],
 
       editLink: {
         baseUrl:
@@ -40,11 +44,11 @@ export default defineConfig({
         },
         {
           label: "User Guide",
-          autogenerate: { directory: "user-guide" },
+          items: [{ autogenerate: { directory: "user-guide" } }],
         },
         {
           label: "VOI Methods",
-          autogenerate: { directory: "methods" },
+          items: [{ autogenerate: { directory: "methods" } }],
         },
         {
           label: "Cross-Domain Usage",
@@ -52,15 +56,15 @@ export default defineConfig({
         },
         {
           label: "API Reference",
-          autogenerate: { directory: "api-reference" },
+          items: [{ autogenerate: { directory: "api-reference" } }],
         },
         {
           label: "Examples",
-          autogenerate: { directory: "examples" },
+          items: [{ autogenerate: { directory: "examples" } }],
         },
         {
           label: "Developer Guide",
-          autogenerate: { directory: "developer-guide" },
+          items: [{ autogenerate: { directory: "developer-guide" } }],
         },
         {
           label: "CLI Reference",

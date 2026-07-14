@@ -239,8 +239,8 @@ optimized_array = optimizer.optimize_array_dtype(large_net_benefits)
 
 # Use chunked computation
 chunked_results = optimizer.chunked_computation(
-    your_function, 
-    large_data, 
+    your_function,
+    large_data,
     chunk_size=10000
 )
 ```
