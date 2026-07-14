@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 
 import numpy as np
 import pytest
@@ -71,11 +72,21 @@ def test_validate_fixture_manifest_accepts_minimal_v1_manifest(
 
     input_artifact = fixture_root / "normative" / "inputs" / "input.json"
     input_artifact.parent.mkdir(parents=True)
-    input_artifact.write_text("{}", encoding="utf-8")
+    input_artifact.write_text(
+        Path(
+            "specs/core-api/fixtures/v1/normative/inputs/screening-program-001.json"
+        ).read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
 
     artifact = fixture_root / "normative" / "result.json"
     artifact.parent.mkdir(parents=True, exist_ok=True)
-    artifact.write_text("{}", encoding="utf-8")
+    artifact.write_text(
+        Path("specs/core-api/fixtures/v1/normative/evpi.json").read_text(
+            encoding="utf-8"
+        ),
+        encoding="utf-8",
+    )
 
     manifest = {
         "version": "v1",
@@ -98,6 +109,28 @@ def test_validate_fixture_manifest_accepts_minimal_v1_manifest(
     monkeypatch.setattr(validator, "FIXTURE_MANIFEST", manifest_path)
 
     validator._validate_fixture_manifest(manifest_path)
+
+
+def test_validate_scalar_enforces_enum_and_maximum() -> None:
+    schema = {"type": "string", "enum": ["alpha", "beta"]}
+    validator._validate_scalar("alpha", schema, "$.field")
+
+    with pytest.raises(validator.ValidationError, match="enum"):
+        validator._validate_scalar("gamma", schema, "$.field")
+
+    numeric_schema = {"type": "number", "maximum": 1.0}
+    validator._validate_scalar(1.0, numeric_schema, "$.value")
+
+    with pytest.raises(validator.ValidationError, match="maximum"):
+        validator._validate_scalar(1.1, numeric_schema, "$.value")
+
+
+def test_load_fixture_manifest_rejects_non_object(tmp_path: Path) -> None:
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text("[]", encoding="utf-8")
+
+    with pytest.raises(validator.ValidationError, match="manifest must be an object"):
+        validator.load_fixture_manifest(manifest_path)
 
 
 @pytest.mark.parametrize(
@@ -213,6 +246,50 @@ def test_validate_fixture_manifest_rejects_invalid_entries(
         validator._validate_fixture_manifest(manifest_path)
 
 
+def test_validate_fixture_manifest_rejects_invalid_output_payload(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fixture_root = tmp_path / "fixtures" / "v1"
+    fixture_root.mkdir(parents=True)
+
+    input_artifact = fixture_root / "normative" / "inputs" / "input.json"
+    input_artifact.parent.mkdir(parents=True)
+    input_artifact.write_text("{}", encoding="utf-8")
+
+    output_artifact = fixture_root / "normative" / "result.json"
+    output_artifact.parent.mkdir(parents=True, exist_ok=True)
+    output_artifact.write_text(
+        json.dumps(
+            {"analysis_id": "analysis-001", "analysis_type": "evpi", "evpi": 1.0}
+        ),
+        encoding="utf-8",
+    )
+
+    manifest = {
+        "version": "v1",
+        "normative": [
+            {
+                "name": "invalid output",
+                "method_family": "evpi",
+                "input_artifact": "normative/inputs/input.json",
+                "expected_output_artifact": "normative/result.json",
+                "tolerance_policy": "exact",
+                "provenance": {"seed": 101, "execution_mode": "deterministic"},
+            }
+        ],
+        "illustrative": [],
+    }
+    manifest_path = fixture_root / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    monkeypatch.setattr(validator, "FIXTURE_ROOT", fixture_root)
+    monkeypatch.setattr(validator, "FIXTURE_MANIFEST", manifest_path)
+
+    with pytest.raises(validator.ValidationError, match="decision_problem_id"):
+        validator._validate_fixture_manifest(manifest_path)
+
+
 def test_iter_fixture_cases_exposes_normative_input_output_pairs() -> None:
     cases = validator.iter_fixture_cases()
     assert [case.method_family for case in cases] == [
@@ -242,6 +319,73 @@ def test_iter_fixture_cases_exposes_normative_input_output_pairs() -> None:
             == "screening-trial-design-001"
         )
         assert output_payload["analysis_type"] == case.method_family
+
+
+def test_iter_fixture_cases_exposes_illustrative_output_only_pairs() -> None:
+    cases = validator.iter_fixture_cases("illustrative")
+
+    assert [case.method_family for case in cases] == [
+        "evpi",
+        "evppi",
+        "evsi",
+        "enbs",
+        "ceac",
+    ]
+    assert all(case.input_artifact is None for case in cases)
+    assert all(case.tolerance_policy == "exact" for case in cases)
+
+
+def test_load_fixture_payload_reads_json_artifacts_by_suffix(
+    tmp_path: Path,
+) -> None:
+    payload_path = tmp_path / "fixture.json"
+    payload_path.write_text(json.dumps({"hello": "world"}), encoding="utf-8")
+
+    assert validator.load_fixture_payload(payload_path) == {"hello": "world"}
+
+
+@pytest.mark.parametrize(
+    ("suffix", "helper_name"),
+    [
+        (".parquet", "_load_parquet_payload"),
+        (".arrow", "_load_arrow_payload"),
+    ],
+)
+def test_load_fixture_payload_dispatches_arrow_style_suffixes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    suffix: str,
+    helper_name: str,
+) -> None:
+    payload_path = tmp_path / f"fixture{suffix}"
+    payload_path.write_text("placeholder", encoding="utf-8")
+    sentinel = {"suffix": suffix}
+
+    monkeypatch.setattr(validator, helper_name, lambda path: sentinel)
+
+    assert validator.load_fixture_payload(payload_path) == sentinel
+
+
+def test_load_fixture_payload_rejects_unsupported_suffix(
+    tmp_path: Path,
+) -> None:
+    payload_path = tmp_path / "fixture.yaml"
+    payload_path.write_text("hello: world", encoding="utf-8")
+
+    with pytest.raises(validator.ValidationError, match="Unsupported fixture"):
+        validator.load_fixture_payload(payload_path)
+
+
+def test_load_fixture_payload_reports_missing_optional_backend(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    payload_path = tmp_path / "fixture.parquet"
+    payload_path.write_text("placeholder", encoding="utf-8")
+    monkeypatch.setitem(sys.modules, "pyarrow", None)
+
+    with pytest.raises(validator.ValidationError, match="pyarrow"):
+        validator.load_fixture_payload(payload_path)
 
 
 def test_core_api_fixture_bundle_drives_population_scaled_analysis_paths() -> None:
@@ -401,6 +545,55 @@ def test_resolve_fixture_artifact_rejects_path_escape(
 
     with pytest.raises(validator.ValidationError, match="escapes"):
         validator._resolve_fixture_artifact("../escape.json")
+
+
+def test_validate_fixture_catalog_layout_skips_payload_loading(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fixture_root = tmp_path / "fixtures" / "v1"
+    (fixture_root / "normative" / "inputs").mkdir(parents=True)
+    (fixture_root / "illustrative").mkdir(parents=True)
+
+    (fixture_root / "normative" / "inputs" / "input.json").write_text(
+        "{}", encoding="utf-8"
+    )
+    (fixture_root / "normative" / "result.json").write_text("{}", encoding="utf-8")
+    (fixture_root / "illustrative" / "result.json").write_text("{}", encoding="utf-8")
+
+    manifest = {
+        "version": "v1",
+        "normative": [
+            {
+                "name": "layout normative case",
+                "method_family": "evpi",
+                "input_artifact": "normative/inputs/input.json",
+                "expected_output_artifact": "normative/result.json",
+                "tolerance_policy": "exact",
+                "provenance": {"seed": 1, "execution_mode": "deterministic"},
+            }
+        ],
+        "illustrative": [
+            {
+                "name": "layout illustrative case",
+                "method_family": "evpi",
+                "expected_output_artifact": "illustrative/result.json",
+                "tolerance_policy": "exact",
+            }
+        ],
+    }
+    manifest_path = fixture_root / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    monkeypatch.setattr(validator, "FIXTURE_ROOT", fixture_root)
+    monkeypatch.setattr(validator, "FIXTURE_MANIFEST", manifest_path)
+    monkeypatch.setattr(
+        validator,
+        "load_fixture_payload",
+        lambda path: pytest.fail(f"load_fixture_payload should not be called: {path}"),
+    )
+
+    validator.validate_fixture_catalog_layout(manifest_path)
 
 
 @pytest.mark.parametrize(("schema_relpath", "example_relpath"), CORE_API_CONTRACT_PAIRS)

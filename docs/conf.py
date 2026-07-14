@@ -3,12 +3,21 @@
 """
 Configuration file for the Sphinx documentation builder.
 
-This file is execfile()d with the current directory set to its containing dir.
+⚠️  DEPRECATION NOTICE ⚠️
+
+Sphinx-based documentation has been replaced by Starlight (Astro/MDX).
+
+The official documentation site is now built from docs/astro-site/ using
+@astrojs/starlight with starlight-polyglot for auto-generated API references.
+
+This Sphinx configuration is retained as a backup only. All new documentation
+content must be authored as MDX files in docs/astro-site/src/content/docs/.
+
+Sphinx build support may be removed in a future release.
 """
 
 import os
 import sys
-from typing import Dict
 
 # -- Path setup --------------------------------------------------------------
 sys.path.insert(0, os.path.abspath(".."))  # To find the voiage package
@@ -83,6 +92,8 @@ intersphinx_mapping = {
     "pymc": ("https://www.pymc.io/projects/docs/en/stable/", None),
     # 'jax': ('https://jax.readthedocs.io/en/latest/', None), # If JAX docs are Sphinx
 }
+intersphinx_timeout = 5
+suppress_warnings = ["intersphinx.inventory"]
 
 templates_path = ["_templates"]  # Directory for custom templates
 source_suffix = ".rst"  # Default source file type (.md also possible with myst_parser)
@@ -123,7 +134,7 @@ htmlhelp_basename = "voiagedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # 'papersize': 'letterpaper',
     # 'pointsize': '10pt',
     # 'preamble': '',
@@ -166,18 +177,7 @@ epub_exclude_files = ["search.html"]
 #     '.md': 'markdown',
 # }
 
-# This function can be used to dynamically skip members during autodoc
-# def autodoc_skip_member(app, what, name, obj, skip, options):
-#     # Example: skip private members not starting with an underscore (if any)
-#     # if what == "method" and not name.startswith("_") and name.startswith("__"):
-#     #     return True
-#     return skip
-
-# def setup(app):
-#     app.connect("autodoc-skip-member", autodoc_skip_member)
-
 # Add path for custom Sphinx extensions if any
 # sys.path.append(os.path.abspath('_extensions'))
 # extensions.append('my_custom_extension')
-
 print("Sphinx conf.py loaded.")

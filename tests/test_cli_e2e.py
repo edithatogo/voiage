@@ -38,7 +38,7 @@ def _write_perspective_surface(path: Path) -> None:
     path.write_text(
         json.dumps(
             {
-                "analysis_id": "preference-screening-001",
+                "analysis_id": "perspective-screening-001",
                 "decision_problem_id": "screening-program-001",
                 "net_benefit": [
                     [[10.0, 7.0], [8.0, 11.0], [5.0, 9.0]],
@@ -607,7 +607,15 @@ def test_cli_result_commands_e2e(
     result = runner.invoke(cli.app, args)
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
-    assert payload["command"] == command_name
+    if setup == "perspective":
+        assert payload["analysis_id"] == "perspective-screening-001"
+        assert payload["decision_problem_id"] == "screening-program-001"
+        assert payload["analysis_type"] == "value_of_perspective"
+        assert payload["method_maturity"] == "fixture-backed"
+        assert payload["consensus_strategy"] == "B"
+        assert payload["robust_strategy"] == "B"
+    else:
+        assert payload["command"] == command_name
     if setup in {"calibration", "observational"}:
         assert payload["reporting"]["reporting_standard"] == "CHEERS-VOI"
         assert payload["reporting"]["analysis_type"] == command_name

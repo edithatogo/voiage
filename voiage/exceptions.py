@@ -121,16 +121,6 @@ class MetamodelFitError(MetamodelError):
     pass
 
 
-# Example usage:
-# if not isinstance(param, expected_type):
-#     raise InputError(f"Parameter '{param_name}' must be of type {expected_type}.")
-#
-# try:
-#     # some calculation
-# except SomeUnderlyingLibError as e:
-#     raise CalculationError("Underlying library failed during calculation.") from e
-
-
 class VoiageNotImplementedError(VoiageError, NotImplementedError):
     """Raised when a feature or method is not yet implemented."""
 

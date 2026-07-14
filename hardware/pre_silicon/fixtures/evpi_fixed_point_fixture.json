@@ -1,0 +1,31 @@
+{
+  "kernel": "evpi_fixed_point",
+  "scale": 1000,
+  "description": "Fixed-point EVPI-style cases using expected-with-information minus expected-without-information, floored at zero.",
+  "cases": [
+    {
+      "name": "positive_information_value",
+      "expected_with_information": 1250,
+      "expected_without_information": 1000,
+      "expected_evpi": 250
+    },
+    {
+      "name": "zero_floor",
+      "expected_with_information": 900,
+      "expected_without_information": 1000,
+      "expected_evpi": 0
+    },
+    {
+      "name": "exact_balance",
+      "expected_with_information": 1000,
+      "expected_without_information": 1000,
+      "expected_evpi": 0
+    },
+    {
+      "name": "larger_dense_case",
+      "expected_with_information": 8745,
+      "expected_without_information": 6120,
+      "expected_evpi": 2625
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+---
+title: Welcome to voiage
+description: Cross-domain Value of Information analysis library
+template: splash
+hero:
+  title: "voiage"
+  tagline: "Cross-domain Value of Information analysis for health economics, finance, engineering, and public policy"
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      variant: primary
+    - text: Introduction
+      link: /introduction/
+    - text: GitHub
+      link: https://github.com/edithatogo/voiage
+---
+
+import { CardGrid, Card } from "@astrojs/starlight/components";
+
+voiage is a comprehensive, cross-domain **Value of Information (VOI) analysis** library built with a Rust execution core and Python as the reference façade, with thin bindings for R, Julia, TypeScript, Go, and .NET.
+
+VOI methods help quantify the economic value of acquiring additional information to reduce uncertainty in decision-making, particularly in fields like health economics, risk analysis, and decision sciences.
+
+## Core VOI Metrics
+
+<CardGrid>
+  <Card title="EVPI" icon="pulse">
+    Expected Value of Perfect Information — the maximum amount one should be willing to pay to eliminate all uncertainty.
+  </Card>
+  <Card title="EVPPI" icon="pulse">
+    Expected Value of Partial Perfect Information — identifies key drivers of decision uncertainty by subset of parameters.
+  </Card>
+  <Card title="EVSI" icon="pulse">
+    Expected Value of Sample Information — the expected benefit of collecting new data through a specific study design.
+  </Card>
+  <Card title="ENBS" icon="pulse">
+    Expected Net Benefit of Sampling — EVSI minus research cost, indicating whether research is economically worthwhile.
+  </Card>
+</CardGrid>
+
+## Advanced Methods
+
+- **Structural VOI** — value of reducing uncertainty about model structure
+- **Network Meta-Analysis VOI** — multi-treatment comparison through evidence networks
+- **Adaptive Trial EVSI** — value of adaptive study designs
+- **Portfolio VOI** — optimal allocation across a research portfolio
+- **Sequential VOI** — value of sequential decision-making
+- **Value of Heterogeneity** — estimating returns to individualized care
+- **Calibration VOI** — value of model calibration studies
+- **Observational VOI** — value of observational data collection
+
+## Why voiage?
+
+- **Comprehensive coverage** — from basic EVPI to frontier methods like distributional/equity VOI and dynamic real-options
+- **Polyglot by design** — Python reference API with thin bindings for R, Julia, TypeScript, Go, Rust, and .NET
+- **High performance** — Rust execution core with JAX acceleration and optional GPU/TPU backends
+- **Contract-first** — documented schemas, deterministic fixtures, and conformance tests across languages
+- **Modern Python** — leverages NumPy, SciPy, pandas, xarray, and NumPyro
+
+## Target Audience
+
+- Health economists and HTA practitioners
+- Decision analysts and operations researchers
+- Clinical trial designers and Bayesian statisticians
+- Researchers in environmental, financial, and engineering domains
+- Students learning VOI methods
+
+## Quick Links
+
+- [GitHub Repository](https://github.com/edithatogo/voiage)
+- [Getting Started Guide](/getting-started/)
+- [API Reference](/api-reference/)
+- [Contributing Guide](/contributing/)

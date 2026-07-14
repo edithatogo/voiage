@@ -1,0 +1,32 @@
+---
+title: HPC Native Roadmap
+description: Native HPC acceleration roadmap
+---
+
+This roadmap turns the current HPC-friendly posture into a staged path toward an HPC-native claim. The repository should not treat HPC-native as a current status—it is an evidence-backed endpoint requiring progressive accelerator work and benchmark proof.
+
+## Roadmap sequence
+
+1. **Integrated GPU optimization on Apple Silicon** — Metal-backed acceleration, CPU fallback contract stability, representative workloads and repeatable benchmark gains
+2. **Discrete GPU acceleration** — expand after Metal path is measured and contract-safe; use shared abstraction contract
+3. **TPU implementation** — reuse JAX-oriented path; require proof that device transfer overhead is worthwhile
+4. **FPGA implementation** — define toolchain and kernel shape before implementation widens
+5. **ASIC/custom-circuit implementation** — last-stage execution lane; require strong workload regularity evidence
+
+## Current evidence status
+
+- **Discrete GPU**: implementation lane defined
+- **TPU**: implementation lane through JAX-oriented backend, comparison evidence pending
+- **FPGA**: implementation lane with adapter placeholders, real runtime pending
+- **ASIC/custom-circuit**: deployment assumptions defined, comparison evidence pending
+
+## Contract rules
+
+- CPU behavior stays the reference path until an accelerator proves itself
+- The public result envelope must not change just because a new backend is introduced
+- Benchmark evidence, reproducibility, and deployment realism come before any HPC-native claim
+- Apple integrated GPUs are the first accelerator target for lower-risk validation of backend plumbing
+
+## Registry-readiness tracks
+
+The HPC registry path is coordinated separately: `hpc-registry-readiness`, `spack-registry-readiness`, `easybuild-registry-readiness`, `hpsf-curation-readiness`, and `e4s-curation-readiness`.

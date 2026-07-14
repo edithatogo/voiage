@@ -1,0 +1,8 @@
+{
+  "track_id": "core-api-spec-and-polyglot-contracts_20260510",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-05-10T13:56:06Z",
+  "updated_at": "2026-05-10T14:12:14Z",
+  "description": "Finish the remaining core API specification, canonical contract fixtures, and polyglot-ready binding boundaries."
+}

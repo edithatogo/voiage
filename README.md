@@ -108,7 +108,7 @@ The main user and developer references are:
 
 The academic paper describing the `voiage` library is maintained in the `paper` branch of this repository. For detailed methodological information, mathematical foundations, and comprehensive validation, please refer to:
 
-- Paper source files in the `paper` branch 
+- Paper source files in the `paper` branch
 - Published version in the Journal of Statistical Software (forthcoming)
 
 ## Installation
@@ -170,40 +170,40 @@ print(f"EVPI: {analysis.evpi():.3f}")
 voiage calculate-evpi net_benefits.csv --population 100000 --time-horizon 10 --discount-rate 0.03
 
 # Calculate EVPI and save to file
-voiage calculate-evpi example_net_benefits.csv --output evpi_result.txt
+voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv --output evpi_result.txt
 
 # Calculate EVPPI for specific parameters
-voiage calculate-evppi example_net_benefits.csv example_parameters.csv --population 100000
+voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv --population 100000
 
 # Full EVPPI analysis with all options
-voiage calculate-evppi example_net_benefits.csv example_parameters.csv \
+voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv \
     --population 100000 --time-horizon 15 --discount-rate 0.035 --output results.txt
 ```
 
 ### Example Data Format
 
-**Net Benefits CSV** (`example_net_benefits.csv`):
+**Net Benefits CSV** (`examples/cli_samples/evpi_net_benefit.csv`):
 ```csv
-Standard_Care,Treatment_A,Treatment_B
-95.23,108.45,102.67
-87.91,115.23,98.34
-...
+standard care,new treatment
+20000,25000
+21000,24800
+20500,25250
 ```
 
-**Parameters CSV** (`example_parameters.csv`):
+**Parameters CSV** (`examples/cli_samples/evppi_parameters.csv`):
 ```csv
-effectiveness,cost_multiplier
-0.234,1.123
-0.187,0.987
-...
+treatment_effect,cost_shift
+0.1,-0.2
+0.4,0.0
+0.9,0.2
 ```
 
 ### Sample CLI Output
 ```bash
-$ voiage calculate-evpi example_net_benefits.csv
+$ voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv
 EVPI: 5.457500
 
-$ voiage calculate-evppi example_net_benefits.csv example_parameters.csv
+$ voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv
 EVPPI: 0.020708
 ```
 

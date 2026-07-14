@@ -1,63 +1,79 @@
 # voiage - Product Definition
 
 ## Vision
-To be the premier, cross-domain, high-performance Python library for Value of Information (VOI) analysis, empowering researchers and decision-makers across healthcare, finance, environmental policy, and beyond.
+
+`voiage` aims to be the premier cross-domain, high-performance Value of
+Information (VOI) library for researchers and decision-makers across health
+economics, clinical research, finance, environmental policy, engineering, and
+adjacent uncertainty-analysis domains.
 
 ## Mission
-Fill the critical gap in the Python ecosystem by providing a comprehensive, open-source VOI analysis toolkit that matches or exceeds the capabilities of commercial tools and R packages.
+
+Provide a comprehensive, open-source VOI analysis toolkit that is rigorous,
+reproducible, contract-first, and usable from Python while keeping the path open
+for stable polyglot bindings and native execution-core expansion.
 
 ## Target Users
-- **Health Economists & HTA Agencies**: Researchers performing cost-effectiveness analysis for health technology assessment
-- **Clinical Researchers**: Designing adaptive trials and optimizing sample sizes
-- **Policy Analystysts**: Evaluating the value of reducing uncertainty in environmental and public policy decisions
-- **Financial Analystysts**: Assessing research portfolio optimization and investment decisions under uncertainty
-- **Academic Researchers**: Teaching and advancing VOI methodology
 
-## Core Capabilities
+- **Health Economists and HTA Agencies**: cost-effectiveness and reimbursement
+  analyses.
+- **Clinical Researchers**: adaptive trial design, sample-size optimization,
+  and calibration-study planning.
+- **Policy Analysts**: uncertainty-reduction decisions in public,
+  environmental, and implementation policy.
+- **Financial Analysts**: research portfolio and investment decisions under
+  uncertainty.
+- **Academic Researchers**: VOI teaching, method validation, and methodology
+  development.
 
-### Implemented (v0.2-v0.3)
-- **EVPI** (Expected Value of Perfect Information)
-- **EVPPI** (Expected Value of Partial Perfect Information) - regression-based methods
-- **EVSI** (Expected Value of Sample Information) - two-loop Monte Carlo and regression-based
-- **ENBS** (Expected Net Benefit of Sampling)
-- **Plotting Suite**: CEAC, EVSI curves, EVPI visualization
-- **CLI Interface**: Full command-line tools for batch processing
-- **Multi-Domain Support**: Core framework for healthcare, financial, environmental domains
-- **JAX Backend**: High-performance computing with JAX/NumPyro integration
+## Current Product Shape
 
-### In Development
-- Structural Uncertainty VOI
-- Network Meta-Analysis VOI
-- Adaptive Trial VOI
-- Portfolio Optimization
-- Value of Heterogeneity
+- **Core VOI Surface**: EVPI, EVPPI, EVSI, ENBS, structural VOI, NMA VOI,
+  calibration VOI, adaptive trial VOI, portfolio VOI, sequential VOI,
+  CEAF/dominance, heterogeneity, and plotting are implemented in-repo.
+- **Frontier Surface**: perspective, preference, validation, threshold,
+  distributional/equity, implementation-adjusted, and adjacent frontier
+  contracts are fixture-backed and explicitly maturity-labelled.
+- **Cross-Domain Support**: healthcare, financial, environmental, engineering,
+  and domain-agnostic APIs share the same core data contracts.
+- **Polyglot Readiness**: R, Julia, TypeScript, Go, Rust, and .NET bindings are
+  aligned around shared conformance fixtures and registry-aware release paths.
+- **HPC Enablement**: CPU parallelism, scheduler adapters, Apple Metal, discrete
+  GPU, TPU, FPGA, and ASIC lanes have contracts and evidence gates. Production
+  speedup claims remain gated by benchmark and hardware evidence.
+- **Documentation**: Sphinx remains part of the local developer/docs gate, while
+  the Starlight/Astro site scaffold provides the docs-site migration and Pages
+  path.
 
 ## Architecture
-- **Modular Design**: Domain-specific modules (healthcare, financial, environmental)
-- **Backend Abstraction**: Pluggable backends (NumPy, JAX)
-- **Factory Pattern**: Extensible method instantiation
-- **CLI-First**: Full command-line interface for all core methods
-- **Plotting**: Matplotlib/Seaborn integration for visualization
 
-## Technology Stack
-- **Language**: Python >=3.8
-- **Core Libraries**: NumPy, SciPy, pandas, xarray
-- **High-Performance**: JAX, NumPyro
-- **Machine Learning**: scikit-learn, statsmodels
-- **CLI**: Typer
-- **Visualization**: Matplotlib, Seaborn
-- **Testing**: pytest, pytest-cov, hypothesis
-- **Linting/Security/Type Checking**: Ruff, ty
-- **CI/CD**: GitHub Actions, tox
+- **Python Reference Facade**: Python remains the primary user-facing package.
+- **Contract-First Core**: schemas, deterministic fixtures, result envelopes,
+  and diagnostics define compatibility before binding expansion.
+- **Backend Abstraction**: NumPy, JAX, parallel/distributed adapters, and future
+  native kernels must preserve public API behavior.
+- **Rust-Core Boundary**: Rust foundations and deterministic kernels exist, but
+  broader production-kernel migration remains evidence-gated.
+- **CLI-First Workflow**: core and frontier methods expose command-line entry
+  points for reproducible batch analysis.
 
-## Roadmap
-- **v0.4**: Complete advanced methods (structural uncertainty, network NMA)
-- **v0.5**: Portfolio optimization and sequential decisions
-- **v0.6**: Enhanced plotting and visualization capabilities
-- **v1.0**: Full feature parity with commercial tools
+## Completion Boundaries
+
+- In-repo roadmap and Conductor tracks can be repository-complete while registry
+  approvals, external indexing, fabricated hardware, and accelerator speedup
+  evidence remain external gates.
+- FPGA and ASIC support is currently pre-silicon evidence only unless real
+  board, shuttle, or fabricated-silicon evidence is added later.
+- Binding publication status should distinguish generated artifacts and
+  automated release workflows from registry-side approval or indexing.
 
 ## Success Metrics
-- Feature parity with BCEA, dampack, voi (R packages)
-- Surpass commercial tools in method coverage
-- Active community contributions
-- Publication in Journal of Statistical Software
+
+- Reliable >90% local test coverage with CI-enforced lint, type, docs, and test
+  gates.
+- Stable conformance fixtures across Python and supported external bindings.
+- Clear external-gate reporting for registries, HPC distributions, and hardware
+  acceleration.
+- Method coverage competitive with BCEA, dampack, `voi`, and commercial VOI
+  tools.
+- Review-ready documentation, examples, and reproducible evidence packets.

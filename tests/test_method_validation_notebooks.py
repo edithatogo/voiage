@@ -44,3 +44,22 @@ def test_structural_validation_notebook_uses_public_structural_api() -> None:
         "assert sevppi <= sevpi + 1e-9",
     ):
         assert needle in sources
+
+
+def test_colab_accelerator_validation_notebook_documents_hardware_contract() -> None:
+    notebook = _load_notebook(Path("examples/colab_accelerator_validation.ipynb"))
+    cells = notebook.get("cells", [])
+    sources = "\n".join("".join(cell.get("source", [])) for cell in cells)
+
+    assert isinstance(cells, list)
+    assert len(cells) <= 4
+    for needle in (
+        "VOIAGE_REPO_URL",
+        "jax.devices()",
+        "np.testing.assert_allclose(cpu_evpi, jax_evpi",
+        "available_execution_adapters",
+        'is_placeholder_execution_adapter("fpga")',
+        'is_placeholder_execution_adapter("asic")',
+        "colab_accelerator_evidence.json",
+    ):
+        assert needle in sources

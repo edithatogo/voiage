@@ -1,0 +1,38 @@
+---
+title: How to Contribute
+description: Contribution workflow for voiage
+---
+
+This guide is the short route for contributors who want to add or change a VOI method, plotting helper, contract, or docs page.
+
+## Start here
+
+1. Read `AGENTS.md`, `roadmap.md`, and `todo.md`
+2. Pick a single task from the active backlog
+3. Read the surrounding implementation, tests, and contract files before editing
+4. Keep the change small enough to review in one pass
+
+## Working style
+
+- Use `tox` as the main verification gate
+- Use `uv run nox` for the uv-backed local session runner
+- Keep new code type-hinted
+- Add regression tests for behavior changes
+- Keep prose aligned with Vale and the docs build
+
+## Conductor workflow
+
+The repository uses Conductor to keep spec, implementation, and review in sync. For a track-based change: read the track spec, implement one task at a time, run relevant tests before widening scope, and update the track plan and project docs when complete.
+
+## Branching and PRs
+
+- Create a feature branch for larger changes
+- Keep commits conventional, focused, and easy to revert
+- Include the docs and tests that explain the behavior change
+- Do not bundle unrelated cleanup with contract changes
+
+## Testing and coverage
+
+- Run the full suite with `tox` before finishing a substantive change
+- Keep coverage at or above the project threshold
+- Use property-based tests or fuzzing where invariants matter

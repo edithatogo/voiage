@@ -1,0 +1,24 @@
+---
+title: Data Structures
+description: Core data structures in voiage
+---
+
+`voiage` uses a small set of explicit data structures to keep method inputs and outputs serializable, inspectable, and stable across bindings.
+
+## Core contract
+
+The core contract treats **xarray Datasets** as the canonical in-memory representation for public data structures. Helper constructors and copy methods preserve dataset coordinates so bindings can round-trip the same labels without flattening them into tabular objects.
+
+## Key structures
+
+- **`ValueArray`** — net benefit array with structured round-trip helpers (`from_dataset()` / `to_dataset()`)
+- **`DecisionAnalysis`** — analysis orchestration facade
+- **`Intervention`** — intervention definition
+- **`DecisionProblem`** — decision problem formulation
+- **`TrialDesign`** — trial design specification
+- **`ParameterSet`** — parameter set with round-trip helpers (`from_dataset()` / `to_dataset()`)
+
+## See also
+
+- API reference: `voiage.schema`
+- API reference: `voiage.analysis`

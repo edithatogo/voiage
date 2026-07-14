@@ -103,3 +103,8 @@ tokens fail clearly when the corresponding secret is missing. Jobs that target
 registry ecosystems without direct in-repo publishing still produce validated
 build artifacts and release archives, and the remaining external registry
 steps are called out explicitly in the release matrix above.
+
+For a concise per-language submission checklist, see
+[`docs/release/binding-submission-checklist.md`](binding-submission-checklist.md).
+For the current concrete live-registry evidence payload used by the registry
+verification track, see [`docs/release/registry_audit_snapshot.json`](registry_audit_snapshot.json).

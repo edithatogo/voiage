@@ -7,6 +7,11 @@ and includes implementations for different backends, starting with NumPy and JAX
 
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Mapping, Sequence
+import hashlib
+import json
+import platform
+import sys
+import time
 from typing import TYPE_CHECKING, Protocol, cast
 
 import numpy as np
@@ -16,6 +21,11 @@ from voiage.exceptions import raise_import_error, raise_value_error
 
 if TYPE_CHECKING:
     from voiage.schema import ParameterSet, TrialDesign, ValueArray
+
+try:
+    import resource
+except ImportError:  # pragma: no cover - non-Unix fallback
+    resource = None
 
 
 class TrialArmProtocol(Protocol):
@@ -127,11 +137,11 @@ try:
     # Try to import optional dependencies
     SKLEARN_AVAILABLE = False
     try:
-        from sklearn.linear_model import LinearRegression as SklearnLinearRegression
+        import sklearn  # noqa: F401
 
         SKLEARN_AVAILABLE = True
     except ImportError:
-        SklearnLinearRegression = None
+        pass
 
     class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""
@@ -741,6 +751,259 @@ class JaxBackend(Backend):
         return self._impl.evpi(net_benefit_array)
 
 
+try:
+    import torch
+
+    APPLE_METAL_AVAILABLE = (
+        sys.platform == "darwin"
+        and hasattr(torch.backends, "mps")
+        and bool(torch.backends.mps.is_built())
+        and bool(torch.backends.mps.is_available())
+    )
+except ImportError:
+    torch = None
+    APPLE_METAL_AVAILABLE = False
+
+
+class AppleMetalBackend(Backend):
+    """Optional Apple Metal backend backed by PyTorch MPS."""
+
+    def __init__(self) -> None:
+        if torch is None:
+            raise_import_error("PyTorch is required for the Apple Metal backend")
+        if sys.platform != "darwin":
+            raise_import_error("Apple Metal backend requires macOS")
+        if not hasattr(torch.backends, "mps"):
+            raise_import_error("PyTorch was built without MPS support")
+        if not torch.backends.mps.is_built() or not torch.backends.mps.is_available():
+            raise_import_error("Apple Metal backend requires an available MPS device")
+
+        self._torch = torch
+        self.device = torch.device("mps")
+        self.backend_name = "apple_metal"
+
+    def evpi(self, net_benefit_array: ArrayLike) -> float:
+        """Calculate EVPI on the Apple Metal device."""
+        nb_array = np.asarray(net_benefit_array, dtype=float)
+        tensor = self._torch.as_tensor(
+            nb_array,
+            dtype=self._torch.float32,
+            device=self.device,
+        )
+        max_nb = self._torch.max(tensor, dim=1).values
+        expected_nb_options = self._torch.mean(tensor, dim=0)
+        expected_max_nb = self._torch.mean(max_nb)
+        max_expected_nb = self._torch.max(expected_nb_options)
+        evpi = expected_max_nb - max_expected_nb
+        return float(evpi.detach().cpu().item())
+
+    def enbs_simple(
+        self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+    ) -> float:
+        """Calculate ENBS directly from net benefit array."""
+        evpi = self.evpi(net_benefit_array)
+        enbs_result = evpi - float(np.asarray(research_cost, dtype=float))
+        return float(max(0.0, enbs_result))
+
+    def enbs_simple_jit(
+        self, net_benefit_array: ArrayLike, research_cost: ArrayLike
+    ) -> float:
+        """PyTorch MPS backend does not provide a separate JIT path here."""
+        return self.enbs_simple(net_benefit_array, research_cost)
+
+
+# Helper functions for benchmark payload normalization and comparisons.
+def _backend_device_name(backend: Backend) -> str | None:
+    """Return the backend device name when available."""
+    device = getattr(backend, "device", None)
+    if device is None or not hasattr(device, "type"):
+        return None
+    return str(device.type)
+
+
+def _payload_to_float(payload: dict[str, object], key: str) -> float | None:
+    """Read a payload value as float when it has a numeric type."""
+    value = payload.get(key)
+    if isinstance(value, (int, float, np.integer, np.floating)):
+        return float(value)
+    return None
+
+
+def _payload_metric(
+    payload: dict[str, object],
+    key: str,
+    summary_key: str | None = None,
+) -> float:
+    """Read a numeric metric from a benchmark payload."""
+    value = _payload_to_float(payload, key)
+    if value is not None:
+        return value
+
+    if summary_key is None:
+        return 0.0
+
+    summary = payload.get("summary")
+    if isinstance(summary, dict):
+        summary_value = _payload_to_float(summary, summary_key)
+        if summary_value is not None:
+            return summary_value
+
+    return 0.0
+
+
+def _payload_result(payload: dict[str, object]) -> float:
+    """Read EVPI result from a benchmark payload."""
+    return _payload_metric(payload, "result", summary_key="evpi")
+
+
+def _payload_mean_latency_ns(payload: dict[str, object]) -> float:
+    """Read mean latency from a benchmark payload."""
+    return _payload_metric(payload, "mean_latency_ns", summary_key="mean_latency_ns")
+
+
+def _payload_throughput(payload: dict[str, object]) -> float:
+    """Read throughput from a benchmark payload."""
+    return _payload_metric(
+        payload,
+        "throughput_ops_per_sec",
+        summary_key="throughput_ops_per_sec",
+    )
+
+
+def _array_signature(values: ArrayLike) -> dict[str, object]:
+    """Return a stable workload fingerprint for benchmark reproducibility checks."""
+    array = np.array(values, dtype="<f8", order="C", copy=True)
+    return {
+        "shape": list(array.shape),
+        "dtype": str(array.dtype),
+        "size": int(array.size),
+        "nbytes": int(array.nbytes),
+        "sha256": hashlib.sha256(array.tobytes(order="C")).hexdigest(),
+        "min": float(np.min(array)),
+        "max": float(np.max(array)),
+    }
+
+
+def _runtime_manifest() -> dict[str, object]:
+    """Return a compact runtime manifest for review packets."""
+    mps_available = None
+    if (
+        torch is not None
+        and hasattr(torch, "backends")
+        and hasattr(torch.backends, "mps")
+    ):
+        try:
+            mps_available = {
+                "built": bool(torch.backends.mps.is_built()),
+                "available": bool(torch.backends.mps.is_available()),
+            }
+        except Exception as exc:  # pragma: no cover - platform dependent
+            mps_available = {"error": str(exc)}
+
+    return {
+        "platform": platform.platform(),
+        "system": platform.system(),
+        "python": platform.python_version(),
+        "machine": platform.machine(),
+        "backend": {
+            "torch": getattr(torch, "__version__", None) if torch is not None else None,
+            "apple_metal_capability": {
+                "platform_is_darwin": sys.platform == "darwin",
+                "mps": mps_available,
+            },
+        },
+    }
+
+
+_PHASE_3_HARDENED_REQUIRED_FIELDS: tuple[str, ...] = (
+    "payload_version",
+    "workflow",
+    "review_phase",
+    "review_context",
+    "repeats",
+    "warmup_runs",
+    "runtime",
+    "workload",
+    "benchmarks",
+    "comparison",
+    "apple_metal_error",
+    "review",
+)
+
+_PHASE_3_PAYLOAD_VERSION = "1.0.0"
+
+
+def _coalesce_benchmark_error(error: str | None) -> str | None:
+    """Coerce benchmark errors into deterministic serializable shape."""
+    return None if error is None else str(error)
+
+
+def _comparison_enabled(payload: dict[str, object]) -> bool:
+    """Read whether a benchmark payload has an Apple Metal comparison."""
+    comparison = payload.get("comparison")
+    if not isinstance(comparison, dict):
+        return False
+    return bool(comparison.get("enabled"))
+
+
+def _build_phase_3_comparison(
+    scalar_payload: dict[str, object],
+    memory_payload: dict[str, object],
+) -> dict[str, object]:
+    """Build a strict Phase-3 comparison section for handoff packets."""
+    scalar_enabled = _comparison_enabled(scalar_payload)
+    memory_enabled = _comparison_enabled(memory_payload)
+
+    scalar_comparison = scalar_payload.get("comparison")
+    if not isinstance(scalar_comparison, dict):
+        scalar_comparison = {}
+
+    memory_comparison = memory_payload.get("comparison")
+    if not isinstance(memory_comparison, dict):
+        memory_comparison = {}
+
+    comparison_enabled = bool(scalar_enabled and memory_enabled)
+    return {
+        "enabled": comparison_enabled,
+        "scalar": scalar_comparison,
+        "memory": memory_comparison,
+    }
+
+
+def _build_phase_3_review_required_fields() -> list[str]:
+    """Return the strict list of Phase-3 review fields expected by downstream tooling."""
+    return [
+        "payload_version",
+        "workflow",
+        "review.phase",
+        "review.status",
+        "review.required_fields",
+        "runtime.platform",
+        "runtime.system",
+        "workload.shape",
+        "workload.sha256",
+        "benchmarks.scalar.payload_version",
+        "benchmarks.scalar.workflow",
+        "benchmarks.memory.payload_version",
+        "benchmarks.memory.workflow",
+        "benchmarks.scalar.repeats",
+        "benchmarks.scalar.warmup_runs",
+        "benchmarks.memory.repeats",
+        "benchmarks.memory.warmup_runs",
+    ]
+
+
+def _safe_divide(numerator: float, denominator: float) -> float:
+    """Compute a deterministic ratio with zero-safe fallback values."""
+    if denominator == 0.0:
+        if numerator > 0:
+            return float("inf")
+        if numerator < 0:
+            return float("-inf")
+        return 0.0
+    return numerator / denominator
+
+
 # Global backend registry
 _BACKENDS: dict[str, Backend] = {
     "numpy": NumpyBackend(),
@@ -762,6 +1025,9 @@ def get_backend(name: str | None = None) -> Backend:
     if name is None:
         name = _DEFAULT_BACKEND_STATE["name"]
 
+    if name == "apple_metal":
+        return AppleMetalBackend()
+
     if name not in _BACKENDS:
         raise_value_error(f"Unknown backend: {name}")
 
@@ -770,6 +1036,320 @@ def get_backend(name: str | None = None) -> Backend:
 
 def set_backend(name: str) -> None:
     """Set the default computational backend."""
-    if name not in _BACKENDS:
+    if name == "apple_metal":
+        get_backend(name)
+    elif name not in _BACKENDS:
         raise_value_error(f"Unknown backend: {name}")
     _DEFAULT_BACKEND_STATE["name"] = name
+
+
+def benchmark_evpi(
+    backend: Backend,
+    net_benefit_array: ArrayLike,
+    repeats: int = 1_000,
+    warmup_runs: int = 1,
+) -> dict[str, object]:
+    """Measure a backend's EVPI throughput on a fixed workload."""
+    if repeats <= 0:
+        raise_value_error("repeats must be positive")
+    if warmup_runs < 0:
+        raise_value_error("warmup_runs must be non-negative")
+
+    for _ in range(warmup_runs):
+        backend.evpi(net_benefit_array)
+
+    start_ns = time.perf_counter_ns()
+    result = 0.0
+    for _ in range(repeats):
+        result = float(backend.evpi(net_benefit_array))
+    elapsed_ns = time.perf_counter_ns() - start_ns
+    mean_latency_ns = elapsed_ns / repeats
+    throughput_ops_per_sec = (
+        1_000_000_000.0 / mean_latency_ns if mean_latency_ns > 0 else float("inf")
+    )
+    device_name = _backend_device_name(backend)
+
+    return {
+        "backend": type(backend).__name__,
+        "device": device_name,
+        "mean_latency_ns": mean_latency_ns,
+        "repeats": repeats,
+        "result": result,
+        "throughput_ops_per_sec": throughput_ops_per_sec,
+        "warmup_runs": warmup_runs,
+    }
+
+
+def _current_rss_bytes() -> int | None:
+    """Return the current resident set size in bytes when available."""
+    if resource is None:
+        return None
+
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    rss = int(usage.ru_maxrss)
+    if sys.platform == "darwin":
+        return rss
+    return rss * 1024
+
+
+def benchmark_memory_throughput(
+    backend: Backend,
+    net_benefit_array: ArrayLike,
+    repeats: int = 1_000,
+    warmup_runs: int = 1,
+) -> dict[str, object]:
+    """Measure a backend using the memory/throughput benchmark shape."""
+    if repeats <= 0:
+        raise_value_error("repeats must be positive")
+    if warmup_runs < 0:
+        raise_value_error("warmup_runs must be non-negative")
+
+    samples: list[dict[str, object]] = []
+    summary_result = 0.0
+
+    for iteration, phase in enumerate(("cold", "warm", "warm")):
+        rss_before = _current_rss_bytes()
+        if iteration == 0:
+            for _ in range(warmup_runs):
+                backend.evpi(net_benefit_array)
+
+        start_ns = time.perf_counter_ns()
+        result = 0.0
+        for _ in range(repeats):
+            result = float(backend.evpi(net_benefit_array))
+        elapsed_ns = time.perf_counter_ns() - start_ns
+        rss_after = _current_rss_bytes()
+
+        summary_result = result
+        samples.append(
+            {
+                "phase": phase,
+                "iteration": iteration,
+                "latency_ns": elapsed_ns,
+                "throughput_ops_per_sec": (
+                    1_000_000_000.0 / (elapsed_ns / repeats)
+                    if elapsed_ns > 0
+                    else float("inf")
+                ),
+                "rss_before_bytes": rss_before,
+                "rss_after_bytes": rss_after,
+            }
+        )
+
+    latencies = [int(sample["latency_ns"]) for sample in samples]
+    throughputs = [float(sample["throughput_ops_per_sec"]) for sample in samples]
+    rss_values = [
+        value
+        for sample in samples
+        for value in (sample["rss_before_bytes"], sample["rss_after_bytes"])
+        if value is not None
+    ]
+    mean_latency_ns = round(sum(latencies) / len(latencies))
+    mean_throughput = sum(throughputs) / len(throughputs)
+    return {
+        "backend": type(backend).__name__,
+        "device": _backend_device_name(backend),
+        "samples": samples,
+        "summary": {
+            "evpi": summary_result,
+            "cold_start_latency_ns": latencies[0],
+            "warm_start_latency_ns": latencies[1],
+            "mean_latency_ns": mean_latency_ns,
+            "peak_rss_bytes": max(rss_values) if rss_values else None,
+            "throughput_ops_per_sec": mean_throughput,
+        },
+        "mean_latency_ns": mean_latency_ns,
+        "throughput_ops_per_sec": mean_throughput,
+        "repeats": repeats,
+        "warmup_runs": warmup_runs,
+    }
+
+
+def benchmark_mps_vs_cpu(
+    net_benefit_array: ArrayLike,
+    repeats: int = 1_000,
+    warmup_runs: int = 1,
+    benchmark: Callable[
+        [Backend, ArrayLike, int, int], dict[str, object]
+    ] = benchmark_memory_throughput,
+) -> dict[str, object]:
+    """Compare a CPU benchmark payload against an optional Apple Metal payload.
+
+    The returned payload includes deterministic workload and runtime metadata for
+    review packets, including enough information to produce a Phase-3 handoff
+    artifact without any additional environment probing.
+    """
+    if repeats <= 0:
+        raise_value_error("repeats must be positive")
+    if warmup_runs < 0:
+        raise_value_error("warmup_runs must be non-negative")
+
+    # Keep the existing single-backend contract validation behavior.
+    workload_signature = _array_signature(net_benefit_array)
+
+    cpu_payload = benchmark(
+        NumpyBackend(),
+        net_benefit_array,
+        repeats,
+        warmup_runs,
+    )
+
+    apple_payload: dict[str, object] | None = None
+    apple_error: str | None = None
+    try:
+        apple_payload = benchmark(
+            get_backend("apple_metal"),
+            net_benefit_array,
+            repeats,
+            warmup_runs,
+        )
+    except Exception as exc:  # pragma: no cover - platform-dependent
+        apple_error = str(exc)
+
+    comparison = {
+        "enabled": apple_payload is not None,
+        "apple_metal_backend": apple_payload["backend"] if apple_payload else None,
+        "apple_metal_device": apple_payload["device"] if apple_payload else None,
+        "result_delta": 0.0,
+        "mean_latency_speedup": 0.0,
+        "throughput_speedup": 0.0,
+    }
+    if apple_payload is not None:
+        cpu_result = _payload_result(cpu_payload)
+        apple_result = _payload_result(apple_payload)
+        cpu_latency = _payload_mean_latency_ns(cpu_payload)
+        apple_latency = _payload_mean_latency_ns(apple_payload)
+        cpu_throughput = _payload_throughput(cpu_payload)
+        apple_throughput = _payload_throughput(apple_payload)
+
+        comparison["result_delta"] = apple_result - cpu_result
+        comparison["mean_latency_speedup"] = _safe_divide(cpu_latency, apple_latency)
+        comparison["throughput_speedup"] = _safe_divide(
+            apple_throughput,
+            cpu_throughput,
+        )
+
+    return {
+        "backend": "apple_metal_vs_cpu",
+        "payload_version": _PHASE_3_PAYLOAD_VERSION,
+        "workflow": "apple_metal_vs_cpu",
+        "benchmark": getattr(benchmark, "__name__", "benchmark"),
+        "workload": workload_signature,
+        "runtime": _runtime_manifest(),
+        "repeats": repeats,
+        "warmup_runs": warmup_runs,
+        "cpu": cpu_payload,
+        "apple_metal": apple_payload,
+        "comparison": comparison,
+        "apple_metal_error": apple_error,
+        "review": {
+            "phase": "phase_3",
+            "status": "device_comparison_available"
+            if apple_payload
+            else "cpu_reference_only",
+            "required_fields": [
+                "backend",
+                "device",
+                "workload.shape",
+                "workload.sha256",
+                "repeats",
+                "warmup_runs",
+                "mean_latency_ns",
+                "throughput_ops_per_sec",
+            ],
+            "notes": [
+                "CPU payload is the reference contract.",
+                "Apple payload is optional and only present when MPS is available.",
+            ],
+        },
+    }
+
+
+def compile_phase_3_handoff_packet(
+    net_benefit_array: ArrayLike,
+    repeats: int = 1_000,
+    warmup_runs: int = 1,
+    as_json: bool = False,
+) -> dict[str, object] | str:
+    """Build a deterministic Phase-3 review packet for both scalar and memory workloads.
+
+    The handoff packet keeps existing payload contracts (for both scalar EVPI and
+    memory/throughput helpers) and wraps them in one reproducible review record.
+    """
+    scalar_payload = benchmark_mps_vs_cpu(
+        net_benefit_array,
+        repeats=repeats,
+        warmup_runs=warmup_runs,
+        benchmark=benchmark_evpi,
+    )
+    memory_payload = benchmark_mps_vs_cpu(
+        net_benefit_array,
+        repeats=repeats,
+        warmup_runs=warmup_runs,
+        benchmark=benchmark_memory_throughput,
+    )
+
+    review_status = "device_comparison_available"
+    scalar_error = _coalesce_benchmark_error(
+        cast("str | None", scalar_payload.get("apple_metal_error"))
+    )
+    memory_error = _coalesce_benchmark_error(
+        cast("str | None", memory_payload.get("apple_metal_error"))
+    )
+    if scalar_error is not None or memory_error is not None:
+        review_status = "cpu_reference_only"
+
+    packet: dict[str, object] = {
+        "payload_version": _PHASE_3_PAYLOAD_VERSION,
+        "workflow": "apple_metal_phase_3_handoff",
+        "review_phase": "phase_3",
+        "review_context": "apple_metal_vs_cpu",
+        "repeats": repeats,
+        "warmup_runs": warmup_runs,
+        "runtime": memory_payload.get("runtime", _runtime_manifest()),
+        "workload": memory_payload.get("workload", {}),
+        "benchmarks": {
+            "scalar": {
+                **scalar_payload,
+                "apple_metal_error": None,
+                "payload_version": scalar_payload.get(
+                    "payload_version", _PHASE_3_PAYLOAD_VERSION
+                ),
+                "workflow": "apple_metal_vs_cpu",
+            },
+            "memory": {
+                **memory_payload,
+                "apple_metal_error": None,
+                "payload_version": memory_payload.get(
+                    "payload_version", _PHASE_3_PAYLOAD_VERSION
+                ),
+                "workflow": "apple_metal_vs_cpu",
+            },
+        },
+        "comparison": _build_phase_3_comparison(
+            scalar_payload,
+            memory_payload,
+        ),
+        "apple_metal_error": {
+            "scalar": scalar_error,
+            "memory": memory_error,
+        },
+        "review": {
+            "phase": "phase_3",
+            "status": review_status,
+            "required_fields": _build_phase_3_review_required_fields(),
+            "notes": [
+                "Scalar benchmark is EVPI helper review payload.",
+                "Memory benchmark is memory/throughput helper review payload.",
+                "Payload stays deterministic for reviewer handoff.",
+            ],
+        },
+    }
+
+    for required_key in _PHASE_3_HARDENED_REQUIRED_FIELDS:
+        if required_key not in packet:
+            raise RuntimeError(f"Missing required Phase-3 handoff key: {required_key}")
+
+    if as_json:
+        return json.dumps(packet, sort_keys=True)
+    return packet

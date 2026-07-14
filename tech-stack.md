@@ -1,43 +1,70 @@
 # voiage - Technology Stack
 
-## Core Language
-- **Python**: >=3.8
+## Runtime Languages
 
-## Core Libraries
-- **NumPy**: >=1.20,<2.0 - Fundamental array computing
-- **SciPy**: >=1.7,<1.15 - Scientific computing algorithms
-- **pandas**: >=1.3,<3.0 - Data manipulation and analysis
-- **xarray**: >=0.19,<2025.0 - Labeled multi-dimensional arrays
+The supported Python runtime range is **Python 3.10-3.14**.
 
-## High-Performance Computing
-- **JAX**: >=0.4,<0.5 - High-performance numerical computing with GPU/TPU support
-- **NumPyro**: >=0.13,<0.20 - Probabilistic programming with JAX
+- **Python**: 3.10-3.14, with Python package metadata in `pyproject.toml`.
+- **Rust**: native core foundations, deterministic kernels, benchmarks, and
+  binding/runtime expansion work.
+- **Polyglot Bindings**: R, Julia, TypeScript, Go, Rust, and .NET 11 are tracked
+  as external binding targets against shared fixtures.
 
-## Machine Learning & Statistics
-- **scikit-learn**: >=1.0,<2.0 - Machine learning algorithms (regression-based EVSI)
-- **statsmodels**: >=0.13,<1.0 - Statistical models and tests
+## Python Package Dependencies
 
-## CLI
-- **Typer**: >=0.9,<1.0 - Modern CLI framework with auto-completion
+- **Arrays and DataFrames**: NumPy, pandas, and xarray.
+- **Scientific Computing**: SciPy.
+- **Probabilistic and Accelerator Stack**: JAX and NumPyro.
+- **Statistics and Metamodeling**: scikit-learn and statsmodels.
+- **Plotting**: matplotlib and seaborn.
+- **CLI**: Typer.
+- **Runtime Safety**: defusedxml for XML-backed ecosystem ingestion.
+- **System Metrics**: psutil.
 
-## Visualization
-- **matplotlib**: >=3.4,<4.0 - 2D plotting library
-- **seaborn**: >=0.11,<1.0 - Statistical data visualization
+Use `pyproject.toml` and `uv.lock` as the authoritative dependency and version
+sources. This file records the architectural intent, not a duplicate lockfile.
 
-## Testing
-- **pytest**: >=7.0,<9.0 - Testing framework
-- **pytest-cov**: >=3.0,<6.0 - Coverage reporting
-- **hypothesis**: >=6.0,<7.0 - Property-based testing
+## Testing and Quality
 
-## Code Quality
-- **Ruff**: >=0.1.9,<1.0 - Fast Python linter, formatter, and security-rule checker
-- **ty**: >=0.0.1,<1.0 - Static type checking
-- **tox**: >=4.0,<5.0 - Test environment automation
-- **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
+- **Test Runner**: pytest through tox and targeted `uv run pytest` commands.
+- **Coverage**: pytest-cov with a 90% fail-under gate.
+- **Lint and Formatting**: Ruff.
+- **Type Checking**: ty through tox.
+- **Security Scan**: Ruff security rules and Bandit in the lint gate.
+- **Session Orchestration**: tox for CI parity and nox for uv-backed local
+  sessions.
+- **Dependency Updates**: Renovate.
 
 ## Documentation
-- **Sphinx**: >=7.0,<8.0 - Documentation generator
-- **sphinx-rtd-theme**: >=1.0,<2.0 - Read the Docs theme
 
-## Optional Dependencies
-- **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)
+Sphinx remains in the local developer docs gate.
+
+- **Sphinx**: retained in the local developer docs gate and full tox validation.
+- **Starlight/Astro**: scaffolded under `docs/astro-site` for the docs-site and
+  GitHub Pages path.
+- **Vale**: prose linting for Markdown and reStructuredText.
+- **Notebooks and Vignettes**: examples, R vignette/manual assets, and binding
+  walkthrough READMEs remain part of the tutorial surface.
+
+## HPC and Acceleration
+
+- **CPU Parallelism**: local, process, thread, Dask, Ray, and scheduler-adapter
+  contracts.
+- **Integrated and Discrete GPU**: JAX paths plus Apple Metal and discrete GPU
+  evidence gates.
+- **TPU**: Colab/runtime evidence paths with parity and visibility checks.
+- **FPGA and ASIC**: pre-silicon OSS flow evidence first; physical board,
+  shuttle, and fabricated-silicon runtime evidence are future external gates.
+- **HPC Distribution Targets**: Spack, EasyBuild, HPSF, and E4S readiness
+  tracks, with external curation gates kept explicit.
+
+## Release Targets
+
+- **Python**: PyPI, TestPyPI, and conda-forge feedstock handoff.
+- **R**: GitHub Releases for source archives, with CRAN/r-universe as external
+  maturity or indexing targets.
+- **Julia**: Julia General registry.
+- **TypeScript**: npm with provenance.
+- **Go**: tagged modules through the Go module proxy.
+- **Rust**: crates.io.
+- **.NET**: NuGet targeting .NET 11.

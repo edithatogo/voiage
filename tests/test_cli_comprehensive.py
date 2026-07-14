@@ -744,6 +744,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-structural-evppi",
         "calculate-threshold",
         "calculate-validation",
+        "create-distributed-large-scale",
         "generate-config",
         "plot-ceac",
         "plot-ceaf",

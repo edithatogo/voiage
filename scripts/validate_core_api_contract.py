@@ -14,6 +14,13 @@ SCHEMA_ROOT = SPEC_ROOT / "schemas" / "v1"
 EXAMPLE_ROOT = SPEC_ROOT / "examples" / "v1"
 FIXTURE_ROOT = SPEC_ROOT / "fixtures" / "v1"
 FIXTURE_MANIFEST = FIXTURE_ROOT / "manifest.json"
+RESULT_SCHEMA_BY_METHOD_FAMILY: dict[str, Path] = {
+    "evpi": SCHEMA_ROOT / "results" / "evpi.schema.json",
+    "evppi": SCHEMA_ROOT / "results" / "evppi.schema.json",
+    "evsi": SCHEMA_ROOT / "results" / "evsi.schema.json",
+    "enbs": SCHEMA_ROOT / "results" / "enbs.schema.json",
+    "ceac": SCHEMA_ROOT / "results" / "ceac.schema.json",
+}
 
 
 class ValidationError(Exception):
@@ -40,6 +47,57 @@ def _load_json(path: Path) -> Any:
 def load_json(path: Path) -> Any:
     """Load a JSON artifact from disk."""
     return _load_json(path)
+
+
+def _load_json_payload(path: Path) -> Any:
+    """Load a JSON fixture artifact."""
+    return _load_json(path)
+
+
+def _require_pyarrow_backend(suffix: str) -> None:
+    """Ensure the optional pyarrow backend is available for binary artifacts."""
+    try:
+        import pyarrow  # noqa: F401
+    except ImportError as exc:
+        raise ValidationError(
+            f"{suffix} fixture artifacts require the optional 'pyarrow' backend"
+        ) from exc
+
+
+def _load_parquet_payload(path: Path) -> Any:
+    """Load a Parquet fixture artifact via the optional Arrow backend."""
+    _require_pyarrow_backend(path.suffix.lower())
+
+    import pyarrow.parquet as pq
+
+    return pq.read_table(path)
+
+
+def _load_arrow_payload(path: Path) -> Any:
+    """Load an Arrow IPC fixture artifact via the optional Arrow backend."""
+    _require_pyarrow_backend(path.suffix.lower())
+
+    import pyarrow as pa
+    from pyarrow import ipc
+
+    with path.open("rb") as handle:
+        try:
+            return ipc.open_file(handle).read_all()
+        except pa.ArrowInvalid:
+            handle.seek(0)
+            return ipc.open_stream(handle).read_all()
+
+
+def _load_fixture_payload(path: Path) -> Any:
+    """Load a fixture artifact from disk using its suffix."""
+    suffix = path.suffix.lower()
+    if suffix == ".json":
+        return _load_json_payload(path)
+    if suffix == ".parquet":
+        return _load_parquet_payload(path)
+    if suffix == ".arrow":
+        return _load_arrow_payload(path)
+    raise ValidationError(f"Unsupported fixture artifact format: {path.suffix}")
 
 
 def _require_non_empty_string(value: Any, path: str) -> str:
@@ -76,8 +134,20 @@ def _validate_scalar(value: Any, schema: dict[str, Any], path: str) -> None:
 
     if schema.get("minimum") is not None and value < schema["minimum"]:
         raise ValidationError(f"{path}: value is below minimum")
-    if schema.get("exclusiveMinimum") is not None and value <= schema["exclusiveMinimum"]:
+    if (
+        schema.get("exclusiveMinimum") is not None
+        and value <= schema["exclusiveMinimum"]
+    ):
         raise ValidationError(f"{path}: value is not above exclusiveMinimum")
+    if schema.get("maximum") is not None and value > schema["maximum"]:
+        raise ValidationError(f"{path}: value is above maximum")
+    if (
+        schema.get("exclusiveMaximum") is not None
+        and value >= schema["exclusiveMaximum"]
+    ):
+        raise ValidationError(f"{path}: value is not below exclusiveMaximum")
+    if "enum" in schema and value not in schema["enum"]:
+        raise ValidationError(f"{path}: value is not one of the allowed enum values")
 
 
 def _validate(value: Any, schema: dict[str, Any], path: str, schema_path: Path) -> None:
@@ -117,6 +187,13 @@ def _validate(value: Any, schema: dict[str, Any], path: str, schema_path: Path) 
         _validate_scalar(value, schema, path)
 
 
+def _validate_payload_against_schema(
+    payload: Any, schema_path: Path, path: str = "$"
+) -> None:
+    schema = _load_json(schema_path)
+    _validate(payload, schema, path, schema_path)
+
+
 def _validate_example(example_path: Path, schema_path: Path) -> None:
     example = _load_json(example_path)
     schema = _load_json(schema_path)
@@ -149,7 +226,7 @@ def load_fixture_manifest(manifest_path: Path = FIXTURE_MANIFEST) -> dict[str, A
 
 def load_fixture_payload(path: Path) -> Any:
     """Load a fixture payload from disk."""
-    return _load_json(path)
+    return _load_fixture_payload(path)
 
 
 def iter_fixture_cases(
@@ -234,7 +311,10 @@ def iter_fixture_cases(
             )
 
         if validate_payloads:
-            load_fixture_payload(output_path)
+            output_payload = load_fixture_payload(output_path)
+            schema_path = RESULT_SCHEMA_BY_METHOD_FAMILY.get(method_family)
+            if schema_path is not None:
+                _validate_payload_against_schema(output_payload, schema_path)
 
         cases.append(
             FixtureCase(
@@ -276,21 +356,54 @@ def main() -> int:
         )
 
     checks = [
-        (SCHEMA_ROOT / "decision-problem.schema.json", EXAMPLE_ROOT / "decision-problem.example.json"),
-        (SCHEMA_ROOT / "intervention.schema.json", EXAMPLE_ROOT / "intervention.example.json"),
-        (SCHEMA_ROOT / "trial-design.schema.json", EXAMPLE_ROOT / "trial-design.example.json"),
-        (SCHEMA_ROOT / "parameter-set.schema.json", EXAMPLE_ROOT / "parameter-set.example.json"),
-        (SCHEMA_ROOT / "value-array.schema.json", EXAMPLE_ROOT / "value-array.example.json"),
-        (SCHEMA_ROOT / "diagnostics.schema.json", EXAMPLE_ROOT / "diagnostics.example.json"),
+        (
+            SCHEMA_ROOT / "decision-problem.schema.json",
+            EXAMPLE_ROOT / "decision-problem.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "intervention.schema.json",
+            EXAMPLE_ROOT / "intervention.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "trial-design.schema.json",
+            EXAMPLE_ROOT / "trial-design.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "parameter-set.schema.json",
+            EXAMPLE_ROOT / "parameter-set.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "value-array.schema.json",
+            EXAMPLE_ROOT / "value-array.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "diagnostics.schema.json",
+            EXAMPLE_ROOT / "diagnostics.example.json",
+        ),
         (
             SCHEMA_ROOT / "method-metadata.schema.json",
             EXAMPLE_ROOT / "method-metadata.example.json",
         ),
-        (SCHEMA_ROOT / "results" / "evpi.schema.json", EXAMPLE_ROOT / "evpi.example.json"),
-        (SCHEMA_ROOT / "results" / "evppi.schema.json", EXAMPLE_ROOT / "evppi.example.json"),
-        (SCHEMA_ROOT / "results" / "evsi.schema.json", EXAMPLE_ROOT / "evsi.example.json"),
-        (SCHEMA_ROOT / "results" / "enbs.schema.json", EXAMPLE_ROOT / "enbs.example.json"),
-        (SCHEMA_ROOT / "results" / "ceac.schema.json", EXAMPLE_ROOT / "ceac.example.json"),
+        (
+            SCHEMA_ROOT / "results" / "evpi.schema.json",
+            EXAMPLE_ROOT / "evpi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "evppi.schema.json",
+            EXAMPLE_ROOT / "evppi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "evsi.schema.json",
+            EXAMPLE_ROOT / "evsi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "enbs.schema.json",
+            EXAMPLE_ROOT / "enbs.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "ceac.schema.json",
+            EXAMPLE_ROOT / "ceac.example.json",
+        ),
     ]
 
     for schema_path, example_path in checks:

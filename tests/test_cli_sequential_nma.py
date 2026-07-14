@@ -70,6 +70,18 @@ def test_calculate_sequential_voi_rejects_non_numeric_result(
     assert "Sequential VOI did not return a numeric result" in result.stderr
 
 
+def test_sequential_passthrough_step_model_keeps_current_psa() -> None:
+    """The CLI default step model should preserve the current PSA state."""
+    psa = object()
+    result = cli._sequential_passthrough_step_model(
+        psa,
+        action=object(),
+        specification=object(),
+    )
+
+    assert result == {"next_psa": psa}
+
+
 def test_calculate_sequential_voi_writes_output_file_and_status(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -98,6 +110,42 @@ def test_calculate_sequential_voi_writes_output_file_and_status(
     assert "Sequential VOI: 2.750000" in result.stdout
     assert f"Result saved to {output_file}" in result.stdout
     assert output_file.read_text(encoding="utf-8").strip() == "Sequential VOI: 2.750000"
+
+
+def test_calculate_sequential_voi_aggregates_generator_output(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Sequential CLI should aggregate generator summaries into a numeric result."""
+    parameter_file = tmp_path / "parameters.csv"
+    _write_csv(parameter_file, [["param1"], [0.1], [0.2]])
+
+    dynamic_spec_file = tmp_path / "dynamic_spec.json"
+    _write_json(dynamic_spec_file, {"time_steps": [0, 1, 2]})
+
+    def fake_sequential_voi(**kwargs: object) -> object:
+        assert kwargs["optimization_method"] == "generator"
+        return iter(
+            [
+                {"discounted_evpi": 1.25},
+                {"discounted_evpi": 2.75},
+            ]
+        )
+
+    monkeypatch.setattr(cli, "sequential_voi", fake_sequential_voi)
+
+    result = runner.invoke(
+        cli.app,
+        [
+            "calculate-sequential-voi",
+            str(parameter_file),
+            str(dynamic_spec_file),
+            "--optimization-method",
+            "generator",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "Sequential VOI: 4.000000" in result.stdout
 
 
 def test_calculate_nma_voi_evpi_branch_writes_output_file_and_status(

@@ -1,0 +1,104 @@
+---
+title: Getting Started
+description: Install voiage and run your first VOI analysis
+sidebar:
+  order: 1
+---
+
+This guide shows you how to install `voiage` and run your first Value of Information analysis.
+
+## Installation
+
+### Using pip (Published Release)
+
+```bash
+pip install voiage
+```
+
+### Development Installation
+
+For the latest development version with all extras:
+
+```bash
+git clone https://github.com/edithatogo/voiage.git
+cd voiage
+uv sync --extra dev
+```
+
+### Prerequisites
+
+- Python 3.10–3.14
+- pip and setuptools (included with Python)
+
+We recommend using a virtual environment (`venv` or `conda`) to manage dependencies.
+
+## Quick Start: EVPI
+
+Expected Value of Perfect Information (EVPI) is the maximum amount one should be willing to pay to eliminate all uncertainty.
+
+```python
+import numpy as np
+from voiage.analysis import DecisionAnalysis
+from voiage.schema import ValueArray
+
+# Sample net benefit data: 3 simulations x 2 interventions
+values = np.array([
+    [20000.0, 25000.0],
+    [21000.0, 24800.0],
+    [20500.0, 25250.0],
+])
+
+value_array = ValueArray.from_numpy(values, ["Standard care", "New treatment"])
+analysis = DecisionAnalysis(nb_array=value_array)
+
+print(f"The per-decision EVPI is: {analysis.evpi():.2f}")
+
+# Population-level EVPI
+population_evpi = analysis.evpi(
+    population=100000,
+    time_horizon=10,
+    discount_rate=0.03,
+)
+print(f"The population-level EVPI is: {population_evpi:.2f}")
+```
+
+## Quick Start: ENBS
+
+Once you have an EVSI result and know the cost of research, calculate the Expected Net Benefit of Sampling (ENBS):
+
+```python
+from voiage.methods.sample_information import enbs
+
+evsi_result = 500000.0
+cost_of_research = 150000.0
+
+enbs_value = enbs(evsi_result, cost_of_research)
+print(f"The ENBS is: {enbs_value:.2f}")
+
+if enbs_value > 0:
+    print("The research is potentially worthwhile.")
+else:
+    print("The research may not be worthwhile.")
+```
+
+## Next Steps
+
+- [Introduction to voiage](/introduction/) — learn about VOI concepts
+- [User Guide](/user-guide/) — comprehensive usage instructions
+- [API Reference](/api-reference/) — detailed API documentation
+- [Examples](/examples/) — runnable notebook tutorials
+
+### Available Tutorial Notebooks
+
+- [Getting Started](https://github.com/edithatogo/voiage/blob/main/examples/getting_started.ipynb)
+- [EVPI Validation](https://github.com/edithatogo/voiage/blob/main/examples/evpi_validation.ipynb)
+- [EVPPI Validation](https://github.com/edithatogo/voiage/blob/main/examples/evppi_validation.ipynb)
+- [EVSI Validation](https://github.com/edithatogo/voiage/blob/main/examples/evsi_validation.ipynb)
+- [Interactive Tutorial](https://github.com/edithatogo/voiage/blob/main/examples/interactive_tutorial.ipynb)
+- [Visualization Gallery](https://github.com/edithatogo/voiage/blob/main/examples/visualization_gallery.ipynb)
+- [Network Meta-Analysis](https://github.com/edithatogo/voiage/blob/main/examples/nma_validation.ipynb)
+- [Structural VOI](https://github.com/edithatogo/voiage/blob/main/examples/structural_voi_validation.ipynb)
+- [Advanced Methods](https://github.com/edithatogo/voiage/blob/main/examples/advanced_methods.ipynb)
+- [Financial VOI](https://github.com/edithatogo/voiage/blob/main/examples/financial_voi.ipynb)
+- [Environmental VOI](https://github.com/edithatogo/voiage/blob/main/examples/environmental_voi.ipynb)
+- [Engineering VOI](https://github.com/edithatogo/voiage/blob/main/examples/engineering_voi.ipynb)
