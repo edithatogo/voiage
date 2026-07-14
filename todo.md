@@ -11,6 +11,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Remove the runtime-only `ValueArray` import from the basic VOI methods.
+    *   Moved the annotation dependency behind `TYPE_CHECKING` and retained the
+        existing public type contract without runtime import overhead.
+
 *   [x] Archive completed Conductor track records and repair their regression
     test and documentation references.
     *   Moved all completed registered tracks from `conductor/tracks/` to

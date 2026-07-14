@@ -6,7 +6,7 @@
 - EVPPI (Expected Value of Partial Perfect Information)
 """
 
-from typing import Union
+from typing import TYPE_CHECKING, Union
 import warnings
 
 import numpy as np
@@ -17,7 +17,9 @@ from voiage.exceptions import (
     raise_input_error,
 )
 from voiage.schema import ParameterSet as PSASample
-from voiage.schema import ValueArray
+
+if TYPE_CHECKING:
+    from voiage.schema import ValueArray
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
