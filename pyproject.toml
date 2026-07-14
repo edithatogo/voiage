@@ -198,7 +198,7 @@ markers = [
 [tool.coverage.run]
 source = ["voiage"]
 branch = true
-omit = ["voiage/widgets/*"]
+omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
 
 [tool.coverage.report]
 show_missing = true
