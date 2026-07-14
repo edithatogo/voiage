@@ -35,12 +35,20 @@ jobs:
         with:
           sarif_file: scorecard-results.json
 
-      - name: Fail on blocking code-scanning alerts
-        uses: edithatogo/.github/.github/actions/code-scanning-gate@90b399a731a17b792352d0c049834a22dbd32523
-
       - name: Upload Scorecard results
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: scorecard-results
           path: scorecard-results.json
           retention-days: 30
+
+  code-scanning-gate:
+    name: Scorecard code-scanning gate
+    needs: analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: read
+      contents: read
+    steps:
+      - name: Fail on blocking code-scanning alerts
+        uses: edithatogo/.github/.github/actions/code-scanning-gate@90b399a731a17b792352d0c049834a22dbd32523

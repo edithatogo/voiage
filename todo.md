@@ -11,6 +11,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Restore OpenSSF Scorecard publication after the shared scanning rollout.
+    *   Isolated the custom blocking-alert gate in a dependent least-privilege
+        job that does not violate Scorecard workflow restrictions.
+
 *   [x] Remove the runtime-only `ValueArray` import from the basic VOI methods.
     *   Moved the annotation dependency behind `TYPE_CHECKING` and retained the
         existing public type contract without runtime import overhead.
