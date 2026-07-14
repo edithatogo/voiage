@@ -456,7 +456,6 @@ class DecisionAnalysis:
             evppi_value = self.evppi()
             yield evppi_value
 
-
     def _scale_to_population(
         self,
         value: float,
@@ -468,9 +467,7 @@ class DecisionAnalysis:
         """Scale a per-decision value to a population level."""
         # Validate population parameter
         if not isinstance(population, (int, float)):
-            raise_input_error(
-                f"Population must be a number. Got {type(population)}."
-            )
+            raise_input_error(f"Population must be a number. Got {type(population)}.")
         if population <= 0:
             raise_input_error(f"Population must be positive. Got {population}.")
         if not np.isfinite(population):
@@ -566,7 +563,9 @@ class DecisionAnalysis:
         x: np.ndarray,
         nb_values: np.ndarray,
         n_regression_samples: int | None,
-        regression_model: RegressionModelProtocol | type[RegressionModelProtocol] | None,
+        regression_model: RegressionModelProtocol
+        | type[RegressionModelProtocol]
+        | None,
     ) -> np.ndarray:
         """Subsample and fit the regression model for each strategy."""
         n_samples, n_strategies = nb_values.shape
