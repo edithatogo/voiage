@@ -25,7 +25,7 @@ The corresponding `lifecourse` planning documents are:
 The local `voiage` scaffold for the shared profile lives at:
 
 - `specs/integrations/lifecourse/v1/`
-- `conductor/tracks/lifecourse-integration-contract_20260429/`
+- `conductor/archive/lifecourse-integration-contract_20260429/`
 - `specs/integrations/lifecourse/v1/fixtures/normative/screening_program_bundle.json`
 
 The candidate shared artifact profile is HEOML, currently embedded in the
@@ -240,4 +240,4 @@ Treat the integration as experimental until:
 
 The executable plan for this work is:
 
-`conductor/tracks/lifecourse-integration-contract_20260429/plan.md`
+`conductor/archive/lifecourse-integration-contract_20260429/plan.md`

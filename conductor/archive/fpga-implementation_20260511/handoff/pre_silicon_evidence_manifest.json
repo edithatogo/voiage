@@ -92,7 +92,7 @@
         "--top-module",
         "evpi_fixed_point_kernel_tb",
         "--Mdir",
-        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj",
+        "conductor/archive/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj",
         "hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v",
         "hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v"
       ],
@@ -112,7 +112,7 @@
         "artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb"
       ],
       "argv": [
-        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb"
+        "conductor/archive/fpga-implementation_20260511/handoff/artifacts/fpga/verilator_obj/Vevpi_fixed_point_kernel_tb"
       ],
       "returncode": null,
       "log_path": "reports/fpga/verilator_testbench_run.log",
@@ -133,7 +133,7 @@
       "argv": [
         "yosys",
         "-p",
-        "read_verilog hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v; synth_ice40 -top evpi_fixed_point_kernel -json conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json; stat"
+        "read_verilog hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v; synth_ice40 -top evpi_fixed_point_kernel -json conductor/archive/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json; stat"
       ],
       "returncode": null,
       "log_path": "reports/fpga/yosys_synth_ice40.log",
@@ -158,9 +158,9 @@
         "--package",
         "sg48",
         "--json",
-        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json",
+        "conductor/archive/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.json",
         "--asc",
-        "conductor/tracks/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.asc"
+        "conductor/archive/fpga-implementation_20260511/handoff/artifacts/fpga/evpi_fixed_point_ice40.asc"
       ],
       "returncode": null,
       "log_path": "reports/fpga/nextpnr_ice40.log",

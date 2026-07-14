@@ -14,7 +14,7 @@ The Apple integrated GPU phase for this repo is currently:
 The Colab accelerator validation run has now produced a hardware-backed T4 GPU
 contract packet under:
 
-- `conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json`
+- `conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_gpu_accelerator_evidence.json`
 
 That packet records `jax_devices == ["cuda:0"]`, `jax_platforms == ["gpu"]`,
 and `cpu_evpi == jax_evpi == 1.25`. It proves JAX GPU visibility and numerical

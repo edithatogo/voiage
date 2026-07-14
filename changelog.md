@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Archived all completed Conductor track records under `conductor/archive/` and
+  updated the regression tests and integration documentation to read those
+  historical records from their canonical archived locations.
+- Updated the Python and Starlight documentation dependency lockfiles to
+  patched releases for the current Dependabot advisories, including the
+  critical Jupyter Server advisory, and added a pnpm esbuild override to keep
+  all resolved documentation builds on the patched release.
+- Updated the Starlight configuration for its current social-link and sidebar
+  APIs, preserving a clean Astro check and static documentation build after
+  the security upgrade.
 - Added a fail-closed repository harness for workflow permissions, immutable
   GitHub Action pins, required governance files, and security workflow
   presence; wired it into tox and contributor documentation.

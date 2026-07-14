@@ -18,6 +18,9 @@ permissions, every external action is pinned to an immutable commit, required
 security workflows exist, and the repository governance files are present.
 The full tox environment additionally runs linting, type checking, docs,
 contract validation, the supported Python matrix, and the coverage threshold.
+For dependency-only changes, also run ``uvx --from pip-audit pip-audit
+--local --progress-spinner off`` and ``pnpm audit --prod`` from
+``docs/astro-site``.
 
 GitHub gates
 ------------

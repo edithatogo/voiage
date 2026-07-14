@@ -24,7 +24,7 @@ Given the VOI kernels in-repo:
 Current status remains **feasibility hold** for production acceleration. The
 runtime-evidence gap is closed for the compact validation workload by:
 
-- `conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json`
+- `conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/colab_tpu_accelerator_evidence.json`
 
 ## Contract Rule
 

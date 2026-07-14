@@ -84,7 +84,7 @@ The contract is satisfied when:
   evidence remains pending until Apple Silicon capture is available for the
   integrated GPU optimization track.
 * Colab GPU/TPU visibility and parity evidence is stored under
-  ``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/``
+  ``conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/``
   and currently proves T4 GPU and v5e TPU runtime visibility plus EVPI parity;
   these Colab packets are not timing, warm-up, or throughput review packets.
 * The HPC registry readiness evidence packet is maintained as external handoff
