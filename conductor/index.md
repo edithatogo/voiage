@@ -11,4 +11,5 @@
 
 ## Management
 - [Tracks Registry](./tracks.md)
-- [Tracks Directory](./tracks/)
+- [Active Tracks Directory](./tracks/)
+- [Archived Tracks](./archive/)

@@ -6,7 +6,7 @@
 - EVPPI (Expected Value of Partial Perfect Information)
 """
 
-from typing import Union
+from typing import TYPE_CHECKING, Union
 import warnings
 
 import numpy as np
@@ -17,7 +17,9 @@ from voiage.exceptions import (
     raise_input_error,
 )
 from voiage.schema import ParameterSet as PSASample
-from voiage.schema import ValueArray as NetBenefitArray
+
+if TYPE_CHECKING:
+    from voiage.schema import ValueArray
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
@@ -87,7 +89,7 @@ def check_parameter_samples(parameter_samples: object, n_samples: int) -> np.nda
 
 
 def evpi(
-    nb_array: Union[np.ndarray, "NetBenefitArray"],
+    nb_array: Union[np.ndarray, "ValueArray"],
     population: float | None = None,
     time_horizon: float | None = None,
     discount_rate: float | None = None,
@@ -146,7 +148,7 @@ def evpi(
 
 
 def evppi(
-    nb_array: Union[np.ndarray, "NetBenefitArray"],
+    nb_array: Union[np.ndarray, "ValueArray"],
     parameter_samples: Union[np.ndarray, "PSASample", dict[str, np.ndarray]],
     parameters_of_interest: list[str],
     population: float | None = None,
