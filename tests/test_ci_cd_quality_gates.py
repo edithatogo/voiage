@@ -69,11 +69,11 @@ class TestCICDQualityGatesConfiguration:
         with open(PYPROJECT_TOML) as f:
             pyproject_content = f.read()
 
-        assert "cov-fail-under=90" in pyproject_content, (
-            "Coverage threshold not set to 90% in pyproject.toml"
-        )
         assert "fail_under = 90" in pyproject_content, (
             "Coverage threshold not set to 90% in pyproject.toml [tool.coverage.report]"
+        )
+        assert "--cov-fail-under=90" in TOX_INI.read_text(encoding="utf-8"), (
+            "Coverage threshold not enforced by the coverage tox environment"
         )
 
     def test_tox_has_required_environments(self):
@@ -246,11 +246,11 @@ class TestCICDQualityGatesConfiguration:
             pyproject_content = f.read()
 
         # Ensure coverage threshold is not weakened below 90%
-        assert "cov-fail-under=90" in pyproject_content, (
-            "Coverage floor weakened below 90%"
-        )
         assert "fail_under = 90" in pyproject_content, (
             "Coverage floor weakened below 90%"
+        )
+        assert "--cov-fail-under=90" in TOX_INI.read_text(encoding="utf-8"), (
+            "Coverage command floor weakened below 90%"
         )
 
     def test_integration_and_e2e_tests_configured(self):
