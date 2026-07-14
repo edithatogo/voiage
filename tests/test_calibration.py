@@ -32,7 +32,7 @@ def mock_cal_modeler(psa_samples, study_design, process_spec):
     return ValueArray(dataset=dataset)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_psa():
     """Create a sample ParameterSet for testing."""
     params = {
@@ -42,7 +42,7 @@ def sample_psa():
     return ParameterSet.from_numpy_or_dict(params)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_study_design():
     """Create a sample calibration study design for testing."""
     return {
@@ -52,7 +52,7 @@ def sample_study_design():
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_process_spec():
     """Create a sample calibration process specification for testing."""
     return {"method": "bayesian", "likelihood_function": "normal"}

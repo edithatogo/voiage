@@ -1,14 +1,12 @@
 """Tests for Jupyter widgets."""
 
+from importlib.util import find_spec
+
 import pytest
 
-try:
-    import ipywidgets as widgets
-    HAS_WIDGETS = True
-except ImportError:
-    HAS_WIDGETS = False
-
 from voiage.widgets.voi_widgets import VOIAnalysisWidget
+
+HAS_WIDGETS = find_spec("ipywidgets") is not None
 
 
 @pytest.mark.skipif(not HAS_WIDGETS, reason="ipywidgets not installed")
@@ -16,7 +14,7 @@ def test_widget_creation():
     """Test that the widget can be created."""
     widget = VOIAnalysisWidget()
     assert widget is not None
-    assert hasattr(widget, 'widget_layout')
+    assert hasattr(widget, "widget_layout")
 
 
 @pytest.mark.skipif(not HAS_WIDGETS, reason="ipywidgets not installed")
@@ -25,21 +23,21 @@ def test_widget_components():
     widget = VOIAnalysisWidget()
 
     # Check that key components exist
-    assert hasattr(widget, 'calculate_button')
-    assert hasattr(widget, 'clear_button')
-    assert hasattr(widget, 'analysis_type')
-    assert hasattr(widget, 'population_input')
-    assert hasattr(widget, 'time_horizon_input')
-    assert hasattr(widget, 'discount_rate_input')
-    assert hasattr(widget, 'chunk_size_input')
-    assert hasattr(widget, 'use_jit_checkbox')
-    assert hasattr(widget, 'net_benefits_text')
-    assert hasattr(widget, 'parameters_text')
-    assert hasattr(widget, 'upload_net_benefits_button')
-    assert hasattr(widget, 'upload_parameters_button')
-    assert hasattr(widget, 'output_area')
-    assert hasattr(widget, 'result_area')
-    assert hasattr(widget, 'status_label')
+    assert hasattr(widget, "calculate_button")
+    assert hasattr(widget, "clear_button")
+    assert hasattr(widget, "analysis_type")
+    assert hasattr(widget, "population_input")
+    assert hasattr(widget, "time_horizon_input")
+    assert hasattr(widget, "discount_rate_input")
+    assert hasattr(widget, "chunk_size_input")
+    assert hasattr(widget, "use_jit_checkbox")
+    assert hasattr(widget, "net_benefits_text")
+    assert hasattr(widget, "parameters_text")
+    assert hasattr(widget, "upload_net_benefits_button")
+    assert hasattr(widget, "upload_parameters_button")
+    assert hasattr(widget, "output_area")
+    assert hasattr(widget, "result_area")
+    assert hasattr(widget, "status_label")
 
 
 @pytest.mark.skipif(not HAS_WIDGETS, reason="ipywidgets not installed")

@@ -8,7 +8,6 @@ from typing import Any, Protocol
 
 import numpy as np
 
-from voiage.backends import get_backend
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (

@@ -9,6 +9,7 @@ boundaries.
    :maxdepth: 2
 
    architecture
+   frontier_governance
    profiling
    rust_core_handoff
    rust_parallelism

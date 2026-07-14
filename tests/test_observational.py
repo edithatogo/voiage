@@ -36,7 +36,7 @@ def mock_obs_modeler(psa_samples, study_design, bias_models):
     return ValueArray(dataset=dataset)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_psa():
     """Create a sample ParameterSet for testing."""
     params = {
@@ -46,7 +46,7 @@ def sample_psa():
     return ParameterSet.from_numpy_or_dict(params)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_study_design():
     """Create a sample observational study design for testing."""
     return {
@@ -56,7 +56,7 @@ def sample_study_design():
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_bias_models():
     """Create sample bias models for testing."""
     return {"confounding": {"strength": 0.2}, "selection_bias": {"probability": 0.1}}

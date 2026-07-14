@@ -37,7 +37,7 @@ def mock_evaluator3(psa_sample):
     return ValueArray.from_numpy(values, ["Strategy A", "Strategy B"])
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_structures():
     """Create sample model structures for testing."""
     evaluators = [mock_evaluator1, mock_evaluator2, mock_evaluator3]

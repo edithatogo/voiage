@@ -5,7 +5,7 @@ import numpy as np
 try:
     from IPython.display import display
     import ipywidgets as widgets
-    from traitlets import Bool, Float, Int, Unicode
+
     HAS_WIDGETS = True
 except ImportError:
     HAS_WIDGETS = False
@@ -21,7 +21,9 @@ class VOIAnalysisWidget:
     def __init__(self):
         """Initialize the VOI analysis widget."""
         if not HAS_WIDGETS:
-            raise ImportError("ipywidgets is required for interactive widgets. Install with: pip install ipywidgets")
+            raise ImportError(
+                "ipywidgets is required for interactive widgets. Install with: pip install ipywidgets"
+            )
 
         # Data storage
         self.net_benefits = None
@@ -37,51 +39,45 @@ class VOIAnalysisWidget:
         """Create all UI widgets."""
         # Data input widgets
         self.upload_net_benefits_button = widgets.FileUpload(
-            accept='.csv,.txt,.npy',  # Accept CSV, text, and numpy files
+            accept=".csv,.txt,.npy",  # Accept CSV, text, and numpy files
             multiple=False,
-            description='Upload Net Benefits'
+            description="Upload Net Benefits",
         )
 
         self.upload_parameters_button = widgets.FileUpload(
-            accept='.csv,.txt,.npy',
-            multiple=False,
-            description='Upload Parameters'
+            accept=".csv,.txt,.npy", multiple=False, description="Upload Parameters"
         )
 
         # Manual input widgets
         self.net_benefits_text = widgets.Textarea(
-            value='',
-            placeholder='Enter net benefits as comma-separated values (one sample per line)',
-            description='Net Benefits:',
-            layout=widgets.Layout(width='400px', height='100px')
+            value="",
+            placeholder="Enter net benefits as comma-separated values (one sample per line)",
+            description="Net Benefits:",
+            layout=widgets.Layout(width="400px", height="100px"),
         )
 
         self.parameters_text = widgets.Textarea(
-            value='',
-            placeholder='Enter parameters as key:value pairs (one sample per line)',
-            description='Parameters:',
-            layout=widgets.Layout(width='400px', height='100px')
+            value="",
+            placeholder="Enter parameters as key:value pairs (one sample per line)",
+            description="Parameters:",
+            layout=widgets.Layout(width="400px", height="100px"),
         )
 
         # Analysis type selection
         self.analysis_type = widgets.RadioButtons(
-            options=['EVPI', 'EVPPI'],
-            value='EVPI',
-            description='Analysis Type:',
-            disabled=False
+            options=["EVPI", "EVPPI"],
+            value="EVPI",
+            description="Analysis Type:",
+            disabled=False,
         )
 
         # Configuration widgets
         self.population_input = widgets.FloatText(
-            value=100000,
-            description='Population:',
-            disabled=False
+            value=100000, description="Population:", disabled=False
         )
 
         self.time_horizon_input = widgets.FloatText(
-            value=10,
-            description='Time Horizon:',
-            disabled=False
+            value=10, description="Time Horizon:", disabled=False
         )
 
         self.discount_rate_input = widgets.FloatSlider(
@@ -89,36 +85,32 @@ class VOIAnalysisWidget:
             min=0,
             max=0.2,
             step=0.001,
-            description='Discount Rate:',
+            description="Discount Rate:",
             disabled=False,
-            readout_format='.3f'
+            readout_format=".3f",
         )
 
         self.chunk_size_input = widgets.IntText(
-            value=1000,
-            description='Chunk Size:',
-            disabled=False
+            value=1000, description="Chunk Size:", disabled=False
         )
 
         self.use_jit_checkbox = widgets.Checkbox(
-            value=True,
-            description='Use JIT Compilation',
-            disabled=False
+            value=True, description="Use JIT Compilation", disabled=False
         )
 
         # Action buttons
         self.calculate_button = widgets.Button(
-            description='Calculate VOI',
+            description="Calculate VOI",
             disabled=False,
-            button_style='success',
-            tooltip='Calculate Value of Information'
+            button_style="success",
+            tooltip="Calculate Value of Information",
         )
 
         self.clear_button = widgets.Button(
-            description='Clear Data',
+            description="Clear Data",
             disabled=False,
-            button_style='warning',
-            tooltip='Clear all input data'
+            button_style="warning",
+            tooltip="Clear all input data",
         )
 
         # Output areas
@@ -127,54 +119,61 @@ class VOIAnalysisWidget:
 
         # Status indicator
         self.status_label = widgets.Label(
-            value='Ready',
-            layout=widgets.Layout(width='200px')
+            value="Ready", layout=widgets.Layout(width="200px")
         )
 
     def _setup_layout(self):
-        """Setup the widget layout."""
+        """Set up the widget layout."""
         # Data input section
-        data_input_box = widgets.VBox([
-            widgets.HTML("<h3>Data Input</h3>"),
-            widgets.HBox([self.upload_net_benefits_button, self.upload_parameters_button]),
-            widgets.HTML("<p>Or enter data manually:</p>"),
-            self.net_benefits_text,
-            self.parameters_text
-        ])
+        data_input_box = widgets.VBox(
+            [
+                widgets.HTML("<h3>Data Input</h3>"),
+                widgets.HBox(
+                    [self.upload_net_benefits_button, self.upload_parameters_button]
+                ),
+                widgets.HTML("<p>Or enter data manually:</p>"),
+                self.net_benefits_text,
+                self.parameters_text,
+            ]
+        )
 
         # Configuration section
-        config_box = widgets.VBox([
-            widgets.HTML("<h3>Configuration</h3>"),
-            self.analysis_type,
-            self.population_input,
-            self.time_horizon_input,
-            self.discount_rate_input,
-            self.chunk_size_input,
-            self.use_jit_checkbox
-        ])
+        config_box = widgets.VBox(
+            [
+                widgets.HTML("<h3>Configuration</h3>"),
+                self.analysis_type,
+                self.population_input,
+                self.time_horizon_input,
+                self.discount_rate_input,
+                self.chunk_size_input,
+                self.use_jit_checkbox,
+            ]
+        )
 
         # Action buttons
-        buttons_box = widgets.HBox([
-            self.calculate_button,
-            self.clear_button,
-            self.status_label
-        ])
+        buttons_box = widgets.HBox(
+            [self.calculate_button, self.clear_button, self.status_label]
+        )
 
         # Main layout
-        self.widget_layout = widgets.VBox([
-            data_input_box,
-            config_box,
-            buttons_box,
-            self.output_area,
-            self.result_area
-        ])
+        self.widget_layout = widgets.VBox(
+            [
+                data_input_box,
+                config_box,
+                buttons_box,
+                self.output_area,
+                self.result_area,
+            ]
+        )
 
     def _setup_callbacks(self):
-        """Setup widget callbacks."""
+        """Set up widget callbacks."""
         self.calculate_button.on_click(self._on_calculate_clicked)
         self.clear_button.on_click(self._on_clear_clicked)
-        self.upload_net_benefits_button.observe(self._on_net_benefits_upload, names='value')
-        self.upload_parameters_button.observe(self._on_parameters_upload, names='value')
+        self.upload_net_benefits_button.observe(
+            self._on_net_benefits_upload, names="value"
+        )
+        self.upload_parameters_button.observe(self._on_parameters_upload, names="value")
 
     def _on_calculate_clicked(self, button):
         """Handle calculate button click."""
@@ -186,20 +185,26 @@ class VOIAnalysisWidget:
                 if self.net_benefits is None and self.net_benefits_text.value:
                     self._parse_net_benefits_text()
 
-                if self.parameters is None and self.parameters_text.value and self.analysis_type.value == 'EVPPI':
+                if (
+                    self.parameters is None
+                    and self.parameters_text.value
+                    and self.analysis_type.value == "EVPPI"
+                ):
                     self._parse_parameters_text()
 
                 # Validate data
                 if self.net_benefits is None:
-                    raise ValueError("Net benefits data is required")
+                    raise ValueError("Net benefits data is required")  # noqa: TRY301
 
-                if self.analysis_type.value == 'EVPPI' and self.parameters is None:
-                    raise ValueError("Parameter data is required for EVPPI analysis")
+                if self.analysis_type.value == "EVPPI" and self.parameters is None:
+                    raise ValueError(  # noqa: TRY301
+                        "Parameter data is required for EVPPI analysis"
+                    )
 
                 # Create configuration
                 config = VOIAnalysisConfig(
                     use_jit=self.use_jit_checkbox.value,
-                    chunk_size=self.chunk_size_input.value or None
+                    chunk_size=self.chunk_size_input.value or None,
                 )
 
                 # Create analysis
@@ -207,16 +212,16 @@ class VOIAnalysisWidget:
                     nb_array=self.net_benefits,
                     parameter_samples=self.parameters,
                     use_jit=config.use_jit,
-                    enable_caching=True
+                    enable_caching=True,
                 )
 
                 # Calculate VOI
-                if self.analysis_type.value == 'EVPI':
+                if self.analysis_type.value == "EVPI":
                     result = self.analysis.evpi(
                         population=self.population_input.value or None,
                         time_horizon=self.time_horizon_input.value or None,
                         discount_rate=self.discount_rate_input.value or None,
-                        chunk_size=config.chunk_size
+                        chunk_size=config.chunk_size,
                     )
                     method = "EVPI"
                 else:
@@ -224,7 +229,7 @@ class VOIAnalysisWidget:
                         population=self.population_input.value or None,
                         time_horizon=self.time_horizon_input.value or None,
                         discount_rate=self.discount_rate_input.value or None,
-                        chunk_size=config.chunk_size
+                        chunk_size=config.chunk_size,
                     )
                     method = "EVPPI"
 
@@ -249,8 +254,8 @@ class VOIAnalysisWidget:
         self.analysis = None
 
         # Clear inputs
-        self.net_benefits_text.value = ''
-        self.parameters_text.value = ''
+        self.net_benefits_text.value = ""
+        self.parameters_text.value = ""
 
         # Clear outputs
         with self.output_area:
@@ -262,17 +267,18 @@ class VOIAnalysisWidget:
 
     def _on_net_benefits_upload(self, change):
         """Handle net benefits file upload."""
-        if change['new']:
+        if change["new"]:
             try:
                 # Get uploaded file content
-                uploaded_file = list(change['new'].values())[0]
-                filename = uploaded_file['name']
-                content = uploaded_file['content']
+                uploaded_file = next(iter(change["new"].values()))
+                filename = uploaded_file["name"]
+                content = uploaded_file["content"]
 
                 # Parse based on file type
-                if filename.endswith('.npy'):
+                if filename.endswith(".npy"):
                     # Numpy file
                     import io
+
                     np_data = np.load(io.BytesIO(content))
                     self.net_benefits = ValueArray.from_numpy(np_data)
                 else:
@@ -280,7 +286,8 @@ class VOIAnalysisWidget:
                     import io
 
                     import pandas as pd
-                    text_content = content.decode('utf-8')
+
+                    text_content = content.decode("utf-8")
                     df = pd.read_csv(io.StringIO(text_content))
                     np_data = df.values.astype(np.float64)
                     self.net_benefits = ValueArray.from_numpy(np_data)
@@ -294,29 +301,35 @@ class VOIAnalysisWidget:
 
     def _on_parameters_upload(self, change):
         """Handle parameters file upload."""
-        if change['new']:
+        if change["new"]:
             try:
                 # Get uploaded file content
-                uploaded_file = list(change['new'].values())[0]
-                filename = uploaded_file['name']
-                content = uploaded_file['content']
+                uploaded_file = next(iter(change["new"].values()))
+                filename = uploaded_file["name"]
+                content = uploaded_file["content"]
 
                 # Parse based on file type
-                if filename.endswith('.npy'):
+                if filename.endswith(".npy"):
                     # Numpy file
                     import io
+
                     np_data = np.load(io.BytesIO(content))
                     # Convert to parameter dict format
-                    param_dict = {f"param_{i}": np_data[:, i] for i in range(np_data.shape[1])}
+                    param_dict = {
+                        f"param_{i}": np_data[:, i] for i in range(np_data.shape[1])
+                    }
                     self.parameters = ParameterSet.from_numpy_or_dict(param_dict)
                 else:
                     # Text/CSV file
                     import io
 
                     import pandas as pd
-                    text_content = content.decode('utf-8')
+
+                    text_content = content.decode("utf-8")
                     df = pd.read_csv(io.StringIO(text_content))
-                    param_dict = {col: df[col].values.astype(np.float64) for col in df.columns}
+                    param_dict = {
+                        col: df[col].values.astype(np.float64) for col in df.columns
+                    }
                     self.parameters = ParameterSet.from_numpy_or_dict(param_dict)
 
                 self.status_label.value = f"Parameters loaded from {filename}"
@@ -329,33 +342,33 @@ class VOIAnalysisWidget:
     def _parse_net_benefits_text(self):
         """Parse net benefits from text input."""
         try:
-            lines = self.net_benefits_text.value.strip().split('\n')
+            lines = self.net_benefits_text.value.strip().split("\n")
             data = []
             for line in lines:
                 if line.strip():
-                    values = [float(x.strip()) for x in line.split(',')]
+                    values = [float(x.strip()) for x in line.split(",")]
                     data.append(values)
 
             np_data = np.array(data, dtype=np.float64)
             self.net_benefits = ValueArray.from_numpy(np_data)
 
         except Exception as e:
-            raise ValueError(f"Error parsing net benefits: {e!s}")
+            raise ValueError(f"Error parsing net benefits: {e!s}") from e
 
     def _parse_parameters_text(self):
         """Parse parameters from text input."""
         try:
-            lines = self.parameters_text.value.strip().split('\n')
+            lines = self.parameters_text.value.strip().split("\n")
             param_dict = {}
 
             # Parse first line to get parameter names
             if lines:
                 first_line = lines[0]
-                if ':' in first_line:
+                if ":" in first_line:
                     # Key:value format
                     for line in lines:
                         if line.strip():
-                            parts = line.split(':')
+                            parts = line.split(":")
                             if len(parts) == 2:
                                 key = parts[0].strip()
                                 value = float(parts[1].strip())
@@ -364,10 +377,12 @@ class VOIAnalysisWidget:
                                 param_dict[key].append(value)
                 else:
                     # Comma-separated values with assumed parameter names
-                    param_names = [f"param_{i}" for i in range(len(lines[0].split(',')))]
+                    param_names = [
+                        f"param_{i}" for i in range(len(lines[0].split(",")))
+                    ]
                     for line in lines:
                         if line.strip():
-                            values = [float(x.strip()) for x in line.split(',')]
+                            values = [float(x.strip()) for x in line.split(",")]
                             for i, value in enumerate(values):
                                 if i < len(param_names):
                                     key = param_names[i]
@@ -376,13 +391,13 @@ class VOIAnalysisWidget:
                                     param_dict[key].append(value)
 
             # Convert lists to numpy arrays
-            for key in param_dict:
-                param_dict[key] = np.array(param_dict[key], dtype=np.float64)
+            for key, value in param_dict.items():
+                param_dict[key] = np.array(value, dtype=np.float64)
 
             self.parameters = ParameterSet.from_numpy_or_dict(param_dict)
 
         except Exception as e:
-            raise ValueError(f"Error parsing parameters: {e!s}")
+            raise ValueError(f"Error parsing parameters: {e!s}") from e
 
     def display(self):
         """Display the widget."""

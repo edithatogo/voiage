@@ -58,7 +58,7 @@ else:
     LinearMetamodel = None
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_data():
     """Create sample data for testing."""
     # Create sample parameter set

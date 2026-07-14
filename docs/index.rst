@@ -93,6 +93,7 @@ If you encounter any issues or have questions, please `raise an issue on GitHub 
    plotting/index
    cli_reference
    data_structures
+   dataset-registry
    backends
    contributing
    changelog

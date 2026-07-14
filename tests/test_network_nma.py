@@ -41,7 +41,7 @@ def mock_nma_evaluator(psa_samples, trial_design=None, trial_data=None):
     return NetBenefitArray(dataset=dataset)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_psa():
     """Create a sample ParameterSet for NMA testing."""
     # Create parameters relevant to NMA
@@ -60,7 +60,7 @@ def sample_psa():
     return ParameterSet(dataset=dataset)
 
 
-@pytest.fixture()
+@pytest.fixture
 def sample_trial_design():
     """Create a sample TrialDesign for NMA testing."""
     arms = [
