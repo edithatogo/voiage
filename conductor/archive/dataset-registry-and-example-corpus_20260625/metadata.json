@@ -1,0 +1,8 @@
+{
+  "track_id": "dataset-registry-and-example-corpus_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Create deterministic synthetic datasets and real open-data examples for every analysis type and method family."
+}

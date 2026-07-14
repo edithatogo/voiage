@@ -1,0 +1,8 @@
+{
+  "track_id": "distributional-implementation-voi-stable-promotion_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Promote distributional/equity and implementation-adjusted VOI using deterministic fixtures, real dataset examples, CLI parity, and Rust parity."
+}

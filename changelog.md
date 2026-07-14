@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
+  `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
+  directories after archiving to `conductor/archive/`.
+- Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
+
 ### Added
 - Completed the shared code-scanning rollout by enforcing the pinned
   organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.

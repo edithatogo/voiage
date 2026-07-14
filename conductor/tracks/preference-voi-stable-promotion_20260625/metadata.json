@@ -1,0 +1,8 @@
+{
+  "track_id": "preference-voi-stable-promotion_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Promote preference VOI and preference heterogeneity with fixture parity, adapter stability, schemas, examples, and docs."
+}

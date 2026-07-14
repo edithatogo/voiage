@@ -1,0 +1,8 @@
+{
+  "track_id": "discrete-gpu-production-speedup-evidence_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Capture CUDA-class GPU speedup on production-sized VOI workloads using Colab CLI, GitHub Actions artifacts, and optional cloud GPU runners."
+}

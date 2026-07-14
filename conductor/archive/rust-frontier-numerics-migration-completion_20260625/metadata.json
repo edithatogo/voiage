@@ -1,0 +1,8 @@
+{
+  "track_id": "rust-frontier-numerics-migration-completion_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Complete the Rust numerics migration for stable and frontier kernels while preserving Python as the public facade."
+}

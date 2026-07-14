@@ -1,0 +1,8 @@
+{
+  "track_id": "adaptive-learning-bandit-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add adaptive learning and bandit VOI as a mature/stable method family for sequential allocation, exploration, and stopping decisions."
+}

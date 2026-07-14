@@ -13,6 +13,7 @@ boundaries.
    rust_core_handoff
    rust_parallelism
    rust_accelerators
+   rust_python_bridge_policy
    versioning_and_release_policy
    community_support
    how_to_contribute

@@ -1,0 +1,14 @@
+{
+  "evpi": ["evpi_synthetic.json"],
+  "evppi": ["evppi_synthetic.json"],
+  "evsi": ["evsi_synthetic.json"],
+  "enbs": ["enbs_synthetic.json"],
+  "nma": ["nma_synthetic.json"],
+  "structural_voi": ["structural_voi_synthetic.json"],
+  "calibration_voi": ["calibration_voi_synthetic.json"],
+  "adaptive_trial_voi": ["adaptive_trial_voi_synthetic.json"],
+  "portfolio_voi": ["portfolio_voi_synthetic.json"],
+  "sequential_voi": ["sequential_voi_synthetic.json"],
+  "ceac": ["ceac_synthetic.json"],
+  "heterogeneity": ["heterogeneity_synthetic.json"]
+}

@@ -28,6 +28,14 @@ analysis dimension rather than a hidden modelling assumption. A decision problem
 can be evaluated simultaneously from payer, societal, patient, provider,
 regulator, equity-weighted, or custom stakeholder perspectives.
 
+VOP is worth keeping as a first-class frontier method because perspective choice
+is often a genuine uncertainty in the decision problem, not merely a plotting or
+sensitivity-analysis option. A perspective-uncertainty analysis asks how much
+value would be created by resolving uncertainty over the relevant stakeholder
+objective, perspective weights, or perspective-specific net-benefit definition.
+That makes it a natural companion to preference, equity, implementation, and
+robust VOI rather than a duplicate of ordinary subgroup or scenario analysis.
+
 The first contract should represent net benefit as:
 
 ```text
@@ -185,16 +193,38 @@ SOTA roadmap should also keep these adjacent families visible:
 - expert-elicitation and evidence-synthesis design VOI, where the decision is
   whether to elicit uncertain parameters, resolve conflicting sources, or invest
   in a better synthesis process
+- adaptive learning and bandit VOI, where the decision is whether continued
+  exploration, online allocation, or adaptive sampling is worth the regret and
+  operational burden
+- capacity and budget-constrained VOI, where the value of information changes
+  because feasible decisions depend on resource, workforce, supply, queueing, or
+  budget-impact constraints
+- federated and privacy-preserving VOI, where evidence must be generated across
+  sites without centralizing sensitive data and the privacy budget or disclosure
+  control is decision-relevant
+- AI-assisted evidence triage VOI, where screening, extraction, summarization,
+  prioritization, or review automation may reduce evidence-generation burden but
+  introduces false-inclusion, false-exclusion, audit, and drift uncertainty
+- regulatory and market-access VOI, where evidence can change approval,
+  reimbursement, label, pricing, or coverage conditions before implementation
+- replication and reproducibility VOI, where the decision is whether independent
+  replication, audit, reanalysis, or reproducibility work is worth its cost
+- evidence obsolescence and refresh VOI, where living evidence, guideline
+  updates, or model refreshes have value because existing evidence decays
+- strategic behavior and game-theoretic VOI, where other actors respond to
+  information, incentives, prices, or policy in ways that change decision value
 
 ## Track Ownership
 
-The implementation plan lives in:
+The original SOTA frontier implementation plan lives in the archived
+`conductor/tracks/sota-voi-frontier_20260429/` record. Current follow-through
+work is split into active promotion and runtime-completion tracks:
 
 `conductor/archive/sota-voi-frontier_20260429/`
 
-Value of Perspective should be implemented first because it is clearly
-differentiating, directly connected to the user's work, and can reuse the
-existing net-benefit-first architecture.
+These tracks must not mark a frontier family stable until runtime behavior,
+schemas, CLI examples, documentation, deterministic fixtures, cross-language
+parity, and any Rust-kernel parity gates are satisfied.
 
 ## References And Starting Points
 

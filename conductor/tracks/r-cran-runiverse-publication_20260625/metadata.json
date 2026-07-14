@@ -1,0 +1,8 @@
+{
+  "track_id": "r-cran-runiverse-publication_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Prepare CRAN-quality submission, r-universe indexing, reverse checks, and manual submission handoff for the R binding."
+}

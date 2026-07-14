@@ -99,6 +99,13 @@ def _evaluator_julia_general(
     return "unconfirmed"
 
 
+def _evaluator_external_manual(
+    _status: int | None, _body: bytes | None, _error: str | None
+) -> str:
+    """Return the conservative status for curation targets without package APIs."""
+    return "external_manual"
+
+
 CHANNELS: tuple[Channel, ...] = (
     Channel(
         key="python",
@@ -187,6 +194,91 @@ CHANNELS: tuple[Channel, ...] = (
         notes="Automated NuGet publish exists on dotnet-v* tags.",
         evaluator=_evaluator_http_hit_if_200,
         confidence="high",
+    ),
+    Channel(
+        key="conda_forge",
+        package="voiage",
+        registry="conda-forge",
+        registry_url="https://anaconda.org/conda-forge/voiage",
+        check_url="https://api.anaconda.org/package/conda-forge/voiage",
+        notes=(
+            "The in-repo workflow can create a feedstock update PR; feedstock "
+            "merge and channel indexing remain external conda-forge gates."
+        ),
+        evaluator=_evaluator_http_hit_if_200,
+        confidence="medium",
+    ),
+    Channel(
+        key="r_universe",
+        package="voiageR",
+        registry="r-universe",
+        registry_url="https://edithatogo.r-universe.dev/voiageR",
+        check_url="https://edithatogo.r-universe.dev/api/packages/voiageR",
+        notes=(
+            "r-universe indexing is external to this repository and must be "
+            "verified independently from GitHub Release source archives."
+        ),
+        evaluator=_evaluator_http_hit_if_200,
+        confidence="medium",
+    ),
+    Channel(
+        key="spack",
+        package="py-voiage",
+        registry="Spack",
+        registry_url="https://packages.spack.io/package.html?name=py-voiage",
+        check_url=(
+            "https://raw.githubusercontent.com/spack/spack/develop/"
+            "var/spack/repos/builtin/packages/py-voiage/package.py"
+        ),
+        notes=(
+            "Spack publication requires an upstream package PR, maintainer "
+            "review, merge, and package visibility."
+        ),
+        evaluator=_evaluator_http_hit_if_200,
+        confidence="medium",
+    ),
+    Channel(
+        key="easybuild",
+        package="voiage",
+        registry="EasyBuild",
+        registry_url="https://github.com/easybuilders/easybuild-easyconfigs",
+        check_url=(
+            "https://api.github.com/repos/easybuilders/"
+            "easybuild-easyconfigs/contents/easybuild/easyconfigs/v/voiage"
+            "?ref=develop"
+        ),
+        notes=(
+            "EasyBuild publication requires an upstream easyconfig PR, "
+            "maintainer review, merge, and easyconfig visibility."
+        ),
+        evaluator=_evaluator_http_hit_if_200,
+        confidence="medium",
+    ),
+    Channel(
+        key="hpsf",
+        package="voiage",
+        registry="HPSF",
+        registry_url="https://hpsf.io/",
+        check_url="https://hpsf.io/",
+        notes=(
+            "HPSF curation has no repo-owned package API check here; portal or "
+            "curation review evidence must be attached by the follow-through track."
+        ),
+        evaluator=_evaluator_external_manual,
+        confidence="low",
+    ),
+    Channel(
+        key="e4s",
+        package="voiage",
+        registry="E4S",
+        registry_url="https://e4s.io/",
+        check_url="https://e4s.io/",
+        notes=(
+            "E4S inclusion depends on external curation and usually on upstream "
+            "HPC packaging evidence such as Spack or EasyBuild."
+        ),
+        evaluator=_evaluator_external_manual,
+        confidence="low",
     ),
 )
 

@@ -1,0 +1,8 @@
+{
+  "track_id": "strategic-behavior-game-theoretic-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add strategic behavior and game-theoretic VOI as a mature/stable method family for decisions where other actors respond strategically to information or policy."
+}

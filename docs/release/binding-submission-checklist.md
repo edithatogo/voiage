@@ -107,6 +107,25 @@ snapshot is also stored in:
 
 - `docs/release/registry_audit_snapshot.json`
 
+## Follow-Through Publication Tracks
+
+The completed readiness tracks are not reopened for live publication evidence.
+The active follow-through tracks are:
+
+- `external-registry-publication-program_20260625`
+- `conda-forge-feedstock-publication_20260625`
+- `r-cran-runiverse-publication_20260625`
+- `julia-general-registry-publication_20260625`
+- `spack-package-merge-followthrough_20260625`
+- `easybuild-easyconfig-merge-followthrough_20260625`
+- `hpsf-curation-submission-followthrough_20260625`
+- `e4s-inclusion-followthrough_20260625`
+
+These tracks must distinguish readiness, submitted, published, indexed,
+approved, blocked, and not-found states. GitHub Actions and `gh` are the
+preferred repeatable evidence path; browser automation is reserved for external
+portals and must pause before irreversible submissions or account actions.
+
 ## How To Refresh Live Registry Evidence
 
 The live registry evidence packet is a static JSON artifact that can be refreshed
@@ -149,8 +168,16 @@ package for the binding names used in this repository:
   - https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list
 - Julia `Voiage` was not present in the General registry contents API
   - https://github.com/JuliaRegistries/General
-- Spack, EasyBuild, HPSF, and E4S remain external/manual per their respective
-  ecosystem processes.
+- conda-forge `voiage` was not present in the anaconda.org package API
+  - https://anaconda.org/conda-forge/voiage
+- r-universe `voiageR` was not present in the package API
+  - https://edithatogo.r-universe.dev/voiageR
+- Spack `py-voiage` was not present in the upstream package tree
+  - https://packages.spack.io/package.html?name=py-voiage
+- EasyBuild `voiage` was not present in the upstream easyconfig tree
+  - https://github.com/easybuilders/easybuild-easyconfigs
+- HPSF and E4S remain external/manual curation targets because this repository
+  cannot confirm inclusion from a package API alone.
 
 So the current live state is: the release automation exists, but the registry
 submissions have not been confirmed as published for these package names.

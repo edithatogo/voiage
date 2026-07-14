@@ -1,0 +1,8 @@
+{
+  "track_id": "federated-privacy-preserving-voi-mature-stable_20260625",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-06-25T00:00:00Z",
+  "description": "Add federated and privacy-preserving VOI as a mature/stable method family for multi-site evidence generation without centralizing sensitive data."
+}

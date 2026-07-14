@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "description": "Tracked migration matrix for Rust frontier numerics. Each entry records the kernel owner, Rust status, Python wrapper status, parity status, benchmark status, and migration priority.",
+  "status_enums": {
+    "rust_status": [
+      "none",
+      "contract_fixture",
+      "complete"
+    ],
+    "python_wrapper_status": [
+      "native",
+      "reference_only",
+      "bridge_pending"
+    ],
+    "parity_status": [
+      "none",
+      "fixture_backed",
+      "verified"
+    ],
+    "benchmark_status": [
+      "none",
+      "scalar_baseline",
+      "ci_gated"
+    ],
+    "migration_priority": [
+      "high",
+      "medium",
+      "low"
+    ]
+  },
+  "kernels": [
+    {
+      "kernel_id": "evpi",
+      "python_owner": "voiage.methods.basic",
+      "rust_status": "complete",
+      "python_wrapper_status": "reference_only",
+      "parity_status": "verified",
+      "benchmark_status": "ci_gated",
+      "migration_priority": "high",
+      "notes": "Rust scalar evpi_contract in bindings/rust/src/scalar.rs; Python facade in voiage.methods.basic.evpi remains the public surface. Covered by the CI-gated scalar CPU baseline benchmark."
+    },
+    {
+      "kernel_id": "evppi",
+      "python_owner": "voiage.methods.basic",
+      "rust_status": "contract_fixture",
+      "python_wrapper_status": "native",
+      "parity_status": "fixture_backed",
+      "benchmark_status": "scalar_baseline",
+      "migration_priority": "high",
+      "notes": "Rust evppi_contract defines the result envelope boundary; Python regression-based estimator in voiage.methods.basic.evppi remains the runtime owner until a PyO3 bridge is approved."
+    },
+    {
+      "kernel_id": "evsi",
+      "python_owner": "voiage.methods.sample_information",
+      "rust_status": "contract_fixture",
+      "python_wrapper_status": "native",
+      "parity_status": "fixture_backed",
+      "benchmark_status": "ci_gated",
+      "migration_priority": "high",
+      "notes": "Rust evsi_contract and evsi_stochastic_contract define the deterministic and stochastic kernel boundaries; Python two-loop, regression, efficient, and moment-based estimators in voiage.methods.sample_information remain the runtime owners."
+    },
+    {
+      "kernel_id": "enbs",
+      "python_owner": "voiage.methods.sample_information",
+      "rust_status": "complete",
+      "python_wrapper_status": "reference_only",
+      "parity_status": "verified",
+      "benchmark_status": "ci_gated",
+      "migration_priority": "high",
+      "notes": "Rust scalar enbs_contract in bindings/rust/src/scalar.rs; Python facade in voiage.methods.sample_information.enbs remains the public surface. Covered by the CI-gated scalar CPU baseline benchmark."
+    },
+    {
+      "kernel_id": "ceaf",
+      "python_owner": "voiage.methods.ceaf",
+      "rust_status": "complete",
+      "python_wrapper_status": "reference_only",
+      "parity_status": "fixture_backed",
+      "benchmark_status": "none",
+      "migration_priority": "medium",
+      "notes": "Rust calculate_ceaf in bindings/rust/src/partial.rs; Python facade in voiage.methods.ceaf. Parity is fixture-backed; CI benchmark gate is deferred."
+    },
+    {
+      "kernel_id": "dominance",
+      "python_owner": "voiage.methods.dominance",
+      "rust_status": "complete",
+      "python_wrapper_status": "reference_only",
+      "parity_status": "fixture_backed",
+      "benchmark_status": "none",
+      "migration_priority": "medium",
+      "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in bindings/rust/src/partial.rs; Python facade in voiage.methods.dominance."
+    },
+    {
+      "kernel_id": "value_of_heterogeneity",
+      "python_owner": "voiage.methods.heterogeneity",
+      "rust_status": "complete",
+      "python_wrapper_status": "reference_only",
+      "parity_status": "fixture_backed",
+      "benchmark_status": "none",
+      "migration_priority": "medium",
+      "notes": "Rust value_of_heterogeneity in bindings/rust/src/partial.rs; Python facade in voiage.methods.heterogeneity."
+    },
+    {
+      "kernel_id": "structural_voi",
+      "python_owner": "voiage.methods.structural",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "medium",
+      "notes": "Python-only structural VOI in voiage.methods.structural. Rust migration deferred until benchmark evidence justifies the port."
+    },
+    {
+      "kernel_id": "nma_voi",
+      "python_owner": "voiage.methods.network_meta_analysis",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "medium",
+      "notes": "Python-only network meta-analysis VOI in voiage.methods.network_meta_analysis and voiage.methods.network_nma. Rust migration deferred."
+    },
+    {
+      "kernel_id": "threshold_voi",
+      "python_owner": "voiage.methods.threshold",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "low",
+      "notes": "Python-only threshold VOI in voiage.methods.threshold. Low performance value for a Rust port."
+    },
+    {
+      "kernel_id": "validation_voi",
+      "python_owner": "voiage.methods.validation",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "low",
+      "notes": "Python-only validation VOI in voiage.methods.validation. Low performance value for a Rust port."
+    },
+    {
+      "kernel_id": "distributional_voi",
+      "python_owner": "voiage.methods.distributional",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "low",
+      "notes": "Python-only distributional VOI in voiage.methods.distributional. Low performance value for a Rust port."
+    },
+    {
+      "kernel_id": "perspective_voi",
+      "python_owner": "voiage.methods.perspective",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "low",
+      "notes": "Python-only perspective VOI in voiage.methods.perspective. Low performance value for a Rust port."
+    },
+    {
+      "kernel_id": "preference_voi",
+      "python_owner": "voiage.methods.preference",
+      "rust_status": "none",
+      "python_wrapper_status": "native",
+      "parity_status": "none",
+      "benchmark_status": "none",
+      "migration_priority": "low",
+      "notes": "Python-only preference VOI in voiage.methods.preference. Low performance value for a Rust port."
+    }
+  ]
+}
