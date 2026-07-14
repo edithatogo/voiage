@@ -336,7 +336,6 @@ def test_enhanced_jax_backend_numpy_sampling_fallback(monkeypatch) -> None:
     assert result["values"].shape == (2,)
 
 
-
 @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
 def test_enhanced_jax_backend_compute_evpi_subset() -> None:
     """Test compute_evpi_subset logic indirectly via parallel_monte_carlo."""
@@ -359,13 +358,16 @@ def test_enhanced_jax_backend_compute_evpi_subset() -> None:
 
     # Test case 3: chunk_size larger than n_samples is capped at n_samples
     nb_small = np.array([[1.0, 0.0], [0.0, 1.0]])
-    res_large_chunk = backend.parallel_monte_carlo(nb_small, n_simulations=3, chunk_size=100)
+    res_large_chunk = backend.parallel_monte_carlo(
+        nb_small, n_simulations=3, chunk_size=100
+    )
     assert len(res_large_chunk["values"]) == 3
 
     # Test case 4: Known EVPI behavior for a specific distribution
     res_evpi = backend.parallel_monte_carlo(nb_small, n_simulations=20, chunk_size=2)
     assert res_evpi["mean"] >= 0.0
     assert any(v > 0 for v in res_evpi["values"])
+
 
 @pytest.mark.skipif(not JAX_AVAILABLE, reason="JAX not available")
 def test_enhanced_jax_backend_compute_evpi_subset_no_jax(monkeypatch) -> None:
