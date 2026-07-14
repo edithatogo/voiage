@@ -4,6 +4,13 @@ from pathlib import Path
 import re
 
 
+def _hardening_track_dir() -> Path:
+    """Return the canonical active or archived hardening track directory."""
+    track_id = "conductor-commit-note-checkpoint-hardening_20260625"
+    active = Path("conductor/tracks") / track_id
+    return active if active.is_dir() else Path("conductor/archive") / track_id
+
+
 def test_conductor_commit_notes_required():
     """Conductor tracks should require commits and commit notes."""
 
@@ -96,9 +103,7 @@ def test_plan_contains_git_notes():
 
     # Test that the Conductor Commit Note And Checkpoint Hardening track itself
     # requires git notes in its plan
-    track_dir = Path(
-        "conductor/tracks/conductor-commit-note-checkpoint-hardening_20260625"
-    )
+    track_dir = _hardening_track_dir()
     plan_md = track_dir / "plan.md"
 
     plan_content = plan_md.read_text(encoding="utf-8")
@@ -120,25 +125,21 @@ def test_plan_contains_git_notes():
 def test_verification_commands_updated():
     """Verification commands should include new CI/CD requirements."""
 
-    track_dir = Path(
-        "conductor/tracks/conductor-commit-note-checkpoint-hardening_20260625"
-    )
+    track_dir = _hardening_track_dir()
     plan_md = track_dir / "plan.md"
 
     plan_content = plan_md.read_text(encoding="utf-8")
 
-    # Check that verification commands include the expected validation test
-    assert "test_conductor_followthrough_tracks" in plan_content, (
-        "Plan should include conductor validation test"
+    # Check that verification commands include the track's validation test.
+    assert "test_conductor_commit_note_hardening.py" in plan_content, (
+        "Plan should include its Conductor validation test"
     )
 
 
 def test_external_gates_documentation():
     """Tracks should document how to record blocked external evidence."""
 
-    track_dir = Path(
-        "conductor/tracks/conductor-commit-note-checkpoint-hardening_20260625"
-    )
+    track_dir = _hardening_track_dir()
     spec_md = track_dir / "spec.md"
 
     spec_content = spec_md.read_text(encoding="utf-8")
