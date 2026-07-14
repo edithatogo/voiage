@@ -1,0 +1,14 @@
+{
+  "track": "apple-metal-integrated-gpu-optimization_20260511",
+  "phase": "phase_3",
+  "status": "cpu_reference_only",
+  "evidence": {
+    "cpu_reference_bundle": "conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_cpu_reference.json",
+    "full_comparison_bundle": "conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_handoff_bundle.json",
+    "runtime_freeze": "conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt"
+  },
+  "pending": [
+    "device_backed_comparison_when_apple_silicon_available"
+  ],
+  "next_action": "Record at least one successful apple_metal comparison packet in this manifest for full phase-3 closure."
+}

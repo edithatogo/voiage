@@ -88,7 +88,7 @@ Current hardware evidence
 -------------------------
 
 The current hardware-backed Colab evidence lives under
-``conductor/tracks/hpc-acceleration-abstraction-contract_20260511/handoff/``:
+``conductor/archive/hpc-acceleration-abstraction-contract_20260511/handoff/``:
 
 * ``colab_gpu_accelerator_evidence.json`` records a T4 GPU run with
   ``jax_devices == ["cuda:0"]``, ``jax_platforms == ["gpu"]``, and

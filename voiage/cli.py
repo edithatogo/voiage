@@ -68,9 +68,6 @@ from voiage.methods.preference import (
     PreferenceProfile,
     PreferenceProfileSet,
 )
-from voiage.methods.preference import (
-    value_of_preference as calculate_preference_result,
-)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.structural import structural_evpi, structural_evppi
@@ -2788,6 +2785,10 @@ def calculate_preference(
                 for entry in profile_entries
             ]
         )
+        from voiage.methods.preference import (
+            value_of_preference as calculate_preference_result,
+        )
+
         result = calculate_preference_result(
             value_array,
             preference_profiles=profiles,
