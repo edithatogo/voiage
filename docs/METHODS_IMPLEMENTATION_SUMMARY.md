@@ -8,7 +8,7 @@ I have successfully implemented comprehensive documentation for all Value of Inf
 
 ### 1. Supplementary Methods and Formulae Document
 
-**File**: `/Users/doughnut/GitHub/voiage/paper/SUPPLEMENTARY_METHODS_AND_FORMULAE.md`
+**File**: `paper/SUPPLEMENTARY_METHODS_AND_FORMULAE.md`
 
 **Content**:
 - Complete mathematical formulae for all core VOI methods (EVPI, EVPPI, EVSI, ENBS)
@@ -25,7 +25,7 @@ I have successfully implemented comprehensive documentation for all Value of Inf
 
 ### 2. Enhanced Basic VOI Documentation
 
-**File**: `/Users/doughnut/GitHub/voiage/docs/user_guide/features/enhanced_basic_voi.md`
+**File**: `docs/user_guide/features/enhanced_basic_voi.md`
 
 **Content**:
 - Enhanced mathematical background for basic VOI methods
@@ -41,7 +41,7 @@ I have successfully implemented comprehensive documentation for all Value of Inf
 
 ### 3. Enhanced Advanced VOI Documentation
 
-**File**: `/Users/doughnut/GitHub/voiage/docs/user_guide/features/enhanced_advanced_voi.md`
+**File**: `docs/user_guide/features/enhanced_advanced_voi.md`
 
 **Content**:
 - Comprehensive documentation of advanced VOI methods
@@ -57,7 +57,7 @@ I have successfully implemented comprehensive documentation for all Value of Inf
 
 ### 4. Consolidated Methods and Formulae Section
 
-**File**: `/Users/doughnut/GitHub/voiage/docs/METHODS_AND_FORMULAE.md`
+**File**: `docs/METHODS_AND_FORMULAE.md`
 
 **Content**:
 - Comprehensive overview of all methods and formulae

@@ -25,7 +25,7 @@ I have successfully completed all the requested tasks related to creating Quarto
 
 ### 5. Actual PDF Rendering
 ✅ Successfully rendered the paper in arXiv format to PDF
-✅ PDF is located at: `/Users/doughnut/GitHub/voiage/paper/arxiv_output/paper.pdf`
+✅ PDF is located at: `paper/arxiv_output/paper.pdf`
 ✅ File size: 106,767 bytes (approximately 104 KB)
 
 ### 6. JSS Format Preparation

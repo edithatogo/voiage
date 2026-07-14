@@ -15,6 +15,7 @@ are working correctly, including:
 import subprocess
 import sys
 import os
+from pathlib import Path
 
 
 def run_command(cmd, description="", check=True):
@@ -48,7 +49,7 @@ def main():
     print("=== voiage Enhancement Validation ===\n")
     
     # Change to the project directory
-    project_dir = "/Users/doughnut/GitHub/voiage"
+    project_dir = str(Path(__file__).resolve().parent)
     os.chdir(project_dir)
     print(f"Working in: {project_dir}\n")
     

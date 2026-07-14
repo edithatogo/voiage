@@ -7,7 +7,7 @@ I have successfully rendered one version of the paper in PDF format using Quarto
 
 ### arXiv Format
 - **Status**: Successfully rendered to PDF
-- **Output Location**: `/Users/doughnut/GitHub/voiage/paper/arxiv_output/paper.pdf`
+- **Output Location**: `paper/arxiv_output/paper.pdf`
 - **Format Details**: 
   - Single-column layout
   - 12pt font size
