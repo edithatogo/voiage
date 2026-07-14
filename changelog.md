@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a fail-closed repository harness for workflow permissions, immutable
+  GitHub Action pins, required governance files, and security workflow
+  presence; wired it into tox and contributor documentation.
+- Added dependency review, OpenSSF Scorecard, Zizmor workflow auditing,
+  Dependabot configuration, and release artifact provenance attestations.
+- Hardened existing GitHub workflows with least-privilege permissions, pinned
+  action commits, and a repaired blocking CodeQL alert gate.
 - Added a pre-silicon FPGA/ASIC evidence harness with a deterministic
   fixed-point EVPI-style RTL kernel, CPU fixture bundle, manifest generator,
   committed probe manifests, and a GitHub Actions smoke workflow for free-runner
@@ -390,6 +397,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Updated the protected `main` ruleset for a single-maintainer repository:
+  pull requests, signed commits, linear history, resolved review threads, and
+  required CI/security checks remain enforced without an impossible
+  independent-approval requirement. The CodeQL required-check context now
+  matches the workflow's emitted `CodeQL Analysis (python)` check.
+- Added Dependabot cooldowns and replaced the third-party GitHub release action
+  with the runner-provided `gh release` command across package release jobs.
 - Hardened the release and verification checks by making the R binding release
   checklist test resilient to current wording, aligning the minimum-version tox
   environment with the declared JAX-compatible dependency floor, and preventing

@@ -10,21 +10,26 @@ on:
       - "dotnet-v*"
       - "r-v*"
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 jobs:
   typescript:
     name: Publish TypeScript to npm
     if: startsWith(github.ref_name, 'typescript-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     defaults:
       run:
         working-directory: bindings/typescript
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      # zizmor: ignore[cache-poisoning] -- setup-node cache is not enabled;
+      # npm provenance is required for this package release surface.
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # zizmor: ignore[cache-poisoning]
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
@@ -52,24 +57,30 @@ jobs:
             HEAD bindings/typescript
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-typescript-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-typescript-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   go:
     name: Release Go module
     if: startsWith(github.ref_name, 'bindings/go/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: bindings/go
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:
           go-version: "1.25"
+          cache: false
 
       - run: go test -mod=readonly ./...
       - run: go vet -mod=readonly ./...
@@ -85,22 +96,27 @@ jobs:
             HEAD bindings/go
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-go-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-go-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   rust:
     name: Publish Rust to crates.io
     if: startsWith(github.ref_name, 'rust-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: bindings/rust
     steps:
-      - uses: actions/checkout@v5
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30
         with:
           components: clippy,rustfmt
 
@@ -128,22 +144,27 @@ jobs:
             HEAD bindings/rust
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-rust-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-rust-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   julia:
     name: Release Julia package
     if: startsWith(github.ref_name, 'julia-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: bindings/julia
     steps:
-      - uses: actions/checkout@v5
-      - uses: julia-actions/setup-julia@v2
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9
         with:
           version: "1.11"
 
@@ -172,22 +193,27 @@ jobs:
             HEAD bindings/julia
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-julia-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-julia-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   dotnet:
     name: Publish .NET 11 package to NuGet
     if: startsWith(github.ref_name, 'dotnet-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: bindings/dotnet
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
           dotnet-version: "11.0.x"
           dotnet-quality: "preview"
@@ -220,29 +246,33 @@ jobs:
             HEAD bindings/dotnet
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            ${{ runner.temp }}/release-artifacts/voiage-dotnet-*.tar.gz
-            bindings/dotnet/nupkg/*.nupkg
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-dotnet-*.tar.gz
+          nupkg/*.nupkg
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   r:
     name: Release R package
     if: startsWith(github.ref_name, 'r-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: r-package/voiageR
     steps:
-      - uses: actions/checkout@v5
-      - uses: r-lib/actions/setup-r@v2
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
           working-directory: r-package/voiageR
           extra-packages: any::rcmdcheck
-      - uses: r-lib/actions/setup-tinytex@v2
+      - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
 
       - name: Capture release version
         run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#r-v}" >> "$GITHUB_ENV"
@@ -269,10 +299,10 @@ jobs:
           mv "$built" "$RUNNER_TEMP/release-artifacts/$built"
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            ${{ runner.temp }}/release-artifacts/voiageR_*.tar.gz
-            ${{ runner.temp }}/release-artifacts/voiageR-manual.pdf
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiageR_*.tar.gz
+          "$RUNNER_TEMP"/release-artifacts/voiageR-manual.pdf
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
