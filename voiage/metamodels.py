@@ -69,21 +69,6 @@ try:
     if "complex" not in np.__dict__:
         np.__dict__["complex"] = complex
 
-    # Also patch scipy sparse matrix attributes if needed
-    try:
-        import scipy.sparse
-
-        if hasattr(scipy.sparse, "csr_matrix") and not hasattr(
-            scipy.sparse.csr_matrix, "A"
-        ):
-            # Add the A property as an alias to toarray()
-            def _get_a(self: "_SparseMatrixProtocol") -> np.ndarray:
-                return np.asarray(self.toarray())
-
-            scipy.sparse.csr_matrix.A = property(_get_a)
-    except ImportError:
-        pass
-
     from pygam import LinearGAM
     from pygam import s as gam_spline
 
@@ -94,7 +79,6 @@ except ImportError:
     gam_spline = None
 
 try:
-    import arviz as az
     import pymc as pm
     import pymc_bart as pmb
 
@@ -102,7 +86,6 @@ try:
 except ImportError:
     PYMC_AVAILABLE = False
     pm = None
-    az = None
     pmb = None
 
 from voiage.exceptions import (
@@ -129,6 +112,15 @@ class _PredictorProtocol(Protocol):
 
 
 @runtime_checkable
+class _SparseMatrixProtocol(Protocol):  # noqa: PYI046
+    """Protocol for sparse matrices that expose a dense conversion."""
+
+    def toarray(self) -> object:
+        """Return the matrix as a dense array."""
+        ...
+
+
+@runtime_checkable
 class _TinyGPConditionProtocol(Protocol):
     """Protocol for tinygp conditional predictions."""
 
@@ -143,15 +135,6 @@ class _TinyGPProtocol(Protocol):
         self, y: np.ndarray, x: np.ndarray
     ) -> tuple[object, _TinyGPConditionProtocol]:
         """Condition the GP on observed targets."""
-        ...
-
-
-@runtime_checkable
-class _SparseMatrixProtocol(Protocol):
-    """Protocol for sparse matrices exposing ``toarray``."""
-
-    def toarray(self) -> np.ndarray:
-        """Convert the sparse matrix to a dense array."""
         ...
 
 
@@ -510,9 +493,17 @@ class FlaxMetamodel:  # pragma: no cover
             state = state.apply_gradients(grads=grads)
             return state, loss
 
-        train_step_jit = jax.jit(train_step)
-        for _ in range(self.n_epochs):
-            self.state, _ = train_step_jit(self.state, x_np, y_np)
+        def scan_fn(
+            carry: train_state.TrainState, _: object
+        ) -> tuple[train_state.TrainState, float]:
+            state = carry
+            state, loss = train_step(state, x_np, y_np)
+            return state, loss
+
+        scan_fn_jit = jax.jit(
+            lambda state: jax.lax.scan(scan_fn, state, None, length=self.n_epochs)
+        )
+        self.state, _ = scan_fn_jit(self.state)
 
     def predict(self, x: ParameterSet) -> np.ndarray:
         """Predict the target values for the given input parameters."""

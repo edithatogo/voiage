@@ -16,6 +16,7 @@ boundaries.
    versioning_and_release_policy
    community_support
    how_to_contribute
+   quality_and_security
    implementing_new_methods
    polyglot_tooling
    hpc_acceleration_abstraction_contract

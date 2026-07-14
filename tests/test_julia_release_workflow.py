@@ -13,7 +13,9 @@ def test_julia_release_workflow_and_checklist_align() -> None:
     assert "julia-v*" in workflow_text
     assert "Project.toml version" in workflow_text
     assert "Pkg.test()" in workflow_text
-    assert "softprops/action-gh-release@v2" in workflow_text
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert "--generate-notes --verify-tag" in workflow_text
+    assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
         "The Julia binding remains the thin adapter over the shared contract."
