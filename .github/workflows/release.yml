@@ -64,11 +64,6 @@ jobs:
         print-hash: true
 
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-      with:
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-        files: dist/*
+      run: gh release create "$GITHUB_REF_NAME" dist/* --generate-notes --verify-tag
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ github.token }}

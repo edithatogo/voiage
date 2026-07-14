@@ -19,8 +19,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         release provenance attestation.
     *   Applied repository merge/signoff settings and the active
         `main-maximal-quality` GitHub ruleset requiring pull requests,
-        CODEOWNERS review, signed commits, linear history, and required CI,
-        dependency-review, and CodeQL checks.
+        signed commits, linear history, resolved review threads, and required
+        CI, dependency-review, and CodeQL checks. The review count is zero for
+        the repository's single-maintainer operating model.
     *   Kept organization-owned policy, environment approvals, and unavailable
         plan-dependent secret-scanning enhancements explicitly external.
 

@@ -57,11 +57,12 @@ jobs:
             HEAD bindings/typescript
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-typescript-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-typescript-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   go:
     name: Release Go module
@@ -95,11 +96,12 @@ jobs:
             HEAD bindings/go
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-go-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-go-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   rust:
     name: Publish Rust to crates.io
@@ -142,11 +144,12 @@ jobs:
             HEAD bindings/rust
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-rust-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-rust-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   julia:
     name: Release Julia package
@@ -190,11 +193,12 @@ jobs:
             HEAD bindings/julia
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: ${{ runner.temp }}/release-artifacts/voiage-julia-*.tar.gz
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-julia-*.tar.gz
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   dotnet:
     name: Publish .NET 11 package to NuGet
@@ -242,13 +246,13 @@ jobs:
             HEAD bindings/dotnet
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            ${{ runner.temp }}/release-artifacts/voiage-dotnet-*.tar.gz
-            bindings/dotnet/nupkg/*.nupkg
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiage-dotnet-*.tar.gz
+          nupkg/*.nupkg
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   r:
     name: Release R package
@@ -295,10 +299,10 @@ jobs:
           mv "$built" "$RUNNER_TEMP/release-artifacts/$built"
 
       - name: Attach release asset
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            ${{ runner.temp }}/release-artifacts/voiageR_*.tar.gz
-            ${{ runner.temp }}/release-artifacts/voiageR-manual.pdf
-          generate_release_notes: true
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          "$RUNNER_TEMP"/release-artifacts/voiageR_*.tar.gz
+          "$RUNNER_TEMP"/release-artifacts/voiageR-manual.pdf
+          --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}

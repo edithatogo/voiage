@@ -32,10 +32,13 @@ The repository runs the following controls on the hosted surface:
   persistence on security-sensitive checkouts.
 * Release artifact provenance attestations alongside trusted package publishing.
 
-The protected ``main`` ruleset requires pull requests, CODEOWNERS review,
-successful required checks, signed commits, and linear history. Repository
-settings are verified with the GitHub API because branch protection and
-security-analysis state are hosted controls rather than files in the checkout.
+The protected ``main`` ruleset requires pull requests, resolved review threads,
+successful required checks, signed commits, and linear history. The required
+approval count is zero for the repository's single-maintainer operating model;
+CODEOWNERS still routes review responsibility without creating an impossible
+independent-approval gate. Repository settings are verified with the GitHub API
+because branch protection and security-analysis state are hosted controls
+rather than files in the checkout.
 
 Owner and organization gates
 ----------------------------

@@ -397,6 +397,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Updated the protected `main` ruleset for a single-maintainer repository:
+  pull requests, signed commits, linear history, resolved review threads, and
+  required CI/security checks remain enforced without an impossible
+  independent-approval requirement. The CodeQL required-check context now
+  matches the workflow's emitted `CodeQL Analysis (python)` check.
+- Added Dependabot cooldowns and replaced the third-party GitHub release action
+  with the runner-provided `gh release` command across package release jobs.
 - Hardened the release and verification checks by making the R binding release
   checklist test resilient to current wording, aligning the minimum-version tox
   environment with the declared JAX-compatible dependency floor, and preventing
