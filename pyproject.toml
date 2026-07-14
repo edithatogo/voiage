@@ -184,7 +184,7 @@ line-ending = "auto"
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra -q"
+addopts = "-ra -q --cov-config=pyproject.toml"
 testpaths = ["tests"]
 python_files = "test_*.py"
 markers = [
@@ -204,6 +204,7 @@ omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
 show_missing = true
 skip_covered = true
 fail_under = 90
+omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
