@@ -68,6 +68,7 @@ ci = [
     "pytest-cov>=5.0,<7.0",
     "pytest-integration>=0.2,<0.3",
     "pytest-xdist>=3.0,<4.0",
+    "PyYAML>=6.0,<7.0",
     "tomli>=2.0,<3.0",
 ]
 dev = [

@@ -4462,6 +4462,7 @@ ci = [
     { name = "pytest-cov" },
     { name = "pytest-integration" },
     { name = "pytest-xdist" },
+    { name = "pyyaml" },
     { name = "tomli" },
 ]
 deep-learning = [
@@ -4519,6 +4520,7 @@ requires-dist = [
     { name = "pytest-cov", marker = "extra == 'ci'", specifier = ">=5.0,<7.0" },
     { name = "pytest-integration", marker = "extra == 'ci'", specifier = ">=0.2,<0.3" },
     { name = "pytest-xdist", marker = "extra == 'ci'", specifier = ">=3.0,<4.0" },
+    { name = "pyyaml", marker = "extra == 'ci'", specifier = ">=6.0,<7.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0,<1.0" },
     { name = "scalene", marker = "extra == 'dev'", specifier = ">=1.5,<2.0" },
     { name = "scikit-learn", specifier = ">=1.0,<2.0" },
