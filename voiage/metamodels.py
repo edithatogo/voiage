@@ -2,8 +2,6 @@
 
 """Metamodels for Value of Information analysis."""
 
-from __future__ import annotations
-
 from typing import Protocol, cast, runtime_checkable
 
 import numpy as np
@@ -1221,7 +1219,7 @@ class PyTorchNNMetamodel:  # pragma: no cover
         self.model: torch_nn.Module | None = None
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    def _build_model(self, input_dim: int, output_dim: int) -> torch_nn.Module:
+    def _build_model(self, input_dim: int, output_dim: int) -> "torch_nn.Module":
         """Build the neural network architecture."""
         layers = []
         # Input layer
