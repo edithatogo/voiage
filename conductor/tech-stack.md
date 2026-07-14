@@ -52,9 +52,6 @@
 - **Vale**: prose linting for Markdown
 - **pnpm**: Package manager for the Starlight/Astro site
 
-## Documentation (Legacy — Sphinx)
-- **Sphinx**: v7.x (deprecated) — Retained as backup; all new docs go to Starlight
-- **sphinx-rtd-theme**: ReadTheDocs theme for the legacy site
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 - **WASM / N-API**: conditional TypeScript interop options if a native JS edge
   becomes necessary

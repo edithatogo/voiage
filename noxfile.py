@@ -4,7 +4,6 @@ The repository still uses tox as the CI source of truth, but Nox provides a
 uv-backed local runner with the same core sessions.
 """
 
-
 import nox
 
 PYPROJECT = nox.project.load_toml("pyproject.toml")
@@ -94,11 +93,11 @@ def typecheck(session: nox.Session) -> None:
 
 @nox.session
 def docs(session: nox.Session) -> None:
-    """Build the Sphinx documentation."""
-    _sync_project(session)
-    session.run(
-        "sphinx-build", "-W", "-b", "html", "docs", "docs/_build/html", *session.posargs
-    )
+    """Check and build the Astro/Starlight documentation."""
+    site = "docs/astro-site"
+    session.run("pnpm", "install", "--frozen-lockfile", external=True, cwd=site)
+    session.run("pnpm", "run", "check", external=True, cwd=site)
+    session.run("pnpm", "run", "build", *session.posargs, external=True, cwd=site)
 
 
 @nox.session

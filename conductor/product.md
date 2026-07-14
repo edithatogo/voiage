@@ -26,9 +26,8 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **JAX Backend**: High-performance computing with JAX/NumPyro integration
 - **Contract-First Frontier Methods**: Value of Perspective, preference/individualized-care, validation, threshold, distributional/equity, and implementation-adjusted surfaces with deterministic fixtures
 - **Polyglot Binding Scaffolds**: R, Julia, TypeScript, Go, Rust, and .NET release and contract scaffolds
-- **Docs Platform Planning**: Starlight is the candidate versioned docs site
-  platform, with the current Sphinx docs remaining authoritative until a later
-  migration track explicitly changes the primary site
+- **Docs Platform**: Astro/Starlight is the authoritative versioned docs site
+  and documentation validation path
 - **Community and HPC Readiness**: packaging and review readiness for
   pyOpenSci, rOpenSci, JOSS, scikit-learn-contrib, and NumFOCUS, plus HPC
   distribution strategy for Spack, EasyBuild, HPSF, and E4S

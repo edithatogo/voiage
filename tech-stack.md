@@ -37,11 +37,8 @@ sources. This file records the architectural intent, not a duplicate lockfile.
 
 ## Documentation
 
-Sphinx remains in the local developer docs gate.
-
-- **Sphinx**: retained in the local developer docs gate and full tox validation.
-- **Starlight/Astro**: scaffolded under `docs/astro-site` for the docs-site and
-  GitHub Pages path.
+- **Starlight/Astro**: authoritative documentation site under `docs/astro-site`,
+  used by local validation, tox, CI, and GitHub Pages.
 - **Vale**: prose linting for Markdown and reStructuredText.
 - **Notebooks and Vignettes**: examples, R vignette/manual assets, and binding
   walkthrough READMEs remain part of the tutorial surface.

@@ -156,7 +156,7 @@ Each commit message should be in the format:
 ## Documentation
 
 *   Public functions and classes should have docstrings following the **NumPy docstring convention**.
-*   The project's documentation is in the `docs/` directory and is built with Sphinx.
+*   The project's documentation site is in `docs/astro-site/` and is built with Astro and Starlight.
 *   The R package documentation track ships a narrative vignette at
     `r-package/voiageR/vignettes/voiageR-getting-started.Rmd` and a
     deterministic PDF manual helper at `r-package/voiageR/tools/build-manual.R`.
