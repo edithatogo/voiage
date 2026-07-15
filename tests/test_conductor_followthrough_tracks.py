@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 
 TRACK_IDS = (
     "voi-frontier-architecture-dependency-governance_20260625",
@@ -100,6 +101,20 @@ def _track_text(track_id: str) -> str:
             _read(track_root / "plan.md"),
             _read(track_root / "metadata.json"),
         )
+    )
+
+
+def test_registry_exactly_matches_active_track_directories() -> None:
+    """Every active directory is registered and every active link resolves."""
+    registry = _read("conductor/tracks.md")
+    active_ids = {
+        path.name for path in Path("conductor/tracks").iterdir() if path.is_dir()
+    }
+    registered_ids = set(re.findall(r"\./tracks/([^/]+)/", registry))
+
+    assert registered_ids == active_ids
+    assert active_ids.isdisjoint(
+        path.name for path in Path("conductor/archive").iterdir() if path.is_dir()
     )
 
 

@@ -415,6 +415,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Reconciled the Conductor registry with all 45 active track directories in
+  their original dependency-aware order and added a regression test requiring
+  the registry and active directory set to remain identical.
 - Made Astro/Starlight the sole documentation toolchain across CI, tox, nox,
   contributor guidance, and GitHub Pages; removed the legacy Sphinx build files
   and dependencies, repaired Astro 6 content discovery, and added a harness
