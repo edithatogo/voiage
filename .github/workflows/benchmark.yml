@@ -25,6 +25,7 @@ jobs:
       with:
         version: "latest"
         enable-cache: true
+        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
