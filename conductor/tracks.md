@@ -368,9 +368,9 @@ until their plans, metadata, evidence, and required review gates support archive
 
 ---
 
-## [ ] Track: Strict CI/CD Quality Gates
-*Link: [./tracks/strict-ci-cd-quality-gates_20260625/](./tracks/strict-ci-cd-quality-gates_20260625/)*
-*Status: cross-cutting track for linting, formatting, typing, docstrings, coverage, unit/integration/e2e/property/mutation tests, profiling, security, docs, and bindings.*
+## [x] Track: Strict CI/CD Quality Gates [completed: 2026-07-15]
+*Link: [./archive/strict-ci-cd-quality-gates_20260625/](./archive/strict-ci-cd-quality-gates_20260625/)*
+*Status: repository-owned fast, scheduled, release, security, documentation, and binding gate contracts are implemented; hardware evidence remains in dedicated active tracks.*
 
 ---
 
