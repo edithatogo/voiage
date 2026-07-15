@@ -23,7 +23,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -38,8 +38,9 @@ jobs:
       run: uv sync --extra dev
 
     - name: Set up Go
-      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+      uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
       with:
+        cache: false
         go-version: "1.22"
 
     - name: Install Vale
@@ -60,7 +61,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -87,7 +88,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -117,7 +118,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -144,7 +145,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -185,7 +186,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -216,7 +217,7 @@ jobs:
       if: matrix.python == '3.11'
       uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
       with:
-        file: ./coverage.xml
+        files: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
@@ -231,7 +232,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -258,7 +259,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -291,7 +292,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -324,7 +325,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -358,7 +359,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -390,7 +391,7 @@ jobs:
         persist-credentials: false
 
     - name: Install uv
-      uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "latest"
         enable-cache: true
@@ -426,7 +427,7 @@ jobs:
         node-version: '22'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+      uses: pnpm/action-setup@a8198c4bff370c8506180b035930dea56dbd5288
       with:
         version: '10'
 
