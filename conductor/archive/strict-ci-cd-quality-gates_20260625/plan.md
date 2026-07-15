@@ -46,8 +46,17 @@
 
 ## Verification Commands
 
-- [x] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov` (8/11 pass, 3 pre-existing from archived track)
+- [x] `uv run pytest tests/test_conductor_followthrough_tracks.py tests/test_repo_cleanup.py --no-cov -q` (23 passed during registry reconciliation)
 - [x] `uv run --with tox tox -e lint` (passed: Ruff check, Ruff format, Bandit)
 - [x] `uv run --with tox tox -e typecheck` (passed: ty check)
-- [x] uv run --with tox tox -e docs (available and functional)
-- [ ] Rust and binding language-native gates when kernels or adapters change (not applicable - no kernel/adapter changes)
+- [x] `uv run --with tox tox -e docs` (Astro/Starlight check and 52-page build passed)
+- [x] Rust and binding language-native gates were reviewed and are not applicable because this track changed no kernels or adapters.
+- [x] `uv run tox` (all 14 environments passed on 2026-07-15: lint, Bandit, harness, typecheck, Astro docs, frontier contract, version sync, Python 3.10-3.14, minimum dependencies, maximum dependencies, and coverage)
+- [x] GitHub Actions on verified main commit `addac7d` passed CI, CodeQL, OpenSSF Scorecard, benchmark tracking, and Astro documentation deployment.
+
+## Final Review And Archive Decision
+
+- [x] Acceptance criteria re-reviewed against the current workflow, documentation, harness, and hosted checks.
+- [x] Expensive mutation and profiling gates remain scheduled rather than silently omitted; hardware-dependent evidence remains explicitly external and belongs to its dedicated active tracks.
+- [x] Checkpoint commits `a1f1c24`, `4a5cd59`, and `35ec63e` retain auditable git notes.
+- [x] Track approved for archive on 2026-07-15 with no unresolved repository-owned blocker.
