@@ -18,6 +18,9 @@ serializer, CLI entrypoint, and deterministic fixtures are already in place.
   payload.
 - `fixtures/` contains the deterministic normative input/output payloads and
   the local fixture manifest.
+- `fixtures/evidence.json` records the fixture-backed maturity, artifact
+  hashes, verified Python result-envelope path, and explicit external parity
+  gates. It must not be read as a stable-promotion approval.
 
 ## Shape
 
