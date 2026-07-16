@@ -11,6 +11,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Archive the dynamic real-options VOI track after implementing the
+    staged runtime and CLI; retain longitudinal-data, parity, and mature
+    approval as explicit external gates.
+
 *   [x] Archive the perspective-uncertainty VOI track after completing the
     runtime/evidence slice; retain real-data attribution, parity, and mature
     approval as explicit external gates.

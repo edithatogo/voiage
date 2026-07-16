@@ -86,3 +86,11 @@
   version-sync gates.
 - Real longitudinal data, Rust/cross-language parity, and mature/stable
   approval remain explicit gates; no stable claim is made.
+
+## Archive closeout 2026-07-17
+
+- Hosted PR #165 merged as ``067d8a5`` with all required checks and Python
+  CodeQL analysis passing; the maximal-quality ruleset was restored active.
+- Archived after completing the repository-owned runtime, CLI, fixture, and
+  evidence slice. Longitudinal data, parity, and mature approval remain
+  explicit external gates.

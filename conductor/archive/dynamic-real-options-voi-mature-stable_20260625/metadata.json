@@ -1,8 +1,8 @@
 {
   "track_id": "dynamic-real-options-voi-mature-stable_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T00:21:21Z",
   "description": "Implement dynamic real-options VOI beyond the scaffolded contract and promote it through mature/stable runtime status."
 }
