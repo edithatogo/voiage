@@ -1,6 +1,6 @@
 # Track Implementation Plan: Interoperability And Standardization VOI Mature Stable Path
 
-## Phase 1: Contract And Maturity Boundary [checkpoint: ]
+## Phase 1: Contract And Maturity Boundary [checkpoint: 4a4242f]
 
 - [x] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family. (`df5547b`)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -16,7 +16,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract And Maturity Boundary' (Protocol in workflow.md)
 
-## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
+## Phase 2: Runtime, Fixtures, And Examples [checkpoint: 4a4242f]
 
 - [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -32,7 +32,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Runtime, Fixtures, And Examples' (Protocol in workflow.md)
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: ]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: 4a4242f]
 
 - [ ] Task: Add cross-language conformance fixtures and adapter expectations for relevant bindings.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -48,7 +48,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: ]
+## Phase 4: Mature Stable Promotion Review [checkpoint: 4a4242f]
 
 - [ ] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -78,3 +78,8 @@
 - Quality gates: `uv run --with tox tox -e lint,harness,typecheck,docs,frontier-contract,version-sync` — passed.
 - Frontier contract: `python scripts/validate_frontier_contract.py` — 21 families validated.
 - Maturity decision: remain `fixture-backed`; licensed cross-site common-data-model data, open-data provenance, Rust/binding parity, and mature/stable governance approval remain external gates.
+
+## Archive Decision
+
+- Implementation PR #193 merged as `4a4242f` after all substantive hosted checks passed.
+- Track complete as a fixture-backed method; licensed cross-site data, open-data provenance, cross-language/Rust parity, and mature/stable governance approval remain external gates.

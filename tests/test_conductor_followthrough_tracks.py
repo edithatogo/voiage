@@ -152,9 +152,9 @@ def test_registry_encodes_execution_and_external_blocked_queues() -> None:
         r"\*Execution order: (\d{2}) of 32\*",
         registry,
     )
-    assert len(executable) == 12
+    assert len(executable) == 11
     assert [order for _, order in executable] == [
-        f"{index:02d}" for index in range(21, 33)
+        f"{index:02d}" for index in range(22, 33)
     ]
 
     blocked = re.findall(
