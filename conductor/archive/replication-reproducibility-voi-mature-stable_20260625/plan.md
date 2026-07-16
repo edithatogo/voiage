@@ -72,6 +72,12 @@
 
 ## Verification Commands
 
-- [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
+- [x] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov` — passed after archive; executable queue is 24–32.
+
+## Archive Decision
+
+- Archived after implementation PR #197 merged as `8056082`.
+- Repository-owned runtime, CLI, deterministic fixtures, Astro documentation, governance registration, and hosted CI are complete.
+- The track remains fixture-backed until evidence-production data provenance, cross-language parity, and mature/stable governance approval are supplied; these are explicit external gates.
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
