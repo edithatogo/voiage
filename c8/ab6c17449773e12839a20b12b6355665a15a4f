@@ -1,0 +1,1 @@
+CI follow-up: formatted tests/test_hpc_production_speedup_evidence.py to satisfy the repository-wide ruff format --check gate. Local ruff check and format gates pass; focused test passes.
