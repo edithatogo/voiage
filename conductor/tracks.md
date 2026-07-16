@@ -400,10 +400,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Validation And Threshold VOI Stable Promotion
-*Link: [./tracks/validation-threshold-voi-stable-promotion_20260625/](./tracks/validation-threshold-voi-stable-promotion_20260625/)*
+## [x] Track: Validation And Threshold VOI Stable Promotion [completed: 2026-07-16]
+*Link: [./archive/validation-threshold-voi-stable-promotion_20260625/](./archive/validation-threshold-voi-stable-promotion_20260625/)*
 *Execution order: 04 of 32*
-*Status: follow-through track for validation, threshold, tipping-point, and robust VOI stable promotion.*
+*Status: fixture-backed evidence, artifact hashes, Python contract checks, documentation, and hosted CI are complete; non-Python parity and stable approval remain external gates.*
 
 ---
 
