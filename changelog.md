@@ -737,3 +737,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added fixture-backed capacity- and budget-constrained VOI with runtime,
   diagnostics, CLI, frontier fixtures, and Astro documentation.
+- Added fixture-backed federated and privacy-preserving VOI with secure
+  summary aggregation, privacy-budget diagnostics, CLI, frontier fixtures,
+  and Astro documentation.

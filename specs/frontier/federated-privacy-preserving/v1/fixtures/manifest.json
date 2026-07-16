@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_federated_privacy_preserving",
+  "normative": [
+    {
+      "name": "deterministic secure site-summary aggregation",
+      "method_family": "value_of_federated_privacy_preserving",
+      "input_artifact": "normative/federated-privacy-preserving-input.json",
+      "expected_output_artifact": "normative/value-of-federated-privacy-preserving.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "cross-language-parity-and-open-data-attribution",
+    "blocked_state": "externally-blocked"
+  }
+}

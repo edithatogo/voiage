@@ -70,6 +70,9 @@ from voiage.methods.equity_information import (
 from voiage.methods.expert_synthesis import (
     value_of_expert_synthesis as calculate_expert_synthesis_result,
 )
+from voiage.methods.federated_privacy_preserving import (
+    value_of_federated_privacy_preserving as calculate_federated_privacy_result,
+)
 from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
@@ -363,6 +366,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "budget": 5.0,
         "capacity": 2.0,
         "information_cost": 0.0,
+    },
+    "federated-privacy-preserving": {
+        "command": "calculate-federated-privacy-preserving",
+        "description": "Template for fixture-backed federated and privacy-preserving VOI inputs.",
+        "site_summaries": [[8.0, 7.0], [6.0, 9.0], [7.0, 8.0]],
+        "site_weights": [0.2, 0.5, 0.3],
+        "privacy_budgets": [1.0, 0.8, 1.2],
+        "prior_strategy_values": [6.5, 7.0],
+        "strategy_names": ["status_quo", "privacy_preserving"],
+        "noise_scale": 0.0,
+        "individual_data_access": "blocked",
+        "seed": 0,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4117,6 +4132,66 @@ def calculate_capacity_budget_constrained(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-federated-privacy-preserving")
+def calculate_federated_privacy_preserving(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed federated privacy-preserving VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_federated_privacy_result(
+            payload["site_summaries"],
+            site_weights=payload.get("site_weights"),
+            privacy_budgets=payload["privacy_budgets"],
+            prior_strategy_values=payload["prior_strategy_values"],
+            strategy_names=cast("list[str] | None", payload.get("strategy_names")),
+            synthetic_site_summaries=payload.get("synthetic_site_summaries"),
+            noise_scale=float(payload.get("noise_scale", 0.0)),
+            information_cost=float(payload.get("information_cost", 0.0)),
+            individual_data_access=str(
+                payload.get("individual_data_access", "blocked")
+            ),
+            seed=int(payload.get("seed", 0)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_federated_privacy_preserving",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_strategy": result.selected_strategy,
+            "strategy_names": result.strategy_names,
+            "aggregated_net_benefits": result.aggregated_net_benefits.tolist(),
+            "site_contribution_values": result.site_contribution_values.tolist(),
+            "privacy_budgets": result.privacy_budgets.tolist(),
+            "privacy_loss": result.privacy_loss,
+            "aggregation_error": result.aggregation_error,
+            "disclosure_risk": result.disclosure_risk,
+            "expected_value_privacy_preserving": result.expected_value_privacy_preserving,
+            "baseline_value": result.baseline_value,
+            "information_cost": result.information_cost,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Federated privacy-preserving VOI: {result.value:.6f}\n"
+                f"Selected strategy: {result.selected_strategy}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
 
 
 @app.command()

@@ -86,6 +86,11 @@
       "name": "value_of_capacity_budget_constrained",
       "path": "capacity-budget-constrained/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_federated_privacy_preserving",
+      "path": "federated-privacy-preserving/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [
