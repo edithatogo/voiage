@@ -1,0 +1,10 @@
+{
+  "evidence_utilities": [10.0, 8.0, 6.0, 5.0],
+  "schema_compatibility": [0.9, 0.4, 0.8, 0.2],
+  "semantic_alignment": [0.8, 0.3, 0.7, 0.1],
+  "data_usability": [0.9, 0.5, 0.8, 0.2],
+  "transformation_error_rates": [0.05, 0.2, 0.1, 0.3],
+  "standardization_costs": [1.0, 1.0, 1.0, 1.0],
+  "reuse_probabilities": [0.8, 0.4, 0.7, 0.2],
+  "harmonization_threshold": 0.5
+}

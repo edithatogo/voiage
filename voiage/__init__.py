@@ -81,6 +81,10 @@ from .methods.implementation_strategy import (
     ImplementationStrategyComparisonResult,
     value_of_implementation_strategy_comparison,
 )
+from .methods.interoperability_standardization import (
+    InteroperabilityStandardizationResult,
+    value_of_interoperability_standardization,
+)
 from .methods.monitoring_surveillance import (
     MonitoringSurveillanceResult,
     value_of_monitoring_surveillance,
@@ -148,6 +152,7 @@ __all__ = [
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
     "ImplementationStrategyComparisonResult",
+    "InteroperabilityStandardizationResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
     "ParameterSet",
@@ -202,6 +207,7 @@ __all__ = [
     "value_of_federated_privacy_preserving",
     "value_of_implementation",
     "value_of_implementation_strategy_comparison",
+    "value_of_interoperability_standardization",
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",

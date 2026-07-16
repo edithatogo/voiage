@@ -23,5 +23,6 @@
     ,{"name": "value_of_federated_privacy_preserving", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/federated-privacy-preserving/v1"]}
     ,{"name": "value_of_ai_assisted_evidence_triage", "owner": "repository", "current_state": "fixture-backed", "next_gate": "licensed-corpus-model-validation-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/ai-assisted-evidence-triage/v1"]}
     ,{"name": "value_of_explainability_transparency", "owner": "repository", "current_state": "fixture-backed", "next_gate": "external-model-validation-open-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/explainability-transparency/v1"]}
+    ,{"name": "value_of_interoperability_standardization", "owner": "repository", "current_state": "fixture-backed", "next_gate": "open-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/interoperability-standardization/v1"]}
   ]
 }

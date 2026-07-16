@@ -2,7 +2,7 @@
 
 ## Phase 1: Contract And Maturity Boundary [checkpoint: ]
 
-- [ ] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family.
+- [~] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.

@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_interoperability_standardization",
+  "normative": [
+    {
+      "name": "harmonized evidence reuse and standardization value",
+      "method_family": "value_of_interoperability_standardization",
+      "input_artifact": "normative/interoperability-standardization-input.json",
+      "expected_output_artifact": "normative/value-of-interoperability-standardization.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "open-data-provenance-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}
