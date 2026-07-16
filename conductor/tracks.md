@@ -568,10 +568,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: CPU Cluster Production Benchmark Evidence
+## [~] Track: CPU Cluster Production Benchmark Evidence
 *Link: [./tracks/cpu-cluster-production-benchmark-evidence_20260625/](./tracks/cpu-cluster-production-benchmark-evidence_20260625/)*
 *Execution order: 28 of 32*
-*Status: follow-through track for distributed CPU and cluster benchmark evidence on larger workloads.*
+*Status: repository-owned CPU reference, local process-scheduler smoke, deterministic packet validation, and explicit multi-node blocked state are in progress; authenticated multi-node production speedup remains an external gate.*
 
 ---
 

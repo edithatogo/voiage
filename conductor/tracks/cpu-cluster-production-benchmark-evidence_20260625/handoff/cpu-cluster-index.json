@@ -1,0 +1,26 @@
+{
+  "packets": [
+    {
+      "artifact_path": "packets/cpu-reference.json",
+      "claim_level": "reference",
+      "scheduler": "single-process",
+      "sha256": "dccd8e9c592e598a079f987ae2cd36ff1d1362c837a32f669cfca60b9e189e3a",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/local-process-smoke.json",
+      "claim_level": "smoke",
+      "scheduler": "local-process",
+      "sha256": "2e42a42fc79b8085f132bf7cb76c3f15661796d00e1cd9c53dd763d169bd3d67",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/multi-node-blocked.json",
+      "claim_level": "production_speedup",
+      "scheduler": "dask-or-ray",
+      "sha256": "8a46175a5152fde6abe0fc235e7824750fae0ecf1a43829b9910a3fdf4a2c0b5",
+      "status": "blocked"
+    }
+  ],
+  "schema_version": "v1"
+}
