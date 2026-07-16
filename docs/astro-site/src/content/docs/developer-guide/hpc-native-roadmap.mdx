@@ -48,6 +48,14 @@ When Apple Silicon is unavailable, the handoff records a blocked status. CPU
 fallback remains authoritative; setup or MPS visibility alone is not an Apple
 production-speedup claim.
 
+## Discrete GPU evidence
+
+The discrete GPU track requires CUDA device metadata, workload hashes, warm-up
+iterations, repeated timing, throughput, CPU comparison, transfer overhead,
+compile overhead, result parity, and CPU fallback. Colab or cloud quota/runtime
+unavailability is recorded as blocked; a T4 visibility/parity packet is not a
+production-sized speedup claim.
+
 ## Contract rules
 
 - CPU behavior stays the reference path until an accelerator proves itself

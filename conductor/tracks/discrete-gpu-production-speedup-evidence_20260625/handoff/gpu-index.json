@@ -1,0 +1,19 @@
+{
+  "packets": [
+    {
+      "artifact_path": "packets/cpu-reference.json",
+      "backend": "cpu",
+      "claim_level": "reference",
+      "sha256": "9825a60d5a799867dc250677b7a569c6e0342d20bc1c2dba2cfcec4e8495741e",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/gpu-blocked.json",
+      "backend": "gpu",
+      "claim_level": "blocked",
+      "sha256": "26c54bf9a68a3a8f9c21a033133990fc9e27958ba07a6565d338984d6feee592",
+      "status": "blocked"
+    }
+  ],
+  "schema_version": "v1"
+}
