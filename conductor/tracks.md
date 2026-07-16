@@ -575,10 +575,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Apple Metal Production Speedup Evidence
+## [~] Track: Apple Metal Production Speedup Evidence
 *Link: [./tracks/apple-metal-production-speedup-evidence_20260625/](./tracks/apple-metal-production-speedup-evidence_20260625/)*
 *Execution order: 29 of 32*
-*Status: follow-through track for Apple Silicon Metal/MPS production-speedup evidence or explicit hardware-unavailable status.*
+*Status: repository-owned CPU reference, Metal/MPS packet schema, parity/fallback validator, and explicit unavailable-runtime packet are in progress; Apple Silicon speedup remains an external hardware gate.*
 
 ---
 

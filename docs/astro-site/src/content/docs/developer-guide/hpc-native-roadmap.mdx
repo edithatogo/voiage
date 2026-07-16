@@ -40,6 +40,14 @@ CPU baseline, result-envelope preservation, and diagnostics preservation. Local
 parallel execution demonstrates contract behavior; it is not a claim of
 multi-node production speedup without an authenticated cluster or cloud runner.
 
+## Apple Metal evidence
+
+The Apple Metal track validates CPU reference and Metal/MPS packets for workload
+hash, warm-up, timing, throughput, CPU baseline, result parity, and fallback.
+When Apple Silicon is unavailable, the handoff records a blocked status. CPU
+fallback remains authoritative; setup or MPS visibility alone is not an Apple
+production-speedup claim.
+
 ## Contract rules
 
 - CPU behavior stays the reference path until an accelerator proves itself

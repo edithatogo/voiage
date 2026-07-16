@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "voiage Apple Metal speedup evidence packet",
+  "type": "object",
+  "required": ["backend", "status", "owner", "source_command", "timestamp", "workload_hash", "workload_scale", "device_metadata", "warmup_iterations", "timing_seconds", "throughput", "cpu_baseline_seconds", "speedup", "cpu_fallback", "result_parity", "claim_level"],
+  "properties": {
+    "backend": {"enum": ["cpu", "metal"]},
+    "status": {"enum": ["passed", "blocked", "not_available", "failed"]},
+    "workload_scale": {"enum": ["production", "representative", "smoke"]},
+    "warmup_iterations": {"type": "integer", "minimum": 0},
+    "cpu_fallback": {"type": "boolean"},
+    "result_parity": {"type": "boolean"},
+    "claim_level": {"enum": ["reference", "blocked", "production_speedup"]}
+  }
+}
