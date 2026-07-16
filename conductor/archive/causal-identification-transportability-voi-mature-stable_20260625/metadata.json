@@ -1,8 +1,8 @@
 {
   "track_id": "causal-identification-transportability-voi-mature-stable_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T00:45:00Z",
   "description": "Implement and promote causal-identification, transportability, and external-validity VOI from contract scaffolds through mature/stable runtime status."
 }
