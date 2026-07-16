@@ -41,8 +41,8 @@
 
 ## Verification Commands
 
-- [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
-- [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` when implementation changes warrant it
+- [x] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
+- [x] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` — pass; 1213 passed, 14 skipped, 90.88% coverage
 - [ ] Rust and binding language-native gates when kernels or adapters change
 
 ## Current checkpoint
@@ -54,7 +54,8 @@
   and documented the optional-backend boundary in the developer guide.
 - Focused verification: 19 tests passed; repository harness passed with zero
   findings.
-- The first broader tox pass exposed and then fixed the Conductor status and
-  curated-export regressions; full tox must be rerun before this track can be
-  archived. Heavy Bayesian backends, real-data evidence, and cross-language
-  parity remain external/downstream gates.
+- Full local gate: tox passed with lint, Bandit, typecheck, Astro check/build,
+  Python 3.14 tests, 90.88% coverage, frontier contract, and version sync.
+- Implementation commit: ``bf4052a``; git note attached. PR #155 carries the
+  hosted GitHub Actions validation. Heavy Bayesian backends, real-data
+  evidence, and cross-language parity remain external/downstream gates.
