@@ -1,5 +1,16 @@
 # Track Implementation Plan: Preference VOI Stable Promotion
 
+## Completion record
+
+- [x] Added hashed preference schema and normative-fixture evidence manifest,
+  explicit fixture-backed maturity, and adapter parity state.
+- [x] Local gates passed: lint, Bandit, typecheck, Astro check/build, 1214
+  Python 3.14 tests, coverage above 90%, frontier contract, and version sync.
+- [x] GitHub PR #157 merged with required checks passing; merge commit is
+  ``0356808`` and the maximal-quality ruleset was restored active.
+- [x] Archived after review. Rust, R, and TypeScript parity and stable
+  promotion approval remain explicit external gates.
+
 ## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: ]
 
 - [x] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.

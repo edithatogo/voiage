@@ -393,10 +393,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Preference VOI Stable Promotion
-*Link: [./tracks/preference-voi-stable-promotion_20260625/](./tracks/preference-voi-stable-promotion_20260625/)*
+## [x] Track: Preference VOI Stable Promotion [completed: 2026-07-16]
+*Link: [./archive/preference-voi-stable-promotion_20260625/](./archive/preference-voi-stable-promotion_20260625/)*
 *Execution order: 03 of 32*
-*Status: follow-through track for preference VOI and preference heterogeneity stable promotion.*
+*Status: fixture-backed evidence, artifact hashes, Python result-envelope parity, documentation, and hosted CI are complete; non-Python adapter parity and stable approval remain external gates.*
 
 ---
 
