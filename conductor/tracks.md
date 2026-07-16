@@ -547,10 +547,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path
-*Link: [./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/](./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/)*
+## [x] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/strategic-behavior-game-theoretic-voi-mature-stable_20260625/](./archive/strategic-behavior-game-theoretic-voi-mature-stable_20260625/)*
 *Execution order: 25 of 32*
-*Status: recommended method track for VOI when actors respond strategically to information, incentives, prices, or policy.*
+*Status: fixture-backed strategic behavior/game-theoretic runtime, CLI, equilibrium/incentive/disclosure/bargaining/regret/adversarial diagnostics, deterministic property/contract fixtures, Astro documentation, governance registration, and hosted CI are complete; calibrated game data, cross-language parity, and mature/stable approval remain external gates.*
 
 ---
 
