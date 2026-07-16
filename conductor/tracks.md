@@ -491,10 +491,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Capacity And Budget-Constrained VOI Mature Stable Path
-*Link: [./tracks/capacity-budget-constrained-voi-mature-stable_20260625/](./tracks/capacity-budget-constrained-voi-mature-stable_20260625/)*
+## [x] Track: Capacity And Budget-Constrained VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/capacity-budget-constrained-voi-mature-stable_20260625/](./archive/capacity-budget-constrained-voi-mature-stable_20260625/)*
 *Execution order: 17 of 32*
-*Status: in progress: fixture-backed constrained runtime, CLI, diagnostics, frontier contract, and Astro documentation implemented; licensed allocation data, cross-language/Rust parity, and stable promotion remain gates.*
+*Status: fixture-backed constrained runtime, CLI, diagnostics, frontier contract, Astro documentation, governance registration, and hosted CI are complete; licensed allocation data, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
