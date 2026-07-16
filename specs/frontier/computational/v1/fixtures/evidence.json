@@ -1,0 +1,21 @@
+{
+  "contract": "value-of-computational-refinement-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/computational-set.schema.json", "sha256": "9ca02abaf7e848fb5ddb9fc84486e00420ffc90eb7875a15b1ffb7c7f7931b64"},
+    {"path": "schemas/value-of-computational-result.schema.json", "sha256": "c9e0e2206d33659301c2d63a77fbdce68bc4ed7119f2e9aef13ea048824dcaaf"},
+    {"path": "fixtures/normative/computational-set.json", "sha256": "6fec2524fbf4b068eaaa90d6e6e1c9412a4c79291be252355e5bd8ded1255d25"},
+    {"path": "fixtures/normative/value-of-computational.json", "sha256": "cfc190a0a383cdfc6dc81430a7c272e13ae100695c9b44306971f9a40013fcc0"},
+    {"path": "../../../../voiage/methods/computational.py", "sha256": "4a48db15c95bd001cf77a7fd973f071247243f15cd4f5457728e6703883a2033"}
+  ],
+  "profiling": {
+    "status": "repository_gate_pending",
+    "evidence": "The runtime is small and deterministic; hosted benchmark and profiling jobs are the next repository-owned performance evidence.",
+    "next_action": "Capture benchmark-aware profiling for representative compute budgets before any mature/stable claim."
+  },
+  "parity": {"python": "verified", "rust": "deferred_with_rationale", "r": "not_verified", "typescript": "not_verified"},
+  "parity_rationale": "The Python implementation is the reference runtime; Rust parity is deferred until benchmark evidence justifies a hot-kernel boundary.",
+  "external_gates": ["Benchmark/profile evidence", "Cross-language conformance and Rust parity review", "Mature/stable method approval"]
+}

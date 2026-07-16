@@ -1,15 +1,15 @@
 # Computational And Model-Refinement Experimental Contract v1
 
 This directory holds the fixture-backed frontier contract for computational VOI
-and value of model refinement. It is not part of the stable core API v1 matrix
-yet; promotion still requires runtime implementation, cross-language
-validation, CLI coverage, and method maturity review.
+and value of model refinement. The Python runtime and CLI are fixture-backed;
+promotion still requires profiling evidence, cross-language validation, and
+method maturity review.
 
 ## Files
 
 - `schemas/computational-set.schema.json` defines the compute-budget input
   surface.
-- `schemas/value-of-computational-result.schema.json` defines the planned
+- `schemas/value-of-computational-result.schema.json` defines the fixture-backed
   result shape.
 - `examples/computational-set.example.json` is a compact illustrative input
   payload.
@@ -20,7 +20,7 @@ validation, CLI coverage, and method maturity review.
 
 ## Shape
 
-The planned analysis surface treats compute budget, approximation error, and
+The analysis surface treats compute budget, approximation error, and
 refinement cost as explicit decision-relevant dimensions rather than a hidden
 implementation detail. The intended net-benefit surface uses:
 

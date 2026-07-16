@@ -37,8 +37,11 @@ def test_computational_contract_schema_and_examples_parse() -> None:
         computational_result_example
     )
 
-    assert computational_set_schema["title"] == "ComputationalSetV1Planned"
-    assert computational_result_schema["title"] == "ValueOfComputationalResultV1Planned"
+    assert computational_set_schema["title"] == "ComputationalSetV1FixtureBacked"
+    assert (
+        computational_result_schema["title"]
+        == "ValueOfComputationalResultV1FixtureBacked"
+    )
     assert (
         computational_result_example["analysis_type"]
         == "value_of_computational_refinement"

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/computational/v1/schemas/computational-set.schema.json",
-  "title": "ComputationalSetV1Planned",
+  "title": "ComputationalSetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
