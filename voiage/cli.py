@@ -982,6 +982,7 @@ def generate_config(
 def calculate_evpi(
     net_benefit_file: Path = typer.Argument(
         ...,
+        metavar="NET_BENEFIT_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -2511,6 +2512,7 @@ def calculate_structural_evppi(
 def calculate_nma_voi(
     config_file: Path = typer.Argument(
         ...,
+        metavar="CONFIG_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
