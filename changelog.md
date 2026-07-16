@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added discrete GPU/CUDA benchmark packet validation for CPU comparison,
+  transfer and compile overhead, result parity, CPU fallback, and explicit
+  Colab/cloud runner blocks; T4 visibility alone does not prove speedup.
 - Added Apple Metal/MPS benchmark packet validation with CPU reference, result
   parity, CPU fallback, and explicit unavailable-hardware status; no Apple
   speedup claim is made without production evidence.

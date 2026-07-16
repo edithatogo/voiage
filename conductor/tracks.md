@@ -582,10 +582,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Discrete GPU Production Speedup Evidence
+## [~] Track: Discrete GPU Production Speedup Evidence
 *Link: [./tracks/discrete-gpu-production-speedup-evidence_20260625/](./tracks/discrete-gpu-production-speedup-evidence_20260625/)*
 *Execution order: 30 of 32*
-*Status: follow-through track for CUDA-class GPU production-sized benchmark evidence through Colab or other available runners.*
+*Status: repository-owned CUDA/Colab packet schema, CPU comparison, transfer/compile overhead fields, parity validator, and explicit unavailable-runner packet are in progress; production GPU speedup remains an external runner gate.*
 
 ---
 
