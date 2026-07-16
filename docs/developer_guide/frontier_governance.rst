@@ -75,6 +75,18 @@ This ensures that ``pip install voiage`` never pulls in a multi-gigabyte
 GPU stack. Optional dependencies are activated via extras
 (e.g. ``pip install voiage[plotting]`` or ``voiage[deep_learning]``).
 
+Experimental Design Interfaces
+-------------------------------
+
+``voiage.experimental_design`` provides backend-neutral summaries for
+expected information gain, cost-aware Bayesian optimal experimental design,
+active learning, and amortized EVSI. These APIs consume simulated arrays or
+precomputed candidate scores; fitting models with NumPyro, JAX, or
+simulation-based inference remains an optional backend concern. The
+interfaces are experimental and do not authorize stable claims until the
+promotion matrix, deterministic fixtures, and cross-language parity gates
+are satisfied.
+
 Non-Conflicting Implementation Sequence
 ----------------------------------------
 

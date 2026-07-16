@@ -386,7 +386,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Bayesian Experimental Design And Amortized VOI
+## [~] Track: Bayesian Experimental Design And Amortized VOI
 *Link: [./tracks/bayesian-experimental-design-and-amortized-voi_20260625/](./tracks/bayesian-experimental-design-and-amortized-voi_20260625/)*
 *Execution order: 02 of 32*
 *Status: bleeding-edge methods track for expected information gain, Bayesian optimal experimental design, active learning, simulation-based inference, and amortized EVSI.*
