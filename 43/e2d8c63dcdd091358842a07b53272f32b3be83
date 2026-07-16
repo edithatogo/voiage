@@ -1,0 +1,1 @@
+Track 26 automation slice: unified accelerator evidence schema, packet validator, deterministic SHA-256 index, GPU passed packet, TPU/Metal blocked packets with CPU fallback and precise external gates. Focused tests passed; live Colab quota/authentication and Metal hardware remain external.
