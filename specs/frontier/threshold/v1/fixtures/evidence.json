@@ -1,0 +1,15 @@
+{
+  "contract": "threshold-voi-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "next_gate": "cross-language parity and stable promotion approval",
+  "blocked_state": "external_review_required",
+  "artifacts": [
+    {"path": "schemas/threshold-set.schema.json", "sha256": "468b0ac03373ae1d9dad5a7310cd6bc4db808dbe8e8d61955fbe7a2603b2c720"},
+    {"path": "schemas/value-of-threshold-result.schema.json", "sha256": "2288f59a738d4b5baf33ddc56875b4c7f5db4e921f7dc411bc7b5323ce026895"},
+    {"path": "fixtures/normative/threshold-surface.json", "sha256": "c48b72fe9256f2b33c9c17a61562143fe519bc8715ea56345a51d9170813227f"},
+    {"path": "fixtures/normative/value-of-threshold.json", "sha256": "6fd355e7b21183afc9605cb3121266092d97aa1258be6f9cae68142a518a0072"}
+  ],
+  "parity": {"python": "verified", "rust": "not_verified", "r": "not_verified", "typescript": "not_verified"}
+}

@@ -400,7 +400,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Validation And Threshold VOI Stable Promotion
+## [~] Track: Validation And Threshold VOI Stable Promotion
 *Link: [./tracks/validation-threshold-voi-stable-promotion_20260625/](./tracks/validation-threshold-voi-stable-promotion_20260625/)*
 *Execution order: 04 of 32*
 *Status: follow-through track for validation, threshold, tipping-point, and robust VOI stable promotion.*

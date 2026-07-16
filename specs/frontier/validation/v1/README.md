@@ -33,6 +33,8 @@ The fixture-backed result includes:
 - value of external validation
 - value of model-discrepancy reduction
 - consensus or robust strategy summaries under validation weights
+- `fixtures/evidence.json` records artifact hashes and keeps the fixture-backed
+  maturity and external parity gates explicit; it is not stable approval.
 - Pareto or non-dominated strategy sets across validation profiles
 
 The contract is intentionally aligned with the Value of Perspective surface so
