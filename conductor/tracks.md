@@ -498,7 +498,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Federated And Privacy-Preserving VOI Mature Stable Path
+## [~] Track: Federated And Privacy-Preserving VOI Mature Stable Path
 *Link: [./tracks/federated-privacy-preserving-voi-mature-stable_20260625/](./tracks/federated-privacy-preserving-voi-mature-stable_20260625/)*
 *Execution order: 18 of 32*
 *Status: recommended method track for federated, privacy-preserving, secure-aggregation, and site-governed evidence generation.*
