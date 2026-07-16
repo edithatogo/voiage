@@ -554,10 +554,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Accelerator Evidence Automation
-*Link: [./tracks/accelerator-evidence-automation_20260625/](./tracks/accelerator-evidence-automation_20260625/)*
+## [x] Track: Accelerator Evidence Automation [completed: 2026-07-17]
+*Link: [./archive/accelerator-evidence-automation_20260625/](./archive/accelerator-evidence-automation_20260625/)*
 *Execution order: 26 of 32*
-*Status: follow-through track for common GPU/TPU/Metal evidence schemas, Colab execution, GitHub artifact ingestion, and validation.*
+*Status: repository-owned accelerator evidence schema, packet validator, deterministic artifact index, GPU passed packet, and TPU/Metal blocked packets with CPU fallback are complete; live Colab quota/authentication, local Metal hardware, and production Actions-artifact ingestion remain explicit external gates.*
 
 ---
 
