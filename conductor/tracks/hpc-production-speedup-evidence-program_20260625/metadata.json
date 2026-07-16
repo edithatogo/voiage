@@ -1,8 +1,8 @@
 {
   "track_id": "hpc-production-speedup-evidence-program_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T12:45:00Z",
   "description": "Coordinate production-scale accelerator evidence without overclaiming HPC-native status from setup, visibility, or parity alone."
 }

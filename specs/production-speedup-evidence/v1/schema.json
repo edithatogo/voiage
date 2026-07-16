@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "voiage production speedup evidence packet",
+  "type": "object",
+  "required": ["backend", "status", "owner", "source_command", "timestamp", "workload_hash", "workload_scale", "warmup_iterations", "timing_seconds", "throughput", "device_metadata", "cpu_fallback", "cpu_comparison_seconds", "speedup", "review_status"],
+  "properties": {
+    "backend": {"enum": ["cpu", "gpu", "tpu", "metal", "fpga", "asic"]},
+    "status": {"enum": ["passed", "blocked", "not_available", "failed"]},
+    "owner": {"type": "string", "minLength": 1},
+    "workload_scale": {"enum": ["production", "representative", "smoke"]},
+    "warmup_iterations": {"type": "integer", "minimum": 0},
+    "device_metadata": {"type": "object", "minProperties": 1},
+    "cpu_fallback": {"type": "boolean"},
+    "speedup": {"type": ["number", "null"]}
+  }
+}
