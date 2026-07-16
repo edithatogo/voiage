@@ -37,7 +37,7 @@ jobs:
         node-version: '22'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+      uses: pnpm/action-setup@a8198c4bff370c8506180b035930dea56dbd5288
       with:
         version: '10'
 
