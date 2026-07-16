@@ -8,6 +8,7 @@ from .causal_transportability import (
     value_of_causal_transportability,
 )
 from .ceaf import CEAFResult, calculate_ceaf
+from .data_quality import DataQualityResult, value_of_data_quality
 from .distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -73,6 +74,7 @@ from .validation import (
 __all__ = [
     "CEAFResult",
     "CausalTransportabilityResult",
+    "DataQualityResult",
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
@@ -110,6 +112,7 @@ __all__ = [
     "structural_evpi",
     "structural_evppi",
     "value_of_causal_transportability",
+    "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
     "value_of_heterogeneity",

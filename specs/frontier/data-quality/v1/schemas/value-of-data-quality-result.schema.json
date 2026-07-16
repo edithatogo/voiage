@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/data-quality/v1/schemas/value-of-data-quality-result.schema.json",
-  "title": "ValueOfDataQualityResultV1Planned",
+  "title": "ValueOfDataQualityResultV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -42,7 +42,7 @@
     },
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "value": {
       "type": "number",

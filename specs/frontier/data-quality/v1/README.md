@@ -1,16 +1,15 @@
 # Data-Quality, Measurement-Error, Privacy, And Linkage Experimental Contract v1
 
 This directory holds the fixture-backed frontier contract for data-quality,
-measurement-error, data-acquisition, privacy, and linkage VOI. It is not part
-of the stable core API v1 matrix yet; promotion still requires runtime
-implementation, cross-language validation, CLI coverage, and method maturity
-review.
+measurement-error, data-acquisition, privacy, and linkage VOI. The Python
+runtime and CLI are fixture-backed; promotion still requires open-data
+attribution, cross-language validation, and method maturity review.
 
 ## Files
 
 - `schemas/data-quality-set.schema.json` defines the data-quality and privacy
   input surface.
-- `schemas/value-of-data-quality-result.schema.json` defines the planned
+- `schemas/value-of-data-quality-result.schema.json` defines the fixture-backed
   result shape.
 - `examples/data-quality-set.example.json` is a compact illustrative input
   payload.
@@ -21,7 +20,7 @@ review.
 
 ## Shape
 
-The planned analysis surface treats source quality, measurement error,
+The analysis surface treats source quality, measurement error,
 privacy, and linkage constraints as explicit decision-relevant dimensions
 rather than a hidden sensitivity analysis. The intended net-benefit surface
 uses:

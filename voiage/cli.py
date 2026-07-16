@@ -41,6 +41,9 @@ from voiage.methods.causal_transportability import (
     value_of_causal_transportability as calculate_causal_transportability_result,
 )
 from voiage.methods.ceaf import calculate_ceaf as calculate_ceaf_result
+from voiage.methods.data_quality import (
+    value_of_data_quality as calculate_data_quality_result,
+)
 from voiage.methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -215,6 +218,24 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "transport_weights": [[1.0, 0.7], [0.8, 0.9]],
         "validity_penalties": [[0.0, 1.0], [0.5, 0.4]],
         "reference_target_population": "urban_target",
+    },
+    "data-quality": {
+        "command": "calculate-data-quality",
+        "description": "Template for fixture-backed data-quality, privacy, and linkage VOI inputs.",
+        "analysis_id": "data-quality-analysis",
+        "decision_problem_id": "screening-program-001",
+        "data_quality_profile_ids": ["clean_registry", "noisy_linked_records"],
+        "strategy_names": [
+            "status_quo",
+            "collect_more_data",
+            "privacy_preserving_linkage",
+        ],
+        "net_benefit": [[[10.0, 9.0], [12.0, 11.4], [11.5, 12.1]]],
+        "acquisition_costs": [[0.0, 1.5, 2.5], [0.0, 1.0, 2.0]],
+        "privacy_constraints": [[0.0, 0.4, 0.7], [0.1, 0.3, 0.5]],
+        "measurement_error_rates": [[0.05, 0.12, 0.2], [0.08, 0.15, 0.25]],
+        "linkage_weights": [[1.0, 0.8, 0.6], [0.9, 0.7, 0.5]],
+        "reference_data_quality_profile": "clean_registry",
     },
     "preference": {
         "command": "calculate-preference",
@@ -2892,6 +2913,83 @@ def calculate_causal_transportability(
         }
         output_text = _format_output(
             f"Causal transportability VOI: {result.value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-data-quality")
+def calculate_data_quality(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON data-quality specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the data-quality result"
+    ),
+) -> None:
+    """Calculate fixture-backed data-quality and privacy VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Data-quality specification must be a JSON object.")
+        result = calculate_data_quality_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["data_quality_profile_ids"]),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["acquisition_costs"], dtype=float),
+            np.asarray(payload["privacy_constraints"], dtype=float),
+            np.asarray(payload["measurement_error_rates"], dtype=float),
+            np.asarray(payload["linkage_weights"], dtype=float),
+            analysis_id=str(payload.get("analysis_id", "data-quality-analysis")),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+            reference_data_quality_profile=cast(
+                "str | None", payload.get("reference_data_quality_profile")
+            ),
+        )
+        result_payload = {
+            "analysis_type": "value_of_data_quality_privacy_linkage",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "acquisition_cost_value": result.acquisition_cost_value,
+            "privacy_value": result.privacy_value,
+            "measurement_error_value": result.measurement_error_value,
+            "linkage_value": result.linkage_value,
+            "data_quality_profile_ids": result.data_quality_profile_ids,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_data_quality_profile": result.optimal_strategy_by_data_quality_profile,
+            "acquisition_cost_matrix": result.acquisition_cost_matrix.tolist(),
+            "privacy_constraint_matrix": result.privacy_constraint_matrix.tolist(),
+            "measurement_error_matrix": result.measurement_error_matrix.tolist(),
+            "linkage_weight_matrix": result.linkage_weight_matrix.tolist(),
+            "consensus_strategy": result.consensus_strategy,
+            "robust_strategy": result.robust_strategy,
+            "pareto_strategies": result.pareto_strategies,
+            "reference_data_quality_profile": result.reference_data_quality_profile,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Data-quality VOI: {result.value:.6f}\n"
             f"Robust strategy: {result.robust_strategy}",
             result_payload,
         )

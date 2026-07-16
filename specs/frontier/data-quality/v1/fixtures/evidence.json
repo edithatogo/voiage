@@ -1,0 +1,23 @@
+{
+  "contract": "value-of-data-quality-privacy-linkage-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/data-quality-set.schema.json", "sha256": "d5c267758e7abf2b27a1a1ec06e6b5494158d43839ad9313ba4845d196bcb4e0"},
+    {"path": "schemas/value-of-data-quality-result.schema.json", "sha256": "e5330d682ab9b58f798c2d88dcdc378b6d96f1b0e4aabc2c9a73351913bbc4fe"},
+    {"path": "fixtures/normative/data-quality-set.json", "sha256": "652e986931e7add102e530ea3ce1ff7f20ab79f9863ac1f49824f740fc442868"},
+    {"path": "fixtures/normative/value-of-data-quality.json", "sha256": "ebcb5cbef4961e938a89af9d5afec823300f682df762da09dcfb863af45e750f"},
+    {"path": "../../../../voiage/methods/data_quality.py", "sha256": "c9c24998db9fa4f2b1d15732568614c836868cbfdfb27ea705a545d405f17764"}
+  ],
+  "open_data": {
+    "status": "blocked_external",
+    "evidence": "No committed open-data snapshot currently combines licensed missingness, measurement-error, privacy, and linkage observations with a reproducible decision transform.",
+    "next_action": "Add a licensed data-quality or linkage benchmark snapshot with documented transform, privacy assumptions, and provenance.",
+    "source_candidates": ["https://databank.worldbank.org/", "https://ourworldindata.org/"],
+    "license_gate": "Confirm source license and permission for the privacy/linkage transform before committing a snapshot."
+  },
+  "parity": {"python": "verified", "rust": "deferred_with_rationale", "r": "not_verified", "typescript": "not_verified"},
+  "parity_rationale": "The Python implementation is the reference runtime; Rust parity is deferred until privacy and linkage semantics are reviewed for cross-language conformance.",
+  "external_gates": ["Open-data attribution and transform review", "Cross-language conformance and Rust parity review", "Mature/stable method approval"]
+}

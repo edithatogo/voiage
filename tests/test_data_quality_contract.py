@@ -37,8 +37,10 @@ def test_data_quality_contract_schema_and_examples_parse() -> None:
         data_quality_result_example
     )
 
-    assert data_quality_set_schema["title"] == "DataQualitySetV1Planned"
-    assert data_quality_result_schema["title"] == "ValueOfDataQualityResultV1Planned"
+    assert data_quality_set_schema["title"] == "DataQualitySetV1FixtureBacked"
+    assert (
+        data_quality_result_schema["title"] == "ValueOfDataQualityResultV1FixtureBacked"
+    )
     assert (
         data_quality_result_example["analysis_type"]
         == "value_of_data_quality_privacy_linkage"

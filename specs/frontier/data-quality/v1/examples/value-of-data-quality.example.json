@@ -2,7 +2,7 @@
   "analysis_id": "data-quality-screening-001",
   "decision_problem_id": "screening-program-001",
   "analysis_type": "value_of_data_quality_privacy_linkage",
-  "method_maturity": "planned",
+  "method_maturity": "fixture-backed",
   "value": 3.8,
   "acquisition_cost_value": 1.1,
   "privacy_value": 0.9,
