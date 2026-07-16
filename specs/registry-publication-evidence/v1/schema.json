@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "voiage external registry publication evidence",
+  "type": "object",
+  "required": ["schema_version", "channels"],
+  "properties": {
+    "schema_version": {"const": "v1"},
+    "channels": {"type": "array", "minItems": 13, "items": {"type": "object", "required": ["channel", "package", "registry", "status", "owner", "next_action", "external_gate", "evidence_url", "checked_at"]}}
+  }
+}

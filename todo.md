@@ -9,6 +9,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Complete the TPU production-scale Colab evidence track, preserving the
     authenticated runtime/quota gate when production hardware is unavailable.
+*   [ ] Complete the external registry publication evidence track, preserving
+    publication and maintainer approval as external gates.
 
 ## Done
 

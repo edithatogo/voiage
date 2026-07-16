@@ -70,6 +70,12 @@
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Documentation, Review, And CI Closure' (Protocol in workflow.md)
 
+## Execution Evidence
+
+- Added `scripts/validate_registry_publication_evidence.py` and `specs/registry-publication-evidence/v1/schema.json`.
+- Added a 13-channel evidence manifest covering Python, R, Julia, TypeScript, Go, Rust, .NET, conda-forge, r-universe, Spack, EasyBuild, HPSF, and E4S.
+- Every unresolved channel has an owner, next action, evidence URL, and precise external gate. No irreversible registry submission was performed.
+
 ## Verification Commands
 
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
