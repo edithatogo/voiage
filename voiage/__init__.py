@@ -31,6 +31,7 @@ from .methods.causal_transportability import (
     CausalTransportabilityResult,
     value_of_causal_transportability,
 )
+from .methods.data_quality import DataQualityResult, value_of_data_quality
 from .methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -89,6 +90,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
 
 __all__ = [
     "CausalTransportabilityResult",
+    "DataQualityResult",
     "DecisionAnalysis",
     "DecisionOption",
     "DistributionalEquityResult",
@@ -134,6 +136,7 @@ __all__ = [
     "preference_optimal_strategies",
     "schema",
     "value_of_causal_transportability",
+    "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
     "value_of_implementation",

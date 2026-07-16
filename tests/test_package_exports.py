@@ -325,6 +325,7 @@ def test_methods_package_exports_are_curated() -> None:
     assert methods_module.__all__ == [
         "CEAFResult",
         "CausalTransportabilityResult",
+        "DataQualityResult",
         "DistributionalEquityResult",
         "DominanceResult",
         "DynamicRealOptionsResult",
@@ -362,6 +363,7 @@ def test_methods_package_exports_are_curated() -> None:
         "structural_evpi",
         "structural_evppi",
         "value_of_causal_transportability",
+        "value_of_data_quality",
         "value_of_distributional_equity",
         "value_of_dynamic_real_options",
         "value_of_heterogeneity",
@@ -395,6 +397,7 @@ def test_top_level_package_exports_modules() -> None:
     """Top-level package exports should remain stable curated API symbols."""
     assert voiage.__all__ == [
         "CausalTransportabilityResult",
+        "DataQualityResult",
         "DecisionAnalysis",
         "DecisionOption",
         "DistributionalEquityResult",
@@ -440,6 +443,7 @@ def test_top_level_package_exports_modules() -> None:
         "preference_optimal_strategies",
         "schema",
         "value_of_causal_transportability",
+        "value_of_data_quality",
         "value_of_distributional_equity",
         "value_of_dynamic_real_options",
         "value_of_implementation",

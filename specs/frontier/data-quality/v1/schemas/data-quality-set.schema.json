@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/data-quality/v1/schemas/data-quality-set.schema.json",
-  "title": "DataQualitySetV1Planned",
+  "title": "DataQualitySetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
