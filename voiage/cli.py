@@ -37,6 +37,9 @@ from voiage.methods.adaptive import (
 )
 from voiage.methods.basic import evpi, evppi
 from voiage.methods.calibration import voi_calibration
+from voiage.methods.causal_transportability import (
+    value_of_causal_transportability as calculate_causal_transportability_result,
+)
 from voiage.methods.ceaf import calculate_ceaf as calculate_ceaf_result
 from voiage.methods.distributional import (
     DistributionalEquityResult,
@@ -199,6 +202,19 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "lock_in_penalty": 0.25,
         "evidence_arrival_times": {"after_phase_1": 1.0, "after_phase_2": 2.0},
         "exercise_rules": {"now": "exercise_immediately"},
+    },
+    "causal-transportability": {
+        "command": "calculate-causal-transportability",
+        "description": "Template for fixture-backed causal transportability VOI inputs.",
+        "analysis_id": "causal-transportability-analysis",
+        "decision_problem_id": "screening-program-001",
+        "source_population_ids": ["trial_population", "real_world_population"],
+        "target_population_ids": ["urban_target", "rural_target"],
+        "strategy_names": ["status_quo", "adapted_policy"],
+        "net_benefit": [[[10.0, 12.0], [9.0, 11.0]]],
+        "transport_weights": [[1.0, 0.7], [0.8, 0.9]],
+        "validity_penalties": [[0.0, 1.0], [0.5, 0.4]],
+        "reference_target_population": "urban_target",
     },
     "preference": {
         "command": "calculate-preference",
@@ -2806,6 +2822,71 @@ def calculate_dynamic_real_options(
         output_text = _format_output(
             f"Dynamic real-options VOI: {result.option_value:.6f}\n"
             f"Robust strategy: {result.robust_strategy_name}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-causal-transportability")
+def calculate_causal_transportability(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON causal transportability specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the causal transportability result"
+    ),
+) -> None:
+    """Calculate fixture-backed causal transportability VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Causal transportability specification must be a JSON object.")
+        result = calculate_causal_transportability_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["source_population_ids"]),
+            cast("list[str]", payload["target_population_ids"]),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["transport_weights"], dtype=float),
+            np.asarray(payload["validity_penalties"], dtype=float),
+            analysis_id=str(payload.get("analysis_id", "causal-transportability-analysis")),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+            reference_target_population=cast("str | None", payload.get("reference_target_population")),
+        )
+        result_payload = {
+            "analysis_type": "value_of_causal_transportability",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "causal_identification_value": result.causal_identification_value,
+            "transportability_value": result.transportability_value,
+            "external_validity_value": result.external_validity_value,
+            "source_population_ids": result.source_population_ids,
+            "target_population_ids": result.target_population_ids,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_target_population": result.optimal_strategy_by_target_population,
+            "transport_weight_matrix": result.transport_weight_matrix.tolist(),
+            "validity_penalty_matrix": result.validity_penalty_matrix.tolist(),
+            "robust_strategy": result.robust_strategy,
+            "pareto_strategies": result.pareto_strategies,
+            "reference_target_population": result.reference_target_population,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Causal transportability VOI: {result.value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy}",
             result_payload,
         )
         typer.echo(output_text)

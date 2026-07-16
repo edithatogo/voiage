@@ -3,6 +3,10 @@
 from .adaptive import adaptive_evsi
 from .basic import evpi, evppi
 from .calibration import voi_calibration
+from .causal_transportability import (
+    CausalTransportabilityResult,
+    value_of_causal_transportability,
+)
 from .ceaf import CEAFResult, calculate_ceaf
 from .distributional import (
     DistributionalEquityResult,
@@ -68,6 +72,7 @@ from .validation import (
 
 __all__ = [
     "CEAFResult",
+    "CausalTransportabilityResult",
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
@@ -104,6 +109,7 @@ __all__ = [
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",
+    "value_of_causal_transportability",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
     "value_of_heterogeneity",

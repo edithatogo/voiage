@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/causal-transportability/v1/schemas/value-of-causal-transportability-result.schema.json",
-  "title": "ValueOfCausalTransportabilityResultV1Planned",
+  "title": "ValueOfCausalTransportabilityResultV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -40,7 +40,7 @@
     },
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "value": {
       "type": "number",

@@ -1,17 +1,16 @@
 # Causal Identification, Transportability, And External-Validity Experimental Contract v1
 
 This directory holds the fixture-backed frontier contract for
-causal-identification, transportability, and external-validity VOI. It is not
-part of the stable core API v1 matrix yet; promotion still requires runtime
-implementation, cross-language validation, CLI coverage, and method maturity
-review.
+causal-identification, transportability, and external-validity VOI. The Python
+runtime and CLI are fixture-backed; promotion still requires open-data
+attribution, cross-language validation, and method maturity review.
 
 ## Files
 
 - `schemas/causal-transportability-set.schema.json` defines the causal and
   transport-context input surface.
 - `schemas/value-of-causal-transportability-result.schema.json` defines the
-  planned result shape.
+  fixture-backed result shape.
 - `examples/causal-transportability-set.example.json` is a compact
   illustrative input payload.
 - `examples/value-of-causal-transportability.example.json` is a compact
@@ -21,7 +20,7 @@ review.
 
 ## Shape
 
-The planned analysis surface treats source-to-target population shifts as an
+The analysis surface treats source-to-target population shifts as an
 explicit decision-relevant dimension rather than a hidden modelling
 assumption. The intended net-benefit surface uses:
 

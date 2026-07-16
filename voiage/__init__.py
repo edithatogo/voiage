@@ -27,6 +27,10 @@ from . import (
 from .analysis import DecisionAnalysis
 from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
 from .methods.basic import evpi, evppi
+from .methods.causal_transportability import (
+    CausalTransportabilityResult,
+    value_of_causal_transportability,
+)
 from .methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -84,6 +88,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
     __version__ = "0.0.0"
 
 __all__ = [
+    "CausalTransportabilityResult",
     "DecisionAnalysis",
     "DecisionOption",
     "DistributionalEquityResult",
@@ -128,6 +133,7 @@ __all__ = [
     "plot",
     "preference_optimal_strategies",
     "schema",
+    "value_of_causal_transportability",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
     "value_of_implementation",
