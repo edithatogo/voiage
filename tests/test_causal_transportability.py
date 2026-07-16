@@ -25,6 +25,10 @@ def test_causal_transportability_returns_target_specific_decisions() -> None:
 def test_causal_transportability_rejects_missing_target_weight() -> None:
     with pytest.raises(ValueError, match="positive transport weight"):
         value_of_causal_transportability(
-            np.ones((1, 1, 1)), ["source"], ["target"], ["strategy"],
-            np.zeros((1, 1)), np.zeros((1, 1)),
+            np.ones((1, 1, 1)),
+            ["source"],
+            ["target"],
+            ["strategy"],
+            np.zeros((1, 1)),
+            np.zeros((1, 1)),
         )

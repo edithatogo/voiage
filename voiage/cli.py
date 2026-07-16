@@ -2852,7 +2852,9 @@ def calculate_causal_transportability(
     try:
         payload = _read_json_file(specification_file)
         if not isinstance(payload, dict):
-            raise TypeError("Causal transportability specification must be a JSON object.")
+            raise TypeError(
+                "Causal transportability specification must be a JSON object."
+            )
         result = calculate_causal_transportability_result(
             np.asarray(payload["net_benefit"], dtype=float),
             cast("list[str]", payload["source_population_ids"]),
@@ -2860,9 +2862,13 @@ def calculate_causal_transportability(
             cast("list[str]", payload["strategy_names"]),
             np.asarray(payload["transport_weights"], dtype=float),
             np.asarray(payload["validity_penalties"], dtype=float),
-            analysis_id=str(payload.get("analysis_id", "causal-transportability-analysis")),
+            analysis_id=str(
+                payload.get("analysis_id", "causal-transportability-analysis")
+            ),
             decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
-            reference_target_population=cast("str | None", payload.get("reference_target_population")),
+            reference_target_population=cast(
+                "str | None", payload.get("reference_target_population")
+            ),
         )
         result_payload = {
             "analysis_type": "value_of_causal_transportability",

@@ -43,6 +43,7 @@ def test_causal_transportability_contract_schema_and_examples_parse() -> None:
 
     assert causal_set_schema["title"] == "CausalTransportabilitySetV1FixtureBacked"
     assert (
-        causal_result_schema["title"] == "ValueOfCausalTransportabilityResultV1FixtureBacked"
+        causal_result_schema["title"]
+        == "ValueOfCausalTransportabilityResultV1FixtureBacked"
     )
     assert causal_result_example["analysis_type"] == "value_of_causal_transportability"
