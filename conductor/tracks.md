@@ -561,10 +561,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: HPC Production Speedup Evidence Program
-*Link: [./tracks/hpc-production-speedup-evidence-program_20260625/](./tracks/hpc-production-speedup-evidence-program_20260625/)*
+## [x] Track: HPC Production Speedup Evidence Program [completed: 2026-07-17]
+*Link: [./archive/hpc-production-speedup-evidence-program_20260625/](./archive/hpc-production-speedup-evidence-program_20260625/)*
 *Execution order: 27 of 32*
-*Status: repository-owned production benchmark schema, deterministic CPU reference and backend gate packets, and validation are in progress; production speedup and HPC-native promotion remain blocked pending reviewed hardware evidence.*
+*Status: repository-owned production benchmark schema, deterministic CPU reference and backend gate packets, and validation are complete; reviewed production speedup, cloud/hardware access, FPGA board, ASIC silicon, and HPC-native promotion remain explicit external gates.*
 
 ---
 

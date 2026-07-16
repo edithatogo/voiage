@@ -1,0 +1,41 @@
+{
+  "packets": [
+    {
+      "artifact_path": "packets/cpu-reference.json",
+      "backend": "cpu",
+      "sha256": "42e9c15a2c27446ec4b3cf2d71bb20869c0da31230c5a97b4c2bdc47bc0dc06e",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/gpu-blocked.json",
+      "backend": "gpu",
+      "sha256": "f65a04ac0a8a8e9f14bed749bdde4c1f9ceaf949d7e95c74d6d32d53bca0463f",
+      "status": "blocked"
+    },
+    {
+      "artifact_path": "packets/tpu-blocked.json",
+      "backend": "tpu",
+      "sha256": "ebf93cfdd5b5db13fe1b410fcb15d7516ad5567a4917bc0b52bb62fe78cac308",
+      "status": "blocked"
+    },
+    {
+      "artifact_path": "packets/metal-blocked.json",
+      "backend": "metal",
+      "sha256": "1712cb2d260d12fd6c782fe919b4cab3b10e409583736f6e12eef2e4e8405359",
+      "status": "blocked"
+    },
+    {
+      "artifact_path": "packets/fpga-not-available.json",
+      "backend": "fpga",
+      "sha256": "d22b9a1378525920795e28dcec88197c0bf4a9609d20cac74cd46d577db387c0",
+      "status": "not_available"
+    },
+    {
+      "artifact_path": "packets/asic-not-available.json",
+      "backend": "asic",
+      "sha256": "3de78ac0756824e417d05cc2c338136f9707ef6a2e7cb20037bc915f729ba291",
+      "status": "not_available"
+    }
+  ],
+  "schema_version": "v1"
+}

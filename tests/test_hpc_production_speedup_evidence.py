@@ -6,8 +6,14 @@ import pytest
 
 from scripts.validate_production_speedup_evidence import validate_manifest
 
-MANIFEST = Path(
-    "conductor/tracks/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-manifest.json"
+TRACK_ID = "hpc-production-speedup-evidence-program_20260625"
+MANIFEST = next(
+    root / "handoff/production-speedup-manifest.json"
+    for root in (
+        Path("conductor/tracks") / TRACK_ID,
+        Path("conductor/archive") / TRACK_ID,
+    )
+    if (root / "handoff/production-speedup-manifest.json").is_file()
 )
 
 
