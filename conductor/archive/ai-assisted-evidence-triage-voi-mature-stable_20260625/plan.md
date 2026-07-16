@@ -48,7 +48,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: d1c5d78]
+## Phase 4: Mature Stable Promotion Review [checkpoint: ee51e4b]
 
 - [x] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision. (4128707)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
