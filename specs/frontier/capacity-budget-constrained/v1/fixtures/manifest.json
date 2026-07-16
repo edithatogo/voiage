@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_capacity_budget_constrained",
+  "normative": [
+    {
+      "name": "deterministic constrained strategy selection",
+      "method_family": "value_of_capacity_budget_constrained",
+      "input_artifact": "normative/capacity-budget-constrained-input.json",
+      "expected_output_artifact": "normative/value-of-capacity-budget-constrained.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "cross-language-parity-and-open-data-attribution",
+    "blocked_state": "externally-blocked"
+  }
+}

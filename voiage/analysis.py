@@ -1133,6 +1133,14 @@ class DecisionAnalysis:
             seed=seed,
         )
 
+    def value_of_capacity_budget_constrained(self, **kwargs: object) -> object:
+        """Evaluate value of information under resource constraints."""
+        from voiage.methods.capacity_budget_constrained import (
+            value_of_capacity_budget_constrained,
+        )
+
+        return value_of_capacity_budget_constrained(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

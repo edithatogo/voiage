@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_strategy", "budget", "capacity", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_strategy": {"type": "string"},
+    "budget": {"type": "number", "minimum": 0},
+    "capacity": {"type": "number", "minimum": 0},
+    "constrained_regret": {"type": "number", "minimum": 0},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}
