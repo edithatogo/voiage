@@ -147,8 +147,8 @@ def test_registry_encodes_execution_and_external_blocked_queues() -> None:
     """Only genuine work is numbered for automatic dependency-order execution."""
     registry = _read("conductor/tracks.md")
     executable = re.findall(
-        r"## \[[ ~]\] Track: .*?\n"
-        r"\*Link: \[\./tracks/([^/]+)/\].*?\n"
+        r"## \[[ ~]\] Track: .*?\r?\n"
+        r"\*Link: \[\./tracks/([^/]+)/\].*?\r?\n"
         r"\*Execution order: (\d{2}) of 32\*",
         registry,
     )
@@ -158,8 +158,8 @@ def test_registry_encodes_execution_and_external_blocked_queues() -> None:
     ]
 
     blocked = re.findall(
-        r"## \[!\] Track: .*?\n"
-        r"\*Link: \[\./tracks/([^/]+)/\].*?\n"
+        r"## \[!\] Track: .*?\r?\n"
+        r"\*Link: \[\./tracks/([^/]+)/\].*?\r?\n"
         r"\*Status: blocked_external — ([^*]+)\.\*",
         registry,
     )

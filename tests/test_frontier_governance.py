@@ -87,7 +87,11 @@ def test_promotion_checklist_covers_every_registered_family() -> None:
         assert family["owner"]
         assert family["blocked_state"]
         assert family["artifact_paths"]
-        assert family["stable_claim_allowed"] is False
+        assert isinstance(family["stable_claim_allowed"], bool)
+
+    assert all(
+        family["stable_claim_allowed"] is False for family in checklist["families"]
+    )
 
 
 def test_stable_promotion_requires_complete_evidence_boundary() -> None:
@@ -126,6 +130,11 @@ def test_stable_promotion_rejects_missing_migration_guidance() -> None:
                 "public_api_compatibility": True,
             },
         )
+
+
+def test_promotion_rejects_non_mapping_evidence() -> None:
+    with pytest.raises(TypeError, match="mapping"):
+        validate_promotion_evidence("experimental", None)  # type: ignore[arg-type]
 
 
 def test_each_maturity_level_has_metadata() -> None:

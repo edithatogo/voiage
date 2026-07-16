@@ -17,10 +17,8 @@ machine-readable companion that makes the policy testable.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Final
-
-if TYPE_CHECKING:
-    from collections.abc import Mapping
+from collections.abc import Mapping
+from typing import Final
 
 # --------------------------------------------------------------------------- #
 # Method maturity taxonomy
@@ -169,6 +167,9 @@ def validate_promotion_evidence(state: str, evidence: Mapping[str, bool]) -> Non
     ValueError
         If *state* is unknown or any required evidence flag is absent/false.
     """
+    if not isinstance(evidence, Mapping):
+        raise TypeError("Evidence must be a mapping of requirement names to booleans")
+
     if state not in PROMOTION_MATRIX:
         raise ValueError(
             f"Unknown promotion state '{state}'. Expected one of: "
