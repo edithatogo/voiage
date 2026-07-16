@@ -81,3 +81,14 @@ def test_preference_contract_result_matches_normative_fixture() -> None:
     )
 
     assert result.to_dict() == normative_example
+
+
+def test_preference_evidence_manifest_keeps_promotion_boundary_explicit() -> None:
+    manifest_path = _preference_contract_dir() / "fixtures" / "evidence.json"
+    manifest = json.loads(manifest_path.read_text())
+
+    assert manifest["maturity"] == "fixture-backed"
+    assert manifest["stable_claim_allowed"] is False
+    assert manifest["blocked_state"] == "external_review_required"
+    assert manifest["parity"]["python"] == "verified"
+    assert all(artifact["sha256"] for artifact in manifest["artifacts"])

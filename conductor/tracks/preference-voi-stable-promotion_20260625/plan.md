@@ -2,13 +2,13 @@
 
 ## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: ]
 
-- [ ] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.
+- [x] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Write or update validation tests that fail if external gates, maturity labels, or evidence states are overclaimed.
+- [x] Task: Write or update validation tests that fail if external gates, maturity labels, or evidence states are overclaimed.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Define the machine-readable evidence fields, owner fields, blocked-state fields, and artifact paths for this track.
+- [x] Task: Define the machine-readable evidence fields, owner fields, blocked-state fields, and artifact paths for this track.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Commit the scope and test changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
@@ -20,10 +20,10 @@
 
 ## Phase 2: Automation And Artifact Preparation [checkpoint: ]
 
-- [ ] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
+- [x] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Run the focused validation command for this track and capture the command plus result in the working notes or evidence manifest.
+- [x] Task: Run the focused validation command for this track and capture the command plus result in the working notes or evidence manifest.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
     - [ ] Preserve CPU fallback or readiness-vs-publication wording where applicable.
 - [ ] Task: Use GitHub Actions, gh, colab, gcloud, registry tooling, or browser automation only within the tool-use limits in the specification.
@@ -76,3 +76,18 @@
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
 - [ ] `cargo fmt --check && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked && cargo doc --no-deps --locked` when Rust kernels or binding contracts change
+
+## Current checkpoint
+
+- Added ``specs/frontier/preference/v1/fixtures/evidence.json`` with
+  deterministic artifact hashes, owner, maturity, blocked-state, and parity
+  fields.
+- Verified the Python result envelope against the normative fixture; Rust, R,
+  and TypeScript adapter parity remain ``not_verified`` and require external
+  adapter evidence before stable promotion.
+- Focused validation: 16 tests passed; Ruff and repository harness passed with
+  zero findings.
+- Full local gate: tox passed with lint, Bandit, typecheck, Astro check/build,
+  1214 Python 3.14 tests, 90%+ coverage, frontier contract, and version sync.
+- Implementation checkpoint commit: ``cfa0110``; git note attached. Hosted
+  PR validation remains required before archival.
