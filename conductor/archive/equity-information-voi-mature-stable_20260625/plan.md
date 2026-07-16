@@ -42,4 +42,4 @@
 - Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
 - `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90`: 1301 passed, 10 skipped, 90.00%.
 - `uv run --with tox tox -e lint,typecheck,docs,frontier-contract`: passed; Ruff, Bandit, ty, Astro check/build, and frontier validator all green.
-- Hosted PR CI and required GitHub checks remain the next external validation boundary.
+- Hosted PR #179 merged as `74a3858`; all required substantive checks and Python CodeQL passed; aggregate CodeQL remained the known neutral wrapper.

@@ -470,10 +470,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Equity Information VOI Mature Stable Path
-*Link: [./tracks/equity-information-voi-mature-stable_20260625/](./tracks/equity-information-voi-mature-stable_20260625/)*
+## [x] Track: Equity Information VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/equity-information-voi-mature-stable_20260625/](./archive/equity-information-voi-mature-stable_20260625/)*
 *Execution order: 14 of 32*
-*Status: recommended method track for value of resolving equity-relevant uncertainty beyond subgroup heterogeneity alone.*
+*Status: fixture-backed equity-information runtime, CLI, deterministic contract fixtures, governance registration, documentation, and hosted CI are complete; licensed open-data attribution, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
