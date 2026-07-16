@@ -1,5 +1,19 @@
 # Track Implementation Plan: Bayesian Experimental Design And Amortized VOI
 
+## Completion record
+
+- [x] Implemented backend-neutral expected information gain estimation,
+  cost-aware Bayesian design selection, active-learning batch selection, and
+  amortized EVSI summaries in ``voiage/experimental_design.py``.
+- [x] Added focused tests and experimental-boundary documentation.
+- [x] Local gates passed: lint, Bandit, typecheck, Astro check/build, 1213
+  Python 3.14 tests, 90.88% coverage, frontier contract, and version sync.
+- [x] GitHub PR #155 merged with all required checks passing; merge commit is
+  ``eda140a``. The repository ruleset was restored active after the approved
+  administrative merge.
+- [x] Archived after review. Optional JAX/NumPyro/SBI backends, real-data
+  evidence, and cross-language parity remain explicit downstream gates.
+
 ## Phase 1: Architecture And Gate Definition [checkpoint: ]
 
 - [x] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes.
