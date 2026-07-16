@@ -56,6 +56,16 @@ compile overhead, result parity, and CPU fallback. Colab or cloud quota/runtime
 unavailability is recorded as blocked; a T4 visibility/parity packet is not a
 production-sized speedup claim.
 
+## TPU production-scale evidence
+
+The TPU follow-through track requires production-scale workload hashes, warm-up
+and repeated timings, throughput, CPU comparison, compile and transfer overhead,
+EVPI result parity, and CPU fallback. The current handoff contains a deterministic
+CPU reference and an explicit TPU blocked packet: compact Colab v5e visibility or
+parity does not prove speedup. A production TPU claim remains gated on an
+authenticated Colab TPU runtime or gcloud project with quota, billing, and TPU
+allocation.
+
 ## Contract rules
 
 - CPU behavior stays the reference path until an accelerator proves itself

@@ -7,7 +7,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
-*None at the moment.*
+*   [ ] Complete the TPU production-scale Colab evidence track, preserving the
+    authenticated runtime/quota gate when production hardware is unavailable.
 
 ## Done
 

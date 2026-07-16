@@ -1,0 +1,19 @@
+{
+  "packets": [
+    {
+      "artifact_path": "packets/cpu-reference.json",
+      "backend": "cpu",
+      "claim_level": "reference",
+      "sha256": "4d00a30baab89d5d49ed62296fe5281b511a9242419da142f394c193ad479011",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/tpu-blocked.json",
+      "backend": "tpu",
+      "claim_level": "blocked",
+      "sha256": "a507b0dd77fdc7ed600f01a814bd7d0f91f765bcfd791af34124941cff86ab0d",
+      "status": "blocked"
+    }
+  ],
+  "schema_version": "v1"
+}
