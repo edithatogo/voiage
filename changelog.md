@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a seven-perspective Value of Perspective catalog covering payer,
+  societal, patient, provider, regulator, equity-weighted, and custom views,
+  with hash-pinned maturity evidence and an explicit real-data attribution
+  gate. The method remains fixture-backed pending parity and review.
 - Archived the distributional and implementation VOI promotion track after
   adding open-data evidence with provenance and passing hosted CI; retained
   cross-language parity and stable approval as explicit external gates.

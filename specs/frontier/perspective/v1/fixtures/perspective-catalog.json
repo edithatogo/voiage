@@ -1,0 +1,19 @@
+{
+  "contract": "value-of-perspective-v1",
+  "method_maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "perspectives": [
+    {"id": "payer", "label": "Payer", "objective": "payer costs and payer-valued outcomes"},
+    {"id": "societal", "label": "Societal", "objective": "all specified costs and outcomes from a societal view"},
+    {"id": "patient", "label": "Patient", "objective": "patient costs, burden, and patient-valued outcomes"},
+    {"id": "provider", "label": "Provider", "objective": "provider resource use and provider-valued outcomes"},
+    {"id": "regulator", "label": "Regulator", "objective": "regulatory outcomes, safety, and budget impact"},
+    {"id": "equity-weighted", "label": "Equity-weighted", "objective": "distributionally weighted outcomes and burdens"},
+    {"id": "custom", "label": "Custom stakeholder", "objective": "user-specified objective and stakeholder weights"}
+  ],
+  "assumptions": {
+    "perspective_weights": "Weights represent uncertainty over which perspective should govern the decision and are normalized before aggregation.",
+    "objective_uncertainty": "Each perspective supplies its own net-benefit surface; the method values resolving which surface should govern the choice.",
+    "real_data_boundary": "Real observations must be mapped to a named perspective with a documented cost/effect transform; no such mapping is claimed by this catalog."
+  }
+}

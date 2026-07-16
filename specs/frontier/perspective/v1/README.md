@@ -12,6 +12,10 @@ yet; promotion still requires cross-language validation and maturity review.
 - `examples/value-of-perspective.example.json` is a compact illustrative result.
 - `fixtures/` contains the deterministic screening-program conformance
   fixture set used to anchor the CLI contract.
+- `fixtures/perspective-catalog.json` records the payer, societal, patient,
+  provider, regulator, equity-weighted, and custom stakeholder definitions.
+- `fixtures/evidence.json` records the fixture hashes, explicit real-data
+  gate, parity state, and stable-promotion boundary.
 
 ## Shape
 
