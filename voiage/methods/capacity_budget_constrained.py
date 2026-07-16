@@ -52,12 +52,19 @@ def value_of_capacity_budget_constrained(
     costs = np.asarray(strategy_costs, dtype=DEFAULT_DTYPE)
     loads = np.asarray(strategy_capacity, dtype=DEFAULT_DTYPE)
     if values.ndim != 2 or min(values.shape) < 1 or not np.all(np.isfinite(values)):
-        raise_input_error("scenario_values must be a finite scenario x strategy matrix.")
+        raise_input_error(
+            "scenario_values must be a finite scenario x strategy matrix."
+        )
     if len(costs) != values.shape[1] or len(loads) != values.shape[1]:
         raise_input_error("strategy constraints must match the strategy count.")
     if np.any(costs < 0) or np.any(loads < 0):
         raise_input_error("strategy costs and capacity loads must be non-negative.")
-    if not np.isfinite(budget) or budget < 0 or not np.isfinite(capacity) or capacity < 0:
+    if (
+        not np.isfinite(budget)
+        or budget < 0
+        or not np.isfinite(capacity)
+        or capacity < 0
+    ):
         raise_input_error("budget and capacity must be finite and non-negative.")
     if not np.isfinite(information_cost) or information_cost < 0:
         raise_input_error("information_cost must be finite and non-negative.")
@@ -66,19 +73,29 @@ def value_of_capacity_budget_constrained(
         raise_input_error("strategy_names length must match the strategy count.")
     feasible = (costs <= budget) & (loads <= capacity)
     if not np.any(feasible):
-        raise_input_error("at least one strategy must satisfy budget and capacity constraints.")
+        raise_input_error(
+            "at least one strategy must satisfy budget and capacity constraints."
+        )
     expected = np.mean(values, axis=0)
     constrained_expected = np.where(feasible, expected, -np.inf)
     baseline_index = int(np.argmax(constrained_expected))
-    scenario_indices = [int(np.argmax(np.where(feasible, row, -np.inf))) for row in values]
-    perfect_value = float(np.mean([values[i, j] for i, j in enumerate(scenario_indices)]))
+    scenario_indices = [
+        int(np.argmax(np.where(feasible, row, -np.inf))) for row in values
+    ]
+    perfect_value = float(
+        np.mean([values[i, j] for i, j in enumerate(scenario_indices)])
+    )
     baseline_value = float(expected[baseline_index])
     value = max(0.0, perfect_value - baseline_value - information_cost)
-    budget_impact = float(np.max(np.where(feasible, costs, 0.0)) - costs[baseline_index])
+    budget_impact = float(
+        np.max(np.where(feasible, costs, 0.0)) - costs[baseline_index]
+    )
     capacity_shortfall = float(max(0.0, np.max(loads) - capacity))
     regret = max(0.0, perfect_value - baseline_value)
     shadow_budget = float(max(0.0, perfect_value - baseline_value) / max(budget, 1.0))
-    shadow_capacity = float(max(0.0, perfect_value - baseline_value) / max(capacity, 1.0))
+    shadow_capacity = float(
+        max(0.0, perfect_value - baseline_value) / max(capacity, 1.0)
+    )
     diagnostics: dict[str, object] = {
         "feasible_strategy_count": int(np.sum(feasible)),
         "scenario_count": int(values.shape[0]),

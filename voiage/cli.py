@@ -4065,7 +4065,9 @@ def calculate_adaptive_learning_bandit(
 
 
 @app.command(name="calculate-capacity-budget-constrained")
-def calculate_capacity_budget_constrained(input_file: Path = typer.Argument(..., exists=True)) -> None:
+def calculate_capacity_budget_constrained(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
     """Calculate fixture-backed constrained-budget and capacity VOI."""
     try:
         payload = json.loads(input_file.read_text(encoding="utf-8"))
@@ -4097,8 +4099,19 @@ def calculate_capacity_budget_constrained(input_file: Path = typer.Argument(...,
             "diagnostics": result.diagnostics,
             "reporting": result.reporting,
         }
-        typer.echo(_format_output(f"Capacity and budget-constrained VOI: {result.value:.6f}", result_payload))
-    except (FileNotFoundError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
+        typer.echo(
+            _format_output(
+                f"Capacity and budget-constrained VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
         typer.echo(f"Error: {exc}", err=True)
         raise typer.Exit(code=1) from exc
     except Exception as e:
