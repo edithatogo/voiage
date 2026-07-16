@@ -1410,6 +1410,7 @@ def calculate_calibration(
 def calculate_evsi(
     parameter_file: Path = typer.Argument(
         ...,
+        metavar="PARAMETER_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -1418,6 +1419,7 @@ def calculate_evsi(
     ),
     trial_design_file: Path = typer.Argument(
         ...,
+        metavar="TRIAL_DESIGN_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
