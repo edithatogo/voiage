@@ -1178,6 +1178,7 @@ def calculate_evppi(
     ),
     parameter_file: Path = typer.Argument(
         ...,
+        metavar="PARAMETER_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
