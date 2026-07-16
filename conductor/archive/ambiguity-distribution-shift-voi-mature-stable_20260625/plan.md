@@ -17,12 +17,12 @@
 - [x] Implementation commit `c9a4a76` has a git note; this short commit SHA is recorded here, and this is the separate commit the plan update.
 - [x] Conductor - User Manual Verification: Phase 2 (Protocol in workflow.md).
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: c9a4a76]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: 9671662]
 
 - [x] Run focused runtime, contract, CLI, export, and frontier validation tests.
 - [x] Run `git diff --check`, Ruff/Bandit, ty, Astro check/build, and frontier-contract validation.
 - [x] Run the full suite with coverage: 1,317 passed, 10 optional-dependency skips, 90.01% coverage.
-- [ ] Complete cross-language conformance once the external parity bindings and source snapshot are available.
+- [ ] Complete cross-language conformance once the external parity bindings and source snapshot are available; this remains externally blocked.
 - [x] Update changelog, migration guide, registry manifest, promotion checklist, and maturity metadata.
 - [x] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
 
@@ -32,7 +32,7 @@
 - [ ] Obtain licensed open-data attribution and reproducible source-target drift snapshots.
 - [ ] Complete cross-language parity and any binding-native gates.
 - [ ] Revisit stable promotion only after those external gates pass; do not mark this track stable early.
-- [ ] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md).
+- [x] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md): archive as fixture-backed with precise external blockers.
 
 ## Verification Commands
 
@@ -46,5 +46,5 @@
 
 - Implementation commit: `c9a4a76` (`feat: add ambiguity and distribution shift voi`); git note attached.
 - Plan update commit: `12f4e84`; git note attached.
-- Hosted merge gate: pending GitHub Actions; do not merge while substantive checks or Python CodeQL are failing.
-- User-facing manual verification remains required under the Conductor protocol: verify CLI JSON output and the fixture-backed maturity boundary after hosted CI.
+- Hosted merge gate: PR #181 merged as `9671662`; all substantive GitHub Actions and Python CodeQL checks passed; aggregate CodeQL was skipped/neutral by workflow design.
+- User-facing manual verification completed under the Conductor protocol: CLI JSON output and the fixture-backed maturity boundary were verified after hosted CI.

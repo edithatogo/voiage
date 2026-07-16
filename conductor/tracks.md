@@ -477,10 +477,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
-*Link: [./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/](./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
+## [x] Track: Ambiguity And Distribution Shift VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/ambiguity-distribution-shift-voi-mature-stable_20260625/](./archive/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
 *Execution order: 15 of 32*
-*Status: recommended method track for VOI under ambiguity sets, drift, robustness, and distribution shift.*
+*Status: fixture-backed ambiguity/distribution-shift runtime, CLI, deterministic contract fixtures, Astro documentation, governance registration, and hosted CI are complete; licensed open-data attribution, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
