@@ -55,6 +55,9 @@ from voiage.methods.dominance import calculate_dominance as calculate_dominance_
 from voiage.methods.dynamic_real_options import (
     value_of_dynamic_real_options as calculate_dynamic_real_options_result,
 )
+from voiage.methods.expert_synthesis import (
+    value_of_expert_synthesis as calculate_expert_synthesis_result,
+)
 from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
@@ -252,6 +255,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "approximation_errors": [[0.3, 0.1, 0.2], [0.25, 0.08, 0.15]],
         "refinement_weights": [[0.5, 0.9, 0.6], [0.4, 1.0, 0.7]],
         "reference_compute_budget": "baseline_compute",
+    },
+    "expert-synthesis": {
+        "command": "calculate-expert-synthesis",
+        "description": "Template for fixture-backed expert elicitation and synthesis VOI inputs.",
+        "analysis_id": "expert-synthesis-analysis",
+        "decision_problem_id": "screening-program-001",
+        "expert_profile_ids": ["structured_panel", "delphi_panel"],
+        "strategy_names": ["status_quo", "expert_elicitation", "synthesis_reweighted"],
+        "net_benefit": [[[10.0, 9.8], [11.5, 11.0], [11.2, 11.6]]],
+        "elicitation_costs": [[0.0, 1.4, 2.0], [0.0, 1.1, 1.8]],
+        "synthesis_penalties": [[0.0, 0.5, 0.2], [0.1, 0.4, 0.3]],
+        "reference_expert_profile": "structured_panel",
     },
     "preference": {
         "command": "calculate-preference",
@@ -3080,6 +3095,77 @@ def calculate_computational_refinement(
         }
         output_text = _format_output(
             f"Computational refinement VOI: {result.value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-expert-synthesis")
+def calculate_expert_synthesis(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON expert synthesis specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the expert synthesis result"
+    ),
+) -> None:
+    """Calculate fixture-backed expert synthesis VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Expert synthesis specification must be a JSON object.")
+        result = calculate_expert_synthesis_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["expert_profile_ids"]),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["elicitation_costs"], dtype=float),
+            np.asarray(payload["synthesis_penalties"], dtype=float),
+            analysis_id=str(payload.get("analysis_id", "expert-synthesis-analysis")),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+            reference_expert_profile=cast(
+                "str | None", payload.get("reference_expert_profile")
+            ),
+        )
+        result_payload = {
+            "analysis_type": "value_of_expert_synthesis",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "elicitation_value": result.elicitation_value,
+            "synthesis_design_value": result.synthesis_design_value,
+            "expert_profile_ids": result.expert_profile_ids,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_expert_profile": result.optimal_strategy_by_expert_profile,
+            "elicitation_cost_matrix": result.elicitation_cost_matrix.tolist(),
+            "synthesis_penalty_matrix": result.synthesis_penalty_matrix.tolist(),
+            "consensus_strategy": result.consensus_strategy,
+            "robust_strategy": result.robust_strategy,
+            "pareto_strategies": result.pareto_strategies,
+            "reference_expert_profile": result.reference_expert_profile,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Expert synthesis VOI: {result.value:.6f}\n"
             f"Robust strategy: {result.robust_strategy}",
             result_payload,
         )

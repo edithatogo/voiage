@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/expert-synthesis/v1/schemas/value-of-expert-synthesis-result.schema.json",
-  "title": "ValueOfExpertSynthesisResultV1Planned",
+  "title": "ValueOfExpertSynthesisResultV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -38,7 +38,7 @@
     },
     "method_maturity": {
       "type": "string",
-      "const": "planned"
+      "const": "fixture-backed"
     },
     "value": {
       "type": "number",

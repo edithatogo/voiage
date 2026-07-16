@@ -2,7 +2,7 @@
   "analysis_id": "expert-synthesis-screening-001",
   "decision_problem_id": "screening-program-001",
   "analysis_type": "value_of_expert_synthesis",
-  "method_maturity": "planned",
+  "method_maturity": "fixture-backed",
   "value": 2.6,
   "elicitation_value": 1.0,
   "synthesis_design_value": 0.9,
