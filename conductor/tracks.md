@@ -477,7 +477,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
+## [~] Track: Ambiguity And Distribution Shift VOI Mature Stable Path
 *Link: [./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/](./tracks/ambiguity-distribution-shift-voi-mature-stable_20260625/)*
 *Execution order: 15 of 32*
 *Status: recommended method track for VOI under ambiguity sets, drift, robustness, and distribution shift.*

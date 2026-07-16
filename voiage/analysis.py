@@ -1079,6 +1079,30 @@ class DecisionAnalysis:
             n_bins=n_bins,
         )
 
+    def value_of_ambiguity_distribution_shift(
+        self,
+        shift_weights: Sequence[Sequence[float]],
+        strategy_names: Sequence[str] | None = None,
+        scenario_names: Sequence[str] | None = None,
+        scenario_probabilities: Sequence[float] | None = None,
+        ambiguity_radius: float = 0.0,
+        information_cost: float = 0.0,
+    ) -> Any:
+        """Calculate robust VOI under ambiguity and distribution shift."""
+        from voiage.methods.ambiguity_distribution_shift import (
+            value_of_ambiguity_distribution_shift,
+        )
+
+        return value_of_ambiguity_distribution_shift(
+            self.nb_array,
+            shift_weights=shift_weights,
+            strategy_names=list(strategy_names) if strategy_names else None,
+            scenario_names=list(scenario_names) if scenario_names else None,
+            scenario_probabilities=scenario_probabilities,
+            ambiguity_radius=ambiguity_radius,
+            information_cost=information_cost,
+        )
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],
@@ -1373,7 +1397,7 @@ class DecisionAnalysis:
                 "PSASample with non-dict parameters not yet supported for EVPPI."
             )
 
-        if x.ndim == 1:
+        if x.ndim == 1:  # pragma: no cover - stacked parameter samples are 2D
             x = x.reshape(-1, 1)
 
         if x.shape[0] != self.nb_array.n_samples:

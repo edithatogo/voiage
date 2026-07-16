@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_ambiguity_distribution_shift",
+  "normative": [
+    {
+      "name": "screening programme source-target drift robustness",
+      "method_family": "value_of_ambiguity_distribution_shift",
+      "input_artifact": "normative/ambiguity-distribution-shift-input.json",
+      "expected_output_artifact": "normative/value-of-ambiguity-distribution-shift.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "cross-language-parity-and-open-data-attribution",
+    "blocked_state": "externally-blocked"
+  }
+}

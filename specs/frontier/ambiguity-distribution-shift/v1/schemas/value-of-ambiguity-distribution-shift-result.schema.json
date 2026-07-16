@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/ambiguity-distribution-shift/v1/schemas/value-of-ambiguity-distribution-shift-result.schema.json",
+  "title": "ValueOfAmbiguityDistributionShiftResultV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["analysis_type", "method_maturity", "value", "strategy_names", "scenario_names", "scenario_probabilities", "scenario_expected_net_benefits", "robust_net_benefits", "robust_strategy_name", "informed_optimal_strategy_names", "shift_sensitivity", "diagnostics", "reporting"],
+  "properties": {
+    "analysis_type": {"const": "value_of_ambiguity_distribution_shift"},
+    "method_maturity": {"const": "fixture-backed"},
+    "value": {"type": "number", "minimum": 0},
+    "strategy_names": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "scenario_names": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "scenario_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0}},
+    "scenario_expected_net_benefits": {"type": "array", "minItems": 1, "items": {"type": "array", "items": {"type": "number"}}},
+    "robust_net_benefits": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "robust_strategy_name": {"type": "string", "minLength": 1},
+    "robust_value": {"type": "number"},
+    "informed_optimal_strategy_names": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "informed_expected_value": {"type": "number"},
+    "scenario_regret": {"type": "array", "minItems": 1, "items": {"type": "array", "items": {"type": "number", "minimum": 0}}},
+    "shift_sensitivity": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0}},
+    "ambiguity_radius": {"type": "number", "minimum": 0},
+    "information_cost": {"type": "number", "minimum": 0},
+    "diagnostics": {"type": "object"},
+    "reporting": {"type": "object"}
+  }
+}

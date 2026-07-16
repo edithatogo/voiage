@@ -58,7 +58,7 @@ def _read_csv_values(
         return np.empty((0, 0), dtype=dtype)
 
     values = np.asarray([list(map(dtype, row)) for row in rows], dtype=dtype)
-    if values.ndim == 1:
+    if values.ndim == 1:  # pragma: no cover - CSV rows are always nested
         values = values.reshape(1, -1)
     return values
 

@@ -1,0 +1,15 @@
+{
+  "contract": "ambiguity-distribution-shift-voi-v1",
+  "status": "fixture-backed",
+  "runtime": "voiage.methods.ambiguity_distribution_shift.value_of_ambiguity_distribution_shift",
+  "open_data_gate": {
+    "status": "blocked",
+    "evidence": "No licensed source-target drift snapshot currently committed that supports the same sample reweighting and outcome transformations.",
+    "next_action": "Obtain source approval, license, snapshot, and drift transformation review before promotion."
+  },
+  "parity_gate": {
+    "status": "deferred",
+    "evidence": "No Rust or binding adapter currently consumes this method family.",
+    "next_action": "Add language-native adapters and compare the normative fixture."
+  }
+}

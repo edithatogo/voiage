@@ -26,6 +26,10 @@ from . import (
 )
 from .analysis import DecisionAnalysis
 from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
+from .methods.ambiguity_distribution_shift import (
+    AmbiguityDistributionShiftResult,
+    value_of_ambiguity_distribution_shift,
+)
 from .methods.basic import evpi, evppi
 from .methods.causal_transportability import (
     CausalTransportabilityResult,
@@ -106,6 +110,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
     __version__ = "0.0.0"
 
 __all__ = [
+    "AmbiguityDistributionShiftResult",
     "CausalTransportabilityResult",
     "ComputationalResult",
     "DataQualityResult",
@@ -157,6 +162,7 @@ __all__ = [
     "plot",
     "preference_optimal_strategies",
     "schema",
+    "value_of_ambiguity_distribution_shift",
     "value_of_causal_transportability",
     "value_of_computational_refinement",
     "value_of_data_quality",
