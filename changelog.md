@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a fixture-backed causal-identification, transportability, and
+  external-validity VOI runtime with CLI support and explicit open-data and
+  cross-language parity gates.
 - Archived the dynamic real-options VOI track after implementing its staged
   runtime and CLI and passing hosted CI; retained longitudinal-data, parity,
   and mature approval as explicit gates.
@@ -686,3 +689,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Hardened the Rust benchmark baselines so they no longer depend on timing assertions, versioned the Rust core `Cargo.lock` so locked CI builds work reliably, split the CI test stack into a lighter `ci` extra to avoid disk exhaustion, and improved the benchmark workflow to print captured Cargo output when a baseline fails in CI.
+* Add a fixture-backed causal-identification and transportability VOI runtime.

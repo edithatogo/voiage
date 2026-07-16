@@ -725,6 +725,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
     assert set(command.commands) == {
         "calculate-adaptive-evsi",
         "calculate-calibration",
+        "calculate-causal-transportability",
         "calculate-distributional-equity",
         "calculate-dynamic-real-options",
         "calculate-ceaf",

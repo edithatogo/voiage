@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/frontier/causal-transportability/v1/schemas/causal-transportability-set.schema.json",
-  "title": "CausalTransportabilitySetV1Planned",
+  "title": "CausalTransportabilitySetV1FixtureBacked",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,0 +1,23 @@
+{
+  "contract": "value-of-causal-transportability-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/causal-transportability-set.schema.json", "sha256": "e2c13fda44e9acd8ba6e12d7ecf22c73892a55cd575ae35f0fc317be3c46b249"},
+    {"path": "schemas/value-of-causal-transportability-result.schema.json", "sha256": "0f94902d7ddcbe29b37842c908100079d91a74addac9989bdf30168ffdb0735f"},
+    {"path": "fixtures/normative/causal-transportability-set.json", "sha256": "bc56c67f9ef9c43f052a2d113dce746ba8f87bcc8b035b50109a04846a9089c7"},
+    {"path": "fixtures/normative/value-of-causal-transportability.json", "sha256": "00bd47fb7f067b6243ec4c8328b5e13eadf5e11e4f06b032850e7684cd185db0"},
+    {"path": "../../../../voiage/methods/causal_transportability.py", "sha256": "47b413afd6b94ce73dc6e26f3a014dc700b6e13c0b9bc1aae03ffb95154347cf"}
+  ],
+  "open_data": {
+    "status": "blocked_external",
+    "evidence": "No committed open-data source currently provides licensed causal effects, transport weights, and target-population validity measures in one reproducible decision-ready snapshot.",
+    "next_action": "Add a licensed causal or health-outcomes dataset with documented source-to-target transform and snapshot policy.",
+    "source_candidates": ["https://databank.worldbank.org/", "https://ourworldindata.org/"],
+    "license_gate": "Confirm source license and permission for the causal transform before committing a snapshot."
+  },
+  "parity": {"python": "verified", "rust": "deferred_with_rationale", "r": "not_verified", "typescript": "not_verified"},
+  "parity_rationale": "The Python implementation is the reference runtime; Rust parity is deferred until causal estimand semantics and cross-language fixture conventions are reviewed.",
+  "external_gates": ["Open-data attribution and transform review", "Cross-language conformance and Rust parity review", "Mature/stable method approval"]
+}

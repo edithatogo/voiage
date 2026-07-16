@@ -41,8 +41,9 @@ def test_causal_transportability_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(causal_set_schema).validate(causal_set_example)
     Draft202012Validator(causal_result_schema).validate(causal_result_example)
 
-    assert causal_set_schema["title"] == "CausalTransportabilitySetV1Planned"
+    assert causal_set_schema["title"] == "CausalTransportabilitySetV1FixtureBacked"
     assert (
-        causal_result_schema["title"] == "ValueOfCausalTransportabilityResultV1Planned"
+        causal_result_schema["title"]
+        == "ValueOfCausalTransportabilityResultV1FixtureBacked"
     )
     assert causal_result_example["analysis_type"] == "value_of_causal_transportability"
