@@ -7,7 +7,11 @@ import pytest
 from scripts.validate_discrete_gpu_speedup_evidence import validate_manifest
 
 TRACK_ID = "discrete-gpu-production-speedup-evidence_20260625"
-MANIFEST = Path("conductor/tracks") / TRACK_ID / "handoff/gpu-manifest.json"
+MANIFEST = next(
+    root / TRACK_ID / "handoff/gpu-manifest.json"
+    for root in (Path("conductor/tracks"), Path("conductor/archive"))
+    if (root / TRACK_ID).is_dir()
+)
 
 
 def test_manifest_indexes_cpu_reference_and_gpu_gate() -> None:

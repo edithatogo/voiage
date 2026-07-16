@@ -83,3 +83,9 @@
 - Added deterministic CPU reference and GPU blocked packets with CUDA device metadata, workload hash, warm-up, timing, throughput, CPU comparison, transfer/compile overhead, parity, and CPU fallback fields.
 - Focused validation: `python scripts/validate_discrete_gpu_speedup_evidence.py conductor/tracks/discrete-gpu-production-speedup-evidence_20260625/handoff/gpu-manifest.json --output conductor/tracks/discrete-gpu-production-speedup-evidence_20260625/handoff/gpu-index.json` and `uv run pytest tests/test_discrete_gpu_speedup_evidence.py --no-cov` — 2 passed.
 - External gate: authenticated Colab/cloud GPU runtime and production-sized repeated timings are unavailable; existing T4 parity evidence does not prove speedup.
+
+## Archive Decision
+
+- Archived after implementation PR #211 merged as `067df55`.
+- Repository-owned CUDA/Colab evidence schema, CPU comparison, parity validator, deterministic index, and explicit unavailable-runner packet are complete.
+- Authenticated Colab/cloud GPU execution and reviewed production speedup remain external gates; the CPU reference remains authoritative.
