@@ -414,10 +414,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Perspective Uncertainty VOI Mature Stable Path
-*Link: [./tracks/perspective-uncertainty-voi-mature-stable_20260625/](./tracks/perspective-uncertainty-voi-mature-stable_20260625/)*
+## [x] Track: Perspective Uncertainty VOI Mature Stable Path [completed: 2026-07-16]
+*Link: [./archive/perspective-uncertainty-voi-mature-stable_20260625/](./archive/perspective-uncertainty-voi-mature-stable_20260625/)*
 *Execution order: 06 of 32*
-*Status: dedicated track for treating Value of Perspective as perspective uncertainty and promoting it through stable frontier status.*
+*Status: runtime, CLI, docs, deterministic fixtures, seven-perspective catalog, evidence validation, and hosted CI are complete; real-data attribution, non-Python/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 

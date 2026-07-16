@@ -1,8 +1,8 @@
 {
   "track_id": "perspective-uncertainty-voi-mature-stable_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-16T13:59:45Z",
   "description": "Treat value of perspective as perspective uncertainty and promote it as a core frontier VOI method when evidence supports stable status."
 }
