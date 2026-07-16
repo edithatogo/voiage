@@ -1,0 +1,1 @@
+Archived capacity/budget-constrained track after PR #185 merge 38f4590. Registry now has 15 executable tracks (orders 18-32); external data/parity/stable gates remain explicit. Conductor and frontier validation passed.
