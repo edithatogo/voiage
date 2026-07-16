@@ -533,7 +533,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Replication And Reproducibility VOI Mature Stable Path
+## [~] Track: Replication And Reproducibility VOI Mature Stable Path
 *Link: [./tracks/replication-reproducibility-voi-mature-stable_20260625/](./tracks/replication-reproducibility-voi-mature-stable_20260625/)*
 *Execution order: 23 of 32*
 *Status: recommended method track for valuing independent replication, audit, reanalysis, reproducibility, and credibility checks.*

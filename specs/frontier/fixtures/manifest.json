@@ -111,6 +111,11 @@
       "name": "value_of_regulatory_market_access",
       "path": "regulatory-market-access/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_replication_reproducibility",
+      "path": "replication-reproducibility/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

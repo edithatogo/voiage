@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_replication_reproducibility",
+  "normative": [{
+    "name": "replication and reproducibility information value",
+    "method_family": "value_of_replication_reproducibility",
+    "input_artifact": "normative/replication-reproducibility-input.json",
+    "expected_output_artifact": "normative/value-of-replication-reproducibility.json",
+    "tolerance_policy": "exact"
+  }],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "evidence-production-data-provenance-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}

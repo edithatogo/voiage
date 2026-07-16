@@ -99,6 +99,10 @@ from .regulatory_market_access import (
     RegulatoryMarketAccessResult,
     value_of_regulatory_market_access,
 )
+from .replication_reproducibility import (
+    ReplicationReproducibilityResult,
+    value_of_replication_reproducibility,
+)
 from .sample_information import enbs, evsi
 from .sequential import sequential_voi
 from .structural import structural_evpi, structural_evppi
@@ -145,6 +149,7 @@ __all__ = [
     "PreferenceProfile",
     "PreferenceProfileSet",
     "RegulatoryMarketAccessResult",
+    "ReplicationReproducibilityResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
@@ -194,6 +199,7 @@ __all__ = [
     "value_of_preference_heterogeneity",
     "value_of_preference_information",
     "value_of_regulatory_market_access",
+    "value_of_replication_reproducibility",
     "value_of_threshold",
     "value_of_threshold_information",
     "value_of_validation",

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_replication_indices", "replication_probability", "replication_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_replication_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "replication_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "reproducibility_risk": {"type": "number", "minimum": 0, "maximum": 1},
+    "audit_burden": {"type": "number", "minimum": 0},
+    "credibility_impact": {"type": "number"},
+    "evidence_downgrade": {"type": "number", "minimum": 0},
+    "replication_value": {"type": "number", "minimum": 0},
+    "reanalysis_value": {"type": "number", "minimum": 0},
+    "audit_cost": {"type": "number", "minimum": 0},
+    "baseline_value": {"type": "number"},
+    "expected_value_replication": {"type": "number"},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

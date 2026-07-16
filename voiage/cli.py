@@ -116,6 +116,9 @@ from voiage.methods.preference import (
 from voiage.methods.regulatory_market_access import (
     value_of_regulatory_market_access as calculate_market_access_result,
 )
+from voiage.methods.replication_reproducibility import (
+    value_of_replication_reproducibility as calculate_replication_result,
+)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.structural import structural_evpi, structural_evppi
@@ -449,6 +452,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         ],
         "approval_threshold": 0.5,
         "monthly_access_delay_cost": 0.1,
+    },
+    "replication-reproducibility": {
+        "command": "calculate-replication-reproducibility",
+        "description": "Template for fixture-backed replication and reproducibility VOI inputs.",
+        "evidence_values": [10.0, 8.0, 6.0, 4.0],
+        "replication_probabilities": [0.9, 0.5, 0.7, 0.2],
+        "reproducibility_failure_risks": [0.1, 0.4, 0.2, 0.8],
+        "audit_costs": [1.0, 1.0, 1.0, 1.0],
+        "reanalysis_values": [2.0, 1.0, 1.5, 0.5],
+        "credibility_adjustments": [1.2, 1.0, 1.1, 0.8],
+        "evidence_downgrades": [0.1, 0.3, 0.2, 0.6],
+        "replication_threshold": 0.5,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4488,6 +4503,62 @@ def calculate_regulatory_market_access(
         typer.echo(
             _format_output(
                 f"Regulatory and market-access VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-replication-reproducibility")
+def calculate_replication_reproducibility(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed replication and reproducibility VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_replication_result(
+            payload["evidence_values"],
+            payload["replication_probabilities"],
+            payload["reproducibility_failure_risks"],
+            payload["audit_costs"],
+            payload["reanalysis_values"],
+            payload["credibility_adjustments"],
+            payload["evidence_downgrades"],
+            replication_threshold=float(payload.get("replication_threshold", 0.5)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_replication_reproducibility",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_replication_indices": result.selected_replication_indices.tolist(),
+            "replication_probability": result.replication_probability,
+            "reproducibility_risk": result.reproducibility_risk,
+            "audit_burden": result.audit_burden,
+            "credibility_impact": result.credibility_impact,
+            "evidence_downgrade": result.evidence_downgrade,
+            "replication_value": result.replication_value,
+            "reanalysis_value": result.reanalysis_value,
+            "audit_cost": result.audit_cost,
+            "baseline_value": result.baseline_value,
+            "expected_value_replication": result.expected_value_replication,
+            "replication_threshold": result.replication_threshold,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Replication and reproducibility VOI: {result.value:.6f}",
                 result_payload,
             )
         )

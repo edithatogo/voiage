@@ -1181,6 +1181,14 @@ class DecisionAnalysis:
 
         return value_of_regulatory_market_access(**kwargs)
 
+    def value_of_replication_reproducibility(self, **kwargs: object) -> object:
+        """Evaluate replication and reproducibility information value."""
+        from voiage.methods.replication_reproducibility import (
+            value_of_replication_reproducibility,
+        )
+
+        return value_of_replication_reproducibility(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],
