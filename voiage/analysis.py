@@ -1189,6 +1189,14 @@ class DecisionAnalysis:
 
         return value_of_replication_reproducibility(**kwargs)
 
+    def value_of_evidence_obsolescence_refresh(self, **kwargs: object) -> object:
+        """Evaluate evidence obsolescence and refresh information value."""
+        from voiage.methods.evidence_obsolescence_refresh import (
+            value_of_evidence_obsolescence_refresh,
+        )
+
+        return value_of_evidence_obsolescence_refresh(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

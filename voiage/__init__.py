@@ -64,6 +64,10 @@ from .methods.equity_information import (
     EquityInformationResult,
     value_of_equity_information,
 )
+from .methods.evidence_obsolescence_refresh import (
+    EvidenceObsolescenceRefreshResult,
+    value_of_evidence_obsolescence_refresh,
+)
 from .methods.expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
 from .methods.explainability_transparency import (
     ExplainabilityTransparencyResult,
@@ -154,6 +158,7 @@ __all__ = [
     "DistributionalEquityResult",
     "DynamicRealOptionsResult",
     "EquityInformationResult",
+    "EvidenceObsolescenceRefreshResult",
     "ExpertSynthesisResult",
     "ExplainabilityTransparencyResult",
     "FederatedPrivacyPreservingResult",
@@ -212,6 +217,7 @@ __all__ = [
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
     "value_of_equity_information",
+    "value_of_evidence_obsolescence_refresh",
     "value_of_expert_synthesis",
     "value_of_explainability_transparency",
     "value_of_federated_privacy_preserving",

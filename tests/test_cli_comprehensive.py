@@ -742,6 +742,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-interoperability-standardization",
         "calculate-regulatory-market-access",
         "calculate-replication-reproducibility",
+        "calculate-evidence-obsolescence-refresh",
         "calculate-dynamic-real-options",
         "calculate-ceaf",
         "calculate-dominance",

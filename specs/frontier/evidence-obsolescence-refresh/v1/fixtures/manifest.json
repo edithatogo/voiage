@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_evidence_obsolescence_refresh",
+  "normative": [{
+    "name": "evidence obsolescence and refresh value",
+    "method_family": "value_of_evidence_obsolescence_refresh",
+    "input_artifact": "normative/evidence-obsolescence-refresh-input.json",
+    "expected_output_artifact": "normative/value-of-evidence-obsolescence-refresh.json",
+    "tolerance_policy": "exact"
+  }],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "longitudinal-refresh-data-provenance-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}

@@ -116,6 +116,11 @@
       "name": "value_of_replication_reproducibility",
       "path": "replication-reproducibility/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_evidence_obsolescence_refresh",
+      "path": "evidence-obsolescence-refresh/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

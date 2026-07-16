@@ -26,5 +26,6 @@
     ,{"name": "value_of_interoperability_standardization", "owner": "repository", "current_state": "fixture-backed", "next_gate": "open-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/interoperability-standardization/v1"]}
     ,{"name": "value_of_regulatory_market_access", "owner": "repository", "current_state": "fixture-backed", "next_gate": "calibrated-regulatory-payer-data-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/regulatory-market-access/v1"]}
     ,{"name": "value_of_replication_reproducibility", "owner": "repository", "current_state": "fixture-backed", "next_gate": "evidence-production-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/replication-reproducibility/v1"]}
+    ,{"name": "value_of_evidence_obsolescence_refresh", "owner": "repository", "current_state": "fixture-backed", "next_gate": "longitudinal-refresh-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/evidence-obsolescence-refresh/v1"]}
   ]
 }
