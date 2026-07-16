@@ -7,7 +7,14 @@ import pytest
 from scripts.validate_metal_speedup_evidence import validate_manifest
 
 TRACK_ID = "apple-metal-production-speedup-evidence_20260625"
-MANIFEST = Path("conductor/tracks") / TRACK_ID / "handoff/metal-manifest.json"
+MANIFEST = next(
+    root / "handoff/metal-manifest.json"
+    for root in (
+        Path("conductor/tracks") / TRACK_ID,
+        Path("conductor/archive") / TRACK_ID,
+    )
+    if (root / "handoff/metal-manifest.json").is_file()
+)
 
 
 def test_manifest_indexes_cpu_reference_and_metal_gate() -> None:
