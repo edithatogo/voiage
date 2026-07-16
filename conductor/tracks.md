@@ -512,10 +512,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Explainability And Transparency VOI Mature Stable Path
-*Link: [./tracks/explainability-transparency-voi-mature-stable_20260625/](./tracks/explainability-transparency-voi-mature-stable_20260625/)*
+## [x] Track: Explainability And Transparency VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/explainability-transparency-voi-mature-stable_20260625/](./archive/explainability-transparency-voi-mature-stable_20260625/)*
 *Execution order: 20 of 32*
-*Status: recommended method track for value of interpretability, transparency, trust, and model-governance information.*
+*Status: fixture-backed explainability/transparency runtime, CLI, adoption/trust/governance diagnostics, deterministic property/contract fixtures, Astro documentation, governance registration, and hosted CI are complete; external model validation, licensed/open-data provenance, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
