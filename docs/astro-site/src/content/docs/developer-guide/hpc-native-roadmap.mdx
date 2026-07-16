@@ -20,6 +20,17 @@ This roadmap turns the current HPC-friendly posture into a staged path toward an
 - **FPGA**: implementation lane with adapter placeholders, real runtime pending
 - **ASIC/custom-circuit**: deployment assumptions defined, comparison evidence pending
 
+## Production speedup evidence gate
+
+The Conductor track `hpc-production-speedup-evidence-program_20260625` now defines a
+machine-readable production benchmark packet with workload hash, production-scale
+classification, warm-up iterations, timing, throughput, device metadata, CPU
+fallback, CPU comparison, owner, review status, and an explicit blocked reason.
+The deterministic handoff includes a CPU reference plus GPU, TPU, Metal, FPGA,
+and ASIC states. Visibility, setup, parity, and benchmark packets do not prove
+production speedup; an accelerator packet cannot be promoted until a reviewed
+production workload beats the CPU comparison. HPC-native remains blocked.
+
 ## Contract rules
 
 - CPU behavior stays the reference path until an accelerator proves itself

@@ -561,10 +561,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: HPC Production Speedup Evidence Program
+## [~] Track: HPC Production Speedup Evidence Program
 *Link: [./tracks/hpc-production-speedup-evidence-program_20260625/](./tracks/hpc-production-speedup-evidence-program_20260625/)*
 *Execution order: 27 of 32*
-*Status: follow-through track for production-scale benchmark evidence before any HPC-native speedup claim.*
+*Status: repository-owned production benchmark schema, deterministic CPU reference and backend gate packets, and validation are in progress; production speedup and HPC-native promotion remain blocked pending reviewed hardware evidence.*
 
 ---
 
