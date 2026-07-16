@@ -8,7 +8,7 @@
     {"path": "schemas/value-of-causal-transportability-result.schema.json", "sha256": "0f94902d7ddcbe29b37842c908100079d91a74addac9989bdf30168ffdb0735f"},
     {"path": "fixtures/normative/causal-transportability-set.json", "sha256": "bc56c67f9ef9c43f052a2d113dce746ba8f87bcc8b035b50109a04846a9089c7"},
     {"path": "fixtures/normative/value-of-causal-transportability.json", "sha256": "00bd47fb7f067b6243ec4c8328b5e13eadf5e11e4f06b032850e7684cd185db0"},
-    {"path": "../../../../voiage/methods/causal_transportability.py", "sha256": "c342058a87dda4262bf0d2c9c2dcce7c616aced2535fb781a6035e020e0d312f"}
+    {"path": "../../../../voiage/methods/causal_transportability.py", "sha256": "47b413afd6b94ce73dc6e26f3a014dc700b6e13c0b9bc1aae03ffb95154347cf"}
   ],
   "open_data": {
     "status": "blocked_external",
