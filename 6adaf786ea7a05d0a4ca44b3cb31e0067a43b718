@@ -1,0 +1,4 @@
+Track: monitoring-surveillance-voi-mature-stable_20260625
+Implemented fixture-backed periodic monitoring, signal detection, stopping, and decision revision runtime/CLI.
+Evidence: 37 focused tests passed; tox lint/typecheck/frontier-contract passed; frontier registry validates monitoring-surveillance.
+Gates: open-data attribution and cross-language/Rust parity remain deferred; method remains fixture-backed and not stable.
