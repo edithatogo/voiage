@@ -32,7 +32,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Runtime, Fixtures, And Examples' (Protocol in workflow.md)
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: in progress]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: 17700c2]
 
 - [x] Task: Add cross-language conformance fixtures and adapter expectations for relevant bindings.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -48,21 +48,21 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: ]
+## Phase 4: Mature Stable Promotion Review [checkpoint: pending archive checkpoint]
 
-- [ ] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision.
+- [x] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: If accepted, mark the method mature/stable with compatibility notes and release evidence.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: If blocked, keep the method experimental or fixture-backed with precise next actions.
+- [x] Task: If blocked, keep the method experimental or fixture-backed with precise next actions.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the promotion decision, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the promotion decision, attach a git note summary, record the short SHA in this plan, and commit the plan update.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Mature Stable Promotion Review' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Mature Stable Promotion Review' (Protocol in workflow.md)
 
 ## Verification Commands
 
@@ -77,3 +77,4 @@
 - Automated Conductor review completed 2026-07-17; fixed the single-site leave-one-out division-by-zero edge case and added a regression test.
 - Implementation commit: `f76501a`; git note attached with changed files, rationale, validation, and external gates.
 - External gates remain blocked: licensed multi-site data acquisition, Rust/binding parity, and mature/stable promotion review. The method remains `fixture-backed`.
+- Archive decision: repository-owned implementation and CI gates are complete; promotion is a no-go until the external gates above are evidenced.

@@ -498,10 +498,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Federated And Privacy-Preserving VOI Mature Stable Path
-*Link: [./tracks/federated-privacy-preserving-voi-mature-stable_20260625/](./tracks/federated-privacy-preserving-voi-mature-stable_20260625/)*
+## [x] Track: Federated And Privacy-Preserving VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/federated-privacy-preserving-voi-mature-stable_20260625/](./archive/federated-privacy-preserving-voi-mature-stable_20260625/)*
 *Execution order: 18 of 32*
-*Status: recommended method track for federated, privacy-preserving, secure-aggregation, and site-governed evidence generation.*
+*Status: fixture-backed federated and privacy-preserving VOI runtime, CLI, deterministic secure-aggregation fixtures, diagnostics, Astro documentation, governance registration, and hosted CI are complete; licensed multi-site data, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
