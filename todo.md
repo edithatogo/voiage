@@ -11,6 +11,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Archive the perspective-uncertainty VOI track after completing the
+    runtime/evidence slice; retain real-data attribution, parity, and mature
+    approval as explicit external gates.
+
 *   [x] Archive the distributional and implementation VOI evidence track
     after adding provenance-preserving open-data snapshots and passing the
     repository and hosted CI gates; retain non-Python parity and stable

@@ -83,3 +83,11 @@
   transforms from the same outcome/cost basis.
 - Cross-language parity, Rust parity review, real-data attribution, and mature
   approval remain open; the method stays fixture-backed.
+
+## Archive closeout 2026-07-16
+
+- Hosted PR #163 merged as ``41a3da8`` with required checks and Python CodeQL
+  analysis passing; the maximal-quality ruleset was restored active.
+- Archived after completing the repository-owned runtime/evidence slice.
+  Real-data perspective attribution, cross-language/Rust parity, and mature
+  approval remain explicit external gates.
