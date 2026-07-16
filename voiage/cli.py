@@ -66,6 +66,9 @@ from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from voiage.methods.implementation_strategy import (
+    value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
+)
 from voiage.methods.monitoring_surveillance import (
     value_of_monitoring_surveillance as calculate_monitoring_surveillance_result,
 )
@@ -288,6 +291,21 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         ],
         "surveillance_frequency": 1.0,
         "stopping_threshold": 0.5,
+    },
+    "implementation-strategy": {
+        "command": "calculate-implementation-strategy",
+        "description": "Template for fixture-backed implementation-strategy comparison VOI inputs.",
+        "analysis_id": "implementation-strategy-analysis",
+        "decision_problem_id": "screening-program-001",
+        "strategy_names": ["status_quo", "training_support", "digital_scale_up"],
+        "net_benefit": [[[10.0, 10.5, 11.0], [11.0, 12.0, 13.0], [10.6, 12.3, 14.0]]],
+        "uptake": [[0.95, 0.7, 0.55], [0.95, 0.8, 0.7], [0.95, 0.9, 0.82]],
+        "adherence": [[0.95, 0.75, 0.65], [0.95, 0.8, 0.72], [0.95, 0.85, 0.78]],
+        "coverage": [[0.8, 0.65, 0.5], [0.8, 0.72, 0.62], [0.8, 0.78, 0.72]],
+        "implementation_delays": [[0.0, 1.0, 2.0], [0.0, 0.8, 1.4], [0.0, 0.6, 1.0]],
+        "scale_up_costs": [[0.0, 0.8, 1.2], [0.0, 0.7, 1.0], [0.0, 0.6, 0.8]],
+        "population_impacts": [[0.0, 0.4, 0.5], [0.0, 0.6, 0.8], [0.0, 0.8, 1.2]],
+        "discount_rate": 0.03,
     },
     "preference": {
         "command": "calculate-preference",
@@ -3262,6 +3280,83 @@ def calculate_monitoring_surveillance(
         output_text = _format_output(
             f"Monitoring and surveillance VOI: {result.value:.6f}\n"
             f"Stopping period: {result.stopping_period}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-implementation-strategy")
+def calculate_implementation_strategy(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON implementation-strategy comparison specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the implementation comparison result"
+    ),
+) -> None:
+    """Calculate fixture-backed implementation-strategy comparison VOI."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Implementation strategy specification must be a JSON object."
+            )
+        result = calculate_implementation_strategy_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["uptake"], dtype=float),
+            np.asarray(payload["adherence"], dtype=float),
+            np.asarray(payload["coverage"], dtype=float),
+            np.asarray(payload["implementation_delays"], dtype=float),
+            np.asarray(payload["scale_up_costs"], dtype=float),
+            np.asarray(payload["population_impacts"], dtype=float),
+            discount_rate=float(payload.get("discount_rate", 0.0)),
+            analysis_id=str(
+                payload.get("analysis_id", "implementation-strategy-analysis")
+            ),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+        )
+        result_payload = {
+            "analysis_type": "value_of_implementation_strategy_comparison",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "implementation_value": result.implementation_value,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_period": result.optimal_strategy_by_period,
+            "uptake_matrix": result.uptake_matrix.tolist(),
+            "adherence_matrix": result.adherence_matrix.tolist(),
+            "coverage_matrix": result.coverage_matrix.tolist(),
+            "implementation_delay_matrix": result.implementation_delay_matrix.tolist(),
+            "scale_up_cost_matrix": result.scale_up_cost_matrix.tolist(),
+            "population_impact_matrix": result.population_impact_matrix.tolist(),
+            "implementation_multiplier_matrix": result.implementation_multiplier_matrix.tolist(),
+            "adoption_uncertainty_matrix": result.adoption_uncertainty_matrix.tolist(),
+            "population_impact_by_strategy": result.population_impact_by_strategy,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Implementation strategy comparison VOI: {result.value:.6f}\n"
+            f"Best period-one strategy: {result.optimal_strategy_by_period['0']}",
             result_payload,
         )
         typer.echo(output_text)

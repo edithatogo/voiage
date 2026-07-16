@@ -1,0 +1,20 @@
+{
+  "version": "v1",
+  "maturity": "fixture-backed",
+  "stable": false,
+  "artifacts": {
+    "schemas/implementation-strategy-set.schema.json": "sha256:4dabe84d3dd21fa8209934acac677120d79bd8738e4967a62239622e296359a8",
+    "schemas/value-of-implementation-strategy-result.schema.json": "sha256:9c2bee75bf360b6c12c9a624981791aa9540962c1c4a8521254426bd7bd38f09",
+    "fixtures/normative/implementation-strategy-set.json": "sha256:826340e5ec603df9d4de25430dbac840f03db971d802e36fd1b7bf30d24b6729",
+    "fixtures/normative/value-of-implementation-strategy.json": "sha256:21ee8a51cc6a388a99a09086c36c5578e2e3af8ec7da9bd75de8a0574c46aa4d",
+    "voiage/methods/implementation_strategy.py": "sha256:728067d038a0efcf4c7cc7760a708ff0f974c6d20551abd96fdf6b2f2e66671d"
+  },
+  "gates": {
+    "python_runtime": "verified locally",
+    "cli": "verified locally",
+    "frontier_contract": "required in CI",
+    "open_data_attribution": "blocked: existing uptake snapshot is not strategy-specific causal evidence",
+    "cross_language_parity": "deferred: no native adapters for this comparison family",
+    "stable_promotion": "blocked pending strategy-specific evidence and parity review"
+  }
+}

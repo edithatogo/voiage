@@ -61,6 +61,11 @@
       "name": "value_of_monitoring_surveillance",
       "path": "monitoring-surveillance/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_implementation_strategy_comparison",
+      "path": "implementation-strategy/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

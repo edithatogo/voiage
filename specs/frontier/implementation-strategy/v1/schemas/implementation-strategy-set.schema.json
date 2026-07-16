@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/implementation-strategy/v1/schemas/implementation-strategy-set.schema.json",
+  "title": "ImplementationStrategySetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["analysis_type", "strategy_names", "uptake", "adherence", "coverage", "implementation_delays", "scale_up_costs", "population_impacts"],
+  "properties": {
+    "analysis_type": {"const": "value_of_implementation_strategy_comparison"},
+    "strategy_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "uptake": {"type": "array"}, "adherence": {"type": "array"}, "coverage": {"type": "array"},
+    "implementation_delays": {"type": "array"}, "scale_up_costs": {"type": "array"},
+    "population_impacts": {"type": "array"},
+    "discount_rate": {"type": "number", "minimum": 0},
+    "evidence_sources": {"type": "array", "items": {"type": "string"}}
+  }
+}

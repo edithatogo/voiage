@@ -36,3 +36,39 @@ def test_data_quality_rejects_invalid_linkage_weights() -> None:
             np.zeros((1, 1)),
             np.ones((1, 1)) * 2,
         )
+
+
+@pytest.mark.parametrize(
+    "case", ["shape", "matrix", "duplicate", "finite", "error", "reference"]
+)
+def test_data_quality_rejects_boundary_inputs(case: str) -> None:
+    values = np.ones((1, 1, 1))
+    profiles = ["profile"]
+    strategies = ["strategy"]
+    matrix = np.zeros((1, 1))
+    reference = None
+    if case == "shape":
+        values = np.ones((1, 2, 1))
+    elif case == "matrix":
+        matrix = np.zeros((2, 1))
+    elif case == "duplicate":
+        profiles = ["x", "x"]
+        values = np.ones((1, 1, 2))
+        matrix = np.zeros((2, 1))
+    elif case == "finite":
+        values = np.array([[[np.nan]]])
+    elif case == "error":
+        matrix = np.full((1, 1), 2.0)
+    else:
+        reference = "missing"
+    with pytest.raises(ValueError):
+        value_of_data_quality(
+            values,
+            profiles,
+            strategies,
+            matrix,
+            matrix,
+            matrix,
+            matrix,
+            reference_data_quality_profile=reference,
+        )

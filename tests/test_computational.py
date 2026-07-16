@@ -33,3 +33,27 @@ def test_computational_refinement_rejects_invalid_weights() -> None:
             np.zeros((1, 1)),
             np.ones((1, 1)) * 2,
         )
+
+
+@pytest.mark.parametrize("case", ["shape", "matrix", "duplicate", "finite", "cost"])
+def test_computational_refinement_rejects_boundary_inputs(case: str) -> None:
+    values = np.ones((1, 1, 1))
+    budgets = ["budget"]
+    strategies = ["strategy"]
+    matrix = np.zeros((1, 1))
+    if case == "shape":
+        values = np.ones((1, 2, 1))
+    elif case == "matrix":
+        matrix = np.zeros((2, 1))
+    elif case == "duplicate":
+        budgets = ["x", "x"]
+        values = np.ones((1, 1, 2))
+        matrix = np.zeros((2, 1))
+    elif case == "finite":
+        values = np.array([[[np.nan]]])
+    elif case == "cost":
+        matrix = np.full((1, 1), -1.0)
+    with pytest.raises(ValueError):
+        value_of_computational_refinement(
+            values, budgets, strategies, matrix, matrix, np.ones_like(matrix)
+        )
