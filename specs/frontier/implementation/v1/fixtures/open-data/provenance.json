@@ -1,0 +1,14 @@
+{
+  "source": "Our World in Data grapher, using WHO/UNICEF estimates",
+  "indicator": "HPV Vaccination coverage by age 15, last dose, females",
+  "data_url": "https://ourworldindata.org/grapher/coverage-of-the-human-papillomavirus-vaccine.csv",
+  "metadata_url": "https://ourworldindata.org/grapher/coverage-of-the-human-papillomavirus-vaccine.metadata.json",
+  "license": "CC BY 4.0 unless otherwise stated by the source",
+  "retrieved": "2026-07-16",
+  "preprocessing": "Selected the Australia rows for 2020-2024 and retained the published whole-percent values; no interpolation or imputation was applied.",
+  "limitations": [
+    "Coverage is an implementation uptake proxy, not adherence, effectiveness, or causal impact.",
+    "The snapshot covers one country and is illustrative rather than representative of all implementation contexts.",
+    "This snapshot is evidence for the experimental contract only and does not support a stable promotion claim."
+  ]
+}

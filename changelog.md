@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added provenance-preserving open-data snapshots for the experimental
+  distributional and implementation-adjusted VOI contracts, including source
+  URLs, licenses, reproducible selection rules, hashes, and explicit proxy
+  limitations. Cross-language parity and stable promotion remain gated.
 - Added experimental, NumPy-only interfaces for expected information gain,
   cost-aware Bayesian experimental design, active-learning batch selection,
   and amortized EVSI summaries. Heavy Bayesian and simulation-based-inference

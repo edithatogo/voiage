@@ -15,6 +15,8 @@ maturity review.
   anchor the contract.
 - `fixtures/evidence.json` records deterministic hashes and the external
   open-data and cross-language parity gates.
+- `fixtures/open-data/` contains a provenance-preserving OWID/WHO-UNICEF HPV
+  coverage snapshot for an experimental implementation-uptake proxy.
 
 ## Shape
 

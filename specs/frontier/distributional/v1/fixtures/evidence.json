@@ -8,6 +8,14 @@
     {"path": "fixtures/normative/distributional-equity-input.json", "sha256": "7add8465098f8e65cdf8ec43d2bc7569033db992c1c6b97fd4a28d3614fef961"},
     {"path": "fixtures/normative/value-of-distributional-equity.json", "sha256": "ce51d727672c916ada82e7cabd52f9d78238a984ceeb166647cdcf760e2a4460"}
   ],
-  "open_data": {"status": "blocked_external", "evidence": "No committed open-data artifact or provenance record exists for this family.", "next_action": "Add a licensed open-data example with provenance, assumptions, and reproducible preprocessing."},
+  "open_data": {
+    "status": "verified_repository_example",
+    "evidence": "A three-country World Bank snapshot is committed with source metadata, retrieval date, preprocessing, and limitations.",
+    "artifacts": [
+      {"path": "fixtures/open-data/distributional-health-hardship.csv", "sha256": "5fb6471a4e392e6831ee086c14893f4ca1e651aa9291aeece4fca26541431353"},
+      {"path": "fixtures/open-data/provenance.json", "sha256": "dca8eeed6d2ce51fc444bc27e50013f1655169414b4e38af56077447c3faa4ec"}
+    ],
+    "next_action": "Validate the distributional transformation against cross-language adapters and obtain stable method approval."
+  },
   "parity": {"python": "verified", "rust": "not_verified", "r": "not_verified", "typescript": "not_verified"}
 }

@@ -15,6 +15,8 @@ method maturity review.
   anchor the contract.
 - `fixtures/evidence.json` records deterministic hashes and the external
   open-data and cross-language parity gates.
+- `fixtures/open-data/` contains a provenance-preserving World Bank snapshot
+  for an experimental country-level distributional proxy.
 
 ## Shape
 
