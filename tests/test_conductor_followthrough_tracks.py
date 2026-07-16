@@ -132,7 +132,7 @@ def test_followthrough_tracks_have_required_conductor_artifacts() -> None:
         assert track_root.is_dir()
         assert metadata["track_id"] == track_id
         if not is_archived:
-            assert metadata["status"] == "new"
+            assert metadata["status"] in {"new", "blocked_external"}
         assert metadata["type"] == "feature"
         assert "# Track Specification:" in spec
         assert "# Track Implementation Plan:" in plan
@@ -141,6 +141,33 @@ def test_followthrough_tracks_have_required_conductor_artifacts() -> None:
             assert f"./tracks/{track_id}/" not in registry
         elif f"./tracks/{track_id}/" in registry:
             assert f"*Link: [./tracks/{track_id}/]" in registry
+
+
+def test_registry_encodes_execution_and_external_blocked_queues() -> None:
+    """Only genuine work is numbered for automatic dependency-order execution."""
+    registry = _read("conductor/tracks.md")
+    executable = re.findall(
+        r"## \[[ ~]\] Track: .*?\n"
+        r"\*Link: \[\./tracks/([^/]+)/\].*?\n"
+        r"\*Execution order: (\d{2}) of 32\*",
+        registry,
+    )
+    assert len(executable) == 31
+    assert [order for _, order in executable] == [
+        f"{index:02d}" for index in range(2, 33)
+    ]
+
+    blocked = re.findall(
+        r"## \[!\] Track: .*?\n"
+        r"\*Link: \[\./tracks/([^/]+)/\].*?\n"
+        r"\*Status: blocked_external — ([^*]+)\.\*",
+        registry,
+    )
+    assert len(blocked) == 10
+    assert all(gate.strip() for _, gate in blocked)
+
+    assert "./archive/adjacent-frontier-runtime-completion_20260625/" in registry
+    assert "./archive/perspective-voi-stable-promotion_20260625/" in registry
 
 
 def test_followthrough_plans_encode_commit_notes_and_phase_checkpoints() -> None:

@@ -188,3 +188,17 @@ Current roadmap context:
 2. **Parameter Mapping**: Map parameters from your existing tools to voiage's parameter system
 3. **Validation**: Validate results with known examples to ensure correct migration
 4. **Performance Testing**: Test performance with your actual datasets
+# Migration Guide
+
+## Frontier maturity labels
+
+Frontier method families use the governed maturity ladder in
+`docs/developer_guide/frontier_governance.rst`. A family labelled
+`fixture-backed` has deterministic repository fixtures, but it has not yet
+passed cross-language parity and must not be described as stable. Stable
+promotion additionally requires parity, documentation, changelog and
+migration-guide evidence, and an explicit promotion approval.
+
+Existing consumers should treat `method_maturity` as a capability statement,
+not as a guarantee that external registries, hardware, or cloud runners have
+been validated.

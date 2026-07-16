@@ -17,7 +17,10 @@ machine-readable companion that makes the policy testable.
 
 from __future__ import annotations
 
-from typing import Final
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 # --------------------------------------------------------------------------- #
 # Method maturity taxonomy
@@ -82,6 +85,54 @@ MATURITY_LEVELS: Final[dict[str, dict[str, object]]] = {
     },
 }
 
+#: Evidence states used by the stable-promotion review.  These are deliberately
+#: separate from maturity labels: parity is evidence for promotion, not a
+#: claim that a family is already stable.
+PROMOTION_MATRIX: Final[dict[str, dict[str, list[str]]]] = {
+    "experimental": {
+        "required_evidence": ["runtime", "public_api"],
+        "forbidden_claims": ["fixture-backed", "cross-language-parity", "stable"],
+    },
+    "fixture-backed": {
+        "required_evidence": [
+            "runtime",
+            "public_api",
+            "deterministic_fixtures",
+            "schema",
+            "registry_entry",
+        ],
+        "forbidden_claims": ["cross-language-parity", "stable"],
+    },
+    "cross-language-parity": {
+        "required_evidence": [
+            "runtime",
+            "public_api",
+            "deterministic_fixtures",
+            "schema",
+            "registry_entry",
+            "cross_language_parity",
+        ],
+        "forbidden_claims": ["stable"],
+    },
+    "stable": {
+        "required_evidence": [
+            "runtime",
+            "public_api",
+            "deterministic_fixtures",
+            "schema",
+            "registry_entry",
+            "cross_language_parity",
+            "rust_kernel_parity",
+            "full_documentation",
+            "changelog_entry",
+            "migration_guide_entry",
+            "stable_promotion_approval",
+            "public_api_compatibility",
+        ],
+        "forbidden_claims": [],
+    },
+}
+
 
 def validate_maturity_label(label: str) -> None:
     """Raise :class:`ValueError` if *label* is not a governed maturity level.
@@ -100,6 +151,39 @@ def validate_maturity_label(label: str) -> None:
         raise ValueError(
             f"Unknown maturity label '{label}'. "
             f"Expected one of: {', '.join(MATURITY_PROMOTION_ORDER)}"
+        )
+
+
+def validate_promotion_evidence(state: str, evidence: Mapping[str, bool]) -> None:
+    """Validate evidence before a frontier family is assigned a state.
+
+    Parameters
+    ----------
+    state
+        One of the evidence states in :data:`PROMOTION_MATRIX`.
+    evidence
+        Boolean evidence flags keyed by the matrix's required evidence names.
+
+    Raises
+    ------
+    ValueError
+        If *state* is unknown or any required evidence flag is absent/false.
+    """
+    if state not in PROMOTION_MATRIX:
+        raise ValueError(
+            f"Unknown promotion state '{state}'. Expected one of: "
+            f"{', '.join(PROMOTION_MATRIX)}"
+        )
+
+    missing = [
+        requirement
+        for requirement in PROMOTION_MATRIX[state]["required_evidence"]
+        if evidence.get(requirement) is not True
+    ]
+    if missing:
+        raise ValueError(
+            f"Promotion state '{state}' is missing required evidence: "
+            f"{', '.join(missing)}"
         )
 
 

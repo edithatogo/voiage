@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "v1",
+  "states": {
+    "experimental": {
+      "required_evidence": ["runtime", "public_api"],
+      "forbidden_claims": ["fixture-backed", "cross-language-parity", "stable"]
+    },
+    "fixture-backed": {
+      "required_evidence": [
+        "runtime",
+        "public_api",
+        "deterministic_fixtures",
+        "schema",
+        "registry_entry"
+      ],
+      "forbidden_claims": ["cross-language-parity", "stable"]
+    },
+    "cross-language-parity": {
+      "required_evidence": [
+        "runtime",
+        "public_api",
+        "deterministic_fixtures",
+        "schema",
+        "registry_entry",
+        "cross_language_parity"
+      ],
+      "forbidden_claims": ["stable"]
+    },
+    "stable": {
+      "required_evidence": [
+        "runtime",
+        "public_api",
+        "deterministic_fixtures",
+        "schema",
+        "registry_entry",
+        "cross_language_parity",
+        "rust_kernel_parity",
+        "full_documentation",
+        "changelog_entry",
+        "migration_guide_entry",
+        "stable_promotion_approval",
+        "public_api_compatibility"
+      ],
+      "forbidden_claims": []
+    }
+  }
+}

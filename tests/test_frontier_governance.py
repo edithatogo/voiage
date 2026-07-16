@@ -22,9 +22,11 @@ from voiage.governance import (
     DEPENDENCY_POLICY,
     MATURITY_LEVELS,
     MATURITY_PROMOTION_ORDER,
+    PROMOTION_MATRIX,
     validate_backend_boundary,
     validate_dependency_policy,
     validate_maturity_label,
+    validate_promotion_evidence,
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +45,87 @@ def test_maturity_levels_are_ordered() -> None:
     assert len(MATURITY_PROMOTION_ORDER) >= 4
     assert MATURITY_PROMOTION_ORDER[0] == "planned"
     assert MATURITY_PROMOTION_ORDER[-1] == "stable"
+
+
+def test_promotion_matrix_covers_all_governed_states() -> None:
+    """Promotion states must define evidence requirements and claim limits."""
+    assert set(PROMOTION_MATRIX) == {
+        "experimental",
+        "fixture-backed",
+        "cross-language-parity",
+        "stable",
+    }
+    for state, metadata in PROMOTION_MATRIX.items():
+        assert metadata["required_evidence"], state
+        assert "forbidden_claims" in metadata, state
+
+
+def test_promotion_matrix_json_matches_runtime_contract() -> None:
+    matrix_path = (
+        REPO_ROOT / "specs" / "frontier" / "governance" / "promotion-matrix.json"
+    )
+    with matrix_path.open(encoding="utf-8") as f:
+        matrix = json.load(f)
+
+    assert matrix["version"] == "v1"
+    assert matrix["states"] == PROMOTION_MATRIX
+
+
+def test_promotion_checklist_covers_every_registered_family() -> None:
+    with REGISTRY_MANIFEST.open(encoding="utf-8") as f:
+        registry = json.load(f)
+    checklist_path = (
+        REPO_ROOT / "specs" / "frontier" / "governance" / "promotion-checklist.json"
+    )
+    with checklist_path.open(encoding="utf-8") as f:
+        checklist = json.load(f)
+
+    registry_families = {family["name"] for family in registry["families"]}
+    checklist_families = {family["name"] for family in checklist["families"]}
+    assert checklist_families == registry_families
+    for family in checklist["families"]:
+        assert family["owner"]
+        assert family["blocked_state"]
+        assert family["artifact_paths"]
+        assert family["stable_claim_allowed"] is False
+
+
+def test_stable_promotion_requires_complete_evidence_boundary() -> None:
+    evidence = {
+        "runtime": True,
+        "public_api": True,
+        "deterministic_fixtures": True,
+        "schema": True,
+        "registry_entry": True,
+        "cross_language_parity": True,
+        "rust_kernel_parity": True,
+        "full_documentation": True,
+        "changelog_entry": True,
+        "migration_guide_entry": True,
+        "stable_promotion_approval": True,
+        "public_api_compatibility": True,
+    }
+    validate_promotion_evidence("stable", evidence)
+
+
+def test_stable_promotion_rejects_missing_migration_guidance() -> None:
+    with pytest.raises(ValueError, match="migration_guide_entry"):
+        validate_promotion_evidence(
+            "stable",
+            {
+                "runtime": True,
+                "public_api": True,
+                "deterministic_fixtures": True,
+                "schema": True,
+                "registry_entry": True,
+                "cross_language_parity": True,
+                "rust_kernel_parity": True,
+                "full_documentation": True,
+                "changelog_entry": True,
+                "stable_promotion_approval": True,
+                "public_api_compatibility": True,
+            },
+        )
 
 
 def test_each_maturity_level_has_metadata() -> None:
