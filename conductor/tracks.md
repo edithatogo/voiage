@@ -456,10 +456,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Monitoring And Surveillance VOI Mature Stable Path
-*Link: [./tracks/monitoring-surveillance-voi-mature-stable_20260625/](./tracks/monitoring-surveillance-voi-mature-stable_20260625/)*
+## [x] Track: Monitoring And Surveillance VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/monitoring-surveillance-voi-mature-stable_20260625/](./archive/monitoring-surveillance-voi-mature-stable_20260625/)*
 *Execution order: 12 of 32*
-*Status: recommended method track for value of ongoing monitoring, surveillance, and signal-detection information.*
+*Status: fixture-backed monitoring/surveillance runtime, CLI, deterministic contract fixtures, governance registration, and hosted CI are complete; open-data attribution, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 

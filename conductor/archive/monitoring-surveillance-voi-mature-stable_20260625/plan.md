@@ -83,3 +83,11 @@
   the Python implementation is intentionally fixture-backed.
 - Promotion decision: do not mark stable; retain `fixture-backed` until those
   external gates and hosted CI pass.
+
+## Archive closeout (2026-07-17)
+
+- Implementation PR #175 merged with commit `07760be7dda321f9c9a204202d234df5d37f2414`.
+- Hosted CI passed for all substantive required jobs, including Python 3.10
+  through 3.14, coverage, frontier contract validation, and Python CodeQL.
+- The track is complete for its repository-owned slice and is archived with
+  the external gates preserved as follow-up work.
