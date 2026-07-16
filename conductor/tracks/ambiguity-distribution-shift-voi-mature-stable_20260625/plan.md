@@ -45,6 +45,6 @@
 ## Evidence And Handoff
 
 - Implementation commit: `c9a4a76` (`feat: add ambiguity and distribution shift voi`); git note attached.
-- Plan update commit: pending; attach a git note and record its short commit SHA after this edit.
+- Plan update commit: `12f4e84`; git note attached.
 - Hosted merge gate: pending GitHub Actions; do not merge while substantive checks or Python CodeQL are failing.
 - User-facing manual verification remains required under the Conductor protocol: verify CLI JSON output and the fixture-backed maturity boundary after hosted CI.
