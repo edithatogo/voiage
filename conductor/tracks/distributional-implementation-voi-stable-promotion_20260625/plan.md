@@ -8,6 +8,8 @@
   ``7711b3d`` and the maximal-quality ruleset was restored active.
 - [x] Committed small open-data snapshots for both families with source URLs,
   licenses, retrieval dates, reproducible selection rules, and limitations.
+- [x] Commit ``4fdc5b4`` added the open-data artifacts, provenance manifests,
+  hash validation, and regression coverage.
 - [ ] Non-Python/Rust parity and stable promotion approval remain unmet gates;
   the contract remains experimental and must not receive a stable label.
 
@@ -90,12 +92,14 @@
 
 ## Evidence update 2026-07-16
 
-- Commit ``21ecff7`` records the deterministic evidence boundary and keeps the
-  track active while the open-data slice is prepared.
+- Commit ``21ecff7`` records the deterministic evidence boundary; commit
+  ``4fdc5b4`` adds the open-data slice and keeps the track active for parity
+  and approval gates.
 - The current open-data slice adds ``distributional/v1/fixtures/open-data``
   from World Bank indicator ``SH.UHC.OOPC.25.TO`` and
   ``implementation/v1/fixtures/open-data`` from the OWID HPV coverage series.
 - Focused validation passed: 14 tests, Ruff, and ``scripts/repo_harness.py``
-  with zero findings.
+  with zero findings. The full tox substantive gates passed with 1217 tests,
+  14 skips, and 90.87% coverage; the formatter/lint gate was rerun and passed.
 - Remaining gates are non-Python/Rust parity, broader implementation context,
   and stable method approval. These are not claimed as repository-complete.
