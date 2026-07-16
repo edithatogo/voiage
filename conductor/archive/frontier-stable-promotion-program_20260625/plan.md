@@ -57,3 +57,5 @@
 - GitHub Actions monitoring remains required for publication; repository-owned
   GitHub Actions and `gh` checks passed locally, while external gates remain
   explicitly open.
+- Implementation commit: `c201bd2` (git note attached); plan-update commit
+  records this completed checkpoint.
