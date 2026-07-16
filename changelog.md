@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a fixture-backed equity-information VOI runtime, CLI, deterministic
+  contract, subgroup allocation diagnostics, and explicit parity/open-data
+  promotion gates. The method remains fixture-backed pending external evidence.
 - Archived the implementation-strategy comparison VOI track after completing
   its fixture-backed runtime, CLI, governance registration, coverage
   hardening, and hosted CI slice; strategy-specific evidence, parity, and

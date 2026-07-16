@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_equity_information",
+  "normative": [
+    {
+      "name": "screening programme equity information resolution",
+      "method_family": "value_of_equity_information",
+      "input_artifact": "normative/equity-information-input.json",
+      "expected_output_artifact": "normative/value-of-equity-information.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "cross-language-parity-and-open-data-attribution",
+    "blocked_state": "externally-blocked"
+  }
+}

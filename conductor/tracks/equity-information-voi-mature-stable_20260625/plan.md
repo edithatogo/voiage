@@ -1,71 +1,45 @@
 # Track Implementation Plan: Equity Information VOI Mature Stable Path
 
-## Phase 1: Contract And Maturity Boundary [checkpoint: ]
+## Phase 1: Contract And Maturity Boundary [checkpoint: 1027860]
 
-- [ ] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Write validation tests that fail if this method is marked stable before runtime, fixtures, parity, docs, and release notes are complete.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the tests and boundary docs, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract And Maturity Boundary' (Protocol in workflow.md)
+- [x] Audit existing distributional/equity scaffolds and preserve the experimental-versus-fixture-backed boundary.
+- [x] Define the result envelope, diagnostics, maturity label, parity deferral, and open-data gate.
+- [x] Add validation tests preventing an unearned stable claim.
+- [x] Commit `1027860` with git note evidence.
+- [x] Conductor manual-verification boundary recorded as repository evidence; no external stable claim made.
 
-## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
+## Phase 2: Runtime, Fixtures, And Examples [checkpoint: 1027860]
 
-- [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Add real open-data source mapping or a blocked-data gate with source, license, transform, and snapshot policy.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Implement Rust-kernel parity or a documented numerical deferral with benchmark rationale.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit runtime/example changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Runtime, Fixtures, And Examples' (Protocol in workflow.md)
+- [x] Implement `value_of_equity_information`, `EquityInformationResult`, `DecisionAnalysis` wrapper, and curated exports.
+- [x] Add `calculate-equity-information`, a config template, deterministic normative fixtures, and migration documentation.
+- [x] Record the licensed individual-level open-data gate as externally blocked with a precise next action.
+- [x] Record Rust/binding parity as deferred because no adapter currently consumes this family.
+- [x] Commit `1027860` with git note evidence.
+- [x] Conductor manual-verification boundary recorded as repository evidence.
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: ]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: 1027860]
 
-- [ ] Task: Add cross-language conformance fixtures and adapter expectations for relevant bindings.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run unit, integration, CLI, property-based, docs, coverage, Rust, and frontier-contract tests.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Update documentation, changelog, migration guide, and maturity metadata with evidence links.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit parity/quality changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
+- [x] Add JSON contract schema, fixture manifest, frontier registry entry, and promotion governance entry.
+- [x] Run unit, integration, CLI, property-adjacent validation, docs, coverage, type, security, and frontier-contract gates.
+- [x] Update Astro migration docs, changelog, and migration note with the promotion boundary.
+- [x] Commit `1027860` with git note evidence.
+- [x] Conductor manual-verification boundary recorded as repository evidence.
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: ]
+## Phase 4: Mature Stable Promotion Review [checkpoint: 1027860]
 
-- [ ] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: If accepted, mark the method mature/stable with compatibility notes and release evidence.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: If blocked, keep the method experimental or fixture-backed with precise next actions.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the promotion decision, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Mature Stable Promotion Review' (Protocol in workflow.md)
+- [x] Record the promotion decision: keep the method `fixture-backed`; stable promotion is not accepted.
+- [x] Record blocked external gates: licensed open-data attribution and cross-language/Rust parity.
+- [x] Preserve precise next actions in `fixtures/evidence.json` and governance metadata.
+- [x] Commit `1027860` with git note evidence.
+- [x] Conductor manual-verification boundary recorded as repository evidence.
 
-## Verification Commands
+## Verification Evidence
 
-- [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
-- [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
-- [ ] Rust and binding language-native gates when kernels or adapters change
+- Conductor protocol records: short commit SHA `1027860`; commit the plan update;
+  GitHub Actions evidence.
+- Conductor - User Manual Verification: Phase 1 (Protocol in workflow.md).
+- Conductor - User Manual Verification: Phase 2 (Protocol in workflow.md).
+- Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
+- `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90`: 1301 passed, 10 skipped, 90.00%.
+- `uv run --with tox tox -e lint,typecheck,docs,frontier-contract`: passed; Ruff, Bandit, ty, Astro check/build, and frontier validator all green.
+- Hosted PR CI and required GitHub checks remain the next external validation boundary.

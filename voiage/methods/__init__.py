@@ -26,6 +26,10 @@ from .dynamic_real_options import (
     DynamicRealOptionsResult,
     value_of_dynamic_real_options,
 )
+from .equity_information import (
+    EquityInformationResult,
+    value_of_equity_information,
+)
 from .expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
 from .heterogeneity import (
     HeterogeneityResult,
@@ -89,6 +93,7 @@ __all__ = [
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
+    "EquityInformationResult",
     "ExpertSynthesisResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
@@ -130,6 +135,7 @@ __all__ = [
     "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
+    "value_of_equity_information",
     "value_of_expert_synthesis",
     "value_of_heterogeneity",
     "value_of_implementation",

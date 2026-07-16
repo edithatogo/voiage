@@ -66,6 +66,11 @@
       "name": "value_of_implementation_strategy_comparison",
       "path": "implementation-strategy/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_equity_information",
+      "path": "equity-information/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

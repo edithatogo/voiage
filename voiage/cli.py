@@ -55,6 +55,9 @@ from voiage.methods.dominance import calculate_dominance as calculate_dominance_
 from voiage.methods.dynamic_real_options import (
     value_of_dynamic_real_options as calculate_dynamic_real_options_result,
 )
+from voiage.methods.equity_information import (
+    value_of_equity_information as calculate_equity_information_result,
+)
 from voiage.methods.expert_synthesis import (
     value_of_expert_synthesis as calculate_expert_synthesis_result,
 )
@@ -306,6 +309,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "scale_up_costs": [[0.0, 0.8, 1.2], [0.0, 0.7, 1.0], [0.0, 0.6, 0.8]],
         "population_impacts": [[0.0, 0.4, 0.5], [0.0, 0.6, 0.8], [0.0, 0.8, 1.2]],
         "discount_rate": 0.03,
+    },
+    "equity-information": {
+        "command": "calculate-equity-information",
+        "description": "Template for fixture-backed equity-information VOI inputs.",
+        "net_benefit": [[10.0, 8.0], [12.0, 7.0], [6.0, 11.0], [5.0, 13.0]],
+        "strategy_names": ["A", "B"],
+        "subgroups": ["low", "low", "high", "high"],
+        "equity_weights": [0.5, 0.5],
+        "resolved_equity_weights": [[0.8, 0.2], [0.2, 0.8]],
+        "scenario_probabilities": [0.5, 0.5],
+        "information_cost": 0.0,
+        "policy_strata": ["protected", "policy-relevant"],
     },
     "preference": {
         "command": "calculate-preference",
@@ -3776,6 +3791,88 @@ def calculate_distributional_equity(
             if _should_echo_status_messages():
                 typer.echo(f"Result saved to {output_file}")
 
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-equity-information")
+def calculate_equity_information(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON equity-information VOI specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the equity-information result"
+    ),
+) -> None:
+    """Calculate fixture-backed Value of Equity Information."""
+    try:
+        payload, value_array, strategy_names = _read_2d_method_surface(
+            input_file, "Equity information"
+        )
+        subgroups = payload.get("subgroups")
+        if not isinstance(subgroups, list):
+            raise TypeError("Equity information input must contain a 'subgroups' list.")
+        resolved = payload.get("resolved_equity_weights")
+        if not isinstance(resolved, list):
+            raise TypeError(
+                "Equity information input must contain 'resolved_equity_weights'."
+            )
+        weights = payload.get("equity_weights")
+        if not isinstance(weights, list):
+            raise TypeError("Equity information input must contain 'equity_weights'.")
+        result = calculate_equity_information_result(
+            value_array,
+            subgroups,
+            equity_weights=np.asarray(weights, dtype=float),
+            resolved_equity_weights=np.asarray(resolved, dtype=float),
+            scenario_probabilities=(
+                np.asarray(payload["scenario_probabilities"], dtype=float)
+                if payload.get("scenario_probabilities") is not None
+                else None
+            ),
+            information_cost=float(payload.get("information_cost", 0.0)),
+            strategy_names=strategy_names,
+            policy_strata=cast("list[str] | None", payload.get("policy_strata")),
+        )
+        result_payload = {
+            "analysis_type": "value_of_equity_information",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "baseline_optimal_strategy_name": result.baseline_optimal_strategy_name,
+            "baseline_social_welfare": result.baseline_social_welfare,
+            "resolved_optimal_strategy_names": result.resolved_optimal_strategy_names,
+            "resolved_social_welfare": result.resolved_social_welfare.tolist(),
+            "equity_weights": result.equity_weights.tolist(),
+            "subgroup_labels": result.subgroup_labels,
+            "subgroup_expected_net_benefits": result.subgroup_expected_net_benefits.tolist(),
+            "scenario_probabilities": result.scenario_probabilities.tolist(),
+            "policy_strata": result.policy_strata,
+            "information_cost": result.information_cost,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Value of Equity Information: {result.value:.6f}\n"
+            f"Baseline strategy: {result.baseline_optimal_strategy_name}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
     except FileNotFoundError:
         typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
         raise typer.Exit(code=1) from None
