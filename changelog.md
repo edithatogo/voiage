@@ -767,3 +767,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and
   an explicit Colab/gcloud availability gate.
+- Added a 13-channel external registry publication evidence manifest and
+  validator that separates in-repo readiness from publication, indexing,
+  approval, credentials, and maintainer gates.

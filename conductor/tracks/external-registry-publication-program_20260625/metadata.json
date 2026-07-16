@@ -1,8 +1,8 @@
 {
   "track_id": "external-registry-publication-program_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T17:00:00Z",
   "description": "Coordinate all live registry submissions, evidence refreshes, and external approval states without treating readiness as publication."
 }

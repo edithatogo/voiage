@@ -596,10 +596,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: External Registry Publication Program
+## [~] Track: External Registry Publication Program
 *Link: [./tracks/external-registry-publication-program_20260625/](./tracks/external-registry-publication-program_20260625/)*
 *Execution order: 32 of 32*
-*Status: follow-through track for live registry submission, indexing, approval, and blocked-state evidence after completed readiness work.*
+*Status: repository-owned 13-channel evidence manifest and deterministic validator are in progress; publication, indexing, maintainer approval, credentials, and external curation remain explicit gates.*
 
 ---
 

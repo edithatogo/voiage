@@ -17,6 +17,16 @@ It is intentionally conservative:
 
 ## Status Summary
 
+## Conductor publication-program evidence
+
+The active Conductor publication-program handoff records the current status of
+all 13 registry channels in
+`conductor/tracks/external-registry-publication-program_20260625/handoff/registry-manifest.json`.
+It distinguishes repository readiness from `submitted`, `published`, `indexed`,
+and `approved` states; unresolved channels retain explicit owner, next action,
+evidence URL, and external-gate fields. No external registry submission or
+maintainer approval is inferred from an in-repo workflow or release tag.
+
 | Language | Submission path from this repo | External dependency | Live registry state verifiable here? |
 | --- | --- | --- | --- |
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
