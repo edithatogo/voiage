@@ -68,6 +68,10 @@ from .implementation_strategy import (
     ImplementationStrategyComparisonResult,
     value_of_implementation_strategy_comparison,
 )
+from .interoperability_standardization import (
+    InteroperabilityStandardizationResult,
+    value_of_interoperability_standardization,
+)
 from .monitoring_surveillance import (
     MonitoringSurveillanceResult,
     value_of_monitoring_surveillance,
@@ -128,6 +132,7 @@ __all__ = [
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ImplementationStrategyComparisonResult",
+    "InteroperabilityStandardizationResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
     "Perspective",
@@ -176,6 +181,7 @@ __all__ = [
     "value_of_heterogeneity",
     "value_of_implementation",
     "value_of_implementation_strategy_comparison",
+    "value_of_interoperability_standardization",
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",

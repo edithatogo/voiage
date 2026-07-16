@@ -1165,6 +1165,14 @@ class DecisionAnalysis:
 
         return value_of_explainability_transparency(**kwargs)
 
+    def value_of_interoperability_standardization(self, **kwargs: object) -> object:
+        """Evaluate harmonization and cross-site evidence reuse value."""
+        from voiage.methods.interoperability_standardization import (
+            value_of_interoperability_standardization,
+        )
+
+        return value_of_interoperability_standardization(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

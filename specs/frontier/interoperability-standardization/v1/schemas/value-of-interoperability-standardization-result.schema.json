@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "reusable_evidence_indices", "reuse_probability", "standardization_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "reusable_evidence_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "reuse_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "harmonization_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "standardization_value": {"type": "number"},
+    "data_usability_value": {"type": "number", "minimum": 0},
+    "reduced_transformation_error": {"type": "number", "minimum": 0},
+    "evidence_reuse_value": {"type": "number", "minimum": 0},
+    "standardization_cost": {"type": "number", "minimum": 0},
+    "baseline_value": {"type": "number"},
+    "expected_value_harmonized": {"type": "number"},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

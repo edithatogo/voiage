@@ -90,6 +90,9 @@ from voiage.methods.implementation import (
 from voiage.methods.implementation_strategy import (
     value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
 )
+from voiage.methods.interoperability_standardization import (
+    value_of_interoperability_standardization as calculate_interoperability_result,
+)
 from voiage.methods.monitoring_surveillance import (
     value_of_monitoring_surveillance as calculate_monitoring_surveillance_result,
 )
@@ -412,6 +415,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "audit_costs": [1.0, 1.0, 1.0, 1.0],
         "adoption_threshold": 0.5,
         "transparency_weight": 0.5,
+    },
+    "interoperability-standardization": {
+        "command": "calculate-interoperability-standardization",
+        "description": "Template for fixture-backed interoperability and standardization VOI inputs.",
+        "evidence_utilities": [10.0, 8.0, 6.0, 5.0],
+        "schema_compatibility": [0.9, 0.4, 0.8, 0.2],
+        "semantic_alignment": [0.8, 0.3, 0.7, 0.1],
+        "data_usability": [0.9, 0.5, 0.8, 0.2],
+        "transformation_error_rates": [0.05, 0.2, 0.1, 0.3],
+        "standardization_costs": [1.0, 1.0, 1.0, 1.0],
+        "reuse_probabilities": [0.8, 0.4, 0.7, 0.2],
+        "harmonization_threshold": 0.5,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4332,6 +4347,61 @@ def calculate_explainability_transparency(
         typer.echo(
             _format_output(
                 f"Explainability and transparency VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-interoperability-standardization")
+def calculate_interoperability_standardization(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed interoperability and standardization VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_interoperability_result(
+            payload["evidence_utilities"],
+            payload["schema_compatibility"],
+            payload["semantic_alignment"],
+            payload["data_usability"],
+            payload["transformation_error_rates"],
+            payload["standardization_costs"],
+            payload["reuse_probabilities"],
+            harmonization_threshold=float(payload.get("harmonization_threshold", 0.5)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_interoperability_standardization",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "reusable_evidence_indices": result.reusable_evidence_indices.tolist(),
+            "reuse_probability": result.reuse_probability,
+            "harmonization_score": result.harmonization_score,
+            "standardization_value": result.standardization_value,
+            "data_usability_value": result.data_usability_value,
+            "reduced_transformation_error": result.reduced_transformation_error,
+            "evidence_reuse_value": result.evidence_reuse_value,
+            "standardization_cost": result.standardization_cost,
+            "baseline_value": result.baseline_value,
+            "expected_value_harmonized": result.expected_value_harmonized,
+            "harmonization_threshold": result.harmonization_threshold,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Interoperability and standardization VOI: {result.value:.6f}",
                 result_payload,
             )
         )

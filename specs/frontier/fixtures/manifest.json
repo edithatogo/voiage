@@ -101,6 +101,11 @@
       "name": "value_of_explainability_transparency",
       "path": "explainability-transparency/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_interoperability_standardization",
+      "path": "interoperability-standardization/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

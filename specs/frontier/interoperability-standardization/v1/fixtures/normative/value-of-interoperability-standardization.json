@@ -1,0 +1,14 @@
+{
+  "value": 14.82,
+  "reusable_evidence_indices": [0, 2],
+  "reuse_probability": 0.5,
+  "harmonization_score": 0.55,
+  "standardization_value": 24.0,
+  "data_usability_value": 13.8,
+  "reduced_transformation_error": 0.82,
+  "evidence_reuse_value": 12.2,
+  "standardization_cost": 2.0,
+  "baseline_value": 10.0,
+  "expected_value_harmonized": 24.82,
+  "method_maturity": "fixture-backed"
+}

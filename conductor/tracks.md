@@ -519,7 +519,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Interoperability And Standardization VOI Mature Stable Path
+## [~] Track: Interoperability And Standardization VOI Mature Stable Path
 *Link: [./tracks/interoperability-standardization-voi-mature-stable_20260625/](./tracks/interoperability-standardization-voi-mature-stable_20260625/)*
 *Execution order: 21 of 32*
 *Status: recommended method track for value of harmonization, interoperability, and data-standardization information.*

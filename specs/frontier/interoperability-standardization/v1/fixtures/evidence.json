@@ -1,0 +1,10 @@
+{
+  "family": "value_of_interoperability_standardization",
+  "method_maturity": "fixture-backed",
+  "stable_promotion": false,
+  "open_data_status": "blocked: no licensed cross-site common-data-model snapshot committed",
+  "model_validation_status": "deferred: schema mappings and utilities are synthetic fixtures",
+  "parity_status": "deferred: no Rust or binding adapter contract committed",
+  "next_gate": "open-data-provenance-and-cross-language-parity",
+  "governance_boundary": "standardization cost is reported separately from evidence reuse and transformation-error reduction"
+}
