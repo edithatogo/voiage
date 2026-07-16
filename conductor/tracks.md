@@ -421,10 +421,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Dynamic Real Options VOI Mature Stable Path
-*Link: [./tracks/dynamic-real-options-voi-mature-stable_20260625/](./tracks/dynamic-real-options-voi-mature-stable_20260625/)*
+## [x] Track: Dynamic Real Options VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/dynamic-real-options-voi-mature-stable_20260625/](./archive/dynamic-real-options-voi-mature-stable_20260625/)*
 *Execution order: 07 of 32*
-*Status: dedicated method track from scaffolded contract through runtime implementation and mature/stable promotion review.*
+*Status: Python runtime, result envelope, CLI, fixture-backed maturity evidence, documentation, and hosted CI are complete; longitudinal open data, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
