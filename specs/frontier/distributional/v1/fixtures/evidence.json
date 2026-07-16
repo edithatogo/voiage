@@ -1,0 +1,13 @@
+{
+  "contract": "distributional-voi-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/distributional-equity-result.schema.json", "sha256": "95dcba1c593e7bdd513d8445e737c0d39f5571aeb219cb27463db1cae690d491"},
+    {"path": "fixtures/normative/distributional-equity-input.json", "sha256": "7add8465098f8e65cdf8ec43d2bc7569033db992c1c6b97fd4a28d3614fef961"},
+    {"path": "fixtures/normative/value-of-distributional-equity.json", "sha256": "ce51d727672c916ada82e7cabd52f9d78238a984ceeb166647cdcf760e2a4460"}
+  ],
+  "open_data": {"status": "blocked_external", "evidence": "No committed open-data artifact or provenance record exists for this family.", "next_action": "Add a licensed open-data example with provenance, assumptions, and reproducible preprocessing."},
+  "parity": {"python": "verified", "rust": "not_verified", "r": "not_verified", "typescript": "not_verified"}
+}

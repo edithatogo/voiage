@@ -1,5 +1,15 @@
 # Track Implementation Plan: Distributional And Implementation VOI Stable Promotion
 
+## Current checkpoint
+
+- [x] Existing deterministic distributional/equity and implementation
+  contracts, CLI surfaces, and Python fixtures were audited and validated.
+- [x] Hosted PR #160 merged with required checks passing; merge commit is
+  ``7711b3d`` and the maximal-quality ruleset was restored active.
+- [ ] Open-data examples, non-Python/Rust parity, and stable promotion approval
+  remain unmet gates; do not archive until the open-data evidence path is
+  either implemented or recorded as a precise external blocker.
+
 ## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: ]
 
 - [ ] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.

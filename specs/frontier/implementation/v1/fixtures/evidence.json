@@ -1,0 +1,13 @@
+{
+  "contract": "implementation-voi-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/implementation-adjusted-result.schema.json", "sha256": "e5c43db5e3c74a2c70436b04ca52afc69fe5473f608e463f66f341cd8bb9d6fb"},
+    {"path": "fixtures/normative/implementation-adjusted-input.json", "sha256": "4ba8065689aa2e837202912a5842a73d3288ca9b0d8bf54e5a4bb3f536d0ec69"},
+    {"path": "fixtures/normative/value-of-implementation.json", "sha256": "18a26d9df1628ec45c7bcfcbc4b50af0ae27f89a611ee5e2eab4669c9d452123"}
+  ],
+  "open_data": {"status": "blocked_external", "evidence": "No committed open-data artifact or provenance record exists for this family.", "next_action": "Add a licensed open-data example with provenance, assumptions, and reproducible preprocessing."},
+  "parity": {"python": "verified", "rust": "not_verified", "r": "not_verified", "typescript": "not_verified"}
+}

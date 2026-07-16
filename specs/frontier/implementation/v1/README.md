@@ -13,6 +13,8 @@ maturity review.
   result captured from the current Python implementation.
 - `fixtures/` contains the deterministic screening-program fixture set used to
   anchor the contract.
+- `fixtures/evidence.json` records deterministic hashes and the external
+  open-data and cross-language parity gates.
 
 ## Shape
 

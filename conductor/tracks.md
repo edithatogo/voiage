@@ -407,10 +407,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Distributional And Implementation VOI Stable Promotion
+## [~] Track: Distributional And Implementation VOI Stable Promotion
 *Link: [./tracks/distributional-implementation-voi-stable-promotion_20260625/](./tracks/distributional-implementation-voi-stable-promotion_20260625/)*
 *Execution order: 05 of 32*
-*Status: follow-through track for distributional/equity and implementation-adjusted VOI stable promotion.*
+*Status: deterministic fixture evidence is being audited; open-data examples, non-Python parity, and stable approval remain explicit gates.*
 
 ---
 
