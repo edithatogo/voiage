@@ -435,10 +435,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Data Quality Measurement Privacy And Linkage VOI Mature Stable Path
-*Link: [./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/](./tracks/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/)*
+## [x] Track: Data Quality Measurement Privacy And Linkage VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/](./archive/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/)*
 *Execution order: 09 of 32*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+*Status: Python runtime, result envelope, CLI, fixture-backed maturity evidence, documentation, and hosted CI are complete; licensed open-data attribution, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
