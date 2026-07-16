@@ -484,10 +484,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Adaptive Learning And Bandit VOI Mature Stable Path
-*Link: [./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/](./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/)*
+## [x] Track: Adaptive Learning And Bandit VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/adaptive-learning-bandit-voi-mature-stable_20260625/](./archive/adaptive-learning-bandit-voi-mature-stable_20260625/)*
 *Execution order: 16 of 32*
-*Status: in progress: fixture-backed adaptive-learning/bandit runtime, CLI, deterministic contract, diagnostics, and Astro documentation; parity and licensed online-allocation evidence remain gates.*
+*Status: fixture-backed UCB, Thompson, and epsilon-greedy adaptive-learning/bandit runtime, CLI, deterministic contract, diagnostics, Astro documentation, governance registration, and hosted CI are complete; licensed online-allocation data, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
