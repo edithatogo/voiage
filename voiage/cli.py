@@ -1169,6 +1169,7 @@ def create_distributed_large_scale(
 def calculate_evppi(
     net_benefit_file: Path = typer.Argument(
         ...,
+        metavar="NET_BENEFIT_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
