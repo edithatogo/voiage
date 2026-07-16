@@ -1,0 +1,5 @@
+Track: distributional-implementation-voi-stable-promotion_20260625
+Review: conductor-review context loaded from spec.md, plan.md, workflow.md, and current diff.
+Changes: added World Bank distributional hardship and OWID/WHO-UNICEF HPV implementation snapshots, provenance metadata, hashes, limitations, evidence manifest updates, and regression validation.
+Validation: focused 14 tests passed; full tox substantive gates passed (1217 passed, 14 skipped, coverage 90.87%, docs, typecheck, frontier-contract, version-sync); lint rerun passed after formatting; repository harness passed with zero findings.
+Remaining external gates: non-Python/Rust parity and stable method approval; no stable claim made.
