@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_adaptive_learning_bandit",
+  "normative": [
+    {
+      "name": "deterministic UCB sequential allocation",
+      "method_family": "value_of_adaptive_learning_bandit",
+      "input_artifact": "normative/adaptive-learning-bandit-input.json",
+      "expected_output_artifact": "normative/value-of-adaptive-learning-bandit.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "cross-language-parity-and-open-data-attribution",
+    "blocked_state": "externally-blocked"
+  }
+}

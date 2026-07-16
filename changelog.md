@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added fixture-backed adaptive learning and bandit VOI with UCB, Thompson, and epsilon-greedy policies, sequential allocation diagnostics, CLI support, and explicit stable-promotion gates.
 - Added fixture-backed ambiguity and distribution-shift VOI with robust
   radius scoring, source-target drift sensitivity, scenario regret, CLI support,
   and explicit parity/open-data stable-promotion gates.

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "policy", "arm_names", "selected_arms", "regret", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "policy": {"enum": ["thompson", "ucb", "epsilon-greedy"]},
+    "arm_names": {"type": "array", "items": {"type": "string"}},
+    "selected_arms": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "regret": {"type": "number", "minimum": 0},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

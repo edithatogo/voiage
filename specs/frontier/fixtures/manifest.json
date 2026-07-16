@@ -76,6 +76,11 @@
       "name": "value_of_ambiguity_distribution_shift",
       "path": "ambiguity-distribution-shift/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_adaptive_learning_bandit",
+      "path": "adaptive-learning-bandit/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

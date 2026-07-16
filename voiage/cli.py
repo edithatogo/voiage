@@ -35,6 +35,9 @@ from voiage.methods.adaptive import (
     bayesian_adaptive_trial_simulator,
     sophisticated_adaptive_trial_simulator,
 )
+from voiage.methods.adaptive_learning_bandit import (
+    value_of_adaptive_learning_bandit as calculate_bandit_result,
+)
 from voiage.methods.ambiguity_distribution_shift import (
     value_of_ambiguity_distribution_shift as calculate_ambiguity_shift_result,
 )
@@ -335,6 +338,17 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "scenario_probabilities": [0.5, 0.5],
         "ambiguity_radius": 0.1,
         "information_cost": 0.0,
+    },
+    "adaptive-learning-bandit": {
+        "command": "calculate-adaptive-learning-bandit",
+        "description": "Template for fixture-backed adaptive learning and bandit VOI inputs.",
+        "reward_samples": [[0.4, 0.5, 0.6, 0.7], [0.7, 0.8, 0.9, 1.0]],
+        "arm_names": ["control", "adaptive"],
+        "policy": "ucb",
+        "horizon": 4,
+        "exploration_cost": 0.01,
+        "confidence": 2.0,
+        "seed": 0,
     },
     "preference": {
         "command": "calculate-preference",
@@ -3963,6 +3977,71 @@ def calculate_ambiguity_distribution_shift(
             _write_output_file(output_file, output_text)
             if _should_echo_status_messages():
                 typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-adaptive-learning-bandit")
+def calculate_adaptive_learning_bandit(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON adaptive-learning bandit VOI specification",
+    ),
+) -> None:
+    """Calculate fixture-backed value of adaptive learning and bandit allocation."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        reward_samples = payload.get("reward_samples")
+        if not isinstance(reward_samples, list):
+            raise TypeError("Input must contain a 'reward_samples' list.")
+        result = calculate_bandit_result(
+            reward_samples,
+            policy=str(payload.get("policy", "ucb")),
+            horizon=payload.get("horizon"),
+            exploration_cost=float(payload.get("exploration_cost", 0.0)),
+            epsilon=float(payload.get("epsilon", 0.1)),
+            confidence=float(payload.get("confidence", 2.0)),
+            stop_regret=payload.get("stop_regret"),
+            arm_names=cast("list[str] | None", payload.get("arm_names")),
+            seed=int(payload.get("seed", 0)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_adaptive_learning_bandit",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "policy": result.policy,
+            "arm_names": result.arm_names,
+            "selected_arms": result.selected_arms.tolist(),
+            "cumulative_rewards": result.cumulative_rewards.tolist(),
+            "total_reward": result.total_reward,
+            "baseline_reward": result.baseline_reward,
+            "regret": result.regret,
+            "opportunity_cost": result.opportunity_cost,
+            "exploration_cost": result.exploration_cost,
+            "decision_switch_frequency": result.decision_switch_frequency,
+            "sampling_burden": result.sampling_burden,
+            "stopping_step": result.stopping_step,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Adaptive learning bandit VOI: {result.value:.6f}\n"
+                f"Policy: {result.policy}; stopping step: {result.stopping_step}",
+                result_payload,
+            )
+        )
     except FileNotFoundError:
         typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
         raise typer.Exit(code=1) from None

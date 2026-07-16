@@ -1,71 +1,48 @@
 # Track Implementation Plan: Adaptive Learning And Bandit VOI Mature Stable Path
 
-## Phase 1: Contract And Maturity Boundary [checkpoint: ]
+## Phase 1: Contract And Maturity Boundary [checkpoint: a88189d]
 
-- [ ] Task: Audit existing adaptive, sequential, and frontier contract surfaces for overlap and compatibility.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Write validation tests that fail if this method is marked stable before runtime, fixtures, parity, docs, and release notes are complete.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the tests and boundary docs, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract And Maturity Boundary' (Protocol in workflow.md)
+- [x] Audit existing adaptive-trial, sequential, CLI, frontier, and Astro surfaces.
+- [x] Define the fixture-backed result envelope, diagnostics, policy inputs, stopping controls, and external assumptions.
+- [x] Add contract tests that prevent stable promotion before runtime, fixtures, parity, docs, and release evidence are complete.
+- [x] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
+- [x] Conductor - User Manual Verification: Phase 1 (Protocol in workflow.md).
 
-## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
+## Phase 2: Runtime, Fixtures, And Examples [checkpoint: a88189d]
 
-- [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Add real open-data source mapping or a blocked-data gate with source, license, transform, and snapshot policy.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Implement Rust-kernel parity or a documented numerical deferral with benchmark rationale.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit runtime/example changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Runtime, Fixtures, And Examples' (Protocol in workflow.md)
+- [x] Implement dependency-free UCB, Thompson, and epsilon-greedy sequential allocation with exploration cost, regret, switching, burden, and stopping diagnostics.
+- [x] Add `DecisionAnalysis.value_of_adaptive_learning_bandit`, the `calculate-adaptive-learning-bandit` CLI command, deterministic normative fixtures, and schema.
+- [x] Record the open-data blocker: no licensed online allocation trace is committed.
+- [x] Record the cross-language/Rust parity deferral and keep method maturity `fixture-backed`.
+- [x] Commit runtime/example changes as `a88189d` with a git note, record the short commit SHA, and commit the plan update separately.
+- [x] Conductor - User Manual Verification: Phase 2 (Protocol in workflow.md).
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: ]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: a88189d]
 
-- [ ] Task: Add cross-language conformance fixtures and adapter expectations for relevant bindings.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run unit, integration, CLI, property-based, docs, coverage, Rust, and frontier-contract tests.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Update documentation, changelog, migration guide, and maturity metadata with evidence links.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit parity/quality changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
+- [ ] Add cross-language conformance fixtures once binding adapters are available.
+- [x] Run unit, integration, CLI, property-based, docs, coverage, Rust, and frontier-contract tests: 1,335 passed, 10 optional skips, coverage 90.03%.
+- [x] Update changelog, Astro migration guide, migration note, frontier registry, governance checklist, and maturity metadata.
+- [ ] Commit parity/quality changes with a git note, a short commit SHA, and commit the plan update after external parity evidence exists.
+- [ ] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: ]
+## Phase 4: Mature Stable Promotion Review [checkpoint: blocked]
 
-- [ ] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: If accepted, mark the method mature/stable with compatibility notes and release evidence.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: If blocked, keep the method experimental or fixture-backed with precise next actions.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Commit the promotion decision, attach a git note summary, record the short SHA in this plan, and commit the plan update.
-    - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
-    - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Mature Stable Promotion Review' (Protocol in workflow.md)
+- [ ] Complete the stable-promotion checklist.
+- [ ] Obtain licensed online-allocation data and reproducible source/transform attribution.
+- [ ] Complete cross-language/Rust parity and binding-native gates.
+- [ ] Keep the method fixture-backed until those gates pass; do not claim stable promotion.
+- [ ] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md).
 
 ## Verification Commands
 
-- [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
-- [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
-- [ ] Rust and binding language-native gates when kernels or adapters change
+- `uv run pytest tests/test_adaptive_learning_bandit.py tests/test_adaptive_learning_bandit_contract.py tests/test_adaptive_learning_bandit_cli.py --no-cov`
+- `uv run --with tox tox -e lint,typecheck,docs,frontier-contract`
+- `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90`
+- `python scripts/validate_frontier_contract.py`
+- Hosted GitHub Actions must pass the repository harness, quality, coverage, frontier, version, dependency, and CodeQL checks before merge.
+
+## Evidence And Handoff
+
+- Implementation commit: `a88189d` (`feat: add adaptive learning bandit voi`); git note attached.
+- Plan update commit: `f94c173`; git note attached.
+- Hosted merge gate: pending GitHub Actions; do not merge while substantive checks or Python CodeQL are failing.
