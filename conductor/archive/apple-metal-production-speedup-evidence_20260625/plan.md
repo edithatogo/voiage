@@ -83,3 +83,9 @@
 - Added deterministic CPU reference and Metal blocked packets with device metadata, workload hash, warm-up, timing, throughput, CPU baseline, parity, and CPU fallback fields.
 - Focused validation: `python scripts/validate_metal_speedup_evidence.py conductor/tracks/apple-metal-production-speedup-evidence_20260625/handoff/metal-manifest.json --output conductor/tracks/apple-metal-production-speedup-evidence_20260625/handoff/metal-index.json` and `uv run pytest tests/test_metal_speedup_evidence.py --no-cov` — 2 passed.
 - External gate: this runner has no usable Apple Silicon Metal/MPS runtime; CPU fallback is authoritative and no Apple speedup claim is made.
+
+## Archive Decision
+
+- Archived after implementation PR #209 merged as `617b03a`.
+- Repository-owned CPU reference, Metal/MPS schema, parity/fallback validator, and explicit unavailable-runtime packet are complete.
+- Apple Silicon hardware and reviewed production speedup remain external gates; CPU fallback stays authoritative.
