@@ -17,13 +17,13 @@
 - [x] Commit runtime/example changes as `a88189d` with a git note, record the short commit SHA, and commit the plan update separately.
 - [x] Conductor - User Manual Verification: Phase 2 (Protocol in workflow.md).
 
-## Phase 3: Cross-Language And Quality Gates [checkpoint: a88189d]
+## Phase 3: Cross-Language And Quality Gates [checkpoint: fcf85e8]
 
 - [ ] Add cross-language conformance fixtures once binding adapters are available.
 - [x] Run unit, integration, CLI, property-based, docs, coverage, Rust, and frontier-contract tests: 1,335 passed, 10 optional skips, coverage 90.03%.
 - [x] Update changelog, Astro migration guide, migration note, frontier registry, governance checklist, and maturity metadata.
 - [ ] Commit parity/quality changes with a git note, a short commit SHA, and commit the plan update after external parity evidence exists.
-- [ ] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
+- [x] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md): hosted checks passed and archive handoff verified.
 
 ## Phase 4: Mature Stable Promotion Review [checkpoint: blocked]
 
@@ -31,7 +31,7 @@
 - [ ] Obtain licensed online-allocation data and reproducible source/transform attribution.
 - [ ] Complete cross-language/Rust parity and binding-native gates.
 - [ ] Keep the method fixture-backed until those gates pass; do not claim stable promotion.
-- [ ] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md).
+- [x] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md): archive as fixture-backed with precise external blockers.
 
 ## Verification Commands
 
@@ -45,4 +45,4 @@
 
 - Implementation commit: `a88189d` (`feat: add adaptive learning bandit voi`); git note attached.
 - Plan update commit: `f94c173`; git note attached.
-- Hosted merge gate: pending GitHub Actions; do not merge while substantive checks or Python CodeQL are failing.
+- Hosted merge gate: PR #183 merged as `fcf85e8`; all substantive GitHub Actions and Python CodeQL checks passed; aggregate CodeQL was skipped/neutral by workflow design.
