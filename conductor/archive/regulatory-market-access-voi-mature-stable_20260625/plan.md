@@ -66,7 +66,7 @@
 
 ## Verification Commands
 
-- [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
+- [x] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov` — passed after archive; executable queue is 23–32.
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
 
@@ -78,3 +78,9 @@
 - Quality gates: `uv run --with tox tox -e lint,harness,typecheck,docs,frontier-contract,version-sync` — passed.
 - Frontier contract: `python scripts/validate_frontier_contract.py` — 22 families validated.
 - Maturity decision: remain `fixture-backed`; calibrated regulatory/payer data, open-data provenance, cross-language/Rust parity, and mature/stable governance approval remain external gates.
+
+## Archive Decision
+
+- Archived after implementation PR #195 merged as `f07bfe3`.
+- The repository-owned runtime, CLI, deterministic fixtures, Astro documentation, governance registration, and hosted CI gates are complete.
+- The track remains fixture-backed until calibrated regulatory/payer data, open-data provenance, cross-language/Rust parity, and mature/stable governance approval are supplied; these are explicit external gates, not unresolved repository defects.
