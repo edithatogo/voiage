@@ -84,3 +84,6 @@
 - Added regression tests that reject stable claims while non-Python parity is
   unverified. Focused validation: 17 tests passed; repository harness passed
   with zero findings.
+- Full local gate: tox passed with lint, Bandit, typecheck, Astro check/build,
+  1216 Python 3.14 tests, coverage above 90%, frontier contract, and version
+  sync. Implementation checkpoint commit: ``b60557f``.
