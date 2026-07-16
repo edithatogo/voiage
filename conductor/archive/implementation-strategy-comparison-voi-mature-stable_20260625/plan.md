@@ -83,3 +83,12 @@
 - Cross-language/Rust gate: deferred because no native adapters exist for this
   comparison family; the Python runtime remains fixture-backed.
 - Promotion decision: do not mark stable pending those gates and hosted CI.
+
+## Archive closeout (2026-07-17)
+
+- Implementation PR #177 merged with commit `9e1300f8a6b7f27f8ca21c2800a2188a911de4ab`.
+- Hosted CI passed for all substantive required jobs, including 1,280-test
+  coverage validation, Python 3.10 through 3.14, frontier contract validation,
+  and Python CodeQL.
+- The track is complete for its repository-owned slice and is archived with
+  the external gates preserved as follow-up work.
