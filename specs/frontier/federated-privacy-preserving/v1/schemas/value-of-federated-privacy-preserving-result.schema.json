@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_strategy", "aggregated_net_benefits", "privacy_loss", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_strategy": {"type": "string"},
+    "aggregated_net_benefits": {"type": "array", "items": {"type": "number"}},
+    "privacy_loss": {"type": "number", "minimum": 0},
+    "disclosure_risk": {"enum": ["low", "moderate"]},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

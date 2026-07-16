@@ -61,6 +61,10 @@ from .methods.equity_information import (
     value_of_equity_information,
 )
 from .methods.expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
+from .methods.federated_privacy_preserving import (
+    FederatedPrivacyPreservingResult,
+    value_of_federated_privacy_preserving,
+)
 from .methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
@@ -130,6 +134,7 @@ __all__ = [
     "DynamicRealOptionsResult",
     "EquityInformationResult",
     "ExpertSynthesisResult",
+    "FederatedPrivacyPreservingResult",
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
     "ImplementationStrategyComparisonResult",
@@ -182,6 +187,7 @@ __all__ = [
     "value_of_dynamic_real_options",
     "value_of_equity_information",
     "value_of_expert_synthesis",
+    "value_of_federated_privacy_preserving",
     "value_of_implementation",
     "value_of_implementation_strategy_comparison",
     "value_of_model_validation",

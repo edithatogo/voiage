@@ -1,0 +1,14 @@
+---
+title: Federated and privacy-preserving VOI
+description: Value site-local information without centralizing individual-level data.
+---
+
+The `value_of_federated_privacy_preserving` method aggregates site-local
+net-benefit summaries with optional deterministic privacy noise. It reports
+privacy-budget loss, aggregation error, disclosure-risk metadata, and each
+site's leave-one-out contribution to the aggregate decision value.
+
+When individual-level access is blocked, a synthetic site-summary matrix can
+be supplied as a recorded fallback. The current implementation is
+fixture-backed; licensed multi-site data, cross-language/Rust parity, and
+stable-promotion review remain explicit gates.

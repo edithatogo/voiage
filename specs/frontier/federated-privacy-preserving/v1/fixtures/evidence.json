@@ -1,0 +1,9 @@
+{
+  "family": "value_of_federated_privacy_preserving",
+  "method_maturity": "fixture-backed",
+  "stable_promotion": false,
+  "open_data_status": "blocked: no licensed multi-site individual-level snapshot committed",
+  "parity_status": "deferred: no Rust or binding adapter contract committed",
+  "next_gate": "open-data-attribution-and-cross-language-parity",
+  "privacy_boundary": "individual-level data remains blocked; only site summaries or synthetic fallback enter the runtime"
+}

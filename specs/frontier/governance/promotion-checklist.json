@@ -20,5 +20,6 @@
     ,{"name": "value_of_ambiguity_distribution_shift", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/ambiguity-distribution-shift/v1"]}
     ,{"name": "value_of_adaptive_learning_bandit", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/adaptive-learning-bandit/v1"]}
     ,{"name": "value_of_capacity_budget_constrained", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/capacity-budget-constrained/v1"]}
+    ,{"name": "value_of_federated_privacy_preserving", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/federated-privacy-preserving/v1"]}
   ]
 }

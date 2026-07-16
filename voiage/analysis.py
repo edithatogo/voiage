@@ -1141,6 +1141,14 @@ class DecisionAnalysis:
 
         return value_of_capacity_budget_constrained(**kwargs)
 
+    def value_of_federated_privacy_preserving(self, **kwargs: object) -> object:
+        """Evaluate site-local evidence under privacy-preserving aggregation."""
+        from voiage.methods.federated_privacy_preserving import (
+            value_of_federated_privacy_preserving,
+        )
+
+        return value_of_federated_privacy_preserving(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],
