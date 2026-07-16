@@ -30,3 +30,9 @@ def test_generate_ambiguity_distribution_shift_config_template() -> None:
     assert payload["command"] == "calculate-ambiguity-distribution-shift"
     assert "shift_weights" in payload
     assert payload["scenario_names"] == ["source", "shifted"]
+
+
+def test_generate_adaptive_learning_bandit_config_template() -> None:
+    payload = _generate_config_template("adaptive-learning-bandit")
+    assert payload["command"] == "calculate-adaptive-learning-bandit"
+    assert payload["policy"] == "ucb"

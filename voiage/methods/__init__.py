@@ -1,6 +1,10 @@
 """Curated public exports for core Value of Information methods."""
 
 from .adaptive import adaptive_evsi
+from .adaptive_learning_bandit import (
+    AdaptiveLearningBanditResult,
+    value_of_adaptive_learning_bandit,
+)
 from .ambiguity_distribution_shift import (
     AmbiguityDistributionShiftResult,
     value_of_ambiguity_distribution_shift,
@@ -90,6 +94,7 @@ from .validation import (
 )
 
 __all__ = [
+    "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
     "CEAFResult",
     "CausalTransportabilityResult",
@@ -135,6 +140,7 @@ __all__ = [
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",
+    "value_of_adaptive_learning_bandit",
     "value_of_ambiguity_distribution_shift",
     "value_of_causal_transportability",
     "value_of_computational_refinement",

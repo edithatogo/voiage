@@ -484,10 +484,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Adaptive Learning And Bandit VOI Mature Stable Path
+## [~] Track: Adaptive Learning And Bandit VOI Mature Stable Path
 *Link: [./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/](./tracks/adaptive-learning-bandit-voi-mature-stable_20260625/)*
 *Execution order: 16 of 32*
-*Status: recommended method track for adaptive learning, sequential allocation, exploration, exploitation, and stopping decisions.*
+*Status: in progress: fixture-backed adaptive-learning/bandit runtime, CLI, deterministic contract, diagnostics, and Astro documentation; parity and licensed online-allocation evidence remain gates.*
 
 ---
 

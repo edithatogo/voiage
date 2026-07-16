@@ -1103,6 +1103,36 @@ class DecisionAnalysis:
             information_cost=information_cost,
         )
 
+    def value_of_adaptive_learning_bandit(
+        self,
+        policy: str = "ucb",
+        horizon: int | None = None,
+        exploration_cost: float = 0.0,
+        epsilon: float = 0.1,
+        confidence: float = 2.0,
+        stop_regret: float | None = None,
+        arm_names: Sequence[str] | None = None,
+        seed: int = 0,
+    ) -> Any:
+        """Calculate fixture-backed value of adaptive bandit learning."""
+        from voiage.methods.adaptive_learning_bandit import (
+            value_of_adaptive_learning_bandit,
+        )
+
+        return value_of_adaptive_learning_bandit(
+            self.nb_array.numpy_values.T,
+            policy=policy,
+            horizon=horizon,
+            exploration_cost=exploration_cost,
+            epsilon=epsilon,
+            confidence=confidence,
+            stop_regret=stop_regret,
+            arm_names=list(arm_names)
+            if arm_names
+            else list(self.nb_array.strategy_names),
+            seed=seed,
+        )
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

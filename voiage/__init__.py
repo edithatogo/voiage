@@ -26,6 +26,10 @@ from . import (
 )
 from .analysis import DecisionAnalysis
 from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
+from .methods.adaptive_learning_bandit import (
+    AdaptiveLearningBanditResult,
+    value_of_adaptive_learning_bandit,
+)
 from .methods.ambiguity_distribution_shift import (
     AmbiguityDistributionShiftResult,
     value_of_ambiguity_distribution_shift,
@@ -110,6 +114,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
     __version__ = "0.0.0"
 
 __all__ = [
+    "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
     "CausalTransportabilityResult",
     "ComputationalResult",
@@ -162,6 +167,7 @@ __all__ = [
     "plot",
     "preference_optimal_strategies",
     "schema",
+    "value_of_adaptive_learning_bandit",
     "value_of_ambiguity_distribution_shift",
     "value_of_causal_transportability",
     "value_of_computational_refinement",
