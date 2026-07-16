@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a fixture-backed dynamic real-options VOI runtime and CLI supporting
+  staged evidence, delay, discounting, irreversibility, policy lock-in,
+  option/waiting value, robust/Pareto strategy diagnostics, and explicit
+  maturity evidence. Longitudinal open-data and cross-language parity remain
+  gated.
 - Archived the perspective-uncertainty VOI track after completing its
   seven-perspective evidence slice and hosted CI validation; retained
   real-data attribution, parity, and mature approval as explicit gates.

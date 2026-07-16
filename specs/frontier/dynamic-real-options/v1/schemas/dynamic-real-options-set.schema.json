@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/schemas/frontier/dynamic-real-options-set.v1.json",
-  "title": "DynamicRealOptionsSetV1Planned",
+  "title": "DynamicRealOptionsSetV1FixtureBacked",
   "type": "object",
   "required": [
     "decision_stage_names",

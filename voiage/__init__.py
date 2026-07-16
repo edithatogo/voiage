@@ -31,6 +31,10 @@ from .methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
 )
+from .methods.dynamic_real_options import (
+    DynamicRealOptionsResult,
+    value_of_dynamic_real_options,
+)
 from .methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
@@ -83,6 +87,7 @@ __all__ = [
     "DecisionAnalysis",
     "DecisionOption",
     "DistributionalEquityResult",
+    "DynamicRealOptionsResult",
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
@@ -124,6 +129,7 @@ __all__ = [
     "preference_optimal_strategies",
     "schema",
     "value_of_distributional_equity",
+    "value_of_dynamic_real_options",
     "value_of_implementation",
     "value_of_model_validation",
     "value_of_perspective",

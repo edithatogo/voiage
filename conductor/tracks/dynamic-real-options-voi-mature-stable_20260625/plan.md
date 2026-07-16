@@ -1,6 +1,6 @@
 # Track Implementation Plan: Dynamic Real Options VOI Mature Stable Path
 
-## Phase 1: Contract And Maturity Boundary [checkpoint: ]
+## Phase 1: Contract And Maturity Boundary [checkpoint: in progress]
 
 - [ ] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -16,7 +16,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract And Maturity Boundary' (Protocol in workflow.md)
 
-## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
+## Phase 2: Runtime, Fixtures, And Examples [checkpoint: in progress]
 
 - [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -69,3 +69,15 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Evidence update 2026-07-16
+
+- Added the Python `value_of_dynamic_real_options` runtime and
+  `DynamicRealOptionsResult` envelope with stage weighting, discounting,
+  irreversibility and lock-in penalties, option/waiting value, policy regret,
+  robust strategy, Pareto strategies, diagnostics, and CHEERS-VOI reporting.
+- Added the `calculate-dynamic-real-options` CLI command and curated exports.
+- Promoted the schema/examples from planned to fixture-backed maturity and
+  added hash-pinned evidence validation.
+- Real longitudinal data, Rust/cross-language parity, and mature/stable
+  approval remain explicit gates; no stable claim is made.

@@ -16,6 +16,10 @@ from .dominance import (
     calculate_strong_dominance,
     cost_effectiveness_frontier,
 )
+from .dynamic_real_options import (
+    DynamicRealOptionsResult,
+    value_of_dynamic_real_options,
+)
 from .heterogeneity import (
     HeterogeneityResult,
     identify_optimal_subgroups,
@@ -66,6 +70,7 @@ __all__ = [
     "CEAFResult",
     "DistributionalEquityResult",
     "DominanceResult",
+    "DynamicRealOptionsResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
@@ -100,6 +105,7 @@ __all__ = [
     "structural_evpi",
     "structural_evppi",
     "value_of_distributional_equity",
+    "value_of_dynamic_real_options",
     "value_of_heterogeneity",
     "value_of_implementation",
     "value_of_model_validation",

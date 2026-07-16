@@ -59,7 +59,7 @@
   "reporting": {
     "reporting_standard": "CHEERS-VOI",
     "analysis_type": "value_of_dynamic_real_options",
-    "method_maturity": "planned",
+    "method_maturity": "fixture-backed",
     "decision_stage_names": [
       "now",
       "after_phase_1",
