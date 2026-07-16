@@ -2,10 +2,10 @@
 
 ## Phase 1: Architecture And Gate Definition [checkpoint: ]
 
-- [ ] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes.
+- [x] Task: Review existing roadmap, Conductor records, dependencies, and fixtures before implementation changes.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Add or update validation tests for the new policy, architecture, or method boundary.
+- [x] Task: Add or update validation tests for the new policy, architecture, or method boundary.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Commit the tests/policy boundary, attach a git note summary, record the short SHA in this plan, and commit the plan update.
@@ -15,10 +15,10 @@
 
 ## Phase 2: Implementation Or Evidence Artifact [checkpoint: ]
 
-- [ ] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
+- [x] Task: Implement the docs, schemas, scripts, workflows, datasets, kernels, or examples defined by this track.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
-- [ ] Task: Run focused validation and record command, runner, status, and artifact paths.
+- [x] Task: Run focused validation and record command, runner, status, and artifact paths.
     - [ ] Keep evidence, command output, blocked states, and external gates explicit.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Commit the implementation/evidence changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
@@ -44,3 +44,17 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` when implementation changes warrant it
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Current checkpoint
+
+- Implemented the backend-neutral ``voiage.experimental_design`` API for
+  expected information gain, Bayesian design selection, active learning, and
+  amortized EVSI summaries.
+- Added deterministic unit coverage in ``tests/test_experimental_design.py``
+  and documented the optional-backend boundary in the developer guide.
+- Focused verification: 19 tests passed; repository harness passed with zero
+  findings.
+- The first broader tox pass exposed and then fixed the Conductor status and
+  curated-export regressions; full tox must be rerun before this track can be
+  archived. Heavy Bayesian backends, real-data evidence, and cross-language
+  parity remain external/downstream gates.

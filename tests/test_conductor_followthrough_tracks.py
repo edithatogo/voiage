@@ -132,7 +132,7 @@ def test_followthrough_tracks_have_required_conductor_artifacts() -> None:
         assert track_root.is_dir()
         assert metadata["track_id"] == track_id
         if not is_archived:
-            assert metadata["status"] in {"new", "blocked_external"}
+            assert metadata["status"] in {"new", "in_progress", "blocked_external"}
         assert metadata["type"] == "feature"
         assert "# Track Specification:" in spec
         assert "# Track Implementation Plan:" in plan

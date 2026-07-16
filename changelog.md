@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added experimental, NumPy-only interfaces for expected information gain,
+  cost-aware Bayesian experimental design, active-learning batch selection,
+  and amortized EVSI summaries. Heavy Bayesian and simulation-based-inference
+  backends remain optional and evidence-gated.
 - Added a machine-readable frontier stable-promotion evidence matrix and
   validator. Frontier families remain fixture-backed or experimental until
   cross-language parity, documentation, migration guidance, and explicit
