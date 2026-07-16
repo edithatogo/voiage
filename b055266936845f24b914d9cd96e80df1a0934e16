@@ -1,0 +1,5 @@
+Track: implementation-strategy-comparison-voi-mature-stable_20260625
+Merged implementation PR #177 at 9e1300f8a6b7f27f8ca21c2800a2188a911de4ab.
+Hosted substantive CI, coverage, frontier contract, and Python CodeQL passed.
+External gates preserved: strategy-specific causal evidence, cross-language/Rust parity, and mature/stable approval.
+Active executable queue is now orders 14-32 (19 tracks); GitHub issues remain zero.
