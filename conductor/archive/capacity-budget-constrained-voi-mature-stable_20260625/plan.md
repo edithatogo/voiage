@@ -77,3 +77,8 @@
 - Implementation commit: `259f374` (short commit SHA), with a git note recording scope and evidence.
 - Local artifacts: runtime in `voiage/methods/capacity_budget_constrained.py`, CLI command, deterministic fixtures under `specs/frontier/capacity-budget-constrained/v1`, tests, and Astro documentation.
 - External gates: licensed constrained-allocation data, Rust/binding parity, and mature/stable approval remain blocked; no stable claim is made.
+
+## Archive checkpoint
+
+- Hosted implementation PR #185 merged as `38f4590`; all substantive GitHub Actions checks passed.
+- The completed track is archived after local and hosted gates; the executable queue remains orders 18 through 32.
