@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Archived the implementation-strategy comparison VOI track after completing
+  its fixture-backed runtime, CLI, governance registration, coverage
+  hardening, and hosted CI slice; strategy-specific evidence, parity, and
+  mature approval remain gated.
 - Added a fixture-backed implementation-strategy comparison VOI runtime and
   CLI for uptake, adherence, coverage, delay, scale-up cost, adoption
   uncertainty, and population-impact diagnostics. Strategy-specific evidence,

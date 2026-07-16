@@ -463,10 +463,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Implementation Strategy Comparison VOI Mature Stable Path
-*Link: [./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/](./tracks/implementation-strategy-comparison-voi-mature-stable_20260625/)*
+## [x] Track: Implementation Strategy Comparison VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/implementation-strategy-comparison-voi-mature-stable_20260625/](./archive/implementation-strategy-comparison-voi-mature-stable_20260625/)*
 *Execution order: 13 of 32*
-*Status: recommended method track for comparing implementation strategies, uptake, adherence, coverage, delay, and scale-up evidence.*
+*Status: fixture-backed strategy-comparison runtime, CLI, deterministic contract fixtures, governance registration, coverage hardening, and hosted CI are complete; strategy-specific causal evidence, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
