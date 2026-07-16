@@ -1,0 +1,19 @@
+---
+title: AI-assisted evidence-triage VOI
+description: Value human-in-the-loop screening and extraction support.
+---
+
+The `value_of_ai_assisted_evidence_triage` method evaluates whether automated
+screening or extraction support is worth using when false exclusion, false
+inclusion, reviewer time, audit sampling, human overrides, extraction error,
+and model drift affect the decision.
+
+Inputs are deterministic reference labels and triage scores. The result reports
+sensitivity, specificity, decision-impact-weighted error burden, reviewer time
+saved, audit value, and the net value against full human review. The method is
+explicitly human-in-the-loop: audit sampling and override recovery are
+recorded rather than hidden behind an automation claim.
+
+The current implementation is fixture-backed. A licensed evidence corpus,
+external model validation, cross-language/Rust parity, and mature/stable
+promotion review remain required gates.

@@ -1,0 +1,14 @@
+{
+  "relevance_labels": [1, 1, 0, 1, 0, 1],
+  "triage_scores": [0.95, 0.4, 0.8, 0.7, 0.2, 0.6],
+  "decision_impacts": [10.0, 8.0, 4.0, 6.0, 3.0, 5.0],
+  "reviewer_time_minutes": [10.0, 8.0, 6.0, 7.0, 4.0, 5.0],
+  "extraction_error_rates": [0.01, 0.1, 0.05, 0.02, 0.2, 0.03],
+  "triage_threshold": 0.5,
+  "audit_sample_rate": 0.5,
+  "human_override_rate": 0.25,
+  "model_drift": 0.1,
+  "automation_cost": 2.0,
+  "audit_cost_per_item": 0.5,
+  "reviewer_cost_per_minute": 0.1
+}

@@ -1141,6 +1141,14 @@ class DecisionAnalysis:
 
         return value_of_capacity_budget_constrained(**kwargs)
 
+    def value_of_ai_assisted_evidence_triage(self, **kwargs: object) -> object:
+        """Evaluate the decision value of human-in-the-loop evidence triage."""
+        from voiage.methods.ai_assisted_evidence_triage import (
+            value_of_ai_assisted_evidence_triage,
+        )
+
+        return value_of_ai_assisted_evidence_triage(**kwargs)
+
     def value_of_federated_privacy_preserving(self, **kwargs: object) -> object:
         """Evaluate site-local evidence under privacy-preserving aggregation."""
         from voiage.methods.federated_privacy_preserving import (

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_item_indices", "sensitivity", "specificity", "audit_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_item_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "sensitivity": {"type": "number", "minimum": 0, "maximum": 1},
+    "specificity": {"type": "number", "minimum": 0, "maximum": 1},
+    "false_exclusion_risk": {"type": "number", "minimum": 0, "maximum": 1},
+    "false_inclusion_burden": {"type": "number", "minimum": 0},
+    "reviewer_time_saved": {"type": "number"},
+    "audit_value": {"type": "number", "minimum": 0},
+    "audit_items": {"type": "integer", "minimum": 0},
+    "model_drift": {"type": "number", "minimum": 0, "maximum": 1},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

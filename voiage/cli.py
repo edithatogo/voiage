@@ -38,6 +38,9 @@ from voiage.methods.adaptive import (
 from voiage.methods.adaptive_learning_bandit import (
     value_of_adaptive_learning_bandit as calculate_bandit_result,
 )
+from voiage.methods.ai_assisted_evidence_triage import (
+    value_of_ai_assisted_evidence_triage as calculate_ai_triage_result,
+)
 from voiage.methods.ambiguity_distribution_shift import (
     value_of_ambiguity_distribution_shift as calculate_ambiguity_shift_result,
 )
@@ -378,6 +381,22 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "noise_scale": 0.0,
         "individual_data_access": "blocked",
         "seed": 0,
+    },
+    "ai-assisted-evidence-triage": {
+        "command": "calculate-ai-assisted-evidence-triage",
+        "description": "Template for fixture-backed AI-assisted evidence-triage VOI inputs.",
+        "relevance_labels": [1, 1, 0, 1, 0, 1],
+        "triage_scores": [0.95, 0.4, 0.8, 0.7, 0.2, 0.6],
+        "decision_impacts": [10.0, 8.0, 4.0, 6.0, 3.0, 5.0],
+        "reviewer_time_minutes": [10.0, 8.0, 6.0, 7.0, 4.0, 5.0],
+        "extraction_error_rates": [0.01, 0.1, 0.05, 0.02, 0.2, 0.03],
+        "triage_threshold": 0.5,
+        "audit_sample_rate": 0.5,
+        "human_override_rate": 0.25,
+        "model_drift": 0.1,
+        "automation_cost": 2.0,
+        "audit_cost_per_item": 0.5,
+        "reviewer_cost_per_minute": 0.1,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4177,6 +4196,76 @@ def calculate_federated_privacy_preserving(
             _format_output(
                 f"Federated privacy-preserving VOI: {result.value:.6f}\n"
                 f"Selected strategy: {result.selected_strategy}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-ai-assisted-evidence-triage")
+def calculate_ai_assisted_evidence_triage(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed AI-assisted evidence-triage VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_ai_triage_result(
+            payload["relevance_labels"],
+            payload["triage_scores"],
+            payload["decision_impacts"],
+            payload["reviewer_time_minutes"],
+            payload["extraction_error_rates"],
+            triage_threshold=float(payload.get("triage_threshold", 0.5)),
+            audit_sample_rate=float(payload.get("audit_sample_rate", 0.0)),
+            human_override_rate=float(payload.get("human_override_rate", 0.0)),
+            model_drift=float(payload.get("model_drift", 0.0)),
+            automation_cost=float(payload.get("automation_cost", 0.0)),
+            audit_cost_per_item=float(payload.get("audit_cost_per_item", 0.0)),
+            reviewer_cost_per_minute=float(
+                payload.get("reviewer_cost_per_minute", 1.0)
+            ),
+        )
+        result_payload = {
+            "analysis_type": "value_of_ai_assisted_evidence_triage",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_item_indices": result.selected_item_indices.tolist(),
+            "triage_threshold": result.triage_threshold,
+            "sensitivity": result.sensitivity,
+            "specificity": result.specificity,
+            "effective_sensitivity": result.effective_sensitivity,
+            "effective_specificity": result.effective_specificity,
+            "false_exclusion_risk": result.false_exclusion_risk,
+            "false_inclusion_burden": result.false_inclusion_burden,
+            "effective_false_exclusion_impact": result.effective_false_exclusion_impact,
+            "effective_false_inclusion_impact": result.effective_false_inclusion_impact,
+            "reviewer_time_saved": result.reviewer_time_saved,
+            "audit_value": result.audit_value,
+            "audit_items": result.audit_items,
+            "extraction_error_burden": result.extraction_error_burden,
+            "model_drift": result.model_drift,
+            "expected_value_ai_triage": result.expected_value_ai_triage,
+            "baseline_value": result.baseline_value,
+            "automation_cost": result.automation_cost,
+            "audit_cost": result.audit_cost,
+            "human_override_rate": result.human_override_rate,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"AI-assisted evidence-triage VOI: {result.value:.6f}",
                 result_payload,
             )
         )

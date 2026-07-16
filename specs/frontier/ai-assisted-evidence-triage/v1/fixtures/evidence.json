@@ -1,0 +1,11 @@
+{
+  "family": "value_of_ai_assisted_evidence_triage",
+  "method_maturity": "fixture-backed",
+  "stable_promotion": false,
+  "open_data_status": "blocked: no licensed evidence-corpus snapshot committed",
+  "model_validation_status": "deferred: deterministic labels and scores are synthetic fixtures",
+  "parity_status": "deferred: no Rust or binding adapter contract committed",
+  "next_gate": "licensed-corpus-model-validation-and-cross-language-parity",
+  "human_in_the_loop": true,
+  "audit_boundary": "audit sampling and override recovery are explicit inputs, not silent automation assumptions"
+}

@@ -1,0 +1,13 @@
+{
+  "value": 0.0,
+  "selected_item_indices": [0, 2, 3, 5],
+  "sensitivity": 0.75,
+  "specificity": 0.5,
+  "false_exclusion_risk": 0.06896551724137931,
+  "false_inclusion_burden": 3.5700000000000003,
+  "reviewer_time_saved": 6.0,
+  "audit_value": 4.0,
+  "audit_items": 1,
+  "model_drift": 0.1,
+  "method_maturity": "fixture-backed"
+}
