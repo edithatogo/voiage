@@ -44,5 +44,5 @@
 ## Evidence And Handoff
 
 - Implementation commit: `a88189d` (`feat: add adaptive learning bandit voi`); git note attached.
-- Plan update commit: pending; attach a git note and record the short SHA after this edit.
+- Plan update commit: `f94c173`; git note attached.
 - Hosted merge gate: pending GitHub Actions; do not merge while substantive checks or Python CodeQL are failing.
