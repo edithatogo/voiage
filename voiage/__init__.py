@@ -117,6 +117,10 @@ from .methods.replication_reproducibility import (
     value_of_replication_reproducibility,
 )
 from .methods.sample_information import enbs, evsi
+from .methods.strategic_behavior import (
+    StrategicBehaviorResult,
+    value_of_strategic_behavior,
+)
 from .methods.threshold import (
     ThresholdProfile,
     ThresholdProfileSet,
@@ -178,6 +182,7 @@ __all__ = [
     "PreferenceProfileSet",
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
+    "StrategicBehaviorResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
@@ -232,6 +237,7 @@ __all__ = [
     "value_of_preference_information",
     "value_of_regulatory_market_access",
     "value_of_replication_reproducibility",
+    "value_of_strategic_behavior",
     "value_of_threshold",
     "value_of_threshold_information",
     "value_of_validation",

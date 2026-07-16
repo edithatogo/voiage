@@ -121,6 +121,11 @@
       "name": "value_of_evidence_obsolescence_refresh",
       "path": "evidence-obsolescence-refresh/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_strategic_behavior",
+      "path": "strategic-behavior/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

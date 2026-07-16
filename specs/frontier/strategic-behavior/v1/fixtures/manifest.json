@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_strategic_behavior",
+  "normative": [{
+    "name": "strategic behavior information value",
+    "method_family": "value_of_strategic_behavior",
+    "input_artifact": "normative/strategic-behavior-input.json",
+    "expected_output_artifact": "normative/value-of-strategic-behavior.json",
+    "tolerance_policy": "exact"
+  }],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "calibrated-game-data-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}

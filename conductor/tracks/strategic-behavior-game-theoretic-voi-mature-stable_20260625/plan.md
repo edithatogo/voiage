@@ -2,7 +2,7 @@
 
 ## Phase 1: Contract And Maturity Boundary [checkpoint: ]
 
-- [ ] Task: Audit existing perspective, preference, implementation, and frontier contract surfaces for overlap and compatibility.
+- [x] Task: Audit existing perspective, preference, implementation, and frontier contract surfaces for overlap and compatibility.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
@@ -18,7 +18,7 @@
 
 ## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
 
-- [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
+- [x] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Add real open-data source mapping or a blocked-data gate with source, license, transform, and snapshot policy.
@@ -69,3 +69,8 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Execution Evidence
+
+- Implementation slice: runtime API, result envelope, CLI, Hypothesis properties, deterministic fixtures, frontier schema, Astro documentation, and governance registration.
+- Maturity decision: remain `fixture-backed`; calibrated game data, cross-language parity, and mature/stable governance review remain external gates.

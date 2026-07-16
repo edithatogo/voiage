@@ -1,0 +1,11 @@
+{
+  "scenario_values": [10.0, 8.0, 6.0, 4.0],
+  "equilibrium_probabilities": [0.8, 0.6, 0.3, 0.2],
+  "incentive_response_values": [2.0, 1.0, 0.5, 0.2],
+  "disclosure_values": [1.0, 2.0, 0.5, 0.2],
+  "bargaining_values": [1.5, 1.0, 0.2, 0.1],
+  "adversarial_risks": [0.1, 0.2, 0.4, 0.8],
+  "response_sensitivities": [0.2, 0.5, 0.8, 0.9],
+  "strategic_regrets": [0.5, 0.4, 0.2, 0.1],
+  "equilibrium_threshold": 0.5
+}
