@@ -35,6 +35,9 @@ from voiage.methods.adaptive import (
     bayesian_adaptive_trial_simulator,
     sophisticated_adaptive_trial_simulator,
 )
+from voiage.methods.ambiguity_distribution_shift import (
+    value_of_ambiguity_distribution_shift as calculate_ambiguity_shift_result,
+)
 from voiage.methods.basic import evpi, evppi
 from voiage.methods.calibration import voi_calibration
 from voiage.methods.causal_transportability import (
@@ -321,6 +324,17 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "scenario_probabilities": [0.5, 0.5],
         "information_cost": 0.0,
         "policy_strata": ["protected", "policy-relevant"],
+    },
+    "ambiguity-distribution-shift": {
+        "command": "calculate-ambiguity-distribution-shift",
+        "description": "Template for fixture-backed ambiguity and distribution-shift VOI inputs.",
+        "net_benefit": [[10.0, 8.0], [12.0, 7.0], [6.0, 11.0], [5.0, 13.0]],
+        "strategy_names": ["A", "B"],
+        "shift_weights": [[0.4, 0.4, 0.1, 0.1], [0.1, 0.1, 0.4, 0.4]],
+        "scenario_names": ["source", "shifted"],
+        "scenario_probabilities": [0.5, 0.5],
+        "ambiguity_radius": 0.1,
+        "information_cost": 0.0,
     },
     "preference": {
         "command": "calculate-preference",
@@ -3866,6 +3880,82 @@ def calculate_equity_information(
         output_text = _format_output(
             f"Value of Equity Information: {result.value:.6f}\n"
             f"Baseline strategy: {result.baseline_optimal_strategy_name}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError:
+        typer.echo(f"Error: Input file not found at '{input_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-ambiguity-distribution-shift")
+def calculate_ambiguity_distribution_shift(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON ambiguity and distribution-shift VOI specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the distribution-shift result"
+    ),
+) -> None:
+    """Calculate fixture-backed VOI under ambiguity and distribution shift."""
+    try:
+        payload, value_array, strategy_names = _read_2d_method_surface(
+            input_file, "Ambiguity and distribution shift"
+        )
+        shift_weights = payload.get("shift_weights")
+        if not isinstance(shift_weights, list):
+            raise TypeError("Input must contain a 'shift_weights' list.")
+        result = calculate_ambiguity_shift_result(
+            value_array,
+            shift_weights=np.asarray(shift_weights, dtype=float),
+            strategy_names=strategy_names,
+            scenario_names=cast("list[str] | None", payload.get("scenario_names")),
+            scenario_probabilities=(
+                np.asarray(payload["scenario_probabilities"], dtype=float)
+                if payload.get("scenario_probabilities") is not None
+                else None
+            ),
+            ambiguity_radius=float(payload.get("ambiguity_radius", 0.0)),
+            information_cost=float(payload.get("information_cost", 0.0)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_ambiguity_distribution_shift",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "strategy_names": result.strategy_names,
+            "scenario_names": result.scenario_names,
+            "scenario_probabilities": result.scenario_probabilities.tolist(),
+            "scenario_expected_net_benefits": result.scenario_expected_net_benefits.tolist(),
+            "robust_net_benefits": result.robust_net_benefits.tolist(),
+            "robust_strategy_name": result.robust_strategy_name,
+            "robust_value": result.robust_value,
+            "informed_optimal_strategy_names": result.informed_optimal_strategy_names,
+            "informed_expected_value": result.informed_expected_value,
+            "scenario_regret": result.scenario_regret.tolist(),
+            "shift_sensitivity": result.shift_sensitivity.tolist(),
+            "ambiguity_radius": result.ambiguity_radius,
+            "information_cost": result.information_cost,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Ambiguity and distribution-shift VOI: {result.value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy_name}",
             result_payload,
         )
         typer.echo(output_text)

@@ -71,6 +71,11 @@
       "name": "value_of_equity_information",
       "path": "equity-information/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_ambiguity_distribution_shift",
+      "path": "ambiguity-distribution-shift/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

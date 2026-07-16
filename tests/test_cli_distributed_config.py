@@ -22,3 +22,11 @@ def test_generate_distributed_large_scale_config_template_includes_scheduler_met
     assert payload.get("scheduler") == "process"
     assert payload.get("scheduler_is_placeholder") is False
     assert payload.get("scheduler_address") is None
+
+
+def test_generate_ambiguity_distribution_shift_config_template() -> None:
+    """The ambiguity/distribution-shift template should expose contract inputs."""
+    payload = _generate_config_template("ambiguity-distribution-shift")
+    assert payload["command"] == "calculate-ambiguity-distribution-shift"
+    assert "shift_weights" in payload
+    assert payload["scenario_names"] == ["source", "shifted"]

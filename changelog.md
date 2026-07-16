@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added fixture-backed ambiguity and distribution-shift VOI with robust
+  radius scoring, source-target drift sensitivity, scenario regret, CLI support,
+  and explicit parity/open-data stable-promotion gates.
 - Added a fixture-backed equity-information VOI runtime, CLI, deterministic
   contract, subgroup allocation diagnostics, and explicit parity/open-data
   promotion gates. The method remains fixture-backed pending external evidence.

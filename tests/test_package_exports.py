@@ -6,6 +6,7 @@ from importlib.metadata import version as package_version
 
 import voiage
 from voiage import (
+    AmbiguityDistributionShiftResult,
     DecisionAnalysis,
     DecisionOption,
     DistributionalEquityResult,
@@ -53,6 +54,9 @@ from voiage import (
 )
 from voiage import schema as schema_module
 from voiage import (
+    value_of_ambiguity_distribution_shift as top_level_value_of_ambiguity_distribution_shift,
+)
+from voiage import (
     value_of_distributional_equity as top_level_value_of_distributional_equity,
 )
 from voiage import (
@@ -93,6 +97,9 @@ from voiage.core.utils import (
 )
 from voiage.core.utils import (
     check_input_array as check_input_array_impl,
+)
+from voiage.methods import (
+    AmbiguityDistributionShiftResult as MethodsAmbiguityDistributionShiftResult,
 )
 from voiage.methods import (
     CEAFResult,
@@ -148,6 +155,12 @@ from voiage.methods import (
     ValueOfPerspectiveResult as MethodsValueOfPerspectiveResult,
 )
 from voiage.methods.adaptive import adaptive_evsi as adaptive_evsi_impl
+from voiage.methods.ambiguity_distribution_shift import (
+    AmbiguityDistributionShiftResult as AmbiguityDistributionShiftResult_impl,
+)
+from voiage.methods.ambiguity_distribution_shift import (
+    value_of_ambiguity_distribution_shift as value_of_ambiguity_distribution_shift_impl,
+)
 from voiage.methods.basic import evpi as evpi_impl
 from voiage.methods.basic import evppi as evppi_impl
 from voiage.methods.calibration import voi_calibration as voi_calibration_impl
@@ -271,6 +284,10 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert CEAFResult is CEAFResult_impl
     assert DominanceResult is DominanceResult_impl
     assert DistributionalEquityResult is DistributionalEquityResult_impl
+    assert AmbiguityDistributionShiftResult is AmbiguityDistributionShiftResult_impl
+    assert (
+        MethodsAmbiguityDistributionShiftResult is AmbiguityDistributionShiftResult_impl
+    )
     assert EquityInformationResult is EquityInformationResult_impl
     assert MethodsEquityInformationResult is EquityInformationResult_impl
     assert ImplementationAdjustedResult is ImplementationAdjustedResult_impl
@@ -336,6 +353,7 @@ def test_backends_package_exports_are_curated() -> None:
 def test_methods_package_exports_are_curated() -> None:
     """Method package exports should remain stable curated symbols."""
     assert methods_module.__all__ == [
+        "AmbiguityDistributionShiftResult",
         "CEAFResult",
         "CausalTransportabilityResult",
         "ComputationalResult",
@@ -380,6 +398,7 @@ def test_methods_package_exports_are_curated() -> None:
         "sequential_voi",
         "structural_evpi",
         "structural_evppi",
+        "value_of_ambiguity_distribution_shift",
         "value_of_causal_transportability",
         "value_of_computational_refinement",
         "value_of_data_quality",
@@ -419,6 +438,7 @@ def test_plot_package_exports_point_to_leaf_implementations() -> None:
 def test_top_level_package_exports_modules() -> None:
     """Top-level package exports should remain stable curated API symbols."""
     assert voiage.__all__ == [
+        "AmbiguityDistributionShiftResult",
         "CausalTransportabilityResult",
         "ComputationalResult",
         "DataQualityResult",
@@ -470,6 +490,7 @@ def test_top_level_package_exports_modules() -> None:
         "plot",
         "preference_optimal_strategies",
         "schema",
+        "value_of_ambiguity_distribution_shift",
         "value_of_causal_transportability",
         "value_of_computational_refinement",
         "value_of_data_quality",
@@ -539,5 +560,9 @@ def test_top_level_package_exports_point_to_modules() -> None:
         top_level_value_of_distributional_equity is value_of_distributional_equity_impl
     )
     assert top_level_value_of_equity_information is value_of_equity_information_impl
+    assert (
+        top_level_value_of_ambiguity_distribution_shift
+        is value_of_ambiguity_distribution_shift_impl
+    )
     assert top_level_value_of_perspective is value_of_perspective_impl
     assert voiage.__version__ == package_version("voiage")

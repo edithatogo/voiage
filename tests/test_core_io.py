@@ -85,6 +85,16 @@ def test_value_array_csv_single_row_round_trip(tmp_path: Path) -> None:
     assert restored.strategy_names == ["A", "B"]
 
 
+def test_value_array_csv_single_value_round_trip(tmp_path: Path) -> None:
+    filepath = tmp_path / "single_value_value_array.csv"
+    filepath.write_text("1\n")
+
+    restored = read_value_array_csv(str(filepath), option_names=["A"])
+
+    assert restored.numpy_values.shape == (1, 1)
+    assert restored.numpy_values.tolist() == [[1.0]]
+
+
 def test_value_array_csv_option_name_mismatch(tmp_path: Path) -> None:
     filepath = tmp_path / "value_array.csv"
     filepath.write_text("1,2\n3,4\n")
