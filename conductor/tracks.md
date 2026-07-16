@@ -505,10 +505,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
-*Link: [./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
+## [x] Track: AI-Assisted Evidence Triage VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./archive/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
 *Execution order: 19 of 32*
-*Status: recommended method track for valuing AI-assisted screening, extraction, prioritization, audit, and evidence-review automation.*
+*Status: fixture-backed AI-assisted evidence-triage runtime, CLI, human-in-the-loop audit diagnostics, deterministic property/contract fixtures, Astro documentation, governance registration, and hosted CI are complete; licensed corpus/model validation, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 

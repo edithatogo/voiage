@@ -48,7 +48,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Cross-Language And Quality Gates' (Protocol in workflow.md)
 
-## Phase 4: Mature Stable Promotion Review [checkpoint: 4128707]
+## Phase 4: Mature Stable Promotion Review [checkpoint: d1c5d78]
 
 - [x] Task: Complete the frontier stable-promotion checklist and record the go/no-go decision. (4128707)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -77,3 +77,4 @@
 - Automated Conductor review completed 2026-07-17; no unresolved correctness or contract blockers remained after the focused tests, full coverage, tox, and frontier validation.
 - Implementation commit: `4128707`; git note records the runtime, CLI, fixture, documentation, tests, validation, and external gates.
 - Promotion decision: no-go for mature/stable status. The method remains `fixture-backed` pending a licensed evidence corpus, external model validation, Rust/binding parity, and stable-promotion approval.
+- Archive decision: repository-owned implementation and hosted CI are complete; promotion remains blocked until the external gates above are evidenced.
