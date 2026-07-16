@@ -2,7 +2,7 @@
 
 ## Phase 1: Contract And Maturity Boundary [checkpoint: ]
 
-- [x] Task: Audit existing implementation, threshold, perspective, and frontier contract surfaces for overlap and compatibility. (`pending`)
+- [x] Task: Audit existing implementation, threshold, perspective, and frontier contract surfaces for overlap and compatibility. (`33d969e`)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
@@ -72,7 +72,7 @@
 
 ## Execution Evidence
 
-- Implementation commit: recorded below after the implementation commit is created.
+- Implementation commit: `33d969e` (`feat: add regulatory market access voi`).
 - Focused tests: `uv run pytest tests/test_regulatory_market_access.py tests/test_regulatory_market_access_cli.py tests/test_package_exports.py tests/test_cli_comprehensive.py --no-cov` — 39 passed.
 - Full coverage: `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90` — 1375 passed, 10 skipped, 90.02%.
 - Quality gates: `uv run --with tox tox -e lint,harness,typecheck,docs,frontier-contract,version-sync` — passed.
