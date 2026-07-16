@@ -14,10 +14,20 @@ MANIFEST = Path(
 def test_manifest_indexes_cpu_reference_and_external_gates() -> None:
     index = validate_manifest(MANIFEST)
     assert [item["backend"] for item in index["packets"]] == [
-        "cpu", "gpu", "tpu", "metal", "fpga", "asic"
+        "cpu",
+        "gpu",
+        "tpu",
+        "metal",
+        "fpga",
+        "asic",
     ]
     assert [item["status"] for item in index["packets"]] == [
-        "passed", "blocked", "blocked", "blocked", "not_available", "not_available"
+        "passed",
+        "blocked",
+        "blocked",
+        "blocked",
+        "not_available",
+        "not_available",
     ]
     assert all(item["sha256"] for item in index["packets"])
 
@@ -33,6 +43,8 @@ def test_passed_packet_cannot_overclaim_representative_workload(tmp_path: Path) 
         encoding="utf-8",
     )
     manifest = tmp_path / "manifest.json"
-    manifest.write_text('{"packets":[{"artifact_path":"packet.json"}]}', encoding="utf-8")
+    manifest.write_text(
+        '{"packets":[{"artifact_path":"packet.json"}]}', encoding="utf-8"
+    )
     with pytest.raises(ValueError, match="production workload_scale"):
         validate_manifest(manifest)
