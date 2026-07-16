@@ -26,6 +26,7 @@ from .dynamic_real_options import (
     DynamicRealOptionsResult,
     value_of_dynamic_real_options,
 )
+from .expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
 from .heterogeneity import (
     HeterogeneityResult,
     identify_optimal_subgroups,
@@ -80,6 +81,7 @@ __all__ = [
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
+    "ExpertSynthesisResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
@@ -118,6 +120,7 @@ __all__ = [
     "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
+    "value_of_expert_synthesis",
     "value_of_heterogeneity",
     "value_of_implementation",
     "value_of_model_validation",

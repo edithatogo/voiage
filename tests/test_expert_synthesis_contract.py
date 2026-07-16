@@ -37,6 +37,8 @@ def test_expert_synthesis_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(expert_set_schema).validate(expert_set_example)
     Draft202012Validator(expert_result_schema).validate(expert_result_example)
 
-    assert expert_set_schema["title"] == "ExpertSynthesisSetV1Planned"
-    assert expert_result_schema["title"] == "ValueOfExpertSynthesisResultV1Planned"
+    assert expert_set_schema["title"] == "ExpertSynthesisSetV1FixtureBacked"
+    assert (
+        expert_result_schema["title"] == "ValueOfExpertSynthesisResultV1FixtureBacked"
+    )
     assert expert_result_example["analysis_type"] == "value_of_expert_synthesis"

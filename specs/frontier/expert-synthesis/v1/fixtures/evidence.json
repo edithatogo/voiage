@@ -1,0 +1,22 @@
+{
+  "contract": "value-of-expert-synthesis-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/expert-synthesis-set.schema.json", "sha256": "fbd6778e091c7b06260dda462641d6346bae24f0a4adaf09fa0bc99c39345282"},
+    {"path": "schemas/value-of-expert-synthesis-result.schema.json", "sha256": "8d8d36d01f74609fff45771224b6a90e6960fca578a88685c1b29e9df3fd1f5f"},
+    {"path": "fixtures/normative/expert-synthesis-set.json", "sha256": "325700a70a9045a7355970320d5e579286dba02e869597d5dc814de398e5cf8e"},
+    {"path": "fixtures/normative/value-of-expert-synthesis.json", "sha256": "218832b4490c88a470c9e2f3e79fe323874fa23a4497826ba98424e0bdf90051"},
+    {"path": "../../../../voiage/methods/expert_synthesis.py", "sha256": "d6a876eb4c9f6cfee6967a0beed96a76091edf58316d7f8937e306b089de1d91"}
+  ],
+  "open_data": {
+    "status": "blocked_external",
+    "evidence": "Expert judgments and evidence-conflict annotations are domain- and attribution-sensitive; no licensed committed dataset currently supports a reproducible general-purpose synthesis snapshot.",
+    "next_action": "Add an appropriately licensed calibration or evidence-synthesis dataset with provenance and bias-adjustment permissions.",
+    "license_gate": "Confirm permissions for expert-level metadata, source attribution, and derived synthesis transforms."
+  },
+  "parity": {"python": "verified", "rust": "deferred_with_rationale", "r": "not_verified", "typescript": "not_verified"},
+  "parity_rationale": "The Python implementation is the reference runtime; cross-language parity is deferred until elicitation and conflict-adjustment semantics are reviewed.",
+  "external_gates": ["Expert-data attribution and bias review", "Cross-language conformance and Rust parity review", "Mature/stable method approval"]
+}

@@ -44,6 +44,7 @@ from .methods.dynamic_real_options import (
     DynamicRealOptionsResult,
     value_of_dynamic_real_options,
 )
+from .methods.expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
 from .methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
@@ -100,6 +101,7 @@ __all__ = [
     "DecisionOption",
     "DistributionalEquityResult",
     "DynamicRealOptionsResult",
+    "ExpertSynthesisResult",
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
@@ -145,6 +147,7 @@ __all__ = [
     "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
+    "value_of_expert_synthesis",
     "value_of_implementation",
     "value_of_model_validation",
     "value_of_perspective",
