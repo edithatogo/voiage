@@ -76,6 +76,8 @@
   fixture were audited as repository-owned implementation.
 - Added the seven-perspective stakeholder catalog and hash-pinned evidence
   manifest in ``specs/frontier/perspective/v1/fixtures``.
+- Commit ``4fc614d`` records this contract-boundary checkpoint and its review
+  note.
 - The real-data gate remains explicit: no committed dataset currently supports
   defensible payer, societal, patient, provider, regulator, and equity-weighted
   transforms from the same outcome/cost basis.
