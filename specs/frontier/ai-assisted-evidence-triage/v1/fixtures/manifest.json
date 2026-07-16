@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_ai_assisted_evidence_triage",
+  "normative": [
+    {
+      "name": "human-in-the-loop evidence triage economics",
+      "method_family": "value_of_ai_assisted_evidence_triage",
+      "input_artifact": "normative/ai-assisted-evidence-triage-input.json",
+      "expected_output_artifact": "normative/value-of-ai-assisted-evidence-triage.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "licensed-corpus-model-validation-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}

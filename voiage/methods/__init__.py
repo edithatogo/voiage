@@ -5,6 +5,10 @@ from .adaptive_learning_bandit import (
     AdaptiveLearningBanditResult,
     value_of_adaptive_learning_bandit,
 )
+from .ai_assisted_evidence_triage import (
+    AIAssistedEvidenceTriageResult,
+    value_of_ai_assisted_evidence_triage,
+)
 from .ambiguity_distribution_shift import (
     AmbiguityDistributionShiftResult,
     value_of_ambiguity_distribution_shift,
@@ -102,6 +106,7 @@ from .validation import (
 )
 
 __all__ = [
+    "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
     "CEAFResult",
@@ -151,6 +156,7 @@ __all__ = [
     "structural_evpi",
     "structural_evppi",
     "value_of_adaptive_learning_bandit",
+    "value_of_ai_assisted_evidence_triage",
     "value_of_ambiguity_distribution_shift",
     "value_of_capacity_budget_constrained",
     "value_of_causal_transportability",

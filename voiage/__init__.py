@@ -30,6 +30,10 @@ from .methods.adaptive_learning_bandit import (
     AdaptiveLearningBanditResult,
     value_of_adaptive_learning_bandit,
 )
+from .methods.ai_assisted_evidence_triage import (
+    AIAssistedEvidenceTriageResult,
+    value_of_ai_assisted_evidence_triage,
+)
 from .methods.ambiguity_distribution_shift import (
     AmbiguityDistributionShiftResult,
     value_of_ambiguity_distribution_shift,
@@ -122,6 +126,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
     __version__ = "0.0.0"
 
 __all__ = [
+    "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
     "CapacityBudgetConstrainedResult",
@@ -178,6 +183,7 @@ __all__ = [
     "preference_optimal_strategies",
     "schema",
     "value_of_adaptive_learning_bandit",
+    "value_of_ai_assisted_evidence_triage",
     "value_of_ambiguity_distribution_shift",
     "value_of_capacity_budget_constrained",
     "value_of_causal_transportability",
