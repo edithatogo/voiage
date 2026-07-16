@@ -1,0 +1,10 @@
+{
+  "family": "value_of_regulatory_market_access",
+  "method_maturity": "fixture-backed",
+  "stable_promotion": false,
+  "open_data_status": "blocked: no calibrated regulatory or payer evidence snapshot committed",
+  "model_validation_status": "deferred: approval and reimbursement scenarios are synthetic fixtures",
+  "parity_status": "deferred: no Rust or binding adapter contract committed",
+  "next_gate": "calibrated-regulatory-payer-data-and-cross-language-parity",
+  "governance_boundary": "access delay and evidence-package cost are explicit deductions from expected access value"
+}

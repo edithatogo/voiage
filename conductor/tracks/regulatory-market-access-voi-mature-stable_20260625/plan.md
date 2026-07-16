@@ -2,7 +2,7 @@
 
 ## Phase 1: Contract And Maturity Boundary [checkpoint: ]
 
-- [ ] Task: Audit existing implementation, threshold, perspective, and frontier contract surfaces for overlap and compatibility.
+- [x] Task: Audit existing implementation, threshold, perspective, and frontier contract surfaces for overlap and compatibility. (`33d969e`)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
@@ -69,3 +69,12 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Execution Evidence
+
+- Implementation commit: `33d969e` (`feat: add regulatory market access voi`).
+- Focused tests: `uv run pytest tests/test_regulatory_market_access.py tests/test_regulatory_market_access_cli.py tests/test_package_exports.py tests/test_cli_comprehensive.py --no-cov` — 39 passed.
+- Full coverage: `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90` — 1375 passed, 10 skipped, 90.02%.
+- Quality gates: `uv run --with tox tox -e lint,harness,typecheck,docs,frontier-contract,version-sync` — passed.
+- Frontier contract: `python scripts/validate_frontier_contract.py` — 22 families validated.
+- Maturity decision: remain `fixture-backed`; calibrated regulatory/payer data, open-data provenance, cross-language/Rust parity, and mature/stable governance approval remain external gates.

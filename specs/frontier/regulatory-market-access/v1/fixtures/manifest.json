@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_regulatory_market_access",
+  "normative": [
+    {
+      "name": "regulatory approval and market-access information value",
+      "method_family": "value_of_regulatory_market_access",
+      "input_artifact": "normative/regulatory-market-access-input.json",
+      "expected_output_artifact": "normative/value-of-regulatory-market-access.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "calibrated-regulatory-payer-data-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}

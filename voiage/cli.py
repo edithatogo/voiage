@@ -113,6 +113,9 @@ from voiage.methods.preference import (
     PreferenceProfile,
     PreferenceProfileSet,
 )
+from voiage.methods.regulatory_market_access import (
+    value_of_regulatory_market_access as calculate_market_access_result,
+)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.structural import structural_evpi, structural_evppi
@@ -427,6 +430,25 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "standardization_costs": [1.0, 1.0, 1.0, 1.0],
         "reuse_probabilities": [0.8, 0.4, 0.7, 0.2],
         "harmonization_threshold": 0.5,
+    },
+    "regulatory-market-access": {
+        "command": "calculate-regulatory-market-access",
+        "description": "Template for fixture-backed regulatory and market-access VOI inputs.",
+        "scenario_values": [10.0, 8.0, 6.0, 4.0],
+        "approval_probabilities": [0.8, 0.5, 0.3, 0.2],
+        "reimbursement_probabilities": [0.7, 0.5, 0.2, 0.1],
+        "access_delays_months": [2.0, 4.0, 8.0, 12.0],
+        "evidence_package_costs": [1.0, 1.0, 1.0, 1.0],
+        "label_expansion_values": [3.0, 2.0, 1.0, 0.5],
+        "price_threshold_values": [2.0, 1.0, 0.5, 0.25],
+        "scenario_names": [
+            "approved",
+            "restricted_label",
+            "coverage_evidence",
+            "rejected",
+        ],
+        "approval_threshold": 0.5,
+        "monthly_access_delay_cost": 0.1,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4402,6 +4424,70 @@ def calculate_interoperability_standardization(
         typer.echo(
             _format_output(
                 f"Interoperability and standardization VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-regulatory-market-access")
+def calculate_regulatory_market_access(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed regulatory and market-access VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_market_access_result(
+            payload["scenario_values"],
+            payload["approval_probabilities"],
+            payload["reimbursement_probabilities"],
+            payload["access_delays_months"],
+            payload["evidence_package_costs"],
+            payload["label_expansion_values"],
+            payload["price_threshold_values"],
+            scenario_names=cast("list[str] | None", payload.get("scenario_names")),
+            approval_threshold=float(payload.get("approval_threshold", 0.5)),
+            monthly_access_delay_cost=float(
+                payload.get("monthly_access_delay_cost", 0.0)
+            ),
+        )
+        result_payload = {
+            "analysis_type": "value_of_regulatory_market_access",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_scenario_indices": result.selected_scenario_indices.tolist(),
+            "scenario_names": result.scenario_names,
+            "approval_probability": result.approval_probability,
+            "reimbursement_probability": result.reimbursement_probability,
+            "joint_access_probability": result.joint_access_probability,
+            "regulatory_uncertainty": result.regulatory_uncertainty,
+            "payer_uncertainty": result.payer_uncertainty,
+            "access_delay_months": result.access_delay_months,
+            "access_delay_cost": result.access_delay_cost,
+            "evidence_package_cost": result.evidence_package_cost,
+            "label_expansion_value": result.label_expansion_value,
+            "price_threshold_value": result.price_threshold_value,
+            "expected_access_value": result.expected_access_value,
+            "baseline_value": result.baseline_value,
+            "expected_value_market_access_information": result.expected_value_market_access_information,
+            "approval_threshold": result.approval_threshold,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Regulatory and market-access VOI: {result.value:.6f}",
                 result_payload,
             )
         )
