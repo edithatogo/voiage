@@ -43,6 +43,9 @@ from voiage.methods.ambiguity_distribution_shift import (
 )
 from voiage.methods.basic import evpi, evppi
 from voiage.methods.calibration import voi_calibration
+from voiage.methods.capacity_budget_constrained import (
+    value_of_capacity_budget_constrained as calculate_capacity_budget_result,
+)
 from voiage.methods.causal_transportability import (
     value_of_causal_transportability as calculate_causal_transportability_result,
 )
@@ -349,6 +352,17 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "exploration_cost": 0.01,
         "confidence": 2.0,
         "seed": 0,
+    },
+    "capacity-budget-constrained": {
+        "command": "calculate-capacity-budget-constrained",
+        "description": "Template for fixture-backed budget and capacity-constrained VOI inputs.",
+        "scenario_values": [[10.0, 8.0, 4.0], [6.0, 11.0, 9.0], [12.0, 7.0, 10.0]],
+        "strategy_names": ["small", "balanced", "large"],
+        "strategy_costs": [2.0, 5.0, 8.0],
+        "strategy_capacity": [1.0, 2.0, 4.0],
+        "budget": 5.0,
+        "capacity": 2.0,
+        "information_cost": 0.0,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4048,6 +4062,58 @@ def calculate_adaptive_learning_bandit(
     except (json.JSONDecodeError, TypeError, ValueError) as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-capacity-budget-constrained")
+def calculate_capacity_budget_constrained(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed constrained-budget and capacity VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_capacity_budget_result(
+            payload["scenario_values"],
+            strategy_costs=payload["strategy_costs"],
+            strategy_capacity=payload["strategy_capacity"],
+            budget=float(payload["budget"]),
+            capacity=float(payload["capacity"]),
+            strategy_names=cast("list[str] | None", payload.get("strategy_names")),
+            information_cost=float(payload.get("information_cost", 0.0)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_capacity_budget_constrained",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_strategy": result.selected_strategy,
+            "strategy_names": result.strategy_names,
+            "expected_values": result.expected_values.tolist(),
+            "scenario_optimal_strategies": result.scenario_optimal_strategies,
+            "budget": result.budget,
+            "capacity": result.capacity,
+            "budget_impact": result.budget_impact,
+            "capacity_shortfall": result.capacity_shortfall,
+            "constrained_regret": result.constrained_regret,
+            "opportunity_cost": result.opportunity_cost,
+            "shadow_price_budget": result.shadow_price_budget,
+            "shadow_price_capacity": result.shadow_price_capacity,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Capacity and budget-constrained VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e

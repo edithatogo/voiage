@@ -35,6 +35,10 @@ from .methods.ambiguity_distribution_shift import (
     value_of_ambiguity_distribution_shift,
 )
 from .methods.basic import evpi, evppi
+from .methods.capacity_budget_constrained import (
+    CapacityBudgetConstrainedResult,
+    value_of_capacity_budget_constrained,
+)
 from .methods.causal_transportability import (
     CausalTransportabilityResult,
     value_of_causal_transportability,
@@ -116,6 +120,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
 __all__ = [
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
+    "CapacityBudgetConstrainedResult",
     "CausalTransportabilityResult",
     "ComputationalResult",
     "DataQualityResult",
@@ -169,6 +174,7 @@ __all__ = [
     "schema",
     "value_of_adaptive_learning_bandit",
     "value_of_ambiguity_distribution_shift",
+    "value_of_capacity_budget_constrained",
     "value_of_causal_transportability",
     "value_of_computational_refinement",
     "value_of_data_quality",

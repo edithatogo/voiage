@@ -1,0 +1,7 @@
+{
+  "value": 1.6666666666666667,
+  "selected_strategy": "small",
+  "scenario_optimal_strategies": ["small", "balanced", "small"],
+  "constrained_regret": 1.6666666666666667,
+  "method_maturity": "fixture-backed"
+}

@@ -735,6 +735,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-equity-information",
         "calculate-ambiguity-distribution-shift",
         "calculate-adaptive-learning-bandit",
+        "calculate-capacity-budget-constrained",
         "calculate-dynamic-real-options",
         "calculate-ceaf",
         "calculate-dominance",

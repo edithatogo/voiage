@@ -81,6 +81,11 @@
       "name": "value_of_adaptive_learning_bandit",
       "path": "adaptive-learning-bandit/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_capacity_budget_constrained",
+      "path": "capacity-budget-constrained/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [
