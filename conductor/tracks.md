@@ -526,10 +526,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Regulatory And Market-Access VOI Mature Stable Path
-*Link: [./tracks/regulatory-market-access-voi-mature-stable_20260625/](./tracks/regulatory-market-access-voi-mature-stable_20260625/)*
+## [x] Track: Regulatory And Market-Access VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/regulatory-market-access-voi-mature-stable_20260625/](./archive/regulatory-market-access-voi-mature-stable_20260625/)*
 *Execution order: 22 of 32*
-*Status: recommended method track for valuing evidence that changes approval, reimbursement, label, pricing, coverage, or access decisions.*
+*Status: fixture-backed regulatory/market-access runtime, CLI, approval/reimbursement/label/pricing/coverage diagnostics, deterministic property/contract fixtures, Astro documentation, governance registration, and hosted CI are complete; calibrated regulatory/payer data, open-data provenance, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 
