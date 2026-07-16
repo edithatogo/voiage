@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/implementation-strategy/v1/schemas/value-of-implementation-strategy-result.schema.json",
+  "title": "ValueOfImplementationStrategyResultV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["analysis_id", "decision_problem_id", "analysis_type", "method_maturity", "value", "implementation_value", "strategy_names", "expected_net_benefits", "optimal_strategy_by_period", "uptake_matrix", "adherence_matrix", "coverage_matrix", "implementation_delay_matrix", "scale_up_cost_matrix", "population_impact_matrix", "implementation_multiplier_matrix", "adoption_uncertainty_matrix", "population_impact_by_strategy", "reporting"],
+  "properties": {
+    "analysis_id": {"type": "string", "minLength": 1}, "decision_problem_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "value_of_implementation_strategy_comparison"},
+    "method_maturity": {"const": "fixture-backed"},
+    "value": {"type": "number", "minimum": 0}, "implementation_value": {"type": "number", "minimum": 0},
+    "strategy_names": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "expected_net_benefits": {"type": "array"}, "optimal_strategy_by_period": {"type": "object"},
+    "uptake_matrix": {"type": "array"}, "adherence_matrix": {"type": "array"}, "coverage_matrix": {"type": "array"},
+    "implementation_delay_matrix": {"type": "array"}, "scale_up_cost_matrix": {"type": "array"},
+    "population_impact_matrix": {"type": "array"}, "implementation_multiplier_matrix": {"type": "array"},
+    "adoption_uncertainty_matrix": {"type": "array"}, "population_impact_by_strategy": {"type": "object"},
+    "reporting": {"type": "object"}, "diagnostics": {"type": "object"}
+  }
+}

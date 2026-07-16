@@ -49,6 +49,10 @@ from .methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from .methods.implementation_strategy import (
+    ImplementationStrategyComparisonResult,
+    value_of_implementation_strategy_comparison,
+)
 from .methods.monitoring_surveillance import (
     MonitoringSurveillanceResult,
     value_of_monitoring_surveillance,
@@ -108,6 +112,7 @@ __all__ = [
     "ExpertSynthesisResult",
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
+    "ImplementationStrategyComparisonResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
     "ParameterSet",
@@ -154,6 +159,7 @@ __all__ = [
     "value_of_dynamic_real_options",
     "value_of_expert_synthesis",
     "value_of_implementation",
+    "value_of_implementation_strategy_comparison",
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",

@@ -1,0 +1,192 @@
+{
+  "analysis_id": "implementation-strategy-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_implementation_strategy_comparison",
+  "method_maturity": "fixture-backed",
+  "value": 0.0,
+  "implementation_value": 0.0,
+  "strategy_names": [
+    "status_quo",
+    "training_support",
+    "digital_scale_up"
+  ],
+  "expected_net_benefits": [
+    [
+      7.22,
+      3.1831249999999995,
+      1.2662500000000005
+    ],
+    [
+      7.710679611650486,
+      5.268543689320389,
+      3.743922330097088
+    ],
+    [
+      7.213875011782448,
+      7.118097841455369,
+      6.477074182298048
+    ]
+  ],
+  "optimal_strategy_by_period": {
+    "0": "status_quo",
+    "1": "status_quo",
+    "2": "status_quo"
+  },
+  "uptake_matrix": [
+    [
+      0.95,
+      0.7,
+      0.55
+    ],
+    [
+      0.95,
+      0.8,
+      0.7
+    ],
+    [
+      0.95,
+      0.9,
+      0.82
+    ]
+  ],
+  "adherence_matrix": [
+    [
+      0.95,
+      0.75,
+      0.65
+    ],
+    [
+      0.95,
+      0.8,
+      0.72
+    ],
+    [
+      0.95,
+      0.85,
+      0.78
+    ]
+  ],
+  "coverage_matrix": [
+    [
+      0.8,
+      0.65,
+      0.5
+    ],
+    [
+      0.8,
+      0.72,
+      0.62
+    ],
+    [
+      0.8,
+      0.78,
+      0.72
+    ]
+  ],
+  "implementation_delay_matrix": [
+    [
+      0.0,
+      1.0,
+      2.0
+    ],
+    [
+      0.0,
+      0.8,
+      1.4
+    ],
+    [
+      0.0,
+      0.6,
+      1.0
+    ]
+  ],
+  "scale_up_cost_matrix": [
+    [
+      0.0,
+      0.8,
+      1.2
+    ],
+    [
+      0.0,
+      0.7,
+      1.0
+    ],
+    [
+      0.0,
+      0.6,
+      0.8
+    ]
+  ],
+  "population_impact_matrix": [
+    [
+      0.0,
+      0.4,
+      0.5
+    ],
+    [
+      0.0,
+      0.6,
+      0.8
+    ],
+    [
+      0.0,
+      0.8,
+      1.2
+    ]
+  ],
+  "implementation_multiplier_matrix": [
+    [
+      0.722,
+      0.34124999999999994,
+      0.17875000000000002
+    ],
+    [
+      0.722,
+      0.4608000000000001,
+      0.31248
+    ],
+    [
+      0.722,
+      0.5967,
+      0.4605119999999999
+    ]
+  ],
+  "adoption_uncertainty_matrix": [
+    [
+      0.278,
+      0.6587500000000001,
+      0.82125
+    ],
+    [
+      0.278,
+      0.5391999999999999,
+      0.68752
+    ],
+    [
+      0.278,
+      0.4033,
+      0.5394880000000001
+    ]
+  ],
+  "population_impact_by_strategy": {
+    "status_quo": 0.0,
+    "training_support": 1.8,
+    "digital_scale_up": 2.5
+  },
+  "diagnostics": {
+    "analysis_id": "implementation-strategy-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "n_periods": 3,
+    "n_strategies": 3,
+    "baseline_expected_net_benefit": 12.666666666666666,
+    "implemented_expected_net_benefit": 7.381518207810978,
+    "mean_adoption_uncertainty": 0.4981675555555556,
+    "mean_implementation_delay": 0.7555555555555556,
+    "mean_scale_up_cost": 0.5666666666666667
+  },
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_implementation_strategy_comparison",
+    "method_maturity": "fixture-backed"
+  }
+}

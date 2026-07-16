@@ -730,6 +730,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-computational-refinement",
         "calculate-expert-synthesis",
         "calculate-monitoring-surveillance",
+        "calculate-implementation-strategy",
         "calculate-distributional-equity",
         "calculate-dynamic-real-options",
         "calculate-ceaf",
