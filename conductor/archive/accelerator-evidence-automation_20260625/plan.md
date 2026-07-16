@@ -1,11 +1,11 @@
 # Track Implementation Plan: Accelerator Evidence Automation
 
-## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: ]
+## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: complete]
 
-- [ ] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.
+- [x] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope. (`35ec45d`)
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Write or update validation tests that fail if external gates, maturity labels, or evidence states are overclaimed.
+- [x] Task: Write or update validation tests that fail if external gates, maturity labels, or evidence states are overclaimed. (`35ec45d`)
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
 - [x] Task: Define the machine-readable evidence fields, owner fields, blocked-state fields, and artifact paths for this track.
@@ -18,7 +18,7 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract, Scope, And Evidence Boundary' (Protocol in workflow.md)
 
-## Phase 2: Automation And Artifact Preparation [checkpoint: ]
+## Phase 2: Automation And Artifact Preparation [checkpoint: complete]
 
 - [x] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
@@ -29,22 +29,22 @@
 - [ ] Task: Use GitHub Actions, gh, colab, gcloud, registry tooling, or browser automation only within the tool-use limits in the specification.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
     - [ ] Preserve CPU fallback or readiness-vs-publication wording where applicable.
-- [ ] Task: Commit the automation/artifact changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
+- [x] Task: Commit the automation/artifact changes, attach a git note summary, record the short SHA in this plan, and commit the plan update. (`35ec45d`; archive update follows)
     - [ ] Stage only changes that belong to this task.
     - [ ] Commit with a Conventional Commit message.
     - [ ] Attach a git note describing changed files, evidence, tests, and the reason for the change.
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Automation And Artifact Preparation' (Protocol in workflow.md)
 
-## Phase 3: Live Evidence Or Explicit External Gate [checkpoint: ]
+## Phase 3: Live Evidence Or Explicit External Gate [checkpoint: complete]
 
-- [ ] Task: Attempt the live evidence path that is safe and available from this repository or the authenticated tools.
+- [x] Task: Attempt the live evidence path that is safe and available from this repository or the authenticated tools.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
     - [ ] Preserve CPU fallback or readiness-vs-publication wording where applicable.
-- [ ] Task: If external approval, account access, hardware, quota, or billing is unavailable, record a blocked state with the precise gate and next action.
+- [x] Task: If external approval, account access, hardware, quota, or billing is unavailable, record a blocked state with the precise gate and next action.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Refresh the relevant audit, benchmark, fixture, or evidence manifest and link all artifacts from the track handoff or docs.
+- [x] Task: Refresh the relevant audit, benchmark, fixture, or evidence manifest and link all artifacts from the track handoff or docs.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Commit the evidence-state changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
@@ -54,18 +54,18 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Live Evidence Or Explicit External Gate' (Protocol in workflow.md)
 
-## Phase 4: Documentation, Review, And CI Closure [checkpoint: ]
+## Phase 4: Documentation, Review, And CI Closure [checkpoint: complete]
 
-- [ ] Task: Update roadmap, release docs, HPC docs, frontier docs, changelog, and todo entries affected by this track.
+- [x] Task: Update roadmap, release docs, HPC docs, frontier docs, changelog, and todo entries affected by this track.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Run focused tests, then the applicable full tox/Rust/binding gates listed in the specification.
+- [x] Task: Run focused tests, then the applicable full tox/Rust/binding gates listed in the specification.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
     - [ ] Preserve CPU fallback or readiness-vs-publication wording where applicable.
-- [ ] Task: Push the branch, monitor GitHub Actions with gh, and address CI failures before marking the track complete.
+- [x] Task: Push the branch, monitor GitHub Actions with gh, and address CI failures before marking the track complete. (PR #203; all required checks passed)
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Complete a final Conductor review, archive only when completion criteria are met, and keep unresolved external gates active.
+- [x] Task: Complete a final Conductor review, archive only when completion criteria are met, and keep unresolved external gates active.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Documentation, Review, And CI Closure' (Protocol in workflow.md)
@@ -83,3 +83,9 @@
 - Added a v1 schema and deterministic passed/blocked handoff packets under `handoff/`.
 - Focused validation: `python scripts/validate_accelerator_evidence.py conductor/tracks/accelerator-evidence-automation_20260625/handoff/accelerator-evidence-manifest.json` and `uv run pytest tests/test_accelerator_evidence_automation.py --no-cov` — 2 passed.
 - External gate: live Colab quota/authentication and local Metal hardware remain unavailable; blocked packets preserve precise reasons and CPU fallback.
+
+## Archive Decision
+
+- Archived after implementation PR #203 merged as `e7dbad4`.
+- Repository-owned schema, validator, deterministic index, and passed/blocked handoff packets are complete.
+- Live Colab quota/authentication, local Metal hardware, and production GitHub Actions-artifact ingestion remain explicit external gates; no accelerator or HPC-native claim is promoted.

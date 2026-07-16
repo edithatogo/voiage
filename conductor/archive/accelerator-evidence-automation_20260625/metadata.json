@@ -1,8 +1,8 @@
 {
   "track_id": "accelerator-evidence-automation_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T12:30:00Z",
   "description": "Standardize notebook/script execution and artifact ingestion for GPU, TPU, Metal, and future accelerator evidence."
 }

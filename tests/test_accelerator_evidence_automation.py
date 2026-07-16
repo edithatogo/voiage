@@ -7,8 +7,14 @@ import pytest
 
 from scripts.validate_accelerator_evidence import validate_manifest
 
-MANIFEST = Path(
-    "conductor/tracks/accelerator-evidence-automation_20260625/handoff/accelerator-evidence-manifest.json"
+TRACK_ID = "accelerator-evidence-automation_20260625"
+MANIFEST = next(
+    root / "handoff/accelerator-evidence-manifest.json"
+    for root in (
+        Path("conductor/tracks") / TRACK_ID,
+        Path("conductor/archive") / TRACK_ID,
+    )
+    if (root / "handoff/accelerator-evidence-manifest.json").is_file()
 )
 
 
