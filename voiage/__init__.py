@@ -49,6 +49,10 @@ from .methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from .methods.monitoring_surveillance import (
+    MonitoringSurveillanceResult,
+    value_of_monitoring_surveillance,
+)
 from .methods.perspective import (
     Perspective,
     PerspectiveSet,
@@ -105,6 +109,7 @@ __all__ = [
     "HeomlRunBundle",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
+    "MonitoringSurveillanceResult",
     "ParameterSet",
     "Perspective",
     "PerspectiveSet",
@@ -150,6 +155,7 @@ __all__ = [
     "value_of_expert_synthesis",
     "value_of_implementation",
     "value_of_model_validation",
+    "value_of_monitoring_surveillance",
     "value_of_perspective",
     "value_of_preference",
     "value_of_preference_heterogeneity",

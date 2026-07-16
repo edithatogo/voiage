@@ -36,6 +36,10 @@ from .implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from .monitoring_surveillance import (
+    MonitoringSurveillanceResult,
+    value_of_monitoring_surveillance,
+)
 from .network_nma import evsi_nma
 from .observational import voi_observational
 from .perspective import (
@@ -85,6 +89,7 @@ __all__ = [
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ModelValidationResult",
+    "MonitoringSurveillanceResult",
     "Perspective",
     "PerspectiveSet",
     "PreferenceHeterogeneityResult",
@@ -124,6 +129,7 @@ __all__ = [
     "value_of_heterogeneity",
     "value_of_implementation",
     "value_of_model_validation",
+    "value_of_monitoring_surveillance",
     "value_of_perspective",
     "value_of_preference",
     "value_of_preference_heterogeneity",

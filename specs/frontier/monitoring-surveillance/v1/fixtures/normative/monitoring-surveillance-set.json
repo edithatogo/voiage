@@ -1,0 +1,13 @@
+{
+  "analysis_id": "monitoring-surveillance-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_monitoring_surveillance",
+  "strategy_names": ["status_quo", "monitor", "revise_decision"],
+  "net_benefit": [[[10.0, 10.4, 10.8], [11.0, 11.5, 12.0], [10.5, 11.2, 12.4]]],
+  "monitoring_costs": [[0.0, 0.5, 0.8], [0.0, 0.6, 0.9], [0.0, 0.7, 1.0]],
+  "detection_delays": [[0.0, 0.2, 0.3], [0.0, 0.2, 0.2], [0.0, 0.1, 0.2]],
+  "false_signal_rates": [[0.0, 0.1, 0.15], [0.0, 0.08, 0.12], [0.0, 0.06, 0.1]],
+  "decision_revision_probabilities": [[0.0, 0.4, 0.5], [0.0, 0.5, 0.6], [0.0, 0.6, 0.8]],
+  "surveillance_frequency": 1.0,
+  "stopping_threshold": 0.5
+}

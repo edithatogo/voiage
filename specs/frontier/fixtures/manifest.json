@@ -56,6 +56,11 @@
       "name": "value_of_expert_synthesis",
       "path": "expert-synthesis/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_monitoring_surveillance",
+      "path": "monitoring-surveillance/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

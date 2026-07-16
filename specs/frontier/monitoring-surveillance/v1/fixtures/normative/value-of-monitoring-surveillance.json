@@ -1,0 +1,121 @@
+{
+  "analysis_id": "monitoring-surveillance-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "value_of_monitoring_surveillance",
+  "method_maturity": "fixture-backed",
+  "value": 0.0,
+  "monitoring_value": 0.5,
+  "signal_detection_value": 0.3777777777777778,
+  "decision_revision_value": 4.36,
+  "stopping_value": 0.0,
+  "strategy_names": [
+    "status_quo",
+    "monitor",
+    "revise_decision"
+  ],
+  "expected_net_benefits": [
+    [
+      10.0,
+      10.600000000000001,
+      9.749999999999998
+    ],
+    [
+      10.4,
+      11.120000000000001,
+      10.58
+    ],
+    [
+      10.8,
+      11.74,
+      11.900000000000002
+    ]
+  ],
+  "optimal_strategy_by_period": {
+    "0": "monitor",
+    "1": "monitor",
+    "2": "revise_decision"
+  },
+  "monitoring_cost_matrix": [
+    [
+      0.0,
+      0.5,
+      0.8
+    ],
+    [
+      0.0,
+      0.6,
+      0.9
+    ],
+    [
+      0.0,
+      0.7,
+      1.0
+    ]
+  ],
+  "detection_delay_matrix": [
+    [
+      0.0,
+      0.2,
+      0.3
+    ],
+    [
+      0.0,
+      0.2,
+      0.2
+    ],
+    [
+      0.0,
+      0.1,
+      0.2
+    ]
+  ],
+  "false_signal_rate_matrix": [
+    [
+      0.0,
+      0.1,
+      0.15
+    ],
+    [
+      0.0,
+      0.08,
+      0.12
+    ],
+    [
+      0.0,
+      0.06,
+      0.1
+    ]
+  ],
+  "decision_revision_matrix": [
+    [
+      0.0,
+      0.4,
+      0.5
+    ],
+    [
+      0.0,
+      0.5,
+      0.6
+    ],
+    [
+      0.0,
+      0.6,
+      0.8
+    ]
+  ],
+  "surveillance_frequency": 1.0,
+  "stopping_period": null,
+  "diagnostics": {
+    "analysis_id": "monitoring-surveillance-screening-001",
+    "decision_problem_id": "screening-program-001",
+    "n_periods": 3,
+    "n_strategies": 3,
+    "expected_detection_delay": 0.13333333333333333,
+    "false_signal_rate": 0.06777777777777777
+  },
+  "reporting": {
+    "reporting_standard": "CHEERS-VOI",
+    "analysis_type": "value_of_monitoring_surveillance",
+    "method_maturity": "fixture-backed"
+  }
+}

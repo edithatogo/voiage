@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [{
+    "name": "periodic monitoring and signal detection",
+    "method_family": "value_of_monitoring_surveillance",
+    "input_artifact": "normative/monitoring-surveillance-set.json",
+    "expected_output_artifact": "normative/value-of-monitoring-surveillance.json",
+    "tolerance_policy": "exact",
+    "provenance": {"seed": 505, "execution_mode": "deterministic"}
+  }]
+}

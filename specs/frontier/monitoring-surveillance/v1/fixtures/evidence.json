@@ -1,0 +1,20 @@
+{
+  "version": "v1",
+  "maturity": "fixture-backed",
+  "stable": false,
+  "artifacts": {
+    "schemas/monitoring-surveillance-set.schema.json": "sha256:61770e2746aa5dbca3c44e798264d49b2f21c5feab4e1a08c5b26fdc55c60e01",
+    "schemas/value-of-monitoring-surveillance-result.schema.json": "sha256:45790d81151c2afea1701c55d691f1625f5303dafa2dd73c75377a45bd837386",
+    "fixtures/normative/monitoring-surveillance-set.json": "sha256:50e8d743a7403b37aa7b08a9cdf2c213a8b06df881c31bfe4ca0b176afe5c20e",
+    "fixtures/normative/value-of-monitoring-surveillance.json": "sha256:d7233b3f283a898eed071a730220be27f2e1f31b5c06b2297b2e1beafd68bccb",
+    "voiage/methods/monitoring_surveillance.py": "sha256:6b5afc7335153dfa02a1e306507b4dd7ed8a4b052da5dd6856f9db1953be93b3"
+  },
+  "gates": {
+    "python_runtime": "verified locally",
+    "cli": "verified locally",
+    "frontier_contract": "required in CI",
+    "open_data_attribution": "blocked: no reviewed source snapshot is committed",
+    "cross_language_parity": "deferred: no Rust/R/TypeScript adapters for this family",
+    "stable_promotion": "blocked pending open-data and parity review"
+  }
+}
