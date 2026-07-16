@@ -1,0 +1,12 @@
+{
+  "scenario_values": [10.0, 8.0, 6.0, 4.0],
+  "approval_probabilities": [0.8, 0.5, 0.3, 0.2],
+  "reimbursement_probabilities": [0.7, 0.5, 0.2, 0.1],
+  "access_delays_months": [2.0, 4.0, 8.0, 12.0],
+  "evidence_package_costs": [1.0, 1.0, 1.0, 1.0],
+  "label_expansion_values": [3.0, 2.0, 1.0, 0.5],
+  "price_threshold_values": [2.0, 1.0, 0.5, 0.25],
+  "scenario_names": ["approved", "restricted_label", "coverage_evidence", "rejected"],
+  "approval_threshold": 0.5,
+  "monthly_access_delay_cost": 0.1
+}

@@ -526,7 +526,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Regulatory And Market-Access VOI Mature Stable Path
+## [~] Track: Regulatory And Market-Access VOI Mature Stable Path
 *Link: [./tracks/regulatory-market-access-voi-mature-stable_20260625/](./tracks/regulatory-market-access-voi-mature-stable_20260625/)*
 *Execution order: 22 of 32*
 *Status: recommended method track for valuing evidence that changes approval, reimbursement, label, pricing, coverage, or access decisions.*

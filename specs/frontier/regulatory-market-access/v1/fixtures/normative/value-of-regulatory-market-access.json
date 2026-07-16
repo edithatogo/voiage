@@ -1,0 +1,18 @@
+{
+  "value": 4.7,
+  "selected_scenario_indices": [0],
+  "approval_probability": 0.8,
+  "reimbursement_probability": 0.7,
+  "joint_access_probability": 0.56,
+  "regulatory_uncertainty": 0.55,
+  "payer_uncertainty": 0.625,
+  "access_delay_months": 2.0,
+  "access_delay_cost": 0.2,
+  "evidence_package_cost": 1.0,
+  "label_expansion_value": 1.68,
+  "price_threshold_value": 1.12,
+  "expected_access_value": 7.2,
+  "baseline_value": 2.5,
+  "expected_value_market_access_information": 7.2,
+  "method_maturity": "fixture-backed"
+}

@@ -1,0 +1,16 @@
+---
+title: Regulatory and market-access VOI
+description: Estimate the value of information that changes approval, reimbursement, label, price, or coverage decisions.
+---
+
+The fixture-backed `value_of_regulatory_market_access` method models approval
+and reimbursement probabilities across approved, restricted-label,
+coverage-with-evidence, and rejected scenarios. It reports regulatory and payer
+uncertainty, access delay, evidence-package cost, label expansion, and
+price-threshold value.
+
+Calibrated regulatory/payer data, cross-language parity, and mature/stable
+governance approval remain required before promotion.
+
+Use `voiage generate-config regulatory-market-access` to create a starting JSON
+payload, then run `voiage calculate-regulatory-market-access INPUT.json`.

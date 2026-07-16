@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_scenario_indices", "approval_probability", "reimbursement_probability", "expected_access_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_scenario_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "approval_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "reimbursement_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "joint_access_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "regulatory_uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
+    "payer_uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
+    "access_delay_months": {"type": "number", "minimum": 0},
+    "access_delay_cost": {"type": "number", "minimum": 0},
+    "evidence_package_cost": {"type": "number", "minimum": 0},
+    "label_expansion_value": {"type": "number", "minimum": 0},
+    "price_threshold_value": {"type": "number", "minimum": 0},
+    "expected_access_value": {"type": "number"},
+    "baseline_value": {"type": "number"},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

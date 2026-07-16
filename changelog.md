@@ -745,3 +745,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   diagnostics, plus CLI, frontier fixtures, and Astro documentation.
 - Added fixture-backed explainability and transparency VOI with adoption, trust, governance, audit-cost, CLI, Astro documentation, and frontier-contract diagnostics.
 - Added fixture-backed interoperability and standardization VOI with harmonization, evidence reuse, transformation-error, CLI, Astro documentation, and frontier-contract diagnostics.
+- Added fixture-backed regulatory and market-access VOI with approval, reimbursement, label, pricing, coverage, delay-cost, CLI, Astro documentation, and frontier-contract diagnostics.

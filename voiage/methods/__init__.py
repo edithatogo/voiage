@@ -95,6 +95,10 @@ from .preference import (
     value_of_preference_heterogeneity,
     value_of_preference_information,
 )
+from .regulatory_market_access import (
+    RegulatoryMarketAccessResult,
+    value_of_regulatory_market_access,
+)
 from .sample_information import enbs, evsi
 from .sequential import sequential_voi
 from .structural import structural_evpi, structural_evppi
@@ -140,6 +144,7 @@ __all__ = [
     "PreferenceHeterogeneityResult",
     "PreferenceProfile",
     "PreferenceProfileSet",
+    "RegulatoryMarketAccessResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
@@ -188,6 +193,7 @@ __all__ = [
     "value_of_preference",
     "value_of_preference_heterogeneity",
     "value_of_preference_information",
+    "value_of_regulatory_market_access",
     "value_of_threshold",
     "value_of_threshold_information",
     "value_of_validation",

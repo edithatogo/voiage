@@ -1173,6 +1173,14 @@ class DecisionAnalysis:
 
         return value_of_interoperability_standardization(**kwargs)
 
+    def value_of_regulatory_market_access(self, **kwargs: object) -> object:
+        """Evaluate regulatory approval, reimbursement, and access value."""
+        from voiage.methods.regulatory_market_access import (
+            value_of_regulatory_market_access,
+        )
+
+        return value_of_regulatory_market_access(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],
