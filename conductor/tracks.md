@@ -449,10 +449,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Expert Elicitation And Evidence Synthesis Design VOI Mature Stable Path
-*Link: [./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/](./tracks/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/)*
+## [x] Track: Expert Elicitation And Evidence Synthesis Design VOI Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/](./archive/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/)*
 *Execution order: 11 of 32*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+*Status: Python runtime, result envelope, CLI, fixture-backed maturity evidence, documentation, and hosted CI are complete; expert-data attribution/bias review, cross-language/Rust parity, and mature/stable approval remain external gates.*
 
 ---
 

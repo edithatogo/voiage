@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Archived the expert-elicitation and evidence-synthesis VOI track after
+  completing its fixture-backed runtime, CLI, evidence manifest, and hosted CI
+  slice; attribution, parity, and mature approval remain gated.
 - Added a fixture-backed expert-elicitation and evidence-synthesis VOI runtime
   with calibration/disagreement diagnostics, CLI support, and explicit
   attribution/parity gates.
