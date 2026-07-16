@@ -73,6 +73,9 @@ from voiage.methods.equity_information import (
 from voiage.methods.expert_synthesis import (
     value_of_expert_synthesis as calculate_expert_synthesis_result,
 )
+from voiage.methods.explainability_transparency import (
+    value_of_explainability_transparency as calculate_explainability_result,
+)
 from voiage.methods.federated_privacy_preserving import (
     value_of_federated_privacy_preserving as calculate_federated_privacy_result,
 )
@@ -397,6 +400,18 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "automation_cost": 2.0,
         "audit_cost_per_item": 0.5,
         "reviewer_cost_per_minute": 0.1,
+    },
+    "explainability-transparency": {
+        "command": "calculate-explainability-transparency",
+        "description": "Template for fixture-backed explainability and transparency VOI inputs.",
+        "predictive_utilities": [8.0, 7.0, 6.0, 5.0],
+        "explanation_quality": [0.9, 0.4, 0.8, 0.2],
+        "transparency_evidence": [0.8, 0.3, 0.7, 0.1],
+        "trust_scores": [0.9, 0.4, 0.8, 0.2],
+        "governance_impacts": [5.0, 3.0, 4.0, 2.0],
+        "audit_costs": [1.0, 1.0, 1.0, 1.0],
+        "adoption_threshold": 0.5,
+        "transparency_weight": 0.5,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4266,6 +4281,57 @@ def calculate_ai_assisted_evidence_triage(
         typer.echo(
             _format_output(
                 f"AI-assisted evidence-triage VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-explainability-transparency")
+def calculate_explainability_transparency(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed explainability and transparency VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_explainability_result(
+            payload["predictive_utilities"],
+            payload["explanation_quality"],
+            payload["transparency_evidence"],
+            payload["trust_scores"],
+            payload["governance_impacts"],
+            payload["audit_costs"],
+            adoption_threshold=float(payload.get("adoption_threshold", 0.5)),
+            transparency_weight=float(payload.get("transparency_weight", 0.5)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_explainability_transparency",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "adopted_model_indices": result.adopted_model_indices.tolist(),
+            "adoption_probability": result.adoption_probability,
+            "transparency_value": result.transparency_value,
+            "governance_value": result.governance_value,
+            "predictive_value": result.predictive_value,
+            "trust_value": result.trust_value,
+            "robustness": result.robustness,
+            "audit_cost": result.audit_cost,
+            "adoption_threshold": result.adoption_threshold,
+            "transparency_weight": result.transparency_weight,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Explainability and transparency VOI: {result.value:.6f}",
                 result_payload,
             )
         )

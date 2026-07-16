@@ -1157,6 +1157,14 @@ class DecisionAnalysis:
 
         return value_of_federated_privacy_preserving(**kwargs)
 
+    def value_of_explainability_transparency(self, **kwargs: object) -> object:
+        """Evaluate adoption and governance value of transparent explanations."""
+        from voiage.methods.explainability_transparency import (
+            value_of_explainability_transparency,
+        )
+
+        return value_of_explainability_transparency(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

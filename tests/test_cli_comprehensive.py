@@ -738,6 +738,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-capacity-budget-constrained",
         "calculate-federated-privacy-preserving",
         "calculate-ai-assisted-evidence-triage",
+        "calculate-explainability-transparency",
         "calculate-dynamic-real-options",
         "calculate-ceaf",
         "calculate-dominance",

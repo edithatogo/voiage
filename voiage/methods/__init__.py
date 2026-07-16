@@ -47,6 +47,10 @@ from .equity_information import (
     value_of_equity_information,
 )
 from .expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
+from .explainability_transparency import (
+    ExplainabilityTransparencyResult,
+    value_of_explainability_transparency,
+)
 from .federated_privacy_preserving import (
     FederatedPrivacyPreservingResult,
     value_of_federated_privacy_preserving,
@@ -119,6 +123,7 @@ __all__ = [
     "DynamicRealOptionsResult",
     "EquityInformationResult",
     "ExpertSynthesisResult",
+    "ExplainabilityTransparencyResult",
     "FederatedPrivacyPreservingResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
@@ -166,6 +171,7 @@ __all__ = [
     "value_of_dynamic_real_options",
     "value_of_equity_information",
     "value_of_expert_synthesis",
+    "value_of_explainability_transparency",
     "value_of_federated_privacy_preserving",
     "value_of_heterogeneity",
     "value_of_implementation",

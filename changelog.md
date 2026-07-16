@@ -743,3 +743,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added fixture-backed AI-assisted evidence-triage VOI with human-in-the-loop
   audit, reviewer-time, extraction-error, model-drift, and decision-impact
   diagnostics, plus CLI, frontier fixtures, and Astro documentation.
+- Added fixture-backed explainability and transparency VOI with adoption, trust, governance, audit-cost, CLI, Astro documentation, and frontier-contract diagnostics.

@@ -1,0 +1,10 @@
+{
+  "family": "value_of_explainability_transparency",
+  "method_maturity": "fixture-backed",
+  "stable_promotion": false,
+  "open_data_status": "blocked: no licensed open-model evidence snapshot committed",
+  "model_validation_status": "deferred: deterministic model and governance values are synthetic fixtures",
+  "parity_status": "deferred: no Rust or binding adapter contract committed",
+  "next_gate": "external-model-validation-open-data-provenance-and-cross-language-parity",
+  "governance_boundary": "predictive utility is reported separately from transparency-driven adoption and governance value"
+}

@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_family": "value_of_explainability_transparency",
+  "normative": [
+    {
+      "name": "explainability adoption and governance value",
+      "method_family": "value_of_explainability_transparency",
+      "input_artifact": "normative/explainability-transparency-input.json",
+      "expected_output_artifact": "normative/value-of-explainability-transparency.json",
+      "tolerance_policy": "exact"
+    }
+  ],
+  "promotion_boundary": {
+    "stable_claim_allowed": false,
+    "next_gate": "external-model-validation-open-data-provenance-and-cross-language-parity",
+    "blocked_state": "externally-blocked"
+  }
+}
