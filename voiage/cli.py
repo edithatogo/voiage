@@ -982,6 +982,7 @@ def generate_config(
 def calculate_evpi(
     net_benefit_file: Path = typer.Argument(
         ...,
+        metavar="NET_BENEFIT_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -1168,6 +1169,7 @@ def create_distributed_large_scale(
 def calculate_evppi(
     net_benefit_file: Path = typer.Argument(
         ...,
+        metavar="NET_BENEFIT_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -1176,6 +1178,7 @@ def calculate_evppi(
     ),
     parameter_file: Path = typer.Argument(
         ...,
+        metavar="PARAMETER_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -1408,6 +1411,7 @@ def calculate_calibration(
 def calculate_evsi(
     parameter_file: Path = typer.Argument(
         ...,
+        metavar="PARAMETER_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -1416,6 +1420,7 @@ def calculate_evsi(
     ),
     trial_design_file: Path = typer.Argument(
         ...,
+        metavar="TRIAL_DESIGN_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -2511,6 +2516,7 @@ def calculate_structural_evppi(
 def calculate_nma_voi(
     config_file: Path = typer.Argument(
         ...,
+        metavar="CONFIG_FILE",
         exists=True,
         file_okay=True,
         dir_okay=False,

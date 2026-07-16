@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "v1",
+  "registry": "specs/frontier/fixtures/manifest.json",
+  "families": [
+    {"name": "value_of_perspective", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/perspective/v1"]},
+    {"name": "value_of_distributional_equity", "owner": "repository", "current_state": "experimental", "next_gate": "fixture-backed", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/distributional/v1"]},
+    {"name": "value_of_model_validation", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/validation/v1"]},
+    {"name": "value_of_threshold_information", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/threshold/v1"]},
+    {"name": "value_of_preference_information", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/preference/v1"]},
+    {"name": "value_of_implementation", "owner": "repository", "current_state": "experimental", "next_gate": "fixture-backed", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/implementation/v1"]},
+    {"name": "value_of_dynamic_real_options", "owner": "repository", "current_state": "experimental", "next_gate": "fixture-backed", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/dynamic-real-options/v1"]},
+    {"name": "value_of_causal_transportability", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/causal-transportability/v1"]},
+    {"name": "value_of_data_quality_privacy_linkage", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/data-quality/v1"]},
+    {"name": "value_of_computational_refinement", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/computational/v1"]},
+    {"name": "value_of_expert_synthesis", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/expert-synthesis/v1"]}
+  ]
+}

@@ -27,6 +27,33 @@ Promotion from one level to the next requires the criteria encoded in
 ``MATURITY_LEVELS`` inside ``voiage/governance.py``. No track may mark a method
 ``stable`` without evidence from the corresponding stable-promotion track.
 
+Stable-Promotion Evidence Matrix
+---------------------------------
+
+The machine-readable matrix is stored at
+``specs/frontier/governance/promotion-matrix.json`` and mirrored by
+``PROMOTION_MATRIX``. It keeps maturity labels separate from evidence states:
+``experimental`` requires only a runtime and public API; ``fixture-backed``
+adds deterministic fixtures, schemas, and a registry entry;
+``cross-language-parity`` adds verified binding parity; and ``stable`` also
+requires Rust-kernel parity where applicable, complete documentation,
+changelog and migration-guide entries, an explicit promotion approval, and
+public-API compatibility evidence.
+
+The ``validate_promotion_evidence`` helper rejects incomplete evidence. In
+particular, a family must not be described as stable merely because its
+fixtures parse or because one language binding happens to agree. The current
+frontier registry intentionally contains no stable frontier family until this
+matrix is satisfied.
+
+The family-level application of the matrix is maintained in
+``specs/frontier/governance/promotion-checklist.json``. It enumerates every
+fixture-registry family and records the repository owner, current state, next
+gate, blocker state, and artifact paths. The checklist is explicit about
+``stable_claim_allowed`` so downstream documentation and release tooling have
+a safe default. A false value is intentional evidence that the family is not
+yet stable; it is not a placeholder for an eventual approval.
+
 Backend Boundary
 -----------------
 

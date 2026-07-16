@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a machine-readable frontier stable-promotion evidence matrix and
+  validator. Frontier families remain fixture-backed or experimental until
+  cross-language parity, documentation, migration guidance, and explicit
+  promotion evidence are available.
 - Completed the shared code-scanning rollout by enforcing the pinned
   organization gate after both CodeQL and OpenSSF Scorecard SARIF uploads.
 - Archived all completed Conductor track records under `conductor/archive/` and
@@ -415,6 +419,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Registered the 32 genuine Conductor tracks in an explicit dependency-aware
+  execution order, separated 10 externally blocked tracks from automatic
+  selection, and archived two superseded umbrella/duplicate tracks.
 - Completed and archived the strict CI/CD quality-gates Conductor track after
   refreshing its evidence against the full tox matrix and hosted security,
   benchmark, documentation, and CI checks.
