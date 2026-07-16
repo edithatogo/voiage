@@ -32,3 +32,13 @@ def test_threshold_contract_schema_and_examples_parse() -> None:
     assert threshold_set_schema["title"] == "ThresholdSetV1FixtureBacked"
     assert threshold_result_schema["title"] == "ValueOfThresholdResultV1FixtureBacked"
     assert threshold_result_example["analysis_type"] == "value_of_threshold_information"
+
+
+def test_threshold_evidence_manifest_blocks_unverified_promotion() -> None:
+    manifest = json.loads(
+        (_threshold_contract_dir() / "fixtures" / "evidence.json").read_text()
+    )
+    assert manifest["maturity"] == "fixture-backed"
+    assert manifest["stable_claim_allowed"] is False
+    assert manifest["parity"]["python"] == "verified"
+    assert all(item["sha256"] for item in manifest["artifacts"])

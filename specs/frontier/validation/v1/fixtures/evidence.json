@@ -1,0 +1,15 @@
+{
+  "contract": "validation-voi-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "next_gate": "cross-language parity and stable promotion approval",
+  "blocked_state": "external_review_required",
+  "artifacts": [
+    {"path": "schemas/validation-set.schema.json", "sha256": "4be08d071a6c0044f976ac9f9281fb1584837d390273988c95bd3f4a5491f7ab"},
+    {"path": "schemas/value-of-model-validation-result.schema.json", "sha256": "b74585cd21057d8978b43417ca59e56ea3137ac878cfe48a39b1cfb6444a3299"},
+    {"path": "fixtures/normative/validation-surface.json", "sha256": "4ba837cbbd52d66a354f61f840367c9d5ce316bd9c65763194923c39b9b0b1c8"},
+    {"path": "fixtures/normative/value-of-model-validation.json", "sha256": "186e50585d7d8475c455e15d6094d01fc27a1f1dc90086ca1b8cbcccd6ce258d"}
+  ],
+  "parity": {"python": "verified", "rust": "not_verified", "r": "not_verified", "typescript": "not_verified"}
+}

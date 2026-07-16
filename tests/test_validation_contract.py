@@ -39,3 +39,13 @@ def test_validation_contract_schema_and_examples_parse() -> None:
         == "ValueOfModelValidationResultV1FixtureBacked"
     )
     assert validation_result_example["analysis_type"] == "value_of_model_validation"
+
+
+def test_validation_evidence_manifest_blocks_unverified_promotion() -> None:
+    manifest = json.loads(
+        (_validation_contract_dir() / "fixtures" / "evidence.json").read_text()
+    )
+    assert manifest["maturity"] == "fixture-backed"
+    assert manifest["stable_claim_allowed"] is False
+    assert manifest["parity"]["python"] == "verified"
+    assert all(item["sha256"] for item in manifest["artifacts"])

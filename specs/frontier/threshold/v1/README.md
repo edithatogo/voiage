@@ -33,6 +33,8 @@ The fixture-backed result includes:
 - threshold-crossing probability summaries
 - decision-reversal or tipping-point matrices
 - robust strategy summaries under ambiguity weights
+- `fixtures/evidence.json` records artifact hashes and keeps the fixture-backed
+  maturity and external parity gates explicit; it is not stable approval.
 - Pareto or non-dominated strategy sets across threshold profiles
 
 The contract is intentionally aligned with the Value of Perspective surface so
