@@ -31,6 +31,15 @@ and ASIC states. Visibility, setup, parity, and benchmark packets do not prove
 production speedup; an accelerator packet cannot be promoted until a reviewed
 production workload beats the CPU comparison. HPC-native remains blocked.
 
+## CPU cluster evidence
+
+The CPU cluster track records a single-process reference, a local process-scheduler
+smoke check, and an explicit multi-node blocked packet. Each packet carries the
+worker and node counts, scheduler, workload hash, warm-up, timing, throughput,
+CPU baseline, result-envelope preservation, and diagnostics preservation. Local
+parallel execution demonstrates contract behavior; it is not a claim of
+multi-node production speedup without an authenticated cluster or cloud runner.
+
 ## Contract rules
 
 - CPU behavior stays the reference path until an accelerator proves itself

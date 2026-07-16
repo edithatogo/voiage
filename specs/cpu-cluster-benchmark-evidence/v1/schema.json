@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "voiage CPU cluster benchmark evidence packet",
+  "type": "object",
+  "required": ["scheduler", "status", "owner", "source_command", "timestamp", "workload_hash", "workload_scale", "worker_count", "node_count", "warmup_iterations", "timing_seconds", "throughput", "cpu_baseline_seconds", "speedup", "claim_level", "result_envelope_preserved", "diagnostics_preserved"],
+  "properties": {
+    "status": {"enum": ["passed", "blocked", "not_available", "failed"]},
+    "workload_scale": {"enum": ["production", "representative", "smoke"]},
+    "worker_count": {"type": "integer", "minimum": 1},
+    "node_count": {"type": "integer", "minimum": 1},
+    "warmup_iterations": {"type": "integer", "minimum": 0},
+    "claim_level": {"enum": ["reference", "smoke", "production_speedup"]},
+    "result_envelope_preserved": {"type": "boolean"},
+    "diagnostics_preserved": {"type": "boolean"}
+  }
+}

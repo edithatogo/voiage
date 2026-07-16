@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added CPU cluster benchmark evidence packets and validation for single-process
+  references, local scheduler smoke checks, and explicit multi-node capacity
+  gates; local parallel execution does not imply cluster speedup.
 - Added a production-speedup evidence schema, deterministic packet validator and
   CPU/backend handoff states; accelerator promotion and HPC-native claims remain
   gated on reviewed production-scale measurements.
