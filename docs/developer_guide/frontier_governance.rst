@@ -51,7 +51,8 @@ The family-level application of the matrix is maintained in
 fixture-registry family and records the repository owner, current state, next
 gate, blocker state, and artifact paths. The checklist is explicit about
 ``stable_claim_allowed`` so downstream documentation and release tooling have
-a safe default.
+a safe default. A false value is intentional evidence that the family is not
+yet stable; it is not a placeholder for an eventual approval.
 
 Backend Boundary
 -----------------
