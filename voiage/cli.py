@@ -41,6 +41,9 @@ from voiage.methods.causal_transportability import (
     value_of_causal_transportability as calculate_causal_transportability_result,
 )
 from voiage.methods.ceaf import calculate_ceaf as calculate_ceaf_result
+from voiage.methods.computational import (
+    value_of_computational_refinement as calculate_computational_result,
+)
 from voiage.methods.data_quality import (
     value_of_data_quality as calculate_data_quality_result,
 )
@@ -236,6 +239,19 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "measurement_error_rates": [[0.05, 0.12, 0.2], [0.08, 0.15, 0.25]],
         "linkage_weights": [[1.0, 0.8, 0.6], [0.9, 0.7, 0.5]],
         "reference_data_quality_profile": "clean_registry",
+    },
+    "computational": {
+        "command": "calculate-computational-refinement",
+        "description": "Template for fixture-backed computational VOI inputs.",
+        "analysis_id": "computational-analysis",
+        "decision_problem_id": "screening-program-001",
+        "compute_budget_ids": ["baseline_compute", "enhanced_compute"],
+        "strategy_names": ["status_quo", "refine_model", "approximate_fast"],
+        "net_benefit": [[[10.0, 9.7], [11.4, 12.1], [11.0, 11.8]]],
+        "compute_costs": [[0.0, 2.0, 1.0], [0.0, 3.0, 1.5]],
+        "approximation_errors": [[0.3, 0.1, 0.2], [0.25, 0.08, 0.15]],
+        "refinement_weights": [[0.5, 0.9, 0.6], [0.4, 1.0, 0.7]],
+        "reference_compute_budget": "baseline_compute",
     },
     "preference": {
         "command": "calculate-preference",
@@ -2990,6 +3006,80 @@ def calculate_data_quality(
         }
         output_text = _format_output(
             f"Data-quality VOI: {result.value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-computational-refinement")
+def calculate_computational_refinement(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON computational refinement specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the computational result"
+    ),
+) -> None:
+    """Calculate fixture-backed computational refinement VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Computational specification must be a JSON object.")
+        result = calculate_computational_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["compute_budget_ids"]),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["compute_costs"], dtype=float),
+            np.asarray(payload["approximation_errors"], dtype=float),
+            np.asarray(payload["refinement_weights"], dtype=float),
+            analysis_id=str(payload.get("analysis_id", "computational-analysis")),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+            reference_compute_budget=cast(
+                "str | None", payload.get("reference_compute_budget")
+            ),
+        )
+        result_payload = {
+            "analysis_type": "value_of_computational_refinement",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "compute_value": result.compute_value,
+            "approximation_error_value": result.approximation_error_value,
+            "refinement_value": result.refinement_value,
+            "compute_budget_ids": result.compute_budget_ids,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_compute_budget": result.optimal_strategy_by_compute_budget,
+            "compute_cost_matrix": result.compute_cost_matrix.tolist(),
+            "approximation_error_matrix": result.approximation_error_matrix.tolist(),
+            "refinement_weight_matrix": result.refinement_weight_matrix.tolist(),
+            "consensus_strategy": result.consensus_strategy,
+            "robust_strategy": result.robust_strategy,
+            "pareto_strategies": result.pareto_strategies,
+            "reference_compute_budget": result.reference_compute_budget,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Computational refinement VOI: {result.value:.6f}\n"
             f"Robust strategy: {result.robust_strategy}",
             result_payload,
         )
