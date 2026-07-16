@@ -1,0 +1,5 @@
+Track: perspective-uncertainty-voi-mature-stable_20260625
+Archive: moved completed repository-owned perspective runtime/evidence track to conductor/archive and advanced executable queue to order 07.
+Hosted evidence: PR #163 merged as 41a3da8 with required checks and Python CodeQL passing; ruleset restored active.
+Validation: 26 focused tests previously passed; registry tests and repository harness pass with zero findings.
+Remaining external gates: real-data perspective attribution, cross-language/Rust parity, and mature/stable approval.
