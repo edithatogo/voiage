@@ -1,0 +1,1 @@
+Implemented Track 32 repository-owned external registry publication evidence. Added 13-channel manifest and validator covering readiness, submitted/published/indexed/approved and unresolved states with owner, next action, evidence URL, and external gate. No irreversible external submissions were performed. Focused registry, Conductor, audit, and docs tests passed.
