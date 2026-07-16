@@ -770,3 +770,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a 13-channel external registry publication evidence manifest and
   validator that separates in-repo readiness from publication, indexing,
   approval, credentials, and maintainer gates.
+- Completed the repository-owned TPU production evidence track while retaining
+  authenticated Colab/gcloud allocation and reviewed speedup as external gates.

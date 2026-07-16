@@ -7,7 +7,11 @@ import pytest
 from scripts.validate_tpu_speedup_evidence import validate_manifest
 
 TRACK_ID = "tpu-production-scale-colab-evidence_20260625"
-MANIFEST = Path("conductor/tracks") / TRACK_ID / "handoff/tpu-manifest.json"
+MANIFEST = next(
+    root / TRACK_ID / "handoff/tpu-manifest.json"
+    for root in (Path("conductor/tracks"), Path("conductor/archive"))
+    if (root / TRACK_ID).is_dir()
+)
 
 
 def test_manifest_indexes_cpu_reference_and_tpu_gate() -> None:

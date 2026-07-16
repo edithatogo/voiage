@@ -76,6 +76,12 @@
 - Added a deterministic CPU reference packet and a TPU blocked packet preserving compile/transfer overhead, EVPI parity, CPU fallback, and production-scale fields.
 - External gate: no authenticated Colab TPU runtime or gcloud project/quota/billing/TPU allocation is available; compact v5e visibility/parity evidence does not prove production speedup.
 
+## Archive Decision
+
+- Archived after implementation PR #213 merged as `624818b`.
+- Repository-owned TPU/CPU schema, deterministic validator, CPU fallback, and explicit unavailable-runtime packet are complete.
+- Authenticated Colab/gcloud TPU allocation and reviewed production speedup remain external gates; compact v5e visibility/parity is not promoted.
+
 ## Verification Commands
 
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
