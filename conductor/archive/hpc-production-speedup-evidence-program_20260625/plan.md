@@ -83,3 +83,9 @@
 - Added deterministic CPU-reference, GPU/TPU/Metal blocked, and FPGA/ASIC not-available packets under `handoff/` plus a SHA-256 index.
 - Focused validation: `python scripts/validate_production_speedup_evidence.py conductor/tracks/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-manifest.json --output conductor/tracks/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-index.json` and `uv run pytest tests/test_hpc_production_speedup_evidence.py --no-cov` — 2 passed.
 - External gates: reviewed production-scale accelerator measurements, Colab quota/authentication, Apple Metal hardware, physical FPGA, and fabricated ASIC silicon remain unavailable. CPU fallback remains authoritative; no HPC-native claim is made.
+
+## Archive Decision
+
+- Archived after implementation PR #205 merged as `029e8fe`.
+- Repository-owned production benchmark schema, validator, deterministic index, CPU reference, and explicit backend states are complete.
+- Reviewed production speedup, cloud quota/authentication, Apple Metal runtime, physical FPGA, and fabricated ASIC silicon remain external gates; HPC-native remains blocked.

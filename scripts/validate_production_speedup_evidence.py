@@ -68,21 +68,34 @@ def validate_manifest(path: Path) -> dict[str, Any]:
             raise ValueError(f"{artifact}: unsupported status {packet['status']!r}")
         if not isinstance(packet["owner"], str) or not packet["owner"].strip():
             raise ValueError(f"{artifact}: owner must be non-empty")
-        if not isinstance(packet["device_metadata"], dict) or not packet["device_metadata"]:
+        if (
+            not isinstance(packet["device_metadata"], dict)
+            or not packet["device_metadata"]
+        ):
             raise ValueError(f"{artifact}: device_metadata must be non-empty")
-        if not isinstance(packet["workload_hash"], str) or len(packet["workload_hash"]) < 8:
+        if (
+            not isinstance(packet["workload_hash"], str)
+            or len(packet["workload_hash"]) < 8
+        ):
             raise ValueError(f"{artifact}: workload_hash must identify the workload")
         if packet["workload_scale"] not in {"production", "representative", "smoke"}:
             raise ValueError(f"{artifact}: workload_scale must be classified")
-        if not isinstance(packet["warmup_iterations"], int) or packet["warmup_iterations"] < 0:
+        if (
+            not isinstance(packet["warmup_iterations"], int)
+            or packet["warmup_iterations"] < 0
+        ):
             raise ValueError(f"{artifact}: warmup_iterations must be non-negative")
         if packet["review_status"] not in REVIEW_STATUSES:
             raise ValueError(f"{artifact}: invalid review_status")
         if packet["status"] == "passed":
             if packet["workload_scale"] != "production":
-                raise ValueError(f"{artifact}: passed packets require production workload_scale")
+                raise ValueError(
+                    f"{artifact}: passed packets require production workload_scale"
+                )
             if packet["timing_seconds"] <= 0 or packet["throughput"] <= 0:
-                raise ValueError(f"{artifact}: passed packets require positive measurements")
+                raise ValueError(
+                    f"{artifact}: passed packets require positive measurements"
+                )
             if packet["cpu_comparison_seconds"] <= 0:
                 raise ValueError(f"{artifact}: passed packets require CPU comparison")
             if packet["backend"] != "cpu" and packet["speedup"] <= 1:
@@ -108,7 +121,9 @@ def main() -> int:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    output = json.dumps(validate_manifest(args.manifest), indent=2, sort_keys=True) + "\n"
+    output = (
+        json.dumps(validate_manifest(args.manifest), indent=2, sort_keys=True) + "\n"
+    )
     if args.output:
         args.output.write_text(output, encoding="utf-8")
     else:
