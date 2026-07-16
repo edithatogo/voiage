@@ -87,3 +87,7 @@
   adapter evidence before stable promotion.
 - Focused validation: 16 tests passed; Ruff and repository harness passed with
   zero findings.
+- Full local gate: tox passed with lint, Bandit, typecheck, Astro check/build,
+  1214 Python 3.14 tests, 90%+ coverage, frontier contract, and version sync.
+- Implementation checkpoint commit: ``cfa0110``; git note attached. Hosted
+  PR validation remains required before archival.
