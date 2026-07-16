@@ -8,7 +8,7 @@
 - [ ] Task: Write or update validation tests that fail if external gates, maturity labels, or evidence states are overclaimed.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Define the machine-readable evidence fields, owner fields, blocked-state fields, and artifact paths for this track.
+- [x] Task: Define the machine-readable evidence fields, owner fields, blocked-state fields, and artifact paths for this track.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Commit the scope and test changes, attach a git note summary, record the short SHA in this plan, and commit the plan update.
@@ -20,10 +20,10 @@
 
 ## Phase 2: Automation And Artifact Preparation [checkpoint: ]
 
-- [ ] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
+- [x] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
     - [ ] Keep external gates explicit and evidence-backed.
-- [ ] Task: Run the focused validation command for this track and capture the command plus result in the working notes or evidence manifest.
+- [x] Task: Run the focused validation command for this track and capture the command plus result in the working notes or evidence manifest.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
     - [ ] Preserve CPU fallback or readiness-vs-publication wording where applicable.
 - [ ] Task: Use GitHub Actions, gh, colab, gcloud, registry tooling, or browser automation only within the tool-use limits in the specification.
@@ -76,3 +76,10 @@
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
 - [ ] `cargo fmt --check && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked && cargo doc --no-deps --locked` when Rust kernels or binding contracts change
+
+## Execution Evidence
+
+- Added `scripts/validate_accelerator_evidence.py` to validate GPU, TPU, Metal, and CPU-fallback packets and emit a deterministic SHA-256 index.
+- Added a v1 schema and deterministic passed/blocked handoff packets under `handoff/`.
+- Focused validation: `python scripts/validate_accelerator_evidence.py conductor/tracks/accelerator-evidence-automation_20260625/handoff/accelerator-evidence-manifest.json` and `uv run pytest tests/test_accelerator_evidence_automation.py --no-cov` — 2 passed.
+- External gate: live Colab quota/authentication and local Metal hardware remain unavailable; blocked packets preserve precise reasons and CPU fallback.
