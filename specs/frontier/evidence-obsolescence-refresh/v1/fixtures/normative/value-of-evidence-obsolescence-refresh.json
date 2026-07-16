@@ -1,0 +1,17 @@
+{
+  "value": 10.2,
+  "selected_refresh_indices": [1, 2],
+  "evidence_age_months": 12.4,
+  "obsolescence_risk": 0.54,
+  "refresh_burden": 2.0,
+  "update_cadence_months": 12.0,
+  "living_review_value": 5.0,
+  "model_refresh_value": 5.0,
+  "obsolete_decision_risk": 14.2,
+  "refresh_value": 24.2,
+  "update_cost": 2.0,
+  "baseline_value": 12.0,
+  "expected_value_refresh": 22.2,
+  "refresh_threshold": 0.5,
+  "method_maturity": "fixture-backed"
+}

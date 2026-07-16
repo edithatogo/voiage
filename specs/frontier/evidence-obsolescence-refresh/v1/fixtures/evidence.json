@@ -1,0 +1,8 @@
+{
+  "method_family": "value_of_evidence_obsolescence_refresh",
+  "method_maturity": "fixture-backed",
+  "source_status": "synthetic deterministic fixture",
+  "parity_status": "deferred",
+  "open_data_status": "blocked: no longitudinal evidence-refresh snapshot with provenance committed",
+  "stable_promotion": "blocked pending longitudinal data, cross-language parity, and governance review"
+}

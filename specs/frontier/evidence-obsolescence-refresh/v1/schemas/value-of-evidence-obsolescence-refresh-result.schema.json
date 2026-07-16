@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_refresh_indices", "evidence_age_months", "refresh_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_refresh_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "evidence_age_months": {"type": "number", "minimum": 0},
+    "obsolescence_risk": {"type": "number", "minimum": 0, "maximum": 1},
+    "refresh_burden": {"type": "number", "minimum": 0},
+    "update_cadence_months": {"type": "number", "exclusiveMinimum": 0},
+    "living_review_value": {"type": "number", "minimum": 0},
+    "model_refresh_value": {"type": "number", "minimum": 0},
+    "obsolete_decision_risk": {"type": "number", "minimum": 0},
+    "refresh_value": {"type": "number", "minimum": 0},
+    "update_cost": {"type": "number", "minimum": 0},
+    "baseline_value": {"type": "number"},
+    "expected_value_refresh": {"type": "number"},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

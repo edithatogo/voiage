@@ -1,0 +1,14 @@
+---
+title: Evidence obsolescence and refresh VOI
+description: Estimate when living evidence, guideline updates, or model refreshes are worth doing.
+---
+
+The fixture-backed `value_of_evidence_obsolescence_refresh` method models
+evidence age, half-life, obsolescence risk, drift, refresh cadence, living
+review value, and model-refresh value.
+
+Longitudinal refresh data provenance, cross-language parity, and mature/stable
+governance approval remain required before promotion.
+
+Use `voiage generate-config evidence-obsolescence-refresh` to create a starting
+JSON payload, then run `voiage calculate-evidence-obsolescence-refresh INPUT.json`.

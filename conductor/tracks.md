@@ -540,7 +540,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Evidence Obsolescence And Refresh VOI Mature Stable Path
+## [~] Track: Evidence Obsolescence And Refresh VOI Mature Stable Path
 *Link: [./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/](./tracks/evidence-obsolescence-refresh-voi-mature-stable_20260625/)*
 *Execution order: 24 of 32*
 *Status: recommended method track for valuing living evidence, guideline updates, evidence refresh cadence, and model refresh timing.*

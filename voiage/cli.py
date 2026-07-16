@@ -70,6 +70,9 @@ from voiage.methods.dynamic_real_options import (
 from voiage.methods.equity_information import (
     value_of_equity_information as calculate_equity_information_result,
 )
+from voiage.methods.evidence_obsolescence_refresh import (
+    value_of_evidence_obsolescence_refresh as calculate_obsolescence_result,
+)
 from voiage.methods.expert_synthesis import (
     value_of_expert_synthesis as calculate_expert_synthesis_result,
 )
@@ -464,6 +467,20 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "credibility_adjustments": [1.2, 1.0, 1.1, 0.8],
         "evidence_downgrades": [0.1, 0.3, 0.2, 0.6],
         "replication_threshold": 0.5,
+    },
+    "evidence-obsolescence-refresh": {
+        "command": "calculate-evidence-obsolescence-refresh",
+        "description": "Template for fixture-backed evidence obsolescence and refresh VOI inputs.",
+        "evidence_values": [10.0, 8.0, 12.0, 6.0, 4.0],
+        "evidence_age_months": [2.0, 18.0, 24.0, 15.0, 3.0],
+        "half_lives_months": [36.0, 36.0, 36.0, 36.0, 36.0],
+        "obsolescence_risks": [0.1, 0.8, 0.9, 0.7, 0.2],
+        "refresh_costs": [1.0, 1.0, 1.0, 1.0, 1.0],
+        "living_review_values": [0.5, 3.0, 2.0, 1.0, 0.2],
+        "model_refresh_values": [0.2, 2.0, 3.0, 1.0, 0.1],
+        "drift_rates": [0.1, 0.7, 0.9, 0.6, 0.2],
+        "refresh_threshold": 0.5,
+        "refresh_cadence_months": 12.0,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4503,6 +4520,65 @@ def calculate_regulatory_market_access(
         typer.echo(
             _format_output(
                 f"Regulatory and market-access VOI: {result.value:.6f}",
+                result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-evidence-obsolescence-refresh")
+def calculate_evidence_obsolescence_refresh(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed evidence obsolescence and refresh VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_obsolescence_result(
+            payload["evidence_values"],
+            payload["evidence_age_months"],
+            payload["half_lives_months"],
+            payload["obsolescence_risks"],
+            payload["refresh_costs"],
+            payload["living_review_values"],
+            payload["model_refresh_values"],
+            payload["drift_rates"],
+            refresh_threshold=float(payload.get("refresh_threshold", 0.5)),
+            refresh_cadence_months=float(payload.get("refresh_cadence_months", 12.0)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_evidence_obsolescence_refresh",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_refresh_indices": result.selected_refresh_indices.tolist(),
+            "evidence_age_months": result.evidence_age_months,
+            "obsolescence_risk": result.obsolescence_risk,
+            "refresh_burden": result.refresh_burden,
+            "update_cadence_months": result.update_cadence_months,
+            "living_review_value": result.living_review_value,
+            "model_refresh_value": result.model_refresh_value,
+            "obsolete_decision_risk": result.obsolete_decision_risk,
+            "refresh_value": result.refresh_value,
+            "update_cost": result.update_cost,
+            "baseline_value": result.baseline_value,
+            "expected_value_refresh": result.expected_value_refresh,
+            "refresh_threshold": result.refresh_threshold,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Evidence obsolescence and refresh VOI: {result.value:.6f}",
                 result_payload,
             )
         )
