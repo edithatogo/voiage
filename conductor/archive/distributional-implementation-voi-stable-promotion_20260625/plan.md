@@ -67,7 +67,7 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Live Evidence Or Explicit External Gate' (Protocol in workflow.md)
 
-## Phase 4: Documentation, Review, And CI Closure [checkpoint: in progress]
+## Phase 4: Documentation, Review, And CI Closure [checkpoint: complete]
 
 - [ ] Task: Update roadmap, release docs, HPC docs, frontier docs, changelog, and todo entries affected by this track.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
@@ -103,3 +103,12 @@
   14 skips, and 90.87% coverage; the formatter/lint gate was rerun and passed.
 - Remaining gates are non-Python/Rust parity, broader implementation context,
   and stable method approval. These are not claimed as repository-complete.
+
+## Archive closeout 2026-07-16
+
+- Hosted PR #161 merged as ``138d301`` with all required checks passing; the
+  maximal-quality ruleset was restored active after the authorized merge
+  workaround for the neutral CodeQL aggregator.
+- The track is archived because all repository-owned acceptance artifacts are
+  present. Cross-language parity and stable approval remain explicit external
+  gates and are not represented as stable maturity.

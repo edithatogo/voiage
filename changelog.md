@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Archived the distributional and implementation VOI promotion track after
+  adding open-data evidence with provenance and passing hosted CI; retained
+  cross-language parity and stable approval as explicit external gates.
 - Added provenance-preserving open-data snapshots for the experimental
   distributional and implementation-adjusted VOI contracts, including source
   URLs, licenses, reproducible selection rules, hashes, and explicit proxy

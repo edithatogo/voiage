@@ -11,6 +11,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Archive the distributional and implementation VOI evidence track
+    after adding provenance-preserving open-data snapshots and passing the
+    repository and hosted CI gates; retain non-Python parity and stable
+    approval as external gates.
+
 *   [x] Restore OpenSSF Scorecard publication after the shared scanning rollout.
     *   Isolated the custom blocking-alert gate in a dependent least-privilege
         job that does not violate Scorecard workflow restrictions.
