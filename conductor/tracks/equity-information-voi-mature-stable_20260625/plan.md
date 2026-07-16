@@ -35,6 +35,11 @@
 
 ## Verification Evidence
 
+- Conductor protocol records: short commit SHA `1027860`; commit the plan update;
+  GitHub Actions evidence.
+- Conductor - User Manual Verification: Phase 1 (Protocol in workflow.md).
+- Conductor - User Manual Verification: Phase 2 (Protocol in workflow.md).
+- Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
 - `uv run pytest --cov=voiage --cov-report=term --cov-fail-under=90`: 1301 passed, 10 skipped, 90.00%.
 - `uv run --with tox tox -e lint,typecheck,docs,frontier-contract`: passed; Ruff, Bandit, ty, Astro check/build, and frontier validator all green.
 - Hosted PR CI and required GitHub checks remain the next external validation boundary.
