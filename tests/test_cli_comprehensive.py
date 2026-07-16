@@ -726,6 +726,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-adaptive-evsi",
         "calculate-calibration",
         "calculate-distributional-equity",
+        "calculate-dynamic-real-options",
         "calculate-ceaf",
         "calculate-dominance",
         "calculate-enbs",

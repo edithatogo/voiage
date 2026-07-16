@@ -37,9 +37,13 @@ def test_dynamic_real_options_contract_schema_and_examples_parse() -> None:
     Draft202012Validator(options_set_schema).validate(options_set_example)
     Draft202012Validator(options_result_schema).validate(options_result_example)
 
-    assert options_set_schema["title"] == "DynamicRealOptionsSetV1Planned"
-    assert options_result_schema["title"] == "ValueOfDynamicRealOptionsResultV1Planned"
+    assert options_set_schema["title"] == "DynamicRealOptionsSetV1FixtureBacked"
+    assert (
+        options_result_schema["title"]
+        == "ValueOfDynamicRealOptionsResultV1FixtureBacked"
+    )
     assert options_result_example["analysis_type"] == "value_of_dynamic_real_options"
+    assert options_result_example["reporting"]["method_maturity"] == "fixture-backed"
 
 
 def test_dynamic_real_options_fixture_manifest_and_payload_are_deterministic() -> None:

@@ -17,6 +17,8 @@ cross-language validation, CLI coverage, and method maturity review.
   illustrative result payload.
 - `fixtures/` contains the deterministic staged-evidence conformance fixture
   set used to anchor the planned contract.
+- `fixtures/evidence.json` records implementation hashes and explicit
+  longitudinal open-data and parity gates.
 
 ## Shape
 

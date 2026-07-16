@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/schemas/frontier/value-of-dynamic-real-options-result.v1.json",
-  "title": "ValueOfDynamicRealOptionsResultV1Planned",
+  "title": "ValueOfDynamicRealOptionsResultV1FixtureBacked",
   "type": "object",
   "required": [
     "analysis_type",

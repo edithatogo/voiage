@@ -43,6 +43,9 @@ from voiage.methods.distributional import (
     value_of_distributional_equity,
 )
 from voiage.methods.dominance import calculate_dominance as calculate_dominance_result
+from voiage.methods.dynamic_real_options import (
+    value_of_dynamic_real_options as calculate_dynamic_real_options_result,
+)
 from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
@@ -183,6 +186,19 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "perspective_names": ["payer", "societal"],
         "perspective_weights": {"payer": 0.5, "societal": 0.5},
         "reference_perspective": "payer",
+    },
+    "dynamic-real-options": {
+        "command": "calculate-dynamic-real-options",
+        "description": "Template for fixture-backed staged dynamic real-options VOI inputs.",
+        "decision_stage_names": ["now", "after_phase_1", "after_phase_2"],
+        "strategy_names": ["immediate_adopt", "delay_and_review", "wait_for_trial"],
+        "net_benefit": [[[10.0, 11.0, 9.0], [8.0, 12.0, 13.0], [7.0, 10.0, 14.0]]],
+        "stage_weights": {"now": 0.2, "after_phase_1": 0.3, "after_phase_2": 0.5},
+        "discount_rate": 0.03,
+        "irreversibility_penalty": 0.5,
+        "lock_in_penalty": 0.25,
+        "evidence_arrival_times": {"after_phase_1": 1.0, "after_phase_2": 2.0},
+        "exercise_rules": {"now": "exercise_immediately"},
     },
     "preference": {
         "command": "calculate-preference",
@@ -2735,6 +2751,72 @@ def calculate_perspective(
         typer.echo(f"Error: Surface file not found at '{surface_file}'", err=True)
         raise typer.Exit(code=1) from None
     except (json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-dynamic-real-options")
+def calculate_dynamic_real_options(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON staged dynamic real-options specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the dynamic real-options result"
+    ),
+) -> None:
+    """Calculate fixture-backed dynamic real-options VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Dynamic real-options specification must be a JSON object.")
+        result = calculate_dynamic_real_options_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["decision_stage_names"]),
+            cast("list[str]", payload["strategy_names"]),
+            cast("dict[str, float] | None", payload.get("stage_weights")),
+            float(payload.get("discount_rate", 0.0)),
+            float(payload.get("irreversibility_penalty", 0.0)),
+            float(payload.get("lock_in_penalty", 0.0)),
+            cast("dict[str, float] | None", payload.get("evidence_arrival_times")),
+            cast("dict[str, str] | None", payload.get("exercise_rules")),
+        )
+        result_payload = {
+            "analysis_type": "value_of_dynamic_real_options",
+            "decision_stage_names": result.decision_stage_names,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_names": result.optimal_strategy_names,
+            "waiting_value": result.waiting_value,
+            "option_value": result.option_value,
+            "policy_path_regret": result.policy_path_regret.tolist(),
+            "timing_sensitivity": result.timing_sensitivity.tolist(),
+            "robust_strategy_name": result.robust_strategy_name,
+            "pareto_strategy_names": result.pareto_strategy_names,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Dynamic real-options VOI: {result.option_value:.6f}\n"
+            f"Robust strategy: {result.robust_strategy_name}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
     except Exception as e:
