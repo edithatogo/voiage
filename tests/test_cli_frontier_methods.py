@@ -374,6 +374,20 @@ def test_frontier_cli_commands(
             },
         ),
         (
+            "calculate-implementation-strategy",
+            "implementation-strategy.json",
+            {
+                "net_benefit": [[[10.0, 10.5], [12.0, 13.0]]],
+                "strategy_names": ["A", "B"],
+                "uptake": [[1.0, 0.8], [1.0, 0.9]],
+                "adherence": [[1.0, 0.8], [1.0, 0.9]],
+                "coverage": [[1.0, 0.7], [1.0, 0.8]],
+                "implementation_delays": [[0.0, 0.0], [0.0, 0.0]],
+                "scale_up_costs": [[0.0, 0.0], [0.0, 0.0]],
+                "population_impacts": [[0.0, 0.5], [0.0, 0.7]],
+            },
+        ),
+        (
             "calculate-validation",
             "validation.json",
             {

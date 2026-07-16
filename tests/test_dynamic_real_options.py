@@ -40,6 +40,40 @@ def test_dynamic_real_options_rejects_bad_weights() -> None:
         )
 
 
+@pytest.mark.parametrize(
+    "case", ["shape", "duplicate", "finite", "rate", "weights", "times"]
+)
+def test_dynamic_real_options_rejects_boundary_inputs(case: str) -> None:
+    values = np.ones((1, 1, 1))
+    stages = ["stage"]
+    strategies = ["strategy"]
+    stage_weights: dict[str, float] | None = None
+    times: dict[str, float] | None = None
+    rate = 0.0
+    if case == "shape":
+        values = np.ones((1, 2, 1))
+    elif case == "duplicate":
+        stages = ["x", "x"]
+        values = np.ones((1, 1, 2))
+    elif case == "finite":
+        values = np.array([[[np.nan]]])
+    elif case == "rate":
+        rate = -1.0
+    elif case == "weights":
+        stage_weights = {"stage": 0.0}
+    else:
+        times = {"stage": -1.0}
+    with pytest.raises(ValueError):
+        value_of_dynamic_real_options(
+            values,
+            stages,
+            strategies,
+            stage_weights=stage_weights,
+            discount_rate=rate,
+            evidence_arrival_times=times,
+        )
+
+
 def test_dynamic_real_options_cli_returns_json(tmp_path) -> None:
     specification = tmp_path / "dynamic-real-options.json"
     specification.write_text(
