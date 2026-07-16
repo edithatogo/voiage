@@ -1,6 +1,19 @@
 # Track Implementation Plan: Distributional And Implementation VOI Stable Promotion
 
-## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: ]
+## Current checkpoint
+
+- [x] Existing deterministic distributional/equity and implementation
+  contracts, CLI surfaces, and Python fixtures were audited and validated.
+- [x] Hosted PR #160 merged with required checks passing; merge commit is
+  ``7711b3d`` and the maximal-quality ruleset was restored active.
+- [x] Committed small open-data snapshots for both families with source URLs,
+  licenses, retrieval dates, reproducible selection rules, and limitations.
+- [x] Commit ``4fdc5b4`` added the open-data artifacts, provenance manifests,
+  hash validation, and regression coverage.
+- [ ] Non-Python/Rust parity and stable promotion approval remain unmet gates;
+  the contract remains experimental and must not receive a stable label.
+
+## Phase 1: Contract, Scope, And Evidence Boundary [checkpoint: complete]
 
 - [ ] Task: Review the completed readiness/setup tracks and confirm this track does not duplicate their completed scope.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
@@ -18,7 +31,7 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract, Scope, And Evidence Boundary' (Protocol in workflow.md)
 
-## Phase 2: Automation And Artifact Preparation [checkpoint: ]
+## Phase 2: Automation And Artifact Preparation [checkpoint: complete]
 
 - [ ] Task: Implement the repo-owned scripts, docs, schemas, fixtures, or workflow updates needed to prepare evidence reproducibly.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
@@ -36,7 +49,7 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Automation And Artifact Preparation' (Protocol in workflow.md)
 
-## Phase 3: Live Evidence Or Explicit External Gate [checkpoint: ]
+## Phase 3: Live Evidence Or Explicit External Gate [checkpoint: complete]
 
 - [ ] Task: Attempt the live evidence path that is safe and available from this repository or the authenticated tools.
     - [ ] Record the command, runner, status, artifacts, and any blocked external gate.
@@ -54,7 +67,7 @@
     - [ ] Update this plan with the short commit SHA and commit the plan update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Live Evidence Or Explicit External Gate' (Protocol in workflow.md)
 
-## Phase 4: Documentation, Review, And CI Closure [checkpoint: ]
+## Phase 4: Documentation, Review, And CI Closure [checkpoint: in progress]
 
 - [ ] Task: Update roadmap, release docs, HPC docs, frontier docs, changelog, and todo entries affected by this track.
     - [ ] Cross-check the track specification and existing completed Conductor records before editing.
@@ -76,3 +89,17 @@
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
 - [ ] `cargo fmt --check && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked && cargo doc --no-deps --locked` when Rust kernels or binding contracts change
+
+## Evidence update 2026-07-16
+
+- Commit ``21ecff7`` records the deterministic evidence boundary; commit
+  ``4fdc5b4`` adds the open-data slice and keeps the track active for parity
+  and approval gates.
+- The current open-data slice adds ``distributional/v1/fixtures/open-data``
+  from World Bank indicator ``SH.UHC.OOPC.25.TO`` and
+  ``implementation/v1/fixtures/open-data`` from the OWID HPV coverage series.
+- Focused validation passed: 14 tests, Ruff, and ``scripts/repo_harness.py``
+  with zero findings. The full tox substantive gates passed with 1217 tests,
+  14 skips, and 90.87% coverage; the formatter/lint gate was rerun and passed.
+- Remaining gates are non-Python/Rust parity, broader implementation context,
+  and stable method approval. These are not claimed as repository-complete.

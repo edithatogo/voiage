@@ -1,0 +1,15 @@
+{
+  "source": "World Bank DataBank / World Development Indicators",
+  "indicator": "SH.UHC.OOPC.25.TO",
+  "indicator_description": "Number of people spending more than 25% of household consumption or income on out-of-pocket health care expenditure",
+  "data_url": "https://api.worldbank.org/v2/country/AUS;GHA;IND/indicator/SH.UHC.OOPC.25.TO?format=json&per_page=100",
+  "metadata_url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/SH.UHC.OOPC.25.TO",
+  "license": "CC BY 4.0",
+  "retrieved": "2026-07-16",
+  "preprocessing": "Selected the latest non-null observation returned for each of AUS, GHA, and IND; retained the API values without rounding or imputation.",
+  "limitations": [
+    "The observations are country-level burden proxies, not individual-level equity strata.",
+    "Observation years differ by country because the source is survey-based and sparse.",
+    "This snapshot is evidence for the experimental contract only and does not support a stable promotion claim."
+  ]
+}
