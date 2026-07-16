@@ -1197,6 +1197,12 @@ class DecisionAnalysis:
 
         return value_of_evidence_obsolescence_refresh(**kwargs)
 
+    def value_of_strategic_behavior(self, **kwargs: object) -> object:
+        """Evaluate strategic behavior and game-theoretic information value."""
+        from voiage.methods.strategic_behavior import value_of_strategic_behavior
+
+        return value_of_strategic_behavior(**kwargs)
+
     def value_of_equity_information(
         self,
         subgroups: Sequence[object],

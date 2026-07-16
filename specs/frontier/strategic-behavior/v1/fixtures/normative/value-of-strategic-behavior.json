@@ -1,0 +1,16 @@
+{
+  "value": 5.2,
+  "selected_scenario_indices": [0, 1],
+  "equilibrium_probability": 0.7,
+  "response_sensitivity": 0.35,
+  "equilibrium_fragility": 0.3,
+  "strategic_regret": 0.9,
+  "disclosure_value": 3.0,
+  "incentive_value": 3.0,
+  "bargaining_value": 2.5,
+  "adversarial_response": 2.6,
+  "expected_value_strategic_information": 15.2,
+  "baseline_value": 10.0,
+  "equilibrium_threshold": 0.5,
+  "method_maturity": "fixture-backed"
+}

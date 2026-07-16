@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "selected_scenario_indices", "equilibrium_probability", "expected_value_strategic_information", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "selected_scenario_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "equilibrium_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "response_sensitivity": {"type": "number", "minimum": 0, "maximum": 1},
+    "equilibrium_fragility": {"type": "number", "minimum": 0, "maximum": 1},
+    "strategic_regret": {"type": "number", "minimum": 0},
+    "disclosure_value": {"type": "number", "minimum": 0},
+    "incentive_value": {"type": "number", "minimum": 0},
+    "bargaining_value": {"type": "number", "minimum": 0},
+    "adversarial_response": {"type": "number", "minimum": 0},
+    "expected_value_strategic_information": {"type": "number"},
+    "baseline_value": {"type": "number"},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

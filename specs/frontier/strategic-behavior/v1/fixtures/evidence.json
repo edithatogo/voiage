@@ -1,0 +1,8 @@
+{
+  "method_family": "value_of_strategic_behavior",
+  "method_maturity": "fixture-backed",
+  "source_status": "synthetic deterministic fixture",
+  "parity_status": "deferred",
+  "open_data_status": "blocked: no calibrated strategic-interaction data with provenance committed",
+  "stable_promotion": "blocked pending calibrated game data, cross-language parity, and governance review"
+}

@@ -124,6 +124,9 @@ from voiage.methods.replication_reproducibility import (
 )
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
+from voiage.methods.strategic_behavior import (
+    value_of_strategic_behavior as calculate_strategic_result,
+)
 from voiage.methods.structural import structural_evpi, structural_evppi
 from voiage.methods.threshold import (
     ThresholdProfile,
@@ -481,6 +484,19 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "drift_rates": [0.1, 0.7, 0.9, 0.6, 0.2],
         "refresh_threshold": 0.5,
         "refresh_cadence_months": 12.0,
+    },
+    "strategic-behavior": {
+        "command": "calculate-strategic-behavior",
+        "description": "Template for fixture-backed strategic behavior and game-theoretic VOI inputs.",
+        "scenario_values": [10.0, 8.0, 6.0, 4.0],
+        "equilibrium_probabilities": [0.8, 0.6, 0.3, 0.2],
+        "incentive_response_values": [2.0, 1.0, 0.5, 0.2],
+        "disclosure_values": [1.0, 2.0, 0.5, 0.2],
+        "bargaining_values": [1.5, 1.0, 0.2, 0.1],
+        "adversarial_risks": [0.1, 0.2, 0.4, 0.8],
+        "response_sensitivities": [0.2, 0.5, 0.8, 0.9],
+        "strategic_regrets": [0.5, 0.4, 0.2, 0.1],
+        "equilibrium_threshold": 0.5,
     },
     "preference": {
         "command": "calculate-preference",
@@ -4580,6 +4596,62 @@ def calculate_evidence_obsolescence_refresh(
             _format_output(
                 f"Evidence obsolescence and refresh VOI: {result.value:.6f}",
                 result_payload,
+            )
+        )
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        TypeError,
+        ValueError,
+        KeyError,
+    ) as exc:
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except Exception as exc:
+        typer.echo(f"An error occurred: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command(name="calculate-strategic-behavior")
+def calculate_strategic_behavior(
+    input_file: Path = typer.Argument(..., exists=True),
+) -> None:
+    """Calculate fixture-backed strategic behavior VOI."""
+    try:
+        payload = json.loads(input_file.read_text(encoding="utf-8"))
+        result = calculate_strategic_result(
+            payload["scenario_values"],
+            payload["equilibrium_probabilities"],
+            payload["incentive_response_values"],
+            payload["disclosure_values"],
+            payload["bargaining_values"],
+            payload["adversarial_risks"],
+            payload["response_sensitivities"],
+            payload["strategic_regrets"],
+            equilibrium_threshold=float(payload.get("equilibrium_threshold", 0.5)),
+        )
+        result_payload = {
+            "analysis_type": "value_of_strategic_behavior",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "selected_scenario_indices": result.selected_scenario_indices.tolist(),
+            "equilibrium_probability": result.equilibrium_probability,
+            "response_sensitivity": result.response_sensitivity,
+            "equilibrium_fragility": result.equilibrium_fragility,
+            "strategic_regret": result.strategic_regret,
+            "disclosure_value": result.disclosure_value,
+            "incentive_value": result.incentive_value,
+            "bargaining_value": result.bargaining_value,
+            "adversarial_response": result.adversarial_response,
+            "expected_value_strategic_information": result.expected_value_strategic_information,
+            "baseline_value": result.baseline_value,
+            "equilibrium_threshold": result.equilibrium_threshold,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        typer.echo(
+            _format_output(
+                f"Strategic behavior VOI: {result.value:.6f}", result_payload
             )
         )
     except (

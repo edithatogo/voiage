@@ -547,7 +547,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path
+## [~] Track: Strategic Behavior And Game-Theoretic VOI Mature Stable Path
 *Link: [./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/](./tracks/strategic-behavior-game-theoretic-voi-mature-stable_20260625/)*
 *Execution order: 25 of 32*
 *Status: recommended method track for VOI when actors respond strategically to information, incentives, prices, or policy.*
