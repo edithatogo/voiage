@@ -505,7 +505,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
+## [~] Track: AI-Assisted Evidence Triage VOI Mature Stable Path
 *Link: [./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/](./tracks/ai-assisted-evidence-triage-voi-mature-stable_20260625/)*
 *Execution order: 19 of 32*
 *Status: recommended method track for valuing AI-assisted screening, extraction, prioritization, audit, and evidence-review automation.*

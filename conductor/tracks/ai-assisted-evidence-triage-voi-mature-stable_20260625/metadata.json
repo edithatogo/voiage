@@ -1,8 +1,8 @@
 {
   "track_id": "ai-assisted-evidence-triage-voi-mature-stable_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-06-25T00:00:00Z",
+  "updated_at": "2026-07-17T07:10:00Z",
   "description": "Add AI-assisted evidence triage VOI as a mature/stable method family for deciding whether screening, extraction, synthesis, or review automation is worth using."
 }
