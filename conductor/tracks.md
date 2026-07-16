@@ -512,7 +512,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Explainability And Transparency VOI Mature Stable Path
+## [~] Track: Explainability And Transparency VOI Mature Stable Path
 *Link: [./tracks/explainability-transparency-voi-mature-stable_20260625/](./tracks/explainability-transparency-voi-mature-stable_20260625/)*
 *Execution order: 20 of 32*
 *Status: recommended method track for value of interpretability, transparency, trust, and model-governance information.*

@@ -1,0 +1,12 @@
+{
+  "value": 11.25,
+  "adopted_model_indices": [0, 2],
+  "adoption_probability": 0.5,
+  "transparency_value": 7.25,
+  "governance_value": 6.8,
+  "predictive_value": 14.0,
+  "trust_value": 7.7,
+  "audit_cost": 2.0,
+  "robustness": 0.71386192144351,
+  "method_maturity": "fixture-backed"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["value", "adopted_model_indices", "adoption_probability", "transparency_value", "governance_value", "method_maturity"],
+  "properties": {
+    "value": {"type": "number", "minimum": 0},
+    "adopted_model_indices": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "adoption_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "transparency_value": {"type": "number"},
+    "governance_value": {"type": "number", "minimum": 0},
+    "predictive_value": {"type": "number"},
+    "trust_value": {"type": "number", "minimum": 0},
+    "robustness": {"type": "number", "minimum": 0, "maximum": 1},
+    "audit_cost": {"type": "number", "minimum": 0},
+    "method_maturity": {"const": "fixture-backed"}
+  }
+}

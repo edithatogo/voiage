@@ -96,6 +96,11 @@
       "name": "value_of_ai_assisted_evidence_triage",
       "path": "ai-assisted-evidence-triage/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_explainability_transparency",
+      "path": "explainability-transparency/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [
