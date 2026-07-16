@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/monitoring-surveillance/v1/schemas/monitoring-surveillance-set.schema.json",
+  "title": "MonitoringSurveillanceSetV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["analysis_type", "strategy_names", "monitoring_costs", "detection_delays", "false_signal_rates", "decision_revision_probabilities"],
+  "properties": {
+    "analysis_type": {"const": "value_of_monitoring_surveillance"},
+    "strategy_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "monitoring_costs": {"type": "array"},
+    "detection_delays": {"type": "array"},
+    "false_signal_rates": {"type": "array"},
+    "decision_revision_probabilities": {"type": "array"},
+    "surveillance_frequency": {"type": "number", "exclusiveMinimum": 0},
+    "stopping_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence_sources": {"type": "array", "items": {"type": "string"}}
+  }
+}

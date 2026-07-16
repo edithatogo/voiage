@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a fixture-backed monitoring and surveillance VOI runtime and CLI for
+  periodic signal detection, stopping rules, decision revision, delay, and
+  false-signal diagnostics. Open-data attribution, parity, and stable
+  promotion remain explicit gates.
 - Archived the expert-elicitation and evidence-synthesis VOI track after
   completing its fixture-backed runtime, CLI, evidence manifest, and hosted CI
   slice; attribution, parity, and mature approval remain gated.

@@ -66,6 +66,9 @@ from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from voiage.methods.monitoring_surveillance import (
+    value_of_monitoring_surveillance as calculate_monitoring_surveillance_result,
+)
 from voiage.methods.network_meta_analysis import (
     calculate_nma_evpi,
     calculate_nma_evppi,
@@ -267,6 +270,24 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
         "elicitation_costs": [[0.0, 1.4, 2.0], [0.0, 1.1, 1.8]],
         "synthesis_penalties": [[0.0, 0.5, 0.2], [0.1, 0.4, 0.3]],
         "reference_expert_profile": "structured_panel",
+    },
+    "monitoring-surveillance": {
+        "command": "calculate-monitoring-surveillance",
+        "description": "Template for fixture-backed monitoring and surveillance VOI inputs.",
+        "analysis_id": "monitoring-surveillance-analysis",
+        "decision_problem_id": "screening-program-001",
+        "strategy_names": ["status_quo", "monitor", "revise_decision"],
+        "net_benefit": [[[10.0, 10.4, 10.8], [11.0, 11.5, 12.0], [10.5, 11.2, 12.4]]],
+        "monitoring_costs": [[0.0, 0.5, 0.8], [0.0, 0.6, 0.9], [0.0, 0.7, 1.0]],
+        "detection_delays": [[0.0, 0.2, 0.3], [0.0, 0.2, 0.2], [0.0, 0.1, 0.2]],
+        "false_signal_rates": [[0.0, 0.1, 0.15], [0.0, 0.08, 0.12], [0.0, 0.06, 0.1]],
+        "decision_revision_probabilities": [
+            [0.0, 0.4, 0.5],
+            [0.0, 0.5, 0.6],
+            [0.0, 0.6, 0.8],
+        ],
+        "surveillance_frequency": 1.0,
+        "stopping_threshold": 0.5,
     },
     "preference": {
         "command": "calculate-preference",
@@ -3167,6 +3188,80 @@ def calculate_expert_synthesis(
         output_text = _format_output(
             f"Expert synthesis VOI: {result.value:.6f}\n"
             f"Robust strategy: {result.robust_strategy}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as e:
+        typer.echo(f"Error: File not found - {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except (KeyError, json.JSONDecodeError, TypeError, ValueError) as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-monitoring-surveillance")
+def calculate_monitoring_surveillance(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to JSON monitoring and surveillance specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the monitoring result"
+    ),
+) -> None:
+    """Calculate fixture-backed monitoring and surveillance VOI from JSON."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Monitoring specification must be a JSON object.")
+        result = calculate_monitoring_surveillance_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["strategy_names"]),
+            np.asarray(payload["monitoring_costs"], dtype=float),
+            np.asarray(payload["detection_delays"], dtype=float),
+            np.asarray(payload["false_signal_rates"], dtype=float),
+            np.asarray(payload["decision_revision_probabilities"], dtype=float),
+            surveillance_frequency=float(payload.get("surveillance_frequency", 1.0)),
+            stopping_threshold=float(payload.get("stopping_threshold", 0.5)),
+            analysis_id=str(
+                payload.get("analysis_id", "monitoring-surveillance-analysis")
+            ),
+            decision_problem_id=str(payload.get("decision_problem_id", "unspecified")),
+        )
+        result_payload = {
+            "analysis_type": "value_of_monitoring_surveillance",
+            "method_maturity": result.method_maturity,
+            "value": result.value,
+            "monitoring_value": result.monitoring_value,
+            "signal_detection_value": result.signal_detection_value,
+            "decision_revision_value": result.decision_revision_value,
+            "stopping_value": result.stopping_value,
+            "strategy_names": result.strategy_names,
+            "expected_net_benefits": result.expected_net_benefits.tolist(),
+            "optimal_strategy_by_period": result.optimal_strategy_by_period,
+            "monitoring_cost_matrix": result.monitoring_cost_matrix.tolist(),
+            "detection_delay_matrix": result.detection_delay_matrix.tolist(),
+            "false_signal_rate_matrix": result.false_signal_rate_matrix.tolist(),
+            "decision_revision_matrix": result.decision_revision_matrix.tolist(),
+            "surveillance_frequency": result.surveillance_frequency,
+            "stopping_period": result.stopping_period,
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Monitoring and surveillance VOI: {result.value:.6f}\n"
+            f"Stopping period: {result.stopping_period}",
             result_payload,
         )
         typer.echo(output_text)
