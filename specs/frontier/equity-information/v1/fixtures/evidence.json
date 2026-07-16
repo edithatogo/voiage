@@ -1,0 +1,15 @@
+{
+  "contract": "equity-information-voi-v1",
+  "status": "fixture-backed",
+  "runtime": "voiage.methods.equity_information.value_of_equity_information",
+  "open_data_gate": {
+    "status": "blocked",
+    "evidence": "No licensed individual-level snapshot currently committed that supports the same subgroup, outcome, and equity-weight transformations.",
+    "next_action": "Obtain source approval, license, snapshot, and transformation review before promotion."
+  },
+  "parity_gate": {
+    "status": "deferred",
+    "evidence": "No Rust or binding adapter currently consumes this method family.",
+    "next_action": "Add language-native adapters and compare the normative fixture."
+  }
+}

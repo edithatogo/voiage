@@ -732,6 +732,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-monitoring-surveillance",
         "calculate-implementation-strategy",
         "calculate-distributional-equity",
+        "calculate-equity-information",
         "calculate-dynamic-real-options",
         "calculate-ceaf",
         "calculate-dominance",

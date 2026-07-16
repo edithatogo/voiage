@@ -1,0 +1,15 @@
+{
+  "analysis_type": "value_of_equity_information",
+  "method_maturity": "fixture-backed",
+  "value": 0.75,
+  "baseline_optimal_strategy_name": "B",
+  "baseline_social_welfare": 9.75,
+  "resolved_optimal_strategy_names": ["B", "A"],
+  "resolved_social_welfare": [11.1, 9.9],
+  "equity_weights": [0.5, 0.5],
+  "subgroup_labels": ["high", "low"],
+  "subgroup_expected_net_benefits": [[5.5, 12.0], [11.0, 7.5]],
+  "scenario_probabilities": [0.5, 0.5],
+  "policy_strata": ["protected", "policy-relevant"],
+  "information_cost": 0.0
+}

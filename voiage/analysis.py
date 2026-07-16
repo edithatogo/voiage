@@ -1079,6 +1079,30 @@ class DecisionAnalysis:
             n_bins=n_bins,
         )
 
+    def value_of_equity_information(
+        self,
+        subgroups: Sequence[object],
+        equity_weights: Sequence[float],
+        resolved_equity_weights: Sequence[Sequence[float]],
+        scenario_probabilities: Sequence[float] | None = None,
+        information_cost: float = 0.0,
+        strategy_names: Sequence[str] | None = None,
+        policy_strata: Sequence[str] | None = None,
+    ) -> Any:
+        """Calculate the value of resolving equity-relevant uncertainty."""
+        from voiage.methods.equity_information import value_of_equity_information
+
+        return value_of_equity_information(
+            self.nb_array,
+            subgroups=subgroups,
+            equity_weights=equity_weights,
+            resolved_equity_weights=resolved_equity_weights,
+            scenario_probabilities=scenario_probabilities,
+            information_cost=information_cost,
+            strategy_names=list(strategy_names) if strategy_names else None,
+            policy_strata=list(policy_strata) if policy_strata else None,
+        )
+
     def value_of_implementation(
         self,
         uptake: float = 1.0,

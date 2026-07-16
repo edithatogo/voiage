@@ -6,3 +6,15 @@ description: Migrating to voiage from other tools
 This guide covers migrating to voiage from other VOI tools.
 
 See the [canonical migration guide markdown file](https://github.com/edithatogo/voiage/blob/main/docs/user_guide/migration_guide.md) on GitHub for the full reference.
+
+## Equity-information VOI
+
+The new `value_of_equity_information` method is fixture-backed and measures
+the value of resolving uncertain equity weights across policy-relevant
+subgroups. It is intentionally separate from the experimental
+`value_of_distributional_equity` method, which measures subgroup tailoring.
+
+The new method reports baseline and resolved social-welfare decisions,
+scenario probabilities, subgroup expected net benefits, and a sample-allocation
+diagnostic. Cross-language parity and licensed open-data attribution remain
+promotion gates; no stable claim is made yet.

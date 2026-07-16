@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/equity-information/v1/schemas/value-of-equity-information-result.schema.json",
+  "title": "ValueOfEquityInformationResultV1FixtureBacked",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["analysis_type", "method_maturity", "value", "baseline_optimal_strategy_name", "resolved_optimal_strategy_names", "equity_weights", "subgroup_labels", "scenario_probabilities", "policy_strata", "diagnostics", "reporting"],
+  "properties": {
+    "analysis_type": {"const": "value_of_equity_information"},
+    "method_maturity": {"const": "fixture-backed"},
+    "value": {"type": "number", "minimum": 0},
+    "baseline_optimal_strategy_name": {"type": "string", "minLength": 1},
+    "baseline_social_welfare": {"type": "number"},
+    "resolved_optimal_strategy_names": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "resolved_social_welfare": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "equity_weights": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0}},
+    "subgroup_labels": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "subgroup_expected_net_benefits": {"type": "array", "minItems": 1, "items": {"type": "array", "items": {"type": "number"}}},
+    "scenario_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0}},
+    "policy_strata": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "information_cost": {"type": "number", "minimum": 0},
+    "diagnostics": {"type": "object"},
+    "reporting": {"type": "object"}
+  }
+}

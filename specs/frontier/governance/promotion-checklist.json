@@ -16,5 +16,6 @@
     {"name": "value_of_expert_synthesis", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity", "blocked_state": "not-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/expert-synthesis/v1"]},
     {"name": "value_of_monitoring_surveillance", "owner": "repository", "current_state": "fixture-backed", "next_gate": "open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/monitoring-surveillance/v1"]},
     {"name": "value_of_implementation_strategy_comparison", "owner": "repository", "current_state": "fixture-backed", "next_gate": "open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/implementation-strategy/v1"]}
+    ,{"name": "value_of_equity_information", "owner": "repository", "current_state": "fixture-backed", "next_gate": "cross-language-parity-and-open-data-attribution", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/equity-information/v1"]}
   ]
 }

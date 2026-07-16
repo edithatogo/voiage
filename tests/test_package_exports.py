@@ -9,6 +9,7 @@ from voiage import (
     DecisionAnalysis,
     DecisionOption,
     DistributionalEquityResult,
+    EquityInformationResult,
     ImplementationAdjustedResult,
     ParameterSet,
     Perspective,
@@ -53,6 +54,9 @@ from voiage import (
 from voiage import schema as schema_module
 from voiage import (
     value_of_distributional_equity as top_level_value_of_distributional_equity,
+)
+from voiage import (
+    value_of_equity_information as top_level_value_of_equity_information,
 )
 from voiage import (
     value_of_perspective as top_level_value_of_perspective,
@@ -125,6 +129,7 @@ from voiage.methods import (
 from voiage.methods import (
     DistributionalEquityResult as MethodsDistributionalEquityResult,
 )
+from voiage.methods import EquityInformationResult as MethodsEquityInformationResult
 from voiage.methods import (
     ImplementationAdjustedResult as MethodsImplementationAdjustedResult,
 )
@@ -165,6 +170,12 @@ from voiage.methods.dominance import (
 )
 from voiage.methods.dominance import (
     cost_effectiveness_frontier as cost_effectiveness_frontier_impl,
+)
+from voiage.methods.equity_information import (
+    EquityInformationResult as EquityInformationResult_impl,
+)
+from voiage.methods.equity_information import (
+    value_of_equity_information as value_of_equity_information_impl,
 )
 from voiage.methods.heterogeneity import HeterogeneityResult as HeterogeneityResult_impl
 from voiage.methods.heterogeneity import (
@@ -260,6 +271,8 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert CEAFResult is CEAFResult_impl
     assert DominanceResult is DominanceResult_impl
     assert DistributionalEquityResult is DistributionalEquityResult_impl
+    assert EquityInformationResult is EquityInformationResult_impl
+    assert MethodsEquityInformationResult is EquityInformationResult_impl
     assert ImplementationAdjustedResult is ImplementationAdjustedResult_impl
     assert MethodsDistributionalEquityResult is DistributionalEquityResult_impl
     assert MethodsImplementationAdjustedResult is ImplementationAdjustedResult_impl
@@ -330,6 +343,7 @@ def test_methods_package_exports_are_curated() -> None:
         "DistributionalEquityResult",
         "DominanceResult",
         "DynamicRealOptionsResult",
+        "EquityInformationResult",
         "ExpertSynthesisResult",
         "HeterogeneityResult",
         "ImplementationAdjustedResult",
@@ -371,6 +385,7 @@ def test_methods_package_exports_are_curated() -> None:
         "value_of_data_quality",
         "value_of_distributional_equity",
         "value_of_dynamic_real_options",
+        "value_of_equity_information",
         "value_of_expert_synthesis",
         "value_of_heterogeneity",
         "value_of_implementation",
@@ -411,6 +426,7 @@ def test_top_level_package_exports_modules() -> None:
         "DecisionOption",
         "DistributionalEquityResult",
         "DynamicRealOptionsResult",
+        "EquityInformationResult",
         "ExpertSynthesisResult",
         "HeomlRunBundle",
         "ImplementationAdjustedResult",
@@ -459,6 +475,7 @@ def test_top_level_package_exports_modules() -> None:
         "value_of_data_quality",
         "value_of_distributional_equity",
         "value_of_dynamic_real_options",
+        "value_of_equity_information",
         "value_of_expert_synthesis",
         "value_of_implementation",
         "value_of_implementation_strategy_comparison",
@@ -521,5 +538,6 @@ def test_top_level_package_exports_point_to_modules() -> None:
     assert (
         top_level_value_of_distributional_equity is value_of_distributional_equity_impl
     )
+    assert top_level_value_of_equity_information is value_of_equity_information_impl
     assert top_level_value_of_perspective is value_of_perspective_impl
     assert voiage.__version__ == package_version("voiage")
