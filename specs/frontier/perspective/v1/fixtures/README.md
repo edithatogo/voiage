@@ -7,6 +7,10 @@ Value of Perspective contract.
 
 - `normative/`: deterministic fixtures that anchor the CLI contract and serve
   as the first conformance target for future language bindings.
+- `perspective-catalog.json`: the required stakeholder perspective catalog and
+  explicit objective-uncertainty assumptions.
+- `evidence.json`: machine-readable maturity, hash, real-data, and parity
+  evidence. The contract remains fixture-backed until those gates pass.
 
 The committed fixture is intentionally small and uses the screening-program
 comparison surface already documented in the v1 example files. The top-level

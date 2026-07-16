@@ -1,6 +1,6 @@
 # Track Implementation Plan: Perspective Uncertainty VOI Mature Stable Path
 
-## Phase 1: Contract And Maturity Boundary [checkpoint: ]
+## Phase 1: Contract And Maturity Boundary [checkpoint: in progress]
 
 - [ ] Task: Audit existing contract scaffolds, docs, and runtime surfaces for this method family.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -16,7 +16,7 @@
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Contract And Maturity Boundary' (Protocol in workflow.md)
 
-## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
+## Phase 2: Runtime, Fixtures, And Examples [checkpoint: in progress]
 
 - [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
@@ -69,3 +69,15 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Evidence update 2026-07-16
+
+- Existing runtime, result envelope, CLI, docs, and two-perspective deterministic
+  fixture were audited as repository-owned implementation.
+- Added the seven-perspective stakeholder catalog and hash-pinned evidence
+  manifest in ``specs/frontier/perspective/v1/fixtures``.
+- The real-data gate remains explicit: no committed dataset currently supports
+  defensible payer, societal, patient, provider, regulator, and equity-weighted
+  transforms from the same outcome/cost basis.
+- Cross-language parity, Rust parity review, real-data attribution, and mature
+  approval remain open; the method stays fixture-backed.
