@@ -79,5 +79,10 @@
 - Added the `calculate-dynamic-real-options` CLI command and curated exports.
 - Promoted the schema/examples from planned to fixture-backed maturity and
   added hash-pinned evidence validation.
+- Commit ``5568083`` records the runtime, CLI, fixture, and evidence
+  checkpoint with its Conductor review note.
+- Full local verification passed: Ruff/format, 1226 tests with 10 skips,
+  coverage above 90%, Astro docs, typecheck, frontier-contract, and
+  version-sync gates.
 - Real longitudinal data, Rust/cross-language parity, and mature/stable
   approval remain explicit gates; no stable claim is made.
