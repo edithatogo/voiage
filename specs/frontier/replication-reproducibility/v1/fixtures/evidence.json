@@ -1,0 +1,8 @@
+{
+  "method_family": "value_of_replication_reproducibility",
+  "method_maturity": "fixture-backed",
+  "source_status": "synthetic deterministic fixture",
+  "parity_status": "deferred",
+  "open_data_status": "blocked: no evidence-production snapshot with provenance committed",
+  "stable_promotion": "blocked pending open-data provenance, cross-language parity, and governance review"
+}

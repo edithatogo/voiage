@@ -1,0 +1,16 @@
+{
+  "value": 2.716,
+  "selected_replication_indices": [0, 2],
+  "replication_probability": 0.5,
+  "reproducibility_risk": 0.375,
+  "audit_burden": 2.0,
+  "credibility_impact": 2.6,
+  "evidence_downgrade": 2.2,
+  "replication_value": 13.416,
+  "reanalysis_value": 3.5,
+  "audit_cost": 2.0,
+  "baseline_value": 10.0,
+  "expected_value_replication": 12.716,
+  "replication_threshold": 0.5,
+  "method_maturity": "fixture-backed"
+}

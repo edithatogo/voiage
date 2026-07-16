@@ -108,6 +108,10 @@ from .methods.regulatory_market_access import (
     RegulatoryMarketAccessResult,
     value_of_regulatory_market_access,
 )
+from .methods.replication_reproducibility import (
+    ReplicationReproducibilityResult,
+    value_of_replication_reproducibility,
+)
 from .methods.sample_information import enbs, evsi
 from .methods.threshold import (
     ThresholdProfile,
@@ -168,6 +172,7 @@ __all__ = [
     "PreferenceProfile",
     "PreferenceProfileSet",
     "RegulatoryMarketAccessResult",
+    "ReplicationReproducibilityResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
@@ -220,6 +225,7 @@ __all__ = [
     "value_of_preference_heterogeneity",
     "value_of_preference_information",
     "value_of_regulatory_market_access",
+    "value_of_replication_reproducibility",
     "value_of_threshold",
     "value_of_threshold_information",
     "value_of_validation",

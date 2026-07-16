@@ -2,7 +2,7 @@
 
 ## Phase 1: Contract And Maturity Boundary [checkpoint: ]
 
-- [ ] Task: Audit existing validation, data-quality, evidence-synthesis, and frontier contract surfaces for overlap and compatibility.
+- [x] Task: Audit existing validation, data-quality, evidence-synthesis, and frontier contract surfaces for overlap and compatibility.
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Define stable result envelopes, diagnostics, maturity labels, and external assumptions.
@@ -18,7 +18,7 @@
 
 ## Phase 2: Runtime, Fixtures, And Examples [checkpoint: ]
 
-- [ ] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures.
+- [x] Task: Implement or extend Python runtime APIs, result objects, CLI commands, and deterministic synthetic fixtures. (`8e2b656`)
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Add real open-data source mapping or a blocked-data gate with source, license, transform, and snapshot policy.
@@ -63,6 +63,12 @@
     - [ ] Preserve evidence links, commands, artifact paths, blocked gates, and maturity status.
     - [ ] Preserve commit notes, git notes, short commit SHA updates, and plan-update commits.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Mature Stable Promotion Review' (Protocol in workflow.md)
+
+## Execution Evidence
+
+- Implementation slice: runtime API, result envelope, CLI, Hypothesis properties, deterministic fixtures, frontier schema, and Astro documentation.
+- Focused tests: `uv run pytest tests/test_replication_reproducibility.py tests/test_replication_reproducibility_cli.py tests/test_package_exports.py tests/test_cli_comprehensive.py tests/test_conductor_followthrough_tracks.py --no-cov` — 52 passed.
+- Maturity decision: remain `fixture-backed`; evidence-production data provenance, cross-language parity, and mature/stable governance review remain external gates.
 
 ## Verification Commands
 
