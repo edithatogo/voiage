@@ -83,3 +83,9 @@
 - Added deterministic CPU reference, local process smoke, and multi-node blocked packets with worker count, node count, scheduler, workload hash, warm-up, timing, throughput, baseline, result-envelope, and diagnostics fields.
 - Focused validation: `python scripts/validate_cpu_cluster_benchmark_evidence.py conductor/tracks/cpu-cluster-production-benchmark-evidence_20260625/handoff/cpu-cluster-manifest.json --output conductor/tracks/cpu-cluster-production-benchmark-evidence_20260625/handoff/cpu-cluster-index.json` and `uv run pytest tests/test_cpu_cluster_benchmark_evidence.py --no-cov` — 2 passed.
 - External gate: authenticated multi-node/cloud capacity is unavailable; local process smoke preserves result envelopes and diagnostics but does not prove multi-node production speedup.
+
+## Archive Decision
+
+- Archived after implementation PR #207 merged as `288fa67`.
+- Repository-owned CPU reference, local process-scheduler smoke, deterministic validator, and explicit multi-node blocked state are complete.
+- Authenticated multi-node/cloud capacity and reviewed production speedup remain external gates; local scheduler evidence does not promote a cluster claim.

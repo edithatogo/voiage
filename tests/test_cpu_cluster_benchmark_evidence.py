@@ -8,7 +8,14 @@ from scripts.validate_cpu_cluster_benchmark_evidence import validate_manifest
 from voiage.parallel.distributed import distributed_map
 
 TRACK_ID = "cpu-cluster-production-benchmark-evidence_20260625"
-MANIFEST = Path("conductor/tracks") / TRACK_ID / "handoff/cpu-cluster-manifest.json"
+MANIFEST = next(
+    root / "handoff/cpu-cluster-manifest.json"
+    for root in (
+        Path("conductor/tracks") / TRACK_ID,
+        Path("conductor/archive") / TRACK_ID,
+    )
+    if (root / "handoff/cpu-cluster-manifest.json").is_file()
+)
 
 
 def _double(value: int) -> int:
