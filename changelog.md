@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added Apple Metal/MPS benchmark packet validation with CPU reference, result
+  parity, CPU fallback, and explicit unavailable-hardware status; no Apple
+  speedup claim is made without production evidence.
 - Added CPU cluster benchmark evidence packets and validation for single-process
   references, local scheduler smoke checks, and explicit multi-node capacity
   gates; local parallel execution does not imply cluster speedup.

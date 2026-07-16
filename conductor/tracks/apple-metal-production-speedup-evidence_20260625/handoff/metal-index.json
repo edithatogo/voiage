@@ -1,0 +1,19 @@
+{
+  "packets": [
+    {
+      "artifact_path": "packets/cpu-reference.json",
+      "backend": "cpu",
+      "claim_level": "reference",
+      "sha256": "61fadf7b186622a7c1163932f24ab6bc5d42d91351b5e6255609a3d702e48520",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "packets/metal-blocked.json",
+      "backend": "metal",
+      "claim_level": "blocked",
+      "sha256": "9b85bad7c1d8a2e6858f75a14ef4af1ba40f4ecfa0b3daf35849320ccd8b165a",
+      "status": "blocked"
+    }
+  ],
+  "schema_version": "v1"
+}
