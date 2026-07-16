@@ -70,6 +70,12 @@
     - [ ] Keep external gates explicit and evidence-backed.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Documentation, Review, And CI Closure' (Protocol in workflow.md)
 
+## Execution Evidence
+
+- Added `scripts/validate_tpu_speedup_evidence.py` and `specs/tpu-speedup-evidence/v1/schema.json`.
+- Added a deterministic CPU reference packet and a TPU blocked packet preserving compile/transfer overhead, EVPI parity, CPU fallback, and production-scale fields.
+- External gate: no authenticated Colab TPU runtime or gcloud project/quota/billing/TPU allocation is available; compact v5e visibility/parity evidence does not prove production speedup.
+
 ## Verification Commands
 
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`

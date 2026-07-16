@@ -592,7 +592,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 ## [ ] Track: TPU Production-Scale Colab Evidence
 *Link: [./tracks/tpu-production-scale-colab-evidence_20260625/](./tracks/tpu-production-scale-colab-evidence_20260625/)*
 *Execution order: 31 of 32*
-*Status: follow-through track for production-scale TPU benchmark evidence after compact Colab v5e visibility and parity proof.*
+*Status: repository-owned TPU/CPU packet schema, deterministic validator, CPU fallback, and explicit unavailable-runtime packet are in progress; production TPU speedup remains blocked on authenticated Colab/gcloud quota and allocation.*
 
 ---
 
