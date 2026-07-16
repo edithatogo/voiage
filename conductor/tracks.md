@@ -554,7 +554,7 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [~] Track: Accelerator Evidence Automation
+## [ ] Track: Accelerator Evidence Automation
 *Link: [./tracks/accelerator-evidence-automation_20260625/](./tracks/accelerator-evidence-automation_20260625/)*
 *Execution order: 26 of 32*
 *Status: follow-through track for common GPU/TPU/Metal evidence schemas, Colab execution, GitHub artifact ingestion, and validation.*
