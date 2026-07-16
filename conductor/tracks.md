@@ -442,10 +442,10 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 
 ---
 
-## [ ] Track: Computational VOI And Model Refinement Mature Stable Path
-*Link: [./tracks/computational-model-refinement-voi-mature-stable_20260625/](./tracks/computational-model-refinement-voi-mature-stable_20260625/)*
+## [x] Track: Computational VOI And Model Refinement Mature Stable Path [completed: 2026-07-17]
+*Link: [./archive/computational-model-refinement-voi-mature-stable_20260625/](./archive/computational-model-refinement-voi-mature-stable_20260625/)*
 *Execution order: 10 of 32*
-*Status: dedicated method track from runtime implementation through mature/stable promotion review.*
+*Status: Python runtime, result envelope, CLI, fixture-backed maturity evidence, documentation, and hosted CI are complete; benchmark/profile evidence, cross-language/Rust parity, and mature/stable approval remain external or deferred gates.*
 
 ---
 

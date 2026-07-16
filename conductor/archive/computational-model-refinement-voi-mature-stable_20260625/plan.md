@@ -69,3 +69,24 @@
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync`
 - [ ] Rust and binding language-native gates when kernels or adapters change
+
+## Evidence update 2026-07-17
+
+- Implemented the fixture-backed Python runtime and result envelope in
+  ``voiage/methods/computational.py`` and exposed it through the curated
+  package API and ``calculate-computational-refinement`` CLI command.
+- Updated the v1 schemas and examples to ``fixture-backed`` maturity and added
+  hash-pinned evidence in ``specs/frontier/computational/v1/fixtures/evidence.json``.
+- Added runtime, contract, CLI, export, and registry tests. Local lint,
+  typecheck, Bandit, focused tests, and frontier validation passed; hosted PR
+  #171 passed all required jobs and Python CodeQL.
+- The method remains fixture-backed. Benchmark/profile evidence,
+  cross-language/Rust parity, and mature/stable approval remain explicit gates.
+
+## Archive closeout 2026-07-17
+
+- Hosted PR #171 merged as ``2fea5de`` with required checks and Python CodeQL
+  passing; the maximal-quality ruleset was restored active.
+- Archived after completing the repository-owned implementation and evidence
+  slice. External and deferred gates remain recorded above and in the evidence
+  manifest.
