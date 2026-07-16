@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Archived the causal transportability VOI track after completing its
+  fixture-backed Python runtime, CLI, evidence manifest, and hosted CI slice;
+  open-data attribution, parity, and mature approval remain gated.
 - Added a fixture-backed causal-identification, transportability, and
   external-validity VOI runtime with CLI support and explicit open-data and
   cross-language parity gates.
