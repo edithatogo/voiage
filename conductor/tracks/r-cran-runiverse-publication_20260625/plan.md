@@ -72,6 +72,13 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/r-registry-evidence.json` using the shared external-track handoff schema.
+- `R CMD build --no-build-vignettes --no-manual r-package/voiageR` passed and produced `voiageR_0.2.0.tar.gz` with SHA-256 `dd49b6134bd7e9bb6295d59857bfe5be75d8e4eebde843b5043740c888a5e595`.
+- `R CMD check --no-manual --no-vignettes` completed with two vignette-output warnings and no errors; the deterministic PDF manual built with SHA-256 `66b121e875e469682d207c9012cd815939042689fb4db4834aefef9870d88434`.
+- CRAN and r-universe both returned HTTP 404; manual CRAN submission and external r-universe indexing remain blocked gates.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
