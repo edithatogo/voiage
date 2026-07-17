@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing release tag to publish"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -13,6 +19,8 @@ jobs:
   release:
     name: Build and Publish
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     permissions:
       contents: write
       id-token: write
@@ -66,6 +74,6 @@ jobs:
         attestations: false
 
     - name: Create GitHub Release
-      run: gh release create "$GITHUB_REF_NAME" dist/* --generate-notes --verify-tag
+      run: gh release create "$RELEASE_TAG" dist/* --generate-notes --verify-tag
       env:
         GH_TOKEN: ${{ github.token }}
