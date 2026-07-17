@@ -126,7 +126,7 @@ The active follow-through tracks are:
 - `archive/conda-forge-feedstock-publication_20260625`
 - `r-cran-runiverse-publication_20260625` (handoff: `conductor/archive/r-cran-runiverse-publication_20260625/handoff/r-registry-evidence.json`)
 - `julia-general-registry-publication_20260625` (handoff: `conductor/archive/julia-general-registry-publication_20260625/handoff/julia-registry-evidence.json`)
-- `spack-package-merge-followthrough_20260625` (handoff: `conductor/tracks/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json`)
+- `archive/spack-package-merge-followthrough_20260625` (handoff: `conductor/archive/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json`)
 - `easybuild-easyconfig-merge-followthrough_20260625`
 - `hpsf-curation-submission-followthrough_20260625`
 - `e4s-inclusion-followthrough_20260625`
