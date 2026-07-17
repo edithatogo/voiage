@@ -72,6 +72,20 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/asic-silicon-evidence.json` linking the pre-silicon workflow,
+  archived RTL-to-GDS plan/manifest, source RTL/testbench/fixture, and the
+  explicit unavailable-silicon packet.
+- Re-generated the repository-owned ASIC pre-silicon manifest and recorded
+  hashes for RTL, testbench, fixture, workflow, and handoff artifacts.
+- No GDS/DEF artifact, shuttle application, fabricated silicon, bring-up, or
+  silicon runtime evidence is present; the CPU fallback remains authoritative.
+- Tiny Tapeout/SkyWater submission, fabrication, delivery, bring-up, parity,
+  and benchmark evidence remain external and account/hardware gated.
+- Follow-through handoff prepared on branch `codex/asic-silicon-followthrough`;
+  hosted CI must pass before the track can be archived.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

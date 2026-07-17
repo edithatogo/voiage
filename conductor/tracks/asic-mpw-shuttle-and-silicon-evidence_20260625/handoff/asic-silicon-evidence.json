@@ -1,0 +1,47 @@
+{
+  "track_id": "asic-mpw-shuttle-and-silicon-evidence_20260625",
+  "channel": "ASIC MPW and silicon",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Select and approve a Tiny Tapeout or SkyWater MPW shuttle, pause at the account-bound submission boundary, then record application/review/acceptance, fabrication, delivery, bring-up, silicon runtime, parity, and benchmark evidence separately.",
+  "external_gate": "No shuttle application, fabricated silicon, bring-up hardware, or silicon runtime is available in this repository-only execution context; pre-silicon RTL/simulation/synthesis evidence and CPU fallback remain the claim boundary.",
+  "evidence_urls": [
+    "https://github.com/edithatogo/voiage/blob/main/.github/workflows/pre-silicon-evidence.yml",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/asic-implementation_20260511/handoff/pre_silicon_evidence_manifest.json",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/asic-implementation_20260511/working-notes.md",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/packets/asic-not-available.json",
+    "https://tinytapeout.com/",
+    "https://www.skywatertechnology.com/"
+  ],
+  "commands": [
+    {
+      "command": "python scripts/pre_silicon_evidence.py asic --output-root /tmp/voiage-asic-pre-silicon",
+      "runner": "local Python 3.14",
+      "status": "passed",
+      "artifact": "pre_silicon_evidence_manifest.json sha256 a21f99e185463d2cd28efea18a635ec9968acc63fdd86aac238274542a4cee92",
+      "details": "The repository-owned ASIC pre-silicon manifest and reports are reproducibly generated."
+    },
+    {
+      "command": "shasum -a 256 conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/packets/asic-not-available.json conductor/archive/asic-implementation_20260511/handoff/pre_silicon_evidence_manifest.json hardware/pre_silicon/rtl/evpi_fixed_point_kernel.v hardware/pre_silicon/tb/evpi_fixed_point_kernel_tb.v hardware/pre_silicon/fixtures/evpi_fixed_point_fixture.json .github/workflows/pre-silicon-evidence.yml",
+      "runner": "local macOS audit",
+      "status": "passed",
+      "artifact": "ASIC packet 3de78ac0756824e417d05cc2c338136f9707ef6a2e7cb20037bc915f729ba291; manifest d68926203304d560d8696e4b49267bbd2c1466d250333f8e6e46423e030d6739; RTL 5a72984b7abd3e976457487b5d4d33276f7e028345c924d7f2e1e250ac13cae2; testbench 152ceabdb18f8395758364546db6ee5e52fad39fa20a3171d0b06718ef01e9ed; fixture 9473518c51f7a18007d634c7120d87138b2b2e969d2cdb66fed38e3cf0a70ae9",
+      "details": "RTL, testbench, fixture, pre-silicon manifest, and unavailable-silicon packet are deterministic inputs."
+    },
+    {
+      "command": "find conductor/archive/asic-implementation_20260511/handoff -type f \\( -name '*.gds' -o -name '*.def' \\)",
+      "runner": "repository artifact audit",
+      "status": "not_found",
+      "artifact": "no GDS or DEF artifact",
+      "details": "The archived handoff contains planned RTL-to-GDS commands and pre-silicon evidence, not a fabricated-layout artifact."
+    },
+    {
+      "command": "inspect archived asic-not-available packet and pre-silicon claim boundary",
+      "runner": "repository evidence audit",
+      "status": "blocked",
+      "artifact": "device: no fabricated silicon; cpu_fallback: true",
+      "details": "The existing packet explicitly records shuttle, fabricated-silicon, and production-measurement gates; no ASIC runtime claim is made."
+    }
+  ]
+}
