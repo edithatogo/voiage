@@ -770,6 +770,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   indexing retained as explicit external gates.
 - Added R CRAN/r-universe readiness evidence with reproducible package build,
   CRAN-style check, PDF manual, and explicit manual submission/indexing gates.
+- Archived the R registry follow-through track with CRAN review and r-universe
+  indexing retained as external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

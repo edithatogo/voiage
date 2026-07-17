@@ -614,9 +614,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: R CRAN And R-Universe Publication
-*Link: [./tracks/r-cran-runiverse-publication_20260625/](./tracks/r-cran-runiverse-publication_20260625/)*
-*Status: blocked_external — CRAN maintainer submission/review and r-universe indexing.*
+## [x] Track: R CRAN And R-Universe Publication [completed: 2026-07-17]
+*Link: [./archive/r-cran-runiverse-publication_20260625/](./archive/r-cran-runiverse-publication_20260625/)*
+*Status: repository-owned R build, check, manual, and registry evidence are complete; CRAN maintainer submission/review and r-universe indexing remain external gates.*
 
 ---
 

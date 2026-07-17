@@ -79,6 +79,12 @@
 - `R CMD check --no-manual --no-vignettes` completed with two vignette-output warnings and no errors; the deterministic PDF manual built with SHA-256 `66b121e875e469682d207c9012cd815939042689fb4db4834aefef9870d88434`.
 - CRAN and r-universe both returned HTTP 404; manual CRAN submission and external r-universe indexing remain blocked gates.
 
+## Archive Decision
+
+- Archived after implementation PR #219 merged as `caf3c38`.
+- Repository-owned R package build, check, manual, and registry-not-found evidence is complete.
+- CRAN submission/review and r-universe indexing remain external gates; no registry publication is claimed.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
