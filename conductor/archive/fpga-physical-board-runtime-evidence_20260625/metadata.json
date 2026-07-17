@@ -1,8 +1,8 @@
 {
   "track_id": "fpga-physical-board-runtime-evidence_20260625",
   "type": "feature",
-  "status": "blocked_external",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
-  "updated_at": "2026-07-15T06:38:00Z",
+  "updated_at": "2026-07-17T21:30:00Z",
   "description": "Follow pre-silicon CI with real FPGA board runtime when hardware access exists."
 }
