@@ -8,10 +8,10 @@ To build the conda package locally:
 
 ```bash
 # Install conda-build
-conda install conda-build
+conda install -n base conda-build
 
 # Build the package
-conda build .
+conda build conda-recipe
 
 # Install the built package
 conda install -c local voiage
@@ -23,37 +23,32 @@ To publish to conda-forge:
 
 1. Fork the [conda-forge/staged-recipes](https://github.com/conda-forge/staged-recipes) repository
 2. Copy this recipe directory to `recipes/voiage` in the forked repository
-3. Update the SHA256 hash in `meta.yaml` with the actual hash of the PyPI release
-4. Submit a pull request to conda-forge/staged-recipes
+3. Submit a pull request to `conda-forge/staged-recipes`; the recipe is pinned
+   to the published `voiage 0.2.1` sdist and its verified SHA256 hash.
 
 ## Recipe Structure
 
 - `meta.yaml`: Main recipe file with package metadata and dependencies
 - `conda_build_config.yaml`: Configuration for building against multiple Python versions
-- `build.sh`: Build script for Unix-like systems (automatically generated)
-- `bld.bat`: Build script for Windows (automatically generated)
+- `conda_build_config.yaml`: Python-version matrix used for local and staged builds
 
 ## Dependencies
 
 The recipe specifies the following dependencies:
 
 ### Host Dependencies
-- python >=3.8
+- python >=3.10
 - pip
-- setuptools >=45
+- setuptools >=69
+- setuptools_scm >=8
 - wheel
 
 ### Run Dependencies
-- python >=3.8
-- numpy >=1.20.0
-- scipy >=1.7.0
-- pandas >=1.3.0
-- xarray >=0.18.0
-- matplotlib >=3.4.0
-- seaborn >=0.11.0
-- scikit-learn >=1.0.0
-- jax >=0.2.0
-- jaxlib >=0.1.65
+- python >=3.10
+- defusedxml >=0.7.1
+- numpy, scipy, pandas, xarray, numpyro, jax
+- scikit-learn, statsmodels, matplotlib, seaborn
+- psutil, typing_extensions, typer
 
 ## Testing
 

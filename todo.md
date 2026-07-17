@@ -9,6 +9,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Prepare the pinned `0.2.1` conda-forge recipe and verify it with a
+    local conda-build package/test cycle; staged-recipes submission remains a
+    hosted conda-forge gate.
+
 *   [x] Strengthen context and harness engineering for the solo-maintainer
     workflow while retaining pull-request traceability and automated review
     gates.

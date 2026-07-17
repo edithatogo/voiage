@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a conda-forge-ready `0.2.1` recipe pinned to the published source
+  distribution hash, current runtime constraints, and Python 3.10–3.14 build
+  variants; the recipe passes a local conda-build package test.
+
 - Added explicit agent context-loading order, a repository context map, and a
   solo-maintainer merge policy; the fail-closed harness now protects these
   governance surfaces from disappearing.
