@@ -131,6 +131,12 @@ speedup or hardware outcomes. The active production-evidence tracks are:
 * ``custom-circuit-production-acceleration-review_20260625`` for the final
   go/no-go decision on FPGA/ASIC production acceleration claims.
 
+The current custom-circuit review is a repository-owned **no-go** for
+production FPGA/ASIC acceleration claims. The CPU path remains authoritative
+and FPGA/ASIC remain explicit placeholders or pre-silicon evidence lanes until
+external board/silicon runtime, parity, throughput, deployment-cost,
+maintenance, and independent-review evidence is available.
+
 Until those tracks produce production-sized benchmark packets, the correct
 status remains setup/visibility/parity evidence rather than HPC-native speedup.
 

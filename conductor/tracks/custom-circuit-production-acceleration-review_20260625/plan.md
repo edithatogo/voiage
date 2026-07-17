@@ -72,6 +72,19 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/production-acceleration-decision.json` consolidating the
+  archived FPGA/ASIC packets, shared production-speedup manifest, CPU fallback,
+  and documentation boundary.
+- Decision: **no-go** for production FPGA/ASIC acceleration claims at the
+  current evidence level.
+- The decision is based on absent board/silicon runtime, throughput, parity,
+  deployment-cost, maintenance, and independent-review evidence; placeholders
+  and pre-silicon artifacts remain the supported boundary.
+- Reopen only when external hardware evidence supplies the required measured
+  comparison and review packet.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

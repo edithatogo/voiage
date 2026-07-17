@@ -802,6 +802,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   runtime as external gates.
 - Archived the ASIC MPW/silicon follow-through track with shuttle, fabrication,
   bring-up, and runtime evidence retained as external gates.
+- Recorded a no-go decision for production FPGA/ASIC acceleration until direct
+  board/silicon runtime, parity, throughput, cost, maintenance, and review
+  evidence is available.
 - Archived the HPSF curation follow-through track with portal submission,
   curation review, approval, and listing retained as external gates.
 
