@@ -79,6 +79,12 @@
 - Project, source, test, TagBot, and release workflow evidence is hashed and linked.
 - Julia General `V/Voiage/Package.toml` and `Versions.toml` both returned HTTP 404; registration and maintainer approval remain external gates.
 
+## Archive Decision
+
+- Archived after implementation PR #221 merged as `8d4e30f`.
+- Repository-owned Julia metadata, Compat, tests, TagBot/release workflow, and registry-not-found evidence are complete.
+- Julia General registration, review, merge, and package visibility remain external gates; no approval is claimed.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
