@@ -72,6 +72,17 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/fpga-runtime-evidence.json` linking the pre-silicon workflow,
+  generator, archived implementation notes, and unavailable-runtime packet.
+- Re-generated the repository-owned FPGA pre-silicon manifest and recorded
+  hashes for the deterministic evidence inputs.
+- No completed hosted pre-silicon run or physical board runtime is available;
+  the existing CPU fallback and explicit no-board packet remain authoritative.
+- Board, bitstream, toolchain/runner, timing, throughput, parity, and reviewer
+  evidence remain external hardware gates.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
