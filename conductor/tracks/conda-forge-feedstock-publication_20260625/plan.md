@@ -72,6 +72,13 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/conda-forge-evidence.json` using the shared external-track handoff schema.
+- Verified `gh release view v0.2.0 --json tagName,publishedAt,isPrerelease,isDraft`: the only current release is prerelease.
+- Queried `https://api.anaconda.org/package/conda-forge/voiage`: HTTP 404, package not indexed.
+- Verified the release workflow and recipe hashes; feedstock PR creation remains gated by `CONDA_FORGE_TOKEN` and external conda-forge maintainer merge.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

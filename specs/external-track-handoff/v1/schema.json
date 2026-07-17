@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "voiage Conductor external track handoff",
+  "type": "object",
+  "required": ["track_id", "channel", "status", "owner", "checked_at", "next_action", "external_gate", "evidence_urls", "commands"],
+  "properties": {
+    "status": {"enum": ["ready", "submitted", "published", "indexed", "approved", "blocked", "not_found"]},
+    "evidence_urls": {"type": "array", "items": {"type": "string", "format": "uri"}},
+    "commands": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["command", "runner", "status", "artifact", "details"]}}
+  }
+}
