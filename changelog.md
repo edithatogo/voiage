@@ -785,6 +785,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dry-run/build remain explicit external gates.
 - Archived the EasyBuild follow-through track with the validated easyconfig and
   its upstream review, merge, and visibility gates retained.
+- Added an E4S inclusion packet linking the reproducible release, license, and
+  archived HPC packaging evidence while preserving E4S curation and package
+  stack verification as external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

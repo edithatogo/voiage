@@ -72,6 +72,17 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/e4s-evidence.json` with release, license, deterministic
+  prerequisite handoff, public-site, and facility-configuration evidence.
+- Confirmed the reproducible `v0.2.0` source tag and hashed the Spack,
+  EasyBuild, and license artifacts used by the inclusion packet.
+- The E4S public site is reachable, but no `voiage` entry was found in the
+  inspected E4S facility configuration repository.
+- E4S curation and independent package-stack verification remain external;
+  the prerequisite Spack and EasyBuild upstream gates remain open.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
