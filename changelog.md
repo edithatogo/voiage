@@ -766,6 +766,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a reproducible Conda-Forge feedstock handoff recording release,
   workflow, recipe, credential, maintainer-merge, and package-index evidence.
+- Archived the Conda-Forge follow-through track with feedstock merge and channel
+  indexing retained as explicit external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

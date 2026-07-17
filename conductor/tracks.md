@@ -608,9 +608,9 @@ Only the numbered `[ ]` entries in this section are eligible for automatic
 Entries marked `[!]` remain registered but are excluded from automatic
 execution until the precise external gate in their status line clears.
 
-## [!] Track: Conda-Forge Feedstock Publication
-*Link: [./tracks/conda-forge-feedstock-publication_20260625/](./tracks/conda-forge-feedstock-publication_20260625/)*
-*Status: blocked_external — conda-forge feedstock merge and channel indexing.*
+## [x] Track: Conda-Forge Feedstock Publication [completed: 2026-07-17]
+*Link: [./archive/conda-forge-feedstock-publication_20260625/](./archive/conda-forge-feedstock-publication_20260625/)*
+*Status: repository-owned release, workflow, recipe, credential, maintainer, and package-index evidence are complete; conda-forge feedstock merge and channel indexing remain external gates.*
 
 ---
 

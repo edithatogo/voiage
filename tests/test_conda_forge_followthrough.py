@@ -4,8 +4,11 @@ from pathlib import Path
 
 from scripts.validate_external_track_handoff import validate_handoff
 
-HANDOFF = Path(
-    "conductor/tracks/conda-forge-feedstock-publication_20260625/handoff/conda-forge-evidence.json"
+HANDOFF = next(
+    root
+    / "conda-forge-feedstock-publication_20260625/handoff/conda-forge-evidence.json"
+    for root in (Path("conductor/tracks"), Path("conductor/archive"))
+    if (root / "conda-forge-feedstock-publication_20260625").is_dir()
 )
 
 

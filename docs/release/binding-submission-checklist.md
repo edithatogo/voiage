@@ -123,7 +123,7 @@ The completed readiness tracks are not reopened for live publication evidence.
 The active follow-through tracks are:
 
 - `external-registry-publication-program_20260625`
-- `conda-forge-feedstock-publication_20260625`
+- `archive/conda-forge-feedstock-publication_20260625`
 - `r-cran-runiverse-publication_20260625`
 - `julia-general-registry-publication_20260625`
 - `spack-package-merge-followthrough_20260625`
