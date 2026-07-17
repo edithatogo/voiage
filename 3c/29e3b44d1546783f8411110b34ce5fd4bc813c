@@ -1,0 +1,1 @@
+Prepared EasyBuild external handoff with checksum-pinned v0.2.0 easyconfig, syntax validation, EasyBuild 4.9.4 dry-run boundary, and upstream HTTP 404 evidence. Focused registry/handoff tests and Ruff checks pass.
