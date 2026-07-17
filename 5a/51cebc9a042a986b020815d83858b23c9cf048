@@ -1,0 +1,1 @@
+Prepared FPGA physical-runtime handoff with reproducible pre-silicon manifest, unavailable-runtime packet, CPU fallback, and explicit board/bitstream/toolchain gates. Focused tests pass.
