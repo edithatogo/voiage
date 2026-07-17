@@ -79,6 +79,12 @@
 - Queried `https://api.anaconda.org/package/conda-forge/voiage`: HTTP 404, package not indexed.
 - Verified the release workflow and recipe hashes; feedstock PR creation remains gated by `CONDA_FORGE_TOKEN` and external conda-forge maintainer merge.
 
+## Archive Decision
+
+- Archived after implementation PR #217 merged as `f7871c5`.
+- Repository-owned release, workflow, recipe, package-query, and blocked-credential evidence is complete.
+- Feedstock maintainer merge and channel indexing remain external gates; no conda-forge publication is claimed.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

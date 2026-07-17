@@ -7,9 +7,6 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
-*   [ ] Complete the Conda-Forge feedstock handoff and archive the track while
-    retaining external token, maintainer-merge, and indexing gates.
-
 ## Done
 
 *   [x] Archive the dynamic real-options VOI track after implementing the
