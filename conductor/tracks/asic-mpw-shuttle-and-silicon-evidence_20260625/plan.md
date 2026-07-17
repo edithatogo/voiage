@@ -83,6 +83,8 @@
   silicon runtime evidence is present; the CPU fallback remains authoritative.
 - Tiny Tapeout/SkyWater submission, fabrication, delivery, bring-up, parity,
   and benchmark evidence remain external and account/hardware gated.
+- Follow-through handoff prepared on branch `codex/asic-silicon-followthrough`;
+  hosted CI must pass before the track can be archived.
 
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
