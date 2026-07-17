@@ -72,6 +72,13 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added a syntactically valid draft `handoff/package.py` pinned to the reproducible `v0.2.0` commit.
+- Added `handoff/spack-evidence.json` using the shared external-track handoff schema.
+- Local Spack 1.2.1 reports that `py-voiage` does not exist; the upstream recipe URL returns HTTP 404.
+- Upstream package PR, maintainer merge, and package visibility remain external; the draft is not represented as upstream publication.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
