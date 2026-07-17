@@ -21,7 +21,7 @@ It is intentionally conservative:
 
 The active Conductor publication-program handoff records the current status of
 all 13 registry channels in
-`conductor/tracks/external-registry-publication-program_20260625/handoff/registry-manifest.json`.
+`conductor/archive/external-registry-publication-program_20260625/handoff/registry-manifest.json`.
 It distinguishes repository readiness from `submitted`, `published`, `indexed`,
 and `approved` states; unresolved channels retain explicit owner, next action,
 evidence URL, and external-gate fields. No external registry submission or
