@@ -129,7 +129,7 @@ The active follow-through tracks are:
 - `archive/spack-package-merge-followthrough_20260625` (handoff: `conductor/archive/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json`)
 - `archive/easybuild-easyconfig-merge-followthrough_20260625` (handoff: `conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff/easybuild-evidence.json`)
 - `hpsf-curation-submission-followthrough_20260625`
-- `e4s-inclusion-followthrough_20260625`
+- `e4s-inclusion-followthrough_20260625` (handoff: `conductor/tracks/e4s-inclusion-followthrough_20260625/handoff/e4s-evidence.json`)
 
 These tracks must distinguish readiness, submitted, published, indexed,
 approved, blocked, and not-found states. GitHub Actions and `gh` are the

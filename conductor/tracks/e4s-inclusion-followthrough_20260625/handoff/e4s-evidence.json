@@ -1,0 +1,46 @@
+{
+  "track_id": "e4s-inclusion-followthrough_20260625",
+  "channel": "E4S",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "After Spack and EasyBuild upstream recipes are merged, submit this packet to the applicable E4S curation channel, obtain curator approval, and verify voiage in the selected E4S software stack or configuration.",
+  "external_gate": "E4S curation/inclusion and independent package-stack verification are external; the prerequisite Spack and EasyBuild packages are currently repository-owned drafts with upstream maintainer gates still open.",
+  "evidence_urls": [
+    "https://e4s.io/",
+    "https://github.com/E4S-Project/facility-external-spack-configs",
+    "https://github.com/edithatogo/voiage/tree/main/conductor/archive/spack-package-merge-followthrough_20260625/handoff",
+    "https://github.com/edithatogo/voiage/tree/main/conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff",
+    "https://github.com/edithatogo/voiage/releases/tag/v0.2.0"
+  ],
+  "commands": [
+    {
+      "command": "git ls-remote --tags https://github.com/edithatogo/voiage.git refs/tags/v0.2.0",
+      "runner": "networked Git audit",
+      "status": "passed",
+      "artifact": "v0.2.0 commit 653bd313af341cba65b84409b7abfb3af77f1407",
+      "details": "A reproducible release tag exists for the inclusion packet."
+    },
+    {
+      "command": "shasum -a 256 conductor/archive/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff/easybuild-evidence.json LICENSE",
+      "runner": "local macOS audit",
+      "status": "passed",
+      "artifact": "spack 19371fc9beaf9703a34a4bcc3492408457a55f46744f63b012f117d9ed1e47b9; easybuild 7546836463f01919018979f96477757d85c0180608f6472550871d6838d69a07; LICENSE ce8c23436cf2f3540f1148fe4202293f1612837c0a21951ba71591164b1c5dce",
+      "details": "The prerequisite handoffs and license are deterministic artifacts."
+    },
+    {
+      "command": "curl -sS -o /tmp/e4s-site -w '%{http_code}' https://e4s.io/",
+      "runner": "networked E4S audit",
+      "status": "passed",
+      "artifact": "HTTP 200",
+      "details": "The E4S public site is reachable; reachability is not evidence of voiage inclusion."
+    },
+    {
+      "command": "gh search code voiage --owner E4S-Project --repo E4S-Project/facility-external-spack-configs",
+      "runner": "authenticated GitHub audit",
+      "status": "not_found",
+      "artifact": "no matching code results",
+      "details": "No voiage entry was found in the inspected E4S facility configuration repository."
+    }
+  ]
+}
