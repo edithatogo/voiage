@@ -795,6 +795,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   external gates.
 - Added an FPGA runtime handoff linking reproducible pre-silicon evidence and
   the explicit no-board CPU-fallback boundary; board runtime remains external.
+- Archived the FPGA runtime follow-through track with physical board and
+  bitstream evidence retained as explicit external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

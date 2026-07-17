@@ -650,9 +650,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: FPGA Physical Board Runtime Evidence
-*Link: [./tracks/fpga-physical-board-runtime-evidence_20260625/](./tracks/fpga-physical-board-runtime-evidence_20260625/)*
-*Status: blocked_external — physical FPGA board access.*
+## [x] Track: FPGA Physical Board Runtime Evidence [completed: 2026-07-17]
+*Link: [./archive/fpga-physical-board-runtime-evidence_20260625/](./archive/fpga-physical-board-runtime-evidence_20260625/)*
+*Status: repository-owned pre-silicon and unavailable-runtime evidence are complete; physical board, bitstream, toolchain, and runtime benchmark evidence remain external.*
 
 ---
 
