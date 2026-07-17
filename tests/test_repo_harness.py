@@ -2,7 +2,12 @@
 
 from pathlib import Path
 
-from scripts.repo_harness import check_docs_platform, check_workflows, collect_findings
+from scripts.repo_harness import (
+    check_context_contract,
+    check_docs_platform,
+    check_workflows,
+    collect_findings,
+)
 
 ROOT = Path(__file__).parents[1]
 
@@ -32,3 +37,12 @@ def test_sphinx_build_configuration_is_rejected(tmp_path: Path) -> None:
     (tmp_path / "docs" / "conf.py").write_text("project = 'legacy'\n", encoding="utf-8")
     findings = check_docs_platform(tmp_path)
     assert any("Sphinx" in finding.message for finding in findings)
+
+
+def test_missing_agent_context_section_is_rejected(tmp_path: Path) -> None:
+    """The harness keeps agent-facing repository context explicit."""
+    (tmp_path / "AGENTS.md").write_text(
+        "# Agent Protocol\n\n## Context Loading Order\n", encoding="utf-8"
+    )
+    findings = check_context_contract(tmp_path)
+    assert any("Repository Context Map" in finding.message for finding in findings)
