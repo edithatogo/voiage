@@ -9,6 +9,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Prevent duplicate release-attestation generation across the TestPyPI
+    and PyPI upload steps so the tag-driven publication workflow completes.
+
 *   [x] Prepare the synchronized `0.2.1` release metadata and verify the
     tag-driven PyPI publication path.
     *   Updated the canonical Python version and all binding manifests in
