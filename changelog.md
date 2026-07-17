@@ -764,6 +764,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
 
+- Added a reproducible Conda-Forge feedstock handoff recording release,
+  workflow, recipe, credential, maintainer-merge, and package-index evidence.
+
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and
   an explicit Colab/gcloud availability gate.

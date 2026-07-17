@@ -1,0 +1,16 @@
+{
+  "track_id": "conda-forge-feedstock-publication_20260625",
+  "channel": "conda-forge",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Publish a non-prerelease version, run the release workflow with CONDA_FORGE_TOKEN, then obtain feedstock maintainer review and verify Anaconda indexing.",
+  "external_gate": "A conda-forge feedstock PR requires the repository secret CONDA_FORGE_TOKEN and external conda-forge maintainer merge; package visibility requires channel indexing after merge.",
+  "evidence_urls": ["https://github.com/edithatogo/voiage/releases/tag/v0.2.0", "https://github.com/edithatogo/voiage/blob/main/.github/workflows/conda-update.yml", "https://github.com/edithatogo/voiage/blob/main/conda/meta.yaml", "https://anaconda.org/conda-forge/voiage"],
+  "commands": [
+    {"command":"gh release view v0.2.0 --json tagName,publishedAt,isPrerelease,isDraft","runner":"authenticated GitHub CLI","status":"passed","artifact":"release v0.2.0 metadata","details":"Release exists but is prerelease; no stable release-triggered feedstock update is evidenced."},
+    {"command":"curl -sS -o package.json -w '%{http_code}' https://api.anaconda.org/package/conda-forge/voiage","runner":"networked repository audit","status":"passed","artifact":"HTTP 404; package not found","details":"The package is not currently indexed in conda-forge."},
+    {"command":"git hash-object .github/workflows/conda-update.yml && git hash-object conda/meta.yaml","runner":"local Git worktree","status":"passed","artifact":"workflow 5dfd6ff4aa373aa9402f267d4166ae3de0fa6f85; recipe 737de25b628ea5e3db857e2452431a41c5d53ac0","details":"Repository-owned workflow and recipe are present; recipe retains UPDATE_ON_RELEASE until a stable release is available."},
+    {"command":"gh secret list --repo edithatogo/voiage","runner":"authenticated GitHub CLI","status":"not_run","artifact":"no secret value inspected","details":"Secret presence/value is not exposed or changed; feedstock token availability remains an external repository administration gate."}
+  ]
+}
