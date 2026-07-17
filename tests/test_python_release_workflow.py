@@ -18,7 +18,7 @@ def test_python_release_workflow_matches_documented_tag_flow() -> None:
     assert "uv build" in release_workflow
     assert "workflow_dispatch:" in release_workflow
     assert 'description: "Existing release tag to publish"' in release_workflow
-    assert 'RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}' in release_workflow
+    assert "RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}" in release_workflow
     assert 'gh release create "$RELEASE_TAG"' in release_workflow
     assert "--generate-notes --verify-tag" in release_workflow
     assert "GH_TOKEN: ${{ github.token }}" in release_workflow
