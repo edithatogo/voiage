@@ -29,7 +29,6 @@ To publish to conda-forge:
 ## Recipe Structure
 
 - `meta.yaml`: Main recipe file with package metadata and dependencies
-- `conda_build_config.yaml`: Configuration for building against multiple Python versions
 - `conda_build_config.yaml`: Python-version matrix used for local and staged builds
 
 ## Dependencies
