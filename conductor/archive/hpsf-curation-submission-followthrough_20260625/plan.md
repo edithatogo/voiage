@@ -81,6 +81,14 @@
 - HPSF curation, any portal/community submission, requested changes, approval,
   and listing verification remain external; site reachability is not approval.
 
+## Archive Decision
+
+- Archived after implementation PR #229 merged as `d52a7ad`.
+- Repository-owned governance, security, release, CI, CodeQL, and public-site
+  evidence are complete.
+- HPSF portal/community submission, curation review, requested changes,
+  approval, and listing verification remain external.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

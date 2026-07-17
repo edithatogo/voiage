@@ -644,9 +644,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: HPSF Curation Submission Follow-Through
-*Link: [./tracks/hpsf-curation-submission-followthrough_20260625/](./tracks/hpsf-curation-submission-followthrough_20260625/)*
-*Status: blocked_external — external HPSF curation or portal review.*
+## [x] Track: HPSF Curation Submission Follow-Through [completed: 2026-07-17]
+*Link: [./archive/hpsf-curation-submission-followthrough_20260625/](./archive/hpsf-curation-submission-followthrough_20260625/)*
+*Status: repository-owned HPSF curation packet and current public-surface evidence are complete; portal/community submission, curation review, approval, and listing remain external gates.*
 
 ---
 
