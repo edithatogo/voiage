@@ -503,6 +503,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Prepared synchronized package metadata for the upcoming `0.2.1` release.
 - Registered the 32 genuine Conductor tracks in an explicit dependency-aware
   execution order, separated 10 externally blocked tracks from automatic
   selection, and archived two superseded umbrella/duplicate tracks.

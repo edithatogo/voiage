@@ -1,7 +1,7 @@
 Package: voiageR
 Type: Package
 Title: Value of Information Analysis in R
-Version: 0.2.0
+Version: 0.2.1
 Author: voiage Development Team
 Maintainer: voiage Development Team <voiage@users.noreply.github.com>
 Description: An R interface to the voiage Python library for Value of Information analysis,
