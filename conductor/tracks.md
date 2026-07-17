@@ -626,9 +626,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: Spack Package Merge Follow-Through
-*Link: [./tracks/spack-package-merge-followthrough_20260625/](./tracks/spack-package-merge-followthrough_20260625/)*
-*Status: blocked_external — upstream Spack PR review, merge, and package visibility.*
+## [x] Track: Spack Package Merge Follow-Through [completed: 2026-07-17]
+*Link: [./archive/spack-package-merge-followthrough_20260625/](./archive/spack-package-merge-followthrough_20260625/)*
+*Status: repository-owned draft recipe and upstream-package evidence are complete; upstream Spack PR review, merge, and package visibility remain external gates.*
 
 ---
 

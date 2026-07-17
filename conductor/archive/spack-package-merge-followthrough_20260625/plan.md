@@ -79,6 +79,14 @@
 - Local Spack 1.2.1 reports that `py-voiage` does not exist; the upstream recipe URL returns HTTP 404.
 - Upstream package PR, maintainer merge, and package visibility remain external; the draft is not represented as upstream publication.
 
+## Archive Decision
+
+- Archived after implementation PR #223 merged as `6ea72f2`.
+- Repository-owned draft recipe, source-tag pin, syntax validation, local
+  concretization attempt, and upstream visibility evidence are complete.
+- Upstream Spack PR review/merge and package visibility remain external gates;
+  E4S cannot consume merged-package evidence until those gates clear.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

@@ -778,6 +778,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and maintainer approval retained as external gates.
 - Archived the R registry follow-through track with CRAN review and r-universe
   indexing retained as external gates.
+- Archived the Spack package follow-through track with the reproducible draft
+  recipe retained and upstream review, merge, and package visibility explicit.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and
