@@ -1,0 +1,44 @@
+{
+  "track_id": "easybuild-easyconfig-merge-followthrough_20260625",
+  "channel": "EasyBuild",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Open the validated easyconfig as an upstream EasyBuild PR, run upstream CI and a toolchain-available dry run/build, obtain maintainer merge, and verify easyconfig visibility.",
+  "external_gate": "The upstream easyconfig tree does not contain voiage; maintainer review/merge and EasyBuild repository visibility are external actions.",
+  "evidence_urls": [
+    "https://github.com/easybuilders/easybuild-easyconfigs",
+    "https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/v/voiage-0.2.0-foss-2023a.eb",
+    "https://github.com/edithatogo/voiage/releases/tag/v0.2.0"
+  ],
+  "commands": [
+    {
+      "command": "curl -L --fail https://github.com/edithatogo/voiage/archive/refs/tags/v0.2.0.tar.gz -o /tmp/voiage-v0.2.0.tar.gz && shasum -a 256 /tmp/voiage-v0.2.0.tar.gz",
+      "runner": "networked release audit",
+      "status": "passed",
+      "artifact": "559ab3e4e0cbb7ba3ef97b870bc842d74bc80bf369a075144ee118a9914578cc",
+      "details": "The EasyBuild source artifact is reachable and checksum-pinned."
+    },
+    {
+      "command": "python -m py_compile conductor/tracks/easybuild-easyconfig-merge-followthrough_20260625/handoff/voiage-0.2.0-foss-2023a.eb",
+      "runner": "local Python 3.14",
+      "status": "passed",
+      "artifact": "easyconfig syntax",
+      "details": "Easyconfig files are Python modules; the repository-owned draft is syntactically valid."
+    },
+    {
+      "command": "eb --dry-run conductor/tracks/easybuild-easyconfig-merge-followthrough_20260625/handoff/voiage-0.2.0-foss-2023a.eb",
+      "runner": "local EasyBuild 4.9.4",
+      "status": "blocked",
+      "artifact": "toolchain availability",
+      "details": "A local toolchain/module environment is required for a meaningful dependency dry run; no upstream easyconfig is installed."
+    },
+    {
+      "command": "curl -sS -o /tmp/voiage-easybuild-upstream -w '%{http_code}' https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/v/voiage-0.2.0-foss-2023a.eb",
+      "runner": "networked upstream audit",
+      "status": "not_found",
+      "artifact": "HTTP 404",
+      "details": "The upstream easyconfig path is absent; no upstream PR or merge is evidenced."
+    }
+  ]
+}

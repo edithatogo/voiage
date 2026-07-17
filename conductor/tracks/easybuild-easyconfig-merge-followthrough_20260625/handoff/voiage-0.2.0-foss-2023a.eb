@@ -1,0 +1,25 @@
+easyblock = 'PythonPackage'
+
+name = 'voiage'
+version = '0.2.0'
+
+homepage = 'https://github.com/edithatogo/voiage'
+description = "Value of Information analysis library with Python bindings and reproducible numerical methods."
+
+toolchain = {'name': 'foss', 'version': '2023a'}
+
+source_urls = ['https://github.com/edithatogo/voiage/archive/refs/tags/']
+sources = ['v%(version)s.tar.gz']
+checksums = ['559ab3e4e0cbb7ba3ef97b870bc842d74bc80bf369a075144ee118a9914578cc']
+
+dependencies = [
+    ('SciPy', '1.11.3'),
+    ('pandas', '2.1.4'),
+    ('xarray', '2023.12.0'),
+]
+
+use_pip = True
+sanity_check_paths = {
+    'files': ['bin/voiage'],
+    'dirs': [],
+}

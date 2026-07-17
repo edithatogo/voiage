@@ -127,7 +127,7 @@ The active follow-through tracks are:
 - `r-cran-runiverse-publication_20260625` (handoff: `conductor/archive/r-cran-runiverse-publication_20260625/handoff/r-registry-evidence.json`)
 - `julia-general-registry-publication_20260625` (handoff: `conductor/archive/julia-general-registry-publication_20260625/handoff/julia-registry-evidence.json`)
 - `archive/spack-package-merge-followthrough_20260625` (handoff: `conductor/archive/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json`)
-- `easybuild-easyconfig-merge-followthrough_20260625`
+- `easybuild-easyconfig-merge-followthrough_20260625` (handoff: `conductor/tracks/easybuild-easyconfig-merge-followthrough_20260625/handoff/easybuild-evidence.json`)
 - `hpsf-curation-submission-followthrough_20260625`
 - `e4s-inclusion-followthrough_20260625`
 
