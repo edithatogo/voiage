@@ -130,7 +130,7 @@ The active follow-through tracks are:
 - `archive/easybuild-easyconfig-merge-followthrough_20260625` (handoff: `conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff/easybuild-evidence.json`)
 - `hpsf-curation-submission-followthrough_20260625` (handoff: `conductor/tracks/hpsf-curation-submission-followthrough_20260625/handoff/hpsf-evidence.json`)
 - `archive/e4s-inclusion-followthrough_20260625` (handoff: `conductor/archive/e4s-inclusion-followthrough_20260625/handoff/e4s-evidence.json`)
-- `fpga-physical-board-runtime-evidence_20260625` (handoff: `conductor/tracks/fpga-physical-board-runtime-evidence_20260625/handoff/fpga-runtime-evidence.json`)
+- `archive/fpga-physical-board-runtime-evidence_20260625` (handoff: `conductor/archive/fpga-physical-board-runtime-evidence_20260625/handoff/fpga-runtime-evidence.json`)
 
 These tracks must distinguish readiness, submitted, published, indexed,
 approved, blocked, and not-found states. GitHub Actions and `gh` are the

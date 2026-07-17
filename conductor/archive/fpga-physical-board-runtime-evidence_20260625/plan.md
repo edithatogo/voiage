@@ -83,6 +83,14 @@
 - Board, bitstream, toolchain/runner, timing, throughput, parity, and reviewer
   evidence remain external hardware gates.
 
+## Archive Decision
+
+- Archived after implementation PR #230 merged as `bf88da3`.
+- Repository-owned pre-silicon regeneration, unavailable-runtime packet, CPU
+  fallback, and explicit board-runtime gate are complete.
+- Physical board, bitstream, toolchain/runner, timing, throughput, parity, and
+  reviewer evidence remain external hardware gates.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
