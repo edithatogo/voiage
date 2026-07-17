@@ -656,9 +656,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: ASIC MPW Shuttle And Silicon Evidence
-*Link: [./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/](./tracks/asic-mpw-shuttle-and-silicon-evidence_20260625/)*
-*Status: blocked_external — MPW shuttle access, fabrication, and physical silicon.*
+## [x] Track: ASIC MPW Shuttle And Silicon Evidence [completed: 2026-07-17]
+*Link: [./archive/asic-mpw-shuttle-and-silicon-evidence_20260625/](./archive/asic-mpw-shuttle-and-silicon-evidence_20260625/)*
+*Status: repository-owned RTL/pre-silicon and unavailable-silicon evidence are complete; MPW shuttle access, fabrication, bring-up, and physical silicon runtime remain external gates.*
 
 ---
 
