@@ -9,6 +9,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Strengthen context and harness engineering for the solo-maintainer
+    workflow while retaining pull-request traceability and automated review
+    gates.
+    *   Added explicit agent context loading order and repository map, expanded
+        fail-closed governance checks, and documented that independent review
+        approval is intentionally not required.
+
 *   [x] Enable tag-derived Python package versioning with `setuptools-scm`.
     *   Release tags now build exact Python versions; development checkouts
         produce identifiable development versions, while binding manifests

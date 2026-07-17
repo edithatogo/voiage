@@ -6,6 +6,44 @@ This document outlines the standard operating procedure for AI agents contributi
 
 The primary objective is to advance the `voiage` library by implementing features, fixing bugs, and improving the codebase, guided by the `roadmap.md` and `todo.md` files. The ultimate vision is to establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis.
 
+## Context Loading Order
+
+Before making a change, load context in this order:
+
+1. `AGENTS.md` for agent protocol and repository boundaries.
+2. `roadmap.md` and `todo.md` for current priorities and completed work.
+3. `CONTRIBUTING.md` and `docs/developer_guide/quality_and_security.rst` for
+   implementation and verification rules.
+4. The relevant package, test, workflow, Conductor track, and binding files.
+
+When sources disagree, prefer executable tests and active workflow/configuration
+over narrative status documents, then update the stale narrative in the same
+change. Treat `voiage/` as the Python runtime, `tests/` as behavioral evidence,
+`specs/` and `conductor/` as contract/roadmap evidence, `docs/astro-site/` as
+the documentation source, and `.github/` plus `tox.ini` as the automation
+contract.
+
+## Repository Context Map
+
+* `voiage/`: public Python API, methods, schemas, CLI, and backend boundaries.
+* `tests/`: unit, integration, property, workflow, registry, and evidence tests.
+* `specs/`: canonical API, ecosystem, frontier, and binding contracts.
+* `bindings/` and `r-package/`: polyglot surfaces whose manifests must remain
+  synchronized with the Python release policy.
+* `conductor/tracks/`: active execution tracks; `conductor/archive/`: completed
+  or externally gated records.
+* `docs/astro-site/`: Astro/Starlight source and build output contract.
+* `.github/workflows/`: hosted quality, security, release, and evidence gates.
+
+## Solo-Maintainer Merge Policy
+
+The repository is operated by a single maintainer. Pull requests remain the
+auditable change boundary, but no independent reviewer approval is required:
+the protected `main` ruleset uses zero required approvals and does not require
+code-owner review. The maintainer must still self-review the diff and wait for
+all required automated checks, security gates, resolved threads, linear-history
+and signed-commit controls before merging.
+
 ## Agent Operating Procedure
 
 Agents must follow this sequence for every contribution:

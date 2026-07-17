@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added explicit agent context-loading order, a repository context map, and a
+  solo-maintainer merge policy; the fail-closed harness now protects these
+  governance surfaces from disappearing.
+
 - Added discrete GPU/CUDA benchmark packet validation for CPU comparison,
   transfer and compile overhead, result parity, CPU fallback, and explicit
   Colab/cloud runner blocks; T4 visibility alone does not prove speedup.

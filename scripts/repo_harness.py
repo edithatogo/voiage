@@ -19,12 +19,22 @@ REQUIRED_FILES = (
     "pyproject.toml",
     "tox.ini",
     ".github/CODEOWNERS",
+    ".github/PULL_REQUEST_TEMPLATE/default.md",
+    ".pre-commit-config.yaml",
+    "roadmap.md",
+    "todo.md",
+    "changelog.md",
 )
 REQUIRED_WORKFLOWS = (
     "ci.yml",
     "codeql.yml",
     "dependency-review.yml",
     "scorecard.yml",
+)
+REQUIRED_CONTEXT_MARKERS = (
+    "## Context Loading Order",
+    "## Repository Context Map",
+    "## Solo-Maintainer Merge Policy",
 )
 
 
@@ -52,6 +62,19 @@ def check_required_files(root: Path) -> list[Finding]:
         Finding(relative_path, "required file is missing")
         for relative_path in REQUIRED_FILES
         if not (root / relative_path).is_file()
+    ]
+
+
+def check_context_contract(root: Path) -> list[Finding]:
+    """Ensure agent-facing repository context remains explicit and discoverable."""
+    path = root / "AGENTS.md"
+    if not path.is_file():
+        return []
+    text = path.read_text(encoding="utf-8")
+    return [
+        Finding("AGENTS.md", f"required context section is missing: {marker}")
+        for marker in REQUIRED_CONTEXT_MARKERS
+        if marker not in text
     ]
 
 
@@ -162,6 +185,7 @@ def collect_findings(root: Path) -> list[Finding]:
     """Run all deterministic harness checks."""
     return (
         check_required_files(root)
+        + check_context_contract(root)
         + check_workflows(root)
         + check_docs_platform(root)
         + check_conflict_markers(root)
