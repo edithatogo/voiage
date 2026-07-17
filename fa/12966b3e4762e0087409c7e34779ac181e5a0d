@@ -1,0 +1,1 @@
+Prepared ASIC MPW/silicon handoff with reproducible RTL, testbench, fixture, pre-silicon manifest, absent GDS/DEF evidence, and explicit shuttle/fabrication/runtime gates. Focused tests pass.
