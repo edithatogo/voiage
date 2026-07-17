@@ -9,6 +9,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Prepare the synchronized `0.2.1` release metadata and verify the
+    tag-driven PyPI publication path.
+    *   Updated the canonical Python version and all binding manifests in
+        lockstep; release tagging and publication remain a separate hosted
+        action.
+
 *   [x] Archive the dynamic real-options VOI track after implementing the
     staged runtime and CLI; retain longitudinal-data, parity, and mature
     approval as explicit external gates.
