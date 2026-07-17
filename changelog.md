@@ -772,6 +772,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   CRAN-style check, PDF manual, and explicit manual submission/indexing gates.
 - Added Julia General readiness evidence with passing `Pkg.test()`, Compat and
   TagBot/release workflow verification, and explicit registration/approval gates.
+- Archived the Julia registry follow-through track with General registration
+  and maintainer approval retained as external gates.
 - Archived the R registry follow-through track with CRAN review and r-universe
   indexing retained as external gates.
 

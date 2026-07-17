@@ -620,9 +620,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: Julia General Registry Publication
-*Link: [./tracks/julia-general-registry-publication_20260625/](./tracks/julia-general-registry-publication_20260625/)*
-*Status: blocked_external — Julia General registry review and approval.*
+## [x] Track: Julia General Registry Publication [completed: 2026-07-17]
+*Link: [./archive/julia-general-registry-publication_20260625/](./archive/julia-general-registry-publication_20260625/)*
+*Status: repository-owned Julia metadata, Compat, tests, TagBot/release workflow, and registry evidence are complete; Julia General registry review and approval remain external gates.*
 
 ---
 
