@@ -1,0 +1,1 @@
+Archived EasyBuild follow-through after implementation PR #225 merged as 23f05f5. Preserved checksum-pinned easyconfig, local Lmod/toolchain dry-run limitation, and upstream maintainer/visibility gates. Focused tests pass.
