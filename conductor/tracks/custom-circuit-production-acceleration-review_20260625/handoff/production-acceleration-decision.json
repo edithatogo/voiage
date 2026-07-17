@@ -1,0 +1,47 @@
+{
+  "track_id": "custom-circuit-production-acceleration-review_20260625",
+  "channel": "FPGA/ASIC production acceleration review",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "decision": "no_go",
+  "decision_summary": "Do not make a production FPGA or ASIC acceleration claim. Keep the supported CPU path and explicit FPGA/ASIC placeholders as the public boundary until independently reviewed hardware runtime, parity, throughput, deployment-cost, and maintenance evidence exists.",
+  "next_action": "Reopen the decision only after the archived FPGA and ASIC external gates produce board/silicon runtime packets with CPU comparison, reproducibility, deployment cost, maintenance burden, and reviewer sign-off.",
+  "external_gate": "Physical FPGA board runtime and fabricated ASIC runtime are absent; shuttle/board access, hardware toolchains, silicon, production measurements, and independent review remain external.",
+  "evidence_urls": [
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/fpga-physical-board-runtime-evidence_20260625/handoff/fpga-runtime-evidence.json",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/asic-mpw-shuttle-and-silicon-evidence_20260625/handoff/asic-silicon-evidence.json",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-manifest.json",
+    "https://github.com/edithatogo/voiage/blob/main/docs/developer_guide/hpc_native_roadmap.rst"
+  ],
+  "commands": [
+    {
+      "command": "shasum -a 256 conductor/archive/fpga-physical-board-runtime-evidence_20260625/handoff/fpga-runtime-evidence.json conductor/archive/asic-mpw-shuttle-and-silicon-evidence_20260625/handoff/asic-silicon-evidence.json conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-manifest.json conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/production-speedup-index.json",
+      "runner": "local macOS audit",
+      "status": "passed",
+      "artifact": "FPGA 807dafe6951efe8e8ef56115c115e3842430e5846ee5613310de02c3c1e50541; ASIC ad2360bb0173af409c62fb4922c6ee835a959d261740f13fca11af2155a11cd0; manifest 47bf77acb1f28591550277336c521709d5dd1799cc901aef5390e57b791dd8cb; index 9831074afcc17755efec55c2bdb89e5e5e1d61b2c3199c3d620df392f4ffac77",
+      "details": "The review packet inputs are deterministic and traceable."
+    },
+    {
+      "command": "inspect production-speedup manifest and FPGA/ASIC unavailable packets",
+      "runner": "repository evidence audit",
+      "status": "blocked",
+      "artifact": "CPU fallback true; FPGA device no physical board; ASIC device no fabricated silicon",
+      "details": "The shared benchmark contract preserves CPU fallback and records no hardware timing, throughput, or speedup."
+    },
+    {
+      "command": "review archived FPGA and ASIC handoff claim boundaries",
+      "runner": "Conductor decision review",
+      "status": "blocked",
+      "artifact": "no board runtime; no GDS/DEF or silicon runtime",
+      "details": "Neither track supplies the direct hardware evidence required for a production claim."
+    },
+    {
+      "command": "rg -n 'CPU fallback|production acceleration|FPGA|ASIC' docs/developer_guide/hpc_native_roadmap.rst",
+      "runner": "documentation audit",
+      "status": "passed",
+      "artifact": "roadmap preserves CPU-first and external-gate wording",
+      "details": "The public documentation distinguishes pre-silicon/placeholder progress from production acceleration."
+    }
+  ]
+}
