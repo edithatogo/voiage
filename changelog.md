@@ -790,6 +790,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stack verification as external gates.
 - Archived the E4S follow-through track with curation, stack verification, and
   prerequisite upstream package gates retained as external.
+- Added an HPSF curation packet with current governance, security, release, CI,
+  and public-surface evidence while preserving submission and review as
+  external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

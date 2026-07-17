@@ -127,10 +127,10 @@
       "registry": "HPSF",
       "registry_url": "https://hpsf.io/",
       "status": "external_manual",
-      "details": "The E4S public site is reachable, but no voiage entry was found in the inspected E4S facility configuration repository; curation and package-stack verification remain external.",
+      "details": "The HPSF public site is reachable, but no repository-owned package API or confirmed voiage listing was found; curation and listing policy remain external.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "HPSF curation has no repo-owned package API check here; portal or curation review evidence must be attached by the follow-through track.",
-      "checked_at": "2026-06-25T10:08:22Z",
+      "checked_at": "2026-07-17T00:00:00Z",
       "evidence_confidence": "low"
     },
     "e4s": {
@@ -138,7 +138,7 @@
       "registry": "E4S",
       "registry_url": "https://e4s.io/",
       "status": "external_manual",
-      "details": "This target requires external curation or portal evidence and cannot be confirmed from a package API in this repository.",
+      "details": "The E4S public site is reachable, but no voiage entry was found in the inspected E4S facility configuration repository; curation and package-stack verification remain external.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "E4S inclusion depends on external curation and usually on upstream HPC packaging evidence such as Spack or EasyBuild.",
       "checked_at": "2026-07-17T00:00:00Z",
