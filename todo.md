@@ -7,8 +7,6 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
-*   [ ] Complete the external registry publication evidence track, preserving
-    publication and maintainer approval as external gates.
 
 ## Done
 

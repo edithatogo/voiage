@@ -7,8 +7,11 @@ import pytest
 
 from scripts.validate_registry_publication_evidence import validate_manifest
 
-MANIFEST = Path(
-    "conductor/tracks/external-registry-publication-program_20260625/handoff/registry-manifest.json"
+MANIFEST = next(
+    root
+    / "external-registry-publication-program_20260625/handoff/registry-manifest.json"
+    for root in (Path("conductor/tracks"), Path("conductor/archive"))
+    if (root / "external-registry-publication-program_20260625").is_dir()
 )
 
 

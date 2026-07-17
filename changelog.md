@@ -772,3 +772,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   approval, credentials, and maintainer gates.
 - Completed the repository-owned TPU production evidence track while retaining
   authenticated Colab/gcloud allocation and reviewed speedup as external gates.
+- Completed the repository-owned external registry publication evidence track;
+  live publication, indexing, credentials, and maintainer approval remain
+  explicitly external per channel.

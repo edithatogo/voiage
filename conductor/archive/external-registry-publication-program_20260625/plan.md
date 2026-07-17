@@ -76,6 +76,12 @@
 - Added a 13-channel evidence manifest covering Python, R, Julia, TypeScript, Go, Rust, .NET, conda-forge, r-universe, Spack, EasyBuild, HPSF, and E4S.
 - Every unresolved channel has an owner, next action, evidence URL, and precise external gate. No irreversible registry submission was performed.
 
+## Archive Decision
+
+- Archived after implementation PR #214 merged as `7b380ed`.
+- Repository-owned 13-channel registry evidence manifest and validator are complete.
+- Publication, indexing, credentials, maintainer review, and external curation remain channel-specific external gates; no readiness state is promoted to publication.
+
 ## Verification Commands
 
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
