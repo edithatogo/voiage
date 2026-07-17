@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Prevented the TestPyPI and PyPI upload steps from attempting to create
+  duplicate release attestations in the shared build directory.
+
 ### Removed
 - Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
   `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
