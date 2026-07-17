@@ -295,6 +295,10 @@ class TestCICDQualityGatesConfiguration:
         assert "version-sync" in ci_config["jobs"], (
             "Version sync validation job not found"
         )
+        checkout = ci_config["jobs"]["version-sync"]["steps"][0]
+        assert checkout["with"]["fetch-depth"] == 0, (
+            "Version sync requires release tags from a full checkout"
+        )
 
 
 class TestQualityGatePolicyCompliance:
