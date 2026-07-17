@@ -662,9 +662,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: Custom-Circuit Production Acceleration Review
-*Link: [./tracks/custom-circuit-production-acceleration-review_20260625/](./tracks/custom-circuit-production-acceleration-review_20260625/)*
-*Status: blocked_external — completed FPGA-board and ASIC-silicon evidence.*
+## [x] Track: Custom-Circuit Production Acceleration Review [completed: 2026-07-17]
+*Link: [./archive/custom-circuit-production-acceleration-review_20260625/](./archive/custom-circuit-production-acceleration-review_20260625/)*
+*Status: repository-owned no-go decision is complete; production FPGA/ASIC claims remain prohibited until external board/silicon evidence and independent review exist.*
 
 ---
 

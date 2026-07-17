@@ -132,7 +132,7 @@ The active follow-through tracks are:
 - `archive/e4s-inclusion-followthrough_20260625` (handoff: `conductor/archive/e4s-inclusion-followthrough_20260625/handoff/e4s-evidence.json`)
 - `archive/fpga-physical-board-runtime-evidence_20260625` (handoff: `conductor/archive/fpga-physical-board-runtime-evidence_20260625/handoff/fpga-runtime-evidence.json`)
 - `archive/asic-mpw-shuttle-and-silicon-evidence_20260625` (handoff: `conductor/archive/asic-mpw-shuttle-and-silicon-evidence_20260625/handoff/asic-silicon-evidence.json`)
-- `custom-circuit-production-acceleration-review_20260625` (handoff: `conductor/tracks/custom-circuit-production-acceleration-review_20260625/handoff/production-acceleration-decision.json`)
+- `archive/custom-circuit-production-acceleration-review_20260625` (handoff: `conductor/archive/custom-circuit-production-acceleration-review_20260625/handoff/production-acceleration-decision.json`)
 
 These tracks must distinguish readiness, submitted, published, indexed,
 approved, blocked, and not-found states. GitHub Actions and `gh` are the

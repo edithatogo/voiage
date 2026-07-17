@@ -107,9 +107,12 @@ def _track_text(track_id: str) -> str:
 def test_registry_exactly_matches_active_track_directories() -> None:
     """Every active directory is registered and every active link resolves."""
     registry = _read("conductor/tracks.md")
-    active_ids = {
-        path.name for path in Path("conductor/tracks").iterdir() if path.is_dir()
-    }
+    active_root = Path("conductor/tracks")
+    active_ids = (
+        {path.name for path in active_root.iterdir() if path.is_dir()}
+        if active_root.is_dir()
+        else set()
+    )
     registered_ids = set(re.findall(r"\./tracks/([^/]+)/", registry))
 
     assert registered_ids == active_ids
@@ -163,7 +166,7 @@ def test_registry_encodes_execution_and_external_blocked_queues() -> None:
         r"\*Status: blocked_external — ([^*]+)\.\*",
         registry,
     )
-    assert len(blocked) == 1
+    assert len(blocked) == 0
     assert all(gate.strip() for _, gate in blocked)
 
     assert "./archive/adjacent-frontier-runtime-completion_20260625/" in registry
