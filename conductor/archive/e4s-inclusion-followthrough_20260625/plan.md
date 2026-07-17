@@ -83,6 +83,14 @@
 - E4S curation and independent package-stack verification remain external;
   the prerequisite Spack and EasyBuild upstream gates remain open.
 
+## Archive Decision
+
+- Archived after implementation PR #227 merged as `46791be`.
+- Repository-owned inclusion packet, prerequisite links, release/license
+  evidence, and facility-configuration audit are complete.
+- E4S curation and independent package-stack verification remain external;
+  Spack and EasyBuild upstream maintainer gates are also retained.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

@@ -163,7 +163,7 @@ def test_registry_encodes_execution_and_external_blocked_queues() -> None:
         r"\*Status: blocked_external — ([^*]+)\.\*",
         registry,
     )
-    assert len(blocked) == 5
+    assert len(blocked) == 4
     assert all(gate.strip() for _, gate in blocked)
 
     assert "./archive/adjacent-frontier-runtime-completion_20260625/" in registry

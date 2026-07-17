@@ -638,9 +638,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: E4S Inclusion Follow-Through
-*Link: [./tracks/e4s-inclusion-followthrough_20260625/](./tracks/e4s-inclusion-followthrough_20260625/)*
-*Status: blocked_external — external E4S curation after verified Spack or EasyBuild progress.*
+## [x] Track: E4S Inclusion Follow-Through [completed: 2026-07-17]
+*Link: [./archive/e4s-inclusion-followthrough_20260625/](./archive/e4s-inclusion-followthrough_20260625/)*
+*Status: repository-owned E4S inclusion packet and facility audit are complete; E4S curation, package-stack verification, and prerequisite upstream package gates remain external.*
 
 ---
 

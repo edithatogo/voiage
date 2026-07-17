@@ -788,6 +788,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an E4S inclusion packet linking the reproducible release, license, and
   archived HPC packaging evidence while preserving E4S curation and package
   stack verification as external gates.
+- Archived the E4S follow-through track with curation, stack verification, and
+  prerequisite upstream package gates retained as external.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and
