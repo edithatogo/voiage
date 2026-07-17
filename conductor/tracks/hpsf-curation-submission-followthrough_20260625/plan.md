@@ -72,6 +72,15 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/hpsf-evidence.json` with release, governance, security,
+  license, repository metadata, CI, CodeQL, and HPSF-site evidence.
+- Confirmed the public Apache-2.0 repository is not archived, the v0.2.0 tag
+  is reproducible, and the latest completed main CI and CodeQL runs passed.
+- HPSF curation, any portal/community submission, requested changes, approval,
+  and listing verification remain external; site reachability is not approval.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it

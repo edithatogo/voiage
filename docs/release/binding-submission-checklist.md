@@ -128,7 +128,7 @@ The active follow-through tracks are:
 - `julia-general-registry-publication_20260625` (handoff: `conductor/archive/julia-general-registry-publication_20260625/handoff/julia-registry-evidence.json`)
 - `archive/spack-package-merge-followthrough_20260625` (handoff: `conductor/archive/spack-package-merge-followthrough_20260625/handoff/spack-evidence.json`)
 - `archive/easybuild-easyconfig-merge-followthrough_20260625` (handoff: `conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff/easybuild-evidence.json`)
-- `hpsf-curation-submission-followthrough_20260625`
+- `hpsf-curation-submission-followthrough_20260625` (handoff: `conductor/tracks/hpsf-curation-submission-followthrough_20260625/handoff/hpsf-evidence.json`)
 - `archive/e4s-inclusion-followthrough_20260625` (handoff: `conductor/archive/e4s-inclusion-followthrough_20260625/handoff/e4s-evidence.json`)
 
 These tracks must distinguish readiness, submitted, published, indexed,

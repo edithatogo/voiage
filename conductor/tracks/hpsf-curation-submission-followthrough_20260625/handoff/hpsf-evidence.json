@@ -1,0 +1,53 @@
+{
+  "track_id": "hpsf-curation-submission-followthrough_20260625",
+  "channel": "HPSF",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Submit this packet through the HPSF curation/community route after maintainer review, pause for any account-bound submission step, then record curator requested changes or approval and verify any resulting listing.",
+  "external_gate": "HPSF has no repository-owned package API or confirmed voiage listing in the checked public surfaces; portal/community submission, curation review, and listing policy are external actions.",
+  "evidence_urls": [
+    "https://hpsf.io/",
+    "https://github.com/edithatogo/voiage/security/policy",
+    "https://github.com/edithatogo/voiage/releases/tag/v0.2.0",
+    "https://github.com/edithatogo/voiage/actions/runs/29546952487",
+    "https://github.com/edithatogo/voiage/actions/runs/29546952476"
+  ],
+  "commands": [
+    {
+      "command": "git ls-remote --tags https://github.com/edithatogo/voiage.git refs/tags/v0.2.0",
+      "runner": "networked Git audit",
+      "status": "passed",
+      "artifact": "v0.2.0 commit 653bd313af341cba65b84409b7abfb3af77f1407",
+      "details": "A reproducible release tag exists for the submission packet."
+    },
+    {
+      "command": "shasum -a 256 SECURITY.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE",
+      "runner": "local macOS audit",
+      "status": "passed",
+      "artifact": "SECURITY 6b09c05e441e32596414affd7d66ddb5404e7262cebbbb2bf90f79d810480f10; CODE_OF_CONDUCT a4f3df58bbd1d717819b55c16d48d6cef3a5a94866fe7b75ecd60dfbd5b1d869; CONTRIBUTING 7e824f58eef8eff8f34eeec046d533bc94afffbcf6a8da4f5ef8b4b762174d85; LICENSE ce8c23436cf2f3540f1148fe4202293f1612837c0a21951ba71591164b1c5dce",
+      "details": "Governance, security, contribution, and license artifacts are present and hashed."
+    },
+    {
+      "command": "gh api repos/edithatogo/voiage --jq '{visibility,archived,license:.license.spdx_id,default_branch}'",
+      "runner": "authenticated GitHub audit",
+      "status": "passed",
+      "artifact": "public, not archived, Apache-2.0, main",
+      "details": "The repository metadata supports a public curation handoff."
+    },
+    {
+      "command": "gh run list --repo edithatogo/voiage --workflow CI --branch main --status completed --limit 1",
+      "runner": "authenticated GitHub audit",
+      "status": "passed",
+      "artifact": "CI run 29546952487 success at 46791be",
+      "details": "The latest completed main CI run passed; the separate CodeQL run 29546952476 also passed."
+    },
+    {
+      "command": "curl -sS -o /tmp/hpsf-site -w '%{http_code}' https://hpsf.io/",
+      "runner": "networked HPSF audit",
+      "status": "passed",
+      "artifact": "HTTP 200",
+      "details": "The HPSF public site is reachable; reachability is not evidence of a voiage listing or approval."
+    }
+  ]
+}
