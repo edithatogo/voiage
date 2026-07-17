@@ -793,6 +793,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an HPSF curation packet with current governance, security, release, CI,
   and public-surface evidence while preserving submission and review as
   external gates.
+- Added an FPGA runtime handoff linking reproducible pre-silicon evidence and
+  the explicit no-board CPU-fallback boundary; board runtime remains external.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

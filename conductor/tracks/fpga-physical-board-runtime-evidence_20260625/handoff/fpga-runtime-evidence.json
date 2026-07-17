@@ -1,0 +1,45 @@
+{
+  "track_id": "fpga-physical-board-runtime-evidence_20260625",
+  "channel": "FPGA physical runtime",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Provide an identified physical FPGA board, licensed or open toolchain, bitstream runner, and board access; then capture bitstream hash, runtime timing/throughput, CPU parity, workload hash, and reviewer sign-off.",
+  "external_gate": "No physical FPGA board, board runner, bitstream, or hardware toolchain is available in this repository-only execution context; pre-silicon evidence and CPU fallback remain the authoritative boundary.",
+  "evidence_urls": [
+    "https://github.com/edithatogo/voiage/blob/main/.github/workflows/pre-silicon-evidence.yml",
+    "https://github.com/edithatogo/voiage/blob/main/scripts/pre_silicon_evidence.py",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/fpga-implementation_20260511/working-notes.md",
+    "https://github.com/edithatogo/voiage/blob/main/conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/packets/fpga-not-available.json"
+  ],
+  "commands": [
+    {
+      "command": "python scripts/pre_silicon_evidence.py fpga --output-root /tmp/voiage-fpga-pre-silicon",
+      "runner": "local Python 3.14",
+      "status": "passed",
+      "artifact": "pre_silicon_evidence_manifest.json sha256 df9ac14cbd4fd16c634c6cbfeed759dd3f2e0af09c6d5e9c50fc1b4d380f4b3d",
+      "details": "The repository-owned FPGA pre-silicon manifest is reproducibly generated."
+    },
+    {
+      "command": "shasum -a 256 conductor/archive/hpc-production-speedup-evidence-program_20260625/handoff/packets/fpga-not-available.json conductor/archive/fpga-implementation_20260511/working-notes.md scripts/pre_silicon_evidence.py .github/workflows/pre-silicon-evidence.yml",
+      "runner": "local macOS audit",
+      "status": "passed",
+      "artifact": "packet d22b9a1378525920795e28dcec88197c0bf4a9609d20cac74cd46d577db387c0; notes e95b6680c7c5fec631697384cb099bf5ca97ff9dc9f952b3af851415459bf70e",
+      "details": "Pre-silicon and unavailable-runtime evidence inputs are deterministic."
+    },
+    {
+      "command": "gh run list --repo edithatogo/voiage --workflow pre-silicon-evidence.yml --branch main --status completed --limit 1",
+      "runner": "authenticated GitHub audit",
+      "status": "not_found",
+      "artifact": "no completed main workflow run returned",
+      "details": "No hosted pre-silicon run is currently available as additional live evidence."
+    },
+    {
+      "command": "inspect archived fpga-not-available packet and explicit fpga placeholder adapter",
+      "runner": "repository evidence audit",
+      "status": "blocked",
+      "artifact": "device: no physical board; cpu_fallback: true",
+      "details": "The existing packet explicitly records physical board, bitstream, and toolchain gates; no board runtime claim is made."
+    }
+  ]
+}
