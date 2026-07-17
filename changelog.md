@@ -780,6 +780,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   indexing retained as external gates.
 - Archived the Spack package follow-through track with the reproducible draft
   recipe retained and upstream review, merge, and package visibility explicit.
+- Added a checksum-pinned EasyBuild easyconfig draft with local syntax and
+  upstream visibility evidence; maintainer review, merge, and toolchain-backed
+  dry-run/build remain explicit external gates.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

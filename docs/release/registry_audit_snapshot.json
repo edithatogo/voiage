@@ -6,7 +6,7 @@
       "registry": "PyPI",
       "registry_url": "https://pypi.org/project/voiage/",
       "status": "not_found",
-      "details": "Manual check returned HTTP 404.",
+      "details": "The upstream easyconfig path returned HTTP 404; a repository-owned, checksum-pinned draft easyconfig now passes local syntax validation.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Automated PyPI/TestPyPI publish exists on tags; external conda-forge feedstock merge is manual.",
       "checked_at": "2026-06-25T10:08:13Z",
@@ -97,7 +97,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "r-universe indexing is external to this repository and must be verified independently from GitHub Release source archives.",
-      "checked_at": "2026-06-25T10:08:21Z",
+      "checked_at": "2026-07-17T00:00:00Z",
       "evidence_confidence": "medium"
     },
     "spack": {
