@@ -4,8 +4,10 @@ from pathlib import Path
 
 from scripts.validate_external_track_handoff import validate_handoff
 
-HANDOFF = Path(
-    "conductor/tracks/r-cran-runiverse-publication_20260625/handoff/r-registry-evidence.json"
+HANDOFF = next(
+    root / "r-cran-runiverse-publication_20260625/handoff/r-registry-evidence.json"
+    for root in (Path("conductor/tracks"), Path("conductor/archive"))
+    if (root / "r-cran-runiverse-publication_20260625").is_dir()
 )
 
 
