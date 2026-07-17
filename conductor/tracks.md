@@ -632,9 +632,9 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## [!] Track: EasyBuild Easyconfig Merge Follow-Through
-*Link: [./tracks/easybuild-easyconfig-merge-followthrough_20260625/](./tracks/easybuild-easyconfig-merge-followthrough_20260625/)*
-*Status: blocked_external — upstream EasyBuild review, merge, and easyconfig visibility.*
+## [x] Track: EasyBuild Easyconfig Merge Follow-Through [completed: 2026-07-17]
+*Link: [./archive/easybuild-easyconfig-merge-followthrough_20260625/](./archive/easybuild-easyconfig-merge-followthrough_20260625/)*
+*Status: repository-owned easyconfig, checksum, syntax, dry-run boundary, and upstream evidence are complete; upstream EasyBuild review, merge, and easyconfig visibility remain external gates.*
 
 ---
 
