@@ -72,6 +72,13 @@
 
 ## Verification Commands
 
+## Execution Evidence
+
+- Added `handoff/julia-registry-evidence.json` using the shared external-track handoff schema.
+- `julia --project=bindings/julia -e 'using Pkg; Pkg.test()'` passed 2/2 EVPI tests under Julia 1.12.6.
+- Project, source, test, TagBot, and release workflow evidence is hashed and linked.
+- Julia General `V/Voiage/Package.toml` and `Versions.toml` both returned HTTP 404; registration and maintainer approval remain external gates.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
