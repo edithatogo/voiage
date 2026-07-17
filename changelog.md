@@ -805,6 +805,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recorded a no-go decision for production FPGA/ASIC acceleration until direct
   board/silicon runtime, parity, throughput, cost, maintenance, and review
   evidence is available.
+- Archived the custom-circuit production review with the no-go boundary and
+  CPU-authoritative fallback retained for future external evidence.
 - Archived the HPSF curation follow-through track with portal submission,
   curation review, approval, and listing retained as external gates.
 

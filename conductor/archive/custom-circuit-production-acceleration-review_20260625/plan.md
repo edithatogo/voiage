@@ -85,6 +85,14 @@
 - Reopen only when external hardware evidence supplies the required measured
   comparison and review packet.
 
+## Archive Decision
+
+- Archived after implementation PR #235 merged as `ebeb29f`.
+- The repository-owned review records a no-go for production FPGA/ASIC
+  acceleration and keeps the CPU path authoritative.
+- Reopening requires external board/silicon runtime, parity, throughput,
+  deployment-cost, maintenance, and independent-review evidence.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
