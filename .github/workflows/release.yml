@@ -31,6 +31,7 @@ jobs:
       uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
       with:
         fetch-depth: 0
+        ref: ${{ inputs.release_tag || github.ref }}
         persist-credentials: false
 
     - name: Install uv

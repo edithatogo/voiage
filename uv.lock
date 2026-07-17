@@ -4324,7 +4324,6 @@ wheels = [
 
 [[package]]
 name = "voiage"
-version = "0.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "defusedxml" },

@@ -503,6 +503,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Python package versions are now derived from release tags with
+  `setuptools-scm`; binding manifests continue to track the latest released
+  version.
 - Registered the 32 genuine Conductor tracks in an explicit dependency-aware
   execution order, separated 10 externally blocked tracks from automatic
   selection, and archived two superseded umbrella/duplicate tracks.

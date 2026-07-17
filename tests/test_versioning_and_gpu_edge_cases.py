@@ -58,6 +58,20 @@ def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
     assert "1.2.3" in formatted
 
 
+def test_dynamic_canonical_version_comes_from_release_tag(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    pyproject = tmp_path / "pyproject.toml"
+    pyproject.write_text("[project]\ndynamic = ['version']\n", encoding="utf-8")
+    monkeypatch.setattr(
+        versioning.subprocess,
+        "run",
+        lambda *args, **kwargs: SimpleNamespace(returncode=0, stdout="v0.2.1\n"),
+    )
+
+    assert versioning._read_canonical_version(pyproject) == "0.2.1"
+
+
 def test_versioning_load_helpers_and_version_extractors(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

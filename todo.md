@@ -9,6 +9,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Enable tag-derived Python package versioning with `setuptools-scm`.
+    *   Release tags now build exact Python versions; development checkouts
+        produce identifiable development versions, while binding manifests
+        remain synchronized to the latest reachable release tag.
+
 *   [x] Prevent duplicate release-attestation generation across the TestPyPI
     and PyPI upload steps so the tag-driven publication workflow completes.
 
