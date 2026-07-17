@@ -770,6 +770,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   indexing retained as explicit external gates.
 - Added R CRAN/r-universe readiness evidence with reproducible package build,
   CRAN-style check, PDF manual, and explicit manual submission/indexing gates.
+- Added Julia General readiness evidence with passing `Pkg.test()`, Compat and
+  TagBot/release workflow verification, and explicit registration/approval gates.
 - Archived the R registry follow-through track with CRAN review and r-universe
   indexing retained as external gates.
 

@@ -1,0 +1,17 @@
+{
+  "track_id": "julia-general-registry-publication_20260625",
+  "channel": "Julia General",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Submit the package registration through Registrator or the Julia General contribution path, obtain maintainer review/merge, and verify General registry visibility.",
+  "external_gate": "Julia General registration and review are upstream maintainer actions; TagBot can synchronize releases only after registry approval and required repository secrets remain configured externally.",
+  "evidence_urls": ["https://github.com/JuliaRegistries/General", "https://github.com/edithatogo/voiage/blob/main/bindings/julia/Project.toml", "https://github.com/edithatogo/voiage/blob/main/.github/workflows/julia-tagbot.yml", "https://github.com/edithatogo/voiage/blob/main/.github/workflows/bindings-release.yml"],
+  "commands": [
+    {"command":"julia --project=bindings/julia -e 'using Pkg; Pkg.test()'","runner":"local Julia 1.12.6","status":"passed","artifact":"Julia test summary: EVPI 2 passed, total 2 passed","details":"The binding test suite passes locally against the shared contract."},
+    {"command":"sha256sum bindings/julia/Project.toml bindings/julia/src/Voiage.jl bindings/julia/test/runtests.jl","runner":"local Git worktree","status":"passed","artifact":"Project 56ddcd7bd03668d57030f250bbaf75af24866e381d85941568cc067d4b1f2a1b; source 3f949e9d9722b09944cbb08887ee652028f8b6091dec52a38130f48e08b1ff04; tests a08a044627ab8791cae557775e4ef65629aa57659b2e0a94ab92f357d49e8db2","details":"Compat bound julia=1.10 and version 0.2.0 are recorded from Project.toml."},
+    {"command":"git show HEAD:.github/workflows/julia-tagbot.yml && git show HEAD:.github/workflows/bindings-release.yml","runner":"local Git worktree","status":"passed","artifact":"TagBot workflow and julia-v* release workflow","details":"TagBot synchronization, verify-tag behavior, Pkg.test, and release archive steps are repository-owned and configured."},
+    {"command":"curl -sS -o Package.toml -w '%{http_code}' https://raw.githubusercontent.com/JuliaRegistries/General/master/V/Voiage/Package.toml","runner":"networked Julia General audit","status":"not_found","artifact":"HTTP 404","details":"General registry has no active Voiage Package.toml entry."},
+    {"command":"curl -sS -o Versions.toml -w '%{http_code}' https://raw.githubusercontent.com/JuliaRegistries/General/master/V/Voiage/Versions.toml","runner":"networked Julia General audit","status":"not_found","artifact":"HTTP 404","details":"No General registry version entry is visible."}
+  ]
+}
