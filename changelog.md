@@ -783,6 +783,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a checksum-pinned EasyBuild easyconfig draft with local syntax and
   upstream visibility evidence; maintainer review, merge, and toolchain-backed
   dry-run/build remain explicit external gates.
+- Archived the EasyBuild follow-through track with the validated easyconfig and
+  its upstream review, merge, and visibility gates retained.
 
 - Added a machine-readable TPU production-scale evidence contract with CPU
   fallback, EVPI parity, compile/transfer overhead, deterministic indexing, and

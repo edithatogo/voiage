@@ -85,6 +85,14 @@
 - The upstream easyconfig path returned HTTP 404, so upstream PR review,
   maintainer merge, and visibility remain external gates.
 
+## Archive Decision
+
+- Archived after implementation PR #225 merged as `23f05f5`.
+- Repository-owned easyconfig preparation, source checksum, syntax validation,
+  EasyBuild dry-run attempt, and upstream visibility evidence are complete.
+- Upstream EasyBuild maintainer review/merge and easyconfig visibility remain
+  external gates; the local Lmod/toolchain limitation is retained as evidence.
+
 - [ ] `uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov`
 - [ ] `uv run pytest tests/test_hpc_evidence_docs.py tests/test_registry_audit.py --no-cov` where relevant
 - [ ] `uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report,frontier-contract,version-sync` before final archive when code/docs changes warrant it
