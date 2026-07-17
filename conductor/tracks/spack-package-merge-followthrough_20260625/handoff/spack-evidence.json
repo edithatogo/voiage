@@ -1,0 +1,16 @@
+{
+  "track_id": "spack-package-merge-followthrough_20260625",
+  "channel": "Spack",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-17T00:00:00Z",
+  "next_action": "Open the draft recipe as an upstream Spack PR, run upstream CI and spack spec/install validation, obtain maintainer merge, and verify package visibility before requesting E4S inclusion.",
+  "external_gate": "The upstream spack-packages repository does not contain py-voiage; maintainer review/merge and package index propagation are external actions.",
+  "evidence_urls": ["https://github.com/spack/spack-packages/tree/develop/repos/spack_repo/builtin/packages/py-voiage", "https://packages.spack.io/package.html?name=py-voiage", "https://github.com/edithatogo/voiage/releases/tag/v0.2.0"],
+  "commands": [
+    {"command":"git ls-remote --tags https://github.com/edithatogo/voiage.git refs/tags/v0.2.0","runner":"networked Git audit","status":"passed","artifact":"v0.2.0 commit 653bd313af341cba65b84409b7abfb3af77f1407","details":"A reproducible source tag exists for the draft recipe."},
+    {"command":"python -m py_compile conductor/tracks/spack-package-merge-followthrough_20260625/handoff/package.py","runner":"local Python 3.14","status":"passed","artifact":"draft package.py","details":"The repository-owned draft Spack recipe is syntactically valid."},
+    {"command":"spack spec py-voiage","runner":"local Spack 1.2.1","status":"blocked","artifact":"concretization error: py-voiage does not exist","details":"Local Spack confirms no registered package is available to concretize."},
+    {"command":"curl -sS -o package.py -w '%{http_code}' https://raw.githubusercontent.com/spack/spack/develop/var/spack/repos/builtin/packages/py-voiage/package.py","runner":"networked upstream audit","status":"not_found","artifact":"HTTP 404","details":"The upstream recipe path is absent; no upstream PR or merge is evidenced."}
+  ]
+}
