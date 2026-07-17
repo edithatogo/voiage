@@ -800,6 +800,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an ASIC MPW/silicon handoff linking reproducible RTL and pre-silicon
   evidence while preserving shuttle, fabrication, bring-up, and silicon
   runtime as external gates.
+- Archived the ASIC MPW/silicon follow-through track with shuttle, fabrication,
+  bring-up, and runtime evidence retained as external gates.
 - Archived the HPSF curation follow-through track with portal submission,
   curation review, approval, and listing retained as external gates.
 

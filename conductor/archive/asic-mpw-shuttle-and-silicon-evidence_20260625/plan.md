@@ -83,6 +83,14 @@
   silicon runtime evidence is present; the CPU fallback remains authoritative.
 - Tiny Tapeout/SkyWater submission, fabrication, delivery, bring-up, parity,
   and benchmark evidence remain external and account/hardware gated.
+
+## Archive Decision
+
+- Archived after implementation PR #232 merged as `74bc187`.
+- Repository-owned RTL, testbench, fixture, pre-silicon manifest, unavailable
+  silicon packet, and absent GDS/DEF evidence are complete.
+- Tiny Tapeout/SkyWater submission, fabrication, delivery, bring-up, parity,
+  and silicon benchmark evidence remain external hardware/account gates.
 - Follow-through handoff prepared on branch `codex/asic-silicon-followthrough`;
   hosted CI must pass before the track can be archived.
 
