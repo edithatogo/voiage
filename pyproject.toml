@@ -1,12 +1,12 @@
 # pyproject.toml for voiage
 
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=69.0", "setuptools-scm>=8.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "voiage"
-version = "0.2.1"
+dynamic = ["version"]
 description = "A Python library for Value of Information analysis."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -110,6 +110,11 @@ voiage = "voiage.cli:app"
 where = ["."]
 include = ["voiage*"]
 exclude = ["tests*"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0.dev0"
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"
 
 [tool.ruff]
 target-version = "py310"
@@ -219,7 +224,6 @@ runner = "pytest -x --no-cov"
 fail_under = 90
 
 [tool.semantic_release]
-version_variables = ["pyproject.toml:project.version"]
 version_source = "tag"
 upload_to_pypi = true
 upload_to_release = true

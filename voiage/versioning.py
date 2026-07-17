@@ -1,8 +1,8 @@
 """Version synchronization helpers for release automation.
 
-The repository treats ``pyproject.toml`` as the canonical version source for
-the current release line. This module validates that the external binding
-manifests stay in lockstep with that repository version.
+The Python package derives its version from release tags. This module resolves
+the latest reachable release tag and validates that external binding manifests
+stay in lockstep with that released version.
 """
 
 import argparse
@@ -10,6 +10,7 @@ from dataclasses import dataclass
 import json
 from pathlib import Path
 import re
+import subprocess  # nosec B404 - fixed git executable is used for tag discovery.
 import sys
 from typing import Any
 
@@ -65,14 +66,46 @@ def _load_json(path: Path) -> dict[str, Any]:
     return data
 
 
+def _read_release_tag_version(repo_root: Path) -> str | None:
+    """Return the newest release tag version, or ``None`` when unavailable."""
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell, repo-local cwd.
+        [  # noqa: S607 - git is the fixed executable used for tag discovery.
+            "git",
+            "describe",
+            "--tags",
+            "--match",
+            "v[0-9]*",
+            "--abbrev=0",
+        ],
+        cwd=repo_root,
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    if result.returncode != 0:
+        return None
+    tag = result.stdout.strip()
+    if not tag.startswith("v") or len(tag) == 1:
+        return None
+    return tag[1:]
+
+
 def _read_canonical_version(pyproject_path: Path) -> str:
     project = _load_toml(pyproject_path).get("project")
     if not isinstance(project, dict):
         raise VersionSyncError(f"{pyproject_path}: missing [project] table")
     version = project.get("version")
-    if not isinstance(version, str) or not version.strip():
-        raise VersionSyncError(f"{pyproject_path}: missing project.version")
-    return version
+    if isinstance(version, str) and version.strip():
+        return version
+    dynamic = project.get("dynamic", [])
+    if isinstance(dynamic, list) and "version" in dynamic:
+        release_version = _read_release_tag_version(pyproject_path.parent)
+        if release_version:
+            return release_version
+        raise VersionSyncError(
+            f"{pyproject_path}: dynamic version requires a reachable v* release tag"
+        )
+    raise VersionSyncError(f"{pyproject_path}: missing project.version")
 
 
 def _read_json_version(path: Path) -> str:

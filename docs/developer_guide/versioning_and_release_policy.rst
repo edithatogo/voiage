@@ -1,16 +1,20 @@
 Versioning and Release Policy
 =============================
 
-``voiage`` uses semantic versioning and tag-driven releases, but the
-repository needs one canonical version source so manifests and release
-automation stay in lockstep.
+``voiage`` uses semantic versioning and tag-driven releases. Python package
+metadata is derived from release tags with ``setuptools-scm``, while the
+polyglot manifests remain explicit and synchronized to the latest released
+version.
 
 Canonical version source
 ------------------------
 
-The current release line treats ``pyproject.toml`` as the canonical source of
-truth for the repository version. That version drives the Python package
-metadata, the release tag checks, and the validation of the binding manifests.
+The Python package declares a dynamic version in ``pyproject.toml`` and
+``setuptools-scm`` derives it from the nearest ``v*`` tag. A checkout at a
+release tag builds the exact release version; an untagged development checkout
+builds an identifiable development version. The version-sync validator
+resolves the latest reachable release tag and compares the external binding
+manifests to that released version.
 
 Binding manifests are expected to match the canonical version exactly:
 
@@ -33,7 +37,7 @@ The repository keeps ecosystem-specific tag and registry conventions:
 * R publishes from ``r-v*`` tags.
 
 The version numbers in those package manifests still need to line up with the
-canonical repository version. The tag prefixes and registry targets remain
+latest released Python tag. The tag prefixes and registry targets remain
 ecosystem-specific; only the version value is shared.
 
 Validation
@@ -55,11 +59,11 @@ or, equivalently:
 Release flow
 ------------
 
-When changing versions:
+When preparing a release:
 
-1. Update the canonical version in ``pyproject.toml``.
-2. Update the binding manifests to the same version.
-3. Run the version-sync validator.
-4. Cut the matching tag and let the ecosystem-specific release workflows run.
+1. Update the binding manifests to the next release version.
+2. Run the version-sync validator against the current release tag.
+3. Cut the matching ``v<version>`` tag.
+4. Let the tag-specific release workflows build and publish the Python package.
 
 The validator keeps the repo honest before release automation starts.
