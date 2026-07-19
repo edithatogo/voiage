@@ -2,36 +2,35 @@
 
 ## Phase 1 - Canonical contracts
 
-- [~] Task: Add failing tests for concern, analysis and result schemas.
-- [ ] Task: Implement strict immutable Pydantic v2 contract models.
-- [ ] Task: Export deterministic JSON Schema and fixtures.
+- [x] Task: Add failing tests for concern, analysis and result schemas. `08fc460`
+- [x] Task: Implement strict immutable Pydantic v2 contract models. `08fc460`
+- [x] Task: Export deterministic JSON Schema and fixtures. `835dccf`
 - [ ] Task: Phase verification and checkpoint.
 
 ## Phase 2 - Kernel and backend capabilities
 
-- [ ] Task: Add failing generic protocol and capability-selection tests.
-- [ ] Task: Implement calculation-kernel, backend capability and numerical policy contracts.
-- [ ] Task: Adapt existing NumPy/JAX/backend selection without breaking APIs.
+- [x] Task: Add failing generic protocol and capability-selection tests. `08fc460`
+- [x] Task: Implement calculation-kernel, backend capability and numerical policy contracts. `08fc460`
+- [x] Task: Adapt existing NumPy/JAX/backend selection without breaking APIs. `835dccf`
 - [ ] Task: Phase verification and checkpoint.
 
 ## Phase 3 - Method and result adoption
 
-- [ ] Task: Adapt perspective methods and ValueArray/ParameterSet boundaries.
-- [ ] Task: Add typed result-envelope and legacy result adapters.
-- [ ] Task: Verify numerical and serialization parity.
+- [x] Task: Adapt perspective methods and ValueArray/ParameterSet boundaries. `835dccf`
+- [x] Task: Add typed result-envelope and legacy result adapters. `835dccf`
+- [x] Task: Verify numerical and serialization parity. `835dccf`
 - [ ] Task: Phase verification and checkpoint.
 
 ## Phase 4 - Governance and automation
 
-- [ ] Task: Implement privacy-safe concern-ledger and GitHub synchronization payloads.
-- [ ] Task: Update MoSCoW requirements, Mermaid design and architecture documentation.
-- [ ] Task: Extend CI/type/mutation/profile/contract gates.
+- [x] Task: Implement privacy-safe concern-ledger and GitHub synchronization payloads. `f8ee5a5`, VOP `55b3e5b`
+- [x] Task: Update MoSCoW requirements, Mermaid design and architecture documentation. `d8d0d1c`, `f51d0e1`
+- [x] Task: Extend CI/type/mutation/profile/contract gates. `f51d0e1`
 - [ ] Task: Phase verification and checkpoint.
 
 ## Phase 5 - Cross-repository closeout
 
-- [ ] Task: Validate pinned VOP contracts and fresh-process fixtures.
+- [x] Task: Validate pinned VOP contracts and fresh-process fixtures. `f8ee5a5`
 - [ ] Task: Run focused and full suites, build and dependency/security gates.
 - [ ] Task: Complete formal review and hosted CI evidence.
 - [ ] Task: Phase verification and checkpoint.
-
