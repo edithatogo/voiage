@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import argparse
 from hashlib import sha256
-from importlib.metadata import version
 import json
 from pathlib import Path
 import tomllib
@@ -71,9 +70,6 @@ def cohort_identity(repo: Path, config_path: Path) -> dict[str, object]:
     if len(locked_versions) != 1 or not isinstance(locked_versions[0], str):
         raise ValueError("uv.lock must contain exactly one Mutmut version")
     locked_version = locked_versions[0]
-    installed_version = version("mutmut")
-    if installed_version != locked_version:
-        raise ValueError("installed Mutmut version does not match uv.lock")
     cohort = {
         "tool": "mutmut",
         "tool_version": locked_version,
@@ -86,6 +82,13 @@ def cohort_identity(repo: Path, config_path: Path) -> dict[str, object]:
         "source_logical_lines": logical_lines,
         "cohort_sha256": sha256(_canonical(cohort)).hexdigest(),
     }
+
+
+def validate_runtime_version(identity: dict[str, object], runtime_version: str) -> None:
+    """Fail closed when the executing Mutmut differs from the locked cohort tool."""
+    expected = identity.get("tool_version")
+    if not isinstance(expected, str) or runtime_version != expected:
+        raise ValueError("installed Mutmut version does not match the locked cohort")
 
 
 def mutation_universe(text: str) -> dict[str, object]:
@@ -247,10 +250,18 @@ def main() -> int:
     args = parser.parse_args()
     repo = args.repo.resolve()
     baseline_bytes = args.baseline.read_bytes()
+    identity = cohort_identity(repo, repo / args.config)
+    try:
+        from importlib.metadata import version
+
+        runtime_version = version("mutmut")
+    except ImportError as exc:
+        raise RuntimeError("Mutmut runtime is required for cohort enforcement") from exc
+    validate_runtime_version(identity, runtime_version)
     report = evaluate_cohort(
         _object(args.stats),
         _object(args.baseline),
-        cohort_identity(repo, repo / args.config),
+        identity,
         mutation_universe(args.universe.read_text(encoding="utf-8")),
         args.threshold,
         baseline_sha256=sha256(baseline_bytes).hexdigest(),

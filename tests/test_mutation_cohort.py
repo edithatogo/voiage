@@ -9,6 +9,7 @@ from scripts.check_mutation_cohort import (
     cohort_identity,
     evaluate_cohort,
     mutation_universe,
+    validate_runtime_version,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -74,6 +75,19 @@ def test_reviewed_mutation_cohort_binds_tool_lock_source_and_universe() -> None:
     assert report["universe"]["added_ids"] == []
     assert report["debt"]["absolute"] == 14
     assert report["debt"]["density"] == 0.215385
+
+
+def test_runtime_version_is_checked_separately_from_pure_cohort_identity() -> None:
+    identity = cohort_identity(ROOT, ROOT / "pyproject.toml")
+    validate_runtime_version(identity, "3.6.0")
+    message = ""
+    try:
+        validate_runtime_version(identity, "3.5.0")
+    except ValueError as exc:
+        message = str(exc)
+    else:
+        raise AssertionError("mismatched Mutmut runtime was accepted")
+    assert "locked cohort" in message
 
 
 def test_external_review_anchor_is_required_and_not_self_asserted() -> None:
