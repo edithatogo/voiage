@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "cohort": {
+    "tool": "mutmut",
+    "configuration_sha256": "c2d93e25141fbfb71d2f5eee8d3c5261d6236d600fe9dfa2a8cec198213c6d51",
+    "sources": [
+      {
+        "path": "voiage/contracts/capabilities.py",
+        "sha256": "e363027000819f6cc1d3465df38cced63f7e56f68078623bf005a49b68a2726c"
+      },
+      {
+        "path": "voiage/contracts/digests.py",
+        "sha256": "66b6cfc38ac436c177791c13784c66fcfda1e6b38e34da36512ef7be0d4d461e"
+      }
+    ],
+    "source_logical_lines": 111,
+    "cohort_sha256": "c923be068e0cdd84a066bb5531350681e166abc81cf2d864d5792eabb5dd07c0"
+  },
+  "stats": {
+    "killed": 51,
+    "survived": 14,
+    "total": 65,
+    "no_tests": 0,
+    "skipped": 0,
+    "suspicious": 0,
+    "timeout": 0,
+    "check_was_interrupted_by_user": 0,
+    "segfault": 0
+  },
+  "policy": {
+    "minimum_score_percent": 75.0,
+    "maximum_absolute_debt": 14,
+    "maximum_debt_density": 0.215385,
+    "replacement_requires_human_approval": true
+  },
+  "promotion_provenance": {
+    "human_approved": true,
+    "run_id": 29691180467,
+    "commit": "7a84dbcb58a948fa4eabfb3c935e5abdab362685",
+    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29691180467"
+  }
+}

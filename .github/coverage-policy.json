@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "aggregate_percent": 90.0,
+  "critical_modules": {
+    "voiage/assurance_policy.py": 100.0,
+    "voiage/contracts/bundle.py": 90.0,
+    "voiage/mutation_policy.py": 95.0
+  },
+  "changed_line_percent": 95.0,
+  "changed_branch_percent": 100.0
+}

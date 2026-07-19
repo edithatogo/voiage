@@ -5,6 +5,7 @@ from pathlib import Path
 from scripts.repo_harness import (
     check_context_contract,
     check_docs_platform,
+    check_operational_assurance,
     check_workflows,
     collect_findings,
 )
@@ -46,3 +47,12 @@ def test_missing_agent_context_section_is_rejected(tmp_path: Path) -> None:
     )
     findings = check_context_contract(tmp_path)
     assert any("Repository Context Map" in finding.message for finding in findings)
+
+
+def test_missing_operational_assurance_gate_is_rejected(tmp_path: Path) -> None:
+    """The harness detects removal of a promoted assurance gate."""
+    findings = check_operational_assurance(tmp_path)
+    assert any(
+        finding.path == ".github/workflows/operational-assurance.yml"
+        for finding in findings
+    )

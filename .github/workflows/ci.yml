@@ -523,18 +523,31 @@ jobs:
       run: >-
         uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json
 
-    - name: Require both mutation gates
+    - name: Enforce source and configuration bound mutation cohort
+      id: cohort-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/check_mutation_cohort.py
+        --stats mutants/mutmut-cicd-stats.json
+        --baseline .github/mutation-baselines/voiage-cohort.json
+        --threshold 75
+        --output .benchmarks/mutation-cohort.json
+
+    - name: Require all mutation gates
       if: always()
       env:
         CI: true
         GENERATION_OUTCOME: ${{ steps.broad-generation.outcome }}
         BROAD_OUTCOME: ${{ steps.broad-mutation.outcome }}
         CRITICAL_OUTCOME: ${{ steps.critical-mutation.outcome }}
+        COHORT_OUTCOME: ${{ steps.cohort-mutation.outcome }}
       run: |
         echo "broad generation: ${GENERATION_OUTCOME}"
         echo "broad ratchet: ${BROAD_OUTCOME}"
         echo "critical score: ${CRITICAL_OUTCOME}"
-        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ]; then
+        echo "cohort identity and debt: ${COHORT_OUTCOME}"
+        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
           exit 1
         fi
     - name: Upload mutation evidence
@@ -545,6 +558,7 @@ jobs:
         path: |
           .benchmarks/mutation-score-broad.json
           .benchmarks/mutation-critical.json
+          .benchmarks/mutation-cohort.json
           mutants/mutmut-cicd-stats.json
 
   # Performance profiling (weekly)

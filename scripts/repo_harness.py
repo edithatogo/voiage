@@ -29,6 +29,7 @@ REQUIRED_WORKFLOWS = (
     "ci.yml",
     "codeql.yml",
     "dependency-review.yml",
+    "operational-assurance.yml",
     "scorecard.yml",
 )
 REQUIRED_CONTEXT_MARKERS = (
@@ -65,6 +66,23 @@ CONTRACT_GOVERNANCE_MARKERS = {
         "--baseline-stats .github/mutation-baselines/voiage-broad.json",
         "mutation-score-broad.json",
         "scripts/run_critical_mutation_lane.py . --threshold 90",
+    ),
+}
+OPERATIONAL_ASSURANCE_MARKERS = {
+    ".github/workflows/operational-assurance.yml": (
+        "scripts/check_consumer_matrix.py",
+        "scripts/check_coverage_policy.py",
+        "--branch --source=voiage",
+        "if-no-files-found: error",
+    ),
+    ".github/workflows/ci.yml": (
+        "scripts/check_mutation_cohort.py",
+        ".github/mutation-baselines/voiage-cohort.json",
+        "mutation-cohort.json",
+    ),
+    ".github/coverage-policy.json": (
+        '"aggregate_percent": 90.0',
+        '"changed_branch_percent": 100.0',
     ),
 }
 
@@ -229,6 +247,23 @@ def check_contract_governance(root: Path) -> list[Finding]:
     return findings
 
 
+def check_operational_assurance(root: Path) -> list[Finding]:
+    """Ensure compatibility, coverage, and cohort gates remain wired."""
+    findings: list[Finding] = []
+    for relative_path, markers in OPERATIONAL_ASSURANCE_MARKERS.items():
+        path = root / relative_path
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        missing = [marker for marker in markers if marker not in text]
+        if missing:
+            findings.append(
+                Finding(
+                    relative_path,
+                    "operational assurance markers are missing: " + ", ".join(missing),
+                )
+            )
+    return findings
+
+
 def collect_findings(root: Path) -> list[Finding]:
     """Run all deterministic harness checks."""
     return (
@@ -237,6 +272,7 @@ def collect_findings(root: Path) -> list[Finding]:
         + check_workflows(root)
         + check_docs_platform(root)
         + check_contract_governance(root)
+        + check_operational_assurance(root)
         + check_conflict_markers(root)
     )
 
