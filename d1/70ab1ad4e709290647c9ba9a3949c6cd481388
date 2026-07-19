@@ -1,0 +1,17 @@
+Task: Harden Rust CI supply-chain, unsafe-boundary, and coverage gates
+
+Summary:
+- Added Cargo Dependabot updates for /rust.
+- Added pinned fail-closed cargo-deny policy for advisories, licenses, bans, and sources.
+- Added pinned Miri unsafe-boundary workflow.
+- Clarified C ASan/UBSan/LSan versus Rust ASan scope.
+- Added measured Linux workspace coverage at an 80% line floor with Cobertura artifact.
+
+Validation:
+- focused pytest contracts: passed
+- Ruff focused files: passed
+- repository harness: passed, zero findings
+- cargo metadata --locked: passed
+- cargo-deny all policy families: passed
+- cargo-llvm-cov 0.6.16: passed at 92.67% lines
+- local Miri execution: not verified due split/corrupt local rustup rust-src resolution; hosted pinned lane remains required
