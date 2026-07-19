@@ -1,5 +1,12 @@
 # Project Tracks
 
+## [~] Track: Domain Abstraction Excellence
+*Link: [./tracks/abstraction-excellence_20260719/index.md](./tracks/abstraction-excellence_20260719/index.md)*
+*Status: in progress - strict domain contracts, capability-aware kernels and
+machine-readable concern governance shared with VOP C13.*
+
+---
+
 This file tracks the major implementation tracks for the project. Active tracks are ordered so `conductor-implement` can run them sequentially without needing to infer strategic reprioritization.
 
 Completed tracks are archived under `conductor/archive/`. The active registry

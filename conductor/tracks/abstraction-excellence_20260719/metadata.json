@@ -1,0 +1,10 @@
+{
+  "id": "abstraction-excellence_20260719",
+  "canonical_id": "C13",
+  "type": "refactor",
+  "status": "in_progress",
+  "created_at": "2026-07-19T00:00:00+10:00",
+  "updated_at": "2026-07-19T00:00:00+10:00",
+  "repositories": ["vop_poc_nz", "voiage"]
+}
+
