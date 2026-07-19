@@ -4,6 +4,7 @@ from copy import deepcopy
 
 import pytest
 
+from voiage import c15_performance
 from voiage.c15_performance import (
     PerformanceRegressionError,
     confidence_interval,
@@ -53,6 +54,7 @@ def test_bootstrap_interval_is_deterministic_and_bounded() -> None:
     assert interval == confidence_interval(samples)
     assert interval.lower <= interval.mean <= interval.upper
     assert interval.resamples == 10_000
+    assert c15_performance._percentile([1.0], 0.5) == 1.0
 
 
 @pytest.mark.parametrize(

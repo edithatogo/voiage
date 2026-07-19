@@ -89,7 +89,7 @@ def test_available_jax_and_polars_backends_match(case: dict[str, object]) -> Non
 
 
 @pytest.mark.parametrize(
-    "value", [None, "text", [], [[1]], [[1, 2], [3, float("inf")]]]
+    "value", [None, "text", [], [[1]], [1, [2, 3]], [[1, 2], [3, float("inf")]]]
 )
 def test_oracles_reject_invalid_or_nonfinite_inputs(value: object) -> None:
     with pytest.raises((TypeError, ValueError)):

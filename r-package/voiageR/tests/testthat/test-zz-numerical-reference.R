@@ -47,7 +47,11 @@ test_that("R binding consumes the shared EVPI numerical reference", {
   )
 
   for (fixture_case in reference$cases) {
-    matrix <- do.call(rbind, fixture_case$net_benefits)
+    rows <- lapply(
+      fixture_case$net_benefits,
+      function(row) as.numeric(unlist(row, use.names = FALSE))
+    )
+    matrix <- do.call(rbind, rows)
     expect_equal(
       evpi(matrix),
       fixture_case$expected$value,

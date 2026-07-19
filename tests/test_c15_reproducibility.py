@@ -4,12 +4,16 @@ import base64
 import csv
 from hashlib import sha256
 import io
+import json
+import sys
 import tarfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 import zipfile
 
 import pytest
 
+from scripts.c15_artifact_digest import main as artifact_digest_main
+from voiage import c15_reproducibility
 from voiage.c15_reproducibility import (
     ArtifactMismatchError,
     compare_digest_reports,
@@ -195,3 +199,125 @@ def test_comparison_checks_inventory_after_digest(tmp_path: Path) -> None:
     right = {**left, "runner": "right", "entries": []}
     with pytest.raises(ArtifactMismatchError, match="inventories"):
         compare_digest_reports(left, right)
+
+
+def test_source_archives_normalize_declared_text_and_scm_paths(tmp_path: Path) -> None:
+    linux = tmp_path / "linux.zip"
+    windows = tmp_path / "windows.zip"
+    linux_files = {
+        "project/Dockerfile": b"FROM scratch\n",
+        "project/src/module.rs": b"fn main() {}\n",
+        "project/data/refs.bib": b"@misc{x}\n",
+        "project/notebook.jupyter": b"metadata\n",
+        "project/template.ambr": b"template\n",
+        "project/scm_file_list.json": json.dumps(
+            {"files": ["project/Dockerfile", "project/src/module.rs"]}
+        ).encode(),
+    }
+    windows_files = {
+        name: content.replace(b"\n", b"\r\n")
+        for name, content in linux_files.items()
+        if name != "project/scm_file_list.json"
+    }
+    windows_files["project/scm_file_list.json"] = json.dumps(
+        {"files": ["project\\src\\module.rs", "project\\Dockerfile"]}
+    ).encode()
+    for path, contents in ((linux, linux_files), (windows, windows_files)):
+        with zipfile.ZipFile(path, "w") as archive:
+            for name, content in contents.items():
+                archive.writestr(name, content)
+    left = normalized_archive_report(linux, runner="linux")
+    right = normalized_archive_report(windows, runner="windows")
+    assert compare_digest_reports(left, right)["matched"] is True
+
+
+@pytest.mark.parametrize(
+    "payload", ["not-json", "[]", '{"files":"bad"}', '{"files":[1]}']
+)
+def test_invalid_scm_inventory_fails_closed(tmp_path: Path, payload: str) -> None:
+    archive_path = tmp_path / "invalid.zip"
+    with zipfile.ZipFile(archive_path, "w") as archive:
+        archive.writestr("scm_file_list.json", payload)
+    with pytest.raises((TypeError, ValueError), match="string file list"):
+        normalized_archive_report(archive_path, runner="runner")
+
+
+def test_tar_directory_and_unreadable_member_paths(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    archive_path = tmp_path / "directory.tar.gz"
+    with tarfile.open(archive_path, "w:gz") as archive:
+        directory = tarfile.TarInfo("folder")
+        directory.type = tarfile.DIRTYPE
+        archive.addfile(directory)
+        value = tarfile.TarInfo("folder/value.txt")
+        value.size = 1
+        archive.addfile(value, io.BytesIO(b"x"))
+    assert normalized_archive_report(archive_path, runner="runner")["entries"]
+
+    class Member:
+        name = "unreadable.txt"
+
+        def isfile(self) -> bool:
+            return True
+
+    class Archive:
+        def __enter__(self) -> Self:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        def getmembers(self) -> list[Member]:
+            return [Member()]
+
+        def extractfile(self, _member: Member) -> None:
+            return None
+
+    monkeypatch.setattr(c15_reproducibility.zipfile, "is_zipfile", lambda _path: False)
+    monkeypatch.setattr(c15_reproducibility.tarfile, "is_tarfile", lambda _path: True)
+    monkeypatch.setattr(
+        c15_reproducibility.tarfile, "open", lambda *_a, **_k: Archive()
+    )
+    with pytest.raises(ValueError, match="cannot be read"):
+        normalized_archive_report(archive_path, runner="runner")
+
+
+def test_multiple_record_files_fail_closed(tmp_path: Path) -> None:
+    archive_path = tmp_path / "multiple.zip"
+    with zipfile.ZipFile(archive_path, "w") as archive:
+        archive.writestr("one.dist-info/RECORD", b"")
+        archive.writestr("two.dist-info/RECORD", b"")
+    with pytest.raises(ValueError, match="multiple"):
+        normalized_archive_report(archive_path, runner="runner")
+
+
+def test_compare_cli_retains_failure_evidence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    wheel = tmp_path / "one.whl"
+    _wheel(wheel, "\n")
+    report = normalized_archive_report(wheel, runner="same")
+    left = tmp_path / "left.json"
+    right = tmp_path / "right.json"
+    output = tmp_path / "failure.json"
+    left.write_text(json.dumps(report), encoding="utf-8")
+    right.write_text(json.dumps(report), encoding="utf-8")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "c15_artifact_digest.py",
+            "compare",
+            "--left",
+            str(left),
+            "--right",
+            str(right),
+            "--output",
+            str(output),
+        ],
+    )
+    assert artifact_digest_main() == 2
+    failure = json.loads(output.read_text(encoding="utf-8"))
+    assert failure["passed"] is False
+    assert failure["operation"] == "compare"

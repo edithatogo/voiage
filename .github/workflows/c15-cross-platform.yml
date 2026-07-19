@@ -78,10 +78,22 @@ jobs:
         with:
           pattern: c15-digest-*
           path: c15-digests
-      - name: Compare both distribution kinds
-        run: |
-          uv run --frozen python scripts/c15_artifact_digest.py compare --left c15-digests/c15-digest-Linux/report-wheel.json --right c15-digests/c15-digest-Windows/report-wheel.json --output c15-evidence/comparison-wheel.json
-          uv run --frozen python scripts/c15_artifact_digest.py compare --left c15-digests/c15-digest-Linux/report-sdist.json --right c15-digests/c15-digest-Windows/report-sdist.json --output c15-evidence/comparison-sdist.json
+      - name: Compare wheel identities
+        id: compare-wheel
+        continue-on-error: true
+        run: >-
+          uv run --frozen python scripts/c15_artifact_digest.py compare
+          --left c15-digests/c15-digest-Linux/report-wheel.json
+          --right c15-digests/c15-digest-Windows/report-wheel.json
+          --output c15-evidence/comparison-wheel.json
+      - name: Compare sdist identities
+        id: compare-sdist
+        continue-on-error: true
+        run: >-
+          uv run --frozen python scripts/c15_artifact_digest.py compare
+          --left c15-digests/c15-digest-Linux/report-sdist.json
+          --right c15-digests/c15-digest-Windows/report-sdist.json
+          --output c15-evidence/comparison-sdist.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -89,6 +101,12 @@ jobs:
           path: c15-evidence/
           if-no-files-found: error
           retention-days: 30
+      - name: Enforce comparisons after evidence retention
+        if: >-
+          always() &&
+          (steps.compare-wheel.outcome != 'success' ||
+           steps.compare-sdist.outcome != 'success')
+        run: exit 1
 
   performance:
     name: Bootstrap performance (${{ matrix.os }})

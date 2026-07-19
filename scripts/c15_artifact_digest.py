@@ -72,6 +72,17 @@ def main() -> int:
         _write(args.output, payload)
         print(json.dumps(payload, indent=2, sort_keys=True))
     except (ArtifactMismatchError, OSError, TypeError, ValueError) as exc:
+        failure: dict[str, object] = {
+            "schema_version": "1.0.0",
+            "passed": False,
+            "operation": args.command,
+            "error_type": type(exc).__name__,
+            "error": str(exc),
+        }
+        try:
+            _write(args.output, failure)
+        except OSError as write_error:
+            print(f"C15 failure evidence could not be retained: {write_error}")
         print(f"C15 artifact assurance failed: {exc}")
         return 2
     else:

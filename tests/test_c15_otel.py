@@ -3,10 +3,12 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 import math
+from typing import Self
 
 import pytest
 
 from scripts.c15_otel_probe import probe, received_contract
+from voiage import c15_otel
 from voiage.c15_otel import (
     CorrelationContext,
     TelemetryContractError,
@@ -38,12 +40,16 @@ def test_nested_secrets_are_redacted_and_safe_values_retained() -> None:
         attributes={
             "authorization": "Bearer private",
             "nested": {"token": "private"},
+            "message": "token=private",
             "safe": "ok",
         },
     )
     encoded = json.dumps(payload)
     assert "private" not in encoded
     assert "[REDACTED]" in encoded
+    contains_secret = c15_otel._contains_secret
+    assert contains_secret({"nested": ["safe", "token=private"]})
+    assert contains_secret(["safe", "password=hunter2"])
 
 
 @pytest.mark.parametrize(
@@ -105,6 +111,39 @@ def test_all_supported_otlp_value_shapes_are_encoded() -> None:
         observed_time_unix_nano=1,
     )
     assert json.dumps(payload, allow_nan=False)
+    with pytest.raises(TelemetryContractError, match="unsupported"):
+        c15_otel._any_value(object())
+
+
+def test_safe_endpoint_accepts_https_and_loopback_only() -> None:
+    safe_endpoint = c15_otel._safe_endpoint
+    safe_endpoint("https://collector.example/v1/logs")
+    safe_endpoint("http://localhost:4318/v1/logs")
+    with pytest.raises(TelemetryContractError, match="HTTPS"):
+        safe_endpoint("http://192.0.2.1/v1/logs")
+
+
+@pytest.mark.parametrize("message", ["", " ", None])
+def test_empty_messages_are_rejected(message: str | None) -> None:
+    with pytest.raises(TelemetryContractError, match="empty"):
+        build_otlp_log_request(message, _context())  # type: ignore[arg-type]
+
+
+def test_export_rejects_non_success_http_status(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class Response:
+        status = 503
+
+        def __enter__(self) -> Self:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+    monkeypatch.setattr(c15_otel, "urlopen", lambda *_args, **_kwargs: Response())
+    with pytest.raises(TelemetryContractError, match="503"):
+        export_otlp_http("https://collector.example/v1/logs", {})
 
 
 @pytest.mark.parametrize(

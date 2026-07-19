@@ -9,7 +9,7 @@ import io
 import json
 from pathlib import Path, PurePosixPath
 import tarfile
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, TypedDict, cast
 import zipfile
 
 if TYPE_CHECKING:
@@ -17,25 +17,68 @@ if TYPE_CHECKING:
 
 _TEXT_SUFFIXES = frozenset(
     {
+        ".ambr",
+        ".bib",
         ".cfg",
+        ".cli",
+        ".cs",
+        ".csproj",
         ".csv",
+        ".eb",
+        ".go",
+        ".html",
         ".ini",
+        ".ipynb",
+        ".jupyter",
+        ".jl",
+        ".js",
         ".json",
         ".md",
+        ".mdx",
+        ".mjs",
+        ".mod",
+        ".qmd",
+        ".r",
+        ".rd",
+        ".rmd",
         ".py",
+        ".rs",
         ".rst",
+        ".sh",
         ".toml",
+        ".tex",
+        ".ts",
         ".template",
         ".txt",
+        ".v",
         ".xml",
         ".yaml",
         ".yml",
     }
 )
 _TEXT_FILENAMES = frozenset(
-    {"authors", "changelog", "copying", "license", "notice", "readme", "snakefile"}
+    {
+        ".editorconfig",
+        ".gitattributes",
+        ".gitignore",
+        "authors",
+        "changelog",
+        "codeowners",
+        "copying",
+        "description",
+        "dockerfile",
+        "license",
+        "metadata",
+        "namespace",
+        "notice",
+        "pkg-info",
+        "readme",
+        "snakefile",
+    }
 )
-NORMALIZATION = "sorted-paths+declared-utf8-text-lf+content-sha256+record-semantics-v1"
+NORMALIZATION = (
+    "sorted-paths+declared-utf8-text-lf+scm-paths+content-sha256+record-semantics-v2"
+)
 
 
 class ArtifactMismatchError(ValueError):
@@ -59,13 +102,38 @@ def _normalized_content(name: str, content: bytes) -> bytes:
     path = PurePosixPath(name)
     filename = path.name.casefold()
     stem = filename.split(".", maxsplit=1)[0]
-    if path.suffix.casefold() not in _TEXT_SUFFIXES and stem not in _TEXT_FILENAMES:
+    if (
+        path.suffix.casefold() not in _TEXT_SUFFIXES
+        and stem not in _TEXT_FILENAMES
+        and filename not in _TEXT_FILENAMES
+    ):
         return content
     try:
         text = content.decode("utf-8")
     except UnicodeDecodeError:
         return content
-    return text.replace("\r\n", "\n").replace("\r", "\n").encode()
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    if filename == "scm_file_list.json":
+        try:
+            raw_payload = cast("object", json.loads(normalized))
+        except json.JSONDecodeError as exc:
+            raise ValueError(
+                "scm_file_list.json must contain a string file list"
+            ) from exc
+        if not isinstance(raw_payload, dict):
+            raise ValueError("scm_file_list.json must contain a string file list")
+        payload = cast("dict[str, object]", raw_payload)
+        raw_files = payload.get("files")
+        if not isinstance(raw_files, list):
+            raise ValueError("scm_file_list.json must contain a string file list")
+        files: list[str] = []
+        for item in raw_files:
+            if not isinstance(item, str):
+                raise TypeError("scm_file_list.json must contain a string file list")
+            files.append(item)
+        payload["files"] = sorted(item.replace("\\", "/") for item in files)
+        normalized = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return normalized.encode()
 
 
 def _zip_entries(path: Path) -> Iterator[tuple[str, bytes]]:
