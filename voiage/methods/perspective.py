@@ -16,6 +16,9 @@ from voiage.exceptions import raise_input_error
 from voiage.reporting import build_cheers_reporting
 from voiage.schema import ValueArray
 
+METHOD_CONTRACT_VERSION = "1.1.0"
+_TIE_POLICIES = frozenset({"first", "split", "error"})
+
 
 @dataclass(frozen=True)
 class Perspective:
@@ -356,6 +359,8 @@ def value_of_perspective(
     perspective_names: Sequence[str] | None = None,
     perspective_weights: Sequence[float] | Mapping[str, float] | None = None,
     reference_perspective: str | int | None = None,
+    tie_policy: str = "first",
+    tie_tolerance: float = 1e-12,
 ) -> ValueOfPerspectiveResult:
     r"""Compare decision value across multiple perspectives.
 
@@ -438,9 +443,20 @@ def value_of_perspective(
     perspective_labels = perspective_set.labels
     weights = _coerce_weights(perspective_weights, perspective_ids)
     reference_index = _resolve_reference_index(reference_perspective, perspective_ids)
+    if tie_policy not in _TIE_POLICIES:
+        raise_input_error("`tie_policy` must be 'first', 'split', or 'error'.")
+    if not np.isfinite(tie_tolerance) or tie_tolerance < 0:
+        raise_input_error("`tie_tolerance` must be finite and non-negative.")
 
     expected_net_benefits = np.mean(values, axis=0).T
-    optimal_indices = np.argmax(expected_net_benefits, axis=1).astype(int)
+    maxima = np.max(expected_net_benefits, axis=1, keepdims=True)
+    optimal_masks = np.isclose(
+        expected_net_benefits, maxima, rtol=0.0, atol=tie_tolerance
+    )
+    ties_detected = np.sum(optimal_masks, axis=1) > 1
+    if tie_policy == "error" and np.any(ties_detected):
+        raise_input_error("Tied expected-value optima detected.")
+    optimal_indices = np.argmax(optimal_masks, axis=1).astype(int)
     optimal_enb = expected_net_benefits[
         np.arange(expected_net_benefits.shape[0]), optimal_indices
     ]
@@ -452,10 +468,16 @@ def value_of_perspective(
     for row_idx in range(expected_net_benefits.shape[0]):
         for column_idx in range(expected_net_benefits.shape[0]):
             strategy_idx = int(optimal_indices[column_idx])
+            selected = (
+                optimal_masks[column_idx]
+                if tie_policy == "split"
+                else np.arange(expected_net_benefits.shape[1]) == strategy_idx
+            )
             regret[row_idx, column_idx] = max(
                 0.0,
                 float(
-                    optimal_enb[row_idx] - expected_net_benefits[row_idx, strategy_idx]
+                    optimal_enb[row_idx]
+                    - np.mean(expected_net_benefits[row_idx, selected])
                 ),
             )
 
@@ -465,6 +487,28 @@ def value_of_perspective(
     robust_enb_by_strategy = np.min(expected_net_benefits, axis=0)
     robust_idx = int(np.argmax(robust_enb_by_strategy))
     pareto_indices = _pareto_strategy_indices(expected_net_benefits)
+    reference_mask = (
+        optimal_masks[reference_index]
+        if tie_policy == "split"
+        else np.arange(expected_net_benefits.shape[1])
+        == int(optimal_indices[reference_index])
+    )
+    switching_se: list[float] = []
+    switching_ci95: list[list[float]] = []
+    for perspective_index, own_mask in enumerate(optimal_masks):
+        target_values = np.mean(values[:, own_mask, perspective_index], axis=1)
+        reference_values = np.mean(values[:, reference_mask, perspective_index], axis=1)
+        losses = target_values - reference_values
+        standard_error = (
+            float(np.std(losses, ddof=1) / np.sqrt(values.shape[0]))
+            if values.shape[0] > 1
+            else 0.0
+        )
+        switching_se.append(standard_error)
+        estimate = float(switching_values[perspective_index])
+        switching_ci95.append(
+            [max(0.0, estimate - 1.96 * standard_error), estimate + 1.96 * standard_error]
+        )
 
     return ValueOfPerspectiveResult(
         value=float(weights @ switching_values),
@@ -499,6 +543,13 @@ def value_of_perspective(
                 "row i, column j is regret in perspective i when using the "
                 "strategy optimal under perspective j"
             ),
+            "estimand": "directional_current_information_evop",
+            "decision_rule": "expected_value",
+            "method_contract_version": METHOD_CONTRACT_VERSION,
+            "tie_policy": tie_policy,
+            "ties_detected": ties_detected.tolist(),
+            "switching_standard_errors": switching_se,
+            "switching_ci95": switching_ci95,
         },
         reporting=build_cheers_reporting(
             analysis_type="value_of_perspective",
