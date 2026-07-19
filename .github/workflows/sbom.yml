@@ -48,6 +48,7 @@ jobs:
       run: uvx --from pip-audit==2.10.1 pip-audit --format=json --output=.assurance/pip-audit.json
 
     - name: Upload SBOM artifacts
+      if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: supply-chain-assurance
