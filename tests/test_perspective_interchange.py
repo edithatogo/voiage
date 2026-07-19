@@ -53,10 +53,15 @@ root = Path(__import__('sys').argv[1])
 parquet = pq.read_table(root / 'perspective-result-v1.parquet')
 with pa.memory_map(str(root / 'perspective-result-v1.arrow'), 'r') as source:
     ipc = pa.ipc.open_file(source).read_all()
+fields = [
+    {'arrow_type': str(field.type), 'name': field.name, 'nullable': field.nullable}
+    for field in parquet.schema.remove_metadata()
+]
+canonical_schema = json.dumps(fields, sort_keys=True, separators=(',', ':'))
 print(json.dumps({
     'equal': parquet.equals(ipc, check_metadata=True),
     'rows': parquet.num_rows,
-    'fingerprint': hashlib.sha256(parquet.schema.serialize().to_pybytes()).hexdigest(),
+    'fingerprint': hashlib.sha256(canonical_schema.encode('utf-8')).hexdigest(),
 }))
 """
     completed = subprocess.run(
