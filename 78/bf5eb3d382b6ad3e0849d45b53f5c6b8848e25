@@ -1,0 +1,21 @@
+Task: Enforce canonical DecisionProblem schema constraints
+
+Summary:
+- Reject currency values shorter than three Unicode scalar characters.
+- Reject supplied empty outcome_names collections.
+- Reject duplicate validated outcome names.
+- Route fail-closed Serde deserialization through the same constructor validation.
+
+Files:
+- rust/crates/voiage-domain/src/decision_problem.rs
+- rust/crates/voiage-domain/tests/decision_problem.rs
+
+TDD evidence:
+- Red: cargo test -p voiage-domain --test decision_problem --locked (2 failed as expected).
+- Green: cargo test -p voiage-domain --test decision_problem --locked (5 passed).
+- Domain: cargo test -p voiage-domain --all-targets --locked (21 passed).
+- Lint: cargo clippy -p voiage-domain --all-targets --locked -- -D warnings (passed).
+- Format: rustfmt --edition 2021 --check on the two scoped files (passed).
+
+Integration boundary:
+- cargo check -p voiage-diagnostics --locked requires the concurrently owned exhaustive mapping to add the three new variants; that modified file was outside this strict scope and was not touched.
