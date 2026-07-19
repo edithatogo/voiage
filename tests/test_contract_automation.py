@@ -11,6 +11,18 @@ def test_contract_governance_is_mirrored_across_runner_surfaces() -> None:
     assert check_contract_governance(ROOT) == []
 
 
+def test_hosted_mirror_validation_checks_out_the_manifest_commit() -> None:
+    workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    manifest = (
+        ROOT / "specs/integration/vop-voiage/governance/UPSTREAM.json"
+    ).read_text(encoding="utf-8")
+    assert "ref: 51a61340dde73868c319f97a7ce436b0650255be" in workflow
+    assert (
+        '"canonical_git_commit": "51a61340dde73868c319f97a7ce436b0650255be"' in manifest
+    )
+    assert "VOP_GOVERNANCE_REPOSITORY_ROOT: .upstream/vop_poc_nz" in workflow
+
+
 def test_missing_contract_task_is_reported(tmp_path: Path) -> None:
     for relative_path in (
         "pyproject.toml",

@@ -165,4 +165,12 @@ def contract_mutation(session: nox.Session) -> None:
     """Mutation-test the bounded contract package on demand."""
     _sync_project(session)
     session.run("mutmut", "run")
-    session.run("mutmut", "results")
+    session.run("mutmut", "export-cicd-stats")
+    session.run(
+        "python",
+        "scripts/check_mutation_score.py",
+        "--threshold",
+        "90",
+        "--output",
+        ".benchmarks/mutation-score.json",
+    )

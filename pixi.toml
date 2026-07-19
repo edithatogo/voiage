@@ -19,6 +19,7 @@ profile = { cmd = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_
 contracts = { cmd = "uv run nox -s contracts", depends-on = ["sync"] }
 contracts-profile = { cmd = "uv run nox -s contract_profile", depends-on = ["sync"] }
 contracts-mutation = { cmd = "uv run nox -s contract_mutation", depends-on = ["sync"] }
+mutation-score = { cmd = "uv run mutmut run && uv run mutmut export-cicd-stats && uv run python scripts/check_mutation_score.py --threshold 90 --output .benchmarks/mutation-score.json", depends-on = ["sync"] }
 verify = { depends-on = ["lint", "format-check", "typecheck", "test", "build"] }
 
 [feature.experimental.tasks]

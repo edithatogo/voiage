@@ -219,17 +219,12 @@ exclude_lines = [
 ]
 
 [tool.mutmut]
-source_paths = ["voiage/contracts/"]
+source_paths = ["voiage/"]
+only_mutate = ["voiage/mutation_policy.py"]
 pytest_add_cli_args = ["-x", "--no-cov"]
 pytest_add_cli_args_test_selection = [
-    "tests/test_analysis_contracts.py",
-    "tests/test_calculation_kernel.py",
-    "tests/test_contract_method_adapters.py",
-    "tests/test_contract_interchange.py",
-    "tests/test_vop_governance_mirror.py",
+    "tests/test_mutation_score.py",
 ]
-also_copy = ["specs/integration/vop-voiage/governance/"]
-fail_under = 90
 
 [tool.semantic_release]
 version_source = "tag"

@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
+import subprocess
 
 from jsonschema import Draft202012Validator
 import pytest
@@ -20,6 +22,11 @@ DEFAULT_CANONICAL_ROOT = Path("C:/repos/vop_poc_nz-codex-v7/schemas/governance")
 CANONICAL_ROOT = Path(
     os.environ.get("VOP_GOVERNANCE_SCHEMA_ROOT", DEFAULT_CANONICAL_ROOT)
 )
+DEFAULT_CANONICAL_REPOSITORY = Path("C:/repos/vop_poc_nz-codex-v7")
+CANONICAL_REPOSITORY = Path(
+    os.environ.get("VOP_GOVERNANCE_REPOSITORY_ROOT", DEFAULT_CANONICAL_REPOSITORY)
+)
+GIT_EXECUTABLE = shutil.which("git")
 
 
 def _manifest() -> dict[str, object]:
@@ -38,6 +45,34 @@ def test_vendored_files_match_manifest_and_canonical_bytes() -> None:
         assert sha256(content).hexdigest() == digest
         if CANONICAL_ROOT.exists():
             assert content == (CANONICAL_ROOT / filename).read_bytes()
+
+
+@pytest.mark.skipif(
+    GIT_EXECUTABLE is None or not (CANONICAL_REPOSITORY / ".git").exists(),
+    reason="pinned canonical Git checkout is unavailable",
+)
+def test_vendored_files_match_pinned_canonical_git_tree() -> None:
+    """Bind every vendored byte to the immutable commit named by the manifest."""
+    manifest = _manifest()
+    commit = str(manifest["canonical_git_commit"])
+    canonical_path = str(manifest["canonical_path"])
+    expected = manifest["files"]
+    assert isinstance(expected, dict)
+    assert GIT_EXECUTABLE is not None
+
+    subprocess.run(
+        [GIT_EXECUTABLE, "cat-file", "-e", f"{commit}^{{commit}}"],
+        cwd=CANONICAL_REPOSITORY,
+        check=True,
+    )
+    for filename in expected:
+        pinned = subprocess.run(
+            [GIT_EXECUTABLE, "show", f"{commit}:{canonical_path}/{filename}"],
+            cwd=CANONICAL_REPOSITORY,
+            check=True,
+            capture_output=True,
+        ).stdout
+        assert (SCHEMA_ROOT / filename).read_bytes() == pinned
 
 
 def test_schema_and_example_are_draft_2020_12_valid() -> None:
@@ -75,7 +110,9 @@ def test_privacy_and_stable_marker_policy_fail_closed() -> None:
     )
 
 
-@pytest.mark.skipif(CANONICAL_ROOT.exists(), reason="canonical sibling is available")
+@pytest.mark.skipif(
+    CANONICAL_REPOSITORY.exists(), reason="canonical Git checkout is available"
+)
 def test_missing_sibling_is_covered_by_pinned_digests() -> None:
-    """Hosted CI remains deterministic when the sibling checkout is absent."""
+    """Offline checks still reject mirror bytes not covered by pinned digests."""
     assert len(_manifest()["canonical_git_commit"]) == 40  # type: ignore[arg-type]
