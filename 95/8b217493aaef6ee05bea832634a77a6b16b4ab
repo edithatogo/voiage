@@ -1,0 +1,5 @@
+Task: Define the normative v1.0 API contract
+
+Implemented the machine-readable stable API classification and behavioral contract, linked the existing core schemas, added executable governance checks, and repaired the version-sync launcher to prefer repository-local dynamic-version logic.
+
+Validation: full tox matrix passed; 1426 tests passed per supported Python environment; docs, harness, typecheck, security, min/max dependencies, and >=90% coverage passed.
