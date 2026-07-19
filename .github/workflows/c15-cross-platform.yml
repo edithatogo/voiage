@@ -1,0 +1,164 @@
+name: C15 Cross-platform Assurance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  UV_FROZEN: "1"
+  BLIS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+
+jobs:
+  distributions:
+    name: Wheel and sdist identity (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          cache-suffix: c15-dist-${{ runner.os }}
+      - run: uv sync --frozen --extra ci --extra dev
+      - name: Build reproducible distributions
+        run: >-
+          uv run --frozen python scripts/reproducible_build.py .
+          --output c15-evidence/reproducible-build.json --dist-dir dist
+      - name: Record normalized wheel and sdist identities
+        run: |
+          uv run --frozen python scripts/c15_artifact_digest.py record --archive-dir dist --kind wheel --runner "${{ runner.os }}-${{ runner.arch }}" --output c15-evidence/report-wheel.json
+          uv run --frozen python scripts/c15_artifact_digest.py record --archive-dir dist --kind sdist --runner "${{ runner.os }}-${{ runner.arch }}" --output c15-evidence/report-sdist.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: c15-digest-${{ runner.os }}
+          path: c15-evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+  compare-distributions:
+    needs: distributions
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+      - run: uv sync --frozen --extra ci
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: c15-digest-*
+          path: c15-digests
+      - name: Compare both distribution kinds
+        run: |
+          uv run --frozen python scripts/c15_artifact_digest.py compare --left c15-digests/c15-digest-Linux/report-wheel.json --right c15-digests/c15-digest-Windows/report-wheel.json --output c15-evidence/comparison-wheel.json
+          uv run --frozen python scripts/c15_artifact_digest.py compare --left c15-digests/c15-digest-Linux/report-sdist.json --right c15-digests/c15-digest-Windows/report-sdist.json --output c15-evidence/comparison-sdist.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: c15-cross-platform-comparison
+          path: c15-evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+  performance:
+    name: Bootstrap performance (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          cache-suffix: c15-performance-${{ runner.os }}
+      - run: uv sync --frozen --extra ci
+      - name: Run ratchet and retain failure decision
+        id: ratchet
+        continue-on-error: true
+        run: >-
+          uv run --frozen python scripts/c15_performance_ratchet.py
+          --baseline benchmarks/c15_performance_baseline.json
+          --output c15-evidence/performance.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: c15-performance-${{ runner.os }}
+          path: c15-evidence/performance.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Enforce performance after evidence retention
+        if: always() && steps.ratchet.outcome != 'success'
+        run: exit 1
+
+  telemetry-and-oracles:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          cache-suffix: c15-telemetry-oracles
+      - run: uv sync --frozen --extra ci --extra experimental
+      - run: uv run --frozen python scripts/c15_otel_probe.py --output c15-evidence/otel-probe.json
+      - name: Verify privacy and scientific surfaces
+        env:
+          JAX_ENABLE_X64: "1"
+        run: >-
+          uv run --frozen pytest -q --no-cov
+          tests/test_c15_reproducibility.py tests/test_c15_performance.py
+          tests/test_c15_otel.py tests/test_c15_oracles.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: c15-telemetry-oracle-evidence
+          path: c15-evidence/
+          if-no-files-found: error
+          retention-days: 30
