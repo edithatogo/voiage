@@ -1,0 +1,19 @@
+Task: Stabilize Rust domain contracts - canonical v1 result DTO slice
+
+Summary:
+- Added exact flat EVPI, EVPPI, EVSI, ENBS, CEAF and dominance v1 DTOs.
+- Enforced closed unknown-field handling, exact discriminators, finite/nonnegative validation, signed ENBS, aligned optional and series fields, CEAF probability bounds, and dominance partition invariants.
+- Added canonical JSON example round-trip and negative contract tests.
+
+Files:
+- rust/crates/voiage-serialization/Cargo.toml
+- rust/crates/voiage-serialization/src/lib.rs
+- rust/crates/voiage-serialization/tests/v1_results.rs
+- rust/Cargo.lock
+
+Validation:
+- cargo fmt --all --check: pass
+- cargo clippy -p voiage-serialization --all-targets --locked --no-deps -- -D warnings -A clippy::struct_field_names: pass; narrow allowance covers a concurrent out-of-scope domain warning
+- cargo test -p voiage-serialization --all-targets --locked: pass, 6 tests
+- cargo test -p voiage-serialization --doc --locked: pass
+- git diff --check: pass
