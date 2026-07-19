@@ -10,6 +10,8 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 
 import numpy as np
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
@@ -507,7 +509,10 @@ def value_of_perspective(
         switching_se.append(standard_error)
         estimate = float(switching_values[perspective_index])
         switching_ci95.append(
-            [max(0.0, estimate - 1.96 * standard_error), estimate + 1.96 * standard_error]
+            [
+                max(0.0, estimate - 1.96 * standard_error),
+                estimate + 1.96 * standard_error,
+            ]
         )
 
     return ValueOfPerspectiveResult(
@@ -571,3 +576,36 @@ def perspective_optimal_strategies(
 ) -> dict[str, str]:
     """Return the optimal strategy name for each perspective."""
     return dict(zip(result.perspective_ids, result.optimal_strategy_names, strict=True))
+
+
+def perspective_result_to_arrow(result: ValueOfPerspectiveResult) -> pa.Table:
+    """Return the directional regret matrix as a schema-bearing Arrow table."""
+    rows = [
+        {
+            "choose_under": result.perspective_ids[source],
+            "evaluate_under": result.perspective_ids[target],
+            "chosen_strategy": result.optimal_strategy_names[source],
+            "target_strategy": result.optimal_strategy_names[target],
+            "directional_current_information_evop": float(
+                result.regret_matrix[target, source]
+            ),
+        }
+        for source in range(len(result.perspective_ids))
+        for target in range(len(result.perspective_ids))
+    ]
+    return pa.Table.from_pylist(rows).replace_schema_metadata(
+        {
+            b"voiage.method_contract_version": METHOD_CONTRACT_VERSION.encode(),
+            b"voiage.estimand": b"directional_current_information_evop",
+            b"voiage.interchange": b"apache-arrow",
+        }
+    )
+
+
+def write_perspective_result_parquet(
+    result: ValueOfPerspectiveResult, path: str
+) -> None:
+    """Write a perspective result using Arrow Parquet and Zstandard compression."""
+    pq.write_table(
+        perspective_result_to_arrow(result), path, compression="zstd", version="2.6"
+    )
