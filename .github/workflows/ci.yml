@@ -479,8 +479,8 @@ jobs:
 
     - name: Run Scalene profiler
       run: |
-        uv run scalene --cli --outfile profile_results.txt profile_scalene.py
-        cat profile_results.txt
+        uv run scalene run -o profile_results.json profile_scalene.py
+        uv run scalene view --cli profile_results.json
       env:
         CI: true
 
@@ -488,7 +488,7 @@ jobs:
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: scalene-profile
-        path: profile_results.txt
+        path: profile_results.json
 
   # Documentation build
   docs:

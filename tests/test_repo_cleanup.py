@@ -209,7 +209,9 @@ def test_stale_root_reports_and_one_off_artifacts_are_not_tracked() -> None:
 
 def test_taskipy_profile_target_exists() -> None:
     pyproject = _read("pyproject.toml")
-    expected_task = 'profile = "uv run scalene --cli profile_scalene.py"'
+    expected_task = (
+        'profile = "uv run scalene run -o profile_results.json profile_scalene.py"'
+    )
 
     assert expected_task in pyproject
     assert Path("profile_scalene.py").is_file()

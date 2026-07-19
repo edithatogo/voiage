@@ -15,7 +15,7 @@ format-check = { cmd = "uv run ruff format --check voiage tests scripts", depend
 typecheck = { cmd = "uv run ty check voiage && uv run basedpyright voiage", depends-on = ["sync"] }
 security = { cmd = "uv run bandit -r voiage -c pyproject.toml", depends-on = ["sync"] }
 build = { cmd = "uv build", depends-on = ["sync"] }
-profile = { cmd = "uv run scalene --cli --outfile profile_results.json --json profile_scalene.py", depends-on = ["sync"] }
+profile = { cmd = "uv run scalene run -o profile_results.json profile_scalene.py", depends-on = ["sync"] }
 verify = { depends-on = ["lint", "format-check", "typecheck", "test", "build"] }
 
 [feature.experimental.tasks]
