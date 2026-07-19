@@ -1,0 +1,9 @@
+Task: Define the portable v1 C ABI header and symbol baseline.
+
+Summary: Added a versioned C header declaring only ABI infrastructure: namespaced version discovery, size/version-prefixed ABI metadata, opaque context lifecycle, stable status values, and bounded thread-local error retrieval. Documented ownership and thread-safety. Added an exported-symbol baseline and C11/C++17 compile-smoke consumers. Numerical operation exports remain deferred to Phase 5.
+
+Files: rust/crates/voiage-ffi/include/voiage_v1.h; specs/abi/v1/symbols.txt; tests/ffi/voiage_v1_smoke.c; tests/ffi/voiage_v1_smoke.cpp.
+
+Validation: cc -std=c11 -Wall -Wextra -Werror -pedantic compile passed; c++ -std=c++17 -Wall -Wextra -Werror -pedantic compile passed; declared-symbol/baseline comparison passed; git diff --check passed.
+
+Scope: No Rust source was edited. Concurrent Rust implementation files and docs/astro-site/.astro were excluded.
