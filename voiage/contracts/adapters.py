@@ -1,5 +1,7 @@
 """Compatibility adapters for established VOIAGE runtime backends."""
 
+# pyright: reportUnknownMemberType=false
+
 from __future__ import annotations
 
 from collections.abc import Mapping
@@ -59,11 +61,9 @@ def adapt_value_array(
     if array.ndim == 2:
         if perspective_names is not None:
             raise ValueError("perspective_names require a 3D value array")
-        return ValueArray.from_numpy(  # pyright: ignore[reportUnknownMemberType]
-            array, strategies
-        )
+        return ValueArray.from_numpy(array, strategies)
     if array.ndim == 3:
-        return ValueArray.from_numpy_perspectives(  # pyright: ignore[reportUnknownMemberType]
+        return ValueArray.from_numpy_perspectives(
             array,
             strategies,
             list(perspective_names) if perspective_names is not None else None,
@@ -78,9 +78,7 @@ def adapt_parameter_set(
     if parameters is None or isinstance(parameters, ParameterSet):
         return parameters
     normalized = dict(parameters) if isinstance(parameters, Mapping) else parameters
-    return ParameterSet.from_numpy_or_dict(  # pyright: ignore[reportUnknownMemberType]
-        normalized
-    )
+    return ParameterSet.from_numpy_or_dict(normalized)
 
 
 def _parameter_dtype(values: np.ndarray) -> ParameterDType:

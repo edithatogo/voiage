@@ -219,9 +219,9 @@ exclude_lines = [
 ]
 
 [tool.mutmut]
-paths_to_mutate = "voiage/"
+paths_to_mutate = "voiage/contracts/"
 tests_dir = "tests/"
-runner = "pytest -x --no-cov"
+runner = "pytest tests/test_analysis_contracts.py tests/test_calculation_kernel.py tests/test_contract_method_adapters.py -x --no-cov"
 fail_under = 90
 
 [tool.semantic_release]
@@ -239,6 +239,9 @@ test-integration = "uv run pytest tests/ -m 'integration' --no-cov"
 test-e2e = "uv run pytest tests/ -m 'e2e' --no-cov"
 test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
 frontier-contract = "uv run python scripts/validate_frontier_contract.py"
+contracts = "uv run nox -s contracts"
+contracts-profile = "uv run nox -s contract_profile"
+contracts-mutation = "uv run nox -s contract_mutation"
 lint = "tox -e lint"
 format = "uv run ruff format voiage tests"
 typecheck = "tox -e typecheck"

@@ -134,7 +134,7 @@ def dispatch_calculation[PayloadT](
         policy=policy,
         context=context,
     )
-    return AnalysisResult[PayloadT](
+    return AnalysisResult(
         analysis_id=spec.analysis_id,
         decision_problem_id=spec.decision_problem_id,
         method_family=spec.method_family,

@@ -86,6 +86,18 @@ jobs:
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
 
+    - name: Verify generated v2 contracts
+      run: uv run python scripts/export_v2_contracts.py --check
+
+    - name: Run focused v2 contract tests
+      run: >-
+        uv run pytest tests/test_analysis_contracts.py
+        tests/test_calculation_kernel.py
+        tests/test_contract_method_adapters.py
+        tests/test_v2_contract_exports.py
+        tests/test_contract_automation.py
+        --no-cov -q
+
   version-sync:
     name: Version Synchronization Validation
     runs-on: ubuntu-latest
@@ -195,7 +207,7 @@ jobs:
         --ignore redundant-cast
 
     - name: Run BasedPyright on new production contracts
-      run: uv run basedpyright voiage/logging.py
+      run: uv run basedpyright voiage/logging.py voiage/contracts scripts/export_v2_contracts.py
 
   # Unit tests
   test-unit:
@@ -422,6 +434,7 @@ jobs:
   test-mutation:
     name: Mutation Testing
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
@@ -455,6 +468,7 @@ jobs:
   profile:
     name: Performance Profiling
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
@@ -479,8 +493,8 @@ jobs:
 
     - name: Run Scalene profiler
       run: |
-        uv run scalene run -o profile_results.json profile_scalene.py
-        uv run scalene view --cli profile_results.json
+        uv run scalene run -o contract_profile_results.json scripts/profile_contracts.py
+        uv run scalene view --cli contract_profile_results.json
       env:
         CI: true
 
@@ -488,7 +502,7 @@ jobs:
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: scalene-profile
-        path: profile_results.json
+        path: contract_profile_results.json
 
   # Documentation build
   docs:

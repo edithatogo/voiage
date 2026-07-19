@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Deterministically export the canonical VOIAGE v2 contract artifacts."""
 
+# pyright: reportAny=false, reportUnknownMemberType=false, reportUnusedCallResult=false
+
 from __future__ import annotations
 
 import argparse
@@ -41,7 +43,7 @@ class _Arguments(Protocol):
 
 
 def _example_spec():
-    values = ValueArray.from_numpy_perspectives(  # pyright: ignore[reportUnknownMemberType]
+    values = ValueArray.from_numpy_perspectives(
         np.array(
             [
                 [[10.0, 0.0], [0.0, 20.0]],
@@ -51,9 +53,7 @@ def _example_spec():
         strategy_names=["A", "B"],
         perspective_names=["payer", "societal"],
     )
-    parameters = ParameterSet.from_numpy_or_dict(  # pyright: ignore[reportUnknownMemberType]
-        {"prevalence": np.array([0.1, 0.2])}
-    )
+    parameters = ParameterSet.from_numpy_or_dict({"prevalence": np.array([0.1, 0.2])})
     policy = NumericalPolicy(
         deterministic_fixture_mode=True,
         backend_preference=("numpy",),

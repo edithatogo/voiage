@@ -1,5 +1,7 @@
 """Additive perspective-result envelope and compatibility adapters."""
 
+# pyright: reportAny=false
+
 from __future__ import annotations
 
 import hashlib
@@ -89,7 +91,7 @@ def _int_values(values: NDArray[np.int64]) -> tuple[int, ...]:
 
 
 def _json_mapping(values: Mapping[str, object]) -> dict[str, JsonValue]:
-    normalized: object = to_jsonable_python(  # pyright: ignore[reportAny]
+    normalized: object = to_jsonable_python(
         values, serialize_unknown=True, fallback=str
     )
     return cast("dict[str, JsonValue]", normalized)

@@ -36,6 +36,28 @@ REQUIRED_CONTEXT_MARKERS = (
     "## Repository Context Map",
     "## Solo-Maintainer Merge Policy",
 )
+CONTRACT_GOVERNANCE_MARKERS = {
+    "pyproject.toml": (
+        'contracts = "uv run nox -s contracts"',
+        'contracts-profile = "uv run nox -s contract_profile"',
+        'contracts-mutation = "uv run nox -s contract_mutation"',
+    ),
+    "noxfile.py": (
+        "def contracts(",
+        "def contract_profile(",
+        "def contract_mutation(",
+    ),
+    "pixi.toml": (
+        "contracts =",
+        "contracts-profile =",
+        "contracts-mutation =",
+    ),
+    ".github/workflows/ci.yml": (
+        "scripts/export_v2_contracts.py --check",
+        "tests/test_contract_automation.py",
+        "scripts/profile_contracts.py",
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -181,6 +203,23 @@ def check_docs_platform(root: Path) -> list[Finding]:
     return findings
 
 
+def check_contract_governance(root: Path) -> list[Finding]:
+    """Ensure the v2 contract gate is mirrored across supported runners."""
+    findings: list[Finding] = []
+    for relative_path, markers in CONTRACT_GOVERNANCE_MARKERS.items():
+        path = root / relative_path
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        missing = [marker for marker in markers if marker not in text]
+        if missing:
+            findings.append(
+                Finding(
+                    relative_path,
+                    "contract governance markers are missing: " + ", ".join(missing),
+                )
+            )
+    return findings
+
+
 def collect_findings(root: Path) -> list[Finding]:
     """Run all deterministic harness checks."""
     return (
@@ -188,6 +227,7 @@ def collect_findings(root: Path) -> list[Finding]:
         + check_context_contract(root)
         + check_workflows(root)
         + check_docs_platform(root)
+        + check_contract_governance(root)
         + check_conflict_markers(root)
     )
 

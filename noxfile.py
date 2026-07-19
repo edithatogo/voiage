@@ -122,3 +122,45 @@ def frontier_contract(session: nox.Session) -> None:
     """Validate the frontier contract registry and fixtures."""
     _sync_project(session)
     session.run("python", "scripts/validate_frontier_contract.py", *session.posargs)
+
+
+@nox.session
+def contracts(session: nox.Session) -> None:
+    """Verify generated v2 contracts and their focused implementation surface."""
+    _sync_project(session)
+    session.run("python", "scripts/export_v2_contracts.py", "--check")
+    session.run(
+        "pytest",
+        "tests/test_analysis_contracts.py",
+        "tests/test_calculation_kernel.py",
+        "tests/test_contract_method_adapters.py",
+        "tests/test_v2_contract_exports.py",
+        "tests/test_contract_automation.py",
+        "--no-cov",
+        "-q",
+        *session.posargs,
+    )
+    session.run("ruff", "check", "voiage/contracts", "scripts/export_v2_contracts.py")
+    session.run("ty", "check", "voiage/contracts")
+    session.run("basedpyright", "voiage/contracts", "scripts/export_v2_contracts.py")
+
+
+@nox.session(default=False)
+def contract_profile(session: nox.Session) -> None:
+    """Profile a bounded canonical-contract workload on demand."""
+    _sync_project(session)
+    session.run(
+        "scalene",
+        "run",
+        "-o",
+        "contract_profile_results.json",
+        "scripts/profile_contracts.py",
+    )
+
+
+@nox.session(default=False)
+def contract_mutation(session: nox.Session) -> None:
+    """Mutation-test the bounded contract package on demand."""
+    _sync_project(session)
+    session.run("mutmut", "run")
+    session.run("mutmut", "results")
