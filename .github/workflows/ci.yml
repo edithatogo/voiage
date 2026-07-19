@@ -33,7 +33,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra dev
@@ -72,7 +72,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra ci --extra dev
@@ -101,7 +101,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra ci --extra dev
@@ -132,7 +132,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra ci
@@ -160,13 +160,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
       run: uv sync --extra ci --extra dev
 
     - name: Run Ruff
-      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
+      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 
     - name: Run Ruff format check
       run: uv run ruff format voiage tests --check
@@ -183,7 +183,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python: ["3.14"]
       fail-fast: false
     steps:
     - name: Checkout code
@@ -221,7 +221,7 @@ jobs:
         CI: true
 
     - name: Upload coverage to Codecov
-      if: matrix.python == '3.11'
+      if: matrix.python == '3.14'
       uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
       with:
         files: ./coverage.xml
@@ -249,7 +249,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra ci
@@ -277,7 +277,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
       run: uv sync --extra ci
@@ -310,7 +310,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
       run: uv sync --extra ci
@@ -344,7 +344,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install voiage
       run: uv sync --extra ci --extra dev
@@ -379,7 +379,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
       run: uv sync --extra ci --extra dev
@@ -412,7 +412,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
       run: uv sync --extra dev

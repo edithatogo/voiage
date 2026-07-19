@@ -7,7 +7,7 @@
     {"path": "schemas/perspective-set.schema.json", "sha256": "be7af0c3e2a1b31aa68354331387481e3d491d09a8be531a0c7a5f81d9b38df3"},
     {"path": "schemas/value-of-perspective-result.schema.json", "sha256": "7bbd475b3d7bb6aa7ebfee6570026ab50293d6ded7cdd0479a4e05cb73e05f8b"},
     {"path": "fixtures/normative/perspective-surface.json", "sha256": "f6ca8bb41abc36a19190abc3625127e82c03c455504ed8c948bfc3d050288245"},
-    {"path": "fixtures/normative/value-of-perspective.json", "sha256": "f41dbb68f354f80a36333dba5379be35c5625f447df5afa893730821a1e914b2"},
+    {"path": "fixtures/normative/value-of-perspective.json", "sha256": "94a43fd869cca014094c6725d770d604a2346b8d5a7f03bb4af0665be1b2f8d8"},
     {"path": "fixtures/perspective-catalog.json", "sha256": "c06e38d46049b1eeeee223c94f318b5b76a36237131c662655e8e669da1499fd"}
   ],
   "open_data": {

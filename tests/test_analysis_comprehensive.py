@@ -397,7 +397,7 @@ class TestDecisionAnalysisComprehensive:
             result = next(generator)
             assert isinstance(result, (int, float))
             # Result might be undefined if sklearn is not available
-        except (OptionalDependencyError, ImportError):
+        except OptionalDependencyError, ImportError:
             # Expected if sklearn not available
             pytest.skip("scikit-learn not available for EVPPI test")
 
@@ -468,7 +468,7 @@ class TestDecisionAnalysisComprehensive:
             result = analysis.evppi()
             assert isinstance(result, float)
             assert result >= 0
-        except (OptionalDependencyError, ImportError):
+        except OptionalDependencyError, ImportError:
             # Expected if sklearn not available
             pytest.skip("scikit-learn not available for EVPPI test")
 

@@ -233,7 +233,7 @@ def build_executor_factory(
         if use_processes:
             try:
                 return adapter.create_executor(n_workers)
-            except (BrokenProcessPool, OSError, RuntimeError):
+            except BrokenProcessPool, OSError, RuntimeError:
                 pass
         return ThreadPoolExecutor(max_workers=n_workers)
 

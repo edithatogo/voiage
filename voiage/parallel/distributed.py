@@ -50,7 +50,7 @@ def _default_executor(n_workers: int, use_processes: bool) -> Executor:
     if use_processes:
         try:
             return ProcessPoolExecutor(max_workers=n_workers)
-        except (OSError, RuntimeError, BrokenProcessPool):
+        except OSError, RuntimeError, BrokenProcessPool:
             pass
     return ThreadPoolExecutor(max_workers=n_workers)
 
@@ -110,7 +110,7 @@ def distributed_map(
             ]
             for index, future in futures:
                 results[index] = future.result()
-    except (BrokenProcessPool, OSError, RuntimeError, TypeError):
+    except BrokenProcessPool, OSError, RuntimeError, TypeError:
         for index, item in enumerate(values):
             results[index] = worker_func(item)
 
