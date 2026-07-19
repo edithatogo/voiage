@@ -261,6 +261,7 @@ jobs:
     name: Python 3.14t Observation
     runs-on: ubuntu-latest
     continue-on-error: true
+    timeout-minutes: 5
     steps:
     - name: Checkout code
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -282,7 +283,7 @@ jobs:
 
     - name: Observe minimal free-threaded Arrow compatibility
       run: >-
-        uv run --no-project
+        uv run --no-project --no-build
         --with pyarrow==25.0.0
         --with polars==1.42.1
         python scripts/free_threaded_arrow_probe.py
