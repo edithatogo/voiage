@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from time import perf_counter
 import tracemalloc
+from typing import TYPE_CHECKING
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
@@ -30,6 +31,9 @@ from voiage.contracts.bundle import (
 from voiage.contracts.interchange import schema_fingerprint
 from voiage.schema import ValueArray
 
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+
 FIELDS = (
     {"name": "analysis_id", "arrow_type": "string", "nullable": False, "unit": None},
     {
@@ -46,11 +50,27 @@ RECORDS = [
 REQUIRED_METADATA = ["vop_voiage.producer", "vop_voiage.provenance_sha256"]
 
 
-def _identity(*, fingerprint: str = "0" * 64) -> dict[str, object]:
+def _fields_fingerprint(fields: Sequence[Mapping[str, object]]) -> str:
+    arrow_types = {"string": pa.string(), "double": pa.float64()}
+    return schema_fingerprint(
+        pa.schema(
+            [
+                pa.field(
+                    str(field["name"]),
+                    arrow_types[str(field["arrow_type"])],
+                    nullable=bool(field["nullable"]),
+                )
+                for field in fields
+            ]
+        )
+    )
+
+
+def _identity(*, fingerprint: str | None = None) -> dict[str, object]:
     return {
         "schema_id": "typed_pipeline_records",
         "schema_version": "1.0.0",
-        "schema_fingerprint": fingerprint,
+        "schema_fingerprint": fingerprint or _fields_fingerprint(FIELDS),
         "fields": FIELDS,
         "required_metadata": REQUIRED_METADATA,
     }
@@ -128,6 +148,13 @@ def _write_bundle(root: Path) -> None:
                 "consumer_rule": "reject every change not explicitly compatible",
             }
         ),
+        "references/analytical-reference-manifest.json": _canonical_json(
+            {
+                "reference_id": "vop-voiage-analytical-reference",
+                "reference_version": "1.0.0",
+                "replication_status": "producer_authored_pending_external_replication",
+            }
+        ),
         "schemas/example.schema.json": _canonical_json(
             {
                 "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -163,7 +190,18 @@ def _write_bundle(root: Path) -> None:
                 }[path.suffix],
             }
         )
+    reference_entry = next(
+        entry
+        for entry in entries
+        if entry["path"] == "references/analytical-reference-manifest.json"
+    )
     manifest = {
+        "analytical_reference": {
+            "path": reference_entry["path"],
+            "reference_id": "vop-voiage-analytical-reference",
+            "reference_version": "1.0.0",
+            "sha256": reference_entry["sha256"],
+        },
         "schema_version": "1.0.0",
         "bundle_id": "vop-voiage-contracts",
         "bundle_version": "1.0.0",
@@ -258,7 +296,7 @@ def test_checked_in_bundle_matches_immutable_upstream_pin() -> None:
 
     assert (
         verified.bundle_sha256
-        == "fba786ead24ac359fc943892f74bcc905f38e96f0ac4cf945824b6c63fd80a0c"
+        == "f79a8d56b22736e34f10d8cb02db46239f27093fd1c366d4ca0ba2c688b60798"
     )
     assert (
         verified.arrow_schema_fingerprint
@@ -290,11 +328,11 @@ def test_nullable_addition_is_backward_compatible_and_requires_version_bump() ->
     previous = _identity()
     current = deepcopy(previous)
     current["schema_version"] = "1.1.0"
-    current["schema_fingerprint"] = "1" * 64
     current["fields"] = (
         *FIELDS,
         {"name": "note", "arrow_type": "string", "nullable": True, "unit": None},
     )
+    current["schema_fingerprint"] = _fields_fingerprint(current["fields"])
 
     report = validate_schema_evolution(previous, current)
     assert report.backward_compatible is True
@@ -326,7 +364,6 @@ def test_any_unique_nullable_suffix_is_compatible(field_names: list[str]) -> Non
     previous = _identity()
     current = deepcopy(previous)
     current["schema_version"] = "1.1.0"
-    current["schema_fingerprint"] = "1" * 64
     current["fields"] = (
         *FIELDS,
         *(
@@ -339,6 +376,7 @@ def test_any_unique_nullable_suffix_is_compatible(field_names: list[str]) -> Non
             for name in field_names
         ),
     )
+    current["schema_fingerprint"] = _fields_fingerprint(current["fields"])
 
     report = validate_schema_evolution(previous, current)
     assert report.added_fields == tuple(field_names)

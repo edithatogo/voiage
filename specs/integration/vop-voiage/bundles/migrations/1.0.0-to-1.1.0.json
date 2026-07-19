@@ -25,7 +25,7 @@
       {"arrow_type": "int64", "name": "cost_currency_year", "nullable": true, "unit": null},
       {"arrow_type": "string", "name": "health_outcome_unit", "nullable": true, "unit": null}
     ],
-    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
+    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.fixture_binding", "vop_voiage.fixture_id", "vop_voiage.fixture_metadata_sha256", "vop_voiage.fixture_version", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
     "schema_fingerprint": "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e",
     "schema_id": "typed_pipeline_records",
     "schema_version": "1.0.0"
@@ -54,7 +54,7 @@
       {"arrow_type": "string", "name": "health_outcome_unit", "nullable": true, "unit": null},
       {"arrow_type": "string", "name": "decision_context", "nullable": true, "unit": null}
     ],
-    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
+    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.fixture_binding", "vop_voiage.fixture_id", "vop_voiage.fixture_metadata_sha256", "vop_voiage.fixture_version", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
     "schema_fingerprint": "54d0108431b42d8c46d3eebb0dc0bfcfdc798a5176d38a21fd455f0be1e44a1c",
     "schema_id": "typed_pipeline_records",
     "schema_version": "1.1.0"

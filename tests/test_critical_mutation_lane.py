@@ -27,11 +27,11 @@ def _stats(**changes: int) -> dict[str, object]:
     return values
 
 
-def test_critical_lane_targets_only_production_used_invariants() -> None:
-    assert (
-        'only_mutate = ["voiage/contracts/critical_invariants.py"]'
-        in CRITICAL_MUTMUT_CONFIG
-    )
+def test_critical_lane_targets_c13_and_c14_production_used_invariants() -> None:
+    assert '"voiage/assurance_policy.py"' in CRITICAL_MUTMUT_CONFIG
+    assert '"voiage/contracts/critical_invariants.py"' in CRITICAL_MUTMUT_CONFIG
+    assert '"tests/test_assurance_policy.py"' in CRITICAL_MUTMUT_CONFIG
+    assert '"tests/test_critical_invariants.py"' in CRITICAL_MUTMUT_CONFIG
     assert "tests/test_critical_invariants.py" in CRITICAL_MUTMUT_CONFIG
     assert "mutation_policy.py" not in CRITICAL_MUTMUT_CONFIG
 

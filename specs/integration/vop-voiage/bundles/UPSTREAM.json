@@ -2,9 +2,9 @@
   "schema_version": "1.0.0",
   "canonical_repository": "edithatogo/vop_poc_nz",
   "canonical_path": "contracts/vop-voiage/1.0.0",
-  "canonical_git_commit": "edd025e06427afa624554f8dd8193448759e522a",
+  "canonical_git_commit": "3c841cd054666cf3d9ebefd962fc2ea07c20a510",
   "bundle_version": "1.0.0",
-  "bundle_sha256": "fba786ead24ac359fc943892f74bcc905f38e96f0ac4cf945824b6c63fd80a0c",
+  "bundle_sha256": "f79a8d56b22736e34f10d8cb02db46239f27093fd1c366d4ca0ba2c688b60798",
   "arrow_schema_fingerprint": "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e",
   "signature_policy": "unsigned_sha256_manifest"
 }

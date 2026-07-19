@@ -1,4 +1,8 @@
 find_numerical_reference <- function() {
+  configured <- Sys.getenv("VOIAGE_NUMERICAL_REFERENCE", unset = "")
+  if (nzchar(configured)) {
+    return(normalizePath(configured, winslash = "/", mustWork = TRUE))
+  }
   directory <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
   repeat {
     candidate <- file.path(

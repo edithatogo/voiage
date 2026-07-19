@@ -21,9 +21,9 @@ pythonpath = ["."]
 
 [tool.mutmut]
 source_paths = ["voiage/"]
-only_mutate = ["voiage/contracts/critical_invariants.py"]
+only_mutate = ["voiage/assurance_policy.py", "voiage/contracts/critical_invariants.py"]
 pytest_add_cli_args = ["-x", "--no-cov", "-p", "no:cacheprovider"]
-pytest_add_cli_args_test_selection = ["tests/test_critical_invariants.py"]
+pytest_add_cli_args_test_selection = ["tests/test_assurance_policy.py", "tests/test_critical_invariants.py"]
 """
 
 
@@ -41,12 +41,16 @@ def _run(repo: Path, output: Path, threshold: float) -> int:
         contracts.mkdir(parents=True)
         tests.mkdir()
         (package / "__init__.py").write_text("", encoding="utf-8", newline="\n")
+        shutil.copy2(
+            repo / "voiage/assurance_policy.py", package / "assurance_policy.py"
+        )
         (contracts / "__init__.py").write_text("", encoding="utf-8", newline="\n")
         shutil.copy2(
             repo / "voiage/contracts/critical_invariants.py",
             contracts / "critical_invariants.py",
         )
         shutil.copy2(repo / "tests/test_critical_invariants.py", tests)
+        shutil.copy2(repo / "tests/test_assurance_policy.py", tests)
         (sandbox / "pyproject.toml").write_text(
             CRITICAL_MUTMUT_CONFIG, encoding="utf-8", newline="\n"
         )

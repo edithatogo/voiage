@@ -8,6 +8,7 @@ on:
       - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
+      - "specs/numerical-reference/**"
   push:
     branches: [main]
     paths:
@@ -15,6 +16,7 @@ on:
       - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
+      - "specs/numerical-reference/**"
 
 permissions:
   contents: read
@@ -111,6 +113,8 @@ jobs:
     defaults:
       run:
         working-directory: r-package/voiageR
+    env:
+      VOIAGE_NUMERICAL_REFERENCE: ${{ github.workspace }}/specs/numerical-reference/v1/evpi-cases.json
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:

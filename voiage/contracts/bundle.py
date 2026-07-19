@@ -14,12 +14,14 @@ import pyarrow as pa
 from pyarrow import ipc
 import pyarrow.parquet as pq
 
+from voiage.assurance_policy import require_schema_fingerprint
 from voiage.contracts.interchange import schema_fingerprint
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 _SEMVER = re.compile(r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$")
 _MANIFEST_KEYS = {
+    "analytical_reference",
     "schema_version",
     "bundle_id",
     "bundle_version",
@@ -34,6 +36,12 @@ _MANIFEST_KEYS = {
     "schema_source",
     "files",
     "bundle_sha256",
+}
+_ANALYTICAL_REFERENCE_KEYS = {
+    "path",
+    "reference_id",
+    "reference_version",
+    "sha256",
 }
 _ENTRY_KEYS = {"path", "sha256", "size", "media_type"}
 _EXPECTED_PROVENANCE = {
@@ -146,6 +154,18 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
     raw_entries = manifest["files"]
     if not isinstance(raw_entries, list) or not raw_entries:
         raise BundleVerificationError("manifest files must be a non-empty array")
+    analytical_reference = manifest["analytical_reference"]
+    if (
+        not isinstance(analytical_reference, dict)
+        or set(analytical_reference) != _ANALYTICAL_REFERENCE_KEYS
+        or analytical_reference["path"]
+        != "references/analytical-reference-manifest.json"
+        or analytical_reference["reference_id"] != "vop-voiage-analytical-reference"
+        or analytical_reference["reference_version"] != "1.0.0"
+        or not isinstance(analytical_reference["sha256"], str)
+        or _SHA256.fullmatch(analytical_reference["sha256"]) is None
+    ):
+        raise BundleVerificationError("invalid analytical reference identity")
     entries: list[dict[str, Any]] = []
     seen: set[str] = set()
     for raw_entry in raw_entries:
@@ -167,6 +187,15 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
         entries.append(dict(raw_entry))
     if [entry["path"] for entry in entries] != sorted(seen):
         raise BundleVerificationError("manifest file entries must be path-sorted")
+    reference_entry = next(
+        (entry for entry in entries if entry["path"] == analytical_reference["path"]),
+        None,
+    )
+    if (
+        reference_entry is None
+        or reference_entry["sha256"] != analytical_reference["sha256"]
+    ):
+        raise BundleVerificationError("analytical reference digest is not manifested")
     actual_digest = canonical_bundle_digest(entries)
     if manifest["bundle_sha256"] != actual_digest:
         raise BundleVerificationError("bundle SHA-256 does not match manifest entries")
@@ -333,10 +362,8 @@ def verify_contract_bundle(
         raise BundleVerificationError(
             "Arrow required_metadata must be an array of names"
         )
-    if required_metadata != sorted(set(required_metadata)):
-        raise BundleVerificationError(
-            "Arrow required_metadata must be sorted and unique"
-        )
+    if len(required_metadata) != len(set(required_metadata)):
+        raise BundleVerificationError("Arrow required_metadata must be unique")
     actual_metadata = {
         key.decode("utf-8"): value.decode("utf-8")
         for key, value in (arrow_table.schema.metadata or {}).items()
@@ -466,6 +493,27 @@ def _field_map(
     return names, mapped
 
 
+def _descriptor_fingerprint(fields: Sequence[Mapping[str, Any]]) -> str:
+    """Recompute the Arrow fingerprint represented by a migration descriptor."""
+    arrow_types: dict[str, pa.DataType] = {
+        "bool": pa.bool_(),
+        "double": pa.float64(),
+        "int64": pa.int64(),
+        "string": pa.string(),
+    }
+    arrow_fields: list[pa.Field] = []
+    for field in fields:
+        arrow_type = arrow_types.get(str(field["arrow_type"]))
+        if arrow_type is None:
+            raise BundleVerificationError(
+                f"unsupported migration Arrow type: {field['arrow_type']}"
+            )
+        arrow_fields.append(
+            pa.field(str(field["name"]), arrow_type, nullable=bool(field["nullable"]))
+        )
+    return schema_fingerprint(pa.schema(arrow_fields))
+
+
 def validate_schema_evolution(
     previous: Mapping[str, Any], current: Mapping[str, Any]
 ) -> SchemaEvolutionReport:
@@ -492,8 +540,10 @@ def validate_schema_evolution(
     if (
         not isinstance(previous_metadata, list)
         or not all(isinstance(key, str) for key in previous_metadata)
-        or previous_metadata != sorted(set(previous_metadata))
-        or current_metadata != previous_metadata
+        or len(previous_metadata) != len(set(previous_metadata))
+        or not isinstance(current_metadata, list)
+        or set(current_metadata) != set(previous_metadata)
+        or len(current_metadata) != len(set(current_metadata))
     ):
         raise BundleVerificationError("schema provenance requirements changed")
     if current_names[: len(previous_names)] != previous_names:
@@ -531,6 +581,19 @@ def validate_schema_evolution(
         or (bool(additions) == (previous_fingerprint == current_fingerprint))
     ):
         raise BundleVerificationError("schema fingerprint transition is invalid")
+    try:
+        require_schema_fingerprint(
+            previous_fingerprint,
+            _descriptor_fingerprint(list(previous_fields.values())),
+            label="previous",
+        )
+        require_schema_fingerprint(
+            current_fingerprint,
+            _descriptor_fingerprint(list(current_fields.values())),
+            label="current",
+        )
+    except ValueError as exc:
+        raise BundleVerificationError(str(exc)) from exc
     return SchemaEvolutionReport(
         backward_compatible=True,
         forward_compatible=not additions,

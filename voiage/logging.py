@@ -20,26 +20,14 @@ from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from voiage.assurance_policy import is_sensitive_log_key
+
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from voiage.contracts.analysis import AnalysisResult, ContractModel
 
 _OWNED_HANDLER = "_voiage_handler"
-_SENSITIVE_FRAGMENTS = (
-    "access_key",
-    "api_key",
-    "authorization",
-    "cookie",
-    "credential",
-    "passphrase",
-    "password",
-    "private_key",
-    "secret",
-    "session",
-    "signature",
-    "token",
-)
 _RESERVED_FIELDS = frozenset(
     {
         "analysis_id",
@@ -101,8 +89,7 @@ def _redact_text(value: str) -> str:
 
 
 def _sensitive_key(key: str) -> bool:
-    folded = key.casefold()
-    return any(fragment in folded for fragment in _SENSITIVE_FRAGMENTS)
+    return is_sensitive_log_key(key)
 
 
 def _redact_value(value: object) -> object:
