@@ -8,6 +8,12 @@ on:
   schedule:
     # Run profiling weekly on Monday
     - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      expensive:
+        description: Run mutation and Scalene profiling lanes
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -176,6 +182,12 @@ jobs:
 
     - name: Check for dead code
       run: uv run vulture voiage --min-confidence 80 || true
+
+    - name: Run ty frontier
+      run: uv run ty check voiage --python-version=3.14 --ignore unresolved-import
+
+    - name: Run BasedPyright on new production contracts
+      run: uv run basedpyright voiage/logging.py
 
   # Unit tests
   test-unit:
@@ -402,7 +414,7 @@ jobs:
   test-mutation:
     name: Mutation Testing
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -426,7 +438,7 @@ jobs:
 
     - name: Run mutation testing
       run: |
-        uv run mutmut run --paths-to-mutate voiage/
+        uv run mutmut run
         uv run mutmut results
       env:
         CI: true
@@ -435,7 +447,7 @@ jobs:
   profile:
     name: Performance Profiling
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -459,10 +471,16 @@ jobs:
 
     - name: Run Scalene profiler
       run: |
-        uv run scalene --cli --outfile profile_results.txt voiage/analysis.py
+        uv run scalene --cli --outfile profile_results.txt profile_scalene.py
         cat profile_results.txt
       env:
         CI: true
+
+    - name: Upload profiling evidence
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: scalene-profile
+        path: profile_results.txt
 
   # Documentation build
   docs:

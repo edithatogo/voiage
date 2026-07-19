@@ -26,7 +26,6 @@
         "FASTAPI_AVAILABLE": false,
         "TYPER_AVAILABLE": false
     },
-    "stubPath": "typings",
     "reportMissingImports": "warning",
     "reportMissingTypeStubs": "none",
     "reportOptionalCall": "none",
@@ -38,5 +37,6 @@
     "strictDictionaryInference": true,
     "strictSetInference": true,
     "strictParameterNoneValue": true,
-    "enableTypeIgnoreComments": true
+    "enableTypeIgnoreComments": true,
+    "pythonVersion": "3.14"
 }

@@ -1,0 +1,7 @@
+# Hash-pinned evidence and lock artifacts must be byte-stable on every OS.
+*.csv text eol=lf
+*.json text eol=lf
+*.lock text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

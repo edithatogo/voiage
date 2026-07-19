@@ -18,7 +18,6 @@ import json
 import logging
 from pathlib import Path
 import re
-import sys
 from typing import Any, Literal, cast
 
 import numpy as np
@@ -30,6 +29,7 @@ from voiage.core.io import (
     read_value_array_csv,
 )
 from voiage.factory import create_distributed_large_scale_analysis
+from voiage.logging import LoggingSettings, configure_logging
 from voiage.methods.adaptive import (
     adaptive_evsi,
     bayesian_adaptive_trial_simulator,
@@ -566,28 +566,10 @@ _CONFIG_TEMPLATES: dict[str, dict[str, object]] = {
 
 
 def _configure_cli_logging(verbose: bool) -> None:
-    """Configure the CLI-local logger for the current invocation."""
+    """Configure the package logger through the shared logging contract."""
     _CLI_STATE["verbose"] = verbose
-
-    handler = next(
-        (
-            existing_handler
-            for existing_handler in _CLI_LOGGER.handlers
-            if getattr(existing_handler, "_voiage_cli_handler", False)
-        ),
-        None,
-    )
-    if handler is None:
-        handler = logging.StreamHandler()
-        handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
-        handler._voiage_cli_handler = True  # type: ignore[attr-defined]
-        _CLI_LOGGER.addHandler(handler)
-
-    handler.stream = sys.stderr
-    level = logging.DEBUG if verbose else logging.ERROR
-    handler.setLevel(level)
-    _CLI_LOGGER.setLevel(level)
-    _CLI_LOGGER.propagate = False
+    settings = LoggingSettings.from_environment(level="DEBUG" if verbose else "ERROR")
+    configure_logging(settings)
 
 
 def _log_cli_debug(command: str, **details: object) -> None:
@@ -2563,8 +2545,7 @@ def calculate_structural_evpi(
             time_horizon=time_horizon,
         )
         # Read config file
-        with open(config_file) as f:
-            config = json.load(f)
+        config = json.loads(config_file.read_text(encoding="utf-8"))
 
         if "structures" not in config:
             typer.echo("Error: Config file must contain 'structures' key", err=True)
@@ -2729,8 +2710,7 @@ def calculate_structural_evppi(
             raise typer.Exit(code=1)
 
         # Read config file
-        with open(config_file) as f:
-            config = json.load(f)
+        config = json.loads(config_file.read_text(encoding="utf-8"))
 
         if "structures" not in config:
             typer.echo("Error: Config file must contain 'structures' key", err=True)
@@ -2896,8 +2876,7 @@ def calculate_nma_voi(
             time_horizon=time_horizon,
         )
         # Read config file
-        with open(config_file) as f:
-            config = json.load(f)
+        config = json.loads(config_file.read_text(encoding="utf-8"))
 
         # Convert list values to numpy arrays
         treatment_effects = {}

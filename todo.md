@@ -9,6 +9,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Add the engineering-frontier harness for logging, environments, typing,
+    profiling, and expensive CI evidence.
+    *   Pydantic v2 logging, SCM versions, Pixi/uv parity, `ty` plus
+        BasedPyright, Scalene, mutation/security/experimental lanes, and
+        cross-platform UTF-8/LF integrity are now explicit contracts.
+
 *   [x] Harden Arrow interchange and dependency-frontier observability.
     *   Added versioned Parquet/IPC golden files, schema fingerprints,
         deterministic LF-normalized manifests, PyArrow/Polars and process-boundary

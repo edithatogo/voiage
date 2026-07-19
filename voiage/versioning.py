@@ -204,7 +204,7 @@ def format_version_mismatches(
     """Format version mismatches as a human-readable diagnostic."""
     lines = ["version synchronization failed:"]
     for mismatch in mismatches:
-        relpath = mismatch.path.relative_to(repo_root)
+        relpath = mismatch.path.relative_to(repo_root).as_posix()
         lines.append(
             f"- {mismatch.label}: {relpath} expected {mismatch.expected!r} but found {mismatch.found!r}"
         )

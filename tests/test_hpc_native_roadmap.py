@@ -3,23 +3,23 @@ from pathlib import Path
 
 def test_hpc_native_roadmap_sequence_and_baselines() -> None:
     root = Path.cwd()
-    roadmap_text = (root / "roadmap.md").read_text()
+    roadmap_text = (root / "roadmap.md").read_text(encoding="utf-8")
     guide_text = (
         root / "docs" / "developer_guide" / "hpc_native_roadmap.rst"
-    ).read_text()
+    ).read_text(encoding="utf-8")
     contract_text = (
         root / "docs" / "developer_guide" / "hpc_distribution_contract.rst"
-    ).read_text()
+    ).read_text(encoding="utf-8")
     accelerator_text = (
         root / "docs" / "developer_guide" / "rust_accelerators.rst"
-    ).read_text()
+    ).read_text(encoding="utf-8")
     notes_text = (
         root
         / "conductor"
         / "archive"
         / "apple-metal-integrated-gpu-optimization_20260511"
         / "working-notes.md"
-    ).read_text()
+    ).read_text(encoding="utf-8")
 
     assert (
         "Phase 13: HPC Native Enablement Roadmap ✅/🔄 **SETUP COMPLETE, SPEEDUP EVIDENCE-GATED**"

@@ -89,6 +89,7 @@ def typecheck(session: nox.Session) -> None:
         "redundant-cast",
         *session.posargs,
     )
+    session.run("basedpyright", "voiage/logging.py")
 
 
 @nox.session

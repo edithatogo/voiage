@@ -18,6 +18,10 @@ programme. The canonical cross-repository requirements are maintained in
   repository harnesses, and benchmark regression gates remain green.
 - External maturity, data, hardware, registry, and publication gates remain
   explicit even when repository implementation is complete.
+- Git-tag-derived dynamic versions, Pydantic v2 logging settings, structured
+  run context, and uv/Pixi parity are enforced as production contracts.
+- Ruff, `ty`, BasedPyright, package builds, unit/property/integration/E2E tests,
+  security checks, and benchmark regression remain visible fast gates.
 
 ### Should have
 
@@ -27,6 +31,8 @@ programme. The canonical cross-repository requirements are maintained in
   wheels are published.
 - Pull requests and historical development eras remain represented in the
   VOP–VOIAGE GitHub Project.
+- Scalene, mutation, dependency-audit, and experimental lanes emit bounded
+  scheduled/manual evidence rather than slowing every pull request.
 
 ### Could have
 

@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added Pydantic v2 structured logging with JSONL, run IDs, bound context, and
+  backward-compatible CLI human logs; added Pixi/uv task parity, BasedPyright
+  ratcheting, Scalene artifacts, and manually dispatchable expensive CI lanes.
+- Added explicit UTF-8 CLI JSON reads and LF checkout policy for byte-stable
+  evidence fixtures on Windows and Unix.
 - Added versioned Arrow IPC and Parquet perspective fixtures with stable schema
   fingerprints, LF-normalized evidence hashing, PyArrow/Polars and
   cross-process conformance tests, relative serialization regression guards,
