@@ -52,11 +52,41 @@ test_that("R binding consumes the shared EVPI numerical reference", {
       function(row) as.numeric(unlist(row, use.names = FALSE))
     )
     matrix <- do.call(rbind, rows)
-    expect_equal(
-      evpi(matrix),
+    actual <- as.numeric(evpi(matrix))
+    expected <- as.numeric(unlist(
       fixture_case$expected$value,
-      tolerance = fixture_case$expected$atol,
+      use.names = FALSE
+    ))
+    absolute_tolerance <- as.numeric(unlist(
+      fixture_case$expected$atol,
+      use.names = FALSE
+    ))
+    relative_tolerance <- if (is.null(fixture_case$expected$rtol)) {
+      0
+    } else {
+      as.numeric(unlist(fixture_case$expected$rtol, use.names = FALSE))
+    }
+    expect_length(actual, 1, info = fixture_case$id)
+    expect_length(expected, 1, info = fixture_case$id)
+    expect_length(absolute_tolerance, 1, info = fixture_case$id)
+    expect_length(relative_tolerance, 1, info = fixture_case$id)
+    expect_true(
+      all(is.finite(c(actual, expected, absolute_tolerance, relative_tolerance))),
       info = fixture_case$id
+    )
+    expect_gte(absolute_tolerance, 0, info = fixture_case$id)
+    expect_gte(relative_tolerance, 0, info = fixture_case$id)
+    permitted_error <- absolute_tolerance + relative_tolerance * abs(expected)
+    expect_lte(
+      abs(actual - expected),
+      permitted_error,
+      info = sprintf(
+        "%s: actual %.17g, expected %.17g, permitted error %.17g",
+        fixture_case$id,
+        actual,
+        expected,
+        permitted_error
+      )
     )
   }
 })
