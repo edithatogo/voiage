@@ -8,11 +8,10 @@ remains separate under the shared C13 `close_requires_approval` policy.*
 
 ---
 
-## [~] Track: Assurance Frontier
+## [x] Track: Assurance Frontier [completed: 2026-07-20]
 *Link: [./tracks/assurance-frontier_20260720/index.md](./tracks/assurance-frontier_20260720/index.md)*
-*Status: in progress - versioned shared contracts, evolution/differential tests,
-mutation and performance ratchets, supply-chain evidence, observability,
-governance drift detection, and independent numerical references.*
+*Status: implementation, exact-head hosted evidence, and independent review are
+complete; issue closure, merge, release, and publication remain human gates.*
 
 ---
 
