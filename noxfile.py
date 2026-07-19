@@ -60,7 +60,7 @@ def typecheck(session: nox.Session) -> None:
         "ty",
         "check",
         "voiage",
-        "--python-version=3.10",
+        "--python-version=3.14",
         "--ignore",
         "invalid-argument-type",
         "--ignore",

@@ -97,8 +97,10 @@ from .methods.perspective import (
     Perspective,
     PerspectiveSet,
     ValueOfPerspectiveResult,
+    perspective_arrow_schema_fingerprint,
     perspective_result_to_arrow,
     value_of_perspective,
+    write_perspective_result_ipc,
     write_perspective_result_parquet,
 )
 from .methods.preference import (
@@ -177,6 +179,7 @@ __all__ = [
     "ParameterSet",
     "Perspective",
     "PerspectiveSet",
+    "perspective_arrow_schema_fingerprint",
     "perspective_result_to_arrow",
     "PortfolioSpec",
     "PortfolioStudy",
@@ -235,6 +238,7 @@ __all__ = [
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",
+    "write_perspective_result_ipc",
     "write_perspective_result_parquet",
     "value_of_preference",
     "value_of_preference_heterogeneity",

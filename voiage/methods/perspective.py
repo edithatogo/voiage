@@ -8,6 +8,8 @@ under another perspective.
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+import hashlib
+import json
 
 import numpy as np
 import pyarrow as pa
@@ -593,13 +595,37 @@ def perspective_result_to_arrow(result: ValueOfPerspectiveResult) -> pa.Table:
         for source in range(len(result.perspective_ids))
         for target in range(len(result.perspective_ids))
     ]
-    return pa.Table.from_pylist(rows).replace_schema_metadata(
+    table = pa.Table.from_pylist(rows)
+    fingerprint = _arrow_schema_fingerprint(table.schema)
+    return table.replace_schema_metadata(
         {
             b"voiage.method_contract_version": METHOD_CONTRACT_VERSION.encode(),
             b"voiage.estimand": b"directional_current_information_evop",
             b"voiage.interchange": b"apache-arrow",
+            b"vop_voiage.contract_version": b"1.0.0",
+            b"vop_voiage.schema_id": b"directional_regret",
+            b"vop_voiage.schema_version": b"1.0.0",
+            b"vop_voiage.schema_fingerprint": fingerprint.encode(),
+            b"vop_voiage.producer": b"voiage",
+            b"vop_voiage.method_contract_version": METHOD_CONTRACT_VERSION.encode(),
+            b"vop_voiage.interchange": b"apache-arrow",
         }
     )
+
+
+def _arrow_schema_fingerprint(schema: pa.Schema) -> str:
+    """Hash canonical JSON for an ordered Arrow logical field model."""
+    fields = [
+        {"arrow_type": str(field.type), "name": field.name, "nullable": field.nullable}
+        for field in schema.remove_metadata()
+    ]
+    canonical = json.dumps(fields, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def perspective_arrow_schema_fingerprint(result: ValueOfPerspectiveResult) -> str:
+    """Return a cross-language SHA-256 fingerprint of ordered logical fields."""
+    return _arrow_schema_fingerprint(perspective_result_to_arrow(result).schema)
 
 
 def write_perspective_result_parquet(
@@ -609,3 +635,10 @@ def write_perspective_result_parquet(
     pq.write_table(
         perspective_result_to_arrow(result), path, compression="zstd", version="2.6"
     )
+
+
+def write_perspective_result_ipc(result: ValueOfPerspectiveResult, path: str) -> None:
+    """Write a perspective result as a versioned Arrow IPC file."""
+    table = perspective_result_to_arrow(result)
+    with pa.OSFile(path, "wb") as sink, pa.ipc.new_file(sink, table.schema) as writer:
+        writer.write_table(table)

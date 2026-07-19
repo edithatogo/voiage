@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added versioned Arrow IPC and Parquet perspective fixtures with stable schema
+  fingerprints, LF-normalized evidence hashing, PyArrow/Polars and
+  cross-process conformance tests, relative serialization regression guards,
+  weekly dependency-frontier verification, and non-blocking Python 3.14t CI.
 - Added a conda-forge-ready `0.2.1` recipe pinned to the published source
   distribution hash, current runtime constraints, and Python 3.10–3.14 build
   variants; the recipe passes a local conda-build package test.

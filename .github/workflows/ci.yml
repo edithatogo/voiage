@@ -257,6 +257,36 @@ jobs:
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
 
+  free-threaded-observation:
+    name: Python 3.14t Observation
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "latest"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up free-threaded Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14t"
+
+    - name: Observe minimal free-threaded Arrow compatibility
+      run: >-
+        uv run --no-project
+        --with pyarrow==25.0.0
+        --with polars==1.42.1
+        python scripts/free_threaded_arrow_probe.py
+
   benchmark-regression:
     name: Benchmark Regression Checks
     runs-on: ubuntu-latest
@@ -287,6 +317,9 @@ jobs:
         uv run pytest tests/test_core_metrics_regression.py tests/benchmarks/test_benchmark_regression.py \
           -q \
           --no-cov
+        uv run python scripts/benchmark_perspective_interchange.py
+        uv run python scripts/perspective_interchange_manifest.py --check
+        uv run python scripts/validate_vop_compatibility.py
       env:
         CI: true
 

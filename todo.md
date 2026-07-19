@@ -9,6 +9,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Harden Arrow interchange and dependency-frontier observability.
+    *   Added versioned Parquet/IPC golden files, schema fingerprints,
+        deterministic LF-normalized manifests, PyArrow/Polars and process-boundary
+        conformance, performance guards, weekly dependency audits, and a
+        non-blocking Python 3.14t observation lane.
+
 *   [x] Prepare the pinned `0.2.1` conda-forge recipe and verify it with a
     local conda-build package/test cycle; staged-recipes submission remains a
     hosted conda-forge gate.

@@ -1,0 +1,36 @@
+name: Dependency Frontier
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-frontier:
+    name: Strict Dependency Frontier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "latest"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+
+      - name: Verify lock and dependency frontier
+        run: |
+          uv lock --check
+          uv run python scripts/dependency_frontier.py . --strict

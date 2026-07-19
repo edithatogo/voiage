@@ -1,14 +1,16 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.10,<3.15
+- **Python**: >=3.14; a non-blocking Python 3.14t lane observes free-threaded compatibility
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
-- **NumPy**: >=1.20,<2.0 - Fundamental array computing
-- **SciPy**: >=1.7,<1.15 - Scientific computing algorithms
-- **pandas**: >=1.3,<3.0 - Data manipulation and analysis
-- **xarray**: >=0.19,<2025.0 - Labeled multi-dimensional arrays
+- **NumPy**: >=2.5.1,<3 - Fundamental array computing
+- **SciPy**: >=1.18,<2 - Scientific computing algorithms
+- **pandas**: >=3.0.3,<4 - Data manipulation and analysis
+- **xarray**: >=2026.7,<2027 - Labeled multi-dimensional arrays
+- **PyArrow**: >=25,<26 - schema-bearing interchange, Parquet, and IPC
+- **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability
 
 ## High-Performance Computing
 - **JAX**: >=0.4,<0.5 - High-performance numerical computing with GPU/TPU support

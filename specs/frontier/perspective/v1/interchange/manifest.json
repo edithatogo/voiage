@@ -1,0 +1,34 @@
+{
+  "arrow_schema_fingerprint_sha256": "df90e6d106cc233c2c3b9a3b4dc8465c26e6009e19804aa606704d65e0556579",
+  "artifacts": [
+    {
+      "hash_mode": "lf-text",
+      "path": "specs/frontier/perspective/v1/fixtures/normative/perspective-surface.json",
+      "sha256": "f6ca8bb41abc36a19190abc3625127e82c03c455504ed8c948bfc3d050288245"
+    },
+    {
+      "hash_mode": "binary",
+      "path": "specs/frontier/perspective/v1/interchange/perspective-result-v1.parquet",
+      "sha256": "e0aa541b65d8b1d2092f15277083fe8b5a9d320495ca445df8d51714d1c5de00"
+    },
+    {
+      "hash_mode": "binary",
+      "path": "specs/frontier/perspective/v1/interchange/perspective-result-v1.arrow",
+      "sha256": "f1e4fed09184249fd3111b67e2e57154150d543b21bf27896efae24febadfca1"
+    }
+  ],
+  "compatibility": {
+    "cross_process": "verified",
+    "polars": "verified",
+    "previous_fixture_versions_readable": [
+      "1.0.0"
+    ],
+    "pyarrow": "verified"
+  },
+  "method_contract_version": "1.1.0",
+  "normalization": {
+    "binary": "raw bytes",
+    "lf-text": "UTF-8 decoded with CRLF and CR normalized to LF before hashing"
+  },
+  "schema_version": "1.0.0"
+}

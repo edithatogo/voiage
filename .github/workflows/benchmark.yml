@@ -46,11 +46,16 @@ jobs:
       env:
         CI: true
 
+    - name: Guard Arrow serialization regressions
+      run: uv run python scripts/benchmark_perspective_interchange.py --output perspective_interchange_results.json
+
     - name: Upload benchmark results
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: benchmark-results
-        path: benchmark_results.json
+        path: |
+          benchmark_results.json
+          perspective_interchange_results.json
         retention-days: 30
 
   rust-benchmark:

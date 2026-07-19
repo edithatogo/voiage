@@ -13,6 +13,28 @@ from packaging.requirements import Requirement
 from packaging.version import Version
 
 
+def declared_requirements(config: dict[str, object]) -> list[tuple[str, Requirement]]:
+    """Collect core, optional, development, and build dependency declarations."""
+    project = config["project"]
+    assert isinstance(project, dict)
+    grouped: list[tuple[str, object]] = [("core", project.get("dependencies", []))]
+    grouped.extend(
+        (f"optional:{name}", values)
+        for name, values in project.get("optional-dependencies", {}).items()
+    )
+    grouped.extend(
+        (f"group:{name}", values)
+        for name, values in config.get("dependency-groups", {}).items()
+    )
+    grouped.append(("build", config.get("build-system", {}).get("requires", [])))
+    return [
+        (scope, Requirement(item))
+        for scope, values in grouped
+        for item in values
+        if isinstance(item, str)
+    ]
+
+
 def latest_version(name: str) -> str:
     """Return the current PyPI version using the official JSON API."""
     url = f"https://pypi.org/pypi/{name}/json"
@@ -37,17 +59,17 @@ def main() -> int:
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
     repo = args.repo.resolve()
-    project = tomllib.loads((repo / "pyproject.toml").read_text(encoding="utf-8"))[
-        "project"
-    ]
-    requirements = [Requirement(item) for item in project.get("dependencies", [])]
+    config = tomllib.loads((repo / "pyproject.toml").read_text(encoding="utf-8"))
+    project = config["project"]
+    requirements = declared_requirements(config)
     rows = []
-    for requirement in requirements:
+    for scope, requirement in requirements:
         latest = latest_version(requirement.name)
         declared = minimum_declared(requirement)
         current = declared is not None and Version(declared) >= Version(latest)
         rows.append(
             {
+                "scope": scope,
                 "package": requirement.name,
                 "declared_minimum": declared,
                 "latest": latest,
@@ -72,11 +94,11 @@ def main() -> int:
         f"Python: `{report['requires_python']}`",
         f"All direct dependencies current: **{report['all_direct_dependencies_at_frontier']}**",
         "",
-        "| Package | Declared minimum | PyPI latest | Current |",
-        "|---|---:|---:|:---:|",
+        "| Scope | Package | Declared minimum | PyPI latest | Current |",
+        "|---|---|---:|---:|:---:|",
     ]
     lines.extend(
-        f"| `{row['package']}` | `{row['declared_minimum']}` | `{row['latest']}` | {'yes' if row['at_frontier'] else 'no'} |"
+        f"| `{row['scope']}` | `{row['package']}` | `{row['declared_minimum']}` | `{row['latest']}` | {'yes' if row['at_frontier'] else 'no'} |"
         for row in rows
     )
     (output / "dependency_frontier.md").write_text(
