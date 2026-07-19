@@ -1,5 +1,5 @@
 {
-  "arrow_schema_fingerprint_sha256": "df90e6d106cc233c2c3b9a3b4dc8465c26e6009e19804aa606704d65e0556579",
+  "arrow_schema_fingerprint_sha256": "158498dd22c00cd9094821304074f87a3bac9efe6c7c5e34ee144ba996a9c3f8",
   "artifacts": [
     {
       "hash_mode": "lf-text",
@@ -9,12 +9,12 @@
     {
       "hash_mode": "binary",
       "path": "specs/frontier/perspective/v1/interchange/perspective-result-v1.parquet",
-      "sha256": "e0aa541b65d8b1d2092f15277083fe8b5a9d320495ca445df8d51714d1c5de00"
+      "sha256": "2fdd86e0f295dee0a9c99798501bb96a2dfd381ac89a941fbc12a056e00200a8"
     },
     {
       "hash_mode": "binary",
       "path": "specs/frontier/perspective/v1/interchange/perspective-result-v1.arrow",
-      "sha256": "f1e4fed09184249fd3111b67e2e57154150d543b21bf27896efae24febadfca1"
+      "sha256": "e8764691bb478b37f41fc7e03153390b4588571c36c4daf5a7f41bd0adf2aa57"
     }
   ],
   "compatibility": {
