@@ -15,6 +15,14 @@ complete; issue closure, merge, release, and publication remain human gates.*
 
 ---
 
+## [~] Track: Operational Assurance Excellence
+*Link: [./tracks/operational-assurance-excellence_20260720/index.md](./tracks/operational-assurance-excellence_20260720/index.md)*
+*Status: in progress - compatibility matrices, cohort-aware quality,
+cross-runner reproducibility, statistical performance, collector privacy, and
+expanded scientific oracles.*
+
+---
+
 This file tracks the major implementation tracks for the project. Active tracks are ordered so `conductor-implement` can run them sequentially without needing to infer strategic reprioritization.
 
 Completed tracks are archived under `conductor/archive/`. The active registry
