@@ -1,0 +1,18 @@
+Task: Implement the private Python Green slice for Phase 4
+
+Summary: Added a lazy private voiage._core adapter, routed CEAFResult.to_dict and DominanceResult.to_dict through Rust-owned serializer entry points with primitive keyword arguments, translated stable native error categories and diagnostic codes, and proved fail-closed behavior with focused fake-native tests. No numerical behavior or public API surface was added.
+
+Files:
+- voiage/_runtime.py (created)
+- voiage/methods/ceaf.py (modified)
+- voiage/methods/dominance.py (modified)
+- tests/test_runtime_adapter.py (created)
+
+Validation:
+- .venv/bin/pytest tests/test_runtime_adapter.py -q: 5 passed
+- uv run ty check on edited files: passed
+- .tox/lint/bin/ruff check on edited files: passed
+- .tox/lint/bin/ruff format --check on edited files: passed
+- git diff --check: passed
+
+Why: Stable CEAF and dominance payload construction must be Rust-owned while preserving the frozen Python signatures and exact payload contract, with no silent Python fallback.
