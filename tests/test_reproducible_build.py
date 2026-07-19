@@ -42,10 +42,14 @@ def test_identical_build_artifacts_are_reproducible(tmp_path: Path) -> None:
     artifact = first / "package-1.0-py3-none-any.whl"
     _write_wheel(artifact, b"value = 1\n")
     _ = shutil.copyfile(artifact, second / artifact.name)
+    source = first / "package-1.0.tar.gz"
+    _write_sdist(source, mtime=1)
+    _ = shutil.copyfile(source, second / source.name)
 
     report = compare_build_directories(first, second)
 
     assert report["reproducible"] is True
+    assert report["artifact_set_complete"] is True
     assert report["artifacts"][0]["byte_identical"] is True
 
 
@@ -57,11 +61,27 @@ def test_inventory_identity_does_not_hide_byte_drift(tmp_path: Path) -> None:
     name = "package-1.0-py3-none-any.whl"
     _write_wheel(first / name, b"value = 1\n")
     _write_wheel(second / name, b"value = 2\n")
+    for root in (first, second):
+        _write_sdist(root / "package-1.0.tar.gz", mtime=1)
 
     report = compare_build_directories(first, second)
 
     assert report["reproducible"] is False
     assert report["artifacts"][0]["inventory_identical"] is False
+
+
+def test_missing_sdist_fails_closed(tmp_path: Path) -> None:
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    first.mkdir()
+    second.mkdir()
+    for root in (first, second):
+        _write_wheel(root / "package-1.0-py3-none-any.whl", b"value = 1\n")
+
+    report = compare_build_directories(first, second)
+
+    assert report["artifact_set_complete"] is False
+    assert report["reproducible"] is False
 
 
 def test_non_archive_artifact_fails_closed(tmp_path: Path) -> None:

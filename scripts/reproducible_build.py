@@ -50,6 +50,7 @@ class BuildReport(TypedDict):
 
     schema_version: str
     names_match: bool
+    artifact_set_complete: bool
     reproducible: bool
     artifacts: list[ArtifactComparison]
 
@@ -145,6 +146,11 @@ def compare_build_directories(first: Path, second: Path) -> BuildReport:
     first_paths = distributions(first)
     second_paths = distributions(second)
     names_match = first_paths.keys() == second_paths.keys()
+    artifact_set_complete = (
+        len(first_paths) == 2
+        and sum(name.endswith(".whl") for name in first_paths) == 1
+        and sum(name.endswith(".tar.gz") for name in first_paths) == 1
+    )
     artifacts: list[ArtifactComparison] = []
     for name in sorted(first_paths.keys() & second_paths.keys()):
         left = artifact_evidence(first_paths[name])
@@ -162,7 +168,9 @@ def compare_build_directories(first: Path, second: Path) -> BuildReport:
     return {
         "schema_version": "1.0.0",
         "names_match": names_match,
+        "artifact_set_complete": artifact_set_complete,
         "reproducible": names_match
+        and artifact_set_complete
         and bool(artifacts)
         and all(item["byte_identical"] for item in artifacts),
         "artifacts": artifacts,

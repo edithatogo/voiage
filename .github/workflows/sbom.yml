@@ -37,15 +37,18 @@ jobs:
       run: uv sync --frozen --extra dev
 
     - name: Verify reproducible distributions
-      run: uv run python scripts/reproducible_build.py . --output .assurance/reproducible-build.json
+      run: uv run python scripts/reproducible_build.py . --output .assurance/reproducible-build.json --dist-dir .assurance/dist
 
     - name: Generate CycloneDX SBOM
       run: |
         uv export --frozen --no-dev --no-emit-project --format requirements-txt --output-file .assurance/release-requirements.txt
-        uvx --from cyclonedx-bom==7.3.0 cyclonedx-py requirements .assurance/release-requirements.txt --of JSON -o .assurance/sbom.cdx.json
+        uv venv .assurance/sbom-env --python 3.14
+        uv pip install --python .assurance/sbom-env/bin/python --require-hashes -r .assurance/release-requirements.txt
+        uv pip install --python .assurance/sbom-env/bin/python --no-deps .assurance/dist/*.whl
+        uvx --from cyclonedx-bom==7.3.0 cyclonedx-py environment .assurance/sbom-env --pyproject pyproject.toml --mc-type library --output-reproducible --of JSON -o .assurance/sbom.cdx.json
 
     - name: Retain vulnerability evidence
-      run: uvx --from pip-audit==2.10.1 pip-audit --format=json --output=.assurance/pip-audit.json
+      run: uvx --from pip-audit==2.10.1 pip-audit -r .assurance/release-requirements.txt --format=json --output=.assurance/pip-audit.json
 
     - name: Upload SBOM artifacts
       if: always()
