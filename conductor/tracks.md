@@ -8,6 +8,14 @@ remains separate under the shared C13 `close_requires_approval` policy.*
 
 ---
 
+## [ ] Track: Assurance Frontier
+*Link: [./tracks/assurance-frontier_20260720/index.md](./tracks/assurance-frontier_20260720/index.md)*
+*Status: planned - versioned shared contracts, evolution/differential tests,
+mutation and performance ratchets, supply-chain evidence, observability,
+governance drift detection, and independent numerical references.*
+
+---
+
 This file tracks the major implementation tracks for the project. Active tracks are ordered so `conductor-implement` can run them sequentially without needing to infer strategic reprioritization.
 
 Completed tracks are archived under `conductor/archive/`. The active registry

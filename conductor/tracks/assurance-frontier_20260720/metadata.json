@@ -1,0 +1,9 @@
+{
+  "id": "assurance-frontier_20260720",
+  "canonical_id": "C14",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-07-20T01:15:00+10:00",
+  "updated_at": "2026-07-20T01:15:00+10:00",
+  "repositories": ["vop_poc_nz", "voiage"]
+}
