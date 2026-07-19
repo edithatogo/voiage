@@ -39,6 +39,7 @@ jobs:
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
+        APPROVED_TAGGER_EMAIL: ${{ vars.RELEASE_TAGGER_EMAIL }}
       run: |
         set -euo pipefail
         [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
@@ -46,8 +47,11 @@ jobs:
         test "$remote_oid" = "$(git rev-parse "refs/tags/$RELEASE_TAG")"
         test "$(git cat-file -t "$RELEASE_TAG")" = tag
         test "$(git rev-list -n 1 "$RELEASE_TAG")" = "$(git rev-parse HEAD)"
-        git verify-tag "$RELEASE_TAG"
-        gh api "repos/${GITHUB_REPOSITORY}/git/tags/$remote_oid" --jq '.verification.verified' | grep -Fx true
+        test -n "$APPROVED_TAGGER_EMAIL"
+        mkdir -p .assurance
+        gh api "repos/${GITHUB_REPOSITORY}/git/tags/$remote_oid" > .assurance/tag-verification.json
+        jq -e '.verification.verified == true' .assurance/tag-verification.json >/dev/null
+        test "$(jq -r '.tagger.email' .assurance/tag-verification.json)" = "$APPROVED_TAGGER_EMAIL"
 
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
@@ -94,6 +98,17 @@ jobs:
         include-hidden-files: true
         if-no-files-found: warn
 
+    - name: Create or refresh private draft release
+      run: |
+        if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+          test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
+        else
+          gh release create "$RELEASE_TAG" --draft --generate-notes --verify-tag
+        fi
+        gh release upload "$RELEASE_TAG" dist/* --clobber
+      env:
+        GH_TOKEN: ${{ github.token }}
+
     - name: Publish to TestPyPI
       uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b
       with:
@@ -112,9 +127,7 @@ jobs:
         print-hash: true
         attestations: true
 
-    - name: Create or update verified GitHub Release
-      run: |
-        gh release view "$RELEASE_TAG" >/dev/null 2>&1 || gh release create "$RELEASE_TAG" --generate-notes --verify-tag
-        gh release upload "$RELEASE_TAG" dist/* --clobber
+    - name: Publish verified GitHub Release
+      run: gh release edit "$RELEASE_TAG" --draft=false --latest
       env:
         GH_TOKEN: ${{ github.token }}
