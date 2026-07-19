@@ -33,7 +33,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -80,7 +80,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -126,7 +126,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -157,7 +157,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -185,7 +185,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -241,7 +241,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}-${{ matrix.python }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python ${{ matrix.python }}
@@ -288,7 +288,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -353,7 +353,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
@@ -420,7 +420,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -454,7 +454,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -489,7 +489,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -578,7 +578,7 @@ jobs:
       with:
         version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
