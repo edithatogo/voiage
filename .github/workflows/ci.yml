@@ -260,7 +260,6 @@ jobs:
   free-threaded-observation:
     name: Python 3.14t Observation
     runs-on: ubuntu-latest
-    continue-on-error: true
     timeout-minutes: 5
     steps:
     - name: Checkout code
@@ -282,11 +281,18 @@ jobs:
         python-version: "3.14t"
 
     - name: Observe minimal free-threaded Arrow compatibility
+      id: free_threaded_probe
+      continue-on-error: true
       run: >-
         uv run --no-project --no-build
         --with pyarrow==25.0.0
         --with polars==1.42.1
         python scripts/free_threaded_arrow_probe.py
+    - name: Record ecosystem readiness
+      if: steps.free_threaded_probe.outcome != 'success'
+      run: |
+        echo "::notice::Python 3.14t Arrow wheels are not yet available for this probe."
+        echo "Python 3.14t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
 
   benchmark-regression:
     name: Benchmark Regression Checks
