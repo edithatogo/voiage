@@ -2,20 +2,65 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from hashlib import sha256
 import json
 from pathlib import Path, PurePosixPath
 import re
-from typing import Any, Self
+from typing import Protocol, Self, cast
 
 import pyarrow as pa
 from pyarrow import ipc
 import pyarrow.parquet as pq
 
 from voiage.assurance_policy import require_schema_fingerprint
-from voiage.contracts.interchange import schema_fingerprint
+
+
+class _ArrowField(Protocol):
+    name: str
+    type: object
+    nullable: bool
+
+
+class _ArrowSchema(Protocol):
+    metadata: Mapping[bytes, bytes] | None
+
+    def __iter__(self) -> Iterator[_ArrowField]: ...
+
+    def __len__(self) -> int: ...
+
+
+class _ArrowTable(Protocol):
+    schema: _ArrowSchema
+
+    def to_pylist(self) -> list[object]: ...
+
+
+class _ArrowReader(Protocol):
+    def read_all(self) -> _ArrowTable: ...
+
+
+class _ArrowReaderContext(Protocol):
+    def __enter__(self) -> _ArrowReader: ...
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: object,
+    ) -> bool | None: ...
+
+
+_open_arrow_file = cast("Callable[[Path], _ArrowReaderContext]", ipc.open_file)
+_read_parquet_table = cast("Callable[[Path], _ArrowTable]", pq.read_table)
+_arrow_exception = cast("type[Exception]", pa.ArrowException)
+_arrow_bool = cast("Callable[[], object]", pa.bool_)
+_arrow_float64 = cast("Callable[[], object]", pa.float64)
+_arrow_int64 = cast("Callable[[], object]", pa.int64)
+_arrow_string = cast("Callable[[], object]", pa.string)
+_arrow_field = cast("Callable[[str, object, bool], object]", pa.field)
+_arrow_schema = cast("Callable[[Sequence[object]], _ArrowSchema]", pa.schema)
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -91,6 +136,14 @@ def _canonical_json(value: object) -> bytes:
     ).encode()
 
 
+def _schema_fingerprint(schema: _ArrowSchema) -> str:
+    fields = [
+        {"arrow_type": str(field.type), "name": field.name, "nullable": field.nullable}
+        for field in schema
+    ]
+    return sha256(_canonical_json(fields)).hexdigest()
+
+
 def canonical_bundle_digest(entries: Sequence[Mapping[str, object]]) -> str:
     """Hash manifest file entries after deterministic POSIX-path ordering."""
     ordered = sorted(
@@ -99,14 +152,27 @@ def canonical_bundle_digest(entries: Sequence[Mapping[str, object]]) -> str:
     return sha256(_canonical_json(ordered) + b"\n").hexdigest()
 
 
-def _read_json_object(path: Path, label: str) -> dict[str, Any]:
+def _read_json_object(path: Path, label: str) -> dict[str, object]:
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
+        value = cast("object", json.loads(path.read_text(encoding="utf-8")))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise BundleVerificationError(f"invalid {label}: {exc}") from exc
     if not isinstance(value, dict):
         raise BundleVerificationError(f"{label} must be a JSON object")
-    return value
+    return cast("dict[str, object]", value)
+
+
+def _valid_provenance_record(value: object) -> bool:
+    if not isinstance(value, dict):
+        return False
+    record = cast("dict[str, object]", value)
+    source_id = record.get("source_id")
+    return (
+        set(record) == {"metadata_status", "source_id"}
+        and record.get("metadata_status") == "known"
+        and isinstance(source_id, str)
+        and bool(source_id)
+    )
 
 
 def _semver(value: object, label: str) -> tuple[int, int, int]:
@@ -125,7 +191,7 @@ def _safe_relative_path(value: object) -> PurePosixPath:
     return path
 
 
-def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
+def _validate_manifest(manifest: Mapping[str, object]) -> list[dict[str, object]]:
     if set(manifest) != _MANIFEST_KEYS:
         raise BundleVerificationError(
             "manifest fields do not match bundle schema 1.0.0"
@@ -136,7 +202,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
         "contract_version",
         "method_contract_version",
     ):
-        _semver(manifest[key], key)
+        _ = _semver(manifest[key], key)
     if manifest["schema_version"] != "1.0.0":
         raise BundleVerificationError("unsupported manifest schema version")
     if manifest["integrity_algorithm"] != "sha256":
@@ -147,6 +213,8 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
         if manifest[key] != expected:
             raise BundleVerificationError(f"unsupported provenance field {key}")
     version = manifest["bundle_version"]
+    if not isinstance(version, str):
+        raise BundleVerificationError("bundle_version must be a string")
     if manifest["source_revision"] != f"contract-bundle/{version}":
         raise BundleVerificationError("unsupported provenance source_revision")
     if manifest["source_path"] != f"contracts/vop-voiage/{version}":
@@ -154,10 +222,12 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
     raw_entries = manifest["files"]
     if not isinstance(raw_entries, list) or not raw_entries:
         raise BundleVerificationError("manifest files must be a non-empty array")
-    analytical_reference = manifest["analytical_reference"]
+    raw_reference = manifest["analytical_reference"]
+    if not isinstance(raw_reference, dict):
+        raise BundleVerificationError("invalid analytical reference identity")
+    analytical_reference = cast("dict[str, object]", raw_reference)
     if (
-        not isinstance(analytical_reference, dict)
-        or set(analytical_reference) != _ANALYTICAL_REFERENCE_KEYS
+        set(analytical_reference) != _ANALYTICAL_REFERENCE_KEYS
         or analytical_reference["path"]
         != "references/analytical-reference-manifest.json"
         or analytical_reference["reference_id"] != "vop-voiage-analytical-reference"
@@ -166,15 +236,18 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
         or _SHA256.fullmatch(analytical_reference["sha256"]) is None
     ):
         raise BundleVerificationError("invalid analytical reference identity")
-    entries: list[dict[str, Any]] = []
+    entries: list[dict[str, object]] = []
     seen: set[str] = set()
-    for raw_entry in raw_entries:
-        if not isinstance(raw_entry, dict) or set(raw_entry) != _ENTRY_KEYS:
+    for raw_entry in cast("list[object]", raw_entries):
+        if not isinstance(raw_entry, dict):
             raise BundleVerificationError("manifest file entry has unsupported fields")
-        relative = _safe_relative_path(raw_entry["path"]).as_posix()
-        digest = raw_entry["sha256"]
-        size = raw_entry["size"]
-        media_type = raw_entry["media_type"]
+        entry = cast("dict[str, object]", raw_entry)
+        if set(entry) != _ENTRY_KEYS:
+            raise BundleVerificationError("manifest file entry has unsupported fields")
+        relative = _safe_relative_path(entry["path"]).as_posix()
+        digest = entry["sha256"]
+        size = entry["size"]
+        media_type = entry["media_type"]
         if relative in seen:
             raise BundleVerificationError(f"duplicate manifest path: {relative}")
         if not isinstance(digest, str) or _SHA256.fullmatch(digest) is None:
@@ -184,7 +257,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
         if not isinstance(media_type, str) or not media_type:
             raise BundleVerificationError(f"invalid media type for {relative}")
         seen.add(relative)
-        entries.append(dict(raw_entry))
+        entries.append(entry)
     if [entry["path"] for entry in entries] != sorted(seen):
         raise BundleVerificationError("manifest file entries must be path-sorted")
     reference_entry = next(
@@ -202,7 +275,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
     return entries
 
 
-def _verify_inventory(root: Path, entries: Sequence[Mapping[str, Any]]) -> None:
+def _verify_inventory(root: Path, entries: Sequence[Mapping[str, object]]) -> None:
     expected = {str(entry["path"]) for entry in entries}
     actual = {
         path.relative_to(root).as_posix()
@@ -231,7 +304,7 @@ def _verify_inventory(root: Path, entries: Sequence[Mapping[str, Any]]) -> None:
 
 
 def _validate_migration_policy(
-    policy: Mapping[str, Any], manifest: Mapping[str, Any]
+    policy: Mapping[str, object], manifest: Mapping[str, object]
 ) -> None:
     if set(policy) != _MIGRATION_KEYS:
         raise BundleVerificationError("migration policy has unsupported fields")
@@ -249,33 +322,39 @@ def _validate_migration_policy(
             "migration policy compatible changes are unsupported"
         )
     incompatible = policy.get("incompatible_changes")
-    if not isinstance(incompatible, list) or set(incompatible) != _INCOMPATIBLE_CHANGES:
+    if not isinstance(incompatible, list):
+        raise BundleVerificationError(
+            "migration policy must enumerate every fail-closed change"
+        )
+    incompatible_changes = cast("list[object]", incompatible)
+    if set(incompatible_changes) != _INCOMPATIBLE_CHANGES:
         raise BundleVerificationError(
             "migration policy must enumerate every fail-closed change"
         )
 
 
-def _load_arrow_table(path: Path) -> pa.Table:
+def _load_arrow_table(path: Path) -> _ArrowTable:
     try:
-        with ipc.open_file(path) as reader:
+        with _open_arrow_file(path) as reader:
             return reader.read_all()
-    except (OSError, pa.ArrowException) as exc:
+    except (OSError, _arrow_exception) as exc:
         raise BundleVerificationError(f"invalid Arrow fixture: {exc}") from exc
 
 
-def _logical_fields(schema: pa.Schema, descriptor: Sequence[object]) -> None:
+def _logical_fields(schema: _ArrowSchema, descriptor: Sequence[object]) -> None:
     if len(schema) != len(descriptor):
         raise BundleVerificationError("Arrow fields do not match identity descriptor")
     for field, expected in zip(schema, descriptor, strict=True):
         if not isinstance(expected, dict):
             raise BundleVerificationError("Arrow field identity must be an object")
+        expected_field = cast("dict[str, object]", expected)
         logical = {
             "name": field.name,
             "arrow_type": str(field.type),
             "nullable": field.nullable,
-            "unit": expected.get("unit"),
+            "unit": expected_field.get("unit"),
         }
-        if set(expected) != set(logical) or expected != logical:
+        if set(expected_field) != set(logical) or expected_field != logical:
             raise BundleVerificationError(
                 f"Arrow field identity mismatch for {field.name}"
             )
@@ -289,9 +368,9 @@ class VerifiedContractBundle:
     bundle_version: str
     producer: str
     bundle_sha256: str
-    arrow_schema: pa.Schema
+    arrow_schema: _ArrowSchema
     arrow_schema_fingerprint: str
-    records: tuple[dict[str, Any], ...]
+    records: tuple[dict[str, object], ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -334,14 +413,14 @@ def verify_contract_bundle(
         resolved / "fixtures" / "typed-pipeline-records.arrow"
     )
     try:
-        parquet_table = pq.read_table(
+        parquet_table = _read_parquet_table(
             resolved / "fixtures" / "typed-pipeline-records.parquet"
         )
-    except (OSError, pa.ArrowException) as exc:
+    except (OSError, _arrow_exception) as exc:
         raise BundleVerificationError(f"invalid Parquet fixture: {exc}") from exc
 
-    fingerprint = schema_fingerprint(arrow_table.schema)
-    if schema_fingerprint(parquet_table.schema) != fingerprint:
+    fingerprint = _schema_fingerprint(arrow_table.schema)
+    if _schema_fingerprint(parquet_table.schema) != fingerprint:
         raise BundleVerificationError("Arrow and Parquet schema identities differ")
     declared_fingerprint = identity.get("schema_fingerprint")
     if declared_fingerprint != fingerprint:
@@ -353,22 +432,26 @@ def verify_contract_bundle(
     descriptor = identity.get("fields")
     if not isinstance(descriptor, list):
         raise BundleVerificationError("Arrow identity fields must be an array")
-    _logical_fields(arrow_table.schema, descriptor)
+    _logical_fields(arrow_table.schema, cast("list[object]", descriptor))
 
     required_metadata = identity.get("required_metadata")
-    if not isinstance(required_metadata, list) or not all(
-        isinstance(key, str) for key in required_metadata
-    ):
+    if not isinstance(required_metadata, list):
         raise BundleVerificationError(
             "Arrow required_metadata must be an array of names"
         )
-    if len(required_metadata) != len(set(required_metadata)):
+    raw_metadata_names = cast("list[object]", required_metadata)
+    if not all(isinstance(key, str) for key in raw_metadata_names):
+        raise BundleVerificationError(
+            "Arrow required_metadata must be an array of names"
+        )
+    metadata_names = cast("list[str]", raw_metadata_names)
+    if len(metadata_names) != len(set(metadata_names)):
         raise BundleVerificationError("Arrow required_metadata must be unique")
     actual_metadata = {
         key.decode("utf-8"): value.decode("utf-8")
         for key, value in (arrow_table.schema.metadata or {}).items()
     }
-    if any(key not in actual_metadata for key in required_metadata):
+    if any(key not in actual_metadata for key in metadata_names):
         raise BundleVerificationError("Arrow required metadata mismatch")
     if actual_metadata.get("vop_voiage.producer") != manifest["producer"]:
         raise BundleVerificationError("Arrow producer provenance mismatch")
@@ -381,45 +464,46 @@ def verify_contract_bundle(
     ):
         raise BundleVerificationError("Arrow provenance digest mismatch")
     try:
-        arrow_provenance = json.loads(provenance_json)
+        arrow_provenance = cast("object", json.loads(provenance_json))
     except json.JSONDecodeError as exc:
         raise BundleVerificationError("Arrow provenance is not canonical JSON") from exc
-    if (
-        not isinstance(arrow_provenance, list)
-        or not arrow_provenance
-        or any(
-            not isinstance(record, dict)
-            or set(record) != {"metadata_status", "source_id"}
-            or record["metadata_status"] != "known"
-            or not isinstance(record["source_id"], str)
-            or not record["source_id"]
-            for record in arrow_provenance
+    if not isinstance(arrow_provenance, list) or not arrow_provenance:
+        raise BundleVerificationError(
+            "Arrow provenance is unsupported or non-canonical"
         )
-        or _canonical_json(arrow_provenance).decode() != provenance_json
+    provenance_records = cast("list[object]", arrow_provenance)
+    if any(not _valid_provenance_record(record) for record in provenance_records) or (
+        _canonical_json(provenance_records).decode() != provenance_json
     ):
         raise BundleVerificationError(
             "Arrow provenance is unsupported or non-canonical"
         )
-    if arrow_table.to_pylist() != parquet_table.to_pylist():
+    arrow_records = arrow_table.to_pylist()
+    parquet_records = parquet_table.to_pylist()
+    if arrow_records != parquet_records:
         raise BundleVerificationError("Arrow and Parquet fixture records differ")
     records = fixture.get("records")
-    if not isinstance(records, list) or not all(
-        isinstance(row, dict) for row in records
-    ):
+    if not isinstance(records, list):
         raise BundleVerificationError(
             "JSON fixture records must be an array of objects"
         )
-    if records != arrow_table.to_pylist():
+    raw_records = cast("list[object]", records)
+    if not all(isinstance(row, dict) for row in raw_records):
+        raise BundleVerificationError(
+            "JSON fixture records must be an array of objects"
+        )
+    typed_records = cast("list[dict[str, object]]", raw_records)
+    if typed_records != arrow_records:
         raise BundleVerificationError("JSON, Arrow and Parquet fixture records differ")
 
     return VerifiedContractBundle(
         root=resolved,
-        bundle_version=manifest["bundle_version"],
-        producer=manifest["producer"],
-        bundle_sha256=manifest["bundle_sha256"],
+        bundle_version=cast("str", manifest["bundle_version"]),
+        producer=cast("str", manifest["producer"]),
+        bundle_sha256=cast("str", manifest["bundle_sha256"]),
         arrow_schema=arrow_table.schema,
         arrow_schema_fingerprint=fingerprint,
-        records=tuple(dict(row) for row in records),
+        records=tuple(dict(row) for row in typed_records),
     )
 
 
@@ -458,50 +542,59 @@ def verify_pinned_contract_bundle(root: Path, pin_path: Path) -> VerifiedContrac
 
 
 def _field_map(
-    value: Mapping[str, Any],
-) -> tuple[list[str], dict[str, Mapping[str, Any]]]:
+    value: Mapping[str, object],
+) -> tuple[list[str], dict[str, Mapping[str, object]]]:
     fields = value.get("fields")
     if not isinstance(fields, Sequence) or isinstance(fields, (str, bytes)):
         raise BundleVerificationError("schema fields must be an array")
     names: list[str] = []
-    mapped: dict[str, Mapping[str, Any]] = {}
+    mapped: dict[str, Mapping[str, object]] = {}
     for field in fields:
+        if not isinstance(field, Mapping):
+            raise BundleVerificationError("schema field identity is invalid")
+        typed_field = cast(
+            "Mapping[str, object]", cast("Mapping[object, object]", field)
+        )
         if (
-            not isinstance(field, Mapping)
-            or set(field) != {"name", "arrow_type", "nullable", "unit"}
-            or not isinstance(field.get("name"), str)
-            or not isinstance(field.get("arrow_type"), str)
-            or not isinstance(field.get("nullable"), bool)
+            set(typed_field) != {"name", "arrow_type", "nullable", "unit"}
+            or not isinstance(typed_field.get("name"), str)
+            or not isinstance(typed_field.get("arrow_type"), str)
+            or not isinstance(typed_field.get("nullable"), bool)
         ):
             raise BundleVerificationError("schema field identity is invalid")
-        unit = field.get("unit")
-        if unit is not None and (
-            not isinstance(unit, Mapping)
-            or set(unit) != {"symbol_field", "dimension"}
-            or (
-                unit.get("symbol_field") is not None
-                and not isinstance(unit.get("symbol_field"), str)
+        unit = typed_field.get("unit")
+        if unit is not None:
+            if not isinstance(unit, Mapping):
+                raise BundleVerificationError("schema field unit identity is invalid")
+            typed_unit = cast(
+                "Mapping[str, object]", cast("Mapping[object, object]", unit)
             )
-            or not isinstance(unit.get("dimension"), str)
-        ):
-            raise BundleVerificationError("schema field unit identity is invalid")
-        name = str(field["name"])
+            if (
+                set(typed_unit) != {"symbol_field", "dimension"}
+                or (
+                    typed_unit.get("symbol_field") is not None
+                    and not isinstance(typed_unit.get("symbol_field"), str)
+                )
+                or not isinstance(typed_unit.get("dimension"), str)
+            ):
+                raise BundleVerificationError("schema field unit identity is invalid")
+        name = cast("str", typed_field["name"])
         if name in mapped:
             raise BundleVerificationError(f"duplicate field identity: {name}")
         names.append(name)
-        mapped[name] = field
+        mapped[name] = typed_field
     return names, mapped
 
 
-def _descriptor_fingerprint(fields: Sequence[Mapping[str, Any]]) -> str:
+def _descriptor_fingerprint(fields: Sequence[Mapping[str, object]]) -> str:
     """Recompute the Arrow fingerprint represented by a migration descriptor."""
-    arrow_types: dict[str, pa.DataType] = {
-        "bool": pa.bool_(),
-        "double": pa.float64(),
-        "int64": pa.int64(),
-        "string": pa.string(),
+    arrow_types: dict[str, object] = {
+        "bool": _arrow_bool(),
+        "double": _arrow_float64(),
+        "int64": _arrow_int64(),
+        "string": _arrow_string(),
     }
-    arrow_fields: list[pa.Field] = []
+    arrow_fields: list[object] = []
     for field in fields:
         arrow_type = arrow_types.get(str(field["arrow_type"]))
         if arrow_type is None:
@@ -509,13 +602,17 @@ def _descriptor_fingerprint(fields: Sequence[Mapping[str, Any]]) -> str:
                 f"unsupported migration Arrow type: {field['arrow_type']}"
             )
         arrow_fields.append(
-            pa.field(str(field["name"]), arrow_type, nullable=bool(field["nullable"]))
+            _arrow_field(
+                cast("str", field["name"]),
+                arrow_type,
+                cast("bool", field["nullable"]),
+            )
         )
-    return schema_fingerprint(pa.schema(arrow_fields))
+    return _schema_fingerprint(_arrow_schema(arrow_fields))
 
 
 def validate_schema_evolution(
-    previous: Mapping[str, Any], current: Mapping[str, Any]
+    previous: Mapping[str, object], current: Mapping[str, object]
 ) -> SchemaEvolutionReport:
     """Accept additive nullable evolution and reject semantic identity drift."""
     identity_keys = {
@@ -537,13 +634,17 @@ def validate_schema_evolution(
     current_names, current_fields = _field_map(current)
     previous_metadata = previous.get("required_metadata")
     current_metadata = current.get("required_metadata")
+    if not isinstance(previous_metadata, list) or not isinstance(
+        current_metadata, list
+    ):
+        raise BundleVerificationError("schema provenance requirements changed")
+    previous_metadata_values = cast("list[object]", previous_metadata)
+    current_metadata_values = cast("list[object]", current_metadata)
     if (
-        not isinstance(previous_metadata, list)
-        or not all(isinstance(key, str) for key in previous_metadata)
-        or len(previous_metadata) != len(set(previous_metadata))
-        or not isinstance(current_metadata, list)
-        or set(current_metadata) != set(previous_metadata)
-        or len(current_metadata) != len(set(current_metadata))
+        not all(isinstance(key, str) for key in previous_metadata_values)
+        or len(previous_metadata_values) != len(set(previous_metadata_values))
+        or set(current_metadata_values) != set(previous_metadata_values)
+        or len(current_metadata_values) != len(set(current_metadata_values))
     ):
         raise BundleVerificationError("schema provenance requirements changed")
     if current_names[: len(previous_names)] != previous_names:

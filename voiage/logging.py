@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
@@ -15,7 +15,7 @@ import pathlib  # noqa: TC003 - Pydantic resolves this annotation at runtime
 import re
 import secrets
 import sys
-from typing import TYPE_CHECKING, ClassVar, final, override
+from typing import TYPE_CHECKING, ClassVar, cast, final, override
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -54,14 +54,22 @@ _TRACE_FLAGS_RE = re.compile(r"^[0-9a-f]{2}$")
 _BEARER_RE = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]+")
 _JWT_RE = re.compile(r"\beyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b")
 _QUERY_CREDENTIAL_RE = re.compile(
-    r"(?i)([?&](?:access[_-]?key|api[_-]?key|authorization|cookie|credential|"
-    r"jwt|passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|"
-    r"sig(?:nature)?|token)=)([^&#\s]+)"
+    "".join(
+        (
+            r"(?i)([?&](?:access[_-]?key|api[_-]?key|authorization|cookie|credential|",
+            r"jwt|passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|",
+            r"sig(?:nature)?|token)=)([^&#\s]+)",
+        )
+    )
 )
 _ASSIGNMENT_RE = re.compile(
-    r"(?i)\b(access[_-]?key|api[_-]?key|authorization|cookie|credential|jwt|"
-    r"passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|"
-    r"sig(?:nature)?|token)\s*([:=])\s*([^\s,;]+)"
+    "".join(
+        (
+            r"(?i)\b(access[_-]?key|api[_-]?key|authorization|cookie|credential|jwt|",
+            r"passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|",
+            r"sig(?:nature)?|token)\s*([:=])\s*([^\s,;]+)",
+        )
+    )
 )
 
 
@@ -94,12 +102,13 @@ def _sensitive_key(key: str) -> bool:
 
 def _redact_value(value: object) -> object:
     if isinstance(value, Mapping):
+        items = cast("Mapping[object, object]", value)
         return {
             str(key): "[REDACTED]" if _sensitive_key(str(key)) else _redact_value(item)
-            for key, item in value.items()
+            for key, item in items.items()
         }
     if isinstance(value, (list, tuple, set, frozenset)):
-        return [_redact_value(item) for item in value]
+        return [_redact_value(item) for item in cast("Iterable[object]", value)]
     if isinstance(value, str):
         return _redact_text(value)
     if value is None or isinstance(value, (bool, int, float)):
