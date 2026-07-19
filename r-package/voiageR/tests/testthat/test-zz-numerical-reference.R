@@ -74,12 +74,11 @@ test_that("R binding consumes the shared EVPI numerical reference", {
       all(is.finite(c(actual, expected, absolute_tolerance, relative_tolerance))),
       info = fixture_case$id
     )
-    expect_gte(absolute_tolerance, 0, info = fixture_case$id)
-    expect_gte(relative_tolerance, 0, info = fixture_case$id)
+    expect_true(absolute_tolerance >= 0, info = fixture_case$id)
+    expect_true(relative_tolerance >= 0, info = fixture_case$id)
     permitted_error <- absolute_tolerance + relative_tolerance * abs(expected)
-    expect_lte(
-      abs(actual - expected),
-      permitted_error,
+    expect_true(
+      abs(actual - expected) <= permitted_error,
       info = sprintf(
         "%s: actual %.17g, expected %.17g, permitted error %.17g",
         fixture_case$id,
