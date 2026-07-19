@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "record_version": 1,
+  "id": "CON-SHR-0001",
+  "record_type": "concern",
+  "title": "Shared contract drift",
+  "summary": "The canonical and mirrored governance contracts may diverge.",
+  "status": "investigating",
+  "repository": "shared",
+  "track_ids": ["C09"],
+  "visibility": "public",
+  "question": "How is governance-contract drift detected?",
+  "impact_if_unresolved": "Consumers could accept incompatible governance records.",
+  "resolution_criteria": ["Every mirrored byte matches its pinned digest."],
+  "raised_by_role": "contract-maintainer"
+}

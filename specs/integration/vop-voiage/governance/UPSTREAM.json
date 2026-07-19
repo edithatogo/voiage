@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "canonical_repository": "edithatogo/vop_poc_nz",
+  "canonical_git_commit": "51a61340dde73868c319f97a7ce436b0650255be",
+  "canonical_path": "schemas/governance",
+  "mirror_path": "specs/integration/vop-voiage/governance/schemas",
+  "files": {
+    "assumption.schema.json": "a5f0558210c94e976f271f145b48b2f78c96dbb7daf568c9bef0e84825a67a43",
+    "concern.schema.json": "87e0bdd1d17f8f87d227b04b3e99b02be0d7e9d309f9e94c48ff54aaa5ecf3bd",
+    "decision.schema.json": "93846605f5222fbd913127724659b497dc40b6f8af002812dcc62d279b5194bb",
+    "evidence-reference.schema.json": "09364674cecd34e16342b11b3ab59adddb8570d07bd336fc69b13e8623bd0bcf",
+    "github-sync-payload.schema.json": "4a07af3d69b558683a2bd092dfe3e13eb8062258f0638d3bb9c249da026c4186",
+    "governance-ledger.schema.json": "deb911470f8aa0a48b84884d88c6eef33b4279b73f8d74a7238f5f862d56a008",
+    "issue-link.schema.json": "f13cf8bf245aa7d55c83e645436abef459b5ae2af740344e0f942c0f71c2b783",
+    "risk.schema.json": "d9a5627af7d600ea4d2227d174c6d2e56aba583ab26f2215cb5d19abc0a511ee"
+  },
+  "github_projection_policy": {
+    "stable_marker_regex": "^vop-voiage-governance-id:(CON|ASM|RSK|DEC|EVR|ISL)-(VOP|VOI|SHR)-[0-9]{4}$",
+    "managed_body_begin": "<!-- governance:begin -->",
+    "managed_body_end": "<!-- governance:end -->",
+    "excluded_visibilities": ["local_private"],
+    "network_mutation": false,
+    "source_of_truth": "local_governance_ledger"
+  }
+}
