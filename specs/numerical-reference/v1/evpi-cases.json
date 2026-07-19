@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "method": "evpi",
+  "definition": "mean(row maximum) minus maximum(column mean)",
+  "assumptions": [
+    "samples are equally weighted",
+    "larger net benefit is preferred",
+    "the decision maker is risk neutral",
+    "values share one net-benefit unit and time horizon"
+  ],
+  "cases": [
+    {
+      "id": "canonical-crossover",
+      "net_benefits": [[10.0, 1.0], [2.0, 8.0]],
+      "derivation": {
+        "strategy_means": [6.0, 4.5],
+        "expected_current_value": 6.0,
+        "row_maxima": [10.0, 8.0],
+        "expected_perfect_information": 9.0
+      },
+      "expected": {
+        "value": 3.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "balanced-crossover",
+      "net_benefits": [[0.0, 10.0], [8.0, 0.0]],
+      "derivation": {
+        "strategy_means": [4.0, 5.0],
+        "expected_current_value": 5.0,
+        "row_maxima": [10.0, 8.0],
+        "expected_perfect_information": 9.0
+      },
+      "expected": {
+        "value": 4.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "strict-dominance",
+      "net_benefits": [[1.0, 3.0], [2.0, 4.0], [3.0, 5.0]],
+      "derivation": {
+        "strategy_means": [2.0, 4.0],
+        "expected_current_value": 4.0,
+        "row_maxima": [3.0, 4.0, 5.0],
+        "expected_perfect_information": 4.0
+      },
+      "expected": {
+        "value": 0.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "negative-net-benefit-crossover",
+      "net_benefits": [[-5.0, -1.0], [-1.0, -5.0]],
+      "derivation": {
+        "strategy_means": [-3.0, -3.0],
+        "expected_current_value": -3.0,
+        "row_maxima": [-1.0, -1.0],
+        "expected_perfect_information": -1.0
+      },
+      "expected": {
+        "value": 2.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    }
+  ]
+}

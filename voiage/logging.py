@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from contextlib import contextmanager
 from contextvars import ContextVar
+from dataclasses import dataclass
 from datetime import UTC, datetime
+from hashlib import sha256
 import json
 import logging
 import os
 import pathlib  # noqa: TC003 - Pydantic resolves this annotation at runtime
+import re
+import secrets
 import sys
 from typing import TYPE_CHECKING, ClassVar, final, override
 from uuid import uuid4
@@ -16,23 +21,167 @@ from uuid import uuid4
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Mapping
+    from collections.abc import Generator
 
-_CONTEXT: ContextVar[dict[str, str] | None] = ContextVar(
-    "voiage_log_context", default=None
-)
+    from voiage.contracts.analysis import AnalysisResult, ContractModel
+
 _OWNED_HANDLER = "_voiage_handler"
 _SENSITIVE_FRAGMENTS = ("authorization", "password", "secret", "token", "api_key")
+_RESERVED_FIELDS = frozenset(
+    {
+        "analysis_id",
+        "backend_requested",
+        "backend_selected",
+        "exception",
+        "fallback_code",
+        "level",
+        "logger",
+        "message",
+        "numerical_policy_id",
+        "run_id",
+        "service",
+        "span_id",
+        "timestamp",
+        "trace_flags",
+        "trace_id",
+        "traceparent",
+    }
+)
+_TRACE_ID_RE = re.compile(r"^[0-9a-f]{32}$")
+_SPAN_ID_RE = re.compile(r"^[0-9a-f]{16}$")
+_TRACE_FLAGS_RE = re.compile(r"^[0-9a-f]{2}$")
+_BEARER_RE = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]+")
+_ASSIGNMENT_RE = re.compile(
+    r"(?i)\b(authorization|password|secret|token|api[_-]?key)\s*([:=])\s*([^\s,;]+)"
+)
 
 
-def _safe_context(values: Mapping[str, object]) -> dict[str, str]:
-    """Stringify safe context and redact common credential-bearing fields."""
+@dataclass(frozen=True, slots=True)
+class _LogContextState:
+    run_id: str | None
+    correlation: Mapping[str, object]
+    fields: Mapping[str, object]
+
+
+_CONTEXT: ContextVar[_LogContextState | None] = ContextVar(
+    "voiage_log_context", default=None
+)
+
+
+def _current_context() -> _LogContextState:
+    return _CONTEXT.get() or _LogContextState(run_id=None, correlation={}, fields={})
+
+
+def _redact_text(value: str) -> str:
+    value = _BEARER_RE.sub("Bearer [REDACTED]", value)
+    return _ASSIGNMENT_RE.sub(r"\1\2[REDACTED]", value)
+
+
+def _sensitive_key(key: str) -> bool:
+    folded = key.casefold()
+    return any(fragment in folded for fragment in _SENSITIVE_FRAGMENTS)
+
+
+def _redact_value(value: object) -> object:
+    if isinstance(value, Mapping):
+        return {
+            str(key): "[REDACTED]" if _sensitive_key(str(key)) else _redact_value(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple, set, frozenset)):
+        return [_redact_value(item) for item in value]
+    if isinstance(value, str):
+        return _redact_text(value)
+    if value is None or isinstance(value, (bool, int, float)):
+        return value
+    return _redact_text(str(value))
+
+
+def _safe_context(values: Mapping[str, object]) -> dict[str, object]:
+    """Recursively redact context and reject trusted-field impersonation."""
+    reserved = sorted(_RESERVED_FIELDS.intersection(values))
+    if reserved:
+        raise ValueError(f"reserved logging context field: {reserved[0]}")
     return {
-        key: "[REDACTED]"
-        if any(fragment in key.casefold() for fragment in _SENSITIVE_FRAGMENTS)
-        else str(value)
+        key: "[REDACTED]" if _sensitive_key(key) else _redact_value(value)
         for key, value in values.items()
     }
+
+
+class TraceContext(BaseModel):
+    """W3C Trace Context identifiers shared by VOP and VOIAGE."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid", frozen=True)
+    trace_id: str = Field(default_factory=lambda: secrets.token_hex(16))
+    span_id: str = Field(default_factory=lambda: secrets.token_hex(8))
+    trace_flags: str = "00"
+
+    @field_validator("trace_id")
+    @classmethod
+    def validate_trace_id(cls, value: str) -> str:
+        """Require a lowercase non-zero 128-bit trace identifier."""
+        if _TRACE_ID_RE.fullmatch(value) is None or value == "0" * 32:
+            raise ValueError("trace_id must be 32 lowercase non-zero hex characters")
+        return value
+
+    @field_validator("span_id")
+    @classmethod
+    def validate_span_id(cls, value: str) -> str:
+        """Require a lowercase non-zero 64-bit span identifier."""
+        if _SPAN_ID_RE.fullmatch(value) is None or value == "0" * 16:
+            raise ValueError("span_id must be 16 lowercase non-zero hex characters")
+        return value
+
+    @field_validator("trace_flags")
+    @classmethod
+    def validate_trace_flags(cls, value: str) -> str:
+        """Require the two-digit W3C trace flags value."""
+        if _TRACE_FLAGS_RE.fullmatch(value) is None:
+            raise ValueError("trace_flags must be two lowercase hex characters")
+        return value
+
+    @property
+    def traceparent(self) -> str:
+        """Return the canonical W3C traceparent header value."""
+        return f"00-{self.trace_id}-{self.span_id}-{self.trace_flags}"
+
+
+class AnalysisLogContext(BaseModel):
+    """Trusted shared correlation fields for one analysis execution."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid", frozen=True)
+    run_id: str = Field(min_length=1)
+    trace: TraceContext = Field(default_factory=TraceContext)
+    analysis_id: str = Field(min_length=1)
+    backend_requested: str = Field(min_length=1)
+    backend_selected: str = Field(min_length=1)
+    fallback_code: str = Field(min_length=1)
+    numerical_policy_id: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+    def correlation_fields(self) -> dict[str, str]:
+        """Project immutable identifiers to the shared structured-log shape."""
+        return {
+            "analysis_id": self.analysis_id,
+            "backend_requested": self.backend_requested,
+            "backend_selected": self.backend_selected,
+            "fallback_code": self.fallback_code,
+            "numerical_policy_id": self.numerical_policy_id,
+            "trace_id": self.trace.trace_id,
+            "span_id": self.trace.span_id,
+            "trace_flags": self.trace.trace_flags,
+            "traceparent": self.trace.traceparent,
+        }
+
+
+def numerical_policy_digest(policy: BaseModel | Mapping[str, object]) -> str:
+    """Return a deterministic identifier without logging policy values."""
+    value: object = (
+        policy.model_dump(mode="json") if isinstance(policy, BaseModel) else policy
+    )
+    encoded = json.dumps(
+        value, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+    ).encode()
+    return sha256(encoded).hexdigest()
 
 
 class LoggingSettings(BaseModel):
@@ -77,10 +226,22 @@ class _ContextFilter(logging.Filter):
 
     @override
     def filter(self, record: logging.LogRecord) -> bool:
+        state = _current_context()
         record.service = self.settings.service
-        record.run_id = self.settings.run_id
-        record.context = dict(_CONTEXT.get() or {})
+        record.run_id = state.run_id or self.settings.run_id
+        record.correlation = dict(state.correlation)
+        record.context = dict(state.fields)
         return True
+
+
+@final
+class RedactingFormatter(logging.Formatter):
+    """Apply credential redaction to human-readable log messages."""
+
+    @override
+    def format(self, record: logging.LogRecord) -> str:
+        """Format and scrub one human-readable record."""
+        return _redact_text(super().format(record))
 
 
 @final
@@ -96,26 +257,69 @@ class JsonFormatter(logging.Formatter):
             "logger": record.name,
             "service": getattr(record, "service", "voiage"),
             "run_id": getattr(record, "run_id", None),
-            "message": record.getMessage(),
+            "message": _redact_text(record.getMessage()),
         }
+        payload.update(getattr(record, "correlation", {}))
         payload.update(getattr(record, "context", {}))
         if record.exc_info:
-            payload["exception"] = self.formatException(record.exc_info)
+            payload["exception"] = _redact_text(self.formatException(record.exc_info))
         return json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
 
 
 @contextmanager
 def log_context(**values: object) -> Generator[None]:
     """Bind context for the current thread, task, or async execution path."""
-    merged = {
-        **(_CONTEXT.get() or {}),
-        **_safe_context(values),
-    }
-    token = _CONTEXT.set(merged)
+    current = _current_context()
+    state = _LogContextState(
+        run_id=current.run_id,
+        correlation=current.correlation,
+        fields={**current.fields, **_safe_context(values)},
+    )
+    token = _CONTEXT.set(state)
     try:
         yield
     finally:
         _CONTEXT.reset(token)
+
+
+@contextmanager
+def analysis_log_context(context: AnalysisLogContext) -> Generator[None]:
+    """Bind trusted run, trace, backend, fallback and policy correlation."""
+    current = _current_context()
+    state = _LogContextState(
+        run_id=context.run_id,
+        correlation=context.correlation_fields(),
+        fields=current.fields,
+    )
+    token = _CONTEXT.set(state)
+    try:
+        yield
+    finally:
+        _CONTEXT.reset(token)
+
+
+def analysis_log_context_from_result(
+    result: AnalysisResult[ContractModel], *, trace: TraceContext | None = None
+) -> AnalysisLogContext:
+    """Adapt a VOIAGE analysis envelope to the shared logging contract."""
+    requested = (
+        result.numerical_policy.backend_preference[0]
+        if result.numerical_policy.backend_preference
+        else result.run_context.selected_backend
+    )
+    fallback = next(
+        (warning.code for warning in result.diagnostics.warnings if warning.code),
+        "none",
+    )
+    return AnalysisLogContext(
+        run_id=result.run_context.run_id,
+        trace=trace or TraceContext(),
+        analysis_id=result.analysis_id,
+        backend_requested=requested,
+        backend_selected=result.run_context.selected_backend,
+        fallback_code=fallback,
+        numerical_policy_id=numerical_policy_digest(result.numerical_policy),
+    )
 
 
 def configure_logging(settings: LoggingSettings | None = None) -> logging.Logger:
@@ -130,7 +334,7 @@ def configure_logging(settings: LoggingSettings | None = None) -> logging.Logger
             handler.close()
 
     context_filter = _ContextFilter(settings)
-    human = logging.Formatter("%(levelname)s:%(name)s:%(message)s [run_id=%(run_id)s]")
+    human = RedactingFormatter("%(levelname)s:%(name)s:%(message)s [run_id=%(run_id)s]")
     formatter: logging.Formatter = JsonFormatter() if settings.json_output else human
     if settings.console:
         console = logging.StreamHandler(sys.stderr)
