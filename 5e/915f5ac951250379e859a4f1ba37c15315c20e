@@ -1,0 +1,7 @@
+Task: Linux ABI sanitizer and leak smoke evidence
+
+Summary: Added a separate fail-closed Ubuntu workflow and runner that builds the voiage C ABI and standard library with Rust ASan, compiles a real C11 lifecycle/error consumer with ASan and UBSan, enables LSan leak detection, and verifies ASan symbols before execution. Added repository contract tests.
+
+Files: .github/workflows/ffi-sanitizers.yml; scripts/run_ffi_sanitizers.sh; tests/ffi/voiage_v1_sanitizer_smoke.c; tests/test_ffi_sanitizer_contract.py
+
+Why: Produce real Linux memory-safety evidence across the Rust shared-library/C-consumer boundary without coupling the gate to bindings-ci.
