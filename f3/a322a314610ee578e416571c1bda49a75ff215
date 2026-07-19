@@ -1,0 +1,7 @@
+Task: Add cross-platform versioned C ABI workflow verification
+
+Summary: Extended the existing Linux, macOS, and Windows Rust workspace matrix to build the voiage-ffi release cdylib, compile and execute the versioned header consumers as C11 and C++17, and compare platform-native symbol discovery against the exact v1 ABI allowlist. Added workflow contract coverage for the matrix, compilers, consumers, release build, and nm/dumpbin gates.
+
+Files: .github/workflows/bindings-ci.yml; tests/test_ci_cd_quality_gates.py
+
+Why: Ensure ABI source compatibility and exported-symbol discipline are continuously verified on every supported desktop platform using immutable action pins.
