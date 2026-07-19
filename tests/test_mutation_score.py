@@ -78,11 +78,32 @@ def test_invalid_counts_fail_closed(value: object) -> None:
 
 
 def test_inconsistent_total_and_invalid_threshold_fail_closed() -> None:
-    with pytest.raises(ValueError, match="smaller"):
+    with pytest.raises(ValueError) as total_error:
         mutation_score_from_mapping(_stats(total=99))
+    assert str(total_error.value) == (
+        "mutation total is smaller than its reported status counts"
+    )
+
+    # Exercise one-count buckets and interruption independently. Subtracting any
+    # reported status from the accounted total must not make an inconsistency valid.
+    with pytest.raises(ValueError, match="smaller"):
+        _ = mutation_score_from_mapping(_stats(total=102))
+    with pytest.raises(ValueError, match="smaller"):
+        _ = mutation_score_from_mapping(
+            _stats(check_was_interrupted_by_user=1, total=103)
+        )
+
     for threshold in (0.0, -1.0, 100.1):
-        with pytest.raises(ValueError, match="threshold"):
-            validate_threshold(threshold)
+        with pytest.raises(ValueError) as threshold_error:
+            _ = validate_threshold(threshold)
+        assert str(threshold_error.value) == (
+            "mutation threshold must be greater than 0 and at most 100"
+        )
+
+
+def test_threshold_accepts_positive_fraction_and_closed_upper_boundary() -> None:
+    assert validate_threshold(0.5) == 0.5
+    assert validate_threshold(100.0) == 100.0
 
 
 def test_cli_reports_counts_and_returns_pass_or_fail(tmp_path: Path) -> None:
