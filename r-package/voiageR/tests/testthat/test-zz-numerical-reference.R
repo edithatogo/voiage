@@ -66,10 +66,10 @@ test_that("R binding consumes the shared EVPI numerical reference", {
     } else {
       as.numeric(unlist(fixture_case$expected$rtol, use.names = FALSE))
     }
-    expect_length(actual, 1, info = fixture_case$id)
-    expect_length(expected, 1, info = fixture_case$id)
-    expect_length(absolute_tolerance, 1, info = fixture_case$id)
-    expect_length(relative_tolerance, 1, info = fixture_case$id)
+    expect_length(actual, 1)
+    expect_length(expected, 1)
+    expect_length(absolute_tolerance, 1)
+    expect_length(relative_tolerance, 1)
     expect_true(
       all(is.finite(c(actual, expected, absolute_tolerance, relative_tolerance))),
       info = fixture_case$id
