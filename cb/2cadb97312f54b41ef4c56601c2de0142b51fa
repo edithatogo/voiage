@@ -1,0 +1,5 @@
+Phase 2 final review remediation
+
+Integrated strict compatibility policy schema (e50d612), CEAF/dominance result contracts (8a23b86), expanded deterministic/non-finite/provenance evidence (f8a4ee4), and direct normative Python exception types. Removed runner-side error masking and reconciled contract documentation.
+
+Validation: 96 focused tests passed; 20 compatibility cases passed; Ruff, Vale, JSON/schema checks, and diff checks passed.
