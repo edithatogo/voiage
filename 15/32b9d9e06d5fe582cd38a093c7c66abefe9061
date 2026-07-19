@@ -1,0 +1,9 @@
+Task: Implement programme integrity validation using TDD
+
+Summary: Added a dependency-free validator for v1 baseline schema, active registry parity, archive counts, roadmap/backlog linkage, execution order, and GitHub snapshot age; added success and drift tests.
+
+Files: scripts/validate_v1_programme.py; tests/test_v1_programme_baseline.py; conductor/tracks/mature-hardened-v1-release-programme_20260719/plan.md
+
+Why: Programme status must fail closed when Conductor, roadmap, backlog, or baseline evidence drifts.
+
+Validation: 30 focused tests passed; Ruff passed; validator returned ok; git diff --check passed.
