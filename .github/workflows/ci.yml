@@ -31,7 +31,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -42,7 +42,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --frozen --extra dev
 
     - name: Set up Go
       uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
@@ -78,7 +78,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -89,7 +89,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
@@ -124,7 +124,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -135,7 +135,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Validate version synchronization
       run: uv run tox -e version-sync
@@ -155,7 +155,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -166,7 +166,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run repository harness
       run: uv run python scripts/repo_harness.py
@@ -183,7 +183,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -194,7 +194,7 @@ jobs:
         python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Run Ruff
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
@@ -239,7 +239,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -250,7 +250,7 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run unit tests with coverage
       run: |
@@ -286,7 +286,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -297,7 +297,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
@@ -315,7 +315,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -351,7 +351,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
         cache-dependency-glob: "uv.lock"
@@ -362,7 +362,7 @@ jobs:
         python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run benchmark regression checks
       id: benchmark-regression
@@ -418,7 +418,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
 
@@ -428,7 +428,7 @@ jobs:
         python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run integration tests
       run: |
@@ -452,7 +452,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
 
@@ -462,7 +462,7 @@ jobs:
         python-version: '3.14'
 
     - name: Install voiage
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Run E2E CLI tests
       run: |
@@ -487,7 +487,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
 
@@ -497,7 +497,7 @@ jobs:
         python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Generate bounded broad mutation evidence
       id: broad-generation
@@ -562,7 +562,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
 
@@ -572,7 +572,7 @@ jobs:
         python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --frozen --extra dev
 
     - name: Profile contract bundle verification with Scalene
       run: |
