@@ -1,9 +1,10 @@
 # Project Tracks
 
-## [~] Track: Domain Abstraction Excellence
+## [x] Track: Domain Abstraction Excellence [completed: 2026-07-20]
 *Link: [./tracks/abstraction-excellence_20260719/index.md](./tracks/abstraction-excellence_20260719/index.md)*
-*Status: in progress - strict domain contracts, capability-aware kernels and
-machine-readable concern governance shared with VOP C13.*
+*Status: strict domain contracts, capability-aware kernels, machine-readable
+concern governance, and hosted quality evidence are complete; human approval
+remains separate under the shared C13 `close_requires_approval` policy.*
 
 ---
 
