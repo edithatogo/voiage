@@ -225,7 +225,7 @@ pytest_add_cli_args = ["-x", "--no-cov"]
 pytest_add_cli_args_test_selection = [
     "tests/test_mutation_score.py",
 ]
-also_copy = ["scripts/check_mutation_score.py"]
+also_copy = ["scripts/"]
 
 [tool.semantic_release]
 version_source = "tag"
