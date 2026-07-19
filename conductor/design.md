@@ -61,3 +61,36 @@ Pixi delegates Python environment resolution to uv, so the repository retains
 one dependency lock. Expensive evidence is scheduled or manually requested;
 stable pull requests keep deterministic correctness, typing, security,
 interchange, coverage, and package gates.
+
+```mermaid
+flowchart LR
+    Concern --> Risk
+    Evidence --> Decision
+    Risk --> Decision
+    Decision --> IssueLink
+    IssueLink --> Project
+    AnalysisSpec --> NumericalPolicy
+    AnalysisSpec --> Kernel
+    Kernel --> BackendCapabilities
+    Kernel --> AnalysisResult
+    RunContext --> AnalysisResult
+    AnalysisResult --> Arrow
+```
+
+```mermaid
+sequenceDiagram
+    participant S as Analysis specification
+    participant D as Capability dispatcher
+    participant B as Backend
+    participant K as Calculation kernel
+    participant R as Result envelope
+    S->>D: Requirements and numerical policy
+    D->>B: Check explicit capabilities
+    alt Unsupported
+      D-->>S: Fail closed or disclosed fallback
+    else Supported
+      D->>K: Execute with backend and run context
+      K->>R: Typed payload, diagnostics and provenance
+      R-->>S: Versioned serializable result
+    end
+```

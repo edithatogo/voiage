@@ -22,6 +22,9 @@ programme. The canonical cross-repository requirements are maintained in
   run context, and uv/Pixi parity are enforced as production contracts.
 - Ruff, `ty`, BasedPyright, package builds, unit/property/integration/E2E tests,
   security checks, and benchmark regression remain visible fast gates.
+- Strict Pydantic v2 contracts give concerns, parameters, numerical policies,
+  kernels, backend capabilities, run contexts and results stable typed
+  identities with deterministic schemas and compatibility adapters.
 
 ### Should have
 
@@ -33,12 +36,15 @@ programme. The canonical cross-repository requirements are maintained in
   VOP–VOIAGE GitHub Project.
 - Scalene, mutation, dependency-audit, and experimental lanes emit bounded
   scheduled/manual evidence rather than slowing every pull request.
+- GitHub governance projections use stable markers, bounded managed sections,
+  dry-run plans and conflict detection while preserving human-authored content.
 
 ### Could have
 
 - Cross-language consumers and accelerators validated by the same fixtures.
 - Automated synchronization of archived tracks and project fields.
 - Signed release attestations for promoted interchange bundles.
+- Deterministic governance traceability tables and Mermaid graphs.
 
 ### Won't have now
 
@@ -46,3 +52,5 @@ programme. The canonical cross-repository requirements are maintained in
 - Direct imports from the VOP source tree or repository consolidation.
 - Production accelerator claims without parity and hardware evidence.
 - Publication of credentials, private evidence, or local-only agent state.
+- Automated acceptance of risk, irreversible decisions, or human-controlled
+  issue closure.
