@@ -1,0 +1,1 @@
+Review fix: updated all benchmark workflow checkout references to the verified immutable actions/checkout commit after hosted zizmor reported a repository-membership alert. Validation: actionlint .github/workflows/benchmark.yml and git diff --check passed.
