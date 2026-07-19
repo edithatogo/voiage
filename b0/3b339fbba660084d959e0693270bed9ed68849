@@ -1,0 +1,21 @@
+Task: Phase 3 validated scalar and identity primitive TDD slice
+
+Summary:
+- Added non-empty Identifier and StrategyId private newtypes.
+- Added finite Cost and Effect, unit-interval Probability, positive finite Threshold, and u64 Seed.
+- Added checked constructors/accessors and fail-closed serde deserialization.
+- Added boundary, malformed-wire, round-trip, and property tests.
+
+Files:
+- rust/crates/voiage-domain/Cargo.toml
+- rust/crates/voiage-domain/src/lib.rs
+- rust/crates/voiage-domain/tests/primitives.rs
+- rust/Cargo.lock
+
+Validation:
+- Red: cargo test -p voiage-domain failed with unresolved primitive imports.
+- Green: cargo fmt -p voiage-domain -- --check
+- Green: cargo clippy -p voiage-domain --lib --test primitives --locked -- -D warnings -A missing-docs
+- Green: cargo test -p voiage-domain --lib --test primitives --locked (6 passed)
+
+Boundary: missing-docs was allowed only because a concurrent uncommitted collections slice in the same crate introduced undocumented fields; that slice was excluded from this commit.
