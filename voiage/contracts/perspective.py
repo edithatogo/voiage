@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from importlib.metadata import PackageNotFoundError, version
+import math
 import platform
 from typing import TYPE_CHECKING, cast
 from uuid import uuid4
@@ -15,7 +16,7 @@ from pydantic import (
     JsonValue,
     field_serializer,
 )
-from pydantic_core import to_jsonable_python
+from pydantic_core import PydanticSerializationError
 
 from voiage.contracts.adapters import (
     adapt_backend,
@@ -49,7 +50,7 @@ from voiage.methods.perspective import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Sequence
 
     from numpy.typing import NDArray
 
@@ -101,11 +102,33 @@ def _int_values(values: NDArray[np.int64]) -> tuple[int, ...]:
     return tuple(cast("list[int]", values.tolist()))
 
 
-def _json_mapping(values: Mapping[str, object]) -> dict[str, JsonValue]:
-    normalized: object = to_jsonable_python(
-        values, serialize_unknown=True, fallback=str
+def _json_value(value: object) -> JsonValue:
+    """Normalize only deterministic JSON-native values, failing closed."""
+    if value is None or isinstance(value, (bool, int, str)):
+        return value
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise PydanticSerializationError("non-finite JSON numbers are forbidden")
+        return value
+    if isinstance(value, Mapping):
+        mapping = cast("Mapping[object, object]", value)
+        if not all(isinstance(key, str) for key in mapping):
+            raise PydanticSerializationError("JSON object keys must be strings")
+        string_mapping = cast("Mapping[str, object]", mapping)
+        return {key: _json_value(string_mapping[key]) for key in sorted(string_mapping)}
+    if isinstance(value, (list, tuple)):
+        sequence = cast("Sequence[object]", value)
+        return [_json_value(item) for item in sequence]
+    raise PydanticSerializationError(
+        f"unsupported JSON value type: {type(value).__name__}"
     )
-    return cast("dict[str, JsonValue]", normalized)
+
+
+def _json_mapping(values: Mapping[str, object]) -> dict[str, JsonValue]:
+    normalized = _json_value(values)
+    if not isinstance(normalized, dict):  # pragma: no cover - Mapping guarantees it
+        raise PydanticSerializationError("expected a JSON object")
+    return normalized
 
 
 def adapt_perspective_result(result: ValueOfPerspectiveResult) -> PerspectivePayload:

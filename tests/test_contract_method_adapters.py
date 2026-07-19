@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+from pydantic_core import PydanticSerializationError
 import pytest
 
 from voiage.contracts.adapters import (
@@ -14,12 +15,31 @@ from voiage.contracts.adapters import (
 from voiage.contracts.analysis import NumericalPolicy
 from voiage.contracts.capabilities import BackendCapabilities
 from voiage.contracts.perspective import (
+    _json_mapping,
     adapt_perspective_result,
     run_perspective,
 )
 from voiage.main_backends import get_backend
 from voiage.methods.perspective import value_of_perspective
 from voiage.schema import ParameterSet, ValueArray
+
+
+def test_perspective_json_normalization_fails_closed_for_unknown_values() -> None:
+    class Unknown:
+        pass
+
+    with pytest.raises(PydanticSerializationError):
+        _json_mapping({"unknown": Unknown()})
+    with pytest.raises(PydanticSerializationError):
+        _json_mapping({"unordered": {"set"}})
+    with pytest.raises(PydanticSerializationError):
+        _json_mapping({"not_finite": float("nan")})
+    normalized = _json_mapping({"z": 2, "a": {"nested": (1, True, None)}})
+    assert list(normalized) == ["a", "z"]
+    assert normalized == {
+        "a": {"nested": [1, True, None]},
+        "z": 2,
+    }
 
 
 def _values() -> np.ndarray:

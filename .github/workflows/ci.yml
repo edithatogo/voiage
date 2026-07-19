@@ -443,12 +443,11 @@ jobs:
       env:
         CI: true
 
-  # Mutation testing (weekly)
+  # Bounded production-contract mutation gates
   test-mutation:
     name: Mutation Testing
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -470,27 +469,51 @@ jobs:
     - name: Install dependencies
       run: uv sync --extra ci --extra dev
 
-    - name: Run mutation testing
+    - name: Generate bounded broad mutation evidence
+      id: broad-generation
+      continue-on-error: true
       run: |
-        # Broad production-contract evidence is retained separately from the
-        # enforced critical-invariant score. Its first truthful baseline will
-        # be ratcheted after this changed scope has hosted evidence.
         uv run mutmut run
         uv run mutmut export-cicd-stats
-        mkdir -p .benchmarks
-        cp mutants/mutmut-cicd-stats.json .benchmarks/mutation-broad-stats.json
-        # Production-used C13 invariants independently remain >=90%.
+
+    - name: Enforce hosted broad mutation ratchet
+      id: broad-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/check_mutation_score.py
+        --threshold 75
+        --baseline-stats .github/mutation-baselines/voiage-broad.json
+        --output .benchmarks/mutation-score-broad.json
+
+    - name: Enforce critical C13 mutation score
+      id: critical-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
         uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json
+
+    - name: Require both mutation gates
+      if: always()
       env:
         CI: true
-
+        GENERATION_OUTCOME: ${{ steps.broad-generation.outcome }}
+        BROAD_OUTCOME: ${{ steps.broad-mutation.outcome }}
+        CRITICAL_OUTCOME: ${{ steps.critical-mutation.outcome }}
+      run: |
+        echo "broad generation: ${GENERATION_OUTCOME}"
+        echo "broad ratchet: ${BROAD_OUTCOME}"
+        echo "critical score: ${CRITICAL_OUTCOME}"
+        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ]; then
+          exit 1
+        fi
     - name: Upload mutation evidence
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: mutation-evidence
         path: |
-          .benchmarks/mutation-broad-stats.json
+          .benchmarks/mutation-score-broad.json
           .benchmarks/mutation-critical.json
           mutants/mutmut-cicd-stats.json
 

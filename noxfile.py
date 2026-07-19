@@ -168,6 +168,16 @@ def contract_mutation(session: nox.Session) -> None:
     session.run("mutmut", "export-cicd-stats")
     session.run(
         "python",
+        "scripts/check_mutation_score.py",
+        "--threshold",
+        "75",
+        "--baseline-stats",
+        ".github/mutation-baselines/voiage-broad.json",
+        "--output",
+        ".benchmarks/mutation-score-broad.json",
+    )
+    session.run(
+        "python",
         "scripts/run_critical_mutation_lane.py",
         ".",
         "--threshold",

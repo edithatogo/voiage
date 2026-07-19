@@ -45,6 +45,40 @@ def test_unreported_mutmut_statuses_cannot_inflate_score() -> None:
     assert report["passed"] is False
 
 
+def test_broad_baseline_ratchets_score_and_unresolved_debt() -> None:
+    broad = {
+        "no_tests": 0,
+        "suspicious": 0,
+        "timeout": 0,
+        "segfault": 0,
+        "skipped": 0,
+    }
+    baseline = mutation_score_from_mapping(
+        _stats(killed=51, survived=14, total=65, **broad)
+    )
+    same = mutation_score_from_mapping(
+        _stats(killed=51, survived=14, total=65, **broad)
+    )
+    report = same.report(75.0, baseline=baseline)
+    assert report["non_decreasing"] is True
+    assert report["debt_non_increasing"] is True
+    assert report["baseline_killed"] == 51
+    assert report["baseline_eligible"] == 65
+    assert report["passed"] is True
+
+    worse_score = mutation_score_from_mapping(
+        _stats(killed=50, survived=15, total=65, **broad)
+    ).report(75.0, baseline=baseline)
+    assert worse_score["non_decreasing"] is False
+    assert worse_score["passed"] is False
+
+    new_debt = mutation_score_from_mapping(
+        _stats(killed=52, survived=15, total=67, **broad)
+    ).report(75.0, baseline=baseline)
+    assert new_debt["debt_non_increasing"] is False
+    assert new_debt["passed"] is False
+
+
 @pytest.mark.parametrize(
     "changes",
     [
@@ -136,3 +170,56 @@ def test_cli_reports_counts_and_returns_pass_or_fail(tmp_path: Path) -> None:
     )
     assert failed.returncode == 2
     assert json.loads(failed.stdout)["passed"] is False
+
+
+def test_cli_enforces_hosted_broad_baseline(tmp_path: Path) -> None:
+    stats = tmp_path / "stats.json"
+    baseline = tmp_path / "baseline.json"
+    stats.write_text(
+        json.dumps(
+            _stats(
+                killed=50,
+                survived=15,
+                no_tests=0,
+                suspicious=0,
+                timeout=0,
+                segfault=0,
+                skipped=0,
+                total=65,
+            )
+        ),
+        encoding="utf-8",
+    )
+    baseline.write_text(
+        json.dumps(
+            _stats(
+                killed=51,
+                survived=14,
+                no_tests=0,
+                suspicious=0,
+                timeout=0,
+                segfault=0,
+                skipped=0,
+                total=65,
+            )
+        ),
+        encoding="utf-8",
+    )
+    failed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/check_mutation_score.py",
+            "--stats",
+            str(stats),
+            "--baseline-stats",
+            str(baseline),
+            "--threshold",
+            "75",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert failed.returncode == 2
+    assert json.loads(failed.stdout)["non_decreasing"] is False

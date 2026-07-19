@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -33,18 +33,49 @@ class MutationScore:
         """Return the killed percentage over eligible mutants."""
         return 100.0 * self.killed / self.eligible if self.eligible else 0.0
 
-    def report(self, threshold: float) -> dict[str, Any]:
+    def report(
+        self, threshold: float, *, baseline: MutationScore | None = None
+    ) -> dict[str, object]:
         """Return a JSON-safe threshold report."""
-        passed = (
-            self.interrupted == 0 and self.eligible > 0 and self.percent >= threshold
+        non_decreasing = baseline is None or (
+            self.eligible > 0
+            and baseline.eligible > 0
+            and self.killed * baseline.eligible >= baseline.killed * self.eligible
         )
-        return {
+        unresolved = self.eligible - self.killed
+        baseline_unresolved = (
+            None if baseline is None else baseline.eligible - baseline.killed
+        )
+        debt_non_increasing = baseline is None or (
+            baseline_unresolved is not None and unresolved <= baseline_unresolved
+        )
+        passed = all(
+            (
+                self.interrupted == 0,
+                self.eligible > 0,
+                self.percent >= threshold,
+                non_decreasing,
+                debt_non_increasing,
+            )
+        )
+        report: dict[str, object] = {
             **asdict(self),
             "eligible": self.eligible,
+            "unresolved": unresolved,
             "score_percent": round(self.percent, 3),
             "threshold_percent": threshold,
+            "non_decreasing": non_decreasing,
+            "debt_non_increasing": debt_non_increasing,
             "passed": passed,
         }
+        if baseline is not None:
+            report.update(
+                baseline_killed=baseline.killed,
+                baseline_eligible=baseline.eligible,
+                baseline_unresolved=baseline_unresolved,
+                baseline_score_percent=round(baseline.percent, 3),
+            )
+        return report
 
 
 _FIELDS = {

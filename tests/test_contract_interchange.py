@@ -12,6 +12,7 @@ import pyarrow.parquet as pq
 from voiage.contracts.analysis import AnalysisSpec, NumericalPolicy
 from voiage.contracts.interchange import (
     analysis_result_table,
+    schema_fingerprint,
     write_analysis_result_ipc,
     write_analysis_result_parquet,
 )
@@ -36,6 +37,15 @@ def test_arrow_table_has_stable_v2_identity_and_json_payload() -> None:
     table = analysis_result_table(result)
     assert table.schema.metadata[b"voiage.contract"] == b"analysis-result"
     assert table.schema.metadata[b"voiage.schema_version"] == b"2.0.0"
+    assert table.schema.metadata[b"vop_voiage.contract_version"] == b"2.0.0"
+    assert table.schema.metadata[b"vop_voiage.schema_id"] == b"analysis-result"
+    assert table.schema.metadata[b"vop_voiage.schema_version"] == b"1.0.0"
+    assert table.schema.metadata[b"vop_voiage.producer"] == b"voiage"
+    assert table.schema.metadata[b"vop_voiage.interchange"] == b"apache-arrow"
+    assert table.schema.metadata[b"vop_voiage.method_contract_version"] == b"1.0.0"
+    assert table.schema.metadata[b"vop_voiage.schema_fingerprint"].decode() == (
+        schema_fingerprint(table.schema)
+    )
     assert json.loads(table["result_json"][0].as_py()) == result.model_dump(mode="json")
 
 
@@ -48,6 +58,13 @@ def test_ipc_and_parquet_round_trip_through_pyarrow_and_polars(tmp_path) -> None
     with ipc.open_file(ipc_path) as reader:
         ipc_table = reader.read_all()
     parquet_table = pq.read_table(parquet_path)
+    assert ipc_table.schema.metadata[b"vop_voiage.interchange"] == (b"apache-arrow-ipc")
+    assert parquet_table.schema.metadata[b"vop_voiage.interchange"] == (
+        b"apache-arrow-parquet"
+    )
+    assert schema_fingerprint(ipc_table.schema) == schema_fingerprint(
+        parquet_table.schema
+    )
     assert ipc_table.to_pylist() == parquet_table.to_pylist()
     assert pl.read_ipc(ipc_path).to_dicts() == pl.read_parquet(parquet_path).to_dicts()
 
@@ -57,3 +74,9 @@ def test_ipc_and_parquet_round_trip_through_pyarrow_and_polars(tmp_path) -> None
     write_analysis_result_parquet(result, second_parquet)
     assert second_ipc.read_bytes() == ipc_path.read_bytes()
     assert second_parquet.read_bytes() == parquet_path.read_bytes()
+
+
+def test_schema_fingerprint_excludes_container_metadata() -> None:
+    table = analysis_result_table(_result())
+    changed = table.replace_schema_metadata({b"container": b"different"})
+    assert schema_fingerprint(table.schema) == schema_fingerprint(changed.schema)

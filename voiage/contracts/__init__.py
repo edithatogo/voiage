@@ -35,6 +35,7 @@ from .capabilities import (
 from .concerns import ConcernSpec, EvidenceReference
 from .interchange import (
     analysis_result_table,
+    schema_fingerprint,
     write_analysis_result_ipc,
     write_analysis_result_parquet,
 )
@@ -75,6 +76,7 @@ __all__ = [
     "evaluate_backend",
     "run_evpi",
     "run_perspective",
+    "schema_fingerprint",
     "select_backend",
     "write_analysis_result_ipc",
     "write_analysis_result_parquet",

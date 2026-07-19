@@ -62,7 +62,8 @@ CONTRACT_GOVERNANCE_MARKERS = {
         "tests/test_vop_governance_mirror.py",
         "scripts/profile_contracts.py",
         "mutmut export-cicd-stats",
-        "mutation-broad-stats.json",
+        "--baseline-stats .github/mutation-baselines/voiage-broad.json",
+        "mutation-score-broad.json",
         "scripts/run_critical_mutation_lane.py . --threshold 90",
     ),
 }
