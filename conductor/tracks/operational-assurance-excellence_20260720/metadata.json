@@ -2,8 +2,8 @@
   "id": "operational-assurance-excellence_20260720",
   "canonical_id": "C15",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-07-20T03:35:00+10:00",
-  "updated_at": "2026-07-20T03:35:00+10:00",
+  "updated_at": "2026-07-20T06:45:00+10:00",
   "repositories": ["vop_poc_nz", "voiage"]
 }

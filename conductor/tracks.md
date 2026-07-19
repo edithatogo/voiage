@@ -15,11 +15,11 @@ complete; issue closure, merge, release, and publication remain human gates.*
 
 ---
 
-## [~] Track: Operational Assurance Excellence
+## [x] Track: Operational Assurance Excellence [completed: 2026-07-20]
 *Link: [./tracks/operational-assurance-excellence_20260720/index.md](./tracks/operational-assurance-excellence_20260720/index.md)*
-*Status: in progress - compatibility matrices, cohort-aware quality,
-cross-runner reproducibility, statistical performance, collector privacy, and
-expanded scientific oracles.*
+*Status: repository-owned implementation, exact-head hosted evidence, and
+independent review are complete; mutation-baseline approval, merge, release,
+publication, and issue closure remain human gates.*
 
 ---
 
