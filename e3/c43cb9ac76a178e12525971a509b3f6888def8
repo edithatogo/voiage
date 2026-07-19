@@ -1,0 +1,17 @@
+Task: Stabilize narrow C ABI error transport (Phase 3 TDD slice)
+
+Summary:
+- Added stable repr(i32) v1 status codes aligned with the versioned C header.
+- Added bounded, NUL-terminated, caller-owned thread-local error-message transport.
+- Validated null pointers, pointer alignment, capacity, and isize length overflow before dereference.
+- Contained panics with catch_unwind and retained no caller pointers or Rust allocations across the ABI.
+- Kept unsafe code denied crate-wide except the single documented transport module; unsafe operations require explicit blocks.
+- Added focused tests for size queries, exact copies, no partial writes, invalid pointers/lengths, status layout, and panic containment.
+
+TDD evidence:
+- Red: cargo test -p voiage-ffi --test error_transport --locked failed with unresolved ABI imports.
+- Green: cargo fmt --all --check; cargo clippy -p voiage-ffi --all-targets --locked -- -D warnings; cargo test -p voiage-ffi --all-targets --locked (16 passed).
+- MSRV: rustup run 1.85.0 cargo test -p voiage-ffi --all-targets --locked (16 passed).
+- Hygiene: git diff --check passed.
+
+Scope boundary: ABI infrastructure only; no numerical operation exports were added. docs/astro-site/.astro/ was untouched.
