@@ -7,7 +7,7 @@ from enum import StrEnum
 from typing import Literal, Protocol
 
 import numpy as np  # noqa: TC002 - public protocol signature
-from pydantic import field_serializer
+from pydantic import Field, field_serializer
 
 from voiage.contracts.analysis import ContractModel, Identifier
 
@@ -35,7 +35,7 @@ class BackendCapabilities(ContractModel):
     backend_version: str
     method_families: frozenset[Identifier]
     dtypes: frozenset[LiteralDtype]
-    devices: frozenset[Identifier]
+    devices: frozenset[Identifier] = Field(min_length=1)
     features: frozenset[Capability] = frozenset()
 
     @field_serializer(
@@ -97,6 +97,8 @@ def evaluate_backend(
         missing.append(f"method:{requirements.method_family}")
     if requirements.dtype not in capabilities.dtypes:
         missing.append(f"dtype:{requirements.dtype}")
+    if not capabilities.devices:
+        missing.append("device:unavailable")
     if (
         requirements.device is not None
         and requirements.device not in capabilities.devices

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+from pydantic import ValidationError
 import pytest
 
 from voiage.analysis import DecisionAnalysis
@@ -49,6 +50,20 @@ class _JitBackend:
         return float(net_benefits.max(axis=1).mean() - net_benefits.mean(axis=0).max())
 
 
+class _UnvalidatedEmptyDeviceBackend:
+    capabilities = BackendCapabilities.model_construct(
+        backend_name="empty-device",
+        backend_version="1",
+        method_families=frozenset({"evpi"}),
+        dtypes=frozenset({"float64"}),
+        devices=frozenset(),
+        features=frozenset({Capability.DENSE_ARRAY, Capability.DETERMINISTIC}),
+    )
+
+    def calculate_evpi(self, net_benefits: np.ndarray) -> float:
+        return float(net_benefits.mean())
+
+
 class _UnsafeKernel:
     kernel_id = "unsafe"
     kernel_version = "1"
@@ -90,6 +105,26 @@ def test_backend_selection_is_capability_aware_and_fail_closed() -> None:
     requirements = EvpiKernel().requirements(_spec(), policy)
     with pytest.raises(UnsupportedCapabilityError, match="No backend satisfies"):
         select_backend([_UnsupportedBackend()], requirements)
+
+
+def test_backend_devices_are_non_empty_and_dispatch_fails_closed() -> None:
+    with pytest.raises(ValidationError, match="devices"):
+        BackendCapabilities(
+            backend_name="empty-device",
+            backend_version="1",
+            method_families=frozenset({"evpi"}),
+            dtypes=frozenset({"float64"}),
+            devices=frozenset(),
+        )
+
+    with pytest.raises(UnsupportedCapabilityError, match="device:unavailable"):
+        dispatch_calculation(
+            EvpiKernel(),
+            _spec(),
+            np.ones((1, 2)),
+            policy=NumericalPolicy(backend_preference=("empty-device",)),
+            backends=[_UnvalidatedEmptyDeviceBackend()],
+        )
 
 
 def test_dispatch_requires_opt_in_and_discloses_backend_fallback() -> None:
