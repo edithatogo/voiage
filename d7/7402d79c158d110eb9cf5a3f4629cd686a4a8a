@@ -1,0 +1,14 @@
+Task: Phase 3 validated dimension-aware sample and strategy collections
+
+Summary: Added private, checked SampleVector, SampleMatrix, SampleCube, and StrategyCollection domain types. Validation rejects empty dimensions, ragged shapes, non-finite samples, blank strategy names, and duplicate strategies. Custom Deserialize implementations route wire input through validation and serialization preserves canonical nested-array shapes.
+
+Files:
+- rust/crates/voiage-domain/src/lib.rs
+- rust/crates/voiage-domain/src/collections.rs
+- rust/crates/voiage-domain/tests/collections.rs
+
+Verification:
+- cargo fmt --all --check
+- cargo clippy -p voiage-domain --all-targets --locked -- -D warnings
+- cargo test -p voiage-domain --all-targets --locked
+- 11 tests passed (5 collection, 6 primitive)
