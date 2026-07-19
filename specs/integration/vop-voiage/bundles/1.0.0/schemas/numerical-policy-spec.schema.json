@@ -1,0 +1,46 @@
+{
+  "$defs": {
+    "NonFinitePolicy": {
+      "description": "Permitted response to non-finite numerical output.",
+      "enum": [
+        "raise",
+        "report"
+      ],
+      "title": "NonFinitePolicy",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Explicit reproducibility and convergence policy for a calculation.",
+  "properties": {
+    "absolute_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0.0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "deterministic": {
+      "default": true,
+      "title": "Deterministic",
+      "type": "boolean"
+    },
+    "max_iterations": {
+      "default": 10000,
+      "exclusiveMinimum": 0,
+      "title": "Max Iterations",
+      "type": "integer"
+    },
+    "non_finite_policy": {
+      "$ref": "#/$defs/NonFinitePolicy",
+      "default": "raise"
+    },
+    "relative_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0.0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    }
+  },
+  "title": "NumericalPolicySpec",
+  "type": "object"
+}
