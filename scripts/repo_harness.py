@@ -41,7 +41,8 @@ CONTRACT_GOVERNANCE_MARKERS = {
         'contracts = "uv run nox -s contracts"',
         'contracts-profile = "uv run nox -s contract_profile"',
         'contracts-mutation = "uv run nox -s contract_mutation"',
-        'only_mutate = ["voiage/mutation_policy.py"]',
+        '"voiage/contracts/capabilities.py"',
+        '"voiage/contracts/digests.py"',
     ),
     "noxfile.py": (
         "def contracts(",
@@ -61,7 +62,8 @@ CONTRACT_GOVERNANCE_MARKERS = {
         "tests/test_vop_governance_mirror.py",
         "scripts/profile_contracts.py",
         "mutmut export-cicd-stats",
-        "scripts/check_mutation_score.py --threshold 90",
+        "mutation-broad-stats.json",
+        "scripts/run_critical_mutation_lane.py . --threshold 90",
     ),
 }
 

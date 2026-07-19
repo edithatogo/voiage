@@ -220,9 +220,15 @@ exclude_lines = [
 
 [tool.mutmut]
 source_paths = ["voiage/"]
-only_mutate = ["voiage/mutation_policy.py"]
-pytest_add_cli_args = ["-x", "--no-cov"]
+only_mutate = [
+    "voiage/contracts/capabilities.py",
+    "voiage/contracts/digests.py",
+]
+pytest_add_cli_args = ["-x", "--no-cov", "-p", "no:cacheprovider"]
 pytest_add_cli_args_test_selection = [
+    "tests/test_analysis_contracts.py",
+    "tests/test_calculation_kernel.py",
+    "tests/test_critical_invariants.py",
     "tests/test_mutation_score.py",
 ]
 also_copy = ["scripts/"]

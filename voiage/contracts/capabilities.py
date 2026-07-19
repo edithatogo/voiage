@@ -10,6 +10,7 @@ import numpy as np  # noqa: TC002 - public protocol signature
 from pydantic import Field, field_serializer
 
 from voiage.contracts.analysis import ContractModel, Identifier
+from voiage.contracts.critical_invariants import capability_gaps
 
 
 class Capability(StrEnum):
@@ -92,29 +93,20 @@ def evaluate_backend(
 ) -> CapabilityReport:
     """Evaluate a backend without silently weakening requirements."""
     capabilities = backend.capabilities
-    missing: list[str] = []
-    if requirements.method_family not in capabilities.method_families:
-        missing.append(f"method:{requirements.method_family}")
-    if requirements.dtype not in capabilities.dtypes:
-        missing.append(f"dtype:{requirements.dtype}")
-    if not capabilities.devices:
-        missing.append("device:unavailable")
-    if (
-        requirements.device is not None
-        and requirements.device not in capabilities.devices
-    ):
-        missing.append(f"device:{requirements.device}")
-    missing.extend(
-        f"capability:{item.value}"
-        for item in sorted(
-            requirements.required_features - capabilities.features,
-            key=lambda value: value.value,
-        )
+    missing = capability_gaps(
+        method_family=requirements.method_family,
+        dtype=requirements.dtype,
+        device=requirements.device,
+        required_features=tuple(item.value for item in requirements.required_features),
+        supported_methods=capabilities.method_families,
+        supported_dtypes=capabilities.dtypes,
+        supported_devices=capabilities.devices,
+        supported_features=tuple(item.value for item in capabilities.features),
     )
     return CapabilityReport(
         backend_name=capabilities.backend_name,
         supported=not missing,
-        missing=tuple(missing),
+        missing=missing,
     )
 
 

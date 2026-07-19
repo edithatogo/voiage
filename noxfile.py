@@ -162,15 +162,16 @@ def contract_profile(session: nox.Session) -> None:
 
 @nox.session(default=False)
 def contract_mutation(session: nox.Session) -> None:
-    """Mutation-test the bounded contract package on demand."""
+    """Run broad evidence plus the strict production-invariant mutation gate."""
     _sync_project(session)
     session.run("mutmut", "run")
     session.run("mutmut", "export-cicd-stats")
     session.run(
         "python",
-        "scripts/check_mutation_score.py",
+        "scripts/run_critical_mutation_lane.py",
+        ".",
         "--threshold",
         "90",
         "--output",
-        ".benchmarks/mutation-score.json",
+        ".benchmarks/mutation-critical.json",
     )
