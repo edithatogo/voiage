@@ -32,7 +32,7 @@ from voiage.contracts.interchange import schema_fingerprint
 from voiage.schema import ValueArray
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Callable, Mapping, Sequence
 
 FIELDS = (
     {"name": "analysis_id", "arrow_type": "string", "nullable": False, "unit": None},
@@ -220,6 +220,25 @@ def _write_bundle(root: Path) -> None:
     (root / "manifest.json").write_bytes(_canonical_json(manifest))
 
 
+def _rewrite_manifested_json(
+    root: Path,
+    relative: str,
+    mutate: Callable[[dict[str, object]], None],
+) -> None:
+    target = root / relative
+    document = json.loads(target.read_text(encoding="utf-8"))
+    mutate(document)
+    target.write_bytes(_canonical_json(document))
+    manifest_path = root / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entry = next(item for item in manifest["files"] if item["path"] == relative)
+    payload = target.read_bytes()
+    entry["sha256"] = sha256(payload).hexdigest()
+    entry["size"] = len(payload)
+    manifest["bundle_sha256"] = canonical_bundle_digest(manifest["files"])
+    manifest_path.write_bytes(_canonical_json(manifest))
+
+
 @pytest.fixture
 def bundle(tmp_path: Path) -> Path:
     root = tmp_path / "1.0.0"
@@ -272,6 +291,240 @@ def test_bundle_tampering_and_unsupported_provenance_fail_closed(
         verify_contract_bundle(bundle)
 
 
+@pytest.mark.parametrize(
+    "failure",
+    [
+        "missing-key",
+        "bad-semver",
+        "manifest-version",
+        "integrity",
+        "schema-source",
+        "source-revision",
+        "source-path",
+        "empty-files",
+        "reference-type",
+        "reference-shape",
+        "reference-path",
+        "reference-id",
+        "reference-version",
+        "reference-digest",
+        "entry-type",
+        "entry-shape",
+        "backslash-path",
+        "duplicate-path",
+        "digest-shape",
+        "boolean-size",
+        "empty-media-type",
+        "unsorted-files",
+        "reference-entry-digest",
+        "aggregate-digest",
+    ],
+)
+def test_manifest_contract_rejects_each_untrusted_shape(
+    bundle: Path, failure: str
+) -> None:
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    first = manifest["files"][0]
+    if failure == "missing-key":
+        del manifest["producer"]
+    elif failure == "bad-semver":
+        manifest["contract_version"] = "v1"
+    elif failure == "manifest-version":
+        manifest["schema_version"] = "2.0.0"
+    elif failure == "integrity":
+        manifest["integrity_algorithm"] = "sha1"
+    elif failure == "schema-source":
+        manifest["schema_source"] = "runtime"
+    elif failure == "source-revision":
+        manifest["source_revision"] = "main"
+    elif failure == "source-path":
+        manifest["source_path"] = "contracts/elsewhere"
+    elif failure == "empty-files":
+        manifest["files"] = []
+    elif failure == "reference-type":
+        manifest["analytical_reference"] = []
+    elif failure == "reference-shape":
+        del manifest["analytical_reference"]["reference_id"]
+    elif failure == "reference-path":
+        manifest["analytical_reference"]["path"] = "references/other.json"
+    elif failure == "reference-id":
+        manifest["analytical_reference"]["reference_id"] = "other"
+    elif failure == "reference-version":
+        manifest["analytical_reference"]["reference_version"] = "2.0.0"
+    elif failure == "reference-digest":
+        manifest["analytical_reference"]["sha256"] = "not-a-digest"
+    elif failure == "entry-type":
+        manifest["files"][0] = []
+    elif failure == "entry-shape":
+        del first["media_type"]
+    elif failure == "backslash-path":
+        first["path"] = "arrow\\schema.json"
+    elif failure == "duplicate-path":
+        manifest["files"][1]["path"] = first["path"]
+    elif failure == "digest-shape":
+        first["sha256"] = "invalid"
+    elif failure == "boolean-size":
+        first["size"] = True
+    elif failure == "empty-media-type":
+        first["media_type"] = ""
+    elif failure == "unsorted-files":
+        manifest["files"] = list(reversed(manifest["files"]))
+    elif failure == "reference-entry-digest":
+        manifest["analytical_reference"]["sha256"] = "0" * 64
+    else:
+        manifest["bundle_sha256"] = "0" * 64
+    manifest_path.write_bytes(_canonical_json(manifest))
+
+    with pytest.raises(BundleVerificationError):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize("failure", ["missing-file", "byte-size", "file-digest"])
+def test_manifest_inventory_rejects_missing_or_changed_bytes(
+    bundle: Path, failure: str
+) -> None:
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entry = manifest["files"][0]
+    target = bundle / entry["path"]
+    if failure == "missing-file":
+        target.unlink()
+    elif failure == "byte-size":
+        entry["size"] += 1
+        manifest["bundle_sha256"] = canonical_bundle_digest(manifest["files"])
+        manifest_path.write_bytes(_canonical_json(manifest))
+    else:
+        target.write_bytes(target.read_bytes() + b" ")
+
+    with pytest.raises(BundleVerificationError):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize("payload", [b"{", b"[]"])
+def test_manifest_must_be_a_valid_json_object(bundle: Path, payload: bytes) -> None:
+    (bundle / "manifest.json").write_bytes(payload)
+    with pytest.raises(BundleVerificationError, match="manifest"):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize("path", ["/absolute.json", "dir/../relative.json"])
+def test_manifest_paths_reject_noncanonical_posix_forms(
+    bundle: Path, path: str
+) -> None:
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["files"][0]["path"] = path
+    manifest_path.write_bytes(_canonical_json(manifest))
+    with pytest.raises(BundleVerificationError, match="manifest path"):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        "identity-fingerprint",
+        "identity-fields",
+        "metadata-name",
+        "metadata-duplicate",
+        "fixture-schema",
+        "fixture-fingerprint",
+        "records-type",
+        "records-row",
+        "records-value",
+    ],
+)
+def test_cross_format_identity_and_record_mismatches_fail_closed(
+    bundle: Path, failure: str
+) -> None:
+    identity_path = "arrow/typed-pipeline-records.schema.json"
+    fixture_path = "fixtures/typed-pipeline-records.json"
+
+    def mutate_identity(identity: dict[str, object]) -> None:
+        if failure == "identity-fingerprint":
+            identity["schema_fingerprint"] = "0" * 64
+        elif failure == "identity-fields":
+            identity["fields"] = "fields"
+        elif failure == "metadata-name":
+            identity["required_metadata"] = [1]
+        else:
+            names = list(identity["required_metadata"])
+            identity["required_metadata"] = [*names, names[0]]
+
+    def mutate_fixture(fixture: dict[str, object]) -> None:
+        if failure == "fixture-schema":
+            fixture["schema_id"] = "other"
+        elif failure == "fixture-fingerprint":
+            fixture["schema_fingerprint"] = "0" * 64
+        elif failure == "records-type":
+            fixture["records"] = "records"
+        elif failure == "records-row":
+            fixture["records"] = [1]
+        else:
+            records = list(fixture["records"])
+            records[0] = {**records[0], "value": 999.0}
+            fixture["records"] = records
+
+    if failure.startswith(("identity", "metadata")):
+        _rewrite_manifested_json(bundle, identity_path, mutate_identity)
+    else:
+        _rewrite_manifested_json(bundle, fixture_path, mutate_fixture)
+    with pytest.raises(BundleVerificationError):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize(
+    "relative",
+    [
+        "fixtures/typed-pipeline-records.arrow",
+        "fixtures/typed-pipeline-records.parquet",
+    ],
+)
+def test_corrupt_columnar_fixture_fails_closed(bundle: Path, relative: str) -> None:
+    target = bundle / relative
+    target.write_bytes(b"not-arrow")
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entry = next(item for item in manifest["files"] if item["path"] == relative)
+    entry["sha256"] = sha256(target.read_bytes()).hexdigest()
+    entry["size"] = target.stat().st_size
+    manifest["bundle_sha256"] = canonical_bundle_digest(manifest["files"])
+    manifest_path.write_bytes(_canonical_json(manifest))
+
+    with pytest.raises(BundleVerificationError, match="fixture"):
+        verify_contract_bundle(bundle)
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        "shape",
+        "identity",
+        "compatible",
+        "incompatible-type",
+        "incompatible-set",
+    ],
+)
+def test_migration_policy_rejects_unsupported_semantics(
+    bundle: Path, failure: str
+) -> None:
+    def mutate(policy: dict[str, object]) -> None:
+        if failure == "shape":
+            policy["unexpected"] = True
+        elif failure == "identity":
+            policy["current_bundle_version"] = "2.0.0"
+        elif failure == "compatible":
+            policy["compatible_changes"] = ["remove_field"]
+        elif failure == "incompatible-type":
+            policy["incompatible_changes"] = "all"
+        else:
+            policy["incompatible_changes"] = ["change_dtype"]
+
+    _rewrite_manifested_json(bundle, "migration-policy.json", mutate)
+    with pytest.raises(BundleVerificationError):
+        verify_contract_bundle(bundle)
+
+
 def test_bundle_can_be_pinned_to_an_expected_digest(bundle: Path) -> None:
     verified = verify_contract_bundle(bundle)
     assert (
@@ -302,6 +555,44 @@ def test_checked_in_bundle_matches_immutable_upstream_pin() -> None:
         verified.arrow_schema_fingerprint
         == "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e"
     )
+
+
+@pytest.mark.parametrize(
+    "failure",
+    ["shape", "repository", "commit", "digest", "fingerprint", "version"],
+)
+def test_upstream_pin_rejects_untrusted_identity(
+    bundle: Path, tmp_path: Path, failure: str
+) -> None:
+    verified = verify_contract_bundle(bundle)
+    pin: dict[str, object] = {
+        "schema_version": "1.0.0",
+        "canonical_repository": "edithatogo/vop_poc_nz",
+        "canonical_path": "contracts/vop-voiage/1.0.0",
+        "canonical_git_commit": "a" * 40,
+        "bundle_version": "1.0.0",
+        "bundle_sha256": verified.bundle_sha256,
+        "arrow_schema_fingerprint": verified.arrow_schema_fingerprint,
+        "signature_policy": "unsigned_sha256_manifest",
+    }
+    if failure == "shape":
+        pin["unexpected"] = True
+    elif failure == "repository":
+        pin["canonical_repository"] = "attacker/repository"
+    elif failure == "commit":
+        pin["canonical_git_commit"] = "main"
+    elif failure == "digest":
+        pin["bundle_sha256"] = "invalid"
+    elif failure == "fingerprint":
+        pin["arrow_schema_fingerprint"] = "0" * 64
+    else:
+        pin["bundle_version"] = "1.1.0"
+        pin["canonical_path"] = "contracts/vop-voiage/1.1.0"
+    pin_path = tmp_path / "UPSTREAM.json"
+    pin_path.write_bytes(_canonical_json(pin))
+
+    with pytest.raises(BundleVerificationError):
+        verify_pinned_contract_bundle(bundle, pin_path)
 
 
 @pytest.mark.parametrize(
@@ -354,7 +645,9 @@ def test_record_order_is_a_semantics_preserving_metamorphism(
 
 @given(
     st.lists(
-        st.text(alphabet="abcdefghijklmnopqrstuvwxyz", min_size=1, max_size=8),
+        st.text(alphabet="abcdefghijklmnopqrstuvwxyz", min_size=1, max_size=8).filter(
+            lambda name: name not in {"analysis_id", "value"}
+        ),
         min_size=1,
         max_size=4,
         unique=True,
@@ -388,6 +681,102 @@ def test_provenance_requirement_change_fails_closed() -> None:
     current["required_metadata"] = [*REQUIRED_METADATA, "vop_voiage.unknown"]
 
     with pytest.raises(BundleVerificationError, match="provenance"):
+        validate_schema_evolution(previous, current)
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        "unknown-identity-field",
+        "fields-string",
+        "field-not-object",
+        "field-shape",
+        "field-name-type",
+        "unit-shape",
+        "unit-symbol-type",
+        "duplicate-field",
+        "metadata-type",
+        "metadata-duplicate",
+        "reordered",
+        "nonnullable-addition",
+        "major-version-addition",
+        "version-without-change",
+        "invalid-fingerprint",
+        "unchanged-addition-fingerprint",
+        "wrong-previous-fingerprint",
+        "unsupported-arrow-type",
+    ],
+)
+def test_schema_evolution_rejects_malformed_and_ambiguous_descriptors(
+    failure: str,
+) -> None:
+    previous = _identity()
+    current = deepcopy(previous)
+    if failure == "unknown-identity-field":
+        current["consumer_hint"] = "ignore"
+    elif failure == "fields-string":
+        current["fields"] = "not-fields"
+    elif failure == "field-not-object":
+        current["fields"] = (*FIELDS, "field")
+    elif failure == "field-shape":
+        current["fields"] = ({**FIELDS[0], "extra": True}, FIELDS[1])
+    elif failure == "field-name-type":
+        current["fields"] = ({**FIELDS[0], "name": 1}, FIELDS[1])
+    elif failure == "unit-shape":
+        current["fields"] = (
+            FIELDS[0],
+            {**FIELDS[1], "unit": {"dimension": "currency"}},
+        )
+    elif failure == "unit-symbol-type":
+        current["fields"] = (
+            FIELDS[0],
+            {
+                **FIELDS[1],
+                "unit": {"dimension": "currency", "symbol_field": 1},
+            },
+        )
+    elif failure == "duplicate-field":
+        current["fields"] = (FIELDS[0], FIELDS[0])
+    elif failure == "metadata-type":
+        current["required_metadata"] = "metadata"
+    elif failure == "metadata-duplicate":
+        current["required_metadata"] = [*REQUIRED_METADATA, REQUIRED_METADATA[0]]
+    elif failure == "reordered":
+        current["fields"] = tuple(reversed(FIELDS))
+    elif failure == "nonnullable-addition":
+        current["schema_version"] = "1.1.0"
+        current["fields"] = (
+            *FIELDS,
+            {"name": "note", "arrow_type": "string", "nullable": False, "unit": None},
+        )
+    elif failure == "major-version-addition":
+        current["schema_version"] = "2.0.0"
+        current["fields"] = (
+            *FIELDS,
+            {"name": "note", "arrow_type": "string", "nullable": True, "unit": None},
+        )
+        current["schema_fingerprint"] = _fields_fingerprint(current["fields"])
+    elif failure == "version-without-change":
+        current["schema_version"] = "1.1.0"
+    elif failure == "invalid-fingerprint":
+        current["schema_fingerprint"] = "invalid"
+    elif failure == "unchanged-addition-fingerprint":
+        current["schema_version"] = "1.1.0"
+        current["fields"] = (
+            *FIELDS,
+            {"name": "note", "arrow_type": "string", "nullable": True, "unit": None},
+        )
+    elif failure == "wrong-previous-fingerprint":
+        previous["schema_fingerprint"] = "0" * 64
+    else:
+        current["schema_version"] = "1.1.0"
+        current["fields"] = (
+            *FIELDS,
+            {"name": "note", "arrow_type": "binary", "nullable": True, "unit": None},
+        )
+        current["schema_fingerprint"] = "1" * 64
+
+    with pytest.raises(BundleVerificationError):
         validate_schema_evolution(previous, current)
 
 
