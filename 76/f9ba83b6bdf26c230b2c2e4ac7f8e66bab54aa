@@ -1,0 +1,9 @@
+Task: Establish the authoritative v1.0 programme baseline
+
+Summary: Rebuilt the programme on authoritative origin/main, registered the mature v1.0 umbrella track, recorded live GitHub and Conductor state, classified historical and external gates, and added an executable governance contract.
+
+Files: conductor/tracks.md; conductor/tracks/mature-hardened-v1-release-programme_20260719/*; conductor/v1-programme-baseline.json; tests/test_v1_programme_baseline.py
+
+Why: v1.0 execution must begin from current remote evidence and must not treat archived readiness or external gates as completed production migration.
+
+Validation: uv run pytest tests/test_v1_programme_baseline.py tests/test_conductor_followthrough_tracks.py -q; jq parse; git diff --check.
