@@ -1,0 +1,1 @@
+Automated review fixes: changed the active registry link to the track index; added fail-closed GitHub count and blocked-PR evidence validation; added malformed snapshot coverage. Validation: 20 focused tests passed, Ruff passed, validator CLI passed.
