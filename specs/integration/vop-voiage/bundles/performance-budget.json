@@ -5,5 +5,5 @@
   "peak_memory_bytes": 134217728,
   "allocation_count": 200000,
   "serialization_bytes": 262144,
-  "profiling_command": "uv run scalene run --cpu-only --profile-all scripts/check_contract_bundle_performance.py"
+  "profiling_command": "uv run scalene run --use-legacy-tracer --cpu-only -o contract_bundle_profile_results.json scripts/check_contract_bundle_performance.py --output contract_bundle_performance.json"
 }

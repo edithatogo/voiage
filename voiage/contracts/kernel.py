@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence  # noqa: TC003 - public dispatcher signature
 from importlib.metadata import PackageNotFoundError, version
+import logging
 import platform
 from typing import Literal, Protocol
 from uuid import uuid4
@@ -32,7 +33,10 @@ from voiage.contracts.capabilities import (
     select_backend,
 )
 from voiage.contracts.digests import array_digest
+from voiage.logging import analysis_log_context, analysis_log_context_from_result
 from voiage.main_backends import get_backend
+
+_LOGGER = logging.getLogger("voiage.contracts.kernel")
 
 
 class CalculationKernel[SpecT, InputT, PayloadT: ContractModel](Protocol):
@@ -218,10 +222,13 @@ def run_evpi(
     candidates = [
         adapt_backend(get_backend(name)) for name in resolved_policy.backend_preference
     ]
-    return dispatch_calculation(
+    result = dispatch_calculation(
         EvpiKernel(),
         spec,
         values,
         policy=resolved_policy,
         backends=candidates,
     )
+    with analysis_log_context(analysis_log_context_from_result(result)):
+        _LOGGER.info("analysis_completed")
+    return result

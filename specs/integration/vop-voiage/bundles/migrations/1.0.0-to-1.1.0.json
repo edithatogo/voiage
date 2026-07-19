@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "transition_id": "typed_pipeline_records-1.0.0-to-1.1.0",
+  "policy": "append_nullable_field",
+  "previous": {
+    "fields": [
+      {"arrow_type": "string", "name": "run_id", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "created_at_utc", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "software_version", "nullable": true, "unit": null},
+      {"arrow_type": "int64", "name": "random_seed", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "spec_fingerprint", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "contract_version", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "intervention", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "perspective", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "productivity_cost_method", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "incremental_cost", "nullable": true, "unit": {"dimension": "currency", "symbol_field": "cost_unit"}},
+      {"arrow_type": "double", "name": "incremental_qalys", "nullable": true, "unit": {"dimension": "health", "symbol_field": "health_outcome_unit"}},
+      {"arrow_type": "double", "name": "incremental_nmb", "nullable": true, "unit": {"dimension": "currency", "symbol_field": "cost_unit"}},
+      {"arrow_type": "string", "name": "icer_status", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "icer_value", "nullable": true, "unit": {"dimension": "currency_per_health", "symbol_field": "cost_unit"}},
+      {"arrow_type": "bool", "name": "is_cost_effective", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "wtp_threshold", "nullable": true, "unit": {"dimension": "currency_per_health", "symbol_field": "cost_unit"}},
+      {"arrow_type": "string", "name": "cost_unit", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "cost_currency_code", "nullable": true, "unit": null},
+      {"arrow_type": "int64", "name": "cost_currency_year", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "health_outcome_unit", "nullable": true, "unit": null}
+    ],
+    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
+    "schema_fingerprint": "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e",
+    "schema_id": "typed_pipeline_records",
+    "schema_version": "1.0.0"
+  },
+  "current": {
+    "fields": [
+      {"arrow_type": "string", "name": "run_id", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "created_at_utc", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "software_version", "nullable": true, "unit": null},
+      {"arrow_type": "int64", "name": "random_seed", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "spec_fingerprint", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "contract_version", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "intervention", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "perspective", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "productivity_cost_method", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "incremental_cost", "nullable": true, "unit": {"dimension": "currency", "symbol_field": "cost_unit"}},
+      {"arrow_type": "double", "name": "incremental_qalys", "nullable": true, "unit": {"dimension": "health", "symbol_field": "health_outcome_unit"}},
+      {"arrow_type": "double", "name": "incremental_nmb", "nullable": true, "unit": {"dimension": "currency", "symbol_field": "cost_unit"}},
+      {"arrow_type": "string", "name": "icer_status", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "icer_value", "nullable": true, "unit": {"dimension": "currency_per_health", "symbol_field": "cost_unit"}},
+      {"arrow_type": "bool", "name": "is_cost_effective", "nullable": true, "unit": null},
+      {"arrow_type": "double", "name": "wtp_threshold", "nullable": true, "unit": {"dimension": "currency_per_health", "symbol_field": "cost_unit"}},
+      {"arrow_type": "string", "name": "cost_unit", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "cost_currency_code", "nullable": true, "unit": null},
+      {"arrow_type": "int64", "name": "cost_currency_year", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "health_outcome_unit", "nullable": true, "unit": null},
+      {"arrow_type": "string", "name": "decision_context", "nullable": true, "unit": null}
+    ],
+    "required_metadata": ["vop_voiage.contract_version", "vop_voiage.interchange", "vop_voiage.method_contract_version", "vop_voiage.producer", "vop_voiage.provenance_json", "vop_voiage.provenance_sha256", "vop_voiage.schema_fingerprint", "vop_voiage.schema_id", "vop_voiage.schema_version"],
+    "schema_fingerprint": "54d0108431b42d8c46d3eebb0dc0bfcfdc798a5176d38a21fd455f0be1e44a1c",
+    "schema_id": "typed_pipeline_records",
+    "schema_version": "1.1.0"
+  },
+  "provenance": {
+    "source_bundle_sha256": "fba786ead24ac359fc943892f74bcc905f38e96f0ac4cf945824b6c63fd80a0c",
+    "source_arrow_schema_fingerprint": "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e",
+    "derivation": "Append one nullable logical field to the pinned 1.0.0 identity."
+  }
+}

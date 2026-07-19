@@ -7,7 +7,7 @@ import numpy as np
 from pydantic import ValidationError
 import pytest
 
-from voiage.contracts.analysis import AnalysisSpec, NumericalPolicy
+from voiage.contracts.analysis import AnalysisSpec, DiagnosticRecord, NumericalPolicy
 from voiage.contracts.kernel import run_evpi
 from voiage.logging import (
     AnalysisLogContext,
@@ -99,9 +99,18 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
         log_context(
             request={
                 "headers": {"Authorization": "Bearer top-secret"},
-                "items": [{"api_token": "nested-secret"}],
+                "items": [
+                    {"api_token": "nested-secret"},
+                    {"private_key": "private-key-value"},
+                    {"cookie": "session-cookie-value"},
+                    {"session_id": "session-value"},
+                ],
             },
-            note="password=hunter2",
+            note=(
+                "password=hunter2 "
+                "jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.signature "
+                "url=https://example.test/path?signature=query-secret&safe=value"
+            ),
         ),
     ):
         logger.error("failed with Bearer message-secret")
@@ -109,7 +118,17 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
         handler.flush()
 
     rendered = destination.read_text(encoding="utf-8")
-    for secret in ("top-secret", "nested-secret", "hunter2", "message-secret"):
+    for secret in (
+        "top-secret",
+        "nested-secret",
+        "private-key-value",
+        "session-cookie-value",
+        "session-value",
+        "hunter2",
+        "eyJhbGciOiJIUzI1NiJ9",
+        "query-secret",
+        "message-secret",
+    ):
         assert secret not in rendered
     record = json.loads(rendered.splitlines()[-1])
     assert record["run_id"] == "analysis-run"
@@ -122,7 +141,12 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
     assert record["numerical_policy_id"] == policy_id
     assert record["request"] == {
         "headers": {"Authorization": "[REDACTED]"},
-        "items": [{"api_token": "[REDACTED]"}],
+        "items": [
+            {"api_token": "[REDACTED]"},
+            {"private_key": "[REDACTED]"},
+            {"cookie": "[REDACTED]"},
+            {"session_id": "[REDACTED]"},
+        ],
     }
 
 
@@ -175,3 +199,47 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
     assert context.backend_selected == "numpy"
     assert context.fallback_code == "none"
     assert context.numerical_policy_id == numerical_policy_digest(policy)
+
+    unrelated_warning = DiagnosticRecord(
+        severity="warning",
+        code="rounding_notice",
+        message="not a backend fallback",
+        backend="numpy",
+    )
+    warned = result.model_copy(
+        update={
+            "diagnostics": result.diagnostics.model_copy(
+                update={"warnings": (unrelated_warning,)}
+            )
+        }
+    )
+    assert analysis_log_context_from_result(warned).fallback_code == "none"
+
+
+def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
+    destination = tmp_path / "analysis-boundary.jsonl"
+    logger = configure_logging(
+        LoggingSettings(console=False, log_file=destination, run_id="settings-run")
+    )
+    policy = NumericalPolicy(backend_preference=("numpy",))
+    spec = AnalysisSpec(
+        analysis_id="logged-analysis",
+        decision_problem_id="logged-decision",
+        method_family="evpi",
+        method_contract_version="1.0.0",
+        strategy_names=("A", "B"),
+        numerical_policy=policy,
+    )
+
+    result = run_evpi(np.array([[0.0, 10.0], [8.0, 0.0]]), spec=spec)
+    for handler in logger.handlers:
+        handler.flush()
+    records = [json.loads(line) for line in destination.read_text().splitlines()]
+    event = next(item for item in records if item["message"] == "analysis_completed")
+
+    assert event["run_id"] == result.run_context.run_id
+    assert event["analysis_id"] == "logged-analysis"
+    assert event["backend_requested"] == "numpy"
+    assert event["backend_selected"] == "numpy"
+    assert event["fallback_code"] == "none"
+    assert event["numerical_policy_id"] == numerical_policy_digest(policy)

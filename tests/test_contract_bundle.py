@@ -17,6 +17,7 @@ from pyarrow import ipc
 import pyarrow.parquet as pq
 import pytest
 
+from scripts.check_contract_bundle_performance import measure_contract_bundle
 from voiage.analysis import DecisionAnalysis
 from voiage.contracts.bundle import (
     BundleVerificationError,
@@ -352,6 +353,30 @@ def test_provenance_requirement_change_fails_closed() -> None:
         validate_schema_evolution(previous, current)
 
 
+def test_checked_in_previous_current_migration_is_anchored_to_pinned_identity() -> None:
+    bundles = (
+        Path(__file__).resolve().parents[1]
+        / "specs"
+        / "integration"
+        / "vop-voiage"
+        / "bundles"
+    )
+    migration = json.loads(
+        (bundles / "migrations" / "1.0.0-to-1.1.0.json").read_text(encoding="utf-8")
+    )
+    pinned = json.loads(
+        (bundles / "1.0.0" / "arrow" / "typed-pipeline-records.schema.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert migration["previous"] == pinned
+    report = validate_schema_evolution(migration["previous"], migration["current"])
+    assert report.backward_compatible is True
+    assert report.forward_compatible is False
+    assert report.added_fields == ("decision_context",)
+
+
 @given(
     st.lists(
         st.floats(
@@ -374,7 +399,9 @@ def test_numpy_and_jax_evpi_are_differentially_conformant(values: list[float]) -
     numpy_value = DecisionAnalysis(nb_array=value_array, backend="numpy").evpi()
     jax_value = DecisionAnalysis(nb_array=value_array, backend="jax").evpi()
 
-    assert numpy_value == pytest.approx(jax_value, rel=1e-6, abs=1e-6)
+    float32_scale = max(1.0, float(np.max(np.abs(value_array.values))))
+    float32_atol = float(np.finfo(np.float32).eps) * float32_scale
+    assert numpy_value == pytest.approx(jax_value, rel=1e-6, abs=float32_atol)
 
 
 def test_bundle_performance_budget_contract_accepts_and_rejects_metrics() -> None:
@@ -398,6 +425,39 @@ def test_bundle_performance_budget_contract_accepts_and_rejects_metrics() -> Non
             allocation_count=100,
             serialization_bytes=2048,
         )
+
+
+def test_bundle_performance_measurement_retains_failure_evidence(tmp_path) -> None:
+    bundles = (
+        Path(__file__).resolve().parents[1]
+        / "specs"
+        / "integration"
+        / "vop-voiage"
+        / "bundles"
+    )
+    budget_path = tmp_path / "impossible-budget.json"
+    budget_path.write_text(
+        json.dumps(
+            {
+                "verification_repetitions": 1,
+                "cpu_seconds": 1e-12,
+                "peak_memory_bytes": 1,
+                "allocation_count": 1,
+                "serialization_bytes": 1,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    evidence = measure_contract_bundle(
+        bundle=bundles / "1.0.0",
+        pin=bundles / "UPSTREAM.json",
+        budget_path=budget_path,
+    )
+
+    assert evidence["status"] == "fail"
+    assert evidence["measurements"]["serialization_bytes"] > 0
+    assert "violation" in evidence
 
 
 def test_fixture_bundle_stays_within_measured_budget(bundle: Path) -> None:

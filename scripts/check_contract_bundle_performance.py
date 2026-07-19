@@ -14,6 +14,7 @@ from typing import Any
 import pyarrow
 
 from voiage.contracts.bundle import (
+    BundleVerificationError,
     ContractPerformanceBudget,
     verify_pinned_contract_bundle,
 )
@@ -60,16 +61,9 @@ def measure_contract_bundle(
         0, sum(stat.count_diff for stat in after.compare_to(before, "lineno"))
     )
     tracemalloc.stop()
-    budget.enforce(
-        cpu_seconds=cpu_seconds,
-        peak_memory_bytes=peak_memory_bytes,
-        allocation_count=allocation_count,
-        serialization_bytes=serialization_bytes,
-    )
     assert verified is not None
-    return {
+    evidence: dict[str, Any] = {
         "schema_version": "1.0.0",
-        "status": "pass",
         "bundle_sha256": verified.bundle_sha256,
         "arrow_schema_fingerprint": verified.arrow_schema_fingerprint,
         "verification_repetitions": repetitions,
@@ -86,6 +80,18 @@ def measure_contract_bundle(
             "pyarrow": pyarrow.__version__,
         },
     }
+    try:
+        budget.enforce(
+            cpu_seconds=cpu_seconds,
+            peak_memory_bytes=peak_memory_bytes,
+            allocation_count=allocation_count,
+            serialization_bytes=serialization_bytes,
+        )
+    except BundleVerificationError as exc:
+        evidence.update(status="fail", violation=str(exc))
+    else:
+        evidence["status"] = "pass"
+    return evidence
 
 
 def main() -> int:
@@ -106,7 +112,7 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(rendered, encoding="utf-8", newline="\n")
     print(rendered, end="")
-    return 0
+    return 0 if evidence["status"] == "pass" else 1
 
 
 if __name__ == "__main__":

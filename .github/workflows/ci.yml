@@ -365,6 +365,8 @@ jobs:
       run: uv sync --extra ci
 
     - name: Run benchmark regression checks
+      id: benchmark-regression
+      continue-on-error: true
       run: |
         uv run pytest tests/test_core_metrics_regression.py tests/benchmarks/test_benchmark_regression.py \
           -q \
@@ -374,6 +376,34 @@ jobs:
         uv run python scripts/validate_vop_compatibility.py
       env:
         CI: true
+
+    - name: Enforce contract bundle performance budget
+      id: contract-bundle-performance
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/check_contract_bundle_performance.py
+        --output .benchmarks/contract-bundle-performance.json
+
+    - name: Upload contract bundle performance evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: contract-bundle-performance
+        path: .benchmarks/contract-bundle-performance.json
+        if-no-files-found: error
+
+    - name: Require benchmark and bundle performance gates
+      if: always()
+      env:
+        BENCHMARK_OUTCOME: ${{ steps.benchmark-regression.outcome }}
+        BUNDLE_OUTCOME: ${{ steps.contract-bundle-performance.outcome }}
+      run: |
+        echo "benchmark regression: ${BENCHMARK_OUTCOME}"
+        echo "contract bundle performance: ${BUNDLE_OUTCOME}"
+        if [ "${BENCHMARK_OUTCOME}" != success ] || [ "${BUNDLE_OUTCOME}" != success ]; then
+          exit 1
+        fi
 
   # Integration tests
   test-integration:
@@ -544,7 +574,15 @@ jobs:
     - name: Install dependencies
       run: uv sync --extra dev
 
-    - name: Run Scalene profiler
+    - name: Profile contract bundle verification with Scalene
+      run: |
+        uv run scalene run --use-legacy-tracer --cpu-only -o contract_bundle_profile_results.json scripts/check_contract_bundle_performance.py --output contract_bundle_performance.json
+        uv run scalene view --cli contract_bundle_profile_results.json
+      env:
+        CI: true
+
+    - name: Run general contract Scalene profiler
+      if: always()
       run: |
         uv run scalene run --use-legacy-tracer --cpu-only -o contract_profile_results.json scripts/profile_contracts.py
         uv run scalene view --cli contract_profile_results.json
@@ -552,10 +590,15 @@ jobs:
         CI: true
 
     - name: Upload profiling evidence
+      if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: scalene-profile
-        path: contract_profile_results.json
+        path: |
+          contract_profile_results.json
+          contract_bundle_profile_results.json
+          contract_bundle_performance.json
+        if-no-files-found: error
 
   # Documentation build
   docs:

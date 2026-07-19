@@ -26,7 +26,20 @@ if TYPE_CHECKING:
     from voiage.contracts.analysis import AnalysisResult, ContractModel
 
 _OWNED_HANDLER = "_voiage_handler"
-_SENSITIVE_FRAGMENTS = ("authorization", "password", "secret", "token", "api_key")
+_SENSITIVE_FRAGMENTS = (
+    "access_key",
+    "api_key",
+    "authorization",
+    "cookie",
+    "credential",
+    "passphrase",
+    "password",
+    "private_key",
+    "secret",
+    "session",
+    "signature",
+    "token",
+)
 _RESERVED_FIELDS = frozenset(
     {
         "analysis_id",
@@ -51,8 +64,16 @@ _TRACE_ID_RE = re.compile(r"^[0-9a-f]{32}$")
 _SPAN_ID_RE = re.compile(r"^[0-9a-f]{16}$")
 _TRACE_FLAGS_RE = re.compile(r"^[0-9a-f]{2}$")
 _BEARER_RE = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]+")
+_JWT_RE = re.compile(r"\beyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b")
+_QUERY_CREDENTIAL_RE = re.compile(
+    r"(?i)([?&](?:access[_-]?key|api[_-]?key|authorization|cookie|credential|"
+    r"jwt|passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|"
+    r"sig(?:nature)?|token)=)([^&#\s]+)"
+)
 _ASSIGNMENT_RE = re.compile(
-    r"(?i)\b(authorization|password|secret|token|api[_-]?key)\s*([:=])\s*([^\s,;]+)"
+    r"(?i)\b(access[_-]?key|api[_-]?key|authorization|cookie|credential|jwt|"
+    r"passphrase|password|private[_-]?key|secret|session(?:[_-]?id)?|"
+    r"sig(?:nature)?|token)\s*([:=])\s*([^\s,;]+)"
 )
 
 
@@ -74,6 +95,8 @@ def _current_context() -> _LogContextState:
 
 def _redact_text(value: str) -> str:
     value = _BEARER_RE.sub("Bearer [REDACTED]", value)
+    value = _JWT_RE.sub("[REDACTED]", value)
+    value = _QUERY_CREDENTIAL_RE.sub(r"\1[REDACTED]", value)
     return _ASSIGNMENT_RE.sub(r"\1\2[REDACTED]", value)
 
 
@@ -298,19 +321,27 @@ def analysis_log_context(context: AnalysisLogContext) -> Generator[None]:
         _CONTEXT.reset(token)
 
 
-def analysis_log_context_from_result(
-    result: AnalysisResult[ContractModel], *, trace: TraceContext | None = None
+def analysis_log_context_from_result[PayloadT: ContractModel](
+    result: AnalysisResult[PayloadT], *, trace: TraceContext | None = None
 ) -> AnalysisLogContext:
     """Adapt a VOIAGE analysis envelope to the shared logging contract."""
     requested = (
-        result.numerical_policy.backend_preference[0]
-        if result.numerical_policy.backend_preference
-        else result.run_context.selected_backend
+        result.run_context.requested_backend or result.run_context.selected_backend
     )
-    fallback = next(
-        (warning.code for warning in result.diagnostics.warnings if warning.code),
-        "none",
+    fallback_used = (
+        requested != result.run_context.selected_backend
+        or "backend-fallback" in result.diagnostics.degraded_paths
     )
+    fallback = "none"
+    if fallback_used:
+        fallback = next(
+            (
+                warning.code
+                for warning in result.diagnostics.warnings
+                if warning.code == "backend_fallback"
+            ),
+            "backend_fallback",
+        )
     return AnalysisLogContext(
         run_id=result.run_context.run_id,
         trace=trace or TraceContext(),
