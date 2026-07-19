@@ -779,7 +779,7 @@ class JaxBackend(Backend):
 
     backend_name = "jax"
     supported_method_families = frozenset(
-        {"evpi", "enbs", "evppi", "evsi", "value_of_perspective"}
+        {"evpi", "enbs", "evppi", "evsi"}
     )
     supported_dtypes = frozenset({"float32", "float64"})
     capability_labels = frozenset(
@@ -824,7 +824,7 @@ class AppleMetalBackend(Backend):
     """Optional Apple Metal backend backed by PyTorch MPS."""
 
     backend_name = "apple_metal"
-    supported_method_families = frozenset({"evpi", "enbs", "value_of_perspective"})
+    supported_method_families = frozenset({"evpi", "enbs"})
     supported_dtypes = frozenset({"float32"})
     supported_devices = frozenset({"mps"})
 

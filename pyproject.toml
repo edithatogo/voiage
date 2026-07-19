@@ -221,7 +221,7 @@ exclude_lines = [
 [tool.mutmut]
 paths_to_mutate = "voiage/contracts/"
 tests_dir = "tests/"
-runner = "pytest tests/test_analysis_contracts.py tests/test_calculation_kernel.py tests/test_contract_method_adapters.py -x --no-cov"
+runner = "pytest tests/test_analysis_contracts.py tests/test_calculation_kernel.py tests/test_contract_method_adapters.py tests/test_contract_interchange.py tests/test_vop_governance_mirror.py -x --no-cov"
 fail_under = 90
 
 [tool.semantic_release]

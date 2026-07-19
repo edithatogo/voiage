@@ -55,6 +55,8 @@ CONTRACT_GOVERNANCE_MARKERS = {
     ".github/workflows/ci.yml": (
         "scripts/export_v2_contracts.py --check",
         "tests/test_contract_automation.py",
+        "tests/test_contract_interchange.py",
+        "tests/test_vop_governance_mirror.py",
         "scripts/profile_contracts.py",
     ),
 }

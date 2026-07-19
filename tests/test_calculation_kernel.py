@@ -49,6 +49,29 @@ class _JitBackend:
         return float(net_benefits.max(axis=1).mean() - net_benefits.mean(axis=0).max())
 
 
+class _UnsafeKernel:
+    kernel_id = "unsafe"
+    kernel_version = "1"
+    method_maturity = "experimental"
+
+    def requirements(self, spec, policy):
+        return EvpiKernel().requirements(spec, policy)
+
+    def calculate(self, spec, inputs, *, backend, policy, context):
+        return np.asarray(inputs)
+
+
+class _ExperimentalKernel(_UnsafeKernel):
+    def calculate(self, spec, inputs, *, backend, policy, context):
+        return EvpiKernel().calculate(
+            spec,
+            inputs,
+            backend=backend,
+            policy=policy,
+            context=context,
+        )
+
+
 def _spec() -> AnalysisSpec:
     return AnalysisSpec(
         analysis_id="evpi-kernel-001",
@@ -117,3 +140,40 @@ def test_evpi_kernel_preserves_legacy_scalar_numerical_result() -> None:
     assert envelope.run_context.selected_backend == "numpy"
     assert envelope.diagnostics.status == "ok"
     assert envelope.provenance.backend == "numpy"
+
+
+def test_effective_policy_and_input_are_part_of_provenance() -> None:
+    spec = _spec()
+    result = run_evpi(
+        np.array([[1.0, 2.0]], dtype=np.float64),
+        spec=spec,
+        policy=NumericalPolicy(dtype="float32", backend_preference=("numpy",)),
+    )
+    effective = spec.model_copy(update={"numerical_policy": result.numerical_policy})
+    assert result.run_context.spec_digest == effective.contract_digest()
+    assert result.run_context.input_digest is not None
+    changed = run_evpi(
+        np.array([[1.0, 3.0]], dtype=np.float64),
+        spec=spec,
+        policy=result.numerical_policy,
+    )
+    assert changed.run_context.input_digest != result.run_context.input_digest
+
+
+def test_dispatch_rejects_non_contract_payloads_and_uses_kernel_maturity() -> None:
+    with pytest.raises(TypeError, match="ContractModel"):
+        dispatch_calculation(
+            _UnsafeKernel(),
+            _spec(),
+            np.ones((1, 2)),
+            policy=NumericalPolicy(),
+            backends=[adapt_backend(get_backend("numpy"))],
+        )
+    experimental = dispatch_calculation(
+        _ExperimentalKernel(),
+        _spec().model_copy(update={"method_family": "evpi"}),
+        np.ones((1, 2)),
+        policy=NumericalPolicy(),
+        backends=[adapt_backend(get_backend("numpy"))],
+    )
+    assert experimental.method_maturity == "experimental"

@@ -99,3 +99,46 @@ def test_perspective_envelope_preserves_existing_dataclass_result() -> None:
         "A",
         "B",
     ]
+
+
+def test_perspective_fallback_is_honest_and_capabilities_fail_closed() -> None:
+    values = _values()
+    fallback = run_perspective(
+        values,
+        analysis_id="perspective-fallback",
+        decision_problem_id="decision-001",
+        strategy_names=("A", "B"),
+        perspective_names=("payer", "societal"),
+        policy=NumericalPolicy(
+            backend_preference=("jax", "numpy"),
+            allow_fallback=True,
+        ),
+    )
+    assert fallback.run_context.selected_backend == "numpy"
+    assert fallback.diagnostics.status == "degraded"
+    assert fallback.diagnostics.warnings[0].code == "backend_fallback"
+
+    with pytest.raises(ValueError, match="kernel requirements"):
+        run_perspective(
+            values,
+            analysis_id="perspective-jit",
+            decision_problem_id="decision-001",
+            strategy_names=("A", "B"),
+            perspective_names=("payer", "societal"),
+            policy=NumericalPolicy(use_jit=True),
+        )
+
+
+def test_value_array_label_overrides_cannot_diverge_from_spec() -> None:
+    value_array = ValueArray.from_numpy_perspectives(
+        _values(),
+        strategy_names=["A", "B"],
+        perspective_names=["payer", "societal"],
+    )
+    with pytest.raises(ValueError, match="strategy_names"):
+        run_perspective(
+            value_array,
+            analysis_id="perspective-labels",
+            decision_problem_id="decision-001",
+            strategy_names=("X", "Y"),
+        )

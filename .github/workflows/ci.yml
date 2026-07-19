@@ -94,7 +94,9 @@ jobs:
         uv run pytest tests/test_analysis_contracts.py
         tests/test_calculation_kernel.py
         tests/test_contract_method_adapters.py
+        tests/test_contract_interchange.py
         tests/test_v2_contract_exports.py
+        tests/test_vop_governance_mirror.py
         tests/test_contract_automation.py
         --no-cov -q
 

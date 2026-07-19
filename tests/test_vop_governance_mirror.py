@@ -11,6 +11,8 @@ import re
 from jsonschema import Draft202012Validator
 import pytest
 
+from voiage.contracts.concerns import ConcernSpec
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MIRROR_ROOT = REPO_ROOT / "specs/integration/vop-voiage/governance"
 SCHEMA_ROOT = MIRROR_ROOT / "schemas"
@@ -51,6 +53,8 @@ def test_schema_and_example_are_draft_2020_12_valid() -> None:
         (MIRROR_ROOT / "examples/concern.example.json").read_text(encoding="utf-8")
     )
     Draft202012Validator(concern_schema).validate(example)
+    runtime = ConcernSpec.model_validate(example)
+    Draft202012Validator(concern_schema).validate(runtime.model_dump(mode="json"))
 
 
 def test_privacy_and_stable_marker_policy_fail_closed() -> None:

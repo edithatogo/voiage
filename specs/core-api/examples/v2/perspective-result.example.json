@@ -10,6 +10,11 @@
     "unsupported_capabilities": [],
     "warnings": []
   },
+  "interchange_identity": {
+    "arrow_schema_version": "1.0.0",
+    "contract": "analysis-result",
+    "schema_version": "2.0.0"
+  },
   "method_contract_version": "1.1.0",
   "method_family": "value_of_perspective",
   "method_maturity": "fixture-backed",

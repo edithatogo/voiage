@@ -34,3 +34,7 @@
 - [ ] Task: Run focused and full suites, build and dependency/security gates.
 - [ ] Task: Complete formal review and hosted CI evidence.
 - [ ] Task: Phase verification and checkpoint.
+
+## Phase 6 - Principal review remediation
+
+- [x] Task: Resolve C13 contract integrity, governance, and interchange findings.

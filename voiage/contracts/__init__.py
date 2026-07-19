@@ -1,5 +1,7 @@
 """Canonical machine-readable VOIAGE analysis contracts."""
 
+# pyright: reportUnknownVariableType=false
+
 from .adapters import (
     LegacyBackendAdapter,
     adapt_backend,
@@ -13,6 +15,7 @@ from .analysis import (
     ContractModel,
     DiagnosticEnvelope,
     DiagnosticRecord,
+    InterchangeIdentity,
     NumericalPolicy,
     ParameterSpec,
     Provenance,
@@ -30,6 +33,11 @@ from .capabilities import (
     select_backend,
 )
 from .concerns import ConcernSpec, EvidenceReference
+from .interchange import (
+    analysis_result_table,
+    write_analysis_result_ipc,
+    write_analysis_result_parquet,
+)
 from .kernel import CalculationKernel, EvpiKernel, dispatch_calculation, run_evpi
 from .perspective import PerspectivePayload, adapt_perspective_result, run_perspective
 
@@ -47,6 +55,7 @@ __all__ = [
     "DiagnosticRecord",
     "EvidenceReference",
     "EvpiKernel",
+    "InterchangeIdentity",
     "KernelRequirements",
     "LegacyBackendAdapter",
     "NumericalPolicy",
@@ -60,10 +69,13 @@ __all__ = [
     "adapt_parameter_set",
     "adapt_perspective_result",
     "adapt_value_array",
+    "analysis_result_table",
     "analysis_spec_from_inputs",
     "dispatch_calculation",
     "evaluate_backend",
     "run_evpi",
     "run_perspective",
     "select_backend",
+    "write_analysis_result_ipc",
+    "write_analysis_result_parquet",
 ]

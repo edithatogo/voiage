@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 
 from pydantic import ValidationError
@@ -64,32 +65,56 @@ def test_contract_models_are_strict_frozen_and_extra_forbidding() -> None:
     with pytest.raises(ValidationError):
         spec.analysis_id = "changed"  # type: ignore[misc]
 
+    nested = AnalysisSpec(
+        analysis_id="nested",
+        decision_problem_id="decision",
+        method_family="evpi",
+        method_contract_version="1.0.0",
+        method_options={"nested": {"value": 1}},
+    )
+    digest = nested.contract_digest()
+    with pytest.raises(TypeError):
+        nested.method_options["new"] = 2
+    with pytest.raises(TypeError):
+        nested.method_options["nested"]["value"] = 2  # type: ignore[index]
+    assert nested.contract_digest() == digest
+
 
 def test_concern_contract_carries_typed_privacy_aware_evidence() -> None:
-    concern = ConcernSpec(
-        concern_id="C13-capability-dispatch",
-        title="Backend selection must be fail closed",
-        category="architecture",
-        severity="high",
-        status="accepted",
-        statement="A kernel must not execute on an incapable backend.",
-        evidence=(
-            EvidenceReference(
-                artifact_id="test-capability-selection",
-                kind="test",
-                location="tests/test_calculation_kernel.py",
-                visibility="repository",
-            ),
-        ),
+    evidence = EvidenceReference(
+        id="EVR-VOI-0001",
+        title="Capability selection test",
+        summary="The backend selector fails closed.",
+        status="verified",
+        evidence_kind="test",
+        locator_kind="local_path",
+        locator="tests/test_calculation_kernel.py",
+        observed_at=datetime(2026, 7, 19, tzinfo=UTC),
+        visibility="local_private",
     )
-    assert concern.evidence[0].visibility == "repository"
+    concern = ConcernSpec(
+        id="CON-VOI-0001",
+        title="Backend selection must be fail closed",
+        summary="Capability dispatch must not silently weaken requirements.",
+        status="accepted",
+        question="Does every kernel execute only on a capable backend?",
+        impact_if_unresolved="Results could misstate their execution backend.",
+        resolution_criteria=("Capability and execution provenance agree.",),
+        evidence_reference_ids=(evidence.id,),
+        visibility="repository",
+    )
+    assert concern.visibility == "repository"
     with pytest.raises(ValidationError):
         EvidenceReference(
-            artifact_id="private",
-            kind="test",
-            location="C:/private/result.json",
+            id="EVR-VOI-0002",
+            title="Private result",
+            summary="Must remain private.",
+            status="verified",
+            evidence_kind="artifact",
+            locator_kind="local_path",
+            locator="C:/private/result.json",
+            observed_at=datetime(2026, 7, 19, tzinfo=UTC),
             visibility="public",
-            unexpected_field=True,  # type: ignore[call-arg]
         )
 
 

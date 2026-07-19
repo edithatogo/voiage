@@ -55,6 +55,14 @@ def adapt_value_array(
 ) -> ValueArray:
     """Normalize supported arrays while preserving established instances."""
     if isinstance(values, ValueArray):
+        if strategy_names is not None and tuple(strategy_names) != tuple(
+            values.strategy_names
+        ):
+            raise ValueError("strategy_names must match the ValueArray labels")
+        if perspective_names is not None and tuple(perspective_names) != tuple(
+            values.perspective_names or ()
+        ):
+            raise ValueError("perspective_names must match the ValueArray labels")
         return values
     array = np.asarray(values)
     strategies = list(strategy_names) if strategy_names is not None else None

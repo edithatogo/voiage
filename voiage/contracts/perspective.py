@@ -1,17 +1,20 @@
 """Additive perspective-result envelope and compatibility adapters."""
 
-# pyright: reportAny=false
+# pyright: reportAny=false, reportPrivateUsage=false
 
 from __future__ import annotations
 
-import hashlib
+from collections.abc import Mapping
 from importlib.metadata import PackageNotFoundError, version
 import platform
 from typing import TYPE_CHECKING, cast
 from uuid import uuid4
 
 import numpy as np
-from pydantic import JsonValue  # noqa: TC002 - Pydantic resolves runtime annotations
+from pydantic import (
+    JsonValue,
+    field_serializer,
+)
 from pydantic_core import to_jsonable_python
 
 from voiage.contracts.adapters import (
@@ -24,15 +27,18 @@ from voiage.contracts.analysis import (
     AnalysisResult,
     ContractModel,
     DiagnosticEnvelope,
+    DiagnosticRecord,
     NumericalPolicy,
     Provenance,
     RunContext,
+    thaw_json,
 )
 from voiage.contracts.capabilities import (
     Capability,
     KernelRequirements,
     select_backend,
 )
+from voiage.contracts.digests import array_digest
 from voiage.main_backends import get_backend
 from voiage.methods.perspective import (
     METHOD_CONTRACT_VERSION,
@@ -73,8 +79,13 @@ class PerspectivePayload(ContractModel):
     perspective_weights: tuple[float, ...]
     reference_perspective_id: str
     method_maturity: str
-    diagnostics: dict[str, JsonValue]
-    reporting: dict[str, JsonValue]
+    diagnostics: Mapping[str, JsonValue]
+    reporting: Mapping[str, JsonValue]
+
+    @field_serializer("diagnostics", "reporting")
+    def serialize_json_mappings(self, value: object) -> object:
+        """Serialize frozen mappings with their original JSON shape."""
+        return thaw_json(value)
 
 
 def _rows(values: NDArray[np.float64]) -> tuple[tuple[float, ...], ...]:
@@ -171,16 +182,23 @@ def run_perspective(
     candidates = [
         adapt_backend(get_backend(name)) for name in resolved_policy.backend_preference
     ]
+    required_features = {Capability.DENSE_ARRAY, Capability.DETERMINISTIC}
+    required_features.update(
+        Capability(item) for item in resolved_policy.required_capabilities
+    )
+    if resolved_policy.use_jit:
+        required_features.add(Capability.JIT)
     requirements = KernelRequirements(
         method_family="value_of_perspective",
         dtype=resolved_policy.dtype,
         device=resolved_policy.device,
-        required_features=frozenset({Capability.DENSE_ARRAY, Capability.DETERMINISTIC}),
+        required_features=frozenset(required_features),
     )
     selected = select_backend(
         candidates if resolved_policy.allow_fallback else candidates[:1], requirements
     )
     descriptor = selected.capabilities
+    fallback_used = bool(candidates) and selected is not candidates[0]
     legacy = value_of_perspective(
         values,
         perspectives=perspectives,
@@ -192,12 +210,16 @@ def run_perspective(
         tie_tolerance=tie_tolerance,
     )
     package_version = _package_version()
-    value_bytes = np.asarray(values.numpy_values, dtype="<f8").tobytes(order="C")
+    value_array = np.asarray(values.numpy_values)
     context = RunContext(
         run_id=uuid4().hex,
         spec_digest=spec.contract_digest(),
-        input_digest=hashlib.sha256(value_bytes).hexdigest(),
-        requested_backend=resolved_policy.backend_preference[0],
+        input_digest=array_digest(value_array),
+        requested_backend=(
+            resolved_policy.backend_preference[0]
+            if resolved_policy.backend_preference
+            else None
+        ),
         selected_backend=descriptor.backend_name,
         backend_version=descriptor.backend_version,
         device=resolved_policy.device or sorted(descriptor.devices)[0],
@@ -217,7 +239,23 @@ def run_perspective(
         run_context=context,
         diagnostics=DiagnosticEnvelope(
             analysis_id=analysis_id,
+            status="degraded" if fallback_used else "ok",
             backend=descriptor.backend_name,
+            warnings=(
+                DiagnosticRecord(
+                    severity="warning",
+                    code="backend_fallback",
+                    message=(
+                        "Requested backend could not satisfy the perspective kernel; "
+                        f"used {descriptor.backend_name}."
+                    ),
+                    capability="kernel-requirements",
+                    backend=descriptor.backend_name,
+                ),
+            )
+            if fallback_used
+            else (),
+            degraded_paths=("backend-fallback",) if fallback_used else (),
         ),
         provenance=Provenance(
             backend=descriptor.backend_name,

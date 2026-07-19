@@ -1,11 +1,13 @@
 """Generic calculation-kernel protocol and the additive EVPI pilot."""
 
+# pyright: reportUnnecessaryIsInstance=false, reportUnreachable=false
+
 from __future__ import annotations
 
 from collections.abc import Sequence  # noqa: TC003 - public dispatcher signature
 from importlib.metadata import PackageNotFoundError, version
 import platform
-from typing import Protocol
+from typing import Literal, Protocol
 from uuid import uuid4
 
 import numpy as np
@@ -15,6 +17,7 @@ from voiage.contracts.adapters import adapt_backend
 from voiage.contracts.analysis import (
     AnalysisResult,
     AnalysisSpec,
+    ContractModel,
     DiagnosticEnvelope,
     DiagnosticRecord,
     NumericalPolicy,
@@ -28,14 +31,24 @@ from voiage.contracts.capabilities import (
     KernelRequirements,
     select_backend,
 )
+from voiage.contracts.digests import array_digest
 from voiage.main_backends import get_backend
 
 
-class CalculationKernel[SpecT, InputT, PayloadT](Protocol):
+class CalculationKernel[SpecT, InputT, PayloadT: ContractModel](Protocol):
     """Generic method implementation dispatched through backend capabilities."""
 
     kernel_id: str
     kernel_version: str
+
+    @property
+    def method_maturity(
+        self,
+    ) -> Literal[
+        "stable", "fixture-backed", "approximate", "experimental", "backend-dependent"
+    ]:
+        """Return evidence-backed maturity for result attribution."""
+        ...
 
     def requirements(self, spec: SpecT, policy: NumericalPolicy) -> KernelRequirements:
         """Return requirements for this specification and policy."""
@@ -59,6 +72,7 @@ class EvpiKernel:
 
     kernel_id: str = "voiage.evpi"
     kernel_version: str = "1.0.0"
+    method_maturity: Literal["stable"] = "stable"
 
     def requirements(
         self, spec: AnalysisSpec, policy: NumericalPolicy
@@ -98,7 +112,7 @@ def _package_version() -> str:
         return "0.0.0"
 
 
-def dispatch_calculation[PayloadT](
+def dispatch_calculation[PayloadT: ContractModel](
     kernel: CalculationKernel[AnalysisSpec, np.ndarray, PayloadT],
     spec: AnalysisSpec,
     inputs: np.ndarray,
@@ -107,7 +121,12 @@ def dispatch_calculation[PayloadT](
     backends: Sequence[CapabilityBackend],
 ) -> AnalysisResult[PayloadT]:
     """Select a capable backend, execute, and produce a typed envelope."""
-    requirements = kernel.requirements(spec, policy)
+    effective_spec = (
+        spec
+        if spec.numerical_policy == policy
+        else spec.model_copy(update={"numerical_policy": policy})
+    )
+    requirements = kernel.requirements(effective_spec, policy)
     candidates = backends if policy.allow_fallback else backends[:1]
     backend = select_backend(candidates, requirements)
     capabilities = backend.capabilities
@@ -115,7 +134,8 @@ def dispatch_calculation[PayloadT](
     package_version = _package_version()
     context = RunContext(
         run_id=uuid4().hex,
-        spec_digest=spec.contract_digest(),
+        spec_digest=effective_spec.contract_digest(),
+        input_digest=array_digest(inputs),
         requested_backend=policy.backend_preference[0]
         if policy.backend_preference
         else None,
@@ -128,23 +148,26 @@ def dispatch_calculation[PayloadT](
         platform=platform.platform(),
     )
     payload = kernel.calculate(
-        spec,
+        effective_spec,
         inputs,
         backend=backend,
         policy=policy,
         context=context,
     )
+    payload_object: object = payload
+    if not isinstance(payload_object, ContractModel):
+        raise TypeError("calculation kernels must return a ContractModel payload")
     return AnalysisResult(
-        analysis_id=spec.analysis_id,
-        decision_problem_id=spec.decision_problem_id,
-        method_family=spec.method_family,
-        method_contract_version=spec.method_contract_version,
-        method_maturity="stable",
+        analysis_id=effective_spec.analysis_id,
+        decision_problem_id=effective_spec.decision_problem_id,
+        method_family=effective_spec.method_family,
+        method_contract_version=effective_spec.method_contract_version,
+        method_maturity=kernel.method_maturity,
         numerical_policy=policy,
         payload=payload,
         run_context=context,
         diagnostics=DiagnosticEnvelope(
-            analysis_id=spec.analysis_id,
+            analysis_id=effective_spec.analysis_id,
             status="degraded" if fallback_used else "ok",
             backend=capabilities.backend_name,
             warnings=(
@@ -165,10 +188,10 @@ def dispatch_calculation[PayloadT](
         ),
         provenance=Provenance(
             backend=capabilities.backend_name,
-            method_family=spec.method_family,
+            method_family=effective_spec.method_family,
             package_version=package_version,
             seed=policy.seed,
-            input_artifact_ids=spec.input_artifact_ids,
+            input_artifact_ids=effective_spec.input_artifact_ids,
             details={
                 "backend_fallback": fallback_used,
                 "kernel_id": kernel.kernel_id,

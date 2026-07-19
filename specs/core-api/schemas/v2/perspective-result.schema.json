@@ -132,6 +132,32 @@
       "title": "DiagnosticRecord",
       "type": "object"
     },
+    "InterchangeIdentity": {
+      "additionalProperties": false,
+      "description": "Stable identity carried by every serialized analysis result.",
+      "properties": {
+        "arrow_schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Arrow Schema Version",
+          "type": "string"
+        },
+        "contract": {
+          "const": "analysis-result",
+          "default": "analysis-result",
+          "title": "Contract",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "2.0.0",
+          "default": "2.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "title": "InterchangeIdentity",
+      "type": "object"
+    },
     "JsonValue": {},
     "NumericalPolicy": {
       "additionalProperties": false,
@@ -658,6 +684,9 @@
     },
     "diagnostics": {
       "$ref": "#/$defs/DiagnosticEnvelope"
+    },
+    "interchange_identity": {
+      "$ref": "#/$defs/InterchangeIdentity"
     },
     "method_contract_version": {
       "minLength": 1,

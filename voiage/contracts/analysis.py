@@ -1,17 +1,22 @@
 """Strict, immutable analysis and result contracts."""
 
+# pyright: reportAny=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportImplicitOverride=false, reportUnannotatedClassAttribute=false
+
 from __future__ import annotations
 
+from collections.abc import Iterator, Mapping
 from datetime import datetime  # noqa: TC003 - Pydantic resolves runtime annotations
 import hashlib
 import json
-from typing import Annotated, ClassVar, Literal
+from types import MappingProxyType
+from typing import Annotated, ClassVar, Literal, Self, cast
 
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
     JsonValue,
+    SerializeAsAny,
     StringConstraints,
     field_serializer,
     model_validator,
@@ -19,6 +24,46 @@ from pydantic import (
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 ParameterDType = Literal["float32", "float64", "int64", "bool", "string"]
+
+
+class _FrozenMapping(Mapping[str, JsonValue]):
+    """Read-only JSON mapping used inside immutable contracts."""
+
+    def __init__(self, values: Mapping[str, object]) -> None:
+        self._values: Mapping[str, JsonValue] = MappingProxyType(
+            cast("dict[str, JsonValue]", dict(values))
+        )
+
+    def __getitem__(self, key: str) -> JsonValue:
+        return self._values[key]
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._values)
+
+    def __len__(self) -> int:
+        return len(self._values)
+
+
+def _freeze_json(value: object) -> object:
+    """Recursively freeze JSON containers without changing their JSON shape."""
+    if isinstance(value, dict):
+        return _FrozenMapping(
+            {str(key): _freeze_json(item) for key, item in value.items()}
+        )
+    if isinstance(value, list):
+        return tuple(_freeze_json(item) for item in value)
+    if isinstance(value, tuple):
+        return tuple(_freeze_json(item) for item in value)
+    return value
+
+
+def thaw_json(value: object) -> object:
+    """Restore immutable JSON containers for canonical serialization."""
+    if isinstance(value, Mapping):
+        return {str(key): thaw_json(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [thaw_json(item) for item in value]
+    return value
 
 
 class ContractModel(BaseModel):
@@ -33,6 +78,16 @@ class ContractModel(BaseModel):
         defer_build=True,
     )
 
+    @model_validator(mode="after")
+    def freeze_nested_json(self) -> Self:
+        """Make nested JSON containers as immutable as their parent model."""
+        for name in type(self).model_fields:
+            value = getattr(self, name)
+            frozen = _freeze_json(value)
+            if frozen is not value:
+                object.__setattr__(self, name, frozen)
+        return self
+
 
 class ParameterSpec(ContractModel):
     """Machine-readable semantics for one analysis parameter."""
@@ -45,10 +100,15 @@ class ParameterSpec(ContractModel):
     unit: Identifier | None = None
     lower_bound: float | None = None
     upper_bound: float | None = None
-    distribution: dict[str, JsonValue] | None = None
+    distribution: Mapping[str, JsonValue] | None = None
     required: bool = True
     description: str | None = None
-    extensions: dict[str, JsonValue] = Field(default_factory=dict)
+    extensions: Mapping[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("distribution", "extensions")
+    def serialize_json_mappings(self, value: object) -> object:
+        """Serialize frozen mappings with their original JSON shape."""
+        return thaw_json(value)
 
     @model_validator(mode="after")
     def validate_bounds(self) -> ParameterSpec:
@@ -97,11 +157,16 @@ class AnalysisSpec(ContractModel):
     method_contract_version: Identifier
     strategy_names: tuple[Identifier, ...] = ()
     parameters: tuple[ParameterSpec, ...] = ()
-    method_options: dict[str, JsonValue] = Field(default_factory=dict)
+    method_options: Mapping[str, JsonValue] = Field(default_factory=dict)
     input_artifact_ids: tuple[Identifier, ...] = ()
     numerical_policy: NumericalPolicy = Field(default_factory=NumericalPolicy)
     tags: frozenset[Identifier] = frozenset()
-    extensions: dict[str, JsonValue] = Field(default_factory=dict)
+    extensions: Mapping[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("method_options", "extensions")
+    def serialize_json_mappings(self, value: object) -> object:
+        """Serialize frozen mappings with their original JSON shape."""
+        return thaw_json(value)
 
     @field_serializer("tags", when_used="json")
     def serialize_tags(self, value: frozenset[str]) -> tuple[str, ...]:
@@ -186,7 +251,12 @@ class Provenance(ContractModel):
     seed: int | None = Field(default=None, ge=0)
     fixture_id: Identifier | None = None
     input_artifact_ids: tuple[Identifier, ...] = ()
-    details: dict[str, JsonValue] = Field(default_factory=dict)
+    details: Mapping[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("details")
+    def serialize_details(self, value: object) -> object:
+        """Serialize frozen details with their original JSON shape."""
+        return thaw_json(value)
 
 
 class ScalarPayload(ContractModel):
@@ -195,7 +265,15 @@ class ScalarPayload(ContractModel):
     value: float
 
 
-class AnalysisResult[PayloadT](ContractModel):
+class InterchangeIdentity(ContractModel):
+    """Stable identity carried by every serialized analysis result."""
+
+    contract: Literal["analysis-result"] = "analysis-result"
+    schema_version: Literal["2.0.0"] = "2.0.0"
+    arrow_schema_version: Literal["1.0.0"] = "1.0.0"
+
+
+class AnalysisResult[PayloadT: ContractModel](ContractModel):
     """Generic, JSON-safe result envelope for calculation kernels."""
 
     schema_version: Literal["2.0.0"] = "2.0.0"
@@ -211,7 +289,21 @@ class AnalysisResult[PayloadT](ContractModel):
         "backend-dependent",
     ]
     numerical_policy: NumericalPolicy
-    payload: PayloadT
+    payload: SerializeAsAny[PayloadT]
     run_context: RunContext
     diagnostics: DiagnosticEnvelope
     provenance: Provenance
+    interchange_identity: InterchangeIdentity = Field(
+        default_factory=InterchangeIdentity
+    )
+
+    @model_validator(mode="after")
+    def validate_envelope_identity(self) -> Self:
+        """Reject internally contradictory result and provenance identities."""
+        if self.diagnostics.analysis_id != self.analysis_id:
+            raise ValueError("diagnostics analysis_id must match result analysis_id")
+        if self.provenance.method_family != self.method_family:
+            raise ValueError("provenance method_family must match result method_family")
+        if self.provenance.backend != self.run_context.selected_backend:
+            raise ValueError("provenance backend must match selected backend")
+        return self
