@@ -1,0 +1,6 @@
+Phase 3 Rust domain stabilization evidence
+
+Implemented validated primitives, collections, aggregate contracts, decision problems, diagnostics, provenance, canonical result DTOs, Python exception parity, and stable error mappings across commits b03b339..0351ec3.
+Contract parity: all 25 compatibility fixtures classified through typed Rust contracts; 12 success DTOs and 13 invalid error mappings; numerical kernel execution explicitly remains Phase 5.
+Review fixes: MSRV enforcement, symlink containment, closed fields, strategy normalization, ENBS schema, diagnostics serde, CEAC orientation, decision schema, exhaustive aggregate mappings, and message-independent classification.
+Validation: stable and Rust 1.85 workspace formatting/metadata/Clippy/tests/rustdoc passed; final independent reviewers reported no High or Critical findings; focused Python contract suites passed.
