@@ -10,6 +10,9 @@
 - [Code Style Guides](./code_styleguides/)
 
 ## Management
+- [MoSCoW Requirements](./requirements.md)
+- [Mermaid Design](./design.md)
+- [VOP–VOIAGE GitHub Project](https://github.com/users/edithatogo/projects/28)
 - [Tracks Registry](./tracks.md)
 - [Active Tracks Directory](./tracks/)
 - [Archived Tracks](./archive/)
