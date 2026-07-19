@@ -228,6 +228,7 @@ pytest_add_cli_args_test_selection = [
     "tests/test_contract_interchange.py",
     "tests/test_vop_governance_mirror.py",
 ]
+also_copy = ["specs/integration/vop-voiage/governance/"]
 fail_under = 90
 
 [tool.semantic_release]
@@ -253,7 +254,7 @@ format = "uv run ruff format voiage tests"
 typecheck = "tox -e typecheck"
 security = "uv run ruff check voiage --select=S --ignore=S101"
 harness = "python scripts/repo_harness.py"
-profile = "uv run scalene run -o profile_results.json profile_scalene.py"
+profile = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_results.json profile_scalene.py"
 mutmut = "uv run mutmut run"
 benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only --no-cov"
 docs = "cd docs/astro-site && pnpm install --frozen-lockfile && pnpm run check && pnpm run build"

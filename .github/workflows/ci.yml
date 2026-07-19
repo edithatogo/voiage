@@ -495,7 +495,7 @@ jobs:
 
     - name: Run Scalene profiler
       run: |
-        uv run scalene run -o contract_profile_results.json scripts/profile_contracts.py
+        uv run scalene run --use-legacy-tracer --cpu-only -o contract_profile_results.json scripts/profile_contracts.py
         uv run scalene view --cli contract_profile_results.json
       env:
         CI: true

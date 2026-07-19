@@ -23,17 +23,19 @@ def main() -> None:
         strategy_names=("A", "B", "C", "D"),
         numerical_policy=policy,
     )
-    _ = run_evpi(values, spec=spec, policy=policy)
-
     perspective_values = np.stack((values, values * 1.05), axis=2)
-    _ = run_perspective(
-        perspective_values,
-        analysis_id="profile-perspective-v2",
-        decision_problem_id="profile-decision",
-        strategy_names=spec.strategy_names,
-        perspective_names=("payer", "societal"),
-        policy=policy,
-    )
+    # Repeat a bounded deterministic workload so sampling profilers collect a
+    # meaningful signal on fast runners instead of exiting without an artifact.
+    for _ in range(250):
+        run_evpi(values, spec=spec, policy=policy)
+        run_perspective(
+            perspective_values,
+            analysis_id="profile-perspective-v2",
+            decision_problem_id="profile-decision",
+            strategy_names=spec.strategy_names,
+            perspective_names=("payer", "societal"),
+            policy=policy,
+        )
 
 
 if __name__ == "__main__":
