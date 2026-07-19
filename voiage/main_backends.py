@@ -778,9 +778,7 @@ class JaxBackend(Backend):
     """Public JAX backend type."""
 
     backend_name = "jax"
-    supported_method_families = frozenset(
-        {"evpi", "enbs", "evppi", "evsi"}
-    )
+    supported_method_families = frozenset({"evpi", "enbs", "evppi", "evsi"})
     supported_dtypes = frozenset({"float32", "float64"})
     capability_labels = frozenset(
         {"dense-array", "deterministic", "jit", "autodiff", "batching"}
