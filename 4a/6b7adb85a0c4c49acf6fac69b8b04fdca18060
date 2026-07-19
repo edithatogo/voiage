@@ -1,0 +1,7 @@
+Task: Final Phase 4 base-dependency minimization (Green)
+
+Summary: Kept Pandas in the base dependency set because stable Xarray schemas require it; moved DefusedXML to bounded ecosystem and CI extras; moved Matplotlib to a bounded plotting extra; made ecosystem, plotting, and CLI top-level imports lazy; preserved public API symbol lists; and added governed voiage[ecosystem] and voiage[plotting] diagnostics.
+
+Files: pyproject.toml, uv.lock, voiage/__init__.py, voiage/plot/ceac.py, voiage/plot/ceaf.py, voiage/plot/dominance.py, voiage/plot/heterogeneity.py, voiage/plot/perspective.py, voiage/plot/voi_curves.py
+
+Why: Minimize the base installation without misrepresenting Pandas as optional while Xarray-backed stable schemas remain mandatory.
