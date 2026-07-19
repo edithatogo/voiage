@@ -1,0 +1,7 @@
+Task: Add production Rust workspace CI matrix
+
+Summary: Added rust/** pull-request and push triggers plus an Ubuntu, macOS, and Windows workspace matrix. Retained the legacy bindings/rust job unchanged and reused the repository's pinned checkout and Rust toolchain actions.
+
+Modified file: .github/workflows/bindings-ci.yml
+
+Validation: repository harness passed with zero findings; 25 targeted Rust/workflow tests passed; git diff checks passed.
