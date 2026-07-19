@@ -1,0 +1,7 @@
+Task: Map every CoreContractError to the stable diagnostics contract.
+
+Changed: rust/crates/voiage-diagnostics/src/domain_mapping.rs.
+
+Implementation: exhaustive conversion for all six aggregate-domain variants with deterministic ErrorCode, domain_variant, field/index context, and expected/actual dimension context.
+
+TDD: focused test first failed because From<CoreContractError> was absent. Rustfmt and diff hygiene passed. Focused Clippy/tests remain blocked before this code by pre-existing unmapped DecisionProblemError variants CurrencyTooShort, EmptyOutcomeNames, and DuplicateOutcomeName; those were intentionally left unchanged under strict scope.
