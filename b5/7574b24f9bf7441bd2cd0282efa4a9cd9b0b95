@@ -1,0 +1,5 @@
+Phase 2 automated review fixes
+
+Closed the High fail-open tolerance finding by rejecting non-finite, negative, boolean, and string tolerances. Replaced message-fragment error normalization with method/type mappings, added malformed-policy structure checks, and clarified the current 0.x warning behavior versus the normative v1 destination.
+
+Validation: 25 focused tests passed; all 18 compatibility cases executed; Ruff, Vale, and diff checks passed. Full tox checkpoint rerun pending.
