@@ -13,10 +13,12 @@ from pydantic import (
     Field,
     JsonValue,
     StringConstraints,
+    field_serializer,
     model_validator,
 )
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
+ParameterDType = Literal["float32", "float64", "int64", "bool", "string"]
 
 
 class ContractModel(BaseModel):
@@ -38,7 +40,7 @@ class ParameterSpec(ContractModel):
     parameter_id: Identifier
     label: Identifier | None = None
     role: Literal["uncertain", "decision", "design", "outcome", "hyperparameter"]
-    dtype: Literal["float32", "float64", "int64", "bool", "string"]
+    dtype: ParameterDType
     dimensions: tuple[Identifier, ...] = ()
     unit: Identifier | None = None
     lower_bound: float | None = None
@@ -79,6 +81,11 @@ class NumericalPolicy(ContractModel):
     chunk_size: int | None = Field(default=None, ge=1)
     parallelism: int | None = Field(default=None, ge=1)
 
+    @field_serializer("required_capabilities", when_used="json")
+    def serialize_required_capabilities(self, value: frozenset[str]) -> tuple[str, ...]:
+        """Serialize capability sets in canonical order."""
+        return tuple(sorted(value))
+
 
 class AnalysisSpec(ContractModel):
     """Declarative identity and scientific intent for one analysis."""
@@ -95,6 +102,11 @@ class AnalysisSpec(ContractModel):
     numerical_policy: NumericalPolicy = Field(default_factory=NumericalPolicy)
     tags: frozenset[Identifier] = frozenset()
     extensions: dict[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("tags", when_used="json")
+    def serialize_tags(self, value: frozenset[str]) -> tuple[str, ...]:
+        """Serialize tag sets in canonical order."""
+        return tuple(sorted(value))
 
     @model_validator(mode="after")
     def validate_unique_identifiers(self) -> AnalysisSpec:
@@ -136,6 +148,11 @@ class RunContext(ContractModel):
     platform: str
     started_at: datetime | None = None
     finished_at: datetime | None = None
+
+    @field_serializer("capabilities", when_used="json")
+    def serialize_capabilities(self, value: frozenset[str]) -> tuple[str, ...]:
+        """Serialize runtime capabilities in canonical order."""
+        return tuple(sorted(value))
 
 
 class DiagnosticRecord(ContractModel):
@@ -187,7 +204,11 @@ class AnalysisResult[PayloadT](ContractModel):
     method_family: Identifier
     method_contract_version: Identifier
     method_maturity: Literal[
-        "stable", "approximate", "experimental", "backend-dependent"
+        "stable",
+        "fixture-backed",
+        "approximate",
+        "experimental",
+        "backend-dependent",
     ]
     numerical_policy: NumericalPolicy
     payload: PayloadT

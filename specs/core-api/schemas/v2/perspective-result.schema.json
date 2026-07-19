@@ -1,0 +1,716 @@
+{
+  "$defs": {
+    "DiagnosticEnvelope": {
+      "additionalProperties": false,
+      "description": "Trust and degradation metadata kept separate from provenance.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "approximation_caveats": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Approximation Caveats",
+          "type": "array"
+        },
+        "backend": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Backend"
+        },
+        "degraded_paths": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Degraded Paths",
+          "type": "array"
+        },
+        "status": {
+          "default": "ok",
+          "enum": [
+            "ok",
+            "degraded",
+            "unsupported",
+            "approximate"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "unsupported_capabilities": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Unsupported Capabilities",
+          "type": "array"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DiagnosticRecord"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "analysis_id"
+      ],
+      "title": "DiagnosticEnvelope",
+      "type": "object"
+    },
+    "DiagnosticRecord": {
+      "additionalProperties": false,
+      "description": "One stable warning or execution caveat.",
+      "properties": {
+        "backend": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Backend"
+        },
+        "capability": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capability"
+        },
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "critical"
+          ],
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "severity",
+        "code",
+        "message"
+      ],
+      "title": "DiagnosticRecord",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "NumericalPolicy": {
+      "additionalProperties": false,
+      "description": "Explicit numerical equivalence and execution policy.",
+      "properties": {
+        "absolute_tolerance": {
+          "default": 1e-10,
+          "minimum": 0.0,
+          "title": "Absolute Tolerance",
+          "type": "number"
+        },
+        "allow_fallback": {
+          "default": false,
+          "title": "Allow Fallback",
+          "type": "boolean"
+        },
+        "backend_preference": {
+          "default": [
+            "numpy"
+          ],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Backend Preference",
+          "type": "array"
+        },
+        "chunk_size": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chunk Size"
+        },
+        "deterministic_fixture_mode": {
+          "default": false,
+          "title": "Deterministic Fixture Mode",
+          "type": "boolean"
+        },
+        "device": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Device"
+        },
+        "dtype": {
+          "default": "float64",
+          "enum": [
+            "float32",
+            "float64"
+          ],
+          "title": "Dtype",
+          "type": "string"
+        },
+        "execution_mode": {
+          "default": "deterministic",
+          "enum": [
+            "deterministic",
+            "stochastic"
+          ],
+          "title": "Execution Mode",
+          "type": "string"
+        },
+        "nan_policy": {
+          "default": "raise",
+          "enum": [
+            "raise",
+            "propagate",
+            "omit"
+          ],
+          "title": "Nan Policy",
+          "type": "string"
+        },
+        "overflow_policy": {
+          "default": "raise",
+          "enum": [
+            "raise",
+            "warn"
+          ],
+          "title": "Overflow Policy",
+          "type": "string"
+        },
+        "parallelism": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parallelism"
+        },
+        "relative_tolerance": {
+          "default": 1e-08,
+          "minimum": 0.0,
+          "title": "Relative Tolerance",
+          "type": "number"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "use_jit": {
+          "default": false,
+          "title": "Use Jit",
+          "type": "boolean"
+        }
+      },
+      "title": "NumericalPolicy",
+      "type": "object"
+    },
+    "PerspectivePayload": {
+      "additionalProperties": false,
+      "description": "JSON-safe representation of the established perspective result.",
+      "properties": {
+        "consensus_strategy_index": {
+          "title": "Consensus Strategy Index",
+          "type": "integer"
+        },
+        "consensus_strategy_name": {
+          "title": "Consensus Strategy Name",
+          "type": "string"
+        },
+        "consensus_weighted_expected_net_benefit": {
+          "title": "Consensus Weighted Expected Net Benefit",
+          "type": "number"
+        },
+        "diagnostics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Diagnostics",
+          "type": "object"
+        },
+        "expected_net_benefits": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Expected Net Benefits",
+          "type": "array"
+        },
+        "method_maturity": {
+          "title": "Method Maturity",
+          "type": "string"
+        },
+        "optimal_expected_net_benefits": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Optimal Expected Net Benefits",
+          "type": "array"
+        },
+        "optimal_strategy_indices": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Optimal Strategy Indices",
+          "type": "array"
+        },
+        "optimal_strategy_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Optimal Strategy Names",
+          "type": "array"
+        },
+        "pareto_strategy_indices": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Pareto Strategy Indices",
+          "type": "array"
+        },
+        "pareto_strategy_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Pareto Strategy Names",
+          "type": "array"
+        },
+        "perspective_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Perspective Ids",
+          "type": "array"
+        },
+        "perspective_labels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Perspective Labels",
+          "type": "array"
+        },
+        "perspective_weights": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Perspective Weights",
+          "type": "array"
+        },
+        "reference_perspective_id": {
+          "title": "Reference Perspective Id",
+          "type": "string"
+        },
+        "regret_matrix": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Regret Matrix",
+          "type": "array"
+        },
+        "reporting": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Reporting",
+          "type": "object"
+        },
+        "robust_strategy_index": {
+          "title": "Robust Strategy Index",
+          "type": "integer"
+        },
+        "robust_strategy_name": {
+          "title": "Robust Strategy Name",
+          "type": "string"
+        },
+        "strategy_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Strategy Names",
+          "type": "array"
+        },
+        "switching_values": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Switching Values",
+          "type": "array"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "perspective_ids",
+        "perspective_labels",
+        "strategy_names",
+        "expected_net_benefits",
+        "optimal_strategy_indices",
+        "optimal_strategy_names",
+        "optimal_expected_net_benefits",
+        "regret_matrix",
+        "switching_values",
+        "consensus_strategy_index",
+        "consensus_strategy_name",
+        "consensus_weighted_expected_net_benefit",
+        "robust_strategy_index",
+        "robust_strategy_name",
+        "pareto_strategy_indices",
+        "pareto_strategy_names",
+        "perspective_weights",
+        "reference_perspective_id",
+        "method_maturity",
+        "diagnostics",
+        "reporting"
+      ],
+      "title": "PerspectivePayload",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Replay metadata describing how a result was produced.",
+      "properties": {
+        "backend": {
+          "minLength": 1,
+          "title": "Backend",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Details",
+          "type": "object"
+        },
+        "fixture_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixture Id"
+        },
+        "input_artifact_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Input Artifact Ids",
+          "type": "array"
+        },
+        "method_family": {
+          "minLength": 1,
+          "title": "Method Family",
+          "type": "string"
+        },
+        "package_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Package Version"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        }
+      },
+      "required": [
+        "backend",
+        "method_family"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "description": "Auditable runtime identity captured at dispatch time.",
+      "properties": {
+        "backend_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Backend Version"
+        },
+        "capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capabilities",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "device": {
+          "minLength": 1,
+          "title": "Device",
+          "type": "string"
+        },
+        "finished_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finished At"
+        },
+        "input_digest": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Digest"
+        },
+        "package_version": {
+          "title": "Package Version",
+          "type": "string"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string"
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        },
+        "requested_backend": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requested Backend"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "selected_backend": {
+          "minLength": 1,
+          "title": "Selected Backend",
+          "type": "string"
+        },
+        "spec_digest": {
+          "minLength": 1,
+          "title": "Spec Digest",
+          "type": "string"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        }
+      },
+      "required": [
+        "run_id",
+        "spec_digest",
+        "selected_backend",
+        "device",
+        "package_version",
+        "python_version",
+        "platform"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "decision_problem_id": {
+      "minLength": 1,
+      "title": "Decision Problem Id",
+      "type": "string"
+    },
+    "diagnostics": {
+      "$ref": "#/$defs/DiagnosticEnvelope"
+    },
+    "method_contract_version": {
+      "minLength": 1,
+      "title": "Method Contract Version",
+      "type": "string"
+    },
+    "method_family": {
+      "minLength": 1,
+      "title": "Method Family",
+      "type": "string"
+    },
+    "method_maturity": {
+      "enum": [
+        "stable",
+        "fixture-backed",
+        "approximate",
+        "experimental",
+        "backend-dependent"
+      ],
+      "title": "Method Maturity",
+      "type": "string"
+    },
+    "numerical_policy": {
+      "$ref": "#/$defs/NumericalPolicy"
+    },
+    "payload": {
+      "$ref": "#/$defs/PerspectivePayload"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "run_context": {
+      "$ref": "#/$defs/RunContext"
+    },
+    "schema_version": {
+      "const": "2.0.0",
+      "default": "2.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "method_family",
+    "method_contract_version",
+    "method_maturity",
+    "numerical_policy",
+    "payload",
+    "run_context",
+    "diagnostics",
+    "provenance"
+  ],
+  "title": "AnalysisResult[PerspectivePayload]",
+  "type": "object"
+}

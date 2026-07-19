@@ -1,0 +1,190 @@
+{
+  "analysis_id": "perspective-v2-example",
+  "decision_problem_id": "screening-program-001",
+  "diagnostics": {
+    "analysis_id": "perspective-v2-example",
+    "approximation_caveats": [],
+    "backend": "numpy",
+    "degraded_paths": [],
+    "status": "ok",
+    "unsupported_capabilities": [],
+    "warnings": []
+  },
+  "method_contract_version": "1.1.0",
+  "method_family": "value_of_perspective",
+  "method_maturity": "fixture-backed",
+  "numerical_policy": {
+    "absolute_tolerance": 1e-10,
+    "allow_fallback": false,
+    "backend_preference": [
+      "numpy"
+    ],
+    "chunk_size": null,
+    "deterministic_fixture_mode": true,
+    "device": null,
+    "dtype": "float64",
+    "execution_mode": "deterministic",
+    "nan_policy": "raise",
+    "overflow_policy": "raise",
+    "parallelism": null,
+    "relative_tolerance": 1e-08,
+    "required_capabilities": [],
+    "seed": null,
+    "use_jit": false
+  },
+  "payload": {
+    "consensus_strategy_index": 1,
+    "consensus_strategy_name": "B",
+    "consensus_weighted_expected_net_benefit": 10.0,
+    "diagnostics": {
+      "decision_rule": "expected_value",
+      "estimand": "directional_current_information_evop",
+      "method_contract_version": "1.1.0",
+      "n_perspectives": 2,
+      "n_samples": 2,
+      "n_strategies": 2,
+      "regret_definition": "row i, column j is regret in perspective i when using the strategy optimal under perspective j",
+      "switching_ci95": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          20.0,
+          20.0
+        ]
+      ],
+      "switching_standard_errors": [
+        0.0,
+        0.0
+      ],
+      "tie_policy": "first",
+      "ties_detected": [
+        false,
+        false
+      ]
+    },
+    "expected_net_benefits": [
+      [
+        10.0,
+        0.0
+      ],
+      [
+        0.0,
+        20.0
+      ]
+    ],
+    "method_maturity": "fixture-backed",
+    "optimal_expected_net_benefits": [
+      10.0,
+      20.0
+    ],
+    "optimal_strategy_indices": [
+      0,
+      1
+    ],
+    "optimal_strategy_names": [
+      "A",
+      "B"
+    ],
+    "pareto_strategy_indices": [
+      0,
+      1
+    ],
+    "pareto_strategy_names": [
+      "A",
+      "B"
+    ],
+    "perspective_ids": [
+      "payer",
+      "societal"
+    ],
+    "perspective_labels": [
+      "payer",
+      "societal"
+    ],
+    "perspective_weights": [
+      0.5,
+      0.5
+    ],
+    "reference_perspective_id": "payer",
+    "regret_matrix": [
+      [
+        0.0,
+        10.0
+      ],
+      [
+        20.0,
+        0.0
+      ]
+    ],
+    "reporting": {
+      "analysis_id": null,
+      "analysis_type": "value_of_perspective",
+      "decision_context": null,
+      "decision_problem_id": null,
+      "diagnostics": {
+        "n_perspectives": 2,
+        "n_samples": 2,
+        "n_strategies": 2
+      },
+      "estimator": null,
+      "method_family": "value_of_perspective",
+      "method_maturity": "fixture-backed",
+      "perspective_ids": [
+        "payer",
+        "societal"
+      ],
+      "perspective_labels": [
+        "payer",
+        "societal"
+      ],
+      "population": null,
+      "provenance": {},
+      "reporting_standard": "CHEERS-VOI",
+      "reproducibility": {},
+      "seed": null
+    },
+    "robust_strategy_index": 0,
+    "robust_strategy_name": "A",
+    "strategy_names": [
+      "A",
+      "B"
+    ],
+    "switching_values": [
+      0.0,
+      20.0
+    ],
+    "value": 10.0
+  },
+  "provenance": {
+    "backend": "numpy",
+    "details": {
+      "adapter": "legacy-perspective-result"
+    },
+    "fixture_id": "perspective-v2-example",
+    "input_artifact_ids": [],
+    "method_family": "value_of_perspective",
+    "package_version": "0.0.0",
+    "seed": null
+  },
+  "run_context": {
+    "backend_version": "fixture",
+    "capabilities": [
+      "dense-array",
+      "deterministic"
+    ],
+    "device": "cpu",
+    "finished_at": null,
+    "input_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "package_version": "0.0.0",
+    "platform": "contract-fixture",
+    "python_version": "3.14",
+    "requested_backend": "numpy",
+    "run_id": "contract-fixture-run",
+    "selected_backend": "numpy",
+    "spec_digest": "f63fde08f40c800afdaccb27b80dfa2789a51aa413b3b6f916d3db40e6762e0b",
+    "started_at": null
+  },
+  "schema_version": "2.0.0"
+}

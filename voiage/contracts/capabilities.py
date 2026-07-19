@@ -7,6 +7,7 @@ from enum import StrEnum
 from typing import Literal, Protocol
 
 import numpy as np  # noqa: TC002 - public protocol signature
+from pydantic import field_serializer
 
 from voiage.contracts.analysis import ContractModel, Identifier
 
@@ -37,6 +38,13 @@ class BackendCapabilities(ContractModel):
     devices: frozenset[Identifier]
     features: frozenset[Capability] = frozenset()
 
+    @field_serializer(
+        "method_families", "dtypes", "devices", "features", when_used="json"
+    )
+    def serialize_sets(self, value: frozenset[object]) -> tuple[str, ...]:
+        """Serialize descriptor sets in stable lexical order."""
+        return tuple(sorted(str(item) for item in value))
+
 
 class KernelRequirements(ContractModel):
     """Capabilities required to execute one kernel under a policy."""
@@ -45,6 +53,13 @@ class KernelRequirements(ContractModel):
     dtype: LiteralDtype
     device: Identifier | None = None
     required_features: frozenset[Capability] = frozenset()
+
+    @field_serializer("required_features", when_used="json")
+    def serialize_required_features(
+        self, value: frozenset[Capability]
+    ) -> tuple[str, ...]:
+        """Serialize required feature sets in canonical order."""
+        return tuple(sorted(item.value for item in value))
 
 
 class CapabilityReport(ContractModel):

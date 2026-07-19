@@ -2,20 +2,27 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable  # noqa: TC003 - runtime cast target
+from collections.abc import Mapping
 from dataclasses import dataclass
-import platform
-import sys
-from typing import Protocol, cast
+from typing import TYPE_CHECKING
 
 import numpy as np
 
-from voiage.contracts.capabilities import BackendCapabilities, Capability
-from voiage.main_backends import AppleMetalBackend, Backend, JaxBackend, NumpyBackend
+from voiage.contracts.analysis import (
+    AnalysisSpec,
+    NumericalPolicy,
+    ParameterDType,
+    ParameterSpec,
+)
+from voiage.schema import ParameterSet, ValueArray
 
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
-class _JaxDevice(Protocol):
-    platform: str
+    from numpy.typing import ArrayLike
+
+    from voiage.contracts.capabilities import BackendCapabilities
+    from voiage.main_backends import Backend
 
 
 @dataclass(frozen=True)
@@ -32,53 +39,86 @@ class LegacyBackendAdapter:
 
 def adapt_backend(backend: Backend) -> LegacyBackendAdapter:
     """Describe a built-in backend without adding abstract legacy methods."""
-    gil_probe = getattr(sys, "_is_gil_enabled", None)
-    python_free_threaded = gil_probe is not None and not gil_probe()
-    free_threaded: frozenset[Capability] = (
-        frozenset({Capability.FREE_THREADED}) if python_free_threaded else frozenset()
+    return LegacyBackendAdapter(
+        backend=backend,
+        capabilities=backend.capability_descriptor,
     )
-    if isinstance(backend, NumpyBackend):
-        capabilities = BackendCapabilities(
-            backend_name="numpy",
-            backend_version=np.__version__,
-            method_families=frozenset({"evpi", "enbs"}),
-            dtypes=frozenset({"float32", "float64"}),
-            devices=frozenset({"cpu"}),
-            features=frozenset({Capability.DENSE_ARRAY, Capability.DETERMINISTIC})
-            | free_threaded,
-        )
-    elif isinstance(backend, JaxBackend):
-        import jax
 
-        list_devices = cast("Callable[[], list[_JaxDevice]]", jax.devices)
-        devices = list_devices()
 
-        capabilities = BackendCapabilities(
-            backend_name="jax",
-            backend_version=jax.__version__,
-            method_families=frozenset({"evpi", "enbs", "evppi", "evsi"}),
-            dtypes=frozenset({"float32", "float64"}),
-            devices=frozenset(item.platform for item in devices),
-            features=frozenset(
-                {
-                    Capability.DENSE_ARRAY,
-                    Capability.DETERMINISTIC,
-                    Capability.JIT,
-                    Capability.AUTODIFF,
-                    Capability.BATCHING,
-                }
-            )
-            | free_threaded,
+def adapt_value_array(
+    values: ValueArray | ArrayLike,
+    *,
+    strategy_names: Sequence[str] | None = None,
+    perspective_names: Sequence[str] | None = None,
+) -> ValueArray:
+    """Normalize supported arrays while preserving established instances."""
+    if isinstance(values, ValueArray):
+        return values
+    array = np.asarray(values)
+    strategies = list(strategy_names) if strategy_names is not None else None
+    if array.ndim == 2:
+        if perspective_names is not None:
+            raise ValueError("perspective_names require a 3D value array")
+        return ValueArray.from_numpy(  # pyright: ignore[reportUnknownMemberType]
+            array, strategies
         )
-    elif isinstance(backend, AppleMetalBackend):
-        capabilities = BackendCapabilities(
-            backend_name="apple_metal",
-            backend_version=platform.mac_ver()[0] or "unknown",
-            method_families=frozenset({"evpi", "enbs"}),
-            dtypes=frozenset({"float32"}),
-            devices=frozenset({"mps"}),
-            features=frozenset({Capability.DENSE_ARRAY, Capability.DETERMINISTIC}),
+    if array.ndim == 3:
+        return ValueArray.from_numpy_perspectives(  # pyright: ignore[reportUnknownMemberType]
+            array,
+            strategies,
+            list(perspective_names) if perspective_names is not None else None,
         )
-    else:
-        raise TypeError(f"Unsupported legacy backend type: {type(backend).__name__}")
-    return LegacyBackendAdapter(backend=backend, capabilities=capabilities)
+    raise ValueError("values must be a 2D or 3D array")
+
+
+def adapt_parameter_set(
+    parameters: ParameterSet | Mapping[str, np.ndarray] | np.ndarray | None,
+) -> ParameterSet | None:
+    """Normalize parameter samples while preserving established instances."""
+    if parameters is None or isinstance(parameters, ParameterSet):
+        return parameters
+    normalized = dict(parameters) if isinstance(parameters, Mapping) else parameters
+    return ParameterSet.from_numpy_or_dict(  # pyright: ignore[reportUnknownMemberType]
+        normalized
+    )
+
+
+def _parameter_dtype(values: np.ndarray) -> ParameterDType:
+    if np.issubdtype(values.dtype, np.bool_):
+        return "bool"
+    if np.issubdtype(values.dtype, np.integer):
+        return "int64"
+    if np.issubdtype(values.dtype, np.str_):
+        return "string"
+    return "float64" if values.dtype.itemsize > 4 else "float32"
+
+
+def analysis_spec_from_inputs(
+    *,
+    analysis_id: str,
+    decision_problem_id: str,
+    method_family: str,
+    method_contract_version: str,
+    values: ValueArray,
+    parameters: ParameterSet | None = None,
+    numerical_policy: NumericalPolicy | None = None,
+) -> AnalysisSpec:
+    """Build a declarative specification from existing numerical containers."""
+    parameter_specs = tuple(
+        ParameterSpec(
+            parameter_id=name,
+            role="uncertain",
+            dtype=_parameter_dtype(np.asarray(samples)),
+            dimensions=("n_samples",),
+        )
+        for name, samples in (parameters.parameters.items() if parameters else ())
+    )
+    return AnalysisSpec(
+        analysis_id=analysis_id,
+        decision_problem_id=decision_problem_id,
+        method_family=method_family,
+        method_contract_version=method_contract_version,
+        strategy_names=tuple(values.strategy_names),
+        parameters=parameter_specs,
+        numerical_policy=numerical_policy or NumericalPolicy(),
+    )

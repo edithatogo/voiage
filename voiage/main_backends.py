@@ -20,6 +20,7 @@ from numpy.typing import ArrayLike
 from voiage.exceptions import raise_import_error, raise_value_error
 
 if TYPE_CHECKING:
+    from voiage.contracts.capabilities import BackendCapabilities
     from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
 try:
@@ -69,6 +70,38 @@ class ModelFuncProtocol(Protocol):
 class Backend(ABC):
     """Abstract base class for computational backends."""
 
+    backend_name: str = "backend"
+    supported_method_families: frozenset[str] = frozenset({"evpi"})
+    supported_dtypes: frozenset[str] = frozenset({"float64"})
+    supported_devices: frozenset[str] = frozenset({"cpu"})
+    capability_labels: frozenset[str] = frozenset({"dense-array", "deterministic"})
+
+    def _capability_version(self) -> str:
+        """Return the runtime version represented by this backend."""
+        return "unknown"
+
+    def _capability_devices(self) -> frozenset[str]:
+        """Return devices currently visible to this backend."""
+        return self.supported_devices
+
+    @property
+    def capability_descriptor(self) -> BackendCapabilities:
+        """Return an additive, immutable description of backend capabilities."""
+        from voiage.contracts.capabilities import BackendCapabilities, Capability
+
+        gil_probe = getattr(sys, "_is_gil_enabled", None)
+        labels = set(self.capability_labels)
+        if gil_probe is not None and not gil_probe():
+            labels.add("free-threaded")
+        return BackendCapabilities(
+            backend_name=self.backend_name,
+            backend_version=self._capability_version(),
+            method_families=self.supported_method_families,
+            dtypes=self.supported_dtypes,
+            devices=self._capability_devices(),
+            features=frozenset(Capability(item) for item in labels),
+        )
+
     @abstractmethod
     def evpi(self, net_benefit_array: ArrayLike) -> float:
         """Calculate the Expected Value of Perfect Information (EVPI)."""
@@ -77,6 +110,13 @@ class Backend(ABC):
 
 class NumpyBackend(Backend):
     """NumPy-based computational backend."""
+
+    backend_name = "numpy"
+    supported_method_families = frozenset({"evpi", "enbs", "value_of_perspective"})
+    supported_dtypes = frozenset({"float32", "float64"})
+
+    def _capability_version(self) -> str:
+        return np.__version__
 
     def evpi(self, net_benefit_array: ArrayLike) -> float:
         """Calculate EVPI using NumPy."""
@@ -737,6 +777,15 @@ except ImportError:
 class JaxBackend(Backend):
     """Public JAX backend type."""
 
+    backend_name = "jax"
+    supported_method_families = frozenset(
+        {"evpi", "enbs", "evppi", "evsi", "value_of_perspective"}
+    )
+    supported_dtypes = frozenset({"float32", "float64"})
+    capability_labels = frozenset(
+        {"dense-array", "deterministic", "jit", "autodiff", "batching"}
+    )
+
     def __init__(self) -> None:
         if not JAX_AVAILABLE:
             raise_import_error("JAX is not installed")
@@ -749,6 +798,12 @@ class JaxBackend(Backend):
     def evpi(self, net_benefit_array: ArrayLike) -> float:
         """Calculate EVPI using the JAX implementation."""
         return self._impl.evpi(net_benefit_array)
+
+    def _capability_version(self) -> str:
+        return str(jax.__version__)
+
+    def _capability_devices(self) -> frozenset[str]:
+        return frozenset(str(item.platform) for item in jax.devices())
 
 
 try:
@@ -767,6 +822,11 @@ except ImportError:
 
 class AppleMetalBackend(Backend):
     """Optional Apple Metal backend backed by PyTorch MPS."""
+
+    backend_name = "apple_metal"
+    supported_method_families = frozenset({"evpi", "enbs", "value_of_perspective"})
+    supported_dtypes = frozenset({"float32"})
+    supported_devices = frozenset({"mps"})
 
     def __init__(self) -> None:
         if torch is None:
@@ -810,6 +870,9 @@ class AppleMetalBackend(Backend):
     ) -> float:
         """PyTorch MPS backend does not provide a separate JIT path here."""
         return self.enbs_simple(net_benefit_array, research_cost)
+
+    def _capability_version(self) -> str:
+        return str(self._torch.__version__)
 
 
 # Helper functions for benchmark payload normalization and comparisons.
