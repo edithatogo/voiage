@@ -2,9 +2,9 @@
 
 ## Phase 1 - Versioned shared contract bundle
 
-- [ ] Task: Add failing bundle reproducibility and consumer-verification tests.
-- [ ] Task: Generate schemas, Arrow identity, fixtures, migration policy and manifest in VOP.
-- [ ] Task: Pin and verify the bundle independently in VOIAGE.
+- [~] Task: Add failing bundle reproducibility and consumer-verification tests.
+- [~] Task: Generate schemas, Arrow identity, fixtures, migration policy and manifest in VOP.
+- [~] Task: Pin and verify the bundle independently in VOIAGE.
 - [ ] Task: Phase verification and checkpoint.
 
 ## Phase 2 - Evolution, property and differential assurance
