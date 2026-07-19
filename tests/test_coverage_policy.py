@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from pathlib import Path
 
 from scripts.check_coverage_policy import evaluate_coverage
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def fixture() -> tuple[dict[str, object], dict[str, object], dict[str, set[int]]]:
@@ -59,3 +62,14 @@ def test_coverage_policy_rejects_changed_production_file_without_measurement() -
     report = evaluate_coverage(coverage, policy, changed)
     assert report["passed"] is False
     assert report["changed"]["unmeasured_files"] == ["voiage/new_module.py"]
+
+
+def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None:
+    workflow = (ROOT / ".github/workflows/operational-assurance.yml").read_text(
+        encoding="utf-8"
+    )
+    assert "pytest tests/ --cov=voiage" in workflow
+    assert '-m "not integration' not in workflow
+    assert "4017aac3b5803f2d68b09d74e57ebd6c55e933d0" in workflow
+    assert 'merge-base --is-ancestor "${base}" "${C15_PROVENANCE_FLOOR}"' in workflow
+    assert "include-hidden-files: true" in workflow

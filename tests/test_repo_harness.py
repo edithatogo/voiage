@@ -1,5 +1,6 @@
 """Contract tests for the repository-owned engineering harness."""
 
+import json
 from pathlib import Path
 
 from scripts.repo_harness import (
@@ -56,3 +57,43 @@ def test_missing_operational_assurance_gate_is_rejected(tmp_path: Path) -> None:
         finding.path == ".github/workflows/operational-assurance.yml"
         for finding in findings
     )
+
+
+def test_weakened_coverage_policy_is_rejected(tmp_path: Path) -> None:
+    """Every promoted coverage threshold is structurally pinned."""
+    policy = tmp_path / ".github" / "coverage-policy.json"
+    policy.parent.mkdir(parents=True)
+    policy.write_text(
+        '{"schema_version":"1.0.0","aggregate_percent":90.0,'
+        '"critical_modules":{},"changed_line_percent":0.0,'
+        '"changed_branch_percent":100.0}',
+        encoding="utf-8",
+    )
+    findings = check_operational_assurance(tmp_path)
+    assert any("exactly match" in finding.message for finding in findings)
+
+
+def test_self_asserted_mutation_approval_is_rejected(tmp_path: Path) -> None:
+    """Repository content cannot declare its own governance approval."""
+    baseline = tmp_path / ".github" / "mutation-baselines" / "voiage-cohort.json"
+    baseline.parent.mkdir(parents=True)
+    baseline.write_text(
+        json.dumps(
+            {
+                "promotion_provenance": {
+                    "review_state": "requires_external_anchor",
+                    "human_approved": True,
+                },
+                "cohort": {
+                    "tool_version": "3.6.0",
+                    "lock_sha256": "0" * 64,
+                    "configuration_sha256": "0" * 64,
+                    "sources": [],
+                },
+                "universe": {"ids": [], "sha256": "0" * 64},
+            }
+        ),
+        encoding="utf-8",
+    )
+    findings = check_operational_assurance(tmp_path)
+    assert any("external review anchor" in finding.message for finding in findings)

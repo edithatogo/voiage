@@ -18,6 +18,32 @@ from voiage.contracts.bundle import (
     verify_pinned_contract_bundle,
 )
 
+_REQUIRED_CASES: tuple[dict[str, object], ...] = (
+    {
+        "id": "n-minus-1-to-current",
+        "from": "n_minus_1",
+        "to": "current",
+        "expected": "backward_compatible",
+    },
+    {
+        "id": "current-identity",
+        "from": "current",
+        "to": "current",
+        "expected": "identity_compatible",
+    },
+    {
+        "id": "intentionally-incompatible-dtype",
+        "from": "n_minus_1",
+        "to": "current",
+        "mutation": {
+            "field": "incremental_cost",
+            "property": "arrow_type",
+            "value": "float32",
+        },
+        "expected": "incompatible",
+    },
+)
+
 
 def _object(path: Path) -> dict[str, object]:
     value: object = json.loads(path.read_text(encoding="utf-8"))
@@ -60,6 +86,12 @@ def evaluate_matrix(repo: Path, matrix_path: Path) -> dict[str, object]:
         repo / cast("str", bundle["path"]), pin_path
     )
     transition = _object(descriptor_path)
+    provenance = transition.get("provenance")
+    if not isinstance(provenance, dict):
+        raise TypeError("migration provenance must be an object")
+    typed_provenance = cast("dict[str, object]", provenance)
+    if typed_provenance.get("source_bundle_sha256") != verified.bundle_sha256:
+        raise ValueError("migration source bundle provenance mismatch")
     n_minus_1_key = descriptors.get("n_minus_1")
     current_key = descriptors.get("current")
     if not isinstance(n_minus_1_key, str) or not isinstance(current_key, str):
@@ -68,8 +100,11 @@ def evaluate_matrix(repo: Path, matrix_path: Path) -> dict[str, object]:
         "n_minus_1": cast("dict[str, object]", transition[n_minus_1_key]),
         "current": cast("dict[str, object]", transition[current_key]),
     }
+    raw_cases = matrix["cases"]
+    if not isinstance(raw_cases, list) or raw_cases != list(_REQUIRED_CASES):
+        raise ValueError("consumer matrix must contain the exact required cases")
     results: list[dict[str, object]] = []
-    for raw_case in cast("list[object]", matrix["cases"]):
+    for raw_case in cast("list[object]", raw_cases):
         case = cast("dict[str, object]", raw_case)
         previous = deepcopy(roles[cast("str", case["from"])])
         current = deepcopy(roles[cast("str", case["to"])])

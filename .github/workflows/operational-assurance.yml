@@ -42,8 +42,7 @@ jobs:
 
     - name: Collect full branch coverage
       run: |
-        uv run coverage run --branch --source=voiage -m pytest tests/ -m "not integration and not e2e and not benchmark"
-        uv run coverage json -o .assurance/coverage.json
+        uv run pytest tests/ --cov=voiage --cov-config=pyproject.toml --cov-report=json:.assurance/coverage.json --cov-fail-under=90
 
     - name: Resolve comparison base
       id: comparison
@@ -51,11 +50,15 @@ jobs:
         EVENT_NAME: ${{ github.event_name }}
         PR_BASE: ${{ github.event.pull_request.base.sha }}
         PUSH_BASE: ${{ github.event.before }}
+        C15_PROVENANCE_FLOOR: 4017aac3b5803f2d68b09d74e57ebd6c55e933d0
       run: |
         base="${PUSH_BASE}"
         if [ "${EVENT_NAME}" = pull_request ]; then base="${PR_BASE}"; fi
         if [ -z "${base}" ] || [ "${base}" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${base}^{commit}"; then
           base="HEAD^"
+        fi
+        if git merge-base --is-ancestor "${base}" "${C15_PROVENANCE_FLOOR}"; then
+          base="${C15_PROVENANCE_FLOOR}"
         fi
         echo "base=${base}" >> "$GITHUB_OUTPUT"
 
@@ -72,4 +75,5 @@ jobs:
       with:
         name: operational-assurance-evidence
         if-no-files-found: error
+        include-hidden-files: true
         path: .assurance/

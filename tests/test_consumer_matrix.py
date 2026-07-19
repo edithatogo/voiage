@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from hashlib import sha256
 import json
 from pathlib import Path
 import sys
@@ -36,3 +37,32 @@ def test_matrix_content_addresses_every_external_input(
     target.write_text(json.dumps(matrix), encoding="utf-8")
     with pytest.raises(ValueError, match="digest mismatch"):
         evaluate_matrix(ROOT, target)
+
+
+@pytest.mark.parametrize("mutation", [[], [{"id": "substitute"}]])
+def test_matrix_rejects_missing_or_substituted_cases(
+    tmp_path: Path, mutation: list[object]
+) -> None:
+    matrix = json.loads(MATRIX.read_text(encoding="utf-8"))
+    matrix["cases"] = mutation
+    target = tmp_path / "matrix.json"
+    target.write_text(json.dumps(matrix), encoding="utf-8")
+    with pytest.raises(ValueError, match="exact required cases"):
+        evaluate_matrix(ROOT, target)
+
+
+def test_matrix_rejects_migration_provenance_not_bound_to_bundle(
+    tmp_path: Path,
+) -> None:
+    matrix = json.loads(MATRIX.read_text(encoding="utf-8"))
+    source = ROOT / matrix["descriptors"]["path"]
+    descriptor = json.loads(source.read_text(encoding="utf-8"))
+    descriptor["provenance"]["source_bundle_sha256"] = "0" * 64
+    target_descriptor = tmp_path / "migration.json"
+    target_descriptor.write_text(json.dumps(descriptor), encoding="utf-8")
+    matrix["descriptors"]["path"] = str(target_descriptor)
+    matrix["descriptors"]["sha256"] = sha256(target_descriptor.read_bytes()).hexdigest()
+    target_matrix = tmp_path / "matrix.json"
+    target_matrix.write_text(json.dumps(matrix), encoding="utf-8")
+    with pytest.raises(ValueError, match="source bundle provenance mismatch"):
+        evaluate_matrix(ROOT, target_matrix)

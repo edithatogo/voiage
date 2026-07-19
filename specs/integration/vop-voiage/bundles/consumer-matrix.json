@@ -9,7 +9,7 @@
   },
   "descriptors": {
     "path": "specs/integration/vop-voiage/bundles/migrations/1.0.0-to-1.1.0.json",
-    "sha256": "e0f665cfefa6002685869bb8b57bc9ebf26d62dbdf70738bd4989daf8589dc43",
+    "sha256": "90dbca37cb7a7210c0cb9a7193b621e5ec2785e5581f03bba79acab3d148af55",
     "n_minus_1": "previous",
     "current": "current"
   },

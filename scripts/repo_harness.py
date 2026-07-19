@@ -72,18 +72,38 @@ OPERATIONAL_ASSURANCE_MARKERS = {
     ".github/workflows/operational-assurance.yml": (
         "scripts/check_consumer_matrix.py",
         "scripts/check_coverage_policy.py",
-        "--branch --source=voiage",
+        "--cov-fail-under=90",
+        "4017aac3b5803f2d68b09d74e57ebd6c55e933d0",
+        "include-hidden-files: true",
         "if-no-files-found: error",
     ),
     ".github/workflows/ci.yml": (
         "scripts/check_mutation_cohort.py",
         ".github/mutation-baselines/voiage-cohort.json",
         "mutation-cohort.json",
+        "VOIAGE_MUTATION_BASELINE_SHA256",
+        "mutmut-universe.txt",
+    ),
+    ".github/mutation-baselines/README.md": (
+        "VOIAGE_MUTATION_BASELINE_SHA256",
+        "Do not add an approval Boolean",
+        "fails closed",
     ),
     ".github/coverage-policy.json": (
         '"aggregate_percent": 90.0',
         '"changed_branch_percent": 100.0',
     ),
+}
+EXPECTED_COVERAGE_POLICY = {
+    "schema_version": "1.0.0",
+    "aggregate_percent": 90.0,
+    "critical_modules": {
+        "voiage/assurance_policy.py": 100.0,
+        "voiage/contracts/bundle.py": 90.0,
+        "voiage/mutation_policy.py": 95.0,
+    },
+    "changed_line_percent": 95.0,
+    "changed_branch_percent": 100.0,
 }
 
 
@@ -261,6 +281,44 @@ def check_operational_assurance(root: Path) -> list[Finding]:
                     "operational assurance markers are missing: " + ", ".join(missing),
                 )
             )
+    policy_path = root / ".github" / "coverage-policy.json"
+    try:
+        policy = json.loads(policy_path.read_text(encoding="utf-8"))
+    except OSError, json.JSONDecodeError:
+        policy = None
+    if policy != EXPECTED_COVERAGE_POLICY:
+        findings.append(
+            Finding(
+                ".github/coverage-policy.json",
+                "coverage policy must exactly match the promoted thresholds",
+            )
+        )
+    baseline_path = root / ".github" / "mutation-baselines" / "voiage-cohort.json"
+    try:
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        provenance = baseline["promotion_provenance"]
+        cohort = baseline["cohort"]
+        universe = baseline["universe"]
+    except OSError, json.JSONDecodeError, KeyError, TypeError:
+        provenance = cohort = universe = None
+    externally_anchored = (
+        isinstance(provenance, dict)
+        and "human_approved" not in provenance
+        and provenance.get("review_state") == "requires_external_anchor"
+        and isinstance(cohort, dict)
+        and {"tool_version", "lock_sha256", "configuration_sha256", "sources"}
+        <= set(cohort)
+        and isinstance(universe, dict)
+        and isinstance(universe.get("ids"), list)
+        and isinstance(universe.get("sha256"), str)
+    )
+    if not externally_anchored:
+        findings.append(
+            Finding(
+                ".github/mutation-baselines/voiage-cohort.json",
+                "mutation baseline must require an external review anchor",
+            )
+        )
     return findings
 
 

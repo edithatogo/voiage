@@ -60,7 +60,7 @@
     "schema_version": "1.1.0"
   },
   "provenance": {
-    "source_bundle_sha256": "fba786ead24ac359fc943892f74bcc905f38e96f0ac4cf945824b6c63fd80a0c",
+    "source_bundle_sha256": "f79a8d56b22736e34f10d8cb02db46239f27093fd1c366d4ca0ba2c688b60798",
     "source_arrow_schema_fingerprint": "a6d94152c7c0ab3b92d0806fdd87240931e6387e8aafe76fbdb88d27da0f4b5e",
     "derivation": "Append one nullable logical field to the pinned 1.0.0 identity."
   }
