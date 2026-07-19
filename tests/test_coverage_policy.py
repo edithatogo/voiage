@@ -64,6 +64,28 @@ def test_coverage_policy_rejects_changed_production_file_without_measurement() -
     assert report["changed"]["unmeasured_files"] == ["voiage/new_module.py"]
 
 
+def test_coverage_policy_binds_tested_revision_to_source_head() -> None:
+    coverage, policy, changed = fixture()
+    exact = evaluate_coverage(
+        coverage,
+        policy,
+        changed,
+        source_head="a" * 40,
+        tested_head="a" * 40,
+    )
+    assert exact["passed"] is True
+    assert exact["exact_source_head"] is True
+    mismatch = evaluate_coverage(
+        coverage,
+        policy,
+        changed,
+        source_head="a" * 40,
+        tested_head="b" * 40,
+    )
+    assert mismatch["passed"] is False
+    assert mismatch["exact_source_head"] is False
+
+
 def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None:
     workflow = (ROOT / ".github/workflows/operational-assurance.yml").read_text(
         encoding="utf-8"
@@ -73,3 +95,5 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
     assert "4017aac3b5803f2d68b09d74e57ebd6c55e933d0" in workflow
     assert 'merge-base --is-ancestor "${base}" "${C15_PROVENANCE_FLOOR}"' in workflow
     assert "include-hidden-files: true" in workflow
+    assert "ref: ${{ github.event.pull_request.head.sha || github.sha }}" in workflow
+    assert '--source-head "${SOURCE_HEAD}"' in workflow

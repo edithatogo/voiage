@@ -43,6 +43,11 @@ _REQUIRED_CASES: tuple[dict[str, object], ...] = (
         "expected": "incompatible",
     },
 )
+_PROVENANCE_KEYS = {
+    "derivation",
+    "source_arrow_schema_fingerprint",
+    "source_bundle_sha256",
+}
 
 
 def _object(path: Path) -> dict[str, object]:
@@ -90,6 +95,8 @@ def evaluate_matrix(repo: Path, matrix_path: Path) -> dict[str, object]:
     if not isinstance(provenance, dict):
         raise TypeError("migration provenance must be an object")
     typed_provenance = cast("dict[str, object]", provenance)
+    if set(typed_provenance) != _PROVENANCE_KEYS:
+        raise ValueError("migration provenance must contain the exact required keys")
     if typed_provenance.get("source_bundle_sha256") != verified.bundle_sha256:
         raise ValueError("migration source bundle provenance mismatch")
     n_minus_1_key = descriptors.get("n_minus_1")
@@ -100,6 +107,15 @@ def evaluate_matrix(repo: Path, matrix_path: Path) -> dict[str, object]:
         "n_minus_1": cast("dict[str, object]", transition[n_minus_1_key]),
         "current": cast("dict[str, object]", transition[current_key]),
     }
+    source_fingerprint = typed_provenance.get("source_arrow_schema_fingerprint")
+    if (
+        source_fingerprint != verified.arrow_schema_fingerprint
+        or source_fingerprint != roles["n_minus_1"].get("schema_fingerprint")
+    ):
+        raise ValueError("migration source Arrow fingerprint provenance mismatch")
+    derivation = typed_provenance.get("derivation")
+    if not isinstance(derivation, str) or not derivation.strip():
+        raise ValueError("migration provenance derivation must not be empty")
     raw_cases = matrix["cases"]
     if not isinstance(raw_cases, list) or raw_cases != list(_REQUIRED_CASES):
         raise ValueError("consumer matrix must contain the exact required cases")

@@ -66,3 +66,31 @@ def test_matrix_rejects_migration_provenance_not_bound_to_bundle(
     target_matrix.write_text(json.dumps(matrix), encoding="utf-8")
     with pytest.raises(ValueError, match="source bundle provenance mismatch"):
         evaluate_matrix(ROOT, target_matrix)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            {"source_arrow_schema_fingerprint": "0" * 64},
+            "source Arrow fingerprint provenance mismatch",
+        ),
+        ({"derivation": None}, "derivation must not be empty"),
+        ({"unexpected": "field"}, "exact required keys"),
+    ],
+)
+def test_matrix_rejects_incomplete_or_false_schema_provenance(
+    tmp_path: Path, mutation: dict[str, object], message: str
+) -> None:
+    matrix = json.loads(MATRIX.read_text(encoding="utf-8"))
+    source = ROOT / matrix["descriptors"]["path"]
+    descriptor = json.loads(source.read_text(encoding="utf-8"))
+    descriptor["provenance"].update(mutation)
+    target_descriptor = tmp_path / "migration.json"
+    target_descriptor.write_text(json.dumps(descriptor), encoding="utf-8")
+    matrix["descriptors"]["path"] = str(target_descriptor)
+    matrix["descriptors"]["sha256"] = sha256(target_descriptor.read_bytes()).hexdigest()
+    target_matrix = tmp_path / "matrix.json"
+    target_matrix.write_text(json.dumps(matrix), encoding="utf-8")
+    with pytest.raises(ValueError, match=message):
+        evaluate_matrix(ROOT, target_matrix)

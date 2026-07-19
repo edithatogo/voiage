@@ -5,6 +5,8 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
+import pytest
+
 from scripts.check_mutation_cohort import (
     cohort_identity,
     evaluate_cohort,
@@ -141,3 +143,43 @@ def test_universe_parser_rejects_duplicates_and_unknown_status() -> None:
             pass
         else:
             raise AssertionError("invalid mutation universe was accepted")
+
+
+def test_cohort_rejects_any_mutant_that_was_not_checked() -> None:
+    identity = cohort_identity(ROOT, ROOT / "pyproject.toml")
+    ids = [f"voiage.contracts.example__mutmut_{number}" for number in range(65)]
+    rows = [
+        f"{mutant}: {'killed' if index < 51 else ('survived' if index < 64 else 'not checked')}"
+        for index, mutant in enumerate(ids)
+    ]
+    with pytest.raises(ValueError, match="were not checked"):
+        _evaluate(identity, universe=mutation_universe("\n".join(rows)))
+
+
+def test_caught_by_type_check_is_reconciled_as_unresolved_debt() -> None:
+    identity = cohort_identity(ROOT, ROOT / "pyproject.toml")
+    ids = [f"voiage.contracts.example__mutmut_{number}" for number in range(65)]
+    rows = [
+        f"{mutant}: {'killed' if index < 51 else ('survived' if index < 64 else 'caught by type check')}"
+        for index, mutant in enumerate(ids)
+    ]
+    universe = mutation_universe("\n".join(rows))
+    stats = deepcopy(STATS)
+    stats["survived"] = 13
+    report = evaluate_cohort(
+        stats,
+        _reviewed_baseline(identity),
+        identity,
+        universe,
+        75.0,
+        baseline_sha256=ANCHOR,
+        reviewed_baseline_sha256=ANCHOR,
+    )
+    assert report["passed"] is True
+    assert report["status_reconciliation"] == {
+        "caught_by_type_check": 1,
+        "caught_by_type_check_policy": "counts_as_unresolved_debt",
+        "not_checked": 0,
+        "reconciled_total": 65,
+    }
+    assert report["debt"]["absolute"] == 14

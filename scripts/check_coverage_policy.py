@@ -53,6 +53,9 @@ def evaluate_coverage(
     coverage: dict[str, object],
     policy: dict[str, object],
     changed: dict[str, set[int]],
+    *,
+    source_head: str | None = None,
+    tested_head: str | None = None,
 ) -> dict[str, object]:
     """Evaluate coverage.py JSON against a fail-closed policy."""
     totals = cast("dict[str, object]", coverage["totals"])
@@ -130,6 +133,12 @@ def evaluate_coverage(
         and line_percent >= line_min
         and branch_percent >= branch_min
     )
+    if (source_head is None) != (tested_head is None):
+        raise ValueError(
+            "source and tested revision evidence must be provided together"
+        )
+    exact_source_head = source_head is None or source_head == tested_head
+    passed = passed and exact_source_head
     return {
         "schema_version": "1.0.0",
         "aggregate": {"percent": aggregate, "minimum": aggregate_min},
@@ -148,6 +157,9 @@ def evaluate_coverage(
             "unmeasured_files": unmeasured_files,
         },
         "passed": passed,
+        "source_head": source_head,
+        "tested_head": tested_head,
+        "exact_source_head": exact_source_head,
     }
 
 
@@ -159,21 +171,25 @@ def main() -> int:
         "--policy", type=Path, default=Path(".github/coverage-policy.json")
     )
     parser.add_argument("--base", required=True)
+    parser.add_argument("--source-head", required=True)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     repo = args.repo.resolve()
-    evidence = evaluate_coverage(
-        _object(args.coverage),
-        _object(args.policy),
-        changed_python_lines(repo, args.base),
-    )
-    evidence["base"] = args.base
-    evidence["head"] = subprocess.check_output(
+    tested_head = subprocess.check_output(
         ["git", "rev-parse", "HEAD"],  # noqa: S607
         cwd=repo,
         text=True,
     ).strip()
+    evidence = evaluate_coverage(
+        _object(args.coverage),
+        _object(args.policy),
+        changed_python_lines(repo, args.base),
+        source_head=args.source_head,
+        tested_head=tested_head,
+    )
+    evidence["base"] = args.base
+    evidence["head"] = tested_head
     rendered = json.dumps(evidence, indent=2, sort_keys=True) + "\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(rendered, encoding="utf-8", newline="\n")

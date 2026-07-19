@@ -157,6 +157,12 @@ def evaluate_cohort(
             "mutation universe cardinality does not match statistics total"
         )
     statuses = cast("dict[str, str]", universe["statuses"])
+    not_checked = sum(status == "not checked" for status in statuses.values())
+    if not_checked:
+        raise ValueError("mutation universe contains mutants that were not checked")
+    caught_by_type_check = sum(
+        status == "caught by type check" for status in statuses.values()
+    )
     expected_status_counts = {
         "killed": score.killed,
         "survived": score.survived,
@@ -172,6 +178,11 @@ def evaluate_cohort(
         for expected, count in expected_status_counts.items()
     ):
         raise ValueError("mutation universe statuses do not match statistics")
+    reconciled_total = sum(expected_status_counts.values()) + caught_by_type_check
+    if reconciled_total != score.total:
+        raise ValueError(
+            "mutation universe statuses do not reconcile to statistics total"
+        )
     baseline_universe = cast("dict[str, object]", baseline["universe"])
     baseline_ids = cast("list[str]", baseline_universe["ids"])
     if (
@@ -222,6 +233,12 @@ def evaluate_cohort(
             "matches": universe_matches,
         },
         "score": score_report,
+        "status_reconciliation": {
+            "caught_by_type_check": caught_by_type_check,
+            "caught_by_type_check_policy": "counts_as_unresolved_debt",
+            "not_checked": 0,
+            "reconciled_total": reconciled_total,
+        },
         "promoted_minimum_score_percent": minimum_score,
         "debt": {
             "absolute": debt,

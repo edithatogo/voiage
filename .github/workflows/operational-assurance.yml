@@ -14,9 +14,10 @@ jobs:
   compatibility-and-coverage:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout complete comparison history
+    - name: Checkout exact source head with complete comparison history
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
       with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
         fetch-depth: 0
         persist-credentials: false
 
@@ -63,10 +64,13 @@ jobs:
         echo "base=${base}" >> "$GITHUB_OUTPUT"
 
     - name: Enforce aggregate, critical, and changed-line coverage
+      env:
+        SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
       run: >-
         uv run python scripts/check_coverage_policy.py
         --coverage .assurance/coverage.json
         --base "${{ steps.comparison.outputs.base }}"
+        --source-head "${SOURCE_HEAD}"
         --output .assurance/coverage-policy.json
 
     - name: Upload operational assurance evidence
