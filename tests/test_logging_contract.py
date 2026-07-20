@@ -10,30 +10,20 @@ import pytest
 from voiage.contracts.analysis import AnalysisSpec, DiagnosticRecord, NumericalPolicy
 from voiage.contracts.kernel import run_evpi
 import voiage.logging as logging_module
-from voiage.logging import (
-    AnalysisLogContext,
-    LoggingSettings,
-    TraceContext,
-    analysis_log_context,
-    analysis_log_context_from_result,
-    configure_logging,
-    log_context,
-    numerical_policy_digest,
-)
 
 
 def test_logging_settings_are_pydantic_v2_and_strict() -> None:
-    assert LoggingSettings.model_fields
+    assert logging_module.LoggingSettings.model_fields
     with pytest.raises(ValidationError):
-        LoggingSettings(level="verbose")
+        logging_module.LoggingSettings(level="verbose")
 
 
 def test_json_logging_carries_run_and_bound_context(tmp_path) -> None:
     destination = tmp_path / "run.jsonl"
-    logger = configure_logging(
-        LoggingSettings(console=False, log_file=destination, run_id="test-run")
+    logger = logging_module.configure_logging(
+        logging_module.LoggingSettings(console=False, log_file=destination, run_id="test-run")
     )
-    with log_context(
+    with logging_module.log_context(
         track="C08",
         command="evpi",
         access_token="never-log-this",  # noqa: S106 - verifies redaction
@@ -54,14 +44,14 @@ def test_configuration_preserves_root_handlers() -> None:
     sentinel = stdlib_logging.NullHandler()
     root.addHandler(sentinel)
     try:
-        configure_logging(LoggingSettings(console=False))
+        logging_module.configure_logging(logging_module.LoggingSettings(console=False))
         assert sentinel in root.handlers
     finally:
         root.removeHandler(sentinel)
 
 
 def test_shared_trace_context_is_w3c_compatible_and_strict() -> None:
-    trace = TraceContext(trace_id="1" * 32, span_id="2" * 16, trace_flags="01")
+    trace = logging_module.TraceContext(trace_id="1" * 32, span_id="2" * 16, trace_flags="01")
     assert trace.traceparent == f"00-{'1' * 32}-{'2' * 16}-01"
 
     for field, value in (
@@ -72,7 +62,7 @@ def test_shared_trace_context_is_w3c_compatible_and_strict() -> None:
         ("trace_flags", "zz"),
     ):
         with pytest.raises(ValidationError):
-            TraceContext.model_validate(
+            logging_module.TraceContext.model_validate(
                 {"trace_id": "1" * 32, "span_id": "2" * 16, field: value}
             )
 
@@ -81,13 +71,13 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
     tmp_path,
 ) -> None:
     destination = tmp_path / "correlated.jsonl"
-    logger = configure_logging(
-        LoggingSettings(console=False, log_file=destination, run_id="settings-run")
+    logger = logging_module.configure_logging(
+        logging_module.LoggingSettings(console=False, log_file=destination, run_id="settings-run")
     )
-    policy_id = numerical_policy_digest({"dtype": "float64", "rtol": 1e-9})
-    context = AnalysisLogContext(
+    policy_id = logging_module.numerical_policy_digest({"dtype": "float64", "rtol": 1e-9})
+    context = logging_module.AnalysisLogContext(
         run_id="analysis-run",
-        trace=TraceContext(trace_id="1" * 32, span_id="2" * 16),
+        trace=logging_module.TraceContext(trace_id="1" * 32, span_id="2" * 16),
         analysis_id="analysis-1",
         backend_requested="jax",
         backend_selected="numpy",
@@ -96,8 +86,8 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
     )
 
     with (
-        analysis_log_context(context),
-        log_context(
+        logging_module.analysis_log_context(context),
+        logging_module.log_context(
             request={
                 "headers": {"Authorization": "Bearer top-secret"},
                 "items": [
@@ -174,7 +164,7 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
 )
 def test_untrusted_context_cannot_override_reserved_fields(reserved: str) -> None:
     with pytest.raises(ValueError, match="reserved logging context field"):
-        with log_context(**{reserved: "forged"}):
+        with logging_module.log_context(**{reserved: "forged"}):
             pass
 
 
@@ -190,8 +180,8 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
     )
     result = run_evpi(np.array([[0.0, 10.0], [8.0, 0.0]]), spec=spec)
 
-    context = analysis_log_context_from_result(
-        result, trace=TraceContext(trace_id="1" * 32, span_id="2" * 16)
+    context = logging_module.analysis_log_context_from_result(
+        result, trace=logging_module.TraceContext(trace_id="1" * 32, span_id="2" * 16)
     )
 
     assert context.run_id == result.run_context.run_id
@@ -199,7 +189,7 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
     assert context.backend_requested == "numpy"
     assert context.backend_selected == "numpy"
     assert context.fallback_code == "none"
-    assert context.numerical_policy_id == numerical_policy_digest(policy)
+    assert context.numerical_policy_id == logging_module.numerical_policy_digest(policy)
 
     unrelated_warning = DiagnosticRecord(
         severity="warning",
@@ -214,7 +204,7 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
             )
         }
     )
-    assert analysis_log_context_from_result(warned).fallback_code == "none"
+    assert logging_module.analysis_log_context_from_result(warned).fallback_code == "none"
 
     fallback_warning = DiagnosticRecord(
         severity="warning",
@@ -232,15 +222,15 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
             ),
         }
     )
-    assert analysis_log_context_from_result(fallback_result).fallback_code == (
+    assert logging_module.analysis_log_context_from_result(fallback_result).fallback_code == (
         "backend_fallback"
     )
 
 
 def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     destination = tmp_path / "analysis-boundary.jsonl"
-    logger = configure_logging(
-        LoggingSettings(console=False, log_file=destination, run_id="settings-run")
+    logger = logging_module.configure_logging(
+        logging_module.LoggingSettings(console=False, log_file=destination, run_id="settings-run")
     )
     policy = NumericalPolicy(backend_preference=("numpy",))
     spec = AnalysisSpec(
@@ -263,7 +253,7 @@ def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     assert event["backend_requested"] == "numpy"
     assert event["backend_selected"] == "numpy"
     assert event["fallback_code"] == "none"
-    assert event["numerical_policy_id"] == numerical_policy_digest(policy)
+    assert event["numerical_policy_id"] == logging_module.numerical_policy_digest(policy)
 
 
 def test_redaction_handles_scalars_objects_and_exceptions() -> None:
