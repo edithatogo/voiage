@@ -50,5 +50,16 @@ jobs:
       security-events: read
       contents: read
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
       - name: Fail on blocking code-scanning alerts
-        uses: edithatogo/.github/.github/actions/code-scanning-gate@90b399a731a17b792352d0c049834a22dbd32523
+        run: >-
+          python scripts/check_code_scanning_alerts.py
+          --repository "$GITHUB_REPOSITORY"
+          --commit-sha "$GITHUB_SHA"
+          --token "$GITHUB_TOKEN"
+          --timeout-seconds 120
+          --retry-attempts 4

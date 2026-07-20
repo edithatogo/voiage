@@ -45,4 +45,10 @@ jobs:
       uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9
 
     - name: Fail on blocking code-scanning alerts
-      uses: edithatogo/.github/.github/actions/code-scanning-gate@90b399a731a17b792352d0c049834a22dbd32523
+      run: >-
+        python scripts/check_code_scanning_alerts.py
+        --repository "$GITHUB_REPOSITORY"
+        --commit-sha "$GITHUB_SHA"
+        --token "$GITHUB_TOKEN"
+        --timeout-seconds 120
+        --retry-attempts 4
