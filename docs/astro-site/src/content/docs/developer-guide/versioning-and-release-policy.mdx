@@ -8,6 +8,30 @@ metadata is derived from release tags with `setuptools-scm`, while the
 polyglot manifests remain explicit and synchronized to the latest released
 version.
 
+## Stable compatibility contract
+
+The normative policy is published in `specs/v1/compatibility-policy.json`.
+Breaking changes to stable Rust, Python, C ABI, binding, CLI, schema, or
+serialized-output contracts require a major release. Minor releases may add
+backward-compatible capabilities, while patch releases may only make
+backward-compatible fixes.
+
+Provisional and experimental surfaces are excluded from these guarantees until
+promotion. Promotion requires a normative contract, executable compatibility
+fixtures, and a migration assessment.
+
+## Deprecation window
+
+A stable feature remains available for at least two minor releases and six
+months, whichever is longer. At v1, Python emits `FutureWarning`; all surfaces
+provide a stable diagnostic code, replacement path, and migration documentation.
+Removal is permitted only in the next major release and requires updated
+compatibility fixtures and release notes.
+
+The current 0.x raw-dictionary EVPPI alias continues to emit
+`DeprecationWarning`. Its migration to this v1 warning contract is part of the
+planned compatibility-bridge phase, not a claim about the present runtime.
+
 ## Canonical version source
 
 The Python package declares a dynamic version in `pyproject.toml` and

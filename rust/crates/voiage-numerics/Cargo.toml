@@ -1,0 +1,23 @@
+[package]
+name = "voiage-numerics"
+description = "Binding-independent numerical kernels for voiage."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+voiage-diagnostics.workspace = true
+voiage-domain.workspace = true
+
+[dev-dependencies]
+proptest = "1.7"
+
+[[bench]]
+name = "foundational"
+harness = false
+
+[lints]
+workspace = true

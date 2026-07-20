@@ -139,6 +139,19 @@ def evpi(
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
 
+    try:
+        values = (
+            nb_array.numpy_values
+            if hasattr(nb_array, "numpy_values")
+            else np.asarray(nb_array, dtype=float)
+        )
+    except (TypeError, ValueError) as exc:
+        raise_input_error(f"Net-benefit values must be numeric: {exc}")
+    if not np.all(np.isfinite(values)):
+        raise_input_error(
+            "Net-benefit values must be finite.",
+            diagnostic_code="non_finite_value",
+        )
     analysis = DecisionAnalysis(nb_array=nb_array)
     return analysis.evpi(
         population=population,
@@ -223,6 +236,39 @@ def evppi(
     True
     """
     from voiage.analysis import DecisionAnalysis  # Local import to avoid circularity
+
+    try:
+        values = (
+            nb_array.numpy_values
+            if hasattr(nb_array, "numpy_values")
+            else np.asarray(nb_array, dtype=float)
+        )
+    except (TypeError, ValueError) as exc:
+        raise_input_error(f"Net-benefit values must be numeric: {exc}")
+    if not np.all(np.isfinite(values)):
+        raise_input_error(
+            "Net-benefit values must be finite.",
+            diagnostic_code="non_finite_value",
+        )
+    parameter_values = (
+        parameter_samples.parameters.values()
+        if isinstance(parameter_samples, PSASample)
+        else parameter_samples.values()
+        if isinstance(parameter_samples, dict)
+        else (parameter_samples,)
+    )
+    try:
+        parameters_are_finite = all(
+            np.all(np.isfinite(np.asarray(item, dtype=float)))
+            for item in parameter_values
+        )
+    except (TypeError, ValueError) as exc:
+        raise_input_error(f"Parameter samples must be numeric: {exc}")
+    if not parameters_are_finite:
+        raise_input_error(
+            "Parameter samples must be finite.",
+            diagnostic_code="non_finite_value",
+        )
 
     filtered_parameter_samples: np.ndarray | PSASample | dict[str, np.ndarray]
 

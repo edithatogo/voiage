@@ -4,7 +4,7 @@
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
 
-## Current Status (As of June 2026)
+## Current Status (As of July 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
@@ -12,31 +12,24 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** ✅/🔄 **Foundation Complete, Expansion Evidence-Gated** - Rust core foundations, domain model, deterministic kernels, profiling guidance, binding/release policy, and EVSI stochastic-kernel follow-on are complete. Broader production kernel migration and accelerator optimization remain future benchmark-backed work.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Takeover Incomplete** - the production seven-crate workspace now enforces core dependency direction, leaf FFI/WASM/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI while the legacy `bindings/rust` crate remains a temporary compatibility facade. The private maturin-built PyO3 bridge now owns CEAF and dominance result serialization with stable error and provenance contracts. Stable numerical APIs are not yet uniformly Rust-backed, and retained bindings do not yet share one authoritative Rust implementation.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
-**Follow-Through Expansion (created June 25, 2026):** 🔄 **ACTIVE** - new
-Conductor tracks now cover architecture/dependency governance, commit-note and
-checkpoint hardening, strict CI/CD gates, dataset/example registry work, Rust
-frontier numerics migration, bleeding-edge Bayesian design/amortized VOI, live
-external registry publication and indexing, frontier method stable promotion,
-production-scale HPC speedup evidence, physical FPGA board runtime, ASIC
-MPW/fabricated-silicon evidence, and TPU production-scale Colab/GCloud
-evidence. These tracks do not reopen the completed readiness/setup tracks; they
-turn the remaining external gates into evidence-producing follow-through work.
-The adjacent-frontier runtime work is now decomposed further into dedicated
-mature/stable tracks for causal/transportability, data-quality/privacy/linkage,
-computational/model-refinement, expert-elicitation/evidence-synthesis, dynamic
-real-options, and perspective-uncertainty VOI, plus recommended tracks for
-monitoring/surveillance, implementation-strategy comparison, equity-information,
-explainability/transparency, interoperability/standardization, and
-ambiguity/distribution-shift VOI. Additional recommended mature/stable tracks
-now cover adaptive-learning and bandit VOI, capacity and budget-constrained
-VOI, federated/privacy-preserving VOI, AI-assisted evidence-triage VOI,
-regulatory/market-access VOI, replication/reproducibility VOI,
-evidence-obsolescence/refresh VOI, and strategic behavior/game-theoretic VOI.
+**June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
+evidence slices. Registry approval, external indexing, production accelerator
+speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence
+remain external gates and are not represented as completed live outcomes.
+
+Mature Hardened v1.0 Programme: 🔄 **ACTIVE** - The sole active Conductor
+programme now freezes the stable surface, completes the Rust runtime takeover,
+retires duplicate Python numerical kernels, converts retained bindings into thin
+Rust adapters, consolidates documentation on Astro/Starlight, enforces hardened
+release gates, verifies registry installation, and publishes the signed v1.0
+release. The machine-readable baseline and execution classification are in
+`conductor/v1-programme-baseline.json`; the implementation plan is in
+`conductor/tracks/mature-hardened-v1-release-programme_20260719/`.
 
 ---
 

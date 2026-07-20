@@ -1,5 +1,9 @@
 """Plotting functions for CEACs, CE Planes, and EVPPI surfaces."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 # Attempt to import Matplotlib, but make it optional
@@ -14,7 +18,9 @@ except ImportError:  # pragma: no cover
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error, raise_plotting_error
-from voiage.schema import ValueArray
+
+if TYPE_CHECKING:
+    from voiage.schema import ValueArray
 
 
 def _calculate_prob_ce(
@@ -81,7 +87,7 @@ def plot_ceac(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     nb_values = value_array.numpy_values

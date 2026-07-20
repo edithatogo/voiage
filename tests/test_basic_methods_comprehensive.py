@@ -244,6 +244,16 @@ class TestEVPPI:
 
         assert result == 0.0
 
+    def test_evppi_raw_dict_rejects_missing_parameter_of_interest(self) -> None:
+        """A compatibility dict must still enforce requested parameter names."""
+        nb_values = np.array([[100.0, 150.0], [120.0, 130.0]], dtype=np.float64)
+        value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
+        params = {"available": np.array([0.1, 0.2], dtype=np.float64)}
+
+        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+            with pytest.raises(InputError, match="Missing:.*requested"):
+                evppi(value_array, params, ["requested"])
+
     def test_evppi_multiple_params(self) -> None:
         """Test EVPPI calculation with multiple parameters."""
         # Create test data

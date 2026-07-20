@@ -1,0 +1,5 @@
+{
+  "costs": [100.0, 200.0],
+  "effects": [1.0],
+  "strategy_names": ["A", "B"]
+}

@@ -23,6 +23,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fingerprints, LF-normalized evidence hashing, PyArrow/Polars and
   cross-process conformance tests, relative serialization regression guards,
   weekly dependency-frontier verification, and non-blocking Python 3.14t CI.
+- Routed the public moment-based EVSI estimator through the versioned Rust
+  kernel with strict result-envelope validation and a rank-deficiency/native-
+  absence compatibility fallback to the NumPy reference implementation.
+- Added an optional validated seed contract for Python two-loop EVSI with local
+  RNG isolation and reproducibility tests; `n_inner_loops` remains explicitly
+  compatibility-only until its semantics are implemented.
+- Raised the optional `deep-learning` PyTorch floor to `2.13.0` and refreshed
+  the lockfile to remove the known vulnerable torch range.
+- Added versioned native EVSI benchmark regression budgets with CI enforcement,
+  and routed the public deterministic efficient-linear EVSI path through the
+  Rust kernel while retaining Python ownership for unsupported estimators.
+- Added private runtime provenance schema v3 with RFC 8785 payload lineage,
+  honest native-entry telemetry, immutable revision/tree and dirty-source
+  identity, independently recomputable build IDs, and embedded fail-closed
+  provenance for ordinary Git-less sdist builds.
+- Added Cargo-authoritative maturin packaging with cp310 ABI3 wheels, clean
+  dependency-resolving wheel and sdist-derived install tests, immutable-tag
+  release artifacts, explicit platform-tag checks, TestPyPI smoke validation,
+  and least-privilege staged publication. JAX, plotting, ecosystem, and
+  performance capabilities now use governed optional extras; unused runtime
+  dependencies were removed from the base package.
+- Added the private maturin-built `voiage._core` PyO3 extension with ABI3
+  support, Rust-owned CEAF and dominance result serialization, runtime build
+  provenance and invocation counters, stable typed exception mapping, and
+  clean installed-wheel validation. Numerical-kernel migration remains
+  deferred to Phase 5.
+- Added fail-closed Rust supply-chain policy, weekly Cargo dependency updates,
+  Miri unsafe-boundary analysis, and an enforced 80% workspace line-coverage
+  gate with a retained Cobertura report. Local Phase 3 coverage is 92.67%.
+- Added validated typed construction paths for all six canonical Rust result
+  DTOs and fixed-width stable wire counts with checked host-size conversions.
+- Added a versioned, namespaced C ABI infrastructure contract with fixed-width
+  self-describing structures, opaque token lifecycle primitives, bounded
+  caller-owned error transport, panic containment, a versioned consumer header,
+  canonical symbol and layout baselines, fail-closed C11/C++17 smoke consumers,
+  Linux sanitizer coverage,
+  and Linux, macOS, Windows, and Rust 1.85 verification. Numerical operation
+  exports remain deferred until their Phase 5 parity and profiling gates pass.
+- Added fail-closed Rust v1 domain contracts for validated decision problems,
+  numerical primitives, samples, strategies, diagnostics, reproducibility,
+  machine-readable errors, and all six canonical result payloads. Added the
+  missing Python `NumericalError` and `SerializationError` contract classes.
+- Added the production seven-crate Rust workspace with explicit core and leaf
+  adapter boundaries, a Rust 1.85 MSRV, centralized lint policy, executable
+  architecture tests, and Linux, macOS, and Windows CI coverage. The existing
+  `bindings/rust` crate remains a temporary compatibility facade during staged
+  migration.
+- Added stable CEAF and dominance result schemas, strict compatibility-policy
+  schema validation, non-finite and deterministic fixture evidence, and
+  normative dimension and backend exception behavior.
+- Added a normative cross-surface v1 SemVer and deprecation policy with a
+  two-minor-release and six-month minimum migration window, next-major removal,
+  executable evidence requirements, and explicit experimental exclusions.
+- Added language-neutral executable compatibility fixtures for stable-core
+  normal, edge, and invalid behavior, with a reusable reference runner for
+  downstream bindings.
+- Added a machine-readable normative v1.0 API contract that classifies public
+  symbols by stability and freezes the supported runtime, numerical behavior,
+  errors, method shapes, schemas, diagnostics, reporting, provenance, plotting,
+  and CLI guarantees targeted by the Rust-core migration.
 - Added a conda-forge-ready `0.2.1` recipe pinned to the published source
   distribution hash, current runtime constraints, and Python 3.10–3.14 build
   variants; the recipe passes a local conda-build package test.

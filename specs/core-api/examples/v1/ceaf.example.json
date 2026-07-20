@@ -1,0 +1,37 @@
+{
+  "analysis_id": "ceaf-screening-001",
+  "decision_problem_id": "screening-program-001",
+  "analysis_type": "ceaf",
+  "wtp_thresholds": [
+    0.0,
+    50000.0
+  ],
+  "optimal_strategy_indices": [
+    0,
+    1
+  ],
+  "optimal_strategy_names": [
+    "standard-care",
+    "enhanced-screening"
+  ],
+  "acceptability_probabilities": [
+    0.72,
+    0.84
+  ],
+  "probability_lower": [
+    0.70,
+    0.82
+  ],
+  "probability_upper": [
+    0.74,
+    0.86
+  ],
+  "expected_net_benefit": [
+    1200.0,
+    1625.0
+  ],
+  "reporting": {
+    "method_family": "cost_effectiveness_acceptability_frontier",
+    "estimator": "frontier_probability"
+  }
+}

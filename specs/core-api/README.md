@@ -2,6 +2,10 @@
 
 This directory holds the written foundation for the language-agnostic `voiage` core API.
 
+The machine-readable normative v1.0 public-surface contract lives at
+`../v1/stable-api.json`. The artifacts in this directory supply its schemas,
+diagnostics, numerical-equivalence rules, and conformance-fixture foundation.
+
 - `foundation.md` defines the purpose, audience, and scope of the contract.
 - `decision-record.md` records the non-negotiable design choices that later schema and fixture work must follow.
 - `numerical-equivalence.md` defines tolerance rules, reproducibility metadata, and provenance expectations for conformance checks.
@@ -14,6 +18,7 @@ This directory holds the written foundation for the language-agnostic `voiage` c
 - `fixtures/v1/` contains the versioned conformance fixture set, its manifest, and the shared deterministic input bundles used by the normative cases.
 - `fixtures/v1/runner.md` defines the language-neutral runner contract and CI strategy for future bindings.
 - `scripts/validate_core_api_contract.py` and the associated tests enforce the published contract shape.
-- `scripts/validate_core_api_fixtures.py` provides a narrow smoke check for the fixture catalog layout.
+- `scripts/validate_core_api_fixtures.py` validates the fixture layout and
+  executes the language-neutral compatibility catalog against the reference API.
 
 The intent is to keep the contract small, explicit, and stable enough for downstream schema authoring and conformance fixtures to proceed without re-litigating the core model.

@@ -7,6 +7,25 @@ Expected Value of Sample Information quantifies the value of collecting new stud
 
 The library currently exposes multiple EVSI estimators, including nested Monte Carlo and approximation-based variants.
 
+The Rust core currently provides three explicit kernels through the private
+runtime bridge: a seeded-bootstrap summary and deterministic efficient-linear
+and moment-based approximations. The public `efficient` + `linear` path now
+delegates to the native efficient-linear kernel after Python validates the
+callback output; the other operations accept already-computed
+net-benefit and parameter matrices, require explicit trial-size inputs, and
+return versioned numerical result envelopes. If the optional extension is
+absent, or the design is rank-deficient, the public linear path retains the
+validated Python reference behavior.
+
+The public two-loop estimator remains Python-owned. It accepts an optional
+uint64-range `seed` and uses a local NumPy generator for reproducible runs;
+omitting the seed preserves the historical global-RNG behavior. Its
+`n_inner_loops` argument remains a compatibility parameter and is not yet
+consumed by the historical implementation. Regression, random-forest
+efficient, adaptive, and NMA estimators remain Python-owned while their individual
+estimator, seed, and trial-design contracts are being frozen. Trial-design
+parsing and population scaling also remain at the Python boundary.
+
 See also:
 
 - [Advanced VOI Guide](/user-guide/features/advanced-voi/)

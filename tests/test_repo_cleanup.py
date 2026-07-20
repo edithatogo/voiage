@@ -271,13 +271,16 @@ def test_roadmap_statuses_match_completed_cleanup_state() -> None:
     roadmap = _read("roadmap.md")
 
     for expected in (
-        "Current Status (As of June 2026)",
+        "Current Status (As of July 2026)",
         "Phase 4: Ecosystem, Community & Future Ports ✅/🔄 **REPOSITORY COMPLETE, EXTERNAL GATES EXPLICIT**",
         "Phase 5: Spec, Fixtures & Polyglot Bindings ✅ **COMPLETE**",
         "Phase 6: Ecosystem Integrations ✅ **COMPLETE**",
         "Phase 7: SOTA VOI Frontier ✅/🔄 **IMPLEMENTED EXPERIMENTAL SURFACE, PARITY GATED**",
         "Phase 8: Rust Core Migration Program ✅/🔄 **FOUNDATION COMPLETE, EXPANSION EVIDENCE-GATED**",
         "external registry, hardware, and speedup evidence gates remain explicit",
+        "The June 25 follow-through queue is complete and archived",
+        "Mature Hardened v1.0 Programme: 🔄 **ACTIVE**",
+        "Production Workspace Established, Takeover Incomplete",
     ):
         assert expected in roadmap
 

@@ -27,8 +27,17 @@ bindings.
 
 ## Deprecation Rules
 
+The normative timing and cross-surface requirements are defined in
+`../v1/compatibility-policy.json`. A stable API must remain available for at
+least two minor releases and six months, whichever is longer, and may be
+removed only in the next major release.
+
 - Deprecated fields or methods must continue to work until the replacement path
   is available in stable form.
+- At v1, Python callers receive `FutureWarning`; every surface also emits a
+  stable diagnostic code and supplies migration documentation. The current
+  0.x EVPPI alias retains `DeprecationWarning` until the compatibility bridge
+  migrates in Phase 6 of the active programme.
 - Deprecation should be signaled through the diagnostics contract rather than
   by overloading successful result payloads.
 - Approximate and backend-dependent methods must continue to report their

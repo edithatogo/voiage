@@ -1,0 +1,20 @@
+[package]
+name = "voiage-test-support"
+description = "Shared fixture and test support for the voiage Rust workspace."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+voiage-diagnostics.workspace = true
+voiage-domain.workspace = true
+voiage-numerics.workspace = true
+voiage-serialization.workspace = true
+
+[lints]
+workspace = true

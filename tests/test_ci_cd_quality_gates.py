@@ -13,6 +13,7 @@ according to the strict CI/CD quality gates policy, including:
 """
 
 from pathlib import Path
+import re
 
 import yaml
 
@@ -21,6 +22,8 @@ PROJECT_ROOT = Path(__file__).parent.parent
 GITHUB_WORKFLOWS_DIR = PROJECT_ROOT / ".github" / "workflows"
 TOX_INI = PROJECT_ROOT / "tox.ini"
 PYPROJECT_TOML = PROJECT_ROOT / "pyproject.toml"
+DEPENDABOT_CONFIG = PROJECT_ROOT / ".github" / "dependabot.yml"
+RUST_DENY_CONFIG = PROJECT_ROOT / "rust" / "deny.toml"
 
 
 class TestCICDQualityGatesConfiguration:
@@ -336,6 +339,118 @@ class TestQualityGatePolicyCompliance:
         assert "cargo fmt --check" in str(rust_job), "Rust formatting check missing"
         assert "cargo clippy" in str(rust_job), "Rust clippy check missing"
         assert "cargo test" in str(rust_job), "Rust test check missing"
+
+    def test_private_python_rust_bridge_gate_is_preserved(self):
+        """Require the dedicated locked PyO3/maturin hosted gate."""
+        workflow = yaml.safe_load(
+            (GITHUB_WORKFLOWS_DIR / "python-rust-bridge.yml").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        assert workflow["permissions"] == {}
+        assert set(workflow["jobs"]) == {"python-compatibility", "abi3-platforms"}
+        assert all(
+            job["permissions"] == {"contents": "read"}
+            for job in workflow["jobs"].values()
+        )
+
+    def test_versioned_c_abi_is_exercised_across_workspace_matrix(self):
+        """Require portable consumers and an exact v1 export allowlist."""
+        workflow_text = (GITHUB_WORKFLOWS_DIR / "bindings-ci.yml").read_text(
+            encoding="utf-8"
+        )
+
+        for runner in ("ubuntu-latest", "macos-latest", "windows-latest"):
+            assert runner in workflow_text
+        assert "cargo build --release --locked --package voiage-ffi" in workflow_text
+        assert "-std=c11" in workflow_text
+        assert "-std=c++17" in workflow_text
+        assert "/std:c11" in workflow_text
+        assert "/std:c++17" in workflow_text
+        assert "tests/ffi/voiage_v1_smoke.c" in workflow_text
+        assert "tests/ffi/voiage_v1_smoke.cpp" in workflow_text
+        assert "nm -D --defined-only" in workflow_text
+        assert "nm -gU" in workflow_text
+        assert "dumpbin /nologo /exports" in workflow_text
+        assert workflow_text.count("specs/abi/v1/symbols.txt") == 3
+
+    def test_rust_supply_chain_is_updated_and_fail_closed(self):
+        """Require Cargo updates and all cargo-deny policy families."""
+        dependabot = yaml.safe_load(DEPENDABOT_CONFIG.read_text(encoding="utf-8"))
+        cargo_updates = [
+            update
+            for update in dependabot["updates"]
+            if update["package-ecosystem"] == "cargo"
+        ]
+        assert cargo_updates == [
+            {
+                "package-ecosystem": "cargo",
+                "directory": "/rust",
+                "schedule": {"interval": "weekly"},
+                "cooldown": {"default-days": 7},
+                "open-pull-requests-limit": 10,
+                "labels": ["dependencies", "rust"],
+            }
+        ]
+
+        workflow = yaml.safe_load(
+            (GITHUB_WORKFLOWS_DIR / "rust-security.yml").read_text(encoding="utf-8")
+        )
+        job = workflow["jobs"]["cargo-deny"]
+        assert workflow["permissions"] == {}
+        assert job["permissions"] == {"contents": "read"}
+        rendered = str(job)
+        assert "cargo install cargo-deny --version 0.20.2 --locked" in rendered
+        assert (
+            "cargo deny --manifest-path rust/Cargo.toml --config rust/deny.toml "
+            "check advisories licenses bans sources"
+        ) in rendered
+        assert "continue-on-error" not in rendered
+
+        policy = RUST_DENY_CONFIG.read_text(encoding="utf-8")
+        for section in ("[advisories]", "[licenses]", "[bans]", "[sources]"):
+            assert section in policy
+        assert 'wildcards = "deny"' in policy
+        assert 'unknown-registry = "deny"' in policy
+        assert 'unknown-git = "deny"' in policy
+
+    def test_miri_lane_is_pinned_and_limited_to_unsafe_boundaries(self):
+        """Require Miri to exercise only the Rust unsafe-boundary suites."""
+        workflow_text = (GITHUB_WORKFLOWS_DIR / "rust-miri.yml").read_text(
+            encoding="utf-8"
+        )
+        workflow = yaml.safe_load(workflow_text)
+        job = workflow["jobs"]["rust-miri-unsafe-boundary"]
+
+        assert workflow["permissions"] == {}
+        assert job["permissions"] == {"contents": "read"}
+        assert "nightly-2026-07-01" in str(job)
+        assert "components: miri,rust-src" in workflow_text
+        assert "cargo +nightly-2026-07-01 miri test" in str(job)
+        assert "--test lifecycle --test error_transport" in str(job)
+        assert "continue-on-error" not in str(job)
+
+    def test_rust_coverage_is_measured_and_enforced(self):
+        """Require measured Linux coverage, a threshold, and an artifact."""
+        workflow_text = (GITHUB_WORKFLOWS_DIR / "rust-coverage.yml").read_text(
+            encoding="utf-8"
+        )
+        workflow = yaml.safe_load(workflow_text)
+        job = workflow["jobs"]["rust-workspace-coverage"]
+        rendered = str(job)
+
+        assert workflow["permissions"] == {}
+        assert job["permissions"] == {"contents": "read"}
+        assert job["runs-on"] == "ubuntu-24.04"
+        assert "cargo install cargo-llvm-cov --version 0.6.16 --locked" in rendered
+        threshold = re.search(r"--fail-under-lines (\d+)", rendered)
+        assert threshold is not None
+        assert int(threshold.group(1)) >= 80
+        assert "--cobertura --output-path rust-coverage.xml" in rendered
+        assert "actions/upload-artifact@" in workflow_text
+        assert "rust-coverage.xml" in rendered
+        assert "continue-on-error" not in rendered
 
     def test_dependency_conflicts_prevented(self):
         """Test that base install avoids dependency conflicts."""

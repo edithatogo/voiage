@@ -1,5 +1,7 @@
 """Plotting helpers for dominance analysis."""
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -58,7 +60,7 @@ def plot_cost_effectiveness_plane(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     dominance = result or calculate_dominance(costs, effects, strategy_names)

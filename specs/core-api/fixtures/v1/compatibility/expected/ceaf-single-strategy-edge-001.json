@@ -1,0 +1,1 @@
+{"result": {"wtp_thresholds": [0.0], "optimal_strategy_indices": [0], "optimal_strategy_names": ["A"], "acceptability_probabilities": [1.0], "probability_lower": [1.0], "probability_upper": [1.0], "expected_net_benefit": [5.0]}, "absolute_tolerance": 1e-12, "relative_tolerance": 1e-12}

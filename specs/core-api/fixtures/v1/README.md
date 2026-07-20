@@ -7,9 +7,14 @@ This directory holds the versioned fixture set for the core API conformance trac
 - `normative/inputs/`: deterministic input bundles consumed by the canonical fixture cases.
 - `normative/`: deterministic fixtures that define the required behavior surface.
 - `illustrative/`: non-normative examples used for documentation and exploratory coverage.
+- `compatibility/`: language-neutral executable inputs and golden outcomes for
+  normal, edge, and invalid public-API behavior.
 
-The fixture manifest in this directory is validated by `scripts/validate_core_api_contract.py`.
-The layout-only smoke check lives in `scripts/validate_core_api_fixtures.py`.
+The normative `manifest.json` is validated by
+`scripts/validate_core_api_contract.py`. The executable
+`compatibility-manifest.json` is validated and run by
+`scripts/validate_core_api_fixtures.py`; external fixture roots may retain
+layout-only support when they do not provide that executable manifest.
 The runner contract and CI strategy are documented in `runner.md`.
 
 Normative entries must already carry stable provenance metadata, deterministic execution mode,

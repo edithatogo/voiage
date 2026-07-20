@@ -5,6 +5,12 @@ description: Expected Value of Partial Perfect Information
 
 Expected Value of Partial Perfect Information quantifies the value of learning about a subset of uncertain parameters.
 
+The stable default estimator is full-sample ordinary linear regression. When
+the native extension is available, the Python facade delegates this numerical
+kernel to Rust. Custom regression models, regression subsampling, and chunked
+baseline evaluation remain on the Python path; absence of the optional native
+extension falls back to the established Python estimator.
+
 See also:
 
 - [Basic VOI Guide](/user-guide/features/basic-voi/)

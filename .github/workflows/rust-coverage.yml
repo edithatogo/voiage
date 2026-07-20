@@ -1,0 +1,53 @@
+name: Rust workspace coverage
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/rust-coverage.yml"
+      - "rust/**"
+      - "tests/test_ci_cd_quality_gates.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/rust-coverage.yml"
+      - "rust/**"
+      - "tests/test_ci_cd_quality_gates.py"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: rust-coverage-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust-workspace-coverage:
+    name: Rust workspace line coverage (minimum 80%)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.95.0"
+          components: llvm-tools-preview
+      - name: Install pinned cargo-llvm-cov
+        run: cargo install cargo-llvm-cov --version 0.6.16 --locked
+      - name: Measure and enforce workspace coverage
+        run: >-
+          cargo llvm-cov --manifest-path rust/Cargo.toml --workspace
+          --all-features --locked --fail-under-lines 80
+          --cobertura --output-path rust-coverage.xml
+      - name: Upload Rust coverage report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rust-workspace-coverage
+          path: rust-coverage.xml
+          if-no-files-found: error
+          retention-days: 14
