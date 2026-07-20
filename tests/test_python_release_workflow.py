@@ -46,11 +46,17 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     )
     assert "publish:\n        description:" in release_workflow
     assert "type: boolean\n        default: false" in release_workflow
-    assert "group: release-${{ inputs.release_tag || github.ref_name }}" in release_workflow
+    assert (
+        "group: release-${{ inputs.release_tag || github.ref_name }}"
+        in release_workflow
+    )
     assert "stage:\n    name: Build and Stage Private Draft" in release_workflow
     assert "publish:\n    name: Publish Reviewed Draft" in release_workflow
     assert "needs: stage" in release_workflow
-    assert "if: github.event_name == 'workflow_dispatch' && inputs.publish" in release_workflow
+    assert (
+        "if: github.event_name == 'workflow_dispatch' && inputs.publish"
+        in release_workflow
+    )
     assert release_workflow.index(
         "Create or refresh private draft release"
     ) < release_workflow.index("publish:\n    name: Publish Reviewed Draft")
