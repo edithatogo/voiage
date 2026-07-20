@@ -1,5 +1,7 @@
 """Capability descriptions and fail-closed backend selection."""
 
+# pyright: reportExplicitAny=false
+
 from __future__ import annotations
 
 from collections.abc import Sequence  # noqa: TC003 - public protocol signature

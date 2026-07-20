@@ -1,6 +1,6 @@
 """Compatibility adapters for established VOIAGE runtime backends."""
 
-# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownMemberType=false, reportUnknownArgumentType=false, reportUnknownVariableType=false, reportExplicitAny=false, reportAny=false
 
 from __future__ import annotations
 

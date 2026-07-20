@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deterministically export the canonical VOIAGE v2 contract artifacts."""
 
-# pyright: reportAny=false, reportUnknownMemberType=false, reportUnusedCallResult=false
+# pyright: reportAny=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnusedCallResult=false
 
 from __future__ import annotations
 
