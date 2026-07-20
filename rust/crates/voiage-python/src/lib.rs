@@ -429,7 +429,7 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
     Ok(result)
 }
 
-/// Compute the stable regression-based EVPPI kernel for Python callers.
+/// Compute the stable EVPI kernel for Python callers.
 #[pyfunction]
 fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
