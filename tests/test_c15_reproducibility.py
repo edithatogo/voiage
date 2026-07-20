@@ -351,9 +351,15 @@ def test_compare_cli_retains_failure_evidence(
 
 def test_portable_inventory_and_report_validation_fail_closed(tmp_path: Path) -> None:
     wheel = tmp_path / "native.whl"
+    contents = {
+        "voiage/_core.one.so": b"one",
+        "voiage/_core.two.pyd": b"two",
+    }
+    record_name = "voiage-1.dist-info/RECORD"
     with zipfile.ZipFile(wheel, "w") as archive:
-        archive.writestr("voiage/_core.one.so", b"one")
-        archive.writestr("voiage/_core.two.pyd", b"two")
+        for name, content in contents.items():
+            archive.writestr(name, content)
+        archive.writestr(record_name, _record(contents, record_name))
     with pytest.raises(ValueError, match="multiple native"):
         normalized_archive_report(wheel, runner="linux")
 
