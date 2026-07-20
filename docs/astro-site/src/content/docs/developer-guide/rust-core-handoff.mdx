@@ -26,6 +26,24 @@ This guide defines the boundary between the Rust core and the language bindings 
 - Light validation that improves error messages before the Rust call
 - Language-native packaging, release, and registry integration
 
+## Current Python compatibility boundary
+
+The stable Python façade delegates these operations to the private PyO3
+bridge, with the Rust kernel as the authoritative implementation:
+
+| Operation | Native Rust route | Python compatibility path |
+| --- | --- | --- |
+| EVPI | `compute_evpi` | retained only when the extension is unavailable |
+| EVPPI | `compute_evppi` for the default full-sample linear contract | retained for custom models, subsampling, chunking, or no extension |
+| EVSI | seeded bootstrap, efficient-linear, and moment-based kernels | retained for two-loop, regression, random-forest, adaptive, and NMA semantics |
+| Dominance | `compute_dominance` | retained only when the extension is unavailable |
+| CEAF | `compute_ceaf` | retained only when the extension is unavailable |
+
+Compatibility fallbacks are transitional and emit a deprecation warning where
+the fallback represents retired numerical policy. They are not a second
+authoritative implementation. New deterministic methods must define their Rust
+contract and parity evidence before being promoted to the stable façade.
+
 ## Adding a new deterministic method
 
 1. Define the method contract in Rust first.
