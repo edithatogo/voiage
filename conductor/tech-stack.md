@@ -37,7 +37,7 @@
 
 ## Code Quality
 - **Ruff**: >=0.1.9,<1.0 - Fast Python linter, formatter, and security-rule checker
-- **ty**: >=0.0.1,<1.0 - Static type checking
+- **ty**: >=0.0.61,<1.0 - Static type checking
 - **tox**: >=4.0,<5.0 - Test environment automation
 - **nox**: >=2024.0 - Python-coded session orchestration backed by uv
 - **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks

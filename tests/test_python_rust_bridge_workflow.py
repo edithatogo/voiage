@@ -24,6 +24,7 @@ def test_bridge_workflow_has_minimal_permissions_and_pinned_actions() -> None:
     assert "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10" in text
     assert "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1" in text
     assert "astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990" in text
+    assert text.count('version: "0.11.29"') == 2
     assert "dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c" in text
     assert "persist-credentials: false" in text
     assert text.count('      - "tests/packaging/**"') == 2

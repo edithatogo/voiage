@@ -12,6 +12,7 @@ import sys
 ACTION_PATTERN = re.compile(r"^\s*(?:-\s*)?uses:\s*([^\s#]+)", re.MULTILINE)
 SHA_PATTERN = re.compile(r"@[0-9a-f]{40}$")
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
+REQUIRED_UV_VERSION = "0.11.29"
 REQUIRED_FILES = (
     "AGENTS.md",
     "CONTRIBUTING.md",
@@ -171,6 +172,28 @@ def check_workflows(root: Path) -> list[Finding]:
                         relative_path, f"action is not pinned to a commit SHA: {action}"
                     )
                 )
+        lines = text.splitlines()
+        for index, line in enumerate(lines):
+            if "uses: astral-sh/setup-uv@" not in line:
+                continue
+            action_indent = len(line) - len(line.lstrip())
+            configured_version: str | None = None
+            for candidate in lines[index + 1 : index + 14]:
+                stripped = candidate.strip()
+                indent = len(candidate) - len(candidate.lstrip())
+                if stripped.startswith("- ") and indent <= action_indent:
+                    break
+                if stripped.startswith("version:"):
+                    configured_version = stripped.split(":", 1)[1].strip().strip('"\'')
+                    break
+            if configured_version != REQUIRED_UV_VERSION:
+                findings.append(
+                    Finding(
+                        relative_path,
+                        "setup-uv must pin the repository frontier version "
+                        f"{REQUIRED_UV_VERSION}",
+                    )
+                )
         if path.parent != workflow_root:
             findings.append(
                 Finding(relative_path, "workflow is outside the expected directory")
@@ -187,7 +210,9 @@ def check_conflict_markers(root: Path) -> list[Finding]:
     """Reject unresolved Git merge markers in tracked text files."""
     markers = (b"<<<<<<< ", b">>>>>>> ")
     ignored_directories = {
+        ".assurance",
         ".git",
+        ".tmp-c14",
         ".tox",
         ".venv",
         "__pycache__",

@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from scripts.repo_harness import (
+    check_conflict_markers,
     check_context_contract,
     check_docs_platform,
     check_operational_assurance,
@@ -31,6 +32,41 @@ def test_unpinned_action_is_rejected(tmp_path: Path) -> None:
     )
     findings = check_workflows(tmp_path)
     assert any("not pinned" in finding.message for finding in findings)
+
+
+def test_stale_uv_version_is_rejected(tmp_path: Path) -> None:
+    """All workflow lanes use the repository's reviewed uv frontier."""
+    workflow_root = tmp_path / ".github" / "workflows"
+    workflow_root.mkdir(parents=True)
+    (workflow_root / "ci.yml").write_text(
+        """name: CI
+on: [push]
+permissions: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.9.18"
+""",
+        encoding="utf-8",
+    )
+
+    findings = check_workflows(tmp_path)
+
+    assert any("frontier version 0.11.29" in finding.message for finding in findings)
+
+
+def test_private_assurance_dependencies_do_not_pollute_source_scan(
+    tmp_path: Path,
+) -> None:
+    """Private retained environments are outside the tracked-source contract."""
+    fixture = tmp_path / ".assurance" / "vendor" / "merge-conflict.json"
+    fixture.parent.mkdir(parents=True)
+    fixture.write_text("<<<<<<< third-party fixture\n>>>>>>> fixture\n", encoding="utf-8")
+
+    assert check_conflict_markers(tmp_path) == []
 
 
 def test_sphinx_build_configuration_is_rejected(tmp_path: Path) -> None:
