@@ -51,7 +51,7 @@ jobs:
         EVENT_NAME: ${{ github.event_name }}
         PR_BASE: ${{ github.event.pull_request.base.sha }}
         PUSH_BASE: ${{ github.event.before }}
-        C15_PROVENANCE_FLOOR: 4017aac3b5803f2d68b09d74e57ebd6c55e933d0
+        C15_PROVENANCE_FLOOR: f05231ce21a81ffb4029493927e5572d114fad67
       run: |
         candidate="${PUSH_BASE}"
         if [ "${EVENT_NAME}" = pull_request ]; then candidate="${PR_BASE}"; fi
