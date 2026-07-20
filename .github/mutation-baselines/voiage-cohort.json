@@ -8,15 +8,15 @@
     "sources": [
       {
         "path": "voiage/contracts/capabilities.py",
-        "sha256": "09f470a2d3591674076a0960a7ca4e5bcc46439e7aac9aa0dce0baf51d6d45a3"
+        "sha256": "878ab2a19bb3c125af0e477763781cd4735810c415aa8d5f13d467d0375d6511"
       },
       {
         "path": "voiage/contracts/digests.py",
-        "sha256": "ed960f3b368a35717dbc71724d3f5c515e09b03565884e94794980a1f3e93b04"
+        "sha256": "c8923915f39a94f2d9a364b13558b3c23e7fea39c7e29aacb07c23a2053407e8"
       }
     ],
-    "source_logical_lines": 112,
-    "cohort_sha256": "8c64514af11daad3afe923e0395eabb5a61e88b7e99cefcadfada310f162cfe3"
+    "source_logical_lines": 115,
+    "cohort_sha256": "5f58ba91f38516d2bd3d46c1e26a13ac45bdfa8a7d269cce8a8865c604c980f9"
   },
   "universe": {
     "ids": [
@@ -108,8 +108,8 @@
   },
   "promotion_provenance": {
     "review_state": "requires_external_anchor",
-    "run_id": 29722858412,
-    "commit": "d1d0160801bf1221e1412be55b2438abc69b2c34",
-    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29722858412"
+    "run_id": 29723222372,
+    "commit": "7c8fdc23fe9185810065267db04835e2da68f790",
+    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29723222372"
   }
 }
