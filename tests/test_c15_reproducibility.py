@@ -96,7 +96,7 @@ def test_comparison_rejects_same_runner_or_drift(tmp_path: Path) -> None:
     with pytest.raises(ArtifactMismatchError, match="runner"):
         compare_digest_reports(report, report)
     other = {**report, "runner": "other", "normalized_sha256": "0" * 64}
-    with pytest.raises(ArtifactMismatchError, match="digests"):
+    with pytest.raises(ArtifactMismatchError, match="digest"):
         compare_digest_reports(report, other)
 
 
