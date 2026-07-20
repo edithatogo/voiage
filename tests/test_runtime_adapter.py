@@ -164,6 +164,25 @@ def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
     assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
 
 
+def test_compute_dominance_forwards_vectors_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(costs: list[float], effects: list[float]) -> dict[str, object]:
+        captured.update(costs=costs, effects=effects)
+        return {"frontier_indices": [0, 1]}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_dominance=compute),
+    )
+
+    assert _runtime.compute_dominance([1.0, 2.0], [1.0, 2.0]) == {
+        "frontier_indices": [0, 1]
+    }
+    assert captured == {"costs": [1.0, 2.0], "effects": [1.0, 2.0]}
+
+
 def test_compute_evsi_forwards_seeded_kernel_arguments(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
