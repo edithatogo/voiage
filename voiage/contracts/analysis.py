@@ -9,7 +9,7 @@ from datetime import datetime  # noqa: TC003 - Pydantic resolves runtime annotat
 import hashlib
 import json
 from types import MappingProxyType
-from typing import Annotated, ClassVar, Generic, Literal, Self, TypeVar, cast
+from typing import Annotated, ClassVar, Literal, Self, TypeVar, cast
 
 from pydantic import (
     BaseModel,
@@ -274,7 +274,7 @@ class InterchangeIdentity(ContractModel):
     arrow_schema_version: Literal["1.0.0"] = "1.0.0"
 
 
-class AnalysisResult(ContractModel, Generic[PayloadT]):
+class AnalysisResult[PayloadT: "ContractModel"](ContractModel):
     """Generic, JSON-safe result envelope for calculation kernels."""
 
     schema_version: Literal["2.0.0"] = "2.0.0"

@@ -5,7 +5,6 @@ from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from functools import partial
 import os
-from typing import TypeVar
 
 import numpy as np
 
@@ -13,15 +12,13 @@ from voiage.exceptions import raise_value_error
 from voiage.parallel.distributed import ClusterExecutionConfig, distributed_map
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
-_ParallelResult = TypeVar("_ParallelResult")
 
-
-def _execute_parallel_work(
+def _execute_parallel_work[ParallelResult](
     *,
     n_workers: int,
     use_processes: bool,
-    work: Callable[[Executor], _ParallelResult],
-) -> _ParallelResult:
+    work: Callable[[Executor], ParallelResult],
+) -> ParallelResult:
     """Run parallel work with a process-first strategy and a thread fallback."""
     if use_processes:
         try:

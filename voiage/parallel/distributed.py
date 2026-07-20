@@ -75,7 +75,7 @@ def partition_workload(total_items: int, partition_count: int) -> list[slice]:
     return slices
 
 
-def distributed_map(
+def distributed_map[Item, ChunkResult](
     items: Sequence[_Item] | Iterable[_Item],
     worker_func: Callable[[_Item], _ChunkResult],
     *,
@@ -117,7 +117,7 @@ def distributed_map(
     return results
 
 
-def distributed_reduce(
+def distributed_reduce[Item, ChunkResult](
     items: Sequence[_Item] | Iterable[_Item],
     worker_func: Callable[[_Item], _ChunkResult],
     reducer: Callable[[Sequence[_ChunkResult]], _ChunkResult],
@@ -139,7 +139,7 @@ def distributed_reduce(
     return reducer(mapped)
 
 
-def distributed_chunk_map(
+def distributed_chunk_map[Item, ChunkResult](
     chunks: Sequence[Sequence[_Item]] | Iterable[Sequence[_Item]],
     worker_func: Callable[[Sequence[_Item]], _ChunkResult],
     *,

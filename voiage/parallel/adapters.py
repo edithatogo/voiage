@@ -6,9 +6,7 @@ from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from dataclasses import dataclass
 from threading import Thread
-from typing import TYPE_CHECKING, Protocol, TypeVar
-
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Protocol, Self, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Callable

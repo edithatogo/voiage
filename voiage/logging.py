@@ -319,7 +319,7 @@ def analysis_log_context(context: AnalysisLogContext) -> Generator[None]:
         _CONTEXT.reset(token)
 
 
-def analysis_log_context_from_result(
+def analysis_log_context_from_result[PayloadT: "ContractModel"](
     result: AnalysisResult[PayloadT], *, trace: TraceContext | None = None
 ) -> AnalysisLogContext:
     """Adapt a VOIAGE analysis envelope to the shared logging contract."""
