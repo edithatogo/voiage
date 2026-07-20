@@ -13,6 +13,9 @@ def validate(repo_root: Path) -> list[str]:
     manifest_path = repo_root / "specs/v1/python-runtime-inventory.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     categories = manifest["categories"]
+    retained = set(manifest["v1_retained_categories"])
+    if "transitional_numerical_core" in retained:
+        return ["transitional_numerical_core cannot be in v1_retained_categories"]
     roots = [(root, category) for category, data in categories.items() for root in data["roots"]]
     errors: list[str] = []
     for path in sorted((repo_root / "voiage").rglob("*.py")):
@@ -20,6 +23,8 @@ def validate(repo_root: Path) -> list[str]:
         matches = [category for root, category in roots if relative == root or relative.startswith(root)]
         if len(matches) != 1:
             errors.append(f"{relative}: expected exactly one inventory category, found {matches}")
+    if any(category not in categories for category in retained):
+        errors.append("v1_retained_categories contains an unknown category")
     return errors
 
 

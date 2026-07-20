@@ -27,6 +27,13 @@
       "roots": ["voiage/ecosystem_integration.py", "voiage/environmental/", "voiage/experimental_design.py", "voiage/financial/", "voiage/health_economics.py", "voiage/healthcare/", "voiage/hta_integration.py", "voiage/plot/", "voiage/widgets/", "voiage/web/"]
     }
   },
+  "v1_retained_categories": [
+    "facade",
+    "schema_and_io",
+    "backend",
+    "cli_and_orchestration",
+    "optional_extension"
+  ],
   "unclassified_policy": "fail",
   "retirement_gate": "No module classified as transitional_numerical_core may remain the authoritative implementation after Phase 6."
 }
