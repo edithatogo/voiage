@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from email.message import Message
 from io import BytesIO
 import json
 from pathlib import Path
@@ -67,7 +68,9 @@ def test_transient_api_failures_are_retried(monkeypatch) -> None:
         assert timeout == 30
         attempts += 1
         if attempts == 1:
-            raise urllib.error.HTTPError("https://example.test", 503, "temporary", {}, BytesIO())
+            raise urllib.error.HTTPError(
+                "https://example.test", 503, "temporary", Message(), BytesIO()
+            )
         return Response()
 
     monkeypatch.setattr(gate.urllib.request, "urlopen", fake_urlopen)
