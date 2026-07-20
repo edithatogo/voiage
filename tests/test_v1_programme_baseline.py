@@ -10,9 +10,6 @@ import sys
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
-    "abstraction-excellence_20260719",
-    "assurance-frontier_20260720",
-    "operational-assurance-excellence_20260720",
     TRACK_ID,
 ]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
@@ -30,14 +27,14 @@ def test_v1_programme_baseline_records_authoritative_repository_state() -> None:
 
     assert repository == {
         "authoritative_branch": "origin/main",
-        "authoritative_commit": "6141cc49a9ad41161756677840d6a61b25fd386a",
+        "authoritative_commit": "f05231ce21a81ffb4029493927e5572d114fad67",
         "implementation_branch": "codex/mature-hardened-v1-programme",
         "generated_artifacts_excluded": ["docs/astro-site/.astro/"],
     }
-    assert github["snapshot_at"] == "2026-07-19T00:18:00Z"
-    assert github["open_pull_requests"] == 22
+    assert github["snapshot_at"] == "2026-07-20T08:26:00Z"
+    assert github["open_pull_requests"] == 1
     assert github["open_issues"] == 0
-    assert github["remote_branches"] == 24
+    assert github["remote_branches"] == 2
     assert github["latest_release"] == "v0.2.1"
 
 
@@ -47,7 +44,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 122
+    assert conductor["archived_track_count"] == 125
     assert conductor["classifications"] == {
         "v1_required": ACTIVE_TRACK_IDS,
         "historical_groundwork": "conductor/archive/",
@@ -108,7 +105,7 @@ def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:
     import os
 
     env = os.environ.copy()
-    env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-19T00:18:00Z"
+    env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-20T08:26:00Z"
     return subprocess.run(
         [sys.executable, str(VALIDATOR.resolve()), "--repo-root", str(root)],
         capture_output=True,

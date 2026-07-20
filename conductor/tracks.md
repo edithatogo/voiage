@@ -1,7 +1,7 @@
 # Project Tracks
 
 ## [x] Track: Domain Abstraction Excellence [completed: 2026-07-20]
-*Link: [./tracks/abstraction-excellence_20260719/index.md](./tracks/abstraction-excellence_20260719/index.md)*
+*Link: [./archive/abstraction-excellence_20260719/index.md](./archive/abstraction-excellence_20260719/index.md)*
 *Status: strict domain contracts, capability-aware kernels, machine-readable
 concern governance, and hosted quality evidence are complete; human approval
 remains separate under the shared C13 `close_requires_approval` policy.*
@@ -9,14 +9,14 @@ remains separate under the shared C13 `close_requires_approval` policy.*
 ---
 
 ## [x] Track: Assurance Frontier [completed: 2026-07-20]
-*Link: [./tracks/assurance-frontier_20260720/index.md](./tracks/assurance-frontier_20260720/index.md)*
+*Link: [./archive/assurance-frontier_20260720/index.md](./archive/assurance-frontier_20260720/index.md)*
 *Status: implementation, exact-head hosted evidence, and independent review are
 complete; issue closure, merge, release, and publication remain human gates.*
 
 ---
 
 ## [x] Track: Operational Assurance Excellence [completed: 2026-07-20]
-*Link: [./tracks/operational-assurance-excellence_20260720/index.md](./tracks/operational-assurance-excellence_20260720/index.md)*
+*Link: [./archive/operational-assurance-excellence_20260720/index.md](./archive/operational-assurance-excellence_20260720/index.md)*
 *Status: repository-owned implementation, exact-head hosted evidence, and
 independent review are complete; mutation-baseline approval, merge, release,
 publication, and issue closure remain human gates.*
