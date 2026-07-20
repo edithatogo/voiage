@@ -857,6 +857,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed source-distribution reproducibility by embedding the committed source
   identity before isolated builds, and repaired invalid exception syntax and
   type-only backend annotations in the assurance branch.
+- Keep the reproducible release SBOM as the workflow-owned CycloneDX artifact;
+  disable Maturin's path-bearing per-wheel Cargo SBOM.
 
 - Added a reproducible Conda-Forge feedstock handoff recording release,
   workflow, recipe, credential, maintainer-merge, and package-index evidence.

@@ -134,6 +134,12 @@ features = ["pyo3/extension-module"]
 locked = true
 include = [{ path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" }]
 
+# Generate the canonical CycloneDX SBOM in the supply-chain workflow. Maturin's
+# per-wheel Cargo SBOM embeds temporary build paths, which would make otherwise
+# identical wheels fail the reproducibility gate.
+[tool.maturin.sbom]
+rust = false
+
 [tool.voiage.release]
 python-abi = "cp310-abi3"
 architecture-policy = "native-runner"
