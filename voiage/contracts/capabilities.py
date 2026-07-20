@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence  # noqa: TC003 - public protocol signature
 from enum import StrEnum
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol
 
 import numpy as np  # noqa: TC002 - public protocol signature
 from pydantic import Field, field_serializer
@@ -79,7 +79,7 @@ class CapabilityBackend(Protocol):
         """Return immutable capability metadata."""
         ...
 
-    def calculate_evpi(self, net_benefits: np.ndarray) -> float:
+    def calculate_evpi(self, net_benefits: np.ndarray[Any, Any]) -> float:
         """Execute the EVPI pilot operation."""
         ...
 

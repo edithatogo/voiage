@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class LegacyBackendAdapter:
     backend: Backend
     capabilities: BackendCapabilities
 
-    def calculate_evpi(self, net_benefits: np.ndarray) -> float:
+    def calculate_evpi(self, net_benefits: np.ndarray[Any, Any]) -> float:
         """Delegate without changing established backend return behavior."""
         return float(self.backend.evpi(net_benefits))
 
@@ -80,7 +80,10 @@ def adapt_value_array(
 
 
 def adapt_parameter_set(
-    parameters: ParameterSet | Mapping[str, np.ndarray] | np.ndarray | None,
+    parameters: ParameterSet
+    | Mapping[str, np.ndarray[Any, Any]]
+    | np.ndarray[Any, Any]
+    | None,
 ) -> ParameterSet | None:
     """Normalize parameter samples while preserving established instances."""
     if parameters is None or isinstance(parameters, ParameterSet):
@@ -89,7 +92,7 @@ def adapt_parameter_set(
     return ParameterSet.from_numpy_or_dict(normalized)
 
 
-def _parameter_dtype(values: np.ndarray) -> ParameterDType:
+def _parameter_dtype(values: np.ndarray[Any, Any]) -> ParameterDType:
     if np.issubdtype(values.dtype, np.bool_):
         return "bool"
     if np.issubdtype(values.dtype, np.integer):
