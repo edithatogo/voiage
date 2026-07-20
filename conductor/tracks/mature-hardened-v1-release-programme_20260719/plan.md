@@ -133,6 +133,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add concurrent thread-safety and repeatability coverage for all native EVSI kernels (c8c96a9).
     - [x] Add bounded generated-input fuzz coverage for stable EVSI kernels (cc735ee).
     - [x] Scope the scheduled mutation gate to the stable Python numerical facade (5babf7b).
+    - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [ ] Add differential, metamorphic, fuzz and mutation tests.
     - [ ] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
