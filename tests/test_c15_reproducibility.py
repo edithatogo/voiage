@@ -349,7 +349,9 @@ def test_compare_cli_retains_failure_evidence(
     assert failure["operation"] == "compare"
 
 
-def test_portable_inventory_and_report_validation_fail_closed(tmp_path: Path) -> None:
+def test_portable_inventory_and_report_validation_fail_closed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     wheel = tmp_path / "native.whl"
     contents = {
         "voiage/_core.one.so": b"one",
@@ -391,7 +393,16 @@ def test_portable_inventory_and_report_validation_fail_closed(tmp_path: Path) ->
     with pytest.raises(ArtifactMismatchError, match="portable artifact digests differ"):
         compare_digest_reports(left, broken)
 
+    original_entries_digest = c15_reproducibility._entries_digest
+
+    def collision_digest(entries):
+        paths = {entry["path"] for entry in entries}
+        if "extra" in paths and not any(path.endswith("/RECORD") for path in paths):
+            return left["portable_sha256"]
+        return original_entries_digest(entries)
+
     broken["portable_sha256"] = left["portable_sha256"]
+    monkeypatch.setattr(c15_reproducibility, "_entries_digest", collision_digest)
     with pytest.raises(
         ArtifactMismatchError, match="portable archive inventories differ"
     ):
