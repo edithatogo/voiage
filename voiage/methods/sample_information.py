@@ -8,6 +8,7 @@ Implementation of Value of Information methods related to sample information.
 from collections.abc import Callable, Sequence
 import importlib.util
 from typing import Any
+import warnings
 
 import numpy as np
 
@@ -24,6 +25,16 @@ SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
+
+
+def _warn_python_numerical_fallback(estimator: str) -> None:
+    """Mark a legacy Python numerical fallback during Rust migration."""
+    warnings.warn(
+        f"Python {estimator} fallback is transitional; the Rust kernel is the "
+        "v1 execution target.",
+        DeprecationWarning,
+        stacklevel=3,
+    )
 
 
 def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -157,18 +168,21 @@ def _evsi_efficient_regression(
                 trial_sample_size,
             )
         except ModuleNotFoundError:
+            _warn_python_numerical_fallback("efficient-linear EVSI")
             return _evsi_efficient_regression_python(
                 nb_prior_values, psa_prior, trial_design, metamodel
             )
         except AttributeError as error:
             if "compute_evsi_efficient_linear" not in str(error):
                 raise
+            _warn_python_numerical_fallback("efficient-linear EVSI")
             return _evsi_efficient_regression_python(
                 nb_prior_values, psa_prior, trial_design, metamodel
             )
         except InputError as error:
             if "rank deficient" not in str(error):
                 raise
+            _warn_python_numerical_fallback("efficient-linear EVSI")
             return _evsi_efficient_regression_python(
                 nb_prior_values, psa_prior, trial_design, metamodel
             )
@@ -304,14 +318,17 @@ def _evsi_moment_based(
             trial_sample_size,
         )
     except ModuleNotFoundError:
+        _warn_python_numerical_fallback("moment-based EVSI")
         return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
     except AttributeError as error:
         if "compute_evsi_moment_based" not in str(error):
             raise
+        _warn_python_numerical_fallback("moment-based EVSI")
         return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
     except InputError as error:
         if "rank deficient" not in str(error):
             raise
+        _warn_python_numerical_fallback("moment-based EVSI")
         return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
 
     current_value = float(np.max(np.mean(nb_prior_values, axis=0)))

@@ -402,13 +402,14 @@ def test_evsi_efficient_linear_falls_back_when_native_extension_is_absent(
         raise ModuleNotFoundError("voiage._core")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", unavailable)
-    result = si_module.evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="efficient",
-        metamodel="linear",
-    )
+    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
+        result = si_module.evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="efficient",
+            metamodel="linear",
+        )
     assert result >= 0.0
 
 
@@ -421,13 +422,14 @@ def test_evsi_efficient_linear_falls_back_for_rank_deficient_design(
         raise InputError("efficient-linear design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", rank_failure)
-    result = si_module.evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="efficient",
-        metamodel="linear",
-    )
+    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
+        result = si_module.evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="efficient",
+            metamodel="linear",
+        )
     assert result >= 0.0
 
 
@@ -602,12 +604,13 @@ def test_evsi_moment_based_falls_back_for_rank_deficient_design(
         raise InputError("moment-based design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", rank_failure)
-    result = evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="moment_based",
-    )
+    with pytest.warns(DeprecationWarning, match="moment-based EVSI fallback"):
+        result = evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="moment_based",
+        )
 
     assert result >= 0.0
 
