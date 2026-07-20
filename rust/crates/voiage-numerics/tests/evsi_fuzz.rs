@@ -35,7 +35,9 @@ proptest! {
             // rank-deficient designs, so deriving a column from `row[0]` would
             // make the fuzz assertion invalid for constant generated values.
             .map(|(index, _row)| {
-                let index = index as f64;
+                let index = f64::from(
+                    u32::try_from(index).expect("bounded generated row index fits in u32"),
+                );
                 vec![index, index * index]
             })
             .collect());
