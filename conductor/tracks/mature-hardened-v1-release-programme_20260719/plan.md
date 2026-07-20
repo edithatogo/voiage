@@ -131,6 +131,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add the centered two-parameter moment interaction-order contract fixture (738e634, 797b35f).
     - [x] Add panic-free malformed-input and stable-error proptest coverage (d31fbe2, 1af20c8).
     - [x] Add concurrent thread-safety and repeatability coverage for all native EVSI kernels (c8c96a9).
+    - [x] Add bounded generated-input fuzz coverage for stable EVSI kernels (cc735ee).
     - [ ] Add differential, metamorphic, fuzz and mutation tests.
     - [ ] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
