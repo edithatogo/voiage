@@ -105,7 +105,14 @@ def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:
     import os
 
     env = os.environ.copy()
-    env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-20T08:45:00Z"
+    baseline_path = root / "conductor" / "v1-programme-baseline.json"
+    if not baseline_path.exists():
+        baseline_path = BASELINE_PATH
+    try:
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        env["PROGRAMME_VALIDATOR_NOW"] = str(baseline["github"]["snapshot_at"])
+    except (KeyError, TypeError, ValueError, OSError):
+        env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-20T08:45:00Z"
     return subprocess.run(
         [sys.executable, str(VALIDATOR.resolve()), "--repo-root", str(root)],
         capture_output=True,
