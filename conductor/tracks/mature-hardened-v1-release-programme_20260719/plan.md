@@ -21,6 +21,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Apply Phase 1 automated review fixes (4192632)
     - [x] Point the active registry entry to the track context index.
     - [x] Validate GitHub snapshot counts and blocked-pull-request evidence structure.
+- [x] Review fix: refresh the machine-readable baseline after post-merge synchronization (1d0f31e)
+    - [x] Update the authoritative commit, GitHub snapshot timestamp, open-issue count,
+      and blocked-pull-request classification from the live remote state.
 - [x] Task: Conductor - Automated Review and Checkpoint 'Programme Governance and Repository Reconciliation' (Protocol in workflow.md) (941691f)
 
 ## Phase 2: Stable-Core Contract and Compatibility Freeze [checkpoint: 62f38f7]
