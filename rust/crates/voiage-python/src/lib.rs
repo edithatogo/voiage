@@ -11,6 +11,7 @@ use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyModule};
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
+#[cfg(test)]
 use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
@@ -125,12 +126,12 @@ fn build_id_for_metadata(metadata: &BuildMetadata) -> String {
 
 fn sha256_hex(bytes: &[u8]) -> String {
     let digest = Sha256::digest(bytes);
-    digest
-        .iter()
-        .fold(String::with_capacity(digest.len() * 2), |mut hex, byte| {
-            write!(hex, "{byte:02x}").expect("writing to String is infallible");
-            hex
-        })
+    let mut hex = String::with_capacity(digest.len() * 2);
+    for &byte in &digest {
+        hex.push(char::from(b"0123456789abcdef"[(byte >> 4) as usize]));
+        hex.push(char::from(b"0123456789abcdef"[(byte & 0xf) as usize]));
+    }
+    hex
 }
 
 fn canonical_payload_bytes<T: serde::Serialize>(value: &T) -> serde_json::Result<Vec<u8>> {

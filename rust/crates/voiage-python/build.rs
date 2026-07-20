@@ -13,13 +13,13 @@ const SOURCE_STATE_ALGORITHM: &str = "git-diff-and-untracked-sha256-v1";
 const EMBEDDED_PROVENANCE_FILE: &str = "source-provenance.txt";
 
 fn digest_hex<D: AsRef<[u8]>>(digest: D) -> String {
-    digest.as_ref().iter().fold(
-        String::with_capacity(digest.as_ref().len() * 2),
-        |mut hex, byte| {
-            write!(hex, "{byte:02x}").expect("writing to String is infallible");
-            hex
-        },
-    )
+    let bytes = digest.as_ref();
+    let mut hex = String::with_capacity(bytes.len() * 2);
+    for &byte in bytes {
+        hex.push(char::from(b"0123456789abcdef"[(byte >> 4) as usize]));
+        hex.push(char::from(b"0123456789abcdef"[(byte & 0xf) as usize]));
+    }
+    hex
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
