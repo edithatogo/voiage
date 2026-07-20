@@ -147,6 +147,23 @@ def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
     }
 
 
+def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(net_benefit: list[list[float]]) -> float:
+        captured["net_benefit"] = net_benefit
+        return 0.5
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evpi=compute),
+    )
+
+    assert _runtime.compute_evpi([[0.0, 2.0], [1.0, 0.0]]) == 0.5
+    assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
+
+
 def test_compute_evsi_forwards_seeded_kernel_arguments(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
