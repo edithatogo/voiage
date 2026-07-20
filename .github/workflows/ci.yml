@@ -386,7 +386,7 @@ jobs:
 
     - name: Run mutation testing
       run: |
-        uv run mutmut run
+        uv run mutmut run --use-coverage
         uv run mutmut results
       env:
         CI: true
