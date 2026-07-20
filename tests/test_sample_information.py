@@ -381,8 +381,8 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", compute)
 
-    with warnings.catch_warnings(record=True) as emitted:
-        warnings.simplefilter("always", DeprecationWarning)
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", DeprecationWarning)
         result = si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
@@ -392,9 +392,6 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
         )
 
     assert result == pytest.approx(1.5)
-    assert not [
-        warning for warning in emitted if warning.category is DeprecationWarning
-    ]
     assert captured["trial_sample_size"] == 100
     assert len(captured["net_benefit"]) == 500
     assert len(captured["parameter_samples"]) == 500
