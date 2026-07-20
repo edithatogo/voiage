@@ -6,6 +6,8 @@ import numpy as np
 import pytest
 import xarray as xr
 
+import voiage
+from voiage.exceptions import OptionalDependencyError
 from voiage.methods import ceaf as ceaf_module
 from voiage.methods import dominance as dominance_module
 from voiage.schema import ValueArray
@@ -64,3 +66,27 @@ def test_dominance_uses_python_fallback_when_native_extension_is_unavailable(
         )
     assert result.frontier_indices == [0, 1, 3]
     assert result.strongly_dominated_indices == [4]
+
+
+def test_package_lazy_exports_distinguish_optional_dependency_failures(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sentinel = object()
+    monkeypatch.setattr(voiage, "import_module", lambda *_args, **_kwargs: sentinel)
+    assert voiage.__getattr__("cli") is sentinel
+    with pytest.raises(AttributeError, match="not_an_export"):
+        voiage.__getattr__("not_an_export")
+
+    def missing_optional(*_args: object, **_kwargs: object) -> object:
+        raise ModuleNotFoundError("No module named 'defusedxml'", name="defusedxml")
+
+    monkeypatch.setattr(voiage, "import_module", missing_optional)
+    with pytest.raises(OptionalDependencyError, match="ecosystem integration"):
+        voiage.__getattr__("ecosystem_integration")
+
+    def missing_jax(*_args: object, **_kwargs: object) -> object:
+        raise ModuleNotFoundError("No module named 'jax'", name="jax")
+
+    monkeypatch.setattr(voiage, "import_module", missing_jax)
+    with pytest.raises(OptionalDependencyError, match="requires JAX"):
+        voiage.__getattr__("health_economics")
