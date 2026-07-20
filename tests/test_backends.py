@@ -9,8 +9,36 @@ import numpy as np
 import pytest
 
 from voiage import main_backends
+import voiage.backends as backends_package
 from voiage.backends import NumpyBackend, get_backend, set_backend
 from voiage.schema import DecisionOption, TrialDesign
+
+
+def test_backend_package_lazy_gpu_contract(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The optional GPU facade must cache success and govern missing JAX."""
+    monkeypatch.delitem(backends_package.__dict__, "GpuAcceleration", raising=False)
+    sentinel = object()
+    monkeypatch.setattr(
+        backends_package,
+        "import_module",
+        lambda *_args: SimpleNamespace(GpuAcceleration=sentinel),
+    )
+
+    assert backends_package.__getattr__("GpuAcceleration") is sentinel
+    assert backends_package.GpuAcceleration is sentinel
+
+    monkeypatch.delitem(backends_package.__dict__, "GpuAcceleration", raising=False)
+
+    def missing_jax(*_args: object) -> object:
+        raise ModuleNotFoundError("JAX intentionally absent", name="jax")
+
+    monkeypatch.setattr(backends_package, "import_module", missing_jax)
+    with pytest.raises(ImportError, match=r"voiage\[jax\]"):
+        backends_package.__getattr__("GpuAcceleration")
+    with pytest.raises(AttributeError, match="UnknownBackend"):
+        backends_package.__getattr__("UnknownBackend")
 
 
 def _import_module_without_jax(

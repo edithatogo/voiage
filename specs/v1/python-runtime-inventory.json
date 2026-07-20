@@ -4,7 +4,15 @@
   "categories": {
     "facade": {
       "status": "retain",
-      "roots": ["voiage/__init__.py", "voiage/__main__.py", "voiage/_runtime.py", "voiage/exceptions.py", "voiage/factory.py", "voiage/fluent.py", "voiage/governance.py", "voiage/reporting.py", "voiage/stats.py", "voiage/versioning.py"]
+      "roots": ["voiage/__init__.py", "voiage/__main__.py", "voiage/_runtime.py", "voiage/exceptions.py", "voiage/factory.py", "voiage/fluent.py", "voiage/governance.py", "voiage/logging.py", "voiage/reporting.py", "voiage/stats.py", "voiage/versioning.py"]
+    },
+    "contracts": {
+      "status": "retain_as_governed_boundary",
+      "roots": ["voiage/contracts/"]
+    },
+    "assurance": {
+      "status": "retain_as_verification_support",
+      "roots": ["voiage/assurance_policy.py", "voiage/c15_oracles.py", "voiage/c15_otel.py", "voiage/c15_performance.py", "voiage/c15_reproducibility.py", "voiage/mutation_policy.py"]
     },
     "transitional_numerical_core": {
       "status": "retire_after_rust_parity",
@@ -29,6 +37,8 @@
   },
   "v1_retained_categories": [
     "facade",
+    "contracts",
+    "assurance",
     "schema_and_io",
     "backend",
     "cli_and_orchestration",

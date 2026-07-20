@@ -211,6 +211,7 @@ def test_maturin_maps_the_private_mixed_project_module() -> None:
                 "format": "sdist",
             }
         ],
+        "sbom": {"rust": False},
     }
 
 

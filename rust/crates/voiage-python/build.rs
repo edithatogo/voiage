@@ -308,7 +308,7 @@ fn embedded_source_identity(
         {
             Some(embedded)
         }
-        Some((_, _, false) | _) => None,
+        Some(_) => None,
     }
 }
 

@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 from scripts.reproducible_build import (
+    _build_environment,
     _embed_sdist_provenance,
     artifact_evidence,
     compare_build_directories,
@@ -49,6 +50,20 @@ def test_missing_sdist_provenance_helper_fails_closed(tmp_path: Path) -> None:
         _embed_sdist_provenance(tmp_path)
 
 
+def test_windows_native_builds_share_a_reproducible_clean_target(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("RUSTFLAGS", "-C target-cpu=x86-64")
+    target = tmp_path / "stable-target"
+
+    environment = _build_environment(
+        tmp_path, target, platform_name="nt", source_date_epoch="123"
+    )
+
+    assert environment["CARGO_TARGET_DIR"] == str(target.resolve())
+    assert environment["RUSTFLAGS"] == "-C target-cpu=x86-64 -C link-arg=/Brepro"
+
+
 def _write_wheel(path: Path, payload: bytes) -> None:
     with zipfile.ZipFile(path, "w") as archive:
         archive.writestr("package/module.py", payload)
@@ -80,6 +95,7 @@ def test_identical_build_artifacts_are_reproducible(tmp_path: Path) -> None:
     assert report["reproducible"] is True
     assert report["artifact_set_complete"] is True
     assert report["artifacts"][0]["byte_identical"] is True
+    assert report["artifacts"][0]["differing_entries"] == []
 
 
 def test_inventory_identity_does_not_hide_byte_drift(tmp_path: Path) -> None:
@@ -97,6 +113,7 @@ def test_inventory_identity_does_not_hide_byte_drift(tmp_path: Path) -> None:
 
     assert report["reproducible"] is False
     assert report["artifacts"][0]["inventory_identical"] is False
+    assert report["artifacts"][0]["differing_entries"] == ["package/module.py"]
 
 
 def test_missing_sdist_fails_closed(tmp_path: Path) -> None:

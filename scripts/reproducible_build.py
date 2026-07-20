@@ -42,6 +42,7 @@ class ArtifactComparison(TypedDict):
     filename: str
     byte_identical: bool
     inventory_identical: bool
+    differing_entries: list[str]
     first: ArtifactEvidence
     second: ArtifactEvidence
 
@@ -156,12 +157,23 @@ def compare_build_directories(first: Path, second: Path) -> BuildReport:
     for name in sorted(first_paths.keys() & second_paths.keys()):
         left = artifact_evidence(first_paths[name])
         right = artifact_evidence(second_paths[name])
+        left_inventory = {
+            item["path"]: item for item in _archive_inventory(first_paths[name])
+        }
+        right_inventory = {
+            item["path"]: item for item in _archive_inventory(second_paths[name])
+        }
         artifacts.append(
             {
                 "filename": name,
                 "byte_identical": left["sha256"] == right["sha256"],
                 "inventory_identical": left["inventory_sha256"]
                 == right["inventory_sha256"],
+                "differing_entries": sorted(
+                    path
+                    for path in left_inventory.keys() | right_inventory.keys()
+                    if left_inventory.get(path) != right_inventory.get(path)
+                ),
                 "first": left,
                 "second": right,
             }
@@ -211,12 +223,29 @@ def _embed_sdist_provenance(repo: Path) -> None:
     )
 
 
+def _build_environment(
+    repo: Path,
+    target_dir: Path,
+    *,
+    platform_name: str = os.name,
+    source_date_epoch: str | None = None,
+) -> dict[str, str]:
+    """Return deterministic inputs shared by two independent native builds."""
+    environment = {
+        **os.environ,
+        "SOURCE_DATE_EPOCH": source_date_epoch or _source_date_epoch(repo),
+        "CARGO_TARGET_DIR": str(target_dir.resolve()),
+    }
+    if platform_name == "nt":
+        inherited = environment.get("RUSTFLAGS", "").strip()
+        environment["RUSTFLAGS"] = f"{inherited} -C link-arg=/Brepro".strip()
+    return environment
+
+
 def verify_reproducible_build(
     repo: Path, *, output_dir: Path | None = None
 ) -> BuildReport:
     """Run two isolated uv builds from the same source revision."""
-    source_date_epoch = _source_date_epoch(repo)
-    environment = {**os.environ, "SOURCE_DATE_EPOCH": source_date_epoch}
     uv = shutil.which("uv")
     if uv is None:
         raise RuntimeError("uv executable is required")
@@ -227,10 +256,16 @@ def verify_reproducible_build(
         with (
             tempfile.TemporaryDirectory(prefix="voiage-build-a-") as first_temp,
             tempfile.TemporaryDirectory(prefix="voiage-build-b-") as second_temp,
+            tempfile.TemporaryDirectory(prefix="voiage-cargo-target-") as target_temp,
         ):
             first = Path(first_temp)
             second = Path(second_temp)
+            target = Path(target_temp)
+            environment = _build_environment(repo, target)
+            source_date_epoch = environment["SOURCE_DATE_EPOCH"]
             for destination in (first, second):
+                shutil.rmtree(target)
+                target.mkdir()
                 _ = subprocess.run(  # noqa: S603
                     [uv, "build", "--out-dir", str(destination)],
                     cwd=repo,

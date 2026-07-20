@@ -51,6 +51,19 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Complete the repository-owned Domain Abstraction Excellence work.
+    *   Conductor track: `abstraction-excellence_20260719`.
+    *   Human approval remains governed separately from implementation status.
+
+*   [x] Complete the repository-owned Assurance Frontier work.
+    *   Conductor track: `assurance-frontier_20260720`.
+    *   Merge, release, publication, and issue closure remain explicit human gates.
+
+*   [x] Complete the repository-owned Operational Assurance Excellence work.
+    *   Conductor track: `operational-assurance-excellence_20260720`.
+    *   Baseline approval, merge, release, publication, and issue closure remain
+        explicit human gates.
+
 *   [x] Add the engineering-frontier harness for logging, environments, typing,
     profiling, and expensive CI evidence.
     *   Pydantic v2 logging, SCM versions, Pixi/uv parity, `ty` plus
