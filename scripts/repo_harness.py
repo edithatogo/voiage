@@ -184,7 +184,7 @@ def check_workflows(root: Path) -> list[Finding]:
                 if stripped.startswith("- ") and indent <= action_indent:
                     break
                 if stripped.startswith("version:"):
-                    configured_version = stripped.split(":", 1)[1].strip().strip('"\'')
+                    configured_version = stripped.split(":", 1)[1].strip().strip("\"'")
                     break
             if configured_version != REQUIRED_UV_VERSION:
                 findings.append(
@@ -309,7 +309,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
     policy_path = root / ".github" / "coverage-policy.json"
     try:
         policy = json.loads(policy_path.read_text(encoding="utf-8"))
-    except OSError, json.JSONDecodeError:
+    except (OSError, json.JSONDecodeError):
         policy = None
     if policy != EXPECTED_COVERAGE_POLICY:
         findings.append(
@@ -324,7 +324,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
         provenance = baseline["promotion_provenance"]
         cohort = baseline["cohort"]
         universe = baseline["universe"]
-    except OSError, json.JSONDecodeError, KeyError, TypeError:
+    except (OSError, json.JSONDecodeError, KeyError, TypeError):
         provenance = cohort = universe = None
     externally_anchored = (
         isinstance(provenance, dict)

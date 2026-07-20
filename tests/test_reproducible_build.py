@@ -3,42 +3,50 @@
 from __future__ import annotations
 
 import io
-from pathlib import Path
-import re
 import shutil
+import subprocess
 import tarfile
+from typing import TYPE_CHECKING
 import zipfile
 
 import pytest
 
+if TYPE_CHECKING:
+    from pathlib import Path
+
 from scripts.reproducible_build import (
-    _reproducible_environment,
-    _source_identity,
+    _embed_sdist_provenance,
     artifact_evidence,
     compare_build_directories,
     normalize_sdist,
 )
 
-ROOT = Path(__file__).resolve().parents[1]
+
+def test_sdist_provenance_helper_is_required_and_invoked(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Reproducible builds must create identity for the Git-less rebuild."""
+    script = tmp_path / "scripts" / "embed_sdist_provenance.py"
+    script.parent.mkdir()
+    script.write_text("# fixed repository helper\n", encoding="utf-8")
+    observed: dict[str, object] = {}
+
+    def run(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        observed.update(command=command, **kwargs)
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(subprocess, "run", run)
+
+    _embed_sdist_provenance(tmp_path)
+
+    assert observed["command"][-1] == str(script)
+    assert observed["cwd"] == tmp_path
+    assert observed["check"] is True
 
 
-def test_nested_build_identity_is_a_complete_git_commit_and_tree() -> None:
-    """Git-less sdist builds receive the exact immutable source identity."""
-    revision, tree = _source_identity(ROOT)
-
-    assert re.fullmatch(r"[0-9a-f]{40}", revision)
-    assert re.fullmatch(r"[0-9a-f]{40}", tree)
-
-
-def test_nested_build_environment_carries_complete_clean_source_identity() -> None:
-    """The sdist-to-wheel build cannot lose release provenance."""
-    environment = _reproducible_environment(ROOT)
-    revision, tree = _source_identity(ROOT)
-
-    assert environment["VOIAGE_SOURCE_REVISION"] == revision
-    assert environment["VOIAGE_SOURCE_TREE_GIT_OID"] == tree
-    assert environment["VOIAGE_SOURCE_CLEAN"] == "true"
-    assert environment["SOURCE_DATE_EPOCH"].isdigit()
+def test_missing_sdist_provenance_helper_fails_closed(tmp_path: Path) -> None:
+    with pytest.raises(RuntimeError, match="missing sdist provenance helper"):
+        _embed_sdist_provenance(tmp_path)
 
 
 def _write_wheel(path: Path, payload: bytes) -> None:

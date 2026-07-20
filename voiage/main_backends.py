@@ -1,12 +1,8 @@
-"""
-Computational backends for voiage.
+"""Computational backend dispatch and capability reporting."""
 
-This module provides a dispatch system for selecting computational backends
-and includes implementations for different backends, starting with NumPy and JAX.
-"""
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Mapping, Sequence
 import hashlib
 import json
 import platform
@@ -15,11 +11,14 @@ import time
 from typing import TYPE_CHECKING, Protocol, cast
 
 import numpy as np
-from numpy.typing import ArrayLike
 
 from voiage.exceptions import raise_import_error, raise_value_error
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Mapping, Sequence
+
+    from numpy.typing import ArrayLike
+
     from voiage.contracts.capabilities import BackendCapabilities
     from voiage.schema import ParameterSet, TrialDesign, ValueArray
 
@@ -50,7 +49,7 @@ class ParameterSetProtocol(Protocol):
 
     def replace_parameters(
         self, parameters: Mapping[str, np.ndarray]
-    ) -> "ParameterSetProtocol":
+    ) -> ParameterSetProtocol:
         """Return a copy with updated parameter arrays."""
 
 
