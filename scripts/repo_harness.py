@@ -74,7 +74,7 @@ OPERATIONAL_ASSURANCE_MARKERS = {
         "scripts/check_consumer_matrix.py",
         "scripts/check_coverage_policy.py",
         "--cov-fail-under=90",
-        "4017aac3b5803f2d68b09d74e57ebd6c55e933d0",
+        "f05231ce21a81ffb4029493927e5572d114fad67",
         "include-hidden-files: true",
         "if-no-files-found: error",
     ),
