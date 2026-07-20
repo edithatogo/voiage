@@ -571,6 +571,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Standardized all GitHub Actions checkout steps on the current pinned
+  `actions/checkout` digest across CI, security, release, binding, evidence,
+  documentation, and packaging workflows.
 - Python package versions are now derived from release tags with
   `setuptools-scm`; binding manifests continue to track the latest released
   version.
