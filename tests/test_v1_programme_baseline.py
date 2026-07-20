@@ -27,14 +27,14 @@ def test_v1_programme_baseline_records_authoritative_repository_state() -> None:
 
     assert repository == {
         "authoritative_branch": "origin/main",
-        "authoritative_commit": "f05231ce21a81ffb4029493927e5572d114fad67",
+        "authoritative_commit": "47b377ba85265a8d774794699137a56f3b0f3e26",
         "implementation_branch": "codex/mature-hardened-v1-programme",
         "generated_artifacts_excluded": ["docs/astro-site/.astro/"],
     }
-    assert github["snapshot_at"] == "2026-07-20T08:26:00Z"
-    assert github["open_pull_requests"] == 1
-    assert github["open_issues"] == 0
-    assert github["remote_branches"] == 2
+    assert github["snapshot_at"] == "2026-07-20T08:45:00Z"
+    assert github["open_pull_requests"] == 0
+    assert github["open_issues"] == 1
+    assert github["remote_branches"] == 1
     assert github["latest_release"] == "v0.2.1"
 
 
@@ -105,7 +105,7 @@ def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:
     import os
 
     env = os.environ.copy()
-    env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-20T08:26:00Z"
+    env["PROGRAMME_VALIDATOR_NOW"] = "2026-07-20T08:45:00Z"
     return subprocess.run(
         [sys.executable, str(VALIDATOR.resolve()), "--repo-root", str(root)],
         capture_output=True,
