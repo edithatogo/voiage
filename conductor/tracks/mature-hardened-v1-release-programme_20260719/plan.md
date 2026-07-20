@@ -132,6 +132,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add panic-free malformed-input and stable-error proptest coverage (d31fbe2, 1af20c8).
     - [x] Add concurrent thread-safety and repeatability coverage for all native EVSI kernels (c8c96a9).
     - [x] Add bounded generated-input fuzz coverage for stable EVSI kernels (cc735ee).
+    - [x] Validate generated-input fuzz coverage across hosted language and platform gates (c7c8937).
     - [x] Scope the scheduled mutation gate to the stable Python numerical facade (5babf7b).
     - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [ ] Add differential, metamorphic, fuzz and mutation tests.
@@ -147,7 +148,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
 - [ ] Task: Complete the 0.x compatibility bridge using TDD
     - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
-    - [ ] Red: add failing tests for deprecation warnings and migration compatibility.
+    - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
     - [ ] Green: route stable public APIs to Rust and implement controlled shims.
     - [ ] Refactor: simplify wrappers and publish migration documentation.
 - [ ] Task: Remove the duplicate Python numerical core using TDD
