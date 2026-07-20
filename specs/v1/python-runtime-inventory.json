@@ -36,6 +36,8 @@
   ],
   "transitional_kernel_modules": {
     "status": "must_route_to_rust_or_be_removed_in_phase_6",
+    "authoritative_owner": "rust",
+    "python_role": "compatibility_fallback_only",
     "modules": [
       "voiage/methods/basic.py",
       "voiage/methods/ceaf.py",

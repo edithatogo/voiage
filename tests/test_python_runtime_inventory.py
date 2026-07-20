@@ -28,7 +28,10 @@ def test_transitional_kernel_inventory_is_explicit() -> None:
             / "specs/v1/python-runtime-inventory.json"
         ).read_text()
     )
-    assert set(manifest["transitional_kernel_modules"]["modules"]) == {
+    transitional = manifest["transitional_kernel_modules"]
+    assert transitional["authoritative_owner"] == "rust"
+    assert transitional["python_role"] == "compatibility_fallback_only"
+    assert set(transitional["modules"]) == {
         "voiage/methods/basic.py",
         "voiage/methods/ceaf.py",
         "voiage/methods/dominance.py",

@@ -10,28 +10,51 @@ import sys
 
 
 def validate(repo_root: Path) -> list[str]:
+    """Return policy violations in the machine-readable runtime inventory."""
     manifest_path = repo_root / "specs/v1/python-runtime-inventory.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     categories = manifest["categories"]
     retained = set(manifest["v1_retained_categories"])
-    if "transitional_numerical_core" in retained:
-        return ["transitional_numerical_core cannot be in v1_retained_categories"]
-    roots = [(root, category) for category, data in categories.items() for root in data["roots"]]
+    transitional = manifest["transitional_kernel_modules"]
     errors: list[str] = []
-    for module in manifest["transitional_kernel_modules"]["modules"]:
-        if not (repo_root / module).is_file():
-            errors.append(f"transitional kernel module is missing: {module}")
+    if "transitional_numerical_core" in retained:
+        errors.append("transitional_numerical_core cannot be in v1_retained_categories")
+    if transitional.get("authoritative_owner") != "rust":
+        errors.append(
+            "transitional numerical kernels must declare Rust as authoritative"
+        )
+    if transitional.get("python_role") != "compatibility_fallback_only":
+        errors.append(
+            "transitional numerical kernels must declare Python as compatibility-only"
+        )
+    roots = [
+        (root, category)
+        for category, data in categories.items()
+        for root in data["roots"]
+    ]
+    errors.extend(
+        f"transitional kernel module is missing: {module}"
+        for module in transitional["modules"]
+        if not (repo_root / module).is_file()
+    )
     for path in sorted((repo_root / "voiage").rglob("*.py")):
         relative = path.relative_to(repo_root).as_posix()
-        matches = [category for root, category in roots if relative == root or relative.startswith(root)]
+        matches = [
+            category
+            for root, category in roots
+            if relative == root or relative.startswith(root)
+        ]
         if len(matches) != 1:
-            errors.append(f"{relative}: expected exactly one inventory category, found {matches}")
+            errors.append(
+                f"{relative}: expected exactly one inventory category, found {matches}"
+            )
     if any(category not in categories for category in retained):
         errors.append("v1_retained_categories contains an unknown category")
     return errors
 
 
 def main() -> int:
+    """Validate the inventory at the requested repository root."""
     parser = argparse.ArgumentParser()
     parser.add_argument("repo", nargs="?", type=Path, default=Path.cwd())
     args = parser.parse_args()
