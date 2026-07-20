@@ -701,6 +701,29 @@ def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi) ->
         )
 
 
+@pytest.mark.parametrize(
+    ("values", "message"),
+    [
+        (np.array([1.0, 2.0]), "2D net-benefit values"),
+        (np.array([[1.0]]), "sample count must match"),
+        (np.empty((2, 0)), "at least one strategy"),
+        (np.array([[1.0, np.nan], [2.0, 3.0]]), "only finite net-benefit values"),
+    ],
+)
+def test_evsi_validates_model_output_contract(values, message) -> None:
+    """Stable EVSI diagnostics must reject malformed model output."""
+    with pytest.raises(InputError, match=message):
+        si_module._validate_net_benefits(values, expected_samples=2)
+
+
+def test_evsi_parameter_matrix_reports_empty_parameters() -> None:
+    """Stable EVSI diagnostics must reject an empty parameter mapping."""
+    from types import SimpleNamespace
+
+    with pytest.raises(InputError, match="contain at least one parameter"):
+        si_module._parameter_matrix(SimpleNamespace(parameters={}, n_samples=0))
+
+
 def test_evsi_unknown_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -> None:
     """Test EVSI rejects unknown method names after validating inputs."""
     from voiage.exceptions import VoiageNotImplementedError
