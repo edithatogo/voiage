@@ -74,18 +74,18 @@
       "python_owner": "voiage.methods.ceaf",
       "rust_status": "complete",
       "python_wrapper_status": "reference_only",
-      "parity_status": "fixture_backed",
-      "benchmark_status": "none",
+      "parity_status": "verified",
+      "benchmark_status": "ci_gated",
       "migration_priority": "medium",
-      "notes": "Rust calculate_ceaf in bindings/rust/src/partial.rs; Python facade in voiage.methods.ceaf. Parity is fixture-backed; CI benchmark gate is deferred."
+      "notes": "Rust calculate_ceaf in bindings/rust/src/partial.rs; Python facade in voiage.methods.ceaf. Parity is verified through bridge and facade coverage; the committed foundational benchmark is CI-gated."
     },
     {
       "kernel_id": "dominance",
       "python_owner": "voiage.methods.dominance",
       "rust_status": "complete",
       "python_wrapper_status": "reference_only",
-      "parity_status": "fixture_backed",
-      "benchmark_status": "none",
+      "parity_status": "verified",
+      "benchmark_status": "ci_gated",
       "migration_priority": "medium",
       "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in bindings/rust/src/partial.rs; Python facade in voiage.methods.dominance."
     },

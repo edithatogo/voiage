@@ -156,8 +156,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Route the public dominance facade through Rust with a transitional fallback (211b41f).
     - [x] Define the Rust/PyO3 CEAF execution contract and adapter forwarding test (0055bf0).
     - [x] Route the public CEAF facade through Rust with a transitional fallback (6e08c67).
-    - [ ] Green: route stable public APIs to Rust and implement controlled shims.
-    - [ ] Refactor: simplify wrappers and publish migration documentation.
+    - [x] Green: route stable public APIs to Rust and implement controlled shims. (3882f42; EVPI, EVPPI default, seeded/efficient-linear/moment-based EVSI, dominance, and CEAF routes verified)
+    - [x] Refactor: simplify wrappers and publish migration documentation. (3882f42; Astro Rust-core handoff and compatibility boundary)
 - [ ] Task: Remove the duplicate Python numerical core using TDD
     - [ ] Red: add tests that fail when retired kernels or fallback paths remain reachable.
     - [ ] Green: remove duplicate implementations, exports and obsolete dependencies.
