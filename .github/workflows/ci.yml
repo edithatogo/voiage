@@ -19,6 +19,47 @@ permissions:
   contents: read
 
 jobs:
+  lock-refresh-evidence:
+    name: Frozen Lock Refresh Evidence
+    if: github.event_name == 'workflow_dispatch' && inputs.expensive
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout exact requested revision
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+
+    - name: Assert exact checkout
+      env:
+        EXPECTED_SHA: ${{ github.sha }}
+      run: test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+
+    - name: Install pinned uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: false
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Resolve merged dependency graph
+      run: uv lock
+
+    - name: Verify frozen resolution
+      run: uv lock --check
+
+    - name: Retain exact lock evidence
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: frozen-lock-${{ github.sha }}
+        path: uv.lock
+        if-no-files-found: error
+        retention-days: 14
+
   prose-lint:
     name: Vale Prose Lint
     runs-on: ubuntu-latest
