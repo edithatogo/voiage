@@ -7,9 +7,9 @@ import numpy as np
 from pydantic import ValidationError
 import pytest
 
-from voiage import logging as logging_module
 from voiage.contracts.analysis import AnalysisSpec, DiagnosticRecord, NumericalPolicy
 from voiage.contracts.kernel import run_evpi
+import voiage.logging as logging_module
 from voiage.logging import (
     AnalysisLogContext,
     LoggingSettings,
