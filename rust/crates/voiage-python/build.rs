@@ -301,7 +301,6 @@ fn embedded_source_identity(
         .unwrap_or_else(|error| panic!("invalid embedded source provenance: {error}"));
     match git_identity(repository) {
         None => Some(embedded),
-        Some((_, _, false)) => None,
         Some((revision, tree, true))
             if revision == embedded.0
                 && tree == embedded.1
@@ -309,7 +308,7 @@ fn embedded_source_identity(
         {
             Some(embedded)
         }
-        Some(_) => None,
+        Some((_, _, false) | _) => None,
     }
 }
 
