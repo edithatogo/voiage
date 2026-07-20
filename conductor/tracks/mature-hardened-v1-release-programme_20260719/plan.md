@@ -146,6 +146,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
     - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).
     - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
+    - [x] Enforce Rust authority and compatibility-only Python role for transitional kernels (b4c23b3).
 - [ ] Task: Complete the 0.x compatibility bridge using TDD
     - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
     - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
