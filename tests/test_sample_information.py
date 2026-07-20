@@ -2,6 +2,8 @@
 
 """Test VOI methods related to sample information (EVSI, ENBS)."""
 
+import warnings
+
 import numpy as np
 import pytest
 
@@ -379,15 +381,20 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", compute)
 
-    result = si_module.evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="efficient",
-        metamodel="linear",
-    )
+    with warnings.catch_warnings(record=True) as emitted:
+        warnings.simplefilter("always", DeprecationWarning)
+        result = si_module.evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="efficient",
+            metamodel="linear",
+        )
 
     assert result == pytest.approx(1.5)
+    assert not [
+        warning for warning in emitted if warning.category is DeprecationWarning
+    ]
     assert captured["trial_sample_size"] == 100
     assert len(captured["net_benefit"]) == 500
     assert len(captured["parameter_samples"]) == 500
