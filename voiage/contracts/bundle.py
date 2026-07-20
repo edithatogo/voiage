@@ -26,7 +26,7 @@ class _ArrowField(Protocol):
 class _ArrowSchema(Protocol):
     metadata: Mapping[bytes, bytes] | None
 
-    def __iter__(self) -> Iterator[_ArrowField]: ...
+    def __iter__(self) -> Iterator[_ArrowField]: ...  # pragma: no cover
 
     def __len__(self) -> int: ...
 
@@ -42,7 +42,7 @@ class _ArrowReader(Protocol):
 
 
 class _ArrowReaderContext(Protocol):
-    def __enter__(self) -> _ArrowReader: ...
+    def __enter__(self) -> _ArrowReader: ...  # pragma: no cover
 
     def __exit__(
         self,
