@@ -3,7 +3,7 @@
   "cohort": {
     "tool": "mutmut",
     "tool_version": "3.6.0",
-    "lock_sha256": "cf023b7182398e3f4b199c4cc27119744e22705192147449dc5cb247744adefa",
+    "lock_sha256": "580f44385d4b6da486692b6c68532cbb81cd31d4f90eca506fa4b12f0f44f5e8",
     "configuration_sha256": "c2d93e25141fbfb71d2f5eee8d3c5261d6236d600fe9dfa2a8cec198213c6d51",
     "sources": [
       {
@@ -16,7 +16,7 @@
       }
     ],
     "source_logical_lines": 111,
-    "cohort_sha256": "85e22b95511c15a694b5725c50dc4b877955edc47df4486747c6799480ebb9be"
+    "cohort_sha256": "4a89a7e8c4fbbd1d4588345c2e06615a9cfbb672c264271df26582dd07d0d9e7"
   },
   "universe": {
     "ids": [
@@ -108,8 +108,8 @@
   },
   "promotion_provenance": {
     "review_state": "requires_external_anchor",
-    "run_id": 29703045822,
-    "commit": "51825775a2491fd3dae572a5dadd152a4576f444",
-    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29703045822"
+    "run_id": 29716923488,
+    "commit": "b92e31883a462441dccca28560c607b702d35a91",
+    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29716923488"
   }
 }
