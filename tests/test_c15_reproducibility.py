@@ -392,7 +392,5 @@ def test_portable_inventory_and_report_validation_fail_closed(tmp_path: Path) ->
         compare_digest_reports(left, broken)
 
     broken["portable_sha256"] = left["portable_sha256"]
-    with pytest.raises(
-        ArtifactMismatchError, match="portable archive inventories differ"
-    ):
+    with pytest.raises(ArtifactMismatchError, match="portable digest is inconsistent"):
         compare_digest_reports(left, broken)
