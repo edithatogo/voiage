@@ -68,6 +68,15 @@ def serialize_dominance_result(**payload: object) -> dict[str, object]:
     return dict(result)
 
 
+def compute_evpi(net_benefit: list[list[float]]) -> float:
+    """Compute the stable EVPI kernel in Rust."""
+    try:
+        result = _native().compute_evpi(net_benefit)
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_evppi(
     net_benefit: list[list[float]], parameter_samples: list[list[float]]
 ) -> float:

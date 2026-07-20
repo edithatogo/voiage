@@ -17,7 +17,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::SampleMatrix;
-use voiage_numerics::{evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic};
+use voiage_numerics::{evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic};
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
 };
@@ -429,6 +429,18 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
     Ok(result)
 }
 
+/// Compute the stable EVPI kernel for Python callers.
+#[pyfunction]
+fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    evpi(&net_benefit).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })
+}
+
 /// Compute the stable regression-based EVPPI kernel for Python callers.
 #[pyfunction]
 fn compute_evppi(
@@ -724,6 +736,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
         module.py().get_type::<SerializationError>(),
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
@@ -1038,6 +1051,24 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 0.05).abs() <= 1.0e-10);
+        });
+    }
+
+    #[test]
+    fn compute_evpi_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evpi, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_evpi").unwrap();
+            let result = function
+                .call1((vec![vec![0.0_f64, 2.0], vec![1.0, 0.0]],))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 0.5).abs() <= 1.0e-12);
         });
     }
 
