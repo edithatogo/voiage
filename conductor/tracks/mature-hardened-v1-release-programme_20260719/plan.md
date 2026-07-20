@@ -141,6 +141,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
 - [ ] Task: Inventory and classify non-Rust Python code
+    - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
+    - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
     - [ ] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions.
     - [ ] Produce an executable allowlist for Python code permitted at v1.0.
 - [ ] Task: Complete the 0.x compatibility bridge using TDD
