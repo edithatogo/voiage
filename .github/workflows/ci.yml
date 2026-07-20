@@ -108,14 +108,6 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Checkout pinned VOP governance source
-      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
-      with:
-        repository: edithatogo/vop_poc_nz
-        ref: 51a61340dde73868c319f97a7ce436b0650255be
-        path: .upstream/vop_poc_nz
-        persist-credentials: false
-
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
@@ -131,6 +123,14 @@ jobs:
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
+
+    - name: Checkout pinned VOP governance source
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        repository: edithatogo/vop_poc_nz
+        ref: 51a61340dde73868c319f97a7ce436b0650255be
+        path: .upstream/vop_poc_nz
+        persist-credentials: false
 
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
