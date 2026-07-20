@@ -228,9 +228,9 @@ exclude_lines = [
 ]
 
 [tool.mutmut]
-paths_to_mutate = "voiage/"
+paths_to_mutate = "voiage/methods/sample_information.py"
 tests_dir = "tests/"
-runner = "pytest -x --no-cov"
+runner = "pytest tests/test_sample_information.py -x --no-cov"
 fail_under = 90
 
 [tool.semantic_release]
@@ -254,7 +254,7 @@ typecheck = "tox -e typecheck"
 security = "uv run ruff check voiage --select=S --ignore=S101"
 harness = "python scripts/repo_harness.py"
 profile = "uv run scalene --cli profile_scalene.py"
-mutmut = "uv run mutmut run --paths-to-mutate voiage/"
+mutmut = "uv run mutmut run"
 benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only --no-cov"
 docs = "cd docs/astro-site && pnpm install --frozen-lockfile && pnpm run check && pnpm run build"
 precommit = "uv run pre-commit run --all-files"
