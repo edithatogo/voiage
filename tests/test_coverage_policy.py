@@ -93,7 +93,7 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
     assert "pytest tests/ --cov=voiage" in workflow
     assert '-m "not integration' not in workflow
     assert "4017aac3b5803f2d68b09d74e57ebd6c55e933d0" in workflow
-    assert 'merge-base --is-ancestor "${base}" "${C15_PROVENANCE_FLOOR}"' in workflow
+    assert 'merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD' in workflow
     assert "include-hidden-files: true" in workflow
     assert "ref: ${{ github.event.pull_request.head.sha || github.sha }}" in workflow
     assert '--source-head "${SOURCE_HEAD}"' in workflow
