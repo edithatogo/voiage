@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-import logging
+import logging as stdlib_logging
 
 import numpy as np
 from pydantic import ValidationError
@@ -50,8 +50,8 @@ def test_json_logging_carries_run_and_bound_context(tmp_path) -> None:
 
 
 def test_configuration_preserves_root_handlers() -> None:
-    root = logging.getLogger()
-    sentinel = logging.NullHandler()
+    root = stdlib_logging.getLogger()
+    sentinel = stdlib_logging.NullHandler()
     root.addHandler(sentinel)
     try:
         configure_logging(LoggingSettings(console=False))
@@ -278,9 +278,9 @@ def test_redaction_handles_scalars_objects_and_exceptions() -> None:
 
     formatter = logging_module.JsonFormatter()
     error = RuntimeError("token=exception-secret")
-    record = logging.LogRecord(
+    record = stdlib_logging.LogRecord(
         "voiage",
-        logging.ERROR,
+        stdlib_logging.ERROR,
         __file__,
         1,
         "failed",
