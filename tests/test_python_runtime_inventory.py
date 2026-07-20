@@ -16,3 +16,15 @@ def test_transitional_numerical_core_is_not_in_v1_retained_allowlist() -> None:
         (Path(__file__).resolve().parents[1] / "specs/v1/python-runtime-inventory.json").read_text()
     )
     assert "transitional_numerical_core" not in manifest["v1_retained_categories"]
+
+
+def test_transitional_kernel_inventory_is_explicit() -> None:
+    manifest = json.loads(
+        (Path(__file__).resolve().parents[1] / "specs/v1/python-runtime-inventory.json").read_text()
+    )
+    assert set(manifest["transitional_kernel_modules"]["modules"]) == {
+        "voiage/methods/basic.py",
+        "voiage/methods/ceaf.py",
+        "voiage/methods/dominance.py",
+        "voiage/methods/sample_information.py",
+    }

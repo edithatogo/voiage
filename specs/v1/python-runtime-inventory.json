@@ -34,6 +34,16 @@
     "cli_and_orchestration",
     "optional_extension"
   ],
+  "transitional_kernel_modules": {
+    "status": "must_route_to_rust_or_be_removed_in_phase_6",
+    "modules": [
+      "voiage/methods/basic.py",
+      "voiage/methods/ceaf.py",
+      "voiage/methods/dominance.py",
+      "voiage/methods/sample_information.py"
+    ],
+    "reason": "These modules still contain Python EVPI, EVPPi, CEAF, dominance, and EVSI numerical policy alongside the Rust kernels."
+  },
   "unclassified_policy": "fail",
   "retirement_gate": "No module classified as transitional_numerical_core may remain the authoritative implementation after Phase 6."
 }

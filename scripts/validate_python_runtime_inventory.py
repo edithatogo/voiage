@@ -18,6 +18,9 @@ def validate(repo_root: Path) -> list[str]:
         return ["transitional_numerical_core cannot be in v1_retained_categories"]
     roots = [(root, category) for category, data in categories.items() for root in data["roots"]]
     errors: list[str] = []
+    for module in manifest["transitional_kernel_modules"]["modules"]:
+        if not (repo_root / module).is_file():
+            errors.append(f"transitional kernel module is missing: {module}")
     for path in sorted((repo_root / "voiage").rglob("*.py")):
         relative = path.relative_to(repo_root).as_posix()
         matches = [category for root, category in roots if relative == root or relative.startswith(root)]
