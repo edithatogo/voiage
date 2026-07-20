@@ -230,7 +230,7 @@ exclude_lines = [
 [tool.mutmut]
 paths_to_mutate = "voiage/methods/sample_information.py"
 tests_dir = "tests/"
-runner = "pytest tests/test_sample_information.py -x --no-cov"
+runner = "pytest tests/test_sample_information.py -k evsi -x --no-cov"
 fail_under = 90
 
 [tool.semantic_release]
