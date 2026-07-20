@@ -1,6 +1,6 @@
 """Additive perspective-result envelope and compatibility adapters."""
 
-# pyright: reportAny=false, reportPrivateUsage=false
+# pyright: reportAny=false, reportPrivateUsage=false, reportExplicitAny=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUnknownMemberType=false
 
 from __future__ import annotations
 

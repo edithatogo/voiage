@@ -1,5 +1,7 @@
 """Canonical digests for numerical contract inputs."""
 
+# pyright: reportExplicitAny=false, reportAny=false
+
 from __future__ import annotations
 
 import hashlib

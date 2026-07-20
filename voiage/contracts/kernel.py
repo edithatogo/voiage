@@ -1,6 +1,6 @@
 """Generic calculation-kernel protocol and the additive EVPI pilot."""
 
-# pyright: reportUnnecessaryIsInstance=false, reportUnreachable=false
+# pyright: reportUnnecessaryIsInstance=false, reportUnreachable=false, reportExplicitAny=false, reportInvalidTypeVarUse=false
 
 from __future__ import annotations
 
