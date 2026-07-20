@@ -104,7 +104,11 @@ experimental = [
     "orjson>=3.11.9,<4",
     "msgspec>=0.21.1,<1",
 ]
-plotting = ["matplotlib>=3.11.1,<4", "seaborn>=0.13.2,<1"]
+plotting = [
+    "matplotlib>=3.10.9,<3.11; python_version<'3.11'",
+    "matplotlib>=3.11.1,<4; python_version>='3.11'",
+    "seaborn>=0.13.2,<1",
+]
 performance = ["psutil>=5.9,<8.0"]
 deep_learning = ["torch>=2.13.0,<3.0"]
 web = ["fastapi>=0.139.2,<1.0", "httpx>=0.28.1,<1.0", "uvicorn>=0.51.0,<1.0"]

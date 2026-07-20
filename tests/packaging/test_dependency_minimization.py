@@ -54,7 +54,11 @@ def test_optional_dependencies_expose_only_real_runtime_features() -> None:
     extras = metadata["project"]["optional-dependencies"]
 
     assert extras["ecosystem"] == ["defusedxml>=0.7.1,<1.0"]
-    assert extras["plotting"] == ["matplotlib>=3.4,<4.0"]
+    assert extras["plotting"] == [
+        "matplotlib>=3.10.9,<3.11; python_version<'3.11'",
+        "matplotlib>=3.11.1,<4; python_version>='3.11'",
+        "seaborn>=0.13.2,<1",
+    ]
     assert extras["jax"] == [
         "jax>=0.4.33,<0.6; python_version<'3.11'",
         "jax>=0.7.1,<0.8; python_version>='3.11'",
@@ -63,7 +67,8 @@ def test_optional_dependencies_expose_only_real_runtime_features() -> None:
     assert "defusedxml" in _dependency_names(extras["ci"])
     assert all(
         "seaborn" not in _dependency_names(requirements)
-        for requirements in extras.values()
+        for name, requirements in extras.items()
+        if name != "plotting"
     )
 
 
