@@ -21,7 +21,9 @@ def test_logging_settings_are_pydantic_v2_and_strict() -> None:
 def test_json_logging_carries_run_and_bound_context(tmp_path) -> None:
     destination = tmp_path / "run.jsonl"
     logger = logging_module.configure_logging(
-        logging_module.LoggingSettings(console=False, log_file=destination, run_id="test-run")
+        logging_module.LoggingSettings(
+            console=False, log_file=destination, run_id="test-run"
+        )
     )
     with logging_module.log_context(
         track="C08",
@@ -51,7 +53,9 @@ def test_configuration_preserves_root_handlers() -> None:
 
 
 def test_shared_trace_context_is_w3c_compatible_and_strict() -> None:
-    trace = logging_module.TraceContext(trace_id="1" * 32, span_id="2" * 16, trace_flags="01")
+    trace = logging_module.TraceContext(
+        trace_id="1" * 32, span_id="2" * 16, trace_flags="01"
+    )
     assert trace.traceparent == f"00-{'1' * 32}-{'2' * 16}-01"
 
     for field, value in (
@@ -72,9 +76,13 @@ def test_analysis_logging_correlates_shared_fields_and_redacts_recursively(
 ) -> None:
     destination = tmp_path / "correlated.jsonl"
     logger = logging_module.configure_logging(
-        logging_module.LoggingSettings(console=False, log_file=destination, run_id="settings-run")
+        logging_module.LoggingSettings(
+            console=False, log_file=destination, run_id="settings-run"
+        )
     )
-    policy_id = logging_module.numerical_policy_digest({"dtype": "float64", "rtol": 1e-9})
+    policy_id = logging_module.numerical_policy_digest(
+        {"dtype": "float64", "rtol": 1e-9}
+    )
     context = logging_module.AnalysisLogContext(
         run_id="analysis-run",
         trace=logging_module.TraceContext(trace_id="1" * 32, span_id="2" * 16),
@@ -204,7 +212,9 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
             )
         }
     )
-    assert logging_module.analysis_log_context_from_result(warned).fallback_code == "none"
+    assert (
+        logging_module.analysis_log_context_from_result(warned).fallback_code == "none"
+    )
 
     fallback_warning = DiagnosticRecord(
         severity="warning",
@@ -222,15 +232,17 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
             ),
         }
     )
-    assert logging_module.analysis_log_context_from_result(fallback_result).fallback_code == (
-        "backend_fallback"
-    )
+    assert logging_module.analysis_log_context_from_result(
+        fallback_result
+    ).fallback_code == ("backend_fallback")
 
 
 def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     destination = tmp_path / "analysis-boundary.jsonl"
     logger = logging_module.configure_logging(
-        logging_module.LoggingSettings(console=False, log_file=destination, run_id="settings-run")
+        logging_module.LoggingSettings(
+            console=False, log_file=destination, run_id="settings-run"
+        )
     )
     policy = NumericalPolicy(backend_preference=("numpy",))
     spec = AnalysisSpec(
@@ -253,7 +265,9 @@ def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     assert event["backend_requested"] == "numpy"
     assert event["backend_selected"] == "numpy"
     assert event["fallback_code"] == "none"
-    assert event["numerical_policy_id"] == logging_module.numerical_policy_digest(policy)
+    assert event["numerical_policy_id"] == logging_module.numerical_policy_digest(
+        policy
+    )
 
 
 def test_redaction_handles_scalars_objects_and_exceptions() -> None:
