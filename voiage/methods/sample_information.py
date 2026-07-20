@@ -488,9 +488,7 @@ def _evsi_two_loop(
         trial_data = _simulate_trial_data(true_params, trial_design, rng)
         inner_decision_values = []
         for _ in range(n_inner_loops):
-            posterior_psa = _bayesian_update(
-                psa_prior, trial_data, trial_design, rng
-            )
+            posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
             nb_posterior = model_func(posterior_psa).numpy_values
             inner_decision_values.append(np.max(np.mean(nb_posterior, axis=0)))
         max_nb_post_study.append(float(np.mean(inner_decision_values)))
