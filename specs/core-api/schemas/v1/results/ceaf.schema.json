@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/core-api/schemas/v1/results/ceaf.schema.json",
+  "title": "CEAFV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "analysis_type",
+    "wtp_thresholds",
+    "optimal_strategy_indices",
+    "optimal_strategy_names",
+    "acceptability_probabilities",
+    "probability_lower",
+    "probability_upper",
+    "expected_net_benefit"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysis_type": {
+      "type": "string",
+      "const": "ceaf"
+    },
+    "wtp_thresholds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "optimal_strategy_indices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "optimal_strategy_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "acceptability_probabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "probability_lower": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "probability_upper": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "expected_net_benefit": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "description": "Extension boundary for reporting and estimator diagnostics."
+    }
+  }
+}

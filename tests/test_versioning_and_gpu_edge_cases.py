@@ -13,6 +13,19 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+def _write_cargo_authority(root: Path, version: str) -> None:
+    (root / "pyproject.toml").write_text(
+        "[project]\ndynamic = ['version']\n", encoding="utf-8"
+    )
+    (root / "rust/crates/voiage-python").mkdir(parents=True)
+    (root / "rust/Cargo.toml").write_text(
+        f"[workspace.package]\nversion = '{version}'\n", encoding="utf-8"
+    )
+    (root / "rust/crates/voiage-python/Cargo.toml").write_text(
+        "[package]\nversion.workspace = true\n", encoding="utf-8"
+    )
+
+
 def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
     pyproject = tmp_path / "pyproject.toml"
     pyproject.write_text("[tool]\nname = 'voiage'\n", encoding="utf-8")
@@ -29,7 +42,7 @@ def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
 
     canonical_empty = tmp_path / "pyproject-empty.toml"
     canonical_empty.write_text("[project]\nversion = ''\n", encoding="utf-8")
-    with pytest.raises(versioning.VersionSyncError, match="missing project.version"):
+    with pytest.raises(versioning.VersionSyncError, match="must be dynamic"):
         versioning._read_canonical_version(canonical_empty)
 
     json_empty = tmp_path / "empty.json"
@@ -59,14 +72,13 @@ def test_versioning_helpers_cover_error_paths(tmp_path: Path) -> None:
 
 
 def test_dynamic_canonical_version_comes_from_release_tag(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path,
 ) -> None:
     pyproject = tmp_path / "pyproject.toml"
     pyproject.write_text("[project]\ndynamic = ['version']\n", encoding="utf-8")
-    monkeypatch.setattr(
-        versioning.subprocess,
-        "run",
-        lambda *args, **kwargs: SimpleNamespace(returncode=0, stdout="v0.2.1\n"),
+    (tmp_path / "rust").mkdir()
+    (tmp_path / "rust/Cargo.toml").write_text(
+        "[workspace.package]\nversion = '0.2.1'\n", encoding="utf-8"
     )
 
     assert versioning._read_canonical_version(pyproject) == "0.2.1"
@@ -110,9 +122,7 @@ def test_versioning_load_helpers_and_version_extractors(
 
 
 def test_collect_version_mismatches_reports_missing_manifest(tmp_path: Path) -> None:
-    (tmp_path / "pyproject.toml").write_text(
-        "[project]\nversion = '1.2.3'\n", encoding="utf-8"
-    )
+    _write_cargo_authority(tmp_path, "1.2.3")
 
     with pytest.raises(versioning.VersionSyncError, match="missing manifest"):
         versioning.collect_version_mismatches(tmp_path)
@@ -121,9 +131,7 @@ def test_collect_version_mismatches_reports_missing_manifest(tmp_path: Path) -> 
 def test_collect_version_mismatches_reports_drift_and_main(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    (tmp_path / "pyproject.toml").write_text(
-        "[project]\nversion = '1.2.3'\n", encoding="utf-8"
-    )
+    _write_cargo_authority(tmp_path, "1.2.3")
     (tmp_path / "bindings").mkdir()
     (tmp_path / "bindings/typescript").mkdir(parents=True)
     (tmp_path / "bindings/typescript/package.json").write_text(
@@ -159,9 +167,7 @@ def test_collect_version_mismatches_reports_drift_and_main(
 def test_validate_version_sync_and_main_success(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    (tmp_path / "pyproject.toml").write_text(
-        "[project]\nversion = '1.2.3'\n", encoding="utf-8"
-    )
+    _write_cargo_authority(tmp_path, "1.2.3")
     (tmp_path / "bindings/typescript").mkdir(parents=True)
     (tmp_path / "bindings/typescript/package.json").write_text(
         '{"version": "1.2.3"}', encoding="utf-8"

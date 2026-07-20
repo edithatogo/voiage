@@ -1,6 +1,8 @@
 """Plotting helpers for cost-effectiveness acceptability frontiers."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -15,7 +17,9 @@ except ImportError:  # pragma: no cover
 
 from voiage.exceptions import raise_plotting_error
 from voiage.methods.ceaf import CEAFResult, calculate_ceaf
-from voiage.schema import ValueArray
+
+if TYPE_CHECKING:
+    from voiage.schema import ValueArray
 
 
 def plot_ceaf(
@@ -62,7 +66,7 @@ def plot_ceaf(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     ceaf_result = result or calculate_ceaf(

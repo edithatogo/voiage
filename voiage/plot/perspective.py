@@ -1,6 +1,8 @@
 """Plotting helpers for Value of Perspective analysis."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -14,7 +16,9 @@ except ImportError:  # pragma: no cover
     Axes = None  # type: ignore
 
 from voiage.exceptions import raise_plotting_error
-from voiage.methods.perspective import ValueOfPerspectiveResult
+
+if TYPE_CHECKING:
+    from voiage.methods.perspective import ValueOfPerspectiveResult
 
 
 def plot_perspective_regret(
@@ -43,7 +47,7 @@ def plot_perspective_regret(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
     if ax is None:
         _fig, ax = plt.subplots()

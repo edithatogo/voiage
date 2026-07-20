@@ -1,0 +1,1 @@
+{"model": {"type": "constant-net-benefit", "strategy_names": ["A", "B"], "values": [10.0, 10.0]}, "prior": {"theta": [0.0, 1.0]}, "trial_design": {"arms": [{"name": "A", "sample_size": 1}]}, "estimator": "moment_based"}

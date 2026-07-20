@@ -1,0 +1,1 @@
+{"net_benefit": [[0.0, 1.0], [1.0, 0.0], [2.0, "NaN"], [3.0, 4.0]], "parameters": {"theta": [0.0, 1.0, 2.0, 3.0]}, "parameters_of_interest": ["theta"]}

@@ -1,0 +1,227 @@
+{
+  "contract_version": "1.0.0",
+  "status": "normative",
+  "python": {
+    "versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13",
+      "3.14"
+    ],
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "reference_facade": true,
+    "authoritative_numerics": "rust"
+  },
+  "numerics": {
+    "default_absolute_tolerance": 1e-10,
+    "default_relative_tolerance": 1e-8,
+    "seed_type": "unsigned-64-bit-integer",
+    "same_seed_same_platform": "bitwise",
+    "cross_platform": "within-declared-tolerance",
+    "nan_policy": "reject-unless-method-explicitly-documents-support",
+    "infinity_policy": "reject"
+  },
+  "errors": {
+    "invalid_input": "InputError",
+    "shape_mismatch": "DimensionMismatchError",
+    "unsupported_capability": "BackendNotAvailableError",
+    "numerical_failure": "NumericalError",
+    "serialization_failure": "SerializationError"
+  },
+  "symbols": {
+    "stable": [
+      "DecisionAnalysis",
+      "DecisionOption",
+      "CEAFResult",
+      "DominanceResult",
+      "ParameterSet",
+      "PortfolioSpec",
+      "PortfolioStudy",
+      "TrialDesign",
+      "ValueArray",
+      "ceaf",
+      "dominance",
+      "enbs",
+      "evpi",
+      "evppi",
+      "evsi"
+    ],
+    "provisional": [
+      "HeomlRunBundle",
+      "analysis",
+      "backends",
+      "cli",
+      "config",
+      "core",
+      "ecosystem_integration",
+      "exceptions",
+      "factory",
+      "fluent",
+      "health_economics",
+      "hta_integration",
+      "load_heoml_run_bundle",
+      "methods",
+      "multi_domain",
+      "plot",
+      "schema"
+    ],
+    "experimental": [
+      "value_of_adaptive_learning_bandit",
+      "value_of_ai_assisted_evidence_triage",
+      "value_of_ambiguity_distribution_shift",
+      "value_of_capacity_budget_constrained",
+      "value_of_causal_transportability",
+      "value_of_computational_refinement",
+      "value_of_data_quality",
+      "value_of_distributional_equity",
+      "value_of_dynamic_real_options",
+      "value_of_equity_information",
+      "value_of_evidence_obsolescence_refresh",
+      "value_of_expert_synthesis",
+      "value_of_explainability_transparency",
+      "value_of_federated_privacy_preserving",
+      "value_of_implementation",
+      "value_of_implementation_strategy_comparison",
+      "value_of_interoperability_standardization",
+      "value_of_model_validation",
+      "value_of_monitoring_surveillance",
+      "value_of_perspective",
+      "value_of_preference",
+      "value_of_preference_heterogeneity",
+      "value_of_preference_information",
+      "value_of_regulatory_market_access",
+      "value_of_replication_reproducibility",
+      "value_of_strategic_behavior",
+      "value_of_threshold",
+      "value_of_threshold_information",
+      "value_of_validation"
+    ],
+    "deprecated": [
+      "raw-dict-parameter-samples-for-evppi"
+    ],
+    "removed": []
+  },
+  "methods": {
+    "evpi": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy]",
+      "output": "finite-float>=0",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
+    "evppi": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy]+parameters[sample,parameter]",
+      "output": "finite-float>=0",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError",
+        "BackendNotAvailableError"
+      ]
+    },
+    "evsi": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy]+prior[sample,parameter]+trial-design",
+      "output": "finite-float>=0",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError",
+        "BackendNotAvailableError",
+        "NumericalError"
+      ]
+    },
+    "enbs": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": null,
+      "output": "finite-float",
+      "missing_values": "reject",
+      "errors": [
+        "InputError"
+      ]
+    },
+    "ceaf": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy,threshold?]",
+      "output": "CEAFResult",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
+    "dominance": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "cost[strategy]+effect[strategy]",
+      "output": "DominanceResult",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    }
+  },
+  "surfaces": {
+    "schemas": {
+      "status": "stable",
+      "contract": "specs/core-api/schemas/v1/"
+    },
+    "diagnostics": {
+      "status": "stable",
+      "contract": "specs/core-api/diagnostics.md"
+    },
+    "reporting": {
+      "status": "stable",
+      "formats": [
+        "json",
+        "csv",
+        "python-object"
+      ]
+    },
+    "provenance": {
+      "status": "stable",
+      "required_fields": [
+        "voiage_version",
+        "core_version",
+        "method",
+        "settings"
+      ]
+    },
+    "plotting": {
+      "status": "stable",
+      "scope": [
+        "ceac",
+        "ceaf",
+        "voi-curves",
+        "dominance-frontier"
+      ]
+    },
+    "cli": {
+      "status": "stable",
+      "serialization": [
+        "json",
+        "csv"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "invalid-input": 2,
+        "runtime-failure": 1
+      }
+    }
+  }
+}

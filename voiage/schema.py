@@ -17,6 +17,7 @@ import numpy as np
 import xarray as xr
 
 from voiage.exceptions import (
+    raise_dimension_mismatch_error,
     raise_import_error,
     raise_input_error,
     raise_value_error,
@@ -198,7 +199,7 @@ class ValueArray:
             values = np.asarray(values)
 
         if values.ndim != expected_ndim:
-            raise_input_error("values must be a 2D array")
+            raise_dimension_mismatch_error("values must be a 2D array")
 
         n_samples, n_strategies = values.shape
 
@@ -310,7 +311,7 @@ class ValueArray:
 
         expected_ndim = 2
         if values.ndim != expected_ndim:
-            raise_input_error("values must be a 2D array")
+            raise_dimension_mismatch_error("values must be a 2D array")
 
         # Convert JAX array to NumPy for xarray compatibility
         numpy_values = np.asarray(values)

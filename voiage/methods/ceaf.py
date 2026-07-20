@@ -5,8 +5,9 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.stats import norm
 
+from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import raise_input_error
+from voiage.exceptions import raise_dimension_mismatch_error, raise_input_error
 from voiage.reporting import build_cheers_reporting
 from voiage.schema import ValueArray
 
@@ -41,6 +42,26 @@ class CEAFResult:
     probability_upper: np.ndarray
     expected_net_benefit: np.ndarray
     reporting: dict[str, object]
+
+    def to_dict(
+        self,
+        *,
+        analysis_id: str,
+        decision_problem_id: str,
+    ) -> dict[str, object]:
+        """Serialize this result to the stable v1 CEAF payload."""
+        return _runtime.serialize_ceaf_result(
+            analysis_id=analysis_id,
+            decision_problem_id=decision_problem_id,
+            wtp_thresholds=self.wtp_thresholds.tolist(),
+            optimal_strategy_indices=self.optimal_strategy_indices.tolist(),
+            optimal_strategy_names=list(self.optimal_strategy_names),
+            acceptability_probabilities=self.acceptability_probabilities.tolist(),
+            probability_lower=self.probability_lower.tolist(),
+            probability_upper=self.probability_upper.tolist(),
+            expected_net_benefit=self.expected_net_benefit.tolist(),
+            reporting=dict(self.reporting),
+        )
 
 
 def _validate_ceaf_inputs(
@@ -81,16 +102,21 @@ def _validate_ceaf_inputs(
 
     wtp_arr = np.asarray(wtp_thresholds, dtype=DEFAULT_DTYPE)
     if wtp_arr.ndim != 1:
-        raise_input_error("`wtp_thresholds` must be a 1D array.")
+        raise_dimension_mismatch_error("`wtp_thresholds` must be a 1D array.")
     if len(wtp_arr) != nb_values.shape[2]:
-        raise_input_error(
+        raise_dimension_mismatch_error(
             f"Length of wtp_thresholds ({len(wtp_arr)}) must match the third "
             f"dimension of net-benefit values ({nb_values.shape[2]})."
+        )
+    if not np.all(np.isfinite(wtp_arr)):
+        raise_input_error(
+            "`wtp_thresholds` must contain only finite values.",
+            diagnostic_code="non_finite_value",
         )
 
     final_strategy_names = strategy_names or value_array.strategy_names
     if len(final_strategy_names) != nb_values.shape[1]:
-        raise_input_error(
+        raise_dimension_mismatch_error(
             f"Length of strategy_names ({len(final_strategy_names)}) must match "
             f"the second dimension of net-benefit values ({nb_values.shape[1]})."
         )
@@ -163,9 +189,13 @@ def calculate_ceaf(
     >>> result.wtp_thresholds.tolist()
     [10000.0, 20000.0]
     """
+    if not np.isfinite(confidence_level):
+        raise_input_error(
+            "`confidence_level` must be finite.",
+            diagnostic_code="non_finite_value",
+        )
     if not 0 < confidence_level < 1:
         raise_input_error("`confidence_level` must be between 0 and 1.")
-
     nb_values, wtp_arr, final_strategy_names = _validate_ceaf_inputs(
         value_array,
         wtp_thresholds,

@@ -32,9 +32,9 @@ PyO3 and maturin decision
 =========================
 
 A runtime PyO3 bridge is **not** part of the base install today. The
-decision is deferred until benchmark evidence shows that a Rust-backed
-kernel delivers a material speedup over the NumPy reference for a real
-workload.
+default full-sample linear EVPPI path and the public efficient-linear EVSI
+path are bridged when the optional native extension is present; remaining
+EVSI kernels are approved individually after fixture and benchmark evidence.
 
 When the bridge is approved:
 
@@ -43,9 +43,11 @@ When the bridge is approved:
    compilation dependency.
 2. ``PyO3`` exposes only the contract functions already validated by the
    fixture parity tests — never new public surfaces.
-3. The Python facade delegates to the Rust kernel with a transparent
-   fallback to the NumPy reference when the native extension is absent or
-   raises.
+3. The Python facade delegates only supported options to the Rust kernel. The
+   efficient-linear EVSI path uses the native kernel when available and keeps
+   the Python reference for extension absence or rank-deficient designs, while
+   not-yet-migrated options remain Python-owned; native validation and
+   calculation errors are translated and propagated.
 
 Until then, the Rust numerics core is exercised by ``cargo test`` and the
 fixture parity tests in ``tests/`` so the contract stays live without a
@@ -74,7 +76,11 @@ corresponding tests live under ``tests/``.
 Benchmarks
 ==========
 
-Rust benchmarks live under ``bindings/rust/benches/``. A kernel is only
+Rust benchmarks live under ``rust/crates/voiage-numerics/benches/``. EVSI's
+``compute_evsi`` seeded-bootstrap and ``compute_evsi_efficient_linear``
+operations are explicit bridge operations; the public efficient-linear path
+now delegates to the latter while the remaining callback-driven estimators
+stay Python-owned. A kernel is only
 ``benchmark_status: ci_gated`` when its benchmark runs in the Rust CI job
 and the scalar baseline artifact is committed for reproducibility.
 

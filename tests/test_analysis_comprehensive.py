@@ -224,6 +224,17 @@ class TestDecisionAnalysisComprehensive:
             # This might happen in some environments
             pytest.skip("scikit-learn not available for EVPPI test")
 
+    def test_evppi_default_path_uses_native_rust_kernel(self) -> None:
+        """Default full-sample linear EVPPI is delegated to Rust."""
+        nb_data = np.array([[0.0, 2.0], [1.0, 0.0]], dtype=np.float64)
+        param_samples = {"theta": np.array([0.0, 1.0])}
+        analysis = DecisionAnalysis(nb_array=nb_data, parameter_samples=param_samples)
+
+        with patch("voiage._runtime.compute_evppi", return_value=0.5) as native:
+            assert analysis.evppi() == 0.5
+
+        native.assert_called_once_with([[0.0, 2.0], [1.0, 0.0]], [[0.0], [1.0]])
+
     def test_evppi_with_invalid_regression_samples(self) -> None:
         """Test EVPPI with invalid n_regression_samples."""
         # Create test data with parameter samples

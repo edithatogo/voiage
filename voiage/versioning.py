@@ -1,8 +1,8 @@
 """Version synchronization helpers for release automation.
 
-The Python package derives its version from release tags. This module resolves
-the latest reachable release tag and validates that external binding manifests
-stay in lockstep with that released version.
+The production Cargo workspace is authoritative. Package adapters and external
+binding manifests must remain coherent with it, and release tags are accepted
+only when they exactly encode that workspace version.
 """
 
 import argparse
@@ -10,7 +10,6 @@ from dataclasses import dataclass
 import json
 from pathlib import Path
 import re
-import subprocess  # nosec B404 - fixed git executable is used for tag discovery.
 import sys
 from typing import Any
 
@@ -66,46 +65,20 @@ def _load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def _read_release_tag_version(repo_root: Path) -> str | None:
-    """Return the newest release tag version, or ``None`` when unavailable."""
-    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell, repo-local cwd.
-        [  # noqa: S607 - git is the fixed executable used for tag discovery.
-            "git",
-            "describe",
-            "--tags",
-            "--match",
-            "v[0-9]*",
-            "--abbrev=0",
-        ],
-        cwd=repo_root,
-        capture_output=True,
-        check=False,
-        text=True,
-    )
-    if result.returncode != 0:
-        return None
-    tag = result.stdout.strip()
-    if not tag.startswith("v") or len(tag) == 1:
-        return None
-    return tag[1:]
-
-
 def _read_canonical_version(pyproject_path: Path) -> str:
+    """Read the Cargo workspace version adjacent to ``pyproject.toml``."""
     project = _load_toml(pyproject_path).get("project")
     if not isinstance(project, dict):
         raise VersionSyncError(f"{pyproject_path}: missing [project] table")
-    version = project.get("version")
-    if isinstance(version, str) and version.strip():
-        return version
     dynamic = project.get("dynamic", [])
-    if isinstance(dynamic, list) and "version" in dynamic:
-        release_version = _read_release_tag_version(pyproject_path.parent)
-        if release_version:
-            return release_version
+    if not isinstance(dynamic, list) or "version" not in dynamic:
         raise VersionSyncError(
-            f"{pyproject_path}: dynamic version requires a reachable v* release tag"
+            f"{pyproject_path}: project.version must be dynamic and Cargo-backed"
         )
-    raise VersionSyncError(f"{pyproject_path}: missing project.version")
+    return _read_toml_version(
+        pyproject_path.parent / "rust/Cargo.toml",
+        key_path=("workspace", "package", "version"),
+    )
 
 
 def _read_json_version(path: Path) -> str:
@@ -133,6 +106,22 @@ def _read_cargo_version(path: Path) -> str:
     return _read_toml_version(path, key_path=("package", "version"))
 
 
+def _read_workspace_inherited_cargo_version(path: Path) -> str:
+    data = _load_toml(path)
+    package = data.get("package")
+    if not isinstance(package, dict):
+        raise VersionSyncError(f"{path}: missing package table")
+    version = package.get("version")
+    if isinstance(version, dict) and version.get("workspace") is True:
+        return _read_toml_version(
+            path.parents[2] / "Cargo.toml",
+            key_path=("workspace", "package", "version"),
+        )
+    if isinstance(version, str) and version.strip():
+        raise VersionSyncError(f"{path}: package version must inherit from workspace")
+    raise VersionSyncError(f"{path}: package version must inherit from workspace")
+
+
 def _read_csproj_version(path: Path) -> str:
     tree = ElementTree.parse(path)
     root = tree.getroot()
@@ -158,6 +147,11 @@ def _read_description_version(path: Path) -> str:
 
 VERSION_TARGETS: tuple[VersionTarget, ...] = (
     VersionTarget(
+        "Python Rust adapter",
+        Path("rust/crates/voiage-python/Cargo.toml"),
+        _read_workspace_inherited_cargo_version,
+    ),
+    VersionTarget(
         "TypeScript", Path("bindings/typescript/package.json"), _read_json_version
     ),
     VersionTarget("Julia", Path("bindings/julia/Project.toml"), _read_toml_version),
@@ -171,6 +165,17 @@ VERSION_TARGETS: tuple[VersionTarget, ...] = (
         "R", Path("r-package/voiageR/DESCRIPTION"), _read_description_version
     ),
 )
+
+
+def validate_release_tag(tag: str, repo_root: Path = REPO_ROOT) -> str:
+    """Fail closed unless ``tag`` exactly matches the Cargo workspace version."""
+    canonical = _read_canonical_version(repo_root / "pyproject.toml")
+    expected = f"v{canonical}"
+    if tag != expected:
+        raise VersionSyncError(
+            f"release tag {tag!r} must match {expected!r} from rust/Cargo.toml"
+        )
+    return canonical
 
 
 def collect_version_mismatches(
@@ -234,10 +239,16 @@ def main(argv: list[str] | None = None) -> int:
         default=REPO_ROOT,
         help="Repository root to validate (defaults to the current checkout).",
     )
+    parser.add_argument(
+        "--release-tag",
+        help="Require an exact v<workspace-version> release tag.",
+    )
     args = parser.parse_args(argv)
 
     try:
         canonical, _ = validate_version_sync(args.repo_root)
+        if args.release_tag is not None:
+            validate_release_tag(args.release_tag, args.repo_root)
     except VersionSyncError as exc:
         print(str(exc), file=sys.stderr)
         return 1
@@ -256,5 +267,10 @@ __all__ = [
     "collect_version_mismatches",
     "format_version_mismatches",
     "main",
+    "validate_release_tag",
     "validate_version_sync",
 ]
+
+
+if __name__ == "__main__":  # pragma: no cover - exercised by workflow commands.
+    raise SystemExit(main())

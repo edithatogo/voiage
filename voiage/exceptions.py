@@ -28,7 +28,9 @@ class ConfigurationError(VoiageError):
 class InputError(VoiageError, ValueError):
     """Raised when input data is invalid or inconsistent."""
 
-    pass
+    def __init__(self, message: str, *, diagnostic_code: str | None = None) -> None:
+        super().__init__(message)
+        self.diagnostic_code = diagnostic_code
 
 
 class DimensionMismatchError(InputError):
@@ -52,6 +54,12 @@ class DataFormatError(InputError):
 # --- Calculation Errors ---
 class CalculationError(VoiageError):
     """Raised during a VOI calculation if an error occurs."""
+
+    pass
+
+
+class NumericalError(CalculationError):
+    """Raised when a numerical operation cannot produce a valid result."""
 
     pass
 
@@ -94,6 +102,12 @@ class DataStructureError(VoiageError):
     pass
 
 
+class SerializationError(VoiageError):
+    """Raised when stable data cannot be serialized or deserialized."""
+
+    pass
+
+
 # --- Plotting Errors ---
 class PlottingError(VoiageError):
     """Raised if an error occurs during plot generation."""
@@ -127,15 +141,21 @@ class VoiageNotImplementedError(VoiageError, NotImplementedError):
     pass
 
 
+class BackendNotAvailableError(VoiageNotImplementedError):
+    """Raised when a requested backend or method capability is unavailable."""
+
+    pass
+
+
 class OptionalDependencyError(VoiageError, ImportError):
     """Raised when an optional dependency is not installed but is required for a feature."""
 
     pass
 
 
-def raise_input_error(message: str) -> NoReturn:
+def raise_input_error(message: str, *, diagnostic_code: str | None = None) -> NoReturn:
     """Raise an input validation error with a consistent call pattern."""
-    raise InputError(message)
+    raise InputError(message, diagnostic_code=diagnostic_code)
 
 
 def raise_dimension_mismatch_error(message: str) -> NoReturn:
@@ -185,3 +205,8 @@ def raise_plotting_error(message: str) -> NoReturn:
 def raise_not_implemented_error(message: str) -> NoReturn:
     """Raise a not-implemented error with a consistent call pattern."""
     raise VoiageNotImplementedError(message)
+
+
+def raise_backend_not_available_error(message: str) -> NoReturn:
+    """Raise an unavailable-backend error with a consistent call pattern."""
+    raise BackendNotAvailableError(message)

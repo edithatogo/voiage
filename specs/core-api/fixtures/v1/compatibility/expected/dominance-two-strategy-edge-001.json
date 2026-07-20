@@ -1,0 +1,1 @@
+{"result": {"frontier_indices": [0, 1], "strongly_dominated_indices": [], "extended_dominated_indices": [], "status": ["frontier", "frontier"], "incremental_costs": [100.0], "incremental_effects": [1.0], "icers": [100.0]}, "absolute_tolerance": 1e-12, "relative_tolerance": 1e-12}

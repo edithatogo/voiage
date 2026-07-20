@@ -2,6 +2,15 @@
 
 This index maps each stable v1 schema to the canonical example payload that should be used by later fixture and binding tracks.
 
+The complete normative public-surface classification and runtime contract is
+defined in `../v1/stable-api.json`. This index records the schema and example
+artifacts that support that contract.
+
+The cross-surface evolution rules are defined in
+`../v1/compatibility-policy.json` and validated by
+`../v1/compatibility-policy.schema.json`. Executable method cases are indexed
+by `fixtures/v1/compatibility-manifest.json`.
+
 ## Entity Schemas
 
 - `schemas/v1/intervention.schema.json` -> `examples/v1/intervention.example.json`
@@ -25,6 +34,8 @@ This index maps each stable v1 schema to the canonical example payload that shou
 - `schemas/v1/results/evsi.schema.json` -> `examples/v1/evsi.example.json`
 - `schemas/v1/results/enbs.schema.json` -> `examples/v1/enbs.example.json`
 - `schemas/v1/results/ceac.schema.json` -> `examples/v1/ceac.example.json`
+- `schemas/v1/results/ceaf.schema.json` -> `examples/v1/ceaf.example.json`
+- `schemas/v1/results/dominance.schema.json` -> `examples/v1/dominance.example.json`
 
 ## Deferred Surfaces
 

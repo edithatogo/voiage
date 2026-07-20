@@ -657,8 +657,10 @@ def test_main_backends_imports_and_operates_without_jax(
     assert module.JAX_AVAILABLE is False
     assert backend.__class__.__name__ == "NumpyBackend"
     assert module.get_backend("numpy").__class__.__name__ == "NumpyBackend"
-    with pytest.raises(ValueError):
+    with pytest.raises(ImportError, match=r"voiage\[jax\]"):
         module.get_backend("jax")
+    with pytest.raises(ImportError, match=r"voiage\[jax\]"):
+        module.set_backend("jax")
 
 
 def test_analysis_imports_and_operates_without_jax(

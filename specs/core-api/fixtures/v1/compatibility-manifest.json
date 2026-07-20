@@ -1,0 +1,127 @@
+{
+  "version": "v1",
+  "seed": 101,
+  "provenance": {
+    "reference_implementation": "python",
+    "execution_mode": "deterministic",
+    "catalog": "v1-python-reference"
+  },
+  "cases": [
+    {
+      "case_id": "evpi-normal-001",
+      "method": "evpi",
+      "classification": "normal",
+      "input_artifact": "compatibility/inputs/evpi-normal-001.json",
+      "expected_artifact": "compatibility/expected/evpi-normal-001.json"
+    },
+    {
+      "case_id": "evpi-zero-edge-001",
+      "method": "evpi",
+      "classification": "edge",
+      "input_artifact": "compatibility/inputs/evpi-zero-edge-001.json",
+      "expected_artifact": "compatibility/expected/evpi-zero-edge-001.json"
+    },
+    {
+      "case_id": "evpi-invalid-shape-001",
+      "method": "evpi",
+      "classification": "invalid",
+      "input_artifact": "compatibility/inputs/evpi-invalid-shape-001.json",
+      "expected_artifact": "compatibility/expected/evpi-invalid-shape-001.json"
+    },
+    {
+      "case_id": "evppi-normal-001", "method": "evppi", "classification": "normal",
+      "input_artifact": "compatibility/inputs/evppi-normal-001.json", "expected_artifact": "compatibility/expected/evppi-normal-001.json"
+    },
+    {
+      "case_id": "evppi-invalid-parameter-001", "method": "evppi", "classification": "invalid",
+      "input_artifact": "compatibility/inputs/evppi-invalid-parameter-001.json", "expected_artifact": "compatibility/expected/evppi-invalid-parameter-001.json"
+    },
+    {
+      "case_id": "evsi-normal-001", "method": "evsi", "classification": "normal",
+      "input_artifact": "compatibility/inputs/evsi-normal-001.json", "expected_artifact": "compatibility/expected/evsi-normal-001.json"
+    },
+    {
+      "case_id": "evsi-invalid-estimator-001", "method": "evsi", "classification": "invalid",
+      "input_artifact": "compatibility/inputs/evsi-invalid-estimator-001.json", "expected_artifact": "compatibility/expected/evsi-invalid-estimator-001.json"
+    },
+    {
+      "case_id": "enbs-normal-001", "method": "enbs", "classification": "normal",
+      "input_artifact": "compatibility/inputs/enbs-normal-001.json", "expected_artifact": "compatibility/expected/enbs-normal-001.json"
+    },
+    {
+      "case_id": "enbs-invalid-cost-001", "method": "enbs", "classification": "invalid",
+      "input_artifact": "compatibility/inputs/enbs-invalid-cost-001.json", "expected_artifact": "compatibility/expected/enbs-invalid-cost-001.json"
+    },
+    {
+      "case_id": "ceaf-normal-001", "method": "ceaf", "classification": "normal",
+      "input_artifact": "compatibility/inputs/ceaf-normal-001.json", "expected_artifact": "compatibility/expected/ceaf-normal-001.json"
+    },
+    {
+      "case_id": "ceaf-invalid-thresholds-001", "method": "ceaf", "classification": "invalid",
+      "input_artifact": "compatibility/inputs/ceaf-invalid-thresholds-001.json", "expected_artifact": "compatibility/expected/ceaf-invalid-thresholds-001.json"
+    },
+    {
+      "case_id": "dominance-normal-001", "method": "dominance", "classification": "normal",
+      "input_artifact": "compatibility/inputs/dominance-normal-001.json", "expected_artifact": "compatibility/expected/dominance-normal-001.json"
+    },
+    {
+      "case_id": "dominance-invalid-length-001", "method": "dominance", "classification": "invalid",
+      "input_artifact": "compatibility/inputs/dominance-invalid-length-001.json", "expected_artifact": "compatibility/expected/dominance-invalid-length-001.json"
+    },
+    {
+      "case_id": "evppi-zero-edge-001", "method": "evppi", "classification": "edge",
+      "input_artifact": "compatibility/inputs/evppi-zero-edge-001.json", "expected_artifact": "compatibility/expected/evppi-zero-edge-001.json"
+    },
+    {
+      "case_id": "evsi-zero-edge-001", "method": "evsi", "classification": "edge",
+      "input_artifact": "compatibility/inputs/evsi-zero-edge-001.json", "expected_artifact": "compatibility/expected/evsi-zero-edge-001.json"
+    },
+    {
+      "case_id": "enbs-break-even-edge-001", "method": "enbs", "classification": "edge",
+      "input_artifact": "compatibility/inputs/enbs-break-even-edge-001.json", "expected_artifact": "compatibility/expected/enbs-break-even-edge-001.json"
+    },
+    {
+      "case_id": "ceaf-single-strategy-edge-001", "method": "ceaf", "classification": "edge",
+      "input_artifact": "compatibility/inputs/ceaf-single-strategy-edge-001.json", "expected_artifact": "compatibility/expected/ceaf-single-strategy-edge-001.json"
+    },
+    {
+      "case_id": "dominance-two-strategy-edge-001", "method": "dominance", "classification": "edge",
+      "input_artifact": "compatibility/inputs/dominance-two-strategy-edge-001.json", "expected_artifact": "compatibility/expected/dominance-two-strategy-edge-001.json"
+    },
+    {
+      "case_id": "dominance-nan-invalid-001", "method": "dominance", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/dominance-nan-invalid-001.json", "expected_artifact": "compatibility/expected/dominance-nan-invalid-001.json"
+    },
+    {
+      "case_id": "dominance-infinity-invalid-001", "method": "dominance", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/dominance-infinity-invalid-001.json", "expected_artifact": "compatibility/expected/dominance-infinity-invalid-001.json"
+    },
+    {
+      "case_id": "evpi-nan-invalid-001", "method": "evpi", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/evpi-nan-invalid-001.json", "expected_artifact": "compatibility/expected/evpi-nan-invalid-001.json"
+    },
+    {
+      "case_id": "evppi-nan-invalid-001", "method": "evppi", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/evppi-nan-invalid-001.json", "expected_artifact": "compatibility/expected/evppi-nan-invalid-001.json"
+    },
+    {
+      "case_id": "evsi-nan-invalid-001", "method": "evsi", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/evsi-nan-invalid-001.json", "expected_artifact": "compatibility/expected/evsi-nan-invalid-001.json"
+    },
+    {
+      "case_id": "enbs-nan-invalid-001", "method": "enbs", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/enbs-nan-invalid-001.json", "expected_artifact": "compatibility/expected/enbs-nan-invalid-001.json"
+    },
+    {
+      "case_id": "ceaf-nan-invalid-001", "method": "ceaf", "classification": "invalid",
+      "evidence": "non-finite-rejection",
+      "input_artifact": "compatibility/inputs/ceaf-nan-invalid-001.json", "expected_artifact": "compatibility/expected/ceaf-nan-invalid-001.json"
+    }
+  ]
+}

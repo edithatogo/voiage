@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "programme": "mature-hardened-v1-release-programme_20260719",
+  "repository": {
+    "authoritative_branch": "origin/main",
+    "authoritative_commit": "6141cc49a9ad41161756677840d6a61b25fd386a",
+    "implementation_branch": "codex/mature-hardened-v1-programme",
+    "generated_artifacts_excluded": [
+      "docs/astro-site/.astro/"
+    ]
+  },
+  "github": {
+    "snapshot_at": "2026-07-19T00:18:00Z",
+    "open_pull_requests": 22,
+    "open_issues": 0,
+    "remote_branches": 24,
+    "latest_release": "v0.2.1",
+    "blocked_pull_requests": [
+      {
+        "number": 245,
+        "scope": "conda-forge noarch recipe guidance",
+        "evidence": "required checks pass; merge state remains blocked"
+      },
+      {
+        "number": 258,
+        "scope": "CodeQL analyze action dependency update",
+        "evidence": "one hosted check fails; merge state is blocked"
+      },
+      {
+        "number": 260,
+        "scope": "CodeQL init action dependency update",
+        "evidence": "one hosted check fails; merge state is blocked"
+      }
+    ],
+    "remaining_pull_request_classification": "Dependabot dependency updates with clean merge state and successful substantive checks at snapshot time"
+  },
+  "conductor": {
+    "active_track_ids": [
+      "mature-hardened-v1-release-programme_20260719"
+    ],
+    "archived_track_count": 122,
+    "classifications": {
+      "v1_required": [
+        "mature-hardened-v1-release-programme_20260719"
+      ],
+      "historical_groundwork": "conductor/archive/",
+      "post_v1_or_optional": [
+        "accelerator production-speedup evidence",
+        "frontier-method stable promotion beyond the frozen v1 surface",
+        "FPGA and ASIC production execution"
+      ],
+      "externally_blocked": [
+        "conda-forge indexing and review",
+        "CRAN or approved R registry review",
+        "Julia General registry review",
+        "external hardware, cloud quota, and curation gates"
+      ],
+      "superseded_or_duplicate": []
+    }
+  },
+  "execution_order": [
+    "architecture-and-contracts",
+    "rust-runtime-takeover",
+    "legacy-core-retirement",
+    "binding-and-extension-consolidation",
+    "astro-documentation-consolidation",
+    "quality-security-and-reproducibility",
+    "registry-publication-and-installability",
+    "release-candidate-and-v1-release",
+    "post-v1-hardware-evidence"
+  ],
+  "reconciliation_decisions": [
+    "The implementation branch starts exactly at the authoritative origin/main commit.",
+    "The obsolete local main-only monitoring archive commit is not carried forward because origin/main already contains the implementation and a later canonical archive closeout.",
+    "Archived tracks are evidence inputs and are not reopened as incomplete implementation tracks.",
+    "External publication, indexing, hardware, quota, and curation gates remain distinct from repository-owned completion.",
+    "Generated Astro cache output is excluded from version control and from programme changes."
+  ]
+}
