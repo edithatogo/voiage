@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Made Rust provenance and payload digest encoding compatible with the `sha2`
+  0.11 digest representation, preserving deterministic lowercase hexadecimal
+  hashes during the dependency upgrade.
+
 ### Removed
 - Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
   `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
