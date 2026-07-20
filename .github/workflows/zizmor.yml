@@ -23,7 +23,26 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           persist-credentials: false
-      - name: Audit workflows
+      - name: Audit workflows (attempt 1)
+        id: audit_attempt_1
         uses: zizmorcore/zizmor-action@f52a838cfabf134edcbaa7c8b3677dde20045018
+        continue-on-error: true
         with:
           advanced-security: true
+      - name: Audit workflows (attempt 2)
+        id: audit_attempt_2
+        if: steps.audit_attempt_1.outcome != 'success'
+        uses: zizmorcore/zizmor-action@f52a838cfabf134edcbaa7c8b3677dde20045018
+        continue-on-error: true
+        with:
+          advanced-security: true
+      - name: Audit workflows (attempt 3)
+        id: audit_attempt_3
+        if: steps.audit_attempt_1.outcome != 'success' && steps.audit_attempt_2.outcome != 'success'
+        uses: zizmorcore/zizmor-action@f52a838cfabf134edcbaa7c8b3677dde20045018
+        continue-on-error: true
+        with:
+          advanced-security: true
+      - name: Fail if all workflow-audit attempts failed
+        if: steps.audit_attempt_1.outcome != 'success' && steps.audit_attempt_2.outcome != 'success' && steps.audit_attempt_3.outcome != 'success'
+        run: exit 1

@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.org/specs/v1/compatibility-policy.schema.json",
+  "title": "Voiage v1 compatibility policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "policy_version",
+    "applies_from",
+    "semantic_versioning",
+    "surfaces",
+    "deprecation",
+    "excluded_stabilities",
+    "excluded_surfaces_still_require",
+    "promotion_requirements",
+    "compatibility_evidence"
+  ],
+  "properties": {
+    "$schema": {"const": "./compatibility-policy.schema.json"},
+    "policy_version": {"const": "1.0.0"},
+    "applies_from": {"const": "1.0.0"},
+    "semantic_versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["major", "minor", "patch"],
+      "properties": {
+        "major": {"const": "breaking-stable-surface-change"},
+        "minor": {"const": "backward-compatible-addition"},
+        "patch": {"const": "backward-compatible-fix"}
+      }
+    },
+    "surfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rust", "python", "c_abi", "bindings", "cli", "schemas", "serialized_outputs"],
+      "properties": {
+        "rust": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "api_diff_gate"],
+          "properties": {
+            "compatibility_unit": {"const": "public-items-traits-features-msrv-errors-serialization-behavior"},
+            "breaking_change": {"const": "major"},
+            "api_diff_gate": {"const": "cargo-semver-checks"}
+          }
+        },
+        "python": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "additive_parameters"],
+          "properties": {
+            "compatibility_unit": {"const": "public-import-path-signature-default-return-warning-error-behavior"},
+            "breaking_change": {"const": "major"},
+            "additive_parameters": {"const": "keyword-only"}
+          }
+        },
+        "c_abi": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "symbol_versioning", "opaque_handles_preferred"],
+          "properties": {
+            "compatibility_unit": {"const": "exported-symbol-signature-layout-calling-convention-ownership-error-code"},
+            "breaking_change": {"const": "major"},
+            "symbol_versioning": {"const": "required"},
+            "opaque_handles_preferred": {"const": true}
+          }
+        },
+        "bindings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "covered"],
+          "properties": {
+            "compatibility_unit": {"const": "language-facade-over-shared-rust-core"},
+            "breaking_change": {"const": "major"},
+            "covered": {
+              "type": "array",
+              "minItems": 7,
+              "maxItems": 7,
+              "uniqueItems": true,
+              "items": {"enum": ["python", "r", "julia", "typescript", "go", "rust", "dotnet"]},
+              "allOf": [
+                {"contains": {"const": "python"}}, {"contains": {"const": "r"}},
+                {"contains": {"const": "julia"}}, {"contains": {"const": "typescript"}},
+                {"contains": {"const": "go"}}, {"contains": {"const": "rust"}},
+                {"contains": {"const": "dotnet"}}
+              ]
+            }
+          }
+        },
+        "cli": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "exit_codes"],
+          "properties": {
+            "compatibility_unit": {"const": "command-option-default-exit-code-stream-machine-output"},
+            "breaking_change": {"const": "major"},
+            "exit_codes": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["success", "runtime_failure", "invalid_input"],
+              "properties": {
+                "success": {"const": 0},
+                "runtime_failure": {"const": 1},
+                "invalid_input": {"const": 2}
+              }
+            }
+          }
+        },
+        "schemas": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "stable_ids_and_paths"],
+          "properties": {
+            "compatibility_unit": {"const": "existing-valid-payloads-remain-valid-with-unchanged-semantics"},
+            "breaking_change": {"const": "major"},
+            "stable_ids_and_paths": {"const": true}
+          }
+        },
+        "serialized_outputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compatibility_unit", "breaking_change", "json_numbers", "encoding"],
+          "properties": {
+            "compatibility_unit": {"const": "field-name-type-meaning-requiredness-ordering-encoding"},
+            "breaking_change": {"const": "major"},
+            "json_numbers": {"const": "finite-only"},
+            "encoding": {"const": "utf-8"}
+          }
+        }
+      }
+    },
+    "deprecation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_minor_releases", "minimum_months", "clock_rule", "python_warning_class", "diagnostic_code_required", "replacement_required_before_removal", "migration_documentation_required", "removal_release"],
+      "properties": {
+        "minimum_minor_releases": {"type": "integer", "minimum": 2},
+        "minimum_months": {"type": "integer", "minimum": 6},
+        "clock_rule": {"const": "whichever-is-longer"},
+        "python_warning_class": {"const": "FutureWarning"},
+        "diagnostic_code_required": {"const": true},
+        "replacement_required_before_removal": {"const": true},
+        "migration_documentation_required": {"const": true},
+        "removal_release": {"const": "next-major-only"}
+      }
+    },
+    "excluded_stabilities": {
+      "type": "array", "const": ["provisional", "experimental"]
+    },
+    "excluded_surfaces_still_require": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {"enum": ["security", "validation", "provenance", "licensing", "data-safety", "maturity-metadata"]}
+    },
+    "promotion_requirements": {
+      "type": "array",
+      "const": ["normative-contract", "compatibility-fixtures", "migration-assessment"]
+    },
+    "compatibility_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_required", "all_supported_bindings", "breaking_change_requires_migration_guide"],
+      "properties": {
+        "fixture_required": {"const": true},
+        "all_supported_bindings": {"const": true},
+        "breaking_change_requires_migration_guide": {"const": true}
+      }
+    }
+  }
+}

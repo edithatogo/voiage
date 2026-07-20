@@ -739,7 +739,11 @@ class JaxBackend(Backend):
 
     def __init__(self) -> None:
         if not JAX_AVAILABLE:
-            raise_import_error("JAX is not installed")
+            from .exceptions import raise_optional_dependency_error
+
+            raise_optional_dependency_error(
+                "JaxBackend requires JAX; install it with `pip install 'voiage[jax]'`."
+            )
         self._impl = _JaxBackendImpl()
 
     def __getattr__(self, name: str) -> object:
@@ -1028,6 +1032,9 @@ def get_backend(name: str | None = None) -> Backend:
     if name == "apple_metal":
         return AppleMetalBackend()
 
+    if name == "jax" and not JAX_AVAILABLE:
+        return JaxBackend()
+
     if name not in _BACKENDS:
         raise_value_error(f"Unknown backend: {name}")
 
@@ -1036,7 +1043,7 @@ def get_backend(name: str | None = None) -> Backend:
 
 def set_backend(name: str) -> None:
     """Set the default computational backend."""
-    if name == "apple_metal":
+    if name in {"apple_metal", "jax"}:
         get_backend(name)
     elif name not in _BACKENDS:
         raise_value_error(f"Unknown backend: {name}")

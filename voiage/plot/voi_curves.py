@@ -2,6 +2,8 @@
 
 """Plotting functions for various VOI curves."""
 
+from __future__ import annotations
+
 import numpy as np
 
 # Attempt to import Matplotlib, but make it optional
@@ -53,7 +55,7 @@ def plot_evpi_vs_wtp(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     evpi_arr = np.asarray(evpi_values, dtype=DEFAULT_DTYPE)
@@ -172,7 +174,7 @@ def plot_evsi_vs_sample_size(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     evsi_arr = np.asarray(evsi_values, dtype=DEFAULT_DTYPE)
@@ -267,7 +269,7 @@ def plot_evppi_surface(
     """
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
 
     evppi_arr = np.asarray(evppi_values, dtype=DEFAULT_DTYPE)

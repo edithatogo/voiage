@@ -1,0 +1,251 @@
+"""Focused tests for the private Python-to-Rust runtime adapter."""
+
+from __future__ import annotations
+
+from types import SimpleNamespace
+
+import numpy as np
+import pytest
+
+from voiage import _runtime
+from voiage.exceptions import DimensionMismatchError, InputError, SerializationError
+from voiage.methods.ceaf import CEAFResult
+from voiage.methods.dominance import DominanceResult
+
+
+class NativeError(RuntimeError):
+    """Fake native error carrying stable cross-language fields."""
+
+    def __init__(self, category: str, diagnostic_code: str) -> None:
+        super().__init__("native validation failed")
+        self.category = category
+        self.diagnostic_code = diagnostic_code
+
+
+def _ceaf_result() -> CEAFResult:
+    return CEAFResult(
+        wtp_thresholds=np.array([0.0]),
+        optimal_strategy_indices=np.array([1]),
+        optimal_strategy_names=["B"],
+        acceptability_probabilities=np.array([0.75]),
+        probability_lower=np.array([0.5]),
+        probability_upper=np.array([0.9]),
+        expected_net_benefit=np.array([12.0]),
+        reporting={"standard": "CHEERS 2022"},
+    )
+
+
+def _dominance_result() -> DominanceResult:
+    return DominanceResult(
+        strategy_names=["A", "B"],
+        costs=np.array([1.0, 2.0]),
+        effects=np.array([1.0, 2.0]),
+        frontier_indices=[0, 1],
+        strongly_dominated_indices=[],
+        extended_dominated_indices=[],
+        status=["frontier", "frontier"],
+        incremental_costs=np.array([1.0]),
+        incremental_effects=np.array([1.0]),
+        icers=np.array([1.0]),
+        reporting={"standard": "CHEERS 2022"},
+    )
+
+
+def test_result_serializers_pass_keyword_primitives_to_native(monkeypatch) -> None:
+    captured: dict[str, dict[str, object]] = {}
+
+    def ceaf(**kwargs: object) -> dict[str, object]:
+        captured["ceaf"] = kwargs
+        return {"kind": "ceaf"}
+
+    def dominance(**kwargs: object) -> dict[str, object]:
+        captured["dominance"] = kwargs
+        return {"kind": "dominance"}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(
+            serialize_ceaf_result=ceaf,
+            serialize_dominance_result=dominance,
+        ),
+    )
+
+    assert _ceaf_result().to_dict(
+        analysis_id="analysis-1", decision_problem_id="decision-1"
+    ) == {"kind": "ceaf"}
+    assert _dominance_result().to_dict(
+        analysis_id="analysis-1", decision_problem_id="decision-1"
+    ) == {"kind": "dominance"}
+    assert captured["ceaf"]["wtp_thresholds"] == [0.0]
+    assert captured["ceaf"]["optimal_strategy_names"] == ["B"]
+    assert captured["dominance"]["strategy_names"] == ["A", "B"]
+    assert captured["dominance"]["costs"] == [1.0, 2.0]
+    assert captured["dominance"]["icers"] == [1.0]
+
+
+@pytest.mark.parametrize(
+    ("category", "expected"),
+    [
+        ("input", InputError),
+        ("dimension_mismatch", DimensionMismatchError),
+        ("serialization", SerializationError),
+    ],
+)
+def test_native_errors_keep_category_and_diagnostic_code(
+    monkeypatch,
+    category: str,
+    expected: type[Exception],
+) -> None:
+    def serialize(**_: object) -> dict[str, object]:
+        raise NativeError(category, "invalid_result")
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(serialize_ceaf_result=serialize),
+    )
+
+    with pytest.raises(expected, match="native validation failed") as caught:
+        _ceaf_result().to_dict(analysis_id="a", decision_problem_id="d")
+
+    assert vars(caught.value)["diagnostic_code"] == "invalid_result"
+
+
+def test_missing_native_extension_has_no_python_fallback(monkeypatch) -> None:
+    missing = ModuleNotFoundError("No module named 'voiage._core'")
+
+    def fail_import(_: str) -> None:
+        raise missing
+
+    monkeypatch.setattr(_runtime, "import_module", fail_import)
+
+    with pytest.raises(ModuleNotFoundError, match="voiage._core"):
+        _ceaf_result().to_dict(analysis_id="a", decision_problem_id="d")
+
+
+def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(net_benefit: list[list[float]], parameters: list[list[float]]) -> float:
+        captured["net_benefit"] = net_benefit
+        captured["parameters"] = parameters
+        return 0.05
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evppi=compute),
+    )
+
+    result = _runtime.compute_evppi([[0.0, 2.0], [1.0, 0.0]], [[0.0], [1.0]])
+
+    assert result == 0.05
+    assert captured == {
+        "net_benefit": [[0.0, 2.0], [1.0, 0.0]],
+        "parameters": [[0.0], [1.0]],
+    }
+
+
+def test_compute_evsi_forwards_seeded_kernel_arguments(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(
+        net_benefit: list[list[float]],
+        trial_sample_size: int,
+        resample_count: int,
+        seed: int,
+    ) -> dict[str, object]:
+        captured.update(
+            net_benefit=net_benefit,
+            trial_sample_size=trial_sample_size,
+            resample_count=resample_count,
+            seed=seed,
+        )
+        return {"evsi": 0.75, "draw_count": 2}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evsi=compute),
+    )
+
+    result = _runtime.compute_evsi([[10.0, 4.0]], 2, 4, 42)
+
+    assert result == {"evsi": 0.75, "draw_count": 2}
+    assert captured == {
+        "net_benefit": [[10.0, 4.0]],
+        "trial_sample_size": 2,
+        "resample_count": 4,
+        "seed": 42,
+    }
+
+
+def test_compute_evsi_efficient_linear_forwards_kernel_arguments(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(
+        net_benefit: list[list[float]],
+        parameter_samples: list[list[float]],
+        trial_sample_size: int,
+    ) -> dict[str, object]:
+        captured.update(
+            net_benefit=net_benefit,
+            parameter_samples=parameter_samples,
+            trial_sample_size=trial_sample_size,
+        )
+        return {"evsi": 2.0 / 3.0, "information_fraction": 1.0 / 3.0}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evsi_efficient_linear=compute),
+    )
+
+    result = _runtime.compute_evsi_efficient_linear(
+        [[0.0, 6.0], [2.0, 4.0], [4.0, 2.0], [6.0, 0.0]],
+        [[-1.0], [0.0], [1.0], [2.0]],
+        2,
+    )
+
+    assert result == {"evsi": 2.0 / 3.0, "information_fraction": 1.0 / 3.0}
+    assert captured == {
+        "net_benefit": [[0.0, 6.0], [2.0, 4.0], [4.0, 2.0], [6.0, 0.0]],
+        "parameter_samples": [[-1.0], [0.0], [1.0], [2.0]],
+        "trial_sample_size": 2,
+    }
+
+
+def test_compute_evsi_moment_based_forwards_kernel_arguments(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(
+        net_benefit: list[list[float]],
+        parameter_samples: list[list[float]],
+        trial_sample_size: int,
+    ) -> dict[str, object]:
+        captured.update(
+            net_benefit=net_benefit,
+            parameter_samples=parameter_samples,
+            trial_sample_size=trial_sample_size,
+        )
+        return {"evsi": 5.0 / 12.0, "estimator": "moment_based"}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evsi_moment_based=compute),
+    )
+
+    result = _runtime.compute_evsi_moment_based(
+        [[1.0, 2.0], [0.0, 3.0], [1.0, 2.0], [4.0, -1.0]],
+        [[-1.0], [0.0], [1.0], [2.0]],
+        2,
+    )
+
+    assert result == {"evsi": 5.0 / 12.0, "estimator": "moment_based"}
+    assert captured == {
+        "net_benefit": [[1.0, 2.0], [0.0, 3.0], [1.0, 2.0], [4.0, -1.0]],
+        "parameter_samples": [[-1.0], [0.0], [1.0], [2.0]],
+        "trial_sample_size": 2,
+    }

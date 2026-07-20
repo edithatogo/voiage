@@ -1,0 +1,203 @@
+name: Python Rust Bridge CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/python-rust-bridge.yml"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "rust/**"
+      - "voiage/**"
+      - "tests/test_python_rust_bridge.py"
+      - "tests/test_python_rust_bridge_workflow.py"
+      - "tests/test_runtime_adapter.py"
+      - "tests/test_rust_workspace_contract.py"
+      - "tests/packaging/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/python-rust-bridge.yml"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "rust/**"
+      - "voiage/**"
+      - "tests/test_python_rust_bridge.py"
+      - "tests/test_python_rust_bridge_workflow.py"
+      - "tests/test_runtime_adapter.py"
+      - "tests/test_rust_workspace_contract.py"
+      - "tests/packaging/**"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: python-rust-bridge-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-compatibility:
+    name: Wheel contract (CPython ${{ matrix.python }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      VOIAGE_SOURCE_REVISION: ${{ github.sha }}
+      VOIAGE_SOURCE_CLEAN: "true"
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+      - name: Bind build to immutable source tree
+        run: echo "VOIAGE_SOURCE_TREE_GIT_OID=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_ENV"
+      - name: Install uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.9.18"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      - name: Set up test Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Python 3.10 ABI floor
+        run: uv python install 3.10
+      - name: Install Rust 1.85
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.85"
+      - name: Install locked build tooling
+        run: uv sync --locked --extra ci
+      - name: Validate locked Cargo workspace
+        run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
+      - name: Record reproducible source epoch
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - name: Build cp310-abi3 wheel
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+        with:
+          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          command: build
+          docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
+          manylinux: "2014"
+          maturin-version: v1.14.1
+          rust-toolchain: "1.85"
+      - name: Inspect wheel tags and contents
+        run: |
+          python -c "from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert 'cp310-abi3' in wheels[0].name, wheels[0]"
+          python -m zipfile -l dist/*.whl
+          python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
+      - name: Create clean locked test environment
+        run: |
+          uv venv --python ${{ matrix.python }} .wheel-venv
+          uv pip install --python .wheel-venv dist/*.whl
+          uv pip check --python .wheel-venv
+          uv pip install --python .wheel-venv pytest rfc8785==0.1.4
+          mkdir -p "$RUNNER_TEMP/wheel-black-box"
+          cp "$GITHUB_WORKSPACE/tests/packaging/test_wheel_black_box.py" "$RUNNER_TEMP/wheel-black-box/"
+          cp "$GITHUB_WORKSPACE/tests/test_runtime_adapter.py" "$RUNNER_TEMP/wheel-black-box/"
+      - name: Run real serializer contracts from installed wheel
+        env:
+          WHEEL_VENV: ${{ github.workspace }}/.wheel-venv
+          EXPECTED_SOURCE_REVISION: ${{ github.sha }}
+          EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
+          EXPECTED_PLATFORM_SUFFIX: manylinux_2_17_x86_64.manylinux2014_x86_64
+        run: |
+          cd "$RUNNER_TEMP/wheel-black-box"
+          uv run --python "$WHEEL_VENV" --no-project pytest test_wheel_black_box.py test_runtime_adapter.py --import-mode=importlib
+
+  abi3-platforms:
+    name: Wheel contract (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      VOIAGE_SOURCE_REVISION: ${{ github.sha }}
+      VOIAGE_SOURCE_CLEAN: "true"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform-suffix: manylinux_2_17_x86_64.manylinux2014_x86_64
+            compatibility: manylinux2014
+          - os: macos-14
+            platform-suffix: macosx_11_0_arm64
+            compatibility: pypi
+          - os: windows-2025
+            platform-suffix: win_amd64
+            compatibility: pypi
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out source
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+      - name: Bind build to immutable source tree
+        run: echo "VOIAGE_SOURCE_TREE_GIT_OID=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_ENV"
+      - name: Install uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.9.18"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      - name: Set up Python 3.10 ABI floor
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.10"
+      - name: Install Rust 1.85
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.85"
+      - name: Install locked build tooling
+        run: uv sync --locked --extra ci
+      - name: Validate locked Cargo workspace
+        run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
+      - name: Record reproducible source epoch
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - name: Build abi3 wheel
+        if: runner.os != 'Linux'
+        run: uv run --no-sync maturin build --locked --release --compatibility "${{ matrix.compatibility }}" --interpreter python --out dist
+      - name: Build manylinux2014 abi3 wheel
+        if: runner.os == 'Linux'
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+        with:
+          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          command: build
+          docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
+          manylinux: "2014"
+          maturin-version: v1.14.1
+          rust-toolchain: "1.85"
+      - name: Inspect wheel tags and contents
+        env:
+          EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
+        run: |
+          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert 'cp310-abi3' in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
+          python -m zipfile -l dist/*.whl
+          python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
+      - name: Install actual wheel into clean environment
+        run: |
+          uv venv --python 3.10 .wheel-venv
+          uv pip install --python .wheel-venv dist/*.whl
+          uv pip check --python .wheel-venv
+          uv pip install --python .wheel-venv pytest rfc8785==0.1.4
+          mkdir -p "$RUNNER_TEMP/wheel-black-box"
+          cp "$GITHUB_WORKSPACE/tests/packaging/test_wheel_black_box.py" "$RUNNER_TEMP/wheel-black-box/"
+          cp "$GITHUB_WORKSPACE/tests/test_runtime_adapter.py" "$RUNNER_TEMP/wheel-black-box/"
+      - name: Run real serializer contracts
+        env:
+          WHEEL_VENV: ${{ github.workspace }}/.wheel-venv
+          EXPECTED_SOURCE_REVISION: ${{ github.sha }}
+          EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
+          EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
+        run: |
+          cd "$RUNNER_TEMP/wheel-black-box"
+          uv run --python "$WHEEL_VENV" --no-project pytest test_wheel_black_box.py test_runtime_adapter.py --import-mode=importlib

@@ -1,0 +1,33 @@
+[workspace]
+members = [
+    "crates/voiage-diagnostics",
+    "crates/voiage-domain",
+    "crates/voiage-ffi",
+    "crates/voiage-numerics",
+    "crates/voiage-python",
+    "crates/voiage-serialization",
+    "crates/voiage-test-support",
+    "crates/voiage-wasm",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.2.1"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+repository = "https://github.com/edithatogo/voiage"
+
+[workspace.dependencies]
+voiage-diagnostics = { version = "=0.2.1", path = "crates/voiage-diagnostics" }
+voiage-domain = { version = "=0.2.1", path = "crates/voiage-domain" }
+voiage-numerics = { version = "=0.2.1", path = "crates/voiage-numerics" }
+voiage-serialization = { version = "=0.2.1", path = "crates/voiage-serialization" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"

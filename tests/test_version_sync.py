@@ -1,22 +1,35 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from pathlib import Path
 
 import pytest
 
 from voiage import versioning
 
-if TYPE_CHECKING:
-    from pathlib import Path
+
+def test_version_sync_launcher_prefers_repository_package() -> None:
+    """The skip-install tox launcher must not import a stale cached package."""
+    launcher = Path("scripts/validate_version_sync.py").read_text(encoding="utf-8")
+
+    path_setup = launcher.index("sys.path.insert")
+    package_import = launcher.index("from voiage.versioning import main")
+    assert path_setup < package_import
 
 
 def _write_versioned_repo(root: Path, version: str) -> None:
     (root / "pyproject.toml").write_text(
         """
 [project]
-version = "{version}"
-""".strip().format(version=version),
+dynamic = ["version"]
+""".strip(),
         encoding="utf-8",
+    )
+    (root / "rust/crates/voiage-python").mkdir(parents=True)
+    (root / "rust/Cargo.toml").write_text(
+        '[workspace.package]\nversion = "' + version + '"\n', encoding="utf-8"
+    )
+    (root / "rust/crates/voiage-python/Cargo.toml").write_text(
+        "[package]\nversion.workspace = true\n", encoding="utf-8"
     )
     (root / "bindings/typescript").mkdir(parents=True)
     (root / "bindings/typescript/package.json").write_text(
@@ -74,3 +87,33 @@ def test_validate_version_sync_reports_manifest_drift(
     captured = capsys.readouterr()
     assert "version synchronization failed" in captured.err
     assert "bindings/typescript/package.json" in captured.err
+
+
+def test_release_tag_must_exactly_match_authoritative_cargo_version(
+    tmp_path: Path,
+) -> None:
+    _write_versioned_repo(tmp_path, "0.2.0")
+
+    assert versioning.validate_release_tag("v0.2.0", tmp_path) == "0.2.0"
+    with pytest.raises(versioning.VersionSyncError, match="release tag"):
+        versioning.validate_release_tag("v0.2.1", tmp_path)
+    with pytest.raises(versioning.VersionSyncError, match="must match .*v0.2.0"):
+        versioning.validate_release_tag("0.2.0", tmp_path)
+
+
+def test_production_python_adapter_must_inherit_workspace_version(
+    tmp_path: Path,
+) -> None:
+    _write_versioned_repo(tmp_path, "0.2.0")
+    (tmp_path / "rust/crates/voiage-python/Cargo.toml").write_text(
+        '[package]\nversion = "0.1.0"\n', encoding="utf-8"
+    )
+
+    with pytest.raises(versioning.VersionSyncError, match="must inherit"):
+        versioning.validate_version_sync(tmp_path)
+
+    (tmp_path / "rust/crates/voiage-python/Cargo.toml").write_text(
+        '[package]\nversion = "0.2.0"\n', encoding="utf-8"
+    )
+    with pytest.raises(versioning.VersionSyncError, match="must inherit"):
+        versioning.validate_version_sync(tmp_path)

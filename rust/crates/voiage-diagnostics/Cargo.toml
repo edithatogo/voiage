@@ -1,0 +1,19 @@
+[package]
+name = "voiage-diagnostics"
+description = "Structured diagnostics and error contracts for voiage."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+voiage-domain.workspace = true
+
+[dev-dependencies]
+serde_json = "1.0"
+
+[lints]
+workspace = true

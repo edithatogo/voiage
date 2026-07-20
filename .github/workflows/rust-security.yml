@@ -1,0 +1,44 @@
+name: Rust supply-chain policy
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/rust-security.yml"
+      - "rust/**"
+      - "tests/test_ci_cd_quality_gates.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/rust-security.yml"
+      - "rust/**"
+      - "tests/test_ci_cd_quality_gates.py"
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: rust-security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cargo-deny:
+    name: Cargo advisories licenses bans sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.95.0"
+      - name: Install pinned cargo-deny
+        run: cargo install cargo-deny --version 0.20.2 --locked
+      - name: Enforce Rust supply-chain policy
+        run: cargo deny --manifest-path rust/Cargo.toml --config rust/deny.toml check advisories licenses bans sources

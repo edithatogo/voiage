@@ -4,28 +4,23 @@ The package exposes the curated core analysis surface together with the main
 subpackage namespaces for advanced workflows.
 """
 
+from importlib import import_module
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _package_version
 
 from . import (
     analysis,
     backends,
-    cli,
     config,
     core,
-    ecosystem_integration,
     exceptions,
     factory,
     fluent,
-    health_economics,
     hta_integration,
     methods,
-    multi_domain,
-    plot,
     schema,
 )
 from .analysis import DecisionAnalysis
-from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
 from .methods.adaptive_learning_bandit import (
     AdaptiveLearningBanditResult,
     value_of_adaptive_learning_bandit,
@@ -47,6 +42,8 @@ from .methods.causal_transportability import (
     CausalTransportabilityResult,
     value_of_causal_transportability,
 )
+from .methods.ceaf import CEAFResult
+from .methods.ceaf import calculate_ceaf as ceaf
 from .methods.computational import (
     ComputationalResult,
     value_of_computational_refinement,
@@ -56,6 +53,8 @@ from .methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
 )
+from .methods.dominance import DominanceResult
+from .methods.dominance import calculate_dominance as dominance
 from .methods.dynamic_real_options import (
     DynamicRealOptionsResult,
     value_of_dynamic_real_options,
@@ -149,10 +148,61 @@ try:
 except PackageNotFoundError:  # pragma: no cover - local source tree fallback
     __version__ = "0.0.0"
 
+
+_JAX_MODULES = frozenset({"health_economics", "multi_domain"})
+_LAZY_MODULES = frozenset({"cli", "plot"})
+_ECOSYSTEM_EXPORTS = {
+    "ecosystem_integration": None,
+    "HeomlRunBundle": "HeomlRunBundle",
+    "load_heoml_run_bundle": "load_heoml_run_bundle",
+}
+
+
+def __getattr__(name: str) -> object:
+    """Load provisional feature modules only when their extras are installed."""
+    if name in _LAZY_MODULES:
+        module = import_module(f".{name}", __name__)
+        globals()[name] = module
+        return module
+    if name in _ECOSYSTEM_EXPORTS:
+        try:
+            module = import_module(".ecosystem_integration", __name__)
+        except ModuleNotFoundError as error:
+            if (error.name or "").partition(".")[0] != "defusedxml":
+                raise
+            from .exceptions import raise_optional_dependency_error
+
+            raise_optional_dependency_error(
+                f"{name} requires the ecosystem integration dependencies; "
+                "install them with `pip install 'voiage[ecosystem]'`."
+            )
+        export_name = _ECOSYSTEM_EXPORTS[name]
+        value = module if export_name is None else getattr(module, export_name)
+        globals()[name] = value
+        return value
+    if name not in _JAX_MODULES:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    try:
+        module = import_module(f".{name}", __name__)
+    except ModuleNotFoundError as error:
+        if not (error.name or "").startswith("jax") and not str(error).startswith(
+            "JAX intentionally absent"
+        ):
+            raise
+        from .exceptions import raise_optional_dependency_error
+
+        raise_optional_dependency_error(
+            f"{name} requires JAX; install it with `pip install 'voiage[jax]'`."
+        )
+    globals()[name] = module
+    return module
+
+
 __all__ = [
     "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
+    "CEAFResult",
     "CapacityBudgetConstrainedResult",
     "CausalTransportabilityResult",
     "ComputationalResult",
@@ -160,6 +210,7 @@ __all__ = [
     "DecisionAnalysis",
     "DecisionOption",
     "DistributionalEquityResult",
+    "DominanceResult",
     "DynamicRealOptionsResult",
     "EquityInformationResult",
     "EvidenceObsolescenceRefreshResult",
@@ -193,9 +244,11 @@ __all__ = [
     "ValueOfPerspectiveResult",
     "analysis",
     "backends",
+    "ceaf",
     "cli",
     "config",
     "core",
+    "dominance",
     "ecosystem_integration",
     "enbs",
     "evpi",

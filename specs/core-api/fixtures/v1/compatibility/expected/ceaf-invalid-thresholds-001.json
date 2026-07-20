@@ -1,0 +1,6 @@
+{
+  "error": {
+    "category": "dimension",
+    "code": "threshold_count_mismatch"
+  }
+}

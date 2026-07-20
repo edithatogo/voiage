@@ -1,6 +1,8 @@
 """Plotting helpers for Value of Heterogeneity results."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 try:
     from matplotlib.axes import Axes
@@ -12,7 +14,9 @@ except ImportError:  # pragma: no cover
     Axes = None  # type: ignore
 
 from voiage.exceptions import raise_plotting_error
-from voiage.methods.heterogeneity import HeterogeneityResult
+
+if TYPE_CHECKING:
+    from voiage.methods.heterogeneity import HeterogeneityResult
 
 
 def plot_voh_by_subgroup(
@@ -26,7 +30,7 @@ def plot_voh_by_subgroup(
     """Plot subgroup-specific expected net benefits."""
     if not MATPLOTLIB_AVAILABLE:
         raise_plotting_error(
-            "Matplotlib is required for plotting functions but not installed."
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
         )
     if ax is None:
         _fig, ax = plt.subplots()

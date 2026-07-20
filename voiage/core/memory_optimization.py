@@ -2,12 +2,32 @@
 
 from collections.abc import Callable
 import gc
+from typing import Any
 import warnings
 
 import numpy as np
-import psutil
 
 from voiage.schema import ParameterSet, ValueArray
+
+psutil: Any
+try:
+    import psutil as _psutil
+except ImportError:  # pragma: no cover - exercised through the guarded boundary
+    psutil = None
+else:
+    psutil = _psutil
+
+
+def _require_psutil() -> Any:
+    """Return psutil or explain how to install the optional runtime feature."""
+    if psutil is None:
+        from voiage.exceptions import raise_optional_dependency_error
+
+        raise_optional_dependency_error(
+            "Memory optimization requires psutil; install it with "
+            "`pip install 'voiage[performance]'`."
+        )
+    return psutil
 
 
 class MemoryOptimizer:
@@ -22,7 +42,9 @@ class MemoryOptimizer:
         """
         if memory_limit_mb is None:
             # Use 80% of available memory as default limit
-            memory_limit_mb = psutil.virtual_memory().total * 0.8 / (1024 * 1024)
+            memory_limit_mb = (
+                _require_psutil().virtual_memory().total * 0.8 / (1024 * 1024)
+            )
 
         self.memory_limit_bytes = memory_limit_mb * 1024 * 1024
         self.current_memory_usage = 0.0
@@ -35,7 +57,7 @@ class MemoryOptimizer:
         -------
             float: Current memory usage in bytes
         """
-        return float(psutil.virtual_memory().used)
+        return float(_require_psutil().virtual_memory().used)
 
     def get_available_memory(self) -> float:
         """
@@ -46,7 +68,7 @@ class MemoryOptimizer:
             float: Available memory in bytes
         """
         # Treat the configured limit as a budget cap rather than as total RAM.
-        system_available = psutil.virtual_memory().available
+        system_available = _require_psutil().virtual_memory().available
         return float(min(self.memory_limit_bytes, system_available))
 
     def is_memory_available(self, required_bytes: float) -> bool:

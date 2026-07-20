@@ -11,9 +11,11 @@ from typing import Any
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.exceptions import (
+    InputError,
+    raise_backend_not_available_error,
     raise_input_error,
-    raise_not_implemented_error,
 )
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
 from voiage.stats import normal_normal_update
@@ -35,7 +37,10 @@ def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.fl
     if matrix.ndim != 2 or matrix.shape[0] != psa_prior.n_samples:
         raise_input_error("PSA parameters must form a 2D sample-by-parameter matrix.")
     if not np.all(np.isfinite(matrix)):
-        raise_input_error("PSA parameters must contain only finite values.")
+        raise_input_error(
+            "PSA parameters must contain only finite values.",
+            diagnostic_code="non_finite_value",
+        )
     return matrix
 
 
@@ -52,7 +57,10 @@ def _validate_net_benefits(
     if values.shape[1] < 1:
         raise_input_error("Model output must contain at least one strategy.")
     if not np.all(np.isfinite(values)):
-        raise_input_error("Model output must contain only finite net-benefit values.")
+        raise_input_error(
+            "Model output must contain only finite net-benefit values.",
+            diagnostic_code="non_finite_value",
+        )
     return values
 
 
@@ -112,7 +120,7 @@ def _fit_strategy_metamodel(
             random_state=0,
         )
     else:
-        raise_not_implemented_error(
+        raise_backend_not_available_error(
             f"Efficient EVSI metamodel '{metamodel}' is not recognized."
         )
     model.fit(x, y)
@@ -133,10 +141,89 @@ def _evsi_efficient_regression(
     size as a conservative information-fraction proxy, avoiding inner-loop
     economic model runs.
     """
-    if not SKLEARN_AVAILABLE:
-        raise_not_implemented_error("Efficient EVSI requires scikit-learn.")
-
     x = _parameter_matrix(psa_prior)
+    if metamodel == "linear":
+        # The deterministic linear contract is now Rust-owned.  Keep the
+        # public function's historical return shape by returning the native
+        # expected-sample value; the dispatcher subtracts current information
+        # below and applies population scaling uniformly.
+        trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
+        if trial_sample_size <= 0:
+            return float(np.max(np.mean(nb_prior_values, axis=0)))
+        try:
+            result = _runtime.compute_evsi_efficient_linear(
+                nb_prior_values.tolist(),
+                x.tolist(),
+                trial_sample_size,
+            )
+        except ModuleNotFoundError:
+            return _evsi_efficient_regression_python(
+                nb_prior_values, psa_prior, trial_design, metamodel
+            )
+        except AttributeError as error:
+            if "compute_evsi_efficient_linear" not in str(error):
+                raise
+            return _evsi_efficient_regression_python(
+                nb_prior_values, psa_prior, trial_design, metamodel
+            )
+        except InputError as error:
+            if "rank deficient" not in str(error):
+                raise
+            return _evsi_efficient_regression_python(
+                nb_prior_values, psa_prior, trial_design, metamodel
+            )
+
+        current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
+        try:
+            if (
+                result.get("estimator") != "efficient_linear"
+                or result.get("contract_version") != 1
+                or result.get("sample_count") != psa_prior.n_samples
+                or result.get("strategy_count") != nb_prior_values.shape[1]
+                or result.get("parameter_count") != x.shape[1]
+            ):
+                raise ValueError("native efficient-linear metadata mismatch")  # noqa: TRY301
+            native_current = float(result["expected_current_value"])
+            expected_sample = float(result["expected_sample_value"])
+            expected_perfect = float(result["expected_perfect_information"])
+            information_fraction = float(result["information_fraction"])
+            native_evsi = float(result["evsi"])
+            values = (
+                native_current,
+                expected_sample,
+                expected_perfect,
+                information_fraction,
+                native_evsi,
+            )
+            if not all(np.isfinite(value) for value in values):
+                raise ValueError("native efficient-linear result is non-finite")  # noqa: TRY301
+            if not 0.0 <= information_fraction <= 1.0:
+                raise ValueError(  # noqa: TRY301
+                    "native efficient-linear information fraction is invalid"
+                )
+            if not np.isclose(native_current, current_value, rtol=1e-12, atol=1e-12):
+                raise ValueError("native efficient-linear current value mismatch")  # noqa: TRY301
+            if not np.isclose(
+                native_evsi, expected_sample - native_current, rtol=1e-12, atol=1e-12
+            ):
+                raise ValueError("native efficient-linear EVSI mismatch")  # noqa: TRY301
+            if expected_sample < native_current or expected_sample > max(
+                native_current, expected_perfect
+            ):
+                raise ValueError(  # noqa: TRY301
+                    "native efficient-linear sample value is out of bounds"
+                )
+        except (KeyError, TypeError, ValueError) as error:
+            raise_input_error(
+                "Native efficient-linear EVSI returned an invalid result envelope."
+            )
+            raise AssertionError("unreachable") from error
+        else:
+            return expected_sample
+
+    if not SKLEARN_AVAILABLE:
+        raise_backend_not_available_error("Efficient EVSI requires scikit-learn.")
+
     predictions = np.empty_like(nb_prior_values, dtype=float)
     for strategy_idx in range(nb_prior_values.shape[1]):
         model = _fit_strategy_metamodel(
@@ -154,6 +241,28 @@ def _evsi_efficient_regression(
         predictions,
         nb_prior_values,
         information_fraction,
+    )
+
+
+def _evsi_efficient_regression_python(
+    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
+    psa_prior: ParameterSet,
+    trial_design: TrialDesign,
+    metamodel: MetamodelName,
+) -> float:
+    """Retain the Python efficient reference for unsupported native cases."""
+    if not SKLEARN_AVAILABLE:
+        raise_backend_not_available_error("Efficient EVSI requires scikit-learn.")
+    predictions = np.empty_like(nb_prior_values, dtype=float)
+    x = _parameter_matrix(psa_prior)
+    for strategy_idx in range(nb_prior_values.shape[1]):
+        model = _fit_strategy_metamodel(x, nb_prior_values[:, strategy_idx], metamodel)
+        predictions[:, strategy_idx] = np.asarray(model.predict(x), dtype=float)
+    information_fraction = _trial_information_fraction(
+        trial_design, psa_prior.n_samples
+    )
+    return _preposterior_expected_max(
+        predictions, nb_prior_values, information_fraction
     )
 
 
@@ -183,7 +292,83 @@ def _evsi_moment_based(
     psa_prior: ParameterSet,
     trial_design: TrialDesign,
 ) -> float:
-    """Moment-based EVSI approximation using local surrogate moments."""
+    """Moment-based EVSI approximation using the native kernel when available."""
+    x = _parameter_matrix(psa_prior)
+    trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
+    if trial_sample_size <= 0:
+        return float(np.max(np.mean(nb_prior_values, axis=0)))
+    try:
+        result = _runtime.compute_evsi_moment_based(
+            nb_prior_values.tolist(),
+            x.tolist(),
+            trial_sample_size,
+        )
+    except ModuleNotFoundError:
+        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+    except AttributeError as error:
+        if "compute_evsi_moment_based" not in str(error):
+            raise
+        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+    except InputError as error:
+        if "rank deficient" not in str(error):
+            raise
+        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+
+    current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
+    try:
+        if (
+            result.get("estimator") != "moment_based"
+            or result.get("contract_version") != 1
+            or result.get("sample_count") != psa_prior.n_samples
+            or result.get("strategy_count") != nb_prior_values.shape[1]
+            or result.get("parameter_count") != x.shape[1]
+        ):
+            raise ValueError("native moment-based metadata mismatch")  # noqa: TRY301
+        native_current = float(result["expected_current_value"])
+        expected_sample = float(result["expected_sample_value"])
+        expected_perfect = float(result["expected_perfect_information"])
+        information_fraction = float(result["information_fraction"])
+        native_evsi = float(result["evsi"])
+        values = (
+            native_current,
+            expected_sample,
+            expected_perfect,
+            information_fraction,
+            native_evsi,
+        )
+        if not all(np.isfinite(value) for value in values):
+            raise ValueError("native moment-based result is non-finite")  # noqa: TRY301
+        if not 0.0 <= information_fraction <= 1.0:
+            raise ValueError(  # noqa: TRY301
+                "native moment-based information fraction is invalid"
+            )
+        if not np.isclose(native_current, current_value, rtol=1e-12, atol=1e-12):
+            raise ValueError("native moment-based current value mismatch")  # noqa: TRY301
+        if not np.isclose(
+            native_evsi, expected_sample - native_current, rtol=1e-12, atol=1e-12
+        ):
+            raise ValueError("native moment-based EVSI mismatch")  # noqa: TRY301
+        if expected_sample < native_current or expected_sample > max(
+            native_current, expected_perfect
+        ):
+            raise ValueError(  # noqa: TRY301
+                "native moment-based sample value is out of bounds"
+            )
+    except (KeyError, TypeError, ValueError) as error:
+        raise_input_error(
+            "Native moment-based EVSI returned an invalid result envelope."
+        )
+        raise AssertionError("unreachable") from error
+    else:
+        return expected_sample
+
+
+def _evsi_moment_based_python(
+    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
+    psa_prior: ParameterSet,
+    trial_design: TrialDesign,
+) -> float:
+    """Retain the NumPy moment estimator for native compatibility fallbacks."""
     x = _parameter_matrix(psa_prior)
     design = _quadratic_design_matrix(x)
     coefficients, *_ = np.linalg.lstsq(design, nb_prior_values, rcond=None)
@@ -202,13 +387,17 @@ def _evsi_moment_based(
 def _simulate_trial_data(
     true_parameters: dict[str, Any],
     trial_design: TrialDesign,
+    rng: np.random.Generator | None = None,
 ) -> dict[str, np.ndarray[Any, Any]]:
     """Simulate trial data based on true parameters."""
     data = {}
     for arm in trial_design.arms:
         mean = true_parameters[f"mean_{arm.name.lower().replace(' ', '_')}"]
         std_dev = true_parameters["sd_outcome"]
-        data[arm.name] = np.random.normal(mean, std_dev, arm.sample_size)
+        if rng is None:
+            data[arm.name] = np.random.normal(mean, std_dev, arm.sample_size)
+        else:
+            data[arm.name] = rng.normal(mean, std_dev, arm.sample_size)
     return data
 
 
@@ -216,6 +405,7 @@ def _bayesian_update(
     prior_samples: ParameterSet,
     trial_data: dict[str, np.ndarray[Any, Any]],
     trial_design: TrialDesign,
+    rng: np.random.Generator | None = None,
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
     posterior_samples = {}
@@ -231,9 +421,14 @@ def _bayesian_update(
                     np.std(data),
                     len(data),
                 )
-                posterior_samples[param_name] = np.random.normal(
-                    posterior_mean, posterior_std, len(prior_values)
-                )
+                if rng is None:
+                    posterior_samples[param_name] = np.random.normal(
+                        posterior_mean, posterior_std, len(prior_values)
+                    )
+                else:
+                    posterior_samples[param_name] = rng.normal(
+                        posterior_mean, posterior_std, len(prior_values)
+                    )
             else:
                 posterior_samples[param_name] = prior_values
         else:
@@ -253,18 +448,26 @@ def _evsi_two_loop(
     trial_design: TrialDesign,
     n_outer_loops: int,
     n_inner_loops: int,
+    rng: np.random.Generator | None = None,
 ) -> float:
-    """EVSI calculation using a two-loop Monte Carlo simulation."""
+    """EVSI calculation using a two-loop Monte Carlo simulation.
+
+    ``n_inner_loops`` remains part of the compatibility surface but is not
+    used by this historical implementation.
+    """
     max_nb_post_study = []
     for _ in range(n_outer_loops):
-        true_params_idx = np.random.randint(0, psa_prior.n_samples)
+        if rng is None:
+            true_params_idx = np.random.randint(0, psa_prior.n_samples)
+        else:
+            true_params_idx = rng.integers(0, psa_prior.n_samples)
         true_params = {
             name: values[true_params_idx]
             for name, values in psa_prior.parameters.items()
         }
 
-        trial_data = _simulate_trial_data(true_params, trial_design)
-        posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design)
+        trial_data = _simulate_trial_data(true_params, trial_design, rng)
+        posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
         nb_posterior = model_func(posterior_psa).numpy_values
         max_nb_post_study.append(np.max(np.mean(nb_posterior, axis=0)))
 
@@ -367,6 +570,7 @@ def evsi(
     n_outer_loops: int = 100,
     n_inner_loops: int = 1000,
     metamodel: MetamodelName = "linear",
+    seed: int | None = None,
 ) -> float:
     r"""Calculate expected value of sample information.
 
@@ -390,9 +594,13 @@ def evsi(
     n_outer_loops : int, default=100
         Number of outer Monte Carlo loops for ``two_loop``.
     n_inner_loops : int, default=1000
-        Number of inner Monte Carlo loops for ``two_loop``.
+        Compatibility parameter retained for ``two_loop``; the historical
+        implementation does not currently consume it.
     metamodel : str, default="linear"
         Strategy-level surrogate model used by the efficient approximation.
+    seed : int, optional
+        A uint64-range seed for reproducible Python two-loop simulation. When
+        omitted, the historical NumPy global random stream is preserved.
 
     Returns
     -------
@@ -443,8 +651,15 @@ def evsi(
         raise_input_error("`trial_design` must be a TrialDesign object.")
     if not callable(model_func):
         raise_input_error("`model_func` must be a callable function.")
+    if seed is not None and (
+        isinstance(seed, bool) or not isinstance(seed, int) or not 0 <= seed < 2**64
+    ):
+        raise_input_error("seed must be an integer between 0 and 2**64 - 1 inclusive.")
+    if seed is not None and method != "two_loop":
+        raise_input_error("seed is currently supported only for method='two_loop'.")
     if n_outer_loops <= 0 or n_inner_loops <= 0:
         raise_input_error("n_outer_loops and n_inner_loops must be positive.")
+    _parameter_matrix(psa_prior)
 
     nb_prior_values = _validate_net_benefits(
         model_func(psa_prior).numpy_values,
@@ -456,12 +671,25 @@ def evsi(
     expected_max_nb_post_study: float
 
     if method == "two_loop":
-        expected_max_nb_post_study = _evsi_two_loop(
-            model_func, psa_prior, trial_design, n_outer_loops, n_inner_loops
-        )
+        if seed is None:
+            # Preserve the historical call shape and global NumPy stream for
+            # unseeded callers, including integrations that monkeypatch this
+            # private helper.
+            expected_max_nb_post_study = _evsi_two_loop(
+                model_func, psa_prior, trial_design, n_outer_loops, n_inner_loops
+            )
+        else:
+            expected_max_nb_post_study = _evsi_two_loop(
+                model_func,
+                psa_prior,
+                trial_design,
+                n_outer_loops,
+                n_inner_loops,
+                np.random.default_rng(seed),
+            )
     elif method == "regression":
         if not SKLEARN_AVAILABLE:
-            raise_not_implemented_error(
+            raise_backend_not_available_error(
                 "Regression method for EVSI requires scikit-learn."
             )
 
@@ -486,7 +714,7 @@ def evsi(
         )
 
     else:
-        raise_not_implemented_error(
+        raise_backend_not_available_error(
             f"EVSI method '{method}' is not recognized or implemented."
         )
 
@@ -551,6 +779,11 @@ def enbs(evsi_result: float, research_cost: float) -> float:
         raise_input_error("EVSI result must be a number.")
     if not isinstance(research_cost, (int, float)):
         raise_input_error("Research cost must be a number.")
+    if not np.isfinite(evsi_result) or not np.isfinite(research_cost):
+        raise_input_error(
+            "EVSI result and research cost must be finite.",
+            diagnostic_code="non_finite_value",
+        )
     if research_cost < 0:
         raise_input_error("Research cost cannot be negative.")
     return evsi_result - research_cost

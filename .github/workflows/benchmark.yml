@@ -9,14 +9,92 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: benchmark-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  rust-numerics-benchmark:
+    name: Production Rust Numerics Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        persist-credentials: false
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+      with:
+        toolchain: stable
+
+    - name: Run production numerics benchmark
+      run: cargo bench --manifest-path rust/Cargo.toml --locked -p voiage-numerics --bench foundational | tee rust-numerics-benchmark.txt
+
+    - name: Validate benchmark workload contract
+      run: |
+        python3 - <<'PY'
+        import json
+        from pathlib import Path
+
+        baseline = json.loads(Path("rust/crates/voiage-numerics/benches/foundational-baseline.json").read_text())
+        observed = Path("rust-numerics-benchmark.txt").read_text().splitlines()
+        measurements = {}
+        for line in observed:
+            if not line.startswith("benchmark="):
+                continue
+            fields = dict(field.split("=", 1) for field in line.split(","))
+            name = fields.get("benchmark")
+            if name in measurements:
+                raise SystemExit(f"benchmark workload contract duplicated operation: {name}")
+            try:
+                elapsed_ns = int(fields["elapsed_ns"])
+            except (KeyError, ValueError) as error:
+                raise SystemExit(f"benchmark workload contract has invalid timing: {line!r}") from error
+            if elapsed_ns < 0:
+                raise SystemExit(f"benchmark workload contract has negative timing: {line!r}")
+            measurements[name] = elapsed_ns
+
+        missing = [name for name in baseline["required_operations"] if name not in measurements]
+        if missing:
+            raise SystemExit(f"benchmark workload contract missing operations: {missing}")
+
+        budgets = baseline.get("regression_budgets")
+        if baseline.get("regression_budget_version") != 1 or not isinstance(budgets, dict):
+            raise SystemExit("native EVSI regression-budget contract is missing or unsupported")
+        if budgets.get("metric") != "elapsed_ns" or budgets.get("scope") != "native_evsi_only":
+            raise SystemExit("native EVSI regression-budget contract has an invalid scope or metric")
+        for name, budget in budgets.get("operations", {}).items():
+            if name not in measurements:
+                raise SystemExit(f"native EVSI regression budget has no benchmark measurement: {name}")
+            reference = budget.get("reference_elapsed_ns")
+            maximum = budget.get("max_elapsed_ns")
+            if not isinstance(reference, int) or not isinstance(maximum, int) or reference <= 0 or maximum < reference:
+                raise SystemExit(f"native EVSI regression budget is invalid for {name}")
+            if measurements[name] <= 0:
+                raise SystemExit(f"native EVSI benchmark has non-positive timing for {name}")
+            if measurements[name] > maximum:
+                raise SystemExit(
+                    f"native EVSI benchmark exceeded regression budget for {name}: "
+                    f"{measurements[name]} ns > {maximum} ns"
+                )
+        print(json.dumps(baseline, sort_keys=True))
+        PY
+
+    - name: Upload production numerics benchmark
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: rust-numerics-foundational-benchmark
+        path: rust-numerics-benchmark.txt
+        retention-days: 30
+
   benchmark:
     name: Performance Benchmarks
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
       with:
         persist-credentials: false
 
@@ -25,7 +103,7 @@ jobs:
       with:
         version: "latest"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}-base
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -62,12 +140,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           persist-credentials: false
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
 
       - name: Run the scalar CPU baseline and capture profiling data
         run: |

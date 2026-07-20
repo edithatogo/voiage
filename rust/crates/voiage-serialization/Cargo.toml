@@ -1,0 +1,21 @@
+[package]
+name = "voiage-serialization"
+description = "Canonical serialization adapters for validated voiage contracts."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+voiage-diagnostics.workspace = true
+voiage-domain.workspace = true
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints]
+workspace = true

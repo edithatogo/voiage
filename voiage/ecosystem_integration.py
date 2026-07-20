@@ -12,12 +12,14 @@ Author: voiage Development Team
 Version: 2.0.0
 """
 
+from __future__ import annotations
+
 import concurrent.futures
 from dataclasses import dataclass
 from html import escape
 import json
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 import warnings
 
 from defusedxml import ElementTree  # type: ignore[import-untyped]
@@ -25,8 +27,10 @@ import numpy as np
 import pandas as pd
 
 from voiage.exceptions import raise_type_error, raise_value_error
-from voiage.health_economics import HealthEconomicsAnalysis
 from voiage.schema import ParameterSet, ValueArray
+
+if TYPE_CHECKING:
+    from voiage.health_economics import HealthEconomicsAnalysis
 
 
 @dataclass

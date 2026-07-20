@@ -1,0 +1,12 @@
+# voiage portable C ABI v1 fixed-width layout baseline
+# format: type size alignment; field offset
+VoiageAbiVersionV1 12 4
+VoiageAbiVersionV1.struct_size 0
+VoiageAbiVersionV1.abi_major 4
+VoiageAbiVersionV1.abi_minor 8
+VoiageAbiCapabilitiesV1 16 8
+VoiageAbiCapabilitiesV1.struct_size 0
+VoiageAbiCapabilitiesV1.struct_version 4
+VoiageAbiCapabilitiesV1.capability_bits 8
+VoiageHandleV1 8 8
+voiage_v1_status 4 4

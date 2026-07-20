@@ -5,8 +5,9 @@ from itertools import pairwise
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import raise_input_error
+from voiage.exceptions import raise_dimension_mismatch_error, raise_input_error
 from voiage.reporting import build_cheers_reporting
 
 
@@ -58,6 +59,29 @@ class DominanceResult:
     icers: np.ndarray
     reporting: dict[str, object]
 
+    def to_dict(
+        self,
+        *,
+        analysis_id: str,
+        decision_problem_id: str,
+    ) -> dict[str, object]:
+        """Serialize this result to the stable v1 dominance payload."""
+        return _runtime.serialize_dominance_result(
+            analysis_id=analysis_id,
+            decision_problem_id=decision_problem_id,
+            strategy_names=list(self.strategy_names),
+            costs=self.costs.tolist(),
+            effects=self.effects.tolist(),
+            frontier_indices=list(self.frontier_indices),
+            strongly_dominated_indices=list(self.strongly_dominated_indices),
+            extended_dominated_indices=list(self.extended_dominated_indices),
+            status=list(self.status),
+            incremental_costs=self.incremental_costs.tolist(),
+            incremental_effects=self.incremental_effects.tolist(),
+            icers=self.icers.tolist(),
+            reporting=dict(self.reporting),
+        )
+
 
 def _validate_cost_effect_inputs(
     costs: np.ndarray | list[float],
@@ -68,17 +92,24 @@ def _validate_cost_effect_inputs(
     cost_arr = np.asarray(costs, dtype=DEFAULT_DTYPE)
     effect_arr = np.asarray(effects, dtype=DEFAULT_DTYPE)
     if cost_arr.ndim != 1 or effect_arr.ndim != 1:
-        raise_input_error("`costs` and `effects` must be 1D arrays.")
+        raise_dimension_mismatch_error("`costs` and `effects` must be 1D arrays.")
     if len(cost_arr) != len(effect_arr):
-        raise_input_error("`costs` and `effects` must have the same length.")
+        raise_dimension_mismatch_error(
+            "`costs` and `effects` must have the same length."
+        )
     if len(cost_arr) < 2:
         raise_input_error("At least two strategies are required.")
     if not np.all(np.isfinite(cost_arr)) or not np.all(np.isfinite(effect_arr)):
-        raise_input_error("`costs` and `effects` must contain only finite values.")
+        raise_input_error(
+            "`costs` and `effects` must contain only finite values.",
+            diagnostic_code="non_finite_value",
+        )
 
     final_names = strategy_names or [f"Strategy {idx}" for idx in range(len(cost_arr))]
     if len(final_names) != len(cost_arr):
-        raise_input_error("`strategy_names` length must match `costs` and `effects`.")
+        raise_dimension_mismatch_error(
+            "`strategy_names` length must match `costs` and `effects`."
+        )
     return cost_arr, effect_arr, final_names
 
 

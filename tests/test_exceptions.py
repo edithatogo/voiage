@@ -7,12 +7,17 @@ from typing import TYPE_CHECKING
 import pytest
 
 from voiage.exceptions import (
+    BackendNotAvailableError,
     CalculationError,
     DimensionMismatchError,
     InputError,
+    NumericalError,
     OptionalDependencyError,
     PlottingError,
+    SerializationError,
+    VoiageError,
     VoiageNotImplementedError,
+    raise_backend_not_available_error,
     raise_calculation_error,
     raise_dimension_mismatch_error,
     raise_import_error,
@@ -29,6 +34,17 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
+def test_frozen_v1_exception_inheritance_contract() -> None:
+    """New v1 errors preserve the established catch hierarchies."""
+    numerical = NumericalError("unstable result")
+    serialization = SerializationError("invalid payload")
+
+    assert isinstance(numerical, CalculationError)
+    assert isinstance(numerical, VoiageError)
+    assert isinstance(serialization, VoiageError)
+    assert not isinstance(serialization, CalculationError)
+
+
 @pytest.mark.parametrize(
     ("raiser", "exc_type", "message"),
     [
@@ -37,6 +53,11 @@ if TYPE_CHECKING:
         (raise_optional_dependency_error, OptionalDependencyError, "missing dep"),
         (raise_plotting_error, PlottingError, "plot failed"),
         (raise_not_implemented_error, VoiageNotImplementedError, "todo"),
+        (
+            raise_backend_not_available_error,
+            BackendNotAvailableError,
+            "backend missing",
+        ),
         (raise_import_error, ImportError, "import failed"),
         (raise_runtime_error, RuntimeError, "runtime failed"),
         (raise_type_error, TypeError, "type failed"),

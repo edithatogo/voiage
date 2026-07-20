@@ -681,3 +681,16 @@ execution until the precise external gate in their status line clears.
 *Status: superseded — superseded by Perspective Uncertainty VOI Mature Stable Path.*
 
 ---
+
+## New v1.0 programme queue
+
+This is the sole executable Conductor programme after the completed 2026-06-25
+queue. Its phases reconcile archived groundwork and preserve external registry
+and hardware gates without reopening completed repository-owned slices.
+
+## [~] Track: Mature Hardened v1.0 Architecture And Release Programme
+*Link: [./tracks/mature-hardened-v1-release-programme_20260719/index.md](./tracks/mature-hardened-v1-release-programme_20260719/index.md)*
+*Execution order: 01 of 01*
+*Status: in progress — reconcile the authoritative repository baseline, complete the Rust-core takeover, retire duplicate Python kernels, consolidate thin bindings and Astro docs, enforce release gates, publish retained artifacts, and verify the final v1.0 release.*
+
+---

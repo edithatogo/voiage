@@ -519,12 +519,6 @@ class DecisionAnalysis:
         nb_values: np.ndarray,
     ) -> tuple[np.ndarray, np.ndarray]:
         """Validate and extract inputs for EVPPI regression."""
-        if not SKLEARN_AVAILABLE:
-            raise_optional_dependency_error(
-                "scikit-learn is required for EVPPI calculation. "
-                "Please install it (e.g., `pip install scikit-learn`)."
-            )
-
         if self.parameter_samples is None:
             raise_input_error(
                 "`parameter_samples` must be provided for EVPPI calculation."
@@ -568,6 +562,11 @@ class DecisionAnalysis:
         | None,
     ) -> np.ndarray:
         """Subsample and fit the regression model for each strategy."""
+        if not SKLEARN_AVAILABLE:
+            raise_optional_dependency_error(
+                "scikit-learn is required for the Python EVPPI estimator. "
+                "Please install it (e.g., `pip install scikit-learn`)."
+            )
         n_samples, n_strategies = nb_values.shape
 
         if n_regression_samples is not None:
@@ -848,13 +847,31 @@ class DecisionAnalysis:
 
         x, nb_values = self._prepare_evppi_inputs(parameters_of_interest, nb_values)
 
-        fitted_nb_on_params = self._fit_evppi_regression(
-            x, nb_values, n_regression_samples, regression_model
-        )
+        native_result: float | None = None
+        if (
+            regression_model is None
+            and n_regression_samples is None
+            and chunk_size is None
+        ):
+            from voiage import _runtime
 
-        # Calculate E_p [max_d E[NB_d|p]]
-        # This is the mean of the maximum (over strategies) of the fitted net benefits
-        e_max_enb_conditional = np.mean(np.max(fitted_nb_on_params, axis=1))
+            try:
+                native_result = _runtime.compute_evppi(nb_values.tolist(), x.tolist())
+            except (ModuleNotFoundError, AttributeError):
+                # The optional extension is unavailable or predates EVPPI;
+                # retain the established Python estimator in that case.
+                native_result = None
+
+        if native_result is None:
+            fitted_nb_on_params = self._fit_evppi_regression(
+                x, nb_values, n_regression_samples, regression_model
+            )
+            # Calculate E_p [max_d E[NB_d|p]].
+            e_max_enb_conditional = np.mean(np.max(fitted_nb_on_params, axis=1))
+        else:
+            e_max_enb_conditional = native_result + float(
+                np.max(np.mean(nb_values, axis=0))
+            )
 
         # Calculate max_d E[NB_d] using incremental computation if chunk_size is specified
         if chunk_size is not None:

@@ -1,0 +1,26 @@
+{
+  "benchmark_name": "voiage_numerics_foundational",
+  "workloads": {
+    "evpi": {"samples": 4096, "strategies": 8},
+    "enbs": {"evsi_result": 12.5, "research_cost": 5.0},
+    "evppi": {"samples": 2048, "strategies": 4, "parameters": 2},
+    "evsi": {"samples": 2048, "strategies": 4, "trial_sample_size": 32, "resample_count": 64, "seed": 42},
+    "evsi_efficient_linear": {"samples": 512, "strategies": 4, "parameters": 2, "trial_sample_size": 32},
+    "evsi_moment_based": {"samples": 512, "strategies": 4, "parameters": 2, "trial_sample_size": 32},
+    "dominance": {"strategies": 128},
+    "ceaf": {"samples": 2048, "strategies": 4, "thresholds": 8}
+  },
+  "required_operations": ["evpi", "enbs", "evppi", "evsi", "evsi_efficient_linear", "evsi_moment_based", "dominance", "ceaf"],
+  "regression_policy": "workload-and-contract-baseline; native EVSI timing is bounded by the explicit regression budgets below",
+  "regression_budget_version": 1,
+  "regression_budgets": {
+    "metric": "elapsed_ns",
+    "scope": "native_evsi_only",
+    "enforcement": "fail_if_observed_exceeds_max",
+    "operations": {
+      "evsi": {"reference_elapsed_ns": 139958, "max_elapsed_ns": 30000000},
+      "evsi_efficient_linear": {"reference_elapsed_ns": 222708, "max_elapsed_ns": 30000000},
+      "evsi_moment_based": {"reference_elapsed_ns": 376958, "max_elapsed_ns": 60000000}
+    }
+  }
+}
