@@ -5,6 +5,7 @@
 from collections import deque
 from collections.abc import Callable, Generator, Sequence
 from typing import Any, Protocol
+import warnings
 
 import numpy as np
 
@@ -666,6 +667,22 @@ class DecisionAnalysis:
             # Use incremental computation if chunk_size is specified
             if chunk_size is not None:
                 per_decision_evpi = self._incremental_evpi(nb_values, chunk_size)
+            elif type(self.backend).__name__ == "NumpyBackend" and not self.use_jit:
+                # The stable NumPy facade now delegates its canonical kernel to
+                # Rust.  Keep the backend fallback only for environments that
+                # intentionally lack the optional native extension.
+                try:
+                    from voiage import _runtime
+
+                    per_decision_evpi = _runtime.compute_evpi(nb_values.tolist())
+                except (ModuleNotFoundError, AttributeError):
+                    warnings.warn(
+                        "Python EVPI fallback is transitional; the Rust kernel is "
+                        "the v1 execution target.",
+                        DeprecationWarning,
+                        stacklevel=2,
+                    )
+                    per_decision_evpi = self.backend.evpi(nb_values)
             # Use the selected backend for computation
             elif self.use_jit and hasattr(self.backend, "evpi_jit"):
                 # Use JIT compilation if available and requested
