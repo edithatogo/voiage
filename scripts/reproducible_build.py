@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tarfile
 import tempfile
 from typing import TypedDict, cast
@@ -191,6 +192,25 @@ def _source_date_epoch(repo: Path) -> str:
     return completed.stdout.strip()
 
 
+def _embed_sdist_provenance(repo: Path) -> None:
+    """Create the immutable identity used when rebuilding from an sdist.
+
+    A wheel built from the checkout can query Git directly, but the second
+    build performed by this script intentionally happens from the Git-less
+    source archive produced by the first build.  Generate the sdist-only
+    provenance file before either build so that both paths have the same
+    source identity.
+    """
+    script = repo / "scripts/embed_sdist_provenance.py"
+    if not script.is_file():
+        raise RuntimeError(f"missing sdist provenance helper: {script}")
+    _ = subprocess.run(  # noqa: S603 - repository-local fixed script
+        [shutil.which("python") or sys.executable, str(script)],
+        cwd=repo,
+        check=True,
+    )
+
+
 def verify_reproducible_build(
     repo: Path, *, output_dir: Path | None = None
 ) -> BuildReport:
@@ -200,28 +220,35 @@ def verify_reproducible_build(
     uv = shutil.which("uv")
     if uv is None:
         raise RuntimeError("uv executable is required")
-    with (
-        tempfile.TemporaryDirectory(prefix="voiage-build-a-") as first_temp,
-        tempfile.TemporaryDirectory(prefix="voiage-build-b-") as second_temp,
-    ):
-        first = Path(first_temp)
-        second = Path(second_temp)
-        for destination in (first, second):
-            _ = subprocess.run(  # noqa: S603
-                [uv, "build", "--out-dir", str(destination)],
-                cwd=repo,
-                env=environment,
-                check=True,
-            )
-            for sdist in destination.glob("*.tar.gz"):
-                normalize_sdist(sdist, epoch=int(source_date_epoch))
-        report = compare_build_directories(first, second)
-        if output_dir is not None and report["reproducible"]:
-            output_dir.mkdir(parents=True, exist_ok=True)
-            for artifact in first.iterdir():
-                if artifact.is_file():
-                    _ = shutil.copy2(artifact, output_dir / artifact.name)
-        return report
+    provenance = repo / "rust/crates/voiage-python/source-provenance.txt"
+    generated_provenance = not provenance.exists()
+    _embed_sdist_provenance(repo)
+    try:
+        with (
+            tempfile.TemporaryDirectory(prefix="voiage-build-a-") as first_temp,
+            tempfile.TemporaryDirectory(prefix="voiage-build-b-") as second_temp,
+        ):
+            first = Path(first_temp)
+            second = Path(second_temp)
+            for destination in (first, second):
+                _ = subprocess.run(  # noqa: S603
+                    [uv, "build", "--out-dir", str(destination)],
+                    cwd=repo,
+                    env=environment,
+                    check=True,
+                )
+                for sdist in destination.glob("*.tar.gz"):
+                    normalize_sdist(sdist, epoch=int(source_date_epoch))
+            report = compare_build_directories(first, second)
+            if output_dir is not None and report["reproducible"]:
+                output_dir.mkdir(parents=True, exist_ok=True)
+                for artifact in first.iterdir():
+                    if artifact.is_file():
+                        _ = shutil.copy2(artifact, output_dir / artifact.name)
+            return report
+    finally:
+        if generated_provenance:
+            provenance.unlink(missing_ok=True)
 
 
 def main() -> int:

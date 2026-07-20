@@ -258,14 +258,14 @@ def calculate_diagnostics(
     # Calculate basic metrics
     try:
         r2 = model.score(x, y)
-    except AttributeError, NotImplementedError:
+    except (AttributeError, NotImplementedError):
         # If score method is not implemented, calculate it manually
         y_pred = _as_numpy(model.predict(x))
         r2 = _safe_r2_score(y, y_pred)
 
     try:
         rmse = model.rmse(x, y)
-    except AttributeError, NotImplementedError:
+    except (AttributeError, NotImplementedError):
         # If rmse method is not implemented, calculate it manually
         y_pred = _as_numpy(model.predict(x))
         rmse = _safe_rmse(y, y_pred)

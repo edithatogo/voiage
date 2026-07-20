@@ -27,7 +27,7 @@ def _execute_parallel_work(
         try:
             with ProcessPoolExecutor(max_workers=n_workers) as executor:
                 return work(executor)
-        except BrokenProcessPool, OSError, RuntimeError:
+        except (BrokenProcessPool, OSError, RuntimeError):
             pass
 
     with ThreadPoolExecutor(max_workers=n_workers) as executor:
