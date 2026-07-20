@@ -131,19 +131,33 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add the centered two-parameter moment interaction-order contract fixture (738e634, 797b35f).
     - [x] Add panic-free malformed-input and stable-error proptest coverage (d31fbe2, 1af20c8).
     - [x] Add concurrent thread-safety and repeatability coverage for all native EVSI kernels (c8c96a9).
-    - [ ] Add differential, metamorphic, fuzz and mutation tests.
-    - [ ] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism.
+    - [x] Add bounded generated-input fuzz coverage for stable EVSI kernels (cc735ee).
+    - [x] Validate generated-input fuzz coverage across hosted language and platform gates (c7c8937).
+    - [x] Scope the scheduled mutation gate to the stable Python numerical facade (5babf7b).
+    - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
+    - [x] Add differential, metamorphic, fuzz and mutation tests. (validated 2026-07-20; existing evidence: `evsi_differential`, `evsi_metamorphic`, `evsi_fuzz`, `evsi_thread_safety`, and scheduled mutation gate)
+    - [x] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism. (validated 2026-07-20; existing evidence: committed baseline contract, CI regression gate, thread-safety suite, and deterministic-kernel tests)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
 
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
 - [ ] Task: Inventory and classify non-Rust Python code
-    - [ ] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions.
-    - [ ] Produce an executable allowlist for Python code permitted at v1.0.
+    - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
+    - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
+    - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).
+    - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
+    - [x] Enforce Rust authority and compatibility-only Python role for transitional kernels (b4c23b3).
 - [ ] Task: Complete the 0.x compatibility bridge using TDD
-    - [ ] Red: add failing tests for deprecation warnings and migration compatibility.
-    - [ ] Green: route stable public APIs to Rust and implement controlled shims.
-    - [ ] Refactor: simplify wrappers and publish migration documentation.
+    - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
+    - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
+    - [x] Define the Rust/PyO3 EVPI runtime contract and adapter forwarding test (fa7ad2b).
+    - [x] Route the NumPy-backed public EVPI facade through Rust with a transitional fallback (c724c84).
+    - [x] Define the Rust/PyO3 dominance execution contract and adapter forwarding test (cc1172b).
+    - [x] Route the public dominance facade through Rust with a transitional fallback (211b41f).
+    - [x] Define the Rust/PyO3 CEAF execution contract and adapter forwarding test (0055bf0).
+    - [x] Route the public CEAF facade through Rust with a transitional fallback (6e08c67).
+    - [x] Green: route stable public APIs to Rust and implement controlled shims. (3882f42; EVPI, EVPPI default, seeded/efficient-linear/moment-based EVSI, dominance, and CEAF routes verified)
+    - [x] Refactor: simplify wrappers and publish migration documentation. (3882f42; Astro Rust-core handoff and compatibility boundary)
 - [ ] Task: Remove the duplicate Python numerical core using TDD
     - [ ] Red: add tests that fail when retired kernels or fallback paths remain reachable.
     - [ ] Green: remove duplicate implementations, exports and obsolete dependencies.

@@ -12,8 +12,18 @@ const BUILD_ID_ALGORITHM: &str = "length-prefixed-sha256-v2";
 const SOURCE_STATE_ALGORITHM: &str = "git-diff-and-untracked-sha256-v1";
 const EMBEDDED_PROVENANCE_FILE: &str = "source-provenance.txt";
 
+fn digest_hex<D: AsRef<[u8]>>(digest: D) -> String {
+    let bytes = digest.as_ref();
+    let mut hex = String::with_capacity(bytes.len() * 2);
+    for &byte in bytes {
+        hex.push(char::from(b"0123456789abcdef"[(byte >> 4) as usize]));
+        hex.push(char::from(b"0123456789abcdef"[(byte & 0xf) as usize]));
+    }
+    hex
+}
+
 fn sha256_hex(bytes: &[u8]) -> String {
-    format!("{:x}", Sha256::digest(bytes))
+    digest_hex(Sha256::digest(bytes))
 }
 
 fn command_output(program: &str, args: &[&str], directory: &Path) -> Option<String> {
@@ -104,7 +114,7 @@ pub(crate) fn source_state_sha256(
     append_field(&mut hasher, SOURCE_STATE_ALGORITHM.as_bytes());
     append_field(&mut hasher, tree_oid.as_bytes());
     if !dirty {
-        return Ok(format!("{:x}", hasher.finalize()));
+        return Ok(digest_hex(hasher.finalize()));
     }
 
     let tracked_diff = command_bytes(
@@ -174,7 +184,7 @@ pub(crate) fn source_state_sha256(
         append_field(&mut hasher, relative.to_string_lossy().as_bytes());
         append_field(&mut hasher, &contents);
     }
-    Ok(format!("{:x}", hasher.finalize()))
+    Ok(digest_hex(hasher.finalize()))
 }
 
 pub(crate) fn resolve_source_identity(

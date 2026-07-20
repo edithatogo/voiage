@@ -68,6 +68,41 @@ def serialize_dominance_result(**payload: object) -> dict[str, object]:
     return dict(result)
 
 
+def compute_evpi(net_benefit: list[list[float]]) -> float:
+    """Compute the stable EVPI kernel in Rust."""
+    try:
+        result = _native().compute_evpi(net_benefit)
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
+def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
+    """Compute the stable dominance kernel in Rust."""
+    try:
+        result = _native().compute_dominance(costs, effects)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_ceaf(
+    net_benefit: list[list[list[float]]],
+    wtp_thresholds: list[float],
+    confidence_level: float,
+) -> dict[str, object]:
+    """Compute the stable CEAF kernel in Rust."""
+    try:
+        result = _native().compute_ceaf(
+            net_benefit,
+            wtp_thresholds,
+            confidence_level,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evppi(
     net_benefit: list[list[float]], parameter_samples: list[list[float]]
 ) -> float:

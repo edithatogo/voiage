@@ -580,6 +580,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Standardized all GitHub Actions checkout steps on the current pinned
+  `actions/checkout` digest across CI, security, release, binding, evidence,
+  documentation, and packaging workflows.
 - Python package versions are now derived from release tags with
   `setuptools-scm`; binding manifests continue to track the latest released
   version.
@@ -647,6 +650,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Made Rust provenance and payload digest encoding compatible with the `sha2`
+  0.11 digest representation, preserving deterministic lowercase hexadecimal
+  hashes during the dependency upgrade.
 - Prevented the TestPyPI and PyPI upload steps from attempting to create
   duplicate release attestations in the shared build directory.
 - Added a manual release-workflow trigger for safely retrying an existing tag

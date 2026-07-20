@@ -132,6 +132,16 @@ class TestDecisionAnalysisComprehensive:
         result = analysis.evpi()
         assert result == 0.0
 
+    def test_numpy_evpi_facade_routes_to_rust_runtime(self) -> None:
+        """The stable NumPy facade delegates EVPI computation to Rust."""
+        nb_data = np.array([[1.0, 3.0], [4.0, 2.0]], dtype=np.float64)
+        analysis = DecisionAnalysis(nb_array=nb_data, backend="numpy")
+
+        with patch("voiage._runtime.compute_evpi", return_value=7.5) as compute:
+            assert analysis.evpi() == 7.5
+
+        compute.assert_called_once_with([[1.0, 3.0], [4.0, 2.0]])
+
     def test_evpi_empty_array(self) -> None:
         """Test EVPI calculation with empty array (should return 0)."""
         # Create empty test data

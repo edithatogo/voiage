@@ -21,7 +21,7 @@ def test_bridge_workflow_has_minimal_permissions_and_pinned_actions() -> None:
     assert workflow["permissions"] == {}
     for job in workflow["jobs"].values():
         assert job["permissions"] == {"contents": "read"}
-    assert "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10" in text
+    assert "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0" in text
     assert "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1" in text
     assert "astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990" in text
     assert text.count('version: "0.11.29"') == 2

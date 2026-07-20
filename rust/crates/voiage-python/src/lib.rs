@@ -16,8 +16,11 @@ use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
-use voiage_domain::SampleMatrix;
-use voiage_numerics::{evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic};
+use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
+use voiage_numerics::{
+    ceaf, dominance, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
+    DominanceStatus as KernelDominanceStatus,
+};
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
 };
@@ -125,7 +128,13 @@ fn build_id_for_metadata(metadata: &BuildMetadata) -> String {
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
-    format!("{:x}", Sha256::digest(bytes))
+    let digest = Sha256::digest(bytes);
+    let mut hex = String::with_capacity(digest.len() * 2);
+    for &byte in &digest {
+        hex.push(char::from(b"0123456789abcdef"[(byte >> 4) as usize]));
+        hex.push(char::from(b"0123456789abcdef"[(byte & 0xf) as usize]));
+    }
+    hex
 }
 
 fn canonical_payload_bytes<T: serde::Serialize>(value: &T) -> serde_json::Result<Vec<u8>> {
@@ -296,6 +305,40 @@ fn matrix_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<Sample
     })
 }
 
+fn cube_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<SampleCube> {
+    let value = if values.hasattr("tolist")? {
+        values.call_method0("tolist")?
+    } else {
+        values.clone()
+    };
+    let values = value.extract::<Vec<Vec<Vec<f64>>>>().map_err(|error| {
+        InputError::new_err((
+            "invalid_input",
+            format!("{field} must be a finite rectangular numeric cube: {error}"),
+        ))
+    })?;
+    SampleCube::try_from(values).map_err(|error| {
+        InputError::new_err((
+            "invalid_input",
+            format!("{field} must be a finite rectangular numeric cube: {error}"),
+        ))
+    })
+}
+
+fn vector_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<Vec<f64>> {
+    let value = if values.hasattr("tolist")? {
+        values.call_method0("tolist")?
+    } else {
+        values.clone()
+    };
+    value.extract::<Vec<f64>>().map_err(|error| {
+        InputError::new_err((
+            "invalid_input",
+            format!("{field} must be a finite numeric vector: {error}"),
+        ))
+    })
+}
+
 fn validate_ceaf_alignment(lengths: &[usize]) -> Result<(), BoundaryError> {
     let Some((&expected, remaining)) = lengths.split_first() else {
         return Err(BoundaryError::Input(
@@ -421,6 +464,100 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
     )?;
     result.set_item("operations", operations)?;
     Ok(result)
+}
+
+/// Compute the stable EVPI kernel for Python callers.
+#[pyfunction]
+fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    evpi(&net_benefit).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })
+}
+
+/// Compute the stable dominance kernel for Python callers.
+#[pyfunction]
+fn compute_dominance<'py>(
+    py: Python<'py>,
+    costs: &Bound<'_, PyAny>,
+    effects: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let costs = vector_from_python(costs, "costs")?;
+    let effects = vector_from_python(effects, "effects")?;
+    let costs_domain = voiage_domain::SampleVector::try_from(costs).map_err(|error| {
+        InputError::new_err(("invalid_input", format!("invalid costs vector: {error}")))
+    })?;
+    let effects_domain = voiage_domain::SampleVector::try_from(effects).map_err(|error| {
+        InputError::new_err(("invalid_input", format!("invalid effects vector: {error}")))
+    })?;
+    let result =
+        dominance(&costs_domain, &effects_domain).map_err(|error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })?;
+    let status = result
+        .status
+        .into_iter()
+        .map(|value| match value {
+            KernelDominanceStatus::Frontier => "frontier",
+            KernelDominanceStatus::StronglyDominated => "strongly_dominated",
+            KernelDominanceStatus::ExtendedDominated => "extended_dominated",
+        })
+        .collect::<Vec<_>>();
+    let output = PyDict::new(py);
+    output.set_item("frontier_indices", result.frontier_indices)?;
+    output.set_item(
+        "strongly_dominated_indices",
+        result.strongly_dominated_indices,
+    )?;
+    output.set_item(
+        "extended_dominated_indices",
+        result.extended_dominated_indices,
+    )?;
+    output.set_item("status", status)?;
+    output.set_item("incremental_costs", result.incremental_costs)?;
+    output.set_item("incremental_effects", result.incremental_effects)?;
+    output.set_item("icers", result.icers)?;
+    Ok(output)
+}
+
+/// Compute the stable CEAF kernel for Python callers.
+#[pyfunction]
+fn compute_ceaf<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+    wtp_thresholds: &Bound<'_, PyAny>,
+    confidence_level: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let net_benefit = cube_from_python(net_benefit, "net_benefit")?;
+    let wtp_thresholds =
+        SampleVector::try_from(vector_from_python(wtp_thresholds, "wtp_thresholds")?)
+            .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let result =
+        ceaf(&net_benefit, &wtp_thresholds, confidence_level).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("wtp_thresholds", result.wtp_thresholds)?;
+    output.set_item("optimal_strategy_indices", result.optimal_strategy_indices)?;
+    output.set_item(
+        "acceptability_probabilities",
+        result.acceptability_probabilities,
+    )?;
+    output.set_item("probability_lower", result.probability_lower)?;
+    output.set_item("probability_upper", result.probability_upper)?;
+    output.set_item("expected_net_benefit", result.expected_net_benefit)?;
+    Ok(output)
 }
 
 /// Compute the stable regression-based EVPPI kernel for Python callers.
@@ -718,6 +855,9 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
         module.py().get_type::<SerializationError>(),
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
@@ -1032,6 +1172,79 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 0.05).abs() <= 1.0e-10);
+        });
+    }
+
+    #[test]
+    fn compute_evpi_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evpi, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_evpi").unwrap();
+            let result = function
+                .call1((vec![vec![0.0_f64, 2.0], vec![1.0, 0.0]],))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 0.5).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_dominance_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_dominance, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_dominance").unwrap();
+            let result = function
+                .call1((vec![1.0_f64, 2.0, 4.0], vec![1.0_f64, 2.0, 3.0]))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let frontier = result
+                .get_item("frontier_indices")
+                .unwrap()
+                .unwrap()
+                .extract::<Vec<usize>>()
+                .unwrap();
+            assert_eq!(frontier, vec![0, 1, 2]);
+        });
+    }
+
+    #[test]
+    fn compute_ceaf_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_ceaf, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_ceaf").unwrap();
+            let result = function
+                .call1((
+                    vec![
+                        vec![vec![1.0_f64, 2.0], vec![2.0, 1.0]],
+                        vec![vec![2.0, 1.0], vec![1.0, 3.0]],
+                    ],
+                    vec![0.0_f64, 1.0],
+                    0.95_f64,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let indices = result
+                .get_item("optimal_strategy_indices")
+                .unwrap()
+                .unwrap()
+                .extract::<Vec<usize>>()
+                .unwrap();
+            assert_eq!(indices, vec![0, 1]);
         });
     }
 

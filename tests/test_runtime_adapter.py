@@ -147,6 +147,74 @@ def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
     }
 
 
+def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(net_benefit: list[list[float]]) -> float:
+        captured["net_benefit"] = net_benefit
+        return 0.5
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_evpi=compute),
+    )
+
+    assert _runtime.compute_evpi([[0.0, 2.0], [1.0, 0.0]]) == 0.5
+    assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
+
+
+def test_compute_dominance_forwards_vectors_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(costs: list[float], effects: list[float]) -> dict[str, object]:
+        captured.update(costs=costs, effects=effects)
+        return {"frontier_indices": [0, 1]}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_dominance=compute),
+    )
+
+    assert _runtime.compute_dominance([1.0, 2.0], [1.0, 2.0]) == {
+        "frontier_indices": [0, 1]
+    }
+    assert captured == {"costs": [1.0, 2.0], "effects": [1.0, 2.0]}
+
+
+def test_compute_ceaf_forwards_cube_arguments_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(
+        net_benefit: list[list[list[float]]],
+        thresholds: list[float],
+        confidence: float,
+    ) -> dict[str, object]:
+        captured.update(
+            net_benefit=net_benefit,
+            thresholds=thresholds,
+            confidence=confidence,
+        )
+        return {"optimal_strategy_indices": [0, 1]}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_ceaf=compute),
+    )
+    cube = [[[1.0, 2.0], [2.0, 1.0]], [[2.0, 1.0], [1.0, 3.0]]]
+
+    assert _runtime.compute_ceaf(cube, [0.0, 1.0], 0.95) == {
+        "optimal_strategy_indices": [0, 1]
+    }
+    assert captured == {
+        "net_benefit": cube,
+        "thresholds": [0.0, 1.0],
+        "confidence": 0.95,
+    }
+
+
 def test_compute_evsi_forwards_seeded_kernel_arguments(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
