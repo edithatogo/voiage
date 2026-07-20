@@ -8,7 +8,7 @@ from collections.abc import Sequence  # noqa: TC003 - public dispatcher signatur
 from importlib.metadata import PackageNotFoundError, version
 import logging
 import platform
-from typing import Literal, Protocol, TypeVar
+from typing import Any, Literal, Protocol, TypeVar
 from uuid import uuid4
 
 import numpy as np
@@ -102,7 +102,7 @@ class EvpiKernel:
     def calculate(
         self,
         spec: AnalysisSpec,
-        inputs: np.ndarray,
+        inputs: np.ndarray[Any, Any],
         *,
         backend: CapabilityBackend,
         policy: NumericalPolicy,
@@ -121,9 +121,9 @@ def _package_version() -> str:
 
 
 def dispatch_calculation(
-    kernel: CalculationKernel[AnalysisSpec, np.ndarray, PayloadT],
+    kernel: CalculationKernel[AnalysisSpec, np.ndarray[Any, Any], PayloadT],
     spec: AnalysisSpec,
-    inputs: np.ndarray,
+    inputs: np.ndarray[Any, Any],
     *,
     policy: NumericalPolicy,
     backends: Sequence[CapabilityBackend],
