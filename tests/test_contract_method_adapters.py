@@ -178,6 +178,8 @@ def test_value_array_adapter_rejects_conflicts_and_unsupported_rank() -> None:
         adapt_value_array(np.ones((2, 2)), perspective_names=("payer",))
     with pytest.raises(ValueError, match="2D or 3D"):
         adapt_value_array(np.ones(2))
+    two_dimensional = adapt_value_array(np.ones((2, 2)))
+    assert two_dimensional.perspective_names is None
 
 
 @pytest.mark.parametrize(

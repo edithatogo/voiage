@@ -216,6 +216,26 @@ def test_analysis_result_adapts_to_shared_logging_contract() -> None:
     )
     assert analysis_log_context_from_result(warned).fallback_code == "none"
 
+    fallback_warning = DiagnosticRecord(
+        severity="warning",
+        code="backend_fallback",
+        message="fell back",
+        backend="numpy",
+    )
+    fallback_result = result.model_copy(
+        update={
+            "run_context": result.run_context.model_copy(
+                update={"requested_backend": "jax"}
+            ),
+            "diagnostics": result.diagnostics.model_copy(
+                update={"warnings": (fallback_warning,)}
+            ),
+        }
+    )
+    assert analysis_log_context_from_result(fallback_result).fallback_code == (
+        "backend_fallback"
+    )
+
 
 def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     destination = tmp_path / "analysis-boundary.jsonl"

@@ -949,3 +949,136 @@ def test_arrow_logical_field_guards_are_fail_closed() -> None:
                 }
             ],
         )
+
+
+def test_runtime_protocol_default_methods_are_behaviorally_exercised() -> None:
+    class SchemaDefault(bundle_module._ArrowSchema):
+        metadata = None
+
+        def __iter__(self):
+            return iter(())
+
+    class ReaderContextDefault(bundle_module._ArrowReaderContext):
+        def __enter__(self):
+            return None
+
+    assert SchemaDefault().__len__() is None
+    assert ReaderContextDefault().__exit__(None, None, None) is None
+
+
+def test_manifest_bundle_version_runtime_guard_is_fail_closed(
+    bundle: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    original = bundle_module._semver
+
+    def tolerate_only_bundle_version(value: object, label: str) -> tuple[int, int, int]:
+        if label == "bundle_version":
+            return (1, 0, 0)
+        return original(value, label)
+
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["bundle_version"] = 1
+    manifest_path.write_bytes(_canonical_json(manifest))
+    monkeypatch.setattr(bundle_module, "_semver", tolerate_only_bundle_version)
+    with pytest.raises(BundleVerificationError, match="must be a string"):
+        verify_contract_bundle(bundle)
+
+
+def test_inventory_guards_reject_symlinks_and_same_size_digest_changes(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "inventory"
+    root.mkdir()
+    target = root / "value.bin"
+    target.write_bytes(b"good")
+    entry = {
+        "path": "value.bin",
+        "size": 4,
+        "sha256": sha256(b"good").hexdigest(),
+        "media_type": "application/octet-stream",
+    }
+    target.write_bytes(b"evil")
+    with pytest.raises(BundleVerificationError, match="SHA-256 mismatch"):
+        bundle_module._verify_inventory(root, [entry])
+
+    target.unlink()
+    external = tmp_path / "external.bin"
+    external.write_bytes(b"good")
+    try:
+        target.symlink_to(external)
+    except OSError:
+        pytest.skip("symbolic links are unavailable on this Windows host")
+    with pytest.raises(BundleVerificationError, match="unsafe bundled file"):
+        bundle_module._verify_inventory(root, [entry])
+
+
+@pytest.mark.parametrize(
+    ("failure", "message"),
+    [
+        ("parquet-schema", "schema identities differ"),
+        ("required-metadata-type", "required_metadata must be an array"),
+        ("missing-metadata", "required metadata mismatch"),
+        ("producer", "producer provenance mismatch"),
+        ("embedded-fingerprint", "embedded fingerprint mismatch"),
+        ("provenance-digest", "provenance digest mismatch"),
+        ("empty-provenance", "unsupported or non-canonical"),
+        ("invalid-provenance", "unsupported or non-canonical"),
+        ("noncanonical-provenance", "unsupported or non-canonical"),
+        ("record-divergence", "fixture records differ"),
+    ],
+)
+def test_verified_bundle_rejects_each_columnar_identity_divergence(
+    bundle: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failure: str,
+    message: str,
+) -> None:
+    arrow_path = bundle / "fixtures" / "typed-pipeline-records.arrow"
+    with ipc.open_file(arrow_path) as reader:
+        arrow_table = reader.read_all()
+    parquet_table = pq.read_table(
+        bundle / "fixtures" / "typed-pipeline-records.parquet"
+    )
+
+    if failure == "required-metadata-type":
+        _rewrite_manifested_json(
+            bundle,
+            "arrow/typed-pipeline-records.schema.json",
+            lambda identity: identity.update(required_metadata="invalid"),
+        )
+    elif failure == "parquet-schema":
+        parquet_table = parquet_table.append_column("extra", pa.array([1, 2]))
+    elif failure == "record-divergence":
+        parquet_table = pa.Table.from_pylist(
+            [{"analysis_id": "other", "value": 1.25}, RECORDS[1]],
+            schema=parquet_table.schema,
+        )
+    else:
+        metadata = dict(arrow_table.schema.metadata or {})
+        if failure == "missing-metadata":
+            metadata.pop(b"vop_voiage.producer")
+        elif failure == "producer":
+            metadata[b"vop_voiage.producer"] = b"other"
+        elif failure == "embedded-fingerprint":
+            metadata[b"vop_voiage.schema_fingerprint"] = b"0" * 64
+        elif failure == "provenance-digest":
+            metadata[b"vop_voiage.provenance_sha256"] = b"0" * 64
+        else:
+            provenance = {
+                "empty-provenance": "[]",
+                "invalid-provenance": '[{"metadata_status":"unknown","source_id":"x"}]',
+                "noncanonical-provenance": '[ {"metadata_status":"known","source_id":"x"} ]',
+            }[failure]
+            metadata[b"vop_voiage.provenance_json"] = provenance.encode()
+            metadata[b"vop_voiage.provenance_sha256"] = (
+                sha256(provenance.encode()).hexdigest().encode()
+            )
+        arrow_table = arrow_table.replace_schema_metadata(metadata)
+
+    monkeypatch.setattr(bundle_module, "_load_arrow_table", lambda _path: arrow_table)
+    monkeypatch.setattr(
+        bundle_module, "_read_parquet_table", lambda _path: parquet_table
+    )
+    with pytest.raises(BundleVerificationError, match=message):
+        verify_contract_bundle(bundle)
