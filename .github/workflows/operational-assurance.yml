@@ -69,6 +69,9 @@ jobs:
         elif git merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"; then
           base="${C15_PROVENANCE_FLOOR}"
           reason="provenance floor is newer than event merge-base"
+        elif git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD; then
+          base="${merge_base}"
+          reason="provenance floor is head-only; event merge-base preserves full PR delta"
         else
           echo "comparison histories diverge: candidate=${candidate} merge_base=${merge_base} floor=${C15_PROVENANCE_FLOOR}" >&2
           exit 1

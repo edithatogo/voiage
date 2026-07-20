@@ -110,6 +110,7 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
         'merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"' in workflow
     )
     assert 'base="${merge_base}"' in workflow
+    assert "provenance floor is head-only" in workflow
     assert "comparison histories diverge" in workflow
     assert "include-hidden-files: true" in workflow
     assert "ref: ${{ github.event.pull_request.head.sha || github.sha }}" in workflow

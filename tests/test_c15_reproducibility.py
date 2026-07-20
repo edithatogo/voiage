@@ -197,8 +197,34 @@ def test_comparison_checks_inventory_after_digest(tmp_path: Path) -> None:
     _wheel(wheel, "\n")
     left = normalized_archive_report(wheel, runner="left")
     right = {**left, "runner": "right", "entries": []}
-    with pytest.raises(ArtifactMismatchError, match="inventories"):
+    with pytest.raises(ArtifactMismatchError, match="inconsistent"):
         compare_digest_reports(left, right)
+
+
+def test_cross_platform_wheels_compare_portable_content_and_retain_native_evidence(
+    tmp_path: Path,
+) -> None:
+    reports: list[dict[str, object]] = []
+    for runner, native_name, native, tag in (
+        ("linux", "voiage/_core.abi3.so", b"ELF", "cp312-abi3-linux_x86_64"),
+        ("windows", "voiage/_core.pyd", b"PE", "cp312-abi3-win_amd64"),
+    ):
+        wheel = tmp_path / f"{runner}.whl"
+        contents = {
+            "voiage/module.py": b"VALUE = 1\n",
+            native_name: native,
+            "voiage-1.dist-info/WHEEL": f"Wheel-Version: 1.0\nTag: {tag}\n".encode(),
+        }
+        record_name = "voiage-1.dist-info/RECORD"
+        with zipfile.ZipFile(wheel, "w") as archive:
+            for name, content in contents.items():
+                archive.writestr(name, content)
+            archive.writestr(record_name, _record(contents, record_name))
+        reports.append(normalized_archive_report(wheel, runner=runner))
+
+    assert reports[0]["normalized_sha256"] != reports[1]["normalized_sha256"]
+    assert reports[0]["portable_sha256"] == reports[1]["portable_sha256"]
+    assert compare_digest_reports(reports[0], reports[1])["matched"] is True
 
 
 def test_source_archives_normalize_declared_text_and_scm_paths(tmp_path: Path) -> None:

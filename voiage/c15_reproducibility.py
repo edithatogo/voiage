@@ -76,9 +76,7 @@ _TEXT_FILENAMES = frozenset(
         "snakefile",
     }
 )
-NORMALIZATION = (
-    "sorted-paths+declared-utf8-text-lf+scm-paths+content-sha256+record-semantics-v2"
-)
+NORMALIZATION = "sorted-paths+declared-utf8-text-lf+scm-paths+content-sha256+record-semantics+portable-v3"
 
 
 class ArtifactMismatchError(ValueError):
@@ -238,18 +236,41 @@ def _entries(path: Path) -> list[ArchiveEntry]:
     return sorted(normalized, key=lambda item: item["path"])
 
 
+def _portable_entries(entries: list[ArchiveEntry]) -> list[ArchiveEntry]:
+    """Return content that can be identical across native wheel platforms."""
+    portable: list[ArchiveEntry] = []
+    native = 0
+    for entry in entries:
+        path = entry["path"]
+        if path.endswith((".dist-info/WHEEL", ".dist-info/RECORD")):
+            continue
+        if path.startswith("voiage/_core.") and path.endswith((".so", ".pyd")):
+            native += 1
+            continue
+        portable.append(entry)
+    if native > 1:
+        raise ValueError("wheel inventory contains multiple native core extensions")
+    return portable
+
+
+def _entries_digest(entries: list[ArchiveEntry]) -> str:
+    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":"))
+    return sha256(canonical.encode()).hexdigest()
+
+
 def normalized_archive_report(path: Path, *, runner: str) -> dict[str, object]:
     """Return metadata-independent content identity for a wheel, zip, or tar archive."""
     if not runner.strip():
         raise ValueError("runner identity must not be empty")
     entries = _entries(path)
-    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":"))
+    portable_entries = _portable_entries(entries)
     return {
         "schema_version": "1.0.0",
         "artifact_name": path.name,
         "runner": runner,
         "normalization": NORMALIZATION,
-        "normalized_sha256": sha256(canonical.encode()).hexdigest(),
+        "normalized_sha256": _entries_digest(entries),
+        "portable_sha256": _entries_digest(portable_entries),
         "entries": entries,
     }
 
@@ -264,20 +285,31 @@ def compare_digest_reports(
         if report.get("normalization") != NORMALIZATION:
             raise ArtifactMismatchError(f"{label} normalization policy is unsupported")
         digest = report.get("normalized_sha256")
+        portable_digest = report.get("portable_sha256")
         if not isinstance(digest, str) or len(digest) != 64:
             raise ArtifactMismatchError(f"{label} normalized digest is invalid")
-        if not isinstance(report.get("entries"), list):
+        if not isinstance(portable_digest, str) or len(portable_digest) != 64:
+            raise ArtifactMismatchError(f"{label} portable digest is invalid")
+        raw_entries = report.get("entries")
+        if not isinstance(raw_entries, list):
             raise ArtifactMismatchError(f"{label} archive inventory is invalid")
+        entries = cast("list[ArchiveEntry]", raw_entries)
+        if _entries_digest(entries) != digest:
+            raise ArtifactMismatchError(f"{label} normalized digest is inconsistent")
+        if _entries_digest(_portable_entries(entries)) != portable_digest:
+            raise ArtifactMismatchError(f"{label} portable digest is inconsistent")
     if left.get("runner") == right.get("runner"):
         raise ArtifactMismatchError("independent runner identities must differ")
-    if left["normalized_sha256"] != right["normalized_sha256"]:
-        raise ArtifactMismatchError("normalized artifact digests differ")
-    if left["entries"] != right["entries"]:
-        raise ArtifactMismatchError("normalized archive inventories differ")
+    if left["portable_sha256"] != right["portable_sha256"]:
+        raise ArtifactMismatchError("portable artifact digests differ")
+    left_portable = _portable_entries(cast("list[ArchiveEntry]", left["entries"]))
+    right_portable = _portable_entries(cast("list[ArchiveEntry]", right["entries"]))
+    if left_portable != right_portable:
+        raise ArtifactMismatchError("portable archive inventories differ")
     return {
         "schema_version": "1.0.0",
         "matched": True,
-        "normalized_sha256": left["normalized_sha256"],
+        "normalized_sha256": left["portable_sha256"],
         "runners": [left.get("runner"), right.get("runner")],
     }
 
