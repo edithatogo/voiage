@@ -9,7 +9,7 @@ from datetime import datetime  # noqa: TC003 - Pydantic resolves runtime annotat
 import hashlib
 import json
 from types import MappingProxyType
-from typing import Annotated, ClassVar, Literal, Self, cast
+from typing import Annotated, ClassVar, Generic, Literal, Self, TypeVar, cast
 
 from pydantic import (
     BaseModel,
@@ -24,6 +24,7 @@ from pydantic import (
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 ParameterDType = Literal["float32", "float64", "int64", "bool", "string"]
+PayloadT = TypeVar("PayloadT", bound="ContractModel")
 
 
 class _FrozenMapping(Mapping[str, JsonValue]):
@@ -273,7 +274,7 @@ class InterchangeIdentity(ContractModel):
     arrow_schema_version: Literal["1.0.0"] = "1.0.0"
 
 
-class AnalysisResult[PayloadT: ContractModel](ContractModel):
+class AnalysisResult(ContractModel, Generic[PayloadT]):
     """Generic, JSON-safe result envelope for calculation kernels."""
 
     schema_version: Literal["2.0.0"] = "2.0.0"

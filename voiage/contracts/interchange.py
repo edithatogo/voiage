@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeVar
 
 import pyarrow as pa
 from pyarrow import ipc
@@ -16,6 +16,8 @@ from voiage.contracts.analysis import AnalysisResult, ContractModel
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+PayloadT = TypeVar("PayloadT", bound=ContractModel)
 
 
 def schema_fingerprint(schema: pa.Schema) -> str:
@@ -35,7 +37,7 @@ def _with_interchange_marker(table: pa.Table, marker: bytes) -> pa.Table:
     )
 
 
-def analysis_result_table[PayloadT: ContractModel](
+def analysis_result_table(
     result: AnalysisResult[PayloadT],
 ) -> pa.Table:
     """Return a one-row Arrow table with stable contract metadata."""
@@ -76,9 +78,7 @@ def analysis_result_table[PayloadT: ContractModel](
     )
 
 
-def write_analysis_result_ipc[PayloadT: ContractModel](
-    result: AnalysisResult[PayloadT], path: Path
-) -> None:
+def write_analysis_result_ipc(result: AnalysisResult[PayloadT], path: Path) -> None:
     """Write a deterministic Arrow IPC file for one result envelope."""
     path.parent.mkdir(parents=True, exist_ok=True)
     table = _with_interchange_marker(analysis_result_table(result), b"apache-arrow-ipc")
@@ -86,9 +86,7 @@ def write_analysis_result_ipc[PayloadT: ContractModel](
         writer.write_table(table)
 
 
-def write_analysis_result_parquet[PayloadT: ContractModel](
-    result: AnalysisResult[PayloadT], path: Path
-) -> None:
+def write_analysis_result_parquet(result: AnalysisResult[PayloadT], path: Path) -> None:
     """Write a Zstandard-compressed Parquet file for one result envelope."""
     path.parent.mkdir(parents=True, exist_ok=True)
     table = _with_interchange_marker(

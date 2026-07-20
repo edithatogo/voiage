@@ -64,7 +64,9 @@ def test_private_assurance_dependencies_do_not_pollute_source_scan(
     """Private retained environments are outside the tracked-source contract."""
     fixture = tmp_path / ".assurance" / "vendor" / "merge-conflict.json"
     fixture.parent.mkdir(parents=True)
-    fixture.write_text("<<<<<<< third-party fixture\n>>>>>>> fixture\n", encoding="utf-8")
+    fixture.write_text(
+        "<<<<<<< third-party fixture\n>>>>>>> fixture\n", encoding="utf-8"
+    )
 
     assert check_conflict_markers(tmp_path) == []
 

@@ -139,7 +139,7 @@ def test_universe_parser_rejects_duplicates_and_unknown_status() -> None:
     for payload in (duplicate, unknown):
         try:
             mutation_universe(payload)
-        except ValueError:
+        except ValueError:  # noqa: PERF203 - malformed inputs are table-driven
             pass
         else:
             raise AssertionError("invalid mutation universe was accepted")
