@@ -164,7 +164,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Refactor: reduce retained Python to a fully typed facade and rerun the suite.
 - [ ] Task: Validate the minimal Python distribution
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
-    - [ ] Enforce at least 90 percent coverage for retained production Python.
+    - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
 
 ## Phase 7: Cross-Language Binding Consolidation
