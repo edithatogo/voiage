@@ -164,7 +164,7 @@ jobs:
           WHEEL_PLATFORM: ${{ matrix.platform }}
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); assert 'cp310-abi3' in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{os.environ[\"WHEEL_PLATFORM\"]}: {platform=} {expected=}'"
+          python -c "import os; from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{os.environ[\"WHEEL_PLATFORM\"]}: {platform=} {expected=}'"
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); assert any(name.startswith('voiage/_core.') for name in ZipFile(wheel).namelist())"
       - name: Install wheel into clean environment
         run: |
@@ -250,7 +250,7 @@ jobs:
           rust-toolchain: "1.85"
           working-directory: .sdist-source
       - name: Verify sdist-derived wheel tag
-        run: python -c "from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert 'cp310-abi3' in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
+        run: python -c "import os; from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
       - name: Install and smoke sdist-derived wheel
         env:
           WHEEL_VENV: ${{ github.workspace }}/.sdist-wheel-venv
@@ -310,7 +310,7 @@ jobs:
         run: |
           release_version="${RELEASE_TAG#v}"
           export RELEASE_VERSION="$release_version"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-cp310-abi3-' in w.name for w in wheels)"
+          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
           python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
       - name: Attest release artifacts
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373

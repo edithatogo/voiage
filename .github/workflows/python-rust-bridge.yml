@@ -81,7 +81,7 @@ jobs:
         run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
       - name: Record reproducible source epoch
         run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
-      - name: Build cp310-abi3 wheel
+      - name: Build cp312-abi3 wheel
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
           args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
@@ -92,7 +92,7 @@ jobs:
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         run: |
-          python -c "from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert 'cp310-abi3' in wheels[0].name, wheels[0]"
+          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert os.environ['VOIAGE_PYTHON_ABI'] in wheels[0].name, wheels[0]"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Create clean locked test environment
@@ -183,7 +183,7 @@ jobs:
         env:
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert 'cp310-abi3' in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
+          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Install actual wheel into clean environment
