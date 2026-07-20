@@ -73,6 +73,7 @@ coverage.json
 .hypothesis/
 .pytest_cache/
 .ruff_cache/
+.mutmut-cache/
 
 # Translations
 *.mo
