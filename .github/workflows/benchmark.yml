@@ -125,7 +125,7 @@ jobs:
         CI: true
 
     - name: Upload benchmark results
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: benchmark-results
         path: benchmark_results.json
@@ -207,7 +207,7 @@ jobs:
           PY
 
       - name: Upload Rust scalar profiling artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: rust-scalar-cpu-baseline
           path: bindings/rust/target/profiling/rust_scalar_cpu_baseline.json
@@ -277,7 +277,7 @@ jobs:
           PY
 
       - name: Upload Rust EVSI profiling artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: rust-evsi-stochastic-baseline
           path: bindings/rust/target/profiling/rust_evsi_stochastic_baseline.json
