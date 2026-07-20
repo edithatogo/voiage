@@ -1,7 +1,7 @@
 """Tests for the v1 Python runtime inventory contract."""
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 from scripts.validate_python_runtime_inventory import validate
 
