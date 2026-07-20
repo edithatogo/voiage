@@ -1,20 +1,19 @@
 Versioning and Release Policy
 =============================
 
-``voiage`` uses semantic versioning and tag-driven releases. Python package
-metadata is derived from release tags with ``setuptools-scm``, while the
-polyglot manifests remain explicit and synchronized to the latest released
-version.
+``voiage`` uses semantic versioning and tag-driven releases. The Cargo
+workspace version is authoritative, Maturin exposes it as dynamic Python
+package metadata, and release tags are validated fail-closed against it. The
+polyglot manifests remain explicit and synchronized to the same version.
 
 Canonical version source
 ------------------------
 
-The Python package declares a dynamic version in ``pyproject.toml`` and
-``setuptools-scm`` derives it from the nearest ``v*`` tag. A checkout at a
-release tag builds the exact release version; an untagged development checkout
-builds an identifiable development version. The version-sync validator
-resolves the latest reachable release tag and compares the external binding
-manifests to that released version.
+The Python package declares a dynamic version in ``pyproject.toml``. Maturin
+reads the authoritative Cargo workspace version when building package
+metadata. The version-sync validator compares external binding manifests to
+that version, and release validation rejects a ``v*`` tag that does not match
+it exactly.
 
 Binding manifests are expected to match the canonical version exactly:
 
@@ -61,8 +60,8 @@ Release flow
 
 When preparing a release:
 
-1. Update the binding manifests to the next release version.
-2. Run the version-sync validator against the current release tag.
+1. Update the Cargo workspace version and synchronized binding manifests.
+2. Run the version-sync validator and fail-closed release-tag validation.
 3. Cut the matching ``v<version>`` tag.
 4. Let the tag-specific release workflows build and publish the Python package.
 

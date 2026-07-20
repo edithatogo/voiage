@@ -104,7 +104,7 @@ def test_weakened_coverage_policy_is_rejected(tmp_path: Path) -> None:
     policy.write_text(
         '{"schema_version":"1.0.0","aggregate_percent":90.0,'
         '"critical_modules":{},"changed_line_percent":0.0,'
-        '"changed_branch_percent":90.0}',
+        '"changed_branch_percent":100.0}',
         encoding="utf-8",
     )
     findings = check_operational_assurance(tmp_path)

@@ -23,5 +23,5 @@ and Linux while retaining byte-exact binary verification.
 
 CI verifies PyArrow-to-Polars round trips, fresh-process reads, the current and
 previous fixture version, and relative serialization performance against JSON
-Lines. Python 3.14 is the supported runtime. Python 3.14t is observed in a
+Lines. Python 3.12–3.14 is the supported runtime range. Python 3.14t is observed in a
 non-blocking job while its ecosystem support remains beta.

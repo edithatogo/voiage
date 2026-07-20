@@ -9,7 +9,7 @@ flowchart LR
     Polars[Polars consumer]
     Fixtures[Golden fixtures and manifest]
     Harness[Repository and benchmark harness]
-    CI[Python 3.14 CI and security gates]
+    CI[Python 3.12–3.14 CI and security gates]
     External[External maturity and publication gates]
 
     VOP --> Mirror
@@ -45,8 +45,11 @@ fixtures, and CI evidence remain authoritative for technical completion.
 
 ```mermaid
 flowchart TD
-    Tag[Git release tag] --> SCM[setuptools-scm]
-    SCM --> Package[Dynamic package version]
+    Cargo[Cargo workspace version] --> Maturin[Maturin dynamic metadata]
+    Tag[Git release tag] --> Validate[Fail-closed tag validation]
+    Cargo --> Validate
+    Maturin --> Package[Dynamic package version]
+    Validate --> Package
     Settings[Pydantic v2 LoggingSettings] --> Logs[Human or JSONL logs]
     Run[Run and command context] --> Logs
     Pixi[Pixi tasks] --> UV[uv lock and execution]

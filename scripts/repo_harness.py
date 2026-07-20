@@ -92,7 +92,7 @@ OPERATIONAL_ASSURANCE_MARKERS = {
     ),
     ".github/coverage-policy.json": (
         '"aggregate_percent": 90.0',
-        '"changed_branch_percent": 90.0',
+        '"changed_branch_percent": 100.0',
     ),
 }
 EXPECTED_COVERAGE_POLICY = {
@@ -104,7 +104,7 @@ EXPECTED_COVERAGE_POLICY = {
         "voiage/mutation_policy.py": 95.0,
     },
     "changed_line_percent": 95.0,
-    "changed_branch_percent": 90.0,
+    "changed_branch_percent": 100.0,
 }
 
 

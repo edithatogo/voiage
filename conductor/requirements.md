@@ -14,11 +14,12 @@ programme. The canonical cross-repository requirements are maintained in
   fixtures, and PyArrow/Polars round trips validate in hosted CI.
 - Every archived Conductor track remains discoverable in `conductor/tracks.md`
   and is represented in the cross-repository GitHub historical ledger.
-- Python 3.14, current compatible dependencies, security checks, coverage,
+- Python 3.12–3.14, current compatible dependencies, security checks, coverage,
   repository harnesses, and benchmark regression gates remain green.
 - External maturity, data, hardware, registry, and publication gates remain
   explicit even when repository implementation is complete.
-- Git-tag-derived dynamic versions, Pydantic v2 logging settings, structured
+- Cargo-authoritative dynamic versions with fail-closed release-tag validation,
+  Pydantic v2 logging settings, structured
   run context, and uv/Pixi parity are enforced as production contracts.
 - Ruff, `ty`, BasedPyright, package builds, unit/property/integration/E2E tests,
   security checks, and benchmark regression remain visible fast gates.

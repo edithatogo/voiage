@@ -3,7 +3,7 @@
 ## Pre-Release Preparation
 
 ### 1. Code Quality and Testing
-- [ ] Run all tests: `tox -e py311` (or current Python version)
+- [ ] Run the supported Python matrix: `tox -e py312,py313,py314`
 - [ ] Run linting checks: `tox -e lint`
 - [ ] Run type checking: `tox -e typecheck`
 - [ ] Run security scanning: `tox -e security`
@@ -12,9 +12,9 @@
 - [ ] Verify documentation builds: `tox -e docs`
 
 ### 2. Version Updates
-- [ ] Update version in `pyproject.toml`
-- [ ] Update version in `voiage/__init__.py`
-- [ ] Update version in `docs/conf.py`
+- [ ] Update the authoritative Cargo workspace version and synchronized binding manifests
+- [ ] Verify Maturin resolves the dynamic Python package version from the Cargo workspace
+- [ ] Verify the release tag exactly matches the authoritative version
 - [ ] Update changelog in `CHANGELOG.md`
 - [ ] Update release date in documentation
 
