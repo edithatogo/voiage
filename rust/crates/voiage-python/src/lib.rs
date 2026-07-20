@@ -125,7 +125,13 @@ fn build_id_for_metadata(metadata: &BuildMetadata) -> String {
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
-    format!("{:x}", Sha256::digest(bytes))
+    let digest = Sha256::digest(bytes);
+    let mut hex = String::with_capacity(digest.len() * 2);
+    for &byte in &digest {
+        hex.push(char::from(b"0123456789abcdef"[(byte >> 4) as usize]));
+        hex.push(char::from(b"0123456789abcdef"[(byte & 0xf) as usize]));
+    }
+    hex
 }
 
 fn canonical_payload_bytes<T: serde::Serialize>(value: &T) -> serde_json::Result<Vec<u8>> {
