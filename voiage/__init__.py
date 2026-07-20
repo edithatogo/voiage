@@ -202,7 +202,7 @@ def __getattr__(name: str) -> object:
     return module
 
 
-__all__ = [
+__all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
@@ -230,6 +230,8 @@ __all__ = [
     "ParameterSet",
     "Perspective",
     "PerspectiveSet",
+    "perspective_arrow_schema_fingerprint",
+    "perspective_result_to_arrow",
     "PortfolioSpec",
     "PortfolioStudy",
     "PreferenceHeterogeneityResult",
@@ -266,8 +268,6 @@ __all__ = [
     "load_heoml_run_bundle",
     "methods",
     "multi_domain",
-    "perspective_arrow_schema_fingerprint",
-    "perspective_result_to_arrow",
     "plot",
     "preference_optimal_strategies",
     "schema",
@@ -291,6 +291,8 @@ __all__ = [
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",
+    "write_perspective_result_ipc",
+    "write_perspective_result_parquet",
     "value_of_preference",
     "value_of_preference_heterogeneity",
     "value_of_preference_information",
@@ -300,6 +302,4 @@ __all__ = [
     "value_of_threshold",
     "value_of_threshold_information",
     "value_of_validation",
-    "write_perspective_result_ipc",
-    "write_perspective_result_parquet",
 ]
