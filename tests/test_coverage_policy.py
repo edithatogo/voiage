@@ -102,7 +102,7 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
     )
     assert "pytest tests/ --cov=voiage" in workflow
     assert '-m "not integration' not in workflow
-    assert "4017aac3b5803f2d68b09d74e57ebd6c55e933d0" in workflow
+    assert "f05231ce21a81ffb4029493927e5572d114fad67" in workflow
     assert (
         'merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" "${merge_base}"' in workflow
     )
