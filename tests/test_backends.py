@@ -702,3 +702,14 @@ def test_analysis_imports_and_operates_without_jax(
     assert module.JAX_AVAILABLE is False
     assert analysis.backend.__class__.__name__ == "NumpyBackend"
     assert analysis.evpi() == pytest.approx(0.5)
+
+
+def test_capability_descriptor_reports_free_threaded_runtime(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        main_backends.sys, "_is_gil_enabled", lambda: False, raising=False
+    )
+    assert (
+        "free-threaded" in main_backends.NumpyBackend().capability_descriptor.features
+    )

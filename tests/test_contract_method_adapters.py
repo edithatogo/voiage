@@ -162,3 +162,54 @@ def test_value_array_label_overrides_cannot_diverge_from_spec() -> None:
             decision_problem_id="decision-001",
             strategy_names=("X", "Y"),
         )
+
+
+def test_value_array_adapter_rejects_conflicts_and_unsupported_rank() -> None:
+    value_array = ValueArray.from_numpy_perspectives(
+        _values(),
+        strategy_names=["A", "B"],
+        perspective_names=["payer", "societal"],
+    )
+    with pytest.raises(ValueError, match="strategy_names"):
+        adapt_value_array(value_array, strategy_names=("X", "Y"))
+    with pytest.raises(ValueError, match="perspective_names"):
+        adapt_value_array(value_array, perspective_names=("x", "y"))
+    with pytest.raises(ValueError, match="perspective_names require"):
+        adapt_value_array(np.ones((2, 2)), perspective_names=("payer",))
+    with pytest.raises(ValueError, match="2D or 3D"):
+        adapt_value_array(np.ones(2))
+
+
+@pytest.mark.parametrize(
+    ("values", "expected"),
+    [
+        (np.array([True]), "bool"),
+        (np.array([1], dtype=np.int32), "int64"),
+        (np.array(["x"]), "string"),
+        (np.array([1.0], dtype=np.float32), "float32"),
+    ],
+)
+def test_parameter_dtype_contracts(values: np.ndarray, expected: str) -> None:
+    parameters = adapt_parameter_set({"value": values})
+    assert parameters is not None
+    spec = analysis_spec_from_inputs(
+        analysis_id="dtype",
+        decision_problem_id="decision",
+        method_family="value_of_perspective",
+        method_contract_version="1.1.0",
+        values=adapt_value_array(_values()),
+        parameters=parameters,
+    )
+    assert spec.parameters[0].dtype == expected
+
+
+def test_json_mapping_rejects_non_string_keys() -> None:
+    with pytest.raises(PydanticSerializationError, match="keys must be strings"):
+        _json_mapping({"outer": {1: "value"}})  # type: ignore[dict-item]
+
+
+def test_perspective_rejects_invalid_tie_configuration() -> None:
+    with pytest.raises(ValueError, match="tie_policy"):
+        value_of_perspective(_values(), tie_policy="unknown")  # type: ignore[arg-type]
+    with pytest.raises(ValueError, match="tie_tolerance"):
+        value_of_perspective(_values(), tie_tolerance=-1.0)

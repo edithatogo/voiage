@@ -347,3 +347,46 @@ def test_compare_cli_retains_failure_evidence(
     failure = json.loads(output.read_text(encoding="utf-8"))
     assert failure["passed"] is False
     assert failure["operation"] == "compare"
+
+
+def test_portable_inventory_and_report_validation_fail_closed(tmp_path: Path) -> None:
+    wheel = tmp_path / "native.whl"
+    with zipfile.ZipFile(wheel, "w") as archive:
+        archive.writestr("voiage/_core.one.so", b"one")
+        archive.writestr("voiage/_core.two.pyd", b"two")
+    with pytest.raises(ValueError, match="multiple native"):
+        normalized_archive_report(wheel, runner="linux")
+
+    left_wheel = tmp_path / "left.whl"
+    right_wheel = tmp_path / "right.whl"
+    _wheel(left_wheel, "\n")
+    _wheel(right_wheel, "\n")
+    left = normalized_archive_report(left_wheel, runner="linux")
+    right = normalized_archive_report(right_wheel, runner="windows")
+
+    for key, value, message in (
+        ("portable_sha256", "bad", "portable digest is invalid"),
+        ("portable_sha256", "0" * 64, "portable digest is inconsistent"),
+    ):
+        broken = dict(left)
+        broken[key] = value
+        with pytest.raises(ArtifactMismatchError, match=message):
+            compare_digest_reports(broken, right)
+
+    broken = dict(right)
+    broken["entries"] = [
+        *right["entries"],
+        {"path": "extra", "sha256": "0" * 64, "size": 0},
+    ]
+    broken["normalized_sha256"] = c15_reproducibility._entries_digest(broken["entries"])
+    broken["portable_sha256"] = c15_reproducibility._entries_digest(
+        c15_reproducibility._portable_entries(broken["entries"])
+    )
+    with pytest.raises(ArtifactMismatchError, match="portable artifact digests differ"):
+        compare_digest_reports(left, broken)
+
+    broken["portable_sha256"] = left["portable_sha256"]
+    with pytest.raises(
+        ArtifactMismatchError, match="portable archive inventories differ"
+    ):
+        compare_digest_reports(left, broken)

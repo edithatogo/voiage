@@ -20,6 +20,7 @@ import pytest
 
 from scripts.check_contract_bundle_performance import measure_contract_bundle
 from voiage.analysis import DecisionAnalysis
+from voiage.contracts import bundle as bundle_module
 from voiage.contracts.bundle import (
     BundleVerificationError,
     ContractPerformanceBudget,
@@ -913,3 +914,38 @@ def test_fixture_bundle_stays_within_measured_budget(bundle: Path) -> None:
         ),
     )
     assert len(verified.records) == 2
+
+
+def test_low_level_bundle_guards_cover_rejected_runtime_shapes(tmp_path: Path) -> None:
+    assert bundle_module._valid_provenance_record([]) is False
+    assert bundle_module._valid_provenance_record({"metadata_status": "known"}) is False
+
+    not_directory = tmp_path / "file"
+    not_directory.write_text("x", encoding="utf-8")
+    with pytest.raises(BundleVerificationError, match="must be a directory"):
+        verify_contract_bundle(not_directory)
+
+    with pytest.raises(ValueError, match="positive"):
+        ContractPerformanceBudget(0, 1, 1, 1)
+    with pytest.raises(ValueError, match="positive"):
+        ContractPerformanceBudget(1, 0, 1, 1)
+
+
+def test_arrow_logical_field_guards_are_fail_closed() -> None:
+    schema = pa.schema([pa.field("value", pa.float64(), nullable=False)])
+    with pytest.raises(BundleVerificationError, match="fields do not match"):
+        bundle_module._logical_fields(schema, [])
+    with pytest.raises(BundleVerificationError, match="must be an object"):
+        bundle_module._logical_fields(schema, ["value"])
+    with pytest.raises(BundleVerificationError, match="identity mismatch"):
+        bundle_module._logical_fields(
+            schema,
+            [
+                {
+                    "name": "other",
+                    "arrow_type": "double",
+                    "nullable": False,
+                    "unit": None,
+                }
+            ],
+        )

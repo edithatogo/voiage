@@ -7,6 +7,7 @@ import numpy as np
 from pydantic import ValidationError
 import pytest
 
+from voiage import logging as logging_module
 from voiage.contracts.analysis import AnalysisSpec, DiagnosticRecord, NumericalPolicy
 from voiage.contracts.kernel import run_evpi
 from voiage.logging import (
@@ -243,3 +244,28 @@ def test_run_evpi_emits_correlated_analysis_boundary_event(tmp_path) -> None:
     assert event["backend_selected"] == "numpy"
     assert event["fallback_code"] == "none"
     assert event["numerical_policy_id"] == numerical_policy_digest(policy)
+
+
+def test_redaction_handles_scalars_objects_and_exceptions() -> None:
+    class SecretObject:
+        def __str__(self) -> str:
+            return "token=object-secret"
+
+    assert logging_module._redact_value(None) is None
+    assert logging_module._redact_value(True) is True
+    assert logging_module._redact_value(3.5) == 3.5
+    assert "object-secret" not in str(logging_module._redact_value(SecretObject()))
+
+    formatter = logging_module.JsonFormatter()
+    error = RuntimeError("token=exception-secret")
+    record = logging.LogRecord(
+        "voiage",
+        logging.ERROR,
+        __file__,
+        1,
+        "failed",
+        (),
+        (RuntimeError, error, None),
+    )
+    rendered = formatter.format(record)
+    assert "exception-secret" not in rendered

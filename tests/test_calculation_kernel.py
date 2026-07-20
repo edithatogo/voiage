@@ -212,3 +212,14 @@ def test_dispatch_rejects_non_contract_payloads_and_uses_kernel_maturity() -> No
         backends=[adapt_backend(get_backend("numpy"))],
     )
     assert experimental.method_maturity == "experimental"
+
+
+def test_evpi_guards_reject_wrong_method_shape_and_labels() -> None:
+    wrong_method = _spec().model_copy(update={"method_family": "other"})
+    with pytest.raises(ValueError, match="method_family='evpi'"):
+        EvpiKernel().requirements(wrong_method, NumericalPolicy())
+
+    with pytest.raises(ValueError, match="non-empty 2D"):
+        run_evpi(np.array([]), spec=_spec())
+    with pytest.raises(ValueError, match="align"):
+        run_evpi(np.ones((2, 3)), spec=_spec())

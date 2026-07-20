@@ -132,6 +132,14 @@ def test_analysis_spec_enforces_unique_identifiers_and_stable_digest() -> None:
             }
         )
 
+    duplicate = ParameterSpec(
+        parameter_id="prevalence", role="uncertain", dtype="float64"
+    )
+    with pytest.raises(ValidationError, match="parameter identifiers must be unique"):
+        AnalysisSpec.model_validate(
+            {**spec.model_dump(), "parameters": (duplicate, duplicate)}
+        )
+
 
 def test_contract_json_schema_is_deterministic_and_closed() -> None:
     first = json.dumps(AnalysisSpec.model_json_schema(), sort_keys=True)
@@ -172,3 +180,21 @@ def test_typed_result_envelope_round_trips_without_numpy_objects() -> None:
     )
     assert restored == result
     assert restored.payload.value == 1.25
+
+    payload = result.model_dump()
+    for field, value, message in (
+        ("diagnostics", {"analysis_id": "other"}, "diagnostics analysis_id"),
+        (
+            "provenance",
+            {**result.provenance.model_dump(), "method_family": "other"},
+            "provenance method_family",
+        ),
+        (
+            "provenance",
+            {**result.provenance.model_dump(), "backend": "other"},
+            "provenance backend",
+        ),
+    ):
+        broken = {**payload, field: value}
+        with pytest.raises(ValidationError, match=message):
+            AnalysisResult[ScalarPayload].model_validate(broken)
