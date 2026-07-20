@@ -76,12 +76,15 @@ def test_transient_api_failures_are_retried(monkeypatch) -> None:
     monkeypatch.setattr(gate.urllib.request, "urlopen", fake_urlopen)
     monkeypatch.setattr(gate.time, "sleep", lambda _seconds: None)
 
-    assert gate._fetch_page(
-        "owner/repo",
-        "token",
-        1,
-        100,
-        deadline=gate.time.monotonic() + 5,
-        retry_attempts=2,
-    ) == []
+    assert (
+        gate._fetch_page(
+            "owner/repo",
+            "token",
+            1,
+            100,
+            deadline=gate.time.monotonic() + 5,
+            retry_attempts=2,
+        )
+        == []
+    )
     assert attempts == 2
