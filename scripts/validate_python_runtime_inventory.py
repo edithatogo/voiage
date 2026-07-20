@@ -16,20 +16,22 @@ def validate(repo_root: Path) -> list[str]:
     categories = manifest["categories"]
     retained = set(manifest["v1_retained_categories"])
     transitional = manifest["transitional_kernel_modules"]
+    errors: list[str] = []
     if "transitional_numerical_core" in retained:
-        return ["transitional_numerical_core cannot be in v1_retained_categories"]
+        errors.append("transitional_numerical_core cannot be in v1_retained_categories")
     if transitional.get("authoritative_owner") != "rust":
-        return ["transitional numerical kernels must declare Rust as authoritative"]
+        errors.append(
+            "transitional numerical kernels must declare Rust as authoritative"
+        )
     if transitional.get("python_role") != "compatibility_fallback_only":
-        return [
+        errors.append(
             "transitional numerical kernels must declare Python as compatibility-only"
-        ]
+        )
     roots = [
         (root, category)
         for category, data in categories.items()
         for root in data["roots"]
     ]
-    errors: list[str] = []
     errors.extend(
         f"transitional kernel module is missing: {module}"
         for module in transitional["modules"]
