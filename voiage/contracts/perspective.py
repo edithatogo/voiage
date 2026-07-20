@@ -8,10 +8,11 @@ from collections.abc import Mapping
 from importlib.metadata import PackageNotFoundError, version
 import math
 import platform
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, cast
 from uuid import uuid4
 
 import numpy as np
+from numpy.typing import NDArray
 from pydantic import (
     JsonValue,
     field_serializer,
@@ -171,13 +172,13 @@ def _package_version() -> str:
 
 
 def run_perspective(
-    net_benefits: ValueArray | np.ndarray[Any, Any],
+    net_benefits: ValueArray | NDArray[np.generic],
     *,
     analysis_id: str,
     decision_problem_id: str,
     parameters: ParameterSet
-    | Mapping[str, np.ndarray[Any, Any]]
-    | np.ndarray[Any, Any]
+    | Mapping[str, NDArray[np.generic]]
+    | NDArray[np.generic]
     | None = None,
     perspectives: PerspectiveSet | Sequence[Perspective | str] | None = None,
     strategy_names: Sequence[str] | None = None,

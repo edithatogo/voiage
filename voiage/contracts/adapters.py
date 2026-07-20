@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -21,7 +21,7 @@ from voiage.schema import ParameterSet, ValueArray
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from numpy.typing import ArrayLike
+    from numpy.typing import ArrayLike, NDArray
 
     from voiage.contracts.capabilities import BackendCapabilities
     from voiage.main_backends import Backend
@@ -34,7 +34,7 @@ class LegacyBackendAdapter:
     backend: Backend
     capabilities: BackendCapabilities
 
-    def calculate_evpi(self, net_benefits: np.ndarray[Any, Any]) -> float:
+    def calculate_evpi(self, net_benefits: NDArray[np.generic]) -> float:
         """Delegate without changing established backend return behavior."""
         return float(self.backend.evpi(net_benefits))
 
@@ -81,8 +81,8 @@ def adapt_value_array(
 
 def adapt_parameter_set(
     parameters: ParameterSet
-    | Mapping[str, np.ndarray[Any, Any]]
-    | np.ndarray[Any, Any]
+    | Mapping[str, NDArray[np.generic]]
+    | NDArray[np.generic]
     | None,
 ) -> ParameterSet | None:
     """Normalize parameter samples while preserving established instances."""
@@ -92,7 +92,7 @@ def adapt_parameter_set(
     return ParameterSet.from_numpy_or_dict(normalized)
 
 
-def _parameter_dtype(values: np.ndarray[Any, Any]) -> ParameterDType:
+def _parameter_dtype(values: NDArray[np.generic]) -> ParameterDType:
     if np.issubdtype(values.dtype, np.bool_):
         return "bool"
     if np.issubdtype(values.dtype, np.integer):

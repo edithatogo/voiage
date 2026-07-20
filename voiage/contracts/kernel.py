@@ -8,11 +8,11 @@ from collections.abc import Sequence  # noqa: TC003 - public dispatcher signatur
 from importlib.metadata import PackageNotFoundError, version
 import logging
 import platform
-from typing import Any, Literal, Protocol, TypeVar
+from typing import Literal, Protocol, TypeVar
 from uuid import uuid4
 
 import numpy as np
-from numpy.typing import ArrayLike  # noqa: TC002 - public API signature
+from numpy.typing import ArrayLike, NDArray  # noqa: TC002 - public API signature
 
 from voiage.contracts.adapters import adapt_backend
 from voiage.contracts.analysis import (
@@ -38,12 +38,13 @@ from voiage.main_backends import get_backend
 
 _LOGGER = logging.getLogger("voiage.contracts.kernel")
 
-SpecT = TypeVar("SpecT")
-InputT = TypeVar("InputT")
+SpecT_contra = TypeVar("SpecT_contra", contravariant=True)
+InputT_contra = TypeVar("InputT_contra", contravariant=True)
+PayloadT_co = TypeVar("PayloadT_co", bound=ContractModel, covariant=True)
 PayloadT = TypeVar("PayloadT", bound=ContractModel)
 
 
-class CalculationKernel(Protocol[SpecT, InputT, PayloadT]):
+class CalculationKernel(Protocol[SpecT_contra, InputT_contra, PayloadT_co]):
     """Generic method implementation dispatched through backend capabilities."""
 
     kernel_id: str
@@ -58,19 +59,21 @@ class CalculationKernel(Protocol[SpecT, InputT, PayloadT]):
         """Return evidence-backed maturity for result attribution."""
         ...
 
-    def requirements(self, spec: SpecT, policy: NumericalPolicy) -> KernelRequirements:
+    def requirements(
+        self, spec: SpecT_contra, policy: NumericalPolicy
+    ) -> KernelRequirements:
         """Return requirements for this specification and policy."""
         ...
 
     def calculate(
         self,
-        spec: SpecT,
-        inputs: InputT,
+        spec: SpecT_contra,
+        inputs: InputT_contra,
         *,
         backend: CapabilityBackend,
         policy: NumericalPolicy,
         context: RunContext,
-    ) -> PayloadT:
+    ) -> PayloadT_co:
         """Calculate a typed payload using an already-approved backend."""
         ...
 
@@ -102,7 +105,7 @@ class EvpiKernel:
     def calculate(
         self,
         spec: AnalysisSpec,
-        inputs: np.ndarray[Any, Any],
+        inputs: NDArray[np.generic],
         *,
         backend: CapabilityBackend,
         policy: NumericalPolicy,
@@ -121,9 +124,9 @@ def _package_version() -> str:
 
 
 def dispatch_calculation(
-    kernel: CalculationKernel[AnalysisSpec, np.ndarray[Any, Any], PayloadT],
+    kernel: CalculationKernel[AnalysisSpec, NDArray[np.generic], PayloadT],
     spec: AnalysisSpec,
-    inputs: np.ndarray[Any, Any],
+    inputs: NDArray[np.generic],
     *,
     policy: NumericalPolicy,
     backends: Sequence[CapabilityBackend],
