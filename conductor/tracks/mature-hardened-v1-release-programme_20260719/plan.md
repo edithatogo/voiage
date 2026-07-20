@@ -152,6 +152,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
     - [x] Define the Rust/PyO3 EVPI runtime contract and adapter forwarding test (fa7ad2b).
     - [x] Route the NumPy-backed public EVPI facade through Rust with a transitional fallback (c724c84).
+    - [x] Define the Rust/PyO3 dominance execution contract and adapter forwarding test (cc1172b).
     - [ ] Green: route stable public APIs to Rust and implement controlled shims.
     - [ ] Refactor: simplify wrappers and publish migration documentation.
 - [ ] Task: Remove the duplicate Python numerical core using TDD
