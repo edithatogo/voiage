@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "purpose": "Classify every Python runtime module before Rust-core takeover.",
+  "categories": {
+    "facade": {
+      "status": "retain",
+      "roots": ["voiage/__init__.py", "voiage/__main__.py", "voiage/_runtime.py", "voiage/exceptions.py", "voiage/factory.py", "voiage/fluent.py", "voiage/governance.py", "voiage/reporting.py", "voiage/stats.py", "voiage/versioning.py"]
+    },
+    "transitional_numerical_core": {
+      "status": "retire_after_rust_parity",
+      "roots": ["voiage/methods/"]
+    },
+    "schema_and_io": {
+      "status": "retain",
+      "roots": ["voiage/schema.py", "voiage/config.py", "voiage/config_objects.py"]
+    },
+    "backend": {
+      "status": "retain_as_adapter",
+      "roots": ["voiage/backends/", "voiage/main_backends.py", "voiage/core/", "voiage/metamodels.py"]
+    },
+    "cli_and_orchestration": {
+      "status": "retain_as_facade",
+      "roots": ["voiage/analysis.py", "voiage/cli.py", "voiage/clinical_trials.py", "voiage/multi_domain.py", "voiage/parallel/"]
+    },
+    "optional_extension": {
+      "status": "retain_or_extract_by_extension_policy",
+      "roots": ["voiage/ecosystem_integration.py", "voiage/environmental/", "voiage/experimental_design.py", "voiage/financial/", "voiage/health_economics.py", "voiage/healthcare/", "voiage/hta_integration.py", "voiage/plot/", "voiage/widgets/", "voiage/web/"]
+    }
+  },
+  "unclassified_policy": "fail",
+  "retirement_gate": "No module classified as transitional_numerical_core may remain the authoritative implementation after Phase 6."
+}
