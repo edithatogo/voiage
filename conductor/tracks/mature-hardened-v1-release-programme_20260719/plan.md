@@ -163,7 +163,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Green: remove duplicate implementations, exports and obsolete dependencies.
     - [ ] Refactor: reduce retained Python to a fully typed facade and rerun the suite.
 - [ ] Task: Validate the minimal Python distribution
-    - [ ] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies.
+    - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [ ] Enforce at least 90 percent coverage for retained production Python.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
 
