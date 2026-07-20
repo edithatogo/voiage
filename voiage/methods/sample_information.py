@@ -469,8 +469,10 @@ def _evsi_two_loop(
 ) -> float:
     """EVSI calculation using a two-loop Monte Carlo simulation.
 
-    ``n_inner_loops`` remains part of the compatibility surface but is not
-    used by this historical implementation.
+    Each outer loop samples one possible trial data set. The inner loop then
+    draws posterior samples for that same data set and averages the resulting
+    decision value, making ``n_inner_loops`` an effective Monte Carlo control
+    rather than an ignored compatibility parameter.
     """
     max_nb_post_study = []
     for _ in range(n_outer_loops):
@@ -484,9 +486,14 @@ def _evsi_two_loop(
         }
 
         trial_data = _simulate_trial_data(true_params, trial_design, rng)
-        posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
-        nb_posterior = model_func(posterior_psa).numpy_values
-        max_nb_post_study.append(np.max(np.mean(nb_posterior, axis=0)))
+        inner_decision_values = []
+        for _ in range(n_inner_loops):
+            posterior_psa = _bayesian_update(
+                psa_prior, trial_data, trial_design, rng
+            )
+            nb_posterior = model_func(posterior_psa).numpy_values
+            inner_decision_values.append(np.max(np.mean(nb_posterior, axis=0)))
+        max_nb_post_study.append(float(np.mean(inner_decision_values)))
 
     return float(np.mean(max_nb_post_study))
 
@@ -611,8 +618,9 @@ def evsi(
     n_outer_loops : int, default=100
         Number of outer Monte Carlo loops for ``two_loop``.
     n_inner_loops : int, default=1000
-        Compatibility parameter retained for ``two_loop``; the historical
-        implementation does not currently consume it.
+        Number of posterior Monte Carlo draws per simulated trial data set for
+        ``two_loop``. Larger values reduce inner-loop Monte Carlo noise at the
+        cost of additional model evaluations.
     metamodel : str, default="linear"
         Strategy-level surrogate model used by the efficient approximation.
     seed : int, optional

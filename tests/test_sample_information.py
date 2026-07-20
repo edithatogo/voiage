@@ -145,6 +145,33 @@ def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -
     assert evsi_val >= 0, "EVSI should be non-negative."
 
 
+def test_evsi_two_loop_consumes_requested_inner_loop_count(
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+) -> None:
+    """Each inner loop evaluates an independently sampled posterior."""
+    callback_counts = {"value": 0}
+
+    def counting_model(psa_params_or_sample: PSASample) -> ValueArray:
+        callback_counts["value"] += 1
+        standard = psa_params_or_sample.parameters["mean_standard_care"]
+        treatment = psa_params_or_sample.parameters["mean_new_treatment"]
+        return ValueArray.from_numpy(
+            np.column_stack([standard, treatment]), ["standard", "treatment"]
+        )
+
+    evsi(
+        counting_model,
+        dummy_psa_for_evsi,
+        dummy_trial_design_for_evsi,
+        method="two_loop",
+        n_outer_loops=3,
+        n_inner_loops=4,
+        seed=42,
+    )
+
+    assert callback_counts["value"] == 1 + 3 * 4
+
+
 def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi
 ) -> None:
@@ -192,8 +219,8 @@ def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback
     )
 
     assert first == second
-    assert first_callback_count == 5
-    assert callback_counts[1] == 5
+    assert first_callback_count == 1 + 4 * 2
+    assert callback_counts[1] == 1 + 4 * 2
 
 
 def test_evsi_two_loop_seed_does_not_mutate_global_rng(
