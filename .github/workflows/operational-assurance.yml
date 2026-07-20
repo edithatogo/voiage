@@ -53,15 +53,31 @@ jobs:
         PUSH_BASE: ${{ github.event.before }}
         C15_PROVENANCE_FLOOR: 4017aac3b5803f2d68b09d74e57ebd6c55e933d0
       run: |
-        base="${PUSH_BASE}"
-        if [ "${EVENT_NAME}" = pull_request ]; then base="${PR_BASE}"; fi
-        if [ -z "${base}" ] || [ "${base}" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${base}^{commit}"; then
-          base="HEAD^"
+        candidate="${PUSH_BASE}"
+        if [ "${EVENT_NAME}" = pull_request ]; then candidate="${PR_BASE}"; fi
+        if [ -z "${candidate}" ] || [ "${candidate}" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${candidate}^{commit}"; then
+          candidate="HEAD^"
         fi
-        if git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD; then
+        merge_base="$(git merge-base "${candidate}" HEAD)"
+        if ! git cat-file -e "${C15_PROVENANCE_FLOOR}^{commit}"; then
+          echo "C15 provenance floor is unavailable" >&2
+          exit 1
+        fi
+        if git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" "${merge_base}"; then
+          base="${merge_base}"
+          reason="event merge-base is newer than provenance floor"
+        elif git merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"; then
           base="${C15_PROVENANCE_FLOOR}"
+          reason="provenance floor is newer than event merge-base"
+        else
+          echo "comparison histories diverge: candidate=${candidate} merge_base=${merge_base} floor=${C15_PROVENANCE_FLOOR}" >&2
+          exit 1
         fi
         echo "base=${base}" >> "$GITHUB_OUTPUT"
+        echo "candidate=${candidate}" >> "$GITHUB_OUTPUT"
+        echo "merge_base=${merge_base}" >> "$GITHUB_OUTPUT"
+        echo "reason=${reason}" >> "$GITHUB_OUTPUT"
+        echo "selected coverage base ${base}: ${reason}"
 
     - name: Enforce aggregate, critical, and changed-line coverage
       env:

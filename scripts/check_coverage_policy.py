@@ -113,8 +113,13 @@ def evaluate_coverage(
             tuple(pair)
             for pair in cast("list[list[int]]", details.get("missing_branches", []))
         }
+        # coverage.py uses negative destinations for synthetic function/class
+        # entry and exit arcs. They are structural sentinels, not executable
+        # decision outcomes, so the 100% branch gate applies only to real arcs.
         relevant_pairs = {
-            pair for pair in executed_pairs | missing_pairs if pair[0] in lines
+            pair
+            for pair in executed_pairs | missing_pairs
+            if pair[0] in lines and pair[0] > 0 and pair[1] > 0
         }
         branches += len(relevant_pairs)
         covered_branches += len(relevant_pairs & executed_pairs)

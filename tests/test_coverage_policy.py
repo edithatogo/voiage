@@ -47,6 +47,16 @@ def test_coverage_policy_rejects_uncovered_changed_branch() -> None:
     assert report["changed"]["missing_branches"] == ["voiage/critical.py:4->8"]
 
 
+def test_coverage_policy_excludes_synthetic_structural_arcs() -> None:
+    coverage, policy, changed = fixture()
+    details = coverage["files"]["voiage/critical.py"]
+    details["missing_branches"] = [[4, -4], [-4, 4]]
+    report = evaluate_coverage(coverage, policy, changed)
+    assert report["passed"] is True
+    assert report["changed"]["branches"] == 2
+    assert report["changed"]["missing_branches"] == []
+
+
 def test_coverage_policy_rejects_aggregate_or_missing_critical_module() -> None:
     coverage, policy, changed = fixture()
     low = deepcopy(coverage)
@@ -93,7 +103,14 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
     assert "pytest tests/ --cov=voiage" in workflow
     assert '-m "not integration' not in workflow
     assert "4017aac3b5803f2d68b09d74e57ebd6c55e933d0" in workflow
-    assert 'merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD' in workflow
+    assert (
+        'merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" "${merge_base}"' in workflow
+    )
+    assert (
+        'merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"' in workflow
+    )
+    assert 'base="${merge_base}"' in workflow
+    assert "comparison histories diverge" in workflow
     assert "include-hidden-files: true" in workflow
     assert "ref: ${{ github.event.pull_request.head.sha || github.sha }}" in workflow
     assert '--source-head "${SOURCE_HEAD}"' in workflow
