@@ -499,7 +499,13 @@ def value_of_perspective(
     )
     switching_se: list[float] = []
     switching_ci95: list[list[float]] = []
-    for perspective_index, own_mask in enumerate(optimal_masks):
+    for perspective_index, optimal_mask in enumerate(optimal_masks):
+        own_mask = (
+            optimal_mask
+            if tie_policy == "split"
+            else np.arange(expected_net_benefits.shape[1])
+            == int(optimal_indices[perspective_index])
+        )
         target_values = np.mean(values[:, own_mask, perspective_index], axis=1)
         reference_values = np.mean(values[:, reference_mask, perspective_index], axis=1)
         losses = target_values - reference_values

@@ -57,6 +57,28 @@ def test_tie_policy_is_explicit() -> None:
     assert split.diagnostics["ties_detected"] == [True]
 
 
+def test_first_tie_policy_uses_selected_strategy_for_uncertainty() -> None:
+    values = np.array(
+        [
+            [[0.0, 0.0], [-1.0, 2.0]],
+            [[2.0, 2.0], [-1.0, 0.0]],
+        ]
+    )
+    first = value_of_perspective(
+        values,
+        perspective_names=["reference", "tied"],
+        tie_policy="first",
+    )
+    split = value_of_perspective(
+        values,
+        perspective_names=["reference", "tied"],
+        tie_policy="split",
+    )
+
+    assert first.diagnostics["switching_standard_errors"] == pytest.approx([0.0, 0.0])
+    assert split.diagnostics["switching_standard_errors"] == pytest.approx([0.0, 1.0])
+
+
 def test_directional_result_uses_arrow_interchange(tmp_path) -> None:
     result = value_of_perspective(
         np.array([[[10.0, 0.0], [0.0, 20.0]]]),
