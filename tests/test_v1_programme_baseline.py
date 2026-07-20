@@ -27,13 +27,13 @@ def test_v1_programme_baseline_records_authoritative_repository_state() -> None:
 
     assert repository == {
         "authoritative_branch": "origin/main",
-        "authoritative_commit": "47b377ba85265a8d774794699137a56f3b0f3e26",
+        "authoritative_commit": "e0fb235d4cf641891c3954725379f54dda90565c",
         "implementation_branch": "codex/mature-hardened-v1-programme",
         "generated_artifacts_excluded": ["docs/astro-site/.astro/"],
     }
-    assert github["snapshot_at"] == "2026-07-20T08:45:00Z"
+    assert github["snapshot_at"] == "2026-07-20T23:37:43Z"
     assert github["open_pull_requests"] == 0
-    assert github["open_issues"] == 1
+    assert github["open_issues"] == 0
     assert github["remote_branches"] == 1
     assert github["latest_release"] == "v0.2.1"
 
