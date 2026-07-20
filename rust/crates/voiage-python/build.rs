@@ -289,17 +289,41 @@ fn embedded_source_identity(
     manifest_dir: &Path,
     repository: &Path,
 ) -> Option<(String, String, bool)> {
-    if git_identity(repository).is_some()
-        || env::var_os("VOIAGE_SOURCE_REVISION").is_some()
+    if env::var_os("VOIAGE_SOURCE_REVISION").is_some()
         || env::var_os("VOIAGE_SOURCE_TREE_GIT_OID").is_some()
         || env::var_os("VOIAGE_SOURCE_CLEAN").is_some()
     {
         return None;
     }
     let path = manifest_dir.join(EMBEDDED_PROVENANCE_FILE);
-    fs::read_to_string(&path).ok().map(|contents| {
-        parse_embedded_source_identity(&contents)
-            .unwrap_or_else(|error| panic!("invalid embedded source provenance: {error}"))
+    let contents = fs::read_to_string(&path).ok()?;
+    let embedded = parse_embedded_source_identity(&contents)
+        .unwrap_or_else(|error| panic!("invalid embedded source provenance: {error}"));
+    match git_identity(repository) {
+        None => Some(embedded),
+        Some((_, _, false)) => None,
+        Some((revision, tree, true))
+            if revision == embedded.0
+                && tree == embedded.1
+                && only_embedded_provenance_is_dirty(repository) =>
+        {
+            Some(embedded)
+        }
+        Some(_) => None,
+    }
+}
+
+fn only_embedded_provenance_is_dirty(repository: &Path) -> bool {
+    let Some(status) = command_output(
+        "git",
+        &["status", "--porcelain=v1", "--untracked-files=normal"],
+        repository,
+    ) else {
+        return false;
+    };
+    status.lines().all(|line| {
+        let path = line.get(3..).unwrap_or_default();
+        path == "rust/crates/voiage-python/source-provenance.txt"
     })
 }
 
