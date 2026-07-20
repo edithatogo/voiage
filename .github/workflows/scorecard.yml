@@ -56,6 +56,8 @@ jobs:
           persist-credentials: false
 
       - name: Fail on blocking code-scanning alerts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: >-
           python scripts/check_code_scanning_alerts.py
           --repository "$GITHUB_REPOSITORY"

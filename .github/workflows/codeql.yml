@@ -45,6 +45,8 @@ jobs:
       uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9
 
     - name: Fail on blocking code-scanning alerts
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       run: >-
         python scripts/check_code_scanning_alerts.py
         --repository "$GITHUB_REPOSITORY"
