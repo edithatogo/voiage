@@ -27,7 +27,7 @@ def test_v1_programme_baseline_records_authoritative_repository_state() -> None:
 
     assert repository == {
         "authoritative_branch": "origin/main",
-            "authoritative_commit": "f05231ce21a81ffb4029493927e5572d114fad67",
+        "authoritative_commit": "f05231ce21a81ffb4029493927e5572d114fad67",
         "implementation_branch": "codex/mature-hardened-v1-programme",
         "generated_artifacts_excluded": ["docs/astro-site/.astro/"],
     }
