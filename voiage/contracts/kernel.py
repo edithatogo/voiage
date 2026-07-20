@@ -8,7 +8,7 @@ from collections.abc import Sequence  # noqa: TC003 - public dispatcher signatur
 from importlib.metadata import PackageNotFoundError, version
 import logging
 import platform
-from typing import Literal, Protocol
+from typing import Literal, Protocol, TypeVar
 from uuid import uuid4
 
 import numpy as np
@@ -38,8 +38,12 @@ from voiage.main_backends import get_backend
 
 _LOGGER = logging.getLogger("voiage.contracts.kernel")
 
+SpecT = TypeVar("SpecT")
+InputT = TypeVar("InputT")
+PayloadT = TypeVar("PayloadT", bound=ContractModel)
 
-class CalculationKernel[SpecT, InputT, PayloadT: ContractModel](Protocol):
+
+class CalculationKernel(Protocol[SpecT, InputT, PayloadT]):
     """Generic method implementation dispatched through backend capabilities."""
 
     kernel_id: str
@@ -116,7 +120,7 @@ def _package_version() -> str:
         return "0.0.0"
 
 
-def dispatch_calculation[PayloadT: ContractModel](
+def dispatch_calculation(
     kernel: CalculationKernel[AnalysisSpec, np.ndarray, PayloadT],
     spec: AnalysisSpec,
     inputs: np.ndarray,

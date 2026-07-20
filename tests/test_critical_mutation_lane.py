@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+
 import tomllib
 
 from scripts.run_critical_mutation_lane import CRITICAL_MUTMUT_CONFIG, mutation_report

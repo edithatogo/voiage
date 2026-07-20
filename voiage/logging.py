@@ -15,7 +15,7 @@ import pathlib  # noqa: TC003 - Pydantic resolves this annotation at runtime
 import re
 import secrets
 import sys
-from typing import TYPE_CHECKING, ClassVar, cast, final, override
+from typing import TYPE_CHECKING, ClassVar, TypeVar, cast, final, override
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -26,6 +26,8 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from voiage.contracts.analysis import AnalysisResult, ContractModel
+
+PayloadT = TypeVar("PayloadT", bound="ContractModel")
 
 _OWNED_HANDLER = "_voiage_handler"
 _RESERVED_FIELDS = frozenset(
@@ -317,7 +319,7 @@ def analysis_log_context(context: AnalysisLogContext) -> Generator[None]:
         _CONTEXT.reset(token)
 
 
-def analysis_log_context_from_result[PayloadT: ContractModel](
+def analysis_log_context_from_result(
     result: AnalysisResult[PayloadT], *, trace: TraceContext | None = None
 ) -> AnalysisLogContext:
     """Adapt a VOIAGE analysis envelope to the shared logging contract."""

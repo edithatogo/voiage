@@ -31,7 +31,8 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "voiage/_core." in release_workflow
     assert "workflow_dispatch:" in release_workflow
     assert (
-        'description: "Existing signed release tag to stage or publish"' in release_workflow
+        'description: "Existing signed release tag to stage or publish"'
+        in release_workflow
     )
     assert (
         "RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}" in release_workflow
@@ -107,10 +108,19 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     assert "publish:" in release_workflow
     assert "type: boolean\n        default: false" in release_workflow
     assert "stage:\n    name: Build and Stage Private Draft" in release_workflow
-    assert "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI" in release_workflow
-    assert "if: github.event_name == 'workflow_dispatch' && inputs.publish" in release_workflow
-    stage_job = release_workflow.index("stage:\n    name: Build and Stage Private Draft")
-    publish_job = release_workflow.index("test-pypi:\n    name: Publish Reviewed Draft to TestPyPI")
+    assert (
+        "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI" in release_workflow
+    )
+    assert (
+        "if: github.event_name == 'workflow_dispatch' && inputs.publish"
+        in release_workflow
+    )
+    stage_job = release_workflow.index(
+        "stage:\n    name: Build and Stage Private Draft"
+    )
+    publish_job = release_workflow.index(
+        "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI"
+    )
     assert stage_job < publish_job
     assert "environment: testpypi" not in release_workflow[:publish_job]
     assert "expected_wheel_sha256" in release_workflow
