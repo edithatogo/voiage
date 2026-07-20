@@ -30,7 +30,14 @@ proptest! {
         let parameters = matrix(rows
             .iter()
             .enumerate()
-            .map(|(index, row)| vec![index as f64, f64::from(row[0])])
+            // Use a deterministic full-rank basis independent of the generated
+            // net-benefit values.  The moment kernel deliberately rejects
+            // rank-deficient designs, so deriving a column from `row[0]` would
+            // make the fuzz assertion invalid for constant generated values.
+            .map(|(index, _row)| {
+                let index = index as f64;
+                vec![index, index * index]
+            })
             .collect());
 
         let seeded = evsi_stochastic(
