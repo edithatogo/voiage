@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import os
 import subprocess
 import sys
 
@@ -17,6 +18,19 @@ from voiage.core import memory_optimization
 from voiage.exceptions import OptionalDependencyError
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _run_isolated_probe(probe: str) -> subprocess.CompletedProcess[str]:
+    """Run a clean-install probe while explicitly exposing the source tree."""
+    isolated_probe = f"import sys\nsys.path.insert(0, {str(ROOT)!r})\n{probe}"
+    return subprocess.run(
+        [sys.executable, "-c", isolated_probe],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+        env=os.environ.copy(),
+    )
 
 
 def _dependency_names(requirements: list[str]) -> set[str]:
@@ -98,14 +112,7 @@ for name in ("health_economics", "multi_domain"):
     else:
         raise AssertionError(f"{name} did not produce a governed JAX diagnostic")
 """
-    result = subprocess.run(
-        [sys.executable, "-I", "-c", probe],
-        cwd=ROOT,
-        check=False,
-        capture_output=True,
-        text=True,
-        env={"PYTHONPATH": str(ROOT)},
-    )
+    result = _run_isolated_probe(probe)
     assert result.returncode == 0, result.stderr
 
 
@@ -153,14 +160,7 @@ except voiage.exceptions.PlottingError as error:
 else:
     raise AssertionError("plotting did not produce a plotting-extra diagnostic")
 """
-    result = subprocess.run(
-        [sys.executable, "-I", "-c", probe],
-        cwd=ROOT,
-        check=False,
-        capture_output=True,
-        text=True,
-        env={"PYTHONPATH": str(ROOT)},
-    )
+    result = _run_isolated_probe(probe)
     assert result.returncode == 0, result.stderr
 
 
