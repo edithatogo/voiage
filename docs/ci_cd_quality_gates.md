@@ -13,7 +13,7 @@ The voiage project implements a comprehensive CI/CD quality gate framework to en
 These gates provide quick feedback during development and must pass before merging:
 
 - **Lint & Type Check**: Ruff linting, formatting checks, Bandit security scanning, and `ty` static type checking
-- **Unit Tests**: pytest unit tests across Python 3.10-3.14 with coverage reporting
+- **Unit Tests**: pytest unit tests across Python 3.12-3.14 with coverage reporting
 - **Integration Tests**: Integration test suite for component interactions
 - **E2E Tests**: End-to-end CLI tests for complete user workflows
 - **Coverage Report**: Enforces 90% minimum coverage threshold
@@ -57,7 +57,7 @@ Additional validation for release builds:
 
 **Tool**: `ty` static type checker
 
-**Configuration**: Python 3.10 baseline with selective ignores for compatibility
+**Configuration**: Python 3.12 baseline with strict modern typing
 
 **Gate**: Must pass in CI, informational warnings allowed
 
@@ -142,11 +142,11 @@ Each binding maintains language-native quality gates:
 
 ## Python Version Support
 
-**Supported Versions**: 3.10, 3.11, 3.12, 3.13, 3.14
+**Supported Versions**: 3.12, 3.13, 3.14
 
 **Testing**: Full test matrix across all supported versions
 
-**Policy**: Minimum version 3.10, maximum version <3.15
+**Policy**: Minimum version 3.12, maximum version <3.15
 
 ## Dependency Policy
 

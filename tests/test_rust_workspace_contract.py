@@ -7,7 +7,7 @@ from typing import Any
 
 try:
     import tomllib
-except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10 CI
+except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
     import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]

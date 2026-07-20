@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "method": "evpi",
+  "definition": "mean(row maximum) minus maximum(column mean)",
+  "assumptions": [
+    "samples are equally weighted",
+    "larger net benefit is preferred",
+    "the decision maker is risk neutral",
+    "values share one net-benefit unit and time horizon"
+  ],
+  "cases": [
+    {
+      "id": "canonical-crossover",
+      "net_benefits": [[10.0, 1.0], [2.0, 8.0]],
+      "derivation": {
+        "strategy_means": [6.0, 4.5],
+        "expected_current_value": 6.0,
+        "row_maxima": [10.0, 8.0],
+        "expected_perfect_information": 9.0
+      },
+      "expected": {
+        "value": 3.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "balanced-crossover",
+      "net_benefits": [[0.0, 10.0], [8.0, 0.0]],
+      "derivation": {
+        "strategy_means": [4.0, 5.0],
+        "expected_current_value": 5.0,
+        "row_maxima": [10.0, 8.0],
+        "expected_perfect_information": 9.0
+      },
+      "expected": {
+        "value": 4.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "strict-dominance",
+      "net_benefits": [[1.0, 3.0], [2.0, 4.0], [3.0, 5.0]],
+      "derivation": {
+        "strategy_means": [2.0, 4.0],
+        "expected_current_value": 4.0,
+        "row_maxima": [3.0, 4.0, 5.0],
+        "expected_perfect_information": 4.0
+      },
+      "expected": {
+        "value": 0.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "negative-net-benefit-crossover",
+      "net_benefits": [[-5.0, -1.0], [-1.0, -5.0]],
+      "derivation": {
+        "strategy_means": [-3.0, -3.0],
+        "expected_current_value": -3.0,
+        "row_maxima": [-1.0, -1.0],
+        "expected_perfect_information": -1.0
+      },
+      "expected": {
+        "value": 2.0,
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "provenance": "independent_hand_calculation"
+    },
+    {
+      "id": "c15-boundary-zero",
+      "assurance_profile": "c15",
+      "classification": "boundary",
+      "net_benefit_unit": "NZD_2025_per_person",
+      "net_benefits": [[0, 0], [0, 0], [0, 0]],
+      "derivation": {
+        "strategy_means": [0, 0],
+        "expected_current_value": 0,
+        "row_maxima": [0, 0, 0],
+        "expected_perfect_information": 0
+      },
+      "expected": {
+        "value": 0,
+        "decimal_value": "0",
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "tolerances": {"decimal_absolute": 0, "numpy_absolute": 1e-12, "native_absolute": 1e-12, "jax_absolute": 1e-5, "polars_absolute": 1e-12},
+      "assumptions": ["all strategies have identical net benefit"],
+      "provenance": "independent_hand_calculation",
+      "oracle_precision": "decimal"
+    },
+    {
+      "id": "c15-near-tie",
+      "assurance_profile": "c15",
+      "classification": "near_tie",
+      "net_benefit_unit": "NZD_2025_per_person",
+      "net_benefits": [[1.000000001, 1], [1, 1.000000001]],
+      "derivation": {
+        "strategy_means": [1.0000000005, 1.0000000005],
+        "expected_current_value": 1.0000000005,
+        "row_maxima": [1.000000001, 1.000000001],
+        "expected_perfect_information": 1.000000001
+      },
+      "expected": {
+        "value": 5e-10,
+        "decimal_value": "0.0000000005",
+        "atol": 1e-15,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "tolerances": {"decimal_absolute": 0, "numpy_absolute": 1e-15, "native_absolute": 1e-15, "jax_absolute": 1e-7, "polars_absolute": 1e-15},
+      "assumptions": ["literal decimal inputs preserve the near tie"],
+      "provenance": "independent_hand_calculation",
+      "oracle_precision": "decimal"
+    },
+    {
+      "id": "c15-heavy-tail",
+      "assurance_profile": "c15",
+      "classification": "tail",
+      "net_benefit_unit": "NZD_2025_per_person",
+      "net_benefits": [[1000000000, -1000000000], [-1000000000, 1000000000], [1, 1]],
+      "derivation": {
+        "strategy_means": [0.3333333333333333, 0.3333333333333333],
+        "expected_current_value": 0.3333333333333333,
+        "row_maxima": [1000000000, 1000000000, 1],
+        "expected_perfect_information": 666666667
+      },
+      "expected": {
+        "value": 666666666.6666666,
+        "decimal_value": "666666666.66666666666666666666666666666666666666667",
+        "atol": 1e-6,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "tolerances": {"decimal_absolute": 0, "numpy_absolute": 1e-6, "native_absolute": 1e-6, "jax_absolute": 64, "polars_absolute": 1e-6},
+      "assumptions": ["extreme finite draws are retained without clipping"],
+      "provenance": "independent_hand_calculation",
+      "oracle_precision": "decimal"
+    },
+    {
+      "id": "c15-four-strategy",
+      "assurance_profile": "c15",
+      "classification": "higher_dimensional",
+      "net_benefit_unit": "NZD_2025_per_person",
+      "net_benefits": [[8, 2, 1, 0], [1, 9, 2, 0], [2, 1, 10, 0], [0, 2, 1, 11]],
+      "derivation": {
+        "strategy_means": [2.75, 3.5, 3.5, 2.75],
+        "expected_current_value": 3.5,
+        "row_maxima": [8, 9, 10, 11],
+        "expected_perfect_information": 9.5
+      },
+      "expected": {
+        "value": 6,
+        "decimal_value": "6",
+        "atol": 1e-12,
+        "unit": "net_benefit_unit_per_decision"
+      },
+      "tolerances": {"decimal_absolute": 0, "numpy_absolute": 1e-12, "native_absolute": 1e-12, "jax_absolute": 1e-5, "polars_absolute": 1e-12},
+      "assumptions": ["four mutually exclusive strategies", "equal draw weights"],
+      "provenance": "independent_hand_calculation",
+      "oracle_precision": "decimal"
+    }
+  ]
+}

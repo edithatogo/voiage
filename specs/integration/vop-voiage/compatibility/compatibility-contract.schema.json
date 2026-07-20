@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/vop_poc_nz/contracts/vop-voiage/compatibility/compatibility-contract.schema.json",
+  "title": "VOP-VOIAGE compatibility contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_schema_version",
+    "contract_version",
+    "method_contract_version",
+    "owner",
+    "consumers",
+    "runtime",
+    "shared_dependencies",
+    "interchange",
+    "profiles",
+    "capabilities",
+    "validation"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "contract_schema_version": {"$ref": "#/$defs/semver"},
+    "contract_version": {"$ref": "#/$defs/semver"},
+    "method_contract_version": {"$ref": "#/$defs/semver"},
+    "owner": {"type": "object", "required": ["repository", "track", "path"], "additionalProperties": false, "properties": {"repository": {"const": "edithatogo/vop_poc_nz"}, "track": {"const": "C09"}, "path": {"type": "string"}}},
+    "consumers": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["vop_poc_nz", "voiage"]}},
+    "runtime": {"type": "object", "required": ["python", "free_threaded"], "additionalProperties": false, "properties": {"python": {"const": ">=3.14"}, "free_threaded": {"enum": ["observational", "supported"]}}},
+    "shared_dependencies": {"type": "object", "required": ["numpy", "pandas", "pyarrow", "polars"], "additionalProperties": false, "properties": {"numpy": {"type": "string"}, "pandas": {"type": "string"}, "pyarrow": {"type": "string"}, "polars": {"type": "string"}}},
+    "interchange": {"type": "object", "required": ["canonical_format", "parquet_version", "compression", "ipc_suffix", "c_stream_protocol", "fingerprint"], "additionalProperties": false, "properties": {"canonical_format": {"const": "parquet"}, "parquet_version": {"const": "2.6"}, "compression": {"const": "zstd"}, "ipc_suffix": {"const": ".arrow"}, "c_stream_protocol": {"const": "__arrow_c_stream__"}, "fingerprint": {"type": "object"}}},
+    "profiles": {"type": "object", "minProperties": 2},
+    "capabilities": {"type": "object"},
+    "validation": {"type": "object", "required": ["float_rtol", "float_atol", "previous_major_readability"]}
+  },
+  "$defs": {"semver": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"}}
+}

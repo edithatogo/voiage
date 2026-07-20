@@ -1,0 +1,564 @@
+{
+  "$defs": {
+    "ArrowSchemaIdentity": {
+      "additionalProperties": false,
+      "description": "Stable identity for the Arrow projection of a result.",
+      "properties": {
+        "schema_fingerprint": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Schema Fingerprint",
+          "type": "string"
+        },
+        "schema_id": {
+          "minLength": 1,
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "schema_version",
+        "schema_fingerprint"
+      ],
+      "title": "ArrowSchemaIdentity",
+      "type": "object"
+    },
+    "CEAAnalysisResult": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_new_treatment": {
+          "title": "Cost New Treatment",
+          "type": "number"
+        },
+        "cost_standard_care": {
+          "title": "Cost Standard Care",
+          "type": "number"
+        },
+        "cost_unit": {
+          "$ref": "#/$defs/UnitSpec",
+          "default": {
+            "currency_code": null,
+            "currency_year": null,
+            "dimension": "currency",
+            "metadata_status": "unknown",
+            "symbol": "currency-unspecified"
+          }
+        },
+        "health_outcome_unit": {
+          "$ref": "#/$defs/UnitSpec",
+          "default": {
+            "currency_code": null,
+            "currency_year": null,
+            "dimension": "health",
+            "metadata_status": "known",
+            "symbol": "QALY"
+          }
+        },
+        "icer": {
+          "$ref": "#/$defs/ICERResult"
+        },
+        "incremental_cost": {
+          "title": "Incremental Cost",
+          "type": "number"
+        },
+        "incremental_nmb": {
+          "title": "Incremental Nmb",
+          "type": "number"
+        },
+        "incremental_qalys": {
+          "title": "Incremental Qalys",
+          "type": "number"
+        },
+        "is_cost_effective": {
+          "title": "Is Cost Effective",
+          "type": "boolean"
+        },
+        "metadata": {
+          "$ref": "#/$defs/ResultMetadata"
+        },
+        "perspective": {
+          "$ref": "#/$defs/Perspective"
+        },
+        "productivity_cost_method": {
+          "$ref": "#/$defs/ProductivityCostMethod"
+        },
+        "qalys_new_treatment": {
+          "title": "Qalys New Treatment",
+          "type": "number"
+        },
+        "qalys_standard_care": {
+          "title": "Qalys Standard Care",
+          "type": "number"
+        },
+        "subgroup_results": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/NamedSubgroupResult"
+          },
+          "title": "Subgroup Results",
+          "type": "array"
+        },
+        "trace_new_treatment": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trace New Treatment"
+        },
+        "trace_standard_care": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trace Standard Care"
+        },
+        "wtp_threshold": {
+          "title": "Wtp Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "perspective",
+        "productivity_cost_method",
+        "cost_standard_care",
+        "qalys_standard_care",
+        "cost_new_treatment",
+        "qalys_new_treatment",
+        "incremental_cost",
+        "incremental_qalys",
+        "icer",
+        "incremental_nmb",
+        "is_cost_effective",
+        "wtp_threshold"
+      ],
+      "title": "CEAAnalysisResult",
+      "type": "object"
+    },
+    "DiagnosticSeverity": {
+      "description": "Machine-readable severity for calculation diagnostics.",
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "DiagnosticSeverity",
+      "type": "string"
+    },
+    "ICERResult": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/ICERStatus"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ICERResult",
+      "type": "object"
+    },
+    "ICERStatus": {
+      "enum": [
+        "finite",
+        "dominant",
+        "dominated",
+        "undefined"
+      ],
+      "title": "ICERStatus",
+      "type": "string"
+    },
+    "InterventionPipelineResult": {
+      "additionalProperties": false,
+      "properties": {
+        "health_system": {
+          "$ref": "#/$defs/CEAAnalysisResult"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "societal": {
+          "items": {
+            "$ref": "#/$defs/SocietalCEAResult"
+          },
+          "title": "Societal",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "health_system",
+        "societal"
+      ],
+      "title": "InterventionPipelineResult",
+      "type": "object"
+    },
+    "MetadataStatus": {
+      "description": "Epistemic status of imported unit or provenance metadata.",
+      "enum": [
+        "known",
+        "provisional",
+        "unknown"
+      ],
+      "title": "MetadataStatus",
+      "type": "string"
+    },
+    "NamedSubgroupResult": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/$defs/CEAAnalysisResult"
+        }
+      },
+      "required": [
+        "name",
+        "result"
+      ],
+      "title": "NamedSubgroupResult",
+      "type": "object"
+    },
+    "Perspective": {
+      "enum": [
+        "health_system",
+        "societal"
+      ],
+      "title": "Perspective",
+      "type": "string"
+    },
+    "ProductivityCostMethod": {
+      "enum": [
+        "human_capital",
+        "friction_cost"
+      ],
+      "title": "ProductivityCostMethod",
+      "type": "string"
+    },
+    "ProvenanceSpec": {
+      "additionalProperties": false,
+      "description": "Traceable identity for an input, source, or generated contract.",
+      "properties": {
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "observed_at_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At Utc"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Version"
+        }
+      },
+      "required": [
+        "source_id"
+      ],
+      "title": "ProvenanceSpec",
+      "type": "object"
+    },
+    "ResultDiagnostic": {
+      "additionalProperties": false,
+      "description": "Structured calculation diagnostic without free-form mappings.",
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/DiagnosticSeverity"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "title": "ResultDiagnostic",
+      "type": "object"
+    },
+    "ResultMaturity": {
+      "description": "Governed stability level of a result contract.",
+      "enum": [
+        "experimental",
+        "provisional",
+        "stable"
+      ],
+      "title": "ResultMaturity",
+      "type": "string"
+    },
+    "ResultMetadata": {
+      "additionalProperties": false,
+      "description": "Version, maturity, diagnostics, provenance, and Arrow identity.",
+      "properties": {
+        "arrow_schema": {
+          "$ref": "#/$defs/ArrowSchemaIdentity"
+        },
+        "contract_version": {
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "diagnostics": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ResultDiagnostic"
+          },
+          "title": "Diagnostics",
+          "type": "array"
+        },
+        "maturity": {
+          "$ref": "#/$defs/ResultMaturity"
+        },
+        "provenance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ProvenanceSpec"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contract_version",
+        "maturity",
+        "arrow_schema"
+      ],
+      "title": "ResultMetadata",
+      "type": "object"
+    },
+    "SocietalCEAResult": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/ProductivityCostMethod"
+        },
+        "result": {
+          "$ref": "#/$defs/CEAAnalysisResult"
+        }
+      },
+      "required": [
+        "method",
+        "result"
+      ],
+      "title": "SocietalCEAResult",
+      "type": "object"
+    },
+    "UnitDimension": {
+      "description": "Physical or decision-model dimension represented by a unit.",
+      "enum": [
+        "currency",
+        "time",
+        "health",
+        "probability",
+        "count",
+        "dimensionless"
+      ],
+      "title": "UnitDimension",
+      "type": "string"
+    },
+    "UnitSpec": {
+      "additionalProperties": false,
+      "description": "Machine-readable unit identity, including currency price year.",
+      "properties": {
+        "currency_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Code"
+        },
+        "currency_year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Year"
+        },
+        "dimension": {
+          "$ref": "#/$defs/UnitDimension"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "symbol": {
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "dimension"
+      ],
+      "title": "UnitSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Calculation-only output; reporting and artifact I/O are external adapters.",
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "created_at_utc": {
+      "format": "date-time",
+      "title": "Created At Utc",
+      "type": "string"
+    },
+    "interventions": {
+      "items": {
+        "$ref": "#/$defs/InterventionPipelineResult"
+      },
+      "title": "Interventions",
+      "type": "array"
+    },
+    "metadata": {
+      "$ref": "#/$defs/ResultMetadata"
+    },
+    "random_seed": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Random Seed"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "software_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Software Version"
+    },
+    "spec_fingerprint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Spec Fingerprint",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "created_at_utc",
+    "spec_fingerprint",
+    "interventions",
+    "metadata"
+  ],
+  "title": "TypedPipelineResult",
+  "type": "object"
+}

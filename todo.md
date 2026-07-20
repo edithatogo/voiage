@@ -30,7 +30,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         public Python surface and routes CEAF and dominance result
         serialization through Rust. Numerical-kernel migration remains
         intentionally deferred to Phase 5. Python packaging now uses
-        Cargo-authoritative dynamic versions, cp310 ABI3 native wheels, clean
+        Cargo-authoritative dynamic versions, cp312 ABI3 native wheels, clean
         wheel and sdist-derived installs, immutable release tags, staged
         registry smoke gates, explicit platform tags, and minimized base
         dependencies with governed extras. Runtime provenance now binds native
@@ -50,6 +50,31 @@ This document lists the actionable tasks for `voiage` development. Agents should
         semantics remains open before any stochastic Rust migration.
 
 ## Done
+
+*   [x] Complete the repository-owned Domain Abstraction Excellence work.
+    *   Conductor track: `abstraction-excellence_20260719`.
+    *   Human approval remains governed separately from implementation status.
+
+*   [x] Complete the repository-owned Assurance Frontier work.
+    *   Conductor track: `assurance-frontier_20260720`.
+    *   Merge, release, publication, and issue closure remain explicit human gates.
+
+*   [x] Complete the repository-owned Operational Assurance Excellence work.
+    *   Conductor track: `operational-assurance-excellence_20260720`.
+    *   Baseline approval, merge, release, publication, and issue closure remain
+        explicit human gates.
+
+*   [x] Add the engineering-frontier harness for logging, environments, typing,
+    profiling, and expensive CI evidence.
+    *   Pydantic v2 logging, SCM versions, Pixi/uv parity, `ty` plus
+        BasedPyright, Scalene, mutation/security/experimental lanes, and
+        cross-platform UTF-8/LF integrity are now explicit contracts.
+
+*   [x] Harden Arrow interchange and dependency-frontier observability.
+    *   Added versioned Parquet/IPC golden files, schema fingerprints,
+        deterministic LF-normalized manifests, PyArrow/Polars and process-boundary
+        conformance, performance guards, weekly dependency audits, and a
+        non-blocking Python 3.14t observation lane.
 
 *   [x] Prepare the pinned `0.2.1` conda-forge recipe and verify it with a
     local conda-build package/test cycle; staged-recipes submission remains a
@@ -110,7 +135,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         line; pinned the transitive esbuild resolution to a patched release;
         and updated the Starlight configuration for the current APIs.
     *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
-        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        tox matrix including Python 3.12 through 3.14, minimum/maximum
         dependency environments, coverage, docs, type, contract, and harness
         gates.
 

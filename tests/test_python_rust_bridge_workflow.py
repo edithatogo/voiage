@@ -24,6 +24,7 @@ def test_bridge_workflow_has_minimal_permissions_and_pinned_actions() -> None:
     assert "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0" in text
     assert "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1" in text
     assert "astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990" in text
+    assert text.count('version: "0.11.29"') == 2
     assert "dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c" in text
     assert "persist-credentials: false" in text
     assert text.count('      - "tests/packaging/**"') == 2
@@ -34,7 +35,7 @@ def test_bridge_workflow_covers_supported_python_and_abi3_platforms() -> None:
     jobs = workflow["jobs"]
 
     python_matrix = jobs["python-compatibility"]["strategy"]["matrix"]
-    assert python_matrix == {"python": ["3.10", "3.11", "3.12", "3.13", "3.14"]}
+    assert python_matrix == {"python": ["3.12", "3.13", "3.14"]}
     assert jobs["python-compatibility"]["runs-on"] == "ubuntu-24.04"
 
     platform_matrix = jobs["abi3-platforms"]["strategy"]["matrix"]
@@ -54,12 +55,12 @@ def test_bridge_workflow_uses_locked_maturin_builds_and_import_checks() -> None:
     assert "maturin develop" not in rendered
     assert "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b" in rendered
     assert (
-        "--locked --release --compatibility pypi --interpreter python3.10" in rendered
+        "--locked --release --compatibility pypi --interpreter python3.12" in rendered
     )
     assert "uv pip install" in rendered
     assert "uv pip check" in rendered
     assert "python -m zipfile -l" in rendered
-    assert "cp310-abi3" in rendered
+    assert workflow["env"]["VOIAGE_PYTHON_ABI"] == "cp312-abi3"
     assert "cargo metadata --manifest-path rust/Cargo.toml --locked" in rendered
     assert "tests/test_runtime_adapter.py" in rendered
     assert "tests/packaging/test_wheel_black_box.py" in rendered

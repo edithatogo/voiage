@@ -2,6 +2,24 @@ use voiage_core::{
     enbs, enbs_contract, evpi, evpi_contract, EnbsDiagnostics, EvpiDiagnostics, ScalarError,
 };
 
+#[derive(serde::Deserialize)]
+struct NumericalReference {
+    cases: Vec<NumericalCase>,
+}
+
+#[derive(serde::Deserialize)]
+struct NumericalCase {
+    id: String,
+    net_benefits: Vec<Vec<f64>>,
+    expected: NumericalExpected,
+}
+
+#[derive(serde::Deserialize)]
+struct NumericalExpected {
+    value: f64,
+    atol: f64,
+}
+
 #[test]
 fn evpi_contract_returns_expected_fixture_result() {
     let fixture = vec![vec![10.0, 1.0], vec![2.0, 8.0]];
@@ -98,4 +116,23 @@ fn enbs_rejects_negative_or_non_finite_costs() {
     let non_finite = enbs_contract(f64::INFINITY, 1.0).expect_err("non-finite");
     assert_eq!(non_finite, ScalarError::NonFiniteScalarInput);
     assert_eq!(non_finite.message(), "inputs must be finite numbers");
+}
+
+#[test]
+fn independent_numerical_references_are_conformant() {
+    let reference: NumericalReference = serde_json::from_str(include_str!(
+        "../../../specs/numerical-reference/v1/evpi-cases.json"
+    ))
+    .expect("numerical reference must be valid JSON");
+
+    for fixture in reference.cases {
+        let got = evpi(&fixture.net_benefits).expect("reference matrix must be valid");
+        assert!(
+            (got - fixture.expected.value).abs() <= fixture.expected.atol,
+            "{}: expected {}, got {}",
+            fixture.id,
+            fixture.expected.value,
+            got
+        );
+    }
 }

@@ -1,0 +1,31 @@
+[workspace]
+name = "voiage"
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+
+[dependencies]
+python = ">=3.14,<3.15"
+uv = "*"
+
+[tasks]
+sync = "uv sync --frozen --extra ci --extra dev"
+test = { cmd = "uv run pytest tests", depends-on = ["sync"] }
+lint = { cmd = "uv run ruff check voiage tests scripts", depends-on = ["sync"] }
+format-check = { cmd = "uv run ruff format --check voiage tests scripts", depends-on = ["sync"] }
+typecheck = { cmd = "uv run ty check voiage && uv run basedpyright voiage", depends-on = ["sync"] }
+security = { cmd = "uv run bandit -r voiage -c pyproject.toml", depends-on = ["sync"] }
+build = { cmd = "uv build", depends-on = ["sync"] }
+profile = { cmd = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_results.json profile_scalene.py", depends-on = ["sync"] }
+contracts = { cmd = "uv run nox -s contracts", depends-on = ["sync"] }
+contracts-profile = { cmd = "uv run nox -s contract_profile", depends-on = ["sync"] }
+contracts-mutation = { cmd = "uv run nox -s contract_mutation", depends-on = ["sync"] }
+mutation-score = { cmd = "uv run mutmut run && uv run mutmut export-cicd-stats && uv run python scripts/check_mutation_score.py --threshold 75 --baseline-stats .github/mutation-baselines/voiage-broad.json --output .benchmarks/mutation-score-broad.json && uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json", depends-on = ["sync"] }
+verify = { depends-on = ["lint", "format-check", "typecheck", "test", "build"] }
+
+[feature.experimental.tasks]
+sync-experimental = "uv sync --frozen --extra ci --extra dev --extra experimental"
+test-experimental = { cmd = "uv run pytest tests -m experimental --no-cov", depends-on = ["sync-experimental"] }
+
+[environments]
+default = { solve-group = "default" }
+experimental = { features = ["experimental"], solve-group = "default" }

@@ -138,4 +138,7 @@ def test_manifest_generator_writes_probe_manifests(tmp_path: Path) -> None:
         artifact_argv = " ".join(
             " ".join(command["argv"]) for command in manifest["commands"]
         )
-        assert str(output_root / target / "artifacts" / target) in artifact_argv
+        expected_artifact_root = (
+            output_root / target / "artifacts" / target
+        ).as_posix()
+        assert expected_artifact_root in artifact_argv.replace("\\", "/")

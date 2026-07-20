@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Pure-data desired GitHub projection; applying it is out of scope.",
+  "properties": {
+    "body": {
+      "title": "Body",
+      "type": "string"
+    },
+    "desired_state": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "Desired State",
+      "type": "string"
+    },
+    "github_repository": {
+      "title": "Github Repository",
+      "type": "string"
+    },
+    "issue_number": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Issue Number"
+    },
+    "labels": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Labels",
+      "type": "array"
+    },
+    "project_fields": {
+      "items": {
+        "maxItems": 2,
+        "minItems": 2,
+        "prefixItems": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "title": "Project Fields",
+      "type": "array"
+    },
+    "project_number": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Project Number"
+    },
+    "stable_marker": {
+      "title": "Stable Marker",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "github_repository",
+    "issue_number",
+    "desired_state",
+    "stable_marker",
+    "title",
+    "body",
+    "labels",
+    "project_number",
+    "project_fields"
+  ],
+  "title": "GitHubSyncPayload",
+  "type": "object"
+}

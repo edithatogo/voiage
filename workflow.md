@@ -32,6 +32,7 @@ Use the repo-defined full gate before treating a slice as complete:
 
 ```bash
 uv run --with tox tox -e lint,typecheck,docs,py314,coverage_report
+pixi run verify
 ```
 
 Focused checks should be run before the full gate when they are relevant, for

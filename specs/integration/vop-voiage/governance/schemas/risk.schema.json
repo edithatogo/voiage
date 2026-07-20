@@ -1,0 +1,307 @@
+{
+  "$defs": {
+    "Relation": {
+      "additionalProperties": false,
+      "description": "Typed edge between governance records.",
+      "properties": {
+        "relation": {
+          "enum": [
+            "informs",
+            "depends_on",
+            "blocks",
+            "mitigates",
+            "mitigated_by",
+            "resolved_by",
+            "supersedes",
+            "implements",
+            "supports",
+            "challenges"
+          ],
+          "title": "Relation",
+          "type": "string"
+        },
+        "target_id": {
+          "pattern": "^(CON|ASM|RSK|DEC|EVR|ISL)-(VOP|VOI|SHR)-[0-9]{4}$",
+          "title": "Target Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "relation",
+        "target_id"
+      ],
+      "title": "Relation",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An uncertain event with an adverse consequence.",
+  "properties": {
+    "cause": {
+      "minLength": 1,
+      "title": "Cause",
+      "type": "string"
+    },
+    "consequence": {
+      "minLength": 1,
+      "title": "Consequence",
+      "type": "string"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Created At"
+    },
+    "event": {
+      "minLength": 1,
+      "title": "Event",
+      "type": "string"
+    },
+    "evidence_reference_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence Reference Ids",
+      "type": "array"
+    },
+    "gate": {
+      "default": "local",
+      "enum": [
+        "none",
+        "local",
+        "external",
+        "human",
+        "credential",
+        "hardware",
+        "publication"
+      ],
+      "title": "Gate",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "impact": {
+      "enum": [
+        "negligible",
+        "minor",
+        "moderate",
+        "major",
+        "critical"
+      ],
+      "title": "Impact",
+      "type": "string"
+    },
+    "issue_link_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Issue Link Ids",
+      "type": "array"
+    },
+    "likelihood": {
+      "enum": [
+        "rare",
+        "unlikely",
+        "possible",
+        "likely",
+        "almost_certain"
+      ],
+      "title": "Likelihood",
+      "type": "string"
+    },
+    "mitigations": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Mitigations",
+      "type": "array"
+    },
+    "moscow": {
+      "default": "should",
+      "enum": [
+        "must",
+        "should",
+        "could",
+        "wont_now"
+      ],
+      "title": "Moscow",
+      "type": "string"
+    },
+    "owner_role": {
+      "default": "maintainer",
+      "title": "Owner Role",
+      "type": "string"
+    },
+    "priority": {
+      "default": "P2",
+      "enum": [
+        "P0",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "record_type": {
+      "const": "risk",
+      "default": "risk",
+      "title": "Record Type",
+      "type": "string"
+    },
+    "record_version": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Record Version",
+      "type": "integer"
+    },
+    "relations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Relation"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "repository": {
+      "default": "shared",
+      "enum": [
+        "vop_poc_nz",
+        "voiage",
+        "shared"
+      ],
+      "title": "Repository",
+      "type": "string"
+    },
+    "requirement_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Requirement Ids",
+      "type": "array"
+    },
+    "residual_risk_level": {
+      "anyOf": [
+        {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Residual Risk Level"
+    },
+    "risk_level": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "Risk Level",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "mitigating",
+        "accepted",
+        "realized",
+        "closed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "summary": {
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    },
+    "tags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "track_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Track Ids",
+      "type": "array"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    },
+    "visibility": {
+      "default": "public",
+      "enum": [
+        "public",
+        "repository",
+        "local_private"
+      ],
+      "title": "Visibility",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "summary",
+    "status",
+    "cause",
+    "event",
+    "consequence",
+    "likelihood",
+    "impact",
+    "risk_level"
+  ],
+  "title": "Risk",
+  "type": "object"
+}

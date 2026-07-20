@@ -81,6 +81,13 @@
     "n_samples": 2,
     "n_strategies": 3,
     "n_perspectives": 2,
-    "regret_definition": "row i, column j is regret in perspective i when using the strategy optimal under perspective j"
+    "regret_definition": "row i, column j is regret in perspective i when using the strategy optimal under perspective j",
+    "estimand": "directional_current_information_evop",
+    "decision_rule": "expected_value",
+    "method_contract_version": "1.1.0",
+    "tie_policy": "first",
+    "ties_detected": [false, false],
+    "switching_standard_errors": [0.0, 0.0],
+    "switching_ci95": [[0.0, 0.0], [4.0, 4.0]]
   }
 }

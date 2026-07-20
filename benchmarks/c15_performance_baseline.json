@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "workload_id": "voiage-c15-evpi-4096x4-f64-v1",
+  "parameters": {"repeats": 9, "iterations": 40, "rows": 4096, "strategies": 4, "dtype": "float64"},
+  "measurement": {
+    "interval_method": "deterministic_percentile_bootstrap",
+    "confidence": 0.95,
+    "resamples": 10000,
+    "minimum_samples": 5,
+    "config_digest": "3639306544d7d5dfc1fa380d580b9f8ecec400ec89e7e0c85db25032eb52a1f5"
+  },
+  "source": {
+    "commit": "18b9270189bdabe1ea6314cee07f1288fa005cb0",
+    "evidence_kind": "repository_owned_conservative_initial_budget",
+    "captured_at": "2026-07-20",
+    "derivation": "Initial 0.25 second upper-bound budget for a 4096x4 float64 EVPI reduction; exact hosted reports are retained on every run and future tightening requires reviewed evidence."
+  },
+  "cohorts": {
+    "Linux": {
+      "approved_runner_identity": {"os": "Linux", "architecture": "x86_64", "python_series": "3.14", "python_implementation": "CPython", "ci_runner_os": "Linux", "ci_runner_arch": "x86_64", "ci_image_os": "ubuntu24"},
+      "approved_runner_fingerprint": "bda07afba2f912980685735cabbde8568b9ede3be4448e8bc5f72032758c51fd",
+      "maximum_upper_seconds": 0.25
+    },
+    "Windows": {
+      "approved_runner_identity": {"os": "Windows", "architecture": "x86_64", "python_series": "3.14", "python_implementation": "CPython", "ci_runner_os": "Windows", "ci_runner_arch": "x86_64", "ci_image_os": "win25-vs2026"},
+      "approved_runner_fingerprint": "869a9cc34bc9e0f31d42f880eb45e1ea5e1b9885892cc81fb2e7db78b3c1bee4",
+      "maximum_upper_seconds": 0.25
+    }
+  }
+}

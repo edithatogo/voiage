@@ -81,3 +81,7 @@ Agents must follow this sequence for every contribution:
 *   **Robustness over Speed:** Prefer solutions that are well-tested and stable.
 *   **Clarity is Key:** Write code and documentation that is easy for both humans and other agents to understand.
 *   **Follow Conventions:** Adhere strictly to the existing code style and project structure.
+
+## Dependency and context frontier
+
+Before dependency or runtime work, run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`. Read the generated local report together with the Conductor context pack. Keep preview dependencies behind named extras and require numerical-equivalence, Arrow round-trip, and CPU-fallback tests before promotion.

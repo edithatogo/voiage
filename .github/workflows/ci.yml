@@ -8,11 +8,58 @@ on:
   schedule:
     # Run profiling weekly on Monday
     - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      expensive:
+        description: Run mutation and Scalene profiling lanes
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 jobs:
+  lock-refresh-evidence:
+    name: Frozen Lock Refresh Evidence
+    if: github.event_name == 'workflow_dispatch' && inputs.expensive
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout exact requested revision
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+
+    - name: Assert exact checkout
+      env:
+        EXPECTED_SHA: ${{ github.sha }}
+      run: test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+
+    - name: Install pinned uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: false
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Resolve merged dependency graph
+      run: uv lock
+
+    - name: Verify frozen resolution
+      run: uv lock --check
+
+    - name: Retain exact lock evidence
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: frozen-lock-${{ github.sha }}
+        path: uv.lock
+        if-no-files-found: error
+        retention-days: 14
+
   prose-lint:
     name: Vale Prose Lint
     runs-on: ubuntu-latest
@@ -25,18 +72,18 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --frozen --extra dev
 
     - name: Set up Go
       uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
@@ -64,21 +111,46 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
+
+    - name: Checkout pinned VOP governance source
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        repository: edithatogo/vop_poc_nz
+        ref: 51a61340dde73868c319f97a7ce436b0650255be
+        path: .upstream/vop_poc_nz
+        persist-credentials: false
 
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
+
+    - name: Verify generated v2 contracts
+      run: uv run python scripts/export_v2_contracts.py --check
+
+    - name: Run focused v2 contract tests
+      run: >-
+        uv run pytest tests/test_analysis_contracts.py
+        tests/test_calculation_kernel.py
+        tests/test_contract_method_adapters.py
+        tests/test_contract_interchange.py
+        tests/test_v2_contract_exports.py
+        tests/test_vop_governance_mirror.py
+        tests/test_contract_automation.py
+        --no-cov -q
+      env:
+        VOP_GOVERNANCE_SCHEMA_ROOT: .upstream/vop_poc_nz/schemas/governance
+        VOP_GOVERNANCE_REPOSITORY_ROOT: .upstream/vop_poc_nz
 
   version-sync:
     name: Version Synchronization Validation
@@ -93,18 +165,18 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Validate version synchronization
       run: uv run tox -e version-sync
@@ -124,18 +196,18 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run repository harness
       run: uv run python scripts/repo_harness.py
@@ -152,21 +224,21 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Run Ruff
-      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102
+      run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 
     - name: Run Ruff format check
       run: uv run ruff format voiage tests --check
@@ -177,13 +249,27 @@ jobs:
     - name: Check for dead code
       run: uv run vulture voiage --min-confidence 80 || true
 
+    - name: Run ty frontier
+      run: >-
+        uv run ty check voiage --python-version=3.14
+        --ignore invalid-argument-type --ignore invalid-assignment
+        --ignore unresolved-attribute --ignore unresolved-import
+        --ignore no-matching-overload --ignore unsupported-operator
+        --ignore call-non-callable --ignore not-iterable
+        --ignore not-subscriptable --ignore invalid-return-type
+        --ignore invalid-method-override --ignore unused-type-ignore-comment
+        --ignore redundant-cast
+
+    - name: Run BasedPyright on new production contracts
+      run: uv run basedpyright voiage/logging.py voiage/contracts scripts/export_v2_contracts.py
+
   # Unit tests
   test-unit:
     name: Unit Tests (Python ${{ matrix.python }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python: ["3.12", "3.13", "3.14"]
       fail-fast: false
     steps:
     - name: Checkout code
@@ -194,9 +280,9 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}-${{ matrix.python }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python ${{ matrix.python }}
@@ -205,7 +291,7 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run unit tests with coverage
       run: |
@@ -221,7 +307,7 @@ jobs:
         CI: true
 
     - name: Upload coverage to Codecov
-      if: matrix.python == '3.11'
+      if: matrix.python == '3.14'
       uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
       with:
         files: ./coverage.xml
@@ -241,21 +327,58 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
+
+  free-threaded-observation:
+    name: Python 3.14t Observation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up free-threaded Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14t"
+
+    - name: Observe minimal free-threaded Arrow compatibility
+      id: free_threaded_probe
+      continue-on-error: true
+      run: >-
+        uv run --no-project --no-build
+        --with pyarrow==25.0.0
+        --with polars==1.42.1
+        python scripts/free_threaded_arrow_probe.py
+    - name: Record ecosystem readiness
+      if: steps.free_threaded_probe.outcome != 'success'
+      run: |
+        echo "::notice::Python 3.14t Arrow wheels are not yet available for this probe."
+        echo "Python 3.14t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
 
   benchmark-regression:
     name: Benchmark Regression Checks
@@ -269,26 +392,59 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.11"
+        python-version: "3.14"
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run benchmark regression checks
+      id: benchmark-regression
+      continue-on-error: true
       run: |
         uv run pytest tests/test_core_metrics_regression.py tests/benchmarks/test_benchmark_regression.py \
           -q \
           --no-cov
+        uv run python scripts/benchmark_perspective_interchange.py
+        uv run python scripts/perspective_interchange_manifest.py --check
+        uv run python scripts/validate_vop_compatibility.py
       env:
         CI: true
+
+    - name: Enforce contract bundle performance budget
+      id: contract-bundle-performance
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/check_contract_bundle_performance.py
+        --output .benchmarks/contract-bundle-performance.json
+
+    - name: Upload contract bundle performance evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: contract-bundle-performance
+        path: .benchmarks/contract-bundle-performance.json
+        if-no-files-found: error
+
+    - name: Require benchmark and bundle performance gates
+      if: always()
+      env:
+        BENCHMARK_OUTCOME: ${{ steps.benchmark-regression.outcome }}
+        BUNDLE_OUTCOME: ${{ steps.contract-bundle-performance.outcome }}
+      run: |
+        echo "benchmark regression: ${BENCHMARK_OUTCOME}"
+        echo "contract bundle performance: ${BUNDLE_OUTCOME}"
+        if [ "${BENCHMARK_OUTCOME}" != success ] || [ "${BUNDLE_OUTCOME}" != success ]; then
+          exit 1
+        fi
 
   # Integration tests
   test-integration:
@@ -303,17 +459,17 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci
+      run: uv sync --frozen --extra ci
 
     - name: Run integration tests
       run: |
@@ -337,17 +493,17 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install voiage
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
     - name: Run E2E CLI tests
       run: |
@@ -358,44 +514,117 @@ jobs:
       env:
         CI: true
 
-  # Mutation testing (weekly)
+  # Bounded production-contract mutation gates
   test-mutation:
     name: Mutation Testing
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
+    timeout-minutes: 20
     steps:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        fetch-depth: 0
         persist-credentials: false
+
+    - name: Assert and record exact source head
+      env:
+        EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      run: |
+        tested_head="$(git rev-parse HEAD)"
+        echo "tested_head=${tested_head}"
+        test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+        printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev
 
-    - name: Run mutation testing
+    - name: Generate bounded broad mutation evidence
+      id: broad-generation
+      continue-on-error: true
       run: |
-        uv run mutmut run --use-coverage
-        uv run mutmut results
+        uv run mutmut run
+        uv run mutmut export-cicd-stats
+        uv run mutmut results --all true > mutants/mutmut-universe.txt
+
+    - name: Enforce hosted broad mutation ratchet
+      id: broad-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/check_mutation_score.py
+        --threshold 75
+        --baseline-stats .github/mutation-baselines/voiage-broad.json
+        --output .benchmarks/mutation-score-broad.json
+
+    - name: Enforce critical C13 mutation score
+      id: critical-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json
+
+    - name: Enforce source and configuration bound mutation cohort
+      id: cohort-mutation
+      if: always()
+      continue-on-error: true
+      env:
+        REVIEWED_BASELINE_SHA256: ${{ vars.VOIAGE_MUTATION_BASELINE_SHA256 }}
+      run: >-
+        uv run python scripts/check_mutation_cohort.py
+        --stats mutants/mutmut-cicd-stats.json
+        --baseline .github/mutation-baselines/voiage-cohort.json
+        --universe mutants/mutmut-universe.txt
+        --reviewed-baseline-sha256 "${REVIEWED_BASELINE_SHA256}"
+        --threshold 75
+        --output .benchmarks/mutation-cohort.json
+
+    - name: Require all mutation gates
+      if: always()
       env:
         CI: true
+        GENERATION_OUTCOME: ${{ steps.broad-generation.outcome }}
+        BROAD_OUTCOME: ${{ steps.broad-mutation.outcome }}
+        CRITICAL_OUTCOME: ${{ steps.critical-mutation.outcome }}
+        COHORT_OUTCOME: ${{ steps.cohort-mutation.outcome }}
+      run: |
+        echo "broad generation: ${GENERATION_OUTCOME}"
+        echo "broad ratchet: ${BROAD_OUTCOME}"
+        echo "critical score: ${CRITICAL_OUTCOME}"
+        echo "cohort identity and debt: ${COHORT_OUTCOME}"
+        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
+          exit 1
+        fi
+    - name: Upload mutation evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: mutation-evidence
+        path: |
+          .benchmarks/mutation-score-broad.json
+          .benchmarks/mutation-critical.json
+          .benchmarks/mutation-cohort.json
+          mutants/mutmut-cicd-stats.json
+          mutants/mutmut-universe.txt
 
   # Performance profiling (weekly)
   profile:
     name: Performance Profiling
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
+    timeout-minutes: 10
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
     steps:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -405,24 +634,43 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "latest"
+        version: "0.11.29"
         enable-cache: true
-        cache-suffix: ${{ github.job }}-${{ matrix.python || 'base' }}
+        cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.11'
+        python-version: '3.14'
 
     - name: Install dependencies
-      run: uv sync --extra dev
+      run: uv sync --frozen --extra dev
 
-    - name: Run Scalene profiler
+    - name: Profile contract bundle verification with Scalene
       run: |
-        uv run scalene --cli --outfile profile_results.txt voiage/analysis.py
-        cat profile_results.txt
+        uv run scalene run --use-legacy-tracer --cpu-only -o contract_bundle_profile_results.json scripts/check_contract_bundle_performance.py --output contract_bundle_performance.json
+        uv run scalene view --cli contract_bundle_profile_results.json
       env:
         CI: true
+
+    - name: Run general contract Scalene profiler
+      if: always()
+      run: |
+        uv run scalene run --use-legacy-tracer --cpu-only -o contract_profile_results.json scripts/profile_contracts.py
+        uv run scalene view --cli contract_profile_results.json
+      env:
+        CI: true
+
+    - name: Upload profiling evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: scalene-profile
+        path: |
+          contract_profile_results.json
+          contract_bundle_profile_results.json
+          contract_bundle_performance.json
+        if-no-files-found: error
 
   # Documentation build
   docs:

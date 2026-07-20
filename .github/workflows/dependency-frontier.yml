@@ -1,0 +1,149 @@
+name: Dependency Assurance
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  stable-frozen:
+    name: Stable Frozen Lock
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
+      - name: Install pinned uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+
+      - name: Install the immutable stable environment
+        run: uv sync --frozen --extra ci
+
+      - name: Verify immutable lock
+        run: uv lock --check
+
+      - name: Run stable assurance contracts
+        run: >-
+          uv run --frozen --no-sync pytest
+          tests/test_contract_bundle.py
+          tests/test_logging_contract.py
+          tests/test_numerical_reference_cases.py
+          --no-cov -q
+
+  latest-compatible-frontier:
+    name: Latest Compatible and Experimental Observation
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    env:
+      UV_MALWARE_CHECK: "1"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
+
+      - name: Install pinned uv resolver
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: false
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+
+      - name: Resolve latest versions within declared constraints
+        id: resolve
+        continue-on-error: true
+        run: |
+          uv lock --upgrade
+          uv sync --extra ci --extra experimental
+          uv tree --depth 1
+
+      - name: Run frontier assurance contracts
+        id: contracts
+        continue-on-error: true
+        run: >-
+          uv run --no-sync pytest
+          tests/test_contract_bundle.py
+          tests/test_logging_contract.py
+          tests/test_numerical_reference_cases.py
+          --no-cov -q
+
+      - name: Record frontier drift
+        id: audit
+        if: always()
+        continue-on-error: true
+        run: |
+          git diff -- uv.lock > dependency-frontier.patch
+          uv run --no-sync python scripts/dependency_frontier.py . --strict
+
+      - name: Record frontier outcomes
+        if: always()
+        env:
+          RESOLUTION_OUTCOME: ${{ steps.resolve.outcome }}
+          CONTRACTS_OUTCOME: ${{ steps.contracts.outcome }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = {
+              "schema_version": "1.0.0",
+              "resolution": os.environ["RESOLUTION_OUTCOME"],
+              "contracts": os.environ["CONTRACTS_OUTCOME"],
+              "audit": os.environ["AUDIT_OUTCOME"],
+          }
+          Path("dependency-frontier-summary.json").write_text(
+              json.dumps(evidence, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Upload observational frontier evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dependency-frontier-observation
+          path: |
+            dependency-frontier-summary.json
+            dependency-frontier.patch
+            .conductor/local/dependency_frontier.json
+            .conductor/local/dependency_frontier.md
+          if-no-files-found: error
+
+      - name: Require successful frontier observation
+        if: always()
+        env:
+          RESOLUTION_OUTCOME: ${{ steps.resolve.outcome }}
+          CONTRACTS_OUTCOME: ${{ steps.contracts.outcome }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+        run: |
+          echo "resolution: ${RESOLUTION_OUTCOME}"
+          echo "contracts: ${CONTRACTS_OUTCOME}"
+          echo "audit: ${AUDIT_OUTCOME}"
+          if [ "${RESOLUTION_OUTCOME}" != success ] || [ "${CONTRACTS_OUTCOME}" != success ] || [ "${AUDIT_OUTCOME}" != success ]; then
+            exit 1
+          fi

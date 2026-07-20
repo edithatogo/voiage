@@ -12,6 +12,7 @@ import sys
 ACTION_PATTERN = re.compile(r"^\s*(?:-\s*)?uses:\s*([^\s#]+)", re.MULTILINE)
 SHA_PATTERN = re.compile(r"@[0-9a-f]{40}$")
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
+REQUIRED_UV_VERSION = "0.11.29"
 REQUIRED_FILES = (
     "AGENTS.md",
     "CONTRIBUTING.md",
@@ -29,6 +30,7 @@ REQUIRED_WORKFLOWS = (
     "ci.yml",
     "codeql.yml",
     "dependency-review.yml",
+    "operational-assurance.yml",
     "scorecard.yml",
 )
 REQUIRED_CONTEXT_MARKERS = (
@@ -36,6 +38,74 @@ REQUIRED_CONTEXT_MARKERS = (
     "## Repository Context Map",
     "## Solo-Maintainer Merge Policy",
 )
+CONTRACT_GOVERNANCE_MARKERS = {
+    "pyproject.toml": (
+        'contracts = "uv run nox -s contracts"',
+        'contracts-profile = "uv run nox -s contract_profile"',
+        'contracts-mutation = "uv run nox -s contract_mutation"',
+        '"voiage/contracts/capabilities.py"',
+        '"voiage/contracts/digests.py"',
+    ),
+    "noxfile.py": (
+        "def contracts(",
+        "def contract_profile(",
+        "def contract_mutation(",
+    ),
+    "pixi.toml": (
+        "contracts =",
+        "contracts-profile =",
+        "contracts-mutation =",
+        "mutation-score =",
+    ),
+    ".github/workflows/ci.yml": (
+        "scripts/export_v2_contracts.py --check",
+        "tests/test_contract_automation.py",
+        "tests/test_contract_interchange.py",
+        "tests/test_vop_governance_mirror.py",
+        "scripts/profile_contracts.py",
+        "mutmut export-cicd-stats",
+        "--baseline-stats .github/mutation-baselines/voiage-broad.json",
+        "mutation-score-broad.json",
+        "scripts/run_critical_mutation_lane.py . --threshold 90",
+    ),
+}
+OPERATIONAL_ASSURANCE_MARKERS = {
+    ".github/workflows/operational-assurance.yml": (
+        "scripts/check_consumer_matrix.py",
+        "scripts/check_coverage_policy.py",
+        "--cov-fail-under=90",
+        "4017aac3b5803f2d68b09d74e57ebd6c55e933d0",
+        "include-hidden-files: true",
+        "if-no-files-found: error",
+    ),
+    ".github/workflows/ci.yml": (
+        "scripts/check_mutation_cohort.py",
+        ".github/mutation-baselines/voiage-cohort.json",
+        "mutation-cohort.json",
+        "VOIAGE_MUTATION_BASELINE_SHA256",
+        "mutmut-universe.txt",
+    ),
+    ".github/mutation-baselines/README.md": (
+        "VOIAGE_MUTATION_BASELINE_SHA256",
+        "Do not add an approval Boolean",
+        "fails closed",
+    ),
+    ".github/coverage-policy.json": (
+        '"aggregate_percent": 90.0',
+        '"changed_branch_percent": 100.0',
+    ),
+}
+EXPECTED_COVERAGE_POLICY = {
+    "schema_version": "1.0.0",
+    "aggregate_percent": 90.0,
+    "critical_modules": {
+        "voiage/assurance_policy.py": 100.0,
+        "voiage/contracts/bundle.py": 90.0,
+        "voiage/mutation_policy.py": 95.0,
+    },
+    "changed_line_percent": 95.0,
+    "changed_branch_percent": 100.0,
+}
 
 
 @dataclass(frozen=True)
@@ -102,6 +172,28 @@ def check_workflows(root: Path) -> list[Finding]:
                         relative_path, f"action is not pinned to a commit SHA: {action}"
                     )
                 )
+        lines = text.splitlines()
+        for index, line in enumerate(lines):
+            if "uses: astral-sh/setup-uv@" not in line:
+                continue
+            action_indent = len(line) - len(line.lstrip())
+            configured_version: str | None = None
+            for candidate in lines[index + 1 : index + 14]:
+                stripped = candidate.strip()
+                indent = len(candidate) - len(candidate.lstrip())
+                if stripped.startswith("- ") and indent <= action_indent:
+                    break
+                if stripped.startswith("version:"):
+                    configured_version = stripped.split(":", 1)[1].strip().strip("\"'")
+                    break
+            if configured_version != REQUIRED_UV_VERSION:
+                findings.append(
+                    Finding(
+                        relative_path,
+                        "setup-uv must pin the repository frontier version "
+                        f"{REQUIRED_UV_VERSION}",
+                    )
+                )
         if path.parent != workflow_root:
             findings.append(
                 Finding(relative_path, "workflow is outside the expected directory")
@@ -118,7 +210,9 @@ def check_conflict_markers(root: Path) -> list[Finding]:
     """Reject unresolved Git merge markers in tracked text files."""
     markers = (b"<<<<<<< ", b">>>>>>> ")
     ignored_directories = {
+        ".assurance",
         ".git",
+        ".tmp-c14",
         ".tox",
         ".venv",
         "__pycache__",
@@ -181,6 +275,78 @@ def check_docs_platform(root: Path) -> list[Finding]:
     return findings
 
 
+def check_contract_governance(root: Path) -> list[Finding]:
+    """Ensure the v2 contract gate is mirrored across supported runners."""
+    findings: list[Finding] = []
+    for relative_path, markers in CONTRACT_GOVERNANCE_MARKERS.items():
+        path = root / relative_path
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        missing = [marker for marker in markers if marker not in text]
+        if missing:
+            findings.append(
+                Finding(
+                    relative_path,
+                    "contract governance markers are missing: " + ", ".join(missing),
+                )
+            )
+    return findings
+
+
+def check_operational_assurance(root: Path) -> list[Finding]:
+    """Ensure compatibility, coverage, and cohort gates remain wired."""
+    findings: list[Finding] = []
+    for relative_path, markers in OPERATIONAL_ASSURANCE_MARKERS.items():
+        path = root / relative_path
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        missing = [marker for marker in markers if marker not in text]
+        if missing:
+            findings.append(
+                Finding(
+                    relative_path,
+                    "operational assurance markers are missing: " + ", ".join(missing),
+                )
+            )
+    policy_path = root / ".github" / "coverage-policy.json"
+    try:
+        policy = json.loads(policy_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        policy = None
+    if policy != EXPECTED_COVERAGE_POLICY:
+        findings.append(
+            Finding(
+                ".github/coverage-policy.json",
+                "coverage policy must exactly match the promoted thresholds",
+            )
+        )
+    baseline_path = root / ".github" / "mutation-baselines" / "voiage-cohort.json"
+    try:
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        provenance = baseline["promotion_provenance"]
+        cohort = baseline["cohort"]
+        universe = baseline["universe"]
+    except (OSError, json.JSONDecodeError, KeyError, TypeError):
+        provenance = cohort = universe = None
+    externally_anchored = (
+        isinstance(provenance, dict)
+        and "human_approved" not in provenance
+        and provenance.get("review_state") == "requires_external_anchor"
+        and isinstance(cohort, dict)
+        and {"tool_version", "lock_sha256", "configuration_sha256", "sources"}
+        <= set(cohort)
+        and isinstance(universe, dict)
+        and isinstance(universe.get("ids"), list)
+        and isinstance(universe.get("sha256"), str)
+    )
+    if not externally_anchored:
+        findings.append(
+            Finding(
+                ".github/mutation-baselines/voiage-cohort.json",
+                "mutation baseline must require an external review anchor",
+            )
+        )
+    return findings
+
+
 def collect_findings(root: Path) -> list[Finding]:
     """Run all deterministic harness checks."""
     return (
@@ -188,6 +354,8 @@ def collect_findings(root: Path) -> list[Finding]:
         + check_context_contract(root)
         + check_workflows(root)
         + check_docs_platform(root)
+        + check_contract_governance(root)
+        + check_operational_assurance(root)
         + check_conflict_markers(root)
     )
 

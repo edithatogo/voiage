@@ -60,7 +60,7 @@ def typecheck(session: nox.Session) -> None:
         "ty",
         "check",
         "voiage",
-        "--python-version=3.10",
+        "--python-version=3.14",
         "--ignore",
         "invalid-argument-type",
         "--ignore",
@@ -89,6 +89,7 @@ def typecheck(session: nox.Session) -> None:
         "redundant-cast",
         *session.posargs,
     )
+    session.run("basedpyright", "voiage/logging.py")
 
 
 @nox.session
@@ -121,3 +122,66 @@ def frontier_contract(session: nox.Session) -> None:
     """Validate the frontier contract registry and fixtures."""
     _sync_project(session)
     session.run("python", "scripts/validate_frontier_contract.py", *session.posargs)
+
+
+@nox.session
+def contracts(session: nox.Session) -> None:
+    """Verify generated v2 contracts and their focused implementation surface."""
+    _sync_project(session)
+    session.run("python", "scripts/export_v2_contracts.py", "--check")
+    session.run(
+        "pytest",
+        "tests/test_analysis_contracts.py",
+        "tests/test_calculation_kernel.py",
+        "tests/test_contract_method_adapters.py",
+        "tests/test_contract_interchange.py",
+        "tests/test_v2_contract_exports.py",
+        "tests/test_vop_governance_mirror.py",
+        "tests/test_contract_automation.py",
+        "--no-cov",
+        "-q",
+        *session.posargs,
+    )
+    session.run("ruff", "check", "voiage/contracts", "scripts/export_v2_contracts.py")
+    session.run("ty", "check", "voiage/contracts")
+    session.run("basedpyright", "voiage/contracts", "scripts/export_v2_contracts.py")
+
+
+@nox.session(default=False)
+def contract_profile(session: nox.Session) -> None:
+    """Profile a bounded canonical-contract workload on demand."""
+    _sync_project(session)
+    session.run(
+        "scalene",
+        "run",
+        "-o",
+        "contract_profile_results.json",
+        "scripts/profile_contracts.py",
+    )
+
+
+@nox.session(default=False)
+def contract_mutation(session: nox.Session) -> None:
+    """Run broad evidence plus the strict production-invariant mutation gate."""
+    _sync_project(session)
+    session.run("mutmut", "run")
+    session.run("mutmut", "export-cicd-stats")
+    session.run(
+        "python",
+        "scripts/check_mutation_score.py",
+        "--threshold",
+        "75",
+        "--baseline-stats",
+        ".github/mutation-baselines/voiage-broad.json",
+        "--output",
+        ".benchmarks/mutation-score-broad.json",
+    )
+    session.run(
+        "python",
+        "scripts/run_critical_mutation_lane.py",
+        ".",
+        "--threshold",
+        "90",
+        "--output",
+        ".benchmarks/mutation-critical.json",
+    )

@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added Pydantic v2 structured logging with JSONL, run IDs, bound context, and
+  backward-compatible CLI human logs; added Pixi/uv task parity, BasedPyright
+  ratcheting, Scalene artifacts, and manually dispatchable expensive CI lanes.
+- Added explicit UTF-8 CLI JSON reads and LF checkout policy for byte-stable
+  evidence fixtures on Windows and Unix.
+- Added versioned Arrow IPC and Parquet perspective fixtures with stable schema
+  fingerprints, LF-normalized evidence hashing, PyArrow/Polars and
+  cross-process conformance tests, relative serialization regression guards,
+  weekly dependency-frontier verification, and non-blocking Python 3.14t CI.
 - Routed the public moment-based EVSI estimator through the versioned Rust
   kernel with strict result-envelope validation and a rank-deficiency/native-
   absence compatibility fallback to the NumPy reference implementation.
@@ -844,6 +853,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added fixture-backed strategic behavior and game-theoretic VOI with equilibrium, incentive, disclosure, bargaining, regret, adversarial, CLI, Astro documentation, and frontier-contract diagnostics.
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
+
+- Fixed source-distribution reproducibility by embedding the committed source
+  identity before isolated builds, and repaired invalid exception syntax and
+  type-only backend annotations in the assurance branch.
+- Keep the reproducible release SBOM as the workflow-owned CycloneDX artifact;
+  disable Maturin's path-bearing per-wheel Cargo SBOM.
 
 - Added a reproducible Conda-Forge feedstock handoff recording release,
   workflow, recipe, credential, maintainer-merge, and package-index evidence.

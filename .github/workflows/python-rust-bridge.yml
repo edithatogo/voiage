@@ -31,6 +31,9 @@ on:
 
 permissions: {}
 
+env:
+  VOIAGE_PYTHON_ABI: cp312-abi3
+
 concurrency:
   group: python-rust-bridge-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -48,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python: ["3.12", "3.13", "3.14"]
     steps:
       - name: Check out source
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -59,15 +62,15 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up test Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: ${{ matrix.python }}
-      - name: Install Python 3.10 ABI floor
-        run: uv python install 3.10
+      - name: Install Python 3.12 ABI floor
+        run: uv python install 3.12
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -78,10 +81,10 @@ jobs:
         run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
       - name: Record reproducible source epoch
         run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
-      - name: Build cp310-abi3 wheel
+      - name: Build cp312-abi3 wheel
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -89,7 +92,7 @@ jobs:
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         run: |
-          python -c "from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert 'cp310-abi3' in wheels[0].name, wheels[0]"
+          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert os.environ['VOIAGE_PYTHON_ABI'] in wheels[0].name, wheels[0]"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Create clean locked test environment
@@ -146,13 +149,13 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Set up Python 3.10 ABI floor
+      - name: Set up Python 3.12 ABI floor
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -170,7 +173,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -180,12 +183,12 @@ jobs:
         env:
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert 'cp310-abi3' in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
+          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Install actual wheel into clean environment
         run: |
-          uv venv --python 3.10 .wheel-venv
+          uv venv --python 3.12 .wheel-venv
           uv pip install --python .wheel-venv dist/*.whl
           uv pip check --python .wheel-venv
           uv pip install --python .wheel-venv pytest rfc8785==0.1.4

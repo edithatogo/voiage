@@ -1,6 +1,6 @@
 {% set name = "voiage" %}
 {% set version = "0.2.1" %}
-{% set python_min = "3.10" %}
+{% set python_min = "3.12" %}
 
 package:
   name: {{ name|lower }}

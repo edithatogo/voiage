@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "DistributionFamily": {
+      "description": "Supported uncertainty distribution families.",
+      "enum": [
+        "fixed",
+        "normal",
+        "lognormal",
+        "beta",
+        "gamma",
+        "uniform"
+      ],
+      "title": "DistributionFamily",
+      "type": "string"
+    },
+    "DistributionParameter": {
+      "additionalProperties": false,
+      "description": "Named finite parameter of an uncertainty distribution.",
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "DistributionParameter",
+      "type": "object"
+    },
+    "MetadataStatus": {
+      "description": "Epistemic status of imported unit or provenance metadata.",
+      "enum": [
+        "known",
+        "provisional",
+        "unknown"
+      ],
+      "title": "MetadataStatus",
+      "type": "string"
+    },
+    "ProvenanceSpec": {
+      "additionalProperties": false,
+      "description": "Traceable identity for an input, source, or generated contract.",
+      "properties": {
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "observed_at_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At Utc"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Version"
+        }
+      },
+      "required": [
+        "source_id"
+      ],
+      "title": "ProvenanceSpec",
+      "type": "object"
+    },
+    "UnitDimension": {
+      "description": "Physical or decision-model dimension represented by a unit.",
+      "enum": [
+        "currency",
+        "time",
+        "health",
+        "probability",
+        "count",
+        "dimensionless"
+      ],
+      "title": "UnitDimension",
+      "type": "string"
+    },
+    "UnitSpec": {
+      "additionalProperties": false,
+      "description": "Machine-readable unit identity, including currency price year.",
+      "properties": {
+        "currency_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Code"
+        },
+        "currency_year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Year"
+        },
+        "dimension": {
+          "$ref": "#/$defs/UnitDimension"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "symbol": {
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "dimension"
+      ],
+      "title": "UnitSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Validated uncertainty distribution with explicit parameter names.",
+  "properties": {
+    "family": {
+      "$ref": "#/$defs/DistributionFamily"
+    },
+    "parameters": {
+      "items": {
+        "$ref": "#/$defs/DistributionParameter"
+      },
+      "minItems": 1,
+      "title": "Parameters",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceSpec"
+    },
+    "unit": {
+      "$ref": "#/$defs/UnitSpec"
+    }
+  },
+  "required": [
+    "family",
+    "parameters",
+    "unit",
+    "provenance"
+  ],
+  "title": "DistributionSpec",
+  "type": "object"
+}

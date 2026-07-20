@@ -1,0 +1,102 @@
+name: Operational Assurance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility-and-coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout exact source head with complete comparison history
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        fetch-depth: 0
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-dependency-glob: uv.lock
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Install frozen dependencies
+      run: uv sync --frozen --extra ci --extra dev
+
+    - name: Verify independent consumer matrix
+      run: >-
+        uv run python scripts/check_consumer_matrix.py
+        --output .assurance/consumer-matrix.json
+
+    - name: Collect full branch coverage
+      run: |
+        uv run pytest tests/ --cov=voiage --cov-config=pyproject.toml --cov-report=json:.assurance/coverage.json --cov-fail-under=90
+
+    - name: Resolve comparison base
+      id: comparison
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        PR_BASE: ${{ github.event.pull_request.base.sha }}
+        PUSH_BASE: ${{ github.event.before }}
+        C15_PROVENANCE_FLOOR: 4017aac3b5803f2d68b09d74e57ebd6c55e933d0
+      run: |
+        candidate="${PUSH_BASE}"
+        if [ "${EVENT_NAME}" = pull_request ]; then candidate="${PR_BASE}"; fi
+        if [ -z "${candidate}" ] || [ "${candidate}" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${candidate}^{commit}"; then
+          candidate="HEAD^"
+        fi
+        merge_base="$(git merge-base "${candidate}" HEAD)"
+        if ! git cat-file -e "${C15_PROVENANCE_FLOOR}^{commit}"; then
+          echo "C15 provenance floor is unavailable" >&2
+          exit 1
+        fi
+        if git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" "${merge_base}"; then
+          base="${merge_base}"
+          reason="event merge-base is newer than provenance floor"
+        elif git merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"; then
+          base="${C15_PROVENANCE_FLOOR}"
+          reason="provenance floor is newer than event merge-base"
+        elif git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD; then
+          base="${merge_base}"
+          reason="provenance floor is head-only; event merge-base preserves full PR delta"
+        else
+          echo "comparison histories diverge: candidate=${candidate} merge_base=${merge_base} floor=${C15_PROVENANCE_FLOOR}" >&2
+          exit 1
+        fi
+        echo "base=${base}" >> "$GITHUB_OUTPUT"
+        echo "candidate=${candidate}" >> "$GITHUB_OUTPUT"
+        echo "merge_base=${merge_base}" >> "$GITHUB_OUTPUT"
+        echo "reason=${reason}" >> "$GITHUB_OUTPUT"
+        echo "selected coverage base ${base}: ${reason}"
+
+    - name: Enforce aggregate, critical, and changed-line coverage
+      env:
+        SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      run: >-
+        uv run python scripts/check_coverage_policy.py
+        --coverage .assurance/coverage.json
+        --base "${{ steps.comparison.outputs.base }}"
+        --source-head "${SOURCE_HEAD}"
+        --output .assurance/coverage-policy.json
+
+    - name: Upload operational assurance evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: operational-assurance-evidence
+        if-no-files-found: error
+        include-hidden-files: true
+        path: .assurance/

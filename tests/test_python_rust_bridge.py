@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 try:
     import tomllib
-except ModuleNotFoundError:  # pragma: no cover - Python 3.10 CI
+except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
     import tomli as tomllib
 
 import numpy as np
@@ -176,7 +176,7 @@ def test_python_adapter_is_a_private_leaf_crate() -> None:
 
     adapter = tomllib.loads(PYTHON_CRATE.read_text(encoding="utf-8"))
     dependencies = adapter["dependencies"]
-    assert dependencies["pyo3"]["features"] == ["abi3-py310"]
+    assert dependencies["pyo3"]["features"] == ["abi3-py312"]
     assert "voiage-domain" in dependencies
     assert "voiage-diagnostics" in dependencies
     assert "voiage-serialization" in dependencies
@@ -211,6 +211,7 @@ def test_maturin_maps_the_private_mixed_project_module() -> None:
                 "format": "sdist",
             }
         ],
+        "sbom": {"rust": False},
     }
 
 

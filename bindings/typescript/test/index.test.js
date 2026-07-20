@@ -28,3 +28,20 @@ test("canonical EVPI fixture is recognized", async () => {
 
   assert.equal(validateEvpiFixture(fixture), true);
 });
+
+test("independent hand-calculated EVPI references are conformant", async () => {
+  const reference = JSON.parse(
+    await readFile(
+      new URL("../../../specs/numerical-reference/v1/evpi-cases.json", import.meta.url),
+      "utf8",
+    ),
+  );
+
+  for (const fixture of reference.cases) {
+    assert.ok(
+      Math.abs(evpi(fixture.net_benefits) - fixture.expected.value) <=
+        fixture.expected.atol,
+      fixture.id,
+    );
+  }
+});

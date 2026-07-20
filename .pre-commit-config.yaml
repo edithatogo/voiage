@@ -44,7 +44,7 @@ repos:
   - id: ty
     name: ty (type check)
     args:
-    - --python-version=3.10
+    - --python-version=3.12
     - --ignore=invalid-argument-type
     - --ignore=invalid-assignment
     - --ignore=unresolved-attribute

@@ -1,4 +1,4 @@
-name: Release Build
+name: Release
 
 on:
   push:
@@ -7,14 +7,30 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: "Existing release tag to validate and build"
+        description: "Existing signed release tag to stage or publish"
         required: true
+        type: string
+      publish:
+        description: "Publish the verified private draft to TestPyPI, PyPI, and GitHub"
+        required: false
+        type: boolean
+        default: false
+      expected_wheel_sha256:
+        description: "Reviewed comma-separated SHA-256 values for staged wheels (required when publishing)"
+        required: false
+        type: string
+      expected_sdist_sha256:
+        description: "Reviewed SHA-256 of the staged sdist (required when publishing)"
+        required: false
         type: string
 
 permissions: {}
 
+env:
+  VOIAGE_PYTHON_ABI: cp312-abi3
+
 concurrency:
-  group: release-build-${{ github.ref }}
+  group: release-${{ inputs.release_tag || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -34,26 +50,36 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
-      - name: Resolve actual remote tag to immutable commit
+      - name: Resolve and validate exact signed remote release tag
         id: tag
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APPROVED_TAGGER_EMAIL: ${{ vars.RELEASE_TAGGER_EMAIL }}
         run: |
+          set -euo pipefail
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
-          git ls-remote --exit-code --refs origin "refs/tags/$RELEASE_TAG"
+          remote_oid="$(git ls-remote --exit-code --refs origin "refs/tags/$RELEASE_TAG" | cut -f1)"
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
-          tag_sha=$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")
+          test "$(git rev-parse "refs/tags/$RELEASE_TAG")" = "$remote_oid"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          tag_sha="$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")"
           git checkout --detach "$tag_sha"
           test "$(git rev-parse HEAD)" = "$tag_sha"
+          test -n "$APPROVED_TAGGER_EMAIL"
+          gh api "repos/${GITHUB_REPOSITORY}/git/tags/$remote_oid" > tag-verification.json
+          jq -e '.verification.verified == true' tag-verification.json >/dev/null
+          test "$(jq -r '.tagger.email' tag-verification.json)" = "$APPROVED_TAGGER_EMAIL"
           echo "tag_sha=$tag_sha" >> "$GITHUB_OUTPUT"
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -108,12 +134,12 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: false
-      - name: Set up Python 3.10 ABI floor
+      - name: Set up Python 3.12 ABI floor
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -127,7 +153,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -138,11 +164,11 @@ jobs:
           WHEEL_PLATFORM: ${{ matrix.platform }}
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); assert 'cp310-abi3' in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{os.environ[\"WHEEL_PLATFORM\"]}: {platform=} {expected=}'"
+          python -c "import os; from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{os.environ[\"WHEEL_PLATFORM\"]}: {platform=} {expected=}'"
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); assert any(name.startswith('voiage/_core.') for name in ZipFile(wheel).namelist())"
       - name: Install wheel into clean environment
         run: |
-          uv venv --python 3.10 .release-wheel-venv
+          uv venv --python 3.12 .release-wheel-venv
           uv pip install --python .release-wheel-venv dist/*.whl
           uv pip check --python .release-wheel-venv
           uv pip install --python .release-wheel-venv pytest rfc8785==0.1.4
@@ -193,12 +219,12 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -216,7 +242,7 @@ jobs:
       - name: Build manylinux2014 wheel from clean extracted sdist
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out ../.sdist-wheel
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out ../.sdist-wheel
           command: build
           docker-options: -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -224,7 +250,7 @@ jobs:
           rust-toolchain: "1.85"
           working-directory: .sdist-source
       - name: Verify sdist-derived wheel tag
-        run: python -c "from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert 'cp310-abi3' in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
+        run: python -c "import os; from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
       - name: Install and smoke sdist-derived wheel
         env:
           WHEEL_VENV: ${{ github.workspace }}/.sdist-wheel-venv
@@ -232,7 +258,7 @@ jobs:
           EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
           EXPECTED_PLATFORM_SUFFIX: manylinux_2_17_x86_64.manylinux2014_x86_64
         run: |
-          uv venv --python 3.10 .sdist-wheel-venv
+          uv venv --python 3.12 .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv .sdist-wheel/*.whl
           uv pip check --python .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv pytest rfc8785==0.1.4
@@ -284,7 +310,7 @@ jobs:
         run: |
           release_version="${RELEASE_TAG#v}"
           export RELEASE_VERSION="$release_version"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-cp310-abi3-' in w.name for w in wheels)"
+          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
           python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
       - name: Attest release artifacts
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373
@@ -300,9 +326,64 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  test-pypi:
-    name: Publish to TestPyPI
+
+  stage:
+    name: Build and Stage Private Draft
     needs: [resolve-tag, attest]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+      TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+    steps:
+      - name: Check out immutable release commit
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.resolve-tag.outputs.tag_sha }}
+          persist-credentials: false
+      - name: Revalidate exact signed remote release tag
+        shell: bash
+        run: |
+          git ls-remote --exit-code --refs origin "refs/tags/$RELEASE_TAG"
+          git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+      - name: Download attested release set
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: voiage-attested-release
+          path: dist
+      - name: Create exact digest manifest
+        shell: bash
+        run: |
+          cd dist
+          sha256sum -- *.whl *.tar.gz | LC_ALL=C sort > SHA256SUMS
+      - name: Create or refresh private draft release
+        shell: bash
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
+          else
+            gh release create "$RELEASE_TAG" --draft --generate-notes --verify-tag --target "$TAG_SHA"
+          fi
+          gh release upload "$RELEASE_TAG" dist/* --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Retain immutable publication payload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-payload-${{ env.RELEASE_TAG }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  test-pypi:
+    name: Publish Reviewed Draft to TestPyPI
+    needs: [resolve-tag, stage]
+    if: github.event_name == 'workflow_dispatch' && inputs.publish
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: testpypi
@@ -324,6 +405,23 @@ jobs:
         with:
           name: voiage-attested-release
           path: dist
+      - name: Require reviewed artifact digests and private draft
+        shell: bash
+        env:
+          EXPECTED_WHEEL_SHA256: ${{ inputs.expected_wheel_sha256 }}
+          EXPECTED_SDIST_SHA256: ${{ inputs.expected_sdist_sha256 }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SDIST_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          mapfile -t wheels < <(find dist -maxdepth 1 -type f -name '*.whl' -print | LC_ALL=C sort)
+          mapfile -t sdists < <(find dist -maxdepth 1 -type f -name '*.tar.gz' -print)
+          test "${#wheels[@]}" -eq 3
+          test "${#sdists[@]}" -eq 1
+          actual_wheels="$(for wheel in "${wheels[@]}"; do sha256sum "$wheel" | cut -d ' ' -f1; done | paste -sd, -)"
+          test "$actual_wheels" = "$EXPECTED_WHEEL_SHA256"
+          test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
+          test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
       - name: Revalidate remote tag binding immediately before TestPyPI
         shell: bash
         run: |
@@ -361,18 +459,18 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.9.18"
+          version: "0.11.29"
           enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install TestPyPI artifact with bounded retry
         shell: bash
         run: |
           release_version="${RELEASE_TAG#v}"
           uv export --locked --extra ci --no-dev --no-emit-project --output-file locked-requirements.txt
-          uv venv --python 3.10 .testpypi-venv
+          uv venv --python 3.12 .testpypi-venv
           uv pip install --python .testpypi-venv -r locked-requirements.txt
           for attempt in 1 2 3 4 5 6; do
             if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$release_version"; then
@@ -432,7 +530,7 @@ jobs:
           attestations: false
 
   github-release:
-    name: Create GitHub Release
+    name: Publish verified GitHub Release
     needs: [resolve-tag, pypi]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -459,7 +557,7 @@ jobs:
         with:
           name: voiage-attested-release
           path: dist
-      - name: Create GitHub Release
-        run: gh release create "$RELEASE_TAG" dist/* --generate-notes --verify-tag --target "$TAG_SHA"
+      - name: Publish verified GitHub Release
+        run: gh release edit "$RELEASE_TAG" --draft=false --latest
         env:
           GH_TOKEN: ${{ github.token }}

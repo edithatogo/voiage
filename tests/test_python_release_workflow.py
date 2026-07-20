@@ -27,11 +27,12 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "os: ubuntu-24.04" in release_workflow
     assert "os: macos-14" in release_workflow
     assert "os: windows-2025" in release_workflow
-    assert "cp310-abi3" in release_workflow
+    assert "cp312-abi3" in release_workflow
     assert "voiage/_core." in release_workflow
     assert "workflow_dispatch:" in release_workflow
     assert (
-        'description: "Existing release tag to validate and build"' in release_workflow
+        'description: "Existing signed release tag to stage or publish"'
+        in release_workflow
     )
     assert (
         "RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}" in release_workflow
@@ -56,7 +57,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         in release_workflow
     )
     assert (
-        'gh release create "$RELEASE_TAG" dist/* --generate-notes --verify-tag --target "$TAG_SHA"'
+        'gh release create "$RELEASE_TAG" --draft --generate-notes --verify-tag --target "$TAG_SHA"'
         in release_workflow
     )
     assert "permissions: {}" in release_workflow
@@ -95,10 +96,40 @@ def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
     assert "test-pypi:" in release_workflow
     assert "pypi:" in release_workflow
     assert "github-release:" in release_workflow
-    assert "needs: [resolve-tag, attest]" in release_workflow
+    assert "needs: [resolve-tag, stage]" in release_workflow
     assert "needs: [resolve-tag, test-pypi]" in release_workflow
     assert "needs: [resolve-tag, test-pypi-smoke]" in release_workflow
     assert "needs: [resolve-tag, pypi]" in release_workflow
+
+
+def test_python_release_keeps_staging_separate_from_publication() -> None:
+    release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+
+    assert "publish:" in release_workflow
+    assert "type: boolean\n        default: false" in release_workflow
+    assert "stage:\n    name: Build and Stage Private Draft" in release_workflow
+    assert (
+        "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI" in release_workflow
+    )
+    assert (
+        "if: github.event_name == 'workflow_dispatch' && inputs.publish"
+        in release_workflow
+    )
+    stage_job = release_workflow.index(
+        "stage:\n    name: Build and Stage Private Draft"
+    )
+    publish_job = release_workflow.index(
+        "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI"
+    )
+    assert stage_job < publish_job
+    assert "environment: testpypi" not in release_workflow[:publish_job]
+    assert "expected_wheel_sha256" in release_workflow
+    assert "expected_sdist_sha256" in release_workflow
+    assert "sha256sum" in release_workflow
+    assert 'gh release view "$RELEASE_TAG" --json isDraft' in release_workflow
+    assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
+    assert "git cat-file -t" in release_workflow
+    assert ".verification.verified == true" in release_workflow
 
 
 def test_release_wheels_are_installed_and_exercised_before_upload() -> None:
@@ -208,7 +239,7 @@ def test_release_architecture_policy_is_explicit_and_extensible() -> None:
     release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
 
     assert "[tool.voiage.release]" in pyproject
-    assert 'python-abi = "cp310-abi3"' in pyproject
+    assert 'python-abi = "cp312-abi3"' in pyproject
     assert 'architecture-policy = "native-runner"' in pyproject
     assert (
         'supported-native-architectures = ["linux-x86_64", "macos-arm64", "windows-x86_64"]'

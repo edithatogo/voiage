@@ -1,0 +1,629 @@
+{
+  "$defs": {
+    "ArmVectors": {
+      "additionalProperties": false,
+      "properties": {
+        "new_treatment": {
+          "$ref": "#/$defs/NumericVector"
+        },
+        "standard_care": {
+          "$ref": "#/$defs/NumericVector"
+        }
+      },
+      "required": [
+        "standard_care",
+        "new_treatment"
+      ],
+      "title": "ArmVectors",
+      "type": "object"
+    },
+    "CostSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "health_system": {
+          "$ref": "#/$defs/ArmVectors"
+        },
+        "societal": {
+          "$ref": "#/$defs/ArmVectors"
+        }
+      },
+      "required": [
+        "health_system",
+        "societal"
+      ],
+      "title": "CostSpec",
+      "type": "object"
+    },
+    "FrictionCostSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "absenteeism_rate": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Absenteeism Rate",
+          "type": "number"
+        },
+        "friction_period_days": {
+          "minimum": 0.0,
+          "title": "Friction Period Days",
+          "type": "number"
+        },
+        "replacement_cost_per_day": {
+          "minimum": 0.0,
+          "title": "Replacement Cost Per Day",
+          "type": "number"
+        }
+      },
+      "required": [
+        "friction_period_days",
+        "replacement_cost_per_day",
+        "absenteeism_rate"
+      ],
+      "title": "FrictionCostSpec",
+      "type": "object"
+    },
+    "MetadataStatus": {
+      "description": "Epistemic status of imported unit or provenance metadata.",
+      "enum": [
+        "known",
+        "provisional",
+        "unknown"
+      ],
+      "title": "MetadataStatus",
+      "type": "string"
+    },
+    "NamedSubgroupSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "override": {
+          "$ref": "#/$defs/SubgroupOverrideSpec"
+        }
+      },
+      "required": [
+        "name",
+        "override"
+      ],
+      "title": "NamedSubgroupSpec",
+      "type": "object"
+    },
+    "NumericVector": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "NumericVector",
+      "type": "object"
+    },
+    "PartialArmVectors": {
+      "additionalProperties": false,
+      "properties": {
+        "new_treatment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericVector"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "standard_care": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericVector"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "PartialArmVectors",
+      "type": "object"
+    },
+    "PartialCostSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "health_system": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialArmVectors"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "societal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialArmVectors"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "PartialCostSpec",
+      "type": "object"
+    },
+    "PartialTransitionMatrices": {
+      "additionalProperties": false,
+      "properties": {
+        "new_treatment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionMatrix"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "standard_care": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransitionMatrix"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "PartialTransitionMatrices",
+      "type": "object"
+    },
+    "ProductivityCostSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "human_capital": {
+          "$ref": "#/$defs/ArmVectors"
+        }
+      },
+      "required": [
+        "human_capital"
+      ],
+      "title": "ProductivityCostSpec",
+      "type": "object"
+    },
+    "ProductivityLossState": {
+      "additionalProperties": false,
+      "properties": {
+        "annual_absence_days": {
+          "minimum": 0.0,
+          "title": "Annual Absence Days",
+          "type": "number"
+        },
+        "state": {
+          "minLength": 1,
+          "title": "State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "annual_absence_days"
+      ],
+      "title": "ProductivityLossState",
+      "type": "object"
+    },
+    "ProvenanceSpec": {
+      "additionalProperties": false,
+      "description": "Traceable identity for an input, source, or generated contract.",
+      "properties": {
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "observed_at_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At Utc"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Version"
+        }
+      },
+      "required": [
+        "source_id"
+      ],
+      "title": "ProvenanceSpec",
+      "type": "object"
+    },
+    "SubgroupOverrideSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "costs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialCostSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "discount_rate": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discount Rate"
+        },
+        "friction_cost_params": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FrictionCostSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "initial_population": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericVector"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "productivity_costs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProductivityCostSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "productivity_loss_states": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ProductivityLossState"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Productivity Loss States"
+        },
+        "qalys": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialArmVectors"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transition_matrices": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialTransitionMatrices"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "SubgroupOverrideSpec",
+      "type": "object"
+    },
+    "TransitionMatrices": {
+      "additionalProperties": false,
+      "properties": {
+        "new_treatment": {
+          "$ref": "#/$defs/TransitionMatrix"
+        },
+        "standard_care": {
+          "$ref": "#/$defs/TransitionMatrix"
+        }
+      },
+      "required": [
+        "standard_care",
+        "new_treatment"
+      ],
+      "title": "TransitionMatrices",
+      "type": "object"
+    },
+    "TransitionMatrix": {
+      "additionalProperties": false,
+      "properties": {
+        "rows": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rows"
+      ],
+      "title": "TransitionMatrix",
+      "type": "object"
+    },
+    "UnitDimension": {
+      "description": "Physical or decision-model dimension represented by a unit.",
+      "enum": [
+        "currency",
+        "time",
+        "health",
+        "probability",
+        "count",
+        "dimensionless"
+      ],
+      "title": "UnitDimension",
+      "type": "string"
+    },
+    "UnitSpec": {
+      "additionalProperties": false,
+      "description": "Machine-readable unit identity, including currency price year.",
+      "properties": {
+        "currency_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Code"
+        },
+        "currency_year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency Year"
+        },
+        "dimension": {
+          "$ref": "#/$defs/UnitDimension"
+        },
+        "metadata_status": {
+          "$ref": "#/$defs/MetadataStatus",
+          "default": "known"
+        },
+        "symbol": {
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "dimension"
+      ],
+      "title": "UnitSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Validated inputs consumed by the typed CEA calculation kernel.",
+  "properties": {
+    "cost_unit": {
+      "$ref": "#/$defs/UnitSpec",
+      "default": {
+        "currency_code": null,
+        "currency_year": null,
+        "dimension": "currency",
+        "metadata_status": "unknown",
+        "symbol": "currency-unspecified"
+      }
+    },
+    "costs": {
+      "$ref": "#/$defs/CostSpec"
+    },
+    "cycle_unit": {
+      "$ref": "#/$defs/UnitSpec",
+      "default": {
+        "currency_code": null,
+        "currency_year": null,
+        "dimension": "time",
+        "metadata_status": "known",
+        "symbol": "cycle"
+      }
+    },
+    "cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Cycles",
+      "type": "integer"
+    },
+    "discount_rate": {
+      "default": 0.03,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Discount Rate",
+      "type": "number"
+    },
+    "friction_cost_params": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FrictionCostSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "health_outcome_unit": {
+      "$ref": "#/$defs/UnitSpec",
+      "default": {
+        "currency_code": null,
+        "currency_year": null,
+        "dimension": "health",
+        "metadata_status": "known",
+        "symbol": "QALY"
+      }
+    },
+    "initial_population": {
+      "$ref": "#/$defs/NumericVector"
+    },
+    "population_unit": {
+      "$ref": "#/$defs/UnitSpec",
+      "default": {
+        "currency_code": null,
+        "currency_year": null,
+        "dimension": "count",
+        "metadata_status": "known",
+        "symbol": "person"
+      }
+    },
+    "productivity_costs": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProductivityCostSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "productivity_loss_states": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ProductivityLossState"
+      },
+      "title": "Productivity Loss States",
+      "type": "array"
+    },
+    "provenance": {
+      "items": {
+        "$ref": "#/$defs/ProvenanceSpec"
+      },
+      "minItems": 1,
+      "title": "Provenance",
+      "type": "array"
+    },
+    "qalys": {
+      "$ref": "#/$defs/ArmVectors"
+    },
+    "states": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "States",
+      "type": "array"
+    },
+    "subgroups": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/NamedSubgroupSpec"
+      },
+      "title": "Subgroups",
+      "type": "array"
+    },
+    "transition_matrices": {
+      "$ref": "#/$defs/TransitionMatrices"
+    }
+  },
+  "required": [
+    "states",
+    "cycles",
+    "initial_population",
+    "transition_matrices",
+    "costs",
+    "qalys",
+    "provenance"
+  ],
+  "title": "InterventionSpec",
+  "type": "object"
+}

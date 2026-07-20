@@ -1,0 +1,378 @@
+{
+  "$defs": {
+    "JsonValue": {},
+    "NumericalPolicy": {
+      "additionalProperties": false,
+      "description": "Explicit numerical equivalence and execution policy.",
+      "properties": {
+        "absolute_tolerance": {
+          "default": 1e-10,
+          "minimum": 0.0,
+          "title": "Absolute Tolerance",
+          "type": "number"
+        },
+        "allow_fallback": {
+          "default": false,
+          "title": "Allow Fallback",
+          "type": "boolean"
+        },
+        "backend_preference": {
+          "default": [
+            "numpy"
+          ],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Backend Preference",
+          "type": "array"
+        },
+        "chunk_size": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chunk Size"
+        },
+        "deterministic_fixture_mode": {
+          "default": false,
+          "title": "Deterministic Fixture Mode",
+          "type": "boolean"
+        },
+        "device": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Device"
+        },
+        "dtype": {
+          "default": "float64",
+          "enum": [
+            "float32",
+            "float64"
+          ],
+          "title": "Dtype",
+          "type": "string"
+        },
+        "execution_mode": {
+          "default": "deterministic",
+          "enum": [
+            "deterministic",
+            "stochastic"
+          ],
+          "title": "Execution Mode",
+          "type": "string"
+        },
+        "nan_policy": {
+          "default": "raise",
+          "enum": [
+            "raise",
+            "propagate",
+            "omit"
+          ],
+          "title": "Nan Policy",
+          "type": "string"
+        },
+        "overflow_policy": {
+          "default": "raise",
+          "enum": [
+            "raise",
+            "warn"
+          ],
+          "title": "Overflow Policy",
+          "type": "string"
+        },
+        "parallelism": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parallelism"
+        },
+        "relative_tolerance": {
+          "default": 1e-08,
+          "minimum": 0.0,
+          "title": "Relative Tolerance",
+          "type": "number"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "use_jit": {
+          "default": false,
+          "title": "Use Jit",
+          "type": "boolean"
+        }
+      },
+      "title": "NumericalPolicy",
+      "type": "object"
+    },
+    "ParameterSpec": {
+      "additionalProperties": false,
+      "description": "Machine-readable semantics for one analysis parameter.",
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "dimensions": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "distribution": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "$ref": "#/$defs/JsonValue"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distribution"
+        },
+        "dtype": {
+          "enum": [
+            "float32",
+            "float64",
+            "int64",
+            "bool",
+            "string"
+          ],
+          "title": "Dtype",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Bound"
+        },
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "role": {
+          "enum": [
+            "uncertain",
+            "decision",
+            "design",
+            "outcome",
+            "hyperparameter"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound"
+        }
+      },
+      "required": [
+        "parameter_id",
+        "role",
+        "dtype"
+      ],
+      "title": "ParameterSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Declarative identity and scientific intent for one analysis.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "decision_problem_id": {
+      "minLength": 1,
+      "title": "Decision Problem Id",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "input_artifact_ids": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Input Artifact Ids",
+      "type": "array"
+    },
+    "method_contract_version": {
+      "minLength": 1,
+      "title": "Method Contract Version",
+      "type": "string"
+    },
+    "method_family": {
+      "minLength": 1,
+      "title": "Method Family",
+      "type": "string"
+    },
+    "method_options": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Method Options",
+      "type": "object"
+    },
+    "numerical_policy": {
+      "$ref": "#/$defs/NumericalPolicy"
+    },
+    "parameters": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ParameterSpec"
+      },
+      "title": "Parameters",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "2.0.0",
+      "default": "2.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "strategy_names": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Strategy Names",
+      "type": "array"
+    },
+    "tags": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "analysis_id",
+    "decision_problem_id",
+    "method_family",
+    "method_contract_version"
+  ],
+  "title": "AnalysisSpec",
+  "type": "object"
+}

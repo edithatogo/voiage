@@ -1,44 +1,48 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.10,<3.15
+- **Python**: >=3.12 through 3.14; a non-blocking Python 3.14t lane observes free-threaded compatibility
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
-- **NumPy**: >=1.20,<2.0 - Fundamental array computing
-- **SciPy**: >=1.7,<1.15 - Scientific computing algorithms
-- **pandas**: >=1.3,<3.0 - Data manipulation and analysis
-- **xarray**: >=0.19,<2025.0 - Labeled multi-dimensional arrays
+- **NumPy**: >=2.2.6,<3 - Fundamental array computing
+- **SciPy**: >=1.16.3,<1.17 - Scientific computing algorithms
+- **pandas**: >=1.3,<3 - Data manipulation and analysis
+- **xarray**: >=0.19,<2025 - Labeled multi-dimensional arrays
+- **PyArrow**: >=25,<26 - schema-bearing interchange, Parquet, and IPC
+- **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability
+- **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
 
 ## High-Performance Computing
-- **JAX**: >=0.4,<0.5 - High-performance numerical computing with GPU/TPU support
-- **NumPyro**: >=0.13,<0.20 - Probabilistic programming with JAX
+- **JAX**: >=0.7.1,<0.8 - High-performance numerical computing with GPU/TPU support
 - **Spack**: HPC source package manager for reproducible scientific stacks
 - **EasyBuild**: Automated scientific software build/install framework for HPC
 - **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
 
 ## Machine Learning & Statistics
 - **scikit-learn**: >=1.0,<2.0 - Machine learning algorithms (regression-based EVSI)
-- **statsmodels**: >=0.13,<1.0 - Statistical models and tests
 
 ## CLI
 - **Typer**: >=0.9,<1.0 - Modern CLI framework with auto-completion
 
 ## Visualization
-- **matplotlib**: >=3.4,<4.0 - 2D plotting library
-- **seaborn**: >=0.11,<1.0 - Statistical data visualization
+- **matplotlib**: >=3.11.1,<4 - 2D plotting library
+- **seaborn**: >=0.13.2,<1 - Statistical data visualization
 
 ## Testing
-- **pytest**: >=7.0,<9.0 - Testing framework
-- **pytest-cov**: >=3.0,<6.0 - Coverage reporting
-- **hypothesis**: >=6.0,<7.0 - Property-based testing
+- **pytest**: >=9.1.1,<10 - Testing framework
+- **pytest-cov**: >=7.1,<8 - Coverage reporting
+- **hypothesis**: >=6.157,<7 - Property-based testing
 
 ## Code Quality
-- **Ruff**: >=0.1.9,<1.0 - Fast Python linter, formatter, and security-rule checker
-- **ty**: >=0.0.1,<1.0 - Static type checking
-- **tox**: >=4.0,<5.0 - Test environment automation
-- **nox**: >=2024.0 - Python-coded session orchestration backed by uv
-- **pre-commit**: >=3.0,<4.0 - Git pre-commit hooks
+- **Ruff**: >=0.15.22,<1 - Fast Python linter, formatter, and security-rule checker
+- **ty**: >=0.0.61,<1.0 - Static type checking
+- **BasedPyright**: >=1.39.9,<2 - Strict second-opinion static analysis
+- **tox**: >=4.57,<5 - Test environment automation
+- **nox**: >=2026.7.11,<2027 - Python-coded session orchestration backed by uv
+- **pre-commit**: >=4.6,<5 - Git pre-commit hooks
+- **Mutmut**: >=3.6,<4 - Source-bound mutation assurance
+- **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
 - **Starlight**: >=0.32.0 — Primary documentation framework (Astro-based, MDX)
@@ -57,7 +61,7 @@
   becomes necessary
 
 ## Optional Dependencies
-- **PyTorch**: >=1.9,<3.0 - Deep learning (optional, for deep_learning extra)
+- **PyTorch**: >=2.13,<3 - Deep learning (optional, for the `deep_learning` extra)
 
 ## Binding and Release Targets
 - **R**: CRAN-style package checks and GitHub Releases for source archives

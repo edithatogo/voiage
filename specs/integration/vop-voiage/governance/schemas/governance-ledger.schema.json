@@ -1,0 +1,1630 @@
+{
+  "$defs": {
+    "Assumption": {
+      "additionalProperties": false,
+      "description": "A proposition relied upon by an analysis, contract, or operation.",
+      "properties": {
+        "category": {
+          "enum": [
+            "normative",
+            "structural",
+            "data",
+            "statistical",
+            "computational",
+            "operational",
+            "external"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "falsification_condition": {
+          "minLength": 1,
+          "title": "Falsification Condition",
+          "type": "string"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "assumption",
+          "default": "assumption",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "review_due": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "title": "Review Due",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "active",
+            "validated",
+            "invalidated",
+            "retired"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "validation_method": {
+          "minLength": 1,
+          "title": "Validation Method",
+          "type": "string"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "category",
+        "rationale",
+        "validation_method",
+        "falsification_condition",
+        "review_due"
+      ],
+      "title": "Assumption",
+      "type": "object"
+    },
+    "Concern": {
+      "additionalProperties": false,
+      "description": "An unresolved question that requires investigation or disposition.",
+      "properties": {
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "impact_if_unresolved": {
+          "minLength": 1,
+          "title": "Impact If Unresolved",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "question": {
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "raised_by_role": {
+          "default": "reviewer",
+          "title": "Raised By Role",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "concern",
+          "default": "concern",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "resolution_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Resolution Criteria",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "investigating",
+            "monitoring",
+            "resolved",
+            "accepted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "question",
+        "impact_if_unresolved",
+        "resolution_criteria"
+      ],
+      "title": "Concern",
+      "type": "object"
+    },
+    "Decision": {
+      "additionalProperties": false,
+      "description": "A choice with its alternatives, rationale, and approval boundary.",
+      "properties": {
+        "approved_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approved At"
+        },
+        "approved_by_role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approved By Role"
+        },
+        "consequences": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Consequences",
+          "type": "array"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "question": {
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "decision",
+          "default": "decision",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "reversibility": {
+          "enum": [
+            "reversible",
+            "costly",
+            "irreversible"
+          ],
+          "title": "Reversibility",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "selected_option": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Option"
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "accepted",
+            "rejected",
+            "superseded"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "supersedes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supersedes",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "question",
+        "options",
+        "rationale",
+        "consequences",
+        "reversibility"
+      ],
+      "title": "Decision",
+      "type": "object"
+    },
+    "EvidenceReference": {
+      "additionalProperties": false,
+      "description": "A provenance-bearing reference that supports or challenges a record.",
+      "properties": {
+        "challenges": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Challenges",
+          "type": "array"
+        },
+        "claim_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "evidence_kind": {
+          "enum": [
+            "source",
+            "derivation",
+            "test",
+            "benchmark",
+            "run",
+            "artifact",
+            "review",
+            "external_verification"
+          ],
+          "title": "Evidence Kind",
+          "type": "string"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "git_commit": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{40}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Git Commit"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "locator_kind": {
+          "enum": [
+            "local_path",
+            "url",
+            "doi",
+            "github_run",
+            "commit",
+            "pull_request",
+            "issue",
+            "release"
+          ],
+          "title": "Locator Kind",
+          "type": "string"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "evidence_reference",
+          "default": "evidence_reference",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "failed",
+            "blocked",
+            "superseded"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "supports": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supports",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "evidence_kind",
+        "locator_kind",
+        "locator",
+        "observed_at"
+      ],
+      "title": "EvidenceReference",
+      "type": "object"
+    },
+    "IssueLink": {
+      "additionalProperties": false,
+      "description": "Desired GitHub issue and Project projection for governance records.",
+      "properties": {
+        "close_requires_approval": {
+          "const": true,
+          "default": true,
+          "title": "Close Requires Approval",
+          "type": "boolean"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "desired_state": {
+          "default": "open",
+          "enum": [
+            "open",
+            "closed"
+          ],
+          "title": "Desired State",
+          "type": "string"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "github_repository": {
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$",
+          "title": "Github Repository",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "issue_number": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issue Number"
+        },
+        "managed_labels": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Managed Labels",
+          "type": "array"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "preserve_human_content": {
+          "const": true,
+          "default": true,
+          "title": "Preserve Human Content",
+          "type": "boolean"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "project_number": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Project Number"
+        },
+        "record_type": {
+          "const": "issue_link",
+          "default": "issue_link",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "linked",
+            "closed",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "target_record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Target Record Ids",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "target_record_ids",
+        "github_repository"
+      ],
+      "title": "IssueLink",
+      "type": "object"
+    },
+    "Relation": {
+      "additionalProperties": false,
+      "description": "Typed edge between governance records.",
+      "properties": {
+        "relation": {
+          "enum": [
+            "informs",
+            "depends_on",
+            "blocks",
+            "mitigates",
+            "mitigated_by",
+            "resolved_by",
+            "supersedes",
+            "implements",
+            "supports",
+            "challenges"
+          ],
+          "title": "Relation",
+          "type": "string"
+        },
+        "target_id": {
+          "pattern": "^(CON|ASM|RSK|DEC|EVR|ISL)-(VOP|VOI|SHR)-[0-9]{4}$",
+          "title": "Target Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "relation",
+        "target_id"
+      ],
+      "title": "Relation",
+      "type": "object"
+    },
+    "Risk": {
+      "additionalProperties": false,
+      "description": "An uncertain event with an adverse consequence.",
+      "properties": {
+        "cause": {
+          "minLength": 1,
+          "title": "Cause",
+          "type": "string"
+        },
+        "consequence": {
+          "minLength": 1,
+          "title": "Consequence",
+          "type": "string"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "event": {
+          "minLength": 1,
+          "title": "Event",
+          "type": "string"
+        },
+        "evidence_reference_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Reference Ids",
+          "type": "array"
+        },
+        "gate": {
+          "default": "local",
+          "enum": [
+            "none",
+            "local",
+            "external",
+            "human",
+            "credential",
+            "hardware",
+            "publication"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "impact": {
+          "enum": [
+            "negligible",
+            "minor",
+            "moderate",
+            "major",
+            "critical"
+          ],
+          "title": "Impact",
+          "type": "string"
+        },
+        "issue_link_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Link Ids",
+          "type": "array"
+        },
+        "likelihood": {
+          "enum": [
+            "rare",
+            "unlikely",
+            "possible",
+            "likely",
+            "almost_certain"
+          ],
+          "title": "Likelihood",
+          "type": "string"
+        },
+        "mitigations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Mitigations",
+          "type": "array"
+        },
+        "moscow": {
+          "default": "should",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_now"
+          ],
+          "title": "Moscow",
+          "type": "string"
+        },
+        "owner_role": {
+          "default": "maintainer",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "priority": {
+          "default": "P2",
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "record_type": {
+          "const": "risk",
+          "default": "risk",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "record_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Record Version",
+          "type": "integer"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "repository": {
+          "default": "shared",
+          "enum": [
+            "vop_poc_nz",
+            "voiage",
+            "shared"
+          ],
+          "title": "Repository",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "residual_risk_level": {
+          "anyOf": [
+            {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Residual Risk Level"
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "title": "Risk Level",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "mitigating",
+            "accepted",
+            "realized",
+            "closed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "track_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Track Ids",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "visibility": {
+          "default": "public",
+          "enum": [
+            "public",
+            "repository",
+            "local_private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "status",
+        "cause",
+        "event",
+        "consequence",
+        "likelihood",
+        "impact",
+        "risk_level"
+      ],
+      "title": "Risk",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Canonical collection of related governance records.",
+  "properties": {
+    "records": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "assumption": "#/$defs/Assumption",
+            "concern": "#/$defs/Concern",
+            "decision": "#/$defs/Decision",
+            "evidence_reference": "#/$defs/EvidenceReference",
+            "issue_link": "#/$defs/IssueLink",
+            "risk": "#/$defs/Risk"
+          },
+          "propertyName": "record_type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/Concern"
+          },
+          {
+            "$ref": "#/$defs/Assumption"
+          },
+          {
+            "$ref": "#/$defs/Risk"
+          },
+          {
+            "$ref": "#/$defs/Decision"
+          },
+          {
+            "$ref": "#/$defs/EvidenceReference"
+          },
+          {
+            "$ref": "#/$defs/IssueLink"
+          }
+        ]
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "records"
+  ],
+  "title": "VOP-VOIAGE governance ledger",
+  "type": "object"
+}

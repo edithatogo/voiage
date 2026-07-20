@@ -86,8 +86,12 @@ from .perspective import (
     Perspective,
     PerspectiveSet,
     ValueOfPerspectiveResult,
+    perspective_arrow_schema_fingerprint,
     perspective_optimal_strategies,
+    perspective_result_to_arrow,
     value_of_perspective,
+    write_perspective_result_ipc,
+    write_perspective_result_parquet,
 )
 from .portfolio import portfolio_voi
 from .preference import (
@@ -177,6 +181,8 @@ __all__ = [
     "evsi_nma",
     "identify_optimal_subgroups",
     "perspective_optimal_strategies",
+    "perspective_arrow_schema_fingerprint",
+    "perspective_result_to_arrow",
     "portfolio_voi",
     "preference_optimal_strategies",
     "sequential_voi",
@@ -203,6 +209,8 @@ __all__ = [
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",
+    "write_perspective_result_ipc",
+    "write_perspective_result_parquet",
     "value_of_preference",
     "value_of_preference_heterogeneity",
     "value_of_preference_information",

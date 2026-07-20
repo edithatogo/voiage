@@ -22,14 +22,22 @@ evidence slices. Registry approval, external indexing, production accelerator
 speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence
 remain external gates and are not represented as completed live outcomes.
 
-Mature Hardened v1.0 Programme: 🔄 **ACTIVE** - The sole active Conductor
-programme now freezes the stable surface, completes the Rust runtime takeover,
+Mature Hardened v1.0 Programme: 🔄 **ACTIVE** - The principal active
+Conductor programme now freezes the stable surface, completes the Rust runtime
+takeover,
 retires duplicate Python numerical kernels, converts retained bindings into thin
 Rust adapters, consolidates documentation on Astro/Starlight, enforces hardened
 release gates, verifies registry installation, and publishes the signed v1.0
 release. The machine-readable baseline and execution classification are in
 `conductor/v1-programme-baseline.json`; the implementation plan is in
 `conductor/tracks/mature-hardened-v1-release-programme_20260719/`.
+
+Three completed-in-repository assurance tracks remain in the active registry
+until their explicit human gates are resolved: Domain Abstraction Excellence
+(`abstraction-excellence_20260719`), Assurance Frontier
+(`assurance-frontier_20260720`), and Operational Assurance Excellence
+(`operational-assurance-excellence_20260720`). Their retained directories make
+review evidence and approval boundaries visible; they are not reopened work.
 
 ---
 

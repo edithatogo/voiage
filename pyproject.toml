@@ -9,8 +9,9 @@ name = "voiage"
 dynamic = ["version"]
 description = "A Python library for Value of Information analysis."
 readme = "README.md"
-requires-python = ">=3.10"
-license = { file = "LICENSE" }
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 authors = [
   { name = "voiage Contributors", email = "voiage@users.noreply.github.com" },
 ]
@@ -24,13 +25,11 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading :: 2 - Beta",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
@@ -38,66 +37,74 @@ classifiers = [
 ]
 
 dependencies = [
-    "numpy>=1.22,<2.0; python_version<'3.11'",
-    "numpy>=2.2.6,<3.0; python_version>='3.11'",
-    "scipy>=1.7,<1.15; python_version<'3.11'",
-    "scipy>=1.16.3,<1.17; python_version>='3.11'",
+    "click>=8.3.3,<9",
+    "numpy>=2.2.6,<3.0",
+    "scipy>=1.16.3,<1.17",
     "pandas>=1.3,<3.0",
     "xarray>=0.19,<2025.0",
     "scikit-learn>=1.7.2,<2.0",
+    "pyarrow>=25.0.0,<26",
+    "polars>=1.42.1,<2",
+    "pydantic>=2.13.4,<3",
     "typing_extensions>=4.16.0",
     "typer>=0.9,<1.0",
 ]
 
 [project.optional-dependencies]
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
-plotting = ["matplotlib>=3.4,<4.0"]
 jax = [
-    "jax>=0.4.33,<0.6; python_version<'3.11'",
-    "jax>=0.7.1,<0.8; python_version>='3.11'",
+    "jax>=0.7.1,<0.8",
 ]
 ci = [
     "defusedxml>=0.7.1,<1.0",
-    "docutils>=0.18,<0.22",
-    "fastapi>=0.115,<1.0",
-    "httpx>=0.27,<1.0",
-    "hypothesis>=6.0,<7.0",
-    "jax>=0.4.33,<0.6; python_version<'3.11'",
-    "jax>=0.7.1,<0.8; python_version>='3.11'",
-    "jsonschema>=4.0,<5.0",
+    "docutils>=0.23,<1",
+    "fastapi>=0.139.2,<1.0",
+    "httpx>=0.28.1,<1.0",
+    "hypothesis>=6.157.0,<7.0",
+    "jax>=0.7.1,<0.8",
+    "jsonschema>=4.26.0,<5.0",
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
     "psutil>=5.9,<8.0",
-    "pytest>=9.0.3,<10.0",
+    "pytest>=9.1.1,<10.0",
     "pytest-benchmark>=5.2.3,<6.0",
     "pytest-cov>=7.1.0,<8.0",
     "pytest-integration>=0.2.3,<0.3",
-    "pytest-xdist>=3.0,<4.0",
-    "PyYAML>=6.0,<7.0",
+    "pytest-xdist>=3.8.0,<4.0",
+    "PyYAML>=6.0.3,<7.0",
     "rfc8785>=0.1,<0.2",
-    "tomli>=2.0,<3.0",
+    "tomli>=2.4.1,<3.0",
 ]
 dev = [
     "maturin>=1.9,<2.0",
-    "mutmut>=2.0,<3.0",
-    "scalene>=1.5,<2.0",
-    "ruff>=0.15.21,<1.0",
+    "mutmut>=3.6.0,<4.0",
+    "scalene>=2.3.0,<3.0",
+    "ruff>=0.15.22,<1.0",
     "bandit>=1.9.4,<2.0",
-    "nox>=2026.4.10,<2027",
-    "ty>=0.0.1,<1.0",
-    "types-setuptools",
-    "types-requests",
+    "nox>=2026.7.11,<2027",
+    "ty>=0.0.61,<1.0",
+    "basedpyright>=1.39.9,<2.0",
+    "types-setuptools>=83.0.0.20260716",
+    "types-requests>=2.33.0.20260712",
     "jupyterlab>=4.6.1,<5.0",
-    "ipykernel",
+    "ipykernel>=7.3.0,<8",
     "pre-commit>=4.6.0,<5.0",
-    "vulture>=2.0,<3.0",
-    "tox>=4.2,<5.0",
-    "taskipy>=1.0,<2.0",
-    "tomli>=2.0,<3.0",
+    "vulture>=2.16,<3.0",
+    "tox>=4.57.0,<5.0",
+    "tomli>=2.4.1,<3.0",
+]
+experimental = [
+    "duckdb>=1.5.4,<2",
+    "orjson>=3.11.9,<4",
+    "msgspec>=0.21.1,<1",
+]
+plotting = [
+    "matplotlib>=3.11.1,<4",
+    "seaborn>=0.13.2,<1",
 ]
 performance = ["psutil>=5.9,<8.0"]
 deep_learning = ["torch>=2.13.0,<3.0"]
-web = ["fastapi>=0.115,<1.0", "httpx>=0.27,<1.0", "uvicorn>=0.51.0,<1.0"]
+web = ["fastapi>=0.139.2,<1.0", "httpx>=0.28.1,<1.0", "uvicorn>=0.51.0,<1.0"]
 
 [project.urls]
 Homepage = "https://github.com/edithatogo/voiage"
@@ -120,14 +127,20 @@ features = ["pyo3/extension-module"]
 locked = true
 include = [{ path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" }]
 
+# Generate the canonical CycloneDX SBOM in the supply-chain workflow. Maturin's
+# per-wheel Cargo SBOM embeds temporary build paths, which would make otherwise
+# identical wheels fail the reproducibility gate.
+[tool.maturin.sbom]
+rust = false
+
 [tool.voiage.release]
-python-abi = "cp310-abi3"
+python-abi = "cp312-abi3"
 architecture-policy = "native-runner"
 supported-runners = ["ubuntu-24.04", "macos-14", "windows-2025"]
 supported-native-architectures = ["linux-x86_64", "macos-arm64", "windows-x86_64"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 exclude = [
     "examples/",
 ]
@@ -228,10 +241,19 @@ exclude_lines = [
 ]
 
 [tool.mutmut]
-paths_to_mutate = "voiage/methods/sample_information.py"
-tests_dir = "tests/"
-runner = "pytest tests/test_sample_information.py -k evsi -x --no-cov"
-fail_under = 90
+source_paths = ["voiage/"]
+only_mutate = [
+    "voiage/contracts/capabilities.py",
+    "voiage/contracts/digests.py",
+]
+pytest_add_cli_args = ["-x", "--no-cov", "-p", "no:cacheprovider"]
+pytest_add_cli_args_test_selection = [
+    "tests/test_analysis_contracts.py",
+    "tests/test_calculation_kernel.py",
+    "tests/test_critical_invariants.py",
+    "tests/test_mutation_score.py",
+]
+also_copy = ["scripts/"]
 
 [tool.semantic_release]
 version_source = "tag"
@@ -248,13 +270,16 @@ test-integration = "uv run pytest tests/ -m 'integration' --no-cov"
 test-e2e = "uv run pytest tests/ -m 'e2e' --no-cov"
 test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
 frontier-contract = "uv run python scripts/validate_frontier_contract.py"
+contracts = "uv run nox -s contracts"
+contracts-profile = "uv run nox -s contract_profile"
+contracts-mutation = "uv run nox -s contract_mutation"
 lint = "tox -e lint"
 format = "uv run ruff format voiage tests"
 typecheck = "tox -e typecheck"
 security = "uv run ruff check voiage --select=S --ignore=S101"
 harness = "python scripts/repo_harness.py"
-profile = "uv run scalene --cli profile_scalene.py"
-mutmut = "uv run mutmut run --use-coverage"
+profile = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_results.json profile_scalene.py"
+mutmut = "uv run mutmut run"
 benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only --no-cov"
 docs = "cd docs/astro-site && pnpm install --frozen-lockfile && pnpm run check && pnpm run build"
 precommit = "uv run pre-commit run --all-files"
@@ -263,5 +288,5 @@ nox = "uv run nox"
 build = "uv build"
 publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
 publish = "uv publish"
-conda-build = "conda-build conda/ --python 3.11"
+conda-build = "conda-build conda/ --python 3.12"
 refresh-registry-audit = "python scripts/refresh_binding_registry_audit.py"

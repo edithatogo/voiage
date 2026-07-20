@@ -36,11 +36,17 @@
   },
   "conductor": {
     "active_track_ids": [
+      "abstraction-excellence_20260719",
+      "assurance-frontier_20260720",
+      "operational-assurance-excellence_20260720",
       "mature-hardened-v1-release-programme_20260719"
     ],
     "archived_track_count": 122,
     "classifications": {
       "v1_required": [
+        "abstraction-excellence_20260719",
+        "assurance-frontier_20260720",
+        "operational-assurance-excellence_20260720",
         "mature-hardened-v1-release-programme_20260719"
       ],
       "historical_groundwork": "conductor/archive/",

@@ -11,6 +11,7 @@ on:
       - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
+      - "specs/numerical-reference/**"
   push:
     branches: [main]
     paths:
@@ -21,6 +22,7 @@ on:
       - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
+      - "specs/numerical-reference/**"
 
 permissions:
   contents: read
@@ -35,7 +37,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: "24"
@@ -52,7 +64,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:
           go-version: "1.25"
@@ -68,7 +90,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable
@@ -204,7 +236,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
@@ -219,7 +261,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
           dotnet-version: "11.0.x"
@@ -234,10 +286,22 @@ jobs:
     defaults:
       run:
         working-directory: r-package/voiageR
+    env:
+      VOIAGE_NUMERICAL_REFERENCE: ${{ github.workspace }}/specs/numerical-reference/v1/evpi-cases.json
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Assert and record exact source head
+        env:
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          tested_head="$(git rev-parse HEAD)"
+          echo "tested_head=${tested_head}"
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:

@@ -9,6 +9,12 @@ import sys
 
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
+ACTIVE_TRACK_IDS = [
+    "abstraction-excellence_20260719",
+    "assurance-frontier_20260720",
+    "operational-assurance-excellence_20260720",
+    TRACK_ID,
+]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
 
 
@@ -40,10 +46,10 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     baseline = _baseline()
     conductor = baseline["conductor"]
 
-    assert conductor["active_track_ids"] == [TRACK_ID]
+    assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
     assert conductor["archived_track_count"] == 122
     assert conductor["classifications"] == {
-        "v1_required": [TRACK_ID],
+        "v1_required": ACTIVE_TRACK_IDS,
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
             "accelerator production-speedup evidence",
@@ -89,6 +95,9 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     assert "## In Progress" in todo
     assert "Mature and harden the v1.0 release" in todo
     assert TRACK_ID in todo
+    for track_id in ACTIVE_TRACK_IDS:
+        assert track_id in roadmap
+        assert track_id in todo
     assert (
         "## [~] Track: Mature Hardened v1.0 Architecture And Release Programme"
         in registry
@@ -147,6 +156,7 @@ def test_v1_programme_validator_rejects_execution_order_drift(
     active = conductor / "tracks" / TRACK_ID
     active.mkdir(parents=True)
     baseline = _baseline()
+    baseline["conductor"]["active_track_ids"] = [TRACK_ID]
     baseline["conductor"]["archived_track_count"] = 0
     baseline["execution_order"] = list(reversed(baseline["execution_order"]))
     (conductor / "v1-programme-baseline.json").write_text(
@@ -174,6 +184,7 @@ def test_v1_programme_validator_rejects_invalid_github_counts(
     active = conductor / "tracks" / TRACK_ID
     active.mkdir(parents=True)
     baseline = _baseline()
+    baseline["conductor"]["active_track_ids"] = [TRACK_ID]
     baseline["conductor"]["archived_track_count"] = 0
     baseline["github"]["open_issues"] = -1
     (conductor / "v1-programme-baseline.json").write_text(

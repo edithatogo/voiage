@@ -2,9 +2,9 @@
 
 ## Runtime Languages
 
-The supported Python runtime range is **Python 3.10-3.14**.
+The supported Python runtime range is **Python 3.12-3.14**.
 
-- **Python**: 3.10-3.14, with Python package metadata in `pyproject.toml`.
+- **Python**: 3.12-3.14, with Python package metadata in `pyproject.toml`.
 - **Rust**: native core foundations, deterministic kernels, benchmarks, and
   binding/runtime expansion work.
 - **Polyglot Bindings**: R, Julia, TypeScript, Go, Rust, and .NET 11 are tracked
@@ -18,7 +18,8 @@ The supported Python runtime range is **Python 3.10-3.14**.
 - **Statistics and Metamodeling**: scikit-learn and statsmodels.
 - **Plotting**: matplotlib and seaborn.
 - **CLI**: Typer.
-- **Runtime Safety**: defusedxml for XML-backed ecosystem ingestion.
+- **Runtime Safety and Configuration**: defusedxml plus Pydantic v2 validated
+  logging configuration.
 - **System Metrics**: psutil.
 
 Use `pyproject.toml` and `uv.lock` as the authoritative dependency and version
@@ -29,10 +30,15 @@ sources. This file records the architectural intent, not a duplicate lockfile.
 - **Test Runner**: pytest through tox and targeted `uv run pytest` commands.
 - **Coverage**: pytest-cov with a 90% fail-under gate.
 - **Lint and Formatting**: Ruff.
-- **Type Checking**: ty through tox.
+- **Type Checking**: ty across the maintained package plus BasedPyright as an
+  independent checker for new and progressively ratcheted contracts.
 - **Security Scan**: Ruff security rules and Bandit in the lint gate.
 - **Session Orchestration**: tox for CI parity and nox for uv-backed local
   sessions.
+- **Environment Frontends**: `uv.lock` is canonical; Pixi provides portable
+  task entrypoints that delegate to frozen uv resolution.
+- **Profiling**: Scalene on deterministic workloads, with artifacts retained by
+  scheduled/manual CI.
 - **Dependency Updates**: Renovate.
 
 ## Documentation

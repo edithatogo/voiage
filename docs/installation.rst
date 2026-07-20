@@ -7,7 +7,7 @@ if you want the latest development version or intend to contribute.
 Prerequisites
 -------------
 
-*   Python 3.10-3.14.
+*   Python 3.12-3.14.
 *   `pip` and `setuptools` (usually included with Python).
 
 We recommend using a virtual environment (e.g., via `venv` or `conda`) to

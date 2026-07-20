@@ -1,0 +1,52 @@
+{
+  "analysis_id": "perspective-v2-example",
+  "decision_problem_id": "screening-program-001",
+  "extensions": {},
+  "input_artifact_ids": [],
+  "method_contract_version": "1.1.0",
+  "method_family": "value_of_perspective",
+  "method_options": {},
+  "numerical_policy": {
+    "absolute_tolerance": 1e-10,
+    "allow_fallback": false,
+    "backend_preference": [
+      "numpy"
+    ],
+    "chunk_size": null,
+    "deterministic_fixture_mode": true,
+    "device": null,
+    "dtype": "float64",
+    "execution_mode": "deterministic",
+    "nan_policy": "raise",
+    "overflow_policy": "raise",
+    "parallelism": null,
+    "relative_tolerance": 1e-08,
+    "required_capabilities": [],
+    "seed": null,
+    "use_jit": false
+  },
+  "parameters": [
+    {
+      "description": null,
+      "dimensions": [
+        "n_samples"
+      ],
+      "distribution": null,
+      "dtype": "float64",
+      "extensions": {},
+      "label": null,
+      "lower_bound": null,
+      "parameter_id": "prevalence",
+      "required": true,
+      "role": "uncertain",
+      "unit": null,
+      "upper_bound": null
+    }
+  ],
+  "schema_version": "2.0.0",
+  "strategy_names": [
+    "A",
+    "B"
+  ],
+  "tags": []
+}

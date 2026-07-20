@@ -200,7 +200,7 @@ class TestCICDQualityGatesConfiguration:
             assert job in existing_jobs, f"Required binding job {job} not found"
 
     def test_python_version_matrix(self):
-        """Test that Python version matrix is comprehensive."""
+        """Test that CI exercises the package's declared Python baseline."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 
         with open(ci_workflow_path) as f:
@@ -209,11 +209,7 @@ class TestCICDQualityGatesConfiguration:
         test_unit_job = ci_config["jobs"]["test-unit"]
         python_versions = test_unit_job["strategy"]["matrix"]["python"]
 
-        required_versions = ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        for version in required_versions:
-            assert version in python_versions, (
-                f"Python version {version} not in test matrix"
-            )
+        assert python_versions == ["3.12", "3.13", "3.14"]
 
     def test_weekly_expensive_gates_configured(self):
         """Test that expensive gates are configured for weekly scheduled runs."""
@@ -231,7 +227,7 @@ class TestCICDQualityGatesConfiguration:
             ci_config = yaml.safe_load(f)
 
         # Check for expensive jobs that run on schedule
-        expensive_jobs = ["test-mutation", "profile"]
+        expensive_jobs = ["profile"]
         for job in expensive_jobs:
             assert job in ci_config["jobs"], f"Expensive job {job} not found"
             job_config = ci_config["jobs"][job]
@@ -242,6 +238,10 @@ class TestCICDQualityGatesConfiguration:
                 or "if: \"github.event_name == 'schedule'\"" in str(job_config)
                 or "github.event_name == 'schedule'" in str(job_config)
             ), f"Job {job} not configured to run only on schedule"
+        mutation_job = ci_config["jobs"]["test-mutation"]
+        assert "if" not in mutation_job, (
+            "bounded mutation ratchets must run for pull requests and pushes"
+        )
 
     def test_coverage_gate_preserves_90_percent_floor(self):
         """Test that coverage gate preserves the 90% floor."""
@@ -315,7 +315,7 @@ class TestQualityGatePolicyCompliance:
             ci_config = yaml.safe_load(f)
 
         # Check that expensive jobs have explicit conditions
-        expensive_jobs = ["test-mutation", "profile"]
+        expensive_jobs = ["profile"]
         for job in expensive_jobs:
             if job in ci_config["jobs"]:
                 job_config = ci_config["jobs"][job]
@@ -323,6 +323,9 @@ class TestQualityGatePolicyCompliance:
                 assert "if" in job_config, (
                     f"Expensive job {job} lacks explicit execution condition"
                 )
+        assert "if" not in ci_config["jobs"]["test-mutation"], (
+            "bounded mutation ratchets must not be silently skipped on pull requests"
+        )
 
     def test_rust_and_binding_gates_preserved(self):
         """Test that Rust and binding language-native gates are preserved."""

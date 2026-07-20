@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "verification_repetitions": 3,
+  "cpu_seconds": 3.0,
+  "peak_memory_bytes": 134217728,
+  "allocation_count": 200000,
+  "serialization_bytes": 262144,
+  "profiling_command": "uv run scalene run --use-legacy-tracer --cpu-only -o contract_bundle_profile_results.json scripts/check_contract_bundle_performance.py --output contract_bundle_performance.json"
+}
