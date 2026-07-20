@@ -122,6 +122,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Normalize the full sample-information test module to one import style for CodeQL (3b917d0).
     - [x] Freeze an optional seeded Python two-loop contract with local RNG isolation while retaining Python ownership (75df3f4, 9ecc3ef).
     - [x] Resolve redundant-import CodeQL findings from the seeded EVSI tests (7d1a4fb).
+    - [x] Implement meaningful ``n_inner_loops`` semantics for the retained Python two-loop estimator (cc63e9b).
     - [~] Extend native ownership to the Python model-callback estimator family after explicit seed and estimator contracts are frozen; retain two-loop, regression, random-forest efficient, adaptive, and NMA paths in Python meanwhile.
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).

@@ -45,9 +45,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         public efficient-linear path is the first callback estimator routed
         through Rust; stochastic, regression, random-forest, moment-based,
         adaptive, and NMA paths remain contract-gated.
-    *   Python two-loop EVSI now has a validated optional seed and isolated
-        reproducibility contract; implementing meaningful `n_inner_loops`
-        semantics remains open before any stochastic Rust migration.
+    *   Python two-loop EVSI now has validated seeded local-RNG and meaningful
+        `n_inner_loops` semantics; native stochastic migration remains gated
+        on a separately frozen estimator contract.
 
 ## Done
 
