@@ -402,13 +402,14 @@ def test_evsi_efficient_linear_falls_back_when_native_extension_is_absent(
         raise ModuleNotFoundError("voiage._core")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", unavailable)
-    result = si_module.evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="efficient",
-        metamodel="linear",
-    )
+    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
+        result = si_module.evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="efficient",
+            metamodel="linear",
+        )
     assert result >= 0.0
 
 
@@ -421,13 +422,14 @@ def test_evsi_efficient_linear_falls_back_for_rank_deficient_design(
         raise InputError("efficient-linear design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", rank_failure)
-    result = si_module.evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="efficient",
-        metamodel="linear",
-    )
+    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
+        result = si_module.evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="efficient",
+            metamodel="linear",
+        )
     assert result >= 0.0
 
 
@@ -602,12 +604,13 @@ def test_evsi_moment_based_falls_back_for_rank_deficient_design(
         raise InputError("moment-based design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", rank_failure)
-    result = evsi(
-        model_func=deterministic_model_func_evsi,
-        psa_prior=dummy_psa_for_evsi,
-        trial_design=dummy_trial_design_for_evsi,
-        method="moment_based",
-    )
+    with pytest.warns(DeprecationWarning, match="moment-based EVSI fallback"):
+        result = evsi(
+            model_func=deterministic_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="moment_based",
+        )
 
     assert result >= 0.0
 
@@ -699,6 +702,29 @@ def test_evsi_invalid_inputs(dummy_psa_for_evsi, dummy_trial_design_for_evsi) ->
             trial_design=dummy_trial_design_for_evsi,
             n_outer_loops=0,
         )
+
+
+@pytest.mark.parametrize(
+    ("values", "message"),
+    [
+        (np.array([1.0, 2.0]), "2D net-benefit values"),
+        (np.array([[1.0]]), "sample count must match"),
+        (np.empty((2, 0)), "at least one strategy"),
+        (np.array([[1.0, np.nan], [2.0, 3.0]]), "only finite net-benefit values"),
+    ],
+)
+def test_evsi_validates_model_output_contract(values, message) -> None:
+    """Stable EVSI diagnostics must reject malformed model output."""
+    with pytest.raises(InputError, match=message):
+        si_module._validate_net_benefits(values, expected_samples=2)
+
+
+def test_evsi_parameter_matrix_reports_empty_parameters() -> None:
+    """Stable EVSI diagnostics must reject an empty parameter mapping."""
+    from types import SimpleNamespace
+
+    with pytest.raises(InputError, match="contain at least one parameter"):
+        si_module._parameter_matrix(SimpleNamespace(parameters={}, n_samples=0))
 
 
 def test_evsi_unknown_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -> None:

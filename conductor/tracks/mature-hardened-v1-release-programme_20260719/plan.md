@@ -131,6 +131,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add the centered two-parameter moment interaction-order contract fixture (738e634, 797b35f).
     - [x] Add panic-free malformed-input and stable-error proptest coverage (d31fbe2, 1af20c8).
     - [x] Add concurrent thread-safety and repeatability coverage for all native EVSI kernels (c8c96a9).
+    - [x] Add bounded generated-input fuzz coverage for stable EVSI kernels (cc735ee).
+    - [x] Scope the scheduled mutation gate to the stable Python numerical facade (5babf7b).
+    - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [ ] Add differential, metamorphic, fuzz and mutation tests.
     - [ ] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
@@ -138,9 +141,12 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
 - [ ] Task: Inventory and classify non-Rust Python code
-    - [ ] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions.
-    - [ ] Produce an executable allowlist for Python code permitted at v1.0.
+    - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
+    - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
+    - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).
+    - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
 - [ ] Task: Complete the 0.x compatibility bridge using TDD
+    - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
     - [ ] Red: add failing tests for deprecation warnings and migration compatibility.
     - [ ] Green: route stable public APIs to Rust and implement controlled shims.
     - [ ] Refactor: simplify wrappers and publish migration documentation.
