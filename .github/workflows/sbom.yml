@@ -47,6 +47,9 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra dev
 
+    - name: Initialize retained assurance directory
+      run: mkdir -p .assurance
+
     - name: Verify reproducible distributions
       run: uv run python scripts/reproducible_build.py . --output .assurance/reproducible-build.json --dist-dir .assurance/dist
 

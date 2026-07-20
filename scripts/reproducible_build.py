@@ -191,12 +191,49 @@ def _source_date_epoch(repo: Path) -> str:
     return completed.stdout.strip()
 
 
+def _source_identity(repo: Path) -> tuple[str, str]:
+    """Return the immutable commit and tree identities for nested sdist builds."""
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("git executable is required")
+    values: list[str] = []
+    for revision in ("HEAD^{commit}", "HEAD^{tree}"):
+        completed = subprocess.run(  # noqa: S603
+            [git, "rev-parse", "--verify", revision],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        value = completed.stdout.strip()
+        if len(value) != 40 or any(
+            character not in "0123456789abcdef" for character in value
+        ):
+            raise RuntimeError(
+                f"git returned an invalid source identity for {revision}"
+            )
+        values.append(value)
+    return values[0], values[1]
+
+
+def _reproducible_environment(repo: Path) -> dict[str, str]:
+    """Build the complete fail-closed environment inherited by nested builds."""
+    source_revision, source_tree = _source_identity(repo)
+    return {
+        **os.environ,
+        "SOURCE_DATE_EPOCH": _source_date_epoch(repo),
+        "VOIAGE_SOURCE_REVISION": source_revision,
+        "VOIAGE_SOURCE_TREE_GIT_OID": source_tree,
+        "VOIAGE_SOURCE_CLEAN": "true",
+    }
+
+
 def verify_reproducible_build(
     repo: Path, *, output_dir: Path | None = None
 ) -> BuildReport:
     """Run two isolated uv builds from the same source revision."""
-    source_date_epoch = _source_date_epoch(repo)
-    environment = {**os.environ, "SOURCE_DATE_EPOCH": source_date_epoch}
+    environment = _reproducible_environment(repo)
+    source_date_epoch = environment["SOURCE_DATE_EPOCH"]
     uv = shutil.which("uv")
     if uv is None:
         raise RuntimeError("uv executable is required")

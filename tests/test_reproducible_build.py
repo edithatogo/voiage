@@ -3,21 +3,42 @@
 from __future__ import annotations
 
 import io
+from pathlib import Path
+import re
 import shutil
 import tarfile
-from typing import TYPE_CHECKING
 import zipfile
 
 import pytest
 
 from scripts.reproducible_build import (
+    _reproducible_environment,
+    _source_identity,
     artifact_evidence,
     compare_build_directories,
     normalize_sdist,
 )
 
-if TYPE_CHECKING:
-    from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_nested_build_identity_is_a_complete_git_commit_and_tree() -> None:
+    """Git-less sdist builds receive the exact immutable source identity."""
+    revision, tree = _source_identity(ROOT)
+
+    assert re.fullmatch(r"[0-9a-f]{40}", revision)
+    assert re.fullmatch(r"[0-9a-f]{40}", tree)
+
+
+def test_nested_build_environment_carries_complete_clean_source_identity() -> None:
+    """The sdist-to-wheel build cannot lose release provenance."""
+    environment = _reproducible_environment(ROOT)
+    revision, tree = _source_identity(ROOT)
+
+    assert environment["VOIAGE_SOURCE_REVISION"] == revision
+    assert environment["VOIAGE_SOURCE_TREE_GIT_OID"] == tree
+    assert environment["VOIAGE_SOURCE_CLEAN"] == "true"
+    assert environment["SOURCE_DATE_EPOCH"].isdigit()
 
 
 def _write_wheel(path: Path, payload: bytes) -> None:
