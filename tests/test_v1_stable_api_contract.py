@@ -20,7 +20,7 @@ def test_v1_contract_defines_supported_runtime_and_behavior() -> None:
 
     assert contract["contract_version"] == "1.0.0"
     assert contract["python"] == {
-        "versions": ["3.10", "3.11", "3.12", "3.13", "3.14"],
+        "versions": ["3.12", "3.13", "3.14"],
         "platforms": ["linux", "macos", "windows"],
         "reference_facade": True,
         "authoritative_numerics": "rust",

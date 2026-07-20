@@ -6,21 +6,16 @@ only when they exactly encode that workspace version.
 """
 
 import argparse
+from collections.abc import Callable
 from dataclasses import dataclass
 import json
 from pathlib import Path
 import re
 import sys
+import tomllib
 from typing import Any
 
 from defusedxml import ElementTree
-
-try:  # Python 3.11+.
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10.
-    import tomli as tomllib  # type: ignore[import-not-found]
-
-from collections.abc import Callable
 
 REPO_ROOT = Path.cwd()
 _DESCRIPTION_VERSION_RE = re.compile(r"^Version:\s*(?P<version>\S+)\s*$")

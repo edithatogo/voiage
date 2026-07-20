@@ -27,7 +27,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "os: ubuntu-24.04" in release_workflow
     assert "os: macos-14" in release_workflow
     assert "os: windows-2025" in release_workflow
-    assert "cp310-abi3" in release_workflow
+    assert "cp312-abi3" in release_workflow
     assert "voiage/_core." in release_workflow
     assert "workflow_dispatch:" in release_workflow
     assert (
@@ -239,7 +239,7 @@ def test_release_architecture_policy_is_explicit_and_extensible() -> None:
     release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
 
     assert "[tool.voiage.release]" in pyproject
-    assert 'python-abi = "cp310-abi3"' in pyproject
+    assert 'python-abi = "cp312-abi3"' in pyproject
     assert 'architecture-policy = "native-runner"' in pyproject
     assert (
         'supported-native-architectures = ["linux-x86_64", "macos-arm64", "windows-x86_64"]'

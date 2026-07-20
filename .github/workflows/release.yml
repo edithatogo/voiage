@@ -26,6 +26,9 @@ on:
 
 permissions: {}
 
+env:
+  VOIAGE_PYTHON_ABI: cp312-abi3
+
 concurrency:
   group: release-${{ inputs.release_tag || github.ref_name }}
   cancel-in-progress: false
@@ -76,7 +79,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -133,10 +136,10 @@ jobs:
         with:
           version: "0.11.29"
           enable-cache: false
-      - name: Set up Python 3.10 ABI floor
+      - name: Set up Python 3.12 ABI floor
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -150,7 +153,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -165,7 +168,7 @@ jobs:
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); assert any(name.startswith('voiage/_core.') for name in ZipFile(wheel).namelist())"
       - name: Install wheel into clean environment
         run: |
-          uv venv --python 3.10 .release-wheel-venv
+          uv venv --python 3.12 .release-wheel-venv
           uv pip install --python .release-wheel-venv dist/*.whl
           uv pip check --python .release-wheel-venv
           uv pip install --python .release-wheel-venv pytest rfc8785==0.1.4
@@ -221,7 +224,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -239,7 +242,7 @@ jobs:
       - name: Build manylinux2014 wheel from clean extracted sdist
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.10 --out ../.sdist-wheel
+          args: --locked --release --compatibility pypi --interpreter python3.12 --out ../.sdist-wheel
           command: build
           docker-options: -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -255,7 +258,7 @@ jobs:
           EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
           EXPECTED_PLATFORM_SUFFIX: manylinux_2_17_x86_64.manylinux2014_x86_64
         run: |
-          uv venv --python 3.10 .sdist-wheel-venv
+          uv venv --python 3.12 .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv .sdist-wheel/*.whl
           uv pip check --python .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv pytest rfc8785==0.1.4
@@ -461,13 +464,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install TestPyPI artifact with bounded retry
         shell: bash
         run: |
           release_version="${RELEASE_TAG#v}"
           uv export --locked --extra ci --no-dev --no-emit-project --output-file locked-requirements.txt
-          uv venv --python 3.10 .testpypi-venv
+          uv venv --python 3.12 .testpypi-venv
           uv pip install --python .testpypi-venv -r locked-requirements.txt
           for attempt in 1 2 3 4 5 6; do
             if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$release_version"; then

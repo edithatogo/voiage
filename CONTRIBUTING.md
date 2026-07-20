@@ -6,7 +6,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Prerequisites
 
-*   Python 3.10-3.14
+*   Python 3.12-3.14
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
 
 ### Setting Up the Development Environment

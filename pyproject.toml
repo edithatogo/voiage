@@ -9,7 +9,7 @@ name = "voiage"
 dynamic = ["version"]
 description = "A Python library for Value of Information analysis."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [
@@ -26,8 +26,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
@@ -40,10 +38,8 @@ classifiers = [
 
 dependencies = [
     "click>=8.3.3,<9",
-    "numpy>=1.22,<2.0; python_version<'3.11'",
-    "numpy>=2.2.6,<3.0; python_version>='3.11'",
-    "scipy>=1.7,<1.15; python_version<'3.11'",
-    "scipy>=1.16.3,<1.17; python_version>='3.11'",
+    "numpy>=2.2.6,<3.0",
+    "scipy>=1.16.3,<1.17",
     "pandas>=1.3,<3.0",
     "xarray>=0.19,<2025.0",
     "scikit-learn>=1.7.2,<2.0",
@@ -57,8 +53,7 @@ dependencies = [
 [project.optional-dependencies]
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
 jax = [
-    "jax>=0.4.33,<0.6; python_version<'3.11'",
-    "jax>=0.7.1,<0.8; python_version>='3.11'",
+    "jax>=0.7.1,<0.8",
 ]
 ci = [
     "defusedxml>=0.7.1,<1.0",
@@ -66,8 +61,7 @@ ci = [
     "fastapi>=0.139.2,<1.0",
     "httpx>=0.28.1,<1.0",
     "hypothesis>=6.157.0,<7.0",
-    "jax>=0.4.33,<0.6; python_version<'3.11'",
-    "jax>=0.7.1,<0.8; python_version>='3.11'",
+    "jax>=0.7.1,<0.8",
     "jsonschema>=4.26.0,<5.0",
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
@@ -105,8 +99,7 @@ experimental = [
     "msgspec>=0.21.1,<1",
 ]
 plotting = [
-    "matplotlib>=3.10.9,<3.11; python_version<'3.11'",
-    "matplotlib>=3.11.1,<4; python_version>='3.11'",
+    "matplotlib>=3.11.1,<4",
     "seaborn>=0.13.2,<1",
 ]
 performance = ["psutil>=5.9,<8.0"]
@@ -141,13 +134,13 @@ include = [{ path = "rust/crates/voiage-python/source-provenance.txt", format = 
 rust = false
 
 [tool.voiage.release]
-python-abi = "cp310-abi3"
+python-abi = "cp312-abi3"
 architecture-policy = "native-runner"
 supported-runners = ["ubuntu-24.04", "macos-14", "windows-2025"]
 supported-native-architectures = ["linux-x86_64", "macos-arm64", "windows-x86_64"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 exclude = [
     "examples/",
 ]
@@ -295,5 +288,5 @@ nox = "uv run nox"
 build = "uv build"
 publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
 publish = "uv publish"
-conda-build = "conda-build conda/ --python 3.11"
+conda-build = "conda-build conda/ --python 3.12"
 refresh-registry-audit = "python scripts/refresh_binding_registry_audit.py"

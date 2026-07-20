@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
 [![CI](https://github.com/edithatogo/voiage/actions/workflows/ci.yml/badge.svg)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/python-3.10--3.14-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.12--3.14-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
@@ -119,7 +119,7 @@ You can install `voiage` via pip:
 pip install voiage
 ```
 
-Supported Python versions: 3.10-3.14.
+Supported Python versions: 3.12-3.14.
 
 ## Getting Started
 

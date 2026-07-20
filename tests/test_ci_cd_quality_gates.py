@@ -209,7 +209,7 @@ class TestCICDQualityGatesConfiguration:
         test_unit_job = ci_config["jobs"]["test-unit"]
         python_versions = test_unit_job["strategy"]["matrix"]["python"]
 
-        assert python_versions == ["3.14"]
+        assert python_versions == ["3.12", "3.13", "3.14"]
 
     def test_weekly_expensive_gates_configured(self):
         """Test that expensive gates are configured for weekly scheduled runs."""

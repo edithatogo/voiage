@@ -30,7 +30,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         public Python surface and routes CEAF and dominance result
         serialization through Rust. Numerical-kernel migration remains
         intentionally deferred to Phase 5. Python packaging now uses
-        Cargo-authoritative dynamic versions, cp310 ABI3 native wheels, clean
+        Cargo-authoritative dynamic versions, cp312 ABI3 native wheels, clean
         wheel and sdist-derived installs, immutable release tags, staged
         registry smoke gates, explicit platform tags, and minimized base
         dependencies with governed extras. Runtime provenance now binds native
@@ -135,7 +135,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         line; pinned the transitive esbuild resolution to a patched release;
         and updated the Starlight configuration for the current APIs.
     *   Verified with `pnpm audit --prod`, Astro check/build, and the complete
-        tox matrix including Python 3.10 through 3.14, minimum/maximum
+        tox matrix including Python 3.12 through 3.14, minimum/maximum
         dependency environments, coverage, docs, type, contract, and harness
         gates.
 

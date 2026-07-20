@@ -1,12 +1,12 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.10 through 3.14; a non-blocking Python 3.14t lane observes free-threaded compatibility
+- **Python**: >=3.12 through 3.14; a non-blocking Python 3.14t lane observes free-threaded compatibility
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
-- **NumPy**: >=1.22,<2 on Python 3.10; >=2.2.6,<3 on Python >=3.11 - Fundamental array computing
-- **SciPy**: >=1.7,<1.15 on Python 3.10; >=1.16.3,<1.17 on Python >=3.11 - Scientific computing algorithms
+- **NumPy**: >=2.2.6,<3 - Fundamental array computing
+- **SciPy**: >=1.16.3,<1.17 - Scientific computing algorithms
 - **pandas**: >=1.3,<3 - Data manipulation and analysis
 - **xarray**: >=0.19,<2025 - Labeled multi-dimensional arrays
 - **PyArrow**: >=25,<26 - schema-bearing interchange, Parquet, and IPC
@@ -14,7 +14,7 @@
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
 
 ## High-Performance Computing
-- **JAX**: >=0.4.33,<0.6 on Python 3.10; >=0.7.1,<0.8 on Python >=3.11 - High-performance numerical computing with GPU/TPU support
+- **JAX**: >=0.7.1,<0.8 - High-performance numerical computing with GPU/TPU support
 - **Spack**: HPC source package manager for reproducible scientific stacks
 - **EasyBuild**: Automated scientific software build/install framework for HPC
 - **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
@@ -26,7 +26,7 @@
 - **Typer**: >=0.9,<1.0 - Modern CLI framework with auto-completion
 
 ## Visualization
-- **matplotlib**: >=3.10.9,<3.11 on Python 3.10; >=3.11.1,<4 on Python >=3.11 - 2D plotting library
+- **matplotlib**: >=3.11.1,<4 - 2D plotting library
 - **seaborn**: >=0.13.2,<1 - Statistical data visualization
 
 ## Testing

@@ -36,14 +36,14 @@ To publish to conda-forge:
 The recipe specifies the following dependencies:
 
 ### Host Dependencies
-- python >=3.10
+- python >=3.12
 - pip
 - setuptools >=69
 - setuptools_scm >=8
 - wheel
 
 ### Run Dependencies
-- python >=3.10
+- python >=3.12
 - defusedxml >=0.7.1
 - numpy, scipy, pandas, xarray, numpyro, jax
 - scikit-learn, statsmodels, matplotlib, seaborn

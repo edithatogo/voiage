@@ -2,9 +2,9 @@
 
 ## Runtime Languages
 
-The supported Python runtime range is **Python 3.10-3.14**.
+The supported Python runtime range is **Python 3.12-3.14**.
 
-- **Python**: 3.10-3.14, with Python package metadata in `pyproject.toml`.
+- **Python**: 3.12-3.14, with Python package metadata in `pyproject.toml`.
 - **Rust**: native core foundations, deterministic kernels, benchmarks, and
   binding/runtime expansion work.
 - **Polyglot Bindings**: R, Julia, TypeScript, Go, Rust, and .NET 11 are tracked
