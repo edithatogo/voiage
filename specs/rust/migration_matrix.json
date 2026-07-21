@@ -73,21 +73,21 @@
       "kernel_id": "ceaf",
       "python_owner": "voiage.methods.ceaf",
       "rust_status": "complete",
-      "python_wrapper_status": "reference_only",
+      "python_wrapper_status": "native",
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "medium",
-      "notes": "Rust calculate_ceaf in rust/crates/voiage-numerics; Python facade in voiage.methods.ceaf. Parity is verified through bridge and facade coverage; the committed foundational benchmark is CI-gated."
+      "notes": "Rust calculate_ceaf in rust/crates/voiage-numerics is exposed through the PyO3/runtime bridge; the Python facade in voiage.methods.ceaf preserves validation and result naming. Parity is verified through bridge and facade coverage; the committed foundational benchmark is CI-gated."
     },
     {
       "kernel_id": "dominance",
       "python_owner": "voiage.methods.dominance",
       "rust_status": "complete",
-      "python_wrapper_status": "reference_only",
+      "python_wrapper_status": "native",
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "medium",
-      "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in rust/crates/voiage-numerics; Python facade in voiage.methods.dominance."
+      "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in rust/crates/voiage-numerics is exposed through the PyO3/runtime bridge; the Python facade in voiage.methods.dominance preserves validation and result naming."
     },
     {
       "kernel_id": "value_of_heterogeneity",
