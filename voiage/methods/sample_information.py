@@ -14,7 +14,6 @@ import numpy as np
 
 from voiage import _runtime
 from voiage.exceptions import (
-    InputError,
     raise_backend_not_available_error,
     raise_input_error,
 )
@@ -161,31 +160,11 @@ def _evsi_efficient_regression(
         trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
         if trial_sample_size <= 0:
             return float(np.max(np.mean(nb_prior_values, axis=0)))
-        try:
-            result = _runtime.compute_evsi_efficient_linear(
-                nb_prior_values.tolist(),
-                x.tolist(),
-                trial_sample_size,
-            )
-        except ModuleNotFoundError:
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
-        except AttributeError as error:
-            if "compute_evsi_efficient_linear" not in str(error):
-                raise
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
-        except InputError as error:
-            if "rank deficient" not in str(error):
-                raise
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
+        result = _runtime.compute_evsi_efficient_linear(
+            nb_prior_values.tolist(),
+            x.tolist(),
+            trial_sample_size,
+        )
 
         current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
         try:
@@ -258,28 +237,6 @@ def _evsi_efficient_regression(
     )
 
 
-def _evsi_efficient_regression_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-    metamodel: MetamodelName,
-) -> float:
-    """Retain the Python efficient reference for unsupported native cases."""
-    if not SKLEARN_AVAILABLE:
-        raise_backend_not_available_error("Efficient EVSI requires scikit-learn.")
-    predictions = np.empty_like(nb_prior_values, dtype=float)
-    x = _parameter_matrix(psa_prior)
-    for strategy_idx in range(nb_prior_values.shape[1]):
-        model = _fit_strategy_metamodel(x, nb_prior_values[:, strategy_idx], metamodel)
-        predictions[:, strategy_idx] = np.asarray(model.predict(x), dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design, psa_prior.n_samples
-    )
-    return _preposterior_expected_max(
-        predictions, nb_prior_values, information_fraction
-    )
-
-
 def _quadratic_design_matrix(
     x: np.ndarray[Any, np.dtype[np.float64]],
 ) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -311,25 +268,11 @@ def _evsi_moment_based(
     trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
     if trial_sample_size <= 0:
         return float(np.max(np.mean(nb_prior_values, axis=0)))
-    try:
-        result = _runtime.compute_evsi_moment_based(
-            nb_prior_values.tolist(),
-            x.tolist(),
-            trial_sample_size,
-        )
-    except ModuleNotFoundError:
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
-    except AttributeError as error:
-        if "compute_evsi_moment_based" not in str(error):
-            raise
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
-    except InputError as error:
-        if "rank deficient" not in str(error):
-            raise
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+    result = _runtime.compute_evsi_moment_based(
+        nb_prior_values.tolist(),
+        x.tolist(),
+        trial_sample_size,
+    )
 
     current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
     try:
@@ -378,27 +321,6 @@ def _evsi_moment_based(
         raise AssertionError("unreachable") from error
     else:
         return expected_sample
-
-
-def _evsi_moment_based_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-) -> float:
-    """Retain the NumPy moment estimator for native compatibility fallbacks."""
-    x = _parameter_matrix(psa_prior)
-    design = _quadratic_design_matrix(x)
-    coefficients, *_ = np.linalg.lstsq(design, nb_prior_values, rcond=None)
-    predicted_nb = np.asarray(design @ coefficients, dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design,
-        psa_prior.n_samples,
-    )
-    return _preposterior_expected_max(
-        predicted_nb,
-        nb_prior_values,
-        information_fraction,
-    )
 
 
 def _simulate_trial_data(
@@ -572,52 +494,30 @@ def _evsi_regression(
 
     # Callback execution remains Python-owned; deterministic OLS aggregation
     # is Rust-owned under the versioned regression envelope.
+    result = _runtime.compute_evsi_regression(
+        y.reshape(-1, 1).tolist(),
+        x.tolist(),
+        x_all.tolist(),
+    )
     try:
-        result = _runtime.compute_evsi_regression(
-            y.reshape(-1, 1).tolist(),
-            x.tolist(),
-            x_all.tolist(),
+        if (
+            result.get("estimator") != "regression"
+            or result.get("contract_version") != 1
+            or result.get("sample_count") != len(y)
+            or result.get("prediction_count") != len(x_all)
+            or result.get("parameter_count") != x.shape[1]
+        ):
+            raise ValueError("native regression metadata mismatch")  # noqa: TRY301
+        expected_sample_value = float(result["expected_sample_value"])
+        if not np.isfinite(expected_sample_value):
+            raise ValueError("native regression result is non-finite")  # noqa: TRY301
+    except (KeyError, TypeError, ValueError) as error:
+        raise_input_error(
+            "Native regression EVSI returned an invalid result envelope."
         )
-    except ModuleNotFoundError:
-        _warn_python_numerical_fallback("regression EVSI")
-    except AttributeError as error:
-        if "compute_evsi_regression" not in str(error):
-            raise
-        _warn_python_numerical_fallback("regression EVSI")
-    except InputError as error:
-        if "rank deficient" not in str(error):
-            raise
-        _warn_python_numerical_fallback("regression EVSI")
+        raise AssertionError("unreachable") from error
     else:
-        try:
-            if (
-                result.get("estimator") != "regression"
-                or result.get("contract_version") != 1
-                or result.get("sample_count") != len(y)
-                or result.get("prediction_count") != len(x_all)
-                or result.get("parameter_count") != x.shape[1]
-            ):
-                raise ValueError("native regression metadata mismatch")  # noqa: TRY301
-            expected_sample_value = float(result["expected_sample_value"])
-            if not np.isfinite(expected_sample_value):
-                raise ValueError("native regression result is non-finite")  # noqa: TRY301
-        except (KeyError, TypeError, ValueError) as error:
-            raise_input_error(
-                "Native regression EVSI returned an invalid result envelope."
-            )
-            raise AssertionError("unreachable") from error
-        else:
-            return expected_sample_value
-
-    # Compatibility reference for unavailable or rank-deficient native builds.
-    from sklearn.linear_model import LinearRegression
-
-    regression_model = LinearRegression()
-    regression_model.fit(x, y)
-    predicted_max_nb = regression_model.predict(x_all)
-
-    # Return expected max net benefit
-    return float(np.mean(predicted_max_nb))
+        return expected_sample_value
 
 
 def evsi(
@@ -750,11 +650,6 @@ def evsi(
                 np.random.default_rng(seed),
             )
     elif method == "regression":
-        if not SKLEARN_AVAILABLE:
-            raise_backend_not_available_error(
-                "Regression method for EVSI requires scikit-learn."
-            )
-
         # Implement regression-based EVSI method
         expected_max_nb_post_study = _evsi_regression(
             model_func, psa_prior, trial_design, n_outer_loops

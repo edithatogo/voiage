@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
   stable public paths; these operations now fail closed when the Rust core is
   unavailable rather than silently re-entering duplicate numerical policy.
+- Removed Python efficient-linear, moment-based, and regression EVSI fallback
+  implementations; unsupported or rank-deficient native contracts now fail
+  closed while callback simulation remains Python-owned.
 - Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
   `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
   directories after archiving to `conductor/archive/`.
@@ -18,8 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added a versioned Rust/PyO3 regression aggregation kernel for callback-driven
-  EVSI; Python retains trial simulation and model callbacks with a validated
-  compatibility fallback for unavailable or rank-deficient native builds.
+  EVSI; Python retains trial simulation and model callbacks while the native
+  numerical contract fails closed for unavailable or rank-deficient builds.
 - Added Pydantic v2 structured logging with JSONL, run IDs, bound context, and
   backward-compatible CLI human logs; added Pixi/uv task parity, BasedPyright
   ratcheting, Scalene artifacts, and manually dispatchable expensive CI lanes.

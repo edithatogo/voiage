@@ -304,20 +304,31 @@ def test_evsi_two_loop_rejects_invalid_seed(
         )
 
 
-def test_evsi_regression_method_not_implemented(
+def test_evsi_regression_method_does_not_require_sklearn(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Test that the regression method for EVSI raises a NotImplementedError."""
-    from voiage.exceptions import VoiageNotImplementedError
-
+    """Native regression aggregation does not depend on scikit-learn."""
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
-    with pytest.raises(VoiageNotImplementedError):
-        evsi(
-            model_func=dummy_model_func_evsi,
-            psa_prior=dummy_psa_for_evsi,
-            trial_design=dummy_trial_design_for_evsi,
-            method="regression",
-        )
+    monkeypatch.setattr(
+        _runtime,
+        "compute_evsi_regression",
+        lambda targets, parameters, predictions: {
+            "estimator": "regression",
+            "contract_version": 1,
+            "expected_sample_value": 2.0,
+            "sample_count": len(targets),
+            "prediction_count": len(predictions),
+            "parameter_count": len(parameters[0]),
+        },
+    )
+    result = evsi(
+        model_func=dummy_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=dummy_trial_design_for_evsi,
+        method="regression",
+        n_outer_loops=2,
+    )
+    assert result >= 0.0
 
 
 def test_evsi_regression_method(
@@ -424,44 +435,42 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
     assert len(captured["parameter_samples"]) == 500
 
 
-def test_evsi_efficient_linear_falls_back_when_native_extension_is_absent(
+def test_evsi_efficient_linear_requires_native_extension(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """An optional native extension must not break the Python reference path."""
+    """The stable efficient-linear path fails closed without Rust."""
 
     def unavailable(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise ModuleNotFoundError("voiage._core")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", unavailable)
-    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
-        result = si_module.evsi(
+    with pytest.raises(ModuleNotFoundError, match="voiage._core"):
+        si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="efficient",
             metamodel="linear",
         )
-    assert result >= 0.0
 
 
-def test_evsi_efficient_linear_falls_back_for_rank_deficient_design(
+def test_evsi_efficient_linear_rejects_rank_deficient_design(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """The Python least-squares behavior remains available for deficient designs."""
+    """Rank-deficient native designs fail closed after Python-core retirement."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("efficient-linear design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", rank_failure)
-    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
-        result = si_module.evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="efficient",
             metamodel="linear",
         )
-    assert result >= 0.0
 
 
 def test_evsi_efficient_linear_rejects_malformed_native_envelope(
@@ -626,24 +635,23 @@ def test_evsi_moment_based_routes_through_native_kernel(
     assert result == pytest.approx(1.0)
 
 
-def test_evsi_moment_based_falls_back_for_rank_deficient_design(
+def test_evsi_moment_based_rejects_rank_deficient_design(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Rank-deficient native designs retain the NumPy compatibility path."""
+    """Rank-deficient native designs fail closed after Python-core retirement."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("moment-based design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", rank_failure)
-    with pytest.warns(DeprecationWarning, match="moment-based EVSI fallback"):
-        result = evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="moment_based",
         )
 
-    assert result >= 0.0
 
 
 def test_evsi_moment_based_rejects_malformed_native_envelope(
