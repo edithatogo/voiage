@@ -4,15 +4,16 @@ from pathlib import Path
 def test_hpc_native_roadmap_sequence_and_baselines() -> None:
     root = Path.cwd()
     roadmap_text = (root / "roadmap.md").read_text(encoding="utf-8")
-    guide_text = (
-        root / "docs" / "developer_guide" / "hpc_native_roadmap.rst"
-    ).read_text(encoding="utf-8")
-    contract_text = (
-        root / "docs" / "developer_guide" / "hpc_distribution_contract.rst"
-    ).read_text(encoding="utf-8")
-    accelerator_text = (
-        root / "docs" / "developer_guide" / "rust_accelerators.rst"
-    ).read_text(encoding="utf-8")
+    docs = root / "docs" / "astro-site" / "src" / "content" / "docs"
+    guide_text = (docs / "developer-guide" / "hpc-native-roadmap.mdx").read_text(
+        encoding="utf-8"
+    )
+    contract_text = (docs / "developer-guide" / "hpc-distribution-contract.mdx").read_text(
+        encoding="utf-8"
+    )
+    accelerator_text = (docs / "developer-guide" / "rust-accelerators.mdx").read_text(
+        encoding="utf-8"
+    )
     notes_text = (
         root
         / "conductor"

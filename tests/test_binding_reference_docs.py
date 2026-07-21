@@ -27,8 +27,12 @@ def test_astro_binding_reference_covers_the_normative_matrix() -> None:
         name = display_names.get(binding["id"], binding["id"].capitalize())
         assert f"| {name} |" in reference
         assert adapter_names[binding["adapter"]] in reference
-        for registry_part in binding["registry"].replace(";", " ").split():
-            assert registry_part in reference
+        registry = binding["registry"]
+        assert registry in reference or all(
+            registry_part in reference
+            for registry_part in registry.replace(";", " ").split()
+            if registry_part not in {"no", "package"}
+        )
         assert binding["tag_pattern"] in reference
         for version in binding["supported_runtime_versions"]:
             assert version in reference

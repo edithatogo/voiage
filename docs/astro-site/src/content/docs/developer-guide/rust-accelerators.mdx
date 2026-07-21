@@ -17,6 +17,7 @@ This note records the workloads plausibly worth accelerating in the Rust core, a
 ## Apple Metal adapter strategy
 
 Treat Apple Metal as an internal execution adapter rather than a new public API surface. The CPU fallback remains authoritative and the reference result envelope.
+An accelerator promotion should not require public API changes.
 
 ## Discrete GPU & TPU
 
@@ -31,4 +32,7 @@ Build on the existing GPU helper layer; prefer JAX when available; fall back to 
 
 ## FPGA and ASIC lanes
 
-Exposed as explicit execution-adapter placeholders (`voiage.parallel.is_placeholder_execution_adapter("fpga")`) that fail with `NotImplementedError` until real runtimes are added.
+The **FPGA implementation lane** and **ASIC implementation lane** are exposed
+as explicit execution-adapter placeholders
+(`voiage.parallel.is_placeholder_execution_adapter("fpga")`) that fail with
+`NotImplementedError` until real runtimes are added.
