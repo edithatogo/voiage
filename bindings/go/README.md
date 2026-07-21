@@ -35,7 +35,10 @@ func main() {
 }
 ```
 
-This prints `EVPI: 3.0` for the simple two-strategy matrix above.
+This prints `EVPI: 3.0` for the simple two-strategy matrix above. The Go
+package calls the Rust `voiage_v1_evpi` C ABI; it does not contain an
+independent numerical implementation. CI builds the ABI library before the
+Go test and vet gates.
 
 ## Release and caveats
 
