@@ -1,0 +1,1 @@
+Task: Migrate structural EVPI aggregation to the Rust core. Added SampleCube/SampleVector-backed Rust aggregation with validation and parity tests, exposed it through PyO3 and the Python runtime, and retained Python model evaluator callbacks and population scaling as orchestration. Structural EVPPI remains explicitly pending.
