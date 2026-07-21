@@ -235,8 +235,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [ ] Task: Complete and validate v1.0 user documentation
     - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
     - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for the complete non-optional notebook matrix, including getting_started, EVPI, EVPPI, EVSI, adaptive, advanced, calibration, fluent, interactive, engineering, environmental, financial, observational, portfolio, metamodeling, NMA, structural, benchmarking, voiage validation, and visualization; optional JAX/widget/Colab examples remain dependency-gated; Vale reports zero alerts across 1,086 Markdown/MDX files and generated pages have no missing image alt text; clean-builder evidence remains)
-- [~] Task: Apply Phase 8/9 automated review fixes
-    - [~] Align coverage, changelog and result-envelope governance with the executable release contracts.
+- [x] Task: Apply Phase 8/9 automated review fixes (e97293e)
+    - [x] Align coverage, changelog and result-envelope governance with the executable release contracts.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
