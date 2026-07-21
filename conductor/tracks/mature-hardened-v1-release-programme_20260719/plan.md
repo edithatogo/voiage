@@ -251,7 +251,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
     - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
-    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21.
+    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21. PR #293 has all other hosted checks complete but its mutation job rejects the Dependabot lockfile change until the narrowed cohort policy is present on the remote branch.
 - [ ] Task: Establish quantitative quality and performance gates
     - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
     - [ ] Define benchmark budgets and fail material regressions.
