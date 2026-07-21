@@ -227,7 +227,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 - [~] Task: Establish Astro as the sole documentation system using TDD
     - [x] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content. (existing repository harness and Astro contract tests)
-    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, lifecourse integration, governance/bridge/installation, quality/security, community-support, and HPC/accelerator guides are authoritative under `docs/astro-site/src/content/docs/`. Astro user-guide pages no longer defer to GitHub Markdown copies; remaining standalone Markdown consolidation and final navigation/tooling review remain.
+    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, lifecourse integration, governance/bridge/installation, quality/security, community-support, HPC/accelerator, and advanced cross-domain guides are authoritative under `docs/astro-site/src/content/docs/`. Astro link validation and a direct Astro 7 production build pass; the normal build remains fail-closed while five newly published npm packages age past the minimum-release-age policy. Remaining standalone Markdown consolidation and final navigation/tooling review remain.
     - [ ] Refactor: consolidate navigation, generation and validation tooling.
 - [x] Task: Generate trustworthy API and binding references (0554bdc, c48233d; stable API, C ABI, and binding references published)
     - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)
@@ -251,7 +251,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
     - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
-    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound.
+    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21.
 - [ ] Task: Establish quantitative quality and performance gates
     - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
     - [ ] Define benchmark budgets and fail material regressions.
