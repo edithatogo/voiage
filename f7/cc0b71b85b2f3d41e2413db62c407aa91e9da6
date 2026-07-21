@@ -1,0 +1,1 @@
+Phase 7 adapter foundation: exposed voiage_v1_evpi through the C ABI, routed to voiage-numerics::evpi via SampleMatrix validation, added capability negotiation and header/symbol contract updates. Red: abi_infrastructure test failed before export. Green: cargo test --manifest-path rust/Cargo.toml -p voiage-ffi and cargo clippy ... -D warnings passed.
