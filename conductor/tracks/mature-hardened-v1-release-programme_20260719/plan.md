@@ -233,7 +233,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)
     - [x] Add drift checks between source contracts and published documentation. (tests/test_binding_reference_docs.py, tests/test_api_reference_docs.py)
 - [ ] Task: Complete and validate v1.0 user documentation
-    - [ ] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity.
+    - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
     - [ ] Validate examples, links, accessibility, spelling and production builds in clean environments.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
