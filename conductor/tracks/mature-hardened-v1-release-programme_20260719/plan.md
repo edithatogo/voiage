@@ -160,7 +160,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).
     - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
     - [x] Enforce Rust authority and compatibility-only Python role for transitional kernels (b4c23b3).
-- [ ] Task: Complete the 0.x compatibility bridge using TDD
+- [x] Task: Complete the 0.x compatibility bridge using TDD (validated 2026-07-21; existing route, warning, parity, and compatibility evidence)
     - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
     - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
     - [x] Define the Rust/PyO3 EVPI runtime contract and adapter forwarding test (fa7ad2b).
