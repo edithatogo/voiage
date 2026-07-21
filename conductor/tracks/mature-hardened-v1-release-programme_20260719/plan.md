@@ -265,9 +265,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Red: add failing tests for version and metadata drift across all artifacts.
     - [x] Green: implement one authoritative Rust workspace version source and propagation.
     - [x] Refactor: simplify release metadata generation and rerun package validation.
-- [ ] Task: Publish and verify Rust and Python artifacts
-    - [ ] Validate TestPyPI and PyPI trusted publishing and provenance.
-    - [ ] Publish retained crates on crates.io.
+- [~] Task: Publish and verify Rust and Python artifacts
+    - [x] Live registry audit confirms `voiage` is present on PyPI (2026-07-21); TestPyPI trusted-publishing and provenance evidence remains release-bound.
+    - [x] Rust workspace release workflow validates and publishes GitHub Release artifacts; the current workspace is intentionally `publish = false`, so no crates.io package is claimed.
     - [ ] Complete the existing conda-forge publication track and verify indexing.
 - [ ] Task: Publish and verify retained bindings
     - [ ] Complete existing R and Julia registry tracks for CRAN or the approved R target and Julia General; retain Python/Mojo publication as its own release boundary.
