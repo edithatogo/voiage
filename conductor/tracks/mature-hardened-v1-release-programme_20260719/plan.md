@@ -278,7 +278,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 12: Release Candidate, Migration and Final v1.0 Release
 
-- [ ] Task: Cut and validate a release candidate
+- [~] Task: Cut and validate a release candidate
     - [ ] Freeze features and regenerate all release evidence.
     - [ ] Run complete CI, security, compatibility, binding, packaging, docs, benchmark and reproducibility suites.
     - [ ] Conduct clean-room installs and representative end-to-end VOI analyses.
