@@ -41,7 +41,7 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
 
 
 _JAX_MODULES = frozenset({"health_economics", "multi_domain"})
-_LAZY_MODULES = frozenset({"backends", "cli", "methods", "plot"})
+_LAZY_MODULES = frozenset({"backends", "cli", "experimental", "methods", "plot"})
 _ECOSYSTEM_EXPORTS = {
     "ecosystem_integration": None,
     "HeomlRunBundle": "HeomlRunBundle",
@@ -357,6 +357,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "dominance",
     "ecosystem_integration",
     "enbs",
+    "experimental",
     "evpi",
     "evppi",
     "evsi",

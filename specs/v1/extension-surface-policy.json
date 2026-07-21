@@ -43,6 +43,7 @@
       "voiage/clinical_trials.py"
     ],
     "experimental": [
+      "voiage/experimental/**",
       "voiage/web/**",
       "voiage/widgets/**",
       "voiage/backends/**",
