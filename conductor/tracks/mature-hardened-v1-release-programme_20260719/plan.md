@@ -132,6 +132,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Reconcile the Rust migration matrix with the implemented two-loop EVSI contract (ae74b21).
     - [x] Extend native ownership to the supported Python model-callback estimator family after explicit contracts were frozen; retain two-loop, random-forest efficient, adaptive, and NMA paths in Python where their contracts remain intentionally outside the stable native kernel boundary. (83bc772)
         - [x] Define and implement the versioned regression prediction envelope: Python owns callback simulation; Rust owns finite OLS fit/predict aggregation. (83bc772)
+        - [x] Review fix: document errors, check count conversion, and satisfy strict Rust clippy for regression elimination. (3d1fd4f)
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).
 - [~] Task: Harden numerical correctness
