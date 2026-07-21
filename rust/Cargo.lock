@@ -528,6 +528,7 @@ version = "0.2.1"
 dependencies = [
  "voiage-diagnostics",
  "voiage-domain",
+ "voiage-numerics",
  "voiage-serialization",
 ]
 
