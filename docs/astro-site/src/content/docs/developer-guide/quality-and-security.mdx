@@ -1,0 +1,52 @@
+---
+title: Quality and Security Harness
+description: Local and hosted quality, security, and release controls for voiage
+---
+
+`voiage` treats repository automation as a release surface. The local harness
+and GitHub workflows therefore validate both Python behavior and the controls
+that protect changes, dependencies, and published artifacts.
+
+## Local gates
+
+Run the complete gate before opening or updating a pull request:
+
+```sh
+uv run python scripts/repo_harness.py
+tox
+```
+
+The `harness` tox environment checks that workflows declare explicit
+permissions, external actions are pinned to immutable commits, required
+security workflows exist, and repository governance files are present. The
+full tox environment additionally runs linting, type checking, docs, contract
+validation, the supported Python matrix, and the coverage threshold.
+
+For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
+--progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.
+
+## GitHub gates
+
+The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and
+Zizmor. Workflows also enforce SHA-pinned actions, least-privilege
+permissions, disabled credential persistence on security-sensitive checkouts,
+and release artifact provenance attestations.
+
+The protected `main` ruleset requires pull requests, resolved review threads,
+successful required checks, signed commits, and linear history. The required
+approval count is zero for the single-maintainer operating model; CODEOWNERS
+still routes review responsibility without creating an impossible independent
+approval gate. Hosted settings must be verified through the GitHub API because
+they are not represented by files in the checkout.
+
+## Owner and organization gates
+
+Some controls cannot be configured from this repository alone:
+
+- organization-wide Actions policies, runner groups, and required workflows;
+- billing- or plan-dependent secret-scanning validity checks;
+- enterprise security policy and outside-collaborator restrictions;
+- environment reviewers and production deployment approvals.
+
+These remain administrator-owned follow-up gates and must not be represented
+as locally complete merely because repository workflows pass.
