@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   directories after archiving to `conductor/archive/`.
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
+### Security
+- Routed the computed coverage comparison revision through an environment
+  variable before shell expansion, eliminating a workflow template-injection
+  path while preserving fail-closed changed-line coverage.
+
 ### Added
 - Added Astro-native best-practice, validation-evidence, ecosystem-boundary,
   and frontier-method maturity pages with drift tests enforcing Astro as the
