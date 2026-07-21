@@ -150,7 +150,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [x] Add differential, metamorphic, fuzz and mutation tests. (validated 2026-07-20; existing evidence: `evsi_differential`, `evsi_metamorphic`, `evsi_fuzz`, `evsi_thread_safety`, and scheduled mutation gate)
     - [x] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism. (validated 2026-07-20; existing evidence: committed baseline contract, CI regression gate, thread-safety suite, and deterministic-kernel tests)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
+- [~] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
 
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
