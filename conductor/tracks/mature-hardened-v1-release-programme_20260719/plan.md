@@ -201,6 +201,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
     - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests.
+    - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
     - [ ] Prove every retained binding executes Rust across supported version combinations.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
