@@ -1,0 +1,63 @@
+---
+title: Advanced Cross-Domain Tutorial
+description: Applying Rust-backed VOI analysis to engineering and finance examples
+---
+
+This tutorial is the Astro/Starlight home for the advanced cross-domain
+workflow. The method is domain-neutral: the domain model generates a sampled
+net-benefit matrix, while `voiage` computes the value of additional
+information.
+
+## Engineering design
+
+For a reliability or design problem, represent uncertain material strength,
+loads, temperature, tolerance, and maintenance costs as sampled parameters.
+For every sample, calculate one net benefit column per design. A conservative,
+balanced, and aggressive design can then be compared with the same
+`DecisionAnalysis` API used for health-economics decisions.
+
+```python
+import numpy as np
+
+from voiage.analysis import DecisionAnalysis
+from voiage.schema import ValueArray
+
+rng = np.random.default_rng(42)
+strength = rng.normal(400, 50, 1_000)
+load = rng.normal(10_000, 2_000, 1_000)
+temperature = rng.normal(70, 15, 1_000)
+
+benefits = np.column_stack(
+    [
+        strength - np.maximum(load - 9_000, 0) - np.maximum(temperature - 85, 0) * 10,
+        strength * 1.05 - np.maximum(load - 10_000, 0) - np.maximum(temperature - 90, 0) * 10,
+        strength * 1.15 - np.maximum(load - 11_000, 0) - np.maximum(temperature - 95, 0) * 10,
+    ]
+)
+
+analysis = DecisionAnalysis(
+    nb_array=ValueArray.from_numpy(benefits, ["Conservative", "Balanced", "Aggressive"]),
+    parameter_samples={"strength": strength, "load": load, "temperature": temperature},
+)
+print(f"EVPI: {analysis.evpi():.3f}")
+```
+
+## Finance and portfolio decisions
+
+For portfolio analysis, generate sampled returns and costs under the chosen
+market model. Each allocation is a strategy column. The VOI result quantifies
+the maximum value of resolving the selected uncertainty before committing to
+an allocation; it does not replace suitability, risk, or regulatory review.
+
+## Reproducibility checklist
+
+- Seed or record the random-number generator used to create the uncertainty
+  samples.
+- Preserve the decision labels and parameter names alongside the result.
+- Record the voiage version, Rust core version, and fixture or dataset
+  provenance.
+- Compare cross-language adapters against the shared conformance fixtures
+  before publication.
+
+Runnable notebooks for finance, environmental, and engineering examples are
+listed in the [examples index](/examples/).
