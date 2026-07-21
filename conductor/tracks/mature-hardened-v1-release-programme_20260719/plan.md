@@ -195,7 +195,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
     - [x] Shared EVPI conformance: Python, R, Julia and Rust surfaces pass the canonical/reference fixture or ABI smoke gate (3f22b1a, 7647b81, and existing Rust evidence).
-    - [~] Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary.
+    - [~] Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary. ENBS is now exposed through the native bridge; remaining stable façade parity evidence is still required.
     - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
     - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
 - [~] Task: Harden binding lifecycle and ABI compatibility

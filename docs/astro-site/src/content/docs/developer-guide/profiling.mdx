@@ -25,7 +25,7 @@ The benchmark emits stable operation names and nanosecond timings. Workloads are
 2. Record timing, memory, or throughput measurements in the same artifact family.
 3. Compare the new artifact against the committed baseline before promoting an optimization claim.
 
-The older `bindings/rust` scalar and stochastic baselines remain historical comparison jobs until the legacy core retirement phase removes them.
+The Rust workspace owns the scalar and stochastic kernels; profiling comparisons must target the Rust crates and their supported bindings.
 
 ## Promotion criteria
 

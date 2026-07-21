@@ -33,11 +33,11 @@
       "kernel_id": "evpi",
       "python_owner": "voiage.methods.basic",
       "rust_status": "complete",
-      "python_wrapper_status": "reference_only",
+      "python_wrapper_status": "native",
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "high",
-      "notes": "Rust scalar evpi_contract in bindings/rust/src/scalar.rs; Python facade in voiage.methods.basic.evpi remains the public surface. Covered by the CI-gated scalar CPU baseline benchmark."
+      "notes": "Rust scalar evpi_contract in rust/crates/voiage-numerics; Python facade in voiage.methods.basic.evpi remains the public surface. Covered by the CI-gated foundational benchmark."
     },
     {
       "kernel_id": "evppi",
@@ -63,11 +63,11 @@
       "kernel_id": "enbs",
       "python_owner": "voiage.methods.sample_information",
       "rust_status": "complete",
-      "python_wrapper_status": "reference_only",
+      "python_wrapper_status": "native",
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "high",
-      "notes": "Rust scalar enbs_contract in bindings/rust/src/scalar.rs; Python facade in voiage.methods.sample_information.enbs remains the public surface. Covered by the CI-gated scalar CPU baseline benchmark."
+      "notes": "Rust scalar enbs_contract in rust/crates/voiage-numerics is exposed through the PyO3 runtime bridge; Python facade in voiage.methods.sample_information.enbs preserves validation and the public return shape."
     },
     {
       "kernel_id": "ceaf",
@@ -77,7 +77,7 @@
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "medium",
-      "notes": "Rust calculate_ceaf in bindings/rust/src/partial.rs; Python facade in voiage.methods.ceaf. Parity is verified through bridge and facade coverage; the committed foundational benchmark is CI-gated."
+      "notes": "Rust calculate_ceaf in rust/crates/voiage-numerics; Python facade in voiage.methods.ceaf. Parity is verified through bridge and facade coverage; the committed foundational benchmark is CI-gated."
     },
     {
       "kernel_id": "dominance",
@@ -87,7 +87,7 @@
       "parity_status": "verified",
       "benchmark_status": "ci_gated",
       "migration_priority": "medium",
-      "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in bindings/rust/src/partial.rs; Python facade in voiage.methods.dominance."
+      "notes": "Rust dominance family (strong, extended, calculate_icers, cost_effectiveness_frontier) in rust/crates/voiage-numerics; Python facade in voiage.methods.dominance."
     },
     {
       "kernel_id": "value_of_heterogeneity",
@@ -97,7 +97,7 @@
       "parity_status": "fixture_backed",
       "benchmark_status": "none",
       "migration_priority": "medium",
-      "notes": "Rust value_of_heterogeneity in bindings/rust/src/partial.rs; Python facade in voiage.methods.heterogeneity."
+      "notes": "Rust value_of_heterogeneity in rust/crates/voiage-numerics; Python facade in voiage.methods.heterogeneity."
     },
     {
       "kernel_id": "structural_voi",

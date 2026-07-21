@@ -51,7 +51,7 @@ maps to the active roadmap.
 | Adaptive, calibration, observational, sequential VOI | ✅ | Trial and study-design oriented workflows are available. |
 | Portfolio VOI | ✅ | Budget-constrained portfolio optimization is implemented. |
 | CLI developer experience | ✅ | `--format`, `--quiet`, `--verbose`, help examples, and config generation are available. |
-| Cross-language binding scaffolds | 🚧 | TypeScript, Go, Rust, Julia, .NET 11, and R scaffolds exist with language-specific CI/release checks. |
+| Cross-language bindings | 🚧 | Rust is the core; Python, Mojo, Julia, and R are the supported binding surfaces. |
 | HEOML / ecosystem contracts | 🚧 | `lifecourse` and ecosystem-incubation contract scaffolds exist; deterministic fixtures are being expanded. |
 | Numerics, diagnostics, extension model | 📋 | Next planned track for explicit numerical equivalence, diagnostics, and extension rules. |
 | Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
@@ -89,10 +89,7 @@ The main user and developer references are:
 - [Notebook tutorials and examples](https://edithatogo.github.io/voiage/examples/)
 - [R vignette and manual source](r-package/voiageR/vignettes/voiageR-getting-started.Rmd)
 - [Julia walkthrough](bindings/julia/README.md)
-- [Go walkthrough](bindings/go/README.md)
-- [Rust walkthrough](bindings/rust/README.md)
-- [TypeScript walkthrough](bindings/typescript/README.md)
-- [.NET walkthrough](bindings/dotnet/README.md)
+- [R package](r-package/voiageR/README.md)
 - [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
 - [Method reference](docs/methods/)
 - [Plotting reference](docs/plotting/)

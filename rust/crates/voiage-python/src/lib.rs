@@ -18,7 +18,7 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
+    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
     evsi_stochastic, DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
@@ -478,6 +478,13 @@ fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
     })
 }
 
+/// Compute the stable ENBS kernel for Python callers.
+#[pyfunction]
+fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
+    enbs(evsi_result, research_cost)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
 /// Compute the stable dominance kernel for Python callers.
 #[pyfunction]
 fn compute_dominance<'py>(
@@ -886,6 +893,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
@@ -1221,6 +1229,24 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 0.5).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_enbs_executes_the_rust_kernel_for_python_scalars() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_enbs, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_enbs").unwrap();
+            let result = function
+                .call1((12.5_f64, 5.0_f64))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 7.5).abs() <= 1.0e-12);
         });
     }
 

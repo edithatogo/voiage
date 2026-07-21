@@ -77,6 +77,15 @@ def compute_evpi(net_benefit: list[list[float]]) -> float:
     return float(result)
 
 
+def compute_enbs(evsi_result: float, research_cost: float) -> float:
+    """Compute the stable ENBS kernel in Rust."""
+    try:
+        result = _native().compute_enbs(evsi_result, research_cost)
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
     """Compute the stable dominance kernel in Rust."""
     try:

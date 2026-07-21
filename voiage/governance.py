@@ -227,7 +227,7 @@ BACKEND_OWNERSHIP: Final[dict[str, dict[str, str]]] = {
         ),
     },
     "rust_core": {
-        "owner": "bindings/rust/",
+        "owner": "rust/",
         "boundary": (
             "Owns the authoritative numerical kernels once the Rust-core "
             "migration lands. Python remains the public facade; the Rust "
