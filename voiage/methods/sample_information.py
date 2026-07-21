@@ -512,9 +512,7 @@ def _evsi_regression(
         if not np.isfinite(expected_sample_value):
             raise ValueError("native regression result is non-finite")  # noqa: TRY301
     except (KeyError, TypeError, ValueError) as error:
-        raise_input_error(
-            "Native regression EVSI returned an invalid result envelope."
-        )
+        raise_input_error("Native regression EVSI returned an invalid result envelope.")
         raise AssertionError("unreachable") from error
     else:
         return expected_sample_value

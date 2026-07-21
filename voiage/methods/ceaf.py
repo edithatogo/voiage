@@ -205,9 +205,7 @@ def calculate_ceaf(
         wtp_arr.tolist(),
         confidence_level,
     )
-    optimal_strategy_indices = np.asarray(
-        native["optimal_strategy_indices"], dtype=int
-    )
+    optimal_strategy_indices = np.asarray(native["optimal_strategy_indices"], dtype=int)
     acceptability_probabilities = np.asarray(
         native["acceptability_probabilities"], dtype=DEFAULT_DTYPE
     )

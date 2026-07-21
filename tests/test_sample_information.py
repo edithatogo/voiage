@@ -653,7 +653,6 @@ def test_evsi_moment_based_rejects_rank_deficient_design(
         )
 
 
-
 def test_evsi_moment_based_rejects_malformed_native_envelope(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:

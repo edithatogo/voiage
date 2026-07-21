@@ -172,9 +172,7 @@ def calculate_dominance(
     extended = list(native["extended_dominated_indices"])
     status = list(native["status"])
     incremental_costs = np.asarray(native["incremental_costs"], dtype=DEFAULT_DTYPE)
-    incremental_effects = np.asarray(
-        native["incremental_effects"], dtype=DEFAULT_DTYPE
-    )
+    incremental_effects = np.asarray(native["incremental_effects"], dtype=DEFAULT_DTYPE)
     icers = np.asarray(native["icers"], dtype=DEFAULT_DTYPE)
 
     return DominanceResult(
