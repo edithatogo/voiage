@@ -280,10 +280,18 @@ jobs:
           echo "tested_head=${tested_head}"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
           printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by .NET
+        working-directory: .
+        run: cargo build --release --locked --package voiage-ffi
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
           dotnet-version: "11.0.x"
           dotnet-quality: "preview"
+      - name: Configure Rust ABI runtime search path
+        run: echo "LD_LIBRARY_PATH=${{ github.workspace }}/rust/target/release" >> "$GITHUB_ENV"
       - run: dotnet build src/Voiage.Core/Voiage.Core.csproj --configuration Release
       - run: dotnet run --project tests/Voiage.Core.Tests/Voiage.Core.Tests.csproj --configuration Release
       - run: dotnet pack src/Voiage.Core/Voiage.Core.csproj --configuration Release --no-build
