@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "purpose": "Make the v1 stable-base and independently optional extension boundary explicit.",
+  "packaging_model": "single-wheel-with-independent-optional-extras",
+  "stable_base": {
+    "guarantee": "stable Rust-backed API and its required Python facade",
+    "forbidden_extras": [
+      "ecosystem",
+      "experimental",
+      "jax",
+      "plotting",
+      "performance",
+      "deep_learning",
+      "web"
+    ]
+  },
+  "optional_extras": {
+    "ecosystem": {
+      "maturity": "supported_extension",
+      "runtime_roots": ["voiage/ecosystem_integration.py"]
+    },
+    "jax": {
+      "maturity": "supported_extension",
+      "runtime_roots": ["voiage/backends/", "voiage/main_backends.py"]
+    },
+    "plotting": {
+      "maturity": "supported_extension",
+      "runtime_roots": ["voiage/plot/"]
+    },
+    "performance": {
+      "maturity": "supported_extension",
+      "runtime_roots": ["voiage/core/"]
+    },
+    "deep_learning": {
+      "maturity": "supported_extension",
+      "runtime_roots": ["voiage/metamodels.py"]
+    },
+    "web": {
+      "maturity": "experimental",
+      "runtime_roots": ["voiage/web/"]
+    }
+  },
+  "experimental": {
+    "maturity": "experimental",
+    "stable_guarantee": false,
+    "extra": "experimental",
+    "runtime_roots": ["voiage/experimental/", "voiage/methods/"]
+  }
+}
