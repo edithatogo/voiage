@@ -1,0 +1,1 @@
+Phase 8/9 closeout: removed 44 generated completion and paper-status mirrors; retained roadmap, Conductor registry, release evidence, Astro content, and paper sources as authorities. Validation: tests/test_repo_cleanup.py (11 passed); binding/Astro/user-doc/link focused suite (11 passed); Ruff and diff checks passed.
