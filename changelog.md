@@ -7,12 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-- Corrected the R binding's GitHub installation links to the canonical
-  `edithatogo/voiage` repository and its `r-package/voiageR` subdirectory.
-- Corrected the live registry audit so the internal `publish = false` Rust
-  workspace is not misreported as an automated crates.io publication.
-
 ### Removed
 - Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
   stable public paths; these operations now fail closed when the Rust core is
@@ -672,6 +666,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Corrected the R binding's GitHub installation links to the canonical
+  `edithatogo/voiage` repository and its `r-package/voiageR` subdirectory.
+- Corrected the live registry audit so the internal `publish = false` Rust
+  workspace is not misreported as an automated crates.io publication.
 - Made the R package testable as a clean installed artifact by packaging the
   canonical EVPI oracle, isolating reticulate environment calls behind private
   seams, and rejecting R release tags whose version differs from DESCRIPTION.
