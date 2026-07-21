@@ -215,7 +215,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Enforce supported-extension boundaries using TDD
     - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
     - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, and the machine-readable single-wheel optional-extra boundary pass; Rust execution and independent packaging remain; e9144ef)
-    - [ ] Refactor: remove duplicated policy and unnecessary dependencies.
+    - [~] Refactor: remove duplicated policy and unnecessary dependencies. Heterogeneity is the next Rust-core migration slice; the prior matrix claim was corrected to pending in `8365336`.
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
     - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
