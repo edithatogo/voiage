@@ -194,7 +194,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Remove bindings that cannot meet stable contract and maintenance requirements. (deferred to adapter conformance task after matrix evidence)
 - [~] Task: Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
-    - [~] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified (C ABI EVPI foundation landed in f7cc0b7).
+    - [~] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified (C ABI EVPI foundation f7cc0b7; Go adapter 2a05984).
     - [ ] Refactor: eliminate independent numerical policy and duplicate conversion logic.
 - [ ] Task: Harden binding lifecycle and ABI compatibility
     - [ ] Add build, package, install, unload, memory, concurrency and error-propagation tests.
