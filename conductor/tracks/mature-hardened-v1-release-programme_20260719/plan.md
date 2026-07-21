@@ -219,7 +219,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
     - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
-- [ ] Task: Remove or extract unsupported code
+- [~] Task: Remove or extract unsupported code
     - [ ] Preserve migration history where necessary and remove dead dependencies, exports, tests and docs.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
 
