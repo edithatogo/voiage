@@ -1,0 +1,1 @@
+Phase 8 full-matrix review fix: preserve typed VoiageError instances emitted by Rust instead of wrapping them as CalculationError; update stale NaN/infinity tests to enforce the normative reject policy. The full py312 lane exposed both failures; targeted edge/native-absence tests and configured typecheck pass.
