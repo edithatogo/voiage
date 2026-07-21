@@ -1,0 +1,1 @@
+Task: complete the v1.0 user-facing documentation baseline. Added an Astro/Starlight readiness page covering installation, concepts, tutorials, compatibility, migration, security, reproducibility, extension maturity, and support; added topic and internal-link contract tests. Validation: uv run pytest -q tests/test_v1_user_documentation.py; pnpm --dir docs/astro-site run check.
