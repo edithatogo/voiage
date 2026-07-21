@@ -59,7 +59,7 @@ def __getattr__(name: str) -> object:
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
-__all__ = [
+__all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
@@ -109,14 +109,13 @@ __all__ = [
     "evsi",
     "evsi_nma",
     "identify_optimal_subgroups",
-    "perspective_arrow_schema_fingerprint",
     "perspective_optimal_strategies",
+    "perspective_arrow_schema_fingerprint",
     "perspective_result_to_arrow",
     "portfolio_voi",
     "preference_optimal_strategies",
     "sequential_voi",
     "structural_evpi",
-    "structural_evppi",
     "structural_evppi",
     "value_of_adaptive_learning_bandit",
     "value_of_ai_assisted_evidence_triage",
@@ -139,6 +138,8 @@ __all__ = [
     "value_of_model_validation",
     "value_of_monitoring_surveillance",
     "value_of_perspective",
+    "write_perspective_result_ipc",
+    "write_perspective_result_parquet",
     "value_of_preference",
     "value_of_preference_heterogeneity",
     "value_of_preference_information",
@@ -147,8 +148,7 @@ __all__ = [
     "value_of_strategic_behavior",
     "value_of_threshold",
     "value_of_threshold_information",
+    "value_of_validation",
     "voi_calibration",
     "voi_observational",
-    "write_perspective_result_ipc",
-    "write_perspective_result_parquet",
 ]

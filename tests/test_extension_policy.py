@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import json
 import fnmatch
+import json
+from pathlib import Path
 import subprocess
 import sys
-from pathlib import Path
-
 
 ROOT = Path(__file__).parents[1]
 
@@ -58,7 +57,10 @@ def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:
         "voiage/methods/dominance.py",
         "voiage/methods/sample_information.py",
     }
-    assert "Rust owns stable numerical policy" in policy["dispositions"]["stable_kernel_facade"]
+    assert (
+        "Rust owns stable numerical policy"
+        in policy["dispositions"]["stable_kernel_facade"]
+    )
 
 
 def test_extension_surface_policy_covers_every_runtime_python_file() -> None:

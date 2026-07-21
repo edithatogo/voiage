@@ -27,11 +27,23 @@ def test_each_retained_binding_has_a_build_test_and_package_gate() -> None:
     required = {
         "python": ("uv run tox", "coverage", "python"),
         "typescript": ("npm run build:wasm", "npm run check", "npm run pack:dry-run"),
-        "go": ("cargo build --release --locked --package voiage-ffi", "go test ./...", "go vet ./..."),
+        "go": (
+            "cargo build --release --locked --package voiage-ffi",
+            "go test ./...",
+            "go vet ./...",
+        ),
         "rust": ("cargo test --locked", "cargo clippy", "cargo package --locked"),
         "julia": ("cargo build --release --locked --package voiage-ffi", "Pkg.test()"),
-        "dotnet": ("cargo build --release --locked --package voiage-ffi", "dotnet build", "dotnet pack"),
-        "r": ("cargo build --release --locked --package voiage-ffi", "R CMD build", "rcmdcheck"),
+        "dotnet": (
+            "cargo build --release --locked --package voiage-ffi",
+            "dotnet build",
+            "dotnet pack",
+        ),
+        "r": (
+            "cargo build --release --locked --package voiage-ffi",
+            "R CMD build",
+            "rcmdcheck",
+        ),
     }
     for binding in matrix["bindings"]:
         binding_id = binding["id"]
@@ -73,5 +85,6 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
         assert all(isinstance(version, str) for version in versions)
         assert binding["id"] in workflow_requirements
         assert all(
-            requirement in workflow for requirement in workflow_requirements[binding["id"]]
+            requirement in workflow
+            for requirement in workflow_requirements[binding["id"]]
         )

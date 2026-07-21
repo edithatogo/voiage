@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).parents[1]
 MATRIX_PATH = REPO_ROOT / "specs" / "v1" / "binding-matrix.json"
 

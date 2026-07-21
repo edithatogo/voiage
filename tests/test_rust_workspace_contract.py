@@ -40,6 +40,7 @@ ALLOWED_INTERNAL_DEPENDENCIES = {
     "voiage-ffi": {
         "voiage-diagnostics",
         "voiage-domain",
+        "voiage-numerics",
         "voiage-serialization",
     },
     "voiage-python": {
@@ -143,13 +144,10 @@ def test_ffi_python_and_wasm_are_leaf_adapters() -> None:
         )
 
 
-def test_ffi_infrastructure_does_not_depend_on_numerics_before_phase_5() -> None:
+def test_ffi_adapter_is_allowed_to_depend_on_the_rust_numerical_kernel() -> None:
     manifests = _crate_manifests()
 
-    assert "voiage-numerics" not in _dependency_names(manifests["voiage-ffi"]), (
-        "voiage-ffi must remain infrastructure-only until Phase 5 kernels are "
-        "ready to cross the C ABI"
-    )
+    assert "voiage-numerics" in _dependency_names(manifests["voiage-ffi"])
 
 
 def test_domain_and_numerics_have_no_binding_specific_dependencies() -> None:
