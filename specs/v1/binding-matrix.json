@@ -10,7 +10,7 @@
       "status": "retained",
       "path": ".",
       "adapter": "pyo3",
-      "supported_runtime_versions": ["3.14", "3.14t"],
+      "supported_runtime_versions": ["3.12", "3.13", "3.14"],
       "registry": "PyPI and TestPyPI; conda-forge feedstock",
       "tag_pattern": "v*",
       "external_gate": "conda-forge feedstock review and merge"
