@@ -179,8 +179,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
         - [x] Red: add shared rank-deficient fixtures and differential tests for efficient-linear, moment-based, and callback-regression kernels.
         - [x] Green: implement the specified native rank-aware solver and expose the versioned contract through PyO3.
         - [x] Refactor: remove the rank-only Python compatibility shims and rerun native/package validation.
+    - [x] Review/validation: full `CI=true uv run tox -q` passed across lint, harness, typecheck, Astro, frontier/version, Python 3.12-3.14, min/max dependency, and coverage environments (91.11% coverage, 2026-07-21).
     - [x] Review fix: apply Ruff formatting to the numerical-core retirement slice. (7b219d4)
-- [ ] Task: Validate the minimal Python distribution
+- [x] Task: Validate the minimal Python distribution (full tox matrix and runtime inventory validation passed 2026-07-21)
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
