@@ -1,0 +1,1 @@
+Recorded .NET P/Invoke conversion 26a10d7; local net11 validation remains pending a .NET 11 SDK, while the CI workflow targets dotnet 11 preview.
