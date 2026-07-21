@@ -255,9 +255,17 @@ jobs:
           echo "tested_head=${tested_head}"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
           printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by Julia
+        working-directory: .
+        run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
+      - name: Configure Rust ABI library path
+        run: echo "VOIAGE_FFI_LIBRARY=${{ github.workspace }}/rust/target/release/libvoiage_ffi.so" >> "$GITHUB_ENV"
       - run: julia --project=. -e 'using Pkg; Pkg.test()'
 
   dotnet:
