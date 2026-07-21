@@ -213,7 +213,7 @@ def test_maturin_maps_the_private_mixed_project_module() -> None:
             {
                 "path": "rust/crates/voiage-python/source-provenance.txt",
                 "format": "sdist",
-            }
+            },
         ],
         "sbom": {"rust": False},
     }
