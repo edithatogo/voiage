@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from voiage.exceptions import raise_import_error
-
 try:
     import jax
     import jax.numpy as jnp
@@ -28,10 +26,7 @@ class EnhancedJaxBackend(JaxBackend):
     """Enhanced JAX backend with advanced optimization features."""
 
     def __init__(self) -> None:
-        if not HAS_JAX:
-            raise_import_error(
-                "JAX is required for EnhancedJaxBackend but is not installed"
-            )
+        super().__init__()
         self.regression_model = JaxAdvancedRegression()
 
     def evppi_advanced(

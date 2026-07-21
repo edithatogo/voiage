@@ -696,6 +696,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Initialized the enhanced JAX adapter through its base backend so native
+  implementation state and capability metadata are always present.
+- Removed a redundant local JSON import from notebook generation.
 - Migrated the raw-dictionary EVPPI compatibility bridge to the normative v1
   `FutureWarning` and stable diagnostic-code contract, with an explicit 0.x
   migration and rollback guide.
