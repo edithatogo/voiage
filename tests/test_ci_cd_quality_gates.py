@@ -417,6 +417,23 @@ class TestQualityGatePolicyCompliance:
         assert "--test lifecycle --test error_transport" in str(job)
         assert "continue-on-error" not in str(job)
 
+    def test_stable_rust_fuzzing_is_continuous_and_fail_closed(self):
+        """Require a pinned bounded fuzzer for the stable Rust core."""
+        workflow_text = (GITHUB_WORKFLOWS_DIR / "rust-fuzz.yml").read_text(
+            encoding="utf-8"
+        )
+        workflow = yaml.safe_load(workflow_text)
+        job = workflow["jobs"]["stable-rust-kernels"]
+        rendered = str(job)
+
+        assert workflow["permissions"] == {}
+        assert job["permissions"] == {"contents": "read"}
+        assert "nightly-2026-07-01" in rendered
+        assert "cargo install cargo-fuzz --version 0.13.2 --locked" in rendered
+        assert "cargo +nightly-2026-07-01 fuzz run stable_evpi" in rendered
+        assert "-max_total_time=60" in rendered
+        assert "continue-on-error" not in rendered
+
     def test_rust_coverage_is_measured_and_enforced(self):
         """Require measured Linux coverage, a threshold, and an artifact."""
         workflow_text = (GITHUB_WORKFLOWS_DIR / "rust-coverage.yml").read_text(

@@ -31,6 +31,7 @@ REQUIRED_WORKFLOWS = (
     "codeql.yml",
     "dependency-review.yml",
     "operational-assurance.yml",
+    "rust-fuzz.yml",
     "scorecard.yml",
 )
 REQUIRED_CONTEXT_MARKERS = (
