@@ -1,105 +1,103 @@
-# Release Checklist for voiage
+# v1.0 Release Checklist for voiage
 
-## Pre-Release Preparation
+This checklist is the operator-facing companion to
+`.github/workflows/release.yml`. The workflow and executable tests remain
+authoritative if this document drifts.
 
-### 1. Code Quality and Testing
-- [ ] Run the supported Python matrix: `tox -e py312,py313,py314`
-- [ ] Run linting checks: `tox -e lint`
-- [ ] Run type checking: `tox -e typecheck`
-- [ ] Run security scanning: `tox -e security`
-- [ ] Run safety dependency checks: `tox -e safety`
-- [ ] Check code coverage: `tox -e coverage_report`
-- [ ] Verify documentation builds: `tox -e docs`
+## 1. Freeze and reconcile
 
-### 2. Version Updates
-- [ ] Update the authoritative Cargo workspace version and synchronized binding manifests
-- [ ] Verify Maturin resolves the dynamic Python package version from the Cargo workspace
-- [ ] Verify the release tag exactly matches the authoritative version
-- [ ] Update changelog in `CHANGELOG.md`
-- [ ] Update release date in documentation
+- [ ] Merge or explicitly defer every v1.0 issue and pull request.
+- [ ] Reconcile remote branches, the Conductor registry, roadmap, `todo.md`,
+  and `changelog.md`.
+- [ ] Confirm Rust is the sole stable numerical execution authority.
+- [ ] Confirm Python/PyO3, R, and Julia are thin retained bindings and Mojo is
+  recorded as an external upstream boundary.
+- [ ] Record external publication gates without presenting readiness as
+  acceptance or indexing.
 
-### 3. Documentation
-- [ ] Review and update README.md
-- [ ] Update installation instructions if needed
-- [ ] Verify all links are working
-- [ ] Check that examples are up-to-date
-- [ ] Review API documentation for accuracy
+## 2. Version and source identity
 
-### 4. Final Validation
-- [ ] Run integration tests
-- [ ] Test CLI functionality: `python -m voiage.cli --help`
-- [ ] Test web API functionality
-- [ ] Test widget functionality in Jupyter
-- [ ] Verify package builds correctly: `python -m build`
+- [ ] Set the authoritative Rust workspace version to `1.0.0`.
+- [ ] Propagate that version to the exact internal Rust dependencies, R and
+  Julia manifests, conda recipe, and generated lockfiles.
+- [ ] Run the version synchronization validator and verify the dynamic Python
+  metadata resolves to `1.0.0`.
+- [ ] Confirm the source tree is clean and every release commit is
+  GitHub-verifiable.
 
-## Release Process
+## 3. Complete release-candidate matrix
 
-### 1. Git Operations
-- [ ] Commit all changes with descriptive message
-- [ ] Create and push tag: `git tag -a v0.X.X -m "Release version 0.X.X"`
-- [ ] Push tags: `git push origin --tags`
+- [ ] Run `CI=true uv run tox -q`.
+- [ ] In `docs/astro-site`, run
+  `pnpm install --frozen-lockfile`, `pnpm run check`, and
+  `pnpm run build` with the minimum-release-age policy enabled.
+- [ ] Run the Rust workspace, MSRV, Clippy, formatting, tests, coverage,
+  benchmarks, Miri, sanitizer, and dependency-policy gates.
+- [ ] Run Python/PyO3, R, and Julia conformance, lifecycle, error, packaging,
+  and clean-install tests against the Rust core.
+- [ ] Record Mojo as externally gated unless an approved toolchain and binding
+  contract are available.
+- [ ] Build native Python artifacts with
+  `maturin build --locked --release` and the canonical sdist workflow.
+- [ ] Install each wheel and the sdist-derived wheel in clean environments and
+  run the black-box VOI smoke analysis.
+- [ ] Generate and inspect checksums, the CycloneDX SBOM, build provenance,
+  artifact attestations, and signature evidence.
+- [ ] Confirm there are no unresolved critical or high security findings.
 
-### 2. GitHub Release
-- [ ] Create GitHub release from tag
-- [ ] Add release notes with key changes
-- [ ] Include any migration notes if breaking changes
-- [ ] Add contributors list
+## 4. Signed tag and private staging
 
-### 3. PyPI Publishing
-- [ ] GitHub Actions will automatically publish to PyPI
-- [ ] Verify package is available on PyPI
-- [ ] Test installation: `pip install voiage==0.X.X`
+- [ ] Create a signed annotated `v1.0.0` tag only after every required
+  release-candidate gate is green.
+- [ ] Verify GitHub reports the tag and its target commit as signed and valid.
+- [ ] Push the exact tag and allow the release workflow to build and stage a
+  private draft release.
+- [ ] Inspect the staged wheels, sdist, manifests, checksums, SBOM, provenance,
+  attestations, and platform coverage.
+- [ ] Record the exact `expected_wheel_sha256` and
+  `expected_sdist_sha256` values from the reviewed draft.
 
-### 4. Conda-Forge Update
-- [ ] Update conda recipe in `conda-recipe/meta.yaml`
-- [ ] Submit PR to conda-forge feedstock
-- [ ] Verify package is available on conda-forge
-- [ ] Test installation: `conda install -c conda-forge voiage`
+## 5. TestPyPI and PyPI publication
 
-### 5. Docker Images
-- [ ] Build and push Docker images
-- [ ] Update Docker Hub with new tags
-- [ ] Test Docker images: `docker run voiage:0.X.X --help`
+- [ ] Manually dispatch the release workflow with `publish=true`, the exact
+  signed tag, and the reviewed artifact digests.
+- [ ] Verify TestPyPI trusted publishing succeeds.
+- [ ] Run the workflow's bounded TestPyPI registry-only installation and Rust
+  execution smoke test.
+- [ ] Permit PyPI trusted publishing only after the TestPyPI smoke gate passes.
+- [ ] Verify the PyPI files, hashes, provenance, version metadata, and a clean
+  registry-only installation.
+- [ ] Publish the GitHub Release only after PyPI verification succeeds.
 
-## Post-Release Verification
+## 6. Retained binding and package registries
 
-### 1. Package Availability
-- [ ] Verify PyPI package: https://pypi.org/project/voiage/
-- [ ] Verify conda-forge package: https://anaconda.org/conda-forge/voiage
-- [ ] Verify GitHub release assets
-- [ ] Verify documentation deployment
+- [ ] Submit or update the conda-forge feedstock from the immutable v1.0 source
+  artifact and verify its checksum.
+- [ ] Submit the Julia package to Julia General using the immutable Julia tag.
+- [ ] Submit the R source package to CRAN or the approved R registry and verify
+  r-universe indexing where configured.
+- [ ] Verify every accepted registry in clean registry-only environments.
+- [ ] Keep external review, merge, acceptance, and indexing gates open with
+  precise evidence until the external registry completes them.
 
-### 2. Installation Testing
-- [ ] Test PyPI installation in clean environment
-- [ ] Test conda-forge installation in clean environment
-- [ ] Test Docker image functionality
-- [ ] Test CLI commands work correctly
+## 7. Final verification and closeout
 
-### 3. Communication
-- [ ] Announce release on relevant channels
-- [ ] Update project website if applicable
-- [ ] Notify collaborators and contributors
-- [ ] Update any dependent projects
+- [ ] Verify the Astro deployment and all public release links.
+- [ ] Run representative Rust-backed EVPI, EVPPI, and EVSI analyses from the
+  published Python package and retained bindings.
+- [ ] Record immutable artifact URLs, checksums, SBOM, provenance,
+  attestations, signatures, registry identifiers, and smoke results.
+- [ ] Reconcile and archive completed Conductor phases.
+- [ ] Keep genuinely external publication tracks active or machine-readably
+  gated; do not archive them as accepted before authoritative evidence exists.
+- [ ] Close the v1.0 programme only when every acceptance criterion is proven.
 
-## Versioning Guidelines
+## Rollback
 
-Following Semantic Versioning (SemVer):
-- **Major**: Breaking changes to API
-- **Minor**: New features, backward compatible
-- **Patch**: Bug fixes, documentation updates, non-breaking improvements
+If a published artifact is unsafe or materially incorrect:
 
-## Emergency Procedures
-
-### Hotfix Process
-1. Create hotfix branch from latest release tag
-2. Make minimal changes to fix the issue
-3. Follow abbreviated release checklist
-4. Merge to main and create new patch release
-
-### Rollback Procedure
-1. If PyPI release has critical issues, yank the version
-2. Create issue explaining the problem
-3. Work on fix following hotfix process
-4. Communicate with users about workaround
-
-This checklist ensures consistent, reliable releases for the voiage library.
+1. Stop further registry publication.
+2. Preserve the signed release and evidence; do not rewrite the tag.
+3. Yank the affected Python version where appropriate and document the reason.
+4. Open a security or release-blocker issue.
+5. Prepare a new signed patch release through this complete workflow.

@@ -284,7 +284,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Freeze features and regenerate all release evidence.
     - [ ] Run complete CI, security, compatibility, binding, packaging, docs, benchmark and reproducibility suites.
     - [ ] Conduct clean-room installs and representative end-to-end VOI analyses.
-- [ ] Task: Complete migration and operational readiness
+- [~] Task: Complete migration and operational readiness
+    - [x] Replace the legacy release checklist with the executable Rust-core,
+      signed-tag, Astro, clean-room, SBOM, provenance and retained-registry
+      workflow.
     - [ ] Finalize 0.x migration guidance, deprecations, removals, support, security, compatibility and rollback procedures.
     - [ ] Prove no stable operation depends on retired Python kernels.
 - [ ] Task: Close the programme backlog

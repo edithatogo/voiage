@@ -680,6 +680,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Replaced the legacy Python/Docker release checklist with the fail-closed v1
+  Maturin, Astro, signed-tag, TestPyPI-to-PyPI, SBOM, provenance, and retained
+  registry workflow.
 - Aligned Conductor governance with the enforced 90% coverage threshold,
   canonical `changelog.md` path, and Rust result-envelope binding contract.
 - Corrected the R binding's GitHub installation links to the canonical

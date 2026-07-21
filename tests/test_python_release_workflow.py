@@ -5,6 +5,36 @@ from pathlib import Path
 import yaml
 
 
+def test_release_checklist_matches_the_fail_closed_v1_workflow() -> None:
+    checklist = Path("RELEASE_CHECKLIST.md").read_text(encoding="utf-8")
+
+    for required in (
+        "CI=true uv run tox -q",
+        "pnpm install --frozen-lockfile",
+        "maturin build --locked --release",
+        "signed annotated `v1.0.0` tag",
+        "TestPyPI",
+        "expected_wheel_sha256",
+        "expected_sdist_sha256",
+        "SBOM",
+        "provenance",
+        "conda-forge",
+        "Julia General",
+        "approved R registry",
+    ):
+        assert required in checklist
+
+    for stale in (
+        "CHANGELOG.md",
+        "python -m build",
+        "automatically publish to PyPI",
+        "Docker Hub",
+        "docker run",
+        "v0.X.X",
+    ):
+        assert stale not in checklist
+
+
 def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> None:
     release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
     conda_workflow = Path(".github/workflows/conda-update.yml").read_text(
