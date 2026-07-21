@@ -4,10 +4,33 @@ from __future__ import annotations
 
 import json
 import fnmatch
+import subprocess
+import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_import_voiage_does_not_eagerly_load_optional_extensions() -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            (
+                "import sys, voiage; "
+                "assert 'voiage.backends' not in sys.modules; "
+                "assert not any(name.startswith('voiage.methods.') and "
+                "name.rsplit('.', 1)[-1] in {'ai_assisted_evidence_triage', 'perspective'} "
+                "for name in sys.modules)"
+            ),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
 
 
 def test_extension_policy_covers_every_methods_module() -> None:

@@ -191,7 +191,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
     - [x] Confirm supported Python, R, Julia, TypeScript, Go, Rust and .NET surfaces, adapters, registries and external gates.
     - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
-    - [ ] Remove bindings that cannot meet stable contract and maintenance requirements. (deferred to adapter conformance task after matrix evidence)
+    - [~] Remove bindings that cannot meet stable contract and maintenance requirements. (retained surfaces now have adapter evidence; supported-version proof remains)
 - [~] Task: Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
     - [x] Shared EVPI conformance: Python, R, Julia, TypeScript, Go, Rust and .NET surfaces pass the canonical/reference fixture or ABI smoke gate (2a05984, 3f22b1a, 7647b81, d475e64, plus existing Rust/.NET evidence).
@@ -200,7 +200,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
 - [~] Task: Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
-    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests.
+    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; per-language runtime evidence remains)
     - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
     - [ ] Prove every retained binding executes Rust across supported version combinations.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
@@ -210,10 +210,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Classify all non-core functionality
     - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
     - [x] Classify every remaining Python runtime file across facade, assurance, optional-extension and experimental surfaces using `specs/v1/extension-surface-policy.json` with exactly-one-disposition coverage.
-    - [ ] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions.
-    - [ ] Record retain, extract, remove or experimental decisions with evidence.
-- [ ] Task: Enforce supported-extension boundaries using TDD
-    - [ ] Red: add failing dependency-direction, export and packaging boundary tests.
+    - [~] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition policy is recorded; final package-level decisions remain)
+    - [~] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable coverage added)
+- [~] Task: Enforce supported-extension boundaries using TDD
+    - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
     - [ ] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging.
     - [ ] Refactor: remove duplicated policy and unnecessary dependencies.
 - [ ] Task: Isolate experimental functionality
