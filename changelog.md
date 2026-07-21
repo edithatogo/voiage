@@ -35,15 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   directories after archiving to `conductor/archive/`.
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
-### Security
-- Added a directly linked private-vulnerability reporting path and continuous
-  bounded `cargo-fuzz` coverage for stable Rust EVPI input handling, enforced
-  by the repository harness and workflow-contract tests.
-- Routed the computed coverage comparison revision through an environment
-  variable before shell expansion, eliminating a workflow template-injection
-  path while preserving fail-closed changed-line coverage.
-- Pinned the hosted Go toolchain and Vale prose checker to exact releases.
-
 ### Added
 - Added Astro-native best-practice, validation-evidence, ecosystem-boundary,
   and frontier-method maturity pages with drift tests enforcing Astro as the
@@ -699,6 +690,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Added a directly linked private-vulnerability reporting path and continuous
+  bounded `cargo-fuzz` coverage for stable Rust EVPI input handling, enforced
+  by the repository harness and workflow-contract tests.
+- Routed the computed coverage comparison revision through an environment
+  variable before shell expansion, eliminating a workflow template-injection
+  path while preserving fail-closed changed-line coverage.
+- Pinned the hosted Go toolchain and Vale prose checker to exact releases.
 - Initialized the enhanced JAX adapter through its base backend so native
   implementation state and capability metadata are always present.
 - Removed a redundant local JSON import from notebook generation.
