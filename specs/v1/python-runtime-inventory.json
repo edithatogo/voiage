@@ -33,6 +33,10 @@
     "optional_extension": {
       "status": "retain_or_extract_by_extension_policy",
       "roots": ["voiage/ecosystem_integration.py", "voiage/environmental/", "voiage/experimental_design.py", "voiage/financial/", "voiage/health_economics.py", "voiage/healthcare/", "voiage/hta_integration.py", "voiage/plot/", "voiage/widgets/", "voiage/web/"]
+    },
+    "experimental_namespace": {
+      "status": "exclude_from_v1_stable_surface",
+      "roots": ["voiage/experimental/"]
     }
   },
   "v1_retained_categories": [
