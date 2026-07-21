@@ -1,0 +1,1 @@
+Task: repair source-distribution reproducibility. Maturin sdist now explicitly includes all non-Python Rust workspace manifests and sources required by the locked workspace; reproducibility tests assert the manifest contract. Validation: uv run pytest -q tests/test_reproducible_build.py; Ruff check/format pass; sdist contains FFI, test-support and WASM workspace files.
