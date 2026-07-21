@@ -176,6 +176,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Green: remove duplicate EVPI, CEAF, and dominance fallback implementations and obsolete imports. (working tree implementation)
     - [x] Refactor: reduce retained public paths to validated Rust-backed facades and rerun focused tests. (focused validation passed)
     - [~] Remove EVSI efficient-linear, moment-based, and regression numerical fallbacks; missing-native paths now fail closed, while rank-deficient compatibility shims remain pending a native minimum-norm/SVD contract.
+        - [ ] Red: add shared rank-deficient fixtures and differential tests that specify minimum-norm predictions for efficient-linear, moment-based, and callback-regression kernels.
+        - [ ] Green: implement the specified native rank-aware solver and expose the versioned contract through PyO3.
+        - [ ] Refactor: remove the rank-only Python compatibility shims and rerun the complete release gate.
     - [x] Review fix: apply Ruff formatting to the numerical-core retirement slice. (7b219d4)
 - [ ] Task: Validate the minimal Python distribution
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
