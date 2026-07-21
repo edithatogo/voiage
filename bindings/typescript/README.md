@@ -2,9 +2,10 @@
 
 TypeScript bindings for the voiage core API contract.
 
-This package currently exposes the deterministic EVPI core helper and fixture
-validation used by the polyglot CI scaffold. It is intentionally small until the
-language-neutral core API reaches a stable v1 binding contract.
+This package exposes the deterministic EVPI core helper through a generated
+Rust WebAssembly adapter and validates the shared fixture contract. The npm
+package contains the generated WASM output; JavaScript owns only input
+validation and fixture-shape helpers.
 
 ## Setup
 
@@ -43,5 +44,6 @@ fixture shape.
 Release tags follow the `typescript-vX.Y.Z` pattern. The release workflow
 rewrites the package version from that tag before packing, publishes to npm
 with provenance, and attaches a source archive to the GitHub release for the
-tag. The binding stays intentionally small because the Rust core owns the
+tag. `npm run build:wasm` compiles `voiage-wasm` and runs the pinned
+`wasm-bindgen` tool before tests and packaging. The Rust core owns the
 calculation policy; the TypeScript layer is a thin adapter and fixture checker.

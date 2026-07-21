@@ -1,28 +1,31 @@
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+
+function loadRustWasm() {
+  try {
+    return require("../wasm/voiage_wasm.cjs");
+  } catch (error) {
+    throw new Error(
+      "The Rust WebAssembly adapter is unavailable; run `npm run build:wasm` before using @voiage/core.",
+      { cause: error },
+    );
+  }
+}
+
 /**
- * Calculate Expected Value of Perfect Information from a net-benefit matrix.
+ * Calculate Expected Value of Perfect Information through Rust WebAssembly.
  *
  * @param {number[][]} netBenefits rows are samples, columns are strategies
  * @returns {number}
  */
 export function evpi(netBenefits) {
   validateNetBenefits(netBenefits);
-
-  const nSamples = netBenefits.length;
-  const nStrategies = netBenefits[0].length;
-  if (nSamples === 0) {
+  if (netBenefits.length === 0 || netBenefits[0].length <= 1) {
     return 0;
   }
-  if (nStrategies <= 1) {
-    return 0;
-  }
-
-  const expectedByStrategy = Array.from({ length: nStrategies }, (_, strategyIndex) =>
-    mean(netBenefits.map((row) => row[strategyIndex])),
-  );
-  const expectedCurrentValue = Math.max(...expectedByStrategy);
-  const expectedPerfectInformation = mean(netBenefits.map((row) => Math.max(...row)));
-
-  return Math.max(0, expectedPerfectInformation - expectedCurrentValue);
+  const values = Float64Array.from(netBenefits.flat());
+  return loadRustWasm().evpi(values, netBenefits.length, netBenefits[0].length);
 }
 
 /**
@@ -42,14 +45,10 @@ function validateNetBenefits(netBenefits) {
   if (netBenefits.length === 0) {
     return;
   }
-  const width = netBenefits[0].length;
-  if (!Array.isArray(netBenefits[0]) || width === 0) {
+  if (!Array.isArray(netBenefits[0]) || netBenefits[0].length === 0) {
     throw new TypeError("netBenefits must contain non-empty rows.");
   }
-  validateConsistentRows(netBenefits, width);
-}
-
-function validateConsistentRows(netBenefits, width) {
+  const width = netBenefits[0].length;
   for (const row of netBenefits) {
     if (!Array.isArray(row) || row.length !== width) {
       throw new TypeError("netBenefits rows must have a consistent width.");
@@ -60,8 +59,4 @@ function validateConsistentRows(netBenefits, width) {
       }
     }
   }
-}
-
-function mean(values) {
-  return values.reduce((total, value) => total + value, 0) / values.length;
 }

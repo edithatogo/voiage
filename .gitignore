@@ -160,6 +160,7 @@ bindings/**/*.nupkg
 bindings/**/*.snupkg
 bindings/julia/Manifest.toml
 bindings/typescript/*.tgz
+bindings/typescript/wasm/
 r-package/**/*.Rcheck/
 !bindings/rust/Cargo.lock
 docs/astro-site/node_modules/

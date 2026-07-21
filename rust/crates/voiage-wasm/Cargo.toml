@@ -16,6 +16,7 @@ voiage-diagnostics.workspace = true
 voiage-domain.workspace = true
 voiage-numerics.workspace = true
 voiage-serialization.workspace = true
+wasm-bindgen.workspace = true
 
 [lints]
 workspace = true

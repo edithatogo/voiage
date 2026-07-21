@@ -14,12 +14,14 @@
   },
   "files": [
     "src",
+    "wasm",
     "README.md"
   ],
   "scripts": {
+    "build:wasm": "node scripts/build-wasm.mjs",
     "test": "node --test",
     "lint": "node --check src/index.js",
-    "check": "npm run lint && npm test",
+    "check": "npm run build:wasm && npm run lint && npm test",
     "pack:dry-run": "npm pack --dry-run"
   },
   "publishConfig": {

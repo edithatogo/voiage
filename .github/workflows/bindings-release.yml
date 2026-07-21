@@ -33,6 +33,12 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+          targets: wasm32-unknown-unknown
+      - name: Install the pinned wasm-bindgen CLI
+        run: cargo install wasm-bindgen-cli --version 0.2.126 --locked
 
       - name: Align package version with release tag
         run: npm version --no-git-tag-version --allow-same-version "${GITHUB_REF_NAME#typescript-v}"
