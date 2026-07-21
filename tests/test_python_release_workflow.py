@@ -95,9 +95,24 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "permissions: {}" in release_workflow
     assert "release:\n    types: [published]" in conda_workflow
     assert "startsWith(github.event.release.tag_name, 'v')" in conda_workflow
-    assert "Update conda/meta.yaml" in conda_workflow
+    assert "Update conda-recipe/meta.yaml" in conda_workflow
     assert "steps.release.outputs.version" in conda_workflow
     assert "steps.source.outputs.sha256" in conda_workflow
+
+
+def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
+    recipe = Path("conda-recipe/meta.yaml").read_text(encoding="utf-8")
+
+    assert not Path("conda/meta.yaml").exists()
+    assert "noarch: python" not in recipe
+    assert "{{ compiler('rust') }}" in recipe
+    assert "maturin >=1.9,<2.0" in recipe
+    assert "python >= {{ python_min }}" in recipe
+    assert "sha256: UPDATE_ON_RELEASE" in recipe
+
+    workflow = Path(".github/workflows/conda-update.yml").read_text(encoding="utf-8")
+    assert 'meta = Path("conda-recipe/meta.yaml")' in workflow
+    assert 'r"sha256: [0-9a-fA-F_]+"' in workflow
 
 
 def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:

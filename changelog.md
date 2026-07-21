@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed the conflicting pure-Python Conda recipe; the canonical
+  `conda-recipe/` now builds the native Maturin/Rust distribution.
 - Removed four unreferenced ad-hoc validation and benchmark scripts that
   duplicated the governed tox, Astro, benchmark, and hosted workflow gates.
 - Removed unsupported, unreferenced Python 3.9 runtime container recipes and
