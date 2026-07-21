@@ -422,16 +422,13 @@ class TestDecisionAnalysisComprehensive:
             # Expected if sklearn not available
             pytest.skip("scikit-learn not available for EVPPI test")
 
-    def test_incremental_evpi_method(self) -> None:
-        """Test the _incremental_evpi helper method."""
-        # This method is internally used, but we can test the functionality indirectly
-        # by using the chunk_size parameter in evpi calculation
+    def test_evpi_chunk_hint_preserves_the_rust_result(self) -> None:
+        """The compatibility chunk hint must preserve Rust-owned EVPI."""
         nb_data = np.array(
             [[100.0, 150.0], [90.0, 140.0], [110.0, 130.0]], dtype=np.float64
         )
         analysis = DecisionAnalysis(nb_array=nb_data)
 
-        # Use chunk_size to trigger incremental calculation
         result = analysis.evpi(chunk_size=2)
         assert isinstance(result, float)
         assert result >= 0
