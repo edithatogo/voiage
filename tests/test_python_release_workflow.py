@@ -20,6 +20,8 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "maturin build --locked --release" in release_workflow
     assert "maturin sdist --out dist" in release_workflow
     assert "maturin sdist --locked" not in release_workflow
+    pyproject = Path("pyproject.toml").read_text(encoding="utf-8")
+    assert '{ path = "specs/**/*.json", format = "sdist" }' in pyproject
     assert (
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b"
         in release_workflow
