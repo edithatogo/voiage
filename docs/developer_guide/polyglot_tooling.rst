@@ -33,10 +33,10 @@ For a compact per-language submission status view that separates repository-
 managed automation from registry-side approval or indexing, see
 `docs/release/binding-submission-checklist.md`.
 For the HPC-facing distribution and acceleration boundary, see
-`docs/developer_guide/hpc_distribution_contract.rst`.
+the Astro HPC distribution contract page.
 
 The canonical version source and the manifest lockstep rule are documented in
-`docs/developer_guide/versioning_and_release_policy.rst`. Use that policy page
+the Astro versioning and release policy page. Use that policy page
 when changing any release-manifest version.
 
 Versioning contract
