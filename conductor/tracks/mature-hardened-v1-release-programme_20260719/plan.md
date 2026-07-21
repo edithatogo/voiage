@@ -154,7 +154,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
-- [ ] Task: Inventory and classify non-Rust Python code
+- [x] Task: Inventory and classify non-Rust Python code (validated 2026-07-21; `python scripts/validate_python_runtime_inventory.py .`, `python scripts/validate_v1_programme.py --repo-root .`)
     - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
     - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
     - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).

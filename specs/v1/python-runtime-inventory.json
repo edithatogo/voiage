@@ -54,7 +54,7 @@
       "voiage/methods/dominance.py",
       "voiage/methods/sample_information.py"
     ],
-    "reason": "These modules still contain Python EVPI, EVPPi, CEAF, dominance, and EVSI numerical policy alongside the Rust kernels."
+    "reason": "These modules retain compatibility/reference implementations and dispatch policy alongside Rust kernels; native ownership now includes EVPI, EVPPI, CEAF, dominance, seeded-bootstrap, efficient-linear, moment-based, and callback-regression slices. Phase 6 must remove authoritative duplicate numerical paths while preserving only explicitly tested compatibility fallbacks."
   },
   "unclassified_policy": "fail",
   "retirement_gate": "No module classified as transitional_numerical_core may remain the authoritative implementation after Phase 6."
