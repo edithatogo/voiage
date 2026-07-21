@@ -172,9 +172,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Green: route stable public APIs to Rust and implement controlled shims. (3882f42; EVPI, EVPPI default, seeded/efficient-linear/moment-based EVSI, dominance, and CEAF routes verified)
     - [x] Refactor: simplify wrappers and publish migration documentation. (3882f42; Astro Rust-core handoff and compatibility boundary)
 - [~] Task: Remove the duplicate Python numerical core using TDD
-    - [ ] Red: add tests that fail when retired kernels or fallback paths remain reachable.
-    - [ ] Green: remove duplicate implementations, exports and obsolete dependencies.
-    - [ ] Refactor: reduce retained Python to a fully typed facade and rerun the suite.
+    - [x] Red: add tests that fail when retired kernels or fallback paths remain reachable. (working tree test update)
+    - [x] Green: remove duplicate EVPI, CEAF, and dominance fallback implementations and obsolete imports. (working tree implementation)
+    - [x] Refactor: reduce retained public paths to validated Rust-backed facades and rerun focused tests. (focused validation passed)
 - [ ] Task: Validate the minimal Python distribution
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)

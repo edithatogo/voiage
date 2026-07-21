@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
+  stable public paths; these operations now fail closed when the Rust core is
+  unavailable rather than silently re-entering duplicate numerical policy.
 - Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
   `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
   directories after archiving to `conductor/archive/`.

@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from itertools import pairwise
-import warnings
 
 import numpy as np
 
@@ -167,40 +166,16 @@ def calculate_dominance(
         effects,
         strategy_names,
     )
-    try:
-        native = _runtime.compute_dominance(cost_arr.tolist(), effect_arr.tolist())
-    except (ModuleNotFoundError, AttributeError):
-        warnings.warn(
-            "Python dominance fallback is transitional; the Rust kernel is the "
-            "v1 execution target.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        strong = calculate_strong_dominance(cost_arr, effect_arr)
-        frontier = cost_effectiveness_frontier(cost_arr, effect_arr)
-        extended = [
-            idx
-            for idx in range(len(cost_arr))
-            if idx not in strong and idx not in frontier
-        ]
-        incremental_costs, incremental_effects, icers = calculate_icers(
-            cost_arr, effect_arr, frontier
-        )
-        status = ["frontier"] * len(cost_arr)
-        for idx in strong:
-            status[idx] = "strongly_dominated"
-        for idx in extended:
-            status[idx] = "extended_dominated"
-    else:
-        frontier = list(native["frontier_indices"])
-        strong = list(native["strongly_dominated_indices"])
-        extended = list(native["extended_dominated_indices"])
-        status = list(native["status"])
-        incremental_costs = np.asarray(native["incremental_costs"], dtype=DEFAULT_DTYPE)
-        incremental_effects = np.asarray(
-            native["incremental_effects"], dtype=DEFAULT_DTYPE
-        )
-        icers = np.asarray(native["icers"], dtype=DEFAULT_DTYPE)
+    native = _runtime.compute_dominance(cost_arr.tolist(), effect_arr.tolist())
+    frontier = list(native["frontier_indices"])
+    strong = list(native["strongly_dominated_indices"])
+    extended = list(native["extended_dominated_indices"])
+    status = list(native["status"])
+    incremental_costs = np.asarray(native["incremental_costs"], dtype=DEFAULT_DTYPE)
+    incremental_effects = np.asarray(
+        native["incremental_effects"], dtype=DEFAULT_DTYPE
+    )
+    icers = np.asarray(native["icers"], dtype=DEFAULT_DTYPE)
 
     return DominanceResult(
         strategy_names=final_names,

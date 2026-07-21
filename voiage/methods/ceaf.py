@@ -1,10 +1,8 @@
 """Cost-effectiveness acceptability frontier calculations."""
 
 from dataclasses import dataclass
-import warnings
 
 import numpy as np
-from scipy.stats import norm
 
 from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
@@ -202,57 +200,22 @@ def calculate_ceaf(
         wtp_thresholds,
         strategy_names,
     )
-    n_samples = nb_values.shape[0]
-    try:
-        native = _runtime.compute_ceaf(
-            nb_values.tolist(),
-            wtp_arr.tolist(),
-            confidence_level,
-        )
-    except (ModuleNotFoundError, AttributeError):
-        warnings.warn(
-            "Python CEAF fallback is transitional; the Rust kernel is the v1 "
-            "execution target.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        mean_nb = np.mean(nb_values, axis=0)
-        optimal_strategy_indices = np.argmax(mean_nb, axis=0)
-        sample_optimal_indices = np.argmax(nb_values, axis=1)
-        wtp_indices = np.arange(nb_values.shape[2])
-        acceptability_probabilities = np.mean(
-            sample_optimal_indices == optimal_strategy_indices[np.newaxis, :],
-            axis=0,
-        )
-        expected_net_benefit = mean_nb[optimal_strategy_indices, wtp_indices]
-        z_value = float(norm.ppf(0.5 + confidence_level / 2.0))
-        standard_error = np.sqrt(
-            acceptability_probabilities
-            * (1.0 - acceptability_probabilities)
-            / n_samples
-        )
-        probability_lower = np.clip(
-            acceptability_probabilities - z_value * standard_error,
-            0.0,
-            1.0,
-        )
-        probability_upper = np.clip(
-            acceptability_probabilities + z_value * standard_error,
-            0.0,
-            1.0,
-        )
-    else:
-        optimal_strategy_indices = np.asarray(
-            native["optimal_strategy_indices"], dtype=int
-        )
-        acceptability_probabilities = np.asarray(
-            native["acceptability_probabilities"], dtype=DEFAULT_DTYPE
-        )
-        probability_lower = np.asarray(native["probability_lower"], dtype=DEFAULT_DTYPE)
-        probability_upper = np.asarray(native["probability_upper"], dtype=DEFAULT_DTYPE)
-        expected_net_benefit = np.asarray(
-            native["expected_net_benefit"], dtype=DEFAULT_DTYPE
-        )
+    native = _runtime.compute_ceaf(
+        nb_values.tolist(),
+        wtp_arr.tolist(),
+        confidence_level,
+    )
+    optimal_strategy_indices = np.asarray(
+        native["optimal_strategy_indices"], dtype=int
+    )
+    acceptability_probabilities = np.asarray(
+        native["acceptability_probabilities"], dtype=DEFAULT_DTYPE
+    )
+    probability_lower = np.asarray(native["probability_lower"], dtype=DEFAULT_DTYPE)
+    probability_upper = np.asarray(native["probability_upper"], dtype=DEFAULT_DTYPE)
+    expected_net_benefit = np.asarray(
+        native["expected_net_benefit"], dtype=DEFAULT_DTYPE
+    )
 
     return CEAFResult(
         wtp_thresholds=wtp_arr,
@@ -270,7 +233,7 @@ def calculate_ceaf(
             method_maturity="stable",
             estimator="frontier_probability",
             diagnostics={
-                "n_samples": int(n_samples),
+                "n_samples": int(nb_values.shape[0]),
                 "n_thresholds": len(wtp_arr),
             },
         ),
