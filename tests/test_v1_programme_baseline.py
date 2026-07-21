@@ -84,7 +84,7 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     assert "Mature Hardened v1.0 Programme: 🔄 **ACTIVE**" in roadmap
     assert "conductor/v1-programme-baseline.json" in roadmap
     assert "The June 25 follow-through queue is complete and archived" in roadmap
-    assert "Production Workspace Established, Takeover Incomplete" in roadmap
+    assert "Production Workspace Established, Stable Kernels Rust-Backed" in roadmap
     assert (
         "Follow-Through Expansion (created June 25, 2026): 🔄 **ACTIVE**" not in roadmap
     )
