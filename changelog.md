@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed unsupported, unreferenced Python 3.9 runtime container recipes and
+  the mutable Python 3.11 devcontainer; v1 supports Python 3.12--3.14 and its
+  release artifacts are the signed Maturin packages rather than container
+  images. Removed their stale compose, deployment-guide, and repository-map
+  references at the same boundary.
 - Removed an unreachable legacy Python structural-EVPPI kernel that remained
   after the authoritative Rust result return.
 - Removed the private Python incremental EVPI kernel and the default EVPPI
