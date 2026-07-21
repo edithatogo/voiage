@@ -11,6 +11,11 @@ use voiage_numerics::evpi as rust_evpi;
 pub const CRATE_NAME: &str = "voiage-wasm";
 
 /// Computes EVPI from a row-major JavaScript `Float64Array`.
+///
+/// # Errors
+///
+/// Returns a JavaScript error for invalid dimensions, length mismatches,
+/// non-finite values, or numerical-kernel validation failures.
 #[wasm_bindgen]
 pub fn evpi(values: &[f64], rows: u32, columns: u32) -> Result<f64, JsValue> {
     if rows == 0 || columns == 0 {
@@ -28,7 +33,7 @@ pub fn evpi(values: &[f64], rows: u32, columns: u32) -> Result<f64, JsValue> {
     let matrix = (0..rows)
         .map(|row| values[row * columns..(row + 1) * columns].to_vec())
         .collect::<Vec<_>>();
-    let matrix = SampleMatrix::try_from(matrix)
-        .map_err(|error| JsValue::from_str(&error.to_string()))?;
+    let matrix =
+        SampleMatrix::try_from(matrix).map_err(|error| JsValue::from_str(&error.to_string()))?;
     rust_evpi(&matrix).map_err(|error| JsValue::from_str(&error.to_string()))
 }
