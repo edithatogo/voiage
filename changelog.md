@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Removed a dead intermediate expression from the optional JAX EVPI adapter;
+  the adapter now retains only the precision-scoped native calculation.
+
 ### Removed
 - Removed unsupported, unreferenced Python 3.9 runtime container recipes and
   the mutable Python 3.11 devcontainer; v1 supports Python 3.12--3.14 and its
