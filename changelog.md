@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed obsolete generated completion reports and paper-status mirrors; the
+  roadmap, Conductor registry, release evidence, and paper sources are now the
+  authoritative status records.
 - Removed the duplicate standalone Markdown documentation tree after migrating
   unique best-practice, validation, ecosystem, dependency, and frontier notes
   into the authoritative Astro/Starlight content collection.
