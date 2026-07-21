@@ -12,7 +12,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Takeover Incomplete** - the production Rust workspace now enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. The private maturin-built PyO3 bridge now owns CEAF and dominance result serialization with stable error and provenance contracts. Stable numerical APIs are not yet uniformly Rust-backed, and retained Python/Mojo, R, and Julia surfaces still require final parity evidence.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, EVSI aggregation, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains validation/orchestration and explicitly tracked compatibility paths. Retained Python/Mojo, R, and Julia surfaces still require final hosted and external parity evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
@@ -122,7 +122,7 @@ review evidence and approval boundaries visible; they are not reopened work.
 1.  **Automated Publishing Pipeline:**
     *   **Status: `✅ Done`**
     *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
-    *   Polyglot release workflows now publish npm, crates.io, and NuGet packages and attach GitHub release artifacts for Go, Julia, and R bindings. The R package currently ships source archives on GitHub Releases, while CRAN remains the maturity target and r-universe remains an optional external indexing path; registry-side indexing or approval still depends on the external ecosystem for conda-forge, CRAN/r-universe, and the Julia General registry.
+    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. The Rust workspace is intentionally internal (`publish = false`); no crates.io package, npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
     *   Repository versioning is now tag-derived for Python through
         `setuptools-scm`; external binding manifests stay synchronized to the
         latest released tag, and the version-sync validator is enforced in CI
@@ -328,7 +328,7 @@ VOI tooling.
         computational, and expert-synthesis adjacent families.
 5.  **Documentation and Evidence:**
     *   **Status: `✅ Fixture-backed documentation baseline complete / stable-method promotion gated`**
-    *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
+    *   Maintain the frontier-method rationale in the Astro route `sota-voi-frontier/`.
     *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,
         examples, CLI coverage, and method maturity metadata before marking
         frontier methods stable.
