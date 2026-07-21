@@ -54,6 +54,12 @@ def test_windows_native_builds_share_a_reproducible_clean_target(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.setenv("RUSTFLAGS", "-C target-cpu=x86-64")
+    monkeypatch.setattr(
+        "scripts.reproducible_build._source_identity", lambda _repo: ("rev", "tree")
+    )
+    monkeypatch.setattr(
+        "scripts.reproducible_build._source_date_epoch", lambda _repo: "123"
+    )
     target = tmp_path / "stable-target"
 
     environment = _build_environment(
@@ -62,6 +68,9 @@ def test_windows_native_builds_share_a_reproducible_clean_target(
 
     assert environment["CARGO_TARGET_DIR"] == str(target.resolve())
     assert environment["RUSTFLAGS"] == "-C target-cpu=x86-64 -C link-arg=/Brepro"
+    assert environment["VOIAGE_SOURCE_REVISION"] == "rev"
+    assert environment["VOIAGE_SOURCE_TREE_GIT_OID"] == "tree"
+    assert environment["VOIAGE_SOURCE_CLEAN"] == "true"
 
 
 def _write_wheel(path: Path, payload: bytes) -> None:
