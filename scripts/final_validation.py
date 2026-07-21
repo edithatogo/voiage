@@ -69,6 +69,7 @@ def validate_advanced_functionality():
 
     try:
         # Import advanced modules
+        from voiage.schema import ParameterSet
         from voiage.methods.adaptive import adaptive_evsi
         from voiage.methods.network_nma import evsi_nma
         from voiage.methods.observational import voi_observational
@@ -321,11 +322,11 @@ def validate_documentation_system():
         else:
             print("⚠️  Documentation directory not found")
 
-        # Check that conf.py exists
-        if os.path.exists("docs/conf.py"):
-            print("✅ Documentation configuration file exists")
+        # Astro/Starlight is the authoritative documentation system.
+        if os.path.exists("docs/astro-site/astro.config.mjs"):
+            print("✅ Astro documentation configuration file exists")
         else:
-            print("⚠️  Documentation configuration file not found")
+            print("⚠️  Astro documentation configuration file not found")
 
         return True
 
