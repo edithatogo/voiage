@@ -1,0 +1,1 @@
+Phase 8/9 automated review fix: aligned the documented coverage target with the enforced >90% gate, corrected the canonical changelog path, and replaced array-owned stable return guidance with versioned Rust result envelopes and adapter views. Red test reproduced the drift; focused binding/repository tests passed (14 tests), Ruff and diff checks passed.
