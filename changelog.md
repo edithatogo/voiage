@@ -7,14 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-- Made the R package testable as a clean installed artifact by packaging the
-  canonical EVPI oracle, isolating reticulate environment calls behind private
-  seams, and rejecting R release tags whose version differs from DESCRIPTION.
-- Completed changed-line coverage for native runtime error translation,
-  malformed regression envelopes, experimental namespace failures, ENBS
-  fail-closed behavior, and discounted structural EVPPI scaling.
-
 ### Removed
 - Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
   stable public paths; these operations now fail closed when the Rust core is
@@ -674,6 +666,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Made the R package testable as a clean installed artifact by packaging the
+  canonical EVPI oracle, isolating reticulate environment calls behind private
+  seams, and rejecting R release tags whose version differs from DESCRIPTION.
+- Completed changed-line coverage for native runtime error translation,
+  malformed regression envelopes, experimental namespace failures, ENBS
+  fail-closed behavior, and discounted structural EVPPI scaling.
 - Made Rust provenance and payload digest encoding compatible with the `sha2`
   0.11 digest representation, preserving deterministic lowercase hexadecimal
   hashes during the dependency upgrade.
