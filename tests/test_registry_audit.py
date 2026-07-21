@@ -23,16 +23,13 @@ def test_registry_audit_documents_current_live_status() -> None:
     ).read_text(encoding="utf-8")
 
     assert "Live Registry Audit" in audit_text
-    assert "Python `voiage` on PyPI returned `404`" in audit_text
-    assert "Rust `voiage-core` on crates.io returned `404`" in audit_text
+    assert "Python `voiage` is present on PyPI" in audit_text
+    assert "Rust is an internal `publish = false` workspace" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
     assert "conda-forge-feedstock-publication_20260625" in audit_text
     assert "spack-package-merge-followthrough_20260625" in audit_text
     assert "e4s-inclusion-followthrough_20260625" in audit_text
-    assert (
-        "submissions have not been confirmed as published for these package names"
-        in audit_text
-    )
+    assert "The retired Go, TypeScript, and .NET channels are not v1.0 targets." in audit_text
 
 
 def test_registry_audit_snapshot_matches_expected_channels() -> None:

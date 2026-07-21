@@ -136,13 +136,14 @@ with `not_checked` so the gap stays explicit.
 
 ## Live Registry Audit
 
-The public registry checks performed on 2026-05-10 did not find a published
-package for the binding names used in this repository:
+The public registry checks refreshed on 2026-07-21 found the following current
+states:
 
-- Python `voiage` on PyPI returned `404`
+- Python `voiage` is present on PyPI
   - https://pypi.org/project/voiage/
-- Rust `voiage-core` on crates.io returned `404`
-  - https://crates.io/crates/voiage-core
+- Rust is an internal `publish = false` workspace released through GitHub
+  Releases; no crates.io package is claimed
+  - https://github.com/edithatogo/voiage/releases
 - R `voiageR` on CRAN returned `404`
   - https://cran.r-project.org/web/packages/voiageR/index.html
 - Julia `Voiage` was not present in the General registry contents API
@@ -158,5 +159,7 @@ package for the binding names used in this repository:
 - HPSF and E4S remain external/manual curation targets because this repository
   cannot confirm inclusion from a package API alone.
 
-So the current live state is: the release automation exists, but the registry
-submissions have not been confirmed as published for these package names.
+So the current live state is: Python is confirmed on PyPI; Rust is an internal
+workspace artifact; R, Julia, conda-forge, r-universe, Spack, and EasyBuild are
+not confirmed in their external registries; HPSF and E4S remain manual curation
+targets. The retired Go, TypeScript, and .NET channels are not v1.0 targets.

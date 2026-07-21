@@ -31,6 +31,9 @@ STATUSES = {
     "unconfirmed",
     "no_released_versions",
     "external_manual",
+    "confirmed",
+    "retired",
+    "internal_workspace",
 }
 
 
