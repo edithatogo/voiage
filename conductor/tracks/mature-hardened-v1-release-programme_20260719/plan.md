@@ -199,7 +199,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
     - [ ] Extend the same Rust execution boundary to advanced binding methods or explicitly isolate them under Phase 8 extension policy.
 - [~] Task: Harden binding lifecycle and ABI compatibility
-    - [ ] Add build, package, install, unload, memory, concurrency and error-propagation tests.
+    - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
+    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests.
     - [ ] Prove every retained binding executes Rust across supported version combinations.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
