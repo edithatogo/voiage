@@ -46,6 +46,9 @@ def test_governance_docs_match_the_rust_execution_authority() -> None:
     tech_stack = (REPO_ROOT / "conductor/tech-stack.md").read_text(encoding="utf-8")
 
     assert "Rust is the sole stable numerical execution authority" in product_guidelines
+    assert "Target: >90% code coverage" in product_guidelines
+    assert "Update `changelog.md` with each release" in product_guidelines
+    assert "Rust result envelopes" in product_guidelines
     assert "NumPy, JAX" not in product_guidelines
     assert (
         "**Rust**: GitHub Releases for the internal `publish = false` workspace"

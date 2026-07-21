@@ -25,7 +25,8 @@
 
 ### Consistency
 - All VOI methods follow the same signature pattern: `method(inputs, outputs, **kwargs)`
-- Return consistent data types (numpy arrays or xarray DataArrays)
+- Return versioned Rust result envelopes through each retained binding; Python
+  adapters may expose NumPy or xarray views without owning numerical policy.
 - Provide both functional and object-oriented interfaces
 
 ### CLI Guidelines
@@ -47,7 +48,7 @@
 ## Testing Standards
 
 ### Coverage Requirements
-- Target: >80% code coverage
+- Target: >90% code coverage
 - Critical methods: >95% coverage
 - Use pytest-cov for coverage reporting
 
@@ -79,7 +80,7 @@
 
 ### Versioning
 - Follow semantic versioning (MAJOR.MINOR.PATCH)
-- Update CHANGELOG.md with each release
+- Update `changelog.md` with each release
 - Tag releases in Git with version number
 
 ### Quality Gates

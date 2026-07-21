@@ -680,6 +680,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Aligned Conductor governance with the enforced 90% coverage threshold,
+  canonical `changelog.md` path, and Rust result-envelope binding contract.
 - Corrected the R binding's GitHub installation links to the canonical
   `edithatogo/voiage` repository and its `r-package/voiageR` subdirectory.
 - Corrected the live registry audit so the internal `publish = false` Rust
