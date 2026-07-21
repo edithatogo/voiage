@@ -1,0 +1,5 @@
+Task: Remove dead JAX EVPI expression
+
+Summary: Removed an ineffectual intermediate EVPI expression from the optional JAX adapter while preserving the precision-scoped result calculation. Updated the Unreleased changelog.
+
+Validation: uv run pytest -q tests/test_backends.py --no-cov (25 passed); uv run ruff check voiage/main_backends.py; git diff --check.
