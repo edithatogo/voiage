@@ -207,20 +207,23 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 8: Supported Extensions and Experimental Isolation
 
-- [~] Task: Classify all non-core functionality
+- [x] Task: Classify all non-core functionality (830c69f)
     - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
     - [x] Classify every remaining Python runtime file across facade, assurance, optional-extension and experimental surfaces using `specs/v1/extension-surface-policy.json` with exactly-one-disposition coverage.
-    - [~] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition policy is recorded; final package-level decisions remain)
-    - [~] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable coverage added)
-- [~] Task: Enforce supported-extension boundaries using TDD
+    - [x] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition and single-wheel optional-extra policies cover every Python runtime path)
+    - [x] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable exactly-one-disposition coverage)
+- [x] Task: Enforce supported-extension boundaries using TDD (830c69f)
     - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
-    - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, and the machine-readable single-wheel optional-extra boundary pass; Rust execution and independent packaging remain; e9144ef)
+    - [x] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, fail-closed stable EVPI/EVPPI, and the machine-readable single-wheel optional-extra boundary pass; e9144ef)
     - [x] Refactor: remove duplicated policy and unnecessary dependencies. Migrated heterogeneity in `8795d21`, structural EVPI aggregation in `2919ea3`, and structural EVPPI aggregation in the current migration commit; focused Rust/Python parity and extension-boundary tests pass. Remaining Python-owned orchestration stays explicitly tracked.
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
     - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
-- [~] Task: Remove or extract unsupported code
-    - [ ] Preserve migration history where necessary and remove dead dependencies, exports, tests and docs.
+- [x] Task: Remove or extract unsupported code (830c69f)
+    - [x] Preserve migration history where necessary and remove dead
+      dependencies, exports, tests and docs. (duplicate standalone docs and
+      status mirrors removed; private Python incremental EVPI and default
+      EVPPI fallback retired; governance and migration evidence retained)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
 
 ## Phase 9: Astro-Only Documentation Consolidation
@@ -292,7 +295,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
       security, compatibility and rollback procedures. (v1 migration,
       readiness, version-policy and release-checklist contracts; raw-dictionary
       EVPPI bridge now emits the normative coded `FutureWarning`)
-    - [ ] Prove no stable operation depends on retired Python kernels.
+    - [x] Prove no stable operation depends on retired Python kernels.
+      (stable EVPI and default EVPPI fail closed without Rust; existing EVSI,
+      ENBS, CEAF and dominance native-absence tests plus the runtime inventory
+      and migration matrix enforce the retained facade/orchestration boundary)
 - [ ] Task: Close the programme backlog
     - [ ] Resolve or explicitly defer every v1.0 GitHub issue.
     - [ ] Merge or close every programme pull request and reconcile remaining branches.
