@@ -8,9 +8,9 @@ def test_hpc_native_roadmap_sequence_and_baselines() -> None:
     guide_text = (docs / "developer-guide" / "hpc-native-roadmap.mdx").read_text(
         encoding="utf-8"
     )
-    contract_text = (docs / "developer-guide" / "hpc-distribution-contract.mdx").read_text(
-        encoding="utf-8"
-    )
+    contract_text = (
+        docs / "developer-guide" / "hpc-distribution-contract.mdx"
+    ).read_text(encoding="utf-8")
     accelerator_text = (docs / "developer-guide" / "rust-accelerators.mdx").read_text(
         encoding="utf-8"
     )

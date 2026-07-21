@@ -29,7 +29,10 @@ def test_registry_audit_documents_current_live_status() -> None:
     assert "conda-forge-feedstock-publication_20260625" in audit_text
     assert "spack-package-merge-followthrough_20260625" in audit_text
     assert "e4s-inclusion-followthrough_20260625" in audit_text
-    assert "The retired Go, TypeScript, and .NET channels are not v1.0 targets." in audit_text
+    assert (
+        "The retired Go, TypeScript, and .NET channels are not v1.0 targets."
+        in audit_text
+    )
 
 
 def test_registry_audit_snapshot_matches_expected_channels() -> None:

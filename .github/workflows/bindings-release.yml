@@ -45,6 +45,8 @@ jobs:
     name: Release Julia package
     if: startsWith(github.ref_name, 'julia-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: bindings/julia
@@ -52,11 +54,17 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+      - name: Build the Rust C ABI used by Julia
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
       - run: echo "Project.toml version is $(grep '^version' Project.toml)"
       - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+        env:
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
       - name: Create GitHub release
         run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
         env:
@@ -66,6 +74,8 @@ jobs:
     name: Release R package
     if: startsWith(github.ref_name, 'r-v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: r-package/voiageR
@@ -73,14 +83,21 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+      - name: Build the Rust C ABI used by R
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
           extra-packages: any::rcmdcheck
+          working-directory: r-package/voiageR
       - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - run: R CMD build .
       - run: Rscript tools/build-manual.R
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
+        env:
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
       - name: Create GitHub release
         run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
         env:

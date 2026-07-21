@@ -19,6 +19,12 @@ def _workflow_text() -> str:
     )
 
 
+def _release_workflow_text() -> str:
+    return (ROOT / ".github" / "workflows" / "bindings-release.yml").read_text(
+        encoding="utf-8"
+    )
+
+
 def test_each_retained_binding_has_a_build_test_and_package_gate() -> None:
     matrix = json.loads(
         (ROOT / "specs" / "v1" / "binding-matrix.json").read_text(encoding="utf-8")
@@ -78,3 +84,17 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
             requirement in workflow
             for requirement in workflow_requirements[binding["id"]]
         )
+
+
+def test_native_binding_jobs_receive_the_built_ffi_library() -> None:
+    for workflow in (_workflow_text(), _release_workflow_text()):
+        assert (
+            workflow.count("cargo build --release --locked --package voiage-ffi") >= 2
+        )
+        assert workflow.count("VOIAGE_FFI_LIBRARY:") >= 2
+        assert "rust/target/release/libvoiage_ffi.so" in workflow
+
+
+def test_r_action_resolves_dependencies_from_the_package_directory() -> None:
+    for workflow in (_workflow_text(), _release_workflow_text()):
+        assert "working-directory: r-package/voiageR" in workflow
