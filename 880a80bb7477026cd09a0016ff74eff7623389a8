@@ -1,0 +1,1 @@
+Structural EVPPI aggregation migrated to Rust/PyO3; focused Rust and Python parity tests pass.
