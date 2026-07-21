@@ -135,7 +135,10 @@ CHANNELS: tuple[Channel, ...] = (
         registry="crates.io",
         registry_url="https://crates.io/crates/voiage-core",
         check_url="https://crates.io/api/v1/crates/voiage-core",
-        notes="Automated cargo publish exists on rust-v* tags.",
+        notes=(
+            "Rust is an internal publish=false workspace released through GitHub "
+            "Releases; no crates.io package is claimed."
+        ),
         evaluator=_evaluator_http_hit_if_200,
         confidence="high",
     ),

@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-`voiageR` provides an R interface to the [`voiage`](https://github.com/doughnut/voiage) Python library for Value of Information (VOI) analysis.
+`voiageR` provides an R interface to the [`voiage`](https://github.com/edithatogo/voiage) Python library for Value of Information (VOI) analysis.
 
 ## Overview
 
@@ -33,7 +33,7 @@ You can install the development version of `voiageR` from GitHub:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("doughnut/voiage/r-package/voiageR")
+devtools::install_github("edithatogo/voiage", subdir = "r-package/voiageR")
 ```
 
 ## Usage

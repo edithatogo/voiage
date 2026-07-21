@@ -30,7 +30,7 @@ Then you can install `voiageR` from GitHub:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("doughnut/voiage/r-package/voiageR")
+devtools::install_github("edithatogo/voiage", subdir = "r-package/voiageR")
 ```
 
 ## Basic Usage
