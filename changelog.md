@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed the duplicate standalone Markdown documentation tree after migrating
+  unique best-practice, validation, ecosystem, dependency, and frontier notes
+  into the authoritative Astro/Starlight content collection.
 - Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
   stable public paths; these operations now fail closed when the Rust core is
   unavailable rather than silently re-entering duplicate numerical policy.
@@ -20,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added Astro-native best-practice, validation-evidence, ecosystem-boundary,
+  and frontier-method maturity pages with drift tests enforcing Astro as the
+  sole user-documentation source.
 - Added an executable v1 extension policy that classifies every methods module
   outside the stable Rust facades as an optional or experimental extension;
   advanced binding methods no longer have an implicit stable-core status.

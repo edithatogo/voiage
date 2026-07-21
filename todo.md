@@ -481,7 +481,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   **[TEST]** Added focused regression coverage for NICE HTA scoring and decision thresholds.
     *   Locked in NICE evaluation scoring for evidence quality, cost-effectiveness, budget impact, and the resulting approval/rejection decisions.
 *   **[DOCS]** Create a validation notebook for EVPI and EVPPI.
-    *   The notebook replicates the benchmark case documented in `docs/validation_comparison_report.md` and covers EVPI, EVPPI, EVSI, and plotting checks.
+    *   The notebook replicates the benchmark case documented in the Astro
+        validation-evidence guide and covers EVPI, EVPPI, EVSI, and plotting checks.
 *   **[DOCS]** Create the remaining compact validation notebooks for NMA and structural VOI.
     *   Added runnable `examples/nma_validation.ipynb` and `examples/structural_voi_validation.ipynb` slices that execute the published-style NMA and structural VOI surfaces.
 *   **[INFRA]** Created `AGENTS.md` to establish a protocol for AI agents.

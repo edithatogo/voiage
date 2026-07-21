@@ -73,8 +73,8 @@ The supplementary methods document includes:
 
 ### Repository Documentation
 The repository includes:
-- `docs/METHODS_AND_FORMULAE.md` - Additional methods documentation
-- `docs/api_reference/comprehensive_api.md` - Complete API reference with method details
+- `docs/astro-site/src/content/docs/methods/` - Method documentation
+- `docs/astro-site/src/content/docs/api-reference/` - Generated API references
 - Various method-specific documentation files in the docs directory
 
 ## Methods Reflected

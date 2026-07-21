@@ -1,0 +1,21 @@
+---
+title: Ecosystem boundaries
+description: Integration and dependency rules for the HEOR ecosystem
+---
+
+`voiage` is the Value of Information engine in the HEOR ecosystem. It does not
+own disease simulation, intervention diffusion, evidence registries, or
+workflow orchestration. Those concerns belong in sibling tools and integrate
+through versioned artifacts, schemas, adapters, and conformance fixtures.
+
+The base installation remains independent of `lifecourse`, `innovate`, and
+`mars`. Candidate adapters must use portable HEOML-aligned inputs and outputs,
+avoid pickle and private Python objects, live behind optional extras, and carry
+smoke tests, security checks, version compatibility, documentation, and a
+removal path. VOI-specific behavior belongs in a `voiage` adapter rather than
+changes to a sibling package's core API.
+
+Promotion requires a documented artifact contract, deterministic fixtures,
+dependency isolation, cross-repository smoke evidence, and explicit versioning
+and deprecation policy. See the [lifecourse integration](/integrations/lifecourse/)
+and [architecture guide](/developer-guide/architecture/).

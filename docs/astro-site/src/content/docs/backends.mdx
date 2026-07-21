@@ -1,26 +1,31 @@
 ---
-title: Backends
-description: Computational backends in voiage
+title: Runtime and optional accelerators
+description: Rust execution authority and optional accelerator boundaries in voiage
 ---
 
-`voiage` supports a NumPy-first execution path with optional JAX acceleration for workflows that benefit from compilation or hardware acceleration.
+The Rust workspace is the sole execution authority for stable v1 numerical
+policy. Python calls the core through PyO3, while R and Julia use the versioned
+C ABI. A binding may validate and convert data, but it must not implement an
+independent stable kernel or silently fall back to one.
 
 ## Summary
 
-- **NumPy** is the default baseline
-- **JAX** is used when backend-accelerated execution is requested and the runtime supports it
+- **Rust** is the stable CPU reference and production execution core
+- **Python/PyO3**, **R**, and **Julia** are thin adapters over that core
+- **JAX** is limited to optional extension and research workflows
 - **Apple Metal** is available as an optional internal backend on macOS Apple Silicon when PyTorch provides an MPS device
-- Public APIs should continue to work when JAX is unavailable; accelerated paths are optional, not mandatory
+- Stable public APIs work without JAX, GPU, web, widget, or distributed dependencies
 - Backend-dependent results must disclose that status explicitly
 
 ## Packaging and release guidance
 
 - Keep the Apple Metal backend optional and runtime-detected
-- Preserve the CPU fallback path as the authoritative reference path
+- Preserve Rust CPU execution as the authoritative reference path
 - Treat the benchmark handoff packet as the release evidence for device-backed comparison claims
 - Do not introduce a public API change just to expose the backend
 
-The canonical public data structures remain xarray-backed regardless of which backend is selected.
+Python-facing data structures may remain xarray-backed, but their stable
+numerical results must come from the Rust core.
 
 ## See also
 

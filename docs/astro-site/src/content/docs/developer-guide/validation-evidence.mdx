@@ -1,0 +1,34 @@
+---
+title: Validation and performance evidence
+description: Authoritative numerical validation and benchmark evidence for v1
+---
+
+V1 validation is anchored in executable evidence rather than historical timing
+tables or narrative completion reports.
+
+## Numerical evidence
+
+- Language-neutral normal, edge, and invalid fixtures live under
+  `specs/core-api/fixtures/` and `specs/numerical-reference/`.
+- Rust property, fuzz, malformed-input, concurrency, and differential tests
+  exercise the stable kernels.
+- Python, R, and Julia conformance tests call the Rust implementation through
+  PyO3 or the versioned C ABI.
+- Compatibility and result-schema tests enforce tolerances, deterministic
+  seeds, error identities, and serialization behavior.
+
+## Performance evidence
+
+Committed benchmark workloads and budgets are enforced by the Rust and hosted
+benchmark lanes. Results are runner-specific; a historical wall-clock number
+must not be treated as a portable performance guarantee. Accelerator or
+hardware claims require their own parity packet, runner identity, transfer and
+compilation overhead, and CPU-reference comparison.
+
+## Release evidence
+
+The release candidate must pass the complete CI matrix, clean wheel and sdist
+installations, cross-platform reproducibility, SBOM and vulnerability scans,
+Astro production build, retained-binding checks, and signed immutable-tag
+verification. Hosted artifacts and registry observations remain distinct from
+repository readiness.

@@ -9,20 +9,25 @@ This guide describes the current `voiage` implementation shape so contributors c
 
 - `voiage.schema` — structured in-memory contract objects
 - `voiage.analysis` — orchestration layer and `DecisionAnalysis` facade
-- `voiage.methods` — method implementations
+- `voiage.methods` — Rust-backed stable facades and classified extensions
 - `voiage.plot` — plotting helpers (separate from calculation logic)
 - `voiage.cli` — command-line surface for public workflows
 
-## Backend Abstraction
+## Runtime Authority
 
-The library keeps the computational backend behind a small dispatch layer. NumPy remains the default runtime path, while JAX is an optional acceleration backend.
+Stable numerical and domain operations execute in the Rust workspace. PyO3 is
+the Python bridge and the narrow C ABI serves R and Julia. Python owns schema
+normalization, orchestration, CLI, plotting, reporting, and compatibility
+wrappers only where those responsibilities do not duplicate numerical policy.
 
-The key rule: the backend should not change the analysis semantics. Only performance and execution details are allowed to vary.
+Optional JAX, accelerator, distributed, web, and research modules are outside
+the stable core. They must be dependency-isolated, maturity-labelled, and
+unable to block the minimal installation or change stable semantics.
 
 ## DecisionAnalysis Flow
 
 ```
-input → schema → method → result → plot/CLI output
+input → Python schema/orchestration → Rust kernel → result → plot/CLI output
 ```
 
 `DecisionAnalysis` accepts raw arrays or schema objects, normalizes them into shared data structures, and routes calculations through the public method surface.
@@ -30,6 +35,6 @@ input → schema → method → result → plot/CLI output
 ## Data Flow and Boundaries
 
 - Inputs should enter through schema objects where possible
-- Methods should return structured result objects for multi-field analyses
+- Stable methods must call the Rust core and return structured result objects
 - Plotting should consume result objects rather than recomputing analysis
 - CLI commands should compose public analysis methods instead of reimplementing them

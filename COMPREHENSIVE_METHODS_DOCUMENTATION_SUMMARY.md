@@ -21,7 +21,7 @@ This document provides comprehensive mathematical formulae and methodological de
 
 ### 2. Enhanced Basic VOI Documentation
 
-**File**: `docs/user_guide/features/enhanced_basic_voi.md`
+**File**: `docs/astro-site/src/content/docs/user-guide/features/basic-voi.mdx`
 
 This enhanced documentation provides more detailed mathematical background for basic VOI methods.
 
@@ -33,7 +33,7 @@ This enhanced documentation provides more detailed mathematical background for b
 
 ### 3. Enhanced Advanced VOI Documentation
 
-**File**: `docs/user_guide/features/enhanced_advanced_voi.md`
+**File**: `docs/astro-site/src/content/docs/user-guide/features/advanced-voi.mdx`
 
 This enhanced documentation provides comprehensive documentation of advanced VOI methods.
 
@@ -45,7 +45,7 @@ This enhanced documentation provides comprehensive documentation of advanced VOI
 
 ### 4. Consolidated Methods and Formulae Section
 
-**File**: `docs/METHODS_AND_FORMULAE.md`
+**File**: `docs/astro-site/src/content/docs/methods/index.mdx`
 
 This serves as a single comprehensive document with all formulae.
 

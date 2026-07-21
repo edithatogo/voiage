@@ -1,0 +1,52 @@
+---
+title: VOI analysis best practices
+description: Methodological, implementation, validation, and reporting guidance
+---
+
+## Define the decision before the calculation
+
+- State the alternatives, decision-maker perspective, outcome units,
+  willingness-to-pay thresholds, population, time horizon, and discounting.
+- Model decision-relevant uncertainty and preserve correlations between sampled
+  parameters.
+- Treat parameter distributions and structural assumptions as evidence that
+  requires domain review, not merely convenient inputs.
+
+## Use the stable contracts
+
+Prefer the canonical schema objects and Rust-backed stable methods. Validate
+shapes, finite values, strategy ordering, units, seeds, and provenance at the
+boundary. Do not rely on an optional accelerator or experimental method to
+define stable semantics.
+
+## Demonstrate numerical adequacy
+
+- Check Monte Carlo convergence and repeat stochastic analyses with declared
+  seeds where reproducibility is expected.
+- Compare representative cases with the language-neutral fixtures and a
+  hand-calculated or independently implemented reference.
+- Exercise edge and invalid cases, including one strategy, ties, missing or
+  non-finite values, rank deficiency, and large finite magnitudes.
+- Report sensitivity to sample size, model assumptions, threshold choice, and
+  approximation settings.
+
+## Preserve decision context and provenance
+
+Record the source data, transformations, software version, Rust build identity,
+method settings, random seeds, currency year, outcome units, and limitations.
+Separate per-person from population values and avoid implying external
+validation, registry approval, or hardware performance that has not occurred.
+
+## Communicate the result
+
+Present EVPI, EVPPI, EVSI, ENBS, CEAF, dominance, and frontier results with the
+decision they inform. Include uncertainty, diagnostics, assumptions, and the
+cost and feasibility of acquiring information. Plotting and reports should
+consume returned result objects rather than recompute numerical policy.
+
+## Operational checks
+
+For release or regulated workflows, use a clean environment, locked inputs,
+the full quality/security matrix, an SBOM, provenance attestations, checksums,
+and signed immutable tags. See the [quality and security harness](/developer-guide/quality-and-security/)
+and [v1 release readiness guide](/user-guide/v1-release-readiness/).

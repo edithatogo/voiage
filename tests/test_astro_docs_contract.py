@@ -1,6 +1,8 @@
 """Contract checks for the Astro/Starlight documentation authority."""
 
 from pathlib import Path
+from shutil import which
+import subprocess
 
 ROOT = Path(__file__).parents[1]
 
@@ -35,3 +37,24 @@ def test_astro_content_has_no_legacy_rst_links() -> None:
         if ".rst" in path.read_text(encoding="utf-8")
     ]
     assert not stale_links, f"Astro content contains legacy RST links: {stale_links}"
+
+
+def test_user_documentation_exists_only_in_the_astro_content_tree() -> None:
+    git = which("git")
+    assert git is not None
+    tracked = subprocess.run(
+        [git, "ls-files", "docs/**/*.md", "docs/*.md"],
+        cwd=ROOT,
+        capture_output=True,
+        check=True,
+        text=True,
+    ).stdout.splitlines()
+    legacy_user_docs = [
+        path
+        for path in tracked
+        if (ROOT / path).exists()
+        if not path.startswith("docs/astro-site/src/content/docs/")
+        and not path.startswith("docs/release/")
+    ]
+
+    assert legacy_user_docs == []

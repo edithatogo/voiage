@@ -55,3 +55,13 @@ def test_governance_docs_match_the_rust_execution_authority() -> None:
     assert "starlight-versions" not in tech_stack
     assert "starlight-links-validator" not in tech_stack
     assert "starlight-polyglot" not in tech_stack
+
+    astro_architecture = (
+        REPO_ROOT / "docs/astro-site/src/content/docs/developer-guide/architecture.mdx"
+    ).read_text(encoding="utf-8")
+    astro_backends = (
+        REPO_ROOT / "docs/astro-site/src/content/docs/backends.mdx"
+    ).read_text(encoding="utf-8")
+    assert "sole execution authority" in astro_backends
+    assert "NumPy remains the default runtime path" not in astro_architecture
+    assert "Rust workspace" in astro_architecture

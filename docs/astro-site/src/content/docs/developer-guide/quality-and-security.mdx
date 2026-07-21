@@ -25,6 +25,19 @@ validation, the supported Python matrix, and the coverage threshold.
 For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
 --progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.
 
+## Dependency and experimental-feature policy
+
+The supported Python 3.12–3.14 range tracks compatible stable dependencies and
+commits `uv.lock` for reproducibility. Before dependency or runtime changes,
+run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`.
+
+Apache Arrow/Parquet is the canonical public tabular interchange; JSON Lines
+is an explicit human-debug format. Experimental serializers, JAX, NumPyro,
+accelerators, and distributed runtimes remain behind named extras and require
+round-trip, numerical-equivalence, provenance, and CPU-reference evidence
+before promotion. Python free-threading remains an observation lane rather
+than a release or performance claim.
+
 ## GitHub gates
 
 The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and

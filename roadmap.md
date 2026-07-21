@@ -225,9 +225,10 @@ packages while preserving a clean dependency boundary.
     *   Reserve HEOML extension alignment for VOI handoff and VOI result metadata.
     *   Treat `mars` as a fixed-API optional metamodel backend rather than a
         package whose core API should change for VOI-specific needs.
-    *   Maintain the local contract outline under `docs/ecosystem/` and
-        `specs/ecosystem/` so each sibling module can align against the same
-        portable VOI boundary before adapter work begins.
+    *   Maintain the public contract outline in the Astro ecosystem-boundaries
+        guide and the executable contracts under `specs/ecosystem/` so each
+        sibling module can align against the same portable VOI boundary before
+        adapter work begins.
     *   Covered by Conductor track: `ecosystem-module-incubation_20260429`.
 3.  **HEOR Module Naming Brainstorm:**
     *   **Status: `✅ Done`**
