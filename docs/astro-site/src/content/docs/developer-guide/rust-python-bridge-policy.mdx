@@ -1,0 +1,26 @@
+---
+title: Rust Numerics Python Bridge Policy
+description: PyO3, maturin, facade, fallback, and parity policy
+---
+
+The Rust numerics core owns canonical numerical policy while the Python facade
+remains public. The public Python API remains compatible; no breaking change is
+allowed without an approved migration entry.
+Users call `voiage.methods.*`; the private PyO3 extension is an implementation
+boundary validated by fixtures, benchmarks, and bridge tests.
+
+## Bridge rules
+
+- PyO3 exposes only contract functions already validated by parity tests.
+- Maturin builds the native extension and preserves the public Python package
+  shape.
+- Native errors are translated to the stable Python error vocabulary.
+- Python orchestration and compatibility behavior remain outside the kernel.
+- A missing native extension must not block the minimal supported install.
+
+## Completion gates
+
+A migrated kernel requires deterministic Python/Rust fixture parity, identical
+result envelopes, a CI-gated Rust benchmark, and explicit fallback behavior.
+The migration matrix in `specs/rust/migration_matrix.json` records each
+kernel's status and evidence.

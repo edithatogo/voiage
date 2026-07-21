@@ -1,0 +1,32 @@
+---
+title: Frontier VOI Governance
+description: Frontier method maturity, dependency, and backend governance
+---
+
+This is the authoritative architecture and governance reference for frontier VOI, Rust-core,
+HPC, and registry follow-through tracks. The machine-readable companion is
+`voiage/governance.py`, enforced by `tests/test_frontier_governance.py`.
+
+## Maturity taxonomy
+
+Every frontier family has exactly one promotion label: `planned`,
+`experimental`, `fixture-backed`, or `stable`. Stable promotion requires
+cross-language parity, Rust-kernel parity where applicable, complete
+documentation, changelog and migration entries, approval evidence, and public
+API compatibility evidence. The promotion matrix and checklist under
+`specs/frontier/governance/` are normative.
+
+## Backend boundary and dependencies
+
+Backend selection belongs in `backends`; VOI semantics belong in `methods`.
+The base install stays lightweight, while JAX, PyTorch, and CuPy remain
+optional extras. Experimental interfaces cannot authorize stable claims until
+their fixtures, schemas, and parity gates are complete.
+
+## Execution order
+
+Downstream tracks proceed through governance, dataset and example evidence,
+Rust frontier migration, frontier promotion, and external registry/HPC
+evidence. There are no conflicts between these governance decisions and the
+existing fixture registry. A false `stable_claim_allowed` value is intentional
+evidence that a family is not yet stable.

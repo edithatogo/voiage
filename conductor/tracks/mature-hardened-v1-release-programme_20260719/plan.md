@@ -227,7 +227,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 - [~] Task: Establish Astro as the sole documentation system using TDD
     - [x] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content. (existing repository harness and Astro contract tests)
-    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. (core landing, user-facing method, dataset registry, API reference, quality/security, community-support, and HPC/accelerator guides are now authoritative under `docs/astro-site/src/content/docs/`; remaining developer/user-guide RST source migration remains)
+    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, governance/bridge/installation, quality/security, community-support, and HPC/accelerator guides are authoritative under `docs/astro-site/src/content/docs/`. Standalone Markdown consolidation and final navigation/tooling review remain.
     - [ ] Refactor: consolidate navigation, generation and validation tooling.
 - [x] Task: Generate trustworthy API and binding references (0554bdc, c48233d; stable API, C ABI, and binding references published)
     - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)

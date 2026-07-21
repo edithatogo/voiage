@@ -20,7 +20,14 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MIGRATION_MATRIX = REPO_ROOT / "specs" / "rust" / "migration_matrix.json"
 BRIDGE_POLICY_DOC = (
-    REPO_ROOT / "docs" / "developer_guide" / "rust_python_bridge_policy.rst"
+    REPO_ROOT
+    / "docs"
+    / "astro-site"
+    / "src"
+    / "content"
+    / "docs"
+    / "developer-guide"
+    / "rust-python-bridge-policy.mdx"
 )
 
 REQUIRED_KERNEL_IDS = {
