@@ -1,5 +1,9 @@
 # Project Tracks
 
+## [ ] Track: research_software_registry_readiness_20260721
+
+[Specification and plan](./tracks/research_software_registry_readiness_20260721/)
+
 ## [x] Track: Domain Abstraction Excellence [completed: 2026-07-20]
 *Link: [./archive/abstraction-excellence_20260719/index.md](./archive/abstraction-excellence_20260719/index.md)*
 *Status: strict domain contracts, capability-aware kernels, machine-readable
