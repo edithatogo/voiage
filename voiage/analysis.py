@@ -11,6 +11,7 @@ import numpy as np
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
+    VoiageError,
     raise_backend_not_available_error,
     raise_calculation_error,
     raise_dimension_mismatch_error,
@@ -675,6 +676,8 @@ class DecisionAnalysis:
                 "Stable EVPI requires the Rust runtime extension; reinstall a "
                 "supported platform wheel or build the native module."
             )
+        except VoiageError:
+            raise
         except Exception as e:
             raise_calculation_error(f"Error during EVPI calculation: {e}", e)
 
