@@ -135,12 +135,12 @@ Before marking any task complete, verify:
   active language-specific gate for non-Python changes)
 - [ ] Code follows project's code style guidelines (as defined in `code_styleguides/`)
 - [ ] All public functions/methods are documented (e.g., docstrings, JSDoc, GoDoc)
-- [ ] Type safety is enforced (e.g., type hints, TypeScript types, Go types)
+- [ ] Type safety is enforced through Python typing, Rust types, and the R/Julia binding contracts
 - [ ] No linting or static analysis errors (using the project's configured tools)
 - [ ] Works correctly on mobile (if applicable)
 - [ ] Documentation updated if needed
 - [ ] No security vulnerabilities introduced
-- [ ] For non-Python bindings, CI/CD includes language-specific build/test/lint/type/doc gates, shared conformance-fixture validation, package dry-run checks, and release publishing to the relevant package manager or registry. .NET bindings must target .NET 11 (`net11.0`) unless the active track explicitly changes that target.
+- [ ] For retained non-Python bindings, CI/CD includes Rust, R, and Julia build/test/type/doc gates, shared conformance-fixture validation, package dry-run checks, and release publishing to the relevant registry. Mojo remains an external upstream integration boundary.
 - [ ] Follow-through registry, frontier-promotion, HPC-speedup, FPGA, and ASIC
   tracks must preserve the distinction between repository readiness and
   external evidence. A track cannot be marked complete by readiness artifacts

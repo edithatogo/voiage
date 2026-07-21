@@ -96,8 +96,7 @@ not for a full numerical parity run.
 ## Non-Portable Formats
 
 Pickle files are outside this profile. They are Python-specific, unsafe for
-untrusted interchange, and unsuitable for R, Julia, Go, Rust, TypeScript, or
-.NET consumers.
+untrusted interchange, and unsuitable for R, Julia, or Rust-backed consumers.
 
 ## External Standards
 

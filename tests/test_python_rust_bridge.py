@@ -207,6 +207,10 @@ def test_maturin_maps_the_private_mixed_project_module() -> None:
         "locked": True,
         "include": [
             {
+                "path": "specs/**/*.json",
+                "format": "sdist",
+            },
+            {
                 "path": "rust/crates/voiage-python/source-provenance.txt",
                 "format": "sdist",
             }

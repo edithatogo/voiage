@@ -27,12 +27,18 @@ jobs:
         with:
           components: clippy,rustfmt
       - run: cargo fmt --all --check
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
       - run: cargo test --workspace --all-features --locked
       - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
       - name: Publish to crates.io
-        run: cargo publish --manifest-path crates/voiage-ffi/Cargo.toml --locked
+        run: cargo publish --locked --manifest-path crates/voiage-ffi/Cargo.toml
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   julia:
     name: Release Julia package
@@ -48,7 +54,12 @@ jobs:
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
+      - run: echo "Project.toml version is $(grep '^version' Project.toml)"
       - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   r:
     name: Release R package
@@ -65,5 +76,11 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
           extra-packages: any::rcmdcheck
+      - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - run: R CMD build .
+      - run: Rscript tools/build-manual.R
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}

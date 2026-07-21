@@ -52,7 +52,7 @@
 - **starlight-links-validator**: >=0.14.0 — Broken-link validation in CI
 - **starlight-llms-txt**: >=0.5.0 — LLM-friendly text export
 - **starlight-polyglot**: Auto-generated multi-language API reference from
-  Python docstrings and TypeScript type definitions
+  Python docstrings plus Rust/Python/R/Julia API contracts
 - **Vale**: prose linting for Markdown
 - **pnpm**: Package manager for the Starlight/Astro site
 

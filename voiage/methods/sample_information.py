@@ -712,6 +712,4 @@ def enbs(evsi_result: float, research_cost: float) -> float:
     try:
         return _runtime.compute_enbs(float(evsi_result), float(research_cost))
     except (ModuleNotFoundError, ImportError):
-        raise_backend_not_available_error(
-            "ENBS requires the Rust runtime extension."
-        )
+        raise_backend_not_available_error("ENBS requires the Rust runtime extension.")

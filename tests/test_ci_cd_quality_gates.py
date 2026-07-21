@@ -329,7 +329,9 @@ class TestQualityGatePolicyCompliance:
 
         # Check that each binding has appropriate quality gates
         rust_job = bindings_config["jobs"]["rust"]
-        assert "cargo fmt --all --check" in str(rust_job), "Rust formatting check missing"
+        assert "cargo fmt --all --check" in str(rust_job), (
+            "Rust formatting check missing"
+        )
         assert "cargo clippy" in str(rust_job), "Rust clippy check missing"
         assert "cargo test" in str(rust_job), "Rust test check missing"
 
@@ -354,9 +356,10 @@ class TestQualityGatePolicyCompliance:
             encoding="utf-8"
         )
 
-        assert workflow_text.count(
-            "cargo build --release --locked --package voiage-ffi"
-        ) >= 2
+        assert (
+            workflow_text.count("cargo build --release --locked --package voiage-ffi")
+            >= 2
+        )
 
     def test_rust_supply_chain_is_updated_and_fail_closed(self):
         """Require Cargo updates and all cargo-deny policy families."""

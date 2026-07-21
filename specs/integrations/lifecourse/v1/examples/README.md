@@ -17,7 +17,7 @@ Planned example coverage:
   EVSI, and ENBS payloads
 
 These examples should map cleanly to the stable `voiage` core API schemas while
-remaining portable across Python, R, Julia, TypeScript, Go, Rust, and .NET
+remaining portable across Python, R, Julia, and Rust-backed integrations
 bindings.
 
 The current illustrative result envelope is stored in
