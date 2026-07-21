@@ -78,9 +78,9 @@ the required CI, security, coverage, documentation, and contract checks pass.
     *   Push your branch to your fork and open a pull request against the `main` branch of the original repository.
 
 For a more detailed walkthrough of the Conductor workflow, docs structure, and
-testing expectations, see `docs/developer_guide/how_to_contribute.rst`.
+testing expectations, see the [How to contribute guide](https://edithatogo.github.io/voiage/developer-guide/how-to-contribute/).
 For the repository security model and hosted GitHub gates, see
-`docs/developer_guide/quality_and_security.rst`.
+the [quality and security guidance](https://edithatogo.github.io/voiage/developer-guide/how-to-contribute/).
 
 For help requests, support questions, and security reporting, see
 [`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and
