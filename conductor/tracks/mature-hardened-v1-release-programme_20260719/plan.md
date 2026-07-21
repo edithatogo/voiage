@@ -246,6 +246,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
     - [ ] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
     - [ ] Refactor: remove flaky or routinely bypassed checks and minimize redundant work.
+    - [~] Local tox evidence: lint, harness, typecheck, docs, frontier-contract, version-sync, Python 3.12/3.13/3.14 and clean min_versions all pass; optional dependency skips remain explicit (2026-07-21).
 - [ ] Task: Establish security release gates
     - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
     - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
