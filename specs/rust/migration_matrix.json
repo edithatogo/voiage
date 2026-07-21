@@ -92,12 +92,12 @@
     {
       "kernel_id": "value_of_heterogeneity",
       "python_owner": "voiage.methods.heterogeneity",
-      "rust_status": "none",
-      "python_wrapper_status": "reference_only",
-      "parity_status": "none",
+      "rust_status": "complete",
+      "python_wrapper_status": "native",
+      "parity_status": "fixture_backed",
       "benchmark_status": "none",
       "migration_priority": "medium",
-      "notes": "Python-owned value_of_heterogeneity in voiage.methods.heterogeneity; no Rust kernel or bridge exists yet. Migration remains pending because the Rust-core v1.0 target requires the subgroup aggregation contract to be frozen and implemented."
+      "notes": "Rust subgroup aggregation in rust/crates/voiage-numerics is exposed through the PyO3/runtime bridge; the Python facade in voiage.methods.heterogeneity preserves numeric binning, validation, strategy naming, and reporting."
     },
     {
       "kernel_id": "structural_voi",

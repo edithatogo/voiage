@@ -19,7 +19,7 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, DominanceStatus as KernelDominanceStatus,
+    evsi_stochastic, heterogeneity, DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -485,6 +485,50 @@ fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
 }
 
+/// Compute the stable value-of-heterogeneity kernel for Python callers.
+#[pyfunction]
+fn compute_heterogeneity<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+    subgroups: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let subgroups = subgroups.extract::<Vec<String>>().map_err(|error| {
+        InputError::new_err(("invalid_input", format!("invalid subgroups: {error}")))
+    })?;
+    let rows = net_benefit
+        .rows()
+        .map(|row| row.to_vec())
+        .collect::<Vec<_>>();
+    let result = heterogeneity(&rows, &subgroups).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("subgroup_labels", result.subgroup_labels)?;
+    output.set_item("subgroup_weights", result.subgroup_weights)?;
+    output.set_item(
+        "subgroup_optimal_strategy_indices",
+        result.subgroup_optimal_strategy_indices,
+    )?;
+    output.set_item(
+        "subgroup_expected_net_benefits",
+        result.subgroup_expected_net_benefits,
+    )?;
+    output.set_item(
+        "overall_optimal_strategy_index",
+        result.overall_optimal_strategy_index,
+    )?;
+    output.set_item(
+        "overall_expected_net_benefit",
+        result.overall_expected_net_benefit,
+    )?;
+    Ok(output)
+}
+
 /// Compute the stable dominance kernel for Python callers.
 #[pyfunction]
 fn compute_dominance<'py>(
@@ -894,6 +938,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;

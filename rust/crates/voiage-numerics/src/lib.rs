@@ -12,6 +12,7 @@ mod evsi;
 mod evsi_efficient;
 mod evsi_moment;
 mod evsi_regression;
+mod heterogeneity;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
@@ -22,6 +23,7 @@ pub use evsi::{evsi_stochastic, EvsiKernelResult};
 pub use evsi_efficient::{evsi_efficient_linear, EvsiApproximationResult};
 pub use evsi_moment::evsi_moment_based;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
+pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 
 /// Identifies this crate while numerical kernels are migrated.
 pub const CRATE_NAME: &str = "voiage-numerics";

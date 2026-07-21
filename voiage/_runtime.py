@@ -86,6 +86,17 @@ def compute_enbs(evsi_result: float, research_cost: float) -> float:
     return float(result)
 
 
+def compute_heterogeneity(
+    net_benefit: list[list[float]], subgroups: list[str]
+) -> dict[str, object]:
+    """Compute the stable value-of-heterogeneity kernel in Rust."""
+    try:
+        result = _native().compute_heterogeneity(net_benefit, subgroups)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
     """Compute the stable dominance kernel in Rust."""
     try:
