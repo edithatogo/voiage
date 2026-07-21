@@ -171,7 +171,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Route the public CEAF facade through Rust with a transitional fallback (6e08c67).
     - [x] Green: route stable public APIs to Rust and implement controlled shims. (3882f42; EVPI, EVPPI default, seeded/efficient-linear/moment-based EVSI, dominance, and CEAF routes verified)
     - [x] Refactor: simplify wrappers and publish migration documentation. (3882f42; Astro Rust-core handoff and compatibility boundary)
-- [~] Task: Remove the duplicate Python numerical core using TDD
+- [x] Task: Remove the duplicate Python numerical core using TDD (2a47eab; retired stable duplicate kernels and removed rank-only EVSI shims; remaining Python methods are subject to Phase 8 extension classification)
     - [x] Red: add tests that fail when retired kernels or fallback paths remain reachable. (working tree test update)
     - [x] Green: remove duplicate EVPI, CEAF, and dominance fallback implementations and obsolete imports. (working tree implementation)
     - [x] Refactor: reduce retained public paths to validated Rust-backed facades and rerun focused tests. (focused validation passed)
@@ -184,7 +184,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Validate the minimal Python distribution (full tox matrix and runtime inventory validation passed 2026-07-21)
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
+- [~] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
 
 ## Phase 7: Cross-Language Binding Consolidation
 
