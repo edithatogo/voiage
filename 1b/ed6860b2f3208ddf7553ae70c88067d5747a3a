@@ -1,0 +1,5 @@
+Task: Consolidate native Conda release handoff
+
+Summary: Removed the conflicting pure-Python Conda recipe, made conda-recipe the sole native Maturin/Rust recipe, synchronized runtime dependencies with pyproject, and made the post-PyPI workflow replace any prior source hash. Added an executable release-contract test.
+
+Validation: red test observed two expected failures; green uv run pytest -q tests/test_python_release_workflow.py tests/test_conda_forge_followthrough.py tests/test_repo_cleanup.py --no-cov (26 passed); CI=true uv run tox -q -e lint,harness,version-sync; workflow audit reports zero findings; git diff --check.
