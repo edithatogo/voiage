@@ -1,0 +1,1 @@
+Task: Generate trustworthy API and binding references. Added the normative v1 stable API contract summary to Astro and executable drift coverage for stable symbols, methods, errors, tolerances, and Rust ownership. Validation passed: uv run pytest -q tests/test_api_reference_docs.py; uv run ruff check tests/test_api_reference_docs.py; docs Astro check and build.
