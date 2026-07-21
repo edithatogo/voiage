@@ -19,3 +19,16 @@ def test_experimental_function_is_available_under_explicit_namespace() -> None:
     from voiage.experimental import value_of_adaptive_learning_bandit
 
     assert callable(value_of_adaptive_learning_bandit)
+
+
+def test_experimental_functions_are_not_stable_top_level_exports() -> None:
+    import voiage
+
+    assert {
+        "value_of_adaptive_learning_bandit",
+        "value_of_ai_assisted_evidence_triage",
+        "value_of_ambiguity_distribution_shift",
+        "value_of_capacity_budget_constrained",
+        "value_of_federated_privacy_preserving",
+        "value_of_strategic_behavior",
+    }.isdisjoint(voiage.__all__)

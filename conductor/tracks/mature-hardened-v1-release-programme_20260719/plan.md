@@ -214,7 +214,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [~] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable coverage added)
 - [~] Task: Enforce supported-extension boundaries using TDD
     - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
-    - [ ] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging.
+    - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (stable import/export and base-dependency gates pass; independent packaging remains)
     - [ ] Refactor: remove duplicated policy and unnecessary dependencies.
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
