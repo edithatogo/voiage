@@ -4,8 +4,3 @@ export(evsi)
 export(init_voiage)
 export(is_voiage_available)
 export(set_voiage_env)
-
-importFrom(reticulate, import)
-importFrom(reticulate, py_module_available)
-importFrom(reticulate, use_condaenv)
-importFrom(reticulate, use_virtualenv)

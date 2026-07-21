@@ -36,12 +36,13 @@ NULL
 
   values <- as.double(t(net_benefits))
   result <- .C(
-    "voiage_v1_evpi_i32",
+    "voiage_v1_evpi_i32_r",
     values = values,
     rows = as.integer(nrow(net_benefits)),
     columns = as.integer(ncol(net_benefits)),
     out_value = double(1),
-    out_status = integer(1)
+    out_status = integer(1),
+    PACKAGE = "voiageR"
   )
   if (!identical(as.integer(result$out_status), 0L)) {
     stop("voiage Rust EVPI ABI failed", call. = FALSE)
@@ -82,7 +83,7 @@ NULL
 #' init_voiage()
 #' }
 init_voiage <- function() {
-  if (!py_module_available("voiage")) {
+  if (!reticulate::py_module_available("voiage")) {
     stop("The voiage Python package is not available. Please install it with: pip install voiage")
   }
 
@@ -90,7 +91,7 @@ init_voiage <- function() {
     return(invisible(NULL))
   }
 
-  .set_voiage_module(import("voiage"))
+  .set_voiage_module(reticulate::import("voiage"))
 
   invisible(NULL)
 }
@@ -312,7 +313,7 @@ evsi <- function(
 #' print(is_available)
 #' }
 is_voiage_available <- function() {
-  py_module_available("voiage")
+  reticulate::py_module_available("voiage")
 }
 
 #' Set Python environment for voiage
@@ -337,9 +338,9 @@ set_voiage_env <- function(env, type = c("virtualenv", "conda")) {
   type <- match.arg(type)
 
   if (type == "virtualenv") {
-    use_virtualenv(env)
+    reticulate::use_virtualenv(env)
   } else {
-    use_condaenv(env)
+    reticulate::use_condaenv(env)
   }
 
   .set_voiage_module(NULL)
