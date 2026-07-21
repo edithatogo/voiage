@@ -516,6 +516,7 @@ def test_top_level_package_exports_modules() -> None:
         "dominance",
         "ecosystem_integration",
         "enbs",
+        "experimental",
         "evpi",
         "evppi",
         "evsi",
