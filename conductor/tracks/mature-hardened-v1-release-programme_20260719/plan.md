@@ -259,10 +259,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 11: Registry Publication and Installability
 
-- [ ] Task: Establish synchronized dynamic release metadata using TDD
-    - [ ] Red: add failing tests for version and metadata drift across all artifacts.
-    - [ ] Green: implement one authoritative version source and propagation.
-    - [ ] Refactor: simplify release metadata generation and rerun package validation.
+- [x] Task: Establish synchronized dynamic release metadata using TDD (b51fb0f, 0d834d4, 58d5ddd; version-sync tests and CI lane pass 2026-07-21)
+    - [x] Red: add failing tests for version and metadata drift across all artifacts.
+    - [x] Green: implement one authoritative Rust workspace version source and propagation.
+    - [x] Refactor: simplify release metadata generation and rerun package validation.
 - [ ] Task: Publish and verify Rust and Python artifacts
     - [ ] Validate TestPyPI and PyPI trusted publishing and provenance.
     - [ ] Publish retained crates on crates.io.
