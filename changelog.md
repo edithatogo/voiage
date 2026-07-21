@@ -7,11 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- Removed a dead intermediate expression from the optional JAX EVPI adapter;
-  the adapter now retains only the precision-scoped native calculation.
-
 ### Removed
+- Removed four unreferenced ad-hoc validation and benchmark scripts that
+  duplicated the governed tox, Astro, benchmark, and hosted workflow gates.
 - Removed unsupported, unreferenced Python 3.9 runtime container recipes and
   the mutable Python 3.11 devcontainer; v1 supports Python 3.12--3.14 and its
   release artifacts are the signed Maturin packages rather than container
@@ -621,6 +619,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Disabled the package publication-age delay for the Astro release build while
   retaining the frozen lockfile, integrity checks, and explicit build allowlist.
+- Removed a dead intermediate expression from the optional JAX EVPI adapter;
+  the adapter now retains only the precision-scoped native calculation.
 - Aligned Conductor product and technology guidance with Rust as the sole
   stable numerical execution authority, the retained thin bindings, the
   installed Astro toolchain, and the internal `publish = false` Rust workspace.
