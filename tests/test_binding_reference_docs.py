@@ -22,6 +22,8 @@ def test_astro_binding_reference_covers_the_normative_matrix() -> None:
         "pyo3": "PyO3",
     }
     for binding in matrix["bindings"]:
+        if binding["status"] == "external_boundary":
+            continue
         name = display_names.get(binding["id"], binding["id"].capitalize())
         assert f"| {name} |" in reference
         assert adapter_names[binding["adapter"]] in reference

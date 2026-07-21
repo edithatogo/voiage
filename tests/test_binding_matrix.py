@@ -15,13 +15,18 @@ def test_retained_binding_matrix_covers_supported_surfaces() -> None:
 
     assert {entry["id"] for entry in bindings} == {
         "python",
+        "mojo",
         "r",
         "julia",
         "rust",
     }
-    assert all(entry["status"] == "retained" for entry in bindings)
+    assert {entry["status"] for entry in bindings} == {"retained", "external_boundary"}
     assert matrix["execution_authority"] == "rust"
-    assert all((REPO_ROOT / entry["path"]).exists() for entry in bindings)
+    assert all(
+        entry.get("status") == "external_boundary"
+        or (REPO_ROOT / entry["path"]).exists()
+        for entry in bindings
+    )
     assert all(entry["registry"] and entry["tag_pattern"] for entry in bindings)
 
 

@@ -35,6 +35,8 @@ def test_each_retained_binding_has_a_build_test_and_package_gate() -> None:
         ),
     }
     for binding in matrix["bindings"]:
+        if binding["status"] == "external_boundary":
+            continue
         binding_id = binding["id"]
         assert binding_id in required
         assert all(command in workflow for command in required[binding_id])
@@ -66,6 +68,8 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
         "rust": ("rust-msrv", 'toolchain: "1.85"'),
     }
     for binding in matrix["bindings"]:
+        if binding["status"] == "external_boundary":
+            continue
         versions = binding.get("supported_runtime_versions")
         assert versions
         assert all(isinstance(version, str) for version in versions)

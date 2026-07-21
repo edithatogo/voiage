@@ -189,9 +189,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 ## Phase 7: Cross-Language Binding Consolidation
 
 - [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
-    - [x] Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates.
+    - [~] Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates. (Rust/Python/R/Julia are repository-owned; Mojo is recorded as an external boundary because `command -v mojo` returns no executable and the repository contains no Mojo binding or release workflow)
     - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
-    - [x] Remove bindings that cannot meet stable contract and maintenance requirements. (Go, TypeScript and .NET implementations, duplicate standalone Rust binding, WASM crate, workflows and active publication references removed; retained matrix is Rust, Python/Mojo, R and Julia)
+    - [x] Remove bindings that cannot meet stable contract and maintenance requirements. (Go, TypeScript and .NET implementations, duplicate standalone Rust binding, WASM crate, workflows and active publication references removed; retained matrix is Rust, Python, R and Julia, with Mojo explicitly external)
 - [~] Task: Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
     - [x] Shared EVPI conformance: Python, R, Julia and Rust surfaces pass the canonical/reference fixture or ABI smoke gate (3f22b1a, 7647b81, and existing Rust evidence).

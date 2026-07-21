@@ -16,6 +16,15 @@
       "external_gate": "conda-forge feedstock review and merge"
     },
     {
+      "id": "mojo",
+      "status": "external_boundary",
+      "adapter": "upstream_rust_interop",
+      "supported_runtime_versions": [],
+      "registry": "Approved upstream Mojo distribution",
+      "tag_pattern": "none",
+      "external_gate": "Mojo toolchain and upstream distribution contract; no local mojo executable or binding exists"
+    },
+    {
       "id": "r",
       "status": "retained",
       "path": "r-package/voiageR",
