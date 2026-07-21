@@ -34,10 +34,15 @@
 - Support CSV input/output for batch processing
 - Provide `--help` with comprehensive examples
 
-### Backend Abstraction
-- Support multiple backends (NumPy, JAX) through factory pattern
-- Backend selection via configuration, not code changes
-- Maintain API parity across backends
+### Runtime Authority and Binding Boundaries
+- Rust is the sole stable numerical execution authority.
+- Python/PyO3, R and Julia are thin bindings over the Rust core; Mojo remains
+  an explicitly tracked upstream interop boundary until its toolchain and
+  distribution contract are available.
+- Python may retain schemas, I/O, orchestration, CLI, plotting and reporting,
+  but must not silently reintroduce stable numerical policy or fallbacks.
+- Accelerator, distributed and research implementations remain optional or
+  experimental and cannot block or bloat the stable installation.
 
 ## Testing Standards
 
@@ -64,9 +69,11 @@
 - `voiage.environmental` - Environmental policy VOI
 
 ### Domain-Agnostic Core
-- Core algorithms in `voiage.methods`
-- Domain adapters in respective modules
-- Shared utilities in `voiage.core`
+- Stable numerical algorithms live in the Rust workspace.
+- `voiage.methods` exposes Rust-backed facades and explicitly classified
+  optional or experimental extensions.
+- Domain adapters remain outside the Rust core and may not duplicate stable
+  numerical policy.
 
 ## Release Process
 

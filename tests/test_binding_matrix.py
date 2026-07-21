@@ -37,3 +37,21 @@ def test_binding_matrix_declares_ci_and_external_gate_for_each_surface() -> None
         assert matrix["ci_workflow"] == ".github/workflows/bindings-ci.yml"
         assert matrix["contract_fixture_root"] == "specs/core-api/fixtures"
         assert entry["external_gate"]
+
+
+def test_governance_docs_match_the_rust_execution_authority() -> None:
+    product_guidelines = (REPO_ROOT / "conductor/product-guidelines.md").read_text(
+        encoding="utf-8"
+    )
+    tech_stack = (REPO_ROOT / "conductor/tech-stack.md").read_text(encoding="utf-8")
+
+    assert "Rust is the sole stable numerical execution authority" in product_guidelines
+    assert "NumPy, JAX" not in product_guidelines
+    assert (
+        "**Rust**: GitHub Releases for the internal `publish = false` workspace"
+        in tech_stack
+    )
+    assert "**Rust**: crates.io" not in tech_stack
+    assert "starlight-versions" not in tech_stack
+    assert "starlight-links-validator" not in tech_stack
+    assert "starlight-polyglot" not in tech_stack

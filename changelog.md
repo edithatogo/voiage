@@ -598,6 +598,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Disabled the package publication-age delay for the Astro release build while
   retaining the frozen lockfile, integrity checks, and explicit build allowlist.
+- Aligned Conductor product and technology guidance with Rust as the sole
+  stable numerical execution authority, the retained thin bindings, the
+  installed Astro toolchain, and the internal `publish = false` Rust workspace.
 - Standardized all GitHub Actions checkout steps on the current pinned
   `actions/checkout` digest across CI, security, release, binding, evidence,
   documentation, and packaging workflows.
