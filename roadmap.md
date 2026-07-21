@@ -179,15 +179,12 @@ review evidence and approval boundaries visible; they are not reopened work.
     *   Covered by Conductor track: `python-cleanup-against-spec`.
 4.  **First External Bindings:**
     *   **Status: `✅ Done / external registry gates remain explicit`**
-    *   Deliver R and Julia bindings against the same contract, then extend to TypeScript, Go, and Rust if adoption warrants it.
+    *   Deliver the retained R and Julia bindings, the Python facade, and the Rust execution core against the same contract; Mojo remains an upstream boundary.
     *   Publishing targets must be planned with the implementation:
         - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
         - R: GitHub Releases for early source distribution, CRAN when mature, and optional r-universe indexing; the package docs story includes a deterministic vignette and PDF manual built from the same source tree, while external registry approval remains outside the repository.
         - Julia: Julia General registry with TagBot sync and external registry registration.
-        - TypeScript: npm with provenance.
-        - Go: tagged Go modules consumable through the Go module proxy, with GitHub Releases for release notes/artifacts.
-        - Rust: crates.io.
-        - .NET: NuGet, targeting .NET 11 (`net11.0`).
+        - Rust: GitHub Releases for the internal `publish = false` workspace; a future crates.io facade would require a separate contract.
     *   CI/CD must be language-specific and release-aware for every binding:
         - Build, lint/format, type/static checks, unit tests, docs checks, and shared conformance fixtures.
         - Package dry-run validation on pull requests.
