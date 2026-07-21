@@ -23,6 +23,11 @@ pub struct EvsiRegressionResult {
 ///
 /// Callback execution and trial simulation remain Python-owned. This kernel
 /// owns only the deterministic, finite regression aggregation contract.
+///
+/// # Errors
+///
+/// Returns an input error for non-finite regression values or a rank-deficient
+/// design, and a dimension error when matrix shapes do not align.
 pub fn evsi_regression(
     targets: &SampleMatrix,
     parameter_samples: &SampleMatrix,
@@ -89,7 +94,12 @@ pub fn evsi_regression(
                 "regression prediction is not finite",
             ));
         }
-        let count = (index + 1) as f64;
+        let count = f64::from(u32::try_from(index + 1).map_err(|_| {
+            NumericalInputError::invalid(
+                "prediction_samples",
+                "prediction count exceeds the supported numerical range",
+            )
+        })?);
         mean += (prediction - mean) / count;
     }
     if !mean.is_finite() {
@@ -149,16 +159,17 @@ fn solve(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputErr
         }
         augmented.swap(pivot, best);
         let divisor = augmented[pivot][pivot];
-        for column in pivot..=size {
-            augmented[pivot][column] /= divisor;
+        for value in augmented[pivot].iter_mut().skip(pivot) {
+            *value /= divisor;
         }
         for row in 0..size {
             if row == pivot {
                 continue;
             }
             let factor = augmented[row][pivot];
-            for column in pivot..=size {
-                augmented[row][column] -= factor * augmented[pivot][column];
+            let pivot_values = augmented[pivot][pivot..=size].to_vec();
+            for (value, pivot_value) in augmented[row][pivot..=size].iter_mut().zip(pivot_values) {
+                *value -= factor * pivot_value;
             }
         }
     }
