@@ -125,7 +125,20 @@ module-name = "voiage._core"
 bindings = "pyo3"
 features = ["pyo3/extension-module"]
 locked = true
-include = [{ path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" }]
+include = [
+    { path = "rust/crates/voiage-ffi/Cargo.toml", format = "sdist" },
+    { path = "rust/crates/voiage-ffi/include/voiage_v1.h", format = "sdist" },
+    { path = "rust/crates/voiage-ffi/src/error_transport.rs", format = "sdist" },
+    { path = "rust/crates/voiage-ffi/src/lib.rs", format = "sdist" },
+    { path = "rust/crates/voiage-ffi/src/lifecycle.rs", format = "sdist" },
+    { path = "rust/crates/voiage-ffi/src/status.rs", format = "sdist" },
+    { path = "rust/crates/voiage-test-support/Cargo.toml", format = "sdist" },
+    { path = "rust/crates/voiage-test-support/src/compatibility_contract.rs", format = "sdist" },
+    { path = "rust/crates/voiage-test-support/src/lib.rs", format = "sdist" },
+    { path = "rust/crates/voiage-wasm/Cargo.toml", format = "sdist" },
+    { path = "rust/crates/voiage-wasm/src/lib.rs", format = "sdist" },
+    { path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" },
+]
 
 # Generate the canonical CycloneDX SBOM in the supply-chain workflow. Maturin's
 # per-wheel Cargo SBOM embeds temporary build paths, which would make otherwise

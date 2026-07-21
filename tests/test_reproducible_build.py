@@ -3,16 +3,13 @@
 from __future__ import annotations
 
 import io
+from pathlib import Path
 import shutil
 import subprocess
 import tarfile
-from typing import TYPE_CHECKING
 import zipfile
 
 import pytest
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 from scripts.reproducible_build import (
     _build_environment,
@@ -48,6 +45,24 @@ def test_sdist_provenance_helper_is_required_and_invoked(
 def test_missing_sdist_provenance_helper_fails_closed(tmp_path: Path) -> None:
     with pytest.raises(RuntimeError, match="missing sdist provenance helper"):
         _embed_sdist_provenance(tmp_path)
+
+
+def test_maturin_sdist_includes_the_complete_rust_workspace() -> None:
+    pyproject = Path("pyproject.toml").read_text(encoding="utf-8")
+    for path in (
+        "rust/crates/voiage-ffi/Cargo.toml",
+        "rust/crates/voiage-ffi/include/voiage_v1.h",
+        "rust/crates/voiage-ffi/src/error_transport.rs",
+        "rust/crates/voiage-ffi/src/lib.rs",
+        "rust/crates/voiage-ffi/src/lifecycle.rs",
+        "rust/crates/voiage-ffi/src/status.rs",
+        "rust/crates/voiage-test-support/Cargo.toml",
+        "rust/crates/voiage-test-support/src/compatibility_contract.rs",
+        "rust/crates/voiage-test-support/src/lib.rs",
+        "rust/crates/voiage-wasm/Cargo.toml",
+        "rust/crates/voiage-wasm/src/lib.rs",
+    ):
+        assert f'{{ path = "{path}", format = "sdist" }}' in pyproject
 
 
 def test_windows_native_builds_share_a_reproducible_clean_target(
