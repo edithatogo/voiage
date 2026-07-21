@@ -92,7 +92,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Expose diagnostic build and runtime information without expanding the public contract.
 - [x] Task: Conductor - Automated Review and Checkpoint 'PyO3 and Maturin Runtime Bridge' (Protocol in workflow.md) (daf72af)
 
-## Phase 5: Stable Numerical Kernel Migration
+## Phase 5: Stable Numerical Kernel Migration [checkpoint: 5c9006a]
 
 - [x] Task: Migrate deterministic foundational kernels using TDD (a6f2d7d)
     - [x] Red: add parity, edge, property and performance tests for EVPI, ENBS, dominance, frontier and CEAF behavior.
@@ -150,7 +150,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [x] Add differential, metamorphic, fuzz and mutation tests. (validated 2026-07-20; existing evidence: `evsi_differential`, `evsi_metamorphic`, `evsi_fuzz`, `evsi_thread_safety`, and scheduled mutation gate)
     - [x] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism. (validated 2026-07-20; existing evidence: committed baseline contract, CI regression gate, thread-safety suite, and deterministic-kernel tests)
-- [~] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md) (5c9006a)
 
 ## Phase 6: Python Legacy-Core Deprecation and Removal
 
