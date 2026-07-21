@@ -168,18 +168,12 @@ def test_snapshot_files_are_committed() -> None:
 
 def test_open_data_documentation_exists() -> None:
     """Docs must explain data licenses, citations, transforms, and refresh policy."""
-    docs_dir = Path("docs")
-    if not docs_dir.is_dir():
-        return
-    doc_candidates = list(docs_dir.glob("dataset-registry*"))
-    assert len(doc_candidates) > 0, (
-        "No dataset-registry documentation found in docs/. "
-        "Create docs/dataset-registry.rst or docs/dataset-registry.md "
-        "explaining data licenses, citations, transforms, and refresh policy."
+    doc_path = Path("docs/astro-site/src/content/docs/dataset-registry.mdx")
+    assert doc_path.is_file(), (
+        "No dataset-registry documentation found in the Astro site."
     )
-    doc_text = doc_candidates[0].read_text(encoding="utf-8").lower()
+    doc_text = doc_path.read_text(encoding="utf-8").lower()
     for keyword in ("license", "citation", "transform", "refresh"):
         assert keyword in doc_text, (
-            f"Keyword {keyword!r} not found in dataset-registry "
-            f"documentation ({doc_candidates[0]})."
+            f"Keyword {keyword!r} not found in dataset-registry documentation."
         )

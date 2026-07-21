@@ -75,6 +75,10 @@ export default defineConfig({
           link: "/data-structures/",
         },
         {
+          label: "Dataset Registry",
+          link: "/dataset-registry/",
+        },
+        {
           label: "Backends",
           link: "/backends/",
         },
