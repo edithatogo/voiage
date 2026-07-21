@@ -6,13 +6,13 @@ use crate::{EvsiApproximationResult, NumericalInputError};
 ///
 /// The design columns are ordered as intercept, centered linear terms, centered
 /// squares, and pairwise centered interactions. The native contract fails
-/// closed for rank-deficient designs; the Python compatibility path retains
-/// `NumPy`'s minimum-norm behavior until a matching SVD contract is specified.
+/// rank-aware pivot least-squares behavior with unconstrained coefficients set
+/// to zero.
 ///
 /// # Errors
 ///
-/// Returns an input error for invalid sizes, non-finite intermediates, or a
-/// rank-deficient design, and a dimension error when sample counts differ.
+/// Returns an input error for invalid sizes or non-finite intermediates, and a
+/// dimension error when sample counts differ.
 #[allow(clippy::too_many_lines)]
 pub fn evsi_moment_based(
     net_benefit: &SampleMatrix,
@@ -79,7 +79,7 @@ pub fn evsi_moment_based(
                 )?;
             }
         }
-        let coefficients = solve_full_rank(&normal, &rhs)?;
+        let coefficients = solve_rank_aware(&normal, &rhs)?;
         for (index, row) in parameter_samples.rows().enumerate() {
             let design = design_row(row, &means);
             predictions[index][strategy] = design
@@ -233,7 +233,7 @@ fn add_scaled(
     add_checked(target, value / divisor, field, message)
 }
 
-fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
+fn solve_rank_aware(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
     let size = rhs.len();
     let mut augmented = matrix
         .iter()
@@ -244,29 +244,29 @@ fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, Numeric
             row
         })
         .collect::<Vec<_>>();
+    let mut pivot_row = 0;
     for column in 0..size {
-        let (pivot_row, pivot_value) = (column..size)
+        let Some((best_row, pivot_value)) = (pivot_row..size)
             .map(|row| (row, augmented[row][column].abs()))
             .max_by(|left, right| left.1.total_cmp(&right.1))
-            .expect("normal matrix is non-empty");
-        let scale = augmented[column..]
+        else {
+            break;
+        };
+        let scale = augmented[pivot_row..]
             .iter()
             .map(|row| row[column].abs())
             .fold(0.0, f64::max);
         if pivot_value <= scale * 1.0e-12 || !pivot_value.is_finite() {
-            return Err(NumericalInputError::invalid(
-                "parameter_samples",
-                "moment-based design is rank deficient",
-            ));
+            continue;
         }
-        augmented.swap(column, pivot_row);
-        let pivot = augmented[column][column];
-        for value in &mut augmented[column][column..=size] {
+        augmented.swap(pivot_row, best_row);
+        let pivot = augmented[pivot_row][column];
+        for value in &mut augmented[pivot_row][column..=size] {
             *value /= pivot;
         }
-        let pivot_values = augmented[column].clone();
+        let pivot_values = augmented[pivot_row].clone();
         for (row, augmented_row) in augmented.iter_mut().enumerate().take(size) {
-            if row == column {
+            if row == pivot_row {
                 continue;
             }
             let factor = augmented_row[column];
@@ -279,8 +279,29 @@ fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, Numeric
                 *value -= factor * pivot_values[index];
             }
         }
+        pivot_row += 1;
+        if pivot_row == size {
+            break;
+        }
     }
-    Ok(augmented.into_iter().map(|row| row[size]).collect())
+    let mut solution = vec![0.0; size];
+    for row in &augmented {
+        if let Some((column, value)) = row[..size]
+            .iter()
+            .enumerate()
+            .find(|(_, value)| value.abs() > 1.0e-12)
+        {
+            solution[column] = row[size] / *value;
+        }
+    }
+    if solution.iter().all(|value| value.is_finite()) {
+        Ok(solution)
+    } else {
+        Err(NumericalInputError::invalid(
+            "parameter_samples",
+            "moment-based coefficients are not finite",
+        ))
+    }
 }
 
 fn strategy_means(matrix: &SampleMatrix) -> Result<Vec<f64>, NumericalInputError> {

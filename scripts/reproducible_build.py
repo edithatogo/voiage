@@ -204,6 +204,28 @@ def _source_date_epoch(repo: Path) -> str:
     return completed.stdout.strip()
 
 
+def _source_identity(repo: Path) -> tuple[str, str]:
+    """Return the immutable revision and tree used by the release build."""
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("git executable is required")
+    revision = subprocess.run(  # noqa: S603 - fixed Git invocation
+        [git, "rev-parse", "--verify", "HEAD^{commit}"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    tree = subprocess.run(  # noqa: S603 - fixed Git invocation
+        [git, "rev-parse", "--verify", "HEAD^{tree}"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return revision, tree
+
+
 def _embed_sdist_provenance(repo: Path) -> None:
     """Create the immutable identity used when rebuilding from an sdist.
 
@@ -236,6 +258,12 @@ def _build_environment(
         "SOURCE_DATE_EPOCH": source_date_epoch or _source_date_epoch(repo),
         "CARGO_TARGET_DIR": str(target_dir.resolve()),
     }
+    revision, tree = _source_identity(repo)
+    environment.update(
+        VOIAGE_SOURCE_REVISION=revision,
+        VOIAGE_SOURCE_TREE_GIT_OID=tree,
+        VOIAGE_SOURCE_CLEAN="true",
+    )
     if platform_name == "nt":
         inherited = environment.get("RUSTFLAGS", "").strip()
         environment["RUSTFLAGS"] = f"{inherited} -C link-arg=/Brepro".strip()

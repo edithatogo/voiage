@@ -12,7 +12,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Takeover Incomplete** - the production seven-crate workspace now enforces core dependency direction, leaf FFI/WASM/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI while the legacy `bindings/rust` crate remains a temporary compatibility facade. The private maturin-built PyO3 bridge now owns CEAF and dominance result serialization with stable error and provenance contracts. Stable numerical APIs are not yet uniformly Rust-backed, and retained bindings do not yet share one authoritative Rust implementation.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, EVSI aggregation, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains validation/orchestration and explicitly tracked compatibility paths. Retained Python/Mojo, R, and Julia surfaces still require final hosted and external parity evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
@@ -122,7 +122,7 @@ review evidence and approval boundaries visible; they are not reopened work.
 1.  **Automated Publishing Pipeline:**
     *   **Status: `✅ Done`**
     *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
-    *   Polyglot release workflows now publish npm, crates.io, and NuGet packages and attach GitHub release artifacts for Go, Julia, and R bindings. The R package currently ships source archives on GitHub Releases, while CRAN remains the maturity target and r-universe remains an optional external indexing path; registry-side indexing or approval still depends on the external ecosystem for conda-forge, CRAN/r-universe, and the Julia General registry.
+    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. The Rust workspace is intentionally internal (`publish = false`); no crates.io package, npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
     *   Repository versioning is now tag-derived for Python through
         `setuptools-scm`; external binding manifests stay synchronized to the
         latest released tag, and the version-sync validator is enforced in CI
@@ -149,11 +149,11 @@ review evidence and approval boundaries visible; they are not reopened work.
     *   **Status: `✅ Done`**
     *   The stable core contract around `ValueArray`, `ParameterSet`, `TrialDesign`, method outputs, diagnostics, and extension rules is defined under `specs/core-api/`.
     *   Spec-first development is backed by conformance fixtures before binding expansion.
-    *   The core API is surfaced from Python first, with R, Julia, TypeScript, Go, Rust, and .NET binding contracts aligned to the same release matrix.
+    *   The core API is surfaced from Python/Mojo first, with R, Julia, and Rust contracts aligned to the same release matrix.
     *   Deterministic validation, explicit schemas, and backend-agnostic behavior remain the governing compatibility rules.
 6.  **Planning for R/Julia Ports:**
     *   **Status: `✅ Done`**
-    *   R and Julia are captured as external ports of the shared core API, with TypeScript, Go, Rust, and .NET included in the broader binding release matrix.
+    *   R and Julia are captured as external ports of the shared Rust core API.
     *   The Python implementation remains the reference binding, with additional bindings generated or hand-wrapped from the same canonical spec.
     *   Each external binding is treated as a releasable package with a registry target, automated CI, conformance-fixture validation, and release automation before it is considered repository-complete.
     *   Keep the R binding documentation track explicit: the package help pages, a narrative vignette, and a deterministic PDF reference manual are part of the package docs surface, and the completed track is archived with the build/verification guidance centered on `tools/build-manual.R` and the non-interactive `R CMD check --as-cran --no-manual` flow.
@@ -179,15 +179,12 @@ review evidence and approval boundaries visible; they are not reopened work.
     *   Covered by Conductor track: `python-cleanup-against-spec`.
 4.  **First External Bindings:**
     *   **Status: `✅ Done / external registry gates remain explicit`**
-    *   Deliver R and Julia bindings against the same contract, then extend to TypeScript, Go, and Rust if adoption warrants it.
+    *   Deliver the retained R and Julia bindings, the Python facade, and the Rust execution core against the same contract; Mojo remains an upstream boundary.
     *   Publishing targets must be planned with the implementation:
         - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
         - R: GitHub Releases for early source distribution, CRAN when mature, and optional r-universe indexing; the package docs story includes a deterministic vignette and PDF manual built from the same source tree, while external registry approval remains outside the repository.
         - Julia: Julia General registry with TagBot sync and external registry registration.
-        - TypeScript: npm with provenance.
-        - Go: tagged Go modules consumable through the Go module proxy, with GitHub Releases for release notes/artifacts.
-        - Rust: crates.io.
-        - .NET: NuGet, targeting .NET 11 (`net11.0`).
+        - Rust: GitHub Releases for the internal `publish = false` workspace; a future crates.io facade would require a separate contract.
     *   CI/CD must be language-specific and release-aware for every binding:
         - Build, lint/format, type/static checks, unit tests, docs checks, and shared conformance fixtures.
         - Package dry-run validation on pull requests.
@@ -328,7 +325,7 @@ VOI tooling.
         computational, and expert-synthesis adjacent families.
 5.  **Documentation and Evidence:**
     *   **Status: `✅ Fixture-backed documentation baseline complete / stable-method promotion gated`**
-    *   Maintain the frontier-method rationale in `docs/sota_voi_frontier.md`.
+    *   Maintain the frontier-method rationale in the Astro route `sota-voi-frontier/`.
     *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,
         examples, CLI coverage, and method maturity metadata before marking
         frontier methods stable.
@@ -430,7 +427,7 @@ implementation can proceed without reopening the stack decision.
 clarify the HPC distribution story, and define a Rust-core migration path
 that preserves the public API while keeping the repo and docs easy to navigate.
 
-A completed orchestration guide in `docs/developer_guide/sota_strategy_orchestration.rst`
+A completed orchestration guide in the Astro developer guide
 defines the dependency graph, shared gates, and parallel lanes that the
 remaining strategy work should follow.
 

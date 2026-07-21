@@ -36,7 +36,7 @@ for stable polyglot bindings and native execution-core expansion.
   contracts are fixture-backed and explicitly maturity-labelled.
 - **Cross-Domain Support**: healthcare, financial, environmental, engineering,
   and domain-agnostic APIs share the same core data contracts.
-- **Polyglot Readiness**: R, Julia, TypeScript, Go, Rust, and .NET bindings are
+- **Polyglot Readiness**: Rust core with Python/Mojo, R, and Julia bindings are
   aligned around shared conformance fixtures and registry-aware release paths.
 - **HPC Enablement**: CPU parallelism, scheduler adapters, Apple Metal, discrete
   GPU, TPU, FPGA, and ASIC lanes have contracts and evidence gates. Production

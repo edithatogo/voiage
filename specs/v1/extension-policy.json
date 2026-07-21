@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "purpose": "Explicit v1 disposition for every Python methods module outside the Rust-owned stable kernel.",
+  "stable_kernel_facades": [
+    "voiage/methods/basic.py",
+    "voiage/methods/ceaf.py",
+    "voiage/methods/dominance.py",
+    "voiage/methods/sample_information.py"
+  ],
+  "modules": {
+    "voiage/methods/_frontier_profiles.py": "optional_extension",
+    "voiage/methods/adaptive.py": "optional_extension",
+    "voiage/methods/adaptive_learning_bandit.py": "experimental",
+    "voiage/methods/ai_assisted_evidence_triage.py": "experimental",
+    "voiage/methods/ambiguity_distribution_shift.py": "experimental",
+    "voiage/methods/calibration.py": "optional_extension",
+    "voiage/methods/capacity_budget_constrained.py": "experimental",
+    "voiage/methods/causal_transportability.py": "optional_extension",
+    "voiage/methods/computational.py": "optional_extension",
+    "voiage/methods/data_quality.py": "optional_extension",
+    "voiage/methods/distributional.py": "optional_extension",
+    "voiage/methods/dynamic_real_options.py": "optional_extension",
+    "voiage/methods/equity_information.py": "optional_extension",
+    "voiage/methods/evidence_obsolescence_refresh.py": "optional_extension",
+    "voiage/methods/expert_synthesis.py": "optional_extension",
+    "voiage/methods/explainability_transparency.py": "optional_extension",
+    "voiage/methods/federated_privacy_preserving.py": "experimental",
+    "voiage/methods/heterogeneity.py": "optional_extension",
+    "voiage/methods/implementation.py": "optional_extension",
+    "voiage/methods/implementation_strategy.py": "optional_extension",
+    "voiage/methods/interoperability_standardization.py": "optional_extension",
+    "voiage/methods/monitoring_surveillance.py": "optional_extension",
+    "voiage/methods/network_meta_analysis.py": "optional_extension",
+    "voiage/methods/network_nma.py": "optional_extension",
+    "voiage/methods/observational.py": "optional_extension",
+    "voiage/methods/perspective.py": "optional_extension",
+    "voiage/methods/portfolio.py": "optional_extension",
+    "voiage/methods/preference.py": "optional_extension",
+    "voiage/methods/regulatory_market_access.py": "optional_extension",
+    "voiage/methods/replication_reproducibility.py": "optional_extension",
+    "voiage/methods/sequential.py": "optional_extension",
+    "voiage/methods/strategic_behavior.py": "experimental",
+    "voiage/methods/structural.py": "optional_extension",
+    "voiage/methods/threshold.py": "optional_extension",
+    "voiage/methods/validation.py": "optional_extension"
+  },
+  "dispositions": {
+    "stable_kernel_facade": "Rust owns stable numerical policy; Python may retain validation, orchestration, and compatibility forwarding.",
+    "optional_extension": "Not part of the minimal stable kernel; must remain behind explicit extension boundaries and cannot silently define v1 core semantics.",
+    "experimental": "Not a v1 stable guarantee; must be isolated, maturity-labelled, and prevented from blocking minimal installation or release gates."
+  }
+}

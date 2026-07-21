@@ -11,7 +11,7 @@ implementation conflict-free:
   base install and the optional bleeding-edge backends.
 
 The authoritative prose lives in
-``docs/developer_guide/frontier_governance.rst``; this module is the
+`docs/astro-site/src/content/docs/developer-guide/frontier-governance.mdx`; this module is the
 machine-readable companion that makes the policy testable.
 """
 
@@ -227,7 +227,7 @@ BACKEND_OWNERSHIP: Final[dict[str, dict[str, str]]] = {
         ),
     },
     "rust_core": {
-        "owner": "bindings/rust/",
+        "owner": "rust/",
         "boundary": (
             "Owns the authoritative numerical kernels once the Rust-core "
             "migration lands. Python remains the public facade; the Rust "

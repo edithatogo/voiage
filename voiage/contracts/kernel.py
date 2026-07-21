@@ -123,7 +123,7 @@ def _package_version() -> str:
         return "0.0.0"
 
 
-def dispatch_calculation(
+def dispatch_calculation[PayloadT: ContractModel](
     kernel: CalculationKernel[AnalysisSpec, NDArray[np.generic], PayloadT],
     spec: AnalysisSpec,
     inputs: NDArray[np.generic],

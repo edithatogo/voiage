@@ -174,6 +174,25 @@ fn untracked_files_make_git_identity_dirty() {
 }
 
 #[test]
+fn embedded_provenance_file_does_not_make_git_identity_dirty() {
+    let (directory, revision, tree) = repository();
+    let provenance = directory
+        .0
+        .join("rust/crates/voiage-python/source-provenance.txt");
+    fs::create_dir_all(provenance.parent().expect("provenance parent"))
+        .expect("create provenance parent");
+    fs::write(
+        provenance,
+        format!("revision={revision}\ntree={tree}\nclean=true\n"),
+    )
+    .expect("write provenance");
+    assert_eq!(
+        build_script::resolve_source_identity(&directory.0, None, None, None, true),
+        Ok((revision, tree, false))
+    );
+}
+
+#[test]
 fn distinct_dirty_source_states_from_the_same_commit_have_distinct_digests() {
     let (directory, _, tree) = repository();
     fs::write(directory.0.join("tracked"), "first dirty state").expect("modify tracked file");

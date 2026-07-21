@@ -1,9 +1,9 @@
 """Fluent API for Value of Information analysis."""
 
 from types import TracebackType
+from typing import Self
 
 import numpy as np
-from typing_extensions import Self
 
 from voiage.analysis import DecisionAnalysis, RegressionModelProtocol
 from voiage.exceptions import raise_type_error

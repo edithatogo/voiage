@@ -24,6 +24,60 @@ NULL
   .voiage_cache$module
 }
 
+# Keep reticulate calls behind package-local seams so environment behavior can
+# be tested without activating a real Python installation.
+.py_module_available <- function(module) reticulate::py_module_available(module)
+.py_import <- function(module) reticulate::import(module)
+.use_virtualenv <- function(env) reticulate::use_virtualenv(env)
+.use_condaenv <- function(env) reticulate::use_condaenv(env)
+
+.evpi_native <- function(net_benefits) {
+  library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
+  loaded <- tryCatch(
+    dyn.load(library_path),
+    error = function(error) {
+      stop("The voiage Rust C ABI library is unavailable: ", error$message, call. = FALSE)
+    }
+  )
+  on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
+
+  values <- as.double(t(net_benefits))
+  result <- .C(
+    "voiage_v1_evpi_i32_r",
+    values = values,
+    rows = as.integer(nrow(net_benefits)),
+    columns = as.integer(ncol(net_benefits)),
+    out_value = double(1),
+    out_status = integer(1),
+    PACKAGE = "voiageR"
+  )
+  if (!identical(as.integer(result$out_status), 0L)) {
+    stop("voiage Rust EVPI ABI failed", call. = FALSE)
+  }
+  as.numeric(result$out_value)
+}
+
+.scale_evpi <- function(value, population, time_horizon, discount_rate) {
+  if (is.null(population) && is.null(time_horizon) && is.null(discount_rate)) {
+    return(value)
+  }
+  if (is.null(population) || is.null(time_horizon)) {
+    stop("population and time_horizon must be provided together", call. = FALSE)
+  }
+  if (!is.numeric(population) || length(population) != 1L || !is.finite(population) || population <= 0) {
+    stop("population must be a positive finite number", call. = FALSE)
+  }
+  if (!is.numeric(time_horizon) || length(time_horizon) != 1L || !is.finite(time_horizon) || time_horizon <= 0) {
+    stop("time_horizon must be a positive finite number", call. = FALSE)
+  }
+  rate <- if (is.null(discount_rate)) 0 else discount_rate
+  if (!is.numeric(rate) || length(rate) != 1L || !is.finite(rate)) {
+    stop("discount_rate must be a finite number", call. = FALSE)
+  }
+  annuity <- if (rate == 0) time_horizon else (1 - (1 + rate)^(-time_horizon)) / rate
+  as.numeric(value * population * annuity)
+}
+
 #' Initialize the voiage Python module
 #'
 #' This function initializes the voiage Python module using reticulate.
@@ -36,7 +90,7 @@ NULL
 #' init_voiage()
 #' }
 init_voiage <- function() {
-  if (!py_module_available("voiage")) {
+  if (!.py_module_available("voiage")) {
     stop("The voiage Python package is not available. Please install it with: pip install voiage")
   }
 
@@ -44,7 +98,7 @@ init_voiage <- function() {
     return(invisible(NULL))
   }
 
-  .set_voiage_module(import("voiage"))
+  .set_voiage_module(.py_import("voiage"))
 
   invisible(NULL)
 }
@@ -71,18 +125,25 @@ init_voiage <- function() {
 #' print(evpi_value)
 #' }
 evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_rate = NULL) {
-  .voiage <- .get_voiage_module()
-
   if (is.data.frame(net_benefits)) {
     net_benefits <- as.matrix(net_benefits)
   }
+  if (!is.matrix(net_benefits)) {
+    stop("net_benefits must be a matrix or data frame", call. = FALSE)
+  }
 
-  .voiage$evpi(
-    net_benefits,
-    population = population,
-    time_horizon = time_horizon,
-    discount_rate = discount_rate
-  )
+  # Preserve injectable test/compatibility modules, while the normal R path
+  # calls the Rust core directly and does not require Python or reticulate.
+  cache <- get(".voiage_cache", envir = asNamespace("voiageR"))
+  if (!is.null(cache$module) && !is.null(cache$module$evpi)) {
+    return(cache$module$evpi(
+      net_benefits,
+      population = population,
+      time_horizon = time_horizon,
+      discount_rate = discount_rate
+    ))
+  }
+  .scale_evpi(.evpi_native(net_benefits), population, time_horizon, discount_rate)
 }
 
 #' Calculate Expected Value of Partial Perfect Information (EVPPI)
@@ -259,7 +320,7 @@ evsi <- function(
 #' print(is_available)
 #' }
 is_voiage_available <- function() {
-  py_module_available("voiage")
+  .py_module_available("voiage")
 }
 
 #' Set Python environment for voiage
@@ -284,9 +345,9 @@ set_voiage_env <- function(env, type = c("virtualenv", "conda")) {
   type <- match.arg(type)
 
   if (type == "virtualenv") {
-    use_virtualenv(env)
+    .use_virtualenv(env)
   } else {
-    use_condaenv(env)
+    .use_condaenv(env)
   }
 
   .set_voiage_module(NULL)

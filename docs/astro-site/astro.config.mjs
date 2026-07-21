@@ -11,7 +11,7 @@ export default defineConfig({
     starlight({
       title: "voiage",
       description:
-        "Cross-domain Value of Information (VOI) analysis library for Python, R, Julia, TypeScript, Go, Rust, and .NET",
+        "Cross-domain Value of Information (VOI) analysis library for Rust, Python, Mojo, R, and Julia",
       favicon: "/favicon.ico",
 
       social: [
@@ -35,12 +35,13 @@ export default defineConfig({
       ],
 
       sidebar: [
-        {
-          label: "Start Here",
-          items: [
-            { link: "/getting-started/", label: "Getting Started" },
-            { link: "/introduction/", label: "Introduction" },
-          ],
+          {
+            label: "Start Here",
+            items: [
+              { link: "/getting-started/", label: "Getting Started" },
+              { link: "/introduction/", label: "Introduction" },
+              { link: "/faq/", label: "FAQ" },
+            ],
         },
         {
           label: "User Guide",
@@ -73,6 +74,10 @@ export default defineConfig({
         {
           label: "Data Structures",
           link: "/data-structures/",
+        },
+        {
+          label: "Dataset Registry",
+          link: "/dataset-registry/",
         },
         {
           label: "Backends",

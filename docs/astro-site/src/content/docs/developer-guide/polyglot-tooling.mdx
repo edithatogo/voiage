@@ -16,11 +16,8 @@ The Python reference package keeps language-specific tools with a clear local be
 
 Those tools are not forced onto non-Python bindings. The equivalent gates per ecosystem are:
 
-- **TypeScript**: `npm run check` and `npm pack --dry-run`
-- **Go**: `go test` and `go vet`
 - **Rust**: `cargo fmt`, `cargo clippy`, `cargo test`, `cargo package`
 - **Julia**: `Pkg.test`
-- **.NET**: `dotnet build`, `dotnet test`, `dotnet pack`
 - **R**: `R CMD build` and `R CMD check --as-cran`
 
 ## Versioning contract
@@ -28,11 +25,8 @@ Those tools are not forced onto non-Python bindings. The equivalent gates per ec
 Each binding follows the release conventions of its own ecosystem:
 
 - **Python**: `v*` tags, PyPI/TestPyPI publication, conda-forge via feedstock
-- **TypeScript**: `typescript-v*` tags, npm with provenance
-- **Go**: `bindings/go/v*` tags aligned with module proxy rules
-- **Rust**: `rust-v*` tags, crates.io
+- **Rust**: `rust-v*` tags, GitHub Releases for the internal workspace; no crates.io package is currently claimed
 - **Julia**: `julia-v*` tags with TagBot sync and General registry
-- **.NET**: `dotnet-v*` tags, NuGet (`net11.0`)
 - **R**: `r-v*` tags, GitHub Releases with CRAN/r-universe handled externally
 
 ## Logging policy

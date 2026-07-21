@@ -4,9 +4,9 @@ Title: Value of Information Analysis in R
 Version: 0.2.1
 Author: voiage Development Team
 Maintainer: voiage Development Team <voiage@users.noreply.github.com>
-Description: An R interface to the voiage Python library for Value of Information analysis,
-    with helper functions for Python environment management and availability checks via
-    reticulate. Provides functions for calculating Expected Value of Perfect Information
+Description: An R interface to the Rust-backed voiage core for Value of Information analysis,
+    with a direct Rust C ABI EVPI path and helper functions for Python environment management
+    where advanced methods still use reticulate. Provides functions for calculating Expected Value of Perfect Information
     (EVPI), Expected Value of Partial Perfect Information (EVPPI), and Expected Value of
     Sample Information (EVSI).
 URL: https://github.com/edithatogo/voiage
@@ -17,9 +17,8 @@ NeedsCompilation: no
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 SystemRequirements: Python (>= 3.12)
-Imports:
-    reticulate (>= 1.20)
 Suggests:
+    reticulate (>= 1.20),
     knitr (>= 1.45),
     rmarkdown (>= 2.26),
     testthat (>= 3.0.0)

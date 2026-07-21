@@ -51,7 +51,7 @@ maps to the active roadmap.
 | Adaptive, calibration, observational, sequential VOI | ✅ | Trial and study-design oriented workflows are available. |
 | Portfolio VOI | ✅ | Budget-constrained portfolio optimization is implemented. |
 | CLI developer experience | ✅ | `--format`, `--quiet`, `--verbose`, help examples, and config generation are available. |
-| Cross-language binding scaffolds | 🚧 | TypeScript, Go, Rust, Julia, .NET 11, and R scaffolds exist with language-specific CI/release checks. |
+| Cross-language bindings | 🚧 | Rust is the core; Python, Mojo, Julia, and R are the supported binding surfaces. |
 | HEOML / ecosystem contracts | 🚧 | `lifecourse` and ecosystem-incubation contract scaffolds exist; deterministic fixtures are being expanded. |
 | Numerics, diagnostics, extension model | 📋 | Next planned track for explicit numerical equivalence, diagnostics, and extension rules. |
 | Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
@@ -85,24 +85,21 @@ workflow in the package documentation.
 
 The main user and developer references are:
 
-- [Getting started](docs/getting_started.rst)
-- [Notebook tutorials and examples](docs/examples/index.rst)
+- [Getting started](https://edithatogo.github.io/voiage/getting-started/)
+- [Notebook tutorials and examples](https://edithatogo.github.io/voiage/examples/)
 - [R vignette and manual source](r-package/voiageR/vignettes/voiageR-getting-started.Rmd)
 - [Julia walkthrough](bindings/julia/README.md)
-- [Go walkthrough](bindings/go/README.md)
-- [Rust walkthrough](bindings/rust/README.md)
-- [TypeScript walkthrough](bindings/typescript/README.md)
-- [.NET walkthrough](bindings/dotnet/README.md)
-- [CLI reference](docs/cli_reference.rst)
-- [Method reference](docs/methods/)
-- [Plotting reference](docs/plotting/)
-- [Data structures](docs/data_structures.rst)
-- [Backends](docs/backends.rst)
-- [Developer guide](docs/developer_guide/)
+- [R package](r-package/voiageR/README.md)
+- [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
+- [Method reference](https://edithatogo.github.io/voiage/methods/)
+- [Plotting reference](https://edithatogo.github.io/voiage/user-guide/plotting/)
+- [Data structures](https://edithatogo.github.io/voiage/data-structures/)
+- [Backends](https://edithatogo.github.io/voiage/backends/)
+- [Developer guide](https://edithatogo.github.io/voiage/developer-guide/)
 - [Community support](SUPPORT.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
-- [Frontier VOI roadmap](docs/sota_voi_frontier.md)
+- [Frontier VOI roadmap](https://edithatogo.github.io/voiage/sota-voi-frontier/)
 
 ## Academic Paper
 

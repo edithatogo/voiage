@@ -18,7 +18,8 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
+    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
+    evsi_stochastic, heterogeneity, structural_evpi, structural_evppi,
     DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
@@ -478,6 +479,108 @@ fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
     })
 }
 
+/// Compute the stable ENBS kernel for Python callers.
+#[pyfunction]
+fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
+    enbs(evsi_result, research_cost)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+/// Compute the stable value-of-heterogeneity kernel for Python callers.
+#[pyfunction]
+fn compute_heterogeneity<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+    subgroups: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let subgroups = subgroups.extract::<Vec<String>>().map_err(|error| {
+        InputError::new_err(("invalid_input", format!("invalid subgroups: {error}")))
+    })?;
+    let rows = net_benefit.rows().map(<[f64]>::to_vec).collect::<Vec<_>>();
+    let result = heterogeneity(&rows, &subgroups).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("subgroup_labels", result.subgroup_labels)?;
+    output.set_item("subgroup_weights", result.subgroup_weights)?;
+    output.set_item(
+        "subgroup_optimal_strategy_indices",
+        result.subgroup_optimal_strategy_indices,
+    )?;
+    output.set_item(
+        "subgroup_expected_net_benefits",
+        result.subgroup_expected_net_benefits,
+    )?;
+    output.set_item(
+        "overall_optimal_strategy_index",
+        result.overall_optimal_strategy_index,
+    )?;
+    output.set_item(
+        "overall_expected_net_benefit",
+        result.overall_expected_net_benefit,
+    )?;
+    Ok(output)
+}
+
+/// Aggregate structural EVPI after Python model evaluators have run.
+#[pyfunction]
+fn compute_structural_evpi(
+    net_benefit_by_structure: &Bound<'_, PyAny>,
+    structure_probabilities: &Bound<'_, PyAny>,
+) -> PyResult<f64> {
+    let net_benefit_by_structure = cube_from_python(net_benefit_by_structure, "net_benefit")?;
+    let structure_probabilities = SampleVector::try_from(vector_from_python(
+        structure_probabilities,
+        "structure_probabilities",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    structural_evpi(&net_benefit_by_structure, &structure_probabilities).map_err(
+        |error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        },
+    )
+}
+
+/// Aggregate structural EVPPI after Python model evaluators have run.
+#[pyfunction]
+fn compute_structural_evppi(
+    net_benefit_by_structure: &Bound<'_, PyAny>,
+    structure_probabilities: &Bound<'_, PyAny>,
+    structures_of_interest: &Bound<'_, PyAny>,
+) -> PyResult<f64> {
+    let cube = cube_from_python(net_benefit_by_structure, "net_benefit")?;
+    let probabilities = SampleVector::try_from(vector_from_python(
+        structure_probabilities,
+        "structure_probabilities",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let indices = indices_from_python(structures_of_interest, "structures_of_interest")?
+        .into_iter()
+        .map(|index| {
+            usize::try_from(index).map_err(|_| {
+                InputError::new_err((
+                    "invalid_input",
+                    "structure index exceeds the supported platform range",
+                ))
+            })
+        })
+        .collect::<PyResult<Vec<_>>>()?;
+    structural_evppi(&cube, &probabilities, &indices).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })
+}
+
 /// Compute the stable dominance kernel for Python callers.
 #[pyfunction]
 fn compute_dominance<'py>(
@@ -681,6 +784,36 @@ fn compute_evsi_moment_based<'py>(
     Ok(output)
 }
 
+/// Compute the callback-driven deterministic regression aggregation kernel.
+#[pyfunction]
+fn compute_evsi_regression<'py>(
+    py: Python<'py>,
+    targets: &Bound<'_, PyAny>,
+    parameter_samples: &Bound<'_, PyAny>,
+    prediction_samples: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let targets = matrix_from_python(targets, "targets")?;
+    let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
+    let prediction_samples = matrix_from_python(prediction_samples, "prediction_samples")?;
+    let result =
+        evsi_regression(&targets, &parameter_samples, &prediction_samples).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("expected_sample_value", result.expected_sample_value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("prediction_count", result.prediction_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    Ok(output)
+}
+
 fn add_operation_snapshot(
     py: Python<'_>,
     operations: &Bound<'_, PyDict>,
@@ -856,12 +989,17 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())
@@ -1190,6 +1328,24 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 0.5).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_enbs_executes_the_rust_kernel_for_python_scalars() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_enbs, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_enbs").unwrap();
+            let result = function
+                .call1((12.5_f64, 5.0_f64))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 7.5).abs() <= 1.0e-12);
         });
     }
 

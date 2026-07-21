@@ -1,0 +1,23 @@
+---
+title: VOI Frontier and Method Maturity
+description: Frontier methods, evidence status, and promotion boundaries
+---
+
+The VOI frontier catalogue records methods that extend the stable Rust-backed
+kernel. A method may be useful and documented without being a v1 stable
+guarantee.
+
+## Maturity labels
+
+- **Stable** methods are covered by the versioned stable API and compatibility
+  policy.
+- **Fixture-backed** methods have deterministic contract fixtures but still need
+  broader evidence before promotion.
+- **Experimental** methods are isolated under [`voiage.experimental`](/api-reference/)
+  or an explicitly labelled method surface and may change without stable API
+  guarantees.
+
+Promotion requires contract validation, provenance, reproducibility, security
+review, and—where relevant—cross-language parity and licensed evidence. See the
+[migration guide](/user-guide/migration-guide/) before depending on a
+fixture-backed or experimental method in production.

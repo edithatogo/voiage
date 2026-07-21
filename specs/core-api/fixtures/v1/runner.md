@@ -1,7 +1,7 @@
 # Core API Fixture Runner Contract
 
 This guide defines how downstream bindings should consume the versioned core API fixture catalog.
-It is intentionally language-neutral so Python, R, Julia, TypeScript, Go, Rust, and .NET bindings can
+It is intentionally language-neutral so Python, R, Julia, and Rust bindings can
 share the same canonical cases before a package is published.
 
 ## Runner Contract
@@ -64,19 +64,10 @@ that the binding can read JSON, normalize public errors to the catalog's
 language-neutral category and code, and compare deterministic output using the
 expected artifact's tolerances.
 
-## Future Binding CI Patterns
+## Retained Binding CI Patterns
 
-Future binding tracks should add a conformance job before publication and point it at the same catalog.
+Retained binding tracks should run a conformance job before publication and point it at the same catalog.
 
-- TypeScript:
-  - run the binding's lint and type checks
-  - run the conformance job against the fixture manifest
-  - run `npm pack --dry-run`
-- Go:
-  - run `go test ./...`
-  - run `go vet ./...`
-  - run a conformance test that reads the shared fixture manifest
-  - run the module packaging step that precedes release tagging
 - Rust:
   - run `cargo fmt --check`
   - run `cargo clippy --locked`
@@ -104,4 +95,4 @@ Recommended repo-side entrypoints:
 - `uv run python scripts/validate_core_api_fixtures.py`
 - `uv run python scripts/validate_core_api_contract.py`
 
-Later binding tracks should treat the fixture manifest as a shared release gate and run the same catalog before publishing to PyPI, Conda-forge, CRAN, r-universe, Julia General, npm, the Go module ecosystem, crates.io, and NuGet.
+Retained binding tracks should treat the fixture manifest as a shared release gate before publishing to PyPI, Conda-forge, CRAN, r-universe, Julia General, or crates.io.

@@ -1,0 +1,33 @@
+---
+title: Lifecourse Integration
+description: Governed HEOML-compatible lifecourse integration boundaries
+---
+
+The lifecourse integration provides a governed boundary for importing and
+exporting HEOML-compatible run bundles. It is an integration surface, not a
+replacement for the stable numerical kernel.
+
+## Contract and provenance
+
+Use the versioned schemas and illustrative fixtures under the repository's
+integration contracts. Preserve the manifest identifier, schema fingerprints,
+source checksums, and transformation history with every migrated bundle.
+
+The integration remains subject to source licensing, provenance, compatibility,
+and migration evidence. Do not treat an illustrative fixture as evidence from a
+real-world source.
+
+See the [data structures](/data-structures/), [migration guide](/user-guide/migration-guide/),
+and [developer architecture guide](/developer-guide/architecture/) for the
+supported boundaries.
+
+## Dependency and compatibility policy
+
+`voiage` should not depend on `lifecourse`. an optional extra such as `lifecourse[voiage]` may integrate with this package, but No new mandatory extra is required by the core library. Compatibility Versioning follows the
+versioned HEOML profile `0.1` and the package's public compatibility policy.
+
+## Artifact exchange and fixture validation
+
+The Artifact Exchange And Fixture Validation contract preserves package-version information, schema fingerprints, and source checksums. The Result Envelope Contract covers the supported result families and requires an illustrative envelope fixture before a new integration is promoted. The current `0.2.0`
+contract records the supported result families and the illustrative envelope
+fixture under `specs/integrations/lifecourse/v1/fixtures/`.

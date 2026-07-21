@@ -5,16 +5,14 @@ Implementation of Value of Information methods related to sample information.
 - ENBS (Expected Net Benefit of Sampling)
 """
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 import importlib.util
 from typing import Any
-import warnings
 
 import numpy as np
 
 from voiage import _runtime
 from voiage.exceptions import (
-    InputError,
     raise_backend_not_available_error,
     raise_input_error,
 )
@@ -25,16 +23,6 @@ SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
-
-
-def _warn_python_numerical_fallback(estimator: str) -> None:
-    """Mark a legacy Python numerical fallback during Rust migration."""
-    warnings.warn(
-        f"Python {estimator} fallback is transitional; the Rust kernel is the "
-        "v1 execution target.",
-        DeprecationWarning,
-        stacklevel=3,
-    )
 
 
 def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -161,31 +149,11 @@ def _evsi_efficient_regression(
         trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
         if trial_sample_size <= 0:
             return float(np.max(np.mean(nb_prior_values, axis=0)))
-        try:
-            result = _runtime.compute_evsi_efficient_linear(
-                nb_prior_values.tolist(),
-                x.tolist(),
-                trial_sample_size,
-            )
-        except ModuleNotFoundError:
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
-        except AttributeError as error:
-            if "compute_evsi_efficient_linear" not in str(error):
-                raise
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
-        except InputError as error:
-            if "rank deficient" not in str(error):
-                raise
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
+        result = _runtime.compute_evsi_efficient_linear(
+            nb_prior_values.tolist(),
+            x.tolist(),
+            trial_sample_size,
+        )
 
         current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
         try:
@@ -258,49 +226,6 @@ def _evsi_efficient_regression(
     )
 
 
-def _evsi_efficient_regression_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-    metamodel: MetamodelName,
-) -> float:
-    """Retain the Python efficient reference for unsupported native cases."""
-    if not SKLEARN_AVAILABLE:
-        raise_backend_not_available_error("Efficient EVSI requires scikit-learn.")
-    predictions = np.empty_like(nb_prior_values, dtype=float)
-    x = _parameter_matrix(psa_prior)
-    for strategy_idx in range(nb_prior_values.shape[1]):
-        model = _fit_strategy_metamodel(x, nb_prior_values[:, strategy_idx], metamodel)
-        predictions[:, strategy_idx] = np.asarray(model.predict(x), dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design, psa_prior.n_samples
-    )
-    return _preposterior_expected_max(
-        predictions, nb_prior_values, information_fraction
-    )
-
-
-def _quadratic_design_matrix(
-    x: np.ndarray[Any, np.dtype[np.float64]],
-) -> np.ndarray[Any, np.dtype[np.float64]]:
-    """Build a centered linear-plus-quadratic design matrix."""
-    centered = x - np.mean(x, axis=0)
-    quadratic_terms = [centered[:, i] ** 2 for i in range(centered.shape[1])]
-    interaction_terms = [
-        centered[:, i] * centered[:, j]
-        for i in range(centered.shape[1])
-        for j in range(i + 1, centered.shape[1])
-    ]
-    linear_terms = [centered[:, i] for i in range(centered.shape[1])]
-    columns: Sequence[np.ndarray[Any, np.dtype[np.float64]]] = [
-        np.ones(centered.shape[0]),
-        *linear_terms,
-        *quadratic_terms,
-        *interaction_terms,
-    ]
-    return np.column_stack(columns)
-
-
 def _evsi_moment_based(
     nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
     psa_prior: ParameterSet,
@@ -311,25 +236,11 @@ def _evsi_moment_based(
     trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
     if trial_sample_size <= 0:
         return float(np.max(np.mean(nb_prior_values, axis=0)))
-    try:
-        result = _runtime.compute_evsi_moment_based(
-            nb_prior_values.tolist(),
-            x.tolist(),
-            trial_sample_size,
-        )
-    except ModuleNotFoundError:
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
-    except AttributeError as error:
-        if "compute_evsi_moment_based" not in str(error):
-            raise
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
-    except InputError as error:
-        if "rank deficient" not in str(error):
-            raise
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+    result = _runtime.compute_evsi_moment_based(
+        nb_prior_values.tolist(),
+        x.tolist(),
+        trial_sample_size,
+    )
 
     current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
     try:
@@ -378,27 +289,6 @@ def _evsi_moment_based(
         raise AssertionError("unreachable") from error
     else:
         return expected_sample
-
-
-def _evsi_moment_based_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-) -> float:
-    """Retain the NumPy moment estimator for native compatibility fallbacks."""
-    x = _parameter_matrix(psa_prior)
-    design = _quadratic_design_matrix(x)
-    coefficients, *_ = np.linalg.lstsq(design, nb_prior_values, rcond=None)
-    predicted_nb = np.asarray(design @ coefficients, dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design,
-        psa_prior.n_samples,
-    )
-    return _preposterior_expected_max(
-        predicted_nb,
-        nb_prior_values,
-        information_fraction,
-    )
 
 
 def _simulate_trial_data(
@@ -469,8 +359,10 @@ def _evsi_two_loop(
 ) -> float:
     """EVSI calculation using a two-loop Monte Carlo simulation.
 
-    ``n_inner_loops`` remains part of the compatibility surface but is not
-    used by this historical implementation.
+    Each outer loop samples one possible trial data set. The inner loop then
+    draws posterior samples for that same data set and averages the resulting
+    decision value, making ``n_inner_loops`` an effective Monte Carlo control
+    rather than an ignored compatibility parameter.
     """
     max_nb_post_study = []
     for _ in range(n_outer_loops):
@@ -484,9 +376,12 @@ def _evsi_two_loop(
         }
 
         trial_data = _simulate_trial_data(true_params, trial_design, rng)
-        posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
-        nb_posterior = model_func(posterior_psa).numpy_values
-        max_nb_post_study.append(np.max(np.mean(nb_posterior, axis=0)))
+        inner_decision_values = []
+        for _ in range(n_inner_loops):
+            posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
+            nb_posterior = model_func(posterior_psa).numpy_values
+            inner_decision_values.append(np.max(np.mean(nb_posterior, axis=0)))
+        max_nb_post_study.append(float(np.mean(inner_decision_values)))
 
     return float(np.mean(max_nb_post_study))
 
@@ -560,20 +455,35 @@ def _evsi_regression(
     # y: max net benefit from posterior
     y = max_nb_posterior
 
-    # Fit regression model
-    from sklearn.linear_model import LinearRegression
-
-    regression_model = LinearRegression()
-    regression_model.fit(x, y)
-
     # Predict max net benefit for all prior samples
     x_all = np.stack(
         list(psa_prior.parameters.values()), axis=1
     )  # (n_samples, n_parameters)
-    predicted_max_nb = regression_model.predict(x_all)
 
-    # Return expected max net benefit
-    return float(np.mean(predicted_max_nb))
+    # Callback execution remains Python-owned; deterministic OLS aggregation
+    # is Rust-owned under the versioned regression envelope.
+    result = _runtime.compute_evsi_regression(
+        y.reshape(-1, 1).tolist(),
+        x.tolist(),
+        x_all.tolist(),
+    )
+    try:
+        if (
+            result.get("estimator") != "regression"
+            or result.get("contract_version") != 1
+            or result.get("sample_count") != len(y)
+            or result.get("prediction_count") != len(x_all)
+            or result.get("parameter_count") != x.shape[1]
+        ):
+            raise ValueError("native regression metadata mismatch")  # noqa: TRY301
+        expected_sample_value = float(result["expected_sample_value"])
+        if not np.isfinite(expected_sample_value):
+            raise ValueError("native regression result is non-finite")  # noqa: TRY301
+    except (KeyError, TypeError, ValueError) as error:
+        raise_input_error("Native regression EVSI returned an invalid result envelope.")
+        raise AssertionError("unreachable") from error
+    else:
+        return expected_sample_value
 
 
 def evsi(
@@ -611,8 +521,9 @@ def evsi(
     n_outer_loops : int, default=100
         Number of outer Monte Carlo loops for ``two_loop``.
     n_inner_loops : int, default=1000
-        Compatibility parameter retained for ``two_loop``; the historical
-        implementation does not currently consume it.
+        Number of posterior Monte Carlo draws per simulated trial data set for
+        ``two_loop``. Larger values reduce inner-loop Monte Carlo noise at the
+        cost of additional model evaluations.
     metamodel : str, default="linear"
         Strategy-level surrogate model used by the efficient approximation.
     seed : int, optional
@@ -705,11 +616,6 @@ def evsi(
                 np.random.default_rng(seed),
             )
     elif method == "regression":
-        if not SKLEARN_AVAILABLE:
-            raise_backend_not_available_error(
-                "Regression method for EVSI requires scikit-learn."
-            )
-
         # Implement regression-based EVSI method
         expected_max_nb_post_study = _evsi_regression(
             model_func, psa_prior, trial_design, n_outer_loops
@@ -803,4 +709,7 @@ def enbs(evsi_result: float, research_cost: float) -> float:
         )
     if research_cost < 0:
         raise_input_error("Research cost cannot be negative.")
-    return evsi_result - research_cost
+    try:
+        return _runtime.compute_enbs(float(evsi_result), float(research_cost))
+    except (ModuleNotFoundError, ImportError):
+        raise_backend_not_available_error("ENBS requires the Rust runtime extension.")

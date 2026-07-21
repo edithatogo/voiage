@@ -1,6 +1,5 @@
 //! Contract tests for deterministic efficient-linear EVSI.
 
-use voiage_diagnostics::ErrorCode;
 use voiage_domain::SampleMatrix;
 use voiage_numerics::evsi_efficient_linear;
 
@@ -43,12 +42,13 @@ fn efficient_linear_uses_scaled_accumulation_for_large_finite_values() {
 }
 
 #[test]
-fn efficient_linear_rejects_rank_deficient_designs() {
+fn efficient_linear_handles_rank_deficient_designs() {
     let parameters = matrix(&[&[1.0], &[1.0]]);
     let net_benefit = matrix(&[&[0.0, 1.0], &[1.0, 0.0]]);
 
-    let error = evsi_efficient_linear(&net_benefit, &parameters, 2)
-        .expect_err("rank-deficient parameter designs must fail closed");
+    let result = evsi_efficient_linear(&net_benefit, &parameters, 2)
+        .expect("rank-aware native contract should remain finite");
 
-    assert_eq!(error.code(), ErrorCode::InvalidInput);
+    assert!(result.expected_sample_value.is_finite());
+    assert!(result.evsi.is_finite());
 }

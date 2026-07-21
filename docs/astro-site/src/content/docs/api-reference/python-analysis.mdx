@@ -1,0 +1,21 @@
+---
+title: Python Analysis API
+description: Python DecisionAnalysis facade reference
+---
+
+The Python facade exposes `DecisionAnalysis` while the stable numerical
+policy executes in the Rust core.
+
+## `DecisionAnalysis`
+
+Construct it with a `ValueArray` of net benefits and a `ParameterSet` of PSA
+samples. The primary methods are:
+
+- `evpi()` — expected value of perfect information.
+- `evppi(parameter_names=None)` — expected value of partial perfect
+  information for selected parameters.
+- `evsi(parameter_names, sample_size, n_inner_loops=100)` — expected value of
+  sample information for a proposed study.
+
+Inputs are validated against the stable API contract and errors use the
+repository's stable exception vocabulary.

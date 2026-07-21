@@ -1,0 +1,57 @@
+---
+title: Versioned C ABI
+description: The v1 portable C ABI contract used by retained bindings.
+---
+
+The versioned C ABI is the narrow native boundary for retained bindings. The
+header is authoritative for declarations; the symbol and layout manifests are
+the release allowlists.
+
+## Version negotiation and capabilities
+
+- ABI major: `1`; ABI minor: `0`
+- Capability-struct version: `1`
+- Capability bits include version negotiation, capability query, and EVPI.
+- `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
+  are never exposed addresses.
+
+## Exported v1 symbols
+
+```text
+voiage_v1_abi_version
+voiage_v1_capabilities
+voiage_v1_evpi
+voiage_v1_evpi_i32
+voiage_v1_evpi_i32_r
+voiage_v1_error_message
+voiage_v1_handle_create
+voiage_v1_handle_free
+```
+
+The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
+forms exist for runtimes whose foreign-function conventions use signed 32-bit
+dimensions; they do not define a separate numerical policy.
+
+## Status and error transport
+
+Status values are fixed-width: `OK`, `INVALID_ARGUMENT`, `DIMENSION_MISMATCH`,
+`BACKEND_UNAVAILABLE`, `NUMERICAL_FAILURE`, `SERIALIZATION_FAILURE`,
+`BUFFER_TOO_SMALL`, `PANIC`, and `INTERNAL_ERROR`.
+
+`voiage_v1_error_message` uses caller-owned storage. A null buffer with zero
+capacity queries the required size, which includes the trailing NUL. No partial
+message is written when the buffer is too small.
+
+## Fixed-width layouts
+
+| Type | Size | Alignment | Stable fields |
+| --- | ---: | ---: | --- |
+| `VoiageAbiVersionV1` | 12 | 4 | `struct_size@0`, `abi_major@4`, `abi_minor@8` |
+| `VoiageAbiCapabilitiesV1` | 16 | 8 | `struct_size@0`, `struct_version@4`, `capability_bits@8` |
+| `VoiageHandleV1` | 8 | 8 | opaque token |
+| `voiage_v1_status` | 4 | 4 | fixed-width status |
+
+The canonical manifests are [`symbols.txt`](https://github.com/edithatogo/voiage/blob/main/specs/abi/v1/symbols.txt)
+and [`layouts.txt`](https://github.com/edithatogo/voiage/blob/main/specs/abi/v1/layouts.txt).
+Bindings must run the ABI lifecycle, error, and shared numerical conformance
+tests before publication.

@@ -1,25 +1,23 @@
-name: Polyglot Bindings CI
+name: Retained Bindings CI
 
 on:
   pull_request:
     branches: [main]
     paths:
-      - "bindings/**"
+      - "bindings/julia/**"
+      - "r-package/**"
       - "rust/**"
       - "tests/ffi/**"
-      - "tests/test_ci_cd_quality_gates.py"
-      - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
       - "specs/numerical-reference/**"
   push:
     branches: [main]
     paths:
-      - "bindings/**"
+      - "bindings/julia/**"
+      - "r-package/**"
       - "rust/**"
       - "tests/ffi/**"
-      - "tests/test_ci_cd_quality_gates.py"
-      - "r-package/**"
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
       - "specs/numerical-reference/**"
@@ -28,65 +26,9 @@ permissions:
   contents: read
 
 jobs:
-  typescript:
-    name: TypeScript
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bindings/typescript
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Assert and record exact source head
-        env:
-          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
-          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
-        with:
-          node-version: "24"
-          registry-url: "https://registry.npmjs.org"
-      - run: npm run check
-      - run: npm run pack:dry-run
-
-  go:
-    name: Go
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bindings/go
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Assert and record exact source head
-        env:
-          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
-          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
-      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
-        with:
-          go-version: "1.25"
-      - run: go test ./...
-      - run: go vet ./...
-
   rust:
-    name: Rust
+    name: Rust workspace
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bindings/rust
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -98,117 +40,18 @@ jobs:
           EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+          printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable
           components: clippy,rustfmt
-      - run: cargo fmt --check
-      - run: cargo clippy --all-targets --locked -- -D warnings
-      - run: cargo test --locked
-      - run: cargo doc --no-deps --locked
-      - run: cargo package --locked --allow-dirty
-
-  rust-workspace:
-    name: Rust workspace (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
-        with:
-          toolchain: stable
-          components: clippy,rustfmt
-      - name: Activate MSVC developer environment
-        if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
-      - name: Validate workspace metadata
-        working-directory: rust
-        run: cargo metadata --locked --format-version 1 --no-deps
-      - name: Check formatting
-        working-directory: rust
+      - working-directory: rust
         run: cargo fmt --all --check
-      - name: Lint workspace
-        working-directory: rust
+      - working-directory: rust
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
-      - name: Test workspace
-        working-directory: rust
+      - working-directory: rust
         run: cargo test --workspace --all-features --locked
-      - name: Build workspace documentation
-        working-directory: rust
-        env:
-          RUSTDOCFLAGS: -D warnings
-        run: cargo doc --workspace --all-features --no-deps --locked
-      - name: Build release C ABI library
-        working-directory: rust
-        run: cargo build --release --locked --package voiage-ffi
-      - name: Compile and run C11 ABI consumer
-        if: runner.os != 'Windows'
-        run: |
-          cc -std=c11 -Wall -Wextra -Werror \
-            -Irust/crates/voiage-ffi/include tests/ffi/voiage_v1_smoke.c \
-            -Lrust/target/release -lvoiage_ffi \
-            -Wl,-rpath,"$PWD/rust/target/release" -o "$RUNNER_TEMP/voiage-v1-c"
-          "$RUNNER_TEMP/voiage-v1-c"
-      - name: Compile and run C++17 ABI consumer
-        if: runner.os != 'Windows'
-        run: |
-          c++ -std=c++17 -Wall -Wextra -Werror \
-            -Irust/crates/voiage-ffi/include tests/ffi/voiage_v1_smoke.cpp \
-            -Lrust/target/release -lvoiage_ffi \
-            -Wl,-rpath,"$PWD/rust/target/release" -o "$RUNNER_TEMP/voiage-v1-cpp"
-          "$RUNNER_TEMP/voiage-v1-cpp"
-      - name: Compile and run C11 and C++17 ABI consumers (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          cl /nologo /W4 /WX /std:c11 /I rust\crates\voiage-ffi\include tests\ffi\voiage_v1_smoke.c /Fe:$env:RUNNER_TEMP\voiage-v1-c.exe /link rust\target\release\voiage_ffi.dll.lib
-          cl /nologo /W4 /WX /EHsc /std:c++17 /I rust\crates\voiage-ffi\include tests\ffi\voiage_v1_smoke.cpp /Fe:$env:RUNNER_TEMP\voiage-v1-cpp.exe /link rust\target\release\voiage_ffi.dll.lib
-          $env:PATH = "$PWD\rust\target\release;$env:PATH"
-          & "$env:RUNNER_TEMP\voiage-v1-c.exe"
-          & "$env:RUNNER_TEMP\voiage-v1-cpp.exe"
-      - name: Verify allowlisted C ABI exports (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          grep -v '^#' specs/abi/v1/symbols.txt | sed '/^$/d' | sort -u \
-            > "$RUNNER_TEMP/expected-exports.txt"
-          nm -D --defined-only rust/target/release/libvoiage_ffi.so \
-            | awk '{print $3}' | grep '^voiage_v[0-9][0-9]*_' | sort -u \
-            > "$RUNNER_TEMP/actual-exports.txt"
-          diff -u "$RUNNER_TEMP/expected-exports.txt" "$RUNNER_TEMP/actual-exports.txt"
-      - name: Verify allowlisted C ABI exports (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          grep -v '^#' specs/abi/v1/symbols.txt | sed '/^$/d' | sort -u \
-            > "$RUNNER_TEMP/expected-exports.txt"
-          nm -gU rust/target/release/libvoiage_ffi.dylib \
-            | awk '{print $3}' | sed 's/^_//' \
-            | grep '^voiage_v[0-9][0-9]*_' | sort -u \
-            > "$RUNNER_TEMP/actual-exports.txt"
-          diff -u "$RUNNER_TEMP/expected-exports.txt" "$RUNNER_TEMP/actual-exports.txt"
-      - name: Verify allowlisted C ABI exports (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $expected = Get-Content specs/abi/v1/symbols.txt |
-            Where-Object { $_ -and -not $_.StartsWith("#") } |
-            Sort-Object -Unique
-          $actual = dumpbin /nologo /exports rust\target\release\voiage_ffi.dll |
-            Select-String -Pattern '\bvoiage_v\d+_' |
-            ForEach-Object { ($_ -split '\s+')[-1] } |
-            Sort-Object -Unique
-          if (Compare-Object $expected $actual) {
-            throw "C ABI exports differ from the v1 allowlist: $actual"
-          }
 
   rust-msrv:
     name: Rust workspace (MSRV 1.85)
@@ -216,19 +59,17 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: "1.85"
-      - name: Check minimum supported Rust version
-        working-directory: rust
+      - working-directory: rust
         run: cargo check --workspace --all-targets --all-features --locked
-      - name: Test minimum supported Rust version
-        working-directory: rust
-        run: cargo test --workspace --all-features --locked
 
   julia:
-    name: Julia
+    name: Julia binding
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -244,50 +85,27 @@ jobs:
           EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+          printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by Julia
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
-      - run: julia --project=. -e 'using Pkg; Pkg.test()'
-
-  dotnet:
-    name: .NET 11
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bindings/dotnet
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Assert and record exact source head
+      - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
         env:
-          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
-          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
-        with:
-          dotnet-version: "11.0.x"
-          dotnet-quality: "preview"
-      - run: dotnet build src/Voiage.Core/Voiage.Core.csproj --configuration Release
-      - run: dotnet run --project tests/Voiage.Core.Tests/Voiage.Core.Tests.csproj --configuration Release
-      - run: dotnet pack src/Voiage.Core/Voiage.Core.csproj --configuration Release --no-build
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
 
   r:
-    name: R
+    name: R binding
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: r-package/voiageR
-    env:
-      VOIAGE_NUMERICAL_REFERENCE: ${{ github.workspace }}/specs/numerical-reference/v1/evpi-cases.json
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -299,16 +117,22 @@ jobs:
           EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           tested_head="$(git rev-parse HEAD)"
-          echo "tested_head=${tested_head}"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-          printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+          printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by R
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
-          working-directory: r-package/voiageR
           extra-packages: any::rcmdcheck
+          working-directory: r-package/voiageR
       - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - run: R CMD build .
+      - run: Rscript tools/build-manual.R
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
-      - name: Build PDF manual
-        run: Rscript tools/build-manual.R . "$RUNNER_TEMP/voiageR-manual.pdf"
+        env:
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so

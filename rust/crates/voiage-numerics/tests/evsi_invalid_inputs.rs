@@ -89,7 +89,7 @@ proptest! {
     }
 
     #[test]
-    fn deterministic_estimators_reject_rank_deficiency_without_panicking(
+    fn deterministic_estimators_handle_rank_deficiency_without_panicking(
         raw in prop::collection::vec(prop::array::uniform2(-16_i16..=16), 1..=12),
         constant_parameter in -16_i16..=16,
     ) {
@@ -101,16 +101,12 @@ proptest! {
             .map(|_| vec![f64::from(constant_parameter)])
             .collect());
 
-        let efficient_error = stable_error(|| {
-            evsi_efficient_linear(&net_benefit, &parameters, 1).map(|_| ())
-        });
-        prop_assert_eq!(efficient_error.code(), ErrorCode::InvalidInput);
-        prop_assert!(efficient_error.to_string().contains("rank deficient"));
+        let efficient_result = evsi_efficient_linear(&net_benefit, &parameters, 1);
+        prop_assert!(efficient_result.is_ok());
+        prop_assert!(efficient_result.unwrap().expected_sample_value.is_finite());
 
-        let moment_error = stable_error(|| {
-            evsi_moment_based(&net_benefit, &parameters, 1).map(|_| ())
-        });
-        prop_assert_eq!(moment_error.code(), ErrorCode::InvalidInput);
-        prop_assert!(moment_error.to_string().contains("rank deficient"));
+        let moment_result = evsi_moment_based(&net_benefit, &parameters, 1);
+        prop_assert!(moment_result.is_ok());
+        prop_assert!(moment_result.unwrap().expected_sample_value.is_finite());
     }
 }

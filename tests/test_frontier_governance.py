@@ -30,7 +30,16 @@ from voiage.governance import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GOVERNANCE_DOC = REPO_ROOT / "docs" / "developer_guide" / "frontier_governance.rst"
+GOVERNANCE_DOC = (
+    REPO_ROOT
+    / "docs"
+    / "astro-site"
+    / "src"
+    / "content"
+    / "docs"
+    / "developer-guide"
+    / "frontier-governance.mdx"
+)
 REGISTRY_MANIFEST = REPO_ROOT / "specs" / "frontier" / "fixtures" / "manifest.json"
 GOVERNANCE_SPEC_DIR = REPO_ROOT / "specs" / "frontier" / "governance"
 
@@ -230,7 +239,7 @@ def test_validate_dependency_policy_passes_for_clean_split() -> None:
 
 
 def test_governance_document_exists_and_covers_keywords() -> None:
-    """The governance RST must exist and cover all required keywords."""
+    """The Astro governance page must exist and cover all required keywords."""
     assert GOVERNANCE_DOC.exists(), f"Missing governance doc: {GOVERNANCE_DOC}"
     text = GOVERNANCE_DOC.read_text(encoding="utf-8").lower()
 

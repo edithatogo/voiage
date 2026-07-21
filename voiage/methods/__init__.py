@@ -1,136 +1,65 @@
-"""Curated public exports for core Value of Information methods."""
+"""Lazy public exports for Value of Information methods.
 
-from .adaptive import adaptive_evsi
-from .adaptive_learning_bandit import (
-    AdaptiveLearningBanditResult,
-    value_of_adaptive_learning_bandit,
-)
-from .ai_assisted_evidence_triage import (
-    AIAssistedEvidenceTriageResult,
-    value_of_ai_assisted_evidence_triage,
-)
-from .ambiguity_distribution_shift import (
-    AmbiguityDistributionShiftResult,
-    value_of_ambiguity_distribution_shift,
-)
-from .basic import evpi, evppi
-from .calibration import voi_calibration
-from .capacity_budget_constrained import (
-    CapacityBudgetConstrainedResult,
-    value_of_capacity_budget_constrained,
-)
-from .causal_transportability import (
-    CausalTransportabilityResult,
-    value_of_causal_transportability,
-)
-from .ceaf import CEAFResult, calculate_ceaf
-from .computational import ComputationalResult, value_of_computational_refinement
-from .data_quality import DataQualityResult, value_of_data_quality
-from .distributional import (
-    DistributionalEquityResult,
-    value_of_distributional_equity,
-)
-from .dominance import (
-    DominanceResult,
-    calculate_dominance,
-    calculate_extended_dominance,
-    calculate_icers,
-    calculate_strong_dominance,
-    cost_effectiveness_frontier,
-)
-from .dynamic_real_options import (
-    DynamicRealOptionsResult,
-    value_of_dynamic_real_options,
-)
-from .equity_information import (
-    EquityInformationResult,
-    value_of_equity_information,
-)
-from .evidence_obsolescence_refresh import (
-    EvidenceObsolescenceRefreshResult,
-    value_of_evidence_obsolescence_refresh,
-)
-from .expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
-from .explainability_transparency import (
-    ExplainabilityTransparencyResult,
-    value_of_explainability_transparency,
-)
-from .federated_privacy_preserving import (
-    FederatedPrivacyPreservingResult,
-    value_of_federated_privacy_preserving,
-)
-from .heterogeneity import (
-    HeterogeneityResult,
-    identify_optimal_subgroups,
-    value_of_heterogeneity,
-)
-from .implementation import (
-    ImplementationAdjustedResult,
-    value_of_implementation,
-)
-from .implementation_strategy import (
-    ImplementationStrategyComparisonResult,
-    value_of_implementation_strategy_comparison,
-)
-from .interoperability_standardization import (
-    InteroperabilityStandardizationResult,
-    value_of_interoperability_standardization,
-)
-from .monitoring_surveillance import (
-    MonitoringSurveillanceResult,
-    value_of_monitoring_surveillance,
-)
-from .network_nma import evsi_nma
-from .observational import voi_observational
-from .perspective import (
-    Perspective,
-    PerspectiveSet,
-    ValueOfPerspectiveResult,
-    perspective_arrow_schema_fingerprint,
-    perspective_optimal_strategies,
-    perspective_result_to_arrow,
-    value_of_perspective,
-    write_perspective_result_ipc,
-    write_perspective_result_parquet,
-)
-from .portfolio import portfolio_voi
-from .preference import (
-    PreferenceHeterogeneityResult,
-    PreferenceProfile,
-    PreferenceProfileSet,
-    preference_optimal_strategies,
-    value_of_preference,
-    value_of_preference_heterogeneity,
-    value_of_preference_information,
-)
-from .regulatory_market_access import (
-    RegulatoryMarketAccessResult,
-    value_of_regulatory_market_access,
-)
-from .replication_reproducibility import (
-    ReplicationReproducibilityResult,
-    value_of_replication_reproducibility,
-)
-from .sample_information import enbs, evsi
-from .sequential import sequential_voi
-from .strategic_behavior import StrategicBehaviorResult, value_of_strategic_behavior
-from .structural import structural_evpi, structural_evppi
-from .threshold import (
-    ThresholdProfile,
-    ThresholdProfileSet,
-    ThresholdResult,
-    value_of_threshold,
-    value_of_threshold_information,
-)
-from .validation import (
-    ModelValidationResult,
-    ValidationProfile,
-    ValidationProfileSet,
-    value_of_model_validation,
-    value_of_validation,
+The stable kernel imports method facades directly.  Optional and experimental
+methods remain discoverable through this compatibility namespace without being
+imported during ``import voiage``.
+"""
+
+from importlib import import_module
+
+_MODULES = (
+    "adaptive",
+    "adaptive_learning_bandit",
+    "ai_assisted_evidence_triage",
+    "ambiguity_distribution_shift",
+    "basic",
+    "calibration",
+    "capacity_budget_constrained",
+    "causal_transportability",
+    "ceaf",
+    "computational",
+    "data_quality",
+    "distributional",
+    "dominance",
+    "dynamic_real_options",
+    "equity_information",
+    "evidence_obsolescence_refresh",
+    "expert_synthesis",
+    "explainability_transparency",
+    "federated_privacy_preserving",
+    "heterogeneity",
+    "implementation",
+    "implementation_strategy",
+    "interoperability_standardization",
+    "monitoring_surveillance",
+    "network_nma",
+    "observational",
+    "perspective",
+    "portfolio",
+    "preference",
+    "regulatory_market_access",
+    "replication_reproducibility",
+    "sample_information",
+    "sequential",
+    "strategic_behavior",
+    "structural",
+    "threshold",
+    "validation",
 )
 
-__all__ = [
+
+def __getattr__(name: str) -> object:
+    """Resolve a method export only when requested."""
+    for module_name in _MODULES:
+        module = import_module(f".{module_name}", __name__)
+        if hasattr(module, name):
+            value = getattr(module, name)
+            globals()[name] = value
+            return value
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+__all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",

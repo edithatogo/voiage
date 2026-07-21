@@ -11,9 +11,16 @@ This roadmap turns the current HPC-friendly posture into a staged path toward an
 2. **Discrete GPU acceleration** — expand after Metal path is measured and contract-safe; use shared abstraction contract
 3. **TPU implementation** — reuse JAX-oriented path; require proof that device transfer overhead is worthwhile
 4. **FPGA implementation** — define toolchain and kernel shape before implementation widens
-5. **ASIC/custom-circuit implementation** — last-stage execution lane; require strong workload regularity evidence
+5. **ASIC / custom-circuit implementation** — last-stage execution lane; require strong workload regularity evidence
 
 ## Current evidence status
+
+### Benchmark status
+
+Benchmark status is evidence-gated: CPU baselines are committed, while
+device-backed speedup remains pending until reviewed production packets exist.
+The current Apple Metal track has established the committed CPU baselines;
+device-backed comparison remains separately gated.
 
 - **Discrete GPU**: implementation lane defined
 - **TPU**: implementation lane through JAX-oriented backend, comparison evidence pending
@@ -21,6 +28,11 @@ This roadmap turns the current HPC-friendly posture into a staged path toward an
 - **ASIC/custom-circuit**: deployment assumptions defined, comparison evidence pending
 
 ## Production speedup evidence gate
+
+Every evidence packet carries a `scalar_cpu_baseline` and a
+`memory_throughput_baseline`, together with workload hash, timing, throughput,
+device metadata, parity, and fallback results. These baselines are the
+reference for every accelerator lane.
 
 The Conductor track `hpc-production-speedup-evidence-program_20260625` now defines a
 machine-readable production benchmark packet with workload hash, production-scale
@@ -41,6 +53,13 @@ parallel execution demonstrates contract behavior; it is not a claim of
 multi-node production speedup without an authenticated cluster or cloud runner.
 
 ## Apple Metal evidence
+
+### Apple deployment requirements
+
+Apple deployment requirements include macOS Apple Silicon hosts for build and
+validation, Metal-capable system libraries at runtime, and CPU fallback
+coverage preserved in CI. The exact deployment requirement is `macOS Apple Silicon hosts for build and validation`.
+The release gate requires **CPU fallback coverage preserved in CI**.
 
 The Apple Metal track validates CPU reference and Metal/MPS packets for workload
 hash, warm-up, timing, throughput, CPU baseline, result parity, and fallback.

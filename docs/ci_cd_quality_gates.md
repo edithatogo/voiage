@@ -131,11 +131,9 @@ Additional validation for release builds:
 
 Each binding maintains language-native quality gates:
 
-**TypeScript**: npm check, pack dry-run
 **Go**: go test, go vet
 **Rust**: cargo fmt, cargo clippy, cargo test, cargo doc
 **Julia**: Pkg.test()
-**.NET**: dotnet build, dotnet test, dotnet pack
 **R**: R CMD build, rcmdcheck
 
 **Gate**: Must pass in binding-specific CI

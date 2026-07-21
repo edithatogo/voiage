@@ -77,6 +77,58 @@ def compute_evpi(net_benefit: list[list[float]]) -> float:
     return float(result)
 
 
+def compute_enbs(evsi_result: float, research_cost: float) -> float:
+    """Compute the stable ENBS kernel in Rust."""
+    try:
+        result = _native().compute_enbs(evsi_result, research_cost)
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
+def compute_heterogeneity(
+    net_benefit: list[list[float]], subgroups: list[str]
+) -> dict[str, object]:
+    """Compute the stable value-of-heterogeneity kernel in Rust."""
+    try:
+        result = _native().compute_heterogeneity(net_benefit, subgroups)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_structural_evpi(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+) -> float:
+    """Aggregate structural EVPI in the Rust core."""
+    try:
+        result = _native().compute_structural_evpi(
+            net_benefit_by_structure,
+            structure_probabilities,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
+def compute_structural_evppi(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+    structures_of_interest: list[int],
+) -> float:
+    """Aggregate structural EVPPI in the Rust core."""
+    try:
+        result = _native().compute_structural_evppi(
+            net_benefit_by_structure,
+            structure_probabilities,
+            structures_of_interest,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
     """Compute the stable dominance kernel in Rust."""
     try:
@@ -161,6 +213,23 @@ def compute_evsi_moment_based(
             net_benefit,
             parameter_samples,
             trial_sample_size,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_evsi_regression(
+    targets: list[list[float]],
+    parameter_samples: list[list[float]],
+    prediction_samples: list[list[float]],
+) -> dict[str, object]:
+    """Compute the deterministic Rust regression aggregation kernel."""
+    try:
+        result = _native().compute_evsi_regression(
+            targets,
+            parameter_samples,
+            prediction_samples,
         )
     except Exception as error:
         _raise_native_error(error)

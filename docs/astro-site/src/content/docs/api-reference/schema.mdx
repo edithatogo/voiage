@@ -1,0 +1,18 @@
+---
+title: Python Schema API
+description: Core Python schema and data-structure reference
+---
+
+The Python schema layer provides typed adapters for the Rust-owned contracts.
+
+## Core types
+
+- `ValueArray` stores sample-by-strategy net benefits and can be constructed
+  with `ValueArray.from_numpy`.
+- `ParameterSet` stores aligned named PSA samples and can be constructed with
+  `ParameterSet.from_numpy_or_dict`.
+- `DecisionOption` describes a decision option and its sample size.
+- `TrialDesign` describes the arms of a proposed study.
+
+The constructors enforce dimensionality, finite values, names, and alignment
+before a numerical kernel is called.

@@ -240,7 +240,9 @@ def test_lifecourse_fixture_enbs_payload_is_structured() -> None:
 def test_lifecourse_dependency_policy_and_result_envelope_contract_are_documented() -> (
     None
 ):
-    docs_text = Path("docs/integrations/lifecourse.md").read_text(encoding="utf-8")
+    docs_text = Path(
+        "docs/astro-site/src/content/docs/integrations/lifecourse.mdx"
+    ).read_text(encoding="utf-8")
     profile_text = Path("specs/integrations/lifecourse/v1/README.md").read_text(
         encoding="utf-8"
     )

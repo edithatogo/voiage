@@ -33,7 +33,7 @@ def _ceaf_values() -> ValueArray:
     )
 
 
-def test_ceaf_uses_python_fallback_when_native_extension_is_unavailable(
+def test_ceaf_requires_native_core_when_extension_is_unavailable(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(
@@ -43,13 +43,11 @@ def test_ceaf_uses_python_fallback_when_native_extension_is_unavailable(
             ModuleNotFoundError("voiage._core")
         ),
     )
-    with pytest.warns(DeprecationWarning, match="Python CEAF fallback"):
-        result = ceaf_module.calculate_ceaf(_ceaf_values(), [0.0, 1.0])
-    assert result.optimal_strategy_indices.tolist() == [0, 0]
-    assert np.all(result.probability_lower <= result.probability_upper)
+    with pytest.raises(ModuleNotFoundError, match="voiage._core"):
+        ceaf_module.calculate_ceaf(_ceaf_values(), [0.0, 1.0])
 
 
-def test_dominance_uses_python_fallback_when_native_extension_is_unavailable(
+def test_dominance_requires_native_core_when_extension_is_unavailable(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(
@@ -59,13 +57,11 @@ def test_dominance_uses_python_fallback_when_native_extension_is_unavailable(
             AttributeError("compute_dominance")
         ),
     )
-    with pytest.warns(DeprecationWarning, match="Python dominance fallback"):
-        result = dominance_module.calculate_dominance(
+    with pytest.raises(AttributeError, match="compute_dominance"):
+        dominance_module.calculate_dominance(
             [100.0, 200.0, 500.0, 800.0, 900.0],
             [1.0, 2.0, 2.5, 4.0, 3.5],
         )
-    assert result.frontier_indices == [0, 1, 3]
-    assert result.strongly_dominated_indices == [4]
 
 
 def test_package_lazy_exports_distinguish_optional_dependency_failures(

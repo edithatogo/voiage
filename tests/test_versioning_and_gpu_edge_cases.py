@@ -132,23 +132,9 @@ def test_collect_version_mismatches_reports_drift_and_main(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     _write_cargo_authority(tmp_path, "1.2.3")
-    (tmp_path / "bindings").mkdir()
-    (tmp_path / "bindings/typescript").mkdir(parents=True)
-    (tmp_path / "bindings/typescript/package.json").write_text(
-        '{"version": "1.2.0"}', encoding="utf-8"
-    )
     (tmp_path / "bindings/julia").mkdir(parents=True)
     (tmp_path / "bindings/julia/Project.toml").write_text(
-        'version = "1.2.3"', encoding="utf-8"
-    )
-    (tmp_path / "bindings/rust").mkdir(parents=True)
-    (tmp_path / "bindings/rust/Cargo.toml").write_text(
-        "[package]\nversion = '1.2.3'\n", encoding="utf-8"
-    )
-    (tmp_path / "bindings/dotnet/src/Voiage.Core").mkdir(parents=True)
-    (tmp_path / "bindings/dotnet/src/Voiage.Core/Voiage.Core.csproj").write_text(
-        "<Project><PropertyGroup><Version>1.2.3</Version></PropertyGroup></Project>",
-        encoding="utf-8",
+        'version = "1.2.0"', encoding="utf-8"
     )
     (tmp_path / "r-package/voiageR").mkdir(parents=True)
     (tmp_path / "r-package/voiageR/DESCRIPTION").write_text(
@@ -158,7 +144,7 @@ def test_collect_version_mismatches_reports_drift_and_main(
     canonical, mismatches = versioning.collect_version_mismatches(tmp_path)
     assert canonical == "1.2.3"
     assert len(mismatches) == 1
-    assert mismatches[0].label == "TypeScript"
+    assert mismatches[0].label == "Julia"
 
     assert versioning.main(["--repo-root", str(tmp_path)]) == 1
     assert "version synchronization failed" in capsys.readouterr().err
@@ -168,22 +154,9 @@ def test_validate_version_sync_and_main_success(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     _write_cargo_authority(tmp_path, "1.2.3")
-    (tmp_path / "bindings/typescript").mkdir(parents=True)
-    (tmp_path / "bindings/typescript/package.json").write_text(
-        '{"version": "1.2.3"}', encoding="utf-8"
-    )
     (tmp_path / "bindings/julia").mkdir(parents=True)
     (tmp_path / "bindings/julia/Project.toml").write_text(
         'version = "1.2.3"', encoding="utf-8"
-    )
-    (tmp_path / "bindings/rust").mkdir(parents=True)
-    (tmp_path / "bindings/rust/Cargo.toml").write_text(
-        "[package]\nversion = '1.2.3'\n", encoding="utf-8"
-    )
-    (tmp_path / "bindings/dotnet/src/Voiage.Core").mkdir(parents=True)
-    (tmp_path / "bindings/dotnet/src/Voiage.Core/Voiage.Core.csproj").write_text(
-        "<Project><PropertyGroup><Version>1.2.3</Version></PropertyGroup></Project>",
-        encoding="utf-8",
     )
     (tmp_path / "r-package/voiageR").mkdir(parents=True)
     (tmp_path / "r-package/voiageR/DESCRIPTION").write_text(

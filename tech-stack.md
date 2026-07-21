@@ -7,7 +7,7 @@ The supported Python runtime range is **Python 3.12-3.14**.
 - **Python**: 3.12-3.14, with Python package metadata in `pyproject.toml`.
 - **Rust**: native core foundations, deterministic kernels, benchmarks, and
   binding/runtime expansion work.
-- **Polyglot Bindings**: R, Julia, TypeScript, Go, Rust, and .NET 11 are tracked
+- **Polyglot Bindings**: Rust core with Python/Mojo, R, and Julia are tracked
   as external binding targets against shared fixtures.
 
 ## Python Package Dependencies
@@ -67,7 +67,4 @@ sources. This file records the architectural intent, not a duplicate lockfile.
 - **R**: GitHub Releases for source archives, with CRAN/r-universe as external
   maturity or indexing targets.
 - **Julia**: Julia General registry.
-- **TypeScript**: npm with provenance.
-- **Go**: tagged modules through the Go module proxy.
 - **Rust**: crates.io.
-- **.NET**: NuGet targeting .NET 11.

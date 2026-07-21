@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 import json
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -63,26 +63,6 @@ def _evaluator_http_hit_if_200(
     if _status is None:
         return "not_checked"
     return "unconfirmed"
-
-
-def _evaluator_go_module_proxy(
-    status: int | None, body: bytes | None, error: str | None
-) -> str:
-    if error is not None and status is None:
-        return "not_checked"
-    if status == 404:
-        result = "not_found"
-    elif status != 200 or body is None:
-        result = "unconfirmed"
-    else:
-        text = body.decode("utf-8", errors="replace").strip()
-        if not text or "not found:" in text.lower():
-            result = "no_released_versions"
-        elif text.splitlines():
-            result = "confirmed"
-        else:
-            result = "no_released_versions"
-    return result
 
 
 def _evaluator_julia_general(
@@ -150,48 +130,12 @@ CHANNELS: tuple[Channel, ...] = (
         confidence="medium",
     ),
     Channel(
-        key="typescript",
-        package="@voiage/core",
-        registry="npm",
-        registry_url="https://www.npmjs.com/package/%40voiage%2Fcore",
-        check_url="https://registry.npmjs.org/%40voiage/core",
-        notes="Automated npm publish exists on typescript-v* tags.",
-        evaluator=_evaluator_http_hit_if_200,
-        confidence="high",
-    ),
-    Channel(
-        key="go",
-        package="github.com/edithatogo/voiage/bindings/go",
-        registry="Go module proxy",
-        registry_url=(
-            "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list"
-        ),
-        check_url=(
-            "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list"
-        ),
-        notes="Semver tags under bindings/go/v* are in-repo publication boundary.",
-        evaluator=_evaluator_go_module_proxy,
-        confidence="medium",
-    ),
-    Channel(
         key="rust",
         package="voiage-core",
         registry="crates.io",
         registry_url="https://crates.io/crates/voiage-core",
         check_url="https://crates.io/api/v1/crates/voiage-core",
         notes="Automated cargo publish exists on rust-v* tags.",
-        evaluator=_evaluator_http_hit_if_200,
-        confidence="high",
-    ),
-    Channel(
-        key="dotnet",
-        package="Voiage.Core",
-        registry="NuGet",
-        registry_url="https://www.nuget.org/packages/Voiage.Core",
-        check_url=(
-            "https://api.nuget.org/v3/registration5-semver1/voiage.core/index.json"
-        ),
-        notes="Automated NuGet publish exists on dotnet-v* tags.",
         evaluator=_evaluator_http_hit_if_200,
         confidence="high",
     ),
@@ -301,7 +245,7 @@ def _status_details(status: str) -> str:
 
 
 def _snapshot_entry(channel: Channel, status: str) -> dict[str, object]:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     return {
         "package": channel.package,
         "registry": channel.registry,
@@ -329,7 +273,7 @@ def write_snapshot(snapshot_path: Path, snapshot: dict[str, dict[str, object]]) 
     """Write an audit snapshot to disk in a stable format."""
     snapshot_path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "snapshot": snapshot,
     }
     with snapshot_path.open("w", encoding="utf-8") as handle:

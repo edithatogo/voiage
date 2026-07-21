@@ -1,4 +1,4 @@
-library(testthat)
-library(voiageR)
-
-test_check("voiageR")
+if (requireNamespace("testthat", quietly = TRUE)) {
+  library(voiageR)
+  testthat::test_check("voiageR")
+}

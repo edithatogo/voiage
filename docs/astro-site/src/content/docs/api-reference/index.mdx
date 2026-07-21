@@ -5,6 +5,50 @@ sidebar:
   order: 1
 ---
 
-The API reference documentation is auto-generated from the voiage Python package source using `starlight-polyglot`. Below you'll find the generated API surface for each supported language.
+The v1.0 stable API is defined by the normative
+[`specs/v1/stable-api.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-api.json)
+contract. Rust owns numerical policy; Python is the reference facade and the
+retained bindings use the same Rust implementation.
 
-Use the generated API navigation entries for Python and TypeScript once the documentation build has completed.
+## Stable numerical operations
+
+| Operation | Inputs | Result | Rust-owned errors |
+| --- | --- | --- | --- |
+| `evpi` | `net_benefit[sample, strategy]` | finite float ≥ 0 | `InputError`, `DimensionMismatchError` |
+| `evppi` | net benefits and parameter samples | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError` |
+| `evsi` | net benefits, priors, trial design | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError`, `NumericalError` |
+| `enbs` | cost and value-of-information inputs | finite float | `InputError` |
+| `ceaf` | net benefits and optional thresholds | `CEAFResult` | `InputError`, `DimensionMismatchError` |
+| `dominance` | strategy costs and effects | `DominanceResult` | `InputError`, `DimensionMismatchError` |
+
+Stable numerical defaults are absolute tolerance `1e-10`, relative tolerance
+`1e-8`, unsigned 64-bit seeds, rejection of infinity, and rejection of missing
+values unless a method explicitly documents support. Cross-platform results are
+required to remain within the declared tolerance.
+
+## Stable supporting surfaces
+
+Schemas, diagnostics, reporting, provenance, plotting, and the CLI are stable
+surfaces. Provenance records include `voiage_version`, `core_version`, `method`,
+and `settings`; CLI serialization supports JSON and CSV with exit codes 0 for
+success, 2 for invalid input, and 1 for runtime failure.
+
+The stable error vocabulary is `InputError`, `DimensionMismatchError`,
+`BackendNotAvailableError`, `NumericalError`, and `SerializationError`.
+
+The stable Python symbols are `DecisionAnalysis`, `DecisionOption`,
+`CEAFResult`, `DominanceResult`, `ParameterSet`, `PortfolioSpec`,
+`PortfolioStudy`, `TrialDesign`, `ValueArray`, `ceaf`, `dominance`, `enbs`,
+`evpi`, `evppi`, and `evsi`.
+
+The generated language-specific API navigation remains below this normative
+contract.
+
+Use the generated API navigation entries for Python and the supported Rust-backed binding surfaces once the documentation build has completed.
+
+## Python API navigation
+
+- [Python analysis](./python-analysis/) — `DecisionAnalysis` facade
+- [Python schemas](./schema/) — `ValueArray`, `ParameterSet`, and study types
+- [Python methods](./methods/) — stable and maturity-labelled method facades
+- [Metamodels](./metamodels/) — optional extension boundary

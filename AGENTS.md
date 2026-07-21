@@ -12,7 +12,7 @@ Before making a change, load context in this order:
 
 1. `AGENTS.md` for agent protocol and repository boundaries.
 2. `roadmap.md` and `todo.md` for current priorities and completed work.
-3. `CONTRIBUTING.md` and `docs/developer_guide/quality_and_security.rst` for
+3. `CONTRIBUTING.md` and `docs/astro-site/src/content/docs/developer-guide/quality-and-security.mdx` for
    implementation and verification rules.
 4. The relevant package, test, workflow, Conductor track, and binding files.
 

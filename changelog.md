@@ -8,12 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
+  stable public paths; these operations now fail closed when the Rust core is
+  unavailable rather than silently re-entering duplicate numerical policy.
+- Removed Python efficient-linear, moment-based, and regression EVSI fallbacks;
+  missing-native paths fail closed and rank-deficient designs are handled by
+  the native rank-aware solver.
 - Removed stale `conductor/tracks/dataset-registry-and-example-corpus_20260625/` and
   `conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/`
   directories after archiving to `conductor/archive/`.
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added an executable v1 extension policy that classifies every methods module
+  outside the stable Rust facades as an optional or experimental extension;
+  advanced binding methods no longer have an implicit stable-core status.
+- Added the canonical v1 retained-binding matrix at
+  `specs/v1/binding-matrix.json` with executable drift coverage for all seven
+  supported surfaces, Rust execution authority, registry targets, tag
+  patterns, shared fixtures, and external gates.
+- Added a versioned Rust/PyO3 regression aggregation kernel for callback-driven
+  EVSI; Python retains trial simulation and model callbacks while the native
+  numerical contract fails closed for unavailable or rank-deficient builds.
 - Added Pydantic v2 structured logging with JSONL, run IDs, bound context, and
   backward-compatible CLI human logs; added Pixi/uv task parity, BasedPyright
   ratcheting, Scalene artifacts, and manually dispatchable expensive CI lanes.
@@ -266,7 +282,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (`scripts/refresh_binding_registry_audit.py`) with offline refresh support and
   schema fields for `checked_at` and `evidence_confidence`.
 - Added a dedicated
-  `docs/developer_guide/hpc_acceleration_abstraction_contract.rst` reference
+  Astro HPC acceleration contract reference
   that defines the shared GPU/TPU/FPGA/ASIC abstraction decision and benchmark
   contract.
 - Added the missing `tests/test_r_release_workflow.py` contract test so all
@@ -650,6 +666,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Made the R package testable as a clean installed artifact by packaging the
+  canonical EVPI oracle, isolating reticulate environment calls behind private
+  seams, and rejecting R release tags whose version differs from DESCRIPTION.
+- Completed changed-line coverage for native runtime error translation,
+  malformed regression envelopes, experimental namespace failures, ENBS
+  fail-closed behavior, and discounted structural EVPPI scaling.
 - Made Rust provenance and payload digest encoding compatible with the `sha2`
   0.11 digest representation, preserving deterministic lowercase hexadecimal
   hashes during the dependency upgrade.

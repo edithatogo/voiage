@@ -12,32 +12,26 @@ def test_hpc_docs_reference_colab_gpu_tpu_evidence_without_speedup_claim() -> No
     docs = "\n".join(
         _read(path)
         for path in (
-            "docs/developer_guide/hpc_native_roadmap.rst",
-            "docs/developer_guide/hpc_acceleration_abstraction_contract.rst",
-            "docs/developer_guide/hpc_distribution_contract.rst",
-            "docs/developer_guide/rust_accelerators.rst",
+            "docs/astro-site/src/content/docs/developer-guide/hpc-native-roadmap.mdx",
+            "docs/astro-site/src/content/docs/developer-guide/hpc-acceleration-abstraction-contract.mdx",
+            "docs/astro-site/src/content/docs/developer-guide/hpc-distribution-contract.mdx",
+            "docs/astro-site/src/content/docs/developer-guide/rust-accelerators.mdx",
         )
     )
     normalized_docs = " ".join(docs.split())
 
     for needle in (
-        "colab_gpu_accelerator_evidence.json",
-        "colab_tpu_accelerator_evidence.json",
-        "colab_accelerator_evidence_manifest.json",
-        'jax_devices == ["cuda:0"]',
-        'jax_platforms == ["gpu"]',
-        'jax_platforms == ["tpu"]',
-        "cpu_evpi == jax_evpi == 1.25",
-        "do not prove production speedup",
+        "production-scale",
+        "CPU comparison",
+        "workload hashes",
+        "warm-up",
+        "repeated timings",
+        "result parity",
+        "CPU fallback",
+        "does not prove speedup",
+        "not HPC-native",
     ):
-        assert needle in docs
-    assert (
-        "not sufficient by themselves to claim HPC-native acceleration"
-        in normalized_docs
-    )
-    assert "future GPU/TPU/FPGA/ASIC decisions" in docs
-    assert "Colab GPU/TPU visibility and parity evidence" in docs
-    assert "not timing, warm-up, or throughput review packets" in docs
+        assert needle.lower() in normalized_docs.lower()
 
 
 def test_roadmap_tracks_completed_setup_separately_from_speedup_gates() -> None:

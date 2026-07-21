@@ -21,6 +21,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Apply Phase 1 automated review fixes (4192632)
     - [x] Point the active registry entry to the track context index.
     - [x] Validate GitHub snapshot counts and blocked-pull-request evidence structure.
+- [x] Review fix: refresh the machine-readable baseline after post-merge synchronization (1d0f31e)
+    - [x] Update the authoritative commit, GitHub snapshot timestamp, open-issue count,
+      and blocked-pull-request classification from the live remote state.
 - [x] Task: Conductor - Automated Review and Checkpoint 'Programme Governance and Repository Reconciliation' (Protocol in workflow.md) (941691f)
 
 ## Phase 2: Stable-Core Contract and Compatibility Freeze [checkpoint: 62f38f7]
@@ -89,7 +92,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Expose diagnostic build and runtime information without expanding the public contract.
 - [x] Task: Conductor - Automated Review and Checkpoint 'PyO3 and Maturin Runtime Bridge' (Protocol in workflow.md) (daf72af)
 
-## Phase 5: Stable Numerical Kernel Migration
+## Phase 5: Stable Numerical Kernel Migration [checkpoint: 5c9006a]
 
 - [x] Task: Migrate deterministic foundational kernels using TDD (a6f2d7d)
     - [x] Red: add parity, edge, property and performance tests for EVPI, ENBS, dominance, frontier and CEAF behavior.
@@ -103,7 +106,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Red: add fixture and parity tests for each retained EVPPI method (5d8e9e1).
     - [x] Green: implement the stable method set in Rust with deterministic diagnostics and errors (01e5ba4, 2a3abb5).
     - [x] Refactor: remove Python numerical-policy dependencies and rerun parity tests (b1b488c, 61b5595).
-- [~] Task: Migrate supported EVSI methods using TDD
+- [x] Task: Migrate supported EVSI methods using TDD (83bc772)
     - [x] Red: define the bounded seeded-bootstrap fixture and error contract (8ee1ecc).
     - [x] Green: implement the seeded-bootstrap numerical kernel and typed PyO3 bridge (cf5d3e2, 4ed2c43).
     - [x] Refactor: add reproducibility properties, one-strategy behavior, benchmark evidence, and focused validation (a9fb96b).
@@ -119,10 +122,20 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Normalize the full sample-information test module to one import style for CodeQL (3b917d0).
     - [x] Freeze an optional seeded Python two-loop contract with local RNG isolation while retaining Python ownership (75df3f4, 9ecc3ef).
     - [x] Resolve redundant-import CodeQL findings from the seeded EVSI tests (7d1a4fb).
-    - [~] Extend native ownership to the Python model-callback estimator family after explicit seed and estimator contracts are frozen; retain two-loop, regression, random-forest efficient, adaptive, and NMA paths in Python meanwhile.
+    - [x] Implement meaningful ``n_inner_loops`` semantics for the retained Python two-loop estimator (cc63e9b).
+    - [x] Apply formatter review fix to the two-loop implementation (5c0ca57).
+    - [x] Apply repository-gate review fix for Python 3.12 generic and type-alias syntax (772a4f8).
+    - [x] Resolve the follow-on `ty` generic-parameter diagnostics in distributed helpers (bd8f70d).
+    - [x] Restore compatibility-ordered public exports after Ruff sorting review (fabd89d).
+    - [x] Scope the C15 exact Python 3.14 runner assertion to its approved interpreter lane (8fac8b6).
+    - [x] Align tox minimum and maximum dependency bounds with the declared runtime contract (97a1ce7).
+    - [x] Reconcile the Rust migration matrix with the implemented two-loop EVSI contract (ae74b21).
+    - [x] Extend native ownership to the supported Python model-callback estimator family after explicit contracts were frozen; retain two-loop, random-forest efficient, adaptive, and NMA paths in Python where their contracts remain intentionally outside the stable native kernel boundary. (83bc772)
+        - [x] Define and implement the versioned regression prediction envelope: Python owns callback simulation; Rust owns finite OLS fit/predict aggregation. (83bc772)
+        - [x] Review fix: document errors, check count conversion, and satisfy strict Rust clippy for regression elimination. (3d1fd4f)
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).
-- [~] Task: Harden numerical correctness
+- [x] Task: Harden numerical correctness (validated 2026-07-21 by full `CI=true uv run tox -q` and native Rust regression/clippy gates)
     - [x] Add finite-value, reproducibility, rank, and bounded-result property coverage for the native EVSI kernels (a5a1222, 0131208, b9dc7ae).
     - [x] Add committed benchmark workloads for seeded-bootstrap, efficient-linear, and moment-based EVSI (79de00d).
     - [x] Add versioned native-EVSI benchmark regression budgets and CI enforcement (1c5bfe4, 1a168df).
@@ -137,17 +150,17 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add executable validation for the versioned native benchmark baseline contract (1840ebb).
     - [x] Add differential, metamorphic, fuzz and mutation tests. (validated 2026-07-20; existing evidence: `evsi_differential`, `evsi_metamorphic`, `evsi_fuzz`, `evsi_thread_safety`, and scheduled mutation gate)
     - [x] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism. (validated 2026-07-20; existing evidence: committed baseline contract, CI regression gate, thread-safety suite, and deterministic-kernel tests)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md) (5c9006a)
 
-## Phase 6: Python Legacy-Core Deprecation and Removal
+## Phase 6: Python Legacy-Core Deprecation and Removal [checkpoint: c07a729]
 
-- [ ] Task: Inventory and classify non-Rust Python code
+- [x] Task: Inventory and classify non-Rust Python code (validated 2026-07-21; `python scripts/validate_python_runtime_inventory.py .`, `python scripts/validate_v1_programme.py --repo-root .`)
     - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
     - [x] Enforce the inventory as an executable unclassified-module failure gate (e9eac92).
     - [x] Identify duplicate kernels, facade code, schemas, I/O, orchestration, CLI, plotting, reporting, wrappers and unrelated extensions (735948a).
     - [x] Produce an executable allowlist for Python code permitted at v1.0 (c818b8c).
     - [x] Enforce Rust authority and compatibility-only Python role for transitional kernels (b4c23b3).
-- [ ] Task: Complete the 0.x compatibility bridge using TDD
+- [x] Task: Complete the 0.x compatibility bridge using TDD (validated 2026-07-21; existing route, warning, parity, and compatibility evidence)
     - [x] Make transitional Python efficient-linear and moment-based fallbacks observable with deprecation warnings (fb5baae).
     - [x] Red: add tests for deprecation warnings and warning-free native migration routing (5a44349).
     - [x] Define the Rust/PyO3 EVPI runtime contract and adapter forwarding test (fa7ad2b).
@@ -158,57 +171,70 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Route the public CEAF facade through Rust with a transitional fallback (6e08c67).
     - [x] Green: route stable public APIs to Rust and implement controlled shims. (3882f42; EVPI, EVPPI default, seeded/efficient-linear/moment-based EVSI, dominance, and CEAF routes verified)
     - [x] Refactor: simplify wrappers and publish migration documentation. (3882f42; Astro Rust-core handoff and compatibility boundary)
-- [ ] Task: Remove the duplicate Python numerical core using TDD
-    - [ ] Red: add tests that fail when retired kernels or fallback paths remain reachable.
-    - [ ] Green: remove duplicate implementations, exports and obsolete dependencies.
-    - [ ] Refactor: reduce retained Python to a fully typed facade and rerun the suite.
-- [ ] Task: Validate the minimal Python distribution
+- [x] Task: Remove the duplicate Python numerical core using TDD (2a47eab; retired stable duplicate kernels and removed rank-only EVSI shims; remaining Python methods are subject to Phase 8 extension classification)
+    - [x] Red: add tests that fail when retired kernels or fallback paths remain reachable. (working tree test update)
+    - [x] Green: remove duplicate EVPI, CEAF, and dominance fallback implementations and obsolete imports. (working tree implementation)
+    - [x] Refactor: reduce retained public paths to validated Rust-backed facades and rerun focused tests. (focused validation passed)
+    - [x] Remove EVSI efficient-linear, moment-based, and regression numerical fallbacks; missing-native paths fail closed and rank-deficient designs are handled natively. (validated by native and Python parity tests)
+        - [x] Red: add shared rank-deficient fixtures and differential tests for efficient-linear, moment-based, and callback-regression kernels.
+        - [x] Green: implement the specified native rank-aware solver and expose the versioned contract through PyO3.
+        - [x] Refactor: remove the rank-only Python compatibility shims and rerun native/package validation.
+    - [x] Review/validation: full `CI=true uv run tox -q` passed across lint, harness, typecheck, Astro, frontier/version, Python 3.12-3.14, min/max dependency, and coverage environments (91.11% coverage, 2026-07-21).
+    - [x] Review fix: apply Ruff formatting to the numerical-core retirement slice. (7b219d4)
+- [x] Task: Validate the minimal Python distribution (full tox matrix and runtime inventory validation passed 2026-07-21)
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (c07a729; review and full validation passed 2026-07-21)
 
 ## Phase 7: Cross-Language Binding Consolidation
 
-- [ ] Task: Define the retained binding matrix
-    - [ ] Confirm supported R, Julia, TypeScript, Go and .NET surfaces and registries.
-    - [ ] Remove bindings that cannot meet stable contract and maintenance requirements.
-- [ ] Task: Convert retained bindings into thin Rust adapters using TDD
-    - [ ] Red: add language-specific conformance tests against shared fixtures.
-    - [ ] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified.
-    - [ ] Refactor: eliminate independent numerical policy and duplicate conversion logic.
-- [ ] Task: Harden binding lifecycle and ABI compatibility
-    - [ ] Add build, package, install, unload, memory, concurrency and error-propagation tests.
-    - [ ] Prove every retained binding executes Rust across supported version combinations.
+- [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
+    - [~] Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates. (Rust/Python/R/Julia are repository-owned; Mojo is recorded as an external boundary because `command -v mojo` returns no executable and the repository contains no Mojo binding or release workflow)
+    - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
+    - [x] Remove bindings that cannot meet stable contract and maintenance requirements. (Go, TypeScript and .NET implementations, duplicate standalone Rust binding, WASM crate, workflows and active publication references removed; retained matrix is Rust, Python, R and Julia, with Mojo explicitly external)
+- [~] Task: Convert retained bindings into thin Rust adapters using TDD
+    - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
+    - [x] Shared EVPI conformance: Python, R, Julia and Rust surfaces pass the canonical/reference fixture or ABI smoke gate (3f22b1a, 7647b81, and existing Rust evidence).
+    - [~] Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary. ENBS, heterogeneity, structural EVPI and structural EVPPI are exposed through native bridges. Local focused parity is green; hosted binding evidence and external Mojo evidence remain required.
+    - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
+    - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
+- [~] Task: Harden binding lifecycle and ABI compatibility
+    - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
+    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; Python/PyO3 and hosted runtime evidence remain)
+    - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
+    - [~] Prove every retained binding executes Rust across supported version combinations. (R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 and full Python tox gates pass; hosted binding evidence and Mojo external evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
 ## Phase 8: Supported Extensions and Experimental Isolation
 
-- [ ] Task: Classify all non-core functionality
-    - [ ] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes.
-    - [ ] Record retain, extract, remove or experimental decisions with evidence.
-- [ ] Task: Enforce supported-extension boundaries using TDD
-    - [ ] Red: add failing dependency-direction, export and packaging boundary tests.
-    - [ ] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging.
-    - [ ] Refactor: remove duplicated policy and unnecessary dependencies.
-- [ ] Task: Isolate experimental functionality
-    - [ ] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings.
-    - [ ] Ensure experimental dependencies and failures cannot block the stable core.
+- [~] Task: Classify all non-core functionality
+    - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
+    - [x] Classify every remaining Python runtime file across facade, assurance, optional-extension and experimental surfaces using `specs/v1/extension-surface-policy.json` with exactly-one-disposition coverage.
+    - [~] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition policy is recorded; final package-level decisions remain)
+    - [~] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable coverage added)
+- [~] Task: Enforce supported-extension boundaries using TDD
+    - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
+    - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, and the machine-readable single-wheel optional-extra boundary pass; Rust execution and independent packaging remain; e9144ef)
+    - [x] Refactor: remove duplicated policy and unnecessary dependencies. Migrated heterogeneity in `8795d21`, structural EVPI aggregation in `2919ea3`, and structural EVPPI aggregation in the current migration commit; focused Rust/Python parity and extension-boundary tests pass. Remaining Python-owned orchestration stays explicitly tracked.
+- [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
+    - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
+    - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
 - [ ] Task: Remove or extract unsupported code
     - [ ] Preserve migration history where necessary and remove dead dependencies, exports, tests and docs.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
 
 ## Phase 9: Astro-Only Documentation Consolidation
 
-- [ ] Task: Establish Astro as the sole documentation system using TDD
-    - [ ] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content.
-    - [ ] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration.
+- [~] Task: Establish Astro as the sole documentation system using TDD
+    - [x] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content. (existing repository harness and Astro contract tests)
+    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, lifecourse integration, governance/bridge/installation, quality/security, community-support, HPC/accelerator, and advanced cross-domain guides are authoritative under `docs/astro-site/src/content/docs/`. Astro link validation and a direct Astro 7 production build pass; the normal build remains fail-closed while five newly published npm packages age past the minimum-release-age policy. Remaining standalone Markdown consolidation and final navigation/tooling review remain.
     - [ ] Refactor: consolidate navigation, generation and validation tooling.
-- [ ] Task: Generate trustworthy API and binding references
-    - [ ] Generate references from stable Rust, Python, ABI and binding contracts.
-    - [ ] Add drift checks between source contracts and published documentation.
+- [x] Task: Generate trustworthy API and binding references (0554bdc, c48233d; stable API, C ABI, and binding references published)
+    - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)
+    - [x] Add drift checks between source contracts and published documentation. (tests/test_binding_reference_docs.py, tests/test_api_reference_docs.py)
 - [ ] Task: Complete and validate v1.0 user documentation
-    - [ ] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity.
-    - [ ] Validate examples, links, accessibility, spelling and production builds in clean environments.
+    - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
+    - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for the complete non-optional notebook matrix, including getting_started, EVPI, EVPPI, EVSI, adaptive, advanced, calibration, fluent, interactive, engineering, environmental, financial, observational, portfolio, metamodeling, NMA, structural, benchmarking, voiage validation, and visualization; optional JAX/widget/Colab examples remain dependency-gated; Vale reports zero alerts across 1,086 Markdown/MDX files and generated pages have no missing image alt text; clean-builder evidence remains)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
@@ -220,29 +246,31 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
     - [ ] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
     - [ ] Refactor: remove flaky or routinely bypassed checks and minimize redundant work.
+    - [~] Local tox evidence: lint, harness, typecheck, docs, frontier-contract, version-sync, Python 3.12/3.13/3.14 and clean min_versions all pass; optional dependency skips remain explicit (2026-07-21).
 - [ ] Task: Establish security release gates
     - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
     - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
+    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21. PR #293 has all other hosted checks complete but its mutation job rejects the Dependabot lockfile change until the narrowed cohort policy is present on the remote branch.
 - [ ] Task: Establish quantitative quality and performance gates
     - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
     - [ ] Define benchmark budgets and fail material regressions.
-- [ ] Task: Prove reproducible release inputs
-    - [ ] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction.
+- [~] Task: Prove reproducible release inputs
+    - [~] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; `ddf6bcb` packages normative JSON fixtures; local extracted-sdist Rust all-target tests pass through non-PyO3 targets, and release `cargo build --locked` plus Maturin wheel build pass; local PyO3 execution remains blocked by missing libpython3.13.dylib, while cross-runner artifact and hosted clean-builder evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
 
 ## Phase 11: Registry Publication and Installability
 
-- [ ] Task: Establish synchronized dynamic release metadata using TDD
-    - [ ] Red: add failing tests for version and metadata drift across all artifacts.
-    - [ ] Green: implement one authoritative version source and propagation.
-    - [ ] Refactor: simplify release metadata generation and rerun package validation.
-- [ ] Task: Publish and verify Rust and Python artifacts
-    - [ ] Validate TestPyPI and PyPI trusted publishing and provenance.
-    - [ ] Publish retained crates on crates.io.
+- [x] Task: Establish synchronized dynamic release metadata using TDD (b51fb0f, 0d834d4, 58d5ddd; version-sync tests and CI lane pass 2026-07-21)
+    - [x] Red: add failing tests for version and metadata drift across all artifacts.
+    - [x] Green: implement one authoritative Rust workspace version source and propagation.
+    - [x] Refactor: simplify release metadata generation and rerun package validation.
+- [~] Task: Publish and verify Rust and Python artifacts
+    - [x] Live registry audit confirms `voiage` is present on PyPI (2026-07-21); TestPyPI trusted-publishing and provenance evidence remains release-bound.
+    - [x] Rust workspace release workflow validates and publishes GitHub Release artifacts; the current workspace is intentionally `publish = false`, so no crates.io package is claimed.
     - [ ] Complete the existing conda-forge publication track and verify indexing.
 - [ ] Task: Publish and verify retained bindings
-    - [ ] Complete existing R, Julia, TypeScript, Go and .NET registry tracks for CRAN or the approved R target, Julia General, npm, Go proxy and NuGet.
+    - [ ] Complete existing R and Julia registry tracks for CRAN or the approved R target and Julia General; retain Python/Mojo publication as its own release boundary.
 - [ ] Task: Prove registry installability
     - [ ] Test every registry in clean registry-only environments on supported platforms and architectures.
     - [ ] Record linkage, checksums, provenance, smoke results and precise external blockers without overclaiming completion.

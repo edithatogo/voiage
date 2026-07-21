@@ -33,12 +33,12 @@ Experimental functionality must be isolated from stable top-level exports, carry
 9. During the remaining 0.x series, route public Python APIs through Rust, issue deprecations and provide migration guidance; at v1.0 remove duplicate Python numerical kernels and silent fallbacks.
 10. Retain outside Rust only essential Python facade responsibilities: schemas and I/O, orchestration, CLI, plotting, reporting and compatibility wrappers.
 11. Extract, remove or explicitly isolate domain-specific, web, widget, accelerator, distributed and experimental code unless a separate supported-extension case is documented.
-12. Convert retained R, Julia, TypeScript, Go and .NET bindings into thin Rust adapters using the C ABI, WASM or N-API as justified; remove independent numerical implementations.
+12. Convert retained R and Julia bindings, plus the Python and Mojo surfaces, into thin Rust adapters over the stable Rust core; remove independent numerical implementations.
 13. Consolidate all maintained documentation into Astro/Starlight, migrate unique RST content and remove Sphinx configuration, dependencies and duplicate builds.
 14. Preserve a solo-maintainer GitHub model with no mandatory external review while enforcing reliable CI, security, provenance, quality and release checks.
 15. Enforce Python coverage of at least 90 percent and appropriate Rust and binding coverage, property, fuzz, mutation, sanitizer, ABI, dead-code and benchmark gates.
 16. Produce SBOMs, provenance attestations, signatures, checksums, license evidence and reproducibility reports.
-17. Publish and verify retained artifacts on TestPyPI, PyPI, conda-forge, crates.io, CRAN or the approved R target, Julia General, npm, the Go module proxy and NuGet.
+17. Publish and verify retained artifacts on TestPyPI, PyPI, conda-forge, crates.io, CRAN or the approved R target, and Julia General; keep Mojo distribution tied to its approved upstream mechanism.
 18. Publish a signed GitHub v1.0 release with release notes, migration guidance, artifacts, SBOMs, provenance, signatures, checksums and reproducibility evidence.
 
 ## Non-Functional Requirements

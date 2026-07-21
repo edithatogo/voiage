@@ -2,11 +2,11 @@
 
 """A module for statistical utility functions used in VOI calculations."""
 
-from typing import Any, TypeAlias
+from typing import Any
 
 import numpy as np
 
-ArrayOrScalar: TypeAlias = float | np.ndarray[Any, Any]
+type ArrayOrScalar = float | np.ndarray[Any, Any]
 
 
 def normal_normal_update(

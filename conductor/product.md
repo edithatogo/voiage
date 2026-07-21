@@ -25,7 +25,7 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **Multi-Domain Support**: Core framework for healthcare, financial, environmental domains
 - **JAX Backend**: High-performance computing with JAX/NumPyro integration
 - **Contract-First Frontier Methods**: Value of Perspective, preference/individualized-care, validation, threshold, distributional/equity, and implementation-adjusted surfaces with deterministic fixtures
-- **Polyglot Binding Scaffolds**: R, Julia, TypeScript, Go, Rust, and .NET release and contract scaffolds
+- **Polyglot Binding Scaffolds**: Rust core with Python/Mojo, R and Julia release and contract scaffolds
 - **Docs Platform**: Astro/Starlight is the authoritative versioned docs site
   and documentation validation path
 - **Community and HPC Readiness**: packaging and review readiness for
@@ -43,11 +43,11 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **Backend Abstraction**: Pluggable backends for NumPy, JAX, and the Rust execution core
 - **Contract-First Development**: Explicit schemas, deterministic fixtures, and reviewable examples define compatibility
 - **CLI-First**: Full command-line interface for all core and frontier methods
-- **Polyglot Bindings**: Thin adapters for Python, R, Julia, TypeScript, Go, Rust, and .NET
+- **Polyglot Bindings**: Thin adapters for Python/Mojo, R and Julia over Rust
 - **Plotting**: Matplotlib/Seaborn integration for visualization
 
 ## Technology Stack
-- **Languages**: Python 3.12-3.14, Rust, and binding runtimes for R, Julia, TypeScript, Go, and .NET 11
+- **Languages**: Rust core, Python 3.12-3.14, and supported binding runtimes for R and Julia; Mojo remains an upstream integration boundary
 - **Core Libraries**: NumPy, SciPy, pandas, xarray
 - **High-Performance**: JAX, NumPyro, Rust
 - **Machine Learning**: scikit-learn, statsmodels

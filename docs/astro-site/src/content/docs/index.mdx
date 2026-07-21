@@ -17,7 +17,7 @@ hero:
 
 import { CardGrid, Card } from "@astrojs/starlight/components";
 
-voiage is a comprehensive, cross-domain **Value of Information (VOI) analysis** library built with a Rust execution core and Python as the reference façade, with thin bindings for R, Julia, TypeScript, Go, and .NET.
+voiage is a comprehensive, cross-domain **Value of Information (VOI) analysis** library built with a Rust execution core and Python/Mojo surfaces, with thin R and Julia bindings.
 
 VOI methods help quantify the economic value of acquiring additional information to reduce uncertainty in decision-making, particularly in fields like health economics, risk analysis, and decision sciences.
 
@@ -52,7 +52,7 @@ VOI methods help quantify the economic value of acquiring additional information
 ## Why voiage?
 
 - **Comprehensive coverage** — from basic EVPI to frontier methods like distributional/equity VOI and dynamic real-options
-- **Polyglot by design** — Python reference API with thin bindings for R, Julia, TypeScript, Go, Rust, and .NET
+- **Rust-first by design** — Python/Mojo reference surfaces with thin R and Julia bindings over the Rust core
 - **High performance** — Rust execution core with JAX acceleration and optional GPU/TPU backends
 - **Contract-first** — documented schemas, deterministic fixtures, and conformance tests across languages
 - **Modern Python** — leverages NumPy, SciPy, pandas, xarray, and NumPyro

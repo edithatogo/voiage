@@ -5,6 +5,7 @@ from typing import Any
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
 from voiage.reporting import build_cheers_reporting
@@ -170,27 +171,20 @@ def value_of_heterogeneity(
     )
     subgroup_arr = _bin_numeric_subgroups(subgroup_arr, n_bins)
 
-    labels = [str(label) for label in np.unique(subgroup_arr)]
-    weights = np.empty(len(labels), dtype=DEFAULT_DTYPE)
-    optimal_indices = np.empty(len(labels), dtype=int)
-    subgroup_enb = np.empty(len(labels), dtype=DEFAULT_DTYPE)
-
-    for idx, label in enumerate(labels):
-        mask = subgroup_arr == label
-        subgroup_mean_nb = np.mean(nb_values[mask], axis=0)
-        optimal_idx = int(np.argmax(subgroup_mean_nb))
-        weights[idx] = float(np.mean(mask))
-        optimal_indices[idx] = optimal_idx
-        subgroup_enb[idx] = subgroup_mean_nb[optimal_idx]
-
-    subgroup_specific_enb = float(np.sum(weights * subgroup_enb))
-    overall_mean_nb = np.mean(nb_values, axis=0)
-    overall_optimal_idx = int(np.argmax(overall_mean_nb))
-    overall_enb = float(overall_mean_nb[overall_optimal_idx])
+    native = _runtime.compute_heterogeneity(
+        nb_values.tolist(), labels_for_samples(subgroup_arr)
+    )
+    weights = np.asarray(native["subgroup_weights"], dtype=DEFAULT_DTYPE)
+    optimal_indices = np.asarray(native["subgroup_optimal_strategy_indices"], dtype=int)
+    subgroup_enb = np.asarray(
+        native["subgroup_expected_net_benefits"], dtype=DEFAULT_DTYPE
+    )
+    overall_optimal_idx = int(native["overall_optimal_strategy_index"])
+    overall_enb = float(native["overall_expected_net_benefit"])
 
     return HeterogeneityResult(
-        value=max(0.0, subgroup_specific_enb - overall_enb),
-        subgroup_labels=labels,
+        value=float(native["value"]),
+        subgroup_labels=list(native["subgroup_labels"]),
         subgroup_weights=weights,
         subgroup_optimal_strategy_indices=optimal_indices,
         subgroup_optimal_strategy_names=[
@@ -207,10 +201,15 @@ def value_of_heterogeneity(
             diagnostics={
                 "n_samples": int(nb_values.shape[0]),
                 "n_strategies": int(nb_values.shape[1]),
-                "n_subgroups": len(labels),
+                "n_subgroups": len(native["subgroup_labels"]),
             },
         ),
     )
+
+
+def labels_for_samples(subgroups: np.ndarray) -> list[str]:
+    """Normalize subgroup labels while preserving sample order for Rust."""
+    return [str(label) for label in subgroups]
 
 
 def identify_optimal_subgroups(result: HeterogeneityResult) -> dict[str, str]:

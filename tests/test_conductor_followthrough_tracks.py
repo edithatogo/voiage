@@ -245,10 +245,12 @@ def test_frontier_followthrough_tracks_gate_stable_promotion() -> None:
 
 def test_hpc_followthrough_tracks_require_production_speedup_packets() -> None:
     """HPC tracks should require benchmark packets, not visibility alone."""
-    hpc_docs = _read("docs/developer_guide/hpc_native_roadmap.rst")
-    assert "hpc-production-speedup-evidence-program_20260625" in hpc_docs
-    assert "tpu-production-scale-colab-evidence_20260625" in hpc_docs
-    assert "production-sized benchmark packets" in hpc_docs
+    hpc_docs = _read(
+        "docs/astro-site/src/content/docs/developer-guide/hpc-native-roadmap.mdx"
+    )
+    assert "production speedup evidence gate" in hpc_docs.lower()
+    assert "TPU production-scale evidence" in hpc_docs
+    assert "production-scale workload hashes" in hpc_docs
 
     for track_id in HPC_TRACKS:
         text = _track_text(track_id)

@@ -9,7 +9,7 @@ import pytest
 
 from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import InputError
+from voiage.exceptions import BackendNotAvailableError, InputError
 import voiage.methods.sample_information as si_module
 from voiage.schema import DecisionOption, TrialDesign, ValueArray
 from voiage.schema import ParameterSet as PSASample
@@ -145,6 +145,33 @@ def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -
     assert evsi_val >= 0, "EVSI should be non-negative."
 
 
+def test_evsi_two_loop_consumes_requested_inner_loop_count(
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+) -> None:
+    """Each inner loop evaluates an independently sampled posterior."""
+    callback_counts = {"value": 0}
+
+    def counting_model(psa_params_or_sample: PSASample) -> ValueArray:
+        callback_counts["value"] += 1
+        standard = psa_params_or_sample.parameters["mean_standard_care"]
+        treatment = psa_params_or_sample.parameters["mean_new_treatment"]
+        return ValueArray.from_numpy(
+            np.column_stack([standard, treatment]), ["standard", "treatment"]
+        )
+
+    evsi(
+        counting_model,
+        dummy_psa_for_evsi,
+        dummy_trial_design_for_evsi,
+        method="two_loop",
+        n_outer_loops=3,
+        n_inner_loops=4,
+        seed=42,
+    )
+
+    assert callback_counts["value"] == 1 + 3 * 4
+
+
 def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi
 ) -> None:
@@ -192,8 +219,8 @@ def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback
     )
 
     assert first == second
-    assert first_callback_count == 5
-    assert callback_counts[1] == 5
+    assert first_callback_count == 1 + 4 * 2
+    assert callback_counts[1] == 1 + 4 * 2
 
 
 def test_evsi_two_loop_seed_does_not_mutate_global_rng(
@@ -277,19 +304,70 @@ def test_evsi_two_loop_rejects_invalid_seed(
         )
 
 
-def test_evsi_regression_method_not_implemented(
+def test_evsi_regression_method_does_not_require_sklearn(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Test that the regression method for EVSI raises a NotImplementedError."""
-    from voiage.exceptions import VoiageNotImplementedError
-
+    """Native regression aggregation does not depend on scikit-learn."""
     monkeypatch.setattr(si_module, "SKLEARN_AVAILABLE", False)
-    with pytest.raises(VoiageNotImplementedError):
+    monkeypatch.setattr(
+        _runtime,
+        "compute_evsi_regression",
+        lambda targets, parameters, predictions: {
+            "estimator": "regression",
+            "contract_version": 1,
+            "expected_sample_value": 2.0,
+            "sample_count": len(targets),
+            "prediction_count": len(predictions),
+            "parameter_count": len(parameters[0]),
+        },
+    )
+    result = evsi(
+        model_func=dummy_model_func_evsi,
+        psa_prior=dummy_psa_for_evsi,
+        trial_design=dummy_trial_design_for_evsi,
+        method="regression",
+        n_outer_loops=2,
+    )
+    assert result >= 0.0
+
+
+@pytest.mark.parametrize("malformation", ["metadata", "non_finite"])
+def test_evsi_regression_rejects_malformed_native_envelope(
+    dummy_psa_for_evsi,
+    dummy_trial_design_for_evsi,
+    monkeypatch,
+    malformation: str,
+) -> None:
+    """Regression aggregation fails closed on invalid Rust envelopes."""
+
+    def malformed(
+        targets: list[list[float]],
+        parameters: list[list[float]],
+        predictions: list[list[float]],
+    ) -> dict[str, object]:
+        result: dict[str, object] = {
+            "estimator": "regression",
+            "contract_version": 1,
+            "expected_sample_value": 2.0,
+            "sample_count": len(targets),
+            "prediction_count": len(predictions),
+            "parameter_count": len(parameters[0]),
+        }
+        if malformation == "metadata":
+            result["estimator"] = "unexpected"
+        else:
+            result["expected_sample_value"] = float("nan")
+        return result
+
+    monkeypatch.setattr(_runtime, "compute_evsi_regression", malformed)
+
+    with pytest.raises(InputError, match="invalid result envelope"):
         evsi(
             model_func=dummy_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="regression",
+            n_outer_loops=2,
         )
 
 
@@ -397,44 +475,42 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
     assert len(captured["parameter_samples"]) == 500
 
 
-def test_evsi_efficient_linear_falls_back_when_native_extension_is_absent(
+def test_evsi_efficient_linear_requires_native_extension(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """An optional native extension must not break the Python reference path."""
+    """The stable efficient-linear path fails closed without Rust."""
 
     def unavailable(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise ModuleNotFoundError("voiage._core")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", unavailable)
-    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
-        result = si_module.evsi(
+    with pytest.raises(ModuleNotFoundError, match="voiage._core"):
+        si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="efficient",
             metamodel="linear",
         )
-    assert result >= 0.0
 
 
-def test_evsi_efficient_linear_falls_back_for_rank_deficient_design(
+def test_evsi_efficient_linear_propagates_native_rank_errors(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """The Python least-squares behavior remains available for deficient designs."""
+    """Unexpected native rank errors are not hidden by a Python fallback."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("efficient-linear design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", rank_failure)
-    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
-        result = si_module.evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="efficient",
             metamodel="linear",
         )
-    assert result >= 0.0
 
 
 def test_evsi_efficient_linear_rejects_malformed_native_envelope(
@@ -599,24 +675,22 @@ def test_evsi_moment_based_routes_through_native_kernel(
     assert result == pytest.approx(1.0)
 
 
-def test_evsi_moment_based_falls_back_for_rank_deficient_design(
+def test_evsi_moment_based_propagates_native_rank_errors(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Rank-deficient native designs retain the NumPy compatibility path."""
+    """Unexpected native rank errors are not hidden by a Python fallback."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("moment-based design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", rank_failure)
-    with pytest.warns(DeprecationWarning, match="moment-based EVSI fallback"):
-        result = evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="moment_based",
         )
-
-    assert result >= 0.0
 
 
 def test_evsi_moment_based_rejects_malformed_native_envelope(
@@ -954,6 +1028,18 @@ def test_enbs_invalid_inputs() -> None:
 
     with pytest.raises(InputError, match="Research cost cannot be negative"):
         enbs(1000.0, -50.0)
+
+
+def test_enbs_requires_native_extension(monkeypatch) -> None:
+    """The stable ENBS path fails closed when the Rust extension is absent."""
+
+    def unavailable(*_args: object, **_kwargs: object) -> float:
+        raise ModuleNotFoundError("voiage._core")
+
+    monkeypatch.setattr(_runtime, "compute_enbs", unavailable)
+
+    with pytest.raises(BackendNotAvailableError, match="Rust runtime extension"):
+        enbs(2.0, 1.0)
 
 
 if __name__ == "__main__":

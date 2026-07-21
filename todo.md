@@ -45,9 +45,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         public efficient-linear path is the first callback estimator routed
         through Rust; stochastic, regression, random-forest, moment-based,
         adaptive, and NMA paths remain contract-gated.
-    *   Python two-loop EVSI now has a validated optional seed and isolated
-        reproducibility contract; implementing meaningful `n_inner_loops`
-        semantics remains open before any stochastic Rust migration.
+    *   Python two-loop EVSI now has validated seeded local-RNG and meaningful
+        `n_inner_loops` semantics; native stochastic migration remains gated
+        on a separately frozen estimator contract.
 
 ## Done
 
@@ -310,7 +310,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Defined the additive-extension, versioning, and deprecation rules in `specs/core-api/extension-evolution.md`, then moved the completed numerics track into the archive registry.
 
 *   [x] Create the missing user-facing method and reference pages for the docs surface.
-    *   Added `docs/methods/`, `docs/plotting/index.rst`, `docs/cli_reference.rst`, `docs/data_structures.rst`, and `docs/backends.rst`, then wired them into the main docs index.
+    *   Added the Astro methods, plotting, CLI, data-structures, and backends pages, then wired them into the main docs index.
 
 *   [x] Archive the completed HEOR naming track and clean the Conductor registry of duplicate live entries.
     *   Moved the naming brainstorm track into the archive and removed the redundant live duplicates for the already-complete cross-language, Python cleanup, and ecosystem tracks.
@@ -319,7 +319,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Added a contributor-facing guide for extending the stable EVPI, EVPPI, EVSI, ENBS, CEAF, dominance, and heterogeneity methods, with a signature template and implementation checklist.
 
 *   [x] Create the developer onboarding architecture and contribution guides.
-    *   Added `docs/developer_guide/architecture.rst` and `docs/developer_guide/how_to_contribute.rst`, and wired them into the developer-guide index.
+    *   Added the Astro architecture and contribution pages, and wired them into the developer-guide index.
 
 *   [x] Complete the Phase 1 core API conformance-fixture scaffold with a deterministic input bundle and runner helpers.
     *   Added the normative input bundle, wired the fixture manifest to input/output pairs, and taught the validator to load fixture cases directly.

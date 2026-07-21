@@ -14,12 +14,10 @@ def test_runner_contract_doc_covers_language_and_ci_patterns() -> None:
     document = Path("specs/core-api/fixtures/v1/runner.md").read_text(encoding="utf-8")
 
     for needle in (
-        "Python, R, Julia, TypeScript, Go, Rust, and .NET",
+        "Python, R, Julia, and Rust",
         "exact",
-        "Future Binding CI Patterns",
-        "npm pack --dry-run",
-        "go test ./...",
-        "cargo package --locked --allow-dirty",
+        "Retained Binding CI Patterns",
+        "cargo package --locked",
         "uv run python scripts/validate_core_api_fixtures.py",
     ):
         assert needle in document

@@ -1,0 +1,37 @@
+---
+title: Dataset Registry
+description: Dataset sources, licensing, citations, and refresh policy
+---
+
+This page describes the `voiage` dataset registry, including synthetic
+datasets and open-data source mappings.
+
+## Licensing
+
+All data sources referenced in this registry carry their own licenses and
+terms of use. Users must comply with the original terms for each dataset:
+
+- **NHANES**: Public Domain (CDC/ATSDR)
+- **MEPS**: Public Domain (AHRQ)
+- **ClinicalTrials.gov**: Public Domain (U.S. National Library of Medicine)
+- **World Bank**: CC BY-4.0
+- **NOAA**: Public Domain (U.S. Government)
+- **EPA**: Public Domain (U.S. Government)
+
+## Citation
+
+When using data from this registry in published work, cite both the original
+data source listed in `specs/dataset-registry/registry.json` and the `voiage`
+library.
+
+## Transforms
+
+Live refresh and transformation scripts are located in
+`specs/dataset-registry/transforms/`. They download the latest data from each
+source and produce the snapshot files used by tests and examples.
+
+## Refresh policy
+
+Snapshots in `specs/dataset-registry/snapshots/` are updated as needed.
+Re-running the transform scripts produces fresh snapshots that can be reviewed
+and committed when data sources change.

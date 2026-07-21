@@ -22,7 +22,6 @@ EXPECTED_MEMBERS = {
     "crates/voiage-python",
     "crates/voiage-serialization",
     "crates/voiage-test-support",
-    "crates/voiage-wasm",
 }
 CORE_CRATES = {
     "voiage-diagnostics",
@@ -30,7 +29,7 @@ CORE_CRATES = {
     "voiage-numerics",
     "voiage-serialization",
 }
-ADAPTER_CRATES = {"voiage-ffi", "voiage-python", "voiage-wasm"}
+ADAPTER_CRATES = {"voiage-ffi", "voiage-python"}
 ALLOWED_INTERNAL_DEPENDENCIES = {
     "voiage-domain": set(),
     "voiage-diagnostics": {"voiage-domain"},
@@ -40,6 +39,7 @@ ALLOWED_INTERNAL_DEPENDENCIES = {
     "voiage-ffi": {
         "voiage-diagnostics",
         "voiage-domain",
+        "voiage-numerics",
         "voiage-serialization",
     },
     "voiage-python": {
@@ -48,7 +48,6 @@ ALLOWED_INTERNAL_DEPENDENCIES = {
         "voiage-numerics",
         "voiage-serialization",
     },
-    "voiage-wasm": CORE_CRATES,
 }
 BINDING_SPECIFIC_DEPENDENCIES = {
     "cbindgen",
@@ -56,7 +55,6 @@ BINDING_SPECIFIC_DEPENDENCIES = {
     "libc",
     "napi",
     "pyo3",
-    "wasm-bindgen",
     "web-sys",
 }
 
@@ -130,7 +128,7 @@ def test_internal_dependencies_follow_the_architecture_direction() -> None:
         )
 
 
-def test_ffi_python_and_wasm_are_leaf_adapters() -> None:
+def test_ffi_and_python_are_leaf_adapters() -> None:
     manifests = _crate_manifests()
 
     for crate_name, manifest in manifests.items():
@@ -143,13 +141,10 @@ def test_ffi_python_and_wasm_are_leaf_adapters() -> None:
         )
 
 
-def test_ffi_infrastructure_does_not_depend_on_numerics_before_phase_5() -> None:
+def test_ffi_adapter_is_allowed_to_depend_on_the_rust_numerical_kernel() -> None:
     manifests = _crate_manifests()
 
-    assert "voiage-numerics" not in _dependency_names(manifests["voiage-ffi"]), (
-        "voiage-ffi must remain infrastructure-only until Phase 5 kernels are "
-        "ready to cross the C ABI"
-    )
+    assert "voiage-numerics" in _dependency_names(manifests["voiage-ffi"])
 
 
 def test_domain_and_numerics_have_no_binding_specific_dependencies() -> None:

@@ -1,0 +1,27 @@
+---
+title: Installation
+description: Install voiage from PyPI or a source checkout
+---
+
+## Requirements
+
+Supported Python runtimes are 3.12–3.14. Use a virtual environment for both
+published and development installations.
+
+## Published package
+
+```sh
+python -m pip install voiage
+```
+
+## Development checkout
+
+```sh
+git clone https://github.com/edithatogo/voiage.git
+cd voiage
+uv sync --extra dev
+```
+
+The minimal installation uses the Rust/PyO3 core boundary. Plotting,
+deep-learning, web, widget, and other heavy integrations remain explicit
+optional extras.

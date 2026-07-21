@@ -20,6 +20,8 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "maturin build --locked --release" in release_workflow
     assert "maturin sdist --out dist" in release_workflow
     assert "maturin sdist --locked" not in release_workflow
+    pyproject = Path("pyproject.toml").read_text(encoding="utf-8")
+    assert '{ path = "specs/**/*.json", format = "sdist" }' in pyproject
     assert (
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b"
         in release_workflow
@@ -166,6 +168,13 @@ def test_release_builds_embed_immutable_source_and_platform_provenance() -> None
     sdist_steps = workflow["jobs"]["sdist"]["steps"]
     rendered_sdist_steps = str(sdist_steps)
     assert "scripts/embed_sdist_provenance.py" in rendered_sdist_steps
+    reconcile = next(
+        step
+        for step in sdist_steps
+        if step["name"] == "Reconcile extracted Rust lockfile"
+    )
+    assert reconcile["working-directory"] == ".sdist-source"
+    assert "cargo generate-lockfile --manifest-path rust/Cargo.toml" in reconcile["run"]
     extracted_build = next(
         step
         for step in sdist_steps

@@ -6,15 +6,12 @@ from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from dataclasses import dataclass
 import multiprocessing as mp
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Sequence
 
     import numpy as np
-
-_ChunkResult = TypeVar("_ChunkResult")
-_Item = TypeVar("_Item")
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,15 +72,15 @@ def partition_workload(total_items: int, partition_count: int) -> list[slice]:
     return slices
 
 
-def distributed_map(
-    items: Sequence[_Item] | Iterable[_Item],
-    worker_func: Callable[[_Item], _ChunkResult],
+def distributed_map[Item, ChunkResult](
+    items: Sequence[Item] | Iterable[Item],
+    worker_func: Callable[[Item], ChunkResult],
     *,
     config: ClusterExecutionConfig | None = None,
     n_workers: int | None = None,
     use_processes: bool | None = None,
     executor_factory: Callable[[int, bool], Executor] | None = None,
-) -> list[_ChunkResult]:
+) -> list[ChunkResult]:
     """Execute work across a CPU pool or a caller-supplied distributed executor.
 
     The call preserves input ordering, so the returned list is aligned to the
@@ -100,7 +97,7 @@ def distributed_map(
         return []
 
     factory = executor_factory or _default_executor
-    results: list[_ChunkResult] = [None] * len(values)  # type: ignore[list-item]
+    results: list[ChunkResult] = [None] * len(values)  # type: ignore[list-item]
 
     try:
         with factory(worker_total, process_mode) as executor:
@@ -117,16 +114,16 @@ def distributed_map(
     return results
 
 
-def distributed_reduce(
-    items: Sequence[_Item] | Iterable[_Item],
-    worker_func: Callable[[_Item], _ChunkResult],
-    reducer: Callable[[Sequence[_ChunkResult]], _ChunkResult],
+def distributed_reduce[Item, ChunkResult](
+    items: Sequence[Item] | Iterable[Item],
+    worker_func: Callable[[Item], ChunkResult],
+    reducer: Callable[[Sequence[ChunkResult]], ChunkResult],
     *,
     config: ClusterExecutionConfig | None = None,
     n_workers: int | None = None,
     use_processes: bool | None = None,
     executor_factory: Callable[[int, bool], Executor] | None = None,
-) -> _ChunkResult:
+) -> ChunkResult:
     """Map distributed work and reduce it deterministically."""
     mapped = distributed_map(
         items,
@@ -139,15 +136,15 @@ def distributed_reduce(
     return reducer(mapped)
 
 
-def distributed_chunk_map(
-    chunks: Sequence[Sequence[_Item]] | Iterable[Sequence[_Item]],
-    worker_func: Callable[[Sequence[_Item]], _ChunkResult],
+def distributed_chunk_map[Item, ChunkResult](
+    chunks: Sequence[Sequence[Item]] | Iterable[Sequence[Item]],
+    worker_func: Callable[[Sequence[Item]], ChunkResult],
     *,
     config: ClusterExecutionConfig | None = None,
     n_workers: int | None = None,
     use_processes: bool | None = None,
     executor_factory: Callable[[int, bool], Executor] | None = None,
-) -> list[_ChunkResult]:
+) -> list[ChunkResult]:
     """Execute chunk-oriented work in input order across local or distributed CPU workers."""
     return distributed_map(
         list(chunks),

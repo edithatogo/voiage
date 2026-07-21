@@ -1,4 +1,8 @@
 find_numerical_reference <- function() {
+  packaged <- system.file("extdata", "evpi-cases.json", package = "voiageR")
+  if (nzchar(packaged)) {
+    return(packaged)
+  }
   configured <- Sys.getenv("VOIAGE_NUMERICAL_REFERENCE", unset = "")
   if (nzchar(configured)) {
     return(normalizePath(configured, winslash = "/", mustWork = TRUE))

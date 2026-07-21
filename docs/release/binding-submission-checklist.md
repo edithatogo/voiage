@@ -32,10 +32,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
 | R | GitHub Release source archives | CRAN and r-universe | No |
 | Julia | TagBot sync plus GitHub Release artifacts | Julia General registry approval | No |
-| TypeScript | Automated npm publish with provenance | None beyond credentials | No |
-| Go | Tag-driven module publication plus GitHub Release artifacts | Go module proxy indexing | No |
-| Rust | Automated `cargo publish` | None beyond credentials | No |
-| .NET | Automated NuGet publish | None beyond credentials | No |
+| Rust | GitHub Release workspace artifact | A separately designed publishable facade crate would be required for crates.io | No |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
 | EasyBuild | Manual easyconfig preparation for EasyBuild repository | EasyBuild maintainer review and PR merge | No |
 | HPSF | Manual curation submission | External curation review / listing policy | No |
@@ -67,43 +64,19 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 - [x] The Julia binding remains the thin adapter over the shared contract.
 - [ ] Julia General registry submission/approval remains external/manual.
 
-## TypeScript
-
-- [x] Package lint/test and pack dry-run gates exist in CI.
-- [x] npm publication is automated on `typescript-v*` tags with provenance.
-- [x] Release assets are attached to GitHub Releases.
-- [x] The TypeScript binding remains the thin adapter over the shared contract.
-
-## Go
-
-- [x] Package test and vet gates exist in CI.
-- [x] GitHub Release source archives are produced from `bindings/go/v*` tags.
-- [x] Module publication is driven by semver tag pushes and downstream module proxy indexing.
-- [x] The Go binding remains the thin adapter over the shared contract.
-
 ## Rust
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
-- [x] crates.io publication is automated on `rust-v*` tags when credentials are present.
+- [x] The Rust workspace is validated and released through GitHub Releases; crates.io is not claimed because all workspace crates are `publish = false`.
 - [x] GitHub Release source archives are attached to the release.
 - [x] The Rust crate remains the canonical execution core and contract owner.
-
-## .NET
-
-- [x] Build, test, and pack gates exist in CI.
-- [x] NuGet publication is automated on `dotnet-v*` tags when credentials are present.
-- [x] GitHub Release source archives and nupkg artifacts are attached to the release.
-- [x] The .NET binding remains the thin adapter over the shared contract.
 
 ## Practical Answer
 
 If the question is "are all language versions submitted to their corresponding
 registries today?", the repo can only answer this partially:
 
-- The in-repo publishing workflows are in place for Python, TypeScript, Rust,
-  and .NET.
-- Go is tag-driven and release-artifact driven, with submission realized by
-  the registry's module-proxy indexing flow.
+- The in-repo publishing workflow is in place for Python; Rust is validated and released as a workspace artifact, while crates.io remains an unimplemented future facade track.
 - Julia, conda-forge, CRAN, and r-universe still require external registry-side
   action or approval.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with
@@ -163,22 +136,16 @@ with `not_checked` so the gap stays explicit.
 
 ## Live Registry Audit
 
-The public registry checks performed on 2026-05-10 did not find a published
-package for the binding names used in this repository:
+The public registry checks refreshed on 2026-07-21 found the following current
+states:
 
-- Python `voiage` on PyPI returned `404`
+- Python `voiage` is present on PyPI
   - https://pypi.org/project/voiage/
-- TypeScript `@voiage/core` on npm returned `404`
-  - https://www.npmjs.com/package/%40voiage%2Fcore
-- Rust `voiage-core` on crates.io returned `404`
-  - https://crates.io/crates/voiage-core
-- .NET `Voiage.Core` on NuGet returned `404`
-  - https://www.nuget.org/packages/Voiage.Core
+- Rust is an internal `publish = false` workspace released through GitHub
+  Releases; no crates.io package is claimed
+  - https://github.com/edithatogo/voiage/releases
 - R `voiageR` on CRAN returned `404`
   - https://cran.r-project.org/web/packages/voiageR/index.html
-- Go `github.com/edithatogo/voiage/bindings/go` was reachable on the module
-  proxy but reported no released versions
-  - https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list
 - Julia `Voiage` was not present in the General registry contents API
   - https://github.com/JuliaRegistries/General
 - conda-forge `voiage` was not present in the anaconda.org package API
@@ -192,5 +159,7 @@ package for the binding names used in this repository:
 - HPSF and E4S remain external/manual curation targets because this repository
   cannot confirm inclusion from a package API alone.
 
-So the current live state is: the release automation exists, but the registry
-submissions have not been confirmed as published for these package names.
+So the current live state is: Python is confirmed on PyPI; Rust is an internal
+workspace artifact; R, Julia, conda-forge, r-universe, Spack, and EasyBuild are
+not confirmed in their external registries; HPSF and E4S remain manual curation
+targets. The retired Go, TypeScript, and .NET channels are not v1.0 targets.

@@ -146,16 +146,7 @@ VERSION_TARGETS: tuple[VersionTarget, ...] = (
         Path("rust/crates/voiage-python/Cargo.toml"),
         _read_workspace_inherited_cargo_version,
     ),
-    VersionTarget(
-        "TypeScript", Path("bindings/typescript/package.json"), _read_json_version
-    ),
     VersionTarget("Julia", Path("bindings/julia/Project.toml"), _read_toml_version),
-    VersionTarget("Rust", Path("bindings/rust/Cargo.toml"), _read_cargo_version),
-    VersionTarget(
-        ".NET",
-        Path("bindings/dotnet/src/Voiage.Core/Voiage.Core.csproj"),
-        _read_csproj_version,
-    ),
     VersionTarget(
         "R", Path("r-package/voiageR/DESCRIPTION"), _read_description_version
     ),

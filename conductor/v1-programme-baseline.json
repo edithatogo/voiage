@@ -3,36 +3,20 @@
   "programme": "mature-hardened-v1-release-programme_20260719",
   "repository": {
     "authoritative_branch": "origin/main",
-    "authoritative_commit": "47b377ba85265a8d774794699137a56f3b0f3e26",
+    "authoritative_commit": "e0fb235d4cf641891c3954725379f54dda90565c",
     "implementation_branch": "codex/mature-hardened-v1-programme",
     "generated_artifacts_excluded": [
       "docs/astro-site/.astro/"
     ]
   },
   "github": {
-    "snapshot_at": "2026-07-20T08:45:00Z",
+    "snapshot_at": "2026-07-20T23:37:43Z",
     "open_pull_requests": 0,
-    "open_issues": 1,
+    "open_issues": 0,
     "remote_branches": 1,
     "latest_release": "v0.2.1",
-    "blocked_pull_requests": [
-      {
-        "number": 245,
-        "scope": "conda-forge noarch recipe guidance",
-        "evidence": "required checks pass; merge state remains blocked"
-      },
-      {
-        "number": 258,
-        "scope": "CodeQL analyze action dependency update",
-        "evidence": "one hosted check fails; merge state is blocked"
-      },
-      {
-        "number": 260,
-        "scope": "CodeQL init action dependency update",
-        "evidence": "one hosted check fails; merge state is blocked"
-      }
-    ],
-    "remaining_pull_request_classification": "Dependabot dependency updates with clean merge state and successful substantive checks at snapshot time"
+    "blocked_pull_requests": [],
+    "remaining_pull_request_classification": "No remaining pull requests at snapshot time"
   },
   "conductor": {
     "active_track_ids": [

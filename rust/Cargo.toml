@@ -7,7 +7,6 @@ members = [
     "crates/voiage-python",
     "crates/voiage-serialization",
     "crates/voiage-test-support",
-    "crates/voiage-wasm",
 ]
 resolver = "2"
 

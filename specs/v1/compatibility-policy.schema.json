@@ -75,15 +75,13 @@
             "breaking_change": {"const": "major"},
             "covered": {
               "type": "array",
-              "minItems": 7,
-              "maxItems": 7,
+              "minItems": 4,
+              "maxItems": 4,
               "uniqueItems": true,
-              "items": {"enum": ["python", "r", "julia", "typescript", "go", "rust", "dotnet"]},
+              "items": {"enum": ["python", "r", "julia", "rust"]},
               "allOf": [
                 {"contains": {"const": "python"}}, {"contains": {"const": "r"}},
-                {"contains": {"const": "julia"}}, {"contains": {"const": "typescript"}},
-                {"contains": {"const": "go"}}, {"contains": {"const": "rust"}},
-                {"contains": {"const": "dotnet"}}
+                {"contains": {"const": "julia"}}, {"contains": {"const": "rust"}}
               ]
             }
           }

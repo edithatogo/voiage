@@ -1,7 +1,7 @@
 #ifndef VOIAGE_V1_H
 #define VOIAGE_V1_H
 
-/* Portable voiage v1 ABI infrastructure. Numerical operations are deferred. */
+/* Portable voiage v1 ABI and Rust-owned scalar operations. */
 
 #include <stdint.h>
 
@@ -28,6 +28,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
+#define VOIAGE_V1_CAPABILITY_EVPI (UINT64_C(1) << 2)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -60,6 +61,23 @@ typedef uint64_t VoiageHandleV1;
 
 VOIAGE_V1_API VoiageAbiVersionV1 voiage_v1_abi_version(void);
 VOIAGE_V1_API VoiageAbiCapabilitiesV1 voiage_v1_capabilities(void);
+VOIAGE_V1_API voiage_v1_status voiage_v1_evpi(
+    const double *values,
+    uint64_t rows,
+    uint64_t columns,
+    double *out_value);
+/* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
+    const double *values,
+    int32_t rows,
+    int32_t columns,
+    double *out_value);
+VOIAGE_V1_API void voiage_v1_evpi_i32_r(
+    const double *values,
+    const int32_t *rows,
+    const int32_t *columns,
+    double *out_value,
+    int32_t *out_status);
 VOIAGE_V1_API voiage_v1_status voiage_v1_handle_create(
     VoiageHandleV1 *out_handle);
 VOIAGE_V1_API voiage_v1_status voiage_v1_handle_free(

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "purpose": "Canonical retained binding and registry contract for the v1.0 programme.",
+  "execution_authority": "rust",
+  "contract_fixture_root": "specs/core-api/fixtures",
+  "ci_workflow": ".github/workflows/bindings-ci.yml",
+  "bindings": [
+    {
+      "id": "python",
+      "status": "retained",
+      "path": ".",
+      "adapter": "pyo3",
+      "supported_runtime_versions": ["3.12", "3.13", "3.14"],
+      "registry": "PyPI and TestPyPI; conda-forge feedstock",
+      "tag_pattern": "v*",
+      "external_gate": "conda-forge feedstock review and merge"
+    },
+    {
+      "id": "mojo",
+      "status": "external_boundary",
+      "adapter": "upstream_rust_interop",
+      "supported_runtime_versions": [],
+      "registry": "Approved upstream Mojo distribution",
+      "tag_pattern": "none",
+      "external_gate": "Mojo toolchain and upstream distribution contract; no local mojo executable or binding exists"
+    },
+    {
+      "id": "r",
+      "status": "retained",
+      "path": "r-package/voiageR",
+      "adapter": "c_abi",
+      "supported_runtime_versions": ["4.3"],
+      "registry": "CRAN or approved R registry; r-universe",
+      "tag_pattern": "r-v*",
+      "external_gate": "CRAN maintainer review or approved R registry indexing"
+    },
+    {
+      "id": "julia",
+      "status": "retained",
+      "path": "bindings/julia",
+      "adapter": "c_abi",
+      "supported_runtime_versions": ["1.10", "1.11"],
+      "registry": "Julia General",
+      "tag_pattern": "julia-v*",
+      "external_gate": "Julia General registry review and merge"
+    },
+    {
+      "id": "rust",
+      "status": "retained",
+      "path": "rust",
+      "adapter": "native_rust_workspace",
+      "supported_runtime_versions": ["1.85", "stable"],
+      "registry": "GitHub Releases (workspace artifact); no crates.io package",
+      "tag_pattern": "rust-v*",
+      "external_gate": "A separately designed publishable facade crate is required before crates.io publication"
+    }
+  ]
+}

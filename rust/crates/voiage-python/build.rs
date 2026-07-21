@@ -77,10 +77,11 @@ fn git_identity(repository: &Path) -> Option<(String, String, bool)> {
     }
     let status = command_output(
         "git",
-        &["status", "--porcelain=v1", "--untracked-files=normal"],
+        &["status", "--porcelain=v1", "--untracked-files=all"],
         repository,
     )?;
-    Some((revision, tree, !status.is_empty()))
+    let dirty = !status.is_empty() && !only_embedded_provenance_is_dirty(repository);
+    Some((revision, tree, dirty))
 }
 
 fn excluded_untracked(path: &Path) -> bool {
@@ -315,7 +316,7 @@ fn embedded_source_identity(
 fn only_embedded_provenance_is_dirty(repository: &Path) -> bool {
     let Some(status) = command_output(
         "git",
-        &["status", "--porcelain=v1", "--untracked-files=normal"],
+        &["status", "--porcelain=v1", "--untracked-files=all"],
         repository,
     ) else {
         return false;

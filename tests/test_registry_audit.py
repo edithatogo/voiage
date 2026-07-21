@@ -4,7 +4,6 @@ from pathlib import Path
 from scripts.refresh_binding_registry_audit import (
     Channel,
     _evaluator_external_manual,
-    _evaluator_go_module_proxy,
     _snapshot_entry,
 )
 
@@ -24,17 +23,14 @@ def test_registry_audit_documents_current_live_status() -> None:
     ).read_text(encoding="utf-8")
 
     assert "Live Registry Audit" in audit_text
-    assert "Python `voiage` on PyPI returned `404`" in audit_text
-    assert "TypeScript `@voiage/core` on npm returned `404`" in audit_text
-    assert "Rust `voiage-core` on crates.io returned `404`" in audit_text
-    assert ".NET `Voiage.Core` on NuGet returned `404`" in audit_text
+    assert "Python `voiage` is present on PyPI" in audit_text
+    assert "Rust is an internal `publish = false` workspace" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
-    assert "reported no released versions" in audit_text
     assert "conda-forge-feedstock-publication_20260625" in audit_text
     assert "spack-package-merge-followthrough_20260625" in audit_text
     assert "e4s-inclusion-followthrough_20260625" in audit_text
     assert (
-        "submissions have not been confirmed as published for these package names"
+        "The retired Go, TypeScript, and .NET channels are not v1.0 targets."
         in audit_text
     )
 
@@ -51,10 +47,7 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
         "python",
         "r",
         "julia",
-        "typescript",
-        "go",
         "rust",
-        "dotnet",
         "conda_forge",
         "r_universe",
         "spack",
@@ -63,27 +56,12 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
         "e4s",
     }
     assert snapshot["snapshot"]["python"]["package"] == "voiage"
-    assert snapshot["snapshot"]["typescript"]["package"] == "@voiage/core"
     assert snapshot["snapshot"]["conda_forge"]["registry"] == "conda-forge"
     assert snapshot["snapshot"]["r_universe"]["registry"] == "r-universe"
     assert snapshot["snapshot"]["spack"]["registry"] == "Spack"
     assert snapshot["snapshot"]["easybuild"]["registry"] == "EasyBuild"
     assert snapshot["snapshot"]["hpsf"]["status"] == "external_manual"
     assert snapshot["snapshot"]["e4s"]["status"] == "external_manual"
-
-
-def test_go_module_proxy_classifier_no_released_versions() -> None:
-    status = _evaluator_go_module_proxy(
-        200,
-        b'["not found: module github.com/edithatogo/voiage/bindings/go: no such file"]',
-        None,
-    )
-    assert status == "no_released_versions"
-
-
-def test_go_module_proxy_classifier_confirmed_with_version_lines() -> None:
-    status = _evaluator_go_module_proxy(200, b"v0.1.0\nv0.1.1\n", None)
-    assert status == "confirmed"
 
 
 def test_snapshot_entry_is_stable_shape() -> None:

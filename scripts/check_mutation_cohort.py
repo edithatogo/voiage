@@ -62,18 +62,21 @@ def cohort_identity(repo: Path, config_path: Path) -> dict[str, object]:
     lock_data = lock_path.read_bytes()
     lock = tomllib.loads(lock_data.decode("utf-8"))
     packages = cast("list[dict[str, object]]", lock["package"])
-    locked_versions = [
-        package.get("version")
-        for package in packages
-        if package.get("name") == "mutmut"
-    ]
-    if len(locked_versions) != 1 or not isinstance(locked_versions[0], str):
-        raise ValueError("uv.lock must contain exactly one Mutmut version")
-    locked_version = locked_versions[0]
+    mutmut_packages = [package for package in packages if package.get("name") == "mutmut"]
+    if len(mutmut_packages) != 1:
+        raise ValueError("uv.lock must contain exactly one Mutmut package record")
+    mutmut_package = mutmut_packages[0]
+    locked_version = mutmut_package.get("version")
+    if not isinstance(locked_version, str):
+        raise ValueError("Mutmut lock record must contain a version")
+    # Bind the cohort to the mutation tool's complete lock record, not the
+    # entire application lockfile. Unrelated runtime dependency updates must
+    # not require re-reviewing an unchanged mutation baseline.
+    mutation_lock_identity = _canonical(mutmut_package)
     cohort = {
         "tool": "mutmut",
         "tool_version": locked_version,
-        "lock_sha256": sha256(lock_data).hexdigest(),
+        "lock_sha256": sha256(mutation_lock_identity).hexdigest(),
         "configuration_sha256": configuration_sha256,
         "sources": sources,
     }
