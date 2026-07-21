@@ -5,8 +5,8 @@
 use std::mem::{align_of, offset_of, size_of};
 
 use voiage_ffi::{
-    voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, VoiageAbiCapabilitiesV1,
-    VoiageAbiVersionV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY,
+    voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
+    VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY,
     VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
 };
 
@@ -55,6 +55,15 @@ fn evpi_abi_executes_the_rust_kernel_and_validates_shape() {
 
     let status = unsafe { voiage_v1_evpi(std::ptr::null(), 2, 2, &raw mut result) };
     assert_eq!(status, VoiageStatusV1::InvalidArgument);
+}
+
+#[test]
+fn evpi_i32_abi_adapter_reuses_the_rust_kernel() {
+    let values = [10.0, 1.0, 2.0, 8.0];
+    let mut result = 0.0;
+    let status = unsafe { voiage_v1_evpi_i32(values.as_ptr(), 2, 2, &raw mut result) };
+    assert_eq!(status, VoiageStatusV1::Ok);
+    assert!((result - 3.0).abs() < f64::EPSILON);
 }
 
 #[test]

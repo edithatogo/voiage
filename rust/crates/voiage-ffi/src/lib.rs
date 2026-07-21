@@ -151,3 +151,64 @@ pub unsafe extern "C" fn voiage_v1_evpi(
         Err(_) => VoiageStatusV1::Panic,
     }
 }
+
+/// Computes EVPI with signed 32-bit dimensions for runtimes such as base R
+/// whose `.C` interface does not expose a portable unsigned 64-bit scalar.
+///
+/// # Safety
+///
+/// The pointer requirements are identical to [`voiage_v1_evpi`].
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_evpi_i32(
+    values: *const f64,
+    rows: i32,
+    columns: i32,
+    out: *mut f64,
+) -> VoiageStatusV1 {
+    if rows <= 0 || columns <= 0 {
+        return VoiageStatusV1::InvalidArgument;
+    }
+    let Ok(rows) = u64::try_from(rows) else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    let Ok(columns) = u64::try_from(columns) else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    // SAFETY: this adapter preserves the pointer contract of voiage_v1_evpi.
+    unsafe { voiage_v1_evpi(values, rows, columns, out) }
+}
+
+/// Calls [`voiage_v1_evpi_i32`] and writes its status for `.C` runtimes that
+/// cannot observe a C return value.
+///
+/// # Safety
+///
+/// `values` and `out_value` follow [`voiage_v1_evpi`] requirements, and
+/// `out_status` must be non-null, aligned, and writable for one `i32`.
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_evpi_i32_r(
+    values: *const f64,
+    rows: *const i32,
+    columns: *const i32,
+    out_value: *mut f64,
+    out_status: *mut i32,
+) {
+    if rows.is_null()
+        || columns.is_null()
+        || out_status.is_null()
+        || (rows as usize) % std::mem::align_of::<i32>() != 0
+        || (columns as usize) % std::mem::align_of::<i32>() != 0
+        || (out_status as usize) % std::mem::align_of::<i32>() != 0
+    {
+        return;
+    }
+    // SAFETY: nullness and alignment were validated above.
+    let (rows, columns) = unsafe { (rows.read(), columns.read()) };
+    // SAFETY: the caller contract validates out_status above; the delegated
+    // operation validates the remaining pointers.
+    let status = unsafe { voiage_v1_evpi_i32(values, rows, columns, out_value) };
+    // SAFETY: nullness and alignment were validated above.
+    unsafe { out_status.write(status.as_i32()) };
+}

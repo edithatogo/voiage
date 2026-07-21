@@ -17,6 +17,11 @@ Value of Information analysis is a powerful set of techniques used to estimate t
    pip install voiage
    ```
 
+The `evpi()` function calls the Rust `voiage_v1_evpi_i32_r` C ABI directly.
+Set `VOIAGE_FFI_LIBRARY` to the built `voiage-ffi` library when it is not on
+the system library path. Advanced `evppi()` and `evsi()` methods currently use
+the documented reticulate bridge.
+
 2. Install the R `reticulate` package:
    ```r
    install.packages("reticulate")

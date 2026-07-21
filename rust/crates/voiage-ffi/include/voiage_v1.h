@@ -66,6 +66,18 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_evpi(
     uint64_t rows,
     uint64_t columns,
     double *out_value);
+/* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
+    const double *values,
+    int32_t rows,
+    int32_t columns,
+    double *out_value);
+VOIAGE_V1_API void voiage_v1_evpi_i32_r(
+    const double *values,
+    const int32_t *rows,
+    const int32_t *columns,
+    double *out_value,
+    int32_t *out_status);
 VOIAGE_V1_API voiage_v1_status voiage_v1_handle_create(
     VoiageHandleV1 *out_handle);
 VOIAGE_V1_API voiage_v1_status voiage_v1_handle_free(
