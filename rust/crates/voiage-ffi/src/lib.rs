@@ -1,8 +1,6 @@
 //! Leaf C ABI adapter for the voiage Rust core.
 //!
-//! Phase 3 freezes only portable ABI discovery infrastructure. Numerical
-//! operations are deliberately absent until their Phase 5 kernels pass parity
-//! and profiling gates.
+//! The versioned C ABI exposes portable discovery and Rust-owned scalar kernels.
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
@@ -15,6 +13,11 @@ mod error_transport;
 #[allow(unsafe_code)]
 mod lifecycle;
 mod status;
+
+use std::panic::{self, AssertUnwindSafe};
+
+use voiage_domain::SampleMatrix;
+use voiage_numerics::evpi;
 
 pub use error_transport::voiage_v1_error_message;
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
@@ -35,6 +38,9 @@ pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
 /// Capability bit for infrastructure capability discovery.
 pub const VOIAGE_ABI_CAPABILITY_QUERY: u64 = 1 << 1;
 
+/// Capability bit for the stable scalar EVPI operation.
+pub const VOIAGE_ABI_EVPI: u64 = 1 << 2;
+
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
 
@@ -50,7 +56,7 @@ pub struct VoiageAbiVersionV1 {
     pub abi_minor: u32,
 }
 
-/// Fixed-width, self-describing v1 infrastructure capability response.
+/// Fixed-width, self-describing v1 capability response.
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct VoiageAbiCapabilitiesV1 {
@@ -58,7 +64,7 @@ pub struct VoiageAbiCapabilitiesV1 {
     pub struct_size: u32,
     /// Version of this capability response structure.
     pub struct_version: u32,
-    /// Infrastructure capability bitset; no numerical-operation bits exist.
+    /// Capability bitset for supported ABI operations.
     pub capability_bits: u64,
 }
 
@@ -75,7 +81,7 @@ pub extern "C" fn voiage_v1_abi_version() -> VoiageAbiVersionV1 {
     }
 }
 
-/// Returns only the ABI infrastructure capabilities implemented in Phase 3.
+/// Returns the ABI capabilities implemented by this library.
 // SAFETY: the export attribute is the only unsafe-code lint exception. The
 // function returns a fixed-width value and does not access caller memory.
 #[allow(unsafe_code)]
@@ -84,6 +90,64 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
     VoiageAbiCapabilitiesV1 {
         struct_size: ABI_CAPABILITIES_STRUCT_SIZE,
         struct_version: 1,
-        capability_bits: VOIAGE_ABI_VERSION_NEGOTIATION | VOIAGE_ABI_CAPABILITY_QUERY,
+        capability_bits: VOIAGE_ABI_VERSION_NEGOTIATION
+            | VOIAGE_ABI_CAPABILITY_QUERY
+            | VOIAGE_ABI_EVPI,
+    }
+}
+
+/// Computes EVPI from a row-major, finite net-benefit matrix.
+///
+/// # Safety
+///
+/// `values` must point to `rows * columns` readable `f64` values and `out`
+/// must be non-null, aligned, and writable for one `f64`. Neither pointer is
+/// retained after this call.
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_evpi(
+    values: *const f64,
+    rows: u64,
+    columns: u64,
+    out: *mut f64,
+) -> VoiageStatusV1 {
+    if values.is_null()
+        || out.is_null()
+        || rows == 0
+        || columns == 0
+        || (out as usize) % std::mem::align_of::<f64>() != 0
+    {
+        return VoiageStatusV1::InvalidArgument;
+    }
+    let Some(length) = rows
+        .checked_mul(columns)
+        .and_then(|value| usize::try_from(value).ok())
+    else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    let (Ok(row_count), Ok(column_count)) = (usize::try_from(rows), usize::try_from(columns))
+    else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    let result = panic::catch_unwind(AssertUnwindSafe(|| {
+        // SAFETY: the caller contract guarantees a readable row-major region.
+        let slice = unsafe { std::slice::from_raw_parts(values, length) };
+        let matrix = (0..row_count)
+            .map(|row| {
+                let start = row * column_count;
+                slice[start..start + column_count].to_vec()
+            })
+            .collect::<Vec<_>>();
+        let matrix = SampleMatrix::try_from(matrix).map_err(|_| VoiageStatusV1::InvalidArgument)?;
+        evpi(&matrix).map_err(|_| VoiageStatusV1::NumericalFailure)
+    }));
+    match result {
+        Ok(Ok(value)) => {
+            // SAFETY: nullness and alignment were validated above.
+            unsafe { out.write(value) };
+            VoiageStatusV1::Ok
+        }
+        Ok(Err(status)) => status,
+        Err(_) => VoiageStatusV1::Panic,
     }
 }
