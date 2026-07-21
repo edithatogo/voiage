@@ -15,15 +15,16 @@ CRAN/r-universe, and the Julia General registry still depend on their external
 registry or feedstock flows. The Rust-core migration has already established
 the long-term ownership model: Rust is the authoritative execution core,
 Python is the primary façade, and the other language packages are thin
-bindings/adapters over the same canonical contract. The R package currently
-ships as a reticulate bridge to the Python façade; its in-repo release
+bindings/adapters over the same canonical contract. The R package now routes
+EVPI through the Rust C ABI and retains a reticulate bridge for advanced
+EVPPI/EVSI methods; its in-repo release
 path stops at GitHub Release source archives, while CRAN and r-universe remain
 external registry targets that require their own approval or indexing steps.
 
 | Language | Package root | Registry | Tag pattern | Required CI gates |
 | --- | --- | --- | --- | --- |
 | Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade over the canonical Rust core |
-| R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; currently a reticulate bridge to the Python façade, with the narrative vignette and deterministic PDF manual built from the same package tree |
+| R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; EVPI uses the Rust C ABI, while advanced methods retain the documented reticulate bridge |
 | Julia | `bindings/julia` | Julia General registry, GitHub Releases for tag sync | `julia-v*` | `Pkg.test`, release tarball, TagBot sync |
 | TypeScript | `bindings/typescript` | npm | `typescript-v*` | `npm run check`, `npm pack --dry-run`, provenance publish |
 | Go | `bindings/go` | Go module proxy via semver tags, GitHub Releases | `bindings/go/v*` | `go test`, `go vet`, release tarball |
