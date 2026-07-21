@@ -1,0 +1,57 @@
+---
+title: Frequently Asked Questions
+description: Common questions about voiage installation, methods, and support
+---
+
+## What is voiage?
+
+`voiage` is a cross-domain Value of Information library. It quantifies the
+expected value of reducing uncertainty before a decision, including EVPI,
+EVPPI, EVSI, and ENBS workflows.
+
+## Which runtimes are supported?
+
+The supported repository-owned surfaces are the Rust execution core, the
+Python facade, and thin R and Julia bindings. Mojo is an explicit upstream
+integration boundary. Go, TypeScript, .NET, and WASM are not supported v1.0
+surfaces.
+
+## How do I install it?
+
+For the stable Python facade:
+
+```bash
+python -m pip install voiage
+```
+
+Optional capabilities are installed through named extras. See the
+[installation guide](/getting-started/installation/) for the supported
+dependency boundaries.
+
+## How do I calculate EVPI?
+
+Create a `ValueArray` whose rows are uncertainty samples and whose columns are
+strategies, then pass it to `DecisionAnalysis`:
+
+```python
+from voiage.analysis import DecisionAnalysis
+from voiage.schema import ValueArray
+
+analysis = DecisionAnalysis(ValueArray.from_numpy(net_benefits))
+evpi = analysis.evpi()
+```
+
+The public Python API preserves the stable result contract while delegating
+the supported numerical kernels to Rust.
+
+## Why is a method or accelerator marked experimental?
+
+Experimental methods and accelerator lanes require an explicit contract,
+parity evidence, and reproducible performance evidence before promotion. CPU
+fallback behavior remains authoritative until those gates pass.
+
+## Where should I report a problem?
+
+Use the repository’s GitHub issue tracker with a minimal reproduction, package
+version, runtime version, operating system, and relevant diagnostics. Do not
+include confidential data in public issues.

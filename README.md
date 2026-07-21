@@ -99,7 +99,7 @@ The main user and developer references are:
 - [Community support](SUPPORT.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
-- [Frontier VOI roadmap](docs/sota_voi_frontier.md)
+- [Frontier VOI roadmap](https://edithatogo.github.io/voiage/sota-voi-frontier/)
 
 ## Academic Paper
 
