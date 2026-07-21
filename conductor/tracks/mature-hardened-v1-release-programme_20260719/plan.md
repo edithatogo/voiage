@@ -106,7 +106,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Red: add fixture and parity tests for each retained EVPPI method (5d8e9e1).
     - [x] Green: implement the stable method set in Rust with deterministic diagnostics and errors (01e5ba4, 2a3abb5).
     - [x] Refactor: remove Python numerical-policy dependencies and rerun parity tests (b1b488c, 61b5595).
-- [~] Task: Migrate supported EVSI methods using TDD
+- [x] Task: Migrate supported EVSI methods using TDD (83bc772)
     - [x] Red: define the bounded seeded-bootstrap fixture and error contract (8ee1ecc).
     - [x] Green: implement the seeded-bootstrap numerical kernel and typed PyO3 bridge (cf5d3e2, 4ed2c43).
     - [x] Refactor: add reproducibility properties, one-strategy behavior, benchmark evidence, and focused validation (a9fb96b).
@@ -130,7 +130,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Scope the C15 exact Python 3.14 runner assertion to its approved interpreter lane (8fac8b6).
     - [x] Align tox minimum and maximum dependency bounds with the declared runtime contract (97a1ce7).
     - [x] Reconcile the Rust migration matrix with the implemented two-loop EVSI contract (ae74b21).
-    - [~] Extend native ownership to the Python model-callback estimator family after explicit seed and estimator contracts are frozen; retain two-loop, regression, random-forest efficient, adaptive, and NMA paths in Python meanwhile.
+    - [x] Extend native ownership to the supported Python model-callback estimator family after explicit contracts were frozen; retain two-loop, random-forest efficient, adaptive, and NMA paths in Python where their contracts remain intentionally outside the stable native kernel boundary. (83bc772)
         - [x] Define and implement the versioned regression prediction envelope: Python owns callback simulation; Rust owns finite OLS fit/predict aggregation. (83bc772)
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).
