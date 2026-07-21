@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-06-25T10:08:23Z",
+  "generated_at": "2026-07-21T11:20:55Z",
   "snapshot": {
     "python": {
       "package": "voiage",
       "registry": "PyPI",
       "registry_url": "https://pypi.org/project/voiage/",
-      "status": "not_found",
-      "details": "The upstream easyconfig path returned HTTP 404; a repository-owned, checksum-pinned draft easyconfig now passes local syntax validation.",
+      "status": "confirmed",
+      "details": "Live package payload or metadata endpoint was reachable.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Automated PyPI/TestPyPI publish exists on tags; external conda-forge feedstock merge is manual.",
-      "checked_at": "2026-06-25T10:08:13Z",
+      "checked_at": "2026-07-21T11:20:50Z",
       "evidence_confidence": "high"
     },
     "r": {
@@ -20,7 +20,7 @@
       "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "GitHub Release source archives are produced from r-v* tags; CRAN and r-universe are external.",
-      "checked_at": "2026-06-25T10:08:14Z",
+      "checked_at": "2026-07-21T11:20:50Z",
       "evidence_confidence": "medium"
     },
     "julia": {
@@ -31,7 +31,7 @@
       "details": "General registry contents lookup returned no active package entry.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "TagBot sync and GitHub release artifacts are in-repo. Registry approval still depends on the external Julia ecosystem.",
-      "checked_at": "2026-06-25T10:08:14Z",
+      "checked_at": "2026-07-21T11:20:51Z",
       "evidence_confidence": "medium"
     },
     "rust": {
@@ -41,8 +41,8 @@
       "status": "not_found",
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Automated cargo publish exists on rust-v* tags.",
-      "checked_at": "2026-06-25T10:08:19Z",
+      "notes": "Rust is an internal publish=false workspace released through GitHub Releases; no crates.io package is claimed.",
+      "checked_at": "2026-07-21T11:20:52Z",
       "evidence_confidence": "high"
     },
     "conda_forge": {
@@ -53,7 +53,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "The in-repo workflow can create a feedstock update PR; feedstock merge and channel indexing remain external conda-forge gates.",
-      "checked_at": "2026-06-25T10:08:20Z",
+      "checked_at": "2026-07-21T11:20:52Z",
       "evidence_confidence": "medium"
     },
     "r_universe": {
@@ -64,7 +64,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "r-universe indexing is external to this repository and must be verified independently from GitHub Release source archives.",
-      "checked_at": "2026-07-17T00:00:00Z",
+      "checked_at": "2026-07-21T11:20:53Z",
       "evidence_confidence": "medium"
     },
     "spack": {
@@ -75,7 +75,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Spack publication requires an upstream package PR, maintainer review, merge, and package visibility.",
-      "checked_at": "2026-06-25T10:08:21Z",
+      "checked_at": "2026-07-21T11:20:53Z",
       "evidence_confidence": "medium"
     },
     "easybuild": {
@@ -86,7 +86,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "EasyBuild publication requires an upstream easyconfig PR, maintainer review, merge, and easyconfig visibility.",
-      "checked_at": "2026-06-25T10:08:21Z",
+      "checked_at": "2026-07-21T11:20:53Z",
       "evidence_confidence": "medium"
     },
     "hpsf": {
@@ -94,10 +94,10 @@
       "registry": "HPSF",
       "registry_url": "https://hpsf.io/",
       "status": "external_manual",
-      "details": "The HPSF public site is reachable, but no repository-owned package API or confirmed voiage listing was found; curation and listing policy remain external.",
+      "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "HPSF curation has no repo-owned package API check here; portal or curation review evidence must be attached by the follow-through track.",
-      "checked_at": "2026-07-17T00:00:00Z",
+      "checked_at": "2026-07-21T11:20:54Z",
       "evidence_confidence": "low"
     },
     "e4s": {
@@ -105,10 +105,10 @@
       "registry": "E4S",
       "registry_url": "https://e4s.io/",
       "status": "external_manual",
-      "details": "The E4S public site is reachable, but no voiage entry was found in the inspected E4S facility configuration repository; curation and package-stack verification remain external.",
+      "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "E4S inclusion depends on external curation and usually on upstream HPC packaging evidence such as Spack or EasyBuild.",
-      "checked_at": "2026-07-17T00:00:00Z",
+      "checked_at": "2026-07-21T11:20:55Z",
       "evidence_confidence": "low"
     }
   }
