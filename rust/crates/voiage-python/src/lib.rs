@@ -19,7 +19,7 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, DominanceStatus as KernelDominanceStatus,
+    evsi_stochastic, heterogeneity, structural_evpi, DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -529,6 +529,28 @@ fn compute_heterogeneity<'py>(
     Ok(output)
 }
 
+/// Aggregate structural EVPI after Python model evaluators have run.
+#[pyfunction]
+fn compute_structural_evpi<'py>(
+    net_benefit_by_structure: &Bound<'_, PyAny>,
+    structure_probabilities: &Bound<'_, PyAny>,
+) -> PyResult<f64> {
+    let net_benefit_by_structure = cube_from_python(net_benefit_by_structure, "net_benefit")?;
+    let structure_probabilities = SampleVector::try_from(vector_from_python(
+        structure_probabilities,
+        "structure_probabilities",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    structural_evpi(&net_benefit_by_structure, &structure_probabilities).map_err(
+        |error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        },
+    )
+}
+
 /// Compute the stable dominance kernel for Python callers.
 #[pyfunction]
 fn compute_dominance<'py>(
@@ -939,6 +961,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;

@@ -102,12 +102,12 @@
     {
       "kernel_id": "structural_voi",
       "python_owner": "voiage.methods.structural",
-      "rust_status": "none",
+      "rust_status": "contract_fixture",
       "python_wrapper_status": "native",
-      "parity_status": "none",
+      "parity_status": "fixture_backed",
       "benchmark_status": "none",
       "migration_priority": "medium",
-      "notes": "Python-only structural VOI in voiage.methods.structural. Rust migration deferred until benchmark evidence justifies the port."
+      "notes": "Structural EVPI aggregation is Rust-owned in rust/crates/voiage-numerics and exposed through PyO3; Python model evaluators and population scaling remain orchestration. Structural EVPPI aggregation remains Python-owned and is the next migration slice."
     },
     {
       "kernel_id": "nma_voi",

@@ -18,6 +18,7 @@ from collections.abc import Callable
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.exceptions import raise_input_error
 from voiage.schema import ParameterSet as PSASample
 from voiage.schema import ValueArray as NetBenefitArray
@@ -103,11 +104,13 @@ def structural_evpi(
 
     # Store E_theta|S [NB(d, theta, S)] for each structure S and decision d
     expected_nb_given_structure_S_decision_d = []  # List of arrays (n_strategies)
+    evaluated_arrays: list[NetBenefitArray] = []
 
     for i in range(n_structures):
         evaluator = model_structure_evaluators[i]
         psa_for_S = psa_samples_per_structure[i]
         nb_array_for_S = evaluator(psa_for_S)  # NetBenefitArray (samples x strategies)
+        evaluated_arrays.append(nb_array_for_S)
 
         if n_strategies == -1:
             n_strategies = nb_array_for_S.n_strategies
@@ -126,6 +129,34 @@ def structural_evpi(
         max_nb_per_sample_S = np.max(nb_array_for_S.numpy_values, axis=1)
         expected_max_nb_S = np.mean(max_nb_per_sample_S)
         expected_max_nb_given_structure_S.append(expected_max_nb_S)
+
+    native_per_decision = _runtime.compute_structural_evpi(
+        [nb_array.numpy_values.tolist() for nb_array in evaluated_arrays],
+        prob_arr.tolist(),
+    )
+
+    # Population scaling (similar to EVPI)
+    if population is not None and time_horizon is not None:
+        if not isinstance(population, (int, float)) or population <= 0:
+            raise_input_error("Population must be a positive number.")
+        if not isinstance(time_horizon, (int, float)) or time_horizon <= 0:
+            raise_input_error("Time horizon must be a positive number.")
+
+        current_dr = discount_rate if discount_rate is not None else 0.0
+        if not isinstance(current_dr, (int, float)) or not (0 <= current_dr <= 1):
+            raise_input_error("Discount rate must be a number between 0 and 1.")
+        annuity_factor = (
+            time_horizon
+            if current_dr == 0
+            else (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
+        )
+        return float(native_per_decision * population * annuity_factor)
+    if population is not None or time_horizon is not None or discount_rate is not None:
+        raise_input_error(
+            "To calculate population SEVPI, 'population' and 'time_horizon' must be provided. "
+            "'discount_rate' is optional (defaults to 0 if not provided)."
+        )
+    return float(native_per_decision)
 
     # Term 1: E_S [ E_theta|S [max_d NB(d, theta, S)] ]
     # This is the expectation over S of (the expected value, within S, of choosing optimally if S is known)

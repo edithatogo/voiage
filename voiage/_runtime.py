@@ -97,6 +97,21 @@ def compute_heterogeneity(
     return dict(result)
 
 
+def compute_structural_evpi(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+) -> float:
+    """Aggregate structural EVPI in the Rust core."""
+    try:
+        result = _native().compute_structural_evpi(
+            net_benefit_by_structure,
+            structure_probabilities,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
     """Compute the stable dominance kernel in Rust."""
     try:
