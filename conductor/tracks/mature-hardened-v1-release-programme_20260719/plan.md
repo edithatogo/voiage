@@ -253,8 +253,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [ ] Task: Establish quantitative quality and performance gates
     - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
     - [ ] Define benchmark budgets and fail material regressions.
-- [ ] Task: Prove reproducible release inputs
-    - [ ] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction.
+- [~] Task: Prove reproducible release inputs
+    - [~] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; local extracted-sdist `cargo metadata --locked`, `cargo build --release --locked`, and Maturin wheel build pass; cross-runner artifact and hosted clean-builder evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
 
 ## Phase 11: Registry Publication and Installability
