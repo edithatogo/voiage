@@ -1,0 +1,1 @@
+Phase 10 hosted security evidence on PR #300 head 5bcb2f61: C consumer ASan/UBSan/LSan passed, Miri unsafe-boundary tests passed, cargo-deny advisories/licenses/bans/sources passed, Rust workspace line coverage gate passed, reproducible build and SBOM passed, and continuous stable-Rust-kernel fuzzing passed. Local fuzzer completed 3,438,366 executions without a crash.
