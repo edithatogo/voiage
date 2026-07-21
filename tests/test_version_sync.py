@@ -31,26 +31,9 @@ dynamic = ["version"]
     (root / "rust/crates/voiage-python/Cargo.toml").write_text(
         "[package]\nversion.workspace = true\n", encoding="utf-8"
     )
-    (root / "bindings/typescript").mkdir(parents=True)
-    (root / "bindings/typescript/package.json").write_text(
-        '{"version": "' + version + '"}',
-        encoding="utf-8",
-    )
     (root / "bindings/julia").mkdir(parents=True)
     (root / "bindings/julia/Project.toml").write_text(
         'version = "' + version + '"',
-        encoding="utf-8",
-    )
-    (root / "bindings/rust").mkdir(parents=True)
-    (root / "bindings/rust/Cargo.toml").write_text(
-        '[package]\nversion = "' + version + '"\n',
-        encoding="utf-8",
-    )
-    (root / "bindings/dotnet/src/Voiage.Core").mkdir(parents=True)
-    (root / "bindings/dotnet/src/Voiage.Core/Voiage.Core.csproj").write_text(
-        "<Project><PropertyGroup><Version>"
-        + version
-        + "</Version></PropertyGroup></Project>",
         encoding="utf-8",
     )
     (root / "r-package/voiageR").mkdir(parents=True)
@@ -75,18 +58,18 @@ def test_validate_version_sync_reports_manifest_drift(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     _write_versioned_repo(tmp_path, "0.2.0")
-    (tmp_path / "bindings/typescript/package.json").write_text(
-        '{"version": "0.1.0"}',
+    (tmp_path / "bindings/julia/Project.toml").write_text(
+        'version = "0.1.0"',
         encoding="utf-8",
     )
 
-    with pytest.raises(versioning.VersionSyncError, match="TypeScript"):
+    with pytest.raises(versioning.VersionSyncError, match="Julia"):
         versioning.validate_version_sync(tmp_path)
 
     assert versioning.main(["--repo-root", str(tmp_path)]) == 1
     captured = capsys.readouterr()
     assert "version synchronization failed" in captured.err
-    assert "bindings/typescript/package.json" in captured.err
+    assert "bindings/julia/Project.toml" in captured.err
 
 
 def test_release_tag_must_exactly_match_authoritative_cargo_version(

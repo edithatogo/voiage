@@ -15,10 +15,9 @@ def test_astro_binding_reference_covers_the_normative_matrix() -> None:
     ).read_text(encoding="utf-8")
 
     assert "The matrix is normative" in reference
-    display_names = {"dotnet": ".NET", "r": "R", "typescript": "TypeScript"}
+    display_names = {"r": "R"}
     adapter_names = {
-        "wasm_or_n_api": "WebAssembly",
-        "native_rust_crate": "Native Rust crate",
+        "native_rust_workspace": "Native Rust workspace",
         "c_abi": "C ABI",
         "pyo3": "PyO3",
     }

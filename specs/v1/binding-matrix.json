@@ -36,44 +36,14 @@
       "external_gate": "Julia General registry review and merge"
     },
     {
-      "id": "typescript",
-      "status": "retained",
-      "path": "bindings/typescript",
-      "adapter": "wasm_or_n_api",
-      "supported_runtime_versions": ["22", "24"],
-      "registry": "npm",
-      "tag_pattern": "typescript-v*",
-      "external_gate": "npm provenance publication credentials"
-    },
-    {
-      "id": "go",
-      "status": "retained",
-      "path": "bindings/go",
-      "adapter": "c_abi",
-      "supported_runtime_versions": ["1.24", "1.25"],
-      "registry": "Go module proxy",
-      "tag_pattern": "bindings/go/v*",
-      "external_gate": "Go module proxy indexing after semver tag"
-    },
-    {
       "id": "rust",
       "status": "retained",
-      "path": "bindings/rust",
-      "adapter": "native_rust_crate",
+      "path": "rust",
+      "adapter": "native_rust_workspace",
       "supported_runtime_versions": ["1.85", "stable"],
       "registry": "crates.io",
       "tag_pattern": "rust-v*",
       "external_gate": "crates.io publication credentials"
-    },
-    {
-      "id": "dotnet",
-      "status": "retained",
-      "path": "bindings/dotnet",
-      "adapter": "c_abi",
-      "supported_runtime_versions": ["11.0"],
-      "registry": "NuGet",
-      "tag_pattern": "dotnet-v*",
-      "external_gate": "NuGet publication credentials and net11.0 availability"
     }
   ]
 }

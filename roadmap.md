@@ -12,7 +12,7 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 *   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Takeover Incomplete** - the production seven-crate workspace now enforces core dependency direction, leaf FFI/WASM/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI while the legacy `bindings/rust` crate remains a temporary compatibility facade. The private maturin-built PyO3 bridge now owns CEAF and dominance result serialization with stable error and provenance contracts. Stable numerical APIs are not yet uniformly Rust-backed, and retained bindings do not yet share one authoritative Rust implementation.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Takeover Incomplete** - the production Rust workspace now enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. The private maturin-built PyO3 bridge now owns CEAF and dominance result serialization with stable error and provenance contracts. Stable numerical APIs are not yet uniformly Rust-backed, and retained Python/Mojo, R, and Julia surfaces still require final parity evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
@@ -149,11 +149,11 @@ review evidence and approval boundaries visible; they are not reopened work.
     *   **Status: `✅ Done`**
     *   The stable core contract around `ValueArray`, `ParameterSet`, `TrialDesign`, method outputs, diagnostics, and extension rules is defined under `specs/core-api/`.
     *   Spec-first development is backed by conformance fixtures before binding expansion.
-    *   The core API is surfaced from Python first, with R, Julia, TypeScript, Go, Rust, and .NET binding contracts aligned to the same release matrix.
+    *   The core API is surfaced from Python/Mojo first, with R, Julia, and Rust contracts aligned to the same release matrix.
     *   Deterministic validation, explicit schemas, and backend-agnostic behavior remain the governing compatibility rules.
 6.  **Planning for R/Julia Ports:**
     *   **Status: `✅ Done`**
-    *   R and Julia are captured as external ports of the shared core API, with TypeScript, Go, Rust, and .NET included in the broader binding release matrix.
+    *   R and Julia are captured as external ports of the shared Rust core API.
     *   The Python implementation remains the reference binding, with additional bindings generated or hand-wrapped from the same canonical spec.
     *   Each external binding is treated as a releasable package with a registry target, automated CI, conformance-fixture validation, and release automation before it is considered repository-complete.
     *   Keep the R binding documentation track explicit: the package help pages, a narrative vignette, and a deterministic PDF reference manual are part of the package docs surface, and the completed track is archived with the build/verification guidance centered on `tools/build-manual.R` and the non-interactive `R CMD check --as-cran --no-manual` flow.

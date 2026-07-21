@@ -22,7 +22,6 @@ EXPECTED_MEMBERS = {
     "crates/voiage-python",
     "crates/voiage-serialization",
     "crates/voiage-test-support",
-    "crates/voiage-wasm",
 }
 CORE_CRATES = {
     "voiage-diagnostics",
@@ -30,7 +29,7 @@ CORE_CRATES = {
     "voiage-numerics",
     "voiage-serialization",
 }
-ADAPTER_CRATES = {"voiage-ffi", "voiage-python", "voiage-wasm"}
+ADAPTER_CRATES = {"voiage-ffi", "voiage-python"}
 ALLOWED_INTERNAL_DEPENDENCIES = {
     "voiage-domain": set(),
     "voiage-diagnostics": {"voiage-domain"},
@@ -49,7 +48,6 @@ ALLOWED_INTERNAL_DEPENDENCIES = {
         "voiage-numerics",
         "voiage-serialization",
     },
-    "voiage-wasm": CORE_CRATES,
 }
 BINDING_SPECIFIC_DEPENDENCIES = {
     "cbindgen",
@@ -57,7 +55,6 @@ BINDING_SPECIFIC_DEPENDENCIES = {
     "libc",
     "napi",
     "pyo3",
-    "wasm-bindgen",
     "web-sys",
 }
 
@@ -131,7 +128,7 @@ def test_internal_dependencies_follow_the_architecture_direction() -> None:
         )
 
 
-def test_ffi_python_and_wasm_are_leaf_adapters() -> None:
+def test_ffi_and_python_are_leaf_adapters() -> None:
     manifests = _crate_manifests()
 
     for crate_name, manifest in manifests.items():

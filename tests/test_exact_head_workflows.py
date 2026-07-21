@@ -33,7 +33,7 @@ def test_every_polyglot_job_binds_and_records_exact_source_head() -> None:
     workflow = yaml.safe_load(
         (WORKFLOWS / "bindings-ci.yml").read_text(encoding="utf-8")
     )
-    for job_name in ("typescript", "go", "rust", "julia", "dotnet", "r"):
+    for job_name in ("rust", "julia", "r"):
         _assert_exact_head_steps(workflow["jobs"][job_name]["steps"])
 
 

@@ -17,10 +17,7 @@ def test_retained_binding_matrix_covers_supported_surfaces() -> None:
         "python",
         "r",
         "julia",
-        "typescript",
-        "go",
         "rust",
-        "dotnet",
     }
     assert all(entry["status"] == "retained" for entry in bindings)
     assert matrix["execution_authority"] == "rust"

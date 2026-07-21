@@ -9,7 +9,7 @@ Every language binding must have CI before it can be published. Pull requests
 must run build, lint/format where applicable, unit tests, conformance checks, and
 package dry-run validation. Version tags trigger registry-specific publishing.
 The release automation is split between in-repo publish jobs and external
-registry steps: PyPI/TestPyPI, npm, crates.io, NuGet, and GitHub release
+registry steps: PyPI/TestPyPI, crates.io, and GitHub release
 artifacts are automated from tag or release pushes, while conda-forge,
 CRAN/r-universe, and the Julia General registry still depend on their external
 registry or feedstock flows. The Rust-core migration has already established
@@ -26,10 +26,7 @@ external registry targets that require their own approval or indexing steps.
 | Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade over the canonical Rust core |
 | R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; EVPI uses the Rust C ABI, while advanced methods retain the documented reticulate bridge |
 | Julia | `bindings/julia` | Julia General registry, GitHub Releases for tag sync | `julia-v*` | `Pkg.test`, release tarball, TagBot sync |
-| TypeScript | `bindings/typescript` | npm | `typescript-v*` | `npm run check`, `npm pack --dry-run`, provenance publish |
-| Go | `bindings/go` | Go module proxy via semver tags, GitHub Releases | `bindings/go/v*` | `go test`, `go vet`, release tarball |
-| Rust | `bindings/rust` | crates.io | `rust-v*` | `cargo fmt`, `cargo clippy`, `cargo test --locked`, `cargo doc --no-deps`, `cargo package --locked --allow-dirty`, `cargo publish`; canonical execution core and contract owner |
-| .NET | `bindings/dotnet` | NuGet | `dotnet-v*` | `dotnet build`, console tests, `dotnet pack`, `dotnet nuget push` targeting `net11.0` |
+| Rust | `rust` | crates.io | `rust-v*` | `cargo fmt`, `cargo clippy`, `cargo test --locked`, `cargo package --locked`, `cargo publish`; canonical execution core and contract owner |
 
 ## Tooling Parity
 
@@ -44,11 +41,8 @@ The non-Python bindings do not mirror those tools one-for-one. Their equivalent
 quality gates are language-native build, test, lint, packaging, and conformance
 checks enforced in CI:
 
-- TypeScript: `npm run check`, `npm pack --dry-run`
-- Go: `go test`, `go vet`
 - Rust: `cargo fmt`, `cargo clippy`, `cargo test`, `cargo package`
 - Julia: `Pkg.test`
-- .NET 11: `dotnet build`, `dotnet test`, `dotnet pack`
 - R: `R CMD build`, `R CMD check --as-cran --no-manual`, `Rscript tools/build-manual.R`
 
 The tutorial/documentation tracks are separate from release automation:
@@ -61,10 +55,6 @@ Tutorial entry points:
 - [Python notebook tutorials](../examples/index.rst)
 - [R vignette and manual source](../../r-package/voiageR/vignettes/voiageR-getting-started.Rmd)
 - [Julia walkthrough](../../bindings/julia/README.md)
-- [Go walkthrough](../../bindings/go/README.md)
-- [Rust walkthrough](../../bindings/rust/README.md)
-- [TypeScript walkthrough](../../bindings/typescript/README.md)
-- [.NET walkthrough](../../bindings/dotnet/README.md)
 
 ## Versioning and Logging
 
@@ -75,15 +65,11 @@ Each binding is versioned with the registry expectations of its ecosystem:
   contract rather than owning the execution engine. The separate conda-update
   workflow updates the in-repo conda-forge recipe, but the feedstock PR and
   merge still depend on the external conda-forge process.
-- TypeScript uses npm semver tags with trusted provenance publication.
-- Go uses semver module tags under `bindings/go/v*` and GitHub release source
-  archives.
 - Rust uses crates.io-compatible semver tags and `cargo publish`, and is the
   canonical engine for the voiage domain model. Python is the primary façade
   and the other language packages remain thin adapters over the same
   contract.
 - Julia uses the General registry for publication and TagBot for release sync.
-- .NET uses `net11.0` package releases to NuGet.
 - R uses GitHub Release source archives for early distribution; CRAN is the
   primary long-term registry target, while r-universe remains an optional
   external indexing channel when the package policy is ready. The release

@@ -7,7 +7,6 @@ members = [
     "crates/voiage-python",
     "crates/voiage-serialization",
     "crates/voiage-test-support",
-    "crates/voiage-wasm",
 ]
 resolver = "2"
 
@@ -23,7 +22,6 @@ voiage-diagnostics = { version = "=0.2.1", path = "crates/voiage-diagnostics" }
 voiage-domain = { version = "=0.2.1", path = "crates/voiage-domain" }
 voiage-numerics = { version = "=0.2.1", path = "crates/voiage-numerics" }
 voiage-serialization = { version = "=0.2.1", path = "crates/voiage-serialization" }
-wasm-bindgen = "0.2.126"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

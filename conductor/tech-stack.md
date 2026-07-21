@@ -57,8 +57,6 @@
 - **pnpm**: Package manager for the Starlight/Astro site
 
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
-- **WASM / N-API**: conditional TypeScript interop options if a native JS edge
-  becomes necessary
 
 ## Optional Dependencies
 - **PyTorch**: >=2.13,<3 - Deep learning (optional, for the `deep_learning` extra)
@@ -66,10 +64,7 @@
 ## Binding and Release Targets
 - **R**: CRAN-style package checks and GitHub Releases for source archives
 - **Julia**: General registry with TagBot synchronization
-- **TypeScript**: npm with provenance
-- **Go**: tagged modules via the Go module proxy
 - **Rust**: crates.io
-- **.NET**: NuGet targeting `net11.0`
 
 ## Follow-Through Evidence Tooling
 - **GitHub Actions**: repeatable release, registry-audit, benchmark, pre-silicon,

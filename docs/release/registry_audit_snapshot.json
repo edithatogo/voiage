@@ -34,28 +34,6 @@
       "checked_at": "2026-06-25T10:08:14Z",
       "evidence_confidence": "medium"
     },
-    "typescript": {
-      "package": "@voiage/core",
-      "registry": "npm",
-      "registry_url": "https://www.npmjs.com/package/%40voiage%2Fcore",
-      "status": "not_found",
-      "details": "Manual check returned HTTP 404.",
-      "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Automated npm publish exists on typescript-v* tags.",
-      "checked_at": "2026-06-25T10:08:14Z",
-      "evidence_confidence": "high"
-    },
-    "go": {
-      "package": "github.com/edithatogo/voiage/bindings/go",
-      "registry": "Go module proxy",
-      "registry_url": "https://proxy.golang.org/github.com/edithatogo/voiage/bindings/go/@v/list",
-      "status": "no_released_versions",
-      "details": "Endpoint was reachable but reported no released versions.",
-      "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Semver tags under bindings/go/v* are in-repo publication boundary.",
-      "checked_at": "2026-06-25T10:08:17Z",
-      "evidence_confidence": "medium"
-    },
     "rust": {
       "package": "voiage-core",
       "registry": "crates.io",
@@ -64,17 +42,6 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Automated cargo publish exists on rust-v* tags.",
-      "checked_at": "2026-06-25T10:08:19Z",
-      "evidence_confidence": "high"
-    },
-    "dotnet": {
-      "package": "Voiage.Core",
-      "registry": "NuGet",
-      "registry_url": "https://www.nuget.org/packages/Voiage.Core",
-      "status": "not_found",
-      "details": "Manual check returned HTTP 404.",
-      "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Automated NuGet publish exists on dotnet-v* tags.",
       "checked_at": "2026-06-25T10:08:19Z",
       "evidence_confidence": "high"
     },

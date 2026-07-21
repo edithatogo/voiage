@@ -189,20 +189,20 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 ## Phase 7: Cross-Language Binding Consolidation
 
 - [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
-    - [x] Confirm supported Python, R, Julia, TypeScript, Go, Rust and .NET surfaces, adapters, registries and external gates.
+    - [x] Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates.
     - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
-    - [~] Remove bindings that cannot meet stable contract and maintenance requirements. (retained surfaces now have adapter evidence; supported-version proof remains)
+    - [x] Remove bindings that cannot meet stable contract and maintenance requirements. (Go, TypeScript and .NET implementations, duplicate standalone Rust binding, WASM crate, workflows and active publication references removed; retained matrix is Rust, Python/Mojo, R and Julia)
 - [~] Task: Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
-    - [x] Shared EVPI conformance: Python, R, Julia, TypeScript, Go, Rust and .NET surfaces pass the canonical/reference fixture or ABI smoke gate (2a05984, 3f22b1a, 7647b81, d475e64, plus existing Rust/.NET evidence).
-    - [~] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified (C ABI EVPI foundation f7cc0b7; Go adapter 2a05984; .NET adapter 26a10d7; Julia adapter 3f22b1a; R adapter 7647b81; TypeScript WASM adapter d475e64).
+    - [x] Shared EVPI conformance: Python, R, Julia and Rust surfaces pass the canonical/reference fixture or ABI smoke gate (3f22b1a, 7647b81, and existing Rust evidence).
+    - [~] Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary.
     - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
     - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
 - [~] Task: Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
-    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; Go and TypeScript runtime tests pass locally; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; .NET is runner-blocked by local SDK 10.0 versus required net11.0; per-language hosted runtime evidence remains)
+    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; Python/PyO3 and hosted runtime evidence remain)
     - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
-    - [~] Prove every retained binding executes Rust across supported version combinations. (Local Go and TypeScript tests pass; R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 requires libpython3.13.dylib and .NET requires SDK 11.0; hosted supported-version evidence remains)
+    - [~] Prove every retained binding executes Rust across supported version combinations. (R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 requires libpython3.13.dylib; Python/Mojo hosted evidence remains)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
 ## Phase 8: Supported Extensions and Experimental Isolation
@@ -268,7 +268,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Publish retained crates on crates.io.
     - [ ] Complete the existing conda-forge publication track and verify indexing.
 - [ ] Task: Publish and verify retained bindings
-    - [ ] Complete existing R, Julia, TypeScript, Go and .NET registry tracks for CRAN or the approved R target, Julia General, npm, Go proxy and NuGet.
+    - [ ] Complete existing R and Julia registry tracks for CRAN or the approved R target and Julia General; retain Python/Mojo publication as its own release boundary.
 - [ ] Task: Prove registry installability
     - [ ] Test every registry in clean registry-only environments on supported platforms and architectures.
     - [ ] Record linkage, checksums, provenance, smoke results and precise external blockers without overclaiming completion.

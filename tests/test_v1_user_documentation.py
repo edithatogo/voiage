@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "docs/astro-site/src/content/docs/user-guide/v1-release-readiness.mdx"
 
