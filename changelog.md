@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Routed the computed coverage comparison revision through an environment
   variable before shell expansion, eliminating a workflow template-injection
   path while preserving fail-closed changed-line coverage.
+- Pinned the hosted Go toolchain and Vale prose checker to exact releases.
 
 ### Added
 - Added Astro-native best-practice, validation-evidence, ecosystem-boundary,

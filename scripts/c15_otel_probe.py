@@ -37,8 +37,8 @@ class _Collector(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-    def log_message(self, format: str, *_args: object) -> None:  # noqa: A002
-        del format
+    def log_message(self, _format: str, *_args: object) -> None:
+        return
 
 
 def received_contract(
