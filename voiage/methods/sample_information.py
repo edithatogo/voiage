@@ -565,16 +565,55 @@ def _evsi_regression(
     # y: max net benefit from posterior
     y = max_nb_posterior
 
-    # Fit regression model
-    from sklearn.linear_model import LinearRegression
-
-    regression_model = LinearRegression()
-    regression_model.fit(x, y)
-
     # Predict max net benefit for all prior samples
     x_all = np.stack(
         list(psa_prior.parameters.values()), axis=1
     )  # (n_samples, n_parameters)
+
+    # Callback execution remains Python-owned; deterministic OLS aggregation
+    # is Rust-owned under the versioned regression envelope.
+    try:
+        result = _runtime.compute_evsi_regression(
+            y.reshape(-1, 1).tolist(),
+            x.tolist(),
+            x_all.tolist(),
+        )
+    except ModuleNotFoundError:
+        _warn_python_numerical_fallback("regression EVSI")
+    except AttributeError as error:
+        if "compute_evsi_regression" not in str(error):
+            raise
+        _warn_python_numerical_fallback("regression EVSI")
+    except InputError as error:
+        if "rank deficient" not in str(error):
+            raise
+        _warn_python_numerical_fallback("regression EVSI")
+    else:
+        try:
+            if (
+                result.get("estimator") != "regression"
+                or result.get("contract_version") != 1
+                or result.get("sample_count") != len(y)
+                or result.get("prediction_count") != len(x_all)
+                or result.get("parameter_count") != x.shape[1]
+            ):
+                raise ValueError("native regression metadata mismatch")  # noqa: TRY301
+            expected_sample_value = float(result["expected_sample_value"])
+            if not np.isfinite(expected_sample_value):
+                raise ValueError("native regression result is non-finite")  # noqa: TRY301
+        except (KeyError, TypeError, ValueError) as error:
+            raise_input_error(
+                "Native regression EVSI returned an invalid result envelope."
+            )
+            raise AssertionError("unreachable") from error
+        else:
+            return expected_sample_value
+
+    # Compatibility reference for unavailable or rank-deficient native builds.
+    from sklearn.linear_model import LinearRegression
+
+    regression_model = LinearRegression()
+    regression_model.fit(x, y)
     predicted_max_nb = regression_model.predict(x_all)
 
     # Return expected max net benefit

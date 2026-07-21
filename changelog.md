@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added a versioned Rust/PyO3 regression aggregation kernel for callback-driven
+  EVSI; Python retains trial simulation and model callbacks with a validated
+  compatibility fallback for unavailable or rank-deficient native builds.
 - Added Pydantic v2 structured logging with JSONL, run IDs, bound context, and
   backward-compatible CLI human logs; added Pixi/uv task parity, BasedPyright
   ratcheting, Scalene artifacts, and manually dispatchable expensive CI lanes.

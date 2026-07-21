@@ -165,3 +165,20 @@ def compute_evsi_moment_based(
     except Exception as error:
         _raise_native_error(error)
     return dict(result)
+
+
+def compute_evsi_regression(
+    targets: list[list[float]],
+    parameter_samples: list[list[float]],
+    prediction_samples: list[list[float]],
+) -> dict[str, object]:
+    """Compute the deterministic Rust regression aggregation kernel."""
+    try:
+        result = _native().compute_evsi_regression(
+            targets,
+            parameter_samples,
+            prediction_samples,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)

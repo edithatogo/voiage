@@ -18,8 +18,8 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
-    DominanceStatus as KernelDominanceStatus,
+    ceaf, dominance, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
+    evsi_stochastic, DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -681,6 +681,36 @@ fn compute_evsi_moment_based<'py>(
     Ok(output)
 }
 
+/// Compute the callback-driven deterministic regression aggregation kernel.
+#[pyfunction]
+fn compute_evsi_regression<'py>(
+    py: Python<'py>,
+    targets: &Bound<'_, PyAny>,
+    parameter_samples: &Bound<'_, PyAny>,
+    prediction_samples: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let targets = matrix_from_python(targets, "targets")?;
+    let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
+    let prediction_samples = matrix_from_python(prediction_samples, "prediction_samples")?;
+    let result =
+        evsi_regression(&targets, &parameter_samples, &prediction_samples).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("expected_sample_value", result.expected_sample_value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("prediction_count", result.prediction_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    Ok(output)
+}
+
 fn add_operation_snapshot(
     py: Python<'_>,
     operations: &Bound<'_, PyDict>,
@@ -862,6 +892,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())

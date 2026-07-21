@@ -57,7 +57,7 @@
       "parity_status": "fixture_backed",
       "benchmark_status": "ci_gated",
       "migration_priority": "high",
-      "notes": "Rust voiage-numerics owns versioned seeded-bootstrap, efficient-linear, and fail-closed moment-based kernels exposed through the private PyO3/runtime bridge. The public callback dispatcher routes efficient + linear and moment-based through native kernels; trial-design parsing and population scaling remain Python-owned. Python two-loop now has isolated seeded local-RNG and meaningful n_inner_loops contracts, but remains Python-owned because its posterior simulation semantics differ from Rust seeded bootstrap. Regression, random-forest efficient, adaptive, and NMA paths remain Python-owned until their explicit estimator, seed, and rank-deficiency contracts are frozen."
+      "notes": "Rust voiage-numerics owns versioned seeded-bootstrap, efficient-linear, fail-closed moment-based, and deterministic callback-regression aggregation kernels exposed through the private PyO3/runtime bridge. The public callback dispatcher routes efficient + linear, moment-based, and regression OLS aggregation through native kernels; trial-design parsing, callback execution, posterior simulation, and population scaling remain Python-owned. Python two-loop now has isolated seeded local-RNG and meaningful n_inner_loops contracts, but remains Python-owned because its posterior simulation semantics differ from Rust seeded bootstrap. Random-forest efficient, adaptive, and NMA paths remain Python-owned until their explicit estimator, seed, and rank-deficiency contracts are frozen."
     },
     {
       "kernel_id": "enbs",
