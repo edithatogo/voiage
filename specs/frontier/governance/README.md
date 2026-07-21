@@ -40,4 +40,4 @@ validate_dependency_policy()                 # passes
 ```
 
 The developer-facing prose lives in
-`docs/developer_guide/frontier_governance.rst`.
+the Astro frontier-governance developer guide.

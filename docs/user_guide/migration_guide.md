@@ -193,7 +193,7 @@ Current roadmap context:
 ## Frontier maturity labels
 
 Frontier method families use the governed maturity ladder in
-`docs/developer_guide/frontier_governance.rst`. A family labelled
+the Astro frontier-governance developer guide. A family labelled
 `fixture-backed` has deterministic repository fixtures, but it has not yet
 passed cross-language parity and must not be described as stable. Stable
 promotion additionally requires parity, documentation, changelog and

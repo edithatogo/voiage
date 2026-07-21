@@ -282,7 +282,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (`scripts/refresh_binding_registry_audit.py`) with offline refresh support and
   schema fields for `checked_at` and `evidence_confidence`.
 - Added a dedicated
-  `docs/developer_guide/hpc_acceleration_abstraction_contract.rst` reference
+  Astro HPC acceleration contract reference
   that defines the shared GPU/TPU/FPGA/ASIC abstraction decision and benchmark
   contract.
 - Added the missing `tests/test_r_release_workflow.py` contract test so all

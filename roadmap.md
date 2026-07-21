@@ -430,7 +430,7 @@ implementation can proceed without reopening the stack decision.
 clarify the HPC distribution story, and define a Rust-core migration path
 that preserves the public API while keeping the repo and docs easy to navigate.
 
-A completed orchestration guide in `docs/developer_guide/sota_strategy_orchestration.rst`
+A completed orchestration guide in the Astro developer guide
 defines the dependency graph, shared gates, and parallel lanes that the
 remaining strategy work should follow.
 

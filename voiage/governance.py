@@ -11,7 +11,7 @@ implementation conflict-free:
   base install and the optional bleeding-edge backends.
 
 The authoritative prose lives in
-``docs/developer_guide/frontier_governance.rst``; this module is the
+`docs/astro-site/src/content/docs/developer-guide/frontier-governance.mdx`; this module is the
 machine-readable companion that makes the policy testable.
 """
 

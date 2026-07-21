@@ -84,10 +84,10 @@ results. Any future verbose logging should remain opt-in and should not break th
 stable text, JSON, or CSV output contracts.
 
 The developer-facing rationale for the tooling split, versioning contract, and
-logging policy lives in `docs/developer_guide/polyglot_tooling.rst`.
+logging policy lives in the Astro developer guide.
 
 The repo-level version source of truth and the manifest lockstep rule are
-spelled out in `docs/developer_guide/versioning_and_release_policy.rst`, and a
+spelled out in the Astro versioning and release policy page, and a
 CI validator enforces that policy before release automation runs.
 
 Publishing jobs are intentionally credential-gated. Jobs that require registry
