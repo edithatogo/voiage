@@ -497,10 +497,7 @@ fn compute_heterogeneity<'py>(
     let subgroups = subgroups.extract::<Vec<String>>().map_err(|error| {
         InputError::new_err(("invalid_input", format!("invalid subgroups: {error}")))
     })?;
-    let rows = net_benefit
-        .rows()
-        .map(|row| row.to_vec())
-        .collect::<Vec<_>>();
+    let rows = net_benefit.rows().map(<[f64]>::to_vec).collect::<Vec<_>>();
     let result = heterogeneity(&rows, &subgroups).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
             DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
@@ -532,7 +529,7 @@ fn compute_heterogeneity<'py>(
 
 /// Aggregate structural EVPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evpi<'py>(
+fn compute_structural_evpi(
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
 ) -> PyResult<f64> {
@@ -554,7 +551,7 @@ fn compute_structural_evpi<'py>(
 
 /// Aggregate structural EVPPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evppi<'py>(
+fn compute_structural_evppi(
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
     structures_of_interest: &Bound<'_, PyAny>,
@@ -567,8 +564,15 @@ fn compute_structural_evppi<'py>(
     .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
     let indices = indices_from_python(structures_of_interest, "structures_of_interest")?
         .into_iter()
-        .map(|index| usize::try_from(index).expect("u64 always fits usize on supported targets"))
-        .collect::<Vec<_>>();
+        .map(|index| {
+            usize::try_from(index).map_err(|_| {
+                InputError::new_err((
+                    "invalid_input",
+                    "structure index exceeds the supported platform range",
+                ))
+            })
+        })
+        .collect::<PyResult<Vec<_>>>()?;
     structural_evppi(&cube, &probabilities, &indices).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
             DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))

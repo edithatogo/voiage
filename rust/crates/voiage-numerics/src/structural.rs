@@ -3,11 +3,17 @@ use voiage_domain::{SampleCube, SampleVector};
 use crate::NumericalInputError;
 
 /// Computes structural EVPI after model evaluators have produced one plane per structure.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] when probability dimensions or values are
+/// invalid, or when the sample count exceeds the supported exact range.
 pub fn structural_evpi(
     net_benefit_by_structure: &SampleCube,
     structure_probabilities: &SampleVector,
 ) -> Result<f64, NumericalInputError> {
     let [structure_count, sample_count, strategy_count] = net_benefit_by_structure.shape();
+    let sample_divisor = exact_sample_count(sample_count)?;
     if structure_probabilities.len() != structure_count {
         return Err(NumericalInputError::dimension(
             "structure_probabilities",
@@ -39,23 +45,29 @@ pub fn structural_evpi(
             }
         }
         for (strategy, mean) in means.iter_mut().enumerate() {
-            *mean /= sample_count as f64;
+            *mean /= sample_divisor;
             pooled_means[strategy] += probabilities[structure_index] * *mean;
         }
         perfect_information +=
-            probabilities[structure_index] * perfect_for_structure / sample_count as f64;
+            probabilities[structure_index] * perfect_for_structure / sample_divisor;
     }
     let pooled_optimum = pooled_means.into_iter().fold(f64::NEG_INFINITY, f64::max);
     Ok((perfect_information - pooled_optimum).max(0.0))
 }
 
 /// Computes structural EVPPI for the structures treated as known.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] when probability dimensions or values,
+/// requested structure indices, or the sample count are invalid.
 pub fn structural_evppi(
     net_benefit_by_structure: &SampleCube,
     structure_probabilities: &SampleVector,
     structures_of_interest: &[usize],
 ) -> Result<f64, NumericalInputError> {
     let [structure_count, sample_count, strategy_count] = net_benefit_by_structure.shape();
+    let sample_divisor = exact_sample_count(sample_count)?;
     if structure_probabilities.len() != structure_count {
         return Err(NumericalInputError::dimension(
             "structure_probabilities",
@@ -95,10 +107,12 @@ pub fn structural_evppi(
     let mut term1 = 0.0;
     let mut weighted_means = vec![0.0; strategy_count];
     for index in structures_of_interest {
-        let plane = net_benefit_by_structure
-            .planes()
-            .nth(*index)
-            .expect("validated structure index");
+        let Some(plane) = net_benefit_by_structure.planes().nth(*index) else {
+            return Err(NumericalInputError::invalid(
+                "structures_of_interest",
+                "indices must be valid structure indices",
+            ));
+        };
         let mut means = vec![0.0; strategy_count];
         let mut max_mean = 0.0;
         for row in plane {
@@ -108,12 +122,21 @@ pub fn structural_evppi(
             }
         }
         let weight = probabilities[*index] / known_probability;
-        term1 += weight * max_mean / sample_count as f64;
+        term1 += weight * max_mean / sample_divisor;
         for strategy in 0..strategy_count {
-            weighted_means[strategy] += weight * means[strategy] / sample_count as f64;
+            weighted_means[strategy] += weight * means[strategy] / sample_divisor;
         }
     }
     Ok((term1 - weighted_means.into_iter().fold(f64::NEG_INFINITY, f64::max)).max(0.0))
+}
+
+fn exact_sample_count(count: usize) -> Result<f64, NumericalInputError> {
+    u32::try_from(count).map(f64::from).map_err(|_| {
+        NumericalInputError::invalid(
+            "net_benefit_by_structure",
+            "sample count exceeds the supported exact range",
+        )
+    })
 }
 
 #[cfg(test)]
