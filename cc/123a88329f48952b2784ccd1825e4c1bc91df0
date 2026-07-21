@@ -1,0 +1,1 @@
+Validation: uv run python scripts/validate_python_runtime_inventory.py .; uv run pytest -q tests/test_python_runtime_inventory.py tests/test_experimental_namespace.py tests/test_package_exports.py
