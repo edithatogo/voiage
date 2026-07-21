@@ -176,6 +176,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Green: remove duplicate EVPI, CEAF, and dominance fallback implementations and obsolete imports. (working tree implementation)
     - [x] Refactor: reduce retained public paths to validated Rust-backed facades and rerun focused tests. (focused validation passed)
     - [x] Remove EVSI efficient-linear, moment-based, and regression numerical fallbacks; preserve Python only for callback simulation and intentionally Python-owned estimators. (focused validation passed)
+    - [x] Review fix: apply Ruff formatting to the numerical-core retirement slice. (7b219d4)
 - [ ] Task: Validate the minimal Python distribution
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
