@@ -128,6 +128,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Resolve the follow-on `ty` generic-parameter diagnostics in distributed helpers (bd8f70d).
     - [x] Restore compatibility-ordered public exports after Ruff sorting review (fabd89d).
     - [x] Scope the C15 exact Python 3.14 runner assertion to its approved interpreter lane (8fac8b6).
+    - [x] Align tox minimum and maximum dependency bounds with the declared runtime contract (97a1ce7).
     - [~] Extend native ownership to the Python model-callback estimator family after explicit seed and estimator contracts are frozen; retain two-loop, regression, random-forest efficient, adaptive, and NMA paths in Python meanwhile.
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).
