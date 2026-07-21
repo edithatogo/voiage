@@ -13,41 +13,21 @@ This document lists the actionable tasks for `voiage` development. Agents should
     and signed final publication.
     *   Conductor track: `mature-hardened-v1-release-programme_20260719`.
     *   Machine-readable baseline: `conductor/v1-programme-baseline.json`.
-    *   Phase 3 now has a production Rust workspace with enforced dependency
-        direction, an explicit MSRV, leaf FFI/WASM adapters, and cross-platform
-        CI. Validated domain, diagnostics, provenance, compatibility-fixture,
-        and canonical result contracts have passed final schema, error-mapping,
-        compatibility-classification, MSRV, and High/Critical review gates.
-        Narrow versioned C ABI infrastructure now has opaque token lifecycle,
-        bounded caller-owned error transport, panic containment, fixed-width
-        layouts, C11/C++17 consumers, symbol allowlisting, sanitizer coverage,
-        and green Linux, macOS, Windows, and Rust 1.85 gates. Operation-level
-        numerical exports remain intentionally deferred to kernel parity in
-        Phase 5. Phase 3 review fixes added fixed-width wire counts, typed result
-        construction, Cargo policy, Miri, and a measured 80% Rust coverage gate;
-        the full Phase 3 checkpoint is green locally and on GitHub. Phase 4 now
-        has a private PyO3/maturin runtime bridge that preserves the frozen
-        public Python surface and routes CEAF and dominance result
-        serialization through Rust. Numerical-kernel migration remains
-        intentionally deferred to Phase 5. Python packaging now uses
-        Cargo-authoritative dynamic versions, cp312 ABI3 native wheels, clean
-        wheel and sdist-derived installs, immutable release tags, staged
-        registry smoke gates, explicit platform tags, and minimized base
-        dependencies with governed extras. Runtime provenance now binds native
-        execution to RFC 8785 payload digests, immutable revision/tree/source
-        state, compiler and lockfile identity, and independently recomputable
-        build IDs across wheels and ordinary Git-less sdist installs. Phase 4
-        is checkpointed locally with the complete supported-runtime,
-        dependency, coverage, artifact, Rust and independent-review gates
-        green. Phase 5 stable numerical-kernel migration is next.
-    *   Phase 5 now has differential, metamorphic, malformed-input,
-        thread-safety, and benchmark-budget evidence for native EVSI. The
-        public efficient-linear path is the first callback estimator routed
-        through Rust; stochastic, regression, random-forest, moment-based,
-        adaptive, and NMA paths remain contract-gated.
-    *   Python two-loop EVSI now has validated seeded local-RNG and meaningful
-        `n_inner_loops` semantics; native stochastic migration remains gated
-        on a separately frozen estimator contract.
+    *   Phases 1--6 are checkpointed: the stable contracts, production Rust
+        workspace, PyO3/Maturin bridge, stable numerical kernels, and duplicate
+        Python-kernel retirement are complete.
+    *   Phases 7--10 now retain only Rust, Python, R and Julia repository
+        surfaces, classify Mojo as an upstream boundary, make Astro the sole
+        documentation source, and enforce signed solo-maintainer governance,
+        coverage, mutation, sanitizer, Miri, continuous fuzzing, benchmark,
+        dependency, SBOM and reproducibility gates.
+    *   PR #295 is fully green and awaits the normal Astro dependency-age
+        boundary. PR #300 contains the v1 closeout and security hardening work;
+        it will be rebased onto `main` and receive the complete hosted matrix
+        after #295 merges.
+    *   Remaining work is the fail-closed Astro build, both merges, final v1
+        version/evidence candidate, registry submissions and verification,
+        signed publication, and explicit closeout of external indexing gates.
 
 ## Done
 

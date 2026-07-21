@@ -244,22 +244,22 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
 
-- [ ] Task: Harden solo-maintainer GitHub governance
-    - [ ] Preserve merge autonomy without mandatory external review.
-    - [ ] Require reliable CI, attributable changes, protected release workflows and live check-name validation.
-- [ ] Task: Maximize continuous-integration coverage using TDD
-    - [ ] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
-    - [ ] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
-    - [ ] Refactor: remove flaky or routinely bypassed checks and minimize redundant work.
-    - [~] Local tox evidence: lint, harness, typecheck, docs, frontier-contract, version-sync, Python 3.12/3.13/3.14 and clean min_versions all pass; optional dependency skips remain explicit (2026-07-21).
-- [ ] Task: Establish security release gates
-    - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
-    - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
+- [x] Task: Harden solo-maintainer GitHub governance (live API verification 2026-07-22)
+    - [x] Preserve merge autonomy without mandatory external review. (active `main-maximal-quality` ruleset requires zero approvals and no code-owner review)
+    - [x] Require reliable CI, attributable changes, protected release workflows and live check-name validation. (strict required checks, signed commits, pull requests, linear squash history, resolved threads, web signoff, automatic branch deletion, secret scanning and push protection verified live)
+- [x] Task: Maximize continuous-integration coverage using TDD
+    - [x] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
+    - [x] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
+    - [x] Refactor: remove flaky or routinely bypassed checks and minimize redundant work. (unsupported Python 3.9 containers and stale deployment mirrors retired; pinned tooling and fail-closed workflow expansion retained)
+    - [x] Local non-documentation tox evidence: lint, harness, configured typecheck, frontier-contract, version-sync, Python 3.12/3.13/3.14, minimum/maximum dependencies and coverage all pass; coverage is 90.99% and optional dependency skips remain explicit (2026-07-21). Normal Astro remains intentionally age-gated until 2026-07-22T10:02:49Z.
+- [~] Task: Establish security release gates
+    - [x] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning. (CodeQL, Dependency Review, secret scanning/push protection, Bandit, Safety, cargo-deny, SBOM and artifact audit workflows)
+    - [~] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings. (PR SBOM and reproducibility checks pass; final checksums, attestations and signatures remain release-bound)
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
-    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21. PR #293 has all other hosted checks complete but its mutation job rejects the Dependabot lockfile change until the narrowed cohort policy is present on the remote branch.
-- [ ] Task: Establish quantitative quality and performance gates
-    - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
-    - [ ] Define benchmark budgets and fail material regressions.
+    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages; live secret-scanning and Dependabot alerts are empty (2026-07-21/22). PR #293 is merged. The Astro package-age policy remains actively fail-closed until its exact expiry, and hosted CodeQL quality-alert reconciliation plus final release evidence remain.
+- [x] Task: Establish quantitative quality and performance gates
+    - [x] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks. (90% Python, 80% Rust, proptest, continuous cargo-fuzz, Miri, ASan/UBSan/LSan and three hosted mutation gates; local stable-EVPI fuzzer completed 3,438,366 executions without a crash)
+    - [x] Define benchmark budgets and fail material regressions. (committed C15 and native-kernel baselines, budget validators, PR benchmark and profiling checks)
 - [~] Task: Prove reproducible release inputs
     - [~] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; `ddf6bcb` packages normative JSON fixtures; local extracted-sdist Rust all-target tests pass through non-PyO3 targets, and release `cargo build --locked` plus Maturin wheel build pass; local PyO3 execution remains blocked by missing libpython3.13.dylib, while cross-runner artifact and hosted clean-builder evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
