@@ -163,6 +163,24 @@ def test_structural_evppi_basic(sample_structures) -> None:
     assert isinstance(result, float)
     assert result >= 0
 
+
+def test_structural_evppi_with_discounted_population_scaling(sample_structures) -> None:
+    """Exercise the non-zero discounting path at the Rust boundary."""
+    evaluators, probabilities, psa_samples = sample_structures
+
+    result = structural_evppi(
+        evaluators,
+        probabilities,
+        psa_samples,
+        [0],
+        population=100,
+        time_horizon=2,
+        discount_rate=0.1,
+    )
+
+    assert isinstance(result, float)
+    assert result >= 0
+
     # Test learning about multiple structures
     result = structural_evppi(evaluators, probabilities, psa_samples, [0, 1])
     assert isinstance(result, float)

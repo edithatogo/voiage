@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -11,6 +12,9 @@ from voiage import _runtime
 from voiage.exceptions import DimensionMismatchError, InputError, SerializationError
 from voiage.methods.ceaf import CEAFResult
 from voiage.methods.dominance import DominanceResult
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class NativeError(RuntimeError):
@@ -122,6 +126,46 @@ def test_missing_native_extension_has_no_python_fallback(monkeypatch) -> None:
 
     with pytest.raises(ModuleNotFoundError, match="voiage._core"):
         _ceaf_result().to_dict(analysis_id="a", decision_problem_id="d")
+
+
+@pytest.mark.parametrize(
+    ("native_name", "invoke"),
+    [
+        ("compute_enbs", lambda: _runtime.compute_enbs(2.0, 1.0)),
+        (
+            "compute_heterogeneity",
+            lambda: _runtime.compute_heterogeneity([[1.0, 2.0]], ["group"]),
+        ),
+        (
+            "compute_structural_evpi",
+            lambda: _runtime.compute_structural_evpi([[[1.0, 2.0]]], [1.0]),
+        ),
+        (
+            "compute_structural_evppi",
+            lambda: _runtime.compute_structural_evppi([[[1.0, 2.0]]], [1.0], [0]),
+        ),
+        (
+            "compute_evsi_regression",
+            lambda: _runtime.compute_evsi_regression([[1.0]], [[1.0]], [[1.0]]),
+        ),
+    ],
+)
+def test_remaining_runtime_adapters_translate_native_errors(
+    monkeypatch, native_name: str, invoke: Callable[[], object]
+) -> None:
+    """Every stable adapter preserves the shared native error contract."""
+
+    def fail(*_args: object, **_kwargs: object) -> object:
+        raise NativeError("input", "invalid_result")
+
+    monkeypatch.setattr(
+        _runtime, "_native", lambda: SimpleNamespace(**{native_name: fail})
+    )
+
+    with pytest.raises(InputError, match="native validation failed") as caught:
+        invoke()
+
+    assert vars(caught.value)["diagnostic_code"] == "invalid_result"
 
 
 def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:

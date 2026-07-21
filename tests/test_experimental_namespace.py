@@ -3,6 +3,8 @@
 import subprocess
 import sys
 
+import pytest
+
 
 def test_experimental_namespace_is_lazy_and_explicit() -> None:
     code = (
@@ -32,3 +34,10 @@ def test_experimental_functions_are_not_stable_top_level_exports() -> None:
         "value_of_federated_privacy_preserving",
         "value_of_strategic_behavior",
     }.isdisjoint(voiage.__all__)
+
+
+def test_unknown_experimental_export_raises_attribute_error() -> None:
+    import voiage.experimental
+
+    with pytest.raises(AttributeError, match="not_an_export"):
+        _ = voiage.experimental.not_an_export

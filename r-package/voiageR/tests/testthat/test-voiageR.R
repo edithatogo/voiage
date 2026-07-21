@@ -43,7 +43,7 @@ with_voiage_stub <- function(fake_voiage, code) {
 
 test_that("is_voiage_available returns the reticulate availability check", {
   with_mocked_bindings(
-    py_module_available = function(module) {
+    .py_module_available = function(module) {
       expect_identical(module, "voiage")
       TRUE
     },
@@ -53,7 +53,7 @@ test_that("is_voiage_available returns the reticulate availability check", {
   )
 
   with_mocked_bindings(
-    py_module_available = function(module) {
+    .py_module_available = function(module) {
       expect_identical(module, "voiage")
       FALSE
     },
@@ -65,7 +65,7 @@ test_that("is_voiage_available returns the reticulate availability check", {
 
 test_that("init_voiage errors when voiage is unavailable", {
   with_mocked_bindings(
-    py_module_available = function(module) {
+    .py_module_available = function(module) {
       expect_identical(module, "voiage")
       FALSE
     },
@@ -81,11 +81,11 @@ test_that("init_voiage errors when voiage is unavailable", {
 test_that("init_voiage imports voiage when available", {
   imported <- FALSE
   with_mocked_bindings(
-    py_module_available = function(module) {
+    .py_module_available = function(module) {
       expect_identical(module, "voiage")
       TRUE
     },
-    import = function(module) {
+    .py_import = function(module) {
       expect_identical(module, "voiage")
       imported <<- TRUE
       list(module = module)
@@ -114,10 +114,10 @@ test_that("set_voiage_env updates the requested environment backend", {
   on.exit(set_voiage_module(old_voiage), add = TRUE)
   set_voiage_module(list(module = "voiage"))
   with_mocked_bindings(
-    use_virtualenv = function(env) {
+    .use_virtualenv = function(env) {
       virtualenv_called <<- env
     },
-    use_condaenv = function(env) {
+    .use_condaenv = function(env) {
       condaenv_called <<- env
     },
     {

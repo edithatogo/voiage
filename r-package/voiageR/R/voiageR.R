@@ -24,6 +24,13 @@ NULL
   .voiage_cache$module
 }
 
+# Keep reticulate calls behind package-local seams so environment behavior can
+# be tested without activating a real Python installation.
+.py_module_available <- function(module) reticulate::py_module_available(module)
+.py_import <- function(module) reticulate::import(module)
+.use_virtualenv <- function(env) reticulate::use_virtualenv(env)
+.use_condaenv <- function(env) reticulate::use_condaenv(env)
+
 .evpi_native <- function(net_benefits) {
   library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
   loaded <- tryCatch(
@@ -83,7 +90,7 @@ NULL
 #' init_voiage()
 #' }
 init_voiage <- function() {
-  if (!reticulate::py_module_available("voiage")) {
+  if (!.py_module_available("voiage")) {
     stop("The voiage Python package is not available. Please install it with: pip install voiage")
   }
 
@@ -91,7 +98,7 @@ init_voiage <- function() {
     return(invisible(NULL))
   }
 
-  .set_voiage_module(reticulate::import("voiage"))
+  .set_voiage_module(.py_import("voiage"))
 
   invisible(NULL)
 }
@@ -313,7 +320,7 @@ evsi <- function(
 #' print(is_available)
 #' }
 is_voiage_available <- function() {
-  reticulate::py_module_available("voiage")
+  .py_module_available("voiage")
 }
 
 #' Set Python environment for voiage
@@ -338,9 +345,9 @@ set_voiage_env <- function(env, type = c("virtualenv", "conda")) {
   type <- match.arg(type)
 
   if (type == "virtualenv") {
-    reticulate::use_virtualenv(env)
+    .use_virtualenv(env)
   } else {
-    reticulate::use_condaenv(env)
+    .use_condaenv(env)
   }
 
   .set_voiage_module(NULL)

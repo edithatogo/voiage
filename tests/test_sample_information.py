@@ -9,7 +9,7 @@ import pytest
 
 from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
-from voiage.exceptions import InputError
+from voiage.exceptions import BackendNotAvailableError, InputError
 import voiage.methods.sample_information as si_module
 from voiage.schema import DecisionOption, TrialDesign, ValueArray
 from voiage.schema import ParameterSet as PSASample
@@ -329,6 +329,46 @@ def test_evsi_regression_method_does_not_require_sklearn(
         n_outer_loops=2,
     )
     assert result >= 0.0
+
+
+@pytest.mark.parametrize("malformation", ["metadata", "non_finite"])
+def test_evsi_regression_rejects_malformed_native_envelope(
+    dummy_psa_for_evsi,
+    dummy_trial_design_for_evsi,
+    monkeypatch,
+    malformation: str,
+) -> None:
+    """Regression aggregation fails closed on invalid Rust envelopes."""
+
+    def malformed(
+        targets: list[list[float]],
+        parameters: list[list[float]],
+        predictions: list[list[float]],
+    ) -> dict[str, object]:
+        result: dict[str, object] = {
+            "estimator": "regression",
+            "contract_version": 1,
+            "expected_sample_value": 2.0,
+            "sample_count": len(targets),
+            "prediction_count": len(predictions),
+            "parameter_count": len(parameters[0]),
+        }
+        if malformation == "metadata":
+            result["estimator"] = "unexpected"
+        else:
+            result["expected_sample_value"] = float("nan")
+        return result
+
+    monkeypatch.setattr(_runtime, "compute_evsi_regression", malformed)
+
+    with pytest.raises(InputError, match="invalid result envelope"):
+        evsi(
+            model_func=dummy_model_func_evsi,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="regression",
+            n_outer_loops=2,
+        )
 
 
 def test_evsi_regression_method(
@@ -988,6 +1028,18 @@ def test_enbs_invalid_inputs() -> None:
 
     with pytest.raises(InputError, match="Research cost cannot be negative"):
         enbs(1000.0, -50.0)
+
+
+def test_enbs_requires_native_extension(monkeypatch) -> None:
+    """The stable ENBS path fails closed when the Rust extension is absent."""
+
+    def unavailable(*_args: object, **_kwargs: object) -> float:
+        raise ModuleNotFoundError("voiage._core")
+
+    monkeypatch.setattr(_runtime, "compute_enbs", unavailable)
+
+    with pytest.raises(BackendNotAvailableError, match="Rust runtime extension"):
+        enbs(2.0, 1.0)
 
 
 if __name__ == "__main__":
