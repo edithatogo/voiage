@@ -454,24 +454,23 @@ def test_evsi_efficient_linear_requires_native_extension(
         )
 
 
-def test_evsi_efficient_linear_uses_rank_deficiency_compatibility_shim(
+def test_evsi_efficient_linear_propagates_native_rank_errors(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Rank-deficient native designs use the documented compatibility shim."""
+    """Unexpected native rank errors are not hidden by a Python fallback."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("efficient-linear design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", rank_failure)
-    with pytest.warns(DeprecationWarning, match="efficient-linear EVSI fallback"):
-        result = si_module.evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        si_module.evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="efficient",
             metamodel="linear",
         )
-    assert result >= 0.0
 
 
 def test_evsi_efficient_linear_rejects_malformed_native_envelope(
@@ -636,23 +635,22 @@ def test_evsi_moment_based_routes_through_native_kernel(
     assert result == pytest.approx(1.0)
 
 
-def test_evsi_moment_based_uses_rank_deficiency_compatibility_shim(
+def test_evsi_moment_based_propagates_native_rank_errors(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi, monkeypatch
 ) -> None:
-    """Rank-deficient native designs use the documented compatibility shim."""
+    """Unexpected native rank errors are not hidden by a Python fallback."""
 
     def rank_failure(*_args: object, **_kwargs: object) -> dict[str, object]:
         raise InputError("moment-based design is rank deficient")
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", rank_failure)
-    with pytest.warns(DeprecationWarning, match="moment-based EVSI fallback"):
-        result = evsi(
+    with pytest.raises(InputError, match="rank deficient"):
+        evsi(
             model_func=deterministic_model_func_evsi,
             psa_prior=dummy_psa_for_evsi,
             trial_design=dummy_trial_design_for_evsi,
             method="moment_based",
         )
-    assert result >= 0.0
 
 
 def test_evsi_moment_based_rejects_malformed_native_envelope(

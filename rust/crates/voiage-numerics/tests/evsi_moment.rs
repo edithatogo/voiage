@@ -1,6 +1,5 @@
 //! Contract tests for deterministic moment-based EVSI.
 
-use voiage_diagnostics::ErrorCode;
 use voiage_domain::SampleMatrix;
 use voiage_numerics::evsi_moment_based;
 
@@ -30,12 +29,13 @@ fn moment_based_matches_the_normative_fixture() {
 }
 
 #[test]
-fn moment_based_rejects_rank_deficient_designs() {
+fn moment_based_handles_rank_deficient_designs() {
     let parameters = matrix(&[&[1.0], &[1.0]]);
     let net_benefit = matrix(&[&[0.0, 1.0], &[1.0, 0.0]]);
 
-    let error = evsi_moment_based(&net_benefit, &parameters, 2)
-        .expect_err("rank-deficient moment designs must fail closed");
+    let result = evsi_moment_based(&net_benefit, &parameters, 2)
+        .expect("rank-aware native contract should remain finite");
 
-    assert_eq!(error.code(), ErrorCode::InvalidInput);
+    assert!(result.expected_sample_value.is_finite());
+    assert!(result.evsi.is_finite());
 }

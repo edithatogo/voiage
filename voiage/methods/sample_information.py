@@ -5,16 +5,14 @@ Implementation of Value of Information methods related to sample information.
 - ENBS (Expected Net Benefit of Sampling)
 """
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 import importlib.util
 from typing import Any
-import warnings
 
 import numpy as np
 
 from voiage import _runtime
 from voiage.exceptions import (
-    InputError,
     raise_backend_not_available_error,
     raise_input_error,
 )
@@ -25,16 +23,6 @@ SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
-
-
-def _warn_python_numerical_fallback(estimator: str) -> None:
-    """Mark a legacy Python numerical fallback during Rust migration."""
-    warnings.warn(
-        f"Python {estimator} fallback is transitional; the Rust kernel is the "
-        "v1 execution target.",
-        DeprecationWarning,
-        stacklevel=3,
-    )
 
 
 def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -161,22 +149,11 @@ def _evsi_efficient_regression(
         trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
         if trial_sample_size <= 0:
             return float(np.max(np.mean(nb_prior_values, axis=0)))
-        # The native contract deliberately fails closed for rank-deficient
-        # designs until its minimum-norm solver is specified; preserve the
-        # historical NumPy/scikit-learn compatibility result for that case.
-        try:
-            result = _runtime.compute_evsi_efficient_linear(
-                nb_prior_values.tolist(),
-                x.tolist(),
-                trial_sample_size,
-            )
-        except InputError as error:
-            if "rank deficient" not in str(error):
-                raise
-            _warn_python_numerical_fallback("efficient-linear EVSI")
-            return _evsi_efficient_regression_python(
-                nb_prior_values, psa_prior, trial_design, metamodel
-            )
+        result = _runtime.compute_evsi_efficient_linear(
+            nb_prior_values.tolist(),
+            x.tolist(),
+            trial_sample_size,
+        )
 
         current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
         try:
@@ -249,49 +226,6 @@ def _evsi_efficient_regression(
     )
 
 
-def _quadratic_design_matrix(
-    x: np.ndarray[Any, np.dtype[np.float64]],
-) -> np.ndarray[Any, np.dtype[np.float64]]:
-    """Build a centered linear-plus-quadratic design matrix."""
-    centered = x - np.mean(x, axis=0)
-    quadratic_terms = [centered[:, i] ** 2 for i in range(centered.shape[1])]
-    interaction_terms = [
-        centered[:, i] * centered[:, j]
-        for i in range(centered.shape[1])
-        for j in range(i + 1, centered.shape[1])
-    ]
-    linear_terms = [centered[:, i] for i in range(centered.shape[1])]
-    columns: Sequence[np.ndarray[Any, np.dtype[np.float64]]] = [
-        np.ones(centered.shape[0]),
-        *linear_terms,
-        *quadratic_terms,
-        *interaction_terms,
-    ]
-    return np.column_stack(columns)
-
-
-def _evsi_efficient_regression_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-    metamodel: MetamodelName,
-) -> float:
-    """Compatibility estimator for native rank-deficient designs only."""
-    if not SKLEARN_AVAILABLE:
-        raise_backend_not_available_error("Efficient EVSI requires scikit-learn.")
-    predictions = np.empty_like(nb_prior_values, dtype=float)
-    x = _parameter_matrix(psa_prior)
-    for strategy_idx in range(nb_prior_values.shape[1]):
-        model = _fit_strategy_metamodel(x, nb_prior_values[:, strategy_idx], metamodel)
-        predictions[:, strategy_idx] = np.asarray(model.predict(x), dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design, psa_prior.n_samples
-    )
-    return _preposterior_expected_max(
-        predictions, nb_prior_values, information_fraction
-    )
-
-
 def _evsi_moment_based(
     nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
     psa_prior: ParameterSet,
@@ -302,17 +236,11 @@ def _evsi_moment_based(
     trial_sample_size = sum(max(0, arm.sample_size) for arm in trial_design.arms)
     if trial_sample_size <= 0:
         return float(np.max(np.mean(nb_prior_values, axis=0)))
-    try:
-        result = _runtime.compute_evsi_moment_based(
-            nb_prior_values.tolist(),
-            x.tolist(),
-            trial_sample_size,
-        )
-    except InputError as error:
-        if "rank deficient" not in str(error):
-            raise
-        _warn_python_numerical_fallback("moment-based EVSI")
-        return _evsi_moment_based_python(nb_prior_values, psa_prior, trial_design)
+    result = _runtime.compute_evsi_moment_based(
+        nb_prior_values.tolist(),
+        x.tolist(),
+        trial_sample_size,
+    )
 
     current_value = float(np.max(np.mean(nb_prior_values, axis=0)))
     try:
@@ -361,27 +289,6 @@ def _evsi_moment_based(
         raise AssertionError("unreachable") from error
     else:
         return expected_sample
-
-
-def _evsi_moment_based_python(
-    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]],
-    psa_prior: ParameterSet,
-    trial_design: TrialDesign,
-) -> float:
-    """Compatibility estimator for native rank-deficient designs only."""
-    x = _parameter_matrix(psa_prior)
-    design = _quadratic_design_matrix(x)
-    coefficients, *_ = np.linalg.lstsq(design, nb_prior_values, rcond=None)
-    predicted_nb = np.asarray(design @ coefficients, dtype=float)
-    information_fraction = _trial_information_fraction(
-        trial_design,
-        psa_prior.n_samples,
-    )
-    return _preposterior_expected_max(
-        predicted_nb,
-        nb_prior_values,
-        information_fraction,
-    )
 
 
 def _simulate_trial_data(
@@ -555,20 +462,11 @@ def _evsi_regression(
 
     # Callback execution remains Python-owned; deterministic OLS aggregation
     # is Rust-owned under the versioned regression envelope.
-    try:
-        result = _runtime.compute_evsi_regression(
-            y.reshape(-1, 1).tolist(),
-            x.tolist(),
-            x_all.tolist(),
-        )
-    except InputError as error:
-        if "rank deficient" not in str(error):
-            raise
-        _warn_python_numerical_fallback("regression EVSI")
-        from sklearn.linear_model import LinearRegression
-
-        regression_model = LinearRegression().fit(x, y)
-        return float(np.mean(regression_model.predict(x_all)))
+    result = _runtime.compute_evsi_regression(
+        y.reshape(-1, 1).tolist(),
+        x.tolist(),
+        x_all.tolist(),
+    )
     try:
         if (
             result.get("estimator") != "regression"

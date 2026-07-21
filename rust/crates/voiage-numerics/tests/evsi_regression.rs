@@ -20,12 +20,12 @@ fn regression_matches_linear_fixture_and_reports_envelope() {
 }
 
 #[test]
-fn regression_rejects_rank_deficient_design() {
+fn regression_handles_rank_deficient_design() {
     let targets = SampleMatrix::try_from(vec![vec![1.0], vec![2.0]]).unwrap();
     let parameters = SampleMatrix::try_from(vec![vec![1.0], vec![1.0]]).unwrap();
     let predictions = SampleMatrix::try_from(vec![vec![1.0]]).unwrap();
 
-    let error = evsi_regression(&targets, &parameters, &predictions).unwrap_err();
+    let result = evsi_regression(&targets, &parameters, &predictions).unwrap();
 
-    assert!(error.to_string().contains("rank deficient"));
+    assert!(result.expected_sample_value.is_finite());
 }

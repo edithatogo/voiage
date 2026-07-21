@@ -26,8 +26,10 @@ pub struct EvsiRegressionResult {
 ///
 /// # Errors
 ///
-/// Returns an input error for non-finite regression values or a rank-deficient
-/// design, and a dimension error when matrix shapes do not align.
+/// Returns an input error for non-finite regression values and a dimension
+/// error when matrix shapes do not align. Rank-deficient designs use the
+/// deterministic rank-aware pivot solution with unconstrained coefficients set
+/// to zero.
 pub fn evsi_regression(
     targets: &SampleMatrix,
     parameter_samples: &SampleMatrix,
@@ -80,7 +82,7 @@ pub fn evsi_regression(
             )?;
         }
     }
-    let coefficients = solve(&normal, &rhs)?;
+    let coefficients = solve_rank_aware(&normal, &rhs)?;
     let mut mean = 0.0;
     for (index, row) in prediction_samples.rows().enumerate() {
         let prediction = std::iter::once(1.0)
@@ -130,7 +132,7 @@ fn add(target: &mut f64, value: f64, field: &'static str) -> Result<(), Numerica
     }
 }
 
-fn solve(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
+fn solve_rank_aware(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
     let size = rhs.len();
     let mut augmented = matrix
         .iter()
@@ -141,37 +143,53 @@ fn solve(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputErr
             row
         })
         .collect::<Vec<_>>();
-    for pivot in 0..size {
-        let Some((best, magnitude)) = (pivot..size)
-            .map(|row| (row, augmented[row][pivot].abs()))
+    let mut pivot_row = 0;
+    for column in 0..size {
+        let Some((best, magnitude)) = (pivot_row..size)
+            .map(|row| (row, augmented[row][column].abs()))
             .max_by(|left, right| left.1.total_cmp(&right.1))
         else {
-            return Err(NumericalInputError::invalid(
-                "parameter_samples",
-                "regression design is rank deficient",
-            ));
+            break;
         };
         if magnitude <= f64::EPSILON || !magnitude.is_finite() {
-            return Err(NumericalInputError::invalid(
-                "parameter_samples",
-                "regression design is rank deficient",
-            ));
+            continue;
         }
-        augmented.swap(pivot, best);
-        let divisor = augmented[pivot][pivot];
-        for value in augmented[pivot].iter_mut().skip(pivot) {
+        augmented.swap(pivot_row, best);
+        let divisor = augmented[pivot_row][column];
+        for value in augmented[pivot_row].iter_mut().skip(column) {
             *value /= divisor;
         }
         for row in 0..size {
-            if row == pivot {
+            if row == pivot_row {
                 continue;
             }
-            let factor = augmented[row][pivot];
-            let pivot_values = augmented[pivot][pivot..=size].to_vec();
-            for (value, pivot_value) in augmented[row][pivot..=size].iter_mut().zip(pivot_values) {
+            let factor = augmented[row][column];
+            let pivot_values = augmented[pivot_row][column..=size].to_vec();
+            for (value, pivot_value) in augmented[row][column..=size].iter_mut().zip(pivot_values) {
                 *value -= factor * pivot_value;
             }
         }
+        pivot_row += 1;
+        if pivot_row == size {
+            break;
+        }
     }
-    Ok(augmented.into_iter().map(|row| row[size]).collect())
+    let mut solution = vec![0.0; size];
+    for row in &augmented {
+        if let Some((column, value)) = row[..size]
+            .iter()
+            .enumerate()
+            .find(|(_, value)| value.abs() > 1.0e-12)
+        {
+            solution[column] = row[size] / *value;
+        }
+    }
+    if solution.iter().all(|value| value.is_finite()) {
+        Ok(solution)
+    } else {
+        Err(NumericalInputError::invalid(
+            "parameter_samples",
+            "regression coefficients are not finite",
+        ))
+    }
 }

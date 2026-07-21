@@ -37,8 +37,9 @@ pub struct EvsiApproximationResult {
 /// # Errors
 ///
 /// Returns an input error for invalid trial sizes, non-finite intermediate
-/// values, or rank-deficient parameter designs, and a dimension error when
-/// sample counts differ.
+/// values or a dimension error when sample counts differ. Rank-deficient
+/// designs use a deterministic rank-aware pivot solution with unconstrained
+/// coefficients set to zero.
 #[allow(clippy::too_many_lines)]
 pub fn evsi_efficient_linear(
     net_benefit: &SampleMatrix,
@@ -106,7 +107,7 @@ pub fn evsi_efficient_linear(
                 )?;
             }
         }
-        let coefficients = solve_full_rank(&normal, &rhs)?;
+        let coefficients = solve_rank_aware(&normal, &rhs)?;
         for (index, row) in parameter_samples.rows().enumerate() {
             let design = design_row(row, &means, &scales);
             predictions[index][strategy] = design
@@ -257,7 +258,7 @@ fn design_row(row: &[f64], means: &[f64], scales: &[f64]) -> Vec<f64> {
         .collect()
 }
 
-fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
+fn solve_rank_aware(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, NumericalInputError> {
     let size = rhs.len();
     let mut augmented = matrix
         .iter()
@@ -268,32 +269,32 @@ fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, Numeric
             row
         })
         .collect::<Vec<_>>();
+    let mut pivot_row = 0;
     for column in 0..size {
-        let (pivot_row, pivot_value) = (column..size)
+        let Some((best_row, pivot_value)) = (pivot_row..size)
             .map(|row| (row, augmented[row][column].abs()))
             .max_by(|left, right| left.1.total_cmp(&right.1))
-            .expect("normal matrix has at least one row");
-        let scale = augmented[column..]
+        else {
+            break;
+        };
+        let scale = augmented[pivot_row..]
             .iter()
             .map(|row| row[column].abs())
             .fold(0.0, f64::max);
         if pivot_value <= scale * 1.0e-12 || !pivot_value.is_finite() {
-            return Err(NumericalInputError::invalid(
-                "parameter_samples",
-                "efficient-linear design is rank deficient",
-            ));
+            continue;
         }
-        augmented.swap(column, pivot_row);
-        let pivot = augmented[column][column];
-        for value in &mut augmented[column][column..=size] {
+        augmented.swap(pivot_row, best_row);
+        let pivot = augmented[pivot_row][column];
+        for value in &mut augmented[pivot_row][column..=size] {
             *value /= pivot;
         }
         for row in 0..size {
-            if row == column {
+            if row == pivot_row {
                 continue;
             }
             let factor = augmented[row][column];
-            let pivot_values = augmented[column].clone();
+            let pivot_values = augmented[pivot_row].clone();
             for (index, value) in augmented[row]
                 .iter_mut()
                 .enumerate()
@@ -303,8 +304,29 @@ fn solve_full_rank(matrix: &[Vec<f64>], rhs: &[f64]) -> Result<Vec<f64>, Numeric
                 *value -= factor * pivot_values[index];
             }
         }
+        pivot_row += 1;
+        if pivot_row == size {
+            break;
+        }
     }
-    Ok(augmented.into_iter().map(|row| row[size]).collect())
+    let mut solution = vec![0.0; size];
+    for row in &augmented {
+        if let Some((column, value)) = row[..size]
+            .iter()
+            .enumerate()
+            .find(|(_, value)| value.abs() > 1.0e-12)
+        {
+            solution[column] = row[size] / *value;
+        }
+    }
+    if solution.iter().all(|value| value.is_finite()) {
+        Ok(solution)
+    } else {
+        Err(NumericalInputError::invalid(
+            "parameter_samples",
+            "efficient-linear coefficients are not finite",
+        ))
+    }
 }
 
 fn strategy_means(matrix: &SampleMatrix) -> Result<Vec<f64>, NumericalInputError> {
