@@ -188,7 +188,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 7: Cross-Language Binding Consolidation
 
-- [ ] Task: Define the retained binding matrix
+- [~] Task: Define the retained binding matrix
     - [ ] Confirm supported R, Julia, TypeScript, Go and .NET surfaces and registries.
     - [ ] Remove bindings that cannot meet stable contract and maintenance requirements.
 - [ ] Task: Convert retained bindings into thin Rust adapters using TDD
