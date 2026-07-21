@@ -288,7 +288,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Replace the legacy release checklist with the executable Rust-core,
       signed-tag, Astro, clean-room, SBOM, provenance and retained-registry
       workflow.
-    - [ ] Finalize 0.x migration guidance, deprecations, removals, support, security, compatibility and rollback procedures.
+    - [x] Finalize 0.x migration guidance, deprecations, removals, support,
+      security, compatibility and rollback procedures. (v1 migration,
+      readiness, version-policy and release-checklist contracts; raw-dictionary
+      EVPPI bridge now emits the normative coded `FutureWarning`)
     - [ ] Prove no stable operation depends on retired Python kernels.
 - [ ] Task: Close the programme backlog
     - [ ] Resolve or explicitly defer every v1.0 GitHub issue.

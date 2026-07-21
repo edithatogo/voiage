@@ -239,7 +239,10 @@ class TestEVPPI:
 
         monkeypatch.setattr(DecisionAnalysis, "evppi", fake_evppi)
 
-        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+        with pytest.warns(
+            FutureWarning,
+            match=r"\[deprecated_raw_dict_parameter_samples\].*compatibility alias",
+        ):
             result = evppi(value_array, params, ["param1"])
 
         assert result == 0.0
@@ -250,7 +253,10 @@ class TestEVPPI:
         value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
         params = {"available": np.array([0.1, 0.2], dtype=np.float64)}
 
-        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+        with pytest.warns(
+            FutureWarning,
+            match=r"\[deprecated_raw_dict_parameter_samples\].*compatibility alias",
+        ):
             with pytest.raises(InputError, match="Missing:.*requested"):
                 evppi(value_array, params, ["requested"])
 

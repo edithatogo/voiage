@@ -680,6 +680,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Migrated the raw-dictionary EVPPI compatibility bridge to the normative v1
+  `FutureWarning` and stable diagnostic-code contract, with an explicit 0.x
+  migration and rollback guide.
 - Replaced the legacy Python/Docker release checklist with the fail-closed v1
   Maturin, Astro, signed-tag, TestPyPI-to-PyPI, SBOM, provenance, and retained
   registry workflow.

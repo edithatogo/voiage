@@ -4,6 +4,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "docs/astro-site/src/content/docs/user-guide/v1-release-readiness.mdx"
+MIGRATION_PAGE = (
+    ROOT / "docs/astro-site/src/content/docs/user-guide/migration-guide.mdx"
+)
+VERSION_POLICY_PAGE = (
+    ROOT
+    / "docs/astro-site/src/content/docs/developer-guide/versioning-and-release-policy.mdx"
+)
 
 
 def test_v1_readiness_page_covers_required_user_topics() -> None:
@@ -29,3 +36,27 @@ def test_v1_readiness_page_uses_astro_internal_links() -> None:
         "/reference/bindings/",
     ):
         assert link in text
+
+
+def test_v1_migration_guide_covers_the_0x_compatibility_boundary() -> None:
+    text = MIGRATION_PAGE.read_text(encoding="utf-8")
+
+    for required in (
+        "## Migrating from 0.x to 1.0",
+        "Python 3.12",
+        "Rust core is required",
+        "ParameterSet",
+        "deprecated_raw_dict_parameter_samples",
+        "FutureWarning",
+        "BackendNotAvailableError",
+        "## Rollback and support",
+    ):
+        assert required in text
+
+
+def test_version_policy_describes_the_implemented_warning_bridge() -> None:
+    text = VERSION_POLICY_PAGE.read_text(encoding="utf-8")
+
+    assert "deprecated_raw_dict_parameter_samples" in text
+    assert "FutureWarning" in text
+    assert "planned compatibility-bridge phase" not in text
