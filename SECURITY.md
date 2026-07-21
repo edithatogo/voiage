@@ -9,9 +9,10 @@ line that is still under active maintenance.
 
 Please do not open a public issue for a security vulnerability.
 
-Use GitHub's private security advisory flow for the repository or contact the
-maintainers through the repository security channel if the advisory flow is not
-available to you.
+Use the repository's [private security advisory
+flow](https://github.com/edithatogo/voiage/security/advisories/new). If that
+flow is unavailable, contact the maintainers through the repository security
+channel.
 
 When reporting, include:
 

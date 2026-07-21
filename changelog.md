@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Security
+- Added a directly linked private-vulnerability reporting path and continuous
+  bounded `cargo-fuzz` coverage for stable Rust EVPI input handling.
 - Routed the computed coverage comparison revision through an environment
   variable before shell expansion, eliminating a workflow template-injection
   path while preserving fail-closed changed-line coverage.
