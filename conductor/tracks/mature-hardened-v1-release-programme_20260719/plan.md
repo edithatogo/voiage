@@ -152,7 +152,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Establish benchmark baselines, regression budgets, thread-safety checks and promised determinism. (validated 2026-07-20; existing evidence: committed baseline contract, CI regression gate, thread-safety suite, and deterministic-kernel tests)
 - [x] Task: Conductor - Automated Review and Checkpoint 'Stable Numerical Kernel Migration' (Protocol in workflow.md) (5c9006a)
 
-## Phase 6: Python Legacy-Core Deprecation and Removal
+## Phase 6: Python Legacy-Core Deprecation and Removal [checkpoint: c07a729]
 
 - [x] Task: Inventory and classify non-Rust Python code (validated 2026-07-21; `python scripts/validate_python_runtime_inventory.py .`, `python scripts/validate_v1_programme.py --repo-root .`)
     - [x] Classify every runtime Python module into an explicit v1 boundary category (e9eac92).
@@ -184,7 +184,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Validate the minimal Python distribution (full tox matrix and runtime inventory validation passed 2026-07-21)
     - [x] Prove stable operation without JAX, GPU, web, widget, distributed or experimental dependencies. (packaging probes validated 2026-07-20)
     - [x] Enforce at least 90 percent coverage for retained production Python. (validated by `tests/test_ci_cd_quality_gates.py` and hosted Coverage Report, 2026-07-20)
-- [~] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Python Legacy-Core Deprecation and Removal' (c07a729; review and full validation passed 2026-07-21)
 
 ## Phase 7: Cross-Language Binding Consolidation
 
