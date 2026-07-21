@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 
 
@@ -52,3 +51,27 @@ def test_abi_lifecycle_and_error_contracts_are_in_the_rust_gate() -> None:
     assert "voiage_v1_handle_create" in header
     assert "voiage_v1_error_message" in header
     assert "voiage_v1_evpi" in header
+
+
+def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() -> None:
+    matrix = json.loads(
+        (ROOT / "specs" / "v1" / "binding-matrix.json").read_text(encoding="utf-8")
+    )
+    workflow = _workflow_text()
+    workflow_requirements = {
+        "python": ("python-version",),
+        "r": ("setup-r",),
+        "julia": ('version: "1.11"',),
+        "typescript": ('node-version: "24"',),
+        "go": ('go-version: "1.25"',),
+        "rust": ("rust-msrv", 'toolchain: "1.85"'),
+        "dotnet": ('dotnet-version: "11.0.x"',),
+    }
+    for binding in matrix["bindings"]:
+        versions = binding.get("supported_runtime_versions")
+        assert versions
+        assert all(isinstance(version, str) for version in versions)
+        assert binding["id"] in workflow_requirements
+        assert all(
+            requirement in workflow for requirement in workflow_requirements[binding["id"]]
+        )

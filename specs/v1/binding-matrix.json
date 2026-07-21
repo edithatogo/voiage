@@ -10,6 +10,7 @@
       "status": "retained",
       "path": ".",
       "adapter": "pyo3",
+      "supported_runtime_versions": ["3.14", "3.14t"],
       "registry": "PyPI and TestPyPI; conda-forge feedstock",
       "tag_pattern": "v*",
       "external_gate": "conda-forge feedstock review and merge"
@@ -19,6 +20,7 @@
       "status": "retained",
       "path": "r-package/voiageR",
       "adapter": "c_abi",
+      "supported_runtime_versions": ["4.3"],
       "registry": "CRAN or approved R registry; r-universe",
       "tag_pattern": "r-v*",
       "external_gate": "CRAN maintainer review or approved R registry indexing"
@@ -28,6 +30,7 @@
       "status": "retained",
       "path": "bindings/julia",
       "adapter": "c_abi",
+      "supported_runtime_versions": ["1.10", "1.11"],
       "registry": "Julia General",
       "tag_pattern": "julia-v*",
       "external_gate": "Julia General registry review and merge"
@@ -37,6 +40,7 @@
       "status": "retained",
       "path": "bindings/typescript",
       "adapter": "wasm_or_n_api",
+      "supported_runtime_versions": ["22", "24"],
       "registry": "npm",
       "tag_pattern": "typescript-v*",
       "external_gate": "npm provenance publication credentials"
@@ -46,6 +50,7 @@
       "status": "retained",
       "path": "bindings/go",
       "adapter": "c_abi",
+      "supported_runtime_versions": ["1.24", "1.25"],
       "registry": "Go module proxy",
       "tag_pattern": "bindings/go/v*",
       "external_gate": "Go module proxy indexing after semver tag"
@@ -55,6 +60,7 @@
       "status": "retained",
       "path": "bindings/rust",
       "adapter": "native_rust_crate",
+      "supported_runtime_versions": ["1.85", "stable"],
       "registry": "crates.io",
       "tag_pattern": "rust-v*",
       "external_gate": "crates.io publication credentials"
@@ -64,6 +70,7 @@
       "status": "retained",
       "path": "bindings/dotnet",
       "adapter": "c_abi",
+      "supported_runtime_versions": ["11.0"],
       "registry": "NuGet",
       "tag_pattern": "dotnet-v*",
       "external_gate": "NuGet publication credentials and net11.0 availability"
