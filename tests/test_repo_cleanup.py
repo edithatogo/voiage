@@ -280,7 +280,7 @@ def test_roadmap_statuses_match_completed_cleanup_state() -> None:
         "external registry, hardware, and speedup evidence gates remain explicit",
         "The June 25 follow-through queue is complete and archived",
         "Mature Hardened v1.0 Programme: 🔄 **ACTIVE**",
-        "Production Workspace Established, Takeover Incomplete",
+        "Production Workspace Established, Stable Kernels Rust-Backed",
     ):
         assert expected in roadmap
 

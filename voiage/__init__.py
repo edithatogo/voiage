@@ -7,6 +7,7 @@ subpackage namespaces for advanced workflows.
 from importlib import import_module
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _package_version
+from typing import TYPE_CHECKING
 
 from . import (
     analysis,
@@ -33,6 +34,10 @@ from .schema import (
     TrialDesign,
     ValueArray,
 )
+
+if TYPE_CHECKING:
+    from . import ecosystem_integration
+    from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
 
 try:
     __version__ = _package_version("voiage")

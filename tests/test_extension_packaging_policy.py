@@ -12,7 +12,6 @@ def test_extension_packaging_manifest_is_complete_and_matches_project_extras() -
     manifest = json.loads(
         (ROOT / "specs/v1/extension-packaging.json").read_text(encoding="utf-8")
     )
-    project = json.loads("{}")
     try:
         import tomllib
     except ModuleNotFoundError:  # pragma: no cover - Python 3.11 fallback
