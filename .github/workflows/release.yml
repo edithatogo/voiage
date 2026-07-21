@@ -239,6 +239,9 @@ jobs:
         run: |
           mkdir .sdist-source .sdist-wheel
           tar -xzf dist/*.tar.gz -C .sdist-source --strip-components=1
+      - name: Reconcile extracted Rust lockfile
+        working-directory: .sdist-source
+        run: cargo generate-lockfile --manifest-path rust/Cargo.toml
       - name: Build manylinux2014 wheel from clean extracted sdist
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:

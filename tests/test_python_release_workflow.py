@@ -166,6 +166,11 @@ def test_release_builds_embed_immutable_source_and_platform_provenance() -> None
     sdist_steps = workflow["jobs"]["sdist"]["steps"]
     rendered_sdist_steps = str(sdist_steps)
     assert "scripts/embed_sdist_provenance.py" in rendered_sdist_steps
+    reconcile = next(
+        step for step in sdist_steps if step["name"] == "Reconcile extracted Rust lockfile"
+    )
+    assert reconcile["working-directory"] == ".sdist-source"
+    assert "cargo generate-lockfile --manifest-path rust/Cargo.toml" in reconcile["run"]
     extracted_build = next(
         step
         for step in sdist_steps
