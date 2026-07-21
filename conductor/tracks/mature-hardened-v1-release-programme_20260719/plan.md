@@ -192,9 +192,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Confirm supported Python, R, Julia, TypeScript, Go, Rust and .NET surfaces, adapters, registries and external gates.
     - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
     - [ ] Remove bindings that cannot meet stable contract and maintenance requirements. (deferred to adapter conformance task after matrix evidence)
-- [ ] Task: Convert retained bindings into thin Rust adapters using TDD
-    - [ ] Red: add language-specific conformance tests against shared fixtures.
-    - [ ] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified.
+- [~] Task: Convert retained bindings into thin Rust adapters using TDD
+    - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
+    - [~] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified (C ABI EVPI foundation landed in f7cc0b7).
     - [ ] Refactor: eliminate independent numerical policy and duplicate conversion logic.
 - [ ] Task: Harden binding lifecycle and ABI compatibility
     - [ ] Add build, package, install, unload, memory, concurrency and error-propagation tests.
