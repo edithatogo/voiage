@@ -229,8 +229,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content.
     - [ ] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration.
     - [ ] Refactor: consolidate navigation, generation and validation tooling.
-- [~] Task: Generate trustworthy API and binding references (c48233d, pending; stable API reference added)
-    - [~] Generate references from stable Rust, Python, ABI and binding contracts. (binding matrix and normative stable API references published; ABI reference remains)
+- [x] Task: Generate trustworthy API and binding references (0554bdc, c48233d; stable API, C ABI, and binding references published)
+    - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)
     - [x] Add drift checks between source contracts and published documentation. (tests/test_binding_reference_docs.py, tests/test_api_reference_docs.py)
 - [ ] Task: Complete and validate v1.0 user documentation
     - [ ] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity.
