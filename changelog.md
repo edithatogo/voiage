@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added an executable v1 extension policy that classifies every methods module
+  outside the stable Rust facades as an optional or experimental extension;
+  advanced binding methods no longer have an implicit stable-core status.
 - Added the canonical v1 retained-binding matrix at
   `specs/v1/binding-matrix.json` with executable drift coverage for all seven
   supported surfaces, Rust execution authority, registry targets, tag

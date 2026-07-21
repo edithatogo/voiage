@@ -197,7 +197,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Shared EVPI conformance: Python, R, Julia, TypeScript, Go, Rust and .NET surfaces pass the canonical/reference fixture or ABI smoke gate (2a05984, 3f22b1a, 7647b81, d475e64, plus existing Rust/.NET evidence).
     - [~] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified (C ABI EVPI foundation f7cc0b7; Go adapter 2a05984; .NET adapter 26a10d7; Julia adapter 3f22b1a; R adapter 7647b81; TypeScript WASM adapter d475e64).
     - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
-    - [ ] Extend the same Rust execution boundary to advanced binding methods or explicitly isolate them under Phase 8 extension policy.
+    - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
 - [~] Task: Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
     - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests.
@@ -207,7 +207,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 8: Supported Extensions and Experimental Isolation
 
-- [ ] Task: Classify all non-core functionality
+- [~] Task: Classify all non-core functionality
+    - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
     - [ ] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes.
     - [ ] Record retain, extract, remove or experimental decisions with evidence.
 - [ ] Task: Enforce supported-extension boundaries using TDD
