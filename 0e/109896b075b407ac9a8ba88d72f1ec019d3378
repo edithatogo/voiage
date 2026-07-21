@@ -1,0 +1,1 @@
+Task: Enforce supported-extension boundaries. Replaced the top-level wildcard export list with the normative stable v1 symbols plus governed provisional namespaces; optional and experimental APIs remain lazy compatibility attributes but are not stable wildcard exports. Validation passed: package exports, stable API, experimental namespace, dependency minimization, Ruff.
