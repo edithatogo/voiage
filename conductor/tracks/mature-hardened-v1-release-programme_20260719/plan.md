@@ -234,7 +234,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Add drift checks between source contracts and published documentation. (tests/test_binding_reference_docs.py, tests/test_api_reference_docs.py)
 - [ ] Task: Complete and validate v1.0 user documentation
     - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
-    - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; example execution, accessibility, spelling, and clean-builder evidence remain)
+    - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for getting_started, EVPI, EVPPI, and EVSI notebooks; accessibility, spelling, full example matrix, and clean-builder evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
