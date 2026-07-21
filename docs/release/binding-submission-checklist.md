@@ -32,7 +32,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
 | R | GitHub Release source archives | CRAN and r-universe | No |
 | Julia | TagBot sync plus GitHub Release artifacts | Julia General registry approval | No |
-| Rust | Automated `cargo publish` | None beyond credentials | No |
+| Rust | GitHub Release workspace artifact | A separately designed publishable facade crate would be required for crates.io | No |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
 | EasyBuild | Manual easyconfig preparation for EasyBuild repository | EasyBuild maintainer review and PR merge | No |
 | HPSF | Manual curation submission | External curation review / listing policy | No |
@@ -67,7 +67,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 ## Rust
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
-- [x] crates.io publication is automated on `rust-v*` tags when credentials are present.
+- [x] The Rust workspace is validated and released through GitHub Releases; crates.io is not claimed because all workspace crates are `publish = false`.
 - [x] GitHub Release source archives are attached to the release.
 - [x] The Rust crate remains the canonical execution core and contract owner.
 
@@ -76,7 +76,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 If the question is "are all language versions submitted to their corresponding
 registries today?", the repo can only answer this partially:
 
-- The in-repo publishing workflows are in place for Python and Rust.
+- The in-repo publishing workflow is in place for Python; Rust is validated and released as a workspace artifact, while crates.io remains an unimplemented future facade track.
 - Julia, conda-forge, CRAN, and r-universe still require external registry-side
   action or approval.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with

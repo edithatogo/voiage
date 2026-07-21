@@ -11,7 +11,7 @@ permissions: {}
 
 jobs:
   rust:
-    name: Publish Rust to crates.io
+    name: Validate Rust core release
     if: startsWith(github.ref_name, 'rust-v')
     runs-on: ubuntu-latest
     permissions:
@@ -30,11 +30,12 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --all-targets --locked -- -D warnings
       - run: cargo test --workspace --all-features --locked
+      # The Rust workspace is the in-repository execution core. Its crates are
+      # intentionally publish=false because the FFI crate depends on sibling
+      # workspace crates that are not independently published. Keep the tag
+      # gate honest: validate/package the workspace and publish the GitHub
+      # release, while any future crates.io facade gets its own contract.
       - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
-      - name: Publish to crates.io
-        run: cargo publish --locked --manifest-path crates/voiage-ffi/Cargo.toml
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - name: Create GitHub release
         run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
         env:

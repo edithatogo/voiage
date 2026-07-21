@@ -50,9 +50,9 @@
       "path": "rust",
       "adapter": "native_rust_workspace",
       "supported_runtime_versions": ["1.85", "stable"],
-      "registry": "crates.io",
+      "registry": "GitHub Releases (workspace artifact); no crates.io package",
       "tag_pattern": "rust-v*",
-      "external_gate": "crates.io publication credentials"
+      "external_gate": "A separately designed publishable facade crate is required before crates.io publication"
     }
   ]
 }
