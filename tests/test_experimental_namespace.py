@@ -1,5 +1,6 @@
 """Verify the explicit, lazy experimental namespace boundary."""
 
+from importlib import import_module
 import subprocess
 import sys
 
@@ -37,7 +38,7 @@ def test_experimental_functions_are_not_stable_top_level_exports() -> None:
 
 
 def test_unknown_experimental_export_raises_attribute_error() -> None:
-    import voiage.experimental
+    experimental = import_module("voiage.experimental")
 
     with pytest.raises(AttributeError, match="not_an_export"):
-        _ = voiage.experimental.not_an_export
+        _ = experimental.not_an_export
