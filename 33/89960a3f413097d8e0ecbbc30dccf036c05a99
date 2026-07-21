@@ -1,0 +1,1 @@
+Phase 8 classification slice: added machine-readable extension policy covering every voiage/methods module, with stable Rust facades separated from optional and experimental modules; executable coverage passes. Phase 8 broader domain/web/widget/accelerator classification remains pending.
