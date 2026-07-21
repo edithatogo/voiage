@@ -135,7 +135,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
         - [x] Review fix: document errors, check count conversion, and satisfy strict Rust clippy for regression elimination. (3d1fd4f)
         - [x] Route the public moment-based estimator through the versioned Rust kernel with a rank-deficiency compatibility fallback (ac1b8e8).
         - [x] Add public moment-based envelope and compatibility-fallback coverage (cec2c7f).
-- [~] Task: Harden numerical correctness
+- [x] Task: Harden numerical correctness (validated 2026-07-21 by full `CI=true uv run tox -q` and native Rust regression/clippy gates)
     - [x] Add finite-value, reproducibility, rank, and bounded-result property coverage for the native EVSI kernels (a5a1222, 0131208, b9dc7ae).
     - [x] Add committed benchmark workloads for seeded-bootstrap, efficient-linear, and moment-based EVSI (79de00d).
     - [x] Add versioned native-EVSI benchmark regression budgets and CI enforcement (1c5bfe4, 1a168df).
