@@ -1,0 +1,1 @@
+Task: harden release reproducibility and retained R binding. The reproducible-build verifier now passes immutable revision/tree/clean identity to native builds, matching the release workflow; R ABI and optional bridge fixes are included in the retained binding slice. Targeted tests and lint pass.
