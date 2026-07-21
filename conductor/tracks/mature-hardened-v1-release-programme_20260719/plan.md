@@ -200,9 +200,9 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
 - [~] Task: Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
-    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; Go and TypeScript runtime tests pass locally; .NET is runner-blocked by local SDK 10.0 versus required net11.0; R/Julia and per-language hosted runtime evidence remain)
+    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; Go and TypeScript runtime tests pass locally; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; .NET is runner-blocked by local SDK 10.0 versus required net11.0; per-language hosted runtime evidence remains)
     - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
-    - [~] Prove every retained binding executes Rust across supported version combinations. (Local Go and TypeScript tests pass; Rust non-PyO3 workspace/ABI tests pass; local PyO3 requires libpython3.13.dylib and .NET requires SDK 11.0; R/Julia and hosted supported-version evidence remain)
+    - [~] Prove every retained binding executes Rust across supported version combinations. (Local Go and TypeScript tests pass; R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 requires libpython3.13.dylib and .NET requires SDK 11.0; hosted supported-version evidence remains)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
 ## Phase 8: Supported Extensions and Experimental Isolation
