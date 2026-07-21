@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed an unreachable legacy Python structural-EVPPI kernel that remained
+  after the authoritative Rust result return.
 - Removed the private Python incremental EVPI kernel and the default EVPPI
   native-absence fallback; stable EVPI and default EVPPI now execute in Rust
   and fail closed when the native capability is unavailable.
