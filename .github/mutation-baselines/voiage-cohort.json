@@ -3,7 +3,7 @@
   "cohort": {
     "tool": "mutmut",
     "tool_version": "3.6.0",
-    "lock_sha256": "96679d92074c57a9106bc769843d6b5fc4d056d495d382c8349224b7d35712e6",
+    "lock_sha256": "37d8590749aafaff80fe5fbfc9d62490613a435cd13f1f999fd8c0fa57675442",
     "configuration_sha256": "c2d93e25141fbfb71d2f5eee8d3c5261d6236d600fe9dfa2a8cec198213c6d51",
     "sources": [
       {
@@ -16,7 +16,7 @@
       }
     ],
     "source_logical_lines": 115,
-    "cohort_sha256": "51fd02b24124d1f5aedb740b749111e1312b88f0c4c3c81db318322f790e9f24"
+    "cohort_sha256": "935a7407ee43e1a6c3956b9562367e6313cbd55e478ca6ca91b616b73c51c465"
   },
   "universe": {
     "ids": [
