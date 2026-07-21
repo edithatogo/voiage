@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "purpose": "Canonical retained binding and registry contract for the v1.0 programme.",
+  "execution_authority": "rust",
+  "contract_fixture_root": "specs/core-api/fixtures",
+  "ci_workflow": ".github/workflows/bindings-ci.yml",
+  "bindings": [
+    {
+      "id": "python",
+      "status": "retained",
+      "path": ".",
+      "adapter": "pyo3",
+      "registry": "PyPI and TestPyPI; conda-forge feedstock",
+      "tag_pattern": "v*",
+      "external_gate": "conda-forge feedstock review and merge"
+    },
+    {
+      "id": "r",
+      "status": "retained",
+      "path": "r-package/voiageR",
+      "adapter": "c_abi",
+      "registry": "CRAN or approved R registry; r-universe",
+      "tag_pattern": "r-v*",
+      "external_gate": "CRAN maintainer review or approved R registry indexing"
+    },
+    {
+      "id": "julia",
+      "status": "retained",
+      "path": "bindings/julia",
+      "adapter": "c_abi",
+      "registry": "Julia General",
+      "tag_pattern": "julia-v*",
+      "external_gate": "Julia General registry review and merge"
+    },
+    {
+      "id": "typescript",
+      "status": "retained",
+      "path": "bindings/typescript",
+      "adapter": "wasm_or_n_api",
+      "registry": "npm",
+      "tag_pattern": "typescript-v*",
+      "external_gate": "npm provenance publication credentials"
+    },
+    {
+      "id": "go",
+      "status": "retained",
+      "path": "bindings/go",
+      "adapter": "c_abi",
+      "registry": "Go module proxy",
+      "tag_pattern": "bindings/go/v*",
+      "external_gate": "Go module proxy indexing after semver tag"
+    },
+    {
+      "id": "rust",
+      "status": "retained",
+      "path": "bindings/rust",
+      "adapter": "native_rust_crate",
+      "registry": "crates.io",
+      "tag_pattern": "rust-v*",
+      "external_gate": "crates.io publication credentials"
+    },
+    {
+      "id": "dotnet",
+      "status": "retained",
+      "path": "bindings/dotnet",
+      "adapter": "c_abi",
+      "registry": "NuGet",
+      "tag_pattern": "dotnet-v*",
+      "external_gate": "NuGet publication credentials and net11.0 availability"
+    }
+  ]
+}

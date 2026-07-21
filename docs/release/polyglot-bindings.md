@@ -1,5 +1,10 @@
 # Polyglot Binding Release Matrix
 
+The machine-readable source of truth for the retained v1 surfaces is
+[`specs/v1/binding-matrix.json`](../../specs/v1/binding-matrix.json). This
+document explains the release and external-gate implications of that matrix;
+the drift test is `tests/test_binding_matrix.py`.
+
 Every language binding must have CI before it can be published. Pull requests
 must run build, lint/format where applicable, unit tests, conformance checks, and
 package dry-run validation. Version tags trigger registry-specific publishing.

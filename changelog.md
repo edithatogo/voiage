@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added the canonical v1 retained-binding matrix at
+  `specs/v1/binding-matrix.json` with executable drift coverage for all seven
+  supported surfaces, Rust execution authority, registry targets, tag
+  patterns, shared fixtures, and external gates.
 - Added a versioned Rust/PyO3 regression aggregation kernel for callback-driven
   EVSI; Python retains trial simulation and model callbacks while the native
   numerical contract fails closed for unavailable or rank-deficient builds.
