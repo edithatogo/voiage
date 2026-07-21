@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "purpose": "Disposition of Python runtime surfaces outside the stable Rust kernel and facade.",
+  "patterns": {
+    "stable_facade": [
+      "voiage/__init__.py",
+      "voiage/__main__.py",
+      "voiage/_runtime.py",
+      "voiage/analysis.py",
+      "voiage/cli.py",
+      "voiage/config.py",
+      "voiage/config_objects.py",
+      "voiage/exceptions.py",
+      "voiage/factory.py",
+      "voiage/fluent.py",
+      "voiage/governance.py",
+      "voiage/logging.py",
+      "voiage/reporting.py",
+      "voiage/schema.py",
+      "voiage/stats.py",
+      "voiage/versioning.py",
+      "voiage/contracts/**"
+    ],
+    "assurance": [
+      "voiage/assurance_policy.py",
+      "voiage/c15_*.py",
+      "voiage/mutation_policy.py"
+    ],
+    "optional_extension": [
+      "voiage/methods/**",
+      "voiage/environmental/**",
+      "voiage/financial/**",
+      "voiage/healthcare/**",
+      "voiage/health_economics.py",
+      "voiage/hta_integration.py",
+      "voiage/ecosystem_integration.py",
+      "voiage/experimental_design.py",
+      "voiage/main_backends.py",
+      "voiage/metamodels.py",
+      "voiage/multi_domain.py",
+      "voiage/parallel/**",
+      "voiage/plot/**",
+      "voiage/clinical_trials.py"
+    ],
+    "experimental": [
+      "voiage/web/**",
+      "voiage/widgets/**",
+      "voiage/backends/**",
+      "voiage/core/**"
+    ]
+  },
+  "rules": {
+    "stable_facade": "May be imported by the base package and must not define independent stable numerical policy.",
+    "assurance": "Verification support only; never a numerical execution authority.",
+    "optional_extension": "Must remain dependency- and maturity-labelled and cannot be required by the minimal Rust/Python installation.",
+    "experimental": "Must be isolated from the stable namespace and must not block stable CI or release gates."
+  }
+}

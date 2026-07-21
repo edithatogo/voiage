@@ -209,7 +209,8 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 - [~] Task: Classify all non-core functionality
     - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
-    - [ ] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes.
+    - [x] Classify every remaining Python runtime file across facade, assurance, optional-extension and experimental surfaces using `specs/v1/extension-surface-policy.json` with exactly-one-disposition coverage.
+    - [ ] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions.
     - [ ] Record retain, extract, remove or experimental decisions with evidence.
 - [ ] Task: Enforce supported-extension boundaries using TDD
     - [ ] Red: add failing dependency-direction, export and packaging boundary tests.

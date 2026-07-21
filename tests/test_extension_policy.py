@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import fnmatch
 from pathlib import Path
 
 
@@ -35,3 +36,22 @@ def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:
         "voiage/methods/sample_information.py",
     }
     assert "Rust owns stable numerical policy" in policy["dispositions"]["stable_kernel_facade"]
+
+
+def test_extension_surface_policy_covers_every_runtime_python_file() -> None:
+    policy = json.loads(
+        (ROOT / "specs/v1/extension-surface-policy.json").read_text(encoding="utf-8")
+    )
+    files = {
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "voiage").rglob("*.py")
+        if "__pycache__" not in path.parts
+    }
+    patterns = policy["patterns"]
+    for file in files:
+        matches = [
+            category
+            for category, category_patterns in patterns.items()
+            if any(fnmatch.fnmatch(file, pattern) for pattern in category_patterns)
+        ]
+        assert len(matches) == 1, f"{file} has {len(matches)} extension dispositions"
