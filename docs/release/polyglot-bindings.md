@@ -9,8 +9,8 @@ Every language binding must have CI before it can be published. Pull requests
 must run build, lint/format where applicable, unit tests, conformance checks, and
 package dry-run validation. Version tags trigger registry-specific publishing.
 The release automation is split between in-repo publish jobs and external
-registry steps: PyPI/TestPyPI, crates.io, and GitHub release
-artifacts are automated from tag or release pushes, while conda-forge,
+registry steps: PyPI/TestPyPI and GitHub release artifacts are automated from
+tag or release pushes, while conda-forge,
 CRAN/r-universe, and the Julia General registry still depend on their external
 registry or feedstock flows. The Rust-core migration has already established
 the long-term ownership model: Rust is the authoritative execution core,
@@ -26,7 +26,7 @@ external registry targets that require their own approval or indexing steps.
 | Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade over the canonical Rust core |
 | R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; EVPI uses the Rust C ABI, while advanced methods retain the documented reticulate bridge |
 | Julia | `bindings/julia` | Julia General registry, GitHub Releases for tag sync | `julia-v*` | `Pkg.test`, release tarball, TagBot sync |
-| Rust | `rust` | crates.io | `rust-v*` | `cargo fmt`, `cargo clippy`, `cargo test --locked`, `cargo package --locked`, `cargo publish`; canonical execution core and contract owner |
+| Rust | `rust` | GitHub Releases (internal workspace artifact) | `rust-v*` | `cargo fmt`, `cargo clippy`, `cargo test --locked`, `cargo package --locked`; canonical execution core and contract owner |
 
 ## Tooling Parity
 
@@ -65,10 +65,11 @@ Each binding is versioned with the registry expectations of its ecosystem:
   contract rather than owning the execution engine. The separate conda-update
   workflow updates the in-repo conda-forge recipe, but the feedstock PR and
   merge still depend on the external conda-forge process.
-- Rust uses crates.io-compatible semver tags and `cargo publish`, and is the
-  canonical engine for the voiage domain model. Python is the primary façade
-  and the other language packages remain thin adapters over the same
-  contract.
+- Rust uses `rust-v*` tags and GitHub Release workspace artifacts, and is the
+  canonical engine for the voiage domain model. The current crates are
+  intentionally `publish = false`; a future crates.io facade would require a
+  separate contract. Python is the primary façade and the other retained
+  language packages remain thin adapters over the same contract.
 - Julia uses the General registry for publication and TagBot for release sync.
 - R uses GitHub Release source archives for early distribution; CRAN is the
   primary long-term registry target, while r-universe remains an optional
