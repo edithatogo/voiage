@@ -99,11 +99,6 @@ def structural_evpi(
     n_structures = len(model_structure_evaluators)
     n_strategies = -1  # Determine from first model output, assume consistent for now
 
-    # Store E_theta|S [max_d NB(d, theta, S)] for each structure S
-    expected_max_nb_given_structure_S = []  # List of floats
-
-    # Store E_theta|S [NB(d, theta, S)] for each structure S and decision d
-    expected_nb_given_structure_S_decision_d = []  # List of arrays (n_strategies)
     evaluated_arrays: list[NetBenefitArray] = []
 
     for i in range(n_structures):
@@ -118,17 +113,6 @@ def structural_evpi(
             raise_input_error(
                 "All model structures must evaluate the same number of decision strategies."
             )
-
-        # E_theta|S [NB(d, theta, S)] for this S
-        mean_nb_d_given_S = np.mean(
-            nb_array_for_S.numpy_values, axis=0
-        )  # Shape (n_strategies,)
-        expected_nb_given_structure_S_decision_d.append(mean_nb_d_given_S)
-
-        # E_theta|S [max_d NB(d, theta, S)] for this S
-        max_nb_per_sample_S = np.max(nb_array_for_S.numpy_values, axis=1)
-        expected_max_nb_S = np.mean(max_nb_per_sample_S)
-        expected_max_nb_given_structure_S.append(expected_max_nb_S)
 
     native_per_decision = _runtime.compute_structural_evpi(
         [nb_array.numpy_values.tolist() for nb_array in evaluated_arrays],
@@ -157,54 +141,6 @@ def structural_evpi(
             "'discount_rate' is optional (defaults to 0 if not provided)."
         )
     return float(native_per_decision)
-
-    # Term 1: E_S [ E_theta|S [max_d NB(d, theta, S)] ]
-    # This is the expectation over S of (the expected value, within S, of choosing optimally if S is known)
-    # This is equivalent to: sum_S ( P(S) * E_theta|S [max_d NB(d, theta, S)] )
-    term1_sevpi = np.sum(prob_arr * np.array(expected_max_nb_given_structure_S))
-
-    # Term 2: max_d E_S [E_theta|S [NB(d, theta, S)]]
-    # This is: max_d sum_S ( P(S) * E_theta|S [NB(d, theta, S)] )
-    # First, calculate the overall expected NB for each decision d, averaging over structures
-    # E_overall_NB_d = sum_S ( P(S) * E_theta|S [NB(d, theta, S)] )
-    # expected_nb_given_structure_S_decision_d is a list of arrays, needs to be (n_structures, n_strategies)
-    all_expected_nb_d_S = np.array(
-        expected_nb_given_structure_S_decision_d
-    )  # (n_structures, n_strategies)
-    weighted_avg_nb_d = np.sum(
-        prob_arr[:, np.newaxis] * all_expected_nb_d_S, axis=0
-    )  # Shape (n_strategies,)
-    term2_sevpi = np.max(weighted_avg_nb_d)
-
-    per_decision_sevpi = term1_sevpi - term2_sevpi
-    per_decision_sevpi = max(0.0, per_decision_sevpi)
-
-    # Population scaling (similar to EVPI)
-    if population is not None and time_horizon is not None:
-        if not isinstance(population, (int, float)) or population <= 0:
-            raise_input_error("Population must be a positive number.")
-        if not isinstance(time_horizon, (int, float)) or time_horizon <= 0:
-            raise_input_error("Time horizon must be a positive number.")
-
-        current_dr = discount_rate
-        if current_dr is None:
-            current_dr = 0.0
-
-        if not isinstance(current_dr, (int, float)) or not (0 <= current_dr <= 1):
-            raise_input_error("Discount rate must be a number between 0 and 1.")
-
-        if current_dr == 0:
-            annuity_factor = time_horizon
-        else:
-            annuity_factor = (1 - (1 + current_dr) ** (-time_horizon)) / current_dr
-        return float(per_decision_sevpi * population * annuity_factor)
-    if population is not None or time_horizon is not None or discount_rate is not None:
-        raise_input_error(
-            "To calculate population SEVPI, 'population' and 'time_horizon' must be provided. "
-            "'discount_rate' is optional (defaults to 0 if not provided)."
-        )
-
-    return float(per_decision_sevpi)
 
 
 def structural_evppi(
