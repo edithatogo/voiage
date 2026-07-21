@@ -25,7 +25,7 @@ pub use evsi_efficient::{evsi_efficient_linear, EvsiApproximationResult};
 pub use evsi_moment::evsi_moment_based;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
-pub use structural::structural_evpi;
+pub use structural::{structural_evpi, structural_evppi};
 
 /// Identifies this crate while numerical kernels are migrated.
 pub const CRATE_NAME: &str = "voiage-numerics";

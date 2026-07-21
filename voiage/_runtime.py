@@ -112,6 +112,23 @@ def compute_structural_evpi(
     return float(result)
 
 
+def compute_structural_evppi(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+    structures_of_interest: list[int],
+) -> float:
+    """Aggregate structural EVPPI in the Rust core."""
+    try:
+        result = _native().compute_structural_evppi(
+            net_benefit_by_structure,
+            structure_probabilities,
+            structures_of_interest,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
     """Compute the stable dominance kernel in Rust."""
     try:

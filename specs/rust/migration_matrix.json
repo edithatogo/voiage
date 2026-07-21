@@ -52,7 +52,7 @@
     {
       "kernel_id": "evsi",
       "python_owner": "voiage.methods.sample_information",
-      "rust_status": "contract_fixture",
+      "rust_status": "complete",
       "python_wrapper_status": "native",
       "parity_status": "fixture_backed",
       "benchmark_status": "ci_gated",
@@ -107,7 +107,7 @@
       "parity_status": "fixture_backed",
       "benchmark_status": "none",
       "migration_priority": "medium",
-      "notes": "Structural EVPI aggregation is Rust-owned in rust/crates/voiage-numerics and exposed through PyO3; Python model evaluators and population scaling remain orchestration. Structural EVPPI aggregation remains Python-owned and is the next migration slice."
+      "notes": "Structural EVPI and EVPPI aggregation are Rust-owned in rust/crates/voiage-numerics and exposed through PyO3; Python model evaluators and population scaling remain orchestration."
     },
     {
       "kernel_id": "nma_voi",

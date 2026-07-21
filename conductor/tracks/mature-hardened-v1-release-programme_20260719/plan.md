@@ -215,7 +215,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [~] Task: Enforce supported-extension boundaries using TDD
     - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
     - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, and the machine-readable single-wheel optional-extra boundary pass; Rust execution and independent packaging remain; e9144ef)
-    - [x] Refactor: remove duplicated policy and unnecessary dependencies. Migrated heterogeneity in `8795d21` and structural EVPI aggregation in `2919ea3`; focused Rust/Python parity and extension-boundary tests pass. Structural EVPPI and remaining Python-owned orchestration stay explicitly tracked.
+    - [x] Refactor: remove duplicated policy and unnecessary dependencies. Migrated heterogeneity in `8795d21`, structural EVPI aggregation in `2919ea3`, and structural EVPPI aggregation in the current migration commit; focused Rust/Python parity and extension-boundary tests pass. Remaining Python-owned orchestration stays explicitly tracked.
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
     - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
