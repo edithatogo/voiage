@@ -188,9 +188,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 7: Cross-Language Binding Consolidation
 
-- [~] Task: Define the retained binding matrix
-    - [ ] Confirm supported R, Julia, TypeScript, Go and .NET surfaces and registries.
-    - [ ] Remove bindings that cannot meet stable contract and maintenance requirements.
+- [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
+    - [x] Confirm supported Python, R, Julia, TypeScript, Go, Rust and .NET surfaces, adapters, registries and external gates.
+    - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
+    - [ ] Remove bindings that cannot meet stable contract and maintenance requirements. (deferred to adapter conformance task after matrix evidence)
 - [ ] Task: Convert retained bindings into thin Rust adapters using TDD
     - [ ] Red: add language-specific conformance tests against shared fixtures.
     - [ ] Green: use the C ABI for R, Julia, Go and .NET and WASM or N-API for TypeScript as justified.
