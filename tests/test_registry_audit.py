@@ -58,7 +58,10 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
     assert snapshot["snapshot"]["python"]["package"] == "voiage"
     assert snapshot["snapshot"]["conda_forge"]["registry"] == "conda-forge"
     assert snapshot["snapshot"]["r_universe"]["registry"] == "r-universe"
-    assert "core crates are publishable on crates.io" in snapshot["snapshot"]["rust"]["notes"]
+    assert (
+        "core crates are publishable on crates.io"
+        in snapshot["snapshot"]["rust"]["notes"]
+    )
     assert snapshot["snapshot"]["spack"]["registry"] == "Spack"
     assert snapshot["snapshot"]["easybuild"]["registry"] == "EasyBuild"
     assert snapshot["snapshot"]["hpsf"]["status"] == "external_manual"

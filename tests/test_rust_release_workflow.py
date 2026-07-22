@@ -26,7 +26,9 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert "cargo publish --locked --package voiage-domain" in crates_workflow_text
     assert "cargo publish --locked --package voiage-diagnostics" in crates_workflow_text
     assert "cargo publish --locked --package voiage-numerics" in crates_workflow_text
-    assert "cargo publish --locked --package voiage-serialization" in crates_workflow_text
+    assert (
+        "cargo publish --locked --package voiage-serialization" in crates_workflow_text
+    )
     assert "CARGO_REGISTRY_TOKEN" in crates_workflow_text
 
     assert (
