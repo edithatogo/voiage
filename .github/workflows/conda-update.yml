@@ -114,6 +114,7 @@ jobs:
         set -euo pipefail
         feedstock="$RUNNER_TEMP/staged-recipes"
         git clone "https://github.com/edithatogo/staged-recipes.git" "$feedstock"
+        mkdir -p "$feedstock/recipes/voiage"
         cp recipes/voiage/meta.yaml "$feedstock/recipes/voiage/meta.yaml"
         cd "$feedstock"
         branch="voiage-${RELEASE_VERSION}"
