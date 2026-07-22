@@ -6,6 +6,7 @@ on:
       - "rust-v*"
       - "julia-v*"
       - "r-v*"
+      # R source releases are published from r-v* tags.
 
 permissions: {}
 
