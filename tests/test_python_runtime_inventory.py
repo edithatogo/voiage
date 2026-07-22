@@ -30,7 +30,7 @@ def test_transitional_kernel_inventory_is_explicit() -> None:
     )
     transitional = manifest["transitional_kernel_modules"]
     assert transitional["authoritative_owner"] == "rust"
-    assert transitional["python_role"] == "compatibility_fallback_only"
+    assert transitional["python_role"] == "rust_facade_and_orchestration_only"
     assert set(transitional["modules"]) == {
         "voiage/methods/basic.py",
         "voiage/methods/ceaf.py",

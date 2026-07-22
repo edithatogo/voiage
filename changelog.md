@@ -8,6 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
+- Removed the conflicting pure-Python Conda recipe; the canonical
+  `conda-recipe/` now builds the native Maturin/Rust distribution.
+- Removed four unreferenced ad-hoc validation and benchmark scripts that
+  duplicated the governed tox, Astro, benchmark, and hosted workflow gates.
+- Removed unsupported, unreferenced Python 3.9 runtime container recipes and
+  the mutable Python 3.11 devcontainer; v1 supports Python 3.12--3.14 and its
+  release artifacts are the signed Maturin packages rather than container
+  images. Removed their stale compose, deployment-guide, and repository-map
+  references at the same boundary.
+- Removed an unreachable legacy Python structural-EVPPI kernel that remained
+  after the authoritative Rust result return.
+- Removed the private Python incremental EVPI kernel and the default EVPPI
+  native-absence fallback; stable EVPI and default EVPPI now execute in Rust
+  and fail closed when the native capability is unavailable.
+- Removed obsolete generated completion reports and paper-status mirrors; the
+  roadmap, Conductor registry, release evidence, and paper sources are now the
+  authoritative status records.
+- Removed the duplicate standalone Markdown documentation tree after migrating
+  unique best-practice, validation, ecosystem, dependency, and frontier notes
+  into the authoritative Astro/Starlight content collection.
 - Removed the Python EVPI, CEAF, and dominance numerical fallbacks from the
   stable public paths; these operations now fail closed when the Rust core is
   unavailable rather than silently re-entering duplicate numerical policy.
@@ -20,6 +40,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added an evidence-gated research-software registry track linking Software
+  Heritage, RRID, and JOSS deliverables after the immutable v1.0 release.
+- Added a validated registry-readiness handoff recording the current Software
+  Heritage absence and the external SciCrunch/RRID and JOSS gates.
+- Added Astro-native best-practice, validation-evidence, ecosystem-boundary,
+  and frontier-method maturity pages with drift tests enforcing Astro as the
+  sole user-documentation source.
 - Added an executable v1 extension policy that classifies every methods module
   outside the stable Rust facades as an optional or experimental extension;
   advanced binding methods no longer have an implicit stable-core status.
@@ -598,6 +625,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Disabled the package publication-age delay for the Astro release build while
   retaining the frozen lockfile, integrity checks, and explicit build allowlist.
+- Removed a dead intermediate expression from the optional JAX EVPI adapter;
+  the adapter now retains only the precision-scoped native calculation.
+- Aligned Conductor product and technology guidance with Rust as the sole
+  stable numerical execution authority, the retained thin bindings, the
+  installed Astro toolchain, and the internal `publish = false` Rust workspace.
 - Standardized all GitHub Actions checkout steps on the current pinned
   `actions/checkout` digest across CI, security, release, binding, evidence,
   documentation, and packaging workflows.
@@ -668,6 +700,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Added a directly linked private-vulnerability reporting path and continuous
+  bounded `cargo-fuzz` coverage for stable Rust EVPI input handling, enforced
+  by the repository harness and workflow-contract tests.
+- Routed the computed coverage comparison revision through an environment
+  variable before shell expansion, eliminating a workflow template-injection
+  path while preserving fail-closed changed-line coverage.
+- Pinned the hosted Go toolchain and Vale prose checker to exact releases.
+- Initialized the enhanced JAX adapter through its base backend so native
+  implementation state and capability metadata are always present.
+- Removed a redundant local JSON import from notebook generation.
+- Migrated the raw-dictionary EVPPI compatibility bridge to the normative v1
+  `FutureWarning` and stable diagnostic-code contract, with an explicit 0.x
+  migration and rollback guide.
+- Replaced the legacy Python/Docker release checklist with the fail-closed v1
+  Maturin, Astro, signed-tag, TestPyPI-to-PyPI, SBOM, provenance, and retained
+  registry workflow.
+- Aligned Conductor governance with the enforced 90% coverage threshold,
+  canonical `changelog.md` path, and Rust result-envelope binding contract.
 - Corrected the R binding's GitHub installation links to the canonical
   `edithatogo/voiage` repository and its `r-package/voiageR` subdirectory.
 - Corrected the live registry audit so the internal `publish = false` Rust

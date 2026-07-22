@@ -23,9 +23,9 @@ def validate(repo_root: Path) -> list[str]:
         errors.append(
             "transitional numerical kernels must declare Rust as authoritative"
         )
-    if transitional.get("python_role") != "compatibility_fallback_only":
+    if transitional.get("python_role") != "rust_facade_and_orchestration_only":
         errors.append(
-            "transitional numerical kernels must declare Python as compatibility-only"
+            "retired numerical modules must declare Python as facade and orchestration only"
         )
     roots = [
         (root, category)

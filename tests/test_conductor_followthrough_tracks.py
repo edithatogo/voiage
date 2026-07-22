@@ -230,7 +230,7 @@ def test_registry_followthrough_tracks_distinguish_live_states() -> None:
 
 def test_frontier_followthrough_tracks_gate_stable_promotion() -> None:
     """Frontier methods should require parity before stable labels move."""
-    frontier_docs = _read("docs/sota_voi_frontier.md")
+    frontier_docs = _read("docs/astro-site/src/content/docs/sota-voi-frontier.mdx")
     assert "cross-language parity" in frontier_docs
     assert "Rust-kernel parity" in frontier_docs
 

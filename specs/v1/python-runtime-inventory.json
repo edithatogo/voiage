@@ -15,7 +15,7 @@
       "roots": ["voiage/assurance_policy.py", "voiage/c15_oracles.py", "voiage/c15_otel.py", "voiage/c15_performance.py", "voiage/c15_reproducibility.py", "voiage/mutation_policy.py"]
     },
     "transitional_numerical_core": {
-      "status": "retire_after_rust_parity",
+      "status": "retired_as_authority_retain_rust_facades",
       "roots": ["voiage/methods/"]
     },
     "schema_and_io": {
@@ -51,15 +51,15 @@
   "transitional_kernel_modules": {
     "status": "must_route_to_rust_or_be_removed_in_phase_6",
     "authoritative_owner": "rust",
-    "python_role": "compatibility_fallback_only",
+    "python_role": "rust_facade_and_orchestration_only",
     "modules": [
       "voiage/methods/basic.py",
       "voiage/methods/ceaf.py",
       "voiage/methods/dominance.py",
       "voiage/methods/sample_information.py"
     ],
-    "reason": "These modules retain compatibility/reference implementations and dispatch policy alongside Rust kernels; native ownership now includes EVPI, EVPPI, CEAF, dominance, seeded-bootstrap, efficient-linear, moment-based, and callback-regression slices. Phase 6 must remove authoritative duplicate numerical paths while preserving only explicitly tested compatibility fallbacks."
+    "reason": "These modules retain validation, typed conversion, callbacks, reporting, and compatibility adapters around Rust-owned stable kernels. Stable default EVPI, EVPPI, EVSI, ENBS, CEAF, and dominance paths fail closed when the required native capability is unavailable; Python-only estimators remain explicitly optional or experimental rather than stable fallbacks."
   },
   "unclassified_policy": "fail",
-  "retirement_gate": "No module classified as transitional_numerical_core may remain the authoritative implementation after Phase 6."
+  "retirement_gate": "No module classified as transitional_numerical_core remains a stable numerical authority; retained Python code is facade, orchestration, or an explicitly non-stable extension."
 }

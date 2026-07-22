@@ -11,6 +11,8 @@ import numpy as np
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
+    VoiageError,
+    raise_backend_not_available_error,
     raise_calculation_error,
     raise_dimension_mismatch_error,
     raise_input_error,
@@ -663,24 +665,19 @@ class DecisionAnalysis:
             return 0.0
 
         try:
-            # Use incremental computation if chunk_size is specified
-            if chunk_size is not None:
-                per_decision_evpi = self._incremental_evpi(nb_values, chunk_size)
-            elif type(self.backend).__name__ == "NumpyBackend" and not self.use_jit:
-                from voiage import _runtime
+            from voiage import _runtime
 
-                per_decision_evpi = _runtime.compute_evpi(nb_values.tolist())
-            # Use the selected backend for computation
-            elif self.use_jit and hasattr(self.backend, "evpi_jit"):
-                # Use JIT compilation if available and requested
-                per_decision_evpi = self.backend.evpi_jit(nb_values)
-            else:
-                # Use regular computation
-                per_decision_evpi = self.backend.evpi(nb_values)
-
-            # EVPI should theoretically be non-negative. Small negative values can occur due to float precision.
+            # chunk_size remains a source-compatible orchestration hint.
+            # Stable numerical policy is always executed by the Rust kernel.
+            per_decision_evpi = _runtime.compute_evpi(nb_values.tolist())
             per_decision_evpi = max(0.0, float(per_decision_evpi))
-
+        except (ModuleNotFoundError, AttributeError):
+            raise_backend_not_available_error(
+                "Stable EVPI requires the Rust runtime extension; reinstall a "
+                "supported platform wheel or build the native module."
+            )
+        except VoiageError:
+            raise
         except Exception as e:
             raise_calculation_error(f"Error during EVPI calculation: {e}", e)
 
@@ -737,50 +734,6 @@ class DecisionAnalysis:
             chunk_size=chunk_size,
         )
 
-    def _incremental_evpi(self, nb_values: np.ndarray, chunk_size: int) -> float:
-        """
-        Calculate EVPI incrementally in chunks to handle large datasets.
-
-        Args:
-            nb_values: Net benefit array
-            chunk_size: Size of chunks for processing
-
-        Returns
-        -------
-            float: Calculated EVPI value
-        """
-        n_samples, n_strategies = nb_values.shape
-
-        # Initialize accumulators for incremental computation
-        # For E[max(NB)] we need to track the sum of max values
-        max_nb_sum = 0.0
-        # For max(E[NB]) we need to track the sum for each strategy
-        strategy_sums = np.zeros(n_strategies, dtype=DEFAULT_DTYPE)
-
-        # Process data in chunks
-        n_processed = 0
-        for start_idx in range(0, n_samples, chunk_size):
-            end_idx = min(start_idx + chunk_size, n_samples)
-            chunk = nb_values[start_idx:end_idx]
-            chunk_size_actual = chunk.shape[0]
-
-            # Calculate max net benefit for each sample in chunk
-            chunk_max_nb = np.max(chunk, axis=1)
-            max_nb_sum += np.sum(chunk_max_nb)
-
-            # Calculate sum of net benefits for each strategy
-            chunk_strategy_sums = np.sum(chunk, axis=0)
-            strategy_sums += chunk_strategy_sums
-
-            n_processed += chunk_size_actual
-
-        # Calculate final results
-        expected_max_nb = max_nb_sum / n_processed
-        expected_nb_options = strategy_sums / n_processed
-        max_expected_nb = np.max(expected_nb_options)
-
-        return float(expected_max_nb - max_expected_nb)
-
     def evppi(
         self,
         parameters_of_interest: list[str] | None = None,
@@ -832,16 +785,6 @@ class DecisionAnalysis:
         if cached_result is not None:
             return float(cached_result)
 
-        # Check cache first
-        cache_key = (
-            "evppi_"
-            f"{tuple(parameters_of_interest) if parameters_of_interest is not None else '__all__'}_"
-            f"{population}_{time_horizon}_{discount_rate}_{n_regression_samples}_{chunk_size}_{regression_model!s}"
-        )
-        cached_result = self._cache_get(cache_key)
-        if cached_result is not None:
-            return float(cached_result)
-
         nb_values = self.nb_array.numpy_values
         if nb_values.size == 0:
             raise_input_error("`nb_array` cannot be empty")
@@ -852,19 +795,16 @@ class DecisionAnalysis:
         x, nb_values = self._prepare_evppi_inputs(parameters_of_interest, nb_values)
 
         native_result: float | None = None
-        if (
-            regression_model is None
-            and n_regression_samples is None
-            and chunk_size is None
-        ):
+        if regression_model is None and n_regression_samples is None:
             from voiage import _runtime
 
             try:
                 native_result = _runtime.compute_evppi(nb_values.tolist(), x.tolist())
             except (ModuleNotFoundError, AttributeError):
-                # The optional extension is unavailable or predates EVPPI;
-                # retain the established Python estimator in that case.
-                native_result = None
+                raise_backend_not_available_error(
+                    "Stable EVPPI requires the Rust runtime extension; reinstall "
+                    "a supported platform wheel or build the native module."
+                )
 
         if native_result is None:
             fitted_nb_on_params = self._fit_evppi_regression(
@@ -872,19 +812,15 @@ class DecisionAnalysis:
             )
             # Calculate E_p [max_d E[NB_d|p]].
             e_max_enb_conditional = np.mean(np.max(fitted_nb_on_params, axis=1))
+            # Explicit Python custom-estimator modes remain non-stable
+            # orchestration and calculate their own baseline.
+            if chunk_size is not None:
+                max_e_nb = self._incremental_max_expected_nb(nb_values, chunk_size)
+            else:
+                max_e_nb = float(np.max(np.mean(nb_values, axis=0)))
+            per_decision_evppi = float(e_max_enb_conditional - max_e_nb)
         else:
-            e_max_enb_conditional = native_result + float(
-                np.max(np.mean(nb_values, axis=0))
-            )
-
-        # Calculate max_d E[NB_d] using incremental computation if chunk_size is specified
-        if chunk_size is not None:
-            max_e_nb = self._incremental_max_expected_nb(nb_values, chunk_size)
-        else:
-            # Standard calculation
-            max_e_nb = float(np.max(np.mean(nb_values, axis=0)))
-
-        per_decision_evppi = float(e_max_enb_conditional - max_e_nb)
+            per_decision_evppi = float(native_result)
 
         # EVPPI should theoretically be non-negative. Small negative values can occur due to float precision or regression error.
         per_decision_evppi = max(0.0, per_decision_evppi)

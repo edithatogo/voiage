@@ -28,9 +28,10 @@ provide a stable diagnostic code, replacement path, and migration documentation.
 Removal is permitted only in the next major release and requires updated
 compatibility fixtures and release notes.
 
-The current 0.x raw-dictionary EVPPI alias continues to emit
-`DeprecationWarning`. Its migration to this v1 warning contract is part of the
-planned compatibility-bridge phase, not a claim about the present runtime.
+The 0.x raw-dictionary EVPPI compatibility alias emits `FutureWarning` with
+the stable `deprecated_raw_dict_parameter_samples` diagnostic code and points
+callers to `ParameterSet`. Its warning class, code, replacement, and migration
+documentation are executable v1 compatibility contracts.
 
 ## Canonical version source
 
@@ -78,4 +79,6 @@ uv run python scripts/validate_version_sync.py
 1. Update the Cargo workspace version and synchronized binding manifests
 2. Run the version-sync validator and fail-closed release-tag validation
 3. Cut the matching `v<version>` tag
-4. Let the tag-specific release workflows build the Python package and publish it
+4. Let the tag workflow build and attest a private draft
+5. Review exact artifact digests, then dispatch TestPyPI publication
+6. Permit PyPI and the public GitHub Release only after the TestPyPI smoke gate

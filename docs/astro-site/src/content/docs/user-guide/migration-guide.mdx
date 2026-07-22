@@ -1,9 +1,69 @@
 ---
 title: Migration Guide
-description: Migrating to voiage from other tools
+description: Migrating from voiage 0.x and other VOI tools to the Rust-backed v1 API
 ---
 
-This guide covers migrating to voiage from other VOI tools.
+This guide covers migration to the Rust-backed v1 API. The normative surface is
+the [stable API reference](/api-reference/); experimental and provisional
+extensions do not receive the same compatibility guarantee.
+
+## Migrating from 0.x to 1.0
+
+### Runtime and installation
+
+v1 supports Python 3.12, 3.13, and 3.14. Install a platform wheel or build with
+the documented Rust toolchain. The Rust core is required for stable numerical
+operations: v1 does not silently fall back to an independent Python numerical
+implementation.
+
+If the native module or a required Rust capability is unavailable, stable
+operations raise `BackendNotAvailableError`. Treat that as an installation or
+capability error; do not catch it and substitute an unverified 0.x algorithm.
+
+### Stable imports and typed inputs
+
+Prefer the stable top-level symbols:
+
+```python
+from voiage import DecisionAnalysis, ParameterSet, evpi, evppi, evsi
+```
+
+Replace raw dictionary parameter samples passed to `evppi` with a
+`ParameterSet`. The temporary dictionary bridge emits `FutureWarning` with
+diagnostic code `deprecated_raw_dict_parameter_samples`:
+
+```python
+from voiage import ParameterSet, evppi
+
+parameters = ParameterSet.from_numpy_or_dict(
+    {"treatment_effect": treatment_effect_samples}
+)
+result = evppi(net_benefit, parameters, ["treatment_effect"])
+```
+
+Stable results and errors are Rust-owned versioned contracts. Python may expose
+NumPy or xarray views for convenience, but callers should not depend on
+private Python implementation modules or experimental result shapes.
+
+### Removed and non-stable surfaces
+
+Go, TypeScript, .NET, WASM, and the duplicate standalone Rust binding are not
+retained v1 bindings. The supported repository-owned surfaces are Rust,
+Python/PyO3, R, and Julia. Mojo remains an external upstream interoperation
+boundary until an approved toolchain and distribution contract exist.
+
+Web, widget, accelerator, distributed, and research methods are optional or
+experimental. Install their named extras deliberately and consult each page's
+maturity label before relying on it in a production compatibility contract.
+
+## Rollback and support
+
+Test migration in a clean environment and retain the prior environment lock,
+input fixtures, random seeds, and result checksums until representative v1
+analyses pass. Do not overwrite or move a signed release tag. If v1 exposes a
+material regression, preserve the failing evidence, open an issue with the
+smallest non-confidential reproducer, and pin the last known-good published
+version while a new patch release proceeds through the full release workflow.
 
 ## Equity-information VOI
 

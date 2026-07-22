@@ -20,7 +20,8 @@
   },
   "conductor": {
     "active_track_ids": [
-      "mature-hardened-v1-release-programme_20260719"
+      "mature-hardened-v1-release-programme_20260719",
+      "research_software_registry_readiness_20260721"
     ],
     "archived_track_count": 125,
     "classifications": {
@@ -29,6 +30,7 @@
       ],
       "historical_groundwork": "conductor/archive/",
       "post_v1_or_optional": [
+        "research_software_registry_readiness_20260721",
         "accelerator production-speedup evidence",
         "frontier-method stable promotion beyond the frozen v1 surface",
         "FPGA and ASIC production execution"

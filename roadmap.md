@@ -32,11 +32,17 @@ release. The machine-readable baseline and execution classification are in
 `conductor/v1-programme-baseline.json`; the implementation plan is in
 `conductor/tracks/mature-hardened-v1-release-programme_20260719/`.
 
-Three completed-in-repository assurance tracks remain in the active registry
-until their explicit human gates are resolved: Domain Abstraction Excellence
+Research-software registry readiness follows that release in
+`conductor/tracks/research_software_registry_readiness_20260721/`. Issues
+#296--#299 track Software Heritage, RRID, and JOSS outcomes without promoting
+local preparation into external archival, identifier, submission, review, or
+acceptance evidence.
+
+Three completed-in-repository assurance tracks remain archived with their
+explicit human gates visible: Domain Abstraction Excellence
 (`abstraction-excellence_20260719`), Assurance Frontier
 (`assurance-frontier_20260720`), and Operational Assurance Excellence
-(`operational-assurance-excellence_20260720`). Their retained directories make
+(`operational-assurance-excellence_20260720`). Their archived directories make
 review evidence and approval boundaries visible; they are not reopened work.
 
 ---
@@ -225,9 +231,10 @@ packages while preserving a clean dependency boundary.
     *   Reserve HEOML extension alignment for VOI handoff and VOI result metadata.
     *   Treat `mars` as a fixed-API optional metamodel backend rather than a
         package whose core API should change for VOI-specific needs.
-    *   Maintain the local contract outline under `docs/ecosystem/` and
-        `specs/ecosystem/` so each sibling module can align against the same
-        portable VOI boundary before adapter work begins.
+    *   Maintain the public contract outline in the Astro ecosystem-boundaries
+        guide and the executable contracts under `specs/ecosystem/` so each
+        sibling module can align against the same portable VOI boundary before
+        adapter work begins.
     *   Covered by Conductor track: `ecosystem-module-incubation_20260429`.
 3.  **HEOR Module Naming Brainstorm:**
     *   **Status: `✅ Done`**

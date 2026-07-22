@@ -3,8 +3,9 @@
 import numpy as np
 import pytest
 
+from voiage import _runtime
 from voiage.analysis import DecisionAnalysis
-from voiage.exceptions import InputError
+from voiage.exceptions import BackendNotAvailableError, InputError
 from voiage.methods.basic import check_parameter_samples, evpi, evppi
 from voiage.schema import ParameterSet, ValueArray
 
@@ -45,6 +46,21 @@ class TestEVPI:
         assert abs(result_evpi - expected_evpi) < 1e-10
         assert isinstance(result_evpi, float)
         assert result_evpi >= 0  # EVPI should always be non-negative
+
+    def test_evpi_requires_the_rust_core(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Stable EVPI must not enter a Python or selected-backend fallback."""
+        value_array = ValueArray.from_numpy(
+            np.array([[100.0, 150.0], [120.0, 130.0]], dtype=np.float64),
+            ["Strategy A", "Strategy B"],
+        )
+
+        def unavailable(*_args: object, **_kwargs: object) -> float:
+            raise ModuleNotFoundError("voiage._core")
+
+        monkeypatch.setattr(_runtime, "compute_evpi", unavailable)
+
+        with pytest.raises(BackendNotAvailableError, match="Rust runtime extension"):
+            evpi(value_array)
 
     def test_evpi_with_population_scaling(self) -> None:
         """Test EVPI calculation with population scaling."""
@@ -239,7 +255,10 @@ class TestEVPPI:
 
         monkeypatch.setattr(DecisionAnalysis, "evppi", fake_evppi)
 
-        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+        with pytest.warns(
+            FutureWarning,
+            match=r"\[deprecated_raw_dict_parameter_samples\].*compatibility alias",
+        ):
             result = evppi(value_array, params, ["param1"])
 
         assert result == 0.0
@@ -250,9 +269,32 @@ class TestEVPPI:
         value_array = ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
         params = {"available": np.array([0.1, 0.2], dtype=np.float64)}
 
-        with pytest.warns(DeprecationWarning, match="compatibility alias"):
+        with pytest.warns(
+            FutureWarning,
+            match=r"\[deprecated_raw_dict_parameter_samples\].*compatibility alias",
+        ):
             with pytest.raises(InputError, match="Missing:.*requested"):
                 evppi(value_array, params, ["requested"])
+
+    def test_default_evppi_requires_the_rust_core(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The stable default EVPPI path must not enter the Python estimator."""
+        value_array = ValueArray.from_numpy(
+            np.array([[100.0, 150.0], [120.0, 130.0]], dtype=np.float64),
+            ["Strategy A", "Strategy B"],
+        )
+        parameters = ParameterSet.from_numpy_or_dict(
+            {"param1": np.array([0.1, 0.2], dtype=np.float64)}
+        )
+
+        def unavailable(*_args: object, **_kwargs: object) -> float:
+            raise ModuleNotFoundError("voiage._core")
+
+        monkeypatch.setattr(_runtime, "compute_evppi", unavailable)
+
+        with pytest.raises(BackendNotAvailableError, match="Rust runtime extension"):
+            evppi(value_array, parameters, ["param1"])
 
     def test_evppi_multiple_params(self) -> None:
         """Test EVPPI calculation with multiple parameters."""

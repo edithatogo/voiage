@@ -207,20 +207,23 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 8: Supported Extensions and Experimental Isolation
 
-- [~] Task: Classify all non-core functionality
+- [x] Task: Classify all non-core functionality (830c69f)
     - [x] Classify every `voiage/methods/` module as stable Rust facade, optional extension, or experimental using `specs/v1/extension-policy.json` and executable coverage (`tests/test_extension_policy.py`).
     - [x] Classify every remaining Python runtime file across facade, assurance, optional-extension and experimental surfaces using `specs/v1/extension-surface-policy.json` with exactly-one-disposition coverage.
-    - [~] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition policy is recorded; final package-level decisions remain)
-    - [~] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable coverage added)
-- [~] Task: Enforce supported-extension boundaries using TDD
+    - [x] Evaluate domain modules, web applications, widgets, accelerators, distributed execution, frontier methods and research prototypes for final retain/extract/remove decisions. (runtime disposition and single-wheel optional-extra policies cover every Python runtime path)
+    - [x] Record retain, extract, remove or experimental decisions with evidence. (machine-readable policies and executable exactly-one-disposition coverage)
+- [x] Task: Enforce supported-extension boundaries using TDD (830c69f)
     - [x] Red: add failing dependency-direction, export and packaging boundary tests. (lazy import/export isolation and exactly-one-disposition tests)
-    - [~] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, and the machine-readable single-wheel optional-extra boundary pass; Rust execution and independent packaging remain; e9144ef)
+    - [x] Green: require retained extensions to use Rust execution, shared contracts and independent optional packaging. (normative stable/provisional __all__, stable import/export, base-dependency gates, fail-closed stable EVPI/EVPPI, and the machine-readable single-wheel optional-extra boundary pass; e9144ef)
     - [x] Refactor: remove duplicated policy and unnecessary dependencies. Migrated heterogeneity in `8795d21`, structural EVPI aggregation in `2919ea3`, and structural EVPPI aggregation in the current migration commit; focused Rust/Python parity and extension-boundary tests pass. Remaining Python-owned orchestration stays explicitly tracked.
 - [x] Task: Isolate experimental functionality (1e1eca4, e770dfe)
     - [x] Move experimental APIs into an explicit namespace or package with maturity metadata and warnings. (voiage.experimental; experimental functions resolve lazily)
     - [x] Ensure experimental dependencies and failures cannot block the stable core. (clean-import and lazy-namespace tests)
-- [ ] Task: Remove or extract unsupported code
-    - [ ] Preserve migration history where necessary and remove dead dependencies, exports, tests and docs.
+- [x] Task: Remove or extract unsupported code (830c69f)
+    - [x] Preserve migration history where necessary and remove dead
+      dependencies, exports, tests and docs. (duplicate standalone docs and
+      status mirrors removed; private Python incremental EVPI and default
+      EVPPI fallback retired; governance and migration evidence retained)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
 
 ## Phase 9: Astro-Only Documentation Consolidation
@@ -235,26 +238,28 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [ ] Task: Complete and validate v1.0 user documentation
     - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
     - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for the complete non-optional notebook matrix, including getting_started, EVPI, EVPPI, EVSI, adaptive, advanced, calibration, fluent, interactive, engineering, environmental, financial, observational, portfolio, metamodeling, NMA, structural, benchmarking, voiage validation, and visualization; optional JAX/widget/Colab examples remain dependency-gated; Vale reports zero alerts across 1,086 Markdown/MDX files and generated pages have no missing image alt text; clean-builder evidence remains)
+- [x] Task: Apply Phase 8/9 automated review fixes (e97293e)
+    - [x] Align coverage, changelog and result-envelope governance with the executable release contracts.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
 
-- [ ] Task: Harden solo-maintainer GitHub governance
-    - [ ] Preserve merge autonomy without mandatory external review.
-    - [ ] Require reliable CI, attributable changes, protected release workflows and live check-name validation.
-- [ ] Task: Maximize continuous-integration coverage using TDD
-    - [ ] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
-    - [ ] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
-    - [ ] Refactor: remove flaky or routinely bypassed checks and minimize redundant work.
-    - [~] Local tox evidence: lint, harness, typecheck, docs, frontier-contract, version-sync, Python 3.12/3.13/3.14 and clean min_versions all pass; optional dependency skips remain explicit (2026-07-21).
-- [ ] Task: Establish security release gates
-    - [ ] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning.
-    - [ ] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings.
+- [x] Task: Harden solo-maintainer GitHub governance (live API verification 2026-07-22)
+    - [x] Preserve merge autonomy without mandatory external review. (active `main-maximal-quality` ruleset requires zero approvals and no code-owner review)
+    - [x] Require reliable CI, attributable changes, protected release workflows and live check-name validation. (strict required checks, signed commits, pull requests, linear squash history, resolved threads, web signoff, automatic branch deletion, secret scanning and push protection verified live)
+- [x] Task: Maximize continuous-integration coverage using TDD
+    - [x] Red: add failing harness tests for missing Python, Rust, binding, packaging, docs and clean-install gates.
+    - [x] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
+    - [x] Refactor: remove flaky or routinely bypassed checks and minimize redundant work. (unsupported Python 3.9 containers and stale deployment mirrors retired; pinned tooling and fail-closed workflow expansion retained)
+    - [x] Local non-documentation tox evidence: lint, harness, configured typecheck, frontier-contract, version-sync, Python 3.12/3.13/3.14, minimum/maximum dependencies and coverage all pass; coverage is 90.99% and optional dependency skips remain explicit (2026-07-21). Normal Astro remains intentionally age-gated until 2026-07-22T10:02:49Z.
+- [~] Task: Establish security release gates
+    - [x] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning. (CodeQL, Dependency Review, secret scanning/push protection, Bandit, Safety, cargo-deny, SBOM and artifact audit workflows)
+    - [~] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings. (PR SBOM and reproducibility checks pass; final checksums, attestations and signatures remain release-bound)
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
-    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages (2026-07-21). Hosted alert, SBOM, provenance and signature evidence remains release-bound. The Astro package-age policy is actively fail-closed for five packages published 2026-07-20/21. PR #293 has all other hosted checks complete but its mutation job rejects the Dependabot lockfile change until the narrowed cohort policy is present on the remote branch.
-- [ ] Task: Establish quantitative quality and performance gates
-    - [ ] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks.
-    - [ ] Define benchmark budgets and fail material regressions.
+    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages; live secret-scanning and Dependabot alerts are empty (2026-07-21/22). PR #293 is merged. The Astro package-age policy remains actively fail-closed until its exact expiry, and hosted CodeQL quality-alert reconciliation plus final release evidence remain.
+- [x] Task: Establish quantitative quality and performance gates
+    - [x] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks. (90% Python, 80% Rust, proptest, continuous cargo-fuzz, Miri, ASan/UBSan/LSan and three hosted mutation gates; local stable-EVPI fuzzer completed 3,438,366 executions without a crash)
+    - [x] Define benchmark budgets and fail material regressions. (committed C15 and native-kernel baselines, budget validators, PR benchmark and profiling checks)
 - [~] Task: Prove reproducible release inputs
     - [~] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; `ddf6bcb` packages normative JSON fixtures; local extracted-sdist Rust all-target tests pass through non-PyO3 targets, and release `cargo build --locked` plus Maturin wheel build pass; local PyO3 execution remains blocked by missing libpython3.13.dylib, while cross-runner artifact and hosted clean-builder evidence remain)
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
@@ -282,9 +287,18 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Freeze features and regenerate all release evidence.
     - [ ] Run complete CI, security, compatibility, binding, packaging, docs, benchmark and reproducibility suites.
     - [ ] Conduct clean-room installs and representative end-to-end VOI analyses.
-- [ ] Task: Complete migration and operational readiness
-    - [ ] Finalize 0.x migration guidance, deprecations, removals, support, security, compatibility and rollback procedures.
-    - [ ] Prove no stable operation depends on retired Python kernels.
+- [~] Task: Complete migration and operational readiness
+    - [x] Replace the legacy release checklist with the executable Rust-core,
+      signed-tag, Astro, clean-room, SBOM, provenance and retained-registry
+      workflow.
+    - [x] Finalize 0.x migration guidance, deprecations, removals, support,
+      security, compatibility and rollback procedures. (v1 migration,
+      readiness, version-policy and release-checklist contracts; raw-dictionary
+      EVPPI bridge now emits the normative coded `FutureWarning`)
+    - [x] Prove no stable operation depends on retired Python kernels.
+      (stable EVPI and default EVPPI fail closed without Rust; existing EVSI,
+      ENBS, CEAF and dominance native-absence tests plus the runtime inventory
+      and migration matrix enforce the retained facade/orchestration boundary)
 - [ ] Task: Close the programme backlog
     - [ ] Resolve or explicitly defer every v1.0 GitHub issue.
     - [ ] Merge or close every programme pull request and reconcile remaining branches.

@@ -5,6 +5,7 @@ import pytest
 import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
+from voiage.exceptions import InputError
 from voiage.methods.basic import evppi
 from voiage.schema import ParameterSet, ValueArray
 
@@ -145,7 +146,7 @@ def test_single_strategy_degenerate_case() -> None:
 
 
 def test_nan_values() -> None:
-    """Test handling of NaN values."""
+    """Stable EVPI rejects NaN values under the normative v1 policy."""
     # Net benefits with NaN
     nan_values = np.array(
         [
@@ -159,14 +160,12 @@ def test_nan_values() -> None:
     value_array = ValueArray.from_numpy(nan_values)
     analysis = DecisionAnalysis(value_array)
 
-    # The function should handle NaN gracefully and return a valid result
-    evpi_result = analysis.evpi()
-    # The result should be a valid float (likely 0.0 due to NaN handling)
-    assert isinstance(evpi_result, (int, float))
+    with pytest.raises(InputError, match="finite"):
+        analysis.evpi()
 
 
 def test_infinite_values() -> None:
-    """Test handling of infinite values."""
+    """Stable EVPI rejects infinite values under the normative v1 policy."""
     # Net benefits with infinity
     inf_values = np.array(
         [
@@ -180,10 +179,8 @@ def test_infinite_values() -> None:
     value_array = ValueArray.from_numpy(inf_values)
     analysis = DecisionAnalysis(value_array)
 
-    # The function should handle infinity gracefully and return a valid result
-    evpi_result = analysis.evpi()
-    # The result should be a valid float (likely 0.0 due to inf handling)
-    assert isinstance(evpi_result, (int, float))
+    with pytest.raises(InputError, match="finite"):
+        analysis.evpi()
 
 
 if __name__ == "__main__":

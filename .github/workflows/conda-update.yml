@@ -40,23 +40,24 @@ jobs:
       env:
         STEPS_RELEASE_OUTPUTS_VERSION: ${{ steps.release.outputs.version }}
 
-    - name: Update conda/meta.yaml
+    - name: Update conda-recipe/meta.yaml
       run: |
         python - <<'PY'
         from pathlib import Path
         import re
         import os
 
-        meta = Path("conda/meta.yaml")
+        meta = Path("conda-recipe/meta.yaml")
         text = meta.read_text()
         text = re.sub(
             r'{% set version = ".*?" %}',
             '{% set version = "' + os.environ["RELEASE_VERSION"] + '" %}',
             text,
         )
-        text = text.replace(
-            "sha256: UPDATE_ON_RELEASE",
+        text = re.sub(
+            r"sha256: [0-9a-fA-F_]+",
             "sha256: " + os.environ["RELEASE_SHA256"],
+            text,
         )
         meta.write_text(text)
         PY

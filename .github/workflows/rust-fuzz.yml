@@ -1,0 +1,49 @@
+name: Rust continuous fuzzing
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/rust-fuzz.yml"
+      - "rust/crates/voiage-domain/**"
+      - "rust/crates/voiage-numerics/**"
+      - "rust/fuzz/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/rust-fuzz.yml"
+      - "rust/crates/voiage-domain/**"
+      - "rust/crates/voiage-numerics/**"
+      - "rust/fuzz/**"
+  schedule:
+    - cron: "17 4 * * 2"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: rust-fuzz-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stable-rust-kernels:
+    name: Stable Rust kernel fuzzing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Install pinned fuzzing toolchain
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: nightly-2026-07-01
+      - name: Install pinned cargo-fuzz
+        run: cargo install cargo-fuzz --version 0.13.2 --locked
+      - name: Fuzz stable EVPI input handling
+        working-directory: rust
+        run: >-
+          cargo +nightly-2026-07-01 fuzz run stable_evpi
+          --fuzz-dir fuzz -- -max_total_time=60 -timeout=10

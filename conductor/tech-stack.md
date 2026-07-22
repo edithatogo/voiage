@@ -13,8 +13,9 @@
 - **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
 
-## High-Performance Computing
-- **JAX**: >=0.7.1,<0.8 - High-performance numerical computing with GPU/TPU support
+## Optional High-Performance Computing
+- **JAX**: >=0.7.1,<0.8 - Optional accelerator and research integrations only;
+  never a stable-core execution authority
 - **Spack**: HPC source package manager for reproducible scientific stacks
 - **EasyBuild**: Automated scientific software build/install framework for HPC
 - **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
@@ -45,14 +46,10 @@
 - **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
-- **Starlight**: >=0.32.0 — Primary documentation framework (Astro-based, MDX)
-- **@astrojs/starlight**: Docs framework with built-in search (Pagefind),
-  i18n, and MDX support — **replaces Sphinx**
-- **starlight-versions**: >=0.4.0 — Versioned documentation navigation
-- **starlight-links-validator**: >=0.14.0 — Broken-link validation in CI
-- **starlight-llms-txt**: >=0.5.0 — LLM-friendly text export
-- **starlight-polyglot**: Auto-generated multi-language API reference from
-  Python docstrings plus Rust/Python/R/Julia API contracts
+- **Astro**: >=7.1.0 — Sole documentation build platform
+- **@astrojs/starlight**: >=0.40.0 — Docs framework with built-in search,
+  navigation and MDX support; replaces Sphinx
+- **starlight-llms-txt**: >=0.10.0 — LLM-friendly text export
 - **Vale**: prose linting for Markdown
 - **pnpm**: Package manager for the Starlight/Astro site
 
@@ -64,7 +61,8 @@
 ## Binding and Release Targets
 - **R**: CRAN-style package checks and GitHub Releases for source archives
 - **Julia**: General registry with TagBot synchronization
-- **Rust**: crates.io
+- **Rust**: GitHub Releases for the internal `publish = false` workspace; no
+  crates.io package is claimed
 
 ## Follow-Through Evidence Tooling
 - **GitHub Actions**: repeatable release, registry-audit, benchmark, pre-silicon,

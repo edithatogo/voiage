@@ -25,7 +25,8 @@
 
 ### Consistency
 - All VOI methods follow the same signature pattern: `method(inputs, outputs, **kwargs)`
-- Return consistent data types (numpy arrays or xarray DataArrays)
+- Return versioned Rust result envelopes through each retained binding; Python
+  adapters may expose NumPy or xarray views without owning numerical policy.
 - Provide both functional and object-oriented interfaces
 
 ### CLI Guidelines
@@ -34,15 +35,20 @@
 - Support CSV input/output for batch processing
 - Provide `--help` with comprehensive examples
 
-### Backend Abstraction
-- Support multiple backends (NumPy, JAX) through factory pattern
-- Backend selection via configuration, not code changes
-- Maintain API parity across backends
+### Runtime Authority and Binding Boundaries
+- Rust is the sole stable numerical execution authority.
+- Python/PyO3, R and Julia are thin bindings over the Rust core; Mojo remains
+  an explicitly tracked upstream interop boundary until its toolchain and
+  distribution contract are available.
+- Python may retain schemas, I/O, orchestration, CLI, plotting and reporting,
+  but must not silently reintroduce stable numerical policy or fallbacks.
+- Accelerator, distributed and research implementations remain optional or
+  experimental and cannot block or bloat the stable installation.
 
 ## Testing Standards
 
 ### Coverage Requirements
-- Target: >80% code coverage
+- Target: >90% code coverage
 - Critical methods: >95% coverage
 - Use pytest-cov for coverage reporting
 
@@ -64,15 +70,17 @@
 - `voiage.environmental` - Environmental policy VOI
 
 ### Domain-Agnostic Core
-- Core algorithms in `voiage.methods`
-- Domain adapters in respective modules
-- Shared utilities in `voiage.core`
+- Stable numerical algorithms live in the Rust workspace.
+- `voiage.methods` exposes Rust-backed facades and explicitly classified
+  optional or experimental extensions.
+- Domain adapters remain outside the Rust core and may not duplicate stable
+  numerical policy.
 
 ## Release Process
 
 ### Versioning
 - Follow semantic versioning (MAJOR.MINOR.PATCH)
-- Update CHANGELOG.md with each release
+- Update `changelog.md` with each release
 - Tag releases in Git with version number
 
 ### Quality Gates

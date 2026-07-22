@@ -844,8 +844,6 @@ class WorkflowConnector(EcosystemConnector):
             notebook_content["cells"].extend(analysis_cells)
 
             # Save notebook
-            import json
-
             with open(output_path, "w") as f:
                 json.dump(notebook_content, f, indent=1)
 

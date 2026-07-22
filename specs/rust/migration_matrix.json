@@ -47,7 +47,7 @@
       "parity_status": "fixture_backed",
       "benchmark_status": "scalar_baseline",
       "migration_priority": "high",
-      "notes": "Rust owns the full-sample linear EVPPI kernel; the Python facade routes the default path through the private PyO3 bridge and retains Python regression for custom models, subsampling, chunking, and native-extension absence."
+      "notes": "Rust owns the stable full-sample linear EVPPI kernel; the Python facade routes the default path through the private PyO3 bridge and fails closed when the native capability is absent. Explicit custom-model, subsampling, and chunking modes remain Python-owned optional orchestration and are not stable numerical fallbacks."
     },
     {
       "kernel_id": "evsi",

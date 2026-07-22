@@ -5,6 +5,36 @@ from pathlib import Path
 import yaml
 
 
+def test_release_checklist_matches_the_fail_closed_v1_workflow() -> None:
+    checklist = Path("RELEASE_CHECKLIST.md").read_text(encoding="utf-8")
+
+    for required in (
+        "CI=true uv run tox -q",
+        "pnpm install --frozen-lockfile",
+        "maturin build --locked --release",
+        "signed annotated `v1.0.0` tag",
+        "TestPyPI",
+        "expected_wheel_sha256",
+        "expected_sdist_sha256",
+        "SBOM",
+        "provenance",
+        "conda-forge",
+        "Julia General",
+        "approved R registry",
+    ):
+        assert required in checklist
+
+    for stale in (
+        "CHANGELOG.md",
+        "python -m build",
+        "automatically publish to PyPI",
+        "Docker Hub",
+        "docker run",
+        "v0.X.X",
+    ):
+        assert stale not in checklist
+
+
 def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> None:
     release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
     conda_workflow = Path(".github/workflows/conda-update.yml").read_text(
@@ -65,9 +95,24 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "permissions: {}" in release_workflow
     assert "release:\n    types: [published]" in conda_workflow
     assert "startsWith(github.event.release.tag_name, 'v')" in conda_workflow
-    assert "Update conda/meta.yaml" in conda_workflow
+    assert "Update conda-recipe/meta.yaml" in conda_workflow
     assert "steps.release.outputs.version" in conda_workflow
     assert "steps.source.outputs.sha256" in conda_workflow
+
+
+def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
+    recipe = Path("conda-recipe/meta.yaml").read_text(encoding="utf-8")
+
+    assert not Path("conda/meta.yaml").exists()
+    assert "noarch: python" not in recipe
+    assert "{{ compiler('rust') }}" in recipe
+    assert "maturin >=1.9,<2.0" in recipe
+    assert "python >= {{ python_min }}" in recipe
+    assert "sha256: UPDATE_ON_RELEASE" in recipe
+
+    workflow = Path(".github/workflows/conda-update.yml").read_text(encoding="utf-8")
+    assert 'meta = Path("conda-recipe/meta.yaml")' in workflow
+    assert 'r"sha256: [0-9a-fA-F_]+"' in workflow
 
 
 def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:

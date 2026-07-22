@@ -274,9 +274,10 @@ def evppi(
 
     if isinstance(parameter_samples, dict):
         warnings.warn(
-            "Passing raw dict parameter samples to `voiage.methods.basic.evppi` "
+            "[deprecated_raw_dict_parameter_samples] Passing raw dict parameter "
+            "samples to `voiage.methods.basic.evppi` "
             "is a compatibility alias. Pass a `ParameterSet` instead.",
-            DeprecationWarning,
+            FutureWarning,
             stacklevel=2,
         )
 

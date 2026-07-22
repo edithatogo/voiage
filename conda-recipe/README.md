@@ -1,6 +1,8 @@
 # voiage conda-forge Recipe
 
-This directory contains the conda recipe for publishing voiage to conda-forge.
+This is the sole Conda recipe for the native Maturin package and the handoff
+source for publishing voiage to conda-forge. The release workflow replaces its
+version and source hash only after the immutable PyPI sdist is published.
 
 ## Building the conda package
 
@@ -29,7 +31,6 @@ To publish to conda-forge:
 ## Recipe Structure
 
 - `meta.yaml`: Main recipe file with package metadata and dependencies
-- `conda_build_config.yaml`: Python-version matrix used for local and staged builds
 
 ## Dependencies
 
@@ -38,16 +39,13 @@ The recipe specifies the following dependencies:
 ### Host Dependencies
 - python >=3.12
 - pip
-- setuptools >=69
-- setuptools_scm >=8
-- wheel
+- maturin >=1.9,<2.0
+- a conda-forge Rust compiler
 
 ### Run Dependencies
 - python >=3.12
-- defusedxml >=0.7.1
-- numpy, scipy, pandas, xarray, numpyro, jax
-- scikit-learn, statsmodels, matplotlib, seaborn
-- psutil, typing_extensions, typer
+- click, numpy, scipy, pandas, xarray, scikit-learn
+- pyarrow, polars, pydantic, typing_extensions, typer
 
 ## Testing
 

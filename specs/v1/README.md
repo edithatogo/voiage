@@ -24,7 +24,8 @@ and operating-system versions, method input shapes and results, missing-value
 and infinity handling, deterministic seed behavior, standard errors, schemas,
 diagnostics, reporting, provenance, plotting and CLI serialization.
 
-The `implementation` fields describe the required v1.0 destination. They do
-not assert that the current 0.x runtime already executes every method in Rust.
-Migration evidence is supplied by later phases of the active Conductor
-programme and must pass the shared fixtures before the v1.0 release.
+The `implementation` fields describe the required v1.0 execution boundary.
+Stable default numerical paths execute in Rust and fail closed when the native
+capability is unavailable. Python retains typed facades, validation,
+orchestration, callbacks, I/O, and explicitly non-stable extensions; migration
+evidence must still pass the shared fixtures before the v1.0 release.

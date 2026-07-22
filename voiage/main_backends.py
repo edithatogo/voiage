@@ -222,9 +222,6 @@ try:
                 # Calculate the expected maximum net benefit
                 expected_max_nb = jnp.mean(max_nb)
 
-                # EVPI is the difference
-                expected_max_nb - max_expected_nb
-
                 # Optimized calculation with memory efficiency
                 with jax.default_matmul_precision("float32"):
                     max_expected_nb = jnp.max(expected_nb_options)
