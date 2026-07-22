@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made publication dispatches consume the already staged and reviewed draft
   artifacts without rebuilding or clobbering them, so exact digest approval
   remains valid even when a platform linker is not byte-reproducible.
+- Isolated private-draft retrieval and digest validation in a short-lived
+  broker job, keeping registry OIDC publication jobs read-only for contents.
 
 ## [1.0.0] - 2026-07-22
 

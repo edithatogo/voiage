@@ -144,6 +144,7 @@ def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
     assert "pypi:" in release_workflow
     assert "github-release:" in release_workflow
     assert "needs: [resolve-tag, stage]" in release_workflow
+    assert "needs: [resolve-tag, reviewed-payload]" in release_workflow
     assert "needs: [resolve-tag, test-pypi]" in release_workflow
     assert "needs: [resolve-tag, test-pypi-smoke]" in release_workflow
     assert "needs: [resolve-tag, pypi]" in release_workflow
@@ -182,8 +183,13 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         release_workflow.count(
             "gh release download \"$RELEASE_TAG\" --dir dist --pattern '*.whl' --pattern '*.tar.gz'"
         )
-        == 2
+        == 1
     )
+    assert (
+        "reviewed-payload:\n    name: Validate Reviewed Private Draft"
+        in release_workflow
+    )
+    assert release_workflow.count("name: reviewed-release-payload") == 3
     assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow

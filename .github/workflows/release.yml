@@ -384,26 +384,17 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  test-pypi:
-    name: Publish Reviewed Draft to TestPyPI
+  reviewed-payload:
+    name: Validate Reviewed Private Draft
     needs: [resolve-tag, stage]
     if: github.event_name == 'workflow_dispatch' && inputs.publish
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    environment: testpypi
     permissions:
-      contents: read
-      id-token: write
+      contents: write
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
-      TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
-      - name: Check out immutable release commit
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          fetch-depth: 0
-          ref: ${{ needs.resolve-tag.outputs.tag_sha }}
-          persist-credentials: false
       - name: Download reviewed private draft payload
         shell: bash
         env:
@@ -428,6 +419,39 @@ jobs:
           test "$actual_wheels" = "$EXPECTED_WHEEL_SHA256"
           test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
           test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
+      - name: Upload reviewed release payload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: reviewed-release-payload
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
+
+  test-pypi:
+    name: Publish Reviewed Draft to TestPyPI
+    needs: [resolve-tag, reviewed-payload]
+    if: github.event_name == 'workflow_dispatch' && inputs.publish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: testpypi
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+      TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+    steps:
+      - name: Check out immutable release commit
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.resolve-tag.outputs.tag_sha }}
+          persist-credentials: false
+      - name: Download reviewed release payload
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: reviewed-release-payload
+          path: dist
       - name: Revalidate remote tag binding immediately before TestPyPI
         shell: bash
         run: |
@@ -516,13 +540,11 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
-      - name: Download reviewed private draft payload
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p dist
-          gh release download "$RELEASE_TAG" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
+      - name: Download reviewed release payload
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: reviewed-release-payload
+          path: dist
       - name: Revalidate remote tag binding immediately before PyPI
         shell: bash
         run: |
