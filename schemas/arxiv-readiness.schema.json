@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "status", "submission_performed", "human_gates"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "status": {"enum": ["blocked", "ready_for_human_review"]},
+    "submission_performed": {"const": false},
+    "human_gates": {"type": "array", "items": {"type": "string"}}
+  }
+}

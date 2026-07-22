@@ -48,6 +48,20 @@
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
   },
+  "arxiv_preprint_evidence": {
+    "status": "repository_ready_for_human_review",
+    "canonical_source": "paper/main.tex",
+    "metadata": "paper/metadata.json",
+    "readiness_manifest": "paper/readiness-manifest.json",
+    "builder": "scripts/build_arxiv_submission.py",
+    "submission_performed": false,
+    "remaining_human_gates": [
+      "confirm authorship, affiliation, ORCID, funding, conflicts, and research-impact evidence",
+      "select category, license, and endorsement path",
+      "review the canonical PDF, source archive, checksum, and transformed variants",
+      "perform the authenticated arXiv upload"
+    ]
+  },
   "evidence_urls": [
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",

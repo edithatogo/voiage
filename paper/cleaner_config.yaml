@@ -1,0 +1,5 @@
+# Conservative defaults: never resize or rewrite figures automatically.
+# Add project-specific commands only after reviewing the cleaner's diff.
+commands_to_delete: []
+environments_to_delete: []
+if_exceptions: []

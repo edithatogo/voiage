@@ -1,0 +1,20 @@
+\section{Summary}
+
+Value of Information (VOI) analysis estimates how much a decision could
+improve if uncertainty were reduced by collecting additional information. It
+is useful in health economics, clinical-trial design, public policy,
+environmental management, and other settings where decisions must be made
+before all relevant quantities are known. \texttt{voiage} is an open-source
+library for computing and communicating VOI analyses from probabilistic
+decision models~\cite{voiage2026}.
+
+The software provides expected value of perfect information (EVPI), expected
+value of partial perfect information (EVPPI), expected value of sample
+information (EVSI), expected net benefit of sampling (ENBS),
+cost-effectiveness acceptability frontiers (CEAF), dominance, and related
+diagnostics. Version 1.0.0 combines a Python user interface with an
+authoritative Rust execution core. Python provides the public facade, schema
+validation, orchestration, reporting, plotting, and command-line interface.
+Rust provides stable numerical kernels and shared result contracts; PyO3 and
+Maturin expose the Python bridge, while the R and Julia bindings use the shared
+C application binary interface.

@@ -85,3 +85,18 @@ Agents must follow this sequence for every contribution:
 ## Dependency and context frontier
 
 Before dependency or runtime work, run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`. Read the generated local report together with the Conductor context pack. Keep preview dependencies behind named extras and require numerical-equivalence, Arrow round-trip, and CPU-fallback tests before promotion.
+
+## Manuscript and arXiv boundary
+
+`paper/main.tex` is the canonical preprint source. Do not replace it with
+generated Markdown, Quarto, notebook, or word-processor output. Keep semantic
+LaTeX, portable filenames, case-exact relative paths, and a top-level
+`\documentclass`. Load `paper/metadata.json`,
+`paper/readiness-manifest.json`, and `.agents/skills/` before manuscript work.
+
+Agents may build, lint, sanitize, audit citations, and produce review
+artifacts. They must not select an arXiv category or license, certify
+authorship, perform an authenticated upload, or claim submission or acceptance
+without authoritative external evidence. Cleaner and collector outputs are
+untrusted derived artifacts: diff, compile, and audit them before a human
+chooses an upload package.

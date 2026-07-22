@@ -23,9 +23,11 @@ Current status:
 ## Branch Architecture
 
 The default `main` branch contains the maintained software and its submission
-metadata. The JOSS draft is in `paper.md` with references in `paper.bib`;
-`docs/joss-submission-readiness.md` records the remaining author and impact
-checks before submission.
+metadata. Authored LaTeX in `paper/main.tex` is the canonical arXiv preprint;
+the JOSS adaptation remains in `paper.md`. The deterministic manuscript
+workflow compiles, lints, audits, packages, and independently converts the
+LaTeX to semantic HTML without submitting it. `docs/joss-submission-readiness.md`
+records the remaining human author and impact checks.
 
 ## Background: The Need for a Comprehensive VOI Tool in Python
 
@@ -124,9 +126,13 @@ coverage and external registry evidence.
 
 ## Academic paper
 
-The JOSS draft is maintained in [`paper.md`](paper.md), with references in
-[`paper.bib`](paper.bib), software metadata in [`codemeta.json`](codemeta.json),
-and citation metadata in [`CITATION.cff`](CITATION.cff). The paper has not yet
+The canonical arXiv manuscript is authored in
+[`paper/main.tex`](paper/main.tex), with semantic sections and bibliography
+under [`paper/`](paper/). The JOSS adaptation remains in
+[`paper.md`](paper.md), with software metadata in
+[`codemeta.json`](codemeta.json) and citation metadata in
+[`CITATION.cff`](CITATION.cff). The readiness workflow creates a deterministic
+source archive and review PDF but never uploads them. The paper has not yet
 been submitted to JOSS or arXiv.
 
 ## Installation

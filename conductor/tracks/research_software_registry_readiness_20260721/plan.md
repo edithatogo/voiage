@@ -26,7 +26,9 @@
   wheels; PyPI mirrors the source release at https://pypi.org/project/voiage/1.0.0/.
 - Software Heritage origin lookup: HTTP 404; no pre-v1 ingestion requested.
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
-- JOSS route: paper/author/impact readiness remains pending; editorial review external.
+- JOSS route: the canonical arXiv LaTeX preprint and JOSS adaptation are
+  repository-ready; author/impact confirmation and editorial review remain
+  external.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
 - Software Heritage archival request: accepted as request `2397350` for visit
   `1`; the request is scheduled and currently has no snapshot SWHID. Continue
@@ -35,6 +37,11 @@
   `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
   Author affiliations/ORCID, funding/conflict declarations, and concrete
   research-impact evidence still require author confirmation.
+- arXiv preprint package: canonical authored source is `paper/main.tex`; the
+  deterministic, non-submitting readiness pipeline validates TeX Live
+  2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
+  cleaner/collector variants. Category, license, endorsement, and authenticated
+  upload remain human gates.
 - JOSS submission is explicitly deferred for this execution; no JOSS submission
   or editorial action is claimed.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;

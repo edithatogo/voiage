@@ -1,0 +1,8 @@
+# Optional, isolated preparation tools. Core compilation has no Python dependency.
+arxiv-collector==0.4.1
+arxiv-latex-cleaner==1.0.11
+# arxiv-latex-cleaner 1.0.11 omits its runtime dependencies from package metadata.
+absl-py==2.5.0
+pillow==12.3.0
+pyyaml==6.0.3
+regex==2026.7.19

@@ -2,6 +2,12 @@
 
 ## Prepared files
 
+- `paper/main.tex`: canonical authored LaTeX preprint.
+- `paper/sections/`: semantic manuscript sections.
+- `paper/references.bib`: bibliography packaged with the preprint.
+- `paper/metadata.json`: reviewable arXiv metadata draft with category and
+  license deliberately left as human decisions.
+- `paper/readiness-manifest.json`: machine-readable evidence and human gates.
 - `paper.md`: JOSS-format draft manuscript.
 - `paper.bib`: BibTeX references.
 - `codemeta.json`: software metadata for repository/archive workflows.
@@ -9,16 +15,33 @@
 
 ## arXiv-first preparation
 
-The repository now has a separate, non-submitting arXiv readiness pipeline:
+The repository uses the hardened `arxiv-paper-template` architecture as its
+non-submitting arXiv readiness pipeline:
 
-- `paper/arxiv/README.md` documents the package boundary and human gates;
-- `scripts/build_arxiv_submission.py` renders `paper.md` to TeX and PDF,
-  performs source/package hygiene checks, and writes a hashed tarball;
+- `paper/main.tex` is the canonical source; Pandoc and Quarto are not part of
+  the manuscript path;
+- `scripts/build_arxiv_submission.py` compiles authored LaTeX, performs
+  source/package hygiene checks, and writes a deterministic hashed tarball;
+- SourceRight and Authentext are pinned submodules for source provenance and
+  claim/evidence review;
+- cleaner and collector variants are rebuilt, audited, and retained for human
+  comparison rather than automatically selected;
 - `.github/workflows/arxiv-readiness.yml` runs the reproducible preflight on
-  manuscript changes and never uploads to arXiv.
+  manuscript changes, including TeX Live 2023/2025, ChkTeX, Lacheck, PDF/font
+  assurance, and semantic LaTeXML HTML; it never uploads to arXiv.
 
 Run `uv run python scripts/build_arxiv_submission.py` and review the generated
-`build/arxiv/arxiv-readiness.json` before any future authenticated submission.
+`build/arxiv/arxiv-readiness.json`, review PDF, source archive, checksum, and
+variant diff before any future authenticated submission.
+
+Optional cleaner and collector tooling is isolated from voiage's development
+environment:
+
+```console
+uv venv .venv-arxiv
+uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
+.venv-arxiv/bin/python scripts/prepare_arxiv_variants.py
+```
 
 ## Required author review before submission
 
