@@ -30,7 +30,7 @@ authoritative if this document drifts.
 - [ ] Run `CI=true uv run tox -q`.
 - [ ] In `docs/astro-site`, run
   `pnpm install --frozen-lockfile`, `pnpm run check`, and
-  `pnpm run build` with the minimum-release-age policy enabled.
+  `pnpm run build` with the repository's explicit zero-delay release policy.
 - [ ] Run the Rust workspace, MSRV, Clippy, formatting, tests, coverage,
   benchmarks, Miri, sanitizer, and dependency-policy gates.
 - [ ] Run Python/PyO3, R, and Julia conformance, lifecycle, error, packaging,

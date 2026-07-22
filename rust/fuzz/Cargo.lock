@@ -148,7 +148,7 @@ checksum = "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
 
 [[package]]
 name = "voiage-diagnostics"
-version = "0.2.1"
+version = "1.0.0"
 dependencies = [
  "serde",
  "voiage-domain",
@@ -156,7 +156,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-domain"
-version = "0.2.1"
+version = "1.0.0"
 dependencies = [
  "serde",
 ]
@@ -172,7 +172,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-numerics"
-version = "0.2.1"
+version = "1.0.0"
 dependencies = [
  "voiage-diagnostics",
  "voiage-domain",

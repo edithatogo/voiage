@@ -11,17 +11,17 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.2.1"
+version = "1.0.0"
 edition = "2021"
 rust-version = "1.85"
 license = "Apache-2.0"
 repository = "https://github.com/edithatogo/voiage"
 
 [workspace.dependencies]
-voiage-diagnostics = { version = "=0.2.1", path = "crates/voiage-diagnostics" }
-voiage-domain = { version = "=0.2.1", path = "crates/voiage-domain" }
-voiage-numerics = { version = "=0.2.1", path = "crates/voiage-numerics" }
-voiage-serialization = { version = "=0.2.1", path = "crates/voiage-serialization" }
+voiage-diagnostics = { version = "=1.0.0", path = "crates/voiage-diagnostics" }
+voiage-domain = { version = "=1.0.0", path = "crates/voiage-domain" }
+voiage-numerics = { version = "=1.0.0", path = "crates/voiage-numerics" }
+voiage-serialization = { version = "=1.0.0", path = "crates/voiage-serialization" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

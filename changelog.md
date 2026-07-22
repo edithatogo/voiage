@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
+## [1.0.0] - 2026-07-22
+
 ### Removed
 - Removed the conflicting pure-Python Conda recipe; the canonical
   `conda-recipe/` now builds the native Maturin/Rust distribution.
