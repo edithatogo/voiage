@@ -31,3 +31,9 @@
 - Software Heritage archival request: accepted as request `2397350` for visit
   `1`; the request is scheduled and currently has no snapshot SWHID. Continue
   polling the request before recording archival completion.
+- JOSS submission package: draft-ready with `paper.md`, `paper.bib`,
+  `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
+  Author affiliations/ORCID, funding/conflict declarations, and concrete
+  research-impact evidence still require author confirmation.
+- JOSS permits an arXiv preprint before, during, or after JOSS submission;
+  arXiv timing is therefore not a JOSS blocker.

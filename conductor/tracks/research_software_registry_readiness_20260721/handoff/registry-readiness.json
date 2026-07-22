@@ -36,6 +36,17 @@
     "verification_at": "2026-07-22T08:02:30Z",
     "verification": "Request and visit are accepted/created, but Software Heritage has not yet produced a snapshot SWHID. Archival is not claimed complete."
   },
+  "joss_submission_evidence": {
+    "status": "draft_ready",
+    "files": ["paper.md", "paper.bib", "codemeta.json", "CITATION.cff"],
+    "readiness_document": "docs/joss-submission-readiness.md",
+    "remaining_author_gates": [
+      "confirm author affiliations and ORCID",
+      "confirm funding and conflicts of interest",
+      "add specific public research-impact evidence"
+    ],
+    "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
+  },
   "evidence_urls": [
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",
@@ -55,7 +66,7 @@
       "runner": "local Git worktree",
       "status": "passed",
       "artifact": "no submission metadata files found",
-      "details": "JOSS paper metadata and confirmed author affiliations remain repository-owned readiness work after release evidence exists."
+      "details": "JOSS draft paper and metadata are prepared; author, funding, conflict, and research-impact confirmation remain before submission."
     },
     {
       "command": "review RRID software registration guidance",
