@@ -4,3 +4,4 @@ allowBuilds:
   sharp: true
 overrides:
   esbuild: 0.28.1
+  fast-uri: 3.1.4

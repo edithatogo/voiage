@@ -708,6 +708,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Patched the Astro validation toolchain's transitive `fast-uri` dependency to
+  3.1.4, resolving CVE-2026-16221 before the v1.0 release.
 - Added a directly linked private-vulnerability reporting path and continuous
   bounded `cargo-fuzz` coverage for stable Rust EVPI input handling, enforced
   by the repository harness and workflow-contract tests.
