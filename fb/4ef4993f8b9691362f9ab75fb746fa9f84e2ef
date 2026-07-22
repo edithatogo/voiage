@@ -1,0 +1,5 @@
+Task: Audit research-software registry readiness
+
+Summary: Added a validated handoff for Software Heritage, RRID/SciCrunch, and JOSS; recorded the missing immutable v1 release and external assignment/review boundaries; advanced only repository-owned readiness tasks.
+
+Validation: external handoff validator; v1 programme validator; 32 focused tests; CI=true uv run tox -q -e lint,harness; git diff --check.
