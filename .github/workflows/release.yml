@@ -401,7 +401,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p dist
-          gh release download "$RELEASE_TAG" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
       - name: Require reviewed artifact digests and private draft
         shell: bash
         env:
@@ -418,7 +418,7 @@ jobs:
           actual_wheels="$(for wheel in "${wheels[@]}"; do sha256sum "$wheel" | cut -d ' ' -f1; done | paste -sd, -)"
           test "$actual_wheels" = "$EXPECTED_WHEEL_SHA256"
           test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
-          test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
+          test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft')" = true
       - name: Upload reviewed release payload
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
