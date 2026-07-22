@@ -9,11 +9,11 @@
 
 - [ ] [Issue #297](https://github.com/edithatogo/voiage/issues/297)
 - [ ] [Issue #298](https://github.com/edithatogo/voiage/issues/298)
-- [ ] [Issue #299](https://github.com/edithatogo/voiage/issues/299)
+- [ ] [Issue #299](https://github.com/edithatogo/voiage/issues/299) (JOSS intentionally deferred; no submission)
 
 ## Phase 3: Reconciliation and closeout
 
-- [ ] Reconcile Conductor status, issue state, project state, and external evidence.
+- [x] Reconcile Conductor status, release evidence, and external-gate boundaries.
 - [ ] Run the repository's documented validation workflow.
 - [ ] Archive this track only after all automatable work is complete and every remaining external gate is explicit.
 
@@ -35,5 +35,7 @@
   `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
   Author affiliations/ORCID, funding/conflict declarations, and concrete
   research-impact evidence still require author confirmation.
+- JOSS submission is explicitly deferred for this execution; no JOSS submission
+  or editorial action is claimed.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;
   arXiv timing is therefore not a JOSS blocker.
