@@ -3,6 +3,12 @@ name: Update Conda-Forge Feedstock
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Published GitHub release tag to submit to conda-forge (for example, v1.0.0)
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -11,7 +17,9 @@ jobs:
   update-feedstock:
     name: Update Conda-Forge Feedstock
     runs-on: ubuntu-latest
-    if: startsWith(github.event.release.tag_name, 'v')
+    if: >-
+      (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v')) ||
+      (github.event_name == 'workflow_dispatch' && startsWith(inputs.release_tag, 'v'))
 
     steps:
     - name: Checkout code
@@ -27,8 +35,16 @@ jobs:
     - name: Get release info
       id: release
       run: |
-        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-        echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+          tag="$RELEASE_TAG_INPUT"
+        else
+          tag="${GITHUB_REF#refs/tags/}"
+        fi
+        version="${tag#v}"
+        echo "tag=$tag" >> "$GITHUB_OUTPUT"
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+      env:
+        RELEASE_TAG_INPUT: ${{ inputs.release_tag }}
 
     - name: Download source and compute SHA256
       id: source
