@@ -169,3 +169,7 @@ package-lock.json
 
 # Conductor tool runtime state
 conductor/setup_state.json
+
+/.quarto/
+**/*.quarto_ipynb
+paper/paper.tex

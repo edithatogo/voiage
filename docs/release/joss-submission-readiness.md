@@ -7,6 +7,19 @@
 - `codemeta.json`: software metadata for repository/archive workflows.
 - `CITATION.cff`: release citation metadata.
 
+## arXiv-first preparation
+
+The repository now has a separate, non-submitting arXiv readiness pipeline:
+
+- `paper/arxiv/README.md` documents the package boundary and human gates;
+- `scripts/build_arxiv_submission.py` renders `paper.md` to TeX and PDF,
+  performs source/package hygiene checks, and writes a hashed tarball;
+- `.github/workflows/arxiv-readiness.yml` runs the reproducible preflight on
+  manuscript changes and never uploads to arXiv.
+
+Run `uv run python scripts/build_arxiv_submission.py` and review the generated
+`build/arxiv/arxiv-readiness.json` before any future authenticated submission.
+
 ## Required author review before submission
 
 - Confirm the author list, affiliations, ORCID identifiers, funding, and
