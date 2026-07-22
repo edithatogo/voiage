@@ -35,6 +35,7 @@ jobs:
       # published by rust-crates-release.yml in dependency order.
       - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
       - name: Create GitHub release
+        # Contract marker: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
         run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}
