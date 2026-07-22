@@ -181,7 +181,7 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     )
     assert (
         release_workflow.count(
-            "gh release download \"$RELEASE_TAG\" --dir dist --pattern '*.whl' --pattern '*.tar.gz'"
+            "gh release download \"$RELEASE_TAG\" --repo \"$GITHUB_REPOSITORY\" --dir dist --pattern '*.whl' --pattern '*.tar.gz'"
         )
         == 1
     )
@@ -190,6 +190,10 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         in release_workflow
     )
     assert release_workflow.count("name: reviewed-release-payload") == 3
+    assert (
+        'gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft'
+        in release_workflow
+    )
     assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow

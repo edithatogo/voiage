@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   remains valid even when a platform linker is not byte-reproducible.
 - Isolated private-draft retrieval and digest validation in a short-lived
   broker job, keeping registry OIDC publication jobs read-only for contents.
+- Bound draft-broker GitHub CLI calls to the explicit repository context so
+  they work without an unnecessary source checkout.
 
 ## [1.0.0] - 2026-07-22
 
