@@ -13,8 +13,12 @@ def test_julia_release_workflow_and_checklist_align() -> None:
     assert "julia-v*" in workflow_text
     assert "Project.toml version" in workflow_text
     assert "Pkg.test()" in workflow_text
-    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
-    assert "--generate-notes --verify-tag" in workflow_text
+    assert (
+        "softprops/action-gh-release@fe965f7af51af5f2602596916f38a38df2e33de0"
+        in workflow_text
+    )
+    assert "tag_name: ${{ github.ref_name }}" in workflow_text
+    assert "generate_release_notes: true" in workflow_text
     assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (
