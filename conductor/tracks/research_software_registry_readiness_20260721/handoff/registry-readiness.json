@@ -1,7 +1,7 @@
 {
   "track_id": "research_software_registry_readiness_20260721",
   "channel": "research-software-registries",
-  "status": "in_progress",
+  "status": "blocked",
   "owner": "voiage-maintainers",
   "checked_at": "2026-07-22T09:15:00Z",
   "next_action": "Use the completed Software Heritage snapshot as archival evidence, submit or register the Julia and R packages through their external registry paths, and complete the SciCrunch/RRID and JOSS author gates.",
