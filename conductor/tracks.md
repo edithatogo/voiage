@@ -720,9 +720,9 @@ This is the sole executable Conductor programme after the completed 2026-06-25
 queue. Its phases reconcile archived groundwork and preserve external registry
 and hardware gates without reopening completed repository-owned slices.
 
-## [~] Track: Mature Hardened v1.0 Architecture And Release Programme
-*Link: [./tracks/mature-hardened-v1-release-programme_20260719/index.md](./tracks/mature-hardened-v1-release-programme_20260719/index.md)*
+## [x] Track: Mature Hardened v1.0 Architecture And Release Programme [completed: 2026-07-22]
+*Link: [./archive/mature-hardened-v1-release-programme_20260719/index.md](./archive/mature-hardened-v1-release-programme_20260719/index.md)*
 *Execution order: 01 of 02*
-*Status: in progress — reconcile the authoritative repository baseline, complete the Rust-core takeover, retire duplicate Python kernels, consolidate thin bindings and Astro docs, enforce release gates, publish retained artifacts, and verify the final v1.0 release.*
+*Status: repository-owned v1.0 delivery is complete; signed public v1.0.0, Rust-core runtime, legacy-core retirement, Astro documentation, release-quality evidence, and hosted gates are complete. Registry review/indexing and external archival outcomes continue in the research-software registry track.*
 
 ---

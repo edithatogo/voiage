@@ -23,4 +23,4 @@
 - Software Heritage origin lookup: HTTP 404; no pre-v1 ingestion requested.
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: paper/author/impact readiness remains pending; editorial review external.
-- Signed v1.0 release: pending and required before live archival/submission work.
+- Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.

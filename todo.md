@@ -15,11 +15,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 
-*   [ ] Mature and harden the v1.0 release through the authoritative Rust-core
+*   [x] Mature and harden the v1.0 release through the authoritative Rust-core
     takeover, legacy Python-kernel retirement, thin binding consolidation,
     Astro-only documentation, release-quality gates, registry verification,
     and signed final publication.
-    *   Conductor track: `mature-hardened-v1-release-programme_20260719`.
+    *   Archived Conductor track: `mature-hardened-v1-release-programme_20260719`.
     *   Machine-readable baseline: `conductor/v1-programme-baseline.json`.
     *   Phases 1--6 are checkpointed: the stable contracts, production Rust
         workspace, PyO3/Maturin bridge, stable numerical kernels, and duplicate
@@ -29,10 +29,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         documentation source, and enforce signed solo-maintainer governance,
         coverage, mutation, sanitizer, Miri, continuous fuzzing, benchmark,
         dependency, SBOM and reproducibility gates.
-    *   PR #295 is fully green and awaits the normal Astro dependency-age
-        boundary. PR #300 contains the v1 closeout and security hardening work;
-        it will be rebased onto `main` and receive the complete hosted matrix
-        after #295 merges.
+    *   Signed public release: `v1.0.0`.
+    *   Remaining registry review and indexing work is tracked by
+        `research_software_registry_readiness_20260721`.
     *   Remaining work is the fail-closed Astro build, both merges, final v1
         version/evidence candidate, registry submissions and verification,
         signed publication, and explicit closeout of external indexing gates.

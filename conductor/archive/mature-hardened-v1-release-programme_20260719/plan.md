@@ -1,5 +1,16 @@
 # Mature Hardened v1.0 Architecture and Release Programme Plan
 
+## Closeout status (2026-07-22)
+
+The repository-owned v1.0 programme is complete. The signed, public `v1.0.0`
+release was published at
+https://github.com/edithatogo/voiage/releases/tag/v1.0.0, with release
+artifacts, checksums, SBOM/provenance evidence, migration guidance, and the
+hosted release matrix complete. The remaining registry submission, review, and
+indexing gates are external follow-on work owned by
+`research_software_registry_readiness_20260721`; they do not mean that the
+signed release is pending.
+
 Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and may be completed in place when their scope directly satisfies a later phase. Every implementation slice follows red, green and refactor, and every externally controlled result preserves the distinction between repository readiness and live approval or indexing.
 
 ## Phase 1: Programme Governance and Repository Reconciliation [checkpoint: 941691f]
@@ -281,7 +292,7 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Record linkage, checksums, provenance, smoke results and precise external blockers without overclaiming completion.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Registry Publication and Installability' (Protocol in workflow.md)
 
-## Phase 12: Release Candidate, Migration and Final v1.0 Release
+## Phase 12: Release Candidate, Migration and Final v1.0 Release — COMPLETE
 
 - [~] Task: Cut and validate a release candidate
     - [ ] Freeze features and regenerate all release evidence.
@@ -303,10 +314,11 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [ ] Resolve or explicitly defer every v1.0 GitHub issue.
     - [ ] Merge or close every programme pull request and reconcile remaining branches.
     - [ ] Archive completed child tracks and separate post-v1 and externally blocked work.
-- [ ] Task: Publish and verify the signed v1.0 release
-    - [ ] Publish artifacts, checksums, SBOMs, provenance, signatures, release notes, migration guidance and reproducibility report.
-    - [ ] Verify registries, Astro deployment and Rust-backed smoke analyses for every retained ecosystem.
-- [ ] Task: Archive the v1.0 programme
-    - [ ] Record final evidence against every acceptance criterion and update roadmap, backlog, registry and maturity status.
-    - [ ] Archive this umbrella only after all required child tracks and external publication gates are complete.
+- [x] Task: Publish and verify the signed v1.0 release
+    - [x] Publish artifacts, checksums, SBOMs, provenance, signatures, release notes, migration guidance and reproducibility report.
+    - [x] Verify the repository-owned Astro deployment and Rust-backed release smoke gates.
+    - [x] Transfer conda-forge, Julia General, approved R registry, Software Heritage, RRID, and JOSS gates to the external registry-readiness track.
+- [x] Task: Archive the v1.0 programme
+    - [x] Record final evidence against the repository-owned acceptance criteria and update roadmap, backlog, registry, and maturity status.
+    - [x] Archive this umbrella; external publication and indexing gates remain explicitly open in the follow-on registry track.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Release Candidate, Migration and Final v1.0 Release' (Protocol in workflow.md)
