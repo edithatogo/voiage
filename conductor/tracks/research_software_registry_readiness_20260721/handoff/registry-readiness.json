@@ -3,9 +3,25 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-22T00:41:31Z",
-  "next_action": "After the signed v1.0 release is public, request Software Heritage ingestion, verify the release SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
-  "external_gate": "The immutable signed v1.0 release does not yet exist; Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance are externally controlled outcomes.",
+  "checked_at": "2026-07-22T08:10:00Z",
+  "next_action": "Use the public v1.0.0 release as the immutable source for Software Heritage ingestion, verify the resulting SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
+  "external_gate": "The signed public v1.0.0 release prerequisite is complete. Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
+  "release_evidence": {
+    "tag": "v1.0.0",
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
+    "published_at": "2026-07-22T06:35:22Z",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      "SHA256SUMS",
+      "voiage-1.0.0.tar.gz",
+      "voiage-1.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "voiage-1.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "voiage-1.0.0-cp312-abi3-win_amd64.whl"
+    ],
+    "checksums_url": "https://github.com/edithatogo/voiage/releases/download/v1.0.0/SHA256SUMS",
+    "pypi_url": "https://pypi.org/project/voiage/1.0.0/"
+  },
   "evidence_urls": [
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",
@@ -18,7 +34,7 @@
       "runner": "networked repository audit",
       "status": "passed",
       "artifact": "HTTP 404 at 2026-07-22T00:41:31Z",
-      "details": "The GitHub origin is not currently present in the Software Heritage archive. No ingestion request was made before the immutable v1.0 release."
+      "details": "The GitHub origin was not present in the Software Heritage archive at the prior audit. Re-run this lookup after requesting ingestion for the public v1.0.0 release."
     },
     {
       "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",
