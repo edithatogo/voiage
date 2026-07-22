@@ -1,0 +1,45 @@
+{
+  "track_id": "research_software_registry_readiness_20260721",
+  "channel": "research-software-registries",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-07-22T00:41:31Z",
+  "next_action": "After the signed v1.0 release is public, request Software Heritage ingestion, verify the release SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
+  "external_gate": "The immutable signed v1.0 release does not yet exist; Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance are externally controlled outcomes.",
+  "evidence_urls": [
+    "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
+    "https://docs.softwareheritage.org/user/faq/",
+    "https://www.rrids.org/new-page-1",
+    "https://joss.readthedocs.io/en/latest/paper.html"
+  ],
+  "commands": [
+    {
+      "command": "curl -fsS https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
+      "runner": "networked repository audit",
+      "status": "passed",
+      "artifact": "HTTP 404 at 2026-07-22T00:41:31Z",
+      "details": "The GitHub origin is not currently present in the Software Heritage archive. No ingestion request was made before the immutable v1.0 release."
+    },
+    {
+      "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "no submission metadata files found",
+      "details": "JOSS paper metadata and confirmed author affiliations remain repository-owned readiness work after release evidence exists."
+    },
+    {
+      "command": "review RRID software registration guidance",
+      "runner": "official RRID documentation audit",
+      "status": "passed",
+      "artifact": "SciCrunch General Resource registration identified",
+      "details": "Software tools not found in the RRID portal are registered through the NIF SciCrunch Registry; assignment and curation remain external."
+    },
+    {
+      "command": "review JOSS paper and submission requirements",
+      "runner": "official JOSS documentation audit",
+      "status": "passed",
+      "artifact": "current required-section checklist captured",
+      "details": "A submission needs confirmed authors and affiliations plus summary, need, field comparison, design, impact, AI disclosure, acknowledgements, and references."
+    }
+  ]
+}

@@ -2,9 +2,9 @@
   "track_id": "research_software_registry_readiness_20260721",
   "version": "1.0.0",
   "type": "chore",
-  "status": "planned",
+  "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-21T00:00:00Z",
+  "updated_at": "2026-07-22T00:41:31Z",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
   "github_subissues": [
