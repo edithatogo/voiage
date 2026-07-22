@@ -16,8 +16,10 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert "Validate Rust core release" in workflow_text
     assert "publish=false" in workflow_text
     assert "cargo publish --locked" not in workflow_text
-    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
-    assert "--generate-notes --verify-tag" in workflow_text
+    assert (
+        'gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag'
+        in workflow_text
+    )
     assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (

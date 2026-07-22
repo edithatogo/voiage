@@ -28,8 +28,10 @@ def test_r_release_workflow_and_checklist_align() -> None:
         "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6"
         in ci_workflow_text
     )
-    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
-    assert "--generate-notes --verify-tag" in workflow_text
+    assert (
+        'gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag'
+        in workflow_text
+    )
     assert "GH_TOKEN: ${{ github.token }}" in workflow_text
 
     assert (

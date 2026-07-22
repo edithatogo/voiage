@@ -37,7 +37,7 @@ jobs:
       # release, while any future crates.io facade gets its own contract.
       - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
       - name: Create GitHub release
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -66,7 +66,7 @@ jobs:
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
       - name: Create GitHub release
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -106,6 +106,6 @@ jobs:
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
       - name: Create GitHub release
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}

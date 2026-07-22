@@ -391,7 +391,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      contents: write
+      contents: read
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
