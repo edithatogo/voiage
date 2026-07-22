@@ -106,7 +106,7 @@ The repository uses a layered, fail-closed verification model:
 
 | Layer | Evidence |
 | :-- | :-- |
-| Formatting and lint | Ruff, Ruff format, Bandit, Vulture, and repository harness |
+| Formatting and lint | Ruff, Ruff format, Vale, Bandit, Vulture, and repository harness |
 | Static typing | `ty` across the retained Python runtime |
 | Unit and contract tests | Pytest suites with schema, API, provenance, and version-sync contracts |
 | Integration and E2E | Marked integration suites, CLI E2E workflows, clean-install and package checks |

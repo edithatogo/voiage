@@ -170,3 +170,9 @@ Each commit message should be in the format:
     Rscript tools/build-manual.R . "$RUNNER_TEMP/voiageR-manual.pdf"
     Rscript -e 'rmarkdown::render("vignettes/voiageR-getting-started.Rmd", output_format = "html_vignette", quiet = TRUE)'
     ```
+### Prose linting
+
+Documentation prose is checked with [Vale](https://vale.sh/) using the repository
+rules in `.vale/`. Install Vale locally, then run `uv run task vale` (or
+`tox -e vale`) before submitting documentation changes. GitHub Actions runs the
+same wrapper in the `Vale Prose Lint` job.
