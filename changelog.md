@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `conductor/setup_state.json` to `.gitignore` as Conductor tool runtime state.
 
 ### Added
+- Added an evidence-gated research-software registry track linking Software
+  Heritage, RRID, and JOSS deliverables after the immutable v1.0 release.
 - Added Astro-native best-practice, validation-evidence, ecosystem-boundary,
   and frontier-method maturity pages with drift tests enforcing Astro as the
   sole user-documentation source.

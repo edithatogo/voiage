@@ -7,6 +7,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
+*   [ ] Complete research-software registry and archival readiness after the
+    immutable v1.0 release exists.
+    *   Conductor track: `research_software_registry_readiness_20260721`.
+    *   GitHub parent issue: #296, with Software Heritage, RRID, and JOSS
+        deliverables in #297--#299.
+    *   Preparation is repository-owned; archival, identifiers, submission,
+        review, acceptance, and indexing remain evidence-gated external states.
+
 *   [ ] Mature and harden the v1.0 release through the authoritative Rust-core
     takeover, legacy Python-kernel retirement, thin binding consolidation,
     Astro-only documentation, release-quality gates, registry verification,
@@ -56,9 +64,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         conformance, performance guards, weekly dependency audits, and a
         non-blocking Python 3.14t observation lane.
 
-*   [x] Prepare the pinned `0.2.1` conda-forge recipe and verify it with a
-    local conda-build package/test cycle; staged-recipes submission remains a
-    hosted conda-forge gate.
+*   [x] Consolidate the Conda handoff onto one native Maturin/Rust recipe.
+    *   The release workflow replaces the version and SHA-256 only after the
+        immutable PyPI sdist exists; staged-recipes review remains external.
 
 *   [x] Strengthen context and harness engineering for the solo-maintainer
     workflow while retaining pull-request traceability and automated review

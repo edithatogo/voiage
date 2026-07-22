@@ -11,6 +11,7 @@ BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
     TRACK_ID,
+    "research_software_registry_readiness_20260721",
 ]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
 
@@ -46,9 +47,10 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
     assert conductor["archived_track_count"] == 125
     assert conductor["classifications"] == {
-        "v1_required": ACTIVE_TRACK_IDS,
+        "v1_required": [TRACK_ID],
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
+            "research_software_registry_readiness_20260721",
             "accelerator production-speedup evidence",
             "frontier-method stable promotion beyond the frozen v1 surface",
             "FPGA and ASIC production execution",

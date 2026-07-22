@@ -1,5 +1,14 @@
 # Project Tracks
 
+## [ ] Track: Research Software Registry Readiness
+*Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
+*Execution order: 02 of 02, after the signed v1.0 release provides immutable
+release and archival evidence.*
+*Status: planned — repository readiness can proceed before release, but live
+archival, identifiers, submission, review, and acceptance remain external.*
+
+---
+
 ## [x] Track: Domain Abstraction Excellence [completed: 2026-07-20]
 *Link: [./archive/abstraction-excellence_20260719/index.md](./archive/abstraction-excellence_20260719/index.md)*
 *Status: strict domain contracts, capability-aware kernels, machine-readable
@@ -713,7 +722,7 @@ and hardware gates without reopening completed repository-owned slices.
 
 ## [~] Track: Mature Hardened v1.0 Architecture And Release Programme
 *Link: [./tracks/mature-hardened-v1-release-programme_20260719/index.md](./tracks/mature-hardened-v1-release-programme_20260719/index.md)*
-*Execution order: 01 of 01*
+*Execution order: 01 of 02*
 *Status: in progress — reconcile the authoritative repository baseline, complete the Rust-core takeover, retire duplicate Python kernels, consolidate thin bindings and Astro docs, enforce release gates, publish retained artifacts, and verify the final v1.0 release.*
 
 ---
