@@ -1,9 +1,9 @@
 {
   "schema_version": "voiage.arxiv-readiness.v1",
-  "manuscript_source": "paper/paper.qmd",
-  "bibliography": "paper/references.bib",
+  "manuscript_source": "paper.md",
+  "bibliography": "paper.bib",
   "builder": "scripts/build_arxiv_submission.py",
-  "required_tools": ["quarto", "pdflatex"],
+  "required_tools": ["pandoc", "pdflatex"],
   "optional_tools": ["arxiv-latex-cleaner", "latexpand", "qpdf", "pdfinfo", "exiftool", "gitleaks"],
   "human_gates": [
     "confirm authors, affiliations, ORCID, funding, and conflicts",

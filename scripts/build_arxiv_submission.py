@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -46,56 +45,46 @@ def main() -> None:
     shutil.rmtree(PACKAGE, ignore_errors=True)
     PACKAGE.mkdir(parents=True)
 
-    required = {tool: version(tool) for tool in ("quarto", "pdflatex")}
+    required = {tool: version(tool) for tool in ("pandoc", "pdflatex")}
     missing = [tool for tool, value in required.items() if value is None]
     if missing:
         raise SystemExit(f"Missing required arXiv build tools: {', '.join(missing)}")
 
-    rendered = OUT / "rendered"
-    shutil.rmtree(rendered, ignore_errors=True)
-    rendered.mkdir()
-    latex = OUT / "latex"
-    shutil.rmtree(latex, ignore_errors=True)
-    latex.mkdir()
+    latex = OUT / "main.tex"
+    pdf = OUT / "main.pdf"
+    latex.unlink(missing_ok=True)
+    pdf.unlink(missing_ok=True)
     run(
         [
-            "quarto",
-            "render",
+            "pandoc",
             "paper.md",
+            "--from",
+            "markdown",
             "--to",
             "latex",
-            "--metadata",
-            "bibliography=paper.bib",
-            "--output-dir",
+            "--standalone",
+            "--citeproc",
+            "--bibliography=paper.bib",
+            "--output",
             str(latex),
         ]
     )
     run(
         [
-            "quarto",
-            "render",
-            "paper.md",
-            "--to",
-            "pdf",
-            "--pdf-engine",
             "pdflatex",
-            "--metadata",
-            "bibliography=paper.bib",
-            "--output-dir",
-            str(rendered),
+            "-interaction=nonstopmode",
+            "-halt-on-error",
+            "-output-directory",
+            str(OUT),
+            str(latex),
         ]
     )
+    if not latex.exists() or not pdf.exists():
+        raise SystemExit("Pandoc/PDFLaTeX did not produce the expected source and PDF")
 
-    pdfs = sorted(rendered.rglob("*.pdf"))
-    texs = sorted(latex.rglob("*.tex"))
-    if len(pdfs) != 1 or len(texs) != 1:
-        raise SystemExit(
-            f"Expected one PDF and one TeX output, found {len(pdfs)} and {len(texs)}"
-        )
-
-    shutil.copy2(texs[0], PACKAGE / "main.tex")
+    shutil.copy2(latex, PACKAGE / "main.tex")
     shutil.copy2(ROOT / "paper.bib", PACKAGE / "references.bib")
-    shutil.copy2(pdfs[0], PACKAGE / "voiage-arxiv.pdf")
+    shutil.copy2(pdf, PACKAGE / "voiage-arxiv.pdf")
     shutil.copy2(ROOT / "paper/arxiv/manifest.json", PACKAGE / "manifest.json")
 
     files = sorted(path for path in PACKAGE.rglob("*") if path.is_file())

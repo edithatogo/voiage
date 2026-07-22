@@ -1,8 +1,8 @@
 # arXiv source package
 
 This directory defines the repository-owned arXiv preparation boundary for
-`voiage`. The manuscript source remains `paper/paper.qmd`; this pipeline
-renders it with Quarto, retains the generated TeX, and packages only the
+`voiage`. The manuscript source is `paper.md`; this pipeline renders it with
+Pandoc, retains the generated TeX, and packages only the
 source, bibliography, metadata, and rendered PDF needed for review.
 
 The workflow is intentionally a readiness gate. It does not upload to arXiv,
@@ -22,5 +22,5 @@ Use the repository's normal test and documentation commands before treating
 the package as publication-ready.
 
 The preferred compatibility target is arXiv's supported TeX Live release. A
-local Quarto/LaTeX build is evidence of reproducibility, not evidence of
+local Pandoc/LaTeX build is evidence of reproducibility, not evidence of
 submission or acceptance.

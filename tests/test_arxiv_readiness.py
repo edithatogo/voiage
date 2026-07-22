@@ -9,10 +9,7 @@ def test_arxiv_readiness_pipeline_is_non_submitting_and_pinned() -> None:
 
     assert "workflow_dispatch:" in workflow
     assert "permissions: {}" in workflow
-    assert (
-        "quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b"
-        in workflow
-    )
+    assert "pandoc texlive-latex-base texlive-latex-extra" in workflow
     assert "astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990" in workflow
     assert (
         "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" in workflow
