@@ -1,0 +1,5 @@
+Task: Reconcile research-software registry follow-through
+
+Summary: Absorbed PR #301's registry roadmap into the v1 closeout, corrected canonical registry syntax and programme baseline drift, linked issues #296-#299, and recorded immutable-release plus external registry gates.
+
+Validation: python scripts/validate_v1_programme.py; uv run pytest -q tests/test_v1_programme_baseline.py tests/test_conductor_followthrough_tracks.py tests/test_repo_cleanup.py --no-cov (31 passed); CI=true uv run tox -q -e lint,harness,version-sync; git diff --check.
