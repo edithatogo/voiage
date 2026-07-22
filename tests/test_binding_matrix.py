@@ -50,11 +50,7 @@ def test_governance_docs_match_the_rust_execution_authority() -> None:
     assert "Update `changelog.md` with each release" in product_guidelines
     assert "Rust result envelopes" in product_guidelines
     assert "NumPy, JAX" not in product_guidelines
-    assert (
-        "**Rust**: GitHub Releases for the internal `publish = false` workspace"
-        in tech_stack
-    )
-    assert "**Rust**: crates.io" not in tech_stack
+    assert "**Rust**: crates.io core crates plus GitHub Releases" in tech_stack
     assert "starlight-versions" not in tech_stack
     assert "starlight-links-validator" not in tech_stack
     assert "starlight-polyglot" not in tech_stack

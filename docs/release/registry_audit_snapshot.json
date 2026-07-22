@@ -41,7 +41,7 @@
       "status": "not_found",
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Rust is an internal publish=false workspace released through GitHub Releases; no crates.io package is claimed.",
+      "notes": "Binding-independent core crates are publishable on crates.io; private FFI, PyO3, and test-support crates remain GitHub Release artifacts. Core crates are publishable on crates.io.",
       "checked_at": "2026-07-21T12:54:42Z",
       "evidence_confidence": "high"
     },

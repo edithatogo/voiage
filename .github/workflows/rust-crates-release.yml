@@ -1,0 +1,48 @@
+name: Rust crates.io Release
+
+on:
+  push:
+    tags:
+      - "rust-v*"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  publish:
+    name: Publish Rust core crates
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Validate workspace packaging
+        working-directory: rust
+        run: cargo package --workspace --locked --allow-dirty --no-verify
+      - name: Publish domain contracts
+        working-directory: rust
+        run: cargo publish --locked --package voiage-domain
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Publish diagnostics
+        working-directory: rust
+        run: cargo publish --locked --package voiage-diagnostics
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Publish numerical kernels
+        working-directory: rust
+        run: cargo publish --locked --package voiage-numerics
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Publish serialization
+        working-directory: rust
+        run: cargo publish --locked --package voiage-serialization
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
