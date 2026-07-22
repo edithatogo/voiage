@@ -16,6 +16,17 @@ def test_astro_site_is_the_active_docs_build() -> None:
     assert "sphinx" not in workflow.lower()
 
 
+def test_astro_release_build_has_no_package_age_delay() -> None:
+    workspace = (ROOT / "docs/astro-site/pnpm-workspace.yaml").read_text(
+        encoding="utf-8"
+    )
+
+    assert "minimumReleaseAge: 0" in workspace
+    assert "allowBuilds:" in workspace
+    assert "esbuild: true" in workspace
+    assert "sharp: true" in workspace
+
+
 def test_astro_content_has_no_legacy_rst_links() -> None:
     content_root = ROOT / "docs/astro-site/src/content/docs"
     stale_links = [

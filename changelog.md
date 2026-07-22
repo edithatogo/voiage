@@ -596,6 +596,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dictionary-to-NMA data conversion for ease of use
 
 ### Changed
+- Disabled the package publication-age delay for the Astro release build while
+  retaining the frozen lockfile, integrity checks, and explicit build allowlist.
 - Standardized all GitHub Actions checkout steps on the current pinned
   `actions/checkout` digest across CI, security, release, binding, evidence,
   documentation, and packaging workflows.
@@ -666,6 +668,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Renovate configuration for automated dependency updates
 
 ### Fixed
+- Corrected the R binding's GitHub installation links to the canonical
+  `edithatogo/voiage` repository and its `r-package/voiageR` subdirectory.
+- Corrected the live registry audit so the internal `publish = false` Rust
+  workspace is not misreported as an automated crates.io publication.
 - Made the R package testable as a clean installed artifact by packaging the
   canonical EVPI oracle, isolating reticulate environment calls behind private
   seams, and rejecting R release tags whose version differs from DESCRIPTION.
