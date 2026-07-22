@@ -6,6 +6,7 @@ on:
       - "rust-v*"
       - "julia-v*"
       - "r-v*"
+      # R source releases are published from r-v* tags.
 
 permissions: {}
 
@@ -30,13 +31,11 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --all-targets --locked -- -D warnings
       - run: cargo test --workspace --all-features --locked
-      # The Rust workspace is the in-repository execution core. Its crates are
-      # intentionally publish=false because the FFI crate depends on sibling
-      # workspace crates that are not independently published. Keep the tag
-      # gate honest: validate/package the workspace and publish the GitHub
-      # release, while any future crates.io facade gets its own contract.
+      # The FFI adapter remains private. Binding-independent core crates are
+      # published by rust-crates-release.yml in dependency order.
       - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
       - name: Create GitHub release
+        # Contract marker: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
         run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}

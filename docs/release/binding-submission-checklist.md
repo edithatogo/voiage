@@ -32,7 +32,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
 | R | GitHub Release source archives | CRAN and r-universe | No |
 | Julia | TagBot sync plus GitHub Release artifacts | Julia General registry approval | No |
-| Rust | GitHub Release workspace artifact | A separately designed publishable facade crate would be required for crates.io | No |
+| Rust | Publishable core crates plus GitHub Release workspace artifacts | crates.io review/indexing and trusted publishing credentials | Yes, repository-ready |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
 | EasyBuild | Manual easyconfig preparation for EasyBuild repository | EasyBuild maintainer review and PR merge | No |
 | HPSF | Manual curation submission | External curation review / listing policy | No |
@@ -64,10 +64,15 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 - [x] The Julia binding remains the thin adapter over the shared contract.
 - [ ] Julia General registry submission/approval remains external/manual.
 
+Software Heritage archival is complete for the v1.0.0 origin request: request
+2397350 produced snapshot
+`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
+
 ## Rust
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
-- [x] The Rust workspace is validated and released through GitHub Releases; crates.io is not claimed because all workspace crates are `publish = false`.
+- [x] The binding-independent Rust core crates are publishable on crates.io; FFI, PyO3, and test-support crates remain private.
+- [x] The tag-driven crates.io workflow publishes core crates in dependency order using `CARGO_REGISTRY_TOKEN`.
 - [x] GitHub Release source archives are attached to the release.
 - [x] The Rust crate remains the canonical execution core and contract owner.
 
@@ -76,7 +81,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 If the question is "are all language versions submitted to their corresponding
 registries today?", the repo can only answer this partially:
 
-- The in-repo publishing workflow is in place for Python; Rust is validated and released as a workspace artifact, while crates.io remains an unimplemented future facade track.
+- The in-repo publishing workflows are in place for Python and the binding-independent Rust core; crates.io publication still requires the maintainer token and registry-side acceptance.
 - Julia, conda-forge, CRAN, and r-universe still require external registry-side
   action or approval.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with
@@ -141,8 +146,8 @@ states:
 
 - Python `voiage` is present on PyPI
   - https://pypi.org/project/voiage/
-- Rust is an internal `publish = false` workspace released through GitHub
-  Releases; no crates.io package is claimed
+- Rust core crates are publishable on crates.io, while private FFI, PyO3, and
+  test-support crates are released through GitHub Releases only
   - https://github.com/edithatogo/voiage/releases
 - R `voiageR` on CRAN returned `404`
   - https://cran.r-project.org/web/packages/voiageR/index.html

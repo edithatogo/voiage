@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-22T08:10:00Z",
-  "next_action": "Use the public v1.0.0 release as the immutable source for Software Heritage ingestion, verify the resulting SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
-  "external_gate": "The signed public v1.0.0 release prerequisite is complete. Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
+  "checked_at": "2026-07-22T09:15:00Z",
+  "next_action": "Use the completed Software Heritage snapshot as archival evidence, submit or register the Julia and R packages through their external registry paths, and complete the SciCrunch/RRID and JOSS author gates.",
+  "external_gate": "The signed public v1.0.0 release and Software Heritage snapshot are complete. Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
   "release_evidence": {
     "tag": "v1.0.0",
     "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
@@ -29,12 +29,13 @@
     "visit_type": "git",
     "requested_at": "2026-07-22T08:01:40.253001Z",
     "request_status": "accepted",
-    "task_status": "scheduled",
+    "task_status": "succeeded",
     "visit": 1,
-    "visit_status": "created",
-    "snapshot_swhid": null,
-    "verification_at": "2026-07-22T08:02:30Z",
-    "verification": "Request and visit are accepted/created, but Software Heritage has not yet produced a snapshot SWHID. Archival is not claimed complete."
+    "visit_status": "full",
+    "snapshot_swhid": "swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32",
+    "snapshot_url": "https://archive.softwareheritage.org/api/1/snapshot/767efde24c97d9f6d730764c1b3bc1a91ba20c32/",
+    "verification_at": "2026-07-22T09:13:00Z",
+    "verification": "Software Heritage reports a full visit and snapshot for the repository origin."
   },
   "joss_submission_evidence": {
     "status": "draft_ready",
@@ -58,8 +59,8 @@
       "command": "curl -fsS https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
       "runner": "networked repository audit",
       "status": "passed",
-      "artifact": "HTTP 404 at 2026-07-22T00:41:31Z",
-      "details": "The origin-save request 2397350 was accepted and scheduled, creating visit 1. The latest visit remains status=created with snapshot=null; poll until a snapshot SWHID is returned."
+      "artifact": "snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32",
+      "details": "The origin-save request 2397350 completed with visit_status=full and a verified snapshot."
     },
     {
       "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",

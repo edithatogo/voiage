@@ -24,7 +24,7 @@ def test_registry_audit_documents_current_live_status() -> None:
 
     assert "Live Registry Audit" in audit_text
     assert "Python `voiage` is present on PyPI" in audit_text
-    assert "Rust is an internal `publish = false` workspace" in audit_text
+    assert "Rust core crates are publishable on crates.io" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
     assert "conda-forge-feedstock-publication_20260625" in audit_text
     assert "spack-package-merge-followthrough_20260625" in audit_text
@@ -58,8 +58,10 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
     assert snapshot["snapshot"]["python"]["package"] == "voiage"
     assert snapshot["snapshot"]["conda_forge"]["registry"] == "conda-forge"
     assert snapshot["snapshot"]["r_universe"]["registry"] == "r-universe"
-    assert "publish=false" in snapshot["snapshot"]["rust"]["notes"]
-    assert "no crates.io package is claimed" in snapshot["snapshot"]["rust"]["notes"]
+    assert (
+        "core crates are publishable on crates.io"
+        in snapshot["snapshot"]["rust"]["notes"]
+    )
     assert snapshot["snapshot"]["spack"]["registry"] == "Spack"
     assert snapshot["snapshot"]["easybuild"]["registry"] == "EasyBuild"
     assert snapshot["snapshot"]["hpsf"]["status"] == "external_manual"

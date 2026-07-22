@@ -61,8 +61,8 @@
 ## Binding and Release Targets
 - **R**: CRAN-style package checks and GitHub Releases for source archives
 - **Julia**: General registry with TagBot synchronization
-- **Rust**: GitHub Releases for the internal `publish = false` workspace; no
-  crates.io package is claimed
+- **Rust**: publishable core crates on crates.io plus GitHub Releases for the
+  private FFI, PyO3, and test-support workspace artifacts
 
 ## Follow-Through Evidence Tooling
 - **GitHub Actions**: repeatable release, registry-audit, benchmark, pre-silicon,
@@ -76,3 +76,4 @@
 - **Browser / Chrome automation**: external registry, curation, or hardware
   portal workflows only; pause before login-bound irreversible submissions,
   account actions, or paid resource use
+**Rust**: crates.io core crates plus GitHub Releases

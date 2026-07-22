@@ -6,7 +6,9 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-publish = false
+readme = "README.md"
+keywords = ["value-of-information", "decision-analysis", "statistics"]
+categories = ["science"]
 
 [lints]
 workspace = true
