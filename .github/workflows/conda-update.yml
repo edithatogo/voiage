@@ -49,10 +49,31 @@ jobs:
     - name: Download source and compute SHA256
       id: source
       run: |
-        python -m pip download --no-deps --no-binary=:all: "voiage==${STEPS_RELEASE_OUTPUTS_VERSION}" -d "$RUNNER_TEMP/sdist"
-        source_file="$(find "$RUNNER_TEMP/sdist" -name '*.tar.gz' -o -name '*.zip' | head -n 1)"
-        sha256=$(sha256sum "$source_file" | awk '{print $1}')
-        echo "sha256=$sha256" >> $GITHUB_OUTPUT
+        python - <<'PY'
+        import hashlib
+        import json
+        import os
+        from pathlib import Path
+        from urllib.request import urlopen
+
+        version = os.environ["STEPS_RELEASE_OUTPUTS_VERSION"]
+        with urlopen(f"https://pypi.org/pypi/voiage/{version}/json") as response:
+            metadata = json.load(response)
+        sdist = next(
+            item for item in metadata["urls"]
+            if item["packagetype"] == "sdist" and item["filename"].endswith(".tar.gz")
+        )
+        destination = Path(os.environ["RUNNER_TEMP"]) / "sdist" / sdist["filename"]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with urlopen(sdist["url"]) as response:
+            destination.write_bytes(response.read())
+        digest = hashlib.sha256(destination.read_bytes()).hexdigest()
+        if digest != sdist["digests"]["sha256"]:
+            raise SystemExit("Downloaded sdist SHA256 does not match PyPI metadata")
+        print(f"Downloaded {sdist['filename']} with SHA256 {digest}")
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+            output.write(f"sha256={digest}\n")
+        PY
       env:
         STEPS_RELEASE_OUTPUTS_VERSION: ${{ steps.release.outputs.version }}
 
