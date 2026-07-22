@@ -365,6 +365,7 @@ jobs:
           cd dist
           sha256sum -- *.whl *.tar.gz | LC_ALL=C sort > SHA256SUMS
       - name: Create or refresh private draft release
+        if: github.event_name != 'workflow_dispatch' || !inputs.publish
         shell: bash
         run: |
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
@@ -403,11 +404,13 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
-      - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: voiage-attested-release
-          path: dist
+      - name: Download reviewed private draft payload
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p dist
+          gh release download "$RELEASE_TAG" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
       - name: Require reviewed artifact digests and private draft
         shell: bash
         env:
@@ -513,11 +516,13 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
-      - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: voiage-attested-release
-          path: dist
+      - name: Download reviewed private draft payload
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p dist
+          gh release download "$RELEASE_TAG" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
       - name: Revalidate remote tag binding immediately before PyPI
         shell: bash
         run: |
