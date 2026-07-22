@@ -26,7 +26,7 @@ To publish to conda-forge:
 1. Fork the [conda-forge/staged-recipes](https://github.com/conda-forge/staged-recipes) repository
 2. Copy this recipe directory to `recipes/voiage` in the forked repository
 3. Submit a pull request to `conda-forge/staged-recipes`; the recipe is pinned
-   to the published `voiage 0.2.1` sdist and its verified SHA256 hash.
+   to the published `voiage 1.0.0` sdist and its verified SHA256 hash.
 
 ## Recipe Structure
 
