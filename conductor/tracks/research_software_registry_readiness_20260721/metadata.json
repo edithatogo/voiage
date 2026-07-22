@@ -24,7 +24,7 @@
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage, RRID, and JOSS outcomes require authoritative external records."
+      "evidence": "Software Heritage request 2397350 is accepted/scheduled and visit 1 is created, but no snapshot SWHID has been returned; RRID and JOSS outcomes also require authoritative external records."
     }
   ]
 }

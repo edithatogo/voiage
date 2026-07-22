@@ -22,6 +22,20 @@
     "checksums_url": "https://github.com/edithatogo/voiage/releases/download/v1.0.0/SHA256SUMS",
     "pypi_url": "https://pypi.org/project/voiage/1.0.0/"
   },
+  "software_heritage_archival_request": {
+    "request_id": 2397350,
+    "request_url": "https://archive.softwareheritage.org/api/1/origin/save/2397350/",
+    "origin_url": "https://github.com/edithatogo/voiage",
+    "visit_type": "git",
+    "requested_at": "2026-07-22T08:01:40.253001Z",
+    "request_status": "accepted",
+    "task_status": "scheduled",
+    "visit": 1,
+    "visit_status": "created",
+    "snapshot_swhid": null,
+    "verification_at": "2026-07-22T08:02:30Z",
+    "verification": "Request and visit are accepted/created, but Software Heritage has not yet produced a snapshot SWHID. Archival is not claimed complete."
+  },
   "evidence_urls": [
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",
@@ -34,7 +48,7 @@
       "runner": "networked repository audit",
       "status": "passed",
       "artifact": "HTTP 404 at 2026-07-22T00:41:31Z",
-      "details": "The GitHub origin was not present in the Software Heritage archive at the prior audit. Re-run this lookup after requesting ingestion for the public v1.0.0 release."
+      "details": "The origin-save request 2397350 was accepted and scheduled, creating visit 1. The latest visit remains status=created with snapshot=null; poll until a snapshot SWHID is returned."
     },
     {
       "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",

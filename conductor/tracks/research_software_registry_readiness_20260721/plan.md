@@ -28,3 +28,6 @@
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: paper/author/impact readiness remains pending; editorial review external.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
+- Software Heritage archival request: accepted as request `2397350` for visit
+  `1`; the request is scheduled and currently has no snapshot SWHID. Continue
+  polling the request before recording archival completion.
