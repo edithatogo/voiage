@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+
+% Prefer packages supported by arXiv's TeX Live and LaTeXML environments.
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings},
+  pdfauthor={Dylan Mordaunt},
+  pdfsubject={Open-source research software for value of information analysis},
+  pdfkeywords={value of information, decision analysis, health economics, uncertainty quantification, Rust, Python}
+}
+
+\title{\texttt{voiage}: Value of Information Analysis with a Rust Core and Polyglot Bindings}
+\author{Dylan Mordaunt\\\small Independent Researcher, Australia}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Value of Information (VOI) analysis estimates how much a decision could
+improve if uncertainty were reduced by collecting additional information.
+\texttt{voiage} is open-source research software for computing and
+communicating VOI analyses from probabilistic decision models. Version 1.0.0
+combines a Python user interface with authoritative Rust numerical kernels and
+shared C-ABI bindings for R and Julia. The software implements expected value
+of perfect information, expected value of partial perfect information,
+expected value of sample information, expected net benefit of sampling,
+cost-effectiveness acceptability frontiers, dominance, and related diagnostics.
+Language-neutral fixtures, explicit schemas, and layered assurance gates make
+the numerical contract reproducible across supported bindings.
+\end{abstract}
+
+\input{sections/summary}
+\input{sections/statement_of_need}
+\input{sections/state_of_the_field}
+\input{sections/software_design}
+\input{sections/research_impact}
+\input{sections/limitations}
+\input{sections/ai_usage}
+\input{sections/acknowledgements}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

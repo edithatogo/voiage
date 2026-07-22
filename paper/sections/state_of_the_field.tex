@@ -1,0 +1,12 @@
+\section{State of the field}
+
+VOI analysis is well established in decision analysis and health
+economics~\cite{bradley1993expected,claxton1999value,adams2020value}. The R
+ecosystem includes mature packages for particular health-economic workflows,
+including Bayesian cost-effectiveness analysis and EVSI methods.
+\texttt{voiage} complements rather than replaces those packages by providing a
+Python-first, cross-domain interface and by making its execution contract
+portable to Rust, R, and Julia. The project emphasizes shared fixtures and
+cross-language conformance instead of maintaining a separate numerical policy
+implementation in each binding. Its extension policy also separates stable
+methods from optional and experimental research surfaces.

@@ -1,0 +1,6 @@
+[submodule ".repo-tools/sourceright"]
+	path = .repo-tools/sourceright
+	url = https://github.com/edithatogo/sourceright.git
+[submodule ".repo-tools/authentext"]
+	path = .repo-tools/authentext
+	url = https://github.com/edithatogo/authentext.git

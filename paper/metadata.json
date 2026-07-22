@@ -1,0 +1,13 @@
+{
+  "title": "voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings",
+  "authors": [
+    {
+      "name": "Dylan Mordaunt",
+      "affiliation": "Independent Researcher, Australia"
+    }
+  ],
+  "abstract": "voiage is open-source research software for Value of Information analysis. Version 1.0.0 combines a Python interface with authoritative Rust numerical kernels and shared R and Julia binding contracts, supported by language-neutral fixtures and reproducible assurance gates.",
+  "categories": ["human-selection-required"],
+  "license": "select-in-arxiv-portal",
+  "comments": "Page and figure counts require confirmation after final author review."
+}

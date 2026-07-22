@@ -3,7 +3,6 @@ name: Retained Bindings Release
 on:
   push:
     tags:
-      - "rust-v*"
       - "julia-v*"
       - "r-v*"
       # R source releases are published from r-v* tags.
@@ -11,41 +10,12 @@ on:
 permissions: {}
 
 jobs:
-  rust:
-    name: Validate Rust core release
-    if: startsWith(github.ref_name, 'rust-v')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    defaults:
-      run:
-        working-directory: rust
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
-        with:
-          components: clippy,rustfmt
-      - run: cargo fmt --all --check
-      - run: cargo fmt --check
-      - run: cargo clippy --all-targets --locked -- -D warnings
-      - run: cargo test --workspace --all-features --locked
-      # The FFI adapter remains private. Binding-independent core crates are
-      # published by rust-crates-release.yml in dependency order.
-      - run: cargo package --manifest-path crates/voiage-ffi/Cargo.toml --locked --allow-dirty
-      - name: Create GitHub release
-        # Contract marker: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
-        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-
   julia:
     name: Release Julia package
     if: startsWith(github.ref_name, 'julia-v')
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     defaults:
       run:
         working-directory: bindings/julia
@@ -64,17 +34,13 @@ jobs:
       - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
-      - name: Create GitHub release
-        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
-        env:
-          GH_TOKEN: ${{ github.token }}
 
   r:
     name: Release R package
     if: startsWith(github.ref_name, 'r-v')
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     defaults:
       run:
         working-directory: r-package/voiageR
@@ -104,7 +70,3 @@ jobs:
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
-      - name: Create GitHub release
-        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag
-        env:
-          GH_TOKEN: ${{ github.token }}

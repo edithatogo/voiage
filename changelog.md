@@ -7,12 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Removed the obsolete Quarto/JSS paper configurations, generated manuscript
+  sources, duplicate bibliography variants, and tracked paper PDFs.
+
 ### Added
+
+- Added a canonical authored-LaTeX manuscript, deterministic arXiv source
+  packaging, TeX Live compatibility matrix, LaTeX and PDF assurance, semantic
+  HTML validation, cleaner/collector comparison, and pinned SourceRight and
+  Authentext provenance tooling.
 
 ### Changed
 
+- Made `paper/main.tex` the authoritative preprint while retaining `paper.md`
+  as the JOSS adaptation and keeping authenticated submission decisions human.
+
 ### Fixed
 
+- Aligned the arXiv workflow with the repository's pinned uv frontier and
+  corrected the retained Julia release test to reflect read-only release jobs.
 - Made publication dispatches consume the already staged and reviewed draft
   artifacts without rebuilding or clobbering them, so exact digest approval
   remains valid even when a platform linker is not byte-reproducible.

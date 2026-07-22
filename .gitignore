@@ -128,6 +128,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv-arxiv/
 env/
 venv/
 ENV/
@@ -169,3 +170,17 @@ package-lock.json
 
 # Conductor tool runtime state
 conductor/setup_state.json
+
+**/.quarto/
+**/*.quarto_ipynb
+paper/paper.tex
+
+# LaTeX and arXiv preparation
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.run.xml
+*.synctex.gz

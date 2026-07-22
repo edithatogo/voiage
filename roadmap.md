@@ -38,6 +38,13 @@ Research-software registry readiness follows that release in
 local preparation into external archival, identifier, submission, review, or
 acceptance evidence.
 
+The preprint is now authored in canonical semantic LaTeX using the hardened
+`arxiv-paper-template` architecture. Repository automation provides
+deterministic source packaging, TeX Live 2023/2025 compatibility, LaTeX and PDF
+assurance, semantic HTML, and provenance-tool boundaries. Author confirmation,
+arXiv category/license/endorsement, authenticated upload, moderation, and
+announcement remain explicit human or external gates.
+
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence
 (`abstraction-excellence_20260719`), Assurance Frontier

@@ -1,0 +1,116 @@
+name: arXiv Readiness
+
+on:
+  pull_request:
+    paths:
+      - "paper/**"
+      - "paper.md"
+      - "paper.bib"
+      - "requirements-arxiv.txt"
+      - "scripts/*arxiv*"
+      - ".github/workflows/arxiv-readiness.yml"
+      - ".gitmodules"
+      - ".repo-tools/**"
+  push:
+    branches: [main]
+    paths:
+      - "paper/**"
+      - "paper.md"
+      - "paper.bib"
+      - "requirements-arxiv.txt"
+      - "scripts/*arxiv*"
+      - ".github/workflows/arxiv-readiness.yml"
+      - ".gitmodules"
+      - ".repo-tools/**"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  arxiv-texlive-matrix:
+    name: TeX Live ${{ matrix.texlive }}
+    strategy:
+      fail-fast: false
+      matrix:
+        texlive: [2023, 2025]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: xu-cheng/texlive-action@f06d1919d338773df02f5c09d9dd069e7105eff7
+        with:
+          texlive_version: ${{ matrix.texlive }}
+          run: |
+            mkdir -p build/texlive-${{ matrix.texlive }}
+            cd paper
+            latexmk -outdir=../build/texlive-${{ matrix.texlive }} main.tex
+            test -s ../build/texlive-${{ matrix.texlive }}/main.pdf
+
+  readiness:
+    name: Source package and PDF assurance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+      - name: Install LaTeX and arXiv source tools
+        run: sudo apt-get update && sudo apt-get install --yes chktex lacheck latexmk texlive-latex-base texlive-latex-extra qpdf poppler-utils exiftool
+      - name: Validate manuscript metadata and source
+        run: |
+          python3 scripts/validate_arxiv_manifest.py
+          python3 scripts/validate_arxiv.py paper
+      - name: Lint canonical LaTeX
+        run: |
+          cd paper
+          chktex -q -v0 main.tex sections/*.tex
+          lacheck main.tex
+      - name: Install pinned comparison tools
+        run: |
+          uv venv .venv-arxiv
+          uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
+      - name: Build deterministic source package
+        run: python3 scripts/build_arxiv_submission.py
+      - name: Audit review PDF and final LaTeX log
+        run: python3 scripts/audit_arxiv_pdf.py build/arxiv/main.pdf build/arxiv/main.log
+      - name: Rebuild to prove deterministic packaging
+        run: |
+          cp build/arxiv/voiage-arxiv-source.tar.gz /tmp/voiage-arxiv-source-first.tar.gz
+          python3 scripts/build_arxiv_submission.py
+          cmp /tmp/voiage-arxiv-source-first.tar.gz build/arxiv/voiage-arxiv-source.tar.gz
+      - name: Build and validate cleaner and collector variants
+        run: .venv-arxiv/bin/python scripts/prepare_arxiv_variants.py
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: voiage-arxiv-readiness
+          path: |
+            build/arxiv/
+            build/arxiv-variants/cleaner.diff
+
+  semantic-html:
+    name: Semantic HTML assurance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Install LaTeXML
+        run: sudo apt-get update && sudo apt-get install --yes latexml texlive-latex-base texlive-latex-extra
+      - name: Convert canonical source to semantic HTML
+        run: mkdir -p build/arxiv-html && cd paper && latexmlc --dest=../build/arxiv-html/main.html --log=../build/arxiv-html/main.latexml.log --format=html5 --strict main.tex
+      - name: Validate semantic HTML
+        run: python3 scripts/validate_arxiv_html.py build/arxiv-html/main.html
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: voiage-semantic-html-preview
+          path: build/arxiv-html/

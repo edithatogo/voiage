@@ -38,6 +38,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Apply the hardened LaTeX/arXiv template to the voiage manuscript.
+    *   Made `paper/main.tex` the canonical semantic manuscript source and
+        removed the obsolete Quarto/JSS generation path and tracked PDFs.
+    *   Added deterministic source packaging, TeX Live 2023/2025 compilation,
+        LaTeX lint, PDF/font assurance, semantic HTML, and independently
+        rebuilt cleaner/collector variants.
+    *   Pinned SourceRight and Authentext while preserving authorship,
+        category, license, endorsement, upload, and acceptance as human or
+        external gates.
+
 *   [x] Complete the repository-owned Domain Abstraction Excellence work.
     *   Conductor track: `abstraction-excellence_20260719`.
     *   Human approval remains governed separately from implementation status.
