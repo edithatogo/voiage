@@ -3,9 +3,50 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-22T00:41:31Z",
-  "next_action": "After the signed v1.0 release is public, request Software Heritage ingestion, verify the release SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
-  "external_gate": "The immutable signed v1.0 release does not yet exist; Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance are externally controlled outcomes.",
+  "checked_at": "2026-07-22T08:10:00Z",
+  "next_action": "Use the public v1.0.0 release as the immutable source for Software Heritage ingestion, verify the resulting SWHID, search or register the software in SciCrunch for an RRID, and complete the JOSS paper and submission checklist with confirmed author metadata and impact evidence.",
+  "external_gate": "The signed public v1.0.0 release prerequisite is complete. Software Heritage ingestion, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
+  "release_evidence": {
+    "tag": "v1.0.0",
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
+    "published_at": "2026-07-22T06:35:22Z",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      "SHA256SUMS",
+      "voiage-1.0.0.tar.gz",
+      "voiage-1.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "voiage-1.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "voiage-1.0.0-cp312-abi3-win_amd64.whl"
+    ],
+    "checksums_url": "https://github.com/edithatogo/voiage/releases/download/v1.0.0/SHA256SUMS",
+    "pypi_url": "https://pypi.org/project/voiage/1.0.0/"
+  },
+  "software_heritage_archival_request": {
+    "request_id": 2397350,
+    "request_url": "https://archive.softwareheritage.org/api/1/origin/save/2397350/",
+    "origin_url": "https://github.com/edithatogo/voiage",
+    "visit_type": "git",
+    "requested_at": "2026-07-22T08:01:40.253001Z",
+    "request_status": "accepted",
+    "task_status": "scheduled",
+    "visit": 1,
+    "visit_status": "created",
+    "snapshot_swhid": null,
+    "verification_at": "2026-07-22T08:02:30Z",
+    "verification": "Request and visit are accepted/created, but Software Heritage has not yet produced a snapshot SWHID. Archival is not claimed complete."
+  },
+  "joss_submission_evidence": {
+    "status": "draft_ready",
+    "files": ["paper.md", "paper.bib", "codemeta.json", "CITATION.cff"],
+    "readiness_document": "docs/joss-submission-readiness.md",
+    "remaining_author_gates": [
+      "confirm author affiliations and ORCID",
+      "confirm funding and conflicts of interest",
+      "add specific public research-impact evidence"
+    ],
+    "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
+  },
   "evidence_urls": [
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",
@@ -18,14 +59,14 @@
       "runner": "networked repository audit",
       "status": "passed",
       "artifact": "HTTP 404 at 2026-07-22T00:41:31Z",
-      "details": "The GitHub origin is not currently present in the Software Heritage archive. No ingestion request was made before the immutable v1.0 release."
+      "details": "The origin-save request 2397350 was accepted and scheduled, creating visit 1. The latest visit remains status=created with snapshot=null; poll until a snapshot SWHID is returned."
     },
     {
       "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",
       "runner": "local Git worktree",
       "status": "passed",
       "artifact": "no submission metadata files found",
-      "details": "JOSS paper metadata and confirmed author affiliations remain repository-owned readiness work after release evidence exists."
+      "details": "JOSS draft paper and metadata are prepared; author, funding, conflict, and research-impact confirmation remain before submission."
     },
     {
       "command": "review RRID software registration guidance",

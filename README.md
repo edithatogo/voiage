@@ -2,31 +2,30 @@
 
 [![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
 [![CI](https://github.com/edithatogo/voiage/actions/workflows/ci.yml/badge.svg)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/edithatogo/voiage/branch/main/graph/badge.svg)](https://codecov.io/gh/edithatogo/voiage)
 [![Python](https://img.shields.io/badge/python-3.12--3.14-blue)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
 
-`voiage` is a Python library for Value of Information (VOI) analysis, designed to provide a comprehensive, open-source toolkit for researchers and decision-makers.
+`voiage` is a v1.0.0 open-source library for Value of Information (VOI)
+analysis, combining a Python interface with an authoritative Rust numerical
+core and shared R and Julia binding contracts.
 
-Current development state:
+Current status:
 
-- Core VOI methods are implemented and validated.
-- Advanced methods such as structural VOI, NMA VOI, adaptive EVSI, portfolio VOI, sequential VOI, calibration VOI, observational VOI, CEAF, dominance, and heterogeneity analysis are implemented.
-- CLI polish is in place, including `--format`, `--quiet`, `--verbose`, and `generate-config`.
-- Cross-language bindings, HEOML-aligned ecosystem contracts, and fixture-first integration work are scaffolded and tracked in `roadmap.md`; the Rust-core migration is now a distinct roadmap program with the Rust domain model and deterministic EVPI/ENBS slices in place, Rust as the authoritative execution core, Python as the primary façade, and the non-Python packages as thin bindings/adapters over the same contract once that migration lands. The R binding currently releases source archives through GitHub Releases, with CRAN and r-universe still handled through external registry processes.
-- The R documentation/manual track is complete and archived: package help pages, a narrative vignette, a deterministic PDF manual, and the verification/release-handoff guidance are all in place.
-- The polyglot tutorial surface track is complete and archived: the Python notebooks, the R vignette/manual, and the non-Python binding walkthrough READMEs now share the same canonical VOI examples, and the repo includes smoke checks for the binding walkthroughs.
-- The SOTA roadmap now includes frontier VOI methods, led by Value of Perspective plus preference, validation, and threshold surfaces for comparing payer, societal, patient, provider, regulator, equity-weighted, and custom stakeholder perspectives and preference profiles side by side, along with fixture-backed manifests, a registry schema, and a reusable frontier contract validator.
-- Frontier contract validation now runs through the shared registry manifest, schema, and validator.
-- Community support and governance docs are now explicit: `SUPPORT.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md` provide the first stop for help, conduct, and vulnerability reporting.
+- Stable VOI methods are implemented and Rust-backed, with Python façade,
+  schema, orchestration, CLI, plotting, and reporting layers.
+- R and Julia use the shared Rust C ABI; Mojo remains an explicitly external
+  upstream boundary.
+- The signed v1.0.0 release is public on GitHub and PyPI.
+- Registry review/indexing, JOSS/RRID submission, Software Heritage snapshot
+  verification, and experimental extensions remain separately tracked.
 
 ## Branch Architecture
 
-This repository uses a separated branch architecture:
-- **Main branch**: Contains only the core software library code
-- **Paper branch**: Contains the academic paper and related documentation
-
-This separation ensures a clean development environment for software changes while allowing focused development of the academic paper.
+The default `main` branch contains the maintained software and its submission
+metadata. The JOSS draft is in `paper.md` with references in `paper.bib`;
+`docs/joss-submission-readiness.md` records the remaining author and impact
+checks before submission.
 
 ## Background: The Need for a Comprehensive VOI Tool in Python
 
@@ -51,16 +50,16 @@ maps to the active roadmap.
 | Adaptive, calibration, observational, sequential VOI | ✅ | Trial and study-design oriented workflows are available. |
 | Portfolio VOI | ✅ | Budget-constrained portfolio optimization is implemented. |
 | CLI developer experience | ✅ | `--format`, `--quiet`, `--verbose`, help examples, and config generation are available. |
-| Cross-language bindings | 🚧 | Rust is the core; Python, Mojo, Julia, and R are the supported binding surfaces. |
-| HEOML / ecosystem contracts | 🚧 | `lifecourse` and ecosystem-incubation contract scaffolds exist; deterministic fixtures are being expanded. |
-| Numerics, diagnostics, extension model | 📋 | Next planned track for explicit numerical equivalence, diagnostics, and extension rules. |
+| Cross-language bindings | ✅/external | Rust, Python, R, and Julia are retained; Mojo is an upstream boundary. |
+| HEOML / ecosystem contracts | 🚧 | Optional ecosystem contracts remain follow-on work. |
+| Numerics, diagnostics, extension model | ✅ | Stable contracts and extension policies are enforced by tests and CI. |
 | Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
-| Frontier VOI methods | 🚧 | Value of Perspective, validation, threshold, and preference/individualized-care runtime surfaces are implemented with CLI entrypoints and fixture-backed conformance contracts; distributional/equity VOI and implementation-adjusted VOI have experimental runtime surfaces with deterministic fixtures, while robust VOI and dynamic real-options VOI remain planned. |
+| Frontier VOI methods | 🚧 | Several fixture-backed experimental surfaces exist; stable promotion remains governed by the extension policy. |
 | Adjacent frontier extensions | 📋 | Planned triage for causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI. |
 
 **Legend:**
 *   ✅: Implemented
-*   🚧: Scaffolded or in progress
+*   🚧: Optional, experimental, or in progress
 *   📋: Planned
 
 ## Comparison With R Packages
@@ -101,12 +100,34 @@ The main user and developer references are:
 - [Security policy](SECURITY.md)
 - [Frontier VOI roadmap](https://edithatogo.github.io/voiage/sota-voi-frontier/)
 
-## Academic Paper
+## Quality and security
 
-The academic paper describing the `voiage` library is maintained in the `paper` branch of this repository. For detailed methodological information, mathematical foundations, and comprehensive validation, please refer to:
+The repository uses a layered, fail-closed verification model:
 
-- Paper source files in the `paper` branch
-- Published version in the Journal of Statistical Software (forthcoming)
+| Layer | Evidence |
+| :-- | :-- |
+| Formatting and lint | Ruff, Ruff format, Vale, Bandit, Vulture, and repository harness |
+| Static typing | `ty` across the retained Python runtime |
+| Unit and contract tests | Pytest suites with schema, API, provenance, and version-sync contracts |
+| Integration and E2E | Marked integration suites, CLI E2E workflows, clean-install and package checks |
+| Coverage | Branch coverage, changed-line and critical-module policy, 90% Python threshold, Codecov upload |
+| Property and differential testing | Hypothesis, Rust proptest, cross-language fixtures, metamorphic and parity tests |
+| Mutation testing | Broad ratchet, critical-kernel threshold, and externally anchored mutation cohort |
+| Rust safety | Cargo tests/clippy, MSRV, Miri, fuzzing, FFI sanitizers, advisories, licenses, and source policy |
+| Supply chain | Pinned GitHub Actions, CodeQL, Scorecard, zizmor, dependency review, SBOM, provenance, checksums, and signatures |
+| Dependency updates | Weekly Dependabot updates for Python, Cargo, and GitHub Actions with cooldown windows |
+
+Renovate is not enabled because Dependabot already owns the three maintained
+dependency ecosystems; enabling both would duplicate update PRs. The remaining
+quality debt is tracked explicitly, including broader Python annotation
+coverage and external registry evidence.
+
+## Academic paper
+
+The JOSS draft is maintained in [`paper.md`](paper.md), with references in
+[`paper.bib`](paper.bib), software metadata in [`codemeta.json`](codemeta.json),
+and citation metadata in [`CITATION.cff`](CITATION.cff). The paper has not yet
+been submitted to JOSS or arXiv.
 
 ## Installation
 
@@ -204,27 +225,13 @@ $ voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_
 EVPPI: 0.020708
 ```
 
-## Current Development State
+## Current development state
 
-The active work is split across three layers:
-
-1. **Core library maintenance**: keep the implemented VOI methods stable and
-   documented.
-2. **Spec-first expansion**: continue the numerics/diagnostics extension model
-   and the cross-language conformance fixture tracks.
-3. **Ecosystem integration**: finish the HEOML-aligned `lifecourse` contract,
-   then mature the optional `innovate` and `mars` integration policies.
-
-The most visible repository-level roadmap items are already reflected in
-[`roadmap.md`](roadmap.md):
-
-- **Phase 5**: Spec, fixtures, and polyglot bindings
-- **Phase 6**: Ecosystem integrations
-- **Phase 7**: SOTA VOI frontier methods, starting with Value of Perspective
-
-That means the remaining work is mostly contract hardening, fixture parity,
-language-binding maturation, and documentation around the new ecosystem
-boundaries rather than fundamental method implementation.
+The mature-v1 repository programme is complete and archived. Remaining work is
+deliberately external or optional: registry review/indexing, JOSS and RRID
+submission, Software Heritage snapshot verification, and experimental or
+ecosystem extensions. See [`roadmap.md`](roadmap.md), [`todo.md`](todo.md),
+and the [Conductor registry](conductor/tracks.md) for evidence-backed status.
 
 ## Why voiage?
 
@@ -257,4 +264,5 @@ For more detailed examples and tutorials, please see the [documentation](https:/
 
 ## License
 
-`voiage` is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+`voiage` is licensed under the Apache License 2.0. See the [LICENSE](LICENSE)
+file for details.

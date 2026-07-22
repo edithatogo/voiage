@@ -295,7 +295,7 @@ def test_conductor_setup_records_strict_followthrough_policy() -> None:
     assert "Google Cloud CLI (`gcloud`)" in tech_stack
     assert "June 25 follow-through closeout:" in roadmap
     assert "The June 25 follow-through queue is complete and archived" in roadmap
-    assert "Mature Hardened v1.0 Programme: 🔄 **ACTIVE**" in roadmap
+    assert "Mature Hardened v1.0 Programme: ✅ **ARCHIVED**" in roadmap
 
 
 def test_dedicated_method_tracks_cover_runtime_to_stable_paths() -> None:

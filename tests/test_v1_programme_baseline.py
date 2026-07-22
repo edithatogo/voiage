@@ -10,7 +10,6 @@ import sys
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
-    TRACK_ID,
     "research_software_registry_readiness_20260721",
 ]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
@@ -28,15 +27,15 @@ def test_v1_programme_baseline_records_authoritative_repository_state() -> None:
 
     assert repository == {
         "authoritative_branch": "origin/main",
-        "authoritative_commit": "e0fb235d4cf641891c3954725379f54dda90565c",
+        "authoritative_commit": "35bc08ee119eb6213ac59949b3b00da1c20ca3a2",
         "implementation_branch": "codex/mature-hardened-v1-programme",
         "generated_artifacts_excluded": ["docs/astro-site/.astro/"],
     }
-    assert github["snapshot_at"] == "2026-07-20T23:37:43Z"
+    assert github["snapshot_at"] == "2026-07-22T08:00:00Z"
     assert github["open_pull_requests"] == 0
     assert github["open_issues"] == 0
     assert github["remote_branches"] == 1
-    assert github["latest_release"] == "v0.2.1"
+    assert github["latest_release"] == "v1.0.0"
 
 
 def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
@@ -45,9 +44,11 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 125
+    assert conductor["archived_track_count"] == 126
     assert conductor["classifications"] == {
-        "v1_required": [TRACK_ID],
+        "v1_required": [
+            "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
+        ],
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
             "research_software_registry_readiness_20260721",
@@ -83,7 +84,7 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     registry = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
     assert "Current Status (As of July 2026)" in roadmap
-    assert "Mature Hardened v1.0 Programme: 🔄 **ACTIVE**" in roadmap
+    assert "Mature Hardened v1.0 Programme: ✅ **ARCHIVED**" in roadmap
     assert "conductor/v1-programme-baseline.json" in roadmap
     assert "The June 25 follow-through queue is complete and archived" in roadmap
     assert "Production Workspace Established, Stable Kernels Rust-Backed" in roadmap
@@ -93,14 +94,11 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
 
     assert "## In Progress" in todo
     assert "Mature and harden the v1.0 release" in todo
-    assert TRACK_ID in todo
+    assert "research_software_registry_readiness_20260721" in todo
     for track_id in ACTIVE_TRACK_IDS:
         assert track_id in roadmap
         assert track_id in todo
-    assert (
-        "## [~] Track: Mature Hardened v1.0 Architecture And Release Programme"
-        in registry
-    )
+    assert "## [ ] Track: Research Software Registry Readiness" in registry
 
 
 def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:

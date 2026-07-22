@@ -3,6 +3,12 @@ name: Update Conda-Forge Feedstock
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Published GitHub release tag to submit to conda-forge (for example, v1.0.0)
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -11,7 +17,9 @@ jobs:
   update-feedstock:
     name: Update Conda-Forge Feedstock
     runs-on: ubuntu-latest
-    if: startsWith(github.event.release.tag_name, 'v')
+    if: >-
+      (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v')) ||
+      (github.event_name == 'workflow_dispatch' && startsWith(inputs.release_tag, 'v'))
 
     steps:
     - name: Checkout code
@@ -27,27 +35,58 @@ jobs:
     - name: Get release info
       id: release
       run: |
-        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-        echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+          tag="$RELEASE_TAG_INPUT"
+        else
+          tag="${GITHUB_REF#refs/tags/}"
+        fi
+        version="${tag#v}"
+        echo "tag=$tag" >> "$GITHUB_OUTPUT"
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+      env:
+        RELEASE_TAG_INPUT: ${{ inputs.release_tag }}
 
     - name: Download source and compute SHA256
       id: source
       run: |
-        python -m pip download --no-deps --no-binary=:all: "voiage==${STEPS_RELEASE_OUTPUTS_VERSION}" -d "$RUNNER_TEMP/sdist"
-        source_file="$(find "$RUNNER_TEMP/sdist" -name '*.tar.gz' -o -name '*.zip' | head -n 1)"
-        sha256=$(sha256sum "$source_file" | awk '{print $1}')
-        echo "sha256=$sha256" >> $GITHUB_OUTPUT
+        python - <<'PY'
+        import hashlib
+        import json
+        import os
+        from pathlib import Path
+        from urllib.request import urlopen
+
+        version = os.environ["STEPS_RELEASE_OUTPUTS_VERSION"]
+        with urlopen(f"https://pypi.org/pypi/voiage/{version}/json") as response:
+            metadata = json.load(response)
+        sdist = next(
+            item for item in metadata["urls"]
+            if item["packagetype"] == "sdist" and item["filename"].endswith(".tar.gz")
+        )
+        destination = Path(os.environ["RUNNER_TEMP"]) / "sdist" / sdist["filename"]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with urlopen(sdist["url"]) as response:
+            destination.write_bytes(response.read())
+        digest = hashlib.sha256(destination.read_bytes()).hexdigest()
+        if digest != sdist["digests"]["sha256"]:
+            raise SystemExit("Downloaded sdist SHA256 does not match PyPI metadata")
+        print(f"Downloaded {sdist['filename']} with SHA256 {digest}")
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+            output.write(f"sha256={digest}\n")
+        PY
       env:
         STEPS_RELEASE_OUTPUTS_VERSION: ${{ steps.release.outputs.version }}
 
     - name: Update conda-recipe/meta.yaml
       run: |
+        mkdir -p recipes/voiage
+        cp conda-recipe/meta.yaml recipes/voiage/meta.yaml
         python - <<'PY'
         from pathlib import Path
         import re
         import os
 
-        meta = Path("conda-recipe/meta.yaml")
+        meta = Path("recipes/voiage/meta.yaml")
         text = meta.read_text()
         text = re.sub(
             r'{% set version = ".*?" %}',
@@ -65,18 +104,30 @@ jobs:
         RELEASE_VERSION: ${{ steps.release.outputs.version }}
         RELEASE_SHA256: ${{ steps.source.outputs.sha256 }}
 
-    - name: Create feedstock PR
-      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
-      with:
-        token: ${{ secrets.CONDA_FORGE_TOKEN }}
-        title: "Update to v${{ steps.release.outputs.version }}"
-        body: |
-          Automated update to v${{ steps.release.outputs.version }}
-
-          - Version: ${{ steps.release.outputs.version }}
-          - SHA256: ${{ steps.source.outputs.sha256 }}
-          - Source: https://github.com/${{ github.repository }}/releases/tag/${{ steps.release.outputs.tag }}
-        branch: update-conda-${{ steps.release.outputs.version }}
-        base: main
-        commit-message: "chore(conda): Update to v${{ steps.release.outputs.version }}"
-        labels: automerge
+    - name: Create conda-forge submission PR
+      env:
+        GH_TOKEN: ${{ secrets.CONDA_FORGE_TOKEN }}
+        RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        RELEASE_SHA256: ${{ steps.source.outputs.sha256 }}
+      run: |
+        set -euo pipefail
+        feedstock="$RUNNER_TEMP/staged-recipes"
+        git clone "https://github.com/edithatogo/staged-recipes.git" "$feedstock"
+        mkdir -p "$feedstock/recipes/voiage"
+        cp recipes/voiage/meta.yaml "$feedstock/recipes/voiage/meta.yaml"
+        cd "$feedstock"
+        branch="voiage-${RELEASE_VERSION}"
+        git checkout -B "$branch"
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add recipes/voiage/meta.yaml
+        git commit -m "chore(conda): update voiage to v${RELEASE_VERSION}"
+        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/staged-recipes.git"
+        git push --force origin "$branch"
+        gh pr create \
+          --repo conda-forge/staged-recipes \
+          --head "edithatogo:$branch" \
+          --base main \
+          --title "voiage: update to v${RELEASE_VERSION}" \
+          --body "Automated update to v${RELEASE_VERSION}.\n\n- SHA256: ${RELEASE_SHA256}\n- Source: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"

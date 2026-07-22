@@ -22,15 +22,15 @@ evidence slices. Registry approval, external indexing, production accelerator
 speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence
 remain external gates and are not represented as completed live outcomes.
 
-Mature Hardened v1.0 Programme: 🔄 **ACTIVE** - The principal active
-Conductor programme now freezes the stable surface, completes the Rust runtime
-takeover,
-retires duplicate Python numerical kernels, converts retained bindings into thin
-Rust adapters, consolidates documentation on Astro/Starlight, enforces hardened
-release gates, verifies registry installation, and publishes the signed v1.0
-release. The machine-readable baseline and execution classification are in
-`conductor/v1-programme-baseline.json`; the implementation plan is in
-`conductor/tracks/mature-hardened-v1-release-programme_20260719/`.
+Mature Hardened v1.0 Programme: ✅ **ARCHIVED** - The repository-owned
+programme completed the Rust runtime takeover, legacy numerical-core retirement,
+thin binding consolidation, Astro documentation migration, hardened release
+gates, and signed public `v1.0.0` release. Remaining registry review/indexing
+and external archival outcomes are tracked separately in
+`conductor/tracks/research_software_registry_readiness_20260721/`. The
+machine-readable baseline is `conductor/v1-programme-baseline.json`; the
+archived implementation plan is in
+`conductor/archive/mature-hardened-v1-release-programme_20260719/`.
 
 Research-software registry readiness follows that release in
 `conductor/tracks/research_software_registry_readiness_20260721/`. Issues

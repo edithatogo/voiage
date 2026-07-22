@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-22T00:41:31Z",
+  "updated_at": "2026-07-22T08:00:00Z",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
   "github_subissues": [
@@ -17,14 +17,14 @@
     {
       "id": "immutable-v1-release",
       "kind": "release",
-      "status": "pending",
-      "evidence": "Signed v1.0 release and immutable artifact digests do not yet exist."
+      "status": "complete",
+      "evidence": "Signed public v1.0.0 release exists at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; release artifact digests and provenance evidence are published."
     },
     {
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage, RRID, and JOSS outcomes require authoritative external records."
+      "evidence": "Software Heritage request 2397350 is accepted/scheduled and visit 1 is created, but no snapshot SWHID has been returned; RRID and JOSS outcomes also require authoritative external records."
     }
   ]
 }

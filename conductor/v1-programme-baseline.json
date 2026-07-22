@@ -3,30 +3,29 @@
   "programme": "mature-hardened-v1-release-programme_20260719",
   "repository": {
     "authoritative_branch": "origin/main",
-    "authoritative_commit": "e0fb235d4cf641891c3954725379f54dda90565c",
+    "authoritative_commit": "35bc08ee119eb6213ac59949b3b00da1c20ca3a2",
     "implementation_branch": "codex/mature-hardened-v1-programme",
     "generated_artifacts_excluded": [
       "docs/astro-site/.astro/"
     ]
   },
   "github": {
-    "snapshot_at": "2026-07-20T23:37:43Z",
+    "snapshot_at": "2026-07-22T08:00:00Z",
     "open_pull_requests": 0,
     "open_issues": 0,
     "remote_branches": 1,
-    "latest_release": "v0.2.1",
+    "latest_release": "v1.0.0",
     "blocked_pull_requests": [],
     "remaining_pull_request_classification": "No remaining pull requests at snapshot time"
   },
   "conductor": {
     "active_track_ids": [
-      "mature-hardened-v1-release-programme_20260719",
       "research_software_registry_readiness_20260721"
     ],
-    "archived_track_count": 125,
+    "archived_track_count": 126,
     "classifications": {
       "v1_required": [
-        "mature-hardened-v1-release-programme_20260719"
+        "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
       ],
       "historical_groundwork": "conductor/archive/",
       "post_v1_or_optional": [
