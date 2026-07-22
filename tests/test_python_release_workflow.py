@@ -174,6 +174,16 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     assert "expected_sdist_sha256" in release_workflow
     assert "sha256sum" in release_workflow
     assert 'gh release view "$RELEASE_TAG" --json isDraft' in release_workflow
+    assert (
+        "if: github.event_name != 'workflow_dispatch' || !inputs.publish"
+        in release_workflow
+    )
+    assert (
+        release_workflow.count(
+            "gh release download \"$RELEASE_TAG\" --dir dist --pattern '*.whl' --pattern '*.tar.gz'"
+        )
+        == 2
+    )
     assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow
