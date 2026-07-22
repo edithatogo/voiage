@@ -64,6 +64,10 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 - [x] The Julia binding remains the thin adapter over the shared contract.
 - [ ] Julia General registry submission/approval remains external/manual.
 
+Software Heritage archival is complete for the v1.0.0 origin request: request
+2397350 produced snapshot
+`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
+
 ## Rust
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
