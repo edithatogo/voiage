@@ -1,0 +1,1 @@
+Security validation: fast-uri forced to patched 3.1.4; pnpm audit reports no known vulnerabilities; frozen install, Astro check/build, focused docs contracts, and lint/harness/docs/version-sync tox environments passed.
