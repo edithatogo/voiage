@@ -49,7 +49,7 @@
 - **Astro**: 7.1.3 — Sole documentation build platform
 - **@astrojs/starlight**: 0.41.4 — Docs framework with built-in search,
   navigation and MDX support; replaces Sphinx
-- **astro-polyglot**: source-pinned 0.1.0 at commit `3561e72` — generates
+- **astro-polyglot**: source-pinned 0.1.0 at commit `054d11e` — generates
   Starlight-native API documentation from language-native source extraction;
   npm publication remains an external gate
 - **starlight-links-validator**: 0.25.2 — build-time internal-link validation
