@@ -23,6 +23,9 @@
 
 ## Phase 2: Contract and implementation programme
 
+- [x] Incorporate post-census recommendations across MoSCoW requirements,
+  architecture, roadmap, child specifications/plans, evidence, and public
+  issues without duplicating track ownership. (`154cd044`)
 - [ ] Complete the method and external-library censuses.
 - [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
 - [ ] Freeze the canonical Decision Problem interchange representation and
