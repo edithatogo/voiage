@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Removed the obsolete Quarto/JSS paper configurations, generated manuscript
   sources, duplicate bibliography variants, and tracked paper PDFs.
+- Removed the artificial-intelligence usage disclosure from the preprint.
 
 ### Added
 
