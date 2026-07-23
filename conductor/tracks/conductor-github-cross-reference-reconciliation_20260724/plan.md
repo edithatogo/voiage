@@ -32,3 +32,8 @@
   manifest. (`3d923ab8`)
 - [~] Monitor required hosted checks to a terminal state.
 - [ ] Keep issue closure and merge as explicit post-merge boundaries.
+
+## Review fixes: ingestion follow-on sub-issues
+
+- [~] Add native ingestion sub-issues #467 and #468 to the proposed-track
+  manifest entry and revalidate the central cross-reference contract.
