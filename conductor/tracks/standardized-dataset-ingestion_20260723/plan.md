@@ -164,11 +164,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Planning review enhancements (2026-07-24)
 
-- [~] **REV-T1:** Incorporate the pre-implementation architecture review into
+- [x] **REV-T1:** Incorporate the pre-implementation architecture review into
   the specification, implementation phases, GitHub sub-issue checklists, and
-  Project 28 records.
-- [ ] **REV-T2:** Validate the amended planning artifacts, record review
+  Project 28 records. (`67e079e`)
+- [x] **REV-T2:** Validate the amended planning artifacts, record review
   evidence, and reconcile PR #334 without claiming functional implementation.
+  (`67e079e`)
 
 ## Phase 8 — Reconcile Conductor and GitHub (#325)
 

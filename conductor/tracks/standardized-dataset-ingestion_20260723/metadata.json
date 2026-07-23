@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-23T15:11:46Z",
+  "updated_at": "2026-07-23T15:16:46Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -37,8 +37,8 @@
     {
       "id": "pre-implementation-architecture-review",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Review amendments cover versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting."
+      "status": "satisfied",
+      "evidence": "Commit 67e079e and GitHub issues #325-#333 incorporate versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting; focused tests, harness, setup validation, and Vale passed."
     },
     {
       "id": "functional-implementation",
