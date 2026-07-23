@@ -1,0 +1,7 @@
+Task: Harden JOSS submission readiness
+
+Summary: Reconciled the JOSS manuscript to current screening criteria; added a pinned Open Journals draft workflow and fail-closed validator; audited clean Python, Rust, R, and Julia reviewer paths; corrected R vignette packaging; documented Julia artifact/JLL boundary; and reconciled arXiv and registry evidence.
+
+Validation: JOSS validator and tests passed; workflow harness passed across 27 workflows; Vale passed 1032 files; Ruff, formatting, and ty passed; PyPI 1.0.0 clean install passed; Rust workspace tests passed excluding separately wheel-tested PyO3; R CMD check passed with two notes; Julia Pkg.test passed against built voiage-ffi.
+
+Why: Provide an accurate, reviewer-ready JOSS package without overstating secondary binding distribution or external submission outcomes.
