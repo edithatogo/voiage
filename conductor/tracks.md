@@ -16,7 +16,7 @@ freeze.*
 
 ---
 
-## [ ] Track: External VOI Library Feature Parity
+## [~] Track: External VOI Library Feature Parity
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
 *Execution order: 03 of 11.*
 *Status: new — open-source feature equivalence and evidence-backed exclusions.*

@@ -2,21 +2,30 @@
 
 ## Phase 1: Landscape contract
 
-- [ ] Add failing registry, freshness, license, and traceability tests.
-- [ ] Define discovery, inclusion, feature, parity, and exclusion schemas.
-- [ ] Pin initial package/tool candidates and authoritative sources.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
+- [x] Add failing registry, freshness, license, and traceability tests.
+  (`2630e39`)
+- [x] Define discovery, inclusion, feature, parity, and exclusion schemas.
+  (`2630e39`)
+- [x] Pin initial package/tool candidates and authoritative sources.
+  (`2630e39`)
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update. (`2630e39`)
 - [ ] Automated review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 1: Landscape contract'
   (Protocol in workflow.md).
 
 ## Phase 2: Feature census and parity
 
-- [ ] Inventory source, tests, docs, examples, vignettes, schemas, and releases.
+- [~] Inventory source, tests, docs, examples, vignettes, schemas, and
+  releases; the initial feature-level snapshot is committed, while
+  estimator-by-estimator source/test extraction remains open.
 - [ ] Build independent fixtures and feature-to-method mappings.
 - [ ] Implement missing justified features without competitor runtime imports.
 - [ ] Add optional migration adapters and reviewed exclusions.
+- [ ] Preserve archived or unavailable tools with unique features, maintenance
+  state, last verifiable behavior, and closest supported workflow.
+- [ ] Normalize licenses to SPDX where possible and prohibit reference-fixture
+  copying until source rights are recorded.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -25,12 +34,14 @@
 
 ## Phase 3: Public evidence
 
-- [ ] Generate the test-linked comparison and run clean isolation tests.
+- [x] Generate the test-linked comparison. (`2630e39`; clean competitor-absent
+  isolation tests remain part of the implementation phase)
 - [ ] Run license, provenance, docs, and complete quality gates.
 - [ ] Schedule quarterly and pre-minor-release refresh checks.
+- [ ] Produce a machine-readable gap report and bounded GitHub triage updates;
+  never generate duplicate issues or overwrite human notes.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Public evidence'
   (Protocol in workflow.md).
-
