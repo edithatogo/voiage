@@ -97,21 +97,47 @@ not become meaningful merely because a numerical value can be calculated.
 
 \subsection{Worked decision example}
 
-For two strategies with net-benefit rows $(0,100)$ and $(0,-100)$, the sample
-EVPI is 50 value units per decision. Perfect information would identify the
-better strategy in each state, whereas current evidence makes the strategies
-equally valuable on average. Suppose a feasible study has an EVSI of 12.5 per
-future decision. This is one quarter of EVPI\@: the study is expected to resolve
-some, but not all, consequential uncertainty.
+Consider a health service deciding whether to fund a new programme instead of
+standard care. In this synthetic example, the programme produces 0.060
+additional quality-adjusted life-years (QALYs) per person on average, with a
+standard deviation of 0.030, and costs 3000 additional value units on average,
+with a standard deviation of 650. The two inputs are sampled independently.
+These are illustrative assumptions, not estimates for a real intervention.
+The analysis uses 10000 draws from this model and places 50000 value units on
+one QALY.
 
-If the study affects 1000 decisions each year for 10 years, using a 3\% annual
-discount rate gives 8530.2028 discounted decision opportunities. Before
-research cost, the expected population value is therefore 106627.5355. With a
-total study cost of 5, population ENBS is 106622.5355 value units. The example
-is intentionally simple. If study results arrive after two years, the early
-decisions receive no benefit from that information; if uptake is 60\%, the
-realized value may also be lower. Those assumptions can matter more to the
-investment decision than additional decimal precision in the EVSI estimate.
+Figure~\ref{fig:health-example} follows the questions a decision-maker might
+ask. Panel A shows how confidence in choosing the new programme changes with
+the value placed on health. Panel B shows the expected value of resolving each
+input at the reference value of 50000 per QALY. In this model, uncertainty
+about the health effect is more consequential than uncertainty about programme
+cost, so evidence collection focused only on cost would leave most avoidable
+decision loss unresolved.
+
+Panel C examines proposed two-arm studies of different sizes. Expected value of
+sample information (EVSI) is estimated from the same probabilistic model using
+the package's efficient linear method. Study costs are assumed to be 350000
+fixed value units plus 1250 per participant. The study affects 10000 decisions
+per year for 10 years, discounted at 3\%. The second scenario delays results
+for two years and assumes that only 60\% of later decisions use them. Expected
+net benefit of sampling (ENBS) is lower in that scenario because fewer decisions
+benefit from the evidence. The comparison illustrates why a study's statistical
+information, cost, timing, and likely implementation must be considered
+together.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{figures/synthetic_health_example.png}
+\caption{Worked synthetic health example. Panel A reports the probability that
+the new programme has greater net benefit than standard care. The dashed line
+marks the reference value of 50000 per QALY. Panel B compares expected value of
+partial perfect information (EVPPI) for the uncertain health effect and cost;
+the dashed line is expected value of perfect information (EVPI) across both
+inputs. Panel C reports population ENBS after subtracting the assumed study
+cost. Values describe the stated simulation and should not be interpreted as
+evidence about an actual programme.}\label{fig:health-example}
+\end{figure}
+\FloatBarrier{}
 
 \subsection{Analytical workflow and checks}
 

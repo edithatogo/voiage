@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a deterministic synthetic health-service worked example to the
+  preprint, with decision-uncertainty, research-priority, and study-value
+  visualizations generated from the public analysis interface.
 - Added cross-referenced glossary and abbreviation end matter to the preprint,
   with every abbreviation expanded at first use.
 - Added a review-complete arXiv draft with verified VOI references, equations,

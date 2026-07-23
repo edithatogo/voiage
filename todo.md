@@ -528,5 +528,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Restored the `two_loop` path, added regression-based EVSI, and hardened the associated tests.
 *   **[PLOT]** Implemented the core plotting functions.
     *   Added `voiage.plot.ceac` and `voiage.plot.voi_curves` for EVPI/EVSI visualization.
+*   **[PAPER]** Added a synthetic health decision worked example.
+    *   Generated deterministic CEAC-style, EVPPI, and ENBS visual evidence
+        from one coherent programme-adoption model for the arXiv manuscript.
 *   **[NMA]** Began the Network Meta-Analysis VOI implementation.
     *   Added the `voiage/methods/network_nma.py` workflow and supporting schema/tests.
