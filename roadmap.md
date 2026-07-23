@@ -4,6 +4,21 @@
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
 
+## Comprehensive Rust-First Polyglot Programme
+
+GitHub issue #313 and Conductor track
+`rust_polyglot_voi_completion_20260723` govern the next programme:
+
+1. **v1.1:** canonical method/external-library registries, complete stable Rust
+   core, contribution transparency, and stable binding contracts.
+2. **v1.2:** complete Value of Perspective and supported-method evidence.
+3. **v1.3:** experimental frontier plus ML/LLM/agent parity and comprehensive
+   Rust, Python, R, Julia, and Mojo conformance.
+
+Feature parity means independently implemented equivalent capability or a
+reviewed exclusion, not an imitation of another package API. Literature,
+software, data, model, and maturity claims remain evidence-gated.
+
 ## Current Status (As of July 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.

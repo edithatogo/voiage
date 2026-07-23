@@ -1,0 +1,45 @@
+{
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-07-23T13:18:53Z",
+  "updated_at": "2026-07-23T13:18:53Z",
+  "description": "Coordinate comprehensive Rust-first, polyglot, literature, external-library, perspective, ML/LLM, evidence, and contribution-transparency completion.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "release_targets": ["v1.1", "v1.2", "v1.3"],
+  "dependencies": [
+    "https://github.com/edithatogo/vop_poc_nz/issues/14",
+    "https://github.com/edithatogo/vop_poc_nz/issues/15"
+  ],
+  "child_issues": [
+    "https://github.com/edithatogo/voiage/issues/314",
+    "https://github.com/edithatogo/voiage/issues/315",
+    "https://github.com/edithatogo/voiage/issues/316",
+    "https://github.com/edithatogo/voiage/issues/317",
+    "https://github.com/edithatogo/voiage/issues/318",
+    "https://github.com/edithatogo/voiage/issues/319",
+    "https://github.com/edithatogo/voiage/issues/320",
+    "https://github.com/edithatogo/voiage/issues/321",
+    "https://github.com/edithatogo/voiage/issues/322",
+    "https://github.com/edithatogo/voiage/issues/323"
+  ],
+  "gates": [
+    {
+      "id": "repository-programme",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "All child tracks must satisfy their repository-owned acceptance criteria."
+    },
+    {
+      "id": "external-release-publication",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Registry acceptance, publication, hardware, source-rights, and authorship decisions remain separately governed."
+    }
+  ]
+}
+

@@ -1,0 +1,2 @@
+{"schema_version":"1.0","timestamp":"2026-07-23T13:18:53Z","task":"track-initialization","status":"passed","evidence":["https://github.com/edithatogo/voiage/issues/317","https://github.com/edithatogo/vop_poc_nz/issues/14","https://github.com/edithatogo/vop_poc_nz/issues/15"],"notes":"Native subissue created and upstream C01/C02 dependencies retained."}
+
