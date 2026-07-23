@@ -1,0 +1,7 @@
+Task: Reconcile Conductor and GitHub track traceability
+
+Summary: Added unique issues, native parents, Project 28 records, evidence-based PR associations, a 129-entry manifest, per-track backlinks, and automated validation.
+
+Validation: full tox passed with 91.01% coverage; live audit confirmed 126 closed issues, 126 native parents, and 126 Done project items. Full Conductor validation retained the pre-existing 222-error baseline.
+
+Rebased onto main e037ee38 to preserve manuscript PR #463 and linear history.
