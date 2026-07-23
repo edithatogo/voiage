@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added relevant prior work by the author on analytical perspective, genomic
+  microcosting, funded-test uptake, and diffusion-based budget impact, while
+  excluding unrelated publications and software repositories.
 - Rebalanced the arXiv manuscript toward economics and data science, with
   expanded treatment of opportunity loss, research versus implementation,
   population scaling, heterogeneity, equity, perspective, model uncertainty,
