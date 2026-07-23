@@ -103,7 +103,7 @@ def validate_local(repo: Path) -> list[str]:
             path = root / filename
             if not path.is_file() or not path.read_text(encoding="utf-8").strip():
                 errors.append(f"{track_id}: missing or empty {filename}")
-        if errors and not root.is_dir():
+        if not root.is_dir():
             continue
 
         metadata = _load_json(root / "metadata.json")
