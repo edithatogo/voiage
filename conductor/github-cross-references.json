@@ -749,8 +749,17 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "pending_pull_request"
+      "pull_requests": [
+        {
+          "number": 465,
+          "url": "https://github.com/edithatogo/voiage/pull/465",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
     },
     {
       "track_id": "core-api-spec-and-polyglot-contracts_20260510",

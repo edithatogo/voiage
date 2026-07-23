@@ -21,7 +21,9 @@
     "issue": "https://github.com/edithatogo/voiage/issues/462",
     "parent_issue": "https://github.com/edithatogo/voiage/issues/322",
     "project": "https://github.com/users/edithatogo/projects/28",
-    "pull_requests": [],
-    "pull_request_evidence": "pending_pull_request"
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/465"
+    ],
+    "pull_request_evidence": "track_delivery"
   }
 }
