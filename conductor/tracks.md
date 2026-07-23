@@ -8,7 +8,7 @@
 
 ---
 
-## [ ] Track: VOI/VOP Method Census And Contract Reconciliation
+## [~] Track: VOI/VOP Method Census And Contract Reconciliation
 *Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
 *Execution order: 02 of 11.*
 *Status: new — canonical method and literature registry required before API

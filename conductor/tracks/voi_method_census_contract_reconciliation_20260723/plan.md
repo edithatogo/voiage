@@ -2,7 +2,7 @@
 
 ## Phase 1: Registry contract
 
-- [ ] Add failing schema, identifier, citation, and traceability tests.
+- [~] Add failing schema, identifier, citation, and traceability tests.
 - [ ] Define the versioned registry and review/disposition vocabulary.
 - [ ] Record search protocol, evidence hierarchy, and source-rights boundary.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
@@ -33,4 +33,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Review and freeze'
   (Protocol in workflow.md).
-
