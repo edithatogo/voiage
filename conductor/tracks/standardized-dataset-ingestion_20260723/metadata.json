@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-23T15:26:00Z",
+  "updated_at": "2026-07-23T15:30:22Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -45,8 +45,8 @@
     {
       "id": "follow-on-recommendation-incorporation",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Native sub-issues #467 and #468 and Project 28 records exist; Conductor and central-manifest amendments are under validation."
+      "status": "satisfied",
+      "evidence": "Commit 211e7aa adds Conductor requirements and phases; issues #467 and #468 are native children of #325 and Project 28 items; cross-reference commit 68bedc01 updates PR #465's central manifest."
     },
     {
       "id": "functional-implementation",

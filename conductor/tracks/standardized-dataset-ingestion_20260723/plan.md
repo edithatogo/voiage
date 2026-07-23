@@ -205,12 +205,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Follow-on recommendation incorporation (2026-07-24)
 
-- [~] **REV2-T1:** Add native sub-issues #467 and #468, Project 28 records,
+- [x] **REV2-T1:** Add native sub-issues #467 and #468, Project 28 records,
   Conductor requirements/phases, central cross-references, and PR dependency
-  notes for the provider SDK and cross-domain reference cases.
-- [ ] **REV2-T2:** Validate and record the follow-on planning amendment without
+  notes for the provider SDK and cross-domain reference cases. (`211e7aa`)
+- [x] **REV2-T2:** Validate and record the follow-on planning amendment without
   claiming that SDK, adapters, examples, or dependency remediation are
-  implemented.
+  implemented. (`211e7aa`)
 
 ## Phase 10 — Reconcile Conductor and GitHub (#325)
 
