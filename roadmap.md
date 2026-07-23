@@ -19,6 +19,14 @@ Feature parity means independently implemented equivalent capability or a
 reviewed exclusion, not an imitation of another package API. Literature,
 software, data, model, and maturity claims remain evidence-gated.
 
+The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
+software, broader decision-modeling packages, public web tools, commercial
+documentation, Bayesian experimental-design and active-learning libraries,
+and the current Rust/Julia/Mojo ecosystem boundary. Its generated matrix is
+evidence-linked and deliberately records planned and non-reproducible
+capabilities rather than turning search hits into parity claims. Quarterly and
+pre-minor-release refreshes remain required.
+
 ## Current Status (As of July 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.

@@ -8,6 +8,7 @@ from scripts.validate_rust_polyglot_programme import (
     PARENT_ISSUE,
     PARENT_TRACK,
     TRACK_ISSUES,
+    missing_required_subissues,
     validate_local,
 )
 
@@ -23,6 +24,14 @@ def test_programme_has_parent_and_ten_child_tracks() -> None:
 
 def test_programme_local_governance_is_consistent() -> None:
     assert validate_local(REPO_ROOT) == []
+
+
+def test_programme_allows_additional_governed_historical_subissues() -> None:
+    observed = set(TRACK_ISSUES.values()) - {PARENT_ISSUE}
+    observed.add(416)
+
+    assert missing_required_subissues(observed) == set()
+    assert missing_required_subissues(observed - {314}) == {314}
 
 
 def test_programme_covers_every_approved_workstream() -> None:

@@ -29,6 +29,58 @@ versioned registries, fixtures, and evidence remain authoritative for technical
 completion; Project 28 is the synchronized public projection.
 
 ```mermaid
+flowchart TD
+    subgraph Discovery["Recorded discovery channels"]
+        CRAN[CRAN and R-universe]
+        PyPI[PyPI]
+        Rust[crates.io]
+        Julia[Julia General]
+        Mojo[Mojo channels]
+        Git[GitHub and GitLab]
+        Web[Web and commercial documentation]
+        Papers[Guidelines and software literature]
+        Adjacent[Bayesian design and active learning]
+    end
+
+    Discovery --> Candidates[Candidate records]
+    Candidates --> Evidence{Authoritative evidence?}
+    Evidence -- No --> Reject[Record search limitation or reject hit]
+    Evidence -- Yes --> Features[Feature-level inventory]
+    Features --> Classify{Classify capability}
+    Classify --> Estimand[Estimand]
+    Classify --> Estimator[Estimator]
+    Classify --> Workflow[Workflow or application]
+    Classify --> Visual[Visualization]
+    Classify --> Related[Related analysis]
+    Estimand --> Methods[Canonical method IDs]
+    Estimator --> Methods
+    Workflow --> Methods
+    Visual --> Methods
+    Related --> Methods
+    Methods --> Disposition[VOIAGE parity disposition]
+    Disposition --> Matrix[Generated public feature matrix]
+    Matrix --> Tests[Schema, traceability and freshness tests]
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> planned
+    planned --> native: VOIAGE-owned implementation and tests
+    planned --> equivalent: independent equivalent evidence
+    planned --> adapter: migration or interchange only
+    planned --> excluded: reviewed scientific, legal or architectural reason
+    planned --> not_reproducible: behavior cannot be independently pinned
+    adapter --> native: numerical authority moves into VOIAGE
+    not_reproducible --> planned: new public evidence appears
+    excluded --> planned: reviewed rationale expires or changes
+```
+
+The source registry is authoritative. The Markdown matrix is deterministic
+derived output. Refresh automation may update machine-readable registry
+metadata, but feature interpretation, exclusions, scientific maturity, and
+license decisions remain reviewed changes.
+
+```mermaid
 flowchart LR
     VOP[VOP canonical contract]
     Mirror[Digest-pinned VOIAGE mirror]

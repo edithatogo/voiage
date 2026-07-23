@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a versioned, evidence-linked census of VOI, Value of Perspective,
+  experimental-design, active-learning, web, and commercial software, plus a
+  generated feature and method matrix with explicit parity dispositions.
 - Added the comprehensive Rust-first polyglot VOIAGE programme, eleven
   cross-linked Conductor tracks, a native GitHub parent/subissue hierarchy,
   Project 28 metadata, and reusable local/live governance validation.

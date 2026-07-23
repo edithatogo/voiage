@@ -16,6 +16,20 @@ programme. The canonical cross-repository requirements are maintained in
   claimed beyond reproducible public behavior.
 - The canonical method registry distinguishes estimands, estimators,
   applications, visualizations, aliases, and maturity.
+- The software census searches CRAN, R-universe, PyPI, crates.io, Julia
+  General, available Mojo channels, GitHub, GitLab, published supplements,
+  web tools, commercial documentation, and adjacent Bayesian-design and
+  active-learning ecosystems on a recorded date.
+- Every observed software feature maps to one or more stable canonical method
+  identifiers and one of `native`, `equivalent`, `adapter`, `planned`,
+  `excluded`, or `not-reproducible`.
+- The generated feature matrix reports versions, maintenance, licenses,
+  evidence links, method class, MoSCoW priority, VOIAGE state, and gaps.
+- Direct decision VOI, Value of Perspective, estimators, visualizations,
+  general modeling, information-theoretic design, and active-learning
+  acquisition remain explicitly distinguishable.
+- Registry snapshots expire within 93 days and before every minor release;
+  stale matrices fail validation.
 - Stable numerics are Rust-authoritative and surfaced consistently through
   Rust, Python, R, Julia, and Mojo.
 - ML, LLM, and agent analyses distinguish decision VOI from entropy-only
@@ -53,6 +67,12 @@ programme. The canonical cross-repository requirements are maintained in
   scheduled/manual evidence rather than slowing every pull request.
 - GitHub governance projections use stable markers, bounded managed sections,
   dry-run plans and conflict detection while preserving human-authored content.
+- Registry refresh automation proposes evidence-preserving diffs and never
+  overwrites a reviewed exclusion, license decision, or human scientific note.
+- Archived or inactive software with unique capabilities remains discoverable
+  with its maintenance state and closest supported VOIAGE workflow.
+- Each `planned` parity row is converted into an implementation, fixture, or
+  reviewed exclusion before the relevant release closes.
 
 ### Could have
 
@@ -60,10 +80,22 @@ programme. The canonical cross-repository requirements are maintained in
 - Automated synchronization of archived tracks and project fields.
 - Signed release attestations for promoted interchange bundles.
 - Deterministic governance traceability tables and Mermaid graphs.
+- SPDX normalization, citation-identifier validation, and automated registry
+  metadata refresh for records with authoritative machine-readable endpoints.
+- A documented candidate-submission template for libraries missed by the
+  reproducible search.
+- A machine-readable gap report that opens or updates bounded method-triage
+  issues without creating duplicate issues.
 
 ### Won't have now
 
 - Unverifiable implementation parity with proprietary or web-only tools.
+- A claim that the landscape is universally exhaustive; registries, search
+  indexes, terminology, and private software make that claim impossible to
+  substantiate.
+- API cloning, trademark imitation, or copying license-incompatible source.
+- Treating entropy reduction, BALD, uncertainty sampling, or acquisition
+  scores as economic VOI without an explicit action and utility or loss.
 - AI systems listed as authors or CRediT contributors.
 - Required network or model-provider access for deterministic examples.
 - Automatic external publication or maturity promotion.
