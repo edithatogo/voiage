@@ -1,5 +1,15 @@
 # Project Tracks
 
+## [~] Track: Conductor GitHub Cross-Reference Reconciliation
+*Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
+*GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
+native sub-issue of [#322](https://github.com/edithatogo/voiage/issues/322),
+in [Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — all completed-track issues and native hierarchy links
+exist; repository manifest, validation, and PR handoff are being finalized.*
+
+---
+
 ## [~] Track: Research Software Registry Readiness
 *Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
 *Execution order: 02 of 02, after the signed v1.0 release provides immutable

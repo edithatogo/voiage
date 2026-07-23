@@ -4,5 +4,12 @@
   "status": "complete",
   "created_at": "2026-05-06T00:44:48Z",
   "updated_at": "2026-05-06T01:04:07Z",
-  "description": "Implement the model-validation / model-discrepancy VOI frontier surface as a runtime feature with deterministic fixtures and docs."
+  "description": "Implement the model-validation / model-discrepancy VOI frontier surface as a runtime feature with deterministic fixtures and docs.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/415",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
 }

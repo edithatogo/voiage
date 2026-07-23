@@ -8,5 +8,14 @@
   "description": "Expand accelerator work to discrete GPU backends once integrated GPU evidence exists.",
   "track_decision": "feasibility_hold",
   "decision_reason": "Colab T4 evidence confirms JAX GPU visibility and EVPI parity for the compact validation workload, but no confirmed discrete-ready Apple Metal or production-sized speedup has been demonstrated, so this track remains feasibility-only.",
-  "next_action": "Retain in feasibility-only mode and re-open only after a reproducible `apple_metal_vs_cpu` or large JAX GPU speedup is collected."
+  "next_action": "Retain in feasibility-only mode and re-open only after a reproducible `apple_metal_vs_cpu` or large JAX GPU speedup is collected.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/371",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/121"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

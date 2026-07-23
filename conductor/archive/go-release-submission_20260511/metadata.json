@@ -4,5 +4,12 @@
   "status": "complete",
   "created_at": "2026-05-10T15:11:27Z",
   "updated_at": "2026-05-10T16:08:52Z",
-  "description": "Close the Go release submission contract across semver tags, GitHub Releases, and module-proxy indexing."
+  "description": "Close the Go release submission contract across semver tags, GitHub Releases, and module-proxy indexing.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/397",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
 }

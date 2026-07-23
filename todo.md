@@ -13,6 +13,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
+*   [ ] Reconcile every Conductor track with GitHub issues, native subissues,
+    Project 28, and evidenced completed-track pull requests.
+    *   Conductor track:
+        `conductor-github-cross-reference-reconciliation_20260724`.
+    *   GitHub issue: #462, native subissue of #322.
+    *   Historical tracks without a provable PR retain an explicit
+        `none_found` evidence state rather than a guessed association.
+
 *   [ ] Complete research-software registry and archival readiness after the
     immutable v1.0 release exists.
     *   Conductor track: `research_software_registry_readiness_20260721`.

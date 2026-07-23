@@ -4,5 +4,12 @@
   "status": "complete",
   "created_at": "2026-05-06T21:44:55Z",
   "updated_at": "2026-05-07T00:00:00Z",
-  "description": "Define an API-preserving Rust-core migration and ABI strategy."
+  "description": "Define an API-preserving Rust-core migration and ABI strategy.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/436",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
 }

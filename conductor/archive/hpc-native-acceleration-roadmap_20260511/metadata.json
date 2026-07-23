@@ -4,5 +4,12 @@
   "status": "complete",
   "created_at": "2026-05-10T15:11:27Z",
   "updated_at": "2026-05-10T16:08:52Z",
-  "description": "Coordinate the staged roadmap from Apple integrated GPU optimization to broader GPU, TPU, and ASIC feasibility for HPC-native readiness."
+  "description": "Coordinate the staged roadmap from Apple integrated GPU optimization to broader GPU, TPU, and ASIC feasibility for HPC-native readiness.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/403",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
 }
