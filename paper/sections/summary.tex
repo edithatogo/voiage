@@ -4,42 +4,42 @@ Value of Information (VOI) analysis asks which uncertainty matters to a
 decision, what evidence could reduce it, and whether the expected improvement
 justifies the cost of learning. In health technology assessment this may mean
 choosing a trial, targeting a subgroup, validating a prediction model, or
-improving uptake. The same logic applies to environmental monitoring,
-engineering reliability, manufacturing quality, energy planning, and
-investment decisions whenever uncertain consequences can be placed on a common
+improving uptake. The formulation can also be used for environmental
+monitoring, engineering reliability, manufacturing quality, energy planning,
+and investment decisions when uncertain consequences are mapped to a common
 decision-value scale.
 
 The difficult part is usually not the textbook expected value of perfect
 information (EVPI) equation. Analysts must decide what counts as a strategy,
 whose outcomes matter, which population and time horizon to scale to, whether a
 model form is credible, whether evidence transports to the target setting, and
-whether a recommendation will be implemented. Different choices can reverse
+whether a recommendation will be implemented. Different choices can change
 the preferred action even when the same simulation output is used. The
-\texttt{voiage} package makes these choices explicit in the analysis inputs,
+\texttt{voiage} package records these choices in the analysis inputs,
 diagnostics, and returned result rather than leaving them as unrecorded
 preprocessing.
 
-The main contributions of \texttt{voiage} are:
+The implemented elements described in this paper are:
 \begin{itemize}
-  \item a coherent stable analysis path from probabilistic net benefits to
+  \item a stable analysis path from probabilistic net benefits to
   EVPI, expected value of partial perfect information (EVPPI), expected value
   of sample information (EVSI), expected net benefit of sampling (ENBS),
   dominance, the cost-effectiveness acceptability frontier (CEAF),
   heterogeneity, and structural VOI\@;
-  \item a labelled decision representation that preserves sample, strategy,
+  \item a labelled decision representation that records sample, strategy,
   parameter, subgroup, perspective, population, and study-design semantics;
-  \item a maturity-labelled frontier that operationalizes value questions
+  \item a maturity-labelled frontier that represents value questions
   about equity, perspective, implementation, validation, transportability,
   data quality, computation, and staged decisions; and
   \item diagnostic result envelopes that retain method, seed, warning,
-  scaling, maturity, and provenance information needed to interpret a value
-  estimate.
+  scaling, maturity, and provenance information that supports interpretation
+  of a value estimate.
 \end{itemize}
 
-Version 1.0.0 implements stable numerical policy in binding-independent Rust
-components and uses Python for model orchestration, labelled data, plots, and
+Version 1.0.0 routes selected stable aggregation kernels through
+binding-independent Rust components. Python retains model orchestration,
+validation for broader method paths, labelled data, plots, and
 reports~\cite{voiage2026}. The R and Julia bindings currently expose direct
-native EVPI\@; their narrower scope is explicit rather than hidden behind
-nominal application programming interface (API) parity. Definitions and
-abbreviations used throughout the paper are collected in
+native EVPI only; wider application programming interface (API) parity is not
+claimed. Definitions and abbreviations used throughout the paper are collected in
 Sections~\ref{sec:glossary} and~\ref{sec:abbreviations}.

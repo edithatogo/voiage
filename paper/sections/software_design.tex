@@ -4,17 +4,17 @@
 
 \texttt{voiage} separates methods by evidentiary maturity rather than presenting
 every callable function as equally established. Stable methods have versioned
-behavior and compatibility guarantees. Fixture-backed methods have explicit
+behavior and documented compatibility commitments. Fixture-backed methods have explicit
 schemas, examples, and deterministic expected results, but still require
 broader methodological and empirical evidence. Experimental capabilities can
 change and are isolated from the stable API\@.
 
-\subsection{Semantics that prevent category errors}
+\subsection{Semantics for reducing category errors}
 
 A \texttt{ValueArray} records values with named sample and strategy dimensions
 and can additionally retain perspective labels. Parameter sets, trial designs,
 decision options, populations, and result envelopes provide the corresponding
-analysis context. This prevents a matrix from silently changing meaning as it
+analysis context. This reduces the risk of a matrix silently changing meaning as it
 moves between an EVPI calculation, subgroup analysis, or perspective
 comparison. Labeled-array behavior follows the scientific Python convention
 represented by \texttt{xarray}~\cite{hoyer2017xarray}.
@@ -50,12 +50,12 @@ methodological maturity.}\label{tab:problems}
 
 \subsection{Implementation boundary and analytical assurance}
 
-Stable numerical policy is implemented in binding-independent Rust components;
-Python executes user-supplied models and supplies orchestration, labelled data,
-plots, and reports. This boundary prevents separate language implementations
-from silently adopting different validation, orientation, or tie-breaking
-rules. Direct R and Julia support is currently limited to EVPI, so wider parity
-is not claimed.
+Binding-independent Rust components implement selected stable aggregation
+kernels. Python executes user-supplied models and retains orchestration,
+validation for broader method paths, labelled data, plots, and reports. For
+kernels routed through Rust, this boundary is intended to reduce divergence in
+validation, orientation, and tie-breaking behavior. Direct R and Julia support
+is currently limited to EVPI, so wider parity is not claimed.
 
 Analytical assurance targets decision properties rather than only code
 execution. Tests cover translation and positive-scaling invariance,
@@ -63,5 +63,6 @@ non-negativity where required, bounds such as $\mathrm{EVPPI}\leq
 \mathrm{EVPI}$, deterministic seeding, rank-deficient regression designs,
 degenerate strategies, malformed inputs, and cross-language fixtures.
 Property-based, metamorphic, fuzz, mutation, and integration tests complement
-example-based checks. These establish behavior of the implemented estimator;
-they cannot validate a user's model structure, evidence, or value judgments.
+example-based checks. These test specified behavior of the implemented
+estimators; they cannot validate a user's model structure, evidence, or value
+judgments.

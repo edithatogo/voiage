@@ -1,9 +1,9 @@
 \section{Statement of need}
 
-VOI analysis is central to deciding whether additional research is worthwhile,
-but practical implementations are often fragmented across domain-specific
-packages, languages, and model formats. This fragmentation complicates
-comparison and can obscure which uncertainty is being valued. A parameter-level
+VOI analysis can inform whether additional research is worthwhile. Practical
+implementations may be split across domain-specific packages, languages, and
+model formats, which can complicate comparison and obscure which uncertainty
+is being valued. A parameter-level
 EVPPI does not answer whether the model structure is wrong; an EVSI does not by
 itself account for incomplete implementation; and population-average VOI can
 hide subgroup-specific decisions or equity trade-offs. Structural uncertainty,
@@ -66,12 +66,11 @@ Regression-based reuse of existing simulation output can reduce the cost of
 this calculation~\cite{strong2015evsi}. For a population-level EVSI $V$ and
 research cost $C$, \texttt{voiage} defines $\mathrm{ENBS}=V-C$.
 
-These estimands are simple to state but easy to implement inconsistently.
-Examples include transposing samples and strategies, accepting non-finite
-values, changing tie-breaking rules, or silently switching approximation
-methods; \texttt{voiage} therefore treats dimensions, finite-value checks,
-method metadata, warnings, seeds, and serialized result envelopes as part of
-the public numerical contract.
+Implementation choices for these estimands can differ. Examples include the
+orientation of samples and strategies, handling of non-finite values,
+tie-breaking rules, and approximation methods. The \texttt{voiage} numerical
+contract therefore records dimensions, finite-value checks, method metadata,
+warnings, seeds, and serialized result envelopes.
 
 The same principle extends beyond classical estimands. For example,
 distributional analysis compares a single population-wide decision with

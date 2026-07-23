@@ -38,6 +38,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Audit the arXiv manuscript for overclaiming and promotional language.
+    *   Removed novelty and distinctiveness claims, qualified intended
+        applications, and described the current Rust/Python boundary narrowly.
+
 *   [x] Add cross-referenced glossary and abbreviation end matter.
     *   Expanded every abbreviation at first use and added labelled glossary
         and abbreviation sections to the canonical manuscript.

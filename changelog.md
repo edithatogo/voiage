@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Narrowed manuscript capability, novelty, application, and architecture
+  statements to the evidence demonstrated by the implemented methods,
+  maturity labels, and current hybrid Rust/Python boundary.
 - Refocused the preprint on the decision, domain, and evidence problems solved
   by the stable and maturity-labelled VOI method families, with explicit limits
   around novel frontier formulations.
