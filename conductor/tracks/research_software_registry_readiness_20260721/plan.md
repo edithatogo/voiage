@@ -37,6 +37,8 @@
 
 - [x] Apply strict Ruff formatting and performance-rule fixes to the JOSS
   validator after the Conductor phase review. (`80af0da`)
+- [x] Reconcile registry-readiness contract tests with the expanded command
+  evidence and completed authenticated arXiv submission. (`f40c2da`)
 
 ## Phase 3: Reconciliation and closeout
 
