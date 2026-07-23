@@ -1,0 +1,47 @@
+name: JOSS Paper
+
+on:
+  pull_request:
+    paths:
+      - "paper.md"
+      - "paper.bib"
+      - "scripts/validate_joss.py"
+      - "tests/test_joss_readiness.py"
+      - ".github/workflows/joss-paper.yml"
+  push:
+    branches: [main]
+    paths:
+      - "paper.md"
+      - "paper.bib"
+      - "scripts/validate_joss.py"
+      - "tests/test_joss_readiness.py"
+      - ".github/workflows/joss-paper.yml"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  joss-paper:
+    name: Validate and build JOSS paper
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Validate JOSS submission package
+        run: python3 scripts/validate_joss.py
+      - name: Build with the Open Journals toolchain
+        uses: openjournals/openjournals-draft-action@85a18372e48f551d8af9ddb7a747de685fbbb01c
+        with:
+          journal: joss
+          paper-path: paper.md
+      - name: Upload review PDF
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: voiage-joss-paper
+          path: paper.pdf
+          if-no-files-found: error
+          retention-days: 30

@@ -7,12 +7,12 @@ tags:
   - uncertainty quantification
   - Python
   - Rust
-  - reproducible research
 authors:
   - given-names: Dylan
     surname: Mordaunt
     affiliation: "1, 2, 3"
     corresponding: true
+    orcid: 0000-0002-9775-0603
 affiliations:
   - name: "Faculty of Health, Education and Psychology, Victoria University of Wellington"
     index: 1
@@ -31,93 +31,129 @@ Value of Information (VOI) analysis estimates how much a decision could improve
 if uncertainty were reduced by collecting additional information. It is useful
 in health economics, clinical-trial design, public policy, environmental
 management, and other settings where decisions must be made before all relevant
-quantities are known. `voiage` is an open-source library for computing and
-communicating VOI analyses from probabilistic decision models. It provides
-implementations of expected value of perfect information (EVPI), expected value
-of partial perfect information (EVPPI), expected value of sample information
-(EVSI), expected net benefit of sampling (ENBS), cost-effectiveness acceptability
-frontiers (CEAF), dominance, and related diagnostics.
+quantities are known. `voiage` computes and communicates VOI analyses from
+probabilistic decision models. It provides expected value of perfect
+information (EVPI), expected value of partial perfect information (EVPPI),
+expected value of sample information (EVSI), expected net benefit of sampling
+(ENBS), cost-effectiveness acceptability frontiers, dominance checks, and
+diagnostics.
 
-Version 1.0.0 uses Rust for selected established calculations. Python supports
-the wider range of analyses, including user models, data checks, reporting,
-plots, and command-line use. The current R and Julia packages calculate EVPI
-directly but do not yet provide the full Python feature set.
+Version 1.0.0 uses binding-independent Rust components for shared domain
+contracts, diagnostics, serialization, and selected established numerical
+kernels. Python provides the wider modelling, validation, reporting, plotting,
+and command-line surface. The current R and Julia source packages call the same
+versioned Rust interface for EVPI but do not yet provide the full Python feature
+set or standalone language-registry installation. This boundary is documented
+so that users can distinguish a shared calculation from a language-specific
+convenience function.
 
 # Statement of need
 
-VOI analysis is central to deciding whether additional research is worthwhile,
+VOI analysis supports decisions about whether additional research is worthwhile,
 but practical implementations are often fragmented across domain-specific
 packages, languages, and model formats. This fragmentation makes it difficult
 to compare analyses, reproduce results, validate edge cases, and move a model
-between a research prototype and an operational decision workflow. Python users
-in particular need a maintained, open implementation that supports common VOI
-methods while remaining compatible with the broader scientific Python
-ecosystem.
+between a research prototype and an operational decision workflow. It also
+creates a risk that the same mathematical quantity is interpreted differently
+after data have been reshaped, relabelled, or transferred between tools.
 
 `voiage` addresses this need with one clear description of the decision,
 careful data checks, repeatable examples, visible warnings and assumptions, and
 results that can be saved and reviewed. It is designed for researchers and
 analysts who need to evaluate the value of proposed data collection, compare
 decisions under uncertainty, or include VOI calculations in wider evidence and
-policy work.
+policy work. Python users receive an installable scientific-computing interface,
+while the shared Rust contracts provide a route for R and Julia analyses to use
+the same validated inputs and calculation rules rather than independent
+reimplementations.
 
 # State of the field
 
 VOI analysis is well established in decision analysis and health economics
 [@claxton1999value; @bradley1993expected].
-The R ecosystem includes mature packages for particular health-economic
-workflows, including Bayesian cost-effectiveness analysis and EVSI methods.
-`voiage` complements rather than replaces those packages by providing a
-cross-domain decision framework through a combination of Rust and Python.
-Extending one specialist health-economic package would not provide the same
-range of decision problems, while rewriting every calculation separately in
-each language would make inconsistent results more likely. Specialist packages
-remain preferable where they provide deeper support for a particular method.
-`voiage` clearly separates established, developing, and experimental features.
+The R package `voi` provides EVPI, EVPPI, EVSI, and ENBS through several
+computational methods [@voi_cran2024], while `BCEA` provides a mature Bayesian
+cost-effectiveness workflow and graphical analysis [@green2022bcea]. SAVI
+offers a focused web workflow for rapid analysis of probabilistic sensitivity
+analysis output and regression-based EVPPI [@strong2014evppi]. These tools are
+appropriate choices when their specialised health-economic workflows match the
+research question.
+
+`voiage` does not seek to replace them. Its separate package is justified by a
+different scope: a language-neutral decision/result contract, explicit
+provenance and maturity labels, cross-domain decision problems, and one Rust
+calculation boundary that can be exercised by multiple language bindings.
+Adding those contracts and non-health domains to a specialist R package would
+change that package's purpose; separately reimplementing each calculation in
+Python, R, and Julia would weaken parity. The trade-off is that `voiage` has less
+depth than established specialist tools for some methods, and its non-Python
+bindings currently expose a narrower stable surface.
 
 # Software design
 
-The software checks that decision data have the expected shape and meaning,
-then uses selected Rust calculations or the broader Python methods as
-appropriate. Optional features for faster computation, plotting, and web use
-are kept separate so that they are not required for a basic analysis.
+The design separates mathematical kernels from language-facing orchestration.
+Rust owns binding-independent types and selected stable reductions; thin PyO3
+and C interfaces expose those operations without placing plotting, data-frame,
+or language-runtime dependencies in the numerical crates. Python retains
+labelled data, user-model orchestration, and methods that have not yet met the
+cross-language promotion criteria. R and Julia use the versioned C boundary for
+their released EVPI path.
 
-Correctness is checked with worked examples, unit and integration tests,
-generated edge cases, deliberately introduced faults, performance checks, and
-fresh installations. The release process also checks package contents,
-dependencies, and reproducibility. Version 1.0.0 is available from GitHub and
-PyPI; other publication and registry processes are tracked separately.
+This architecture trades a larger repository and explicit interface contracts
+for consistent behaviour across languages. It also permits reviewers to test
+the kernels without a Python runtime and to test the Python wheel as a normal
+user would. Optional plotting, accelerator, and web dependencies are separated
+from the basic installation. Stable, developing, and experimental methods are
+labelled independently because implementation alone does not establish that a
+method is suitable for every decision problem.
+
+Correctness evidence includes analytical fixtures, unit and integration tests,
+property-based and differential tests, mutation testing, Rust fuzzing and Miri,
+cross-language conformance fixtures, clean installations, and cross-platform
+continuous integration. The v1.0.0 release includes source and platform wheels,
+checksums, a software bill of materials, and provenance attestations.
 
 # Research impact statement
 
-`voiage` is intended to support research in health technology assessment,
-clinical-trial design, public policy, environmental decision-making, and
-related areas of uncertainty quantification. The repository contains
-deterministic analytical and integration fixtures, tutorials, cross-language
-contracts, and representative workflows that exercise these use cases. At the
-time of preparing this draft, the authors are completing the evidence package
-for externally documented research use and adoption; this statement must be
-updated with specific public publications, preprints, or research projects
-before a JOSS submission if the editorial screening requires them.
+The repository records two concrete developer-led research uses. First, the
+synthetic health study accompanying the preprint uses `voiage` to compare
+parameter uncertainty and alternative study sizes under stated uptake, delay,
+population, and cost assumptions. The fixed-seed script, plotted results, and
+machine-readable outputs allow the calculation to be rerun and inspected.
+Second, a versioned integration contract with the `vop_poc_nz` research
+repository carries decision-model records, provenance, schema fingerprints, and
+expected numerical results between the projects. These are public,
+reproducible materials rather than evidence of independent adoption.
+
+The package has been developed publicly since July 2025. Its release and
+documentation support further use in health technology assessment, trial
+design, public policy, and other probabilistic decision models, but claims of
+external uptake will be added only when attributable evidence is available.
 
 # AI usage disclosure
 
-OpenAI Codex and Google Jules assisted with repository analysis, implementation
-review, security and release workflow review, documentation drafting, and
-preparation of this manuscript. The repository does not retain a complete
-retrospective inventory of model versions used across development. Suggestions
-were checked against source code, tests, references, and generated artifacts.
-The human author remains responsible for the software design, claims,
-references, author list, and final text; no AI tool is an author.
+OpenAI Codex using GPT-5-family models and Google Jules using
+service-managed models assisted with repository analysis, code and test
+drafting, refactoring, documentation, security and release-workflow review, and
+manuscript drafting and copy-editing. Exact model identifiers were not retained
+for every historical session, and Google Jules did not expose a stable model
+version in the repository record. The human author selected the research
+problem and architecture, reviewed and edited merged changes, and validated
+AI-assisted outputs against source code, tests, references, numerical fixtures,
+and generated artefacts. The human author remains responsible for the
+software, claims, citations, authorship, and final submission; no AI system is
+an author. AI tools will not be used to compose substantive exchanges with JOSS
+editors or reviewers.
 
 # Acknowledgements
 
-The author acknowledges the open-source communities whose statistical,
-scientific-computing, and programming tools support this work. Funding,
-institutional support, and additional contributors must be confirmed before
-submission.
+The author acknowledges the maintainers of the statistical,
+scientific-computing, packaging, and research-software infrastructure on which
+this work depends. No external funding is declared for this submission.
 
 # References
 
-The software citation follows established software-citation guidance
-[@smith2016software].
+Version 1.0.0 is available from the public release [@voiage2026] and the
+repository snapshot is preserved by Software Heritage
+[@voiage_software_heritage]. The citation metadata follows established
+software-citation guidance [@smith2016software].

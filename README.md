@@ -238,8 +238,11 @@ and [SECURITY.md](SECURITY.md).
   [`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`](https://archive.softwareheritage.org/swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32)
 
 The canonical preprint source is [`paper/main.tex`](paper/main.tex). Repository
-automation builds, lints, audits, and packages the manuscript, but does not
-upload it. Neither arXiv nor JOSS submission is claimed.
+automation builds, lints, audits, and packages the manuscript. Authenticated
+arXiv submission `7861466` is verified as submitted, but a permanent arXiv
+identifier and announcement have not yet been assigned. The separate
+[`paper.md`](paper.md) adaptation passes repository-owned JOSS preflight; no
+JOSS submission, review, or acceptance is claimed.
 
 ## Project status and roadmap
 
