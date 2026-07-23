@@ -30,6 +30,7 @@ SOURCE_SUFFIXES = {
     ".png",
     ".jpg",
     ".jpeg",
+    ".pdf",
     ".eps",
     ".ps",
 }

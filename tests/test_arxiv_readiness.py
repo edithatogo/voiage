@@ -105,7 +105,9 @@ def test_arxiv_source_archive_contains_only_submission_sources() -> None:
         assert "main.tex" in names
         assert "paper.tex" not in names
         assert not any(name.startswith("build/") for name in names)
-        assert not any(name.endswith(".pdf") for name in names)
+        assert {name for name in names if name.endswith(".pdf")} == {
+            "figures/synthetic_health_example.pdf"
+        }
         documentclasses = 0
         for member in tex_sources:
             extracted = source.extractfile(member)

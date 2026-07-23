@@ -223,7 +223,14 @@ def render(example: HealthExample, output_stem: Path) -> None:
         dpi=300,
         metadata={"Software": "voiage"},
     )
-    figure.savefig(output_stem.with_suffix(".eps"), format="eps")
+    figure.savefig(
+        output_stem.with_suffix(".pdf"),
+        metadata={
+            "Creator": "voiage",
+            "CreationDate": None,
+            "ModDate": None,
+        },
+    )
     plt.close(figure)
 
 
@@ -233,7 +240,7 @@ def main() -> None:
     output_stem = Path("paper/figures/synthetic_health_example")
     render(example, output_stem)
     print(f"wrote {output_stem.with_suffix('.png')}")
-    print(f"wrote {output_stem.with_suffix('.eps')}")
+    print(f"wrote {output_stem.with_suffix('.pdf')}")
     print(f"EVPI={example.evpi:.2f}")
     print(f"EVPPI(effect)={example.evppi_effect:.2f}")
     print(f"EVPPI(cost)={example.evppi_cost:.2f}")
