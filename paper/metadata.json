@@ -1,9 +1,9 @@
 {
-  "title": "voiage: Reproducible Value of Information Analysis with an Authoritative Rust Core",
+  "title": "voiage: Value of Information Analysis",
   "authors": [
     {
-      "name": "Dylan Mordaunt",
-      "affiliation": "Independent Researcher, Australia"
+      "name": "Dylan A. Mordaunt",
+      "affiliation": "Faculty of Health, Education and Psychology, Victoria University of Wellington; College of Medicine and Public Health, Flinders University; Centre for Health Policy, The University of Melbourne"
     }
   ],
   "abstract": "voiage is open-source research software for reproducible Value of Information analysis. Version 1.0.0 combines a broad Python interface with authoritative Rust numerical kernels and direct C-ABI EVPI bindings for R and Julia, supported by language-neutral fixtures, structured diagnostics, and reproducible assurance gates.",

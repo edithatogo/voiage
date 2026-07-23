@@ -38,6 +38,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Align the arXiv review draft title and affiliations with the author's
+    established manuscript records.
+    *   Simplified the title to `voiage: Value of Information Analysis`.
+    *   Reconciled the author name and three current affiliations against the
+        `foi-o` and `vop_poc_nz` manuscripts.
+
 *   [x] Apply the hardened LaTeX/arXiv template to the voiage manuscript.
     *   Made `paper/main.tex` the canonical semantic manuscript source and
         removed the obsolete Quarto/JSS generation path and tracked PDFs.

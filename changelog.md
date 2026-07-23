@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Aligned the preprint title and author affiliations with the author's existing
+  `foi-o` and `vop_poc_nz` manuscript records.
 - Made `paper/main.tex` the authoritative preprint while retaining `paper.md`
   as the JOSS adaptation and keeping authenticated submission decisions human.
 
