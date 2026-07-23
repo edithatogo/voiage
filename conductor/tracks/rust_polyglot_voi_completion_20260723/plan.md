@@ -33,7 +33,7 @@
 - [x] Review fixes: restrict extraction to public, non-empty API records;
   contain generated paths; emit deterministic, deployment-aware links; repair
   the plugin artifact gate; and normalize the site's internal links.
-  (`afe623a1`; plugin commits through `dc3f9c0`)
+  (`afe623a1`; plugin commits through `3561e72`)
 - [ ] Commit each functional task, attach a git note, record its short commit
   SHA, and commit the plan update.
 - [ ] Automated Conductor review and validation checkpoint.
