@@ -14,7 +14,10 @@
   cannot suppress inspection of later tracks. (`9cf3849d`, rebased)
 - [x] Integration fix: make the frozen v1 baseline require its recorded tracks
   as a subset, rather than prohibit later separately governed programmes.
-- [x] Python 3.12 full suite: 2,032 passed and 16 skipped.
+- [x] Full Python and dependency matrix: Python 3.12 and minimum dependencies
+  each passed 2,032 tests with 16 skips; Python 3.13, Python 3.14, and maximum
+  dependencies each passed 2,033 tests with 15 skips; coverage passed at
+  91.01%.
 - [ ] Conductor - User Manual Verification 'Phase 1: Governance foundation'
   (Protocol in workflow.md).
 
