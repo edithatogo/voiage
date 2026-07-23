@@ -3,8 +3,8 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-22T09:15:00Z",
-  "next_action": "Use the completed Software Heritage snapshot as archival evidence, submit or register the Julia and R packages through their external registry paths, and complete the SciCrunch/RRID and JOSS author gates.",
+  "checked_at": "2026-07-23T11:50:01Z",
+  "next_action": "Merge PR #311 after hosted checks pass, complete the author-controlled arXiv review and submission gates in issue #312, submit or register the Julia and R packages through their external registry paths, and complete SciCrunch/RRID curation. JOSS remains deferred.",
   "external_gate": "The signed public v1.0.0 release and Software Heritage snapshot are complete. Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
   "release_evidence": {
     "tag": "v1.0.0",
@@ -50,6 +50,8 @@
   },
   "arxiv_preprint_evidence": {
     "status": "repository_ready_for_human_review",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/312",
+    "review_pr": "https://github.com/edithatogo/voiage/pull/311",
     "canonical_source": "paper/main.tex",
     "metadata": "paper/metadata.json",
     "readiness_manifest": "paper/readiness-manifest.json",

@@ -1,10 +1,13 @@
 # Project Tracks
 
-## [ ] Track: Research Software Registry Readiness
+## [~] Track: Research Software Registry Readiness
 *Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
 *Execution order: 02 of 02, after the signed v1.0 release provides immutable
 release and archival evidence.*
-*Status: planned — repository readiness can proceed before release, but live
+*Status: in progress — release and Software Heritage evidence are complete;
+RRID curation, arXiv author review/submission, JOSS deferral, and external
+language-registry outcomes remain explicit gates. Repository readiness can
+proceed before release, but live
 archival, identifiers, submission, review, and acceptance remain external.*
 
 ---

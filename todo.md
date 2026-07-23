@@ -18,6 +18,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Conductor track: `research_software_registry_readiness_20260721`.
     *   GitHub parent issue: #296, with Software Heritage, RRID, and JOSS
         deliverables in #297--#299.
+    *   The arXiv-first manuscript lane is native subissue #312 under #299;
+        PR #311 contains the final repository-owned review changes.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 

@@ -43,7 +43,9 @@ The preprint is now authored in canonical semantic LaTeX using the hardened
 deterministic source packaging, TeX Live 2023/2025 compatibility, LaTeX and PDF
 assurance, semantic HTML, and provenance-tool boundaries. Author confirmation,
 arXiv category/license/endorsement, authenticated upload, moderation, and
-announcement remain explicit human or external gates.
+announcement remain explicit human or external gates. GitHub issue #312 is the
+native arXiv-readiness subissue of JOSS-readiness issue #299, with both linked
+to Conductor track `research_software_registry_readiness_20260721`.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

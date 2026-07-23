@@ -7,6 +7,7 @@
 
 ## Workflow
 - [Workflow](./workflow.md)
+- [VCS Workflow](./vcs.md)
 - [Code Style Guides](./code_styleguides/)
 
 ## Management
@@ -14,5 +15,5 @@
 - [Mermaid Design](./design.md)
 - [VOP–VOIAGE GitHub Project](https://github.com/users/edithatogo/projects/28)
 - [Tracks Registry](./tracks.md)
-- [Active Tracks Directory](./tracks/)
-- [Archived Tracks](./archive/)
+- [Tracks Directory](./tracks/)
+- [Archive Directory](./archive/)

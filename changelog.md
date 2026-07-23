@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Integrated the manuscript backlog into the active registry-readiness
+  Conductor track, GitHub's native issue hierarchy, and Project 28.
 - Softened prescriptive wording throughout the preprint and recast analytical
   recommendations as assumptions, interpretations, or optional checks.
 - Added relevant prior work by the author on analytical perspective, genomic
