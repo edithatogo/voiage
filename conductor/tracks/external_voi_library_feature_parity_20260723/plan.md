@@ -10,7 +10,8 @@
   (`2630e39`)
 - [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update. (`2630e39`)
-- [ ] Automated review and validation checkpoint.
+- [x] Automated review and validation checkpoint. (`c4c4fab`; registry,
+  governance, Ruff, and live GitHub reconciliation passed)
 - [ ] Conductor - User Manual Verification 'Phase 1: Landscape contract'
   (Protocol in workflow.md).
 
@@ -45,3 +46,8 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Public evidence'
   (Protocol in workflow.md).
+
+## Review fixes
+
+- [x] Add a separately versioned method-evidence registry so software feature
+  links cannot be mistaken for complete scientific support. (`c4c4fab`)

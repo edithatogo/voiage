@@ -10,7 +10,9 @@
   (`2630e39`)
 - [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update. (`2630e39`)
-- [ ] Automated review and validation checkpoint.
+- [x] Automated review and validation checkpoint. (`c4c4fab`; added executable
+  method-to-source coverage after self-review found that feature URLs alone did
+  not satisfy method-level citation traceability)
 - [ ] Conductor - User Manual Verification 'Phase 1: Registry contract'
   (Protocol in workflow.md).
 
@@ -35,8 +37,9 @@
 ## Phase 3: Review and freeze
 
 - [ ] Run registry, citation, SourceRight, docs, and full repository gates.
-- [ ] Add citation-identifier validation and an evidence-preserving quarterly
-  refresh job with a 93-day freshness limit.
+- [~] Add citation-identifier validation and an evidence-preserving quarterly
+  refresh job with a 93-day freshness limit. (source identifiers and complete
+  method coverage landed in `c4c4fab`; scheduled refresh remains open)
 - [ ] Add a missed-library/missed-method contribution template and duplicate-
   resistant triage automation.
 - [ ] Obtain human scientific review of stable definitions and dispositions.
@@ -46,3 +49,10 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Review and freeze'
   (Protocol in workflow.md).
+
+## Review fixes
+
+- [x] Require every canonical method to resolve to one or more registered
+  sources and an explicit review state. (`c4c4fab`)
+- [x] Keep repository-defined VOP and LLM/agent applications visibly separate
+  from primary-verified established methods. (`c4c4fab`)
