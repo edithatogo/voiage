@@ -1,0 +1,1 @@
+Automated review fixed missing method-to-source coverage by adding a versioned evidence schema and requiring all 59 method IDs to resolve to reviewed sources. Focused registry/governance tests, Ruff, and live GitHub validation passed.
