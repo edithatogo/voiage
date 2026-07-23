@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Retitled the preprint “voiage: Value of Information for Research,
+  Implementation, and Decision Making”.
 - Renamed the preprint's opening section from “Summary” to “Introduction”.
 - Integrated the manuscript backlog into the active registry-readiness
   Conductor track, GitHub's native issue hierarchy, and Project 28.

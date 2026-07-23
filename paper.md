@@ -1,5 +1,5 @@
 ---
-title: "voiage: Value of Information Analysis"
+title: "voiage: Value of Information for Research, Implementation, and Decision Making"
 tags:
   - value of information
   - decision analysis
