@@ -9,19 +9,23 @@ engineering reliability, manufacturing quality, energy planning, and
 investment decisions whenever uncertain consequences can be placed on a common
 decision-value scale.
 
-The difficult part is usually not the textbook EVPI equation. Analysts must
-decide what counts as a strategy, whose outcomes matter, which population and
-time horizon to scale to, whether a model form is credible, whether evidence
-transports to the target setting, and whether a recommendation will be
-implemented. Different choices can reverse the preferred action even when the
-same simulation output is used. The \texttt{voiage} package makes these choices explicit in
-the analysis inputs, diagnostics, and returned result rather than leaving them
-as unrecorded preprocessing.
+The difficult part is usually not the textbook expected value of perfect
+information (EVPI) equation. Analysts must decide what counts as a strategy,
+whose outcomes matter, which population and time horizon to scale to, whether a
+model form is credible, whether evidence transports to the target setting, and
+whether a recommendation will be implemented. Different choices can reverse
+the preferred action even when the same simulation output is used. The
+\texttt{voiage} package makes these choices explicit in the analysis inputs,
+diagnostics, and returned result rather than leaving them as unrecorded
+preprocessing.
 
 The main contributions of \texttt{voiage} are:
 \begin{itemize}
   \item a coherent stable analysis path from probabilistic net benefits to
-  EVPI, EVPPI, EVSI, ENBS, dominance, CEAF, heterogeneity, and structural VOI\@;
+  EVPI, expected value of partial perfect information (EVPPI), expected value
+  of sample information (EVSI), expected net benefit of sampling (ENBS),
+  dominance, the cost-effectiveness acceptability frontier (CEAF),
+  heterogeneity, and structural VOI\@;
   \item a labelled decision representation that preserves sample, strategy,
   parameter, subgroup, perspective, population, and study-design semantics;
   \item a maturity-labelled frontier that operationalizes value questions
@@ -35,5 +39,7 @@ The main contributions of \texttt{voiage} are:
 Version 1.0.0 implements stable numerical policy in binding-independent Rust
 components and uses Python for model orchestration, labelled data, plots, and
 reports~\cite{voiage2026}. The R and Julia bindings currently expose direct
-native EVPI\@; their narrower scope is explicit rather than hidden behind nominal
-API parity.
+native EVPI\@; their narrower scope is explicit rather than hidden behind
+nominal application programming interface (API) parity. Definitions and
+abbreviations used throughout the paper are collected in
+Sections~\ref{sec:glossary} and~\ref{sec:abbreviations}.

@@ -38,6 +38,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Add cross-referenced glossary and abbreviation end matter.
+    *   Expanded every abbreviation at first use and added labelled glossary
+        and abbreviation sections to the canonical manuscript.
+
+*   [x] Number the arXiv manuscript references sequentially by first citation.
+    *   Switched the canonical BibTeX style from alphabetical `plain` ordering
+        to citation-order `unsrt` ordering and verified the rendered sequence.
+
 *   [x] Refocus the arXiv review draft on substantive VOI problems and
     contributions.
     *   Centered the manuscript on parameter, structural, population,

@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added cross-referenced glossary and abbreviation end matter to the preprint,
+  with every abbreviation expanded at first use.
 - Added a review-complete arXiv draft with verified VOI references, equations,
   an explicit Rust/Python/R/Julia binding boundary, and deterministic Textstat
   evidence generated from the canonical PDF.
@@ -34,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Numbered manuscript references by first appearance rather than alphabetically.
 - Aligned the arXiv workflow with the repository's pinned uv frontier and
   corrected the retained Julia release test to reflect read-only release jobs.
 - Made publication dispatches consume the already staged and reviewed draft

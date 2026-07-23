@@ -46,6 +46,32 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
     assert "edithatogo/authentext.git" in modules
 
 
+def test_manuscript_uses_citation_order_and_cross_referenced_end_matter() -> None:
+    root = Path.cwd()
+    main_tex = (root / "paper/main.tex").read_text()
+    summary = (root / "paper/sections/summary.tex").read_text()
+    glossary = (root / "paper/sections/glossary.tex").read_text()
+    abbreviations = (root / "paper/sections/abbreviations.tex").read_text()
+
+    assert "\\bibliographystyle{unsrt}" in main_tex
+    assert "\\input{sections/glossary}" in main_tex
+    assert "\\input{sections/abbreviations}" in main_tex
+    assert "\\label{sec:glossary}" in glossary
+    assert "\\label{sec:abbreviations}" in abbreviations
+    assert "\\ref{sec:glossary}" in summary
+    assert "\\ref{sec:abbreviations}" in summary
+    for expansion in (
+        "Value of Information (VOI)",
+        "expected value of perfect\ninformation (EVPI)",
+        "expected value of partial perfect information (EVPPI)",
+        "expected value\n  of sample information (EVSI)",
+        "expected net benefit of sampling (ENBS)",
+        "cost-effectiveness acceptability frontier (CEAF)",
+        "application programming interface (API)",
+    ):
+        assert expansion in summary
+
+
 def test_readability_normalization_joins_pdf_line_break_hyphenation() -> None:
     root = Path.cwd()
     path = root / "scripts/audit_arxiv_readability.py"
