@@ -98,7 +98,7 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     for track_id in ACTIVE_TRACK_IDS:
         assert track_id in roadmap
         assert track_id in todo
-    assert "## [ ] Track: Research Software Registry Readiness" in registry
+    assert "## [~] Track: Research Software Registry Readiness" in registry
 
 
 def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:

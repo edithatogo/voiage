@@ -1,34 +1,72 @@
-\section{State of the field}
+\section{Decision problem and related work}
 
 VOI is established in statistical decision analysis and health-economic
-evaluation~\cite{claxton1999irrelevance,briggs2006decision}. R tooling
-includes the Bayesian cost-effectiveness analysis (BCEA)
-ecosystem~\cite{baio2017bcea}, while methodological work has made EVPPI and EVSI more
-practical using regression estimators~\cite{strong2014evppi,strong2015evsi}.
-Methods also exist for structural uncertainty, heterogeneity, distributional
-cost-effectiveness, implementation, and adaptive trial
-design~\cite{jackson2011structural,espinoza2014heterogeneity,asaria2016distributional,fenwick2008implementation,flight2022sequential}.
-These are complementary advances. Reimplementing their names does not by
-itself constitute a methodological contribution, and \texttt{voiage} does not
-claim statistical superiority over specialist implementations.
+evaluation~\cite{claxton1999irrelevance,briggs2006decision}. R tooling includes
+the Bayesian cost-effectiveness analysis (BCEA)
+ecosystem~\cite{baio2017bcea}, while regression estimators have made EVPPI and
+EVSI more practical~\cite{strong2014evppi,strong2015evsi}. Methods also address
+structural uncertainty, heterogeneity, distributional cost-effectiveness,
+implementation, transportability, adaptive study design, and the value of
+delaying a reversible decision~\cite{jackson2011structural,espinoza2014heterogeneity,asaria2016distributional,fenwick2008implementation,bareinboim2016datafusion,flight2022sequential,palmer2000options}.
+These methods answer related but different questions. Reimplementing their
+names does not constitute a methodological contribution, and
+\texttt{voiage} does not claim statistical superiority over specialist
+implementations.
 
-These concerns can be evaluated in separate analyses even when they act on the
-same decision. That separation can obscure economically important
-interactions. Research may have little realized value if implementation is
-weak. A strategy that maximizes average net benefit may not maximize an
-equity-weighted objective. Precise evidence from one population may have little
-value for another population if treatment effects, costs, preferences, or
-delivery conditions differ. Immediate adoption may also destroy the value of
-waiting when a decision is costly to reverse. These are differences in the
-decision being valued, not merely alternative ways to calculate the same
-number.
+Practical analyses may be split across domain-specific packages, languages,
+and model formats. This can obscure which source of uncertainty is being
+valued. Parameter-level EVPPI does not show whether another model structure
+would change the decision. EVSI does not by itself account for incomplete
+implementation. Population-average VOI can hide subgroup decisions or equity
+trade-offs. Evidence from one population may also have limited value in
+another when effects, costs, preferences, or delivery differ.
 
-\texttt{voiage} brings these questions into a common decision-analysis
-framework. Analysts can compare whether the main avoidable loss arises from
-uncertain parameters, a proposed study, model structure, population
-heterogeneity, the chosen social objective, weak implementation, unsuitable
-evidence, or the timing of commitment. This does not make the quantities
-automatically commensurable: each analysis still requires an explicit value
-function, target population, time horizon, counterfactual action, and evidence
-model. Several newer features also need testing with real applications and
-comparison with established specialist methods.
+\texttt{voiage} groups these concerns into five decision questions:
+\begin{enumerate}
+  \item \emph{parameter and sample information}: which uncertain inputs or
+  proposed studies could change the preferred strategy;
+  \item \emph{model and evidence adequacy}: whether structural assumptions,
+  validation data, measurement quality, or transportability warrant further
+  investigation;
+  \item \emph{population and social value}: whether heterogeneity, preferences,
+  equity weights, or analytical perspective alter the decision;
+  \item \emph{delivery}: whether uptake, adherence, coverage, or delay changes
+  the value likely to be realised; and
+  \item \emph{timing and control}: whether sequential learning, waiting,
+  irreversibility, or portfolio constraints change when to act.
+\end{enumerate}
+
+These concerns can interact. Research may have little realised value if
+implementation is weak. A strategy that maximises average net benefit may not
+maximise an equity-weighted objective. Immediate adoption may remove the value
+of waiting when a decision is costly to reverse. The quantities are not
+automatically commensurable: each depends on a value function, target
+population, time horizon, counterfactual action, and evidence model.
+
+The framework is domain-neutral, but its inputs retain domain meaning. Health
+analyses can use net monetary or health benefit, willingness-to-pay thresholds,
+eligible populations, and study costs. Other applications can use ecological,
+engineering, business, or public-value outcomes when uncertain states and
+strategies map to a comparable decision-value scale. The shared computational
+form does not make those substantive mappings interchangeable.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{p{0.20\linewidth}p{0.34\linewidth}p{0.36\linewidth}}
+\toprule
+Source of avoidable loss & Decision question & Relevant analysis \\
+\midrule
+Information & What would perfect, partial, or sample information change? & EVPI, EVPPI, EVSI, ENBS \\
+Model & Could structure, validation, or computation change the decision? & Structural VOI, validation, computational refinement \\
+Population & Would subgroups, preferences, perspective, or equity change action? & Heterogeneity, distributional equity, preference, perspective \\
+Delivery & How much modelled value is likely to be realised? & Implementation adjustment and strategy comparison \\
+Evidence system & Is evidence suitable for the target decision? & Data quality, transportability, synthesis, monitoring, obsolescence \\
+Timing & Could evidence collection or commitment adapt over time? & Sequential studies, real options, portfolios \\
+\bottomrule
+\end{tabular}
+\caption{Sources of avoidable decision loss represented in version 1. The
+table describes analytical scope; individual methods retain established,
+developing, or experimental status.}\label{tab:problems}
+\end{table}
+\FloatBarrier{}

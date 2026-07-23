@@ -1,113 +1,103 @@
-\section{Statement of need}
+\section{Information measures}
 
-VOI analysis can inform whether additional research is worthwhile. Practical
-implementations may be split across domain-specific packages, languages, and
-model formats, which can complicate comparison and obscure which uncertainty
-is being valued. A parameter-level
-EVPPI does not answer whether the model structure is wrong; an EVSI does not by
-itself account for incomplete implementation; and population-average VOI can
-hide subgroup-specific decisions or equity trade-offs. Structural uncertainty,
-heterogeneity, and implementation are established methodological concerns, not
-software edge cases~\cite{jackson2011structural,espinoza2014heterogeneity,fenwick2008implementation}.
-
-\texttt{voiage} addresses five connected decision questions:
-\begin{enumerate}
-  \item \emph{parameter and sample information}: which uncertain inputs or
-  proposed studies could change the preferred strategy;
-  \item \emph{model and evidence adequacy}: whether structural assumptions,
-  validation data, measurement quality, or transportability warrant further
-  investment;
-  \item \emph{population and social value}: whether subgroup heterogeneity,
-  preferences, equity weights, or analytical perspective alter the decision;
-  \item \emph{delivery}: whether uptake, adherence, coverage, delay, or
-  implementation uncertainty erodes expected value; and
-  \item \emph{timing and control}: whether sequential learning, adaptive
-  sampling, waiting, irreversibility, or portfolio constraints change when to
-  act.
-\end{enumerate}
-
-This taxonomy is domain-neutral, but its inputs retain domain meaning. Health
-analyses can use net monetary or health benefit, willingness-to-pay thresholds,
-eligible populations, and trial costs. Environmental analyses can compare
-monitoring or mitigation strategies under ecological and monetary
-consequences. Engineering and manufacturing analyses can value reliability,
-failure, inspection, or quality information. Financial and energy analyses can
-value delayed commitment, changing evidence, and irreversible investment. The
-common requirement is an explicit mapping from uncertain states and strategies
-to comparable decision value; the package does not pretend that the mapping is
-scientifically interchangeable across domains.
+\subsection{Perfect, partial, and sample information}
 
 Let $NB_{sd}$ denote the net benefit for probabilistic sample $s$ and strategy
 $d$. For $S$ samples and $D$ strategies, the sample EVPI estimator is
-\begin{equation}
+\begin{equation}\label{eq:evpi}
   \widehat{\mathrm{EVPI}} =
   \frac{1}{S}\sum_{s=1}^{S}\max_{d} NB_{sd}
   - \max_{d}\frac{1}{S}\sum_{s=1}^{S} NB_{sd}.
 \end{equation}
-This estimates the expected gain from perfect information, equivalently the
-expected reduction in decision loss relative to acting with current
-information. Under representative independent and identically distributed
-draws with finite expectations, the plug-in estimator is consistent. In finite
-samples it is generally downward-biased because the maximum of estimated
-strategy means is upward-biased. Reporting its Monte Carlo uncertainty helps
-to show the precision of the estimate. EVPPI restricts perfect information to
-a parameter subset $\phi$ and integrates over the complementary uncertainty
-$\theta_{-\phi}$,
-\begin{equation}
+It estimates the expected reduction in decision loss if all uncertainty
+represented by the simulation could be resolved. Under representative
+independent and identically distributed draws with finite expectations, the
+plug-in estimator is consistent. In finite samples it is generally
+downward-biased because the maximum of estimated strategy means is
+upward-biased. Monte Carlo uncertainty provides context for the estimate.
+
+EVPPI restricts perfect information to a parameter subset $\phi$ and integrates
+over the complementary uncertainty $\theta_{-\phi}$,
+\begin{equation}\label{eq:evppi}
   \mathrm{EVPPI}(\phi) =
   \mathbb{E}_{\phi}\!\left[\max_d
   \mathbb{E}_{\theta_{-\phi}\mid\phi}
   \{NB_d(\phi,\theta_{-\phi})\}\right]
-  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\},
+  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
 \end{equation}
-which is commonly estimated using regression from a probabilistic sensitivity
-analysis sample~\cite{strong2014evppi}. EVSI instead values a proposed finite
-study with fixed design and data $Y$ by averaging the decision made after
-observing its data,
-\begin{equation}
+Regression from a probabilistic sensitivity analysis sample is one common
+estimator~\cite{strong2014evppi}. EVSI instead values a specified finite study
+with data $Y$,
+\begin{equation}\label{eq:evsi}
   \mathrm{EVSI}(Y) =
   \mathbb{E}_{Y\sim p(Y)}\!\left[\max_d
   \mathbb{E}_{\theta\mid Y}\{NB_d(\theta)\}\right]
   - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
 \end{equation}
-Regression-based reuse of existing simulation output can reduce the cost of
-this calculation~\cite{strong2015evsi}. The supplied nested simulation
-calculates this quantity for a study model with normally distributed outcomes
-and a standard normal update. Other faster approximations make additional
-assumptions. Restricting their answers to a plausible numerical range can hide
-simulation or model-fitting problems and does not show that they are accurate.
+Its interpretation depends on the likelihood, prior, allocation, outcomes, and
+decision rule used to describe the study. Regression reuse of existing
+simulation output can reduce computational cost, while decision-theoretic
+study design can compare sample sizes against their
+costs~\cite{strong2015evsi,willan2005trial}.
+
+\subsection{Population, implementation, and timing}
 
 For per-decision, per-period EVSI $v$, recurring population $N$, horizon $T$,
 annual discount rate $r$, and total research cost $C$, \texttt{voiage} defines
-\begin{equation}
+\begin{equation}\label{eq:enbs}
   \mathrm{ENBS}_{\mathrm{population}} =
   vN\left(\frac{1-{(1+r)}^{-T}}{r}\right)-C,
 \end{equation}
-with the annuity factor replaced by $T$ when $r=0$. This scaling assumes
-constant recurring decision opportunities, end-of-period discounting, no
-population change, and no implementation delay. Applying it to values already
-aggregated over population or time would double-count that scaling. ENBS
-remains signed;
+with the annuity factor replaced by $T$ when $r=0$. This form assumes constant
+recurring decision opportunities, end-of-period discounting, no population
+change, and no implementation delay. Applying it to values already aggregated
+over population or time would double-count that scaling. ENBS remains signed;
 $\max(0,\mathrm{ENBS})$ is the separate value of the option to commission the
 study.
 
-Software can calculate these quantities differently. Examples include whether
-samples are stored in rows or columns, how missing or infinite values are
-handled, how ties are resolved, and which approximations are used.
-\texttt{voiage} therefore records the data shape, checks, calculation method,
-warnings, random seed, and supporting details with the result.
+Information value and realised value are not identical. Partial uptake,
+adherence, coverage, or delayed results reduce the number of decisions affected
+by new evidence. Implementation activity may therefore be more valuable than
+another study when evidence is adequate but delivery is
+weak~\cite{fenwick2008implementation}. Population scaling also depends on
+eligibility, decision lifetime, displacement by later technologies, and the
+delay before results become available. Applications with changing populations
+can replace the simple annuity in~\eqref{eq:enbs} with an appropriate sequence
+of decision opportunities.
 
-The same principle extends beyond the classical calculations. For example,
-equity-weighted subgroup aggregation compares a single population-wide
-decision with subgroup-specific optima and an explicitly weighted
-social-welfare decision~\cite{asaria2016distributional}. Its interpretation is
-population-relevant only when subgroup weights represent the target
-population; sample-frequency weights yield a sample-weighted contrast. The
-basic implementation adjustment is a deterministic multiplier or scenario
-calculation for uptake, adherence, coverage, delay, and an uncertainty penalty.
-A common positive multiplier does not change strategy ranking and is not a
-probabilistic calculation of the value of improving implementation. Sequential
-and adaptive
-analyses compare study designs and stopping rules through their expected net
-benefit of sampling, consistent with the decision-theoretic role of EVSI in
-trial design~\cite{flight2022sequential}.
+Waiting can itself have value when a decision is reversible or commitment can
+be delayed. Real-options analysis represents the interaction between
+uncertainty, timing, and irreversibility rather than treating delay as a simple
+discount adjustment~\cite{palmer2000options}. Sequential and adaptive analyses
+similarly compare study designs and stopping rules through expected net
+benefit~\cite{flight2022sequential}.
+
+\subsection{Model, population, and perspective}
+
+Parameter VOI is conditional on the model being an adequate account of the
+decision. Structural VOI asks whether plausible model forms could change
+action~\cite{jackson2011structural}. Transportability asks whether evidence
+from a source population can inform the target decision under stated causal
+assumptions~\cite{bareinboim2016datafusion}. Subgroup analysis examines whether
+observable heterogeneity supports different decisions, while distributional
+analysis changes the social objective through explicit equity
+weights~\cite{espinoza2014heterogeneity,asaria2016distributional}. Perspective can
+change which outcomes, costs, constraints, populations, and time horizons enter
+the comparison~\cite{mordaunt2025vop}.
+
+\subsection{Calculation and checks}
+
+Software implementations can differ in sample orientation, missing-value
+handling, tie rules, and approximations. \texttt{voiage} retains labels for
+samples, strategies, uncertain inputs, subgroups, perspectives, populations,
+and study designs using labelled data conventions~\cite{hoyer2017xarray}.
+Detailed results can include the preferred strategy, method, random seed,
+warnings, scaling assumptions, and data sources.
+
+Checks cover invariance to a common shift in net benefit, non-negativity where
+required by the estimand, repeatability, identical strategies, and malformed
+inputs. Approximate estimates can still be affected by Monte Carlo error, poor
+model fit, or extrapolation. Selected established numerical components are
+implemented in Rust and exposed through the supported language packages.
+Python currently supports the widest workflow; the R and Julia packages
+provide narrower subsets.

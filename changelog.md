@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the internal acknowledgements placeholder, unused abbreviations, and
+  uncited bibliography records from the preprint.
 - Removed internal author-review and automated-submission disclaimers from the
   reader-facing preprint.
 - Removed the obsolete Quarto/JSS paper configurations, generated manuscript
@@ -17,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added an explicit normal--normal sampling and posterior model for the worked
+  example's expected value of sample information, together with a compact
+  assumptions table, vector figure, numerical results, conclusion, and code
+  and data availability statement.
 - Added a deterministic synthetic health-service worked example to the
   preprint, with decision-uncertainty, research-priority, and study-value
   visualizations generated from the public analysis interface.
@@ -32,6 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Consolidated the preprint around the decision problem, information measures,
+  worked example, applications, limitations, and conclusion; labelled
+  equations for robust cross-references; strengthened direct methodological
+  citations; and standardised Australian/British spelling.
 - Retitled the preprint “voiage: Value of Information for Research,
   Implementation, and Decision Making”.
 - Renamed the preprint's opening section from “Summary” to “Introduction”.
@@ -67,6 +77,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Aligned the v1 programme status test with the registry's active
+  research-readiness marker.
 - Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve
   signed ENBS, and subtract total research cost after population scaling.
 - Restricted the arXiv upload archive to the canonical manuscript sources,

@@ -6,7 +6,7 @@
       "affiliation": "Faculty of Health, Education and Psychology, Victoria University of Wellington; College of Medicine and Public Health, Flinders University; Centre for Health Policy, The University of Melbourne"
     }
   ],
-  "abstract": "Parameter-focused Value of Information analysis does not by itself represent uncertainty about model structure, population differences, viewpoint, implementation, evidence quality, or the timing and reversibility of action. voiage provides a common way to describe and analyse these wider decision problems. It keeps choices, groups, populations, assumptions, warnings, and data sources visible while distinguishing established calculations from newer features that still need applied validation.",
+  "abstract": "Value of Information analysis helps decision-makers judge whether reducing uncertainty is worth the cost. voiage represents connected questions about parameter, model, population, implementation, evidence, and timing uncertainty. Version 1.0.0 calculates established perfect, partial, and sample information measures and provides developing analyses for wider decision problems. In a synthetic health example, health-effect uncertainty has greater partial value than cost uncertainty, and delayed incomplete uptake lowers the net value of a proposed study. The package retains choices, populations, assumptions, warnings, and data sources with the result while keeping validation limits visible.",
   "categories": ["human-selection-required"],
   "license": "select-in-arxiv-portal"
 }
