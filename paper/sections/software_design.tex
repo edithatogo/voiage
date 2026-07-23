@@ -1,84 +1,67 @@
-\section{Software design and assurance}
+\section{Decision-problem architecture}
 
-\subsection{Layered architecture}
+\subsection{Stable and frontier method families}
 
-The stable runtime is organized as a directed set of layers. The
-\texttt{voiage-domain} crate validates primitive values, sample matrices,
-strategy collections, trial designs, and decision problems.
-\texttt{voiage-numerics} implements binding-independent kernels and depends on
-the domain and diagnostic contracts, while \texttt{voiage-serialization} defines
-versioned result envelopes and canonical JSON behavior. Leaf adapters expose
-these components through the private PyO3 extension and the C ABI\@; core crates
-do not depend on Python, R, or Julia.
+\texttt{voiage} separates methods by evidentiary maturity rather than presenting
+every callable function as equally established. Stable methods have versioned
+behavior and compatibility guarantees. Fixture-backed methods have explicit
+schemas, examples, and deterministic expected results, but still require
+broader methodological and empirical evidence. Experimental capabilities can
+change and are isolated from the stable API\@.
 
-Python validation and orchestration remain necessary where callers provide
-high-level model functions, labeled arrays, plots, or reports. This is a thin
-binding boundary rather than a second numerical core. The native extension
-reports its Rust version, target triple, source revision, lockfile digest,
-build identifier, and per-operation invocation information. The C ABI uses a
-versioned symbol namespace, explicit status values, caller-owned inputs, and
-defined allocation and error-transport rules.
+\subsection{Semantics that prevent category errors}
+
+A \texttt{ValueArray} records values with named sample and strategy dimensions
+and can additionally retain perspective labels. Parameter sets, trial designs,
+decision options, populations, and result envelopes provide the corresponding
+analysis context. This prevents a matrix from silently changing meaning as it
+moves between an EVPI calculation, subgroup analysis, or perspective
+comparison. Labeled-array behavior follows the scientific Python convention
+represented by \texttt{xarray}~\cite{hoyer2017xarray}.
+
+Each method returns more than a scalar. Results identify the selected strategy,
+comparison baseline, method and maturity, diagnostics, and the quantities
+needed to explain the value calculation. Population scaling, time horizon,
+discounting, implementation assumptions, subgroup and equity weights,
+transport weights, data-quality penalties, and stage timing remain visible
+where relevant. Invalid dimensions, non-finite values, inconsistent labels,
+and impossible rates fail explicitly.
 
 \begin{table}[!ht]
 \centering
 \footnotesize
-\begin{tabular}{p{0.24\linewidth}p{0.42\linewidth}p{0.24\linewidth}}
+\begin{tabular}{p{0.20\linewidth}p{0.34\linewidth}p{0.36\linewidth}}
 \toprule
-Surface & v1 role & Direct native scope \\
+Problem class & Decision question & Implemented method families \\
 \midrule
-Rust & Domain, numerical, diagnostic, and serialization authority & Stable kernels \\
-Python & Public facade, orchestration, schemas, CLI, plots, and reports & Rust kernels through PyO3 \\
-R & Native EVPI adapter; compatibility helpers for wider Python calls & EVPI through C ABI \\
-Julia & Native package adapter & EVPI through C ABI \\
+Information & What would perfect, partial, or sample information change? & EVPI, EVPPI, EVSI, ENBS \\
+Model & Is uncertainty in structure, validation, or computation decision-relevant? & Structural VOI, model validation, computational refinement \\
+Population & Would subgroups, preferences, perspective, or equity change action? & Heterogeneity, distributional equity, preference, perspective \\
+Delivery & Will adoption and execution realize modeled value? & Implementation adjustment and strategy comparison \\
+Evidence system & Is evidence usable in the target decision? & Data quality, transportability, synthesis, monitoring, obsolescence \\
+Timing & Should evidence collection or commitment adapt over time? & Sequential and adaptive studies, dynamic real options, portfolios \\
 \bottomrule
 \end{tabular}
-\caption{Implemented v1 binding boundary. Broader R and Julia parity is not
-claimed by the v1.0.0 release.}\label{tab:bindings}
+\caption{Decision problems represented by the v1 stable and maturity-labelled
+frontier. Inclusion denotes implemented analysis structure, not equal
+methodological maturity.}\label{tab:problems}
 \end{table}
 \FloatBarrier{}
 
-\subsection{Numerical scope}
+\subsection{Implementation boundary and analytical assurance}
 
-The Rust core implements stable EVPI and ENBS kernels; regression-based EVPPI\@;
-stochastic, efficient-linear, moment-based, and regression EVSI components;
-CEAF and confidence intervals; strong and extended dominance; value of
-heterogeneity; and structural EVPI/EVPPI aggregation. Python model evaluators
-remain responsible for executing user-supplied models before structural
-aggregation. Optional dependencies such as JAX, plotting libraries, and web
-integrations are isolated from the base installation and do not redefine the
-stable core contract.
+Stable numerical policy is implemented in binding-independent Rust components;
+Python executes user-supplied models and supplies orchestration, labelled data,
+plots, and reports. This boundary prevents separate language implementations
+from silently adopting different validation, orientation, or tie-breaking
+rules. Direct R and Julia support is currently limited to EVPI, so wider parity
+is not claimed.
 
-Invalid inputs fail with structured categories such as invalid value or
-dimension mismatch. Numerical tests cover finite inputs, degenerate and
-single-strategy cases, translation and scaling properties, deterministic
-seeding, and rank-deficient regression designs. The project does not convert
-these implementation checks into a claim that a user's decision model is
-valid.
-
-\subsection{Assurance and release evidence}
-
-Correctness is supported by language-neutral fixtures, unit and integration
-tests, property-based and fuzz tests, metamorphic checks, mutation testing,
-coverage gates, Rust diagnostics, ABI checks, benchmark regression budgets,
-and clean-install tests. Normative fixture records contain inputs, expected
-outputs, tolerances, and provenance. Compatibility tests execute the same
-foundational contracts in the Rust support crate and the available language
-adapters. Property tests check relationships that should hold across many
-generated inputs, while fuzz tests exercise malformed and extreme cases.
-Benchmark budgets guard against material regression but are not presented here
-as cross-hardware speedup claims.
-
-The release process produces platform wheels, a source archive, checksums, a
-software bill of materials, provenance evidence, and a signed GitHub release.
-Documentation is maintained in Astro/Starlight. The public v1.0.0 release
-includes CPython ABI3 wheels for macOS arm64, Linux x86\_64, and Windows x86\_64,
-plus a source distribution and SHA-256 checksums. Python packages are also
-published to PyPI\@; registry review for other ecosystems is independent of
-repository readiness.
-
-The manuscript follows software-citation guidance~\cite{smith2016software}.
-Its canonical source is authored LaTeX. The repository builds a deterministic
-source-only archive, audits the review PDF, compiles against the supported
-arXiv TeX Live generations, and independently converts the source to a
-semantic web document. These checks establish repository readiness, not
-submission or acceptance by arXiv or a journal.
+Analytical assurance targets decision properties rather than only code
+execution. Tests cover translation and positive-scaling invariance,
+non-negativity where required, bounds such as $\mathrm{EVPPI}\leq
+\mathrm{EVPI}$, deterministic seeding, rank-deficient regression designs,
+degenerate strategies, malformed inputs, and cross-language fixtures.
+Property-based, metamorphic, fuzz, mutation, and integration tests complement
+example-based checks. These establish behavior of the implemented estimator;
+they cannot validate a user's model structure, evidence, or value judgments.

@@ -1,10 +1,11 @@
 \section{Limitations}
 
-The repository evidence establishes reproducible software behavior for tested
-fixtures and supported environments; it does not establish fitness for every
-decision context or replace domain validation. Users remain responsible for
-model structure, input provenance, distributional assumptions,
-willingness-to-pay thresholds, and interpretation.
+The breadth of the framework does not make value functions interchangeable
+across domains. Users remain responsible for model structure, causal
+assumptions, input provenance, outcome valuation, thresholds, distributional
+choices, and interpretation. A monetary net-benefit model, an equity-weighted
+social objective, and an engineering loss function can share computational
+structure while representing different ethical and empirical claims.
 
 Regression-based EVPPI and EVSI estimates inherit modeling choices and Monte
 Carlo error. Users should examine convergence, effective sample size,
@@ -15,13 +16,19 @@ cost assumptions; \texttt{voiage} validates representations and numerical
 preconditions but cannot determine whether those assumptions are substantively
 appropriate.
 
+The frontier families deliberately expose promising decision formulations
+before claiming stable maturity. Their deterministic fixtures establish the
+implemented arithmetic and contract, not estimator optimality, empirical
+calibration, comparative performance, or policy validity. In particular,
+perspective, data-quality, transportability, dynamic-option, and several
+evidence-system methods need applied comparisons and domain-specific validation.
 The Python interface is broader than the current native R and Julia packages;
-only EVPI has a direct v1 C-ABI route in both non-Python bindings. Optional
-accelerator and experimental methods have narrower evidence boundaries than
-the stable Rust-backed core. Accelerator, distributed, FPGA, and ASIC work is
-evidence-gated and is not a production speedup claim. The repository's
-automated checks reduce software risk but do not replace independent
-statistical validation, code review, or replication with relevant domain data.
+only EVPI has a direct v1 route in both non-Python bindings.
+
+Automated checks reduce implementation risk but do not replace independent
+statistical validation, expert review, sensitivity analysis, or replication
+with relevant domain data. Optional accelerators and distributed or hardware
+research are not evidence of faster production analysis.
 
 Authorship, affiliation, ORCID, funding, conflicts of interest, research-impact
 evidence, arXiv category, license, and endorsement remain subject to final

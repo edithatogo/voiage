@@ -1,33 +1,39 @@
 \section{Summary}
 
-Value of Information (VOI) analysis asks whether reducing uncertainty could
-change a decision enough to justify further evidence collection. The framework
-is used in health technology assessment and is equally applicable whenever a
-decision model maps uncertain inputs to comparable
-consequences~\cite{claxton1999irrelevance,briggs2006decision}. Practical analysis requires
-more than a formula: sample orientation, strategy labels, invalid values,
-randomness, approximations, and population scaling all need explicit and
-reproducible treatment.
+Value of Information (VOI) analysis asks which uncertainty matters to a
+decision, what evidence could reduce it, and whether the expected improvement
+justifies the cost of learning. In health technology assessment this may mean
+choosing a trial, targeting a subgroup, validating a prediction model, or
+improving uptake. The same logic applies to environmental monitoring,
+engineering reliability, manufacturing quality, energy planning, and
+investment decisions whenever uncertain consequences can be placed on a common
+decision-value scale.
 
-The open-source \texttt{voiage} project addresses these requirements through a
-versioned software contract~\cite{voiage2026}. Its v1.0.0 release separates
-binding-independent Rust components from language-specific presentation and
-orchestration. The Rust workspace owns validated domain types, numerical
-kernels, structured diagnostics, canonical serialization, the PyO3 extension,
-and a narrow C application binary interface (ABI). Python supplies the most
-complete user surface, including schemas, model orchestration, reporting,
-plotting, and a command-line interface. R and Julia currently provide direct
-native EVPI calls through the same ABI\@; broader cross-language coverage is an
-explicit extension boundary rather than an implied claim.
+The difficult part is usually not the textbook EVPI equation. Analysts must
+decide what counts as a strategy, whose outcomes matter, which population and
+time horizon to scale to, whether a model form is credible, whether evidence
+transports to the target setting, and whether a recommendation will be
+implemented. Different choices can reverse the preferred action even when the
+same simulation output is used. \texttt{voiage} makes these choices explicit in
+the analysis inputs, diagnostics, and returned result rather than leaving them
+as unrecorded preprocessing.
 
 The main contributions of \texttt{voiage} are:
 \begin{itemize}
-  \item a coherent API for EVPI, EVPPI, EVSI, ENBS, CEAF, dominance,
-  heterogeneity, and structural uncertainty;
-  \item an authoritative Rust implementation of stable numerical policy with
-  deterministic error and result contracts;
-  \item language-neutral normative fixtures used to test compatibility across
-  the Rust, Python, R, and Julia surfaces that implement a method; and
-  \item a reproducible release and manuscript pipeline covering clean
-  installation, packaging, security, source provenance, and review artifacts.
+  \item a coherent stable analysis path from probabilistic net benefits to
+  EVPI, EVPPI, EVSI, ENBS, dominance, CEAF, heterogeneity, and structural VOI\@;
+  \item a labelled decision representation that preserves sample, strategy,
+  parameter, subgroup, perspective, population, and study-design semantics;
+  \item a maturity-labelled frontier that operationalizes value questions
+  about equity, perspective, implementation, validation, transportability,
+  data quality, computation, and staged decisions; and
+  \item diagnostic result envelopes that retain method, seed, warning,
+  scaling, maturity, and provenance information needed to interpret a value
+  estimate.
 \end{itemize}
+
+Version 1.0.0 implements stable numerical policy in binding-independent Rust
+components and uses Python for model orchestration, labelled data, plots, and
+reports~\cite{voiage2026}. The R and Julia bindings currently expose direct
+native EVPI\@; their narrower scope is explicit rather than hidden behind nominal
+API parity.

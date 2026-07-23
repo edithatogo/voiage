@@ -3,17 +3,39 @@
 VOI analysis is central to deciding whether additional research is worthwhile,
 but practical implementations are often fragmented across domain-specific
 packages, languages, and model formats. This fragmentation complicates
-comparison, reproduction, edge-case validation, and movement from a research
-prototype to an operational decision workflow. Python users in particular need
-a maintained, open implementation that supports common VOI methods while
-remaining compatible with the scientific Python ecosystem.
+comparison and can obscure which uncertainty is being valued. A parameter-level
+EVPPI does not answer whether the model structure is wrong; an EVSI does not by
+itself account for incomplete implementation; and population-average VOI can
+hide subgroup-specific decisions or equity trade-offs. Structural uncertainty,
+heterogeneity, and implementation are established methodological concerns, not
+software edge cases~\cite{jackson2011structural,espinoza2014heterogeneity,fenwick2008implementation}.
 
-\texttt{voiage} addresses this need with a common decision-model contract,
-validated schemas, deterministic fixtures, explicit diagnostics, reproducible
-seeds, machine-readable result envelopes, and a command-line interface. It is
-designed for researchers and analysts evaluating proposed data collection,
-comparing decisions under uncertainty, or integrating VOI calculations into
-larger evidence and policy pipelines.
+\texttt{voiage} addresses five connected decision questions:
+\begin{enumerate}
+  \item \emph{parameter and sample information}: which uncertain inputs or
+  proposed studies could change the preferred strategy;
+  \item \emph{model and evidence adequacy}: whether structural assumptions,
+  validation data, measurement quality, or transportability warrant further
+  investment;
+  \item \emph{population and social value}: whether subgroup heterogeneity,
+  preferences, equity weights, or analytical perspective alter the decision;
+  \item \emph{delivery}: whether uptake, adherence, coverage, delay, or
+  implementation uncertainty erodes expected value; and
+  \item \emph{timing and control}: whether sequential learning, adaptive
+  sampling, waiting, irreversibility, or portfolio constraints change when to
+  act.
+\end{enumerate}
+
+This taxonomy is domain-neutral, but its inputs retain domain meaning. Health
+analyses can use net monetary or health benefit, willingness-to-pay thresholds,
+eligible populations, and trial costs. Environmental analyses can compare
+monitoring or mitigation strategies under ecological and monetary
+consequences. Engineering and manufacturing analyses can value reliability,
+failure, inspection, or quality information. Financial and energy analyses can
+value delayed commitment, changing evidence, and irreversible investment. The
+common requirement is an explicit mapping from uncertain states and strategies
+to comparable decision value; the package does not pretend that the mapping is
+scientifically interchangeable across domains.
 
 Let $NB_{sd}$ denote the net benefit for probabilistic sample $s$ and strategy
 $d$. For $S$ samples and $D$ strategies, the sample EVPI estimator is
@@ -50,3 +72,13 @@ values, changing tie-breaking rules, or silently switching approximation
 methods; \texttt{voiage} therefore treats dimensions, finite-value checks,
 method metadata, warnings, seeds, and serialized result envelopes as part of
 the public numerical contract.
+
+The same principle extends beyond classical estimands. For example,
+distributional analysis compares a single population-wide decision with
+subgroup-specific optima and an explicitly equity-weighted social-welfare
+decision~\cite{asaria2016distributional}. Implementation-adjusted analysis
+modifies expected net benefits for uptake, adherence, coverage, delay, and
+implementation uncertainty rather than assuming instantaneous perfect
+adoption. Sequential and adaptive analyses compare study designs and stopping
+rules through their expected net benefit of sampling, consistent with the
+decision-theoretic role of EVSI in trial design~\cite{flight2022sequential}.

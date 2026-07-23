@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Refocused the preprint on the decision, domain, and evidence problems solved
+  by the stable and maturity-labelled VOI method families, with explicit limits
+  around novel frontier formulations.
 - Aligned the preprint title and author affiliations with the author's existing
   `foi-o` and `vop_poc_nz` manuscript records.
 - Made `paper/main.tex` the authoritative preprint while retaining `paper.md`

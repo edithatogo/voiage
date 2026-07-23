@@ -38,6 +38,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Refocus the arXiv review draft on substantive VOI problems and
+    contributions.
+    *   Centered the manuscript on parameter, structural, population,
+        implementation, evidence-system, and timing uncertainty.
+    *   Distinguished established estimands from the package's novel shared,
+        maturity-labelled decision-problem architecture.
+
 *   [x] Align the arXiv review draft title and affiliations with the author's
     established manuscript records.
     *   Simplified the title to `voiage: Value of Information Analysis`.

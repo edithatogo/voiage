@@ -13,8 +13,8 @@
 \setlength{\emergencystretch}{2em}
 \hypersetup{pdftitle={voiage: Value of Information Analysis},
   pdfauthor={Dylan A. Mordaunt},
-  pdfsubject={Open-source research software for value of information analysis},
-  pdfkeywords={value of information, decision analysis, health economics, uncertainty quantification, Rust, Python}
+  pdfsubject={Decision analysis under parameter, structural, population, implementation, and timing uncertainty},
+  pdfkeywords={value of information, decision analysis, structural uncertainty, distributional analysis, implementation, sequential decisions}
 }
 
 \title{\texttt{voiage}: Value of Information Analysis}
@@ -28,21 +28,25 @@
 \maketitle
 
 \begin{abstract}
-Value of Information (VOI) analysis estimates how much a decision could
-improve if uncertainty were reduced by collecting additional information.
-\texttt{voiage} is open-source research software for computing, validating,
-and communicating VOI analyses from probabilistic decision models. Version
-1.0.0 combines a Python user interface with authoritative Rust domain,
-numerical, diagnostic, and serialization components. It implements expected
-value of perfect information, expected value of partial perfect information,
-expected value of sample information, expected net benefit of sampling,
-cost-effectiveness acceptability frontiers, dominance, heterogeneity, and
-structural-uncertainty methods. PyO3 exposes the Rust core to Python; a
-versioned C application binary interface supports direct EVPI calls from R and
-Julia. Language-neutral fixtures, explicit result schemas, structured errors,
-and layered assurance gates make the stable numerical contract testable across
-interfaces. This paper describes the statistical scope, architecture, and
-evidence boundaries of the v1.0.0 release.
+Value of Information (VOI) analysis is often reduced to parameter uncertainty,
+although real decisions also depend on model structure, population
+heterogeneity, analytical perspective, implementation, evidence quality, and
+the timing and reversibility of action. These dimensions determine whether
+further research, validation, subgrouping, implementation support, or delayed
+commitment is worthwhile. \texttt{voiage} provides a common decision-model
+framework for these linked problems. Its stable methods cover expected value
+of perfect, partial-perfect, and sample information; expected net benefit of
+sampling; dominance; cost-effectiveness acceptability frontiers; heterogeneity;
+and structural uncertainty. Maturity-labelled extensions formulate value
+questions for distributional equity, perspective disagreement, imperfect
+implementation, adaptive and sequential studies, causal transportability,
+data quality, model validation, and staged irreversible decisions. The
+distinctive contribution is not a new label for classical VOI, but an
+executable framework that preserves strategy, sample, subgroup, perspective,
+population, and provenance semantics across methods. Explicit diagnostics and
+result contracts expose assumptions that otherwise remain hidden in
+one-off analyses. This paper defines the problem classes, estimands, domain
+applications, and evidence boundaries of version 1.0.0.
 \end{abstract}
 
 \input{sections/summary}

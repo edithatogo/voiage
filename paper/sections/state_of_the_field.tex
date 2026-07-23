@@ -5,21 +5,28 @@ evaluation~\cite{claxton1999irrelevance,briggs2006decision}. Mature R tooling
 includes the \texttt{BCEA} ecosystem for Bayesian cost-effectiveness
 analysis~\cite{baio2017bcea}, while methodological work has made EVPPI and EVSI more
 practical using regression estimators~\cite{strong2014evppi,strong2015evsi}.
-These tools and methods are complementary: a new package should not claim
-novelty merely for reproducing established estimands.
+Methods also exist for structural uncertainty, heterogeneity, distributional
+cost-effectiveness, implementation, and adaptive trial
+design~\cite{jackson2011structural,espinoza2014heterogeneity,asaria2016distributional,fenwick2008implementation,flight2022sequential}.
+These are complementary advances. Reimplementing their names is not a
+methodological novelty, and \texttt{voiage} does not claim statistical
+superiority over specialist implementations.
 
-\texttt{voiage} instead focuses on a software-engineering gap. It provides a
-Python-first, domain-agnostic facade while centralizing stable numerical policy
-in a compiled Rust core. Labeled-array integration follows the scientific
-Python convention represented by \texttt{xarray}~\cite{hoyer2017xarray}, but
-canonical wire schemas and fixtures do not depend on Python objects. This
-allows binding behavior to be tested against the same cases and error
-semantics rather than maintained as independent implementations.
+The gap addressed here is that these concerns are commonly handled in separate
+analyses even though they act on the same decision. Research may have little
+value if implementation is weak; subgroup optimization can conflict with an
+equity-weighted objective; evidence can be precise in a source population but
+poorly transportable; and waiting can preserve option value when commitment is
+costly to reverse. Treating each as unrelated post-processing makes it hard to
+compare their assumptions or combine them in an evidence plan.
 
-The distinction matters for reproducibility. A result is not portable if a
-method name denotes different orientation, validation, approximation, or
-tie-breaking behavior in each language. The project therefore versions stable
-schemas and fixtures, exposes core provenance at runtime, and marks optional or
-experimental capabilities separately. This design complements specialist VOI
-packages; it is not evidence that \texttt{voiage} is statistically superior to
-them.
+The novel software contribution of \texttt{voiage} is a shared,
+maturity-labelled problem architecture for these value questions. Stable
+classical estimands and fixture-backed frontier methods use common strategy,
+value, diagnostic, and reporting semantics. This permits analysts to ask
+whether the limiting uncertainty is a parameter, study, structure, subgroup,
+perspective, implementation process, data source, or decision stage without
+changing the basic representation of the decision. The claim is architectural
+and operational: several frontier formulations still require empirical
+validation, methodological comparison, and cross-language parity before stable
+promotion.
