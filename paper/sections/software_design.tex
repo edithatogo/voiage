@@ -19,8 +19,9 @@ moves between an EVPI calculation, subgroup analysis, or perspective
 comparison. Labeled-array behavior follows the scientific Python convention
 represented by \texttt{xarray}~\cite{hoyer2017xarray}.
 
-Each method returns more than a scalar. Results identify the selected strategy,
-comparison baseline, method and maturity, diagnostics, and the quantities
+Direct classical VOI functions return scalar estimates. Where supported,
+structured result envelopes additionally identify the selected strategy,
+comparison baseline, estimator and maturity, diagnostics, and the quantities
 needed to explain the value calculation. Population scaling, time horizon,
 discounting, implementation assumptions, subgroup and equity weights,
 transport weights, data-quality penalties, and stage timing remain visible
@@ -32,7 +33,7 @@ and impossible rates fail explicitly.
 \footnotesize
 \begin{tabular}{p{0.20\linewidth}p{0.34\linewidth}p{0.36\linewidth}}
 \toprule
-Problem class & Decision question & Implemented method families \\
+Problem class & Decision question & Maturity-labelled methods \\
 \midrule
 Information & What would perfect, partial, or sample information change? & EVPI, EVPPI, EVSI, ENBS \\
 Model & Is uncertainty in structure, validation, or computation decision-relevant? & Structural VOI, model validation, computational refinement \\
@@ -48,20 +49,40 @@ methodological maturity.}\label{tab:problems}
 \end{table}
 \FloatBarrier{}
 
+\subsection{Worked numerical contract}
+
+For two strategies with net-benefit rows $(0,100)$ and $(0,-100)$, the sample
+EVPI is 50 value units. For a proposed study with per-decision EVSI 12.5 and
+total research cost 5, signed ENBS is 7.5. If the EVSI recurs for 1000 annual
+decisions over 10 years at a 3\% annual discount rate, the annuity factor is
+8.5302028368 and population ENBS is
+$12.5\times1000\times8.5302028368-5=106622.53546$ value units. These
+calculations distinguish EVPI from EVSI, preserve negative ENBS when research
+is not worthwhile, and subtract total research cost only after population
+scaling. Regression tests exercise the same contract through the Rust kernel
+and Python interface.
+
 \subsection{Implementation boundary and analytical assurance}
 
 Binding-independent Rust components implement selected stable aggregation
 kernels. Python executes user-supplied models and retains orchestration,
 validation for broader method paths, labelled data, plots, and reports. For
 kernels routed through Rust, this boundary is intended to reduce divergence in
-validation, orientation, and tie-breaking behavior. Direct R and Julia support
-is currently limited to EVPI, so wider parity is not claimed.
+validation, orientation, and tie-breaking behavior. This hybrid boundary is a
+deliberate migration trade-off: it avoids duplicating selected numerical policy
+while leaving user-model execution and broader methods in Python. Direct R and
+Julia support is currently limited to EVPI through source packages that link
+an externally supplied shared library, so broad or self-contained binding
+parity is not claimed.
 
 Analytical assurance targets decision properties rather than only code
 execution. Tests cover translation and positive-scaling invariance,
-non-negativity where required, bounds such as $\mathrm{EVPPI}\leq
-\mathrm{EVPI}$, deterministic seeding, rank-deficient regression designs,
-degenerate strategies, malformed inputs, and cross-language fixtures.
+non-negativity where required, deterministic seeding, rank-deficient
+regression designs, degenerate strategies, malformed inputs, and
+cross-language fixtures. Exact-estimand invariants are tested on applicable
+paths; regression-based EVPPI can exceed theoretical bounds because of Monte
+Carlo error, misspecification, or extrapolation, and such violations require
+diagnosis rather than being treated as impossible.
 Property-based, metamorphic, fuzz, mutation, and integration tests complement
 example-based checks. These test specified behavior of the implemented
 estimators; they cannot validate a user's model structure, evidence, or value

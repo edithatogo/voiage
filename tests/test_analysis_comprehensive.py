@@ -8,7 +8,6 @@ import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import (
-    CalculationError,
     DimensionMismatchError,
     InputError,
     OptionalDependencyError,
@@ -592,17 +591,31 @@ class TestDecisionAnalysisComprehensive:
             )
 
     def test_enbs_base_case_population_scaling_and_cache(self) -> None:
-        """ENBS should support per-decision, population-scaled, and cached results."""
+        """ENBS should scale EVSI before subtracting total study cost."""
         nb_data = np.array([[10.0, 20.0], [30.0, 15.0], [25.0, 35.0]], dtype=np.float64)
         analysis = DecisionAnalysis(nb_array=nb_data, enable_caching=True)
 
-        per_decision = analysis.enbs(research_cost=1.0)
-        scaled = analysis.enbs(research_cost=1.0, population=10, time_horizon=2)
-        scaled_cached = analysis.enbs(research_cost=1.0, population=10, time_horizon=2)
+        per_decision = analysis.enbs(evsi_result=2.0, research_cost=1.0)
+        scaled = analysis.enbs(
+            evsi_result=2.0, research_cost=1.0, population=10, time_horizon=2
+        )
+        scaled_cached = analysis.enbs(
+            evsi_result=2.0, research_cost=1.0, population=10, time_horizon=2
+        )
 
-        assert per_decision >= 0
-        assert scaled == pytest.approx(per_decision * 20)
+        assert per_decision == pytest.approx(1.0)
+        assert scaled == pytest.approx(39.0)
         assert scaled_cached == pytest.approx(scaled)
+
+    def test_enbs_is_signed_and_uses_evsi_not_evpi(self) -> None:
+        """ENBS should preserve a negative study value and ignore the NB EVPI."""
+        analysis = DecisionAnalysis(
+            nb_array=np.array([[0.0, 100.0], [0.0, -100.0]], dtype=np.float64)
+        )
+
+        assert analysis.evpi() == pytest.approx(50.0)
+        assert analysis.enbs(evsi_result=12.5, research_cost=5.0) == pytest.approx(7.5)
+        assert analysis.enbs(evsi_result=2.0, research_cost=5.0) == pytest.approx(-3.0)
 
     @pytest.mark.parametrize(
         ("kwargs", "match"),
@@ -643,27 +656,17 @@ class TestDecisionAnalysisComprehensive:
         )
 
         with pytest.raises(InputError, match=match):
-            analysis.enbs(research_cost=1.0, **kwargs)
+            analysis.enbs(evsi_result=2.0, research_cost=1.0, **kwargs)
 
-    def test_enbs_handles_empty_single_strategy_and_backend_errors(self) -> None:
-        """ENBS should short-circuit degenerate cases and wrap backend errors."""
+    def test_enbs_does_not_depend_on_net_benefit_shape_or_selected_backend(
+        self,
+    ) -> None:
+        """A supplied EVSI is sufficient for the Rust-owned ENBS calculation."""
         empty = DecisionAnalysis(nb_array=np.empty((0, 2), dtype=np.float64))
         single = DecisionAnalysis(nb_array=np.array([[1.0], [2.0]], dtype=np.float64))
 
-        assert empty.enbs(research_cost=1.0) == 0.0
-        assert single.enbs(research_cost=1.0) == 0.0
-
-        class FailingBackend:
-            def enbs_simple(self, nb_values: np.ndarray, research_cost: float) -> float:
-                raise RuntimeError("backend failed")
-
-        analysis = DecisionAnalysis(
-            nb_array=np.array([[10.0, 20.0], [30.0, 15.0]], dtype=np.float64)
-        )
-        analysis.backend = FailingBackend()
-
-        with pytest.raises(CalculationError, match="Error during ENBS calculation"):
-            analysis.enbs(research_cost=1.0)
+        assert empty.enbs(evsi_result=0.0, research_cost=1.0) == -1.0
+        assert single.enbs(evsi_result=2.0, research_cost=1.0) == 1.0
 
     def test_ceaf_wrapper_exposes_frontier_method(self) -> None:
         """DecisionAnalysis should expose CEAF on 3D value arrays."""

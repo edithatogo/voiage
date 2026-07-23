@@ -436,8 +436,8 @@ def test_core_api_fixture_bundle_drives_population_scaled_analysis_paths() -> No
     )
     assert (
         analysis.enbs(
+            evsi_result=125.0,
             research_cost=1000.0,
-            strategy_of_interest="Targeted screening",
             population=100.0,
             time_horizon=2.0,
             discount_rate=0.03,
@@ -477,6 +477,7 @@ def test_core_api_fixture_bundle_covers_validation_branches() -> None:
         )
     with pytest.raises(ValueError, match="Population"):
         analysis.enbs(
+            evsi_result=125.0,
             research_cost=1000.0,
             population="bad",
             time_horizon=2.0,

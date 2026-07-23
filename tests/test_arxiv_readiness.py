@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+import tarfile
 
 
 def test_arxiv_readiness_pipeline_is_latex_first_and_non_submitting() -> None:
@@ -85,3 +86,29 @@ def test_readability_normalization_joins_pdf_line_break_hyphenation() -> None:
         "A reproducible inter-\nnational manuscript.\n\nSecond sentence."
     )
     assert normalized == "A reproducible international manuscript. Second sentence."
+
+
+def test_arxiv_source_archive_contains_only_submission_sources() -> None:
+    """Reject duplicate manuscripts and nested build output in the upload bundle."""
+    archive = Path("build/arxiv/voiage-arxiv-source.tar.gz")
+    if not archive.exists():
+        return
+
+    with tarfile.open(archive, "r:gz") as source:
+        names = source.getnames()
+        tex_sources = [
+            member
+            for member in source.getmembers()
+            if member.isfile() and member.name.endswith(".tex")
+        ]
+
+        assert "main.tex" in names
+        assert "paper.tex" not in names
+        assert not any(name.startswith("build/") for name in names)
+        assert not any(name.endswith(".pdf") for name in names)
+        documentclasses = 0
+        for member in tex_sources:
+            extracted = source.extractfile(member)
+            assert extracted is not None
+            documentclasses += extracted.read().decode().count("\\documentclass")
+        assert documentclasses == 1

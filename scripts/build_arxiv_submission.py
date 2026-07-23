@@ -17,17 +17,19 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
 BUILD = ROOT / "build" / "arxiv"
 PACKAGE = BUILD / "package"
+SOURCE_FILES = {
+    Path("main.tex"),
+    Path("references.bib"),
+}
+SOURCE_DIRECTORIES = {"sections", "figures"}
 SOURCE_SUFFIXES = {
     ".tex",
-    ".bib",
-    ".bbl",
     ".cls",
     ".sty",
     ".bst",
     ".png",
     ".jpg",
     ".jpeg",
-    ".pdf",
     ".eps",
     ".ps",
 }
@@ -42,10 +44,18 @@ def run(command: list[str], *, cwd: Path = ROOT) -> None:
 def copy_sources() -> None:
     """Copy only arXiv-compatible authored source and referenced assets."""
     for source in sorted(PAPER.rglob("*")):
-        if source.is_file() and source.suffix.lower() in SOURCE_SUFFIXES:
-            destination = PACKAGE / source.relative_to(PAPER)
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, destination)
+        if not source.is_file():
+            continue
+        relative = source.relative_to(PAPER)
+        included = relative in SOURCE_FILES or (
+            relative.parts[0] in SOURCE_DIRECTORIES
+            and source.suffix.lower() in SOURCE_SUFFIXES
+        )
+        if not included:
+            continue
+        destination = PACKAGE / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
     generated_bbl = BUILD / "main.bbl"
     if generated_bbl.exists():
         shutil.copy2(generated_bbl, PACKAGE / "main.bbl")

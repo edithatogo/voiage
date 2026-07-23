@@ -21,7 +21,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 
-*   [x] Mature and harden the v1.0 release through the authoritative Rust-core
+*   [x] Mature and harden the v1.0 release through the selected Rust-kernel
     takeover, legacy Python-kernel retirement, thin binding consolidation,
     Astro-only documentation, release-quality gates, registry verification,
     and signed final publication.

@@ -44,6 +44,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve
+  signed ENBS, and subtract total research cost after population scaling.
+- Restricted the arXiv upload archive to the canonical manuscript sources,
+  excluding duplicate manuscripts, PDFs, and nested build artifacts.
+- Revised the manuscript after independent arXiv, JOSS, statistical, and
+  research-software review, narrowing estimator, maturity, binding, equity,
+  implementation, and cross-domain claims to demonstrated behavior.
 - Numbered manuscript references by first appearance rather than alphabetically.
 - Aligned the arXiv workflow with the repository's pinned uv frontier and
   corrected the retained Julia release test to reflect read-only release jobs.

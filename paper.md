@@ -1,5 +1,5 @@
 ---
-title: "voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings"
+title: "voiage: Value of Information Analysis"
 tags:
   - value of information
   - decision analysis
@@ -11,11 +11,15 @@ tags:
 authors:
   - given-names: Dylan
     surname: Mordaunt
-    affiliation: 1
+    affiliation: "1, 2, 3"
     corresponding: true
 affiliations:
-  - name: "Independent Researcher, Australia"
+  - name: "Faculty of Health, Education and Psychology, Victoria University of Wellington"
     index: 1
+  - name: "College of Medicine and Public Health, Flinders University"
+    index: 2
+  - name: "Centre for Health Policy, The University of Melbourne"
+    index: 3
 date: 22 July 2026
 bibliography: paper.bib
 repository: https://github.com/edithatogo/voiage
@@ -34,13 +38,13 @@ of partial perfect information (EVPPI), expected value of sample information
 (EVSI), expected net benefit of sampling (ENBS), cost-effectiveness acceptability
 frontiers (CEAF), dominance, and related diagnostics.
 
-The v1.0.0 release combines a Python user interface with an authoritative Rust
-execution core. Python provides the public façade, schema validation,
-orchestration, reporting, plotting, and command-line interface. Rust provides
-the stable numerical kernels and shared result contracts; PyO3/Maturin exposes
-the Python bridge, while the R and Julia bindings use the shared C ABI. This
-architecture makes numerical behavior explicit and testable across languages
-without requiring users to install a large systems stack.
+The v1.0.0 release is a hybrid Rust/Python implementation. Rust owns selected
+stable aggregation kernels and result contracts. Python provides the broader
+public interface, model execution, schema validation, orchestration, reporting,
+plotting, and command-line interface. PyO3/Maturin exposes the Python bridge;
+the current R and Julia source packages provide direct EVPI bindings through
+the shared C ABI and an externally supplied Rust shared library. Wider
+cross-language parity is not claimed.
 
 # Statement of need
 
@@ -67,22 +71,23 @@ VOI analysis is well established in decision analysis and health economics
 The R ecosystem includes mature packages for particular health-economic
 workflows, including Bayesian cost-effectiveness analysis and EVSI methods.
 `voiage` complements rather than replaces those packages by providing a
-Python-first, cross-domain interface and by making the execution contract
-portable to Rust, R, and Julia. The project emphasizes shared fixtures and
-cross-language conformance rather than a separate numerical implementation in
-each binding. Its extension policy also separates stable methods from optional
-and experimental research surfaces.
+cross-domain decision contract through a hybrid Rust/Python implementation.
+Extending one specialist health-economic package would not provide the same
+language-neutral contracts or broader problem taxonomy, while independently
+reimplementing every method in each language would increase numerical drift.
+The project therefore uses shared fixtures and selected Rust kernels, while
+retaining specialist packages as preferable where they provide deeper
+method-specific validation. Its extension policy separates stable interfaces
+from fixture-backed and experimental research surfaces.
 
 # Software design
 
 The stable runtime is organized around validated domain objects, canonical
-schemas, numerical kernels, diagnostics, provenance, and adapters. The Rust
-workspace contains the authoritative numerical implementation and a narrow,
-versioned C ABI with explicit ownership and error transport. The Python package
-uses PyO3 and Maturin for its native extension and retains only the façade and
-workflow responsibilities needed by users. R and Julia consume the same ABI;
-their packages do not reimplement VOI policy. Optional dependencies such as
-JAX, plotting libraries, and web integrations are isolated from the base core.
+schemas, selected Rust numerical kernels, diagnostics, provenance, and
+adapters. Python still owns broader method paths and user-model orchestration.
+The narrow, versioned C ABI has explicit ownership and error transport.
+Optional dependencies such as JAX, plotting libraries, and web integrations
+are isolated from the base core.
 
 Correctness is supported by language-neutral fixtures, unit and integration
 tests, property-based and fuzz tests, metamorphic checks, mutation testing,
@@ -107,12 +112,13 @@ before a JOSS submission if the editorial screening requires them.
 
 # AI usage disclosure
 
-Generative AI tools assisted with repository analysis, security and release
-workflow review, documentation drafting, and preparation of this manuscript.
+OpenAI Codex and Google Jules assisted with repository analysis, implementation
+review, security and release workflow review, documentation drafting, and
+preparation of this manuscript. The repository does not retain a complete
+retrospective inventory of model versions used across development. Suggestions
+were checked against source code, tests, references, and generated artifacts.
 The human author remains responsible for the software design, claims,
-references, author list, and final text. All AI-assisted changes are subject to
-human review and repository tests; no AI tool is an author or a substitute for
-the human author’s scientific and editorial decisions.
+references, author list, and final text; no AI tool is an author.
 
 # Acknowledgements
 

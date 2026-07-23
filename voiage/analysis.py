@@ -8,6 +8,7 @@ from typing import Any, Protocol
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
 from voiage.core.utils import check_input_array
 from voiage.exceptions import (
@@ -848,8 +849,8 @@ class DecisionAnalysis:
 
     def enbs(
         self,
+        evsi_result: float,
         research_cost: float,
-        strategy_of_interest: int | str | None = None,
         population: float | None = None,
         time_horizon: float | None = None,
         discount_rate: float | None = None,
@@ -858,12 +859,13 @@ class DecisionAnalysis:
 
         Parameters
         ----------
+        evsi_result : float
+            Expected value of sample information for the proposed study, per
+            decision and per period when population scaling is requested.
         research_cost : float
             Total cost of the proposed research study.
-        strategy_of_interest : int or str, optional
-            Optional strategy selector for downstream decision reporting.
         population : float, optional
-            Population size for population scaling.
+            Recurring population or decision opportunities per period.
         time_horizon : float, optional
             Time horizon in years for population scaling.
         discount_rate : float, optional
@@ -872,43 +874,28 @@ class DecisionAnalysis:
         Returns
         -------
         float
-            ENBS value, clipped at zero, unless population scaling is requested.
+            Signed ENBS. A negative result means the proposed study costs more
+            than its expected information value.
+
+        Notes
+        -----
+        Population scaling is applied to EVSI before the total research cost
+        is subtracted. The method therefore implements
+        ``scaled EVSI - total research cost`` rather than scaling study cost.
         """
-        # Check cache first
-        cache_key = f"enbs_{research_cost}_{strategy_of_interest}_{population}_{time_horizon}_{discount_rate}"
+        cache_key = (
+            f"enbs_{evsi_result}_{research_cost}_{population}_"
+            f"{time_horizon}_{discount_rate}"
+        )
         cached_result = self._cache_get(cache_key)
         if cached_result is not None:
             return float(cached_result)
 
-        nb_values = self.nb_array.numpy_values
-        check_input_array(nb_values, expected_ndim=2, name="nb_array", allow_empty=True)
-
-        if nb_values.size == 0:
-            return 0.0
-        if nb_values.shape[1] == 1:  # Single strategy
-            return 0.0
-
-        try:
-            # Use the selected backend for computation
-            if self.use_jit and hasattr(self.backend, "enbs_simple_jit"):
-                # Use JIT compilation if available and requested
-                per_decision_enbs = self.backend.enbs_simple_jit(
-                    nb_values, research_cost
-                )
-            else:
-                # Use regular computation
-                per_decision_enbs = self.backend.enbs_simple(nb_values, research_cost)
-
-            # ENBS should be non-negative (won't conduct research if it costs more than it's worth)
-            per_decision_enbs = max(0.0, float(per_decision_enbs))
-
-        except Exception as e:
-            raise_calculation_error(f"Error during ENBS calculation: {e}", e)
-
         if population is not None and time_horizon is not None:
-            result = self._scale_to_population(
-                per_decision_enbs, population, time_horizon, discount_rate, "ENBS"
+            scaled_evsi = self._scale_to_population(
+                evsi_result, population, time_horizon, discount_rate, "EVSI"
             )
+            result = _runtime.compute_enbs(scaled_evsi, research_cost)
             self._cache_set(cache_key, result)
             return result
 
@@ -922,9 +909,9 @@ class DecisionAnalysis:
                 "'discount_rate' is optional (defaults to 0 if not provided)."
             )
 
-        # Cache the result
-        self._cache_set(cache_key, float(per_decision_enbs))
-        return float(per_decision_enbs)
+        result = _runtime.compute_enbs(evsi_result, research_cost)
+        self._cache_set(cache_key, result)
+        return result
 
     def ceaf(
         self,

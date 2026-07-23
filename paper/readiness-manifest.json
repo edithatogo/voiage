@@ -11,8 +11,9 @@
     "review Textstat readability evidence without treating generic scores as scientific quality thresholds",
     "select the arXiv category, license, and endorsement path",
     "review the final source package and PDF",
-    "perform the authenticated arXiv upload"
+    "perform the authenticated arXiv upload",
+    "document independent research use and adoption before JOSS submission"
   ],
   "submission_performed": false,
-  "joss_submission": "deferred_until_after_arxiv_preprint"
+  "joss_submission": "blocked_pending_demonstrated_research_use_and_human_declarations"
 }

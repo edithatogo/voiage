@@ -44,27 +44,50 @@ $d$. For $S$ samples and $D$ strategies, the sample EVPI estimator is
   \frac{1}{S}\sum_{s=1}^{S}\max_{d} NB_{sd}
   - \max_{d}\frac{1}{S}\sum_{s=1}^{S} NB_{sd}.
 \end{equation}
-This is the expected opportunity loss of acting with current information.
-EVPPI restricts perfect information to a parameter subset $\phi$ and requires
-conditional expected net benefits,
+This estimates the expected gain from perfect information, equivalently the
+expected reduction in decision loss relative to acting with current
+information. Under representative independent and identically distributed
+draws with finite expectations, the plug-in estimator is consistent. In finite
+samples it is generally downward-biased because the maximum of estimated
+strategy means is upward-biased; its Monte Carlo uncertainty should therefore
+be assessed. EVPPI restricts perfect information to a parameter subset $\phi$
+and integrates over the complementary uncertainty $\theta_{-\phi}$,
 \begin{equation}
   \mathrm{EVPPI}(\phi) =
   \mathbb{E}_{\phi}\!\left[\max_d
-  \mathbb{E}(NB_d\mid\phi)\right]
-  - \max_d \mathbb{E}(NB_d),
+  \mathbb{E}_{\theta_{-\phi}\mid\phi}
+  \{NB_d(\phi,\theta_{-\phi})\}\right]
+  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\},
 \end{equation}
 which is commonly estimated using regression from a probabilistic sensitivity
 analysis sample~\cite{strong2014evppi}. EVSI instead values a proposed finite
-study $Y$ by averaging the decision made after observing its data,
+study with fixed design and data $Y$ by averaging the decision made after
+observing its data,
 \begin{equation}
   \mathrm{EVSI}(Y) =
-  \mathbb{E}_{Y}\!\left[\max_d
-  \mathbb{E}(NB_d\mid Y)\right]
-  - \max_d \mathbb{E}(NB_d).
+  \mathbb{E}_{Y\sim p(Y)}\!\left[\max_d
+  \mathbb{E}_{\theta\mid Y}\{NB_d(\theta)\}\right]
+  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
 \end{equation}
 Regression-based reuse of existing simulation output can reduce the cost of
-this calculation~\cite{strong2015evsi}. For a population-level EVSI $V$ and
-research cost $C$, \texttt{voiage} defines $\mathrm{ENBS}=V-C$.
+this calculation~\cite{strong2015evsi}. The supplied nested Monte Carlo path
+targets this preposterior estimand for a conjugate normal study model. Other
+exposed regression, moment, and efficient approximations make additional
+modeling or heuristic assumptions; numerical bounding can conceal Monte Carlo
+or model-fit error and is not evidence of calibration.
+
+For per-decision, per-period EVSI $v$, recurring population $N$, horizon $T$,
+annual discount rate $r$, and total research cost $C$, \texttt{voiage} defines
+\begin{equation}
+  \mathrm{ENBS}_{\mathrm{population}} =
+  vN\left(\frac{1-{(1+r)}^{-T}}{r}\right)-C,
+\end{equation}
+with the annuity factor replaced by $T$ when $r=0$. This scaling assumes
+constant recurring decision opportunities, end-of-period discounting, no
+population change, and no implementation delay. It must not be applied to
+values already aggregated over population or time. ENBS remains signed;
+$\max(0,\mathrm{ENBS})$ is the separate value of the option to commission the
+study.
 
 Implementation choices for these estimands can differ. Examples include the
 orientation of samples and strategies, handling of non-finite values,
@@ -73,11 +96,15 @@ contract therefore records dimensions, finite-value checks, method metadata,
 warnings, seeds, and serialized result envelopes.
 
 The same principle extends beyond classical estimands. For example,
-distributional analysis compares a single population-wide decision with
-subgroup-specific optima and an explicitly equity-weighted social-welfare
-decision~\cite{asaria2016distributional}. Implementation-adjusted analysis
-modifies expected net benefits for uptake, adherence, coverage, delay, and
-implementation uncertainty rather than assuming instantaneous perfect
-adoption. Sequential and adaptive analyses compare study designs and stopping
-rules through their expected net benefit of sampling, consistent with the
-decision-theoretic role of EVSI in trial design~\cite{flight2022sequential}.
+equity-weighted subgroup aggregation compares a single population-wide
+decision with subgroup-specific optima and an explicitly weighted
+social-welfare decision~\cite{asaria2016distributional}. Its interpretation is
+population-relevant only when subgroup weights represent the target
+population; sample-frequency weights yield a sample-weighted contrast. The
+basic implementation adjustment is a deterministic multiplier or scenario
+calculation for uptake, adherence, coverage, delay, and an uncertainty penalty.
+A common positive multiplier does not change strategy ranking and is not a
+probabilistic value-of-implementation estimand. Sequential and adaptive
+analyses compare study designs and stopping rules through their expected net
+benefit of sampling, consistent with the decision-theoretic role of EVSI in
+trial design~\cite{flight2022sequential}.
