@@ -2,6 +2,34 @@
 
 ```mermaid
 flowchart LR
+    Literature[Literature census] --> Registry[Canonical method registry]
+    Libraries[External library census] --> Registry
+    Registry --> Rust[Rust numerical authority]
+    VOP[Shared VOP C01/C02] --> Perspective[Perspective contracts]
+    Registry --> Perspective
+    Rust --> ABI[Versioned C ABI]
+    Perspective --> ABI
+    ABI --> Python
+    ABI --> R
+    ABI --> Julia
+    ABI --> Mojo
+    Registry --> ML[ML, LLM, and agent VOI]
+    ML --> ABI
+    Data[Rights-cleared evidence] --> Conformance[Cross-language conformance]
+    Python --> Conformance
+    R --> Conformance
+    Julia --> Conformance
+    Mojo --> Conformance
+    Conformance --> Releases[v1.1, v1.2, v1.3]
+```
+
+GitHub issue #313 is the public programme record. Native subissues #314--#323
+map one-to-one to active Conductor child tracks. Local specifications,
+versioned registries, fixtures, and evidence remain authoritative for technical
+completion; Project 28 is the synchronized public projection.
+
+```mermaid
+flowchart LR
     VOP[VOP canonical contract]
     Mirror[Digest-pinned VOIAGE mirror]
     Perspective[Perspective method API]

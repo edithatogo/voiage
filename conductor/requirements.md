@@ -8,6 +8,20 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Must have
 
+- The comprehensive Rust-first programme is represented by GitHub parent issue
+  #313, native subissues #314--#323, Project 28 items, and one matching active
+  Conductor track per issue.
+- Maintained open-source VOI library features are implemented independently or
+  carry an evidence-backed exclusion; proprietary and web-only parity is never
+  claimed beyond reproducible public behavior.
+- The canonical method registry distinguishes estimands, estimators,
+  applications, visualizations, aliases, and maturity.
+- Stable numerics are Rust-authoritative and surfaced consistently through
+  Rust, Python, R, Julia, and Mojo.
+- ML, LLM, and agent analyses distinguish decision VOI from entropy-only
+  information gain and define utility, cost, posterior action, and stopping.
+- Human CRediT and material AI-assistance records are reviewable, privacy-
+  preserving, and release-linked.
 - Directional current-information EVoP and perspective methods retain versioned,
   deterministic, public contracts.
 - The pinned VOP compatibility contract, Arrow schema fingerprint, IPC/Parquet
@@ -49,6 +63,9 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Won't have now
 
+- Unverifiable implementation parity with proprietary or web-only tools.
+- AI systems listed as authors or CRediT contributors.
+- Required network or model-provider access for deterministic examples.
 - Automatic external publication or maturity promotion.
 - Direct imports from the VOP source tree or repository consolidation.
 - Production accelerator claims without parity and hardware evidence.

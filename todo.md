@@ -3,6 +3,16 @@
 This document lists the actionable tasks for `voiage` development. Agents should pick tasks from the "To Do" list.
 
 ## To Do
+
+*   [ ] Execute the comprehensive Rust-first polyglot VOIAGE programme tracked
+    by GitHub #313 and Conductor
+    `rust_polyglot_voi_completion_20260723`.
+    *   Complete the method and external-library censuses before v1.1 contract
+        freeze.
+    *   Deliver stable Rust authority, complete Value of Perspective, supported
+        frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
+    *   Deliver executable datasets/examples, contribution transparency, and
+        staged v1.1--v1.3 assurance.
 *None at the moment.*
 
 ## Completed public documentation

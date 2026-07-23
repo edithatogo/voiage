@@ -1,5 +1,85 @@
 # Project Tracks
 
+## [ ] Track: Comprehensive Rust-First Polyglot VOIAGE Completion
+*Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
+*Execution order: 01 of 11.*
+*Status: new — parent programme for GitHub issue #313 and native subissues
+#314--#323; closure requires all repository-owned child work.*
+
+---
+
+## [ ] Track: VOI/VOP Method Census And Contract Reconciliation
+*Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
+*Execution order: 02 of 11.*
+*Status: new — canonical method and literature registry required before API
+freeze.*
+
+---
+
+## [ ] Track: External VOI Library Feature Parity
+*Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
+*Execution order: 03 of 11.*
+*Status: new — open-source feature equivalence and evidence-backed exclusions.*
+
+---
+
+## [ ] Track: Stable VOI Rust Core Completion
+*Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
+*Execution order: 04 of 11.*
+*Status: new — complete v1.1 Rust numerical authority.*
+
+---
+
+## [ ] Track: Value Of Perspective Completion
+*Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
+*Execution order: 05 of 11.*
+*Status: new — depends on the shared VOP C01 and C02 mathematical contracts.*
+
+---
+
+## [ ] Track: Supported Frontier Method Completion
+*Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
+*Execution order: 06 of 11.*
+*Status: new — complete, consolidate, demote, or gate every broader VOI family.*
+
+---
+
+## [ ] Track: ML, LLM, And Agent Value Of Information
+*Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
+*Execution order: 07 of 11.*
+*Status: new — decision-theoretic and information-design methods remain
+experimental until evidence supports promotion.*
+
+---
+
+## [ ] Track: Polyglot ABI And Binding Parity
+*Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
+*Execution order: 08 of 11.*
+*Status: new — installed Rust, Python, R, Julia, and Mojo conformance.*
+
+---
+
+## [ ] Track: Datasets And Executable Worked Examples
+*Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
+*Execution order: 09 of 11.*
+*Status: new — immutable synthetic and rights-cleared public evidence.*
+
+---
+
+## [ ] Track: Research Contribution And AI Transparency
+*Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
+*Execution order: 10 of 11.*
+*Status: new — CRediT and reviewed, privacy-preserving AI provenance.*
+
+---
+
+## [ ] Track: Quality, Security, Release, And Registry Automation
+*Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
+*Execution order: 11 of 11.*
+*Status: new — staged v1.1--v1.3 evidence and external gates.*
+
+---
+
 ## [~] Track: Research Software Registry Readiness
 *Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
 *Execution order: 02 of 02, after the signed v1.0 release provides immutable
