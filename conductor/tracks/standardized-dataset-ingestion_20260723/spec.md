@@ -35,6 +35,9 @@ datapackage.json -> Frictionless provider --/          |
   receipts rather than relying on mutable descriptor URLs.
 - Preserve machine-readable citation, licence, usage, and attribution metadata
   without presenting metadata preservation as legal authorization.
+- Make the provider boundary independently testable by third-party developers.
+- Demonstrate the same ingestion and numerical paths across ML,
+  engineering/operations, and business decisions.
 - Maintain backward compatibility with existing NumPy, xarray, CSV,
   `ValueArray`, `ParameterSet`, and `AnalysisSpec` entry points.
 
@@ -190,6 +193,34 @@ coverage, typing, Ruff, dependency-frontier, Arrow round-trip,
 numerical-equivalence, CPU-fallback, clean-install, SBOM/license, harness, tox,
 documentation, security, mutation, performance, and hosted-check gates.
 
+### R13 — Provider SDK and DataFrame interchange
+
+After the core provider protocol and conformance matrix stabilize, the
+programme MUST publish a supported provider SDK surface with typed protocol
+stubs, an example provider, reusable contract tests, capability manifests,
+version-compatibility rules, opt-in entry-point discovery, and a provider
+publication checklist.
+
+A generic Python DataFrame interchange (`__dataframe__`) adapter MUST terminate
+at Arrow and `NormalizedInputBundle`; it MUST NOT create a second preparation
+or numerical path. Conversion diagnostics MUST state whether data was copied
+or zero-copy and preserve dtype, null, categorical, timezone, and index
+decisions. Registry-specific adapters for Hugging Face or OpenML MUST be
+justified by evidenced gaps after their Croissant support is evaluated.
+
+### R14 — Cross-domain reference cases
+
+The programme MUST provide reproducible reference decisions for ML model/data
+acquisition, engineering maintenance or reliability sensing, and business
+demand or portfolio research. Each case MUST use rights-cleared public or
+deterministic synthetic data, Croissant and Frictionless descriptors, the same
+versioned VOI binding profile, pinned digests, inspection output, and
+scientifically applicable VOI methods.
+
+Reference cases MUST NOT introduce domain-specific calculation kernels or
+silent semantic inference. Their purpose is adoption evidence for the shared
+architecture, not additional implementations of VOI mathematics.
+
 ## Acceptance criteria
 
 - **AC-01:** The normalized contract is versioned, deterministic, immutable,
@@ -214,6 +245,10 @@ documentation, security, mutation, performance, and hosted-check gates.
   deterministic, explicit about units and transformations, and conflict-safe.
 - **AC-11:** Remote or live inputs can be reproduced offline from verified
   materializations, with data-quality and governance metadata retained.
+- **AC-12:** A third party can implement and test a provider without importing
+  calculation internals, and DataFrame-protocol inputs use the canonical path.
+- **AC-13:** ML, engineering/operations, and business reference cases reproduce
+  equivalent results across Croissant, Frictionless, and direct inputs.
 
 ## Non-functional constraints
 
@@ -273,8 +308,12 @@ Parent:
   diagnostics, and documentation
 - [#333](https://github.com/edithatogo/voiage/issues/333) — security,
   performance, compatibility, and release gates
+- [#467](https://github.com/edithatogo/voiage/issues/467) — provider SDK and
+  DataFrame interchange adapter
+- [#468](https://github.com/edithatogo/voiage/issues/468) — cross-domain
+  reference cases
 
-All eight children are native GitHub sub-issues of #325 and are items in
+All ten children are native GitHub sub-issues of #325 and are items in
 [Project 28](https://github.com/users/edithatogo/projects/28).
 
 ## Authoritative inputs

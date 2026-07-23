@@ -1,10 +1,10 @@
 {
   "track_id": "standardized-dataset-ingestion_20260723",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-23T15:16:46Z",
+  "updated_at": "2026-07-23T15:26:00Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -24,7 +24,9 @@
     "https://github.com/edithatogo/voiage/issues/330",
     "https://github.com/edithatogo/voiage/issues/331",
     "https://github.com/edithatogo/voiage/issues/332",
-    "https://github.com/edithatogo/voiage/issues/333"
+    "https://github.com/edithatogo/voiage/issues/333",
+    "https://github.com/edithatogo/voiage/issues/467",
+    "https://github.com/edithatogo/voiage/issues/468"
   ],
   "github_project": "https://github.com/users/edithatogo/projects/28",
   "gates": [
@@ -41,10 +43,28 @@
       "evidence": "Commit 67e079e and GitHub issues #325-#333 incorporate versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting; focused tests, harness, setup validation, and Vale passed."
     },
     {
+      "id": "follow-on-recommendation-incorporation",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Native sub-issues #467 and #468 and Project 28 records exist; Conductor and central-manifest amendments are under validation."
+    },
+    {
       "id": "functional-implementation",
       "kind": "repository",
       "status": "pending",
-      "evidence": "Implementation has not started; plan phases 1-7 remain pending."
+      "evidence": "Implementation has not started; functional and adoption phases remain pending."
+    },
+    {
+      "id": "cross-reference-integration-order",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "PR #465 is clean and should merge before draft PR #334 is rebased and promoted."
+    },
+    {
+      "id": "pre-existing-dependency-security",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Dependabot PR #324 separately addresses five current JupyterLab alerts and remains outside ingestion implementation evidence."
     },
     {
       "id": "hosted-quality-and-security",

@@ -171,16 +171,58 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   evidence, and reconcile PR #334 without claiming functional implementation.
   (`67e079e`)
 
-## Phase 8 — Reconcile Conductor and GitHub (#325)
+## Phase 8 — Publish the provider SDK and DataFrame adapter (#467)
 
-- [ ] **P8-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
+- [ ] **P8-T1 / AC-12:** Freeze the supported provider-SDK surface only after
+  phases 1–5 establish stable core contracts and conformance evidence.
+- [ ] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
+  reusable contract tests, capability manifests, compatibility rules, and an
+  opt-in entry-point publication checklist.
+- [ ] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
+  pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
+  and clean optional environments.
+- [ ] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
+  Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
+  path.
+- [ ] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
+  create registry-specific providers only for documented, tested gaps.
+- [ ] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
+  equivalence, import isolation, security review, full tox, and hosted checks.
+
+## Phase 9 — Ship cross-domain reference cases (#468)
+
+- [ ] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
+  engineering/operations, and business decision cases with explicit method
+  applicability.
+- [ ] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
+  direct inputs using the same binding profile and pinned artifact digests.
+- [ ] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
+  materialization, Python API, and CLI walkthrough evidence.
+- [ ] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
+  without adding domain-specific kernels or semantic inference.
+- [ ] **P9-T5 / AC-13:** Publish the support matrix and run fixture
+  regeneration, docs, links, Vale, conformance, and hosted regression checks.
+
+## Follow-on recommendation incorporation (2026-07-24)
+
+- [~] **REV2-T1:** Add native sub-issues #467 and #468, Project 28 records,
+  Conductor requirements/phases, central cross-references, and PR dependency
+  notes for the provider SDK and cross-domain reference cases.
+- [ ] **REV2-T2:** Validate and record the follow-on planning amendment without
+  claiming that SDK, adapters, examples, or dependency remediation are
+  implemented.
+
+## Phase 10 — Reconcile Conductor and GitHub (#325)
+
+- [ ] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
+  #467, and #468,
   native parent/sub-issue links, Project 28 status/fields, pull requests, and
   evidence ledger entries.
-- [ ] **P8-T2 / AC-09:** Confirm every issue acceptance criterion is supported
+- [ ] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
   by repository and hosted evidence or remains explicitly blocked.
-- [ ] **P8-T3 / AC-09:** Run the complete Conductor validation and distinguish
+- [ ] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
   this track's state from pre-existing legacy archive-validation debt.
-- [ ] **P8-T4 / AC-09:** Update metadata and registry status, perform the final
+- [ ] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
 
@@ -188,5 +230,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 - Track and issue/project initialization are authorized and complete.
 - Functional implementation has not started.
+- Cross-reference PR #465 should merge before PR #334 is rebased and promoted
+  from draft, preserving the central manifest as the first integration step.
+- Dependabot PR #324 is a separate repository-security lane for five current
+  JupyterLab alerts; it is not evidence that ingestion work is implemented.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.

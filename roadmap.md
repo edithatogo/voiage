@@ -85,6 +85,12 @@ independently from package releases, and remote or live inputs require verified
 materialization receipts, explicit selection, data-quality evidence, and
 preserved citation/licence/usage metadata.
 
+Follow-on sub-issues #467 and #468 extend the same programme only after the
+canonical contract and conformance matrix stabilize: #467 publishes a provider
+SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
+ML, engineering/operations, and business reference cases. Neither follow-on
+creates a second preparation path or domain-specific numerical kernel.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

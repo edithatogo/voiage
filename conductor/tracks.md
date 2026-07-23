@@ -4,7 +4,7 @@
   *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
-  [#326–#333](https://github.com/edithatogo/voiage/issues/325).*
+  [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
   *Status: in progress — planning review recommendations are being reconciled;
   functional implementation has not started.*
 
