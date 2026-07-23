@@ -11,6 +11,7 @@ def test_arxiv_readiness_pipeline_is_latex_first_and_non_submitting() -> None:
     readability = (root / "scripts/audit_arxiv_readability.py").read_text()
     main_tex = (root / "paper/main.tex").read_text()
 
+    assert not (root / "paper/paper.tex").exists()
     assert "\\documentclass" in main_tex
     assert '"canonical_source": "paper/main.tex"' in manifest
     assert '"submission_performed": false' in manifest
@@ -107,6 +108,13 @@ def test_arxiv_source_archive_contains_only_submission_sources() -> None:
         assert not any(name.startswith("build/") for name in names)
         assert {name for name in names if name.endswith(".pdf")} == {
             "figures/synthetic_health_example.pdf"
+        }
+        assert {
+            name for name in names if name.startswith("data/") and name.endswith(".csv")
+        } == {
+            "data/synthetic_health_example_results.csv",
+            "data/synthetic_health_example_sensitivity.csv",
+            "data/synthetic_health_example_summary.csv",
         }
         documentclasses = 0
         for member in tex_sources:

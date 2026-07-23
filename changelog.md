@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the obsolete local `paper/paper.tex` manuscript and added an
+  assurance check that `paper/main.tex` remains the only top-level manuscript.
 - Removed the internal acknowledgements placeholder, unused abbreviations, and
   uncited bibliography records from the preprint.
 - Removed internal author-review and automated-submission disclaimers from the
@@ -19,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added bootstrap simulation-uncertainty intervals, prespecified one-way
+  sensitivity analysis, and machine-readable result files for the preprint's
+  synthetic health example.
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
   assumptions table, vector figure, numerical results, conclusion, and code
