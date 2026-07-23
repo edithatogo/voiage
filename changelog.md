@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added the comprehensive Rust-first polyglot VOIAGE programme, eleven
+  cross-linked Conductor tracks, a native GitHub parent/subissue hierarchy,
+  Project 28 metadata, and reusable local/live governance validation.
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
   assumptions table, vector figure, numerical results, conclusion, and code
@@ -38,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Allowed the frozen v1 programme validator to coexist with separately
+  governed post-v1 tracks while continuing to reject missing v1 records.
 - Consolidated the preprint around the decision problem, information measures,
   worked example, applications, limitations, and conclusion; labelled
   equations for robust cross-references; strengthened direct methodological

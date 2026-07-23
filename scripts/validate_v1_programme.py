@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 import json
 import os
 from pathlib import Path
@@ -82,12 +82,14 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
         if tracks_root.is_dir()
         else set()
     )
-    if actual_active != expected_active:
-        raise ValidationError("active track directories do not match the baseline")
+    missing_active = expected_active - actual_active
+    if missing_active:
+        raise ValidationError("active track directories do not contain the baseline")
 
     registered_active = set(re.findall(r"\./tracks/([^/]+)/", registry))
-    if registered_active != expected_active:
-        raise ValidationError("active registry links do not match the baseline")
+    missing_registered = expected_active - registered_active
+    if missing_registered:
+        raise ValidationError("active registry links do not contain the baseline")
 
     archive_root = conductor / "archive"
     archive_count = (
@@ -137,25 +139,25 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
     if not isinstance(snapshot_value, str):
         raise ValidationError("github.snapshot_at must be an ISO-8601 string")
     try:
-        snapshot = datetime.fromisoformat(snapshot_value.replace("Z", "+00:00"))
+        snapshot = datetime.fromisoformat(snapshot_value)
     except ValueError as error:
         raise ValidationError("github.snapshot_at is not valid ISO-8601") from error
     if now is not None:
-        clock = now if now.tzinfo is not None else now.replace(tzinfo=timezone.utc)
+        clock = now if now.tzinfo is not None else now.replace(tzinfo=UTC)
     else:
         env_now = os.environ.get("PROGRAMME_VALIDATOR_NOW")
         if env_now:
             try:
-                clock = datetime.fromisoformat(env_now.replace("Z", "+00:00"))
+                clock = datetime.fromisoformat(env_now)
             except ValueError:
-                clock = datetime.now(timezone.utc)
+                clock = datetime.now(UTC)
         else:
-            clock = datetime.now(timezone.utc)
+            clock = datetime.now(UTC)
     if clock.tzinfo is None:
-        clock = clock.replace(tzinfo=timezone.utc)
+        clock = clock.replace(tzinfo=UTC)
     if snapshot.tzinfo is None:
         raise ValidationError("github.snapshot_at must be timezone-aware")
-    age_days = (clock - snapshot.astimezone(timezone.utc)).total_seconds() / 86400
+    age_days = (clock - snapshot.astimezone(UTC)).total_seconds() / 86400
     if age_days < 0 or age_days > MAX_SNAPSHOT_AGE_DAYS:
         raise ValidationError("GitHub programme snapshot is stale or in the future")
 

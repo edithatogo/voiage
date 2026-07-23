@@ -8,10 +8,13 @@
 - [x] Populate live Project 28 fields using its supported option vocabulary.
 - [x] Add and run repository governance validation.
 - [x] Commit the governance artifacts, attach a git note, record the short
-  commit SHA, and commit the plan update. (`54624bc5`)
+  commit SHA, and commit the plan update. (`c576ad14`, rebased)
 - [x] Automated Conductor review and validation checkpoint.
 - [x] Review fix: isolate per-track validator errors so one malformed track
-  cannot suppress inspection of later tracks. (`e025a48c`)
+  cannot suppress inspection of later tracks. (`9cf3849d`, rebased)
+- [x] Integration fix: make the frozen v1 baseline require its recorded tracks
+  as a subset, rather than prohibit later separately governed programmes.
+- [x] Python 3.12 full suite: 2,032 passed and 16 skipped.
 - [ ] Conductor - User Manual Verification 'Phase 1: Governance foundation'
   (Protocol in workflow.md).
 

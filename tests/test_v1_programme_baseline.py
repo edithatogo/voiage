@@ -130,6 +130,37 @@ def test_v1_programme_validator_accepts_repository_baseline() -> None:
     assert "v1 programme integrity: ok" in result.stdout
 
 
+def test_v1_programme_validator_allows_separately_governed_post_v1_tracks(
+    tmp_path: Path,
+) -> None:
+    """The frozen v1 snapshot must not prohibit later active programmes."""
+    conductor = tmp_path / "conductor"
+    baseline_track = conductor / "tracks" / ACTIVE_TRACK_IDS[0]
+    later_track = conductor / "tracks" / "post_v1_programme"
+    baseline_track.mkdir(parents=True)
+    later_track.mkdir()
+    baseline = _baseline()
+    baseline["conductor"]["archived_track_count"] = 0
+    (conductor / "v1-programme-baseline.json").write_text(
+        json.dumps(baseline), encoding="utf-8"
+    )
+    (conductor / "tracks.md").write_text(
+        "\n".join(
+            [
+                f"*Link: [./tracks/{ACTIVE_TRACK_IDS[0]}/](./tracks/{ACTIVE_TRACK_IDS[0]}/)*",
+                "*Link: [./tracks/post_v1_programme/](./tracks/post_v1_programme/)*",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "roadmap.md").write_text(ACTIVE_TRACK_IDS[0], encoding="utf-8")
+    (tmp_path / "todo.md").write_text(ACTIVE_TRACK_IDS[0], encoding="utf-8")
+
+    result = _run_validator(tmp_path)
+
+    assert result.returncode == 0, result.stderr
+
+
 def test_v1_programme_validator_rejects_registry_drift(tmp_path: Path) -> None:
     """A registered active track must resolve to an active directory."""
     conductor = tmp_path / "conductor"
@@ -149,7 +180,7 @@ def test_v1_programme_validator_rejects_registry_drift(tmp_path: Path) -> None:
     result = _run_validator(tmp_path)
 
     assert result.returncode == 1
-    assert "active track directories do not match the baseline" in result.stderr
+    assert "active track directories do not contain the baseline" in result.stderr
 
 
 def test_v1_programme_validator_rejects_execution_order_drift(
