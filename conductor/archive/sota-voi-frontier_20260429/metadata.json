@@ -4,5 +4,12 @@
   "status": "new",
   "created_at": "2026-04-29T00:00:00Z",
   "updated_at": "2026-04-29T00:00:00Z",
-  "description": "Define and implement frontier VOI methods beyond the standard method set, including value of perspective and multi-perspective decision comparison."
+  "description": "Define and implement frontier VOI methods beyond the standard method set, including value of perspective and multi-perspective decision comparison.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/446",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
 }

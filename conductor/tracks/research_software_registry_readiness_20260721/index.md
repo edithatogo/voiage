@@ -13,3 +13,9 @@ Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Registry readiness handoff](./handoff/registry-readiness.json)
+
+## GitHub traceability
+
+- Track issue: [#296](https://github.com/edithatogo/voiage/issues/296)
+- Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
+- Pull requests: [#300](https://github.com/edithatogo/voiage/pull/300), [#308](https://github.com/edithatogo/voiage/pull/308), [#309](https://github.com/edithatogo/voiage/pull/309), [#310](https://github.com/edithatogo/voiage/pull/310), [#311](https://github.com/edithatogo/voiage/pull/311)

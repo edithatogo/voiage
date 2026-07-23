@@ -1,0 +1,29 @@
+{
+  "track_id": "conductor-github-cross-reference-reconciliation_20260724",
+  "version": "1.1.0",
+  "type": "chore",
+  "status": "in_progress",
+  "created_at": "2026-07-24T00:00:00Z",
+  "updated_at": "2026-07-24T00:00:00Z",
+  "description": "Reconcile every VOIAGE Conductor track with a unique GitHub issue, native parent, Project 28 item, and evidenced pull requests.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-24",
+    "recorded_at": "2026-07-24T00:00:00Z",
+    "evidence": "User explicitly requested all Conductor tracks be cross-referenced with GitHub issues, subissues, Project 28, and completed-track PRs."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/462",
+  "github_programme_parent": "https://github.com/edithatogo/voiage/issues/322",
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/462",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/322",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/465"
+    ],
+    "pull_request_evidence": "track_delivery"
+  }
+}

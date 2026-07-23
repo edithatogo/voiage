@@ -4,5 +4,14 @@
   "status": "complete",
   "created_at": "2026-05-10T16:28:35Z",
   "updated_at": "2026-05-11T17:54:00Z",
-  "description": "Implement a real Metal-backed internal execution prototype for Apple workloads so the Apple benchmark track can compare against a device-backed path."
+  "description": "Implement a real Metal-backed internal execution prototype for Apple workloads so the Apple benchmark track can compare against a device-backed path.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/344",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/121"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

@@ -21,3 +21,10 @@ See [plan.md](./plan.md)
 This track implements the autonomous review-and-progression protocol:
 - After each phase: `/conductor:review` → apply fixes → re-verify → commit → progress
 - After track completion: `/conductor:review` (full track) → apply fixes → archive → auto-progress to Track 3 (implement-missing-methods)
+
+## GitHub traceability
+
+- Track issue: [#337](https://github.com/edithatogo/voiage/issues/337)
+- Parent issue: https://github.com/edithatogo/vop_poc_nz/issues/29
+- Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
+- Pull requests: No pull request proven by recorded commit or track-path history.

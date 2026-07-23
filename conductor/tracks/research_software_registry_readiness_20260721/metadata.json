@@ -28,5 +28,18 @@
       "status": "pending",
       "evidence": "Software Heritage request 2397350 completed with snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32. Julia General, R registry, and SciCrunch/RRID still require external submission or curation; JOSS submission is explicitly out of scope for this execution."
     }
-  ]
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/296",
+    "parent_issue": null,
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/300",
+      "https://github.com/edithatogo/voiage/pull/308",
+      "https://github.com/edithatogo/voiage/pull/309",
+      "https://github.com/edithatogo/voiage/pull/310",
+      "https://github.com/edithatogo/voiage/pull/311"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

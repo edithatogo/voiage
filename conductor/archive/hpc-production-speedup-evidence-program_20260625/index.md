@@ -3,3 +3,10 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+
+## GitHub traceability
+
+- Track issue: [#405](https://github.com/edithatogo/voiage/issues/405)
+- Parent issue: https://github.com/edithatogo/vop_poc_nz/issues/31
+- Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
+- Pull requests: [#205](https://github.com/edithatogo/voiage/pull/205), [#206](https://github.com/edithatogo/voiage/pull/206)

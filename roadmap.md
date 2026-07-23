@@ -38,6 +38,12 @@ Research-software registry readiness follows that release in
 local preparation into external archival, identifier, submission, review, or
 acceptance evidence.
 
+Conductor-to-GitHub traceability is being reconciled in
+`conductor-github-cross-reference-reconciliation_20260724`. Every completed
+track now has an individual issue, native parent, Project 28 item, and
+evidence-based PR links (or an explicit no-PR-evidence boundary); repository
+validation and PR handoff remain in progress.
+
 The preprint is now authored in canonical semantic LaTeX using the hardened
 `arxiv-paper-template` architecture. Repository automation provides
 deterministic source packaging, TeX Live 2023/2025 compatibility, LaTeX and PDF

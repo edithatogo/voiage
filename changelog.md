@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added bootstrap simulation-uncertainty intervals, prespecified one-way
   sensitivity analysis, and machine-readable result files for the preprint's
   synthetic health example.
+- Added track-level GitHub issue, native subissue, Project 28, and evidenced
+  pull-request cross-references for every Conductor track, with an automated
+  repository completeness validator.
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
   assumptions table, vector figure, numerical results, conclusion, and code
