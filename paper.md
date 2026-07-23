@@ -38,13 +38,10 @@ of partial perfect information (EVPPI), expected value of sample information
 (EVSI), expected net benefit of sampling (ENBS), cost-effectiveness acceptability
 frontiers (CEAF), dominance, and related diagnostics.
 
-The v1.0.0 release is a hybrid Rust/Python implementation. Rust owns selected
-stable aggregation kernels and result contracts. Python provides the broader
-public interface, model execution, schema validation, orchestration, reporting,
-plotting, and command-line interface. PyO3/Maturin exposes the Python bridge;
-the current R and Julia source packages provide direct EVPI bindings through
-the shared C ABI and an externally supplied Rust shared library. Wider
-cross-language parity is not claimed.
+Version 1.0.0 uses Rust for selected established calculations. Python supports
+the wider range of analyses, including user models, data checks, reporting,
+plots, and command-line use. The current R and Julia packages calculate EVPI
+directly but do not yet provide the full Python feature set.
 
 # Statement of need
 
@@ -57,12 +54,12 @@ in particular need a maintained, open implementation that supports common VOI
 methods while remaining compatible with the broader scientific Python
 ecosystem.
 
-`voiage` addresses this need with a common decision-model contract, validated
-schemas, deterministic fixtures, explicit diagnostics, reproducible seeds,
-machine-readable result envelopes, and a CLI for scripted workflows. The
-package is designed for researchers and analysts who need to evaluate the value
-of proposed data collection, compare decisions under uncertainty, or integrate
-VOI calculations into larger evidence and policy pipelines.
+`voiage` addresses this need with one clear description of the decision,
+careful data checks, repeatable examples, visible warnings and assumptions, and
+results that can be saved and reviewed. It is designed for researchers and
+analysts who need to evaluate the value of proposed data collection, compare
+decisions under uncertainty, or include VOI calculations in wider evidence and
+policy work.
 
 # State of the field
 
@@ -71,32 +68,25 @@ VOI analysis is well established in decision analysis and health economics
 The R ecosystem includes mature packages for particular health-economic
 workflows, including Bayesian cost-effectiveness analysis and EVSI methods.
 `voiage` complements rather than replaces those packages by providing a
-cross-domain decision contract through a hybrid Rust/Python implementation.
+cross-domain decision framework through a combination of Rust and Python.
 Extending one specialist health-economic package would not provide the same
-language-neutral contracts or broader problem taxonomy, while independently
-reimplementing every method in each language would increase numerical drift.
-The project therefore uses shared fixtures and selected Rust kernels, while
-retaining specialist packages as preferable where they provide deeper
-method-specific validation. Its extension policy separates stable interfaces
-from fixture-backed and experimental research surfaces.
+range of decision problems, while rewriting every calculation separately in
+each language would make inconsistent results more likely. Specialist packages
+remain preferable where they provide deeper support for a particular method.
+`voiage` clearly separates established, developing, and experimental features.
 
 # Software design
 
-The stable runtime is organized around validated domain objects, canonical
-schemas, selected Rust numerical kernels, diagnostics, provenance, and
-adapters. Python still owns broader method paths and user-model orchestration.
-The narrow, versioned C ABI has explicit ownership and error transport.
-Optional dependencies such as JAX, plotting libraries, and web integrations
-are isolated from the base core.
+The software checks that decision data have the expected shape and meaning,
+then uses selected Rust calculations or the broader Python methods as
+appropriate. Optional features for faster computation, plotting, and web use
+are kept separate so that they are not required for a basic analysis.
 
-Correctness is supported by language-neutral fixtures, unit and integration
-tests, property-based and fuzz tests, metamorphic checks, mutation testing,
-coverage gates, Rust diagnostics, ABI checks, benchmark regression budgets, and
-clean-install tests. The release process produces platform wheels, a source
-archive, checksums, SBOM and provenance evidence, and a signed GitHub release.
-Documentation is maintained in Astro/Starlight. The v1.0.0 release is available
-from GitHub and PyPI, and the repository records the external conda-forge,
-Julia, R, Software Heritage, RRID, and JOSS follow-on gates separately.
+Correctness is checked with worked examples, unit and integration tests,
+generated edge cases, deliberately introduced faults, performance checks, and
+fresh installations. The release process also checks package contents,
+dependencies, and reproducibility. Version 1.0.0 is available from GitHub and
+PyPI; other publication and registry processes are tracked separately.
 
 # Research impact statement
 
@@ -122,10 +112,10 @@ references, author list, and final text; no AI tool is an author.
 
 # Acknowledgements
 
-The author acknowledges the maintainers and developers of NumPy, SciPy, pandas,
-xarray, scikit-learn, PyArrow, Polars, Pydantic, Python, Rust, PyO3, Maturin,
-R, and Julia. Funding, institutional support, and additional contributors must
-be confirmed and added here before submission.
+The author acknowledges the open-source communities whose statistical,
+scientific-computing, and programming tools support this work. Funding,
+institutional support, and additional contributors must be confirmed before
+submission.
 
 # References
 

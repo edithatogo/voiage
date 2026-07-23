@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Rewrote the manuscript's architecture, assurance, and method-status
+  explanations in plain language for applied researchers and removed PyO3,
+  C-ABI, and other developer plumbing from the reader-facing narrative.
 - Reworked the public README and repository profile around the verified v1.0
   architecture, language boundaries, package availability, testing controls,
   documentation, citation, archival evidence, and remaining external gates.

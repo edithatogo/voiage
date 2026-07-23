@@ -20,14 +20,12 @@ poorly transportable; and waiting can preserve option value when commitment is
 costly to reverse. Treating each as unrelated post-processing makes it hard to
 compare their assumptions or combine them in an evidence plan.
 
-The \texttt{voiage} implementation uses a shared, maturity-labelled problem
-architecture for these value questions. Stable
-classical estimands and fixture-backed frontier methods use common strategy,
-value, diagnostic, and reporting semantics. The shared representation is
-intended to support questions about whether the limiting uncertainty is a
-parameter, study, structure, subgroup, perspective, implementation process,
-data source, or decision stage without changing the basic representation of
-the decision. This is an architectural design choice, not evidence of
-methodological superiority. Several frontier formulations still require
-empirical validation, methodological comparison, and cross-language parity
-before stable promotion.
+\texttt{voiage} uses one description of the decision across these questions.
+It records the available choices, their possible values, important warnings,
+and the information needed for reporting. Analysts can therefore ask whether
+the main uncertainty concerns an input, a proposed study, the model structure,
+a subgroup, a viewpoint, implementation, a data source, or the timing of the
+decision without rebuilding the whole analysis in a different format. This is
+a software design choice, not evidence that the methods are superior. Several
+newer features still need testing with real applications, comparison with
+established methods, and broader support in R and Julia.

@@ -28,27 +28,22 @@
 \maketitle
 
 \begin{abstract}
-Parameter-focused Value of Information (VOI) analysis does not by itself
-represent uncertainty about model structure, population heterogeneity,
-analytical perspective, implementation, evidence quality, or the timing and
-reversibility of action. These dimensions can affect assessments of further
-research, validation, subgroup analysis, implementation support, or delayed
-commitment. The \texttt{voiage} package implements shared data and result
-structures for these linked problems. Stable interfaces cover classical
-perfect, partial-perfect, and sample information; expected net benefit of
-sampling; dominance; cost-effectiveness acceptability frontiers; and
-heterogeneity, while their estimator paths retain distinct assumptions and
-validation limits. Maturity-labelled extensions formulate value questions for
-structural uncertainty, equity-weighted subgroup aggregation, perspective
-disagreement, imperfect implementation, adaptive and sequential studies,
-causal transportability, data quality, model validation, and staged
-irreversible decisions. The
-software contribution described here is an executable framework that records
-strategy, sample, subgroup, perspective, population, and provenance semantics
-across methods; it is not a new statistical formulation of classical VOI\@.
-Diagnostics and result contracts record selected assumptions and computation
-metadata. This paper describes the problem classes, estimands, domain
-applications, and evidence boundaries of version 1.0.0.
+Value of Information (VOI) analysis helps decision-makers judge whether
+reducing uncertainty is worth the cost. Many analyses focus on uncertain
+numerical inputs but do not show whether the answer could also change because
+of the model used, differences between population groups, the viewpoint
+adopted, poor implementation, weak evidence, or the timing of a decision.
+\texttt{voiage} provides a common way to describe and analyse these connected
+questions. Its established features calculate the expected value of perfect,
+partial, and sample information, the net value of further research, dominance,
+cost-effectiveness acceptability frontiers, and differences between groups.
+Newer features examine questions such as model choice, equity, implementation,
+evidence quality, adaptation, and delayed or irreversible action. The software
+keeps the available choices, relevant groups and populations, assumptions,
+warnings, and data sources visible with the result. It does not replace the
+scientific judgment needed to build a suitable model or value outcomes. This
+paper describes the questions addressed by version 1.0.0, how the calculations
+are organised, and where further validation is still needed.
 \end{abstract}
 
 \input{sections/summary}

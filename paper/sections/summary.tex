@@ -15,9 +15,8 @@ whose outcomes matter, which population and time horizon to scale to, whether a
 model form is credible, whether evidence transports to the target setting, and
 whether a recommendation will be implemented. Different choices can change
 the preferred action even when the same simulation output is used. The
-\texttt{voiage} package records these choices in the analysis inputs,
-diagnostics, and returned result rather than leaving them as unrecorded
-preprocessing.
+\texttt{voiage} package records these choices alongside the analysis and its
+results instead of leaving them hidden in data preparation or analyst notes.
 
 The implemented elements described in this paper are:
 \begin{itemize}
@@ -26,20 +25,20 @@ The implemented elements described in this paper are:
   of sample information (EVSI), expected net benefit of sampling (ENBS),
   dominance, the cost-effectiveness acceptability frontier (CEAF),
   heterogeneity, and structural VOI\@;
-  \item a labelled decision representation that records sample, strategy,
-  parameter, subgroup, perspective, population, and study-design semantics;
-  \item a maturity-labelled frontier that represents value questions
+  \item a labelled description of the decision that records samples,
+  strategies, uncertain inputs, subgroups, viewpoints, populations, and study
+  designs;
+  \item newer, clearly marked features that represent value questions
   about equity, perspective, implementation, validation, transportability,
   data quality, computation, and staged decisions; and
-  \item diagnostic result envelopes that retain method, seed, warning,
-  scaling, maturity, and provenance information that supports interpretation
-  of a value estimate.
+  \item results that retain the calculation method, random seed, warnings,
+  population adjustments, development status, and data sources needed to
+  interpret a value estimate.
 \end{itemize}
 
-Version 1.0.0 routes selected stable aggregation kernels through
-binding-independent Rust components. Python retains model orchestration,
-validation for broader method paths, labelled data, plots, and
-reports~\cite{voiage2026}. The R and Julia bindings currently expose direct
-native EVPI only; wider application programming interface (API) parity is not
-claimed. Definitions and abbreviations used throughout the paper are collected in
+Version 1.0.0 uses Rust for selected established calculations. Python supports
+the wider range of analyses, including user models, labelled data, plots, and
+reports~\cite{voiage2026}. The current R and Julia packages calculate EVPI
+directly, but they do not yet provide the full Python feature set. Definitions
+and abbreviations used throughout the paper are collected in
 Sections~\ref{sec:glossary} and~\ref{sec:abbreviations}.

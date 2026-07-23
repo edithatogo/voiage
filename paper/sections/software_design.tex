@@ -1,32 +1,31 @@
 \section{Decision-problem architecture}
 
-\subsection{Stable and frontier method families}
+\subsection{Established and developing methods}
 
-\texttt{voiage} separates methods by evidentiary maturity rather than presenting
-every callable function as equally established. Stable methods have versioned
-behavior and documented compatibility commitments. Fixture-backed methods have explicit
-schemas, examples, and deterministic expected results, but still require
-broader methodological and empirical evidence. Experimental capabilities can
-change and are isolated from the stable API\@.
+\texttt{voiage} does not present every available method as equally established.
+Stable methods have documented behaviour that is intended to remain compatible
+across releases. Developing methods have documented inputs, examples, and
+repeatable test results, but still need wider methodological and applied
+evidence. Experimental features can change.
 
-\subsection{Semantics for reducing category errors}
+\subsection{Keeping the meaning of the data visible}
 
 A \texttt{ValueArray} records values with named sample and strategy dimensions
-and can additionally retain perspective labels. Parameter sets, trial designs,
-decision options, populations, and result envelopes provide the corresponding
-analysis context. This reduces the risk of a matrix silently changing meaning as it
-moves between an EVPI calculation, subgroup analysis, or perspective
-comparison. Labeled-array behavior follows the scientific Python convention
-represented by \texttt{xarray}~\cite{hoyer2017xarray}.
+and can also retain labels for different viewpoints. It can be accompanied by
+the uncertain inputs, study design, available choices, and relevant population.
+This reduces the risk that rows or columns silently change meaning when the
+same data move between an EVPI calculation, subgroup analysis, or comparison
+of viewpoints. This approach follows the labelled-data convention represented
+by \texttt{xarray}~\cite{hoyer2017xarray}.
 
-Direct classical VOI functions return scalar estimates. Where supported,
-structured result envelopes additionally identify the selected strategy,
-comparison baseline, estimator and maturity, diagnostics, and the quantities
-needed to explain the value calculation. Population scaling, time horizon,
-discounting, implementation assumptions, subgroup and equity weights,
-transport weights, data-quality penalties, and stage timing remain visible
-where relevant. Invalid dimensions, non-finite values, inconsistent labels,
-and impossible rates fail explicitly.
+Classical VOI functions can return a single numerical estimate. Where
+supported, fuller results also record the preferred choice, comparison,
+calculation method, development status, warnings, and assumptions needed to
+explain that estimate. Population size, time horizon, discounting,
+implementation assumptions, subgroup weights, data-quality adjustments, and
+decision timing remain visible where relevant. The software reports invalid
+shapes, missing values, inconsistent labels, and impossible rates rather than
+quietly continuing.
 
 \begin{table}[!ht]
 \centering
@@ -43,13 +42,13 @@ Evidence system & Is evidence usable in the target decision? & Data quality, tra
 Timing & Should evidence collection or commitment adapt over time? & Sequential and adaptive studies, dynamic real options, portfolios \\
 \bottomrule
 \end{tabular}
-\caption{Decision problems represented by the v1 stable and maturity-labelled
-frontier. Inclusion denotes implemented analysis structure, not equal
-methodological maturity.}\label{tab:problems}
+\caption{Decision problems represented by established and developing features
+in version 1. Inclusion means that the problem can be represented, not that
+every method has the same level of evidence.}\label{tab:problems}
 \end{table}
 \FloatBarrier{}
 
-\subsection{Worked numerical contract}
+\subsection{Worked numerical example}
 
 For two strategies with net-benefit rows $(0,100)$ and $(0,-100)$, the sample
 EVPI is 50 value units. For a proposed study with per-decision EVSI 12.5 and
@@ -59,30 +58,24 @@ decisions over 10 years at a 3\% annual discount rate, the annuity factor is
 $12.5\times1000\times8.5302028368-5=106622.53546$ value units. These
 calculations distinguish EVPI from EVSI, preserve negative ENBS when research
 is not worthwhile, and subtract total research cost only after population
-scaling. Regression tests exercise the same contract through the Rust kernel
-and Python interface.
+scaling. Automated tests check the same calculation in both Rust and Python.
 
-\subsection{Implementation boundary and analytical assurance}
+\subsection{Software design and analytical checks}
 
-Binding-independent Rust components implement selected stable aggregation
-kernels. Python executes user-supplied models and retains orchestration,
-validation for broader method paths, labelled data, plots, and reports. For
-kernels routed through Rust, this boundary is intended to reduce divergence in
-validation, orientation, and tie-breaking behavior. This hybrid boundary is a
-deliberate migration trade-off: it avoids duplicating selected numerical policy
-while leaving user-model execution and broader methods in Python. Direct R and
-Julia support is currently limited to EVPI through source packages that link
-an externally supplied shared library, so broad or self-contained binding
-parity is not claimed.
+Rust performs selected established calculations. Python supports user-supplied
+models and the broader analysis workflow, including data checks, labelled data,
+plots, and reports. Keeping selected calculations in one shared component helps
+Python, R, and Julia produce the same result. The current R and Julia packages
+calculate EVPI directly but do not yet provide the wider Python feature set.
 
 Analytical assurance targets decision properties rather than only code
 execution. Tests cover translation and positive-scaling invariance,
-non-negativity where required, deterministic seeding, rank-deficient
-regression designs, degenerate strategies, malformed inputs, and
-cross-language fixtures. Exact-estimand invariants are tested on applicable
-paths; regression-based EVPPI can exceed theoretical bounds because of Monte
-Carlo error, misspecification, or extrapolation, and such violations require
-diagnosis rather than being treated as impossible.
+non-negativity where required, repeatable use of random numbers, difficult
+statistical models, identical choices, malformed inputs, and agreement between
+languages. Exact calculations are checked against their mathematical
+properties. Approximate EVPPI calculations can fall outside theoretical bounds
+because of simulation error, a poor-fitting model, or predictions beyond the
+observed data; such results require investigation.
 Property-based, metamorphic, fuzz, mutation, and integration tests complement
 example-based checks. These test specified behavior of the implemented
 estimators; they cannot validate a user's model structure, evidence, or value

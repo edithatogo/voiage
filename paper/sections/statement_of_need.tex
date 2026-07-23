@@ -70,11 +70,11 @@ observing its data,
   - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
 \end{equation}
 Regression-based reuse of existing simulation output can reduce the cost of
-this calculation~\cite{strong2015evsi}. The supplied nested Monte Carlo path
-targets this preposterior estimand for a conjugate normal study model. Other
-exposed regression, moment, and efficient approximations make additional
-modeling or heuristic assumptions; numerical bounding can conceal Monte Carlo
-or model-fit error and is not evidence of calibration.
+this calculation~\cite{strong2015evsi}. The supplied nested simulation
+calculates this quantity for a study model with normally distributed outcomes
+and a standard normal update. Other faster approximations make additional
+assumptions. Restricting their answers to a plausible numerical range can hide
+simulation or model-fitting problems and does not show that they are accurate.
 
 For per-decision, per-period EVSI $v$, recurring population $N$, horizon $T$,
 annual discount rate $r$, and total research cost $C$, \texttt{voiage} defines
@@ -89,13 +89,13 @@ values already aggregated over population or time. ENBS remains signed;
 $\max(0,\mathrm{ENBS})$ is the separate value of the option to commission the
 study.
 
-Implementation choices for these estimands can differ. Examples include the
-orientation of samples and strategies, handling of non-finite values,
-tie-breaking rules, and approximation methods. The \texttt{voiage} numerical
-contract therefore records dimensions, finite-value checks, method metadata,
-warnings, seeds, and serialized result envelopes.
+Software can calculate these quantities differently. Examples include whether
+samples are stored in rows or columns, how missing or infinite values are
+handled, how ties are resolved, and which approximations are used.
+\texttt{voiage} therefore records the data shape, checks, calculation method,
+warnings, random seed, and supporting details with the result.
 
-The same principle extends beyond classical estimands. For example,
+The same principle extends beyond the classical calculations. For example,
 equity-weighted subgroup aggregation compares a single population-wide
 decision with subgroup-specific optima and an explicitly weighted
 social-welfare decision~\cite{asaria2016distributional}. Its interpretation is
@@ -104,7 +104,8 @@ population; sample-frequency weights yield a sample-weighted contrast. The
 basic implementation adjustment is a deterministic multiplier or scenario
 calculation for uptake, adherence, coverage, delay, and an uncertainty penalty.
 A common positive multiplier does not change strategy ranking and is not a
-probabilistic value-of-implementation estimand. Sequential and adaptive
+probabilistic calculation of the value of improving implementation. Sequential
+and adaptive
 analyses compare study designs and stopping rules through their expected net
 benefit of sampling, consistent with the decision-theoretic role of EVSI in
 trial design~\cite{flight2022sequential}.

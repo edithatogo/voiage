@@ -67,8 +67,7 @@ def test_manuscript_uses_citation_order_and_cross_referenced_end_matter() -> Non
         "expected value of partial perfect information (EVPPI)",
         "expected value\n  of sample information (EVSI)",
         "expected net benefit of sampling (ENBS)",
-        "cost-effectiveness acceptability frontier (CEAF)",
-        "application programming interface (API)",
+            "cost-effectiveness acceptability frontier (CEAF)",
     ):
         assert expansion in summary
 

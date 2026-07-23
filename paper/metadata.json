@@ -6,7 +6,7 @@
       "affiliation": "Faculty of Health, Education and Psychology, Victoria University of Wellington; College of Medicine and Public Health, Flinders University; Centre for Health Policy, The University of Melbourne"
     }
   ],
-  "abstract": "Parameter-focused Value of Information analysis does not by itself represent uncertainty about model structure, population heterogeneity, analytical perspective, implementation, evidence quality, or the timing and reversibility of action. voiage implements shared data and result structures for classical VOI estimands and maturity-labelled extensions for these wider decision problems. The framework records strategy, sample, subgroup, perspective, population, diagnostic, and provenance semantics while distinguishing implemented contracts from empirical validation.",
+  "abstract": "Parameter-focused Value of Information analysis does not by itself represent uncertainty about model structure, population differences, viewpoint, implementation, evidence quality, or the timing and reversibility of action. voiage provides a common way to describe and analyse these wider decision problems. It keeps choices, groups, populations, assumptions, warnings, and data sources visible while distinguishing established calculations from newer features that still need applied validation.",
   "categories": ["human-selection-required"],
   "license": "select-in-arxiv-portal",
   "comments": "Draft for author review. Page and figure counts require confirmation after final typesetting."
