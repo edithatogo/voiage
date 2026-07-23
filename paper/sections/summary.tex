@@ -1,20 +1,46 @@
-\section{Summary}
+\section{Introduction}
 
-Value of Information (VOI) analysis estimates how much a decision could
-improve if uncertainty were reduced by collecting additional information. It
-is useful in health economics, clinical-trial design, public policy,
-environmental management, and other settings where decisions must be made
-before all relevant quantities are known. The open-source \texttt{voiage}
-library computes and communicates VOI analyses from probabilistic
-decision models~\cite{voiage2026}.
+Value of Information (VOI) analysis asks which uncertainty matters to a
+decision, what evidence could reduce it, and whether the expected improvement
+justifies the cost of
+learning~\cite{claxton1999irrelevance,briggs2006decision}. In health technology
+assessment this may mean
+choosing a trial, targeting a subgroup, validating a prediction model, or
+improving uptake. The formulation can also be used for environmental
+monitoring, engineering reliability, manufacturing quality, energy planning,
+and investment decisions when uncertain consequences are mapped to a common
+decision-value scale.
 
-The software provides expected value of perfect information (EVPI), expected
-value of partial perfect information (EVPPI), expected value of sample
-information (EVSI), expected net benefit of sampling (ENBS),
-cost-effectiveness acceptability frontiers (CEAF), dominance, and related
-diagnostics. Version 1.0.0 combines a Python user interface with an
-authoritative Rust execution core. Python provides the public facade, schema
-validation, orchestration, reporting, plotting, and command-line interface.
-Rust provides stable numerical kernels and shared result contracts; PyO3 and
-Maturin expose the Python bridge, while the R and Julia bindings use the shared
-C application binary interface.
+The difficult part is usually not the textbook expected value of perfect
+information (EVPI) equation. An analysis also involves choices about what
+counts as a strategy, whose outcomes matter, which population and time horizon
+to use, whether a model form is credible, whether evidence transports to the
+target setting, and whether a recommendation is likely to be implemented.
+Different choices can change
+the preferred action even when the same simulation output is used. The
+\texttt{voiage} package records these choices alongside the analysis and its
+results instead of leaving them hidden in data preparation or analyst notes.
+
+The paper is organised around four organising principles:
+\begin{itemize}
+  \item separating the value of resolving uncertainty from the value of
+  improving implementation, so that more research is not automatically treated
+  as the right response to a poor decision outcome;
+  \item relating individual-level information value to the affected
+  population, decision lifetime, discounting, research cost, and delay;
+  \item making heterogeneity, equity, perspective, model structure, and
+  transportability part of the decision question rather than hidden analytical
+  choices; and
+  \item distinguishing established calculations from developing extensions so
+  that a computable result is not mistaken for a validated one.
+\end{itemize}
+
+The implemented methods include EVPI, expected value of partial perfect
+information (EVPPI), expected value of sample information (EVSI), expected net
+benefit of sampling (ENBS), dominance, the cost-effectiveness acceptability
+frontier (CEAF), heterogeneity, and structural VOI\@. Newer features address
+equity, perspective, implementation, validation, transportability, data
+quality, and staged decisions. Version 1.0.0 is available for applied analysis
+in Python, with narrower R and Julia packages. Definitions
+and abbreviations are collected in Sections~\ref{sec:glossary}
+and~\ref{sec:abbreviations}.

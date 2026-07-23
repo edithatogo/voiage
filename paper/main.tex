@@ -5,46 +5,63 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{amsmath,amssymb}
+\usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings},
-  pdfauthor={Dylan Mordaunt},
-  pdfsubject={Open-source research software for value of information analysis},
-  pdfkeywords={value of information, decision analysis, health economics, uncertainty quantification, Rust, Python}
+\setlength{\emergencystretch}{2em}
+\hypersetup{pdftitle={voiage: Value of Information for Research, Implementation, and Decision Making},
+  pdfauthor={Dylan A. Mordaunt},
+  pdfsubject={Decision analysis under parameter, structural, population, implementation, and timing uncertainty},
+  pdfkeywords={value of information, decision analysis, structural uncertainty, distributional analysis, implementation, sequential decisions}
 }
 
-\title{\texttt{voiage}: Value of Information Analysis with a Rust Core and Polyglot Bindings}
-\author{Dylan Mordaunt\\\small Independent Researcher, Australia}
+\title{\texttt{voiage}: Value of Information for Research, Implementation,
+and Decision Making}
+\author{Dylan A. Mordaunt\textsuperscript{1,2,3}\\
+  \footnotesize\textsuperscript{1}Faculty of Health, Education and Psychology, Victoria University of Wellington\\
+  \footnotesize\textsuperscript{2}College of Medicine and Public Health, Flinders University\\
+  \footnotesize\textsuperscript{3}Centre for Health Policy, The University of Melbourne}
 \date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Value of Information (VOI) analysis estimates how much a decision could
-improve if uncertainty were reduced by collecting additional information.
-\texttt{voiage} is open-source research software for computing and
-communicating VOI analyses from probabilistic decision models. Version 1.0.0
-combines a Python user interface with authoritative Rust numerical kernels and
-shared C-ABI bindings for R and Julia. The software implements expected value
-of perfect information, expected value of partial perfect information,
-expected value of sample information, expected net benefit of sampling,
-cost-effectiveness acceptability frontiers, dominance, and related diagnostics.
-Language-neutral fixtures, explicit schemas, and layered assurance gates make
-the numerical contract reproducible across supported bindings.
+Value of Information (VOI) analysis helps decision-makers judge whether
+reducing uncertainty is worth the cost. Many analyses focus on uncertain
+numerical inputs but do not show whether the answer could also change because
+of the model used, differences between population groups, the viewpoint
+adopted, poor implementation, weak evidence, or the timing of a decision.
+\texttt{voiage} provides a common way to describe and analyse these connected
+questions. Version 1.0.0 calculates established perfect, partial, and sample
+information measures and provides developing analyses for model, population,
+implementation, evidence, and timing uncertainty. In a synthetic health
+example, the programme is preferred in 49.24\% of simulations at the reference
+threshold; uncertainty about health effect has greater partial value than
+uncertainty about cost, and delayed incomplete uptake lowers the net value of
+a proposed study. The software retains choices, populations, assumptions,
+warnings, and data sources with the result. This paper explains the economic
+questions represented by the package, the interpretation of its information
+measures, and the validation still needed for newer methods.
 \end{abstract}
 
 \input{sections/summary}
-\input{sections/statement_of_need}
 \input{sections/state_of_the_field}
+\input{sections/statement_of_need}
 \input{sections/software_design}
 \input{sections/research_impact}
 \input{sections/limitations}
-\input{sections/ai_usage}
-\input{sections/acknowledgements}
+\input{sections/conclusion}
+\input{sections/availability}
+\input{sections/glossary}
+\input{sections/abbreviations}
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
+\begingroup
+\small
 \bibliography{references}
+\endgroup
 
 \end{document}

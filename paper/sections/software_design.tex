@@ -1,29 +1,94 @@
-\section{Software design and assurance}
+\section{Worked health example}
 
-The stable runtime is organized around validated domain objects, canonical
-schemas, numerical kernels, diagnostics, provenance, and adapters. The Rust
-workspace contains the authoritative numerical implementation and a narrow,
-versioned C application binary interface with explicit ownership and error
-transport. The Python package
-uses PyO3 and Maturin for its native extension and retains the facade and
-workflow responsibilities needed by users. R and Julia consume the same
-interface;
-their packages do not reimplement VOI policy. Optional dependencies such as
-JAX, plotting libraries, and web integrations are isolated from the base core.
+\subsection{Decision and study model}
 
-Correctness is supported by language-neutral fixtures, unit and integration
-tests, property-based and fuzz tests, metamorphic checks, mutation testing,
-coverage gates, Rust diagnostics, ABI checks, benchmark regression budgets,
-and clean-install tests. The release process produces platform wheels, a
-source archive, checksums, a software bill of materials, provenance evidence,
-and a signed GitHub release. Documentation is maintained in Astro/Starlight.
-The v1.0.0 release is available from GitHub and the Python Package Index, while
-external registry and
-curation outcomes remain tracked separately.
+Consider a health service deciding whether to fund a new programme instead of
+standard care. The synthetic probabilistic model assigns the programme an
+incremental quality-adjusted life-year (QALY) effect
+$\theta\sim\mathcal{N}(0.060,0.030^2)$ and incremental cost
+$C\sim\mathcal{N}(3000,650^2)$. The inputs are independent and the Normal
+distributions are not truncated. These assumptions illustrate the analysis;
+they are not estimates for an actual intervention. The decision model uses
+$10\,000$ draws and values one QALY at $50\,000$ value units.
 
-The manuscript follows software-citation guidance~\cite{smith2016software}.
-Its canonical source is authored LaTeX. The repository builds a deterministic
-source-only archive, audits the review PDF, compiles against the supported
-arXiv TeX Live generations, and independently converts the source to a
-semantic web document. These checks establish repository readiness, not submission or
-acceptance by arXiv or a journal.
+The proposed study observes the difference in mean QALYs between two
+equal-sized arms. Conditional on the true incremental effect,
+\begin{equation}\label{eq:health-likelihood}
+  \bar{Y}\mid\theta,n \sim
+  \mathcal{N}\!\left(\theta,\frac{4\sigma_Y^2}{n}\right),
+\end{equation}
+where $n$ is total sample size and the common individual outcome standard
+deviation $\sigma_Y$ is 1.0 QALY\@. Conjugate Normal updating gives a
+preposterior variance for the posterior mean of
+\begin{equation}\label{eq:health-preposterior}
+  \operatorname{Var}_{\bar{Y}}
+  \!\left\{\mathbb{E}(\theta\mid\bar{Y})\right\}
+  =
+  \frac{\tau^4}{\tau^2+4\sigma_Y^2/n},
+\end{equation}
+where $\tau=0.030$ is the prior standard deviation. The study informs the
+health effect but not cost, which remains integrated at its prior mean when
+the post-study decision is made. This analytic conjugate Normal calculation
+avoids Monte Carlo error in EVSI for the declared study model.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{p{0.32\linewidth}p{0.58\linewidth}}
+\toprule
+Assumption & Value \\
+\midrule
+Incremental QALY effect & Normal mean 0.060; standard deviation 0.030 \\
+Incremental programme cost & Normal mean $3\,000$; standard deviation 650; independent of effect \\
+Decision threshold & $50\,000$ value units per QALY \\
+Probabilistic analysis & $10\,000$ draws; seed 20260723 \\
+Study design & Two equal arms; total $n=50$ to $1\,200$ \\
+Outcome likelihood & Normal difference in means; individual standard deviation 1.0 QALY \\
+Affected population & $1\,300$ decisions per year for 10 years; 3\% discount rate \\
+Study cost & 1.2 million fixed value units plus 100 per participant \\
+Delivery scenarios & Immediate results with full uptake; or two-year delay with 60\% uptake \\
+\bottomrule
+\end{tabular}
+\caption{Declared assumptions for the synthetic health example. Monetary
+amounts are generic value units and do not describe a particular health
+system.}\label{tab:health-assumptions}
+\end{table}
+\FloatBarrier{}
+
+\subsection{Results}
+
+At $50\,000$ per QALY, the new programme is preferred in 49.24\% of the
+probabilistic draws. EVPI is 644 value units per person. EVPPI is 590 for the
+health effect and 250 for programme cost, indicating that health-effect
+uncertainty accounts for more of the avoidable loss in this model. Partial
+values are not additive, so their sum is not interpreted as EVPI\@.
+
+Per-person EVSI rises from 63 at a total sample size of 50 to 276 at $1\,200$. With
+immediate results and full uptake, population ENBS changes from negative to
+positive between 100 and 200 participants. With a two-year delay and 60\%
+uptake, it remains negative at 800 and becomes positive by $1\,200$. These
+crossovers follow from the assumptions in Table~\ref{tab:health-assumptions};
+they are not general sample-size recommendations.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{figures/synthetic_health_example.pdf}
+\caption{Worked synthetic health example. Panel A reports the probability that
+the new programme has greater net benefit than standard care. The dashed line
+marks the reference value of $50\,000$ per QALY\@. Panel B compares EVPPI for
+the uncertain health effect and cost; the dashed line is EVPI across both
+inputs.
+Panel C reports population ENBS after subtracting the assumed study cost.
+Values describe the stated simulation and conjugate Normal study model rather
+than evidence about an actual programme.}\label{fig:health-example}
+\end{figure}
+\FloatBarrier{}
+
+\subsection{Interpretation}
+
+Panel A shows that the decision is most uncertain around the reference
+threshold. Panel B identifies the health effect as the more valuable evidence
+target under the stated model. Panel C shows that the same study can have
+different population value when fewer future decisions benefit from its
+results. Study information, research cost, timing, and uptake therefore enter
+the investment comparison separately.

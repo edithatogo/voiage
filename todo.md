@@ -5,6 +5,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 ## To Do
 *None at the moment.*
 
+## Completed public documentation
+
+*   [x] Reconcile the public README and GitHub repository profile with the
+    released v1.0 architecture, bindings, quality evidence, registries, paper
+    status, and remaining external boundaries.
+
 ## In Progress
 
 *   [ ] Complete research-software registry and archival readiness after the
@@ -12,10 +18,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Conductor track: `research_software_registry_readiness_20260721`.
     *   GitHub parent issue: #296, with Software Heritage, RRID, and JOSS
         deliverables in #297--#299.
+    *   The arXiv-first manuscript lane is native subissue #312 under #299;
+        PR #311 contains the final repository-owned review changes.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 
-*   [x] Mature and harden the v1.0 release through the authoritative Rust-core
+*   [x] Mature and harden the v1.0 release through the selected Rust-kernel
     takeover, legacy Python-kernel retirement, thin binding consolidation,
     Astro-only documentation, release-quality gates, registry verification,
     and signed final publication.
@@ -37,6 +45,31 @@ This document lists the actionable tasks for `voiage` development. Agents should
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+*   [x] Audit the arXiv manuscript for overclaiming and promotional language.
+    *   Removed novelty and distinctiveness claims, qualified intended
+        applications, and described the current Rust/Python boundary narrowly.
+
+*   [x] Add cross-referenced glossary and abbreviation end matter.
+    *   Expanded every abbreviation at first use and added labelled glossary
+        and abbreviation sections to the canonical manuscript.
+
+*   [x] Number the arXiv manuscript references sequentially by first citation.
+    *   Switched the canonical BibTeX style from alphabetical `plain` ordering
+        to citation-order `unsrt` ordering and verified the rendered sequence.
+
+*   [x] Refocus the arXiv review draft on substantive VOI problems and
+    contributions.
+    *   Centered the manuscript on parameter, structural, population,
+        implementation, evidence-system, and timing uncertainty.
+    *   Distinguished established estimands from the package's novel shared,
+        maturity-labelled decision-problem architecture.
+
+*   [x] Align the arXiv review draft title and affiliations with the author's
+    established manuscript records.
+    *   Simplified the title to `voiage: Value of Information Analysis`.
+    *   Reconciled the author name and three current affiliations against the
+        `foi-o` and `vop_poc_nz` manuscripts.
 
 *   [x] Apply the hardened LaTeX/arXiv template to the voiage manuscript.
     *   Made `paper/main.tex` the canonical semantic manuscript source and
@@ -497,5 +530,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Restored the `two_loop` path, added regression-based EVSI, and hardened the associated tests.
 *   **[PLOT]** Implemented the core plotting functions.
     *   Added `voiage.plot.ceac` and `voiage.plot.voi_curves` for EVPI/EVSI visualization.
+*   **[PAPER]** Added a synthetic health decision worked example.
+    *   Generated deterministic CEAC-style, EVPPI, and ENBS visual evidence
+        from one coherent programme-adoption model for the arXiv manuscript.
 *   **[NMA]** Began the Network Meta-Analysis VOI implementation.
     *   Added the `voiage/methods/network_nma.py` workflow and supporting schema/tests.

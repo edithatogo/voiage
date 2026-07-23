@@ -7,9 +7,17 @@
 
 ## Phase 2: Registry deliverables
 
-- [ ] [Issue #297](https://github.com/edithatogo/voiage/issues/297)
-- [ ] [Issue #298](https://github.com/edithatogo/voiage/issues/298)
-- [ ] [Issue #299](https://github.com/edithatogo/voiage/issues/299) (JOSS intentionally deferred; no submission)
+- [x] [Issue #297](https://github.com/edithatogo/voiage/issues/297) — Software
+  Heritage snapshot verified as
+  `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
+- [~] [Issue #298](https://github.com/edithatogo/voiage/issues/298) — SciCrunch
+  registration prepared; RRID assignment and curation remain external.
+- [~] [Issue #299](https://github.com/edithatogo/voiage/issues/299) — JOSS
+  adaptation prepared, but submission intentionally deferred until the
+  arXiv-first author gate is complete.
+  - [~] [Issue #312](https://github.com/edithatogo/voiage/issues/312) — final
+    manuscript review is in PR #311; author approval, metadata decisions, and
+    authenticated arXiv submission remain human or external gates.
 
 ## Phase 3: Reconciliation and closeout
 
@@ -24,15 +32,17 @@
   https://github.com/edithatogo/voiage/releases/tag/v1.0.0 on 2026-07-22T06:35:22Z.
   The release includes `SHA256SUMS`, source, and macOS, Linux, and Windows
   wheels; PyPI mirrors the source release at https://pypi.org/project/voiage/1.0.0/.
-- Software Heritage origin lookup: HTTP 404; no pre-v1 ingestion requested.
+- Software Heritage archival: complete with request `2397350`, full visit `1`,
+  and snapshot
+  `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: the canonical arXiv LaTeX preprint and JOSS adaptation are
   repository-ready; author/impact confirmation and editorial review remain
   external.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
-- Software Heritage archival request: accepted as request `2397350` for visit
-  `1`; the request is scheduled and currently has no snapshot SWHID. Continue
-  polling the request before recording archival completion.
+- GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
+  registry subissues; #312 is the native arXiv subissue of #299 and is present
+  in GitHub Project 28.
 - JOSS submission package: draft-ready with `paper.md`, `paper.bib`,
   `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
   Author affiliations/ORCID, funding/conflict declarations, and concrete

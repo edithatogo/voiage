@@ -1,5 +1,5 @@
 ---
-title: "voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings"
+title: "voiage: Value of Information for Research, Implementation, and Decision Making"
 tags:
   - value of information
   - decision analysis
@@ -11,11 +11,15 @@ tags:
 authors:
   - given-names: Dylan
     surname: Mordaunt
-    affiliation: 1
+    affiliation: "1, 2, 3"
     corresponding: true
 affiliations:
-  - name: "Independent Researcher, Australia"
+  - name: "Faculty of Health, Education and Psychology, Victoria University of Wellington"
     index: 1
+  - name: "College of Medicine and Public Health, Flinders University"
+    index: 2
+  - name: "Centre for Health Policy, The University of Melbourne"
+    index: 3
 date: 22 July 2026
 bibliography: paper.bib
 repository: https://github.com/edithatogo/voiage
@@ -34,13 +38,10 @@ of partial perfect information (EVPPI), expected value of sample information
 (EVSI), expected net benefit of sampling (ENBS), cost-effectiveness acceptability
 frontiers (CEAF), dominance, and related diagnostics.
 
-The v1.0.0 release combines a Python user interface with an authoritative Rust
-execution core. Python provides the public façade, schema validation,
-orchestration, reporting, plotting, and command-line interface. Rust provides
-the stable numerical kernels and shared result contracts; PyO3/Maturin exposes
-the Python bridge, while the R and Julia bindings use the shared C ABI. This
-architecture makes numerical behavior explicit and testable across languages
-without requiring users to install a large systems stack.
+Version 1.0.0 uses Rust for selected established calculations. Python supports
+the wider range of analyses, including user models, data checks, reporting,
+plots, and command-line use. The current R and Julia packages calculate EVPI
+directly but do not yet provide the full Python feature set.
 
 # Statement of need
 
@@ -53,12 +54,12 @@ in particular need a maintained, open implementation that supports common VOI
 methods while remaining compatible with the broader scientific Python
 ecosystem.
 
-`voiage` addresses this need with a common decision-model contract, validated
-schemas, deterministic fixtures, explicit diagnostics, reproducible seeds,
-machine-readable result envelopes, and a CLI for scripted workflows. The
-package is designed for researchers and analysts who need to evaluate the value
-of proposed data collection, compare decisions under uncertainty, or integrate
-VOI calculations into larger evidence and policy pipelines.
+`voiage` addresses this need with one clear description of the decision,
+careful data checks, repeatable examples, visible warnings and assumptions, and
+results that can be saved and reviewed. It is designed for researchers and
+analysts who need to evaluate the value of proposed data collection, compare
+decisions under uncertainty, or include VOI calculations in wider evidence and
+policy work.
 
 # State of the field
 
@@ -67,31 +68,25 @@ VOI analysis is well established in decision analysis and health economics
 The R ecosystem includes mature packages for particular health-economic
 workflows, including Bayesian cost-effectiveness analysis and EVSI methods.
 `voiage` complements rather than replaces those packages by providing a
-Python-first, cross-domain interface and by making the execution contract
-portable to Rust, R, and Julia. The project emphasizes shared fixtures and
-cross-language conformance rather than a separate numerical implementation in
-each binding. Its extension policy also separates stable methods from optional
-and experimental research surfaces.
+cross-domain decision framework through a combination of Rust and Python.
+Extending one specialist health-economic package would not provide the same
+range of decision problems, while rewriting every calculation separately in
+each language would make inconsistent results more likely. Specialist packages
+remain preferable where they provide deeper support for a particular method.
+`voiage` clearly separates established, developing, and experimental features.
 
 # Software design
 
-The stable runtime is organized around validated domain objects, canonical
-schemas, numerical kernels, diagnostics, provenance, and adapters. The Rust
-workspace contains the authoritative numerical implementation and a narrow,
-versioned C ABI with explicit ownership and error transport. The Python package
-uses PyO3 and Maturin for its native extension and retains only the façade and
-workflow responsibilities needed by users. R and Julia consume the same ABI;
-their packages do not reimplement VOI policy. Optional dependencies such as
-JAX, plotting libraries, and web integrations are isolated from the base core.
+The software checks that decision data have the expected shape and meaning,
+then uses selected Rust calculations or the broader Python methods as
+appropriate. Optional features for faster computation, plotting, and web use
+are kept separate so that they are not required for a basic analysis.
 
-Correctness is supported by language-neutral fixtures, unit and integration
-tests, property-based and fuzz tests, metamorphic checks, mutation testing,
-coverage gates, Rust diagnostics, ABI checks, benchmark regression budgets, and
-clean-install tests. The release process produces platform wheels, a source
-archive, checksums, SBOM and provenance evidence, and a signed GitHub release.
-Documentation is maintained in Astro/Starlight. The v1.0.0 release is available
-from GitHub and PyPI, and the repository records the external conda-forge,
-Julia, R, Software Heritage, RRID, and JOSS follow-on gates separately.
+Correctness is checked with worked examples, unit and integration tests,
+generated edge cases, deliberately introduced faults, performance checks, and
+fresh installations. The release process also checks package contents,
+dependencies, and reproducibility. Version 1.0.0 is available from GitHub and
+PyPI; other publication and registry processes are tracked separately.
 
 # Research impact statement
 
@@ -107,19 +102,20 @@ before a JOSS submission if the editorial screening requires them.
 
 # AI usage disclosure
 
-Generative AI tools assisted with repository analysis, security and release
-workflow review, documentation drafting, and preparation of this manuscript.
+OpenAI Codex and Google Jules assisted with repository analysis, implementation
+review, security and release workflow review, documentation drafting, and
+preparation of this manuscript. The repository does not retain a complete
+retrospective inventory of model versions used across development. Suggestions
+were checked against source code, tests, references, and generated artifacts.
 The human author remains responsible for the software design, claims,
-references, author list, and final text. All AI-assisted changes are subject to
-human review and repository tests; no AI tool is an author or a substitute for
-the human author’s scientific and editorial decisions.
+references, author list, and final text; no AI tool is an author.
 
 # Acknowledgements
 
-The author acknowledges the maintainers and developers of NumPy, SciPy, pandas,
-xarray, scikit-learn, PyArrow, Polars, Pydantic, Python, Rust, PyO3, Maturin,
-R, and Julia. Funding, institutional support, and additional contributors must
-be confirmed and added here before submission.
+The author acknowledges the open-source communities whose statistical,
+scientific-computing, and programming tools support this work. Funding,
+institutional support, and additional contributors must be confirmed before
+submission.
 
 # References
 

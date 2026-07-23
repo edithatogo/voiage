@@ -28,7 +28,8 @@ non-submitting arXiv readiness pipeline:
   comparison rather than automatically selected;
 - `.github/workflows/arxiv-readiness.yml` runs the reproducible preflight on
   manuscript changes, including TeX Live 2023/2025, ChkTeX, Lacheck, PDF/font
-  assurance, and semantic LaTeXML HTML; it never uploads to arXiv.
+  assurance, deterministic Textstat evidence, and semantic LaTeXML HTML; it
+  never uploads to arXiv.
 
 Run `uv run python scripts/build_arxiv_submission.py` and review the generated
 `build/arxiv/arxiv-readiness.json`, review PDF, source archive, checksum, and
@@ -38,8 +39,11 @@ Optional cleaner and collector tooling is isolated from voiage's development
 environment:
 
 ```console
-uv venv .venv-arxiv
+uv venv --allow-existing .venv-arxiv
 uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
+NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python -m nltk.downloader -d .venv-arxiv/nltk_data cmudict
+uv run python scripts/build_arxiv_submission.py
+NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json
 .venv-arxiv/bin/python scripts/prepare_arxiv_variants.py
 ```
 
@@ -47,8 +51,8 @@ uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
 
 - Confirm the author list, affiliations, ORCID identifiers, funding, and
   conflicts of interest.
-- Replace the provisional research-impact statement with specific public
-  publications, preprints, or research projects using `voiage`.
+- Add specific public publications, preprints, or research projects using
+  `voiage` when attributable adoption evidence becomes available.
 - Confirm the final citation title and release version.
 
 ## Preprint timing

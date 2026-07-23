@@ -1,13 +1,32 @@
 \section{Limitations}
 
-The repository evidence establishes reproducible software behavior for tested
-fixtures and supported environments; it does not establish fitness for every
-decision context or replace domain validation. Users remain responsible for
-model structure, input provenance, distributional assumptions, willingness-to-
-pay thresholds, and interpretation. Optional accelerator and experimental
-methods have narrower evidence boundaries than the stable Rust-backed core.
+The breadth of the framework does not make value functions interchangeable
+across domains. Users remain responsible for model structure, causal
+assumptions, input provenance, outcome valuation, thresholds, distributional
+choices, and interpretation. A monetary net-benefit model, an equity-weighted
+social objective, and an engineering loss function can share computational
+structure while representing different ethical and empirical claims.
 
-Authorship, affiliation, ORCID, funding, conflicts of interest, research-impact
-evidence, arXiv category, license, and endorsement remain subject to final
-human confirmation. A successful automated build does not imply arXiv upload,
-moderation, announcement, journal submission, review, or acceptance.
+Regression-based EVPPI and EVSI estimates inherit modelling choices and Monte
+Carlo error. Convergence, effective sample size, predictive adequacy,
+extrapolation, and sensitivity to method settings provide useful context for a
+scalar result. Population VOI additionally depends on
+eligible population, time horizon, discounting, implementation, and research
+cost assumptions; \texttt{voiage} validates representations and numerical
+preconditions but cannot determine whether those assumptions are substantively
+appropriate.
+
+Newer methods are individually marked as developing or experimental. Their
+repeatable examples show that the stated calculations and software behaviour
+have been implemented. They do not establish statistical validity, accuracy in
+real applications, superiority to other methods, suitability in another
+setting, or usefulness for policy. In particular,
+perspective, data-quality, transportability, dynamic-option, and several
+evidence-system methods need applied comparisons and domain-specific validation.
+The Python package is broader than the current R and Julia packages; only EVPI
+is calculated directly in both of those languages in version 1.
+
+Automated checks detect some implementation errors but do not replace
+independent statistical validation, expert review, sensitivity analysis, or
+replication with relevant domain data. Optional accelerators and distributed
+or hardware research are not evidence of faster production analysis.

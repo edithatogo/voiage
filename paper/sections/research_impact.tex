@@ -1,14 +1,59 @@
-\section{Research impact}
+\section{Applied uses}
 
-\texttt{voiage} is intended to support research in health technology
-assessment, clinical-trial design, public policy, environmental
-decision-making, and related areas of uncertainty quantification. The
-repository contains deterministic analytical and integration fixtures,
-tutorials, cross-language contracts, and representative workflows for these
-use cases.
+In health technology assessment, an analyst can estimate whether uncertainty
+about treatment effects, adverse events, quality of life, resource use, or
+costs is important enough to justify another study. EVSI and ENBS can compare
+candidate sample sizes or designs; implementation analysis can separately ask
+whether improving uptake would create more value than collecting more
+evidence. Heterogeneity can identify circumstances in which a treatment is
+worthwhile for one observable group but not another, while equity weighting
+can examine the trade-off between total health and its distribution.
 
-At the time of preparing this manuscript, the author is completing the
-evidence package for externally documented research use and adoption. This
-section must be updated with specific public publications, preprints, or
-research projects before journal submission if required by editorial
-screening.
+Genomic testing provides one concrete example of why the wider decision
+context matters. Process-level microcosting identifies which resources drive
+the cost of testing~\cite{mordaunt2024microcosting}; observed uptake after
+public funding shows that availability does not imply uniform
+implementation~\cite{mordaunt2023uptake}; and diffusion-based budget-impact
+analysis represents how adoption and expenditure develop over
+time~\cite{mordaunt2026budget}. These inputs address different parts of a
+decision model rather than a single source of parameter uncertainty.
+
+In public policy, the same framework can compare a pilot, wider data
+collection, immediate rollout, targeted implementation, or waiting. Relevant
+uncertainty may concern programme effects, behavioural response, delivery
+capacity, costs falling on different groups, or whether evidence from one
+jurisdiction transports to another. The result is meaningful only when the
+model represents the policy alternatives, institutional constraints, affected
+population, and chosen public-value objective.
+
+In marketing and business analytics, a decision might concern product launch,
+pricing, campaign allocation, customer targeting, capacity, or market entry.
+Information can come from an experiment, survey, forecast improvement, or
+additional observation of demand. VOI complements predictive accuracy by
+valuing whether better predictions would actually change an action and improve
+expected business value after experimentation cost and delay. It does not
+convert a predictive association into a causal effect or remove the need to
+model competitive response and implementation.
+
+Environmental, energy, engineering, manufacturing, finance, and portfolio
+applications can use the same logic for monitoring, mitigation, inspection,
+maintenance, reliability, quality control, forecasting, or irreversible
+investment. These applications have not yet been empirically validated by this
+project. They require domain-appropriate causal models, constraints, outcomes,
+and value functions; the package supplies decision analysis, not domain facts.
+
+Developing features also address evidence-governance questions: whether
+validation data could change deployment, whether source evidence transports to
+a target population, whether linkage or measurement improvements justify
+their cost and privacy burden, and whether ageing evidence warrants
+reassessment. These formulations can make the value judgments and
+counterfactual choices explicit, but they require further methodological and
+applied validation.
+
+Version 1.0.0, released under Apache-2.0, is available from
+\url{https://github.com/edithatogo/voiage/releases/tag/v1.0.0}~\cite{voiage2026}.
+Its repository
+snapshot is archived by Software Heritage as
+\url{swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32}. Intended uses do not
+constitute evidence of adoption or policy impact, and no example replaces
+validation with relevant domain data and decision-makers.

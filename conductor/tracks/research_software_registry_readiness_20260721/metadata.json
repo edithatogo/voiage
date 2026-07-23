@@ -4,20 +4,22 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-22T13:00:00Z",
+  "updated_at": "2026-07-23T11:50:01Z",
+  "description": "Track archival, identifier, language-registry, arXiv, and deferred JOSS readiness for the signed v1.0.0 research software release.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
   "github_subissues": [
     "https://github.com/edithatogo/voiage/issues/297",
     "https://github.com/edithatogo/voiage/issues/298",
-    "https://github.com/edithatogo/voiage/issues/299"
+    "https://github.com/edithatogo/voiage/issues/299",
+    "https://github.com/edithatogo/voiage/issues/312"
   ],
   "external_evidence_required": true,
   "gates": [
     {
       "id": "immutable-v1-release",
       "kind": "release",
-      "status": "complete",
+      "status": "satisfied",
       "evidence": "Signed public v1.0.0 release exists at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; release artifact digests and provenance evidence are published."
     },
     {

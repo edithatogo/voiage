@@ -75,12 +75,15 @@ jobs:
           lacheck main.tex
       - name: Install pinned comparison tools
         run: |
-          uv venv .venv-arxiv
+          uv venv --allow-existing .venv-arxiv
           uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
+          NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python -m nltk.downloader -d .venv-arxiv/nltk_data cmudict
       - name: Build deterministic source package
         run: python3 scripts/build_arxiv_submission.py
       - name: Audit review PDF and final LaTeX log
         run: python3 scripts/audit_arxiv_pdf.py build/arxiv/main.pdf build/arxiv/main.log
+      - name: Record review-only readability evidence
+        run: NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json
       - name: Rebuild to prove deterministic packaging
         run: |
           cp build/arxiv/voiage-arxiv-source.tar.gz /tmp/voiage-arxiv-source-first.tar.gz

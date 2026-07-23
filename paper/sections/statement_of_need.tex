@@ -1,16 +1,103 @@
-\section{Statement of need}
+\section{Information measures}
 
-VOI analysis is central to deciding whether additional research is worthwhile,
-but practical implementations are often fragmented across domain-specific
-packages, languages, and model formats. This fragmentation complicates
-comparison, reproduction, edge-case validation, and movement from a research
-prototype to an operational decision workflow. Python users in particular need
-a maintained, open implementation that supports common VOI methods while
-remaining compatible with the scientific Python ecosystem.
+\subsection{Perfect, partial, and sample information}
 
-\texttt{voiage} addresses this need with a common decision-model contract,
-validated schemas, deterministic fixtures, explicit diagnostics, reproducible
-seeds, machine-readable result envelopes, and a command-line interface. It is
-designed for researchers and analysts evaluating proposed data collection,
-comparing decisions under uncertainty, or integrating VOI calculations into
-larger evidence and policy pipelines.
+Let $NB_{sd}$ denote the net benefit for probabilistic sample $s$ and strategy
+$d$. For $S$ samples and $D$ strategies, the sample EVPI estimator is
+\begin{equation}\label{eq:evpi}
+  \widehat{\mathrm{EVPI}} =
+  \frac{1}{S}\sum_{s=1}^{S}\max_{d} NB_{sd}
+  - \max_{d}\frac{1}{S}\sum_{s=1}^{S} NB_{sd}.
+\end{equation}
+It estimates the expected reduction in decision loss if all uncertainty
+represented by the simulation could be resolved. Under representative
+independent and identically distributed draws with finite expectations, the
+plug-in estimator is consistent. In finite samples it is generally
+downward-biased because the maximum of estimated strategy means is
+upward-biased. Monte Carlo uncertainty provides context for the estimate.
+
+EVPPI restricts perfect information to a parameter subset $\phi$ and integrates
+over the complementary uncertainty $\theta_{-\phi}$,
+\begin{equation}\label{eq:evppi}
+  \mathrm{EVPPI}(\phi) =
+  \mathbb{E}_{\phi}\!\left[\max_d
+  \mathbb{E}_{\theta_{-\phi}\mid\phi}
+  \{NB_d(\phi,\theta_{-\phi})\}\right]
+  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
+\end{equation}
+Regression from a probabilistic sensitivity analysis sample is one common
+estimator~\cite{strong2014evppi}. EVSI instead values a specified finite study
+with data $Y$,
+\begin{equation}\label{eq:evsi}
+  \mathrm{EVSI}(Y) =
+  \mathbb{E}_{Y\sim p(Y)}\!\left[\max_d
+  \mathbb{E}_{\theta\mid Y}\{NB_d(\theta)\}\right]
+  - \max_d \mathbb{E}_{\theta}\{NB_d(\theta)\}.
+\end{equation}
+Its interpretation depends on the likelihood, prior, allocation, outcomes, and
+decision rule used to describe the study. Regression reuse of existing
+simulation output can reduce computational cost, while decision-theoretic
+study design can compare sample sizes against their
+costs~\cite{strong2015evsi,willan2005trial}.
+
+\subsection{Population, implementation, and timing}
+
+For per-decision, per-period EVSI $v$, recurring population $N$, horizon $T$,
+annual discount rate $r$, and total research cost $C$, \texttt{voiage} defines
+\begin{equation}\label{eq:enbs}
+  \mathrm{ENBS}_{\mathrm{population}} =
+  vN\left(\frac{1-{(1+r)}^{-T}}{r}\right)-C,
+\end{equation}
+with the annuity factor replaced by $T$ when $r=0$. This form assumes constant
+recurring decision opportunities, end-of-period discounting, no population
+change, and no implementation delay. Applying it to values already aggregated
+over population or time would double-count that scaling. ENBS remains signed;
+$\max(0,\mathrm{ENBS})$ is the separate value of the option to commission the
+study.
+
+Information value and realised value are not identical. Partial uptake,
+adherence, coverage, or delayed results reduce the number of decisions affected
+by new evidence. Implementation activity may therefore be more valuable than
+another study when evidence is adequate but delivery is
+weak~\cite{fenwick2008implementation}. Population scaling also depends on
+eligibility, decision lifetime, displacement by later technologies, and the
+delay before results become available. Applications with changing populations
+can replace the simple annuity in~\eqref{eq:enbs} with an appropriate sequence
+of decision opportunities.
+
+Waiting can itself have value when a decision is reversible or commitment can
+be delayed. Real-options analysis represents the interaction between
+uncertainty, timing, and irreversibility rather than treating delay as a simple
+discount adjustment~\cite{palmer2000options}. Sequential and adaptive analyses
+similarly compare study designs and stopping rules through expected net
+benefit~\cite{flight2022sequential}.
+
+\subsection{Model, population, and perspective}
+
+Parameter VOI is conditional on the model being an adequate account of the
+decision. Structural VOI asks whether plausible model forms could change
+action~\cite{jackson2011structural}. Transportability asks whether evidence
+from a source population can inform the target decision under stated causal
+assumptions~\cite{bareinboim2016datafusion}. Subgroup analysis examines whether
+observable heterogeneity supports different decisions, while distributional
+analysis changes the social objective through explicit equity
+weights~\cite{espinoza2014heterogeneity,asaria2016distributional}. Perspective can
+change which outcomes, costs, constraints, populations, and time horizons enter
+the comparison~\cite{mordaunt2025vop}.
+
+\subsection{Calculation and checks}
+
+Software implementations can differ in sample orientation, missing-value
+handling, tie rules, and approximations. The package retains labels for samples,
+strategies, uncertain inputs, subgroups, perspectives, populations, and study
+designs using labelled data conventions~\cite{hoyer2017xarray}.
+Detailed results can include the preferred strategy, method, random seed,
+warnings, scaling assumptions, and data sources.
+
+Checks cover invariance to a common shift in net benefit, non-negativity where
+required by the estimand, repeatability, identical strategies, and malformed
+inputs. Approximate estimates can still be affected by Monte Carlo error, poor
+model fit, or extrapolation. Selected established numerical components are
+implemented in Rust and exposed through the supported language packages.
+Python currently supports the widest workflow; the R and Julia packages
+provide narrower subsets.

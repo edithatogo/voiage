@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use voiage, please cite the v1.0.0 software release and the JOSS paper when published."
-title: "voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings"
+title: "voiage: Value of Information Analysis"
 type: software
 version: 1.0.0
 date-released: 2026-07-22
@@ -12,10 +12,10 @@ repository-code: https://github.com/edithatogo/voiage
 url: https://edithatogo.github.io/voiage
 license: Apache-2.0
 abstract: >-
-  voiage is an open-source library for Value of Information analysis. It
-  provides EVPI, EVPPI, EVSI, ENBS, CEAF, dominance, and related workflows
-  through a Python interface backed by an authoritative Rust execution core,
-  with shared R and Julia binding contracts.
+  voiage provides Value of Information analysis through a hybrid Rust and
+  Python implementation. Rust owns selected stable kernels and shared result
+  contracts; Python owns the broader interface and method paths. R and Julia
+  source packages currently expose direct EVPI bindings through the shared ABI.
 keywords:
   - value of information
   - decision analysis

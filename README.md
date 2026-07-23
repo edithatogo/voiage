@@ -1,156 +1,84 @@
-# voiage: A Python Library for Value of Information Analysis
+# voiage: Value of Information Analysis
 
-[![PyPI version](https://badge.fury.io/py/voiage.svg)](https://badge.fury.io/py/voiage)
+[![PyPI](https://img.shields.io/pypi/v/voiage?label=PyPI)](https://pypi.org/project/voiage/)
+[![Python](https://img.shields.io/pypi/pyversions/voiage)](https://pypi.org/project/voiage/)
 [![CI](https://github.com/edithatogo/voiage/actions/workflows/ci.yml/badge.svg)](https://github.com/edithatogo/voiage/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/edithatogo/voiage/branch/main/graph/badge.svg)](https://codecov.io/gh/edithatogo/voiage)
-[![Python](https://img.shields.io/badge/python-3.12--3.14-blue)](https://www.python.org/)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CodeQL](https://github.com/edithatogo/voiage/actions/workflows/codeql.yml/badge.svg)](https://github.com/edithatogo/voiage/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/edithatogo/voiage/badge)](https://securityscorecards.dev/viewer/?uri=github.com/edithatogo/voiage)
+[![Documentation](https://github.com/edithatogo/voiage/actions/workflows/docs.yml/badge.svg)](https://edithatogo.github.io/voiage/)
+[![License](https://img.shields.io/github/license/edithatogo/voiage)](LICENSE)
 
-`voiage` is a v1.0.0 open-source library for Value of Information (VOI)
-analysis, combining a Python interface with an authoritative Rust numerical
-core and shared R and Julia binding contracts.
+`voiage` provides Value of Information (VOI) methods for comparing decisions
+under uncertainty and assessing whether additional evidence may be worth
+collecting. The v1.0 release combines:
 
-Current status:
+- a Python API and command-line interface (CLI);
+- binding-independent Rust domain, diagnostics, numerical, and serialization
+  crates;
+- selected Rust-backed aggregation kernels exposed to Python through PyO3;
+- an R package and Julia package that call the versioned Rust C application
+  binary interface (ABI) for Expected Value of Perfect Information (EVPI);
+- labelled data structures, diagnostics, plotting, reporting, and
+  provenance-aware interchange.
 
-- Stable VOI methods are implemented and Rust-backed, with Python façade,
-  schema, orchestration, CLI, plotting, and reporting layers.
-- R and Julia use the shared Rust C ABI; Mojo remains an explicitly external
-  upstream boundary.
-- The signed v1.0.0 release is public on GitHub and PyPI.
-- Registry review/indexing, JOSS/RRID submission, Software Heritage snapshot
-  verification, and experimental extensions remain separately tracked.
+Python currently retains the broader model orchestration, validation, labelled
+data, plotting, and reporting paths. The R and Julia packages do not yet expose
+the full Python method surface. See [Architecture](#architecture) and
+[Language support](#language-support) for the precise boundary.
 
-## Branch Architecture
+## When voiage is useful
 
-The default `main` branch contains the maintained software and its submission
-metadata. Authored LaTeX in `paper/main.tex` is the canonical arXiv preprint;
-the JOSS adaptation remains in `paper.md`. The deterministic manuscript
-workflow compiles, lints, audits, packages, and independently converts the
-LaTeX to semantic HTML without submitting it. `docs/joss-submission-readiness.md`
-records the remaining human author and impact checks.
+VOI analysis asks whether uncertainty could change a decision and whether the
+expected benefit of resolving some uncertainty justifies further research.
+`voiage` supports analyses including:
 
-## Background: The Need for a Comprehensive VOI Tool in Python
+- EVPI for the expected cost of current decision uncertainty;
+- Expected Value of Partial Perfect Information (EVPPI) for selected
+  parameters;
+- Expected Value of Sample Information (EVSI) and Expected Net Benefit of
+  Sampling (ENBS) for proposed studies;
+- cost-effectiveness acceptability and frontier analysis;
+- structural, network meta-analysis, subgroup, sequential, adaptive, and
+  portfolio-oriented VOI workflows;
+- fixture-backed experimental work on perspective, equity, implementation,
+  and adjacent VOI questions.
 
-Value of Information (VOI) analysis is a powerful set of techniques used to estimate the value of collecting additional data to reduce uncertainty in decision-making. While several tools for VOI analysis exist, the current landscape has some significant gaps:
-
-*   **Limited Python Support:** The Python ecosystem lacks a mature, comprehensive VOI library. Most existing tools are written in R or are commercial, closed-source products.
-*   **Fragmented Features:** Existing tools, even in the R ecosystem, are fragmented. Different packages support different VOI methods, and none of them offer a complete toolkit.
-*   **Lack of Advanced Methods:** Many advanced and specialized VOI methods, such as those for adaptive trial designs, network meta-analyses, or structural uncertainty, are not available in any off-the-shelf tool.
-
-`voiage` aims to fill these gaps by providing a single, powerful, and easy-to-use library for a wide range of VOI analyses in Python.
-
-## Feature Matrix
-
-The table below summarizes the current `voiage` capability surface and how it
-maps to the active roadmap.
-
-| Capability | State | Notes |
-| :-- | :--: | :-- |
-| EVPI, EVPPI, EVSI, ENBS | ✅ | Core VOI methods are implemented, tested, and exposed through the API and CLI. |
-| CEAF, dominance, heterogeneity | ✅ | Analysis and plotting helpers are available for frontier, dominance, and subgroup workflows. |
-| Structural VOI, NMA VOI | ✅ | Structural uncertainty and network meta-analysis methods are implemented. |
-| Adaptive, calibration, observational, sequential VOI | ✅ | Trial and study-design oriented workflows are available. |
-| Portfolio VOI | ✅ | Budget-constrained portfolio optimization is implemented. |
-| CLI developer experience | ✅ | `--format`, `--quiet`, `--verbose`, help examples, and config generation are available. |
-| Cross-language bindings | ✅/external | Rust, Python, R, and Julia are retained; Mojo is an upstream boundary. |
-| HEOML / ecosystem contracts | 🚧 | Optional ecosystem contracts remain follow-on work. |
-| Numerics, diagnostics, extension model | ✅ | Stable contracts and extension policies are enforced by tests and CI. |
-| Value of Perspective | 🚧 | Experimental Python API, CLI, plot helper, fixture-backed contract scaffold, and registry-backed deterministic fixtures for comparing multiple decision perspectives, regret, switching value, consensus strategies, and Pareto strategies. |
-| Frontier VOI methods | 🚧 | Several fixture-backed experimental surfaces exist; stable promotion remains governed by the extension policy. |
-| Adjacent frontier extensions | 📋 | Planned triage for causal/transportability VOI, data-quality and privacy VOI, computational/model-refinement VOI, expert-elicitation VOI, and evidence-synthesis design VOI. |
-
-**Legend:**
-*   ✅: Implemented
-*   🚧: Optional, experimental, or in progress
-*   📋: Planned
-
-## Comparison With R Packages
-
-The table below is intentionally high level. It highlights where `voiage`
-already offers a broader or more explicit Python surface, not a full feature
-parity audit of the R ecosystem.
-
-| Capability | voiage | BCEA | dampack | voi |
-| :-- | :--: | :--: | :--: | :--: |
-| Core EVPI / EVPPI / EVSI | ✅ | ✅ | ✅ | ✅ |
-| CEAF / dominance / subgroup analysis | ✅ | ✅ | ⚪ | ✅ |
-| Adaptive / sequential / portfolio VOI | ✅ | ⚪ | ⚪ | ⚪ |
-| Structural / NMA / cross-domain VOI | ✅ | ⚪ | ⚪ | ⚪ |
-| CLI-first workflows | ✅ | ⚪ | ⚪ | ⚪ |
-| Frontier / perspective analysis | 🚧 | ⚪ | ⚪ | ⚪ |
-
-Legend: ✅ supported, ⚪ not a primary focus or not exposed as a first-class
-workflow in the package documentation.
-
-## Documentation
-
-The main user and developer references are:
-
-- [Getting started](https://edithatogo.github.io/voiage/getting-started/)
-- [Notebook tutorials and examples](https://edithatogo.github.io/voiage/examples/)
-- [R vignette and manual source](r-package/voiageR/vignettes/voiageR-getting-started.Rmd)
-- [Julia walkthrough](bindings/julia/README.md)
-- [R package](r-package/voiageR/README.md)
-- [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
-- [Method reference](https://edithatogo.github.io/voiage/methods/)
-- [Plotting reference](https://edithatogo.github.io/voiage/user-guide/plotting/)
-- [Data structures](https://edithatogo.github.io/voiage/data-structures/)
-- [Backends](https://edithatogo.github.io/voiage/backends/)
-- [Developer guide](https://edithatogo.github.io/voiage/developer-guide/)
-- [Community support](SUPPORT.md)
-- [Code of conduct](CODE_OF_CONDUCT.md)
-- [Security policy](SECURITY.md)
-- [Frontier VOI roadmap](https://edithatogo.github.io/voiage/sota-voi-frontier/)
-
-## Quality and security
-
-The repository uses a layered, fail-closed verification model:
-
-| Layer | Evidence |
-| :-- | :-- |
-| Formatting and lint | Ruff, Ruff format, Vale, Bandit, Vulture, and repository harness |
-| Static typing | `ty` across the retained Python runtime |
-| Unit and contract tests | Pytest suites with schema, API, provenance, and version-sync contracts |
-| Integration and E2E | Marked integration suites, CLI E2E workflows, clean-install and package checks |
-| Coverage | Branch coverage, changed-line and critical-module policy, 90% Python threshold, Codecov upload |
-| Property and differential testing | Hypothesis, Rust proptest, cross-language fixtures, metamorphic and parity tests |
-| Mutation testing | Broad ratchet, critical-kernel threshold, and externally anchored mutation cohort |
-| Rust safety | Cargo tests/clippy, MSRV, Miri, fuzzing, FFI sanitizers, advisories, licenses, and source policy |
-| Supply chain | Pinned GitHub Actions, CodeQL, Scorecard, zizmor, dependency review, SBOM, provenance, checksums, and signatures |
-| Dependency updates | Weekly Dependabot updates for Python, Cargo, and GitHub Actions with cooldown windows |
-
-Renovate is not enabled because Dependabot already owns the three maintained
-dependency ecosystems; enabling both would duplicate update PRs. The remaining
-quality debt is tracked explicitly, including broader Python annotation
-coverage and external registry evidence.
-
-## Academic paper
-
-The canonical arXiv manuscript is authored in
-[`paper/main.tex`](paper/main.tex), with semantic sections and bibliography
-under [`paper/`](paper/). The JOSS adaptation remains in
-[`paper.md`](paper.md), with software metadata in
-[`codemeta.json`](codemeta.json) and citation metadata in
-[`CITATION.cff`](CITATION.cff). The readiness workflow creates a deterministic
-source archive and review PDF but never uploads them. The paper has not yet
-been submitted to JOSS or arXiv.
+Stable and experimental surfaces are distinguished in the
+[method documentation](https://edithatogo.github.io/voiage/methods/) and
+[frontier roadmap](https://edithatogo.github.io/voiage/sota-voi-frontier/).
+An implemented method is not, by itself, evidence that it is appropriate for a
+particular decision problem; users remain responsible for model structure,
+inputs, assumptions, and interpretation.
 
 ## Installation
 
-You can install `voiage` via pip:
+Install the released Python package:
 
 ```bash
-pip install voiage
+python -m pip install voiage
 ```
 
-Supported Python versions: 3.12-3.14.
+Python 3.12, 3.13, and 3.14 are supported. Wheels use the CPython 3.12 stable
+ABI and are published for the platforms listed in the
+[v1.0.0 release](https://github.com/edithatogo/voiage/releases/tag/v1.0.0).
 
-## Getting Started
+Optional features are installed explicitly:
 
-Here's a small example that works out of the box:
+```bash
+python -m pip install "voiage[plotting]"       # Matplotlib and Seaborn
+python -m pip install "voiage[jax]"            # experimental JAX backend
+python -m pip install "voiage[experimental]"   # experimental serializers
+```
+
+Development installation and complete verification instructions are in
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Quick start
 
 ```python
 import numpy as np
+
 from voiage.analysis import DecisionAnalysis
 from voiage.schema import ValueArray
 
@@ -169,106 +97,183 @@ analysis = DecisionAnalysis(net_benefit)
 print(f"EVPI: {analysis.evpi():.3f}")
 ```
 
-## Visual Examples
+The rows are uncertainty draws and the columns are decision strategies. For
+real analyses, preserve the units, population scaling, time horizon, discount
+rate, and strategy labels needed to interpret the result.
 
-`voiage` provides comprehensive visualization capabilities for VOI analysis:
+## Command-line interface
 
-### Cost-Effectiveness Acceptability Curve (CEAC)
-![CEAC Example](docs/images/ceac_example.png)
-*CEAC showing the probability each treatment strategy is cost-effective across different willingness-to-pay thresholds*
-
-### Expected Value of Sample Information (EVSI)
-![EVSI Example](docs/images/evsi_example.png)
-*EVSI analysis showing how the value of additional data varies with sample size, including Expected Net Benefit of Sampling (ENBS) and research costs. `voiage` provides both two-loop Monte Carlo and regression-based methods for EVSI calculation.*
-
-### Expected Value of Perfect Information (EVPI)
-![EVPI vs WTP Example](docs/images/evpi_wtp_example.png)
-*EVPI analysis showing how the value of perfect information changes with willingness-to-pay thresholds*
-
-## Command-Line Interface
-
-`voiage` provides a powerful CLI for batch analysis and integration into workflows:
+The CLI supports batch workflows over CSV inputs:
 
 ```bash
-# Calculate EVPI from CSV data
-voiage calculate-evpi net_benefits.csv --population 100000 --time-horizon 10 --discount-rate 0.03
+voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv
 
-# Calculate EVPI and save to file
-voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv --output evpi_result.txt
+voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv \
+  --population 100000 \
+  --time-horizon 10 \
+  --discount-rate 0.03 \
+  --output evpi-result.txt
 
-# Calculate EVPPI for specific parameters
-voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv --population 100000
+voiage calculate-evppi \
+  examples/cli_samples/evpi_net_benefit.csv \
+  examples/cli_samples/evppi_parameters.csv
 
-# Full EVPPI analysis with all options
-voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv \
-    --population 100000 --time-horizon 15 --discount-rate 0.035 --output results.txt
+voiage --help
 ```
 
-### Example Data Format
+See the [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
+for input schemas, output formats, logging controls, and additional commands.
 
-**Net Benefits CSV** (`examples/cli_samples/evpi_net_benefit.csv`):
-```csv
-standard care,new treatment
-20000,25000
-21000,24800
-20500,25250
+## Capability status
+
+| Capability | Status | Scope |
+| --- | --- | --- |
+| EVPI, EVPPI, EVSI, ENBS | Stable | Python API and CLI, with selected Rust-backed aggregation |
+| Acceptability, frontier, dominance, heterogeneity | Stable | Analysis and plotting helpers |
+| Structural and network meta-analysis VOI | Stable | Python method surface |
+| Adaptive, calibration, observational, sequential VOI | Stable | Python study-design workflows |
+| Portfolio VOI | Stable | Budget-constrained portfolio analysis |
+| Diagnostics and data interchange | Stable | Versioned contracts; Arrow/Parquet is the canonical tabular interchange |
+| R and Julia EVPI | Released binding source | Direct versioned Rust C ABI |
+| Broader R and Julia method parity | Partial | Advanced R paths retain the documented Python bridge; Julia is EVPI-focused |
+| Perspective and frontier extensions | Experimental | Fixture-backed contracts; not represented as stable |
+| Mojo binding | Not released | No publishable Mojo package is claimed |
+| FPGA and ASIC execution | Evidence only | Simulation and pre-silicon evidence do not establish production hardware support |
+
+## Architecture
+
+The repository is moving towards a binding-independent Rust core, but v1.0 is
+still a hybrid implementation:
+
+```text
+Python API / CLI / orchestration / labelled data / plots / reports
+                              |
+                         PyO3 adapter
+                              |
+Rust domain + diagnostics + selected numerical kernels + serialization
+                              |
+                    versioned C ABI adapter
+                         /             \
+                  R package        Julia package
 ```
 
-**Parameters CSV** (`examples/cli_samples/evppi_parameters.csv`):
-```csv
-treatment_effect,cost_shift
-0.1,-0.2
-0.4,0.0
-0.9,0.2
-```
+The publishable Rust workspace crates live under [`rust/crates/`](rust/crates/):
 
-### Sample CLI Output
-```bash
-$ voiage calculate-evpi examples/cli_samples/evpi_net_benefit.csv
-EVPI: 5.457500
+- `voiage-domain`: validated binding-independent domain contracts;
+- `voiage-diagnostics`: structured diagnostics and error contracts;
+- `voiage-numerics`: binding-independent numerical kernels;
+- `voiage-serialization`: canonical serialization adapters.
 
-$ voiage calculate-evppi examples/cli_samples/evpi_net_benefit.csv examples/cli_samples/evppi_parameters.csv
-EVPPI: 0.020708
-```
+The `voiage-ffi`, `voiage-python`, and `voiage-test-support` crates are private
+adapters or test infrastructure. Python remains responsible for wider method
+orchestration and user-facing analytical features not yet migrated to Rust.
+The [polyglot release documentation](docs/release/polyglot-bindings.md)
+records the supported boundary and migration policy.
 
-## Current development state
+## Language support
 
-The mature-v1 repository programme is complete and archived. Remaining work is
-deliberately external or optional: registry review/indexing, JOSS and RRID
-submission, Software Heritage snapshot verification, and experimental or
-ecosystem extensions. See [`roadmap.md`](roadmap.md), [`todo.md`](todo.md),
-and the [Conductor registry](conductor/tracks.md) for evidence-backed status.
+| Surface | Source | Current use | Distribution status |
+| --- | --- | --- | --- |
+| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v1.0.0](https://pypi.org/project/voiage/1.0.0/) and TestPyPI |
+| Rust | [`rust/`](rust/) | Domain contracts, diagnostics, selected kernels, serialization | Crates are package-ready; consult the [release checklist](docs/release/binding-submission-checklist.md) for verified registry state |
+| R | [`r-package/voiageR/`](r-package/voiageR/) | Direct C-ABI EVPI; documented bridge for wider Python methods | [r-universe](https://edithatogo.r-universe.dev/voiageR); CRAN review remains external |
+| Julia | [`bindings/julia/`](bindings/julia/) | Direct C-ABI EVPI | Prepared for Julia General; registry entry is not yet verified |
 
-## Why voiage?
+Registry readiness and actual registry publication are reported separately.
+The [binding submission checklist](docs/release/binding-submission-checklist.md)
+is the maintained evidence record for conda-forge, CRAN, Julia General,
+crates.io, and other external channels.
 
-`voiage` exists to make VOI analysis practical in Python without forcing users
-to stitch together separate packages for core methods, advanced methods, plots,
-fixtures, and cross-domain workflows. The project aims to combine:
+## Documentation and examples
 
-- a single `DecisionAnalysis`-centric API
-- explicit CLI support for reproducible batch workflows
-- fixture-backed contracts for stable testing and interoperability
-- a growing frontier surface that includes perspective, equity, implementation,
-  and adjacent VOI families
+- [Documentation home](https://edithatogo.github.io/voiage/)
+- [Getting started](https://edithatogo.github.io/voiage/getting-started/)
+- [Examples and tutorials](https://edithatogo.github.io/voiage/examples/)
+- [Method reference](https://edithatogo.github.io/voiage/methods/)
+- [Data structures](https://edithatogo.github.io/voiage/data-structures/)
+- [Plotting](https://edithatogo.github.io/voiage/user-guide/plotting/)
+- [Backends](https://edithatogo.github.io/voiage/backends/)
+- [R package guide](r-package/voiageR/README.md)
+- [Julia package guide](bindings/julia/README.md)
+- [Developer guide](https://edithatogo.github.io/voiage/developer-guide/)
 
-The design goal is to keep the core library easy to script while still leaving
-room for specialized methods, binding generation, and registry-backed release
-automation.
+Example plots generated by the maintained documentation fixtures:
 
-For more detailed examples and tutorials, please see the [documentation](https://edithatogo.github.io/voiage).
+| Acceptability curve | EVSI and ENBS | EVPI by threshold |
+| --- | --- | --- |
+| ![Cost-effectiveness acceptability curve](docs/images/ceac_example.png) | ![EVSI and ENBS by sample size](docs/images/evsi_example.png) | ![EVPI by willingness-to-pay threshold](docs/images/evpi_wtp_example.png) |
 
-## Contributing
+## Quality, testing, and security
 
-`voiage` is an open-source project, and we welcome contributions from the community. If you'd like to contribute, please see our [contributing guidelines](CONTRIBUTING.md).
+The repository applies different forms of evidence to different failure modes:
 
-## Getting Help
+| Area | Repository controls |
+| --- | --- |
+| Style and prose | Ruff formatting/linting, Vale, ChkTeX, LaCheck |
+| Static analysis | `ty`, BasedPyright, Bandit, Vulture, Clippy, CodeQL |
+| Unit and contract testing | Pytest and Cargo tests across APIs, schemas, versions, provenance, and registries |
+| Integration and end-to-end testing | CLI, package, clean-install, workflow, FFI, and cross-language paths |
+| Generative testing | Hypothesis, proptest, metamorphic, differential, and parity checks |
+| Mutation testing | Ratcheted Python mutation cohorts and critical-kernel policy |
+| Coverage | Branch coverage, changed-line policy, critical-module checks, Codecov, and a 90% Python threshold |
+| Rust-specific assurance | MSRV, Clippy, Miri, fuzzing, sanitizer jobs, advisory and license policy |
+| Supply chain | Pinned Actions, Dependency Review, OpenSSF Scorecard, Zizmor, SBOMs, checksums, provenance attestations, and release signatures |
+| Platform assurance | Linux, macOS, Windows, UTF-8/LF, Python 3.12–3.14, minimum and maximum dependencies |
+| Documentation and papers | Astro/Starlight builds, link/semantic checks, arXiv source and PDF audits, deterministic readability evidence |
 
-- Open an issue for bugs, doc fixes, or feature requests.
-- Use GitHub Discussions for design questions or roadmap feedback.
-- For implementation work, start from the relevant Conductor track and add the
-  smallest test that demonstrates the issue or desired behavior.
+Dependabot manages Python, Cargo, npm, and GitHub Actions updates. Renovate is
+not also enabled because running two update bots over the same manifests would
+create duplicate pull requests. Full commands and control boundaries are in
+the [quality and security guide](https://edithatogo.github.io/voiage/developer-guide/quality-and-security/)
+and [SECURITY.md](SECURITY.md).
+
+## Releases, citation, and archival
+
+- Latest software release:
+  [v1.0.0](https://github.com/edithatogo/voiage/releases/tag/v1.0.0)
+- Python package: [PyPI](https://pypi.org/project/voiage/)
+- Citation metadata: [`CITATION.cff`](CITATION.cff)
+- Software metadata: [`codemeta.json`](codemeta.json)
+- Software Heritage snapshot:
+  [`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`](https://archive.softwareheritage.org/swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32)
+
+The canonical preprint source is [`paper/main.tex`](paper/main.tex). Repository
+automation builds, lints, audits, and packages the manuscript, but does not
+upload it. Neither arXiv nor JOSS submission is claimed.
+
+## Project status and roadmap
+
+The repository-owned v1 programme is implemented and archived. That does not
+mean every proposed extension or external publication is complete. Current
+boundaries include:
+
+- migration of wider Python orchestration into the Rust core;
+- broader native R and Julia API parity;
+- experimental frontier-method validation and promotion;
+- external registry review or indexing where not yet evidenced;
+- SciCrunch/RRID curation and later arXiv/JOSS author-led submissions;
+- physical FPGA or fabricated-silicon evidence.
+
+See [`roadmap.md`](roadmap.md), [`todo.md`](todo.md), and the
+[Conductor registry](conductor/tracks.md) for evidence-backed status.
+
+## Contributing and support
+
+This is currently a solo-maintainer repository. Pull requests remain the
+auditable change boundary, with automated quality and security checks required
+but no independent approval requirement. See:
+
+- [Contributing guide](CONTRIBUTING.md)
+- [Support](SUPPORT.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Security policy](SECURITY.md)
+- [Changelog](changelog.md)
+
+Use [GitHub Issues](https://github.com/edithatogo/voiage/issues) for reproducible
+bugs and feature requests, and
+[GitHub Discussions](https://github.com/edithatogo/voiage/discussions) for
+design or usage questions.
 
 ## License
 
-`voiage` is licensed under the Apache License 2.0. See the [LICENSE](LICENSE)
-file for details.
+`voiage` is licensed under the [Apache License 2.0](LICENSE).

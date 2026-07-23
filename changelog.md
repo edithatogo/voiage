@@ -9,11 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the internal acknowledgements placeholder, unused abbreviations, and
+  uncited bibliography records from the preprint.
+- Removed internal author-review and automated-submission disclaimers from the
+  reader-facing preprint.
 - Removed the obsolete Quarto/JSS paper configurations, generated manuscript
   sources, duplicate bibliography variants, and tracked paper PDFs.
+- Removed the artificial-intelligence usage disclosure from the preprint.
 
 ### Added
 
+- Added an explicit normal--normal sampling and posterior model for the worked
+  example's expected value of sample information, together with a compact
+  assumptions table, vector figure, numerical results, conclusion, and code
+  and data availability statement.
+- Added a deterministic synthetic health-service worked example to the
+  preprint, with decision-uncertainty, research-priority, and study-value
+  visualizations generated from the public analysis interface.
+- Added cross-referenced glossary and abbreviation end matter to the preprint,
+  with every abbreviation expanded at first use.
+- Added a review-complete arXiv draft with verified VOI references, equations,
+  an explicit Rust/Python/R/Julia binding boundary, and deterministic Textstat
+  evidence generated from the canonical PDF.
 - Added a canonical authored-LaTeX manuscript, deterministic arXiv source
   packaging, TeX Live compatibility matrix, LaTeX and PDF assurance, semantic
   HTML validation, cleaner/collector comparison, and pinned SourceRight and
@@ -21,11 +38,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Consolidated the preprint around the decision problem, information measures,
+  worked example, applications, limitations, and conclusion; labelled
+  equations for robust cross-references; strengthened direct methodological
+  citations; and standardised Australian/British spelling.
+- Retitled the preprint “voiage: Value of Information for Research,
+  Implementation, and Decision Making”.
+- Renamed the preprint's opening section from “Summary” to “Introduction”.
+- Integrated the manuscript backlog into the active registry-readiness
+  Conductor track, GitHub's native issue hierarchy, and Project 28.
+- Softened prescriptive wording throughout the preprint and recast analytical
+  recommendations as assumptions, interpretations, or optional checks.
+- Added relevant prior work by the author on analytical perspective, genomic
+  microcosting, funded-test uptake, and diffusion-based budget impact, while
+  excluding unrelated publications and software repositories.
+- Rebalanced the arXiv manuscript toward economics and data science, with
+  expanded treatment of opportunity loss, research versus implementation,
+  population scaling, heterogeneity, equity, perspective, model uncertainty,
+  timing, and applied decision examples.
+- Rewrote the manuscript's architecture, assurance, and method-status
+  explanations in plain language for applied researchers and removed PyO3,
+  C-ABI, and other developer plumbing from the reader-facing narrative.
+- Reworked the public README and repository profile around the verified v1.0
+  architecture, language boundaries, package availability, testing controls,
+  documentation, citation, archival evidence, and remaining external gates.
+- Removed promotional ecosystem comparisons and claims that overstated the
+  current Rust migration or cross-language API parity.
+- Narrowed manuscript capability, novelty, application, and architecture
+  statements to the evidence demonstrated by the implemented methods,
+  maturity labels, and current hybrid Rust/Python boundary.
+- Refocused the preprint on the decision, domain, and evidence problems solved
+  by the stable and maturity-labelled VOI method families, with explicit limits
+  around novel frontier formulations.
+- Aligned the preprint title and author affiliations with the author's existing
+  `foi-o` and `vop_poc_nz` manuscript records.
 - Made `paper/main.tex` the authoritative preprint while retaining `paper.md`
   as the JOSS adaptation and keeping authenticated submission decisions human.
 
 ### Fixed
 
+- Aligned the v1 programme status test with the registry's active
+  research-readiness marker.
+- Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve
+  signed ENBS, and subtract total research cost after population scaling.
+- Restricted the arXiv upload archive to the canonical manuscript sources,
+  excluding duplicate manuscripts, PDFs, and nested build artifacts.
+- Revised the manuscript after independent arXiv, JOSS, statistical, and
+  research-software review, narrowing estimator, maturity, binding, equity,
+  implementation, and cross-domain claims to demonstrated behavior.
+- Numbered manuscript references by first appearance rather than alphabetically.
 - Aligned the arXiv workflow with the repository's pinned uv frontier and
   corrected the retained Julia release test to reflect read-only release jobs.
 - Made publication dispatches consume the already staged and reviewed draft

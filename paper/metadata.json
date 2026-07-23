@@ -1,13 +1,13 @@
 {
-  "title": "voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings",
+  "title": "voiage: Value of Information for Research, Implementation, and Decision Making",
   "authors": [
     {
-      "name": "Dylan Mordaunt",
-      "affiliation": "Independent Researcher, Australia"
+      "name": "Dylan A. Mordaunt",
+      "affiliation": "Faculty of Health, Education and Psychology, Victoria University of Wellington; College of Medicine and Public Health, Flinders University; Centre for Health Policy, The University of Melbourne"
     }
   ],
-  "abstract": "voiage is open-source research software for Value of Information analysis. Version 1.0.0 combines a Python interface with authoritative Rust numerical kernels and shared R and Julia binding contracts, supported by language-neutral fixtures and reproducible assurance gates.",
+  "abstract": "Value of Information analysis helps decision-makers judge whether reducing uncertainty is worth the cost. voiage represents connected questions about parameter, model, population, implementation, evidence, and timing uncertainty. Version 1.0.0 calculates established perfect, partial, and sample information measures and provides developing analyses for wider decision problems. In a synthetic health example, health-effect uncertainty has greater partial value than cost uncertainty, and delayed incomplete uptake lowers the net value of a proposed study. The package retains choices, populations, assumptions, warnings, and data sources with the result while keeping validation limits visible.",
+  "comments": "14 pages, 2 tables, 1 figure; synthetic worked example; software version 1.0.0",
   "categories": ["human-selection-required"],
-  "license": "select-in-arxiv-portal",
-  "comments": "Page and figure counts require confirmation after final author review."
+  "license": "select-in-arxiv-portal"
 }

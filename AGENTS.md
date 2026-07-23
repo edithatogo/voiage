@@ -100,3 +100,8 @@ authorship, perform an authenticated upload, or claim submission or acceptance
 without authoritative external evidence. Cleaner and collector outputs are
 untrusted derived artifacts: diff, compile, and audit them before a human
 chooses an upload package.
+
+Textstat output is deterministic editorial evidence from the canonical review
+PDF. Respect each formula's sample-size assumptions and do not use generic
+readability scores as automatic rewrite, acceptance, or scientific-quality
+thresholds.

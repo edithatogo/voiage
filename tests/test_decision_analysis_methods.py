@@ -49,7 +49,7 @@ def test_decision_analysis_core_methods_smoke() -> None:
 
     evpi_value = analysis.evpi()
     evppi_value = analysis.evppi(parameters_of_interest=["effect"])
-    enbs_value = analysis.enbs(research_cost=0.5)
+    enbs_value = analysis.enbs(evsi_result=1.0, research_cost=0.5)
 
     assert evpi_value >= 0.0
     assert evppi_value >= 0.0

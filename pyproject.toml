@@ -7,7 +7,7 @@ build-backend = "maturin"
 [project]
 name = "voiage"
 dynamic = ["version"]
-description = "A Python library for Value of Information analysis."
+description = "Value of Information analysis with a Rust core and Python, R, and Julia interfaces."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
@@ -21,7 +21,7 @@ keywords = [
     "bayesian analysis", "cost-effectiveness"
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
@@ -297,3 +297,4 @@ refresh-registry-audit = "python scripts/refresh_binding_registry_audit.py"
 arxiv-readiness = "python scripts/build_arxiv_submission.py"
 arxiv-validate = "python scripts/validate_arxiv_manifest.py && python scripts/validate_arxiv.py paper"
 arxiv-variants = ".venv-arxiv/bin/python scripts/prepare_arxiv_variants.py"
+arxiv-readability = "NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json"

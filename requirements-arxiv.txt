@@ -6,3 +6,12 @@ absl-py==2.5.0
 pillow==12.3.0
 pyyaml==6.0.3
 regex==2026.7.19
+textstat==0.7.13
+# textstat 0.7.13 omits these runtime dependencies from package metadata.
+nltk==3.10.0
+pyphen==0.17.2
+# uv pip sync treats this file as an exact environment, so pin NLTK's runtime set.
+click==8.4.2
+defusedxml==0.7.1
+joblib==1.5.3
+tqdm==4.69.0

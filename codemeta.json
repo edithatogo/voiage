@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "name": "voiage",
-  "description": "A Python library for Value of Information analysis with an authoritative Rust execution core and R and Julia bindings.",
+  "description": "Value of Information analysis with selected stable Rust kernels, a broader Python interface, and direct EVPI bindings for R and Julia.",
   "version": "1.0.0",
   "codeRepository": "https://github.com/edithatogo/voiage",
   "issueTracker": "https://github.com/edithatogo/voiage/issues",
