@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-07-24",
+  "sources": [
+    {"id": "ispor-voi-task-force", "title": "Value of Information Analytical Methods: Report 2 of the ISPOR Value of Information Analysis Emerging Good Practices Task Force", "kind": "guideline", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7373630/", "verification": "primary-verified"},
+    {"id": "r-voi-vignette", "title": "Value of Information Analysis with voi", "kind": "package-documentation", "url": "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html", "verification": "primary-verified"},
+    {"id": "bcea-reference", "title": "BCEA package reference manual", "kind": "package-documentation", "url": "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html", "verification": "primary-verified"},
+    {"id": "voi-web-tools-review", "title": "Web-based tools for value-of-information analysis", "kind": "primary-paper", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/", "verification": "primary-verified"},
+    {"id": "pyro-oed", "title": "Pyro Bayesian optimal experimental design documentation", "kind": "package-documentation", "url": "https://docs.pyro.ai/en/stable/contrib.oed.html", "verification": "primary-verified"},
+    {"id": "botorch-acquisition", "title": "BoTorch acquisition function documentation", "kind": "package-documentation", "url": "https://botorch.readthedocs.io/en/stable/acquisition.html", "verification": "primary-verified"},
+    {"id": "voiage-method-contracts", "title": "VOIAGE canonical and frontier method contracts", "kind": "repository-contract", "url": "https://github.com/edithatogo/voiage/tree/main/specs", "verification": "repository-verified"}
+  ],
+  "coverage": [
+    {
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "method_ids": ["net-benefit", "expected-loss", "evpi", "population-evpi", "evppi", "evsi", "enbs", "optimal-study-design", "ceac", "ceaf", "expected-loss-curve", "voi-curve", "dominance", "icer", "cea-plane", "evppi-regression", "evppi-nested-mc", "evsi-nested-mc", "evsi-regression", "evsi-moment-matching", "evsi-importance-sampling", "variance-sensitivity", "payer-burden"],
+      "source_ids": ["ispor-voi-task-force", "r-voi-vignette", "bcea-reference", "voi-web-tools-review"],
+      "review_state": "primary-verified",
+      "note": "Established estimands, estimators, and decision outputs were reconciled against task-force guidance and maintained package documentation."
+    },
+    {
+      "family": "value-of-perspective",
+      "method_ids": ["directional-evop", "pairwise-evop", "perspective-optima", "perspective-frontier", "perspective-switching", "perspective-perfect-information", "perspective-sample-information", "joint-parameter-perspective", "robust-perspective-decisions"],
+      "source_ids": ["voiage-method-contracts"],
+      "review_state": "contract-verified",
+      "note": "These methods are repository-defined mathematical contracts; external primary-literature verification remains a promotion gate."
+    },
+    {
+      "family": "broader-decision-and-research-value",
+      "method_ids": ["structural-voi", "nma-voi", "sequential-voi", "real-options-voi", "portfolio-voi", "heterogeneity-voi", "preference-voi", "equity-voi", "implementation-voi", "validation-voi", "causal-transportability-voi", "data-quality-voi", "monitoring-voi", "value-of-computation"],
+      "source_ids": ["ispor-voi-task-force", "voiage-method-contracts"],
+      "review_state": "triage-required",
+      "note": "Each experimental method needs method-specific primary citation review before stable promotion."
+    },
+    {
+      "family": "information-theoretic-design-and-machine-learning",
+      "method_ids": ["expected-information-gain", "predictive-information-gain", "bayesian-oed", "active-learning", "knowledge-gradient", "entropy-search", "preference-acquisition", "multi-fidelity-acquisition", "data-valuation", "selective-prediction"],
+      "source_ids": ["pyro-oed", "botorch-acquisition", "voiage-method-contracts"],
+      "review_state": "triage-required",
+      "note": "Information-theoretic acquisitions remain distinct from economic VOI unless a downstream utility or loss contract is supplied."
+    },
+    {
+      "family": "llm-rag-and-agent-applications",
+      "method_ids": ["llm-routing-voi", "rag-acquisition-voi", "agent-information-voi"],
+      "source_ids": ["voiage-method-contracts"],
+      "review_state": "triage-required",
+      "note": "These are application contracts, not claims of established estimands; literature and benchmark evidence is required before promotion."
+    }
+  ]
+}

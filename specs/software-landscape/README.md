@@ -7,6 +7,8 @@ It records observable capabilities rather than marketing parity.
   feature groups, and VOIAGE dispositions.
 - `methods.json` distinguishes estimands, estimators, workflows,
   visualizations, applications, and related analyses.
+- `method-evidence.json` and `method-evidence.schema.json` make the source and
+  review state for every method family executable.
 - `schema.json` is the public software-registry contract.
 - The generated documentation matrix is produced by
   `scripts/generate_voi_feature_matrix.py`.

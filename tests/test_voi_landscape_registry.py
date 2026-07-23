@@ -15,6 +15,8 @@ LANDSCAPE = ROOT / "specs" / "software-landscape"
 REGISTRY = LANDSCAPE / "registry.json"
 SCHEMA = LANDSCAPE / "schema.json"
 METHODS = LANDSCAPE / "methods.json"
+METHOD_EVIDENCE = LANDSCAPE / "method-evidence.json"
+METHOD_EVIDENCE_SCHEMA = LANDSCAPE / "method-evidence.schema.json"
 
 
 def _read_json(path: Path) -> object:
@@ -129,6 +131,30 @@ def test_method_taxonomy_covers_core_vop_and_ml_families() -> None:
 
     assert by_id["expected-information-gain"]["class"] == "estimand"
     assert by_id["llm-routing-voi"]["class"] == "application"
+
+
+def test_every_method_has_reviewed_source_coverage() -> None:
+    """No method may enter the taxonomy without an auditable evidence state."""
+    methods = _read_json(METHODS)
+    evidence = _read_json(METHOD_EVIDENCE)
+    schema = _read_json(METHOD_EVIDENCE_SCHEMA)
+    assert isinstance(methods, dict)
+    assert isinstance(evidence, dict)
+
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(evidence)
+
+    method_ids = {method["id"] for method in methods["methods"]}
+    source_ids = {source["id"] for source in evidence["sources"]}
+    assert len(source_ids) == len(evidence["sources"])
+
+    covered: set[str] = set()
+    for family in evidence["coverage"]:
+        assert set(family["method_ids"]) <= method_ids
+        assert set(family["source_ids"]) <= source_ids
+        covered.update(family["method_ids"])
+
+    assert covered == method_ids
 
 
 def test_search_snapshot_is_bounded_and_refreshable() -> None:
