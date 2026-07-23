@@ -52,6 +52,7 @@ dependencies = [
 
 [project.optional-dependencies]
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
+docs = ["griffe>=1.14.0,<2.0"]
 jax = [
     "jax>=0.7.1,<0.8",
 ]

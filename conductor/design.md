@@ -124,6 +124,29 @@ issues and the shared project provide the public ledger; local specifications,
 fixtures, and CI evidence remain authoritative for technical completion.
 
 ```mermaid
+flowchart LR
+    Source["VOIAGE public source and docstrings"] --> Extract["Commit-pinned astro-polyglot extractors"]
+    Griffe["Griffe Python analysis"] --> Extract
+    Extract --> Guard{"Public members and safe paths?"}
+    Guard -- No --> Fail["Fail closed"]
+    Guard -- Yes --> MDX["Ignored generated MDX"]
+    MDX --> Astro["Astro 7 and Starlight"]
+    Astro --> Links["Link and content validation"]
+    Astro --> LLMSTxt["Offline llms.txt output"]
+    Links --> Build["Static production build"]
+    LLMSTxt --> Build
+    Build --> Pages["GitHub Pages artifact"]
+```
+
+The initial production extractor is Python because it has a deterministic,
+CPU-only Griffe path in the repository docs environment. Rust, R, Julia, and
+Mojo enter the same pipeline only after their native toolchains, public-symbol
+filtering, generated-page contracts, and failure semantics have fixture-backed
+evidence. The plugin is a source-pinned submodule until it has a reviewed
+registry release; this prevents a local workspace link from being mistaken for
+an independently installable package.
+
+```mermaid
 flowchart TD
     Cargo[Cargo workspace version] --> Maturin[Maturin dynamic metadata]
     Tag[Git release tag] --> Validate[Fail-closed tag validation]

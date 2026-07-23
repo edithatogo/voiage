@@ -183,6 +183,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
         dependency environments, coverage, docs, type, contract, and harness
         gates.
 
+*   [x] Upgrade the documentation site to the current Astro stack and integrate
+    the maintainer's polyglot documentation plugin.
+    *   Pinned Astro 7.1.3 and Starlight 0.41.4, source-pinned
+        `edithatogo/astro-polyglot`, and generated public Python API pages during
+        fail-closed checks and builds.
+    *   Added recursive-submodule CI, the Griffe docs extra, safe generated-page
+        handling, link validation, and explicit conformance gates for future
+        Rust, R, Julia, and Mojo extractor promotion.
+
 *   [x] Set up maximal repository harness engineering and GitHub security and
     quality controls.
     *   Added the fail-closed workflow/governance harness and tox gate,

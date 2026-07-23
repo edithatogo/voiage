@@ -6,7 +6,7 @@ description: Supported installation, compatibility, security, and extension boun
 This page is the user-facing checklist for the v1.0 programme. It describes the
 supported boundary without implying that an unreleased build is a v1.0 release.
 The published package version and the [versioning and release
-policy](/developer-guide/versioning-and-release-policy/) remain authoritative.
+policy](/voiage/developer-guide/versioning-and-release-policy) remain authoritative.
 
 ## Installation
 
@@ -28,29 +28,29 @@ python -m pip install "voiage[jax]"
 ```
 
 The base package does not require JAX, plotting, web, ecosystem, deep-learning,
-performance, or experimental extras. See the [backend guide](/backends/) and
-[binding reference](/reference/bindings/) for the retained ecosystem surfaces.
+performance, or experimental extras. See the [backend guide](/voiage/backends) and
+[binding reference](/voiage/reference/bindings) for the retained ecosystem surfaces.
 
 ## Concepts and first analysis
 
 VOI compares the expected net benefit of acting under current uncertainty with
-the expected net benefit after learning. Start with the [introduction](/introduction/),
-then follow [Getting Started](/getting-started/) and the [EVPI](/methods/evpi/),
-[EVPPI](/methods/evppi/), and [EVSI](/methods/evsi/) method references.
+the expected net benefit after learning. Start with the [introduction](/voiage/introduction),
+then follow [Getting Started](/voiage/getting-started) and the [EVPI](/voiage/methods/evpi),
+[EVPPI](/voiage/methods/evppi), and [EVSI](/voiage/methods/evsi) method references.
 
-Use the [examples](/examples/) to validate an analysis with deterministic
+Use the [examples](/voiage/examples) to validate an analysis with deterministic
 fixtures before adapting it to project data. Keep units, strategy ordering,
 parameter provenance, and random seeds explicit in production workflows.
 
 ## Compatibility and migration
 
 The supported Python range is Python 3.12–3.14 for the v1 programme. The
-stable API is defined by the [stable API reference](/api-reference/) and the
+stable API is defined by the [stable API reference](/voiage/api-reference) and the
 Rust-owned contracts; provisional and experimental methods are not stable API
 guarantees.
 
-For 0.x migrations, read the [migration guide](/user-guide/migration-guide/)
-and [data structures](/data-structures/). In particular, prefer typed schema
+For 0.x migrations, read the [migration guide](/voiage/user-guide/migration-guide)
+and [data structures](/voiage/data-structures). In particular, prefer typed schema
 objects and the stable facade over compatibility aliases that are explicitly
 marked transitional.
 
@@ -60,7 +60,7 @@ Treat analysis inputs and generated evidence as untrusted data. Validate schema
 and provenance before execution, avoid loading untrusted code or credentials,
 and keep dependency extras limited to the features used by the workflow.
 Consult the repository's quality and security guidance through the
-[developer guide](/developer-guide/) and retain checksums, environment
+[developer guide](/voiage/developer-guide) and retain checksums, environment
 metadata, fixture versions, and random seeds for reproducibility.
 
 The v1 release is not complete until its signed artifacts, SBOM, provenance,
@@ -69,11 +69,11 @@ artifacts are separate from this documentation page.
 
 ## Extension maturity and support
 
-The [binding reference](/reference/bindings/) lists retained language surfaces.
-The [C ABI reference](/reference/c-abi/) defines the versioned native boundary.
+The [binding reference](/voiage/reference/bindings) lists retained language surfaces.
+The [C ABI reference](/voiage/reference/c-abi) defines the versioned native boundary.
 Methods and integrations labelled experimental or fixture-backed may change,
 require additional evidence, or be removed without the stable v1 guarantee.
 
-For help, consult the [community and support guide](/developer-guide/community-support/)
+For help, consult the [community and support guide](/voiage/developer-guide/community-support)
 and file a reproducible issue with the input shape, package version, platform,
 and the smallest failing example. Do not include confidential data or secrets.

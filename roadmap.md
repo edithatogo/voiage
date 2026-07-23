@@ -447,6 +447,12 @@ implementation can proceed without reopening the stack decision.
     *   Record the build, link-check, version-navigation, and content-smoke
         gates that a later implementation track must satisfy.
     *   Completed by Conductor track: `starlight-docs-platform_20260506` (archived).
+
+The implemented platform now uses Astro 7.1.3, Starlight 0.41.4, and a
+commit-pinned `edithatogo/astro-polyglot` source integration. Python public API
+pages are generated deterministically during checks and builds. Additional
+Rust, R, Julia, and Mojo extraction lanes remain conformance-gated rather than
+being inferred complete from plugin availability.
 2.  **Two-Loop Kernel Port:**
     *   Port the stochastic EVSI kernel into Rust and validate it against the
         Python reference and deterministic fixtures.

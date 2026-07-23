@@ -1,5 +1,9 @@
 # Changelog
 
+- Upgrade the documentation site to Astro 7.1.3 and Starlight 0.41.4, integrate
+  the commit-pinned `astro-polyglot` plugin for generated Python API pages, and
+  add build-time link validation with reproducible native-tool setup.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

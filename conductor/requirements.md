@@ -54,6 +54,13 @@ programme. The canonical cross-repository requirements are maintained in
 - Strict Pydantic v2 contracts give concerns, parameters, numerical policies,
   kernels, backend capabilities, run contexts and results stable typed
   identities with deterministic schemas and compatibility adapters.
+- The documentation site pins the currently reviewed Astro and Starlight
+  releases and a commit-pinned `edithatogo/astro-polyglot` source dependency;
+  CI initializes submodules recursively and fails closed if extraction,
+  generated MDX validation, link validation, or the production build fails.
+- Generated API pages are reproducible, excluded from version control, limited
+  to public members, and written only beneath the configured Starlight content
+  directory.
 
 ### Should have
 
@@ -73,6 +80,9 @@ programme. The canonical cross-repository requirements are maintained in
   with its maintenance state and closest supported VOIAGE workflow.
 - Each `planned` parity row is converted into an implementation, fixture, or
   reviewed exclusion before the relevant release closes.
+- Native Rust, R, Julia, and Mojo documentation extractors should be enabled
+  only after their toolchains and generated pages pass the same deterministic
+  conformance checks as the initial Python lane.
 
 ### Could have
 
@@ -99,6 +109,9 @@ programme. The canonical cross-repository requirements are maintained in
 - AI systems listed as authors or CRediT contributors.
 - Required network or model-provider access for deterministic examples.
 - Automatic external publication or maturity promotion.
+- A claim that `astro-polyglot` is registry-published, or that every language
+  extractor is production-ready, before the corresponding external and
+  conformance evidence exists.
 - Direct imports from the VOP source tree or repository consolidation.
 - Production accelerator claims without parity and hardware evidence.
 - Publication of credentials, private evidence, or local-only agent state.
