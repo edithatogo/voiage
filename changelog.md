@@ -35,6 +35,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added track-level GitHub issue, native subissue, Project 28, and evidenced
   pull-request cross-references for every Conductor track, with an automated
   repository completeness validator.
+- Added a versioned, Arrow-backed normalized dataset contract, explicit VOI
+  bindings, deterministic input digests, and safe Arrow IPC interchange.
+- Added decoupled built-in Croissant ML and Frictionless Data Package CSV
+  providers with fail-closed local source access and `voiage ingest` inspection
+  and normalization commands.
+
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
   assumptions table, vector figure, numerical results, conclusion, and code

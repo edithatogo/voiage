@@ -50,7 +50,16 @@ from .interchange import (
     write_analysis_result_parquet,
 )
 from .kernel import CalculationKernel, EvpiKernel, dispatch_calculation, run_evpi
+from .normalized_input import (
+    DatasetManifest,
+    FieldManifest,
+    NormalizedInputBundle,
+    SourceProvenance,
+    TableManifest,
+    VOIBinding,
+)
 from .perspective import PerspectivePayload, adapt_perspective_result, run_perspective
+from .preparation import PreparedAnalysisInputs, prepare_analysis_inputs
 
 __all__ = [
     "AnalysisResult",
@@ -64,21 +73,28 @@ __all__ = [
     "ConcernSpec",
     "ContractModel",
     "ContractPerformanceBudget",
+    "DatasetManifest",
     "DiagnosticEnvelope",
     "DiagnosticRecord",
     "EvidenceReference",
     "EvpiKernel",
+    "FieldManifest",
     "InterchangeIdentity",
     "KernelRequirements",
     "LegacyBackendAdapter",
+    "NormalizedInputBundle",
     "NumericalPolicy",
     "ParameterSpec",
     "PerspectivePayload",
+    "PreparedAnalysisInputs",
     "Provenance",
     "RunContext",
     "ScalarPayload",
     "SchemaEvolutionReport",
+    "SourceProvenance",
+    "TableManifest",
     "UnsupportedCapabilityError",
+    "VOIBinding",
     "VerifiedContractBundle",
     "adapt_backend",
     "adapt_parameter_set",
@@ -89,6 +105,7 @@ __all__ = [
     "canonical_bundle_digest",
     "dispatch_calculation",
     "evaluate_backend",
+    "prepare_analysis_inputs",
     "run_evpi",
     "run_perspective",
     "schema_fingerprint",

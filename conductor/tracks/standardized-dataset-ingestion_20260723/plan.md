@@ -6,7 +6,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 1 — Freeze the normalized input contract (#326)
 
-- [ ] **P1-T1 / AC-01:** Write failing contract tests for strict validation,
+- [~] **P1-T1 / AC-01:** Write failing contract tests for strict validation,
   immutability, explicit VOI bindings, canonical JSON, schema/content
   fingerprints, secret redaction, and Arrow IPC/Parquet round trips.
 - [ ] **P1-T2 / AC-01:** Add the versioned dataset, resource, table, field,

@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [ ] Implement standardized dataset ingestion through one format-neutral
+*   [x] Implement standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.
     *   Conductor track: `standardized-dataset-ingestion_20260723`.
     *   GitHub parent issue: #325.

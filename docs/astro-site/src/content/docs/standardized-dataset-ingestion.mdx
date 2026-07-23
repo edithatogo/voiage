@@ -1,0 +1,45 @@
+---
+title: Standardized dataset ingestion
+description: Bring Croissant ML and Frictionless Data Package CSV inputs into VOIAGE safely.
+---
+
+VOIAGE separates source parsing from calculation. A provider reads a descriptor
+and its explicitly declared local CSV resource, then returns an immutable,
+Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
+and an explicit VOI binding; it never depends on Croissant or Frictionless
+metadata.
+
+The built-in profiles are deliberately conservative: one declared CSV resource
+and one explicit table schema. Remote URLs, archive extraction, implicit
+column inference, and path traversal are rejected. This makes an input
+portable, auditable, and suitable for an offline calculation workflow.
+
+```bash
+voiage ingest inspect croissant.json
+voiage ingest normalize datapackage.json --output normalized.arrow
+```
+
+`croissant.json` is recognized from its Croissant context and
+`datapackage.json` from its Data Package resource list, not from the filename.
+The `inspect` response contains the provider, table row counts, schema
+fingerprint, and content digest; it does not echo resource contents.
+
+For a VOI calculation, supply a `VOIBinding` that states the table, fields,
+strategies, units, and perspective. The library will not guess semantics from
+field names. This keeps machine-learning, engineering, and business datasets
+on one preparation path while preserving the existing direct Python and CSV
+APIs.
+
+## Worked examples
+
+The same contract supports more than one community-facing example:
+
+- ML: a Croissant `recordSet` of posterior net-benefit samples for model choice.
+- Engineering/operations: a Frictionless package recording alternative design
+  outcomes and costs.
+- Business: a Polars or pandas-compatible DataFrame passed through the
+  dataframe-interchange adapter for competing investment strategies.
+
+Each example must declare its binding rather than relying on a domain-specific
+calculation path, so their resulting net-benefit matrices are directly
+comparable with the existing VOI APIs.
