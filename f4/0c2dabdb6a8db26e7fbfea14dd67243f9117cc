@@ -1,0 +1,7 @@
+Task: Reconcile registry-readiness contract tests
+
+Summary: Updated the handoff contract to expect six recorded validation commands and to assert preserved PR #311 evidence together with authenticated arXiv submission 7861466.
+
+Validation: pytest tests/test_research_registry_readiness.py tests/test_joss_readiness.py --no-cov -q; Ruff check and format check.
+
+Why: Hosted Python 3.14 correctly detected that the test still encoded the pre-submission handoff shape.
