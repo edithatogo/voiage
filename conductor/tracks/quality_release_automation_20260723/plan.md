@@ -18,6 +18,9 @@
 - [ ] Implement cross-platform, Rust, binding, example, ML, provenance, and
   freshness workflows.
 - [ ] Add Codecov/Renovate/security/SBOM/attestation and release dry runs.
+- [ ] Upgrade or constrain JupyterLab to a patched release and close open
+  Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
+  the two high-severity XSS alerts block release.
 - [ ] Add deterministic generated-artifact and clean-install gates.
 - [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
   deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
