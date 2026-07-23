@@ -46,6 +46,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Strengthen the arXiv worked example with uncertainty and sensitivity
+    evidence.
+    *   Added fixed-seed bootstrap intervals for the reported probabilistic
+        analysis, a prespecified one-way study-value sensitivity analysis, and
+        machine-readable primary and sensitivity results.
+    *   Removed the obsolete noncanonical manuscript and retained
+        `paper/main.tex` as the only top-level paper source.
+
 *   [x] Audit the arXiv manuscript for overclaiming and promotional language.
     *   Removed novelty and distinctiveness claims, qualified intended
         applications, and described the current Rust/Python boundary narrowly.

@@ -3,7 +3,9 @@
 import pytest
 
 from scripts.generate_paper_health_example import (
+    _bootstrap_intervals,
     calculate_example,
+    calculate_sensitivity,
     normal_normal_evsi,
 )
 
@@ -44,6 +46,8 @@ def test_normal_normal_evsi_uses_declared_equal_allocation_likelihood() -> None:
     assert normal_normal_evsi(1_200) < example.evppi_effect
     with pytest.raises(ValueError, match="positive even integer"):
         normal_normal_evsi(51)
+    with pytest.raises(ValueError, match="outcome_sd must be positive"):
+        normal_normal_evsi(50, outcome_sd=0)
 
 
 def test_reported_manuscript_results_are_reproducible() -> None:
@@ -55,3 +59,33 @@ def test_reported_manuscript_results_are_reproducible() -> None:
     assert example.evpi == pytest.approx(644.15, abs=0.01)
     assert example.evppi_effect == pytest.approx(589.67, abs=0.01)
     assert example.evppi_cost == pytest.approx(249.59, abs=0.01)
+    assert example.preference_mcse == pytest.approx(0.005, abs=0.0001)
+
+
+def test_bootstrap_and_sensitivity_are_declared_and_decision_relevant() -> None:
+    """Uncertainty and sensitivity outputs remain bounded and interpretable."""
+    example = calculate_example()
+    scenarios = {scenario.name: values for scenario, values in calculate_sensitivity()}
+
+    for metric, point in (
+        ("probability_preferred", example.preference_reference),
+        ("evpi", example.evpi),
+        ("evppi_effect", example.evppi_effect),
+        ("evppi_cost", example.evppi_cost),
+    ):
+        lower, upper = example.bootstrap_intervals[metric]
+        assert lower < point < upper
+    assert scenarios["One-year delay; 80% uptake"][2] < 0
+    assert scenarios["One-year delay; 80% uptake"][3] > 0
+    assert all(scenarios["Three-year delay; 40% uptake"] < 0)
+
+
+def test_bootstrap_requires_enough_replicates() -> None:
+    """Small bootstrap runs are rejected as uninformative."""
+    example = calculate_example()
+    with pytest.raises(ValueError, match="at least 20"):
+        _bootstrap_intervals(
+            example.thresholds[:10],
+            example.thresholds[:10],
+            replicates=19,
+        )

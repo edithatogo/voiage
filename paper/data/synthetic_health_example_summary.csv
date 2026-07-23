@@ -1,0 +1,5 @@
+metric,estimate,monte_carlo_standard_error,bootstrap_95pct_lower,bootstrap_95pct_upper,unit
+probability_preferred,0.49240000,0.00499942,0.48189500,0.50210000,proportion
+evpi,644.15354743,,624.38962031,657.66504857,value_units_per_person
+evppi_effect,589.66616742,,569.44843469,603.36547152,value_units_per_person
+evppi_cost,249.59499353,,228.98113112,264.69087809,value_units_per_person

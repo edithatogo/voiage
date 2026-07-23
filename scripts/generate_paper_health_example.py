@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
+from functools import lru_cache
 from math import erf, exp, pi, sqrt
 from pathlib import Path
 
@@ -26,6 +28,8 @@ TIME_HORIZON = 10
 DISCOUNT_RATE = 0.03
 STUDY_FIXED_COST = 1_200_000.0
 STUDY_COST_PER_PARTICIPANT = 100.0
+BOOTSTRAP_REPLICATES = 1_000
+BOOTSTRAP_SEED = 20260724
 
 
 @dataclass(frozen=True)
@@ -42,6 +46,21 @@ class HealthExample:
     research_cost: np.ndarray
     enbs_immediate: np.ndarray
     enbs_delayed: np.ndarray
+    preference_reference: float
+    preference_mcse: float
+    bootstrap_intervals: dict[str, tuple[float, float]]
+
+
+@dataclass(frozen=True)
+class SensitivityScenario:
+    """One declared scenario for study-value sensitivity analysis."""
+
+    name: str
+    outcome_sd: float = OUTCOME_SD
+    annual_population: float = ANNUAL_POPULATION
+    fixed_cost: float = STUDY_FIXED_COST
+    delay_years: int = 0
+    uptake: float = 1.0
 
 
 def _expected_positive_normal(mean: float, standard_deviation: float) -> float:
@@ -54,7 +73,11 @@ def _expected_positive_normal(mean: float, standard_deviation: float) -> float:
     return standard_deviation * density + mean * distribution
 
 
-def normal_normal_evsi(total_sample_size: int) -> float:
+def normal_normal_evsi(
+    total_sample_size: int,
+    *,
+    outcome_sd: float = OUTCOME_SD,
+) -> float:
     """Calculate EVSI for the declared equal-allocation normal study model.
 
     The uncertain incremental health effect has a Normal prior. A two-arm
@@ -68,7 +91,9 @@ def normal_normal_evsi(total_sample_size: int) -> float:
         raise ValueError("total_sample_size must be a positive even integer")
 
     prior_variance = EFFECT_PRIOR_SD**2
-    sampling_variance = 4.0 * OUTCOME_SD**2 / total_sample_size
+    if outcome_sd <= 0:
+        raise ValueError("outcome_sd must be positive")
+    sampling_variance = 4.0 * outcome_sd**2 / total_sample_size
     posterior_mean_variance = prior_variance**2 / (prior_variance + sampling_variance)
     incremental_nb_mean = REFERENCE_WTP * EFFECT_MEAN - COST_MEAN
     incremental_nb_sd = REFERENCE_WTP * sqrt(posterior_mean_variance)
@@ -80,6 +105,64 @@ def normal_normal_evsi(total_sample_size: int) -> float:
     return expected_after_study - current_value
 
 
+def _bootstrap_intervals(
+    effect: np.ndarray,
+    cost: np.ndarray,
+    *,
+    replicates: int = BOOTSTRAP_REPLICATES,
+) -> dict[str, tuple[float, float]]:
+    """Estimate simulation uncertainty for reported PSA quantities.
+
+    The bootstrap resamples paired probabilistic-analysis draws. EVPPI is
+    recalculated with the same package estimator used for the point estimates.
+    """
+    if replicates < 20:
+        raise ValueError("replicates must be at least 20")
+    rng = np.random.default_rng(BOOTSTRAP_SEED)
+    estimates = {
+        "probability_preferred": np.empty(replicates),
+        "evpi": np.empty(replicates),
+        "evppi_effect": np.empty(replicates),
+        "evppi_cost": np.empty(replicates),
+    }
+    sample_count = len(effect)
+    for replicate in range(replicates):
+        index = rng.integers(0, sample_count, sample_count)
+        sampled_effect = effect[index]
+        sampled_cost = cost[index]
+        sampled_parameters = ParameterSet.from_numpy_or_dict(
+            {
+                "incremental_qaly": sampled_effect,
+                "incremental_cost": sampled_cost,
+            }
+        )
+        sampled_nb = np.column_stack(
+            [
+                np.zeros(sample_count),
+                REFERENCE_WTP * sampled_effect - sampled_cost,
+            ]
+        )
+        estimates["probability_preferred"][replicate] = np.mean(
+            sampled_nb[:, 1] > 0.0
+        )
+        estimates["evpi"][replicate] = evpi(sampled_nb)
+        estimates["evppi_effect"][replicate] = evppi(
+            sampled_nb,
+            sampled_parameters,
+            ["incremental_qaly"],
+        )
+        estimates["evppi_cost"][replicate] = evppi(
+            sampled_nb,
+            sampled_parameters,
+            ["incremental_cost"],
+        )
+    return {
+        name: tuple(float(value) for value in np.quantile(values, [0.025, 0.975]))
+        for name, values in estimates.items()
+    }
+
+
+@lru_cache(maxsize=1)
 def calculate_example() -> HealthExample:
     """Calculate one internally consistent, explicitly synthetic example."""
     rng = np.random.default_rng(SEED)
@@ -130,6 +213,8 @@ def calculate_example() -> HealthExample:
             for value, cost_value in zip(evsi_per_person, research_cost, strict=True)
         ]
     )
+    reference_index = int(np.flatnonzero(thresholds == REFERENCE_WTP)[0])
+    preference_reference = float(probability_cost_effective[reference_index])
     return HealthExample(
         thresholds=thresholds,
         probability_cost_effective=probability_cost_effective,
@@ -141,7 +226,165 @@ def calculate_example() -> HealthExample:
         research_cost=research_cost,
         enbs_immediate=enbs_immediate,
         enbs_delayed=enbs_delayed,
+        preference_reference=preference_reference,
+        preference_mcse=sqrt(
+            preference_reference * (1.0 - preference_reference) / N_PSA
+        ),
+        bootstrap_intervals=_bootstrap_intervals(effect, cost),
     )
+
+
+def calculate_sensitivity() -> list[tuple[SensitivityScenario, np.ndarray]]:
+    """Calculate ENBS under prespecified, interpretable one-way scenarios."""
+    scenarios = [
+        SensitivityScenario("Base case"),
+        SensitivityScenario("Outcome SD 0.75", outcome_sd=0.75),
+        SensitivityScenario("Outcome SD 1.25", outcome_sd=1.25),
+        SensitivityScenario("Annual population 1,000", annual_population=1_000),
+        SensitivityScenario("Annual population 1,600", annual_population=1_600),
+        SensitivityScenario("Fixed study cost 0.9m", fixed_cost=900_000),
+        SensitivityScenario("Fixed study cost 1.5m", fixed_cost=1_500_000),
+        SensitivityScenario("One-year delay; 80% uptake", delay_years=1, uptake=0.8),
+        SensitivityScenario("Three-year delay; 40% uptake", delay_years=3, uptake=0.4),
+    ]
+    sample_sizes = np.array([50, 100, 200, 400, 800, 1_200])
+    output: list[tuple[SensitivityScenario, np.ndarray]] = []
+    for scenario in scenarios:
+        opportunities = (
+            scenario.uptake
+            * scenario.annual_population
+            * sum(
+                (1.0 + DISCOUNT_RATE) ** -year
+                for year in range(
+                    1 + scenario.delay_years,
+                    TIME_HORIZON + 1,
+                )
+            )
+        )
+        values = np.array(
+            [
+                normal_normal_evsi(int(size), outcome_sd=scenario.outcome_sd)
+                * opportunities
+                - (scenario.fixed_cost + STUDY_COST_PER_PARTICIPANT * size)
+                for size in sample_sizes
+            ]
+        )
+        output.append((scenario, values))
+    return output
+
+
+def write_results(
+    example: HealthExample,
+    sensitivity: list[tuple[SensitivityScenario, np.ndarray]],
+    output_directory: Path,
+) -> None:
+    """Write machine-readable values behind the manuscript figure and prose."""
+    output_directory.mkdir(parents=True, exist_ok=True)
+    with (output_directory / "synthetic_health_example_summary.csv").open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as stream:
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=[
+                "metric",
+                "estimate",
+                "monte_carlo_standard_error",
+                "bootstrap_95pct_lower",
+                "bootstrap_95pct_upper",
+                "unit",
+            ],
+        )
+        writer.writeheader()
+        summary_values = [
+            (
+                "probability_preferred",
+                example.preference_reference,
+                example.preference_mcse,
+                "proportion",
+            ),
+            ("evpi", example.evpi, "", "value_units_per_person"),
+            ("evppi_effect", example.evppi_effect, "", "value_units_per_person"),
+            ("evppi_cost", example.evppi_cost, "", "value_units_per_person"),
+        ]
+        for metric, estimate, standard_error, unit in summary_values:
+            lower, upper = example.bootstrap_intervals[metric]
+            writer.writerow(
+                {
+                    "metric": metric,
+                    "estimate": f"{estimate:.8f}",
+                    "monte_carlo_standard_error": (
+                        f"{standard_error:.8f}" if standard_error != "" else ""
+                    ),
+                    "bootstrap_95pct_lower": f"{lower:.8f}",
+                    "bootstrap_95pct_upper": f"{upper:.8f}",
+                    "unit": unit,
+                }
+            )
+    with (output_directory / "synthetic_health_example_results.csv").open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as stream:
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=[
+                "sample_size",
+                "evsi_per_person",
+                "research_cost",
+                "enbs_immediate_full_uptake",
+                "enbs_two_year_delay_60pct_uptake",
+            ],
+        )
+        writer.writeheader()
+        for index, sample_size in enumerate(example.sample_sizes):
+            writer.writerow(
+                {
+                    "sample_size": int(sample_size),
+                    "evsi_per_person": f"{example.evsi_per_person[index]:.6f}",
+                    "research_cost": f"{example.research_cost[index]:.2f}",
+                    "enbs_immediate_full_uptake": (
+                        f"{example.enbs_immediate[index]:.2f}"
+                    ),
+                    "enbs_two_year_delay_60pct_uptake": (
+                        f"{example.enbs_delayed[index]:.2f}"
+                    ),
+                }
+            )
+    with (output_directory / "synthetic_health_example_sensitivity.csv").open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as stream:
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=[
+                "scenario",
+                "outcome_sd",
+                "annual_population",
+                "fixed_cost",
+                "delay_years",
+                "uptake",
+                "sample_size",
+                "enbs",
+            ],
+        )
+        writer.writeheader()
+        for scenario, values in sensitivity:
+            for sample_size, value in zip(example.sample_sizes, values, strict=True):
+                writer.writerow(
+                    {
+                        "scenario": scenario.name,
+                        "outcome_sd": scenario.outcome_sd,
+                        "annual_population": scenario.annual_population,
+                        "fixed_cost": scenario.fixed_cost,
+                        "delay_years": scenario.delay_years,
+                        "uptake": scenario.uptake,
+                        "sample_size": int(sample_size),
+                        "enbs": f"{value:.2f}",
+                    }
+                )
 
 
 def render(example: HealthExample, output_stem: Path) -> None:
@@ -237,13 +480,22 @@ def render(example: HealthExample, output_stem: Path) -> None:
 def main() -> None:
     """Generate the tracked manuscript figure and print review values."""
     example = calculate_example()
+    sensitivity = calculate_sensitivity()
     output_stem = Path("paper/figures/synthetic_health_example")
     render(example, output_stem)
+    write_results(example, sensitivity, Path("paper/data"))
     print(f"wrote {output_stem.with_suffix('.png')}")
     print(f"wrote {output_stem.with_suffix('.pdf')}")
     print(f"EVPI={example.evpi:.2f}")
     print(f"EVPPI(effect)={example.evppi_effect:.2f}")
     print(f"EVPPI(cost)={example.evppi_cost:.2f}")
+    print(
+        "95% bootstrap intervals="
+        + ", ".join(
+            f"{name}[{interval[0]:.2f}, {interval[1]:.2f}]"
+            for name, interval in example.bootstrap_intervals.items()
+        )
+    )
     print("EVSI=" + ", ".join(f"{value:.2f}" for value in example.evsi_per_person))
     print(
         "ENBS immediate="
