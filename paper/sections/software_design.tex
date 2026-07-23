@@ -27,9 +27,9 @@ If a preferred strategy will reach only part of the eligible population, or
 will be adopted slowly or followed incompletely, the gain from improving the
 decision can be smaller than the gain predicted under full implementation.
 Conversely, implementation activity may be more valuable than another study
-when evidence is already sufficient but delivery is weak. The two investments
-should therefore be compared explicitly rather than combining evidence
-generation and implementation into one unexplained adjustment.
+when evidence is already sufficient but delivery is weak. Comparing the two
+investments separately avoids combining evidence generation and implementation
+in one unexplained adjustment.
 
 Population scaling is similarly consequential. The number of future decisions
 affected by information depends on incidence or eligibility, the lifetime of
@@ -37,9 +37,9 @@ the decision, discounting, adoption, displacement by later technologies, and
 the delay before results become available. A large per-person EVSI can have
 little population value for a rare or short-lived decision. A small per-person
 value can justify research when it affects many decisions over a long period.
-The calculation in Equation~(4) deliberately exposes a simple constant-
-population assumption; applications with changing populations or delayed
-availability should supply an appropriate decision-opportunity model.
+The calculation in Equation~(4) uses a simple constant-population assumption.
+Applications with changing populations or delayed availability can instead use
+an appropriate decision-opportunity model.
 
 \begin{table}[!ht]
 \centering
@@ -53,7 +53,7 @@ Model & Is uncertainty in structure, validation, or computation decision-relevan
 Population & Would subgroups, preferences, perspective, or equity change action? & Heterogeneity, distributional equity, preference, perspective \\
 Delivery & Will adoption and execution realize modeled value? & Implementation adjustment and strategy comparison \\
 Evidence system & Is evidence usable in the target decision? & Data quality, transportability, synthesis, monitoring, obsolescence \\
-Timing & Should evidence collection or commitment adapt over time? & Sequential and adaptive studies, dynamic real options, portfolios \\
+Timing & Could evidence collection or commitment adapt over time? & Sequential and adaptive studies, dynamic real options, portfolios \\
 \bottomrule
 \end{tabular}
 \caption{Sources of avoidable decision loss represented in version 1. Inclusion
@@ -122,8 +122,8 @@ per year for 10 years, discounted at 3\%. The second scenario delays results
 for two years and assumes that only 60\% of later decisions use them. Expected
 net benefit of sampling (ENBS) is lower in that scenario because fewer decisions
 benefit from the evidence. The comparison illustrates why a study's statistical
-information, cost, timing, and likely implementation must be considered
-together.
+information, cost, timing, and likely implementation can change the conclusion
+when considered together.
 
 \begin{figure}[!ht]
 \centering
@@ -134,8 +134,8 @@ marks the reference value of 50000 per QALY. Panel B compares expected value of
 partial perfect information (EVPPI) for the uncertain health effect and cost;
 the dashed line is expected value of perfect information (EVPI) across both
 inputs. Panel C reports population ENBS after subtracting the assumed study
-cost. Values describe the stated simulation and should not be interpreted as
-evidence about an actual programme.}\label{fig:health-example}
+cost. Values describe the stated simulation rather than evidence about an
+actual programme.}\label{fig:health-example}
 \end{figure}
 \FloatBarrier{}
 
@@ -145,9 +145,9 @@ An applied analysis begins by defining the strategies, target population,
 perspective, outcome-value scale, decision lifetime, and uncertain states. The
 analyst then identifies the decision that information could change and the
 counterfactual intervention: perfect information, a particular study, better
-implementation, improved measurement, or delayed commitment. Only after these
-choices are explicit should the numerical estimator and population scaling be
-selected.
+implementation, improved measurement, or delayed commitment. Making these
+choices explicit provides the context for selecting a numerical estimator and
+population scaling.
 
 \texttt{voiage} retains labels for samples, strategies, uncertain inputs,
 subgroups, perspectives, populations, and study designs using labelled data
@@ -162,7 +162,7 @@ evidence, perspective, or social-value judgments are appropriate.
 
 Selected established numerical components are implemented in Rust and made
 available through the supported language packages. This implementation detail
-is secondary to the analytical contract: equivalent inputs should represent
-the same decision and return numerically consistent results. Python currently
+is secondary to the analytical contract: equivalent inputs are intended to
+represent the same decision and return numerically consistent results. Python currently
 supports the widest workflow; the R and Julia packages provide a narrower
 subset.

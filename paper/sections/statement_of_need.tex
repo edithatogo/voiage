@@ -49,9 +49,10 @@ expected reduction in decision loss relative to acting with current
 information. Under representative independent and identically distributed
 draws with finite expectations, the plug-in estimator is consistent. In finite
 samples it is generally downward-biased because the maximum of estimated
-strategy means is upward-biased; its Monte Carlo uncertainty should therefore
-be assessed. EVPPI restricts perfect information to a parameter subset $\phi$
-and integrates over the complementary uncertainty $\theta_{-\phi}$,
+strategy means is upward-biased. Reporting its Monte Carlo uncertainty helps
+to show the precision of the estimate. EVPPI restricts perfect information to
+a parameter subset $\phi$ and integrates over the complementary uncertainty
+$\theta_{-\phi}$,
 \begin{equation}
   \mathrm{EVPPI}(\phi) =
   \mathbb{E}_{\phi}\!\left[\max_d
@@ -84,8 +85,9 @@ annual discount rate $r$, and total research cost $C$, \texttt{voiage} defines
 \end{equation}
 with the annuity factor replaced by $T$ when $r=0$. This scaling assumes
 constant recurring decision opportunities, end-of-period discounting, no
-population change, and no implementation delay. It must not be applied to
-values already aggregated over population or time. ENBS remains signed;
+population change, and no implementation delay. Applying it to values already
+aggregated over population or time would double-count that scaling. ENBS
+remains signed;
 $\max(0,\mathrm{ENBS})$ is the separate value of the option to commission the
 study.
 

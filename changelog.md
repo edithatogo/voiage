@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Softened prescriptive wording throughout the preprint and recast analytical
+  recommendations as assumptions, interpretations, or optional checks.
 - Added relevant prior work by the author on analytical perspective, genomic
   microcosting, funded-test uptake, and diffusion-based budget impact, while
   excluding unrelated publications and software repositories.
