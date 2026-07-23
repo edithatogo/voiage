@@ -5,6 +5,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 ## To Do
 *None at the moment.*
 
+## Completed public documentation
+
+*   [x] Reconcile the public README and GitHub repository profile with the
+    released v1.0 architecture, bindings, quality evidence, registries, paper
+    status, and remaining external boundaries.
+
 ## In Progress
 
 *   [ ] Complete research-software registry and archival readiness after the

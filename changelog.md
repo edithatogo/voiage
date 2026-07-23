@@ -26,6 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Reworked the public README and repository profile around the verified v1.0
+  architecture, language boundaries, package availability, testing controls,
+  documentation, citation, archival evidence, and remaining external gates.
+- Removed promotional ecosystem comparisons and claims that overstated the
+  current Rust migration or cross-language API parity.
 - Narrowed manuscript capability, novelty, application, and architecture
   statements to the evidence demonstrated by the implemented methods,
   maturity labels, and current hybrid Rust/Python boundary.
