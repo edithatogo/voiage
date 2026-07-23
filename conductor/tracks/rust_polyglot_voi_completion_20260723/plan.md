@@ -7,9 +7,11 @@
 - [x] Create GitHub parent #313 and native subissues #314--#323.
 - [x] Populate live Project 28 fields using its supported option vocabulary.
 - [x] Add and run repository governance validation.
-- [ ] Commit the governance artifacts, attach a git note, record the short
-  commit SHA, and commit the plan update.
-- [ ] Automated Conductor review and validation checkpoint.
+- [x] Commit the governance artifacts, attach a git note, record the short
+  commit SHA, and commit the plan update. (`54624bc5`)
+- [x] Automated Conductor review and validation checkpoint.
+- [x] Review fix: isolate per-track validator errors so one malformed track
+  cannot suppress inspection of later tracks. (`e025a48c`)
 - [ ] Conductor - User Manual Verification 'Phase 1: Governance foundation'
   (Protocol in workflow.md).
 
