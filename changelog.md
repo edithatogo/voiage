@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Rebalanced the arXiv manuscript toward economics and data science, with
+  expanded treatment of opportunity loss, research versus implementation,
+  population scaling, heterogeneity, equity, perspective, model uncertainty,
+  timing, and applied decision examples.
 - Rewrote the manuscript's architecture, assurance, and method-status
   explanations in plain language for applied researchers and removed PyO3,
   C-ABI, and other developer plumbing from the reader-facing narrative.

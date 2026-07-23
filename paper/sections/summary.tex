@@ -18,27 +18,26 @@ the preferred action even when the same simulation output is used. The
 \texttt{voiage} package records these choices alongside the analysis and its
 results instead of leaving them hidden in data preparation or analyst notes.
 
-The implemented elements described in this paper are:
+The paper focuses on four analytical contributions:
 \begin{itemize}
-  \item a stable analysis path from probabilistic net benefits to
-  EVPI, expected value of partial perfect information (EVPPI), expected value
-  of sample information (EVSI), expected net benefit of sampling (ENBS),
-  dominance, the cost-effectiveness acceptability frontier (CEAF),
-  heterogeneity, and structural VOI\@;
-  \item a labelled description of the decision that records samples,
-  strategies, uncertain inputs, subgroups, viewpoints, populations, and study
-  designs;
-  \item newer, clearly marked features that represent value questions
-  about equity, perspective, implementation, validation, transportability,
-  data quality, computation, and staged decisions; and
-  \item results that retain the calculation method, random seed, warnings,
-  population adjustments, development status, and data sources needed to
-  interpret a value estimate.
+  \item separating the value of resolving uncertainty from the value of
+  improving implementation, so that more research is not automatically treated
+  as the right response to a poor decision outcome;
+  \item relating individual-level information value to the affected
+  population, decision lifetime, discounting, research cost, and delay;
+  \item making heterogeneity, equity, perspective, model structure, and
+  transportability part of the decision question rather than hidden analytical
+  choices; and
+  \item distinguishing established calculations from developing extensions so
+  that a computable result is not mistaken for a validated one.
 \end{itemize}
 
-Version 1.0.0 uses Rust for selected established calculations. Python supports
-the wider range of analyses, including user models, labelled data, plots, and
-reports~\cite{voiage2026}. The current R and Julia packages calculate EVPI
-directly, but they do not yet provide the full Python feature set. Definitions
-and abbreviations used throughout the paper are collected in
-Sections~\ref{sec:glossary} and~\ref{sec:abbreviations}.
+The implemented methods include EVPI, expected value of partial perfect
+information (EVPPI), expected value of sample information (EVSI), expected net
+benefit of sampling (ENBS), dominance, the cost-effectiveness acceptability
+frontier (CEAF), heterogeneity, and structural VOI\@. Newer features address
+equity, perspective, implementation, validation, transportability, data
+quality, and staged decisions. Version 1.0.0 is available for applied analysis
+in Python, with narrower R and Julia packages~\cite{voiage2026}. Definitions
+and abbreviations are collected in Sections~\ref{sec:glossary}
+and~\ref{sec:abbreviations}.

@@ -13,19 +13,22 @@ itself constitute a methodological contribution, and \texttt{voiage} does not
 claim statistical superiority over specialist implementations.
 
 These concerns can be evaluated in separate analyses even when they act on the
-same decision. Research may have little
-value if implementation is weak; subgroup optimization can conflict with an
-equity-weighted objective; evidence can be precise in a source population but
-poorly transportable; and waiting can preserve option value when commitment is
-costly to reverse. Treating each as unrelated post-processing makes it hard to
-compare their assumptions or combine them in an evidence plan.
+same decision. That separation can obscure economically important
+interactions. Research may have little realized value if implementation is
+weak. A strategy that maximizes average net benefit may not maximize an
+equity-weighted objective. Precise evidence from one population may have little
+value for another population if treatment effects, costs, preferences, or
+delivery conditions differ. Immediate adoption may also destroy the value of
+waiting when a decision is costly to reverse. These are differences in the
+decision being valued, not merely alternative ways to calculate the same
+number.
 
-\texttt{voiage} uses one description of the decision across these questions.
-It records the available choices, their possible values, important warnings,
-and the information needed for reporting. Analysts can therefore ask whether
-the main uncertainty concerns an input, a proposed study, the model structure,
-a subgroup, a viewpoint, implementation, a data source, or the timing of the
-decision without rebuilding the whole analysis in a different format. This is
-a software design choice, not evidence that the methods are superior. Several
-newer features still need testing with real applications, comparison with
-established methods, and broader support in R and Julia.
+\texttt{voiage} brings these questions into a common decision-analysis
+framework. Analysts can compare whether the main avoidable loss arises from
+uncertain parameters, a proposed study, model structure, population
+heterogeneity, the chosen social objective, weak implementation, unsuitable
+evidence, or the timing of commitment. This does not make the quantities
+automatically commensurable: each analysis still requires an explicit value
+function, target population, time horizon, counterfactual action, and evidence
+model. Several newer features also need testing with real applications and
+comparison with established specialist methods.

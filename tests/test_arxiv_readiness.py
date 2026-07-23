@@ -61,15 +61,16 @@ def test_manuscript_uses_citation_order_and_cross_referenced_end_matter() -> Non
     assert "\\label{sec:abbreviations}" in abbreviations
     assert "\\ref{sec:glossary}" in summary
     assert "\\ref{sec:abbreviations}" in summary
+    normalized_summary = " ".join(summary.split())
     for expansion in (
         "Value of Information (VOI)",
-        "expected value of perfect\ninformation (EVPI)",
+        "expected value of perfect information (EVPI)",
         "expected value of partial perfect information (EVPPI)",
-        "expected value\n  of sample information (EVSI)",
+        "expected value of sample information (EVSI)",
         "expected net benefit of sampling (ENBS)",
-            "cost-effectiveness acceptability frontier (CEAF)",
+        "cost-effectiveness acceptability frontier (CEAF)",
     ):
-        assert expansion in summary
+        assert expansion in normalized_summary
 
 
 def test_readability_normalization_joins_pdf_line_break_hyphenation() -> None:

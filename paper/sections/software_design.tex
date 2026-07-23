@@ -1,38 +1,52 @@
-\section{Decision-problem architecture}
+\section{Economic interpretation and applied analysis}
 
-\subsection{Established and developing methods}
+\subsection{From uncertainty to opportunity loss}
 
-\texttt{voiage} does not present every available method as equally established.
-Stable methods have documented behaviour that is intended to remain compatible
-across releases. Developing methods have documented inputs, examples, and
-repeatable test results, but still need wider methodological and applied
-evidence. Experimental features can change.
+The information measures have a common economic interpretation. A decision
+made with current information can select a strategy that is not best for the
+state of the world that is eventually realized. The resulting opportunity loss
+is the difference between the value of the best strategy for that state and
+the value of the strategy selected using current evidence. EVPI averages the
+avoidable part of this loss if all relevant uncertainty could be resolved.
+EVPPI asks the same question for a subset of uncertainty, while EVSI values the
+information expected from a particular study.
 
-\subsection{Keeping the meaning of the data visible}
+These measures answer different policy questions. EVPI places an upper bound
+on the value of eliminating the uncertainty represented in the model. EVPPI
+helps prioritize which uncertainties merit investigation. EVSI compares
+specific study designs under a model of how data would update beliefs and
+change action. ENBS then subtracts the cost of obtaining that information. A
+positive ENBS supports the study only under the stated population, timing,
+implementation, and cost assumptions; it is not a general statement that more
+research is socially worthwhile.
 
-A \texttt{ValueArray} records values with named sample and strategy dimensions
-and can also retain labels for different viewpoints. It can be accompanied by
-the uncertain inputs, study design, available choices, and relevant population.
-This reduces the risk that rows or columns silently change meaning when the
-same data move between an EVPI calculation, subgroup analysis, or comparison
-of viewpoints. This approach follows the labelled-data convention represented
-by \texttt{xarray}~\cite{hoyer2017xarray}.
+\subsection{Research, implementation, and delay}
 
-Classical VOI functions can return a single numerical estimate. Where
-supported, fuller results also record the preferred choice, comparison,
-calculation method, development status, warnings, and assumptions needed to
-explain that estimate. Population size, time horizon, discounting,
-implementation assumptions, subgroup weights, data-quality adjustments, and
-decision timing remain visible where relevant. The software reports invalid
-shapes, missing values, inconsistent labels, and impossible rates rather than
-quietly continuing.
+The value of information is not necessarily the value that will be realized.
+If a preferred strategy will reach only part of the eligible population, or
+will be adopted slowly or followed incompletely, the gain from improving the
+decision can be smaller than the gain predicted under full implementation.
+Conversely, implementation activity may be more valuable than another study
+when evidence is already sufficient but delivery is weak. The two investments
+should therefore be compared explicitly rather than combining evidence
+generation and implementation into one unexplained adjustment.
+
+Population scaling is similarly consequential. The number of future decisions
+affected by information depends on incidence or eligibility, the lifetime of
+the decision, discounting, adoption, displacement by later technologies, and
+the delay before results become available. A large per-person EVSI can have
+little population value for a rare or short-lived decision. A small per-person
+value can justify research when it affects many decisions over a long period.
+The calculation in Equation~(4) deliberately exposes a simple constant-
+population assumption; applications with changing populations or delayed
+availability should supply an appropriate decision-opportunity model.
 
 \begin{table}[!ht]
 \centering
 \footnotesize
 \begin{tabular}{p{0.20\linewidth}p{0.34\linewidth}p{0.36\linewidth}}
 \toprule
-Problem class & Decision question & Maturity-labelled methods \\
+Source of avoidable loss & Decision question & Relevant analysis \\
 \midrule
 Information & What would perfect, partial, or sample information change? & EVPI, EVPPI, EVSI, ENBS \\
 Model & Is uncertainty in structure, validation, or computation decision-relevant? & Structural VOI, model validation, computational refinement \\
@@ -42,41 +56,84 @@ Evidence system & Is evidence usable in the target decision? & Data quality, tra
 Timing & Should evidence collection or commitment adapt over time? & Sequential and adaptive studies, dynamic real options, portfolios \\
 \bottomrule
 \end{tabular}
-\caption{Decision problems represented by established and developing features
-in version 1. Inclusion means that the problem can be represented, not that
-every method has the same level of evidence.}\label{tab:problems}
+\caption{Sources of avoidable decision loss represented in version 1. Inclusion
+means that the question can be represented, not that every method has the same
+level of validation.}\label{tab:problems}
 \end{table}
 \FloatBarrier{}
 
-\subsection{Worked numerical example}
+\subsection{Heterogeneity, equity, and perspective}
+
+Population averages can hide different preferred actions. Subgroup analysis
+asks whether decisions informed by observable group membership improve
+expected value. Its usefulness depends on whether the groups can be identified
+at the point of decision, whether subgroup effects are credible, and whether
+the sample represents the target population. Uncertain or data-driven subgroup
+selection can otherwise exaggerate apparent gains.
+
+Equity analysis changes the objective rather than merely adding another
+covariate. A distributional analysis may assign different social weights to
+health or welfare gains, or examine the opportunity cost of reducing
+inequality~\cite{asaria2016distributional}. The preferred strategy can then
+differ from the strategy that maximizes unweighted total net benefit.
+\texttt{voiage} keeps subgroup weights and the analytical perspective visible
+because neither is a neutral technical setting. A payer, health-system,
+patient, societal, firm, or public-policy perspective can include different
+costs, outcomes, constraints, and time horizons.
+
+\subsection{Model and evidence uncertainty}
+
+Parameter VOI is conditional on the model being an adequate account of the
+decision. Structural VOI instead asks whether choosing among plausible model
+forms could change action. Transportability asks whether evidence from its
+source population is informative for the target population. Data-quality and
+validation analyses ask whether improving measurement, linkage, calibration,
+or external validation could reduce decision loss. These quantities require
+substantive alternatives: arbitrary model variants or unsupported penalties do
+not become meaningful merely because a numerical value can be calculated.
+
+\subsection{Worked decision example}
 
 For two strategies with net-benefit rows $(0,100)$ and $(0,-100)$, the sample
-EVPI is 50 value units. For a proposed study with per-decision EVSI 12.5 and
-total research cost 5, signed ENBS is 7.5. If the EVSI recurs for 1000 annual
-decisions over 10 years at a 3\% annual discount rate, the annuity factor is
-8.5302028368 and population ENBS is
-$12.5\times1000\times8.5302028368-5=106622.53546$ value units. These
-calculations distinguish EVPI from EVSI, preserve negative ENBS when research
-is not worthwhile, and subtract total research cost only after population
-scaling. Automated tests check the same calculation in both Rust and Python.
+EVPI is 50 value units per decision. Perfect information would identify the
+better strategy in each state, whereas current evidence makes the strategies
+equally valuable on average. Suppose a feasible study has an EVSI of 12.5 per
+future decision. This is one quarter of EVPI: the study is expected to resolve
+some, but not all, consequential uncertainty.
 
-\subsection{Software design and analytical checks}
+If the study affects 1000 decisions each year for 10 years, using a 3\% annual
+discount rate gives 8530.2028 discounted decision opportunities. Before
+research cost, the expected population value is therefore 106627.5355. With a
+total study cost of 5, population ENBS is 106622.5355 value units. The example
+is intentionally simple. If study results arrive after two years, the early
+decisions receive no benefit from that information; if uptake is 60\%, the
+realized value may also be lower. Those assumptions can matter more to the
+investment decision than additional decimal precision in the EVSI estimate.
 
-Rust performs selected established calculations. Python supports user-supplied
-models and the broader analysis workflow, including data checks, labelled data,
-plots, and reports. Keeping selected calculations in one shared component helps
-Python, R, and Julia produce the same result. The current R and Julia packages
-calculate EVPI directly but do not yet provide the wider Python feature set.
+\subsection{Analytical workflow and checks}
 
-Analytical assurance targets decision properties rather than only code
-execution. Tests cover translation and positive-scaling invariance,
-non-negativity where required, repeatable use of random numbers, difficult
-statistical models, identical choices, malformed inputs, and agreement between
-languages. Exact calculations are checked against their mathematical
-properties. Approximate EVPPI calculations can fall outside theoretical bounds
-because of simulation error, a poor-fitting model, or predictions beyond the
-observed data; such results require investigation.
-Property-based, metamorphic, fuzz, mutation, and integration tests complement
-example-based checks. These test specified behavior of the implemented
-estimators; they cannot validate a user's model structure, evidence, or value
-judgments.
+An applied analysis begins by defining the strategies, target population,
+perspective, outcome-value scale, decision lifetime, and uncertain states. The
+analyst then identifies the decision that information could change and the
+counterfactual intervention: perfect information, a particular study, better
+implementation, improved measurement, or delayed commitment. Only after these
+choices are explicit should the numerical estimator and population scaling be
+selected.
+
+\texttt{voiage} retains labels for samples, strategies, uncertain inputs,
+subgroups, perspectives, populations, and study designs using labelled data
+conventions~\cite{hoyer2017xarray}. Results can retain the preferred strategy,
+method, random seed, warnings, scaling assumptions, and data sources. Checks
+cover properties such as invariance to a common shift in net benefit,
+non-negativity where theory requires it, repeatability, difficult statistical
+models, identical strategies, and malformed inputs. Approximate EVPPI or EVSI
+estimates can still be distorted by Monte Carlo error, poor model fit, or
+extrapolation. No software check can establish that the decision model,
+evidence, perspective, or social-value judgments are appropriate.
+
+Selected established numerical components are implemented in Rust and made
+available through the supported language packages. This implementation detail
+is secondary to the analytical contract: equivalent inputs should represent
+the same decision and return numerically consistent results. Python currently
+supports the widest workflow; the R and Julia packages provide a narrower
+subset.
