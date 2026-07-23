@@ -7,6 +7,7 @@
     }
   ],
   "abstract": "Value of Information analysis helps decision-makers judge whether reducing uncertainty is worth the cost. voiage represents connected questions about parameter, model, population, implementation, evidence, and timing uncertainty. Version 1.0.0 calculates established perfect, partial, and sample information measures and provides developing analyses for wider decision problems. In a synthetic health example, health-effect uncertainty has greater partial value than cost uncertainty, and delayed incomplete uptake lowers the net value of a proposed study. The package retains choices, populations, assumptions, warnings, and data sources with the result while keeping validation limits visible.",
+  "comments": "14 pages, 2 tables, 1 figure; synthetic worked example; software version 1.0.0",
   "categories": ["human-selection-required"],
   "license": "select-in-arxiv-portal"
 }
