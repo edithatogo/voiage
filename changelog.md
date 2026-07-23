@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added cross-cutting programme requirements for a canonical Decision Problem
+  interchange model, estimator-assurance envelopes, adjacent decision-theory
+  triage, registry-derived claim conformance, deterministic scalability,
+  adversarial ML/agent evaluation, architecture decisions, ecosystem-drift
+  review, and reproducibility cards.
 - Added a versioned, evidence-linked census of VOI, Value of Perspective,
   experimental-design, active-learning, web, and commercial software, plus a
   generated feature and method matrix with explicit parity dispositions.

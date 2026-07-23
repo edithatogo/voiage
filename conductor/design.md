@@ -82,6 +82,45 @@ license decisions remain reviewed changes.
 
 ```mermaid
 flowchart LR
+    Problem["Canonical Decision Problem"] --> Alternatives["Alternatives"]
+    Problem --> States["Uncertain states"]
+    Problem --> Actions["Information actions"]
+    Problem --> Utility["Utility or loss"]
+    Problem --> Context["Perspective, population, horizon, units"]
+    Problem --> Provenance["Data and model provenance"]
+    Draws["Posterior or predictive draws"] --> Problem
+    Problem --> Estimator["Registered estimand and estimator"]
+    Estimator --> Assurance["MC error, convergence, RNG, budget, stopping"]
+    Assurance --> Result["Versioned Arrow and JSON result"]
+    Result --> Bindings["Rust, Python, R, Julia, Mojo"]
+```
+
+The Decision Problem is the portable semantic boundary. Inference systems may
+produce draws, but stable VOI calculations do not require their runtimes. Each
+result carries estimator assurance rather than presenting a point estimate
+without its numerical uncertainty.
+
+```mermaid
+flowchart TD
+    Registry["Canonical method and capability registries"] --> Code["Rust facade and ABI"]
+    Registry --> Matrix["Feature and maturity matrices"]
+    Registry --> Docs["Astro documentation"]
+    Registry --> Packages["Binding capability manifests"]
+    Code --> Check{"Claim conformance"}
+    Matrix --> Check
+    Docs --> Check
+    Packages --> Check
+    Check -- mismatch --> Fail["Fail release"]
+    Check -- aligned --> Evidence["Fixture-linked release evidence"]
+    Drift["Quarterly and pre-release drift proposals"] --> Review["Human scientific review"]
+    Review --> Registry
+```
+
+Machine updates may propose dependency and landscape changes. They do not
+approve a method, exclusion, maturity promotion, or architecture decision.
+
+```mermaid
+flowchart LR
     VOP[VOP canonical contract]
     Mirror[Digest-pinned VOIAGE mirror]
     Perspective[Perspective method API]

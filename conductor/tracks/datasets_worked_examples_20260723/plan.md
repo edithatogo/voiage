@@ -17,6 +17,8 @@
 - [ ] Build deterministic synthetic and pathological fixtures by method.
 - [ ] Add rights-cleared public snapshots and reproducible transformations.
 - [ ] Implement Python, R, Julia, Mojo, ML, LLM, and agent worked examples.
+- [ ] Add a reproducibility card, assumptions, estimator uncertainty,
+  sensitivity, failure cases, and accessible tables/plots to every example.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -33,4 +35,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Clean execution'
   (Protocol in workflow.md).
-

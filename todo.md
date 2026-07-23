@@ -17,6 +17,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
+    *   Freeze a canonical Decision Problem interchange model and
+        estimator-assurance envelopes; validate all capability, binding,
+        documentation, and release claims from the registries.
+    *   Disposition adjacent information-ordering and strategic-information
+        methods, add adversarial ML/agent evaluation, deterministic scalability
+        profiles, architecture decisions, drift proposals, and reproducibility
+        cards within the existing child tracks.
 *None at the moment.*
 
 ## Completed public documentation

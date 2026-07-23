@@ -5,6 +5,8 @@
 - [ ] Add failing workflow, matrix, provenance, drift, and release-claim tests.
 - [ ] Define required versus scheduled/manual/external lanes and budgets.
 - [ ] Define reproducibility, artifact identity, and registry dry-run policy.
+- [ ] Define numerical error, memory, latency, energy, estimator-assurance, and
+  deterministic-parallelism budgets by release tier.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -17,6 +19,9 @@
   freshness workflows.
 - [ ] Add Codecov/Renovate/security/SBOM/attestation and release dry runs.
 - [ ] Add deterministic generated-artifact and clean-install gates.
+- [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
+  deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
+  ecosystem-drift proposals.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -33,4 +38,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Staged release evidence'
   (Protocol in workflow.md).
-

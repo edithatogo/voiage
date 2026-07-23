@@ -61,6 +61,28 @@ programme. The canonical cross-repository requirements are maintained in
 - Generated API pages are reproducible, excluded from version control, limited
   to public members, and written only beneath the configured Starlight content
   directory.
+- A canonical Decision Problem interchange contract represents alternatives,
+  uncertain states, information actions, utility or loss, perspective,
+  population, time horizon, units, currency year, provenance, and posterior or
+  predictive draws without binding users to a particular inference engine.
+- Every stochastic estimator reports an estimator-specific assurance envelope:
+  uncertainty or Monte Carlo error, convergence and effective-sample
+  diagnostics where applicable, replication count, RNG algorithm and seed,
+  computational budget, stopping reason, and numerical-error budget.
+- The literature census explicitly dispositions Blackwell informativeness,
+  value of signals, clairvoyance, control and flexibility, rational
+  inattention, Bayesian persuasion and strategic information design, causal
+  discovery, model discrimination, and value of measurement or test accuracy.
+- Capability tables, binding availability, public documentation, and release
+  claims are generated or checked against the canonical registries and fail
+  closed on unsupported or maturity-inflated claims.
+- ML, LLM, retrieval, verifier, and agent analyses model correlated failure,
+  prompt injection, data or retrieval poisoning, tool exfiltration, reward
+  hacking, evaluation contamination, adaptive overfitting, and human override
+  where those risks can change the preferred information action.
+- Stable kernels define deterministic parallel reduction, recorded splittable
+  RNG streams, streaming or out-of-core behavior, and bounded memory, latency,
+  and energy evidence for advertised scalability profiles.
 
 ### Should have
 
@@ -83,6 +105,15 @@ programme. The canonical cross-repository requirements are maintained in
 - Native Rust, R, Julia, and Mojo documentation extractors should be enabled
   only after their toolchains and generated pages pass the same deterministic
   conformance checks as the initial Python lane.
+- Material estimand, estimator, ABI, backend, exclusion, and deprecation
+  decisions should have versioned architecture decision records.
+- Every worked example should include a reproducibility card, assumptions,
+  estimator uncertainty, sensitivity analysis, failure cases, accessible
+  tables or plots, and deterministic offline instructions.
+- Quarterly and pre-release drift proposals should cover software and
+  literature registries, language toolchains, lockfiles, actions, and the
+  source-pinned documentation plugin without automatically changing scientific
+  dispositions.
 
 ### Could have
 
@@ -96,6 +127,9 @@ programme. The canonical cross-repository requirements are maintained in
   reproducible search.
 - A machine-readable gap report that opens or updates bounded method-triage
   issues without creating duplicate issues.
+- A conformance corpus for adversarial and safety-sensitive information
+  actions, including poisoned retrieval, dependent judges, and abstention or
+  escalation under correlated errors.
 
 ### Won't have now
 

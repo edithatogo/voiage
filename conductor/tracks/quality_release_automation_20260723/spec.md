@@ -15,6 +15,11 @@ literature freshness; dataset rights and hashes; docs, citation, CRediT,
 Authentext, and AI disclosure; Codecov, Renovate, CodeQL, dependency review,
 Scorecard, SBOM, provenance, secrets, and license gates.
 
+Also validate registry-to-code-to-binding-to-documentation claims, ADR and
+deprecation ledgers, numerical and resource budgets, deterministic parallel
+execution, adversarial ML/agent fixtures, and reviewed ecosystem-drift
+proposals.
+
 Dry-run PyPI, crates.io, CRAN-compatible, Julia General, and Mojo packaging.
 Produce reproducible signed artifacts and checksums only through authorized
 release workflows.
@@ -29,4 +34,3 @@ Credentials, signing, publication, and registry acceptance remain external.
 
 Required clean matrices pass, artifacts reproduce, evidence is linked, and
 every external gate is explicit for staged v1.1--v1.3 releases.
-

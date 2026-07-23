@@ -25,6 +25,10 @@
 
 - [ ] Complete the method and external-library censuses.
 - [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
+- [ ] Freeze the canonical Decision Problem interchange representation and
+  estimator-assurance envelope before binding API freeze.
+- [ ] Record architecture decisions for estimand, estimator, exclusion,
+  backend, ABI, and deprecation choices.
 - [ ] Complete the stable Rust and Value of Perspective tracks.
 - [ ] Complete frontier, ML/LLM/agent, and binding tracks.
 - [x] Upgrade the authoritative site to Astro 7.1.3 and Starlight 0.41.4,
@@ -43,6 +47,8 @@
 ## Phase 3: Evidence, releases, and closeout
 
 - [ ] Complete datasets, worked examples, contribution records, and automation.
+- [ ] Reconcile generated capability, feature-matrix, documentation, binding,
+  and release claims against the canonical registries.
 - [ ] Run the full tox, Rust, binding, docs, provenance, and governance gates.
 - [ ] Reconcile v1.1, v1.2, and v1.3 release evidence without inferring external
   acceptance.
