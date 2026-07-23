@@ -8,6 +8,5 @@
   ],
   "abstract": "Parameter-focused Value of Information analysis does not by itself represent uncertainty about model structure, population differences, viewpoint, implementation, evidence quality, or the timing and reversibility of action. voiage provides a common way to describe and analyse these wider decision problems. It keeps choices, groups, populations, assumptions, warnings, and data sources visible while distinguishing established calculations from newer features that still need applied validation.",
   "categories": ["human-selection-required"],
-  "license": "select-in-arxiv-portal",
-  "comments": "Draft for author review. Page and figure counts require confirmation after final typesetting."
+  "license": "select-in-arxiv-portal"
 }
