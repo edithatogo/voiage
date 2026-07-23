@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-23T11:50:01Z",
-  "next_action": "Merge PR #311 after hosted checks pass, complete the author-controlled arXiv review and submission gates in issue #312, submit or register the Julia and R packages through their external registry paths, and complete SciCrunch/RRID curation. JOSS remains deferred.",
-  "external_gate": "The signed public v1.0.0 release and Software Heritage snapshot are complete. Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, and JOSS editorial acceptance remain externally controlled outcomes.",
+  "checked_at": "2026-07-23T23:08:20Z",
+  "next_action": "Record the permanent arXiv identifier after announcement, confirm the JOSS funding statement and direct-versus-pyOpenSci route, review the hosted JOSS PDF, and then perform the authenticated JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
+  "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. ArXiv announcement, a permanent arXiv identifier, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v1.0.0",
     "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
@@ -38,30 +38,38 @@
     "verification": "Software Heritage reports a full visit and snapshot for the repository origin."
   },
   "joss_submission_evidence": {
-    "status": "draft_ready",
+    "status": "repository_ready_for_author_confirmation",
     "files": ["paper.md", "paper.bib", "codemeta.json", "CITATION.cff"],
-    "readiness_document": "docs/joss-submission-readiness.md",
+    "readiness_document": "docs/release/joss-submission-readiness.md",
+    "validator": "scripts/validate_joss.py",
+    "hosted_workflow": ".github/workflows/joss-paper.yml",
+    "package_validation": {
+      "python": "clean PyPI install reports metadata and runtime version 1.0.0",
+      "rust": "workspace tests pass excluding the separately wheel-tested private PyO3 crate",
+      "r": "fresh 1.0.0 source package passes R CMD check --as-cran with two environmental/new-submission notes",
+      "julia": "Pkg.test passes against a locally built voiage-ffi library; artifact/JLL distribution remains pending"
+    },
+    "partner_route": "pyOpenSci is the relevant optional partner because Python is the primary installable surface; direct JOSS is also valid, and the two reviews must not run concurrently.",
     "remaining_author_gates": [
-      "confirm author affiliations and ORCID",
       "confirm funding and conflicts of interest",
-      "add specific public research-impact evidence"
+      "choose direct JOSS or pyOpenSci-first review",
+      "review the hosted Open Journals PDF",
+      "perform the authenticated JOSS submission"
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
   },
   "arxiv_preprint_evidence": {
-    "status": "repository_ready_for_human_review",
+    "status": "submitted_pending_identifier",
     "github_issue": "https://github.com/edithatogo/voiage/issues/312",
     "review_pr": "https://github.com/edithatogo/voiage/pull/311",
     "canonical_source": "paper/main.tex",
     "metadata": "paper/metadata.json",
     "readiness_manifest": "paper/readiness-manifest.json",
     "builder": "scripts/build_arxiv_submission.py",
-    "submission_performed": false,
+    "submission_performed": true,
+    "submission_id": "7861466",
     "remaining_human_gates": [
-      "confirm authorship, affiliation, ORCID, funding, conflicts, and research-impact evidence",
-      "select category, license, and endorsement path",
-      "review the canonical PDF, source archive, checksum, and transformed variants",
-      "perform the authenticated arXiv upload"
+      "record the permanent arXiv identifier after announcement"
     ]
   },
   "evidence_urls": [
@@ -82,8 +90,8 @@
       "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",
       "runner": "local Git worktree",
       "status": "passed",
-      "artifact": "no submission metadata files found",
-      "details": "JOSS draft paper and metadata are prepared; author, funding, conflict, and research-impact confirmation remain before submission."
+      "artifact": "paper.md, paper.bib, CITATION.cff, codemeta.json, validator, and hosted workflow",
+      "details": "JOSS draft paper and metadata are prepared; funding confirmation, route selection, PDF review, and authenticated submission remain."
     },
     {
       "command": "review RRID software registration guidance",
@@ -98,6 +106,20 @@
       "status": "passed",
       "artifact": "current required-section checklist captured",
       "details": "A submission needs confirmed authors and affiliations plus summary, need, field comparison, design, impact, AI disclosure, acknowledgements, and references."
+    },
+    {
+      "command": "python3 scripts/validate_joss.py && pytest tests/test_joss_readiness.py --no-cov -q && python3 scripts/repo_harness.py",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "repository-owned JOSS preflight and 27-workflow security harness",
+      "details": "The paper structure, word range, citations, archive reference, AI disclosure, workflow pins, and least-privilege controls pass."
+    },
+    {
+      "command": "clean Python install, cargo workspace tests, R CMD check --as-cran, and Julia Pkg.test",
+      "runner": "isolated local package audit",
+      "status": "passed_with_documented_boundaries",
+      "artifact": "Python 1.0.0, Rust core, R source package, and Julia source binding",
+      "details": "The primary PyPI package is clean-installable. Rust tests pass outside the separately wheel-tested PyO3 crate. R passes with two non-error notes. Julia passes against the built FFI library but still needs artifact/JLL packaging for General."
     }
   ]
 }

@@ -54,6 +54,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Harden the repository-owned JOSS submission package.
+    *   Added current JOSS paper sections, field comparisons, design
+        trade-offs, concrete developer research uses, archive references, and
+        transparent AI-use boundaries.
+    *   Added a fail-closed validator and pinned Open Journals/Inara hosted PDF
+        build.
+    *   Audited Python, Rust, R, and Julia reviewer installation paths and
+        retained funding confirmation, the permanent arXiv identifier, partner
+        route selection, submission, review, and acceptance as explicit gates.
+
 *   [x] Strengthen the arXiv worked example with uncertainty and sensitivity
     evidence.
     *   Added fixed-seed bootstrap intervals for the reported probabilistic

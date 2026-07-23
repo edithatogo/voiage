@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added current-format JOSS paper content, concrete research-use and
+  software-design evidence, transparent AI disclosure, a Software Heritage
+  citation, a fail-closed manuscript validator, and a pinned Open Journals
+  draft build.
 - Added bootstrap simulation-uncertainty intervals, prespecified one-way
   sensitivity analysis, and machine-readable result files for the preprint's
   synthetic health example.
@@ -46,6 +50,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Corrected the R vignette packaging contract so clean package checks do not
+  attempt to activate a developer-specific Python environment.
+- Documented the Julia binding's required native library build and the
+  remaining Julia artifact/JLL gate before standalone General installation.
 - Consolidated the preprint around the decision problem, information measures,
   worked example, applications, limitations, and conclusion; labelled
   equations for robust cross-references; strengthened direct methodological

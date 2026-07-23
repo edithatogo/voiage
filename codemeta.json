@@ -7,6 +7,7 @@
   "codeRepository": "https://github.com/edithatogo/voiage",
   "issueTracker": "https://github.com/edithatogo/voiage/issues",
   "url": "https://edithatogo.github.io/voiage",
+  "identifier": "swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32",
   "license": "https://spdx.org/licenses/Apache-2.0.html",
   "programmingLanguage": ["Python", "Rust", "R", "Julia"],
   "runtimePlatform": ["Python >=3.12"],
@@ -14,6 +15,7 @@
     "@type": "Person",
     "givenName": "Dylan",
     "familyName": "Mordaunt",
+    "@id": "https://orcid.org/0000-0002-9775-0603",
     "email": "voiage@users.noreply.github.com"
   }],
   "downloadUrl": "https://pypi.org/project/voiage/1.0.0/",

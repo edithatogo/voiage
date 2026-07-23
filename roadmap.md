@@ -55,6 +55,16 @@ to Conductor track `research_software_registry_readiness_20260721`. The
 synthetic health example now reports simulation uncertainty, prespecified
 study-value sensitivity scenarios, and machine-readable numerical results.
 
+The authenticated arXiv draft is now recorded as submitted under submission
+number `7861466`; announcement and a permanent arXiv identifier remain external
+gates. The JOSS adaptation now follows the current 2026 screening and paper
+requirements, including design trade-offs, concrete developer research use,
+transparent AI-use disclosure, Software Heritage citation, a fail-closed local
+validator, and a pinned Open Journals draft build. Funding confirmation,
+selection of direct JOSS versus pyOpenSci-first review, authenticated
+submission, editorial review, acceptance, and DOI assignment remain explicit
+human or external gates.
+
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence
 (`abstraction-excellence_20260719`), Assurance Frontier
