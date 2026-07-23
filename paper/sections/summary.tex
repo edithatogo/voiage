@@ -1,20 +1,33 @@
 \section{Summary}
 
-Value of Information (VOI) analysis estimates how much a decision could
-improve if uncertainty were reduced by collecting additional information. It
-is useful in health economics, clinical-trial design, public policy,
-environmental management, and other settings where decisions must be made
-before all relevant quantities are known. The open-source \texttt{voiage}
-library computes and communicates VOI analyses from probabilistic
-decision models~\cite{voiage2026}.
+Value of Information (VOI) analysis asks whether reducing uncertainty could
+change a decision enough to justify further evidence collection. The framework
+is used in health technology assessment and is equally applicable whenever a
+decision model maps uncertain inputs to comparable
+consequences~\cite{claxton1999irrelevance,briggs2006decision}. Practical analysis requires
+more than a formula: sample orientation, strategy labels, invalid values,
+randomness, approximations, and population scaling all need explicit and
+reproducible treatment.
 
-The software provides expected value of perfect information (EVPI), expected
-value of partial perfect information (EVPPI), expected value of sample
-information (EVSI), expected net benefit of sampling (ENBS),
-cost-effectiveness acceptability frontiers (CEAF), dominance, and related
-diagnostics. Version 1.0.0 combines a Python user interface with an
-authoritative Rust execution core. Python provides the public facade, schema
-validation, orchestration, reporting, plotting, and command-line interface.
-Rust provides stable numerical kernels and shared result contracts; PyO3 and
-Maturin expose the Python bridge, while the R and Julia bindings use the shared
-C application binary interface.
+The open-source \texttt{voiage} project addresses these requirements through a
+versioned software contract~\cite{voiage2026}. Its v1.0.0 release separates
+binding-independent Rust components from language-specific presentation and
+orchestration. The Rust workspace owns validated domain types, numerical
+kernels, structured diagnostics, canonical serialization, the PyO3 extension,
+and a narrow C application binary interface (ABI). Python supplies the most
+complete user surface, including schemas, model orchestration, reporting,
+plotting, and a command-line interface. R and Julia currently provide direct
+native EVPI calls through the same ABI\@; broader cross-language coverage is an
+explicit extension boundary rather than an implied claim.
+
+The main contributions of \texttt{voiage} are:
+\begin{itemize}
+  \item a coherent API for EVPI, EVPPI, EVSI, ENBS, CEAF, dominance,
+  heterogeneity, and structural uncertainty;
+  \item an authoritative Rust implementation of stable numerical policy with
+  deterministic error and result contracts;
+  \item language-neutral normative fixtures used to test compatibility across
+  the Rust, Python, R, and Julia surfaces that implement a method; and
+  \item a reproducible release and manuscript pipeline covering clean
+  installation, packaging, security, source provenance, and review artifacts.
+\end{itemize}

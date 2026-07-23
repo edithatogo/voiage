@@ -1,12 +1,25 @@
 \section{State of the field}
 
-VOI analysis is well established in decision analysis and health
-economics~\cite{bradley1993expected,claxton1999value,adams2020value}. The R
-ecosystem includes mature packages for particular health-economic workflows,
-including Bayesian cost-effectiveness analysis and EVSI methods.
-\texttt{voiage} complements rather than replaces those packages by providing a
-Python-first, cross-domain interface and by making its execution contract
-portable to Rust, R, and Julia. The project emphasizes shared fixtures and
-cross-language conformance instead of maintaining a separate numerical policy
-implementation in each binding. Its extension policy also separates stable
-methods from optional and experimental research surfaces.
+VOI is established in statistical decision analysis and health-economic
+evaluation~\cite{claxton1999irrelevance,briggs2006decision}. Mature R tooling
+includes the \texttt{BCEA} ecosystem for Bayesian cost-effectiveness
+analysis~\cite{baio2017bcea}, while methodological work has made EVPPI and EVSI more
+practical using regression estimators~\cite{strong2014evppi,strong2015evsi}.
+These tools and methods are complementary: a new package should not claim
+novelty merely for reproducing established estimands.
+
+\texttt{voiage} instead focuses on a software-engineering gap. It provides a
+Python-first, domain-agnostic facade while centralizing stable numerical policy
+in a compiled Rust core. Labeled-array integration follows the scientific
+Python convention represented by \texttt{xarray}~\cite{hoyer2017xarray}, but
+canonical wire schemas and fixtures do not depend on Python objects. This
+allows binding behavior to be tested against the same cases and error
+semantics rather than maintained as independent implementations.
+
+The distinction matters for reproducibility. A result is not portable if a
+method name denotes different orientation, validation, approximation, or
+tie-breaking behavior in each language. The project therefore versions stable
+schemas and fixtures, exposes core provenance at runtime, and marks optional or
+experimental capabilities separately. This design complements specialist VOI
+packages; it is not evidence that \texttt{voiage} is statistically superior to
+them.

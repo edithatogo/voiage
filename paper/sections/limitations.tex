@@ -3,9 +3,25 @@
 The repository evidence establishes reproducible software behavior for tested
 fixtures and supported environments; it does not establish fitness for every
 decision context or replace domain validation. Users remain responsible for
-model structure, input provenance, distributional assumptions, willingness-to-
-pay thresholds, and interpretation. Optional accelerator and experimental
-methods have narrower evidence boundaries than the stable Rust-backed core.
+model structure, input provenance, distributional assumptions,
+willingness-to-pay thresholds, and interpretation.
+
+Regression-based EVPPI and EVSI estimates inherit modeling choices and Monte
+Carlo error. Users should examine convergence, effective sample size,
+predictive adequacy, extrapolation, and sensitivity to method settings rather
+than treating a scalar result as exact. Population VOI additionally depends on
+eligible population, time horizon, discounting, implementation, and research
+cost assumptions. \texttt{voiage} validates representations and numerical
+preconditions but cannot determine whether those assumptions are substantively
+appropriate.
+
+The Python interface is broader than the current native R and Julia packages;
+only EVPI has a direct v1 C-ABI route in both non-Python bindings. Optional
+accelerator and experimental methods have narrower evidence boundaries than
+the stable Rust-backed core. Accelerator, distributed, FPGA, and ASIC work is
+evidence-gated and is not a production speedup claim. The repository's
+automated checks reduce software risk but do not replace independent
+statistical validation, code review, or replication with relevant domain data.
 
 Authorship, affiliation, ORCID, funding, conflicts of interest, research-impact
 evidence, arXiv category, license, and endorsement remain subject to final

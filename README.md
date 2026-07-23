@@ -8,14 +8,14 @@
 
 `voiage` is a v1.0.0 open-source library for Value of Information (VOI)
 analysis, combining a Python interface with an authoritative Rust numerical
-core and shared R and Julia binding contracts.
+core and a versioned C ABI used by the retained R and Julia bindings.
 
 Current status:
 
 - Stable VOI methods are implemented and Rust-backed, with Python façade,
   schema, orchestration, CLI, plotting, and reporting layers.
-- R and Julia use the shared Rust C ABI; Mojo remains an explicitly external
-  upstream boundary.
+- R and Julia use the shared Rust C ABI for direct EVPI calls; broader native
+  parity and Mojo remain explicitly tracked boundaries.
 - The signed v1.0.0 release is public on GitHub and PyPI.
 - Registry review/indexing, JOSS/RRID submission, Software Heritage snapshot
   verification, and experimental extensions remain separately tracked.
@@ -26,8 +26,10 @@ The default `main` branch contains the maintained software and its submission
 metadata. Authored LaTeX in `paper/main.tex` is the canonical arXiv preprint;
 the JOSS adaptation remains in `paper.md`. The deterministic manuscript
 workflow compiles, lints, audits, packages, and independently converts the
-LaTeX to semantic HTML without submitting it. `docs/joss-submission-readiness.md`
-records the remaining human author and impact checks.
+LaTeX to semantic HTML without submitting it. It also records a deterministic,
+review-only Textstat report from the canonical PDF. The file
+`docs/release/joss-submission-readiness.md` records the remaining human author
+and impact checks.
 
 ## Background: The Need for a Comprehensive VOI Tool in Python
 
@@ -134,6 +136,20 @@ under [`paper/`](paper/). The JOSS adaptation remains in
 [`CITATION.cff`](CITATION.cff). The readiness workflow creates a deterministic
 source archive and review PDF but never uploads them. The paper has not yet
 been submitted to JOSS or arXiv.
+
+After synchronizing the isolated manuscript tools, generate the complete local
+review bundle with:
+
+```bash
+uv venv --allow-existing .venv-arxiv
+uv pip sync --python .venv-arxiv/bin/python requirements-arxiv.txt
+NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python -m nltk.downloader -d .venv-arxiv/nltk_data cmudict
+uv run python scripts/build_arxiv_submission.py
+NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json
+```
+
+The readability scores are editorial signals for human review, not acceptance
+thresholds or measures of scientific validity.
 
 ## Installation
 

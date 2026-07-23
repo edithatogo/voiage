@@ -5,18 +5,21 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{amsmath,amssymb}
+\usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={voiage: Value of Information Analysis with a Rust Core and Polyglot Bindings},
+\setlength{\emergencystretch}{2em}
+\hypersetup{pdftitle={voiage: Reproducible Value of Information Analysis with an Authoritative Rust Core},
   pdfauthor={Dylan Mordaunt},
   pdfsubject={Open-source research software for value of information analysis},
   pdfkeywords={value of information, decision analysis, health economics, uncertainty quantification, Rust, Python}
 }
 
-\title{\texttt{voiage}: Value of Information Analysis with a Rust Core and Polyglot Bindings}
+\title{\texttt{voiage}: Reproducible Value of Information Analysis with an Authoritative Rust Core}
 \author{Dylan Mordaunt\\\small Independent Researcher, Australia}
-\date{}
+\date{Draft for author review --- 23 July 2026}
 
 \begin{document}
 \maketitle
@@ -24,15 +27,19 @@
 \begin{abstract}
 Value of Information (VOI) analysis estimates how much a decision could
 improve if uncertainty were reduced by collecting additional information.
-\texttt{voiage} is open-source research software for computing and
-communicating VOI analyses from probabilistic decision models. Version 1.0.0
-combines a Python user interface with authoritative Rust numerical kernels and
-shared C-ABI bindings for R and Julia. The software implements expected value
-of perfect information, expected value of partial perfect information,
+\texttt{voiage} is open-source research software for computing, validating,
+and communicating VOI analyses from probabilistic decision models. Version
+1.0.0 combines a Python user interface with authoritative Rust domain,
+numerical, diagnostic, and serialization components. It implements expected
+value of perfect information, expected value of partial perfect information,
 expected value of sample information, expected net benefit of sampling,
-cost-effectiveness acceptability frontiers, dominance, and related diagnostics.
-Language-neutral fixtures, explicit schemas, and layered assurance gates make
-the numerical contract reproducible across supported bindings.
+cost-effectiveness acceptability frontiers, dominance, heterogeneity, and
+structural-uncertainty methods. PyO3 exposes the Rust core to Python; a
+versioned C application binary interface supports direct EVPI calls from R and
+Julia. Language-neutral fixtures, explicit result schemas, structured errors,
+and layered assurance gates make the stable numerical contract testable across
+interfaces. This paper describes the statistical scope, architecture, and
+evidence boundaries of the v1.0.0 release.
 \end{abstract}
 
 \input{sections/summary}
@@ -45,6 +52,9 @@ the numerical contract reproducible across supported bindings.
 \input{sections/acknowledgements}
 
 \bibliographystyle{plain}
+\begingroup
+\small
 \bibliography{references}
+\endgroup
 
 \end{document}

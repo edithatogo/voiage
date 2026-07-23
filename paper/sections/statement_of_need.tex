@@ -14,3 +14,39 @@ seeds, machine-readable result envelopes, and a command-line interface. It is
 designed for researchers and analysts evaluating proposed data collection,
 comparing decisions under uncertainty, or integrating VOI calculations into
 larger evidence and policy pipelines.
+
+Let $NB_{sd}$ denote the net benefit for probabilistic sample $s$ and strategy
+$d$. For $S$ samples and $D$ strategies, the sample EVPI estimator is
+\begin{equation}
+  \widehat{\mathrm{EVPI}} =
+  \frac{1}{S}\sum_{s=1}^{S}\max_{d} NB_{sd}
+  - \max_{d}\frac{1}{S}\sum_{s=1}^{S} NB_{sd}.
+\end{equation}
+This is the expected opportunity loss of acting with current information.
+EVPPI restricts perfect information to a parameter subset $\phi$ and requires
+conditional expected net benefits,
+\begin{equation}
+  \mathrm{EVPPI}(\phi) =
+  \mathbb{E}_{\phi}\!\left[\max_d
+  \mathbb{E}(NB_d\mid\phi)\right]
+  - \max_d \mathbb{E}(NB_d),
+\end{equation}
+which is commonly estimated using regression from a probabilistic sensitivity
+analysis sample~\cite{strong2014evppi}. EVSI instead values a proposed finite
+study $Y$ by averaging the decision made after observing its data,
+\begin{equation}
+  \mathrm{EVSI}(Y) =
+  \mathbb{E}_{Y}\!\left[\max_d
+  \mathbb{E}(NB_d\mid Y)\right]
+  - \max_d \mathbb{E}(NB_d).
+\end{equation}
+Regression-based reuse of existing simulation output can reduce the cost of
+this calculation~\cite{strong2015evsi}. For a population-level EVSI $V$ and
+research cost $C$, \texttt{voiage} defines $\mathrm{ENBS}=V-C$.
+
+These estimands are simple to state but easy to implement inconsistently.
+Examples include transposing samples and strategies, accepting non-finite
+values, changing tie-breaking rules, or silently switching approximation
+methods. \texttt{voiage} therefore treats dimensions, finite-value checks,
+method metadata, warnings, seeds, and serialized result envelopes as part of
+the public numerical contract.

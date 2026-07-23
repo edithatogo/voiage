@@ -3,11 +3,12 @@
   "canonical_source": "paper/main.tex",
   "arxiv_texlive_matrix": [2023, 2025],
   "required_tools": ["pdflatex", "latexmk"],
-  "optional_tools": ["arxiv-latex-cleaner", "arxiv-collector", "latexpand", "qpdf", "pdfinfo", "exiftool", "gitleaks", "lychee", "vale", "latexml"],
+  "optional_tools": ["arxiv-latex-cleaner", "arxiv-collector", "latexpand", "qpdf", "pdfinfo", "pdftotext", "textstat", "exiftool", "gitleaks", "lychee", "vale", "latexml"],
   "source_provenance": {"sourceright": "submodule", "authentext": "submodule"},
   "human_gates": [
     "confirm authorship, affiliations, ORCID, funding, conflicts, and research-impact evidence",
     "compare canonical, cleaner, and collector outputs and review every source diff",
+    "review Textstat readability evidence without treating generic scores as scientific quality thresholds",
     "select the arXiv category, license, and endorsement path",
     "review the final source package and PDF",
     "perform the authenticated arXiv upload"

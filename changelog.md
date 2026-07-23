@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a review-complete arXiv draft with verified VOI references, equations,
+  an explicit Rust/Python/R/Julia binding boundary, and deterministic Textstat
+  evidence generated from the canonical PDF.
 - Added a canonical authored-LaTeX manuscript, deterministic arXiv source
   packaging, TeX Live compatibility matrix, LaTeX and PDF assurance, semantic
   HTML validation, cleaner/collector comparison, and pinned SourceRight and
