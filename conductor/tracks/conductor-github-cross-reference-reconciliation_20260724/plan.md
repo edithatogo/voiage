@@ -35,5 +35,6 @@
 
 ## Review fixes: ingestion follow-on sub-issues
 
-- [~] Add native ingestion sub-issues #467 and #468 to the proposed-track
+- [x] Add native ingestion sub-issues #467 and #468 to the proposed-track
   manifest entry and revalidate the central cross-reference contract.
+  (`68bedc01`)
