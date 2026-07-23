@@ -29,6 +29,6 @@
 ## Phase 4: Hosted handoff
 
 - [x] Push the signed branch, open pull request #465, and record it in the
-  manifest.
+  manifest. (`3d923ab8`)
 - [~] Monitor required hosted checks to a terminal state.
 - [ ] Keep issue closure and merge as explicit post-merge boundaries.
