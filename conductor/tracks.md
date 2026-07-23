@@ -1,12 +1,12 @@
 # Project Tracks
 
-- [ ] **Track: Standardized Dataset Ingestion**
+- [~] **Track: Standardized Dataset Ingestion**
   *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: new — specification and implementation plan approved; functional
-  work has not started.*
+  *Status: in progress — planning review recommendations are being reconciled;
+  functional implementation has not started.*
 
 ---
 

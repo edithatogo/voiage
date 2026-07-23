@@ -1,10 +1,10 @@
 {
   "track_id": "standardized-dataset-ingestion_20260723",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-23T13:53:21Z",
+  "updated_at": "2026-07-23T15:11:46Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -33,6 +33,12 @@
       "kind": "human",
       "status": "satisfied",
       "evidence": "User approval recorded on 2026-07-23; issue #325 and native sub-issues #326-#333 created."
+    },
+    {
+      "id": "pre-implementation-architecture-review",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Review amendments cover versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting."
     },
     {
       "id": "functional-implementation",

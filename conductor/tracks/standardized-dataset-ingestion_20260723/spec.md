@@ -31,6 +31,10 @@ datapackage.json -> Frictionless provider --/          |
 - Keep optional parsers out of the stable core dependency and import graph.
 - Preserve schema, integrity, transformation, and source provenance.
 - Require explicit VOI semantic bindings instead of silently guessing meaning.
+- Make remote and live data reproducible through immutable materialization
+  receipts rather than relying on mutable descriptor URLs.
+- Preserve machine-readable citation, licence, usage, and attribution metadata
+  without presenting metadata preservation as legal authorization.
 - Maintain backward compatibility with existing NumPy, xarray, CSV,
   `ValueArray`, `ParameterSet`, and `AnalysisSpec` entry points.
 
@@ -58,6 +62,11 @@ Arrow schema fingerprints, content digests, and deterministic IPC/Parquet
 round trips. Credentials, authorization headers, signed URL query strings, and
 other secrets MUST NOT enter provenance or diagnostics.
 
+The schema version of the normalized contract MUST evolve independently from
+the VOIAGE package version. Implementations MUST reject unsupported major
+versions and preserve unknown namespaced extension metadata without using it
+to change numerical meaning.
+
 ### R3 — Existing VOI runtime preparation
 
 A format-neutral preparation layer MUST convert normalized bundles into
@@ -66,6 +75,11 @@ validate keys, joins, sample alignment, strategies, missing values, dtypes,
 cardinality, and method-specific input capabilities before dispatch.
 
 Existing direct Python and CSV APIs MUST continue to work unchanged.
+
+Preparation MUST emit a machine-readable data-quality report covering row
+counts, missingness, duplicate and uniqueness checks, key integrity, join
+coverage, coercions, exclusions, and the exact records or partitions selected.
+No sampling, filtering, aggregation, or row exclusion may occur implicitly.
 
 ### R4 — Optional provider protocol
 
@@ -76,6 +90,12 @@ stable error categories.
 Core contracts and calculation kernels MUST NOT import `mlcroissant`,
 `frictionless`, or format-specific models. Base `import voiage` MUST work
 without either optional dependency.
+
+Third-party providers MAY be exposed through Python entry points, but discovery
+and loading MUST be opt-in, explicitly allow-listed, and free of automatic
+imports during base package import or format probing. Provider capabilities
+MUST declare supported versions, media types, transformations, projection,
+filtering, streaming, and random-access behavior.
 
 ### R5 — Croissant ML provider
 
@@ -88,6 +108,12 @@ explicitly.
 ML labels, model candidates, and dataset splits MUST NOT be silently treated as
 VOI outcomes, decision strategies, or study designs.
 
+The supported profile MUST distinguish Croissant specification conformance from
+features actually implemented by the selected parser dependency. Dataset
+versions, live-dataset status, citations, provenance, usage information, ODRL,
+and RAI extensions MUST be preserved when present, but experimental extensions
+MUST NOT alter VOI semantics without explicit bindings.
+
 ### R6 — Frictionless Data provider
 
 An optional Frictionless provider MUST validate package descriptors and data,
@@ -95,6 +121,10 @@ preserve package/resource metadata, Table Schema types and constraints, CSV
 dialects, primary/composite/foreign keys, integrity information, and supported
 resource formats. It MUST publish its supported profile and reject unsupported
 or ambiguous resources explicitly.
+
+Package licences, contributors, sources, citations, and namespaced extensions
+MUST be preserved as governance metadata. Their presence MUST NOT be treated as
+proof that the caller is legally or ethically authorized to use the data.
 
 ### R7 — Cross-format conformance
 
@@ -115,7 +145,20 @@ Installation extras MUST remain separate:
 - `voiage[frictionless]`
 - `voiage[ingestion]`
 
-### R9 — Security and resource governance
+### R9 — Versioned VOI binding profile
+
+VOI semantic mappings MUST use a separately versioned, machine-readable binding
+profile that can be supplied beside a descriptor or embedded under a VOIAGE
+namespace. The profile MUST have a JSON Schema, canonical serialization,
+content digest, explicit table and field references, units, perspectives,
+willingness-to-pay semantics, transformations, and method applicability.
+
+External binding files MUST take precedence over embedded bindings only when
+the caller explicitly selects that behavior. Conflicting bindings, unsupported
+major versions, stale field references, unit incompatibilities, and
+transformations that would change scientific meaning MUST fail validation.
+
+### R10 — Security and resource governance
 
 Untrusted descriptors and resources MUST be constrained by an explicit
 `SourceAccessPolicy`, including offline behavior, schemes, hosts, redirects,
@@ -125,7 +168,22 @@ The implementation MUST block traversal, unsafe archive members, local-device
 files, implicit authenticated access, SSRF by default, descriptor-supplied
 code execution, and arbitrary custom transforms.
 
-### R10 — Quality and release evidence
+### R11 — Reproducible materialization and governance
+
+Every load of remote, archive, or live data MUST produce an immutable
+materialization receipt recording the descriptor digest, resolved resource
+identity, content digest, byte count, retrieval time, parser/provider versions,
+selected resources or partitions, transformations, and source-policy decision.
+Validators MUST support offline replay against a content-addressed cache or
+explicit local materialization without silently refreshing mutable inputs.
+
+Cache entries MUST be checksum-verified and isolated by source-policy context.
+ETag and Last-Modified values MAY be retained as diagnostics but MUST NOT
+replace content digests. Citation, attribution, licence, usage, and sensitive
+data notices MUST remain visible to downstream inspection and result
+provenance.
+
+### R12 — Quality and release evidence
 
 The programme MUST retain the repository's TDD, greater-than-90-percent Python
 coverage, typing, Ruff, dependency-frontier, Arrow round-trip,
@@ -152,6 +210,10 @@ documentation, security, mutation, performance, and hosted-check gates.
   documentation, and hosted release gates pass.
 - **AC-09:** Conductor, GitHub issues, native sub-issue relationships, and
   Project 28 remain reconciled.
+- **AC-10:** Binding profiles are independently versioned, schema-valid,
+  deterministic, explicit about units and transformations, and conflict-safe.
+- **AC-11:** Remote or live inputs can be reproduced offline from verified
+  materializations, with data-quality and governance metadata retained.
 
 ## Non-functional constraints
 
@@ -162,6 +224,8 @@ documentation, security, mutation, performance, and hosted-check gates.
 - New code is fully typed and uses NumPy-style public docstrings.
 - Fixture generation is deterministic, offline by default, and reviewable.
 - Large inputs are streamed or batched where practical.
+- Projection and filtering are explicit, receipt-recorded operations; silent
+  sampling or truncation is prohibited.
 - Format-specific metadata may enrich provenance but may not change numerical
   meaning without an explicit binding or transformation.
 
@@ -181,6 +245,8 @@ documentation, security, mutation, performance, and hosted-check gates.
 - Moving runtime code into the `conductor/` governance directory.
 - Reimplementing Croissant or Frictionless specifications from scratch when a
   suitable optional library provides verified behavior.
+- Interpreting licences, usage policies, or sensitive-data notices as legal,
+  ethical, or institutional authorization.
 - Automatic scientific-semantic inference from names or ML task metadata.
 - Executing arbitrary descriptor-defined code or plugins.
 - Supporting every media, nested, transformation, archive, and remote-storage

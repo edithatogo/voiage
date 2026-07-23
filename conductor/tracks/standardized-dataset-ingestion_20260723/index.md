@@ -1,6 +1,7 @@
 # Standardized Dataset Ingestion
 
-Status: new; specification and implementation plan approved for initialization
+Status: in progress; planning review recommendations are being reconciled,
+while functional implementation remains pending
 
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)

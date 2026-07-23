@@ -80,7 +80,10 @@ optional Croissant ML and Frictionless Data providers. GitHub issue #325 is the
 parent, native sub-issues #326–#333 own the implementation slices, and all
 items are represented in Project 28. Source-format parsing remains decoupled
 from calculation kernels, and scientific VOI semantics require explicit
-bindings rather than column-name inference.
+bindings rather than column-name inference. The binding profile evolves
+independently from package releases, and remote or live inputs require verified
+materialization receipts, explicit selection, data-quality evidence, and
+preserved citation/licence/usage metadata.
 
 ---
 
