@@ -6,7 +6,7 @@ The stable runtime is organized as a directed set of layers. The
 \texttt{voiage-domain} crate validates primitive values, sample matrices,
 strategy collections, trial designs, and decision problems.
 \texttt{voiage-numerics} implements binding-independent kernels and depends on
-the domain and diagnostic contracts. \texttt{voiage-serialization} defines
+the domain and diagnostic contracts, while \texttt{voiage-serialization} defines
 versioned result envelopes and canonical JSON behavior. Leaf adapters expose
 these components through the private PyO3 extension and the C ABI\@; core crates
 do not depend on Python, R, or Julia.
