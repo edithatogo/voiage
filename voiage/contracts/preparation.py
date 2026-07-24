@@ -43,6 +43,39 @@ class DataQualityReport:
 
 
 @dataclass(frozen=True)
+class MethodInputCapability:
+    """Declared normalized-input requirements for one supported method family."""
+
+    method_family: str
+    required_binding_roles: tuple[str, ...]
+    accepted_input_kinds: tuple[str, ...]
+    requires_sample_alignment: bool
+    allows_implicit_transforms: bool = False
+
+
+_METHOD_INPUT_CAPABILITIES: Mapping[str, MethodInputCapability] = MappingProxyType(
+    {
+        "evpi": MethodInputCapability(
+            method_family="evpi",
+            required_binding_roles=("net_benefit",),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        )
+    }
+)
+
+
+def method_input_capability(method_family: str) -> MethodInputCapability:
+    """Return the normalized-input contract for a method or fail closed."""
+    try:
+        return _METHOD_INPUT_CAPABILITIES[method_family]
+    except KeyError as error:
+        raise ValueError(
+            f"no normalized input capability is declared for {method_family!r}"
+        ) from error
+
+
+@dataclass(frozen=True)
 class PreparedAnalysisInputs:
     """Existing runtime values with their normalized-data provenance attached."""
 

@@ -22,6 +22,7 @@ from voiage.contracts import (
     TableManifest,
     VOIBinding,
     analysis_spec_from_prepared_inputs,
+    method_input_capability,
     prepare_analysis_inputs,
     run_evpi,
 )
@@ -201,6 +202,20 @@ def test_preparation_uses_the_explicit_binding_profile_identity() -> None:
     prepared = prepare_analysis_inputs(profiled_bundle)
 
     assert prepared.binding_profile_digest == profile.digest
+
+
+def test_method_input_capability_matrix_is_explicit_and_fail_closed() -> None:
+    capability = method_input_capability("evpi")
+
+    assert capability.required_binding_roles == ("net_benefit",)
+    assert capability.accepted_input_kinds == (
+        "direct-python",
+        "csv",
+        "normalized-bundle",
+    )
+    assert capability.requires_sample_alignment is True
+    with pytest.raises(ValueError, match="no normalized input capability"):
+        method_input_capability("evsi")
 
 
 def test_manifest_matches_published_json_schema() -> None:
