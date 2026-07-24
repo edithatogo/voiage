@@ -17,6 +17,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
+    *   Freeze a canonical Decision Problem interchange model and
+        estimator-assurance envelopes; validate all capability, binding,
+        documentation, and release claims from the registries.
+    *   Disposition adjacent information-ordering and strategic-information
+        methods, add adversarial ML/agent evaluation, deterministic scalability
+        profiles, architecture decisions, drift proposals, and reproducibility
+        cards within the existing child tracks.
+    *   Complete the Renovate-first dependency and GitHub security workflow:
+        remediate open alerts, activate and verify Renovate, retire duplicate
+        Dependabot update automation without disabling advisory alerts, and
+        require live posture, SBOM, provenance, workflow and release gates.
 *None at the moment.*
 
 ## Completed public documentation
@@ -182,6 +193,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
         tox matrix including Python 3.12 through 3.14, minimum/maximum
         dependency environments, coverage, docs, type, contract, and harness
         gates.
+
+*   [x] Upgrade the documentation site to the current Astro stack and integrate
+    the maintainer's polyglot documentation plugin.
+    *   Pinned Astro 7.1.3 and Starlight 0.41.4, source-pinned
+        `edithatogo/astro-polyglot`, and generated public Python API pages during
+        fail-closed checks and builds.
+    *   Added recursive-submodule CI, the Griffe docs extra, safe generated-page
+        handling, link validation, and explicit conformance gates for future
+        Rust, R, Julia, and Mojo extractor promotion.
 
 *   [x] Set up maximal repository harness engineering and GitHub security and
     quality controls.

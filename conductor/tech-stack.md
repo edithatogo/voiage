@@ -46,12 +46,17 @@
 - **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
-- **Astro**: >=7.1.0 — Sole documentation build platform
-- **@astrojs/starlight**: >=0.40.0 — Docs framework with built-in search,
+- **Astro**: 7.1.3 — Sole documentation build platform
+- **@astrojs/starlight**: 0.41.4 — Docs framework with built-in search,
   navigation and MDX support; replaces Sphinx
-- **starlight-llms-txt**: >=0.10.0 — LLM-friendly text export
+- **astro-polyglot**: source-pinned 0.1.0 at commit `054d11e` — generates
+  Starlight-native API documentation from language-native source extraction;
+  npm publication remains an external gate
+- **starlight-links-validator**: 0.25.2 — build-time internal-link validation
+- **starlight-llms-txt**: 0.11.0 — LLM-friendly text export
+- **Griffe**: >=1.14,<2 — Python API extraction for the initial polyglot lane
 - **Vale**: prose linting for Markdown
-- **pnpm**: Package manager for the Starlight/Astro site
+- **pnpm**: 10.32.1 package manager for the Starlight/Astro site
 
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 

@@ -82,6 +82,68 @@ license decisions remain reviewed changes.
 
 ```mermaid
 flowchart LR
+    Problem["Canonical Decision Problem"] --> Alternatives["Alternatives"]
+    Problem --> States["Uncertain states"]
+    Problem --> Actions["Information actions"]
+    Problem --> Utility["Utility or loss"]
+    Problem --> Context["Perspective, population, horizon, units"]
+    Problem --> Provenance["Data and model provenance"]
+    Draws["Posterior or predictive draws"] --> Problem
+    Problem --> Estimator["Registered estimand and estimator"]
+    Estimator --> Assurance["MC error, convergence, RNG, budget, stopping"]
+    Assurance --> Result["Versioned Arrow and JSON result"]
+    Result --> Bindings["Rust, Python, R, Julia, Mojo"]
+```
+
+The Decision Problem is the portable semantic boundary. Inference systems may
+produce draws, but stable VOI calculations do not require their runtimes. Each
+result carries estimator assurance rather than presenting a point estimate
+without its numerical uncertainty.
+
+```mermaid
+flowchart TD
+    Registry["Canonical method and capability registries"] --> Code["Rust facade and ABI"]
+    Registry --> Matrix["Feature and maturity matrices"]
+    Registry --> Docs["Astro documentation"]
+    Registry --> Packages["Binding capability manifests"]
+    Code --> Check{"Claim conformance"}
+    Matrix --> Check
+    Docs --> Check
+    Packages --> Check
+    Check -- mismatch --> Fail["Fail release"]
+    Check -- aligned --> Evidence["Fixture-linked release evidence"]
+    Drift["Quarterly and pre-release drift proposals"] --> Review["Human scientific review"]
+    Review --> Registry
+```
+
+Machine updates may propose dependency and landscape changes. They do not
+approve a method, exclusion, maturity promotion, or architecture decision.
+
+```mermaid
+flowchart TD
+    Advisory["GitHub dependency graph and Dependabot alerts"] --> Renovate["Renovate"]
+    OSV["OSV vulnerability feed"] --> Renovate
+    Registries["Python, Cargo, npm, Actions, submodules"] --> Renovate
+    Renovate --> Dashboard["Dependency and security dashboard"]
+    Renovate --> PR["Immutable update PR"]
+    PR --> Stability["Release-age and artifact checks"]
+    Stability --> Protected["Maximal-quality required checks"]
+    Protected --> Review{"Human review required?"}
+    Review -- "Security, major, numerical, lock or submodule" --> Human["Maintainer review"]
+    Review -- "Eligible ordinary non-major" --> Auto["Protected automerge"]
+    Human --> Merge["Merge"]
+    Auto --> Merge
+    Merge --> Posture["Live alert and security-posture reconciliation"]
+    Posture --> Release{"Release gate"}
+```
+
+Deleting `dependabot.yml` disables duplicate Dependabot version updates, not
+GitHub's advisory alerts. Dependabot security updates remain a temporary
+fallback until the Renovate App demonstrates a dashboard and checked PR; only
+then are they disabled to ensure one update owner without a coverage gap.
+
+```mermaid
+flowchart LR
     VOP[VOP canonical contract]
     Mirror[Digest-pinned VOIAGE mirror]
     Perspective[Perspective method API]
@@ -122,6 +184,29 @@ sequenceDiagram
 The archived Conductor registry documents historical implementation. GitHub
 issues and the shared project provide the public ledger; local specifications,
 fixtures, and CI evidence remain authoritative for technical completion.
+
+```mermaid
+flowchart LR
+    Source["VOIAGE public source and docstrings"] --> Extract["Commit-pinned astro-polyglot extractors"]
+    Griffe["Griffe Python analysis"] --> Extract
+    Extract --> Guard{"Public members and safe paths?"}
+    Guard -- No --> Fail["Fail closed"]
+    Guard -- Yes --> MDX["Ignored generated MDX"]
+    MDX --> Astro["Astro 7 and Starlight"]
+    Astro --> Links["Link and content validation"]
+    Astro --> LLMSTxt["Offline llms.txt output"]
+    Links --> Build["Static production build"]
+    LLMSTxt --> Build
+    Build --> Pages["GitHub Pages artifact"]
+```
+
+The initial production extractor is Python because it has a deterministic,
+CPU-only Griffe path in the repository docs environment. Rust, R, Julia, and
+Mojo enter the same pipeline only after their native toolchains, public-symbol
+filtering, generated-page contracts, and failure semantics have fixture-backed
+evidence. The plugin is a source-pinned submodule until it has a reviewed
+registry release; this prevents a local workspace link from being mistaken for
+an independently installable package.
 
 ```mermaid
 flowchart TD

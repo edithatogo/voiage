@@ -73,10 +73,11 @@ experimental until evidence supports promotion.*
 
 ---
 
-## [ ] Track: Quality, Security, Release, And Registry Automation
+## [~] Track: Quality, Security, Release, And Registry Automation
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
 *Execution order: 11 of 11.*
-*Status: new — staged v1.1--v1.3 evidence and external gates.*
+*Status: in progress — Renovate migration, alert remediation, staged
+v1.1--v1.3 evidence, and external gates.*
 
 ---
 

@@ -26,6 +26,13 @@
 - [ ] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
   robust EIG, validation-study EVSI, and other genuinely distinct estimands
   found by the search; do not promote aliases as new methods.
+- [ ] Triage Blackwell informativeness, value of signals, clairvoyance, control
+  and flexibility, rational inattention, Bayesian persuasion, strategic
+  information design, causal discovery, model discrimination, and value of
+  measurement or test accuracy as VOI, related analysis, application, or
+  reviewed exclusion.
+- [ ] Define the canonical Decision Problem interchange contract and map every
+  included estimand and estimator to its required fields.
 - [ ] Reconcile VOP against preference, equity, heterogeneity, scenario, and
   robust-decision methods so perspective is not collapsed into those concepts.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the

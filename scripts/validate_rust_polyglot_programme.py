@@ -39,7 +39,12 @@ EXPECTED_PROJECT: dict[int, dict[str, str]] = {
     319: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
     320: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
     321: {"priority": "P2", "risk level": "Medium", "review due": "2026-10-31"},
-    322: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
+    322: {
+        "priority": "P1",
+        "risk level": "High",
+        "review due": "2026-10-31",
+        "status": "In Progress",
+    },
     323: {"priority": "P1", "risk level": "High", "review due": "2026-08-31"},
 }
 REQUIRED_FILES = ("spec.md", "plan.md", "metadata.json", "index.md", "evidence.jsonl")

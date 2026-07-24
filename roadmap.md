@@ -27,6 +27,49 @@ evidence-linked and deliberately records planned and non-reproducible
 capabilities rather than turning search hits into parity claims. Quarterly and
 pre-minor-release refreshes remain required.
 
+### Cross-cutting programme refinements
+
+The programme also treats the following as release requirements rather than
+optional follow-up:
+
+1. A canonical Decision Problem interchange model carries alternatives,
+   uncertain states, information actions, utility or loss, perspective,
+   population, horizon, units, provenance, and posterior/predictive draws
+   across Rust, Python, R, Julia, and Mojo.
+2. Estimator assurance includes Monte Carlo error or uncertainty, convergence,
+   effective sample size where meaningful, RNG identity, replication,
+   computational budget, stopping reason, and numerical error—not point
+   estimates alone.
+3. The literature census explicitly reviews information ordering and adjacent
+   methods such as Blackwell informativeness, value of signals, control,
+   flexibility, rational inattention, strategic information design, causal
+   discovery, model discrimination, and value of measurement.
+4. Capability matrices, binding manifests, Astro documentation, and release
+   claims are generated or validated against the canonical registries.
+5. Stable scalability claims require deterministic parallelism, recorded RNG
+   streams, streaming/out-of-core behavior, CPU fallback, and bounded memory,
+   latency, and energy evidence.
+6. ML, LLM, retrieval, verifier, and agent VOI accounts for adversarial and
+   dependent failures, evaluation contamination, provider drift, safety and
+   privacy constraints, and human override.
+7. Material method, backend, ABI, exclusion, and deprecation decisions receive
+   versioned architecture decision records; ecosystem drift automation
+   proposes reviewed changes but cannot approve scientific dispositions.
+8. Worked examples include reproducibility cards, assumptions, estimator
+   uncertainty, sensitivity, failure cases, accessibility, and deterministic
+   offline execution.
+9. Renovate owns version updates across Python, Rust, npm, GitHub Actions and
+   submodules; GitHub's dependency graph and Dependabot alerts remain advisory
+   inputs. Security, major, numerical, lockfile and executable-source changes
+   remain human-reviewed.
+10. Release posture reconciles live GitHub settings, required checks, CodeQL,
+    dependency review, Scorecard, workflow audit, secrets, SBOM, provenance and
+    open alerts. Critical/high findings block release; moderate findings need a
+    bounded reviewed disposition.
+
+These refinements remain within the existing ten child workstreams. Creating
+additional tracks would fragment ownership and duplicate acceptance gates.
+
 ## Current Status (As of July 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
@@ -447,6 +490,12 @@ implementation can proceed without reopening the stack decision.
     *   Record the build, link-check, version-navigation, and content-smoke
         gates that a later implementation track must satisfy.
     *   Completed by Conductor track: `starlight-docs-platform_20260506` (archived).
+
+The implemented platform now uses Astro 7.1.3, Starlight 0.41.4, and a
+commit-pinned `edithatogo/astro-polyglot` source integration. Python public API
+pages are generated deterministically during checks and builds. Additional
+Rust, R, Julia, and Mojo extraction lanes remain conformance-gated rather than
+being inferred complete from plugin availability.
 2.  **Two-Loop Kernel Port:**
     *   Port the stochastic EVSI kernel into Rust and validate it against the
         Python reference and deterministic fixtures.

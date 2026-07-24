@@ -39,6 +39,8 @@
   isolation tests remain part of the implementation phase)
 - [ ] Run license, provenance, docs, and complete quality gates.
 - [ ] Schedule quarterly and pre-minor-release refresh checks.
+- [ ] Include registry, toolchain, lockfile, action, and source-pinned
+  documentation-plugin drift in evidence-preserving refresh proposals.
 - [ ] Produce a machine-readable gap report and bounded GitHub triage updates;
   never generate duplicate issues or overwrite human notes.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the

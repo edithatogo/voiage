@@ -5,6 +5,8 @@
 - [ ] Add failing symbol, layout, ownership, error, lifetime, capability,
   install, and differential tests.
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
+- [ ] Include the canonical Decision Problem and estimator-assurance envelopes
+  in Arrow, JSON, C ABI, and language-native representations.
 - [ ] Define per-language public and packaging contracts.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
@@ -17,6 +19,8 @@
 - [ ] Expand Rust facade and C ABI with panic containment.
 - [ ] Complete Python, direct R, Julia Artifacts/JLL, and Mojo packages.
 - [ ] Generate capabilities, headers, docs, and migration adapters.
+- [ ] Generate deterministic unsupported-method responses and fail CI when a
+  binding or document advertises capabilities absent from the registry.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -33,4 +37,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Installed parity'
   (Protocol in workflow.md).
-

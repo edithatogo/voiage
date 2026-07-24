@@ -1,5 +1,9 @@
 # Changelog
 
+- Upgrade the documentation site to Astro 7.1.3 and Starlight 0.41.4, integrate
+  the commit-pinned `astro-polyglot` plugin for generated Python API pages, and
+  add build-time link validation with reproducible native-tool setup.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -19,6 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a Renovate-first dependency and GitHub security programme covering all
+  retained package managers, vulnerability-driven updates, stability and
+  protected-check policy, live posture reconciliation, SBOM/provenance, and
+  fail-closed alert release criteria.
+- Added cross-cutting programme requirements for a canonical Decision Problem
+  interchange model, estimator-assurance envelopes, adjacent decision-theory
+  triage, registry-derived claim conformance, deterministic scalability,
+  adversarial ML/agent evaluation, architecture decisions, ecosystem-drift
+  review, and reproducibility cards.
 - Added a versioned, evidence-linked census of VOI, Value of Perspective,
   experimental-design, active-learning, web, and commercial software, plus a
   generated feature and method matrix with explicit parity dispositions.
@@ -44,6 +57,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Replaced Dependabot version-update configuration with Renovate, retained
+  GitHub advisory alerts, raised dependency-review blocking to moderate
+  severity, and constrained JupyterLab to the first release that fixes alerts
+  #64--#68.
 - Allowed the frozen v1 programme validator to coexist with separately
   governed post-v1 tracks while continuing to reject missing v1 records.
 - Consolidated the preprint around the decision problem, information measures,
