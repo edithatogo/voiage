@@ -127,7 +127,7 @@ def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library
         (
             CroissantProvider(),
             "croissant.json",
-            {"@context": "mlcommons.org/croissant"},
+            {"@context": "mlcommons.org/croissant/1.1"},
             "recordSet",
         ),
         (
@@ -333,13 +333,17 @@ def test_preparation_rejects_non_numeric_arrow_column() -> None:
         (
             CroissantProvider(),
             "croissant.json",
-            {"recordSet": [{"name": "samples", "field": []}]},
+            {
+                "@context": "mlcommons.org/croissant/1.1",
+                "recordSet": [{"name": "samples", "field": []}],
+            },
             "distribution",
         ),
         (
             CroissantProvider(),
             "croissant.json",
             {
+                "@context": "mlcommons.org/croissant/1.1",
                 "recordSet": [{"field": []}],
                 "distribution": [{"contentUrl": "samples.csv"}],
             },
@@ -349,6 +353,7 @@ def test_preparation_rejects_non_numeric_arrow_column() -> None:
             CroissantProvider(),
             "croissant.json",
             {
+                "@context": "mlcommons.org/croissant/1.1",
                 "recordSet": [{"name": "samples", "field": [{"name": "missing"}]}],
                 "distribution": [{"contentUrl": "samples.csv"}],
             },
@@ -384,6 +389,27 @@ def test_providers_reject_incomplete_or_mismatched_declarations(
     path.write_text(json.dumps(descriptor), encoding="utf-8")
     with pytest.raises(IngestionError, match=message):
         provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_croissant_provider_rejects_unsupported_version_explicitly(tmp_path) -> None:
+    _write_csv(tmp_path)
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.0",
+                "name": "unsupported-version",
+                "distribution": [{"contentUrl": "samples.csv"}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="version 1.1"):
+        CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
 
 
 def test_dataframe_adapter_rejects_non_dataframe() -> None:

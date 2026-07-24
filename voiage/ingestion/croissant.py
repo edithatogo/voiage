@@ -43,6 +43,9 @@ class CroissantProvider:
         """Materialize the supported, unambiguous one-resource Croissant profile."""
         raw = json.loads(descriptor_path.read_text(encoding="utf-8"))
         descriptor = cast("dict[str, object]", raw)
+        context = descriptor.get("@context")
+        if not (isinstance(context, str) and "mlcommons.org/croissant/1.1" in context):
+            raise IngestionError("supported Croissant profile requires version 1.1")
         record_sets = descriptor.get("recordSet")
         distributions = descriptor.get("distribution")
         if not isinstance(record_sets, list) or len(record_sets) != 1:
