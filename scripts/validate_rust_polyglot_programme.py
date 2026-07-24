@@ -30,9 +30,24 @@ TRACK_ISSUES: dict[str, int] = {
     "research_contribution_ai_transparency_20260723": 323,
 }
 EXPECTED_PROJECT: dict[int, dict[str, str]] = {
-    313: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
-    314: {"priority": "P0", "risk level": "Medium", "review due": "2026-08-15"},
-    315: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
+    313: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
+    314: {
+        "priority": "P0",
+        "risk level": "Medium",
+        "review due": "2026-08-15",
+        "status": "In Progress",
+    },
+    315: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
     316: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
     317: {"priority": "P1", "risk level": "High", "review due": "2026-09-30"},
     318: {"priority": "P1", "risk level": "Medium", "review due": "2026-09-30"},
