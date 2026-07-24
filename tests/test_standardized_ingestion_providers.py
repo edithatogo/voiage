@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 import polars as pl
+import pyarrow as pa
 import pytest
 
 from voiage.ingestion import (
@@ -16,6 +17,15 @@ from voiage.ingestion import (
 from voiage.ingestion.croissant import CroissantProvider
 from voiage.ingestion.frictionless import FrictionlessProvider
 from voiage.ingestion.registry import ProviderRegistry
+from voiage.contracts import (
+    DatasetManifest,
+    FieldManifest,
+    NormalizedInputBundle,
+    SourceProvenance,
+    TableManifest,
+    VOIBinding,
+    prepare_analysis_inputs,
+)
 
 
 def _write_csv(tmp_path) -> None:
@@ -133,3 +143,59 @@ def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
     invalid.write_text("{}", encoding="utf-8")
     with pytest.raises(IngestionError, match="exactly one"):
         ProviderRegistry().ingest(invalid)
+
+
+def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
+    source = tmp_path / "samples.txt"
+    source.write_text("a\n1\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "t",
+                        "path": "samples.txt",
+                        "schema": {"fields": [{"name": "a"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(IngestionError, match="CSV"):
+        default_registry().ingest(descriptor)
+    manifest = DatasetManifest(
+        dataset_id="x",
+        tables=(
+            TableManifest(
+                table_id="t", fields=(FieldManifest(field_id="a", dtype="float64"),)
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="direct", source_uri="file:///x", descriptor_digest="a" * 64
+        ),
+    )
+    empty = NormalizedInputBundle(manifest=manifest, tables={"t": pa.table({"a": []})})
+    with pytest.raises(ValueError, match="exactly one"):
+        prepare_analysis_inputs(empty)
+    bound = manifest.model_copy(
+        update={
+            "bindings": (
+                VOIBinding(role="net_benefit", table_id="t", field_ids=("a",)),
+            )
+        }
+    )
+    with pytest.raises(ValueError, match="at least one row"):
+        prepare_analysis_inputs(
+            NormalizedInputBundle(manifest=bound, tables={"t": pa.table({"a": []})})
+        )
+    with pytest.raises(ValueError, match="contains nulls"):
+        prepare_analysis_inputs(
+            NormalizedInputBundle(manifest=bound, tables={"t": pa.table({"a": [None]})})
+        )
+
+
+def test_dataframe_adapter_rejects_non_dataframe() -> None:
+    with pytest.raises(ValueError, match="dataframe interchange"):
+        from_dataframe(object(), dataset_id="bad")

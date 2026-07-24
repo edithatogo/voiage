@@ -152,3 +152,49 @@ def test_binding_and_bundle_reject_invalid_shapes(tmp_path) -> None:
         writer.write_table(pa.table({"a": [1]}))
     with pytest.raises(ValueError, match="not a voiage"):
         NormalizedInputBundle.read_ipc(invalid)
+
+
+def test_manifest_and_bundle_reject_duplicate_or_dangling_references() -> None:
+    table = TableManifest(
+        table_id="net_benefit",
+        fields=(FieldManifest(field_id="a", dtype="float64"),),
+    )
+    provenance = _bundle().manifest.provenance
+    with pytest.raises(ValidationError, match="table identifiers"):
+        DatasetManifest(dataset_id="x", tables=(table, table), provenance=provenance)
+    with pytest.raises(ValidationError, match="unknown table"):
+        DatasetManifest(
+            dataset_id="x",
+            tables=(table,),
+            provenance=provenance,
+            bindings=(
+                VOIBinding(role="net_benefit", table_id="other", field_ids=("a",)),
+            ),
+        )
+    with pytest.raises(ValueError, match="columns"):
+        NormalizedInputBundle(
+            manifest=DatasetManifest(
+                dataset_id="x", tables=(table,), provenance=provenance
+            ),
+            tables={"net_benefit": pa.table({"b": [1.0]})},
+        )
+
+
+def test_ipc_export_rejects_multiple_tables(tmp_path) -> None:
+    manifest = _bundle().manifest.model_copy(
+        update={
+            "tables": _bundle().manifest.tables
+            + (
+                TableManifest(
+                    table_id="other",
+                    fields=(FieldManifest(field_id="x", dtype="float64"),),
+                ),
+            )
+        }
+    )
+    bundle = NormalizedInputBundle(
+        manifest=manifest,
+        tables={**_bundle().tables, "other": pa.table({"x": [1.0]})},
+    )
+    with pytest.raises(ValueError, match="exactly one"):
+        bundle.write_ipc(tmp_path / "bundle.arrow")

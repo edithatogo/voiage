@@ -65,3 +65,31 @@ def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> 
 
     assert result.exit_code == 2
     assert "exactly one" in result.output
+
+
+def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
+    descriptor = tmp_path / "unknown.json"
+    descriptor.write_text("{}", encoding="utf-8")
+    runner = CliRunner()
+    assert (
+        runner.invoke(
+            app,
+            ["ingest", "normalize", str(descriptor), "-o", str(tmp_path / "x.arrow")],
+        ).exit_code
+        == 2
+    )
+    assert (
+        runner.invoke(
+            app,
+            [
+                "ingest",
+                "calculate-from-dataset",
+                str(descriptor),
+                "--table",
+                "x",
+                "--field",
+                "a",
+            ],
+        ).exit_code
+        == 2
+    )
