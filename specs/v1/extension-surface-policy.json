@@ -8,6 +8,7 @@
       "voiage/_runtime.py",
       "voiage/analysis.py",
       "voiage/cli.py",
+      "voiage/ingestion/**",
       "voiage/config.py",
       "voiage/config_objects.py",
       "voiage/exceptions.py",

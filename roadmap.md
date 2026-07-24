@@ -73,6 +73,24 @@ explicit human gates visible: Domain Abstraction Excellence
 (`operational-assurance-excellence_20260720`). Their archived directories make
 review evidence and approval boundaries visible; they are not reopened work.
 
+Standardized dataset ingestion is the next cross-domain input programme. Track
+`standardized-dataset-ingestion_20260723` defines a versioned, Arrow-backed
+`NormalizedInputBundle`, an existing-runtime preparation boundary, and lazy
+optional Croissant ML and Frictionless Data providers. GitHub issue #325 is the
+parent, native sub-issues #326–#333 own the implementation slices, and all
+items are represented in Project 28. Source-format parsing remains decoupled
+from calculation kernels, and scientific VOI semantics require explicit
+bindings rather than column-name inference. The binding profile evolves
+independently from package releases, and remote or live inputs require verified
+materialization receipts, explicit selection, data-quality evidence, and
+preserved citation/licence/usage metadata.
+
+Follow-on sub-issues #467 and #468 extend the same programme only after the
+canonical contract and conformance matrix stabilize: #467 publishes a provider
+SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
+ML, engineering/operations, and business reference cases. Neither follow-on
+creates a second preparation path or domain-specific numerical kernel.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

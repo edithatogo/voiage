@@ -1,0 +1,305 @@
+"""Built-in descriptor adapters stay isolated from the conductor contract."""
+
+from __future__ import annotations
+
+import json
+from types import SimpleNamespace
+
+import polars as pl
+import pyarrow as pa
+import pytest
+
+from voiage.contracts import (
+    DatasetManifest,
+    FieldManifest,
+    NormalizedInputBundle,
+    SourceProvenance,
+    TableManifest,
+    VOIBinding,
+    prepare_analysis_inputs,
+)
+from voiage.ingestion import (
+    IngestionError,
+    SourceAccessPolicy,
+    default_registry,
+    from_dataframe,
+)
+from voiage.ingestion._tabular import digest_file, read_csv
+from voiage.ingestion.croissant import CroissantProvider
+from voiage.ingestion.frictionless import FrictionlessProvider
+from voiage.ingestion.registry import ProviderRegistry
+
+
+def _write_csv(tmp_path) -> None:
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("name", "descriptor"),
+    [
+        (
+            "croissant.json",
+            {
+                "@context": "http://mlcommons.org/croissant/1.1",
+                "name": "ml-fixture",
+                "distribution": [{"contentUrl": "samples.csv"}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            },
+        ),
+        (
+            "datapackage.json",
+            {
+                "name": "operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ],
+            },
+        ),
+    ],
+)
+def test_built_in_providers_normalize_supported_csv_profile(
+    tmp_path, name, descriptor
+) -> None:
+    _write_csv(tmp_path)
+    descriptor_path = tmp_path / name
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    bundle = default_registry().ingest(descriptor_path)
+
+    assert bundle.manifest.dataset_id in {"ml-fixture", "operations-fixture"}
+    assert bundle.table("samples").column_names == ["a", "b"]
+
+
+def test_source_policy_blocks_path_traversal_and_network(tmp_path) -> None:
+    policy = SourceAccessPolicy(tmp_path)
+
+    with pytest.raises(IngestionError, match="escapes"):
+        policy.resolve("../outside.csv")
+    with pytest.raises(IngestionError, match="network"):
+        policy.resolve("https://example.invalid/input.csv")
+    with pytest.raises(IngestionError, match="not implemented"):
+        SourceAccessPolicy(tmp_path, allow_network=True).resolve(
+            "https://example.invalid/input.csv"
+        )
+    with pytest.raises(IngestionError, match="does not exist"):
+        policy.resolve("missing.csv")
+
+
+def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> (
+    None
+):
+    bundle = from_dataframe(
+        pl.DataFrame({"a": [1.0], "b": [2.0]}), dataset_id="business"
+    )
+
+    assert bundle.manifest.provenance.provider_id == "dataframe-interchange"
+    assert bundle.table("data").column_names == ["a", "b"]
+
+
+@pytest.mark.parametrize(
+    ("provider", "name", "descriptor", "message"),
+    [
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {"@context": "mlcommons.org/croissant"},
+            "recordSet",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": []},
+            "exactly one resource",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": [{"name": "x", "path": "x.csv", "schema": {}}]},
+            "requires fields",
+        ),
+    ],
+)
+def test_providers_reject_ambiguous_or_incomplete_descriptors(
+    tmp_path, provider, name, descriptor, message
+) -> None:
+    path = tmp_path / name
+    path.write_text(json.dumps(descriptor), encoding="utf-8")
+    with pytest.raises(IngestionError, match=message):
+        provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
+    invalid = tmp_path / "invalid.json"
+    invalid.write_text("[1]", encoding="utf-8")
+    with pytest.raises(IngestionError, match="root"):
+        ProviderRegistry().ingest(invalid)
+    invalid.write_text("not-json", encoding="utf-8")
+    with pytest.raises(IngestionError, match="valid UTF-8 JSON"):
+        ProviderRegistry().ingest(invalid)
+    invalid.write_text("{}", encoding="utf-8")
+    with pytest.raises(IngestionError, match="exactly one"):
+        ProviderRegistry().ingest(invalid)
+
+
+def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
+    source = tmp_path / "samples.txt"
+    source.write_text("a\n1\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "t",
+                        "path": "samples.txt",
+                        "schema": {"fields": [{"name": "a"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(IngestionError, match="CSV"):
+        default_registry().ingest(descriptor)
+    csv_source = tmp_path / "unreadable.csv"
+    csv_source.write_text("a\n1\n", encoding="utf-8")
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(
+            "voiage.ingestion._tabular.csv.read_csv",
+            lambda _: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
+        )
+        with pytest.raises(IngestionError, match="cannot be parsed"):
+            read_csv("unreadable.csv", SourceAccessPolicy(tmp_path))
+    assert (
+        digest_file(csv_source)
+        == "309b0e45a73d3fc5325e2b6ed0a01ef8b9cde6b05a5633c1f893f970d52bfddc"
+    )
+    manifest = DatasetManifest(
+        dataset_id="x",
+        tables=(
+            TableManifest(
+                table_id="t", fields=(FieldManifest(field_id="a", dtype="float64"),)
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="direct", source_uri="file:///x", descriptor_digest="a" * 64
+        ),
+    )
+    empty = NormalizedInputBundle(manifest=manifest, tables={"t": pa.table({"a": []})})
+    with pytest.raises(ValueError, match="exactly one"):
+        prepare_analysis_inputs(empty)
+    bound = manifest.model_copy(
+        update={
+            "bindings": (
+                VOIBinding(role="net_benefit", table_id="t", field_ids=("a",)),
+            )
+        }
+    )
+    with pytest.raises(ValueError, match="at least one row"):
+        prepare_analysis_inputs(
+            NormalizedInputBundle(manifest=bound, tables={"t": pa.table({"a": []})})
+        )
+    with pytest.raises(ValueError, match="contains nulls"):
+        prepare_analysis_inputs(
+            NormalizedInputBundle(manifest=bound, tables={"t": pa.table({"a": [None]})})
+        )
+
+
+def test_preparation_rejects_non_numeric_arrow_column() -> None:
+    class NonNumericColumn:
+        null_count = 0
+
+        def combine_chunks(self):
+            return self
+
+        def to_numpy(self, *, zero_copy_only: bool):
+            raise pa.ArrowInvalid("cannot convert")
+
+    class SelectedTable:
+        num_rows = 1
+
+        def __getitem__(self, field: str) -> NonNumericColumn:
+            assert field == "a"
+            return NonNumericColumn()
+
+    class Table:
+        def select(self, fields: tuple[str, ...]) -> SelectedTable:
+            assert fields == ("a",)
+            return SelectedTable()
+
+    binding = VOIBinding(role="net_benefit", table_id="t", field_ids=("a",))
+    bundle = SimpleNamespace(
+        manifest=SimpleNamespace(bindings=(binding,)), table=lambda _: Table()
+    )
+    with pytest.raises(ValueError, match="not numeric"):
+        prepare_analysis_inputs(bundle)
+
+
+@pytest.mark.parametrize(
+    ("provider", "name", "descriptor", "message"),
+    [
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {"recordSet": [{"name": "samples", "field": []}]},
+            "distribution",
+        ),
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {
+                "recordSet": [{"field": []}],
+                "distribution": [{"contentUrl": "samples.csv"}],
+            },
+            "requires name",
+        ),
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {
+                "recordSet": [{"name": "samples", "field": [{"name": "missing"}]}],
+                "distribution": [{"contentUrl": "samples.csv"}],
+            },
+            "exactly declare",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": [{"path": "samples.csv", "schema": {"fields": []}}]},
+            "requires name",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "missing"}]},
+                    }
+                ]
+            },
+            "exactly declare",
+        ),
+    ],
+)
+def test_providers_reject_incomplete_or_mismatched_declarations(
+    tmp_path, provider, name, descriptor, message
+) -> None:
+    _write_csv(tmp_path)
+    path = tmp_path / name
+    path.write_text(json.dumps(descriptor), encoding="utf-8")
+    with pytest.raises(IngestionError, match=message):
+        provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_dataframe_adapter_rejects_non_dataframe() -> None:
+    with pytest.raises(ValueError, match="dataframe interchange"):
+        from_dataframe(object(), dataset_id="bad")

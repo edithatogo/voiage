@@ -12,6 +12,7 @@ TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
     "conductor-github-cross-reference-reconciliation_20260724",
     "research_software_registry_readiness_20260721",
+    "standardized-dataset-ingestion_20260723",
 ]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
 
@@ -54,6 +55,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
         "post_v1_or_optional": [
             "conductor-github-cross-reference-reconciliation_20260724",
             "research_software_registry_readiness_20260721",
+            "standardized-dataset-ingestion_20260723",
             "accelerator production-speedup evidence",
             "frontier-method stable promotion beyond the frozen v1 surface",
             "FPGA and ASIC production execution",

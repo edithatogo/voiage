@@ -3,7 +3,18 @@
 This document lists the actionable tasks for `voiage` development. Agents should pick tasks from the "To Do" list.
 
 ## To Do
-*None at the moment.*
+
+*   [x] Implement standardized dataset ingestion through one format-neutral
+    conductor input contract and optional source-format providers.
+    *   Conductor track: `standardized-dataset-ingestion_20260723`.
+    *   GitHub parent issue: #325.
+    *   Native implementation sub-issues: #326--#333.
+    *   Follow-on ecosystem and adoption sub-issues: #467--#468.
+    *   Project: VOP–VOIAGE Conductor Roadmap #28.
+    *   Preserve Arrow/Parquet interchange, xarray compute-facing structures,
+        existing direct Python/CSV APIs, explicit VOI semantic bindings, and
+        strict separation between core contracts and optional Croissant or
+        Frictionless parsers.
 
 ## Completed public documentation
 

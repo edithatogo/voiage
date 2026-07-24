@@ -10,6 +10,15 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
 
 ---
 
+## [~] Track: Standardized Dataset Ingestion
+  *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
+  *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
+  implementation sub-issues
+  [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
+  *Status: in progress — functional implementation is under hosted validation.*
+
+---
+
 ## [~] Track: Research Software Registry Readiness
 *Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
 *Execution order: 02 of 02, after the signed v1.0 release provides immutable

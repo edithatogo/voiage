@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/normalized-input-bundle/1.0.0",
+  "title": "VOIAGE Normalized Input Bundle manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "dataset_id", "tables", "provenance"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "dataset_id": {"type": "string", "minLength": 1},
+    "tables": {"type": "array", "minItems": 1},
+    "provenance": {"type": "object"},
+    "bindings": {"type": "array"},
+    "extensions": {"type": "object"}
+  }
+}

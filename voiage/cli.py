@@ -29,6 +29,7 @@ from voiage.core.io import (
     read_value_array_csv,
 )
 from voiage.factory import create_distributed_large_scale_analysis
+from voiage.ingestion.cli import app as ingestion_app
 from voiage.logging import LoggingSettings, configure_logging
 from voiage.methods.adaptive import (
     adaptive_evsi,
@@ -168,6 +169,7 @@ from voiage.schema import (
 app = typer.Typer(
     help="voiage: A Command-Line Interface for Value of Information Analysis."
 )
+app.add_typer(ingestion_app, name="ingest")
 
 OutputFormat = Literal["text", "json", "csv"]
 

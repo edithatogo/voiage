@@ -765,6 +765,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-validation",
         "create-distributed-large-scale",
         "generate-config",
+        "ingest",
         "plot-ceac",
         "plot-ceaf",
         "plot-dominance",

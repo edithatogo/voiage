@@ -21,7 +21,8 @@
   "conductor": {
     "active_track_ids": [
       "conductor-github-cross-reference-reconciliation_20260724",
-      "research_software_registry_readiness_20260721"
+      "research_software_registry_readiness_20260721",
+      "standardized-dataset-ingestion_20260723"
     ],
     "archived_track_count": 126,
     "classifications": {
@@ -32,6 +33,7 @@
       "post_v1_or_optional": [
         "conductor-github-cross-reference-reconciliation_20260724",
         "research_software_registry_readiness_20260721",
+        "standardized-dataset-ingestion_20260723",
         "accelerator production-speedup evidence",
         "frontier-method stable promotion beyond the frozen v1 surface",
         "FPGA and ASIC production execution"

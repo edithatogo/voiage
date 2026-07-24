@@ -1,0 +1,80 @@
+{
+  "track_id": "standardized-dataset-ingestion_20260723",
+  "version": "1.2.0",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-07-23T13:53:21Z",
+  "updated_at": "2026-07-23T15:30:22Z",
+  "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "base_revision": "f86957f6acb08284619523f75a326795650af38f",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-23",
+    "recorded_at": "2026-07-23T13:53:21Z",
+    "evidence": "User requested incorporation of the previously presented architecture and issue plan into the existing Conductor system, GitHub issues/sub-issues, and project."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/326",
+    "https://github.com/edithatogo/voiage/issues/327",
+    "https://github.com/edithatogo/voiage/issues/328",
+    "https://github.com/edithatogo/voiage/issues/329",
+    "https://github.com/edithatogo/voiage/issues/330",
+    "https://github.com/edithatogo/voiage/issues/331",
+    "https://github.com/edithatogo/voiage/issues/332",
+    "https://github.com/edithatogo/voiage/issues/333",
+    "https://github.com/edithatogo/voiage/issues/467",
+    "https://github.com/edithatogo/voiage/issues/468"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/325",
+    "pull_request": "https://github.com/edithatogo/voiage/pull/334"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human",
+      "status": "satisfied",
+      "evidence": "User approval recorded on 2026-07-23; issue #325 and native sub-issues #326-#333 created."
+    },
+    {
+      "id": "pre-implementation-architecture-review",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Commit 67e079e and GitHub issues #325-#333 incorporate versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting; focused tests, harness, setup validation, and Vale passed."
+    },
+    {
+      "id": "follow-on-recommendation-incorporation",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Commit 211e7aa adds Conductor requirements and phases; issues #467 and #468 are native children of #325 and Project 28 items; cross-reference commit 68bedc01 updates PR #465's central manifest."
+    },
+    {
+      "id": "functional-implementation",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Implementation has not started; functional and adoption phases remain pending."
+    },
+    {
+      "id": "cross-reference-integration-order",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "PR #465 is clean and should merge before draft PR #334 is rebased and promoted."
+    },
+    {
+      "id": "pre-existing-dependency-security",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Dependabot PR #324 separately addresses five current JupyterLab alerts and remains outside ingestion implementation evidence."
+    },
+    {
+      "id": "hosted-quality-and-security",
+      "kind": "hosted_checks",
+      "status": "pending",
+      "evidence": "Required after functional implementation and before track completion."
+    }
+  ]
+}

@@ -51,6 +51,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# The built-in descriptor adapters deliberately use only the base Arrow/JSON
+# stack.  These named extras reserve stable installation surfaces for future
+# enhanced validators without coupling them to the calculation runtime.
+croissant = []
+frictionless = []
+ingestion = []
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
 jax = [
     "jax>=0.7.1,<0.8",
@@ -79,7 +85,7 @@ dev = [
     "maturin>=1.9,<2.0",
     "mutmut>=3.6.0,<4.0",
     "scalene>=2.3.0,<3.0",
-    "ruff>=0.15.22,<1.0",
+    "ruff>=0.15.22,<0.16.0",
     "bandit>=1.9.4,<2.0",
     "nox>=2026.7.11,<2027",
     "ty>=0.0.61,<1.0",
