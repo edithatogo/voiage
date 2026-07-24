@@ -114,3 +114,41 @@ def test_manifest_matches_published_json_schema() -> None:
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
 
     Draft202012Validator(schema).validate(_bundle().manifest.model_dump(mode="json"))
+
+
+@pytest.mark.parametrize(
+    "factory",
+    [
+        lambda: TableManifest(
+            table_id="x", fields=(FieldManifest(field_id="a", dtype="float64"),) * 2
+        ),
+        lambda: TableManifest(
+            table_id="x",
+            fields=(FieldManifest(field_id="a", dtype="float64"),),
+            primary_key=("missing",),
+        ),
+    ],
+)
+def test_table_manifest_rejects_invalid_field_declarations(factory) -> None:
+    with pytest.raises(ValidationError):
+        factory()
+
+
+def test_binding_and_bundle_reject_invalid_shapes(tmp_path) -> None:
+    with pytest.raises(ValidationError):
+        VOIBinding(role="net_benefit", table_id="x", field_ids=())
+    with pytest.raises(ValidationError):
+        VOIBinding(
+            role="net_benefit",
+            table_id="x",
+            field_ids=("a",),
+            strategy_names=("A", "B"),
+        )
+    manifest = _bundle().manifest
+    with pytest.raises(ValueError, match="names"):
+        NormalizedInputBundle(manifest=manifest, tables={})
+    invalid = tmp_path / "not-normalized.arrow"
+    with pa.ipc.new_file(invalid, pa.schema([("a", pa.int64())])) as writer:
+        writer.write_table(pa.table({"a": [1]}))
+    with pytest.raises(ValueError, match="not a voiage"):
+        NormalizedInputBundle.read_ipc(invalid)
