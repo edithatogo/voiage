@@ -1,0 +1,13 @@
+P0 expected-loss implementation evidence
+
+- Rust workspace tests: pass
+- Rust workspace Clippy all targets/features with warnings denied: pass
+- Python full suite: 2063 passed, 15 skipped
+- Coverage: 91.01% (minimum 90%)
+- Astro polyglot check: 619 pages, 0 diagnostics
+- Astro build and link validation: pass
+- Repository harness: 0 findings across 27 workflows
+- Dependency frontier strict: pass
+- Generated registry, gap report, feature matrix: current
+- Live GitHub programme reconciliation: pass
+- Native expected-loss benchmark: recorded
