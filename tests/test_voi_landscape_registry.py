@@ -187,6 +187,11 @@ def test_every_method_has_reviewed_source_coverage() -> None:
         covered.add(method_evidence["method_id"])
 
     assert covered == method_ids
+    assert not {
+        item["method_id"]
+        for item in evidence["coverage"]
+        if item["review_state"] == "triage-required"
+    }
 
 
 def test_adjacent_methods_have_explicit_non_duplicative_dispositions() -> None:

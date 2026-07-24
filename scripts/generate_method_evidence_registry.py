@@ -89,6 +89,54 @@ SOURCES = {
         "https://proceedings.mlr.press/v180/go22a.html",
         "url:pmlr-v180-go22a",
     ),
+    "r-voi-documentation": (
+        "Value of Information Analysis with voi",
+        "package-documentation",
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html",
+        "url:r-voi-vignette",
+    ),
+    "bcea-reference": (
+        "BCEA package reference manual",
+        "package-documentation",
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html",
+        "url:bcea-reference",
+    ),
+    "voi-web-tools-review": (
+        "Web-based tools for value-of-information analysis",
+        "review-paper",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/",
+        "url:pmc7613968",
+    ),
+    "real-options-sequential-decisions": (
+        "Real Options in the Laboratory: Sequential Investment Decisions",
+        "primary-paper",
+        "https://doi.org/10.1016/j.jbef.2016.08.002",
+        "doi:10.1016/j.jbef.2016.08.002",
+    ),
+    "nist-decision-pathways": (
+        "Value of Information and Decision Pathways: Concepts and Case Studies",
+        "review-paper",
+        "https://doi.org/10.3389/fenvs.2022.805245",
+        "doi:10.3389/fenvs.2022.805245",
+    ),
+    "pearl-bareinboim-transportability": (
+        "External Validity: From Do-Calculus to Transportability Across Populations",
+        "primary-paper",
+        "https://doi.org/10.1214/14-STS486",
+        "doi:10.1214/14-STS486",
+    ),
+    "hay-value-computation": (
+        "Selecting Computations: Theory and Applications",
+        "primary-paper",
+        "https://arxiv.org/abs/1207.5879",
+        "url:arxiv-1207.5879",
+    ),
+    "madras-learning-to-defer": (
+        "Predict Responsibly: Improving Fairness and Accuracy by Learning to Defer",
+        "primary-paper",
+        "https://arxiv.org/abs/1711.06664",
+        "url:arxiv-1711.06664",
+    ),
     "pyro-oed": (
         "Pyro Bayesian optimal experimental design documentation",
         "package-documentation",
@@ -121,6 +169,22 @@ SOURCE_OVERRIDES = {
     "implementation-voi": ("andronis-implementation",),
     "validation-voi": ("sadatsafavi-validation-evsi",),
     "portfolio-voi": ("zan-bickel-portfolio",),
+    "population-evpi": ("ispor-voi-task-force",),
+    "optimal-study-design": ("ispor-voi-task-force",),
+    "expected-loss-curve": ("bcea-reference",),
+    "variance-sensitivity": ("r-voi-documentation",),
+    "payer-burden": ("voi-web-tools-review",),
+    "real-options-voi": ("real-options-sequential-decisions",),
+    "value-of-computation": ("hay-value-computation",),
+    "equity-voi": ("nist-decision-pathways", "voiage-method-contracts"),
+    "causal-transportability-voi": (
+        "pearl-bareinboim-transportability",
+        "voiage-method-contracts",
+    ),
+    "data-quality-voi": ("nist-decision-pathways", "voiage-method-contracts"),
+    "monitoring-voi": ("nist-decision-pathways", "voiage-method-contracts"),
+    "data-valuation": ("nist-decision-pathways", "voiage-method-contracts"),
+    "selective-prediction": ("madras-learning-to-defer", "voiage-method-contracts"),
     "expected-information-gain": ("lindley-experimental-design", "pyro-oed"),
     "robust-expected-information-gain": ("go-isaac-robust-eig",),
     "predictive-information-gain": ("lindley-experimental-design", "pyro-oed"),
@@ -160,6 +224,15 @@ APPLICATION_METHODS = {
     "llm-routing-voi",
     "rag-acquisition-voi",
     "agent-information-voi",
+}
+CONTRACT_SYNTHESIS_METHODS = {
+    "sequential-voi",
+    "equity-voi",
+    "causal-transportability-voi",
+    "data-quality-voi",
+    "monitoring-voi",
+    "data-valuation",
+    "selective-prediction",
 }
 CORE_METHODS = {
     "net-benefit",
@@ -216,7 +289,11 @@ def _evidence(method: dict[str, str]) -> dict[str, object]:
             method_id, ("jackson-voi-overview", "voiage-method-contracts")
         )
 
-    if method_id in VOP_METHODS or method_id in APPLICATION_METHODS:
+    if (
+        method_id in VOP_METHODS
+        or method_id in APPLICATION_METHODS
+        or method_id in CONTRACT_SYNTHESIS_METHODS
+    ):
         review_state = "contract-verified"
     elif method["maturity"] == "stable" or method_id in SOURCE_OVERRIDES:
         review_state = "primary-verified"
@@ -258,7 +335,7 @@ def _evidence(method: dict[str, str]) -> dict[str, object]:
         promotion_gate = "none"
     elif method_id in VOP_METHODS:
         promotion_gate = "external-scientific-review"
-    elif method_id in APPLICATION_METHODS:
+    elif method_id in APPLICATION_METHODS or method_id in CONTRACT_SYNTHESIS_METHODS:
         promotion_gate = "method-contract-and-fixtures"
     elif review_state == "primary-verified":
         promotion_gate = "independent-replication"

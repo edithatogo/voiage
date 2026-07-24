@@ -463,8 +463,8 @@
       "method_id": "causal-transportability-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -514,8 +514,8 @@
       "method_id": "data-quality-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -523,8 +523,8 @@
       "method_id": "data-valuation",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [
         "scikit-activeml"
       ],
@@ -579,8 +579,8 @@
       "method_id": "equity-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [
         "trd-cea-toolkit",
         "vop-poc-nz"
@@ -709,8 +709,8 @@
       "method_id": "expected-loss-curve",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -787,8 +787,8 @@
       "method_id": "monitoring-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -820,8 +820,8 @@
       "method_id": "optimal-study-design",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [
         "kirstine",
         "rane",
@@ -844,8 +844,8 @@
       "method_id": "payer-burden",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [
         "savi"
       ],
@@ -904,8 +904,8 @@
       "method_id": "population-evpi",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [
         "savi"
       ],
@@ -962,8 +962,8 @@
       "method_id": "real-options-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -989,8 +989,8 @@
       "method_id": "selective-prediction",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -998,8 +998,8 @@
       "method_id": "sequential-voi",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -1016,8 +1016,8 @@
       "method_id": "value-of-computation",
       "maturity": "experimental",
       "voiage_state": "native",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -1025,8 +1025,8 @@
       "method_id": "variance-sensitivity",
       "maturity": "planned",
       "voiage_state": "planned",
-      "review_state": "triage-required",
-      "promotion_gate": "primary-literature-review",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
       "affected_tool_ids": [
         "r-dampack"
       ],
