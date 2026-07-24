@@ -18,8 +18,8 @@ def test_registry_handoff_preserves_release_and_external_gates() -> None:
         "track_id": "research_software_registry_readiness_20260721",
         "channel": "research-software-registries",
         "status": "blocked",
-        "command_count": 7,
-        "evidence_count": 6,
+        "command_count": 8,
+        "evidence_count": 8,
     }
 
 
@@ -32,9 +32,14 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     specification = (track / "spec.md").read_text()
 
     arxiv_issue = "https://github.com/edithatogo/voiage/issues/312"
+    independent_validation_issue = "https://github.com/edithatogo/voiage/issues/471"
     assert arxiv_issue in metadata["github_subissues"]
+    assert independent_validation_issue in metadata["github_subissues"]
     assert arxiv_issue in plan
+    assert independent_validation_issue in plan
     assert arxiv_issue in specification
+    assert independent_validation_issue in specification
     assert handoff["arxiv_preprint_evidence"]["review_pr"].endswith("/pull/311")
     assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7861466"
     assert "submission `7861466` is complete" in plan
+    assert handoff["joss_submission_evidence"]["selected_route"] == "direct_joss"

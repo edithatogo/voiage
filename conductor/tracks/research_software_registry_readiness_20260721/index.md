@@ -8,7 +8,8 @@ tracked
 Parent issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 
 Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
-[#312](https://github.com/edithatogo/voiage/issues/312)
+[#312](https://github.com/edithatogo/voiage/issues/312) and
+[#471](https://github.com/edithatogo/voiage/issues/471)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

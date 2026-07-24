@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-24T00:31:21Z",
-  "next_action": "Record the permanent arXiv identifier after announcement, confirm the JOSS funding statement and direct-versus-pyOpenSci route, and then perform the authenticated JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
-  "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. ArXiv announcement, a permanent arXiv identifier, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-24T00:46:29Z",
+  "next_action": "Obtain the non-author installation and research-use evidence tracked in issue #471, record the permanent arXiv identifier after announcement, confirm the JOSS funding and conflict statements, and then perform the selected direct JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
+  "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. The arXiv dashboard still reports submission 7861466 as submitted without a permanent identifier. Independent non-author validation, arXiv announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v1.0.0",
     "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
@@ -49,11 +49,18 @@
       "r": "fresh 1.0.0 source package passes R CMD check --as-cran with two environmental/new-submission notes",
       "julia": "Pkg.test passes against a locally built voiage-ffi library; artifact/JLL distribution remains pending"
     },
-    "partner_route": "pyOpenSci is the relevant optional partner because Python is the primary installable surface; direct JOSS is also valid, and the two reviews must not run concurrently.",
+    "selected_route": "direct_joss",
+    "route_rationale": "Direct JOSS preserves the submission's Rust-centred polyglot scope. pyOpenSci remains an optional later Python-package review rather than the selected route.",
+    "independent_validation": {
+      "status": "external_evidence_required",
+      "github_issue": "https://github.com/edithatogo/voiage/issues/471",
+      "protocol": "docs/release/joss-independent-validation.md",
+      "boundary": "The public repository history currently contains the author and automated accounts only. Bots, AI agents, and same-author integrations are not independent community engagement."
+    },
     "remaining_author_gates": [
       "confirm funding and conflicts of interest",
-      "choose direct JOSS or pyOpenSci-first review",
-      "perform the authenticated JOSS submission"
+      "obtain attributable or editor-verifiable non-author validation",
+      "perform the selected direct authenticated JOSS submission"
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
   },
@@ -67,6 +74,8 @@
     "builder": "scripts/build_arxiv_submission.py",
     "submission_performed": true,
     "submission_id": "7861466",
+    "dashboard_checked_at": "2026-07-24T00:46:29Z",
+    "dashboard_state": "submitted and not yet listed as an announced article",
     "remaining_human_gates": [
       "record the permanent arXiv identifier after announcement"
     ]
@@ -76,6 +85,8 @@
     "https://docs.softwareheritage.org/user/faq/",
     "https://www.rrids.org/new-page-1",
     "https://joss.readthedocs.io/en/latest/paper.html",
+    "https://joss.readthedocs.io/en/latest/submitting.html",
+    "https://joss.readthedocs.io/en/latest/review_criteria.html",
     "https://pubmed.ncbi.nlm.nih.gov/10537899/",
     "https://pubmed.ncbi.nlm.nih.gov/15090106/"
   ],
@@ -128,6 +139,13 @@
       "status": "passed_with_corrections",
       "artifact": "three-page Open Journals review PDF and corrected paper.bib",
       "details": "The PDF has no clipping, overlap, broken glyphs, or unreadable references. Two mismatched DOI records were replaced with authoritative Claxton 1999 and Ades, Lu, and Claxton 2004 metadata."
+    },
+    {
+      "command": "audit public contributor, issue, and pull-request authors; recheck authenticated arXiv dashboard; reconcile current JOSS pre-review criteria",
+      "runner": "GitHub API, authenticated arXiv account, and official JOSS documentation",
+      "status": "passed_with_external_gate",
+      "artifact": "issue #471 and docs/release/joss-independent-validation.md",
+      "details": "Submission 7861466 remains submitted without a permanent identifier. The public repository contains the author and automated contributors only, so independent non-author validation remains an explicit JOSS screening gate; direct JOSS is selected for the Rust-centred polyglot package."
     }
   ]
 }

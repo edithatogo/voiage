@@ -21,11 +21,15 @@ Parent: [#296](https://github.com/edithatogo/voiage/issues/296)
 - [#299](https://github.com/edithatogo/voiage/issues/299)
   - [#312](https://github.com/edithatogo/voiage/issues/312) — arXiv preprint
     readiness, author review, and submission evidence
+  - [#471](https://github.com/edithatogo/voiage/issues/471) — independent
+    installation, usability, and research-use evidence before JOSS submission
 
 ## Acceptance
 
 The planning structure is complete when all subissues are linked,
 project-visible, and traceable from this track. The arXiv preparation lane is
 represented separately from JOSS submission so that an arXiv-first author
-decision does not imply a JOSS submission. Individual registry deliverables
-close only with authoritative evidence or a documented ineligibility decision.
+decision does not imply a JOSS submission. The JOSS lane distinguishes
+developer research use from independent community evidence and does not count
+automated accounts as external adoption. Individual registry deliverables close
+only with authoritative evidence or a documented ineligibility decision.

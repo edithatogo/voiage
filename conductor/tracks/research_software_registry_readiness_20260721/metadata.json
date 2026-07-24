@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-24T00:31:21Z",
+  "updated_at": "2026-07-24T00:46:29Z",
   "description": "Track archival, identifier, language-registry, arXiv, and deferred JOSS readiness for the signed v1.0.0 research software release.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
@@ -12,7 +12,8 @@
     "https://github.com/edithatogo/voiage/issues/297",
     "https://github.com/edithatogo/voiage/issues/298",
     "https://github.com/edithatogo/voiage/issues/299",
-    "https://github.com/edithatogo/voiage/issues/312"
+    "https://github.com/edithatogo/voiage/issues/312",
+    "https://github.com/edithatogo/voiage/issues/471"
   ],
   "external_evidence_required": true,
   "gates": [
@@ -26,7 +27,7 @@
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage request 2397350 completed with snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32. Authenticated arXiv submission 7861466 is complete but awaits announcement and a permanent identifier. Julia General, R registry, SciCrunch/RRID, and JOSS still require external submission, curation, or editorial decisions."
+      "evidence": "Software Heritage request 2397350 completed with snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32. Authenticated arXiv submission 7861466 remains submitted but awaits announcement and a permanent identifier. Direct JOSS is the selected route; issue #471 tracks independent non-author installation and research-use evidence before submission. Julia General, R registry, SciCrunch/RRID, and JOSS still require external submission, curation, evidence, or editorial decisions."
     }
   ],
   "github_cross_reference": {

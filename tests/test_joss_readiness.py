@@ -14,6 +14,23 @@ def test_current_joss_package_satisfies_repository_contract() -> None:
     assert validate_joss_package(ROOT) == []
 
 
+def test_joss_independent_validation_protocol_is_bounded() -> None:
+    """Independent evidence must not be substituted with automated activity."""
+    protocol = (ROOT / "docs/release/joss-independent-validation.md").read_text(
+        encoding="utf-8"
+    )
+    readiness = (ROOT / "docs/release/joss-submission-readiness.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "voiage==1.0.0" in protocol
+    assert "EVPI: 0.667" in protocol
+    assert "issue #471" in protocol
+    assert "AI-agent run" in protocol
+    assert "The selected route is **direct JOSS submission**" in readiness
+    assert "automated accounts" in readiness
+
+
 def test_joss_workflow_uses_pinned_open_journals_builder() -> None:
     """Hosted rendering should use the official pinned JOSS toolchain."""
     workflow = (ROOT / ".github/workflows/joss-paper.yml").read_text(encoding="utf-8")

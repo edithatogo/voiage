@@ -1044,6 +1044,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
 
+- Selected direct JOSS review for the Rust-centred polyglot package, recorded
+  the rechecked pending arXiv status, and added a non-author clean-install and
+  research-use protocol without treating automated agents as community
+  adoption.
 - Fixed source-distribution reproducibility by embedding the committed source
   identity before isolated builds, and repaired invalid exception syntax and
   type-only backend annotations in the assurance branch.
