@@ -50,7 +50,11 @@ def test_v2_carries_forward_unchanged_v1_surfaces_and_non_evsi_methods() -> None
         *v1["symbols"]["stable"],
         "normal_normal_two_arm_evsi",
     }
-    for maturity in ("provisional", "experimental", "deprecated", "removed"):
+    assert set(v2["symbols"]["provisional"]) == {
+        *v1["symbols"]["provisional"],
+        "ingestion",
+    }
+    for maturity in ("experimental", "deprecated", "removed"):
         assert v2["symbols"][maturity] == v1["symbols"][maturity]
 
 
@@ -205,6 +209,7 @@ def test_v2_api_reference_and_migration_guide_cover_the_boundary() -> None:
     """Reader documentation must explain the machine-readable contract."""
     reference = API_REFERENCE_PATH.read_text(encoding="utf-8")
     migration = MIGRATION_GUIDE_PATH.read_text(encoding="utf-8")
+    normalized_reference = " ".join(reference.split())
 
     for required in (
         "published v1.0 API remains frozen",
@@ -214,7 +219,7 @@ def test_v2_api_reference_and_migration_guide_cover_the_boundary() -> None:
         "without silently replacing a negative Monte Carlo estimate with zero",
         "versioned as v2",
     ):
-        assert required in reference
+        assert required in normalized_reference
 
     for required in (
         "## Migrating from 1.x to 2.0",

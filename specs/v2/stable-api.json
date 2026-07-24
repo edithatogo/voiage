@@ -67,6 +67,7 @@
       "fluent",
       "health_economics",
       "hta_integration",
+      "ingestion",
       "load_heoml_run_bundle",
       "methods",
       "multi_domain",
