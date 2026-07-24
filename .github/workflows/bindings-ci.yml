@@ -111,8 +111,14 @@ jobs:
           standalone_dir="${RUNNER_TEMP}/voiage-julia-standalone"
           mkdir -p "${standalone_dir}"
           git archive HEAD:bindings/julia | tar -x -C "${standalone_dir}"
-          cd "${standalone_dir}"
-          julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+          STANDALONE_DIR="${standalone_dir}" julia --project="${standalone_dir}" -e '
+            using Pkg
+            project = Pkg.project()
+            @assert project.name == "Voiage"
+            @assert string(project.uuid) == "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
+            Pkg.instantiate()
+            Pkg.test("Voiage")
+          '
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
 

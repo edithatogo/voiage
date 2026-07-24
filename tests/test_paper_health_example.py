@@ -78,12 +78,10 @@ def test_reported_values_agree_with_independent_analytical_references() -> None:
     expected_evsi = []
     for sample_size in example.sample_sizes:
         sampling_variance = 4 * OUTCOME_SD**2 / sample_size
-        preposterior_variance = (
-            EFFECT_PRIOR_SD**4 / (EFFECT_PRIOR_SD**2 + sampling_variance)
+        preposterior_variance = EFFECT_PRIOR_SD**4 / (
+            EFFECT_PRIOR_SD**2 + sampling_variance
         )
-        expected_evsi.append(
-            REFERENCE_WTP * sqrt(preposterior_variance) / sqrt(2 * pi)
-        )
+        expected_evsi.append(REFERENCE_WTP * sqrt(preposterior_variance) / sqrt(2 * pi))
     assert example.evsi_per_person == pytest.approx(expected_evsi, abs=1e-10)
     assert all(
         0 <= value <= expected_effect_evppi <= expected_evpi
