@@ -17,6 +17,7 @@ import json
 from pathlib import Path  # noqa: TC003 - public API runtime annotation
 from types import MappingProxyType
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 import pyarrow as pa
 from pyarrow import ipc
@@ -29,6 +30,13 @@ Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=Tru
 Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
 
 
+def _is_namespaced_extension(key: str) -> bool:
+    """Return whether *key* identifies an extension outside the core namespace."""
+    return key.startswith(("https://", "http://")) or (
+        ":" in key and "." in key.partition(":")[0]
+    )
+
+
 class FieldManifest(ContractModel):
     """One logical field in an input table."""
 
@@ -37,6 +45,46 @@ class FieldManifest(ContractModel):
     unit: str | None = None
     nullable: bool = True
     description: str | None = None
+    semantic_type: str | None = None
+
+
+class ResourceManifest(ContractModel):
+    """Identity and integrity evidence for one materialized source resource."""
+
+    resource_id: Identifier
+    uri: str
+    sha256: Digest
+    media_type: str | None = None
+    byte_size: int | None = Field(default=None, ge=0)
+    retrieved_at: str | None = None
+
+
+class KeyReference(ContractModel):
+    """An explicit foreign-key relationship between normalized tables."""
+
+    source_table_id: Identifier
+    source_field_ids: tuple[Identifier, ...]
+    target_table_id: Identifier
+    target_field_ids: tuple[Identifier, ...]
+
+    @model_validator(mode="after")
+    def validate_arity(self) -> KeyReference:
+        """Require a non-empty, positional mapping for composite keys."""
+        if not self.source_field_ids or len(self.source_field_ids) != len(
+            self.target_field_ids
+        ):
+            raise ValueError("key references require matching non-empty field lists")
+        return self
+
+
+class IngestionDiagnostic(ContractModel):
+    """A stable, source-neutral validation or materialization observation."""
+
+    code: Identifier
+    severity: Literal["info", "warning", "error"]
+    message: str
+    table_id: Identifier | None = None
+    field_id: Identifier | None = None
 
 
 class TableManifest(ContractModel):
@@ -68,6 +116,14 @@ class SourceProvenance(ContractModel):
     citation: str | None = None
     governance: Mapping[str, object] = Field(default_factory=dict)
 
+    @model_validator(mode="after")
+    def validate_safe_source_uri(self) -> SourceProvenance:
+        """Reject source identities that can retain credentials or signed URLs."""
+        parsed = urlsplit(self.source_uri)
+        if parsed.username or parsed.password or parsed.query:
+            raise ValueError("source_uri must not contain credentials or query strings")
+        return self
+
     @field_serializer("governance")
     def serialize_governance(self, value: object) -> object:
         """Restore frozen metadata to JSON containers for serialization."""
@@ -94,6 +150,35 @@ class VOIBinding(ContractModel):
         return self
 
 
+class BindingProfile(ContractModel):
+    """Independently versioned VOI semantics for a normalized dataset."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    bindings: tuple[VOIBinding, ...]
+
+    @model_validator(mode="after")
+    def validate_unique_roles(self) -> BindingProfile:
+        """Reject duplicate definitions of the same semantic role."""
+        roles = tuple(binding.role for binding in self.bindings)
+        if len(roles) != len(set(roles)):
+            raise ValueError("binding profile roles must be unique")
+        return self
+
+    def canonical_json(self) -> str:
+        """Return canonical profile JSON for reproducible semantic identity."""
+        return json.dumps(
+            self.model_dump(mode="json"),
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+
+    @property
+    def digest(self) -> str:
+        """Return the SHA-256 digest of the canonical binding profile."""
+        return sha256(self.canonical_json().encode()).hexdigest()
+
+
 class DatasetManifest(ContractModel):
     """Versioned metadata sufficient to interpret a normalized dataset."""
 
@@ -101,7 +186,11 @@ class DatasetManifest(ContractModel):
     dataset_id: Identifier
     tables: tuple[TableManifest, ...]
     provenance: SourceProvenance
+    resources: tuple[ResourceManifest, ...] = ()
+    key_references: tuple[KeyReference, ...] = ()
+    diagnostics: tuple[IngestionDiagnostic, ...] = ()
     bindings: tuple[VOIBinding, ...] = ()
+    binding_profile: BindingProfile | None = None
     extensions: Mapping[str, object] = Field(default_factory=dict)
 
     @field_serializer("extensions")
@@ -115,6 +204,9 @@ class DatasetManifest(ContractModel):
         table_map = {table.table_id: table for table in self.tables}
         if len(table_map) != len(self.tables):
             raise ValueError("table identifiers must be unique")
+        resource_ids = tuple(resource.resource_id for resource in self.resources)
+        if len(resource_ids) != len(set(resource_ids)):
+            raise ValueError("resource identifiers must be unique")
         for binding in self.bindings:
             table = table_map.get(binding.table_id)
             if table is None:
@@ -127,6 +219,35 @@ class DatasetManifest(ContractModel):
                 raise ValueError(
                     f"binding references unknown field(s): {sorted(unknown)}"
                 )
+        if self.binding_profile is not None:
+            if self.bindings and self.bindings != self.binding_profile.bindings:
+                raise ValueError("embedded bindings conflicts with binding_profile")
+            for binding in self.binding_profile.bindings:
+                table = table_map.get(binding.table_id)
+                if table is None or not set(binding.field_ids).issubset(
+                    {field.field_id for field in table.fields}
+                ):
+                    raise ValueError(
+                        "binding_profile references an unknown table or field"
+                    )
+        for reference in self.key_references:
+            source = table_map.get(reference.source_table_id)
+            target = table_map.get(reference.target_table_id)
+            if source is None or target is None:
+                raise ValueError("key reference names an unknown table")
+            source_fields = {field.field_id for field in source.fields}
+            target_fields = {field.field_id for field in target.fields}
+            if not set(reference.source_field_ids).issubset(source_fields) or not set(
+                reference.target_field_ids
+            ).issubset(target_fields):
+                raise ValueError("key reference names an unknown field")
+            if tuple(reference.target_field_ids) != target.primary_key:
+                raise ValueError(
+                    "key reference target fields must match its primary_key"
+                )
+        for key in self.extensions:
+            if not _is_namespaced_extension(key):
+                raise ValueError("extensions must use stable namespaced keys")
         return self
 
     def canonical_json(self) -> str:
