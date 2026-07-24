@@ -1,6 +1,11 @@
 """Optional source-format adapters for the normalized VOI input contract."""
 
-from .base import IngestionError, IngestionProvider, SourceAccessPolicy
+from .base import (
+    IngestionError,
+    IngestionProvider,
+    ProviderCapabilities,
+    SourceAccessPolicy,
+)
 from .croissant import CroissantProvider
 from .dataframe import from_dataframe
 from .frictionless import FrictionlessProvider
@@ -11,6 +16,7 @@ __all__ = [
     "FrictionlessProvider",
     "IngestionError",
     "IngestionProvider",
+    "ProviderCapabilities",
     "ProviderRegistry",
     "SourceAccessPolicy",
     "default_registry",

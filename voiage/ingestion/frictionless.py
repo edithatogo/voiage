@@ -15,13 +15,22 @@ from voiage.contracts.normalized_input import (
     TableManifest,
 )
 from voiage.ingestion._tabular import read_csv
-from voiage.ingestion.base import IngestionError, SourceAccessPolicy
+from voiage.ingestion.base import (
+    IngestionError,
+    ProviderCapabilities,
+    SourceAccessPolicy,
+)
 
 
 class FrictionlessProvider:
     """Convert an offline Data Package with exactly one CSV resource."""
 
     provider_id = "frictionless"
+    capabilities = ProviderCapabilities(
+        provider_id=provider_id,
+        format_versions=("1",),
+        media_types=("text/csv",),
+    )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
         """Recognize a Data Package from its resource list."""

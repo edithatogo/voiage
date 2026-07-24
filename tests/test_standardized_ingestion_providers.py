@@ -76,6 +76,24 @@ def test_built_in_providers_normalize_supported_csv_profile(
     assert bundle.table("samples").column_names == ["a", "b"]
 
 
+@pytest.mark.parametrize(
+    ("provider", "version"),
+    [(CroissantProvider(), "1.1"), (FrictionlessProvider(), "1")],
+)
+def test_provider_capabilities_declare_conservative_supported_profiles(
+    provider, version
+) -> None:
+    capabilities = provider.capabilities
+
+    assert capabilities.provider_id == provider.provider_id
+    assert version in capabilities.format_versions
+    assert capabilities.media_types == ("text/csv",)
+    assert capabilities.supports_projection is False
+    assert capabilities.supports_filtering is False
+    assert capabilities.supports_streaming is False
+    assert capabilities.supports_random_access is False
+
+
 def test_source_policy_blocks_path_traversal_and_network(tmp_path) -> None:
     policy = SourceAccessPolicy(tmp_path)
 
