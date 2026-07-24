@@ -10,6 +10,8 @@ import pytest
 import xarray as xr
 
 from voiage.metamodels import (
+    FLAX_AVAILABLE,
+    TINYGP_AVAILABLE,
     BARTMetamodel,
     FlaxMetamodel,
     GAMMetamodel,
@@ -327,8 +329,7 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
         assert "r2" in diagnostics
         assert "rmse" in diagnostics
     except ImportError:
-        # Continue to exercise the independent TinyGP adapter.
-        model = None
+        assert not FLAX_AVAILABLE
 
     # Test with TinyGPMetamodel if available
     try:
@@ -340,8 +341,7 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
         assert "r2" in diagnostics
         assert "rmse" in diagnostics
     except ImportError:
-        # The optional dependency boundary is the expected outcome.
-        model = None
+        assert not TINYGP_AVAILABLE
 
 
 def test_calculate_diagnostics_comprehensive(sample_data) -> None:

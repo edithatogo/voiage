@@ -7,6 +7,8 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from voiage.methods.basic import ExpectedLossResult, expected_loss
+
 _MODULES = (
     "adaptive",
     "adaptive_learning_bandit",
