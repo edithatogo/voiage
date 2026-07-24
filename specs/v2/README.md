@@ -4,6 +4,10 @@
 surface. It supersedes, but does not modify, the immutable v1.0 contract in
 `../v1/`.
 
+`extension-surface-policy.json` and `python-runtime-inventory.json` classify
+the complete v2 Python adapter surface without changing the immutable v1
+snapshots. Runtime inventory checks use these v2 manifests.
+
 v2 makes the scientifically corrected expected value of sample information
 (EVSI) boundary explicit:
 
