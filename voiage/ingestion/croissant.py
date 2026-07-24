@@ -69,6 +69,14 @@ class CroissantProvider:
             raise IngestionError(
                 "Croissant recordSet requires name, field, and distribution contentUrl"
             )
+        if reference.lower().endswith((".zip", ".tar", ".gz", ".tgz", ".bz2", ".xz")):
+            raise IngestionError(
+                "supported Croissant profile does not support archives"
+            )
+        if distribution.get("transform") not in (None, []):
+            raise IngestionError(
+                "supported Croissant profile does not support transformations"
+            )
         table = read_csv(reference, policy)
         manifest_fields = tuple(
             FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
