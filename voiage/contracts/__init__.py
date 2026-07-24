@@ -66,7 +66,9 @@ from .normalized_input import (
 from .perspective import PerspectivePayload, adapt_perspective_result, run_perspective
 from .preparation import (
     DataQualityReport,
+    MethodInputCapability,
     PreparedAnalysisInputs,
+    method_input_capability,
     prepare_analysis_inputs,
 )
 
@@ -95,6 +97,7 @@ __all__ = [
     "KernelRequirements",
     "KeyReference",
     "LegacyBackendAdapter",
+    "MethodInputCapability",
     "NormalizedInputBundle",
     "NumericalPolicy",
     "ParameterSpec",
@@ -120,6 +123,7 @@ __all__ = [
     "canonical_bundle_digest",
     "dispatch_calculation",
     "evaluate_backend",
+    "method_input_capability",
     "prepare_analysis_inputs",
     "run_evpi",
     "run_perspective",
