@@ -204,13 +204,19 @@ def test_registry_supports_a_fake_provider_with_injected_source_policy(
 
 
 def test_base_import_does_not_load_builtin_provider_modules() -> None:
+    script = "; ".join(
+        (
+            "import sys",
+            "import voiage",
+            "assert 'voiage.ingestion.croissant' not in sys.modules",
+            "assert 'voiage.ingestion.frictionless' not in sys.modules",
+        )
+    )
     result = subprocess.run(
         [
             sys.executable,
             "-c",
-            "import sys; import voiage; "
-            "assert 'voiage.ingestion.croissant' not in sys.modules; "
-            "assert 'voiage.ingestion.frictionless' not in sys.modules",
+            script,
         ],
         check=False,
         capture_output=True,
