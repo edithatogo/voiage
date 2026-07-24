@@ -69,8 +69,13 @@
 - [x] Add a fail-closed, append-only approval recorder that binds an accountable
   human decision to the exact candidate digest and refuses stale candidates,
   incomplete evidence, or overwrites. (`c596380`)
-- [ ] Obtain human scientific review of stable definitions and dispositions.
-- [ ] Freeze the v1.1 registry revision and record remaining research gates.
+- [x] Obtain human scientific review of stable definitions and dispositions.
+  (`c7faac41`; `edithatogo (repository maintainer)` approved candidate digest
+  `9f437ea0b0521297b81f66adfac980e537db3c0ebf63823445f3bff2d285c3f9`)
+- [x] Freeze the v1.1 registry revision and record remaining research gates.
+  (`c7faac41`; the separate approval artifact retains implementation,
+  numerical-validation, binding-conformance, release, publication, and
+  external gates)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Final review and validation checkpoint.
