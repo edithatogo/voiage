@@ -19,7 +19,9 @@
 
 - [~] Inventory source, tests, docs, examples, vignettes, schemas, and
   releases; the initial feature-level snapshot is committed, while
-  estimator-by-estimator source/test extraction remains open.
+  estimator-by-estimator source/test extraction remains open. The refreshed
+  search added six previously omitted external records and corrected
+  `decision-security` provenance. (`5dadf91`)
 - [x] Build independent fixtures and feature-to-method mappings. (`6e3ebb1`)
 - [ ] Implement missing justified features without competitor runtime imports.
 - [ ] Add optional migration adapters and reviewed exclusions.
