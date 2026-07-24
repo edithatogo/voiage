@@ -64,7 +64,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ### Croissant ML
 
-- [ ] **P4-T1 / AC-04:** Run `uv lock --upgrade` and
+- [~] **P4-T1 / AC-04:** Run `uv lock --upgrade` and
   `python scripts/dependency_frontier.py . --strict`; review and record the
   Croissant parser dependency and supported-profile decision before changing
   dependencies.
