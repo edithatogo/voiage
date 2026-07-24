@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from types import SimpleNamespace
 
 import polars as pl
@@ -20,6 +22,7 @@ from voiage.contracts import (
 )
 from voiage.ingestion import (
     IngestionError,
+    ProviderCapabilities,
     SourceAccessPolicy,
     default_registry,
     discover_entry_point_providers,
@@ -164,6 +167,63 @@ def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
     invalid.write_text("{}", encoding="utf-8")
     with pytest.raises(IngestionError, match="exactly one"):
         ProviderRegistry().ingest(invalid)
+
+
+def test_registry_supports_a_fake_provider_with_injected_source_policy(
+    tmp_path,
+) -> None:
+    source_path = tmp_path / "example.json"
+    source_path.write_text('{"provider": "fake"}', encoding="utf-8")
+    supplied_policy = SourceAccessPolicy(tmp_path)
+    observed: list[SourceAccessPolicy] = []
+
+    class FakeProvider:
+        provider_id = "fake"
+        capabilities = ProviderCapabilities(
+            provider_id="fake",
+            format_versions=("1",),
+            media_types=("application/json",),
+        )
+
+        def can_handle(self, descriptor: dict[str, object]) -> bool:
+            return descriptor.get("provider") == "fake"
+
+        def ingest(
+            self, descriptor_path, *, policy: SourceAccessPolicy
+        ) -> NormalizedInputBundle:
+            assert descriptor_path == source_path
+            observed.append(policy)
+            return from_dataframe(pl.DataFrame({"value": [1]}), dataset_id="fake")
+
+    bundle = ProviderRegistry((FakeProvider(),)).ingest(
+        source_path, policy=supplied_policy
+    )
+
+    assert bundle.manifest.dataset_id == "fake"
+    assert observed == [supplied_policy]
+
+
+def test_base_import_does_not_load_builtin_provider_modules() -> None:
+    script = "; ".join(
+        (
+            "import sys",
+            "import voiage",
+            "assert 'voiage.ingestion.croissant' not in sys.modules",
+            "assert 'voiage.ingestion.frictionless' not in sys.modules",
+        )
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            script,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
 
 
 def test_entry_point_discovery_is_opt_in_and_allow_listed() -> None:
