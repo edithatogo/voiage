@@ -128,9 +128,7 @@ def _bootstrap_intervals(
                 REFERENCE_WTP * sampled_effect - sampled_cost,
             ]
         )
-        estimates["probability_preferred"][replicate] = np.mean(
-            sampled_nb[:, 1] > 0.0
-        )
+        estimates["probability_preferred"][replicate] = np.mean(sampled_nb[:, 1] > 0.0)
         estimates["evpi"][replicate] = evpi(sampled_nb)
         estimates["evppi_effect"][replicate] = evppi(
             sampled_nb,
