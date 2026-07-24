@@ -14,6 +14,7 @@ REGISTRY = LANDSCAPE / "registry.json"
 METHODS = LANDSCAPE / "methods.json"
 EVIDENCE = LANDSCAPE / "method-evidence.json"
 IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
+UPSTREAM_EVIDENCE = LANDSCAPE / "upstream-feature-evidence.json"
 OUTPUT = LANDSCAPE / "gap-report.json"
 
 IMPLEMENTATION_TRACKS = {
@@ -37,6 +38,10 @@ def render() -> str:
             "records"
         ]
     }
+    upstream_evidence = {
+        (item["tool_id"], item["feature_id"]): item
+        for item in json.loads(UPSTREAM_EVIDENCE.read_text(encoding="utf-8"))["records"]
+    }
     feature_states: Counter[str] = Counter()
     affected_tools: defaultdict[str, set[str]] = defaultdict(set)
     feature_gaps: list[dict[str, object]] = []
@@ -44,6 +49,7 @@ def render() -> str:
         if tool["scope"] != "external":
             continue
         for feature in tool["features"]:
+            upstream = upstream_evidence[(tool["id"], feature["id"])]
             feature_states[feature["parity_state"]] += 1
             if feature["parity_state"] in {"native", "equivalent"}:
                 continue
@@ -56,6 +62,8 @@ def render() -> str:
                     "parity_state": feature["parity_state"],
                     "method_ids": feature["method_ids"],
                     "evidence": feature["evidence"],
+                    "upstream_extraction_state": upstream["extraction_state"],
+                    "upstream_limitations": upstream["limitations"],
                     "voiage_evidence": feature["voiage_evidence"],
                 }
             )

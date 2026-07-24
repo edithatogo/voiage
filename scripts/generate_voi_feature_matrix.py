@@ -46,6 +46,10 @@ def _render() -> str:
         item["method_id"]: item
         for item in _load(LANDSCAPE / "implementation-evidence.json")["records"]
     }
+    upstream_evidence = {
+        (item["tool_id"], item["feature_id"]): item
+        for item in _load(LANDSCAPE / "upstream-feature-evidence.json")["records"]
+    }
     tools = sorted(
         registry["tools"], key=lambda item: (item["ecosystem"], item["name"].lower())
     )
@@ -109,12 +113,16 @@ def _render() -> str:
             "",
             "## Observed features and VOIAGE disposition",
             "",
-            "| Tool | Observed feature | Kind | Canonical methods | Disposition | VOIAGE evidence or gap |",
-            "| --- | --- | --- | --- | --- | --- |",
+            "| Tool | Observed feature | Kind | Canonical methods | Upstream extraction | Disposition | VOIAGE evidence or gap |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
         ]
     )
     for tool in tools:
         for feature in sorted(tool["features"], key=lambda item: item["id"]):
+            upstream = upstream_evidence.get(
+                (tool["id"], feature["id"]),
+                {"extraction_state": "internal-reference"},
+            )
             label = f"[{_cell(feature['label'])}]({_cell(feature['evidence'][0])})"
             lines.append(
                 "| "
@@ -124,6 +132,7 @@ def _render() -> str:
                         label,
                         _cell(feature["kind"]),
                         ", ".join(f"`{item}`" for item in feature["method_ids"]),
+                        f"`{_cell(upstream['extraction_state'])}`",
                         f"`{_cell(feature['parity_state'])}`",
                         _cell(feature["voiage_evidence"]),
                     ]

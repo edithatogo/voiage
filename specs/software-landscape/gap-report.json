@@ -33,6 +33,8 @@
       "evidence": [
         "https://docs.analytica.com/"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Core estimands exist, but proprietary workflow and numerical details are not reproducible."
     },
     {
@@ -47,6 +49,8 @@
         "https://github.com/mal84emma/BayesCal-VOI",
         "https://doi.org/10.1016/j.jval.2024.10.788"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOIAGE has an experimental calibration-study estimand, but not an independently reproduced Gaussian-process calibration estimator or reference fixture."
     },
     {
@@ -62,6 +66,8 @@
       "evidence": [
         "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Only literature-described behavior is recorded."
     },
     {
@@ -75,6 +81,8 @@
       "evidence": [
         "https://botorch.readthedocs.io/en/stable/acquisition.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "No stable BALD estimator yet; BoTorch remains optional."
     },
     {
@@ -87,6 +95,8 @@
       "evidence": [
         "https://botorch.readthedocs.io/en/stable/acquisition.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Backend-neutral value-of-computation/acquisition contract remains planned."
     },
     {
@@ -100,6 +110,8 @@
       "evidence": [
         "https://botorch.readthedocs.io/en/stable/acquisition.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Contracts and deterministic fixtures remain planned."
     },
     {
@@ -114,6 +126,8 @@
       "evidence": [
         "https://emukit.github.io/"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Decision-value contracts are planned; generic model fitting remains delegated."
     },
     {
@@ -128,6 +142,8 @@
         "https://github.com/feralaes/VOI-Gaussian-Approximation",
         "https://doi.org/10.1177/0272989X17715627"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Regression estimators exist, but the published Gaussian-approximation algorithm and independent reference fixture have not been reproduced."
     },
     {
@@ -141,6 +157,8 @@
       "evidence": [
         "https://github.com/lsandig/Kirstine.jl"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "General design optimization is adjacent; VOIAGE needs decision-utility linkage and Julia conformance."
     },
     {
@@ -158,6 +176,8 @@
       "evidence": [
         "https://github.com/mahmood726-cyber/metavoi"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "The component methods exist or are planned, but the tool's posterior, heterogeneity, optimal-sample and certainty-mapping behavior lacks independent reproduction."
     },
     {
@@ -171,6 +191,8 @@
       "evidence": [
         "https://github.com/NatLabRockies/Value_of_Information_App"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Generic EVPI and EVSI are available, but the imperfect geophysical-signal likelihood workflow and public domain fixture are not yet reproduced."
     },
     {
@@ -184,6 +206,8 @@
       "evidence": [
         "https://docs.pyro.ai/en/stable/contrib.oed.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional."
     },
     {
@@ -199,6 +223,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Net benefit, CEAC and CEAF exist; expected-loss calculations, BCEA-wide reporting and shared result semantics remain gaps."
     },
     {
@@ -214,6 +240,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Static Python plots exist; interactive reporting is not yet equivalent."
     },
     {
@@ -229,6 +257,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/dampack/dampack.pdf"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "CEAC, CEAF and dominance exist; full sensitivity workflow remains incomplete."
     },
     {
@@ -243,6 +273,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/dampack/vignettes/voi.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Estimands exist; dampack Gaussian-approximation equivalence needs fixtures."
     },
     {
@@ -257,6 +289,8 @@
       "evidence": [
         "https://search.r-project.org/CRAN/refmans/decisionSupport/html/00Index.html"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "EVPI/EVPPI exist; welfare-decision input and plotting parity require fixtures."
     },
     {
@@ -269,6 +303,8 @@
       "evidence": [
         "https://aphp.github.io/heemod/"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Independent EVPI exists; optional import normalization exists and requires expanded fixtures."
     },
     {
@@ -282,6 +318,8 @@
       "evidence": [
         "https://aphp.github.io/heemod/"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "General model construction is delegated; posterior/model outputs remain accepted inputs."
     },
     {
@@ -299,6 +337,8 @@
       "evidence": [
         "https://search.r-project.org/CRAN/refmans/hesim/html/cea.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Individual calculations exist; integrated subgroup result parity is not yet demonstrated."
     },
     {
@@ -316,6 +356,8 @@
         "https://github.com/zhipeiwang/MetaNB",
         "https://arxiv.org/abs/2607.02321"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOIAGE has component estimands, but it lacks the global-versus-local cluster contract, prevalence EVPPI and trivariate meta-analytic fixture."
     },
     {
@@ -330,6 +372,8 @@
         "https://cran.r-project.org/package=predtools",
         "https://doi.org/10.1177/0272989X231178317"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Validation VOI exists experimentally, but the bivariate-normal moment estimator and an independent prediction-model fixture remain unimplemented."
     },
     {
@@ -343,6 +387,8 @@
       "evidence": [
         "https://prioritizr.github.io/surveyvoi/"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Portfolio VOI exists experimentally, but spatial survey design, detection models and exact-versus-heuristic conformance remain unimplemented."
     },
     {
@@ -357,6 +403,8 @@
         "https://prioritizr.github.io/surveyvoi/",
         "https://doi.org/10.1111/1365-2664.14309"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "The generic DecisionProblemV2 can represent surveys, detection error and acquisition cost, but no conservation-survey estimator or fixture is implemented."
     },
     {
@@ -369,6 +417,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "GAM/random-forest/BART-style metamodel surfaces exist, but estimator-by-estimator equivalence is not yet demonstrated."
     },
     {
@@ -383,6 +433,8 @@
       "evidence": [
         "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Regression and moment-based estimators exist; importance-sampling equivalence remains planned."
     },
     {
@@ -396,6 +448,8 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOI curves exist; tidy result and expected-loss projection require conformance evidence."
     },
     {
@@ -410,6 +464,8 @@
       "evidence": [
         "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Literature triage only; current service behavior was not verified."
     },
     {
@@ -425,6 +481,8 @@
       "evidence": [
         "https://savi.sheffield.ac.uk/"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Core analysis exists; population scaling, CSV migration and grouped regression fixtures are incomplete."
     },
     {
@@ -437,6 +495,8 @@
       "evidence": [
         "https://savi.sheffield.ac.uk/"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "No named payer-burden result contract yet."
     },
     {
@@ -449,6 +509,8 @@
       "evidence": [
         "https://savi.sheffield.ac.uk/"
       ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Reporting exists but not equivalent multi-format output."
     },
     {
@@ -462,6 +524,8 @@
       "evidence": [
         "https://scikit-activeml.github.io/latest/"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOIAGE will value information actions, not duplicate a general active-learning toolkit."
     },
     {
@@ -478,6 +542,8 @@
       "evidence": [
         "https://pypi.org/pypi/trd-cea-toolkit/json"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures."
     },
     {
@@ -492,6 +558,8 @@
       "evidence": [
         "https://pypi.org/pypi/trd-cea-toolkit/json"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced."
     },
     {
@@ -507,6 +575,8 @@
       "evidence": [
         "https://www.treeage.com/"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "VOIAGE consumes decision outputs and does not imitate the proprietary model editor."
     },
     {
@@ -521,6 +591,8 @@
       "evidence": [
         "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
       ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Literature triage only; current service behavior was not verified."
     },
     {
@@ -537,6 +609,8 @@
       "evidence": [
         "https://pypi.org/project/vop-poc-nz/"
       ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
       "voiage_evidence": "Current perspective module covers a subset; C01/C02 conformance remains the controlling contract."
     }
   ],

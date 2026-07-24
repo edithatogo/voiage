@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).parents[1]
 LANDSCAPE = ROOT / "specs" / "software-landscape"
@@ -22,6 +22,8 @@ ADJACENT_METHODS_SCHEMA = LANDSCAPE / "adjacent-method-dispositions.schema.json"
 GAP_REPORT = LANDSCAPE / "gap-report.json"
 PARITY_FIXTURES = LANDSCAPE / "parity-fixtures.json"
 IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
+UPSTREAM_EVIDENCE = LANDSCAPE / "upstream-feature-evidence.json"
+UPSTREAM_EVIDENCE_SCHEMA = LANDSCAPE / "upstream-feature-evidence.schema.json"
 DECISION_PROBLEM_SCHEMA = (
     ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
 )
@@ -331,6 +333,58 @@ def test_generated_method_implementation_evidence_is_current() -> None:
     assert isinstance(evidence, dict)
     assert all(record["implementation_paths"] for record in evidence["records"])
     assert all(record["test_paths"] for record in evidence["records"])
+
+
+def test_generated_upstream_feature_evidence_is_current_and_complete() -> None:
+    """Every external feature must expose what upstream artifacts were reviewed."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "generate_upstream_feature_evidence.py"),
+            "--check",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
+
+    registry = _read_json(REGISTRY)
+    evidence = _read_json(UPSTREAM_EVIDENCE)
+    schema = _read_json(UPSTREAM_EVIDENCE_SCHEMA)
+    assert isinstance(registry, dict)
+    assert isinstance(evidence, dict)
+    assert isinstance(schema, dict)
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(evidence)
+
+    expected = {
+        (tool["id"], feature["id"])
+        for tool in registry["tools"]
+        if tool["scope"] == "external"
+        for feature in tool["features"]
+    }
+    actual = {
+        (record["tool_id"], record["feature_id"]) for record in evidence["records"]
+    }
+    assert actual == expected
+    assert len(actual) == len(evidence["records"])
+    for record in evidence["records"]:
+        assert record["documentation_artifacts"]
+        if (
+            not record["source_artifacts"]
+            or not record["test_artifacts"]
+            or not record["example_artifacts"]
+            or not record["schema_artifacts"]
+        ):
+            assert record["limitations"] != "None recorded."
+        if record["source_artifacts"]:
+            assert record["reviewed_revision"]
+            assert all(
+                record["reviewed_revision"] in artifact
+                for artifact in record["source_artifacts"]
+            )
 
 
 def test_generated_gap_report_is_current_and_routed() -> None:

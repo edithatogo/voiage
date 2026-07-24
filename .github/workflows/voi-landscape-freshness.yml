@@ -29,5 +29,6 @@ jobs:
         run: |
           python scripts/generate_method_evidence_registry.py --check
           python scripts/generate_method_implementation_evidence.py --check
+          python scripts/generate_upstream_feature_evidence.py --check
           python scripts/generate_voi_gap_report.py --check
           python scripts/generate_voi_feature_matrix.py --check

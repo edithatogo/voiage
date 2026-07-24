@@ -12,6 +12,9 @@ It records observable capabilities rather than marketing parity.
 - `implementation-evidence.json` is generated from reviewed implementation and
   test paths and fails if a method is called `native` without executable
   repository evidence.
+- `upstream-feature-evidence.json` and its schema record the reviewed upstream
+  source, tests, documentation, examples, schemas, version, and limitations
+  for every external feature without executing competitor code.
 - `adjacent-method-dispositions.json` records why neighboring concepts are
   mapped to a canonical method, retained as related analyses/applications,
   admitted as a new method, or excluded from the VOI core.
