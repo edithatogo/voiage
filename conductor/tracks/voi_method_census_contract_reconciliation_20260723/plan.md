@@ -23,18 +23,19 @@
 - [~] Verify primary citations and classify estimand versus estimator.
 - [~] Reconcile code, schemas, maturity, docs, roadmap, and fixtures.
 - [x] Generate capability and method matrices. (`2630e39`)
-- [ ] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
+- [x] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
   robust EIG, validation-study EVSI, and other genuinely distinct estimands
-  found by the search; do not promote aliases as new methods.
-- [ ] Triage Blackwell informativeness, value of signals, clairvoyance, control
+  found by the search; do not promote aliases as new methods. (`6e3ebb1`)
+- [x] Triage Blackwell informativeness, value of signals, clairvoyance, control
   and flexibility, rational inattention, Bayesian persuasion, strategic
   information design, causal discovery, model discrimination, and value of
   measurement or test accuracy as VOI, related analysis, application, or
-  reviewed exclusion.
-- [ ] Define the canonical Decision Problem interchange contract and map every
-  included estimand and estimator to its required fields.
-- [ ] Reconcile VOP against preference, equity, heterogeneity, scenario, and
+  reviewed exclusion. (`6e3ebb1`)
+- [x] Define the canonical Decision Problem interchange contract and map every
+  included estimand and estimator to its required fields. (`6e3ebb1`)
+- [x] Reconcile VOP against preference, equity, heterogeneity, scenario, and
   robust-decision methods so perspective is not collapsed into those concepts.
+  (`6e3ebb1`)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -44,11 +45,10 @@
 ## Phase 3: Review and freeze
 
 - [ ] Run registry, citation, SourceRight, docs, and full repository gates.
-- [~] Add citation-identifier validation and an evidence-preserving quarterly
-  refresh job with a 93-day freshness limit. (source identifiers and complete
-  method coverage landed in `c4c4fab`; scheduled refresh remains open)
-- [ ] Add a missed-library/missed-method contribution template and duplicate-
-  resistant triage automation.
+- [x] Add citation-identifier validation and an evidence-preserving quarterly
+  refresh job with a 93-day freshness limit. (`6e3ebb1`)
+- [x] Add a missed-library/missed-method contribution template and duplicate-
+  resistant triage automation. (`6e3ebb1`)
 - [ ] Obtain human scientific review of stable definitions and dispositions.
 - [ ] Freeze the v1.1 registry revision and record remaining research gates.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
@@ -63,3 +63,6 @@
   sources and an explicit review state. (`c4c4fab`)
 - [x] Keep repository-defined VOP and LLM/agent applications visibly separate
   from primary-verified established methods. (`c4c4fab`)
+- [x] Add executable required-field mappings after checkpoint review found that
+  a boundary label alone did not satisfy the DecisionProblemV2 mapping claim.
+  (`6e3ebb1`)
