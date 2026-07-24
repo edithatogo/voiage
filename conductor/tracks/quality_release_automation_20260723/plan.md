@@ -18,7 +18,7 @@
 
 - [ ] Implement cross-platform, Rust, binding, example, ML, provenance, and
   freshness workflows.
-- [~] Make Renovate the sole version-update bot; validate its configuration,
+- [x] Make Renovate the sole version-update bot; validate its configuration,
   dependency dashboard, supported managers, vulnerability bypass, Action
   pinning, stability checks, grouping, concurrency, human-review boundaries,
   lock maintenance, and source-pinned submodule updates.
@@ -31,10 +31,10 @@
   secret scanning, push protection, private vulnerability reporting,
   non-provider and validity checks where supported, SBOM, provenance,
   attestation, license, malware/OSV, and release dry-run gates.
-- [ ] Upgrade or constrain JupyterLab to a patched release and close open
+- [~] Upgrade or constrain JupyterLab to a patched release and close open
   Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
   the two high-severity XSS alerts block release.
-- [ ] Require the reproducible-build/SBOM job in the active main ruleset and
+- [x] Require the reproducible-build/SBOM job in the active main ruleset and
   reconcile required contexts against actual hosted check names without
   weakening signed commits, linear history, thread resolution, or strict
   up-to-date checks.
@@ -50,6 +50,22 @@
 - [ ] Automated review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 2: Automation implementation'
   (Protocol in workflow.md).
+
+### Phase 2 implementation evidence
+
+- [x] Commit `b03d9a85` removes Dependabot version-update configuration,
+  validates the Renovate policy and all detected managers, upgrades JupyterLab
+  to 4.6.2, strengthens dependency review to moderate severity, and records
+  the required SBOM ruleset context.
+- [x] Review fix in `b03d9a85`: constrain Ruff below the unreviewed 0.16
+  breaking frontier after the upgrade rehearsal exposed new lint semantics.
+- [x] Review fix in `b03d9a85`: normalize the Astro `/voiage` deployment base
+  in documentation-link validation and add regression coverage.
+- [~] Dependabot alerts #64--#68 close only after `b03d9a85` reaches the
+  default branch and GitHub rescans the patched JupyterLab lock.
+- [ ] Renovate App activation, its dependency dashboard, and one checked test
+  PR remain external GitHub evidence before Dependabot security updates can be
+  disabled.
 
 ## Phase 3: Staged release evidence
 
