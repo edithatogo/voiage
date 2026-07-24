@@ -149,7 +149,8 @@ editors or reviewers.
 
 The author acknowledges the maintainers of the statistical,
 scientific-computing, packaging, and research-software infrastructure on which
-this work depends. No external funding is declared for this submission.
+this work depends. No external funding is declared for this submission. The
+author declares no competing interests.
 
 # References
 

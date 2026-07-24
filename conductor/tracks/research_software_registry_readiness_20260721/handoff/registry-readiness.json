@@ -3,8 +3,8 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-24T00:46:29Z",
-  "next_action": "Obtain the non-author installation and research-use evidence tracked in issue #471, record the permanent arXiv identifier after announcement, confirm the JOSS funding and conflict statements, and then perform the selected direct JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
+  "checked_at": "2026-07-24T02:36:19Z",
+  "next_action": "Obtain the non-author installation and research-use evidence tracked in issue #471, record the permanent arXiv identifier after announcement, and then perform the selected direct JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
   "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. The arXiv dashboard still reports submission 7861466 as submitted without a permanent identifier. Independent non-author validation, arXiv announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v1.0.0",
@@ -38,7 +38,7 @@
     "verification": "Software Heritage reports a full visit and snapshot for the repository origin."
   },
   "joss_submission_evidence": {
-    "status": "repository_ready_for_author_confirmation",
+    "status": "repository_ready_pending_external_evidence",
     "files": ["paper.md", "paper.bib", "codemeta.json", "CITATION.cff"],
     "readiness_document": "docs/release/joss-submission-readiness.md",
     "validator": "scripts/validate_joss.py",
@@ -57,8 +57,7 @@
       "protocol": "docs/release/joss-independent-validation.md",
       "boundary": "The public repository history currently contains the author and automated accounts only. Bots, AI agents, and same-author integrations are not independent community engagement."
     },
-    "remaining_author_gates": [
-      "confirm funding and conflicts of interest",
+    "remaining_submission_gates": [
       "obtain attributable or editor-verifiable non-author validation",
       "perform the selected direct authenticated JOSS submission"
     ],
@@ -103,7 +102,7 @@
       "runner": "local Git worktree",
       "status": "passed",
       "artifact": "paper.md, paper.bib, CITATION.cff, codemeta.json, validator, and hosted workflow",
-      "details": "JOSS draft paper and metadata are prepared; funding confirmation, route selection, PDF review, and authenticated submission remain."
+      "details": "JOSS draft paper and metadata are prepared; the author confirmed metadata, funding, competing-interest, and AI-disclosure statements on 24 July 2026. Independent validation and authenticated submission remain."
     },
     {
       "command": "review RRID software registration guidance",

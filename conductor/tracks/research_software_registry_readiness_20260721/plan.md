@@ -44,6 +44,8 @@
   (`c37c78e`)
 - [x] Select direct JOSS review for the Rust-centred polyglot package and
   publish a bounded independent-validation protocol. (issue #471)
+- [~] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
+  and trigger hosted JOSS validation for either metadata file.
 - [~] Obtain attributable non-author installation and research-use evidence
   before direct JOSS submission. ([Issue
   #471](https://github.com/edithatogo/voiage/issues/471); external participant
@@ -69,8 +71,9 @@
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
-  independent validation, funding and conflict confirmation, authenticated
-  submission, and editorial review remain human or external.
+  independent validation, authenticated submission, and editorial review remain
+  human or external. The author confirmed funding, competing-interest,
+  affiliation, ORCID, and JOSS AI-disclosure statements on 24 July 2026.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
 - GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
   registry subissues; #312 is the native arXiv subissue of #299 and is present
@@ -78,16 +81,17 @@
   #299.
 - JOSS submission package: draft-ready with `paper.md`, `paper.bib`,
   `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
-  Author affiliations and ORCID are recorded; the funding and conflict
-  statements still require author confirmation. Concrete developer-led
-  research use is stated without claiming independent adoption, and issue #471
-  records the current single-author community-engagement evidence gate.
+  Author affiliations, ORCID, funding, competing-interest, and AI-disclosure
+  statements are confirmed. Concrete developer-led research use is stated
+  without claiming independent adoption, and issue #471 records the current
+  single-author community-engagement evidence gate.
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
   cleaner/collector variants. Authenticated submission `7861466` is complete;
   announcement and the permanent arXiv identifier remain external.
-- JOSS submission is explicitly deferred for this execution; no JOSS submission
-  or editorial action is claimed.
+- Direct JOSS submission is authorised by the author but remains unperformed
+  until issue #471 contains genuine non-author evidence and the author-preferred
+  arXiv announcement/permanent-identifier boundary is resolved.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;
   arXiv timing is therefore not a JOSS blocker.
