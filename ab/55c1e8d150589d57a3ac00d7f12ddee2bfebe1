@@ -1,0 +1,7 @@
+Task: disposition remaining literature-census method families
+
+Summary: Reclassified all remaining triage rows using method-specific authoritative guidance or explicit contract-synthesis status. The registry now has 41 source-verified and 19 contract-verified records, with zero unresolved triage states; promotion gates remain independent and explicit.
+
+Why: Completing scientific classification must not conflate established estimands with VOIAGE application/synthesis contracts.
+
+Verification: 38 focused tests passed; registry, gap-report, and Astro matrix generation are current; Ruff check and format passed.
