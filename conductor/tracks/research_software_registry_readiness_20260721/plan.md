@@ -44,8 +44,8 @@
   (`c37c78e`)
 - [x] Select direct JOSS review for the Rust-centred polyglot package and
   publish a bounded independent-validation protocol. (issue #471)
-- [~] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
-  and trigger hosted JOSS validation for either metadata file.
+- [x] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
+  and trigger hosted JOSS validation for either metadata file. (`2ba6e854`)
 - [~] Obtain attributable non-author installation and research-use evidence
   before direct JOSS submission. ([Issue
   #471](https://github.com/edithatogo/voiage/issues/471); external participant
