@@ -3034,7 +3034,7 @@
     {
       "track_id": "standardized-dataset-ingestion_20260723",
       "path": "conductor/tracks/standardized-dataset-ingestion_20260723",
-      "lifecycle": "proposed",
+      "lifecycle": "active",
       "issue": {
         "number": 325,
         "url": "https://github.com/edithatogo/voiage/issues/325",
@@ -3057,17 +3057,17 @@
         {
           "number": 334,
           "url": "https://github.com/edithatogo/voiage/pull/334",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "track-source-branch"
           ]
         }
       ],
-      "pull_request_evidence": "source_pull_request",
+      "pull_request_evidence": "evidenced",
       "source_pull_request": {
         "number": 334,
         "url": "https://github.com/edithatogo/voiage/pull/334",
-        "state": "open"
+        "state": "merged"
       }
     },
     {
