@@ -22,6 +22,7 @@ from voiage.ingestion import (
     IngestionError,
     SourceAccessPolicy,
     default_registry,
+    discover_entry_point_providers,
     from_dataframe,
 )
 from voiage.ingestion._tabular import digest_file, read_csv
@@ -163,6 +164,71 @@ def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
     invalid.write_text("{}", encoding="utf-8")
     with pytest.raises(IngestionError, match="exactly one"):
         ProviderRegistry().ingest(invalid)
+
+
+def test_entry_point_discovery_is_opt_in_and_allow_listed() -> None:
+    loaded: list[str] = []
+
+    class EntryPoint:
+        def __init__(self, name: str, value: object) -> None:
+            self.name = name
+            self._value = value
+
+        def load(self) -> object:
+            loaded.append(self.name)
+            return self._value
+
+    allowed = EntryPoint("example-provider", CroissantProvider())
+    ignored = EntryPoint("untrusted-provider", FrictionlessProvider())
+    resolver_calls: list[str] = []
+
+    def resolver(*, group: str):
+        resolver_calls.append(group)
+        return (ignored, allowed)
+
+    assert discover_entry_point_providers(allowlist=(), resolver=resolver) == ()
+    assert resolver_calls == []
+    assert loaded == []
+
+    providers = discover_entry_point_providers(
+        allowlist=("example-provider",), resolver=resolver
+    )
+
+    assert resolver_calls == ["voiage.ingestion.providers"]
+    assert loaded == ["example-provider"]
+    assert providers == (allowed._value,)
+
+
+def test_entry_point_discovery_rejects_missing_invalid_and_failing_providers() -> None:
+    class EntryPoint:
+        name = "example-provider"
+
+        def __init__(self, value: object, *, fail: bool = False) -> None:
+            self.value = value
+            self.fail = fail
+
+        def load(self) -> object:
+            if self.fail:
+                raise RuntimeError("private source details")
+            return self.value
+
+    def resolver(*, group: str):
+        assert group == "voiage.ingestion.providers"
+        return (EntryPoint(object()),)
+
+    with pytest.raises(IngestionError, match="does not satisfy"):
+        discover_entry_point_providers(allowlist=("example-provider",), resolver=resolver)
+    with pytest.raises(IngestionError, match="unavailable"):
+        discover_entry_point_providers(allowlist=("missing",), resolver=resolver)
+
+    def failing_resolver(*, group: str):
+        return (EntryPoint(CroissantProvider(), fail=True),)
+
+    with pytest.raises(IngestionError, match="could not be loaded") as error:
+        discover_entry_point_providers(
+            allowlist=("example-provider",), resolver=failing_resolver
+        )
+    assert "private source details" not in str(error.value)
 
 
 def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
