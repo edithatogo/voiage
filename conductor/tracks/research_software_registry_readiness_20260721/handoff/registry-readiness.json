@@ -3,8 +3,8 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-23T23:08:20Z",
-  "next_action": "Record the permanent arXiv identifier after announcement, confirm the JOSS funding statement and direct-versus-pyOpenSci route, review the hosted JOSS PDF, and then perform the authenticated JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
+  "checked_at": "2026-07-24T00:31:21Z",
+  "next_action": "Record the permanent arXiv identifier after announcement, confirm the JOSS funding statement and direct-versus-pyOpenSci route, and then perform the authenticated JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
   "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. ArXiv announcement, a permanent arXiv identifier, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v1.0.0",
@@ -53,7 +53,6 @@
     "remaining_author_gates": [
       "confirm funding and conflicts of interest",
       "choose direct JOSS or pyOpenSci-first review",
-      "review the hosted Open Journals PDF",
       "perform the authenticated JOSS submission"
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
@@ -76,7 +75,9 @@
     "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
     "https://docs.softwareheritage.org/user/faq/",
     "https://www.rrids.org/new-page-1",
-    "https://joss.readthedocs.io/en/latest/paper.html"
+    "https://joss.readthedocs.io/en/latest/paper.html",
+    "https://pubmed.ncbi.nlm.nih.gov/10537899/",
+    "https://pubmed.ncbi.nlm.nih.gov/15090106/"
   ],
   "commands": [
     {
@@ -120,6 +121,13 @@
       "status": "passed_with_documented_boundaries",
       "artifact": "Python 1.0.0, Rust core, R source package, and Julia source binding",
       "details": "The primary PyPI package is clean-installable. Rust tests pass outside the separately wheel-tested PyO3 crate. R passes with two non-error notes. Julia passes against the built FFI library but still needs artifact/JLL packaging for General."
+    },
+    {
+      "command": "render and visually inspect the Open Journals PDF; reconcile foundational DOI metadata against PubMed",
+      "runner": "hosted artifact and authoritative source audit",
+      "status": "passed_with_corrections",
+      "artifact": "three-page Open Journals review PDF and corrected paper.bib",
+      "details": "The PDF has no clipping, overlap, broken glyphs, or unreadable references. Two mismatched DOI records were replaced with authoritative Claxton 1999 and Ades, Lu, and Claxton 2004 metadata."
     }
   ]
 }

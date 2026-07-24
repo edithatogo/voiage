@@ -70,7 +70,7 @@ reimplementations.
 # State of the field
 
 VOI analysis is well established in decision analysis and health economics
-[@claxton1999value; @bradley1993expected].
+[@claxton1999irrelevance; @ades2004evsi].
 The R package `voi` provides EVPI, EVPPI, EVSI, and ENBS through several
 computational methods [@voi_cran2024], while `BCEA` provides a mature Bayesian
 cost-effectiveness workflow and graphical analysis [@green2022bcea]. SAVI
