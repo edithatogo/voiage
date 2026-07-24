@@ -2,10 +2,11 @@
 
 ## Purpose
 
-The Journal of Open Source Software (JOSS) evaluates whether research software
-has credible research use and, for a single-author project, evidence of
-community engagement. Automated agents, dependency bots, and another repository
-maintained by the same author are not independent evidence.
+The Journal of Open Source Software (JOSS) screens for demonstrated research
+use. Non-author issues, pull requests, discussions, installation reports, and
+research use are strong positive signals for a single-author project.
+Automated agents, dependency bots, and another repository maintained by the
+same author are not independent evidence.
 
 This protocol gives a non-author researcher or research-software practitioner a
 small, reproducible exercise. It does not ask for an endorsement. Problems,
@@ -22,14 +23,14 @@ Use Python 3.12, 3.13, or 3.14 in a new environment:
 python -m venv voiage-joss-review
 source voiage-joss-review/bin/activate
 python -m pip install --upgrade pip
-python -m pip install voiage==1.0.0
+python -m pip install voiage==2.0.0
 python -c "import voiage; print(voiage.__version__)"
 ```
 
 On Windows, activate the environment with
 `voiage-joss-review\Scripts\activate` instead.
 
-The final command should report `1.0.0`.
+The final command should report `2.0.0`.
 
 ## Core calculation
 
@@ -62,10 +63,32 @@ The expected result is:
 EVPI: 0.667
 ```
 
-The participant should then follow one worked example relevant to their
-interests from the [voiage documentation](https://edithatogo.github.io/voiage/)
-and record whether the assumptions, units, inputs, result, and limitations were
-understandable.
+## Study-value exercise
+
+The participant should check out the reviewed release and run the paper's
+declared health example:
+
+```console
+git clone https://github.com/edithatogo/voiage.git
+cd voiage
+git checkout v2.0.0
+uv run --extra plotting python scripts/generate_paper_health_example.py
+```
+
+The participant should compare
+`paper/data/synthetic_health_example_summary.csv` and
+`paper/data/synthetic_health_example_results.csv` with the worked example in
+`paper.md`. In particular, they should report whether they can identify:
+
+- the uncertain health effect and programme cost;
+- which quantity the proposed study informs;
+- the outcome variance, allocation, and candidate sample sizes;
+- the population, time horizon, discount rate, uptake, delay, and study costs;
+- the meaning of EVPI, EVPPI, EVSI, and ENBS; and
+- why the two ENBS scenarios cross zero at different sample sizes.
+
+Run this exercise only after the public `v2.0.0` tag resolves to the revision
+identified in the JOSS paper and its release evidence.
 
 ## Evidence to report
 
@@ -76,7 +99,8 @@ Please comment on issue #471 or open a linked issue with:
 - operating system, processor architecture, Python version, and installation
   command;
 - whether installation and the core calculation succeeded;
-- the second example attempted and its outcome;
+- whether the study-value exercise ran, which outputs were inspected, and
+  whether each listed assumption and result was understandable;
 - any unclear terminology, assumptions, warnings, or documentation;
 - any defect, unexpected result, or missing prerequisite;
 - whether author intervention was needed.

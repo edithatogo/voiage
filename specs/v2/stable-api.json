@@ -1,0 +1,308 @@
+{
+  "contract_version": "2.0.0",
+  "status": "normative",
+  "supersedes": "../v1/stable-api.json",
+  "release_gate": "runtime-and-binding-conformance-required",
+  "python": {
+    "versions": [
+      "3.12",
+      "3.13",
+      "3.14"
+    ],
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "reference_facade": true,
+    "authoritative_numerics": "rust-for-shared-kernels"
+  },
+  "numerics": {
+    "default_absolute_tolerance": 1e-10,
+    "default_relative_tolerance": 1e-8,
+    "seed_type": "unsigned-64-bit-integer",
+    "random_stream": "local-numpy-generator",
+    "global_rng_access": "forbidden",
+    "same_seed_same_dependency_set_same_platform": "bitwise",
+    "cross_platform": "within-declared-tolerance",
+    "nan_policy": "reject-unless-method-explicitly-documents-support",
+    "infinity_policy": "reject"
+  },
+  "errors": {
+    "invalid_input": "InputError",
+    "shape_mismatch": "DimensionMismatchError",
+    "unsupported_capability": "BackendNotAvailableError",
+    "numerical_failure": "NumericalError",
+    "serialization_failure": "SerializationError"
+  },
+  "symbols": {
+    "stable": [
+      "DecisionAnalysis",
+      "DecisionOption",
+      "CEAFResult",
+      "DominanceResult",
+      "ParameterSet",
+      "PortfolioSpec",
+      "PortfolioStudy",
+      "TrialDesign",
+      "ValueArray",
+      "ceaf",
+      "dominance",
+      "enbs",
+      "evpi",
+      "evppi",
+      "evsi",
+      "normal_normal_two_arm_evsi"
+    ],
+    "provisional": [
+      "HeomlRunBundle",
+      "analysis",
+      "backends",
+      "cli",
+      "config",
+      "core",
+      "ecosystem_integration",
+      "exceptions",
+      "factory",
+      "fluent",
+      "health_economics",
+      "hta_integration",
+      "load_heoml_run_bundle",
+      "methods",
+      "multi_domain",
+      "plot",
+      "schema"
+    ],
+    "experimental": [
+      "value_of_adaptive_learning_bandit",
+      "value_of_ai_assisted_evidence_triage",
+      "value_of_ambiguity_distribution_shift",
+      "value_of_capacity_budget_constrained",
+      "value_of_causal_transportability",
+      "value_of_computational_refinement",
+      "value_of_data_quality",
+      "value_of_distributional_equity",
+      "value_of_dynamic_real_options",
+      "value_of_equity_information",
+      "value_of_evidence_obsolescence_refresh",
+      "value_of_expert_synthesis",
+      "value_of_explainability_transparency",
+      "value_of_federated_privacy_preserving",
+      "value_of_implementation",
+      "value_of_implementation_strategy_comparison",
+      "value_of_interoperability_standardization",
+      "value_of_model_validation",
+      "value_of_monitoring_surveillance",
+      "value_of_perspective",
+      "value_of_preference",
+      "value_of_preference_heterogeneity",
+      "value_of_preference_information",
+      "value_of_regulatory_market_access",
+      "value_of_replication_reproducibility",
+      "value_of_strategic_behavior",
+      "value_of_threshold",
+      "value_of_threshold_information",
+      "value_of_validation"
+    ],
+    "deprecated": [
+      "raw-dict-parameter-samples-for-evppi"
+    ],
+    "removed": []
+  },
+  "methods": {
+    "evpi": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy]",
+      "output": "finite-float>=0",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
+    "evppi": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy]+parameters[sample,parameter]",
+      "output": "finite-float>=0",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError",
+        "BackendNotAvailableError"
+      ]
+    },
+    "evsi": {
+      "status": "stable",
+      "scientific_maturity": "method-specific",
+      "implementation": "rust+python-orchestration",
+      "signature": "evsi(model_func, psa_prior, trial_design, population=None, discount_rate=None, time_horizon=None, method=\"two_loop\", n_outer_loops=100, n_inner_loops=1000, metamodel=\"linear\", *, seed=None, trial_simulator=None, posterior_sampler=None)",
+      "input_shape": "model+prior[sample,parameter]+trial-design",
+      "output": "finite-float",
+      "missing_values": "reject",
+      "negative_monte_carlo_estimates": "return-untruncated",
+      "loop_counts": "positive-non-boolean-integers",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError",
+        "BackendNotAvailableError",
+        "NumericalError"
+      ],
+      "built_in_two_loop": {
+        "maturity": "fixture-backed",
+        "prior": "one-joint-multivariate-normal-fitted-from-finite-psa-rows",
+        "coherence": "current-decision-prior-predictive-data-and-posterior-all-use-the-fitted-joint-normal-prior",
+        "study_model": "independent-normal-arm-sample-means-with-common-known-outcome-standard-deviation",
+        "arm_parameters": "one-unique-normalized-mean_<arm>-parameter-per-arm",
+        "fixed_parameters": "sd_outcome-is-finite-strictly-positive-constant-and-excluded-from-stochastic-covariance",
+        "posterior": "joint-gaussian-conditioning-updates-all-correlated-stochastic-parameters",
+        "outer_loop": "draw-study-data-directly-from-the-fitted-prior-predictive-distribution",
+        "inner_loop": "exactly-n_inner_loops-joint-posterior-draws-per-outer-data-set",
+        "covariance_failures": "raise-InputError-or-NumericalError-never-raw-linear-algebra-errors"
+      },
+      "custom_two_loop": {
+        "callbacks": "trial_simulator-and-posterior_sampler-required-together",
+        "parameter_kind": "keyword-only",
+        "trial_simulator": "callable(true_joint_parameters,trial_design,local_rng)->trial_data",
+        "posterior_sampler": "callable(prior,trial_data,trial_design,n_draws,local_rng)->exactly-n_draws-joint-ParameterSet",
+        "coherence": "callbacks-must-define-one-prior-sampling-likelihood-and-posterior-model"
+      },
+      "rng": {
+        "seed_parameter": "keyword-only-uint64-or-none",
+        "seeded": "one-local-generator-reproducible-for-the-declared-dependency-set",
+        "unseeded": "fresh-local-generator",
+        "global_state": "never-read-or-mutated"
+      },
+      "compatibility_estimators": {
+        "methods": [
+          "regression",
+          "efficient",
+          "efficient_regression",
+          "moment_based"
+        ],
+        "status": "provisional",
+        "stable_scientific_contract": false
+      }
+    },
+    "normal_normal_two_arm_evsi": {
+      "status": "stable",
+      "implementation": "rust",
+      "signature": "normal_normal_two_arm_evsi(*, prior_mean, prior_standard_deviation, outcome_standard_deviation, total_sample_size, net_benefit_slope, net_benefit_intercept)",
+      "input_shape": "scalar-normal-prior+equal-allocation-two-arm-normal-study+linear-incremental-net-benefit",
+      "output": "finite-float>=0",
+      "randomness": "none-analytical",
+      "study_model": {
+        "prior": "incremental-effect-normal",
+        "likelihood": "two-independent-normal-arms-with-common-known-outcome-standard-deviation",
+        "allocation": "equal",
+        "total_sample_size": "positive-even-integer-within-supported-u32-range",
+        "net_benefit": "net_benefit_slope*incremental_effect+net_benefit_intercept"
+      },
+      "errors": [
+        "InputError",
+        "BackendNotAvailableError",
+        "NumericalError"
+      ]
+    },
+    "enbs": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": null,
+      "output": "finite-float",
+      "missing_values": "reject",
+      "errors": [
+        "InputError"
+      ]
+    },
+    "ceaf": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "net_benefit[sample,strategy,threshold?]",
+      "output": "CEAFResult",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
+    "dominance": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "cost[strategy]+effect[strategy]",
+      "output": "DominanceResult",
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    }
+  },
+  "surfaces": {
+    "schemas": {
+      "status": "stable",
+      "contract": "specs/core-api/schemas/v1/"
+    },
+    "diagnostics": {
+      "status": "stable",
+      "contract": "specs/core-api/diagnostics.md"
+    },
+    "reporting": {
+      "status": "stable",
+      "formats": [
+        "json",
+        "csv",
+        "python-object"
+      ]
+    },
+    "provenance": {
+      "status": "stable",
+      "required_fields": [
+        "voiage_version",
+        "core_version",
+        "method",
+        "settings"
+      ]
+    },
+    "plotting": {
+      "status": "stable",
+      "scope": [
+        "ceac",
+        "ceaf",
+        "voi-curves",
+        "dominance-frontier"
+      ]
+    },
+    "cli": {
+      "status": "stable",
+      "serialization": [
+        "json",
+        "csv"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "invalid-input": 2,
+        "runtime-failure": 1
+      }
+    }
+  },
+  "v1_to_v2": {
+    "classification": "major-breaking-change",
+    "v1_contract": "../v1/stable-api.json",
+    "signature_changes": [
+      "seed-becomes-keyword-only",
+      "trial_simulator-and-posterior_sampler-are-new-paired-keyword-only-parameters",
+      "normal_normal_two_arm_evsi-is-promoted-from-absent-in-v1-to-stable-in-v2"
+    ],
+    "behavior_changes": [
+      "built-in-two-loop-prior-and-preposterior-calculation-become-one-coherent-fitted-joint-normal-model",
+      "all-correlated-stochastic-parameters-are-updated-jointly",
+      "fixed-sd_outcome-is-validated-and-excluded-from-stochastic-covariance",
+      "n_inner_loops-counts-joint-posterior-draws",
+      "model-callback-counts-and-seeded-numerical-results-change",
+      "unseeded-and-seeded-two-loop-simulation-use-local-random-generators",
+      "negative-monte-carlo-estimates-are-not-silently-truncated"
+    ],
+    "migration_guide": "../../docs/astro-site/src/content/docs/user-guide/migration-guide.mdx"
+  }
+}

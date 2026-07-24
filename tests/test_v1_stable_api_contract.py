@@ -2,16 +2,39 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import json
 from pathlib import Path
 
 import voiage
 
 CONTRACT_PATH = Path("specs/v1/stable-api.json")
+V1_RELEASE_DIGESTS = {
+    "README.md": "fb1304871c009eb386c8291bc55db0faf007bba204134bdf06d84d8e6e0c3ddc",
+    "binding-matrix.json": "554fd6248a65bf15ea74c7564aff4b530291c5b54d65536bfa7f475dace3d150",
+    "compatibility-policy.json": "3027c936cfced144113ada048b42c1ac9e461d9634849b7a45add618946bce8a",
+    "compatibility-policy.schema.json": "3b02cbaf713f4cf3b02c61c45d331b9eea3fad1e63c94277495c34398c65a993",
+    "extension-packaging.json": "5a91eff0d45d025f96958f50ac202ff2f4f4b54d1afab3125c944b0aac392fcc",
+    "extension-policy.json": "a030224ceb0f65bc62123136814cfcc0e05c2aed7633308636cfad94c611b234",
+    "extension-surface-policy.json": "6a9b14d55b40de2be11984b49a37e2a387c343db88f3a92320e7d9f9a5dbd343",
+    "python-runtime-inventory.json": "5a852675c64d014ebdd62a9f077f19c10191223342aa7053cf15f053ebfe51e0",
+    "stable-api.json": "ff77ce326e29d17354dbe274b30d42e0ed89ae80efb7700bba94eef8ae68249d",
+}
 
 
 def _contract() -> dict[str, object]:
     return json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
+
+
+def test_v1_contract_files_match_the_v1_0_0_release_snapshot() -> None:
+    """Published v1 contract files must remain byte-for-byte immutable."""
+    directory = CONTRACT_PATH.parent
+
+    assert {path.name for path in directory.iterdir() if path.is_file()} == set(
+        V1_RELEASE_DIGESTS
+    )
+    for name, expected_digest in V1_RELEASE_DIGESTS.items():
+        assert sha256((directory / name).read_bytes()).hexdigest() == expected_digest
 
 
 def test_v1_contract_defines_supported_runtime_and_behavior() -> None:

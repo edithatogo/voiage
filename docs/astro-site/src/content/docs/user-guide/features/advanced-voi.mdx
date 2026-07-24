@@ -7,7 +7,14 @@ This guide covers advanced VOI metrics: Expected Value of Sample Information (EV
 
 ## EVSI
 
-Expected Value of Sample Information quantifies the value of collecting new study data before making a decision. The library provides multiple EVSI estimators, including nested Monte Carlo and regression-based variants.
+Expected Value of Sample Information quantifies the value of a specified study
+before making a decision. Start with the analytical normal--normal function or
+use the developing joint normal two-loop model when those assumptions fit and
+simulation convergence has been checked. Its current, predictive, and
+posterior calculations use one fitted Gaussian prior. Custom study models use
+explicit trial-simulation and joint-posterior-sampling callbacks. Other
+estimators remain compatibility or specialist paths and require validation
+against a complete study model.
 
 ## ENBS
 

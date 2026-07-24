@@ -1,17 +1,16 @@
-# voiage/methods/basic.py
-
 """Implementation of basic Value of Information methods.
 
 - EVPI (Expected Value of Perfect Information)
 - EVPPI (Expected Value of Partial Perfect Information)
 """
 
-from typing import TYPE_CHECKING, Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 import warnings
 
 import numpy as np
 
-from voiage.analysis import RegressionModelProtocol
 from voiage.exceptions import (
     raise_dimension_mismatch_error,
     raise_input_error,
@@ -19,19 +18,8 @@ from voiage.exceptions import (
 from voiage.schema import ParameterSet as PSASample
 
 if TYPE_CHECKING:
+    from voiage.analysis import RegressionModelProtocol
     from voiage.schema import ValueArray
-
-SKLEARN_AVAILABLE = False
-LinearRegression = None
-try:
-    from sklearn.linear_model import LinearRegression as SklearnLinearRegression
-
-    LinearRegression = SklearnLinearRegression
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    # sklearn is an optional dependency, only required for EVPPI.
-    # Users will be warned if they try to use EVPPI without it.
-    pass
 
 
 def check_parameter_samples(parameter_samples: object, n_samples: int) -> np.ndarray:
@@ -89,7 +77,7 @@ def check_parameter_samples(parameter_samples: object, n_samples: int) -> np.nda
 
 
 def evpi(
-    nb_array: Union[np.ndarray, "ValueArray"],
+    nb_array: np.ndarray | ValueArray,
     population: float | None = None,
     time_horizon: float | None = None,
     discount_rate: float | None = None,
@@ -161,8 +149,8 @@ def evpi(
 
 
 def evppi(
-    nb_array: Union[np.ndarray, "ValueArray"],
-    parameter_samples: Union[np.ndarray, "PSASample", dict[str, np.ndarray]],
+    nb_array: np.ndarray | ValueArray,
+    parameter_samples: np.ndarray | PSASample | dict[str, np.ndarray],
     parameters_of_interest: list[str],
     population: float | None = None,
     time_horizon: float | None = None,

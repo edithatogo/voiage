@@ -1,0 +1,1998 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "requirements-L3",
+      "description": "requirements line 3: annotated-doc==0.0.4     --hash=sha256:571ac1dc6991c450b25a9c2d84a3705e2ae7a53467b5d111c24fa8baabbed320     --hash=sha256:fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "571ac1dc6991c450b25a9c2d84a3705e2ae7a53467b5d111c24fa8baabbed320"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/annotated-doc/"
+        }
+      ],
+      "name": "annotated-doc",
+      "purl": "pkg:pypi/annotated-doc@0.0.4",
+      "type": "library",
+      "version": "0.0.4"
+    },
+    {
+      "bom-ref": "requirements-L7",
+      "description": "requirements line 7: annotated-types==0.7.0     --hash=sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53     --hash=sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/annotated-types/"
+        }
+      ],
+      "name": "annotated-types",
+      "purl": "pkg:pypi/annotated-types@0.7.0",
+      "type": "library",
+      "version": "0.7.0"
+    },
+    {
+      "bom-ref": "requirements-L11",
+      "description": "requirements line 11: click==8.4.2     --hash=sha256:9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c4917a15f6     --hash=sha256:e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c4917a15f6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/click/"
+        }
+      ],
+      "name": "click",
+      "purl": "pkg:pypi/click@8.4.2",
+      "type": "library",
+      "version": "8.4.2"
+    },
+    {
+      "bom-ref": "requirements-L15",
+      "description": "requirements line 15: colorama==0.4.6 ; sys_platform == 'win32'     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/colorama/"
+        }
+      ],
+      "name": "colorama",
+      "purl": "pkg:pypi/colorama@0.4.6",
+      "type": "library",
+      "version": "0.4.6"
+    },
+    {
+      "bom-ref": "requirements-L21",
+      "description": "requirements line 21: joblib==1.5.3     --hash=sha256:5fc3c5039fc5ca8c0276333a188bbd59d6b7ab37fe6632daa76bc7f9ec18e713     --hash=sha256:8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "5fc3c5039fc5ca8c0276333a188bbd59d6b7ab37fe6632daa76bc7f9ec18e713"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/joblib/"
+        }
+      ],
+      "name": "joblib",
+      "purl": "pkg:pypi/joblib@1.5.3",
+      "type": "library",
+      "version": "1.5.3"
+    },
+    {
+      "bom-ref": "requirements-L25",
+      "description": "requirements line 25: markdown-it-py==4.2.0     --hash=sha256:04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49     --hash=sha256:9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/markdown-it-py/"
+        }
+      ],
+      "name": "markdown-it-py",
+      "purl": "pkg:pypi/markdown-it-py@4.2.0",
+      "type": "library",
+      "version": "4.2.0"
+    },
+    {
+      "bom-ref": "requirements-L29",
+      "description": "requirements line 29: mdurl==0.1.2     --hash=sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8     --hash=sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/mdurl/"
+        }
+      ],
+      "name": "mdurl",
+      "purl": "pkg:pypi/mdurl@0.1.2",
+      "type": "library",
+      "version": "0.1.2"
+    },
+    {
+      "bom-ref": "requirements-L33",
+      "description": "requirements line 33: narwhals==2.24.0     --hash=sha256:42fdedf44e5b2ca7505630d45b4ac3058f38d8485cba9fe1652ca23152df7489     --hash=sha256:b5c0f684ccd9d7475b564111e319a4964abcf2baf79d3cf6b1003d06ac9b828d",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "42fdedf44e5b2ca7505630d45b4ac3058f38d8485cba9fe1652ca23152df7489"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b5c0f684ccd9d7475b564111e319a4964abcf2baf79d3cf6b1003d06ac9b828d"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/narwhals/"
+        }
+      ],
+      "name": "narwhals",
+      "purl": "pkg:pypi/narwhals@2.24.0",
+      "type": "library",
+      "version": "2.24.0"
+    },
+    {
+      "bom-ref": "requirements-L37",
+      "description": "requirements line 37: numpy==2.5.1     --hash=sha256:08d60c810432eb83360958dea0999ac4cfb94531ea8efcbf0b7f277c2068aeb2     --hash=sha256:09e9bfd8d2cf479c7d174804fb3811c53a8e9f20a37444008606b57d6b7a826d     --hash=sha256:0bfebd8695f9863592fe744be833a258120b14a9f39da255e8aa8fade2c0ddd1     --hash=sha256:17a25e09640602e10bc8de0e6fa2b3fd68eedd84ba6d7842dc8f32f9ab87bd0b     --hash=sha256:1c6759f538fb912fc46de0a6b1758ccf7b57bc7c7ebebc23974fdac3de8db0cd     --hash=sha256:224ca51130ef7da85bea2191625181cb4f337f9cb64b471f10c1a12aa8b60077     --hash=sha256:24d0eb82c0541d3415a33425db64ae439dffccd7b4dbcb30e7c35120205c506a     --hash=sha256:2ae0ca40bcb22d6ba59c1dfd5446f49940b0f2d821fde133f10dda11f816b84e     --hash=sha256:2c889b56fe48b1018f764b0eec8df59ab654e9148aa91faa12596043500de277     --hash=sha256:30b44a6b53a7ae63c54c089a8726e5563ed302716c5b7ccc85afade40b0e7ff6     --hash=sha256:32985c896d897419ef8da6917872d80b78ad0ea26d85b23245c7366ffde76d75     --hash=sha256:3935f3b419b244a02732676fa5317a9193cc596a4c0646db07e5b421229ac9f7     --hash=sha256:4939237038ada79308dda3204ac6462df056b5672b2e25db1149cf873668b3e1     --hash=sha256:4b4ff1608417eb7a59da7b967bbb798cacfe071d2caf526a24281cd562072ed9     --hash=sha256:54ad769f17bc2d833b620851989f62054fb9ab93c969d9e1dc3c8e3d56beea21     --hash=sha256:59fda5e192b570217ec2580c96f00e9a7e12ef6866a900eb089b62c1a32545ca     --hash=sha256:5a4c988b38d261deeeaad9954e3deb091ad905c94e8bb6708654ef1d97f286b0     --hash=sha256:5a6db61f9aaa57e369905c67d852045d3c4f7126405b29d09b19dec118e9c9cb     --hash=sha256:6165343f81b56ef8f514f396989e529b61d9dc709b99421b07e9f3e698e2287d     --hash=sha256:61ac47e772e6b8ea489e1d2f441a34c5c3ac17327e7ce294cbdf535795ad4e75     --hash=sha256:6c3fe51bc6a16453d452997053454f309e8e0ed7b42d6b361ce4ac8c32913d74     --hash=sha256:6eab239876581b2b3c5a242281b6007bbdbcd1c7085d7709bb57c5929b11e6bf     --hash=sha256:78798bd5b9ad744056af8efa90e3b9ddaa53272a0848a483084a1cc0a13b2dc0     --hash=sha256:7c786fe9a5bbe360022e584c5a34cf6b54265c71bd7ec8ac3d8fec38968071f8     --hash=sha256:83ce9c80d5b521b0d77ddcbe5447c218d247929b6cc056ca5351342accfff0af     --hash=sha256:9726558e8db4a5bf7929a70ae50f63abda4daf0efe810e3bfbab95976f75fc1a     --hash=sha256:99d5095fa265a0c4152e7bb12759e14381ef5496152f1ce58f44bdf55c44beb4     --hash=sha256:a33276be12fa045805f477f22482088b66bb758ffbe89a9d21457de863a32e22     --hash=sha256:a48a113e6afea91f5608793bafa7ef2ad481fefbda87ec5069f483de61cb9fa3     --hash=sha256:ab451b59c5643c570974c43aef780703ef1d3b4965d2be07afd530615a9358d1     --hash=sha256:ab84dc6b074fa881cae55bea94cc4f68e285181ba7f32497bf7dee6b1496165b     --hash=sha256:ab87a91b3cc3382b8956095bd8f95e00cf679bb81554339be1a2ba404a1473c1     --hash=sha256:c12afb53450fa976d4c681c50a7423729a4c51c0465ed9f32b8a9cabbc472373     --hash=sha256:caf3e317d33d60c37986b452613f4ab51246d0691350c03d0cb4a898627f4a95     --hash=sha256:dc932a65ded7ce9013d120845a2514dcccb1a67bfc8deb8d37633762951904a6     --hash=sha256:e68d8dd1e7eba712948f2053a29ec86917bc70ba1358df869d9f06649ef9cf09     --hash=sha256:e824c2acf8862052246be5a44c15da1777940c60d010dd2aab897824d9c430f9     --hash=sha256:e8c11c405efc5ff6816d5983c96cdfa215bab3428961243af3ff59b228490438     --hash=sha256:efd736408cc97c79b9e6917338dfc8f06013b2274f992e96b1d9a81a71e2a2c2     --hash=sha256:f089d7b00756190aacf1f5d34bdf38c3c430ac82b4f868f8cede73380460fce7     --hash=sha256:f2479a47f8d5932d1718168a681ad6e536a9df484c83cfcf9de365e164537ace     --hash=sha256:f7119ebff1a9829e9f431a4f9d28e703023bb6b9fe7c8f724467dbfc27c94ab3     --hash=sha256:f7d60026c0bdb1380e83bfa7a0419c4577ee4b9a08880afcb6dadeb74c649fa2     --hash=sha256:f7feb014281029e628ba2d5a007407443b06e418b6fe451d1e2adcbc8eba0107",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "08d60c810432eb83360958dea0999ac4cfb94531ea8efcbf0b7f277c2068aeb2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "09e9bfd8d2cf479c7d174804fb3811c53a8e9f20a37444008606b57d6b7a826d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0bfebd8695f9863592fe744be833a258120b14a9f39da255e8aa8fade2c0ddd1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "17a25e09640602e10bc8de0e6fa2b3fd68eedd84ba6d7842dc8f32f9ab87bd0b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1c6759f538fb912fc46de0a6b1758ccf7b57bc7c7ebebc23974fdac3de8db0cd"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "224ca51130ef7da85bea2191625181cb4f337f9cb64b471f10c1a12aa8b60077"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "24d0eb82c0541d3415a33425db64ae439dffccd7b4dbcb30e7c35120205c506a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2ae0ca40bcb22d6ba59c1dfd5446f49940b0f2d821fde133f10dda11f816b84e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2c889b56fe48b1018f764b0eec8df59ab654e9148aa91faa12596043500de277"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "30b44a6b53a7ae63c54c089a8726e5563ed302716c5b7ccc85afade40b0e7ff6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "32985c896d897419ef8da6917872d80b78ad0ea26d85b23245c7366ffde76d75"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3935f3b419b244a02732676fa5317a9193cc596a4c0646db07e5b421229ac9f7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4939237038ada79308dda3204ac6462df056b5672b2e25db1149cf873668b3e1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4b4ff1608417eb7a59da7b967bbb798cacfe071d2caf526a24281cd562072ed9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "54ad769f17bc2d833b620851989f62054fb9ab93c969d9e1dc3c8e3d56beea21"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "59fda5e192b570217ec2580c96f00e9a7e12ef6866a900eb089b62c1a32545ca"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5a4c988b38d261deeeaad9954e3deb091ad905c94e8bb6708654ef1d97f286b0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5a6db61f9aaa57e369905c67d852045d3c4f7126405b29d09b19dec118e9c9cb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6165343f81b56ef8f514f396989e529b61d9dc709b99421b07e9f3e698e2287d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "61ac47e772e6b8ea489e1d2f441a34c5c3ac17327e7ce294cbdf535795ad4e75"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6c3fe51bc6a16453d452997053454f309e8e0ed7b42d6b361ce4ac8c32913d74"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6eab239876581b2b3c5a242281b6007bbdbcd1c7085d7709bb57c5929b11e6bf"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "78798bd5b9ad744056af8efa90e3b9ddaa53272a0848a483084a1cc0a13b2dc0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7c786fe9a5bbe360022e584c5a34cf6b54265c71bd7ec8ac3d8fec38968071f8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "83ce9c80d5b521b0d77ddcbe5447c218d247929b6cc056ca5351342accfff0af"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9726558e8db4a5bf7929a70ae50f63abda4daf0efe810e3bfbab95976f75fc1a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "99d5095fa265a0c4152e7bb12759e14381ef5496152f1ce58f44bdf55c44beb4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a33276be12fa045805f477f22482088b66bb758ffbe89a9d21457de863a32e22"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a48a113e6afea91f5608793bafa7ef2ad481fefbda87ec5069f483de61cb9fa3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ab451b59c5643c570974c43aef780703ef1d3b4965d2be07afd530615a9358d1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ab84dc6b074fa881cae55bea94cc4f68e285181ba7f32497bf7dee6b1496165b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ab87a91b3cc3382b8956095bd8f95e00cf679bb81554339be1a2ba404a1473c1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c12afb53450fa976d4c681c50a7423729a4c51c0465ed9f32b8a9cabbc472373"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "caf3e317d33d60c37986b452613f4ab51246d0691350c03d0cb4a898627f4a95"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "dc932a65ded7ce9013d120845a2514dcccb1a67bfc8deb8d37633762951904a6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e68d8dd1e7eba712948f2053a29ec86917bc70ba1358df869d9f06649ef9cf09"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e824c2acf8862052246be5a44c15da1777940c60d010dd2aab897824d9c430f9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e8c11c405efc5ff6816d5983c96cdfa215bab3428961243af3ff59b228490438"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "efd736408cc97c79b9e6917338dfc8f06013b2274f992e96b1d9a81a71e2a2c2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f089d7b00756190aacf1f5d34bdf38c3c430ac82b4f868f8cede73380460fce7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f2479a47f8d5932d1718168a681ad6e536a9df484c83cfcf9de365e164537ace"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f7119ebff1a9829e9f431a4f9d28e703023bb6b9fe7c8f724467dbfc27c94ab3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f7d60026c0bdb1380e83bfa7a0419c4577ee4b9a08880afcb6dadeb74c649fa2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f7feb014281029e628ba2d5a007407443b06e418b6fe451d1e2adcbc8eba0107"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/numpy/"
+        }
+      ],
+      "name": "numpy",
+      "purl": "pkg:pypi/numpy@2.5.1",
+      "type": "library",
+      "version": "2.5.1"
+    },
+    {
+      "bom-ref": "requirements-L88",
+      "description": "requirements line 88: packaging==26.2     --hash=sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e     --hash=sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/packaging/"
+        }
+      ],
+      "name": "packaging",
+      "purl": "pkg:pypi/packaging@26.2",
+      "type": "library",
+      "version": "26.2"
+    },
+    {
+      "bom-ref": "requirements-L92",
+      "description": "requirements line 92: pandas==2.3.3     --hash=sha256:0242fe9a49aa8b4d78a4fa03acb397a58833ef6199e9aa40a95f027bb3a1b6e7     --hash=sha256:1611aedd912e1ff81ff41c745822980c49ce4a7907537be8692c8dbc31924593     --hash=sha256:1b07204a219b3b7350abaae088f451860223a52cfb8a6c53358e7948735158e5     --hash=sha256:2462b1a365b6109d275250baaae7b760fd25c726aaca0054649286bcfbb3e8ec     --hash=sha256:2e3ebdb170b5ef78f19bfb71b0dc5dc58775032361fa188e814959b74d726dd5     --hash=sha256:318d77e0e42a628c04dc56bcef4b40de67918f7041c2b061af1da41dcff670ac     --hash=sha256:371a4ab48e950033bcf52b6527eccb564f52dc826c02afd9a1bc0ab731bba084     --hash=sha256:3869faf4bd07b3b66a9f462417d0ca3a9df29a9f6abd5d0d0dbab15dac7abe87     --hash=sha256:3fd2f887589c7aa868e02632612ba39acb0b8948faf5cc58f0850e165bd46f35     --hash=sha256:4e0a175408804d566144e170d0476b15d78458795bb18f1304fb94160cabf40c     --hash=sha256:56851a737e3470de7fa88e6131f41281ed440d29a9268dcbf0002da5ac366713     --hash=sha256:6253c72c6a1d990a410bc7de641d34053364ef8bcd3126f7e7450125887dffe3     --hash=sha256:6435cb949cb34ec11cc9860246ccb2fdc9ecd742c12d3304989017d53f039a78     --hash=sha256:6d21f6d74eb1725c2efaa71a2bfc661a0689579b58e9c0ca58a739ff0b002b53     --hash=sha256:6d2cefc361461662ac48810cb14365a365ce864afe85ef1f447ff5a1e99ea81c     --hash=sha256:74ecdf1d301e812db96a465a525952f4dde225fdb6d8e5a521d47e1f42041e21     --hash=sha256:75ea25f9529fdec2d2e93a42c523962261e567d250b0013b16210e1d40d7c2e5     --hash=sha256:900f47d8f20860de523a1ac881c4c36d65efcb2eb850e6948140fa781736e110     --hash=sha256:93c2d9ab0fc11822b5eece72ec9587e172f63cff87c00b062f6e37448ced4493     --hash=sha256:a16dcec078a01eeef8ee61bf64074b4e524a2a3f4b3be9326420cabe59c4778b     --hash=sha256:a21d830e78df0a515db2b3d2f5570610f5e6bd2e27749770e8bb7b524b89b450     --hash=sha256:a45c765238e2ed7d7c608fc5bc4a6f88b642f2f01e70c0c23d2224dd21829d86     --hash=sha256:a68e15f780eddf2b07d242e17a04aa187a7ee12b40b930bfdd78070556550e98     --hash=sha256:b3d11d2fda7eb164ef27ffc14b4fcab16a80e1ce67e9f57e19ec0afaf715ba89     --hash=sha256:bdcd9d1167f4885211e401b3036c0c8d9e274eee67ea8d0758a256d60704cfe8     --hash=sha256:c46467899aaa4da076d5abc11084634e2d197e9460643dd455ac3db5856b24d6     --hash=sha256:c4fc4c21971a1a9f4bdb4c73978c7f7256caa3e62b323f70d6cb80db583350bc     --hash=sha256:d051c0e065b94b7a3cea50eb1ec32e912cd96dba41647eb24104b6c6c14c5788     --hash=sha256:e05e1af93b977f7eafa636d043f9f94c7ee3ac81af99c13508215942e64c993b     --hash=sha256:e32e7cc9af0f1cc15548288a51a3b681cc2a219faa838e995f7dc53dbab1062d     --hash=sha256:ecaf1e12bdc03c86ad4a7ea848d66c685cb6851d807a26aa245ca3d2017a1908     --hash=sha256:ee15f284898e7b246df8087fc82b87b01686f98ee67d85a17b7ab44143a3a9a0     --hash=sha256:ee67acbbf05014ea6c763beb097e03cd629961c8a632075eeb34247120abcb4b     --hash=sha256:f8bfc0e12dc78f777f323f55c58649591b2cd0c43534e8355c51d3fede5f4dee",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "0242fe9a49aa8b4d78a4fa03acb397a58833ef6199e9aa40a95f027bb3a1b6e7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1611aedd912e1ff81ff41c745822980c49ce4a7907537be8692c8dbc31924593"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1b07204a219b3b7350abaae088f451860223a52cfb8a6c53358e7948735158e5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2462b1a365b6109d275250baaae7b760fd25c726aaca0054649286bcfbb3e8ec"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2e3ebdb170b5ef78f19bfb71b0dc5dc58775032361fa188e814959b74d726dd5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "318d77e0e42a628c04dc56bcef4b40de67918f7041c2b061af1da41dcff670ac"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "371a4ab48e950033bcf52b6527eccb564f52dc826c02afd9a1bc0ab731bba084"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3869faf4bd07b3b66a9f462417d0ca3a9df29a9f6abd5d0d0dbab15dac7abe87"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3fd2f887589c7aa868e02632612ba39acb0b8948faf5cc58f0850e165bd46f35"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4e0a175408804d566144e170d0476b15d78458795bb18f1304fb94160cabf40c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "56851a737e3470de7fa88e6131f41281ed440d29a9268dcbf0002da5ac366713"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6253c72c6a1d990a410bc7de641d34053364ef8bcd3126f7e7450125887dffe3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6435cb949cb34ec11cc9860246ccb2fdc9ecd742c12d3304989017d53f039a78"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6d21f6d74eb1725c2efaa71a2bfc661a0689579b58e9c0ca58a739ff0b002b53"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6d2cefc361461662ac48810cb14365a365ce864afe85ef1f447ff5a1e99ea81c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "74ecdf1d301e812db96a465a525952f4dde225fdb6d8e5a521d47e1f42041e21"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "75ea25f9529fdec2d2e93a42c523962261e567d250b0013b16210e1d40d7c2e5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "900f47d8f20860de523a1ac881c4c36d65efcb2eb850e6948140fa781736e110"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "93c2d9ab0fc11822b5eece72ec9587e172f63cff87c00b062f6e37448ced4493"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a16dcec078a01eeef8ee61bf64074b4e524a2a3f4b3be9326420cabe59c4778b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a21d830e78df0a515db2b3d2f5570610f5e6bd2e27749770e8bb7b524b89b450"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a45c765238e2ed7d7c608fc5bc4a6f88b642f2f01e70c0c23d2224dd21829d86"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a68e15f780eddf2b07d242e17a04aa187a7ee12b40b930bfdd78070556550e98"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b3d11d2fda7eb164ef27ffc14b4fcab16a80e1ce67e9f57e19ec0afaf715ba89"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "bdcd9d1167f4885211e401b3036c0c8d9e274eee67ea8d0758a256d60704cfe8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c46467899aaa4da076d5abc11084634e2d197e9460643dd455ac3db5856b24d6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c4fc4c21971a1a9f4bdb4c73978c7f7256caa3e62b323f70d6cb80db583350bc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d051c0e065b94b7a3cea50eb1ec32e912cd96dba41647eb24104b6c6c14c5788"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e05e1af93b977f7eafa636d043f9f94c7ee3ac81af99c13508215942e64c993b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e32e7cc9af0f1cc15548288a51a3b681cc2a219faa838e995f7dc53dbab1062d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ecaf1e12bdc03c86ad4a7ea848d66c685cb6851d807a26aa245ca3d2017a1908"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ee15f284898e7b246df8087fc82b87b01686f98ee67d85a17b7ab44143a3a9a0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ee67acbbf05014ea6c763beb097e03cd629961c8a632075eeb34247120abcb4b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f8bfc0e12dc78f777f323f55c58649591b2cd0c43534e8355c51d3fede5f4dee"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pandas/"
+        }
+      ],
+      "name": "pandas",
+      "purl": "pkg:pypi/pandas@2.3.3",
+      "type": "library",
+      "version": "2.3.3"
+    },
+    {
+      "bom-ref": "requirements-L130",
+      "description": "requirements line 130: polars==1.42.1     --hash=sha256:2fe94f3059334650bd850ae19a9c165dcd5d9cb12cd95ea04de2201662e70e8a     --hash=sha256:3c0c65cdfa21a621650c4bdcbbccf93964d052fd766c3e70e84a55d961c259fd",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "2fe94f3059334650bd850ae19a9c165dcd5d9cb12cd95ea04de2201662e70e8a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3c0c65cdfa21a621650c4bdcbbccf93964d052fd766c3e70e84a55d961c259fd"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/polars/"
+        }
+      ],
+      "name": "polars",
+      "purl": "pkg:pypi/polars@1.42.1",
+      "type": "library",
+      "version": "1.42.1"
+    },
+    {
+      "bom-ref": "requirements-L134",
+      "description": "requirements line 134: polars-runtime-32==1.42.1     --hash=sha256:4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd     --hash=sha256:635d9dbcae2302ae223afb395d5cd220bffa61a53d0ab6871d17c8bc830101cf     --hash=sha256:7051226e6b42ffc395a7a9190377cd28649fbfb991b8f85c6271f4e1cfb736fb     --hash=sha256:8b8bf972d99d48aaaa2582e2bce966a6f43bc815bd8725d15f5cab9e2fb15d17     --hash=sha256:bbdc26d68ee5b23b0ce227fa0599220aa35b77c826b6b0a6b2d8e7f6c1c36974     --hash=sha256:d059e8e53cc114ff82f9bd791fd341dc53534a2c745e6f6aa37594c3a93f01fe     --hash=sha256:e9364c26da389a8b7339e4d29e20a3d12af730247e6ed3b7804bddce2477f428     --hash=sha256:f6c0288be940b607dc4a7476c01e67fb6bbee93f5f1dd42c64970274c71008ba     --hash=sha256:f91f0b13588324905682809d270e1de5f1990c908721c8527657d77a044c9919",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "635d9dbcae2302ae223afb395d5cd220bffa61a53d0ab6871d17c8bc830101cf"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7051226e6b42ffc395a7a9190377cd28649fbfb991b8f85c6271f4e1cfb736fb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8b8bf972d99d48aaaa2582e2bce966a6f43bc815bd8725d15f5cab9e2fb15d17"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "bbdc26d68ee5b23b0ce227fa0599220aa35b77c826b6b0a6b2d8e7f6c1c36974"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d059e8e53cc114ff82f9bd791fd341dc53534a2c745e6f6aa37594c3a93f01fe"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e9364c26da389a8b7339e4d29e20a3d12af730247e6ed3b7804bddce2477f428"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f6c0288be940b607dc4a7476c01e67fb6bbee93f5f1dd42c64970274c71008ba"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f91f0b13588324905682809d270e1de5f1990c908721c8527657d77a044c9919"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/polars-runtime-32/"
+        }
+      ],
+      "name": "polars-runtime-32",
+      "purl": "pkg:pypi/polars-runtime-32@1.42.1",
+      "type": "library",
+      "version": "1.42.1"
+    },
+    {
+      "bom-ref": "requirements-L145",
+      "description": "requirements line 145: pyarrow==25.0.0     --hash=sha256:0490a7f8b38ffe11cc26526b50c65d111cb54ddac3717cec781806793f1244dc     --hash=sha256:0721332c30fdd453fdd1fc203b2ac1f4c9db5aea28fa38d41f2574c4b068b9ec     --hash=sha256:13240f0d3dc5932ccd0bfa90cd76d835680b9d94a7661c635df4b703d40ce849     --hash=sha256:149730a3d1f0fb59d663a0b8aa210adfd9c17c27cd94a0d143e60daea8320d4e     --hash=sha256:18dcc8cc50b5e72eae6fcbfc6c8776c21a007176b27a3cdec5c2f5bcf126708d     --hash=sha256:20887a762dd61dcc530f93a140840ab1f6aa7836b33270e42d627ab3cf11e537     --hash=sha256:26be35b80780d2d21f4bae3d568b1666337c3a89722cc1794c956a77017cb24e     --hash=sha256:2e093efbecb5317372f819228fa4b4e6157eee48d3f0a7b0303705ebf81a7104     --hash=sha256:3f356afe61186395c861d5cd63dc21ff7d5fa335012a4668d979257df7fea0f5     --hash=sha256:447df764beb07c544f0178a5f6b70ef44b9ecf382b3cdfad4c2d7867353c3887     --hash=sha256:4ec1895a87aa834c3b99b7a1e758747eb8bb57f922b32c0e0fa04afb8d6998b1     --hash=sha256:58d1ab556b0cea1c93fdb799b24ad58adb2f2a2788dbce782a94f64ae1a5cc9b     --hash=sha256:59516c822d5fd8e544aaa0dfe72f36fed5d4c24ea8390aab1bcd31d7e959c6be     --hash=sha256:5d1dbf24e151042f2fa3c129563f65d66674128868496fb008c4272b16bdf778     --hash=sha256:5f4bacb60f91dd2fca6c52f1b9a0012cd090e0294f1f781dc1881a247a352f8e     --hash=sha256:6f4812bfbf11ca7d8faf59eb8fff8bf4dd25ce3a38b62baa010cc17a0926d1b2     --hash=sha256:6f9dbd83e91c239a1f5ee7ce13f108b5f6c0efbe40a4375260d8f08b43ad05e9     --hash=sha256:72132b9a8a0a1840197794d4dea26080069b6b0981c116bc078762dc9691b21b     --hash=sha256:77c8d1ae46a44b4006e8db1cc977bbcc6ce4873c92f74137d68e45503b97fb18     --hash=sha256:8831a3ba52fa7cdb78d368d968b1dcd06171e6dff5461e16d90de91d371e47bc     --hash=sha256:ac5dfeee59f9ceb4d45ba76e83b026c38c24334135bb329d8274baa49cec3c62     --hash=sha256:b8af8ceedf0c9c160fd2b63440f2d205b9404db85866c1217bfea601de7cfb50     --hash=sha256:c70a5fd9a82bd1a702fd482bdc62d38dcb672fb2b449b1d7c0d7d1f4be7b7bfe     --hash=sha256:d2d697008b5ec06d75952ef260c2e9a8a0f6ccfce24266c04c9c8ade927cb3b4     --hash=sha256:e009ef945e498dca2f050ea10d2e9764cb44017254826fc4574fdb8d2530173b     --hash=sha256:e83916bbcf380866b4e14255850b33323ff678dc9758411d0409cdd2523880b0     --hash=sha256:f0f100dacf2c0f400601664a79d1a907ced4740514bb2b00917341038e2ce76f     --hash=sha256:f57a39dbcb416345401c2e77a4373669b45fd111a1768e6cf267a7a0607ff0ec     --hash=sha256:fa1482b3da10cac2d4db6e26b81da543e237616af2ef6d466018b31ca586496f",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "0490a7f8b38ffe11cc26526b50c65d111cb54ddac3717cec781806793f1244dc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0721332c30fdd453fdd1fc203b2ac1f4c9db5aea28fa38d41f2574c4b068b9ec"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "13240f0d3dc5932ccd0bfa90cd76d835680b9d94a7661c635df4b703d40ce849"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "149730a3d1f0fb59d663a0b8aa210adfd9c17c27cd94a0d143e60daea8320d4e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "18dcc8cc50b5e72eae6fcbfc6c8776c21a007176b27a3cdec5c2f5bcf126708d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "20887a762dd61dcc530f93a140840ab1f6aa7836b33270e42d627ab3cf11e537"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "26be35b80780d2d21f4bae3d568b1666337c3a89722cc1794c956a77017cb24e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2e093efbecb5317372f819228fa4b4e6157eee48d3f0a7b0303705ebf81a7104"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3f356afe61186395c861d5cd63dc21ff7d5fa335012a4668d979257df7fea0f5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "447df764beb07c544f0178a5f6b70ef44b9ecf382b3cdfad4c2d7867353c3887"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4ec1895a87aa834c3b99b7a1e758747eb8bb57f922b32c0e0fa04afb8d6998b1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "58d1ab556b0cea1c93fdb799b24ad58adb2f2a2788dbce782a94f64ae1a5cc9b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "59516c822d5fd8e544aaa0dfe72f36fed5d4c24ea8390aab1bcd31d7e959c6be"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5d1dbf24e151042f2fa3c129563f65d66674128868496fb008c4272b16bdf778"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5f4bacb60f91dd2fca6c52f1b9a0012cd090e0294f1f781dc1881a247a352f8e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6f4812bfbf11ca7d8faf59eb8fff8bf4dd25ce3a38b62baa010cc17a0926d1b2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6f9dbd83e91c239a1f5ee7ce13f108b5f6c0efbe40a4375260d8f08b43ad05e9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "72132b9a8a0a1840197794d4dea26080069b6b0981c116bc078762dc9691b21b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "77c8d1ae46a44b4006e8db1cc977bbcc6ce4873c92f74137d68e45503b97fb18"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8831a3ba52fa7cdb78d368d968b1dcd06171e6dff5461e16d90de91d371e47bc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ac5dfeee59f9ceb4d45ba76e83b026c38c24334135bb329d8274baa49cec3c62"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b8af8ceedf0c9c160fd2b63440f2d205b9404db85866c1217bfea601de7cfb50"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c70a5fd9a82bd1a702fd482bdc62d38dcb672fb2b449b1d7c0d7d1f4be7b7bfe"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d2d697008b5ec06d75952ef260c2e9a8a0f6ccfce24266c04c9c8ade927cb3b4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e009ef945e498dca2f050ea10d2e9764cb44017254826fc4574fdb8d2530173b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e83916bbcf380866b4e14255850b33323ff678dc9758411d0409cdd2523880b0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f0f100dacf2c0f400601664a79d1a907ced4740514bb2b00917341038e2ce76f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f57a39dbcb416345401c2e77a4373669b45fd111a1768e6cf267a7a0607ff0ec"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "fa1482b3da10cac2d4db6e26b81da543e237616af2ef6d466018b31ca586496f"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pyarrow/"
+        }
+      ],
+      "name": "pyarrow",
+      "purl": "pkg:pypi/pyarrow@25.0.0",
+      "type": "library",
+      "version": "25.0.0"
+    },
+    {
+      "bom-ref": "requirements-L176",
+      "description": "requirements line 176: pydantic==2.13.4     --hash=sha256:45a282cde31d808236fd7ea9d919b128653c8b38b393d1c4ab335c62924d9aba     --hash=sha256:c40756b57adaa8b1efeeced5c196f3f3b7c435f90e84ea7f443901bec8099ef6",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "45a282cde31d808236fd7ea9d919b128653c8b38b393d1c4ab335c62924d9aba"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c40756b57adaa8b1efeeced5c196f3f3b7c435f90e84ea7f443901bec8099ef6"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pydantic/"
+        }
+      ],
+      "name": "pydantic",
+      "purl": "pkg:pypi/pydantic@2.13.4",
+      "type": "library",
+      "version": "2.13.4"
+    },
+    {
+      "bom-ref": "requirements-L180",
+      "description": "requirements line 180: pydantic-core==2.46.4     --hash=sha256:00c603d540afdd6b80eb39f078f33ebd46211f02f33e34a32d9f053bba711de0     --hash=sha256:0186750b482eefa11d7f435892b09c5c606193ef3375bcf94aa00ae6bfb66262     --hash=sha256:0cbe8b01f948de4286c74cdd6c667aceb38f5c1e26f0693b3983d9d74887c65e     --hash=sha256:184c081504d17f1c1066e430e117142b2c77d9448a97f7b65c6ac9fd9aee238d     --hash=sha256:1a7dd0b3ee80d90150e3495a3a13ac34dbcbfd4f012996a6a1d8900e91b5c0fb     --hash=sha256:1d8ba486450b14f3b1d63bc521d410ec7565e52f887b9fb671791886436a42f7     --hash=sha256:2108ba5c1c1eca18030634489dc544844144ee36357f2f9f780b93e7ddbb44b5     --hash=sha256:23ace664830ee0bfe014a0c7bc248b1f7f25ed7ad103852c317624a1083af462     --hash=sha256:2412e734dcb48da14d4e4006b82b46b74f2518b8a26ee7e58c6844a6cd6d03c4     --hash=sha256:29c61fc04a3d840155ff08e475a04809278972fe6aef51e2720554e96367e34b     --hash=sha256:3009f12e4e90b7f88b4f9adb1b0c4a3d58fe7820f3238c190047209d148026df     --hash=sha256:3245406455a5d98187ec35530fd772b1d799b26667980872c8d4614991e2c4a2     --hash=sha256:372429a130e469c9cd698925ce5fc50940b7a1336b0d82038e63d5bbc4edc519     --hash=sha256:3a233125ac121aa3ffba9a2b59edfc4a985a76092dc8279586ab4b71390875e7     --hash=sha256:3bf92c5d0e00fefaab325a4d27828fe6b6e2a21848686b5b60d2d9eeb09d76c6     --hash=sha256:3ecbc122d18468d06ca279dc26a8c2e2d5acb10943bb35e36ae92096dc3b5565     --hash=sha256:3fb702cd90b0446a3a1c5e470bfa0dd23c0233b676a9099ddcc964fa6ca13898     --hash=sha256:428e04521a40150c85216fc8b85e8d39fece235a9cf5e383761238c7fa9b96fb     --hash=sha256:4fc73cb559bdb54b1134a706a2802a4cddd27a0633f5abb7e53056268751ac6a     --hash=sha256:4fcbe087dbc2068af7eda3aa87634eba216dbda64d1ae73c8684b621d33f6596     --hash=sha256:56cb4851bcaf3d117eddcef4fe66afd750a50274b0da8e22be256d10e5611987     --hash=sha256:5855698a4856556d86e8e6cd8434bc3ac0314ee8e12089ae0e143f64c6256e4e     --hash=sha256:5a4330cdbc57162e4b3aa303f588ba752257694c9c9be3e7ebb11b4aca659b5d     --hash=sha256:5b712b53160b79a5850310b912a5ef8e57e56947c8ad690c227f5c9d7e561712     --hash=sha256:5d5902252db0d3cedf8d4a1bc68f70eeb430f7e4c7104c8c476753519b423008     --hash=sha256:617d7e2ca7dcb8c5cf6bcb8c59b8832c94b36196bbf1cbd1bfb56ed341905edd     --hash=sha256:62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1     --hash=sha256:633147d34cf4550417f12e2b1a0383973bdf5cdfde212cb09e9a581cf10820be     --hash=sha256:6b3ace8194b0e5204818c92802dcdca7fc6d88aabbb799d7c795540d9cd6d292     --hash=sha256:7027560ee92211647d0d34e3f7cd6f50da56399d26a9c8ad0da286d3869a53f3     --hash=sha256:7283d57845ecf5a163403eb0702dfc220cc4fbdd18919cb5ccea4f95ee1cdab4     --hash=sha256:7a5f930472650a82629163023e630d160863fce524c616f4e5186e5de9d9a49b     --hash=sha256:811ff8e9c313ab425368bcbb36e5c4ebd7108c2bbf4e4089cfbb0b01eff63fac     --hash=sha256:8233f2947cf85404441fd7e0085f53b10c93e0ee78611099b5c7237e36aacbf7     --hash=sha256:82cf5301172168103724d49a1444d3378cb20cdee30b116a1bd6031236298a5d     --hash=sha256:85bb3611ff1802f3ee7fdd7dbff26b56f343fb432d57a4728fdd49b6ef35e2f4     --hash=sha256:8d0820e8192167f80d88d64038e609c31452eeca865b4e1d9950a27a4609b00b     --hash=sha256:8daafc69c93ee8a0204506a3b6b30f586ef54028f52aeeeb5c4cfc5184fd5914     --hash=sha256:926c9541b14b12b1681dca8a0b75feb510b06c6341b70a8e500c2fdcff837cce     --hash=sha256:9401557acd873c3a7f3eb9383edef8ac4968f9510e340f4808d427e75667e7b4     --hash=sha256:9551187363ffc0de2a00b2e47c25aeaeb1020b69b668762966df15fc5659dd5a     --hash=sha256:962ccbab7b642487b1d8b7df90ef677e03134cf1fd8880bf698649b22a69371f     --hash=sha256:97e7cf2be5c77b7d1a9713a05605d49460d02c6078d38d8bef3cbe323c548424     --hash=sha256:9aa768456404a8bf48a4406685ac2bec8e72b62c69313734fa3b73cf33b3a894     --hash=sha256:9d56801be94b86a9da183e5f3766e6310752b99ff647e38b09a9500d88e46e76     --hash=sha256:9fa8ae11da9e2b3126c6426f147e0fba88d96d65921799bb30c6abd1cb2c97fb     --hash=sha256:ad785e92e6dc634c21555edc8bd6b64957ab844541bcb96a1366c202951ae526     --hash=sha256:af8244b2bef6aaad6d92cda81372de7f8c8d36c9f0c3ea36e827c60e7d9467a0     --hash=sha256:b2f69dec1725e79a012d920df1707de5caf7ed5e08f3be4435e25803efc47458     --hash=sha256:b8458003118a712e66286df6a707db01c52c0f52f7db8e4a38f0da1d3b94fc4e     --hash=sha256:bfec22eab3c8cc2ceec0248aec886624116dc079afa027ecc8ad4a7e62010f8a     --hash=sha256:c1b3f518abeca3aa13c712fd202306e145abf59a18b094a6bafb2d2bbf59192c     --hash=sha256:c50f2528cf200c5eed56faf3f4e22fcd5f38c157a8b78576e6ba3168ec35f000     --hash=sha256:c68fcd102d71ea85c5b2dfac3f4f8476eff42a9e078fd5faefff6d145063536b     --hash=sha256:c94f0688e7b8d0a67abf40e57a7eaaecd17cc9586706a31b76c031f63df052b4     --hash=sha256:cbaf13819775b7f769bf4a1f066cb6df7a28d4480081a589828ef190226881cd     --hash=sha256:cd2213145bcc2ba85884d0ac63d222fece9209678f77b9b4d76f054c561adb28     --hash=sha256:ce5c1d2a8b27468f433ca974829c44060b8097eedc39933e3c206a90ee49c4a9     --hash=sha256:e739fee756ba1010f8bcccb534252e85a35fe45ae92c295a06059ce58b74ccd3     --hash=sha256:e846ae7835bf0703ae43f534ab79a867146dadd59dc9ca5c8b53d5c8f7c9ef02     --hash=sha256:e9c26f834c65f5752f3f06cb08cb86a913ceb7274d0db6e267808a708b46bc89     --hash=sha256:f027324c56cd5406ca49c124b0db10e56c69064fec039acc571c29020cc87c76     --hash=sha256:f99626688942fb746e545232e7726926f3be91b5975f8b55327665fafda991c7     --hash=sha256:fbdb89b3e1c94a30cc5edfce477c6e6a5dc4d8f84665b455c27582f211a1c72c     --hash=sha256:fc3e9034a63de20e15e8ade85358bc6efc614008cab72898b4b4952bea0509ff",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "00c603d540afdd6b80eb39f078f33ebd46211f02f33e34a32d9f053bba711de0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0186750b482eefa11d7f435892b09c5c606193ef3375bcf94aa00ae6bfb66262"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0cbe8b01f948de4286c74cdd6c667aceb38f5c1e26f0693b3983d9d74887c65e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "184c081504d17f1c1066e430e117142b2c77d9448a97f7b65c6ac9fd9aee238d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1a7dd0b3ee80d90150e3495a3a13ac34dbcbfd4f012996a6a1d8900e91b5c0fb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1d8ba486450b14f3b1d63bc521d410ec7565e52f887b9fb671791886436a42f7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2108ba5c1c1eca18030634489dc544844144ee36357f2f9f780b93e7ddbb44b5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "23ace664830ee0bfe014a0c7bc248b1f7f25ed7ad103852c317624a1083af462"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2412e734dcb48da14d4e4006b82b46b74f2518b8a26ee7e58c6844a6cd6d03c4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "29c61fc04a3d840155ff08e475a04809278972fe6aef51e2720554e96367e34b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3009f12e4e90b7f88b4f9adb1b0c4a3d58fe7820f3238c190047209d148026df"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3245406455a5d98187ec35530fd772b1d799b26667980872c8d4614991e2c4a2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "372429a130e469c9cd698925ce5fc50940b7a1336b0d82038e63d5bbc4edc519"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3a233125ac121aa3ffba9a2b59edfc4a985a76092dc8279586ab4b71390875e7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3bf92c5d0e00fefaab325a4d27828fe6b6e2a21848686b5b60d2d9eeb09d76c6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3ecbc122d18468d06ca279dc26a8c2e2d5acb10943bb35e36ae92096dc3b5565"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3fb702cd90b0446a3a1c5e470bfa0dd23c0233b676a9099ddcc964fa6ca13898"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "428e04521a40150c85216fc8b85e8d39fece235a9cf5e383761238c7fa9b96fb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4fc73cb559bdb54b1134a706a2802a4cddd27a0633f5abb7e53056268751ac6a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4fcbe087dbc2068af7eda3aa87634eba216dbda64d1ae73c8684b621d33f6596"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "56cb4851bcaf3d117eddcef4fe66afd750a50274b0da8e22be256d10e5611987"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5855698a4856556d86e8e6cd8434bc3ac0314ee8e12089ae0e143f64c6256e4e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5a4330cdbc57162e4b3aa303f588ba752257694c9c9be3e7ebb11b4aca659b5d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5b712b53160b79a5850310b912a5ef8e57e56947c8ad690c227f5c9d7e561712"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5d5902252db0d3cedf8d4a1bc68f70eeb430f7e4c7104c8c476753519b423008"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "617d7e2ca7dcb8c5cf6bcb8c59b8832c94b36196bbf1cbd1bfb56ed341905edd"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "633147d34cf4550417f12e2b1a0383973bdf5cdfde212cb09e9a581cf10820be"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6b3ace8194b0e5204818c92802dcdca7fc6d88aabbb799d7c795540d9cd6d292"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7027560ee92211647d0d34e3f7cd6f50da56399d26a9c8ad0da286d3869a53f3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7283d57845ecf5a163403eb0702dfc220cc4fbdd18919cb5ccea4f95ee1cdab4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7a5f930472650a82629163023e630d160863fce524c616f4e5186e5de9d9a49b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "811ff8e9c313ab425368bcbb36e5c4ebd7108c2bbf4e4089cfbb0b01eff63fac"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8233f2947cf85404441fd7e0085f53b10c93e0ee78611099b5c7237e36aacbf7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "82cf5301172168103724d49a1444d3378cb20cdee30b116a1bd6031236298a5d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "85bb3611ff1802f3ee7fdd7dbff26b56f343fb432d57a4728fdd49b6ef35e2f4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8d0820e8192167f80d88d64038e609c31452eeca865b4e1d9950a27a4609b00b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8daafc69c93ee8a0204506a3b6b30f586ef54028f52aeeeb5c4cfc5184fd5914"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "926c9541b14b12b1681dca8a0b75feb510b06c6341b70a8e500c2fdcff837cce"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9401557acd873c3a7f3eb9383edef8ac4968f9510e340f4808d427e75667e7b4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9551187363ffc0de2a00b2e47c25aeaeb1020b69b668762966df15fc5659dd5a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "962ccbab7b642487b1d8b7df90ef677e03134cf1fd8880bf698649b22a69371f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "97e7cf2be5c77b7d1a9713a05605d49460d02c6078d38d8bef3cbe323c548424"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9aa768456404a8bf48a4406685ac2bec8e72b62c69313734fa3b73cf33b3a894"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9d56801be94b86a9da183e5f3766e6310752b99ff647e38b09a9500d88e46e76"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9fa8ae11da9e2b3126c6426f147e0fba88d96d65921799bb30c6abd1cb2c97fb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ad785e92e6dc634c21555edc8bd6b64957ab844541bcb96a1366c202951ae526"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "af8244b2bef6aaad6d92cda81372de7f8c8d36c9f0c3ea36e827c60e7d9467a0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b2f69dec1725e79a012d920df1707de5caf7ed5e08f3be4435e25803efc47458"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b8458003118a712e66286df6a707db01c52c0f52f7db8e4a38f0da1d3b94fc4e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "bfec22eab3c8cc2ceec0248aec886624116dc079afa027ecc8ad4a7e62010f8a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c1b3f518abeca3aa13c712fd202306e145abf59a18b094a6bafb2d2bbf59192c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c50f2528cf200c5eed56faf3f4e22fcd5f38c157a8b78576e6ba3168ec35f000"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c68fcd102d71ea85c5b2dfac3f4f8476eff42a9e078fd5faefff6d145063536b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c94f0688e7b8d0a67abf40e57a7eaaecd17cc9586706a31b76c031f63df052b4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "cbaf13819775b7f769bf4a1f066cb6df7a28d4480081a589828ef190226881cd"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "cd2213145bcc2ba85884d0ac63d222fece9209678f77b9b4d76f054c561adb28"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ce5c1d2a8b27468f433ca974829c44060b8097eedc39933e3c206a90ee49c4a9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e739fee756ba1010f8bcccb534252e85a35fe45ae92c295a06059ce58b74ccd3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e846ae7835bf0703ae43f534ab79a867146dadd59dc9ca5c8b53d5c8f7c9ef02"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e9c26f834c65f5752f3f06cb08cb86a913ceb7274d0db6e267808a708b46bc89"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f027324c56cd5406ca49c124b0db10e56c69064fec039acc571c29020cc87c76"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f99626688942fb746e545232e7726926f3be91b5975f8b55327665fafda991c7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "fbdb89b3e1c94a30cc5edfce477c6e6a5dc4d8f84665b455c27582f211a1c72c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "fc3e9034a63de20e15e8ade85358bc6efc614008cab72898b4b4952bea0509ff"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pydantic-core/"
+        }
+      ],
+      "name": "pydantic-core",
+      "purl": "pkg:pypi/pydantic-core@2.46.4",
+      "type": "library",
+      "version": "2.46.4"
+    },
+    {
+      "bom-ref": "requirements-L247",
+      "description": "requirements line 247: pygments==2.20.0     --hash=sha256:6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f     --hash=sha256:81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pygments/"
+        }
+      ],
+      "name": "pygments",
+      "purl": "pkg:pypi/pygments@2.20.0",
+      "type": "library",
+      "version": "2.20.0"
+    },
+    {
+      "bom-ref": "requirements-L251",
+      "description": "requirements line 251: python-dateutil==2.9.0.post0     --hash=sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3     --hash=sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/python-dateutil/"
+        }
+      ],
+      "name": "python-dateutil",
+      "purl": "pkg:pypi/python-dateutil@2.9.0.post0",
+      "type": "library",
+      "version": "2.9.0.post0"
+    },
+    {
+      "bom-ref": "requirements-L255",
+      "description": "requirements line 255: pytz==2026.2     --hash=sha256:04156e608bee23d3792fd45c94ae47fae1036688e75032eea2e3bf0323d1f126     --hash=sha256:0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "04156e608bee23d3792fd45c94ae47fae1036688e75032eea2e3bf0323d1f126"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/pytz/"
+        }
+      ],
+      "name": "pytz",
+      "purl": "pkg:pypi/pytz@2026.2",
+      "type": "library",
+      "version": "2026.2"
+    },
+    {
+      "bom-ref": "requirements-L259",
+      "description": "requirements line 259: rich==15.0.0     --hash=sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb     --hash=sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/rich/"
+        }
+      ],
+      "name": "rich",
+      "purl": "pkg:pypi/rich@15.0.0",
+      "type": "library",
+      "version": "15.0.0"
+    },
+    {
+      "bom-ref": "requirements-L263",
+      "description": "requirements line 263: scikit-learn==1.9.0     --hash=sha256:051075bda8b7aab87b1906ab3d4740a1e1224a19d7b3781a576736edc94e76aa     --hash=sha256:056c92bb67ad4c28463c2f2653d9701449201e7e7a9e94e321be0f71c4fef2b8     --hash=sha256:147e9329ef0e39f75d4cffa02b2aa48d827832684926cd5210d9a2cb5c57246b     --hash=sha256:1b944b6db288f6b926e3650026ddafb988929de95d11fc2cc5fa117773c9ba42     --hash=sha256:1fea2cc5677ab49d6f5bade978c866da44957b712d92e9635e8b4f723013c3cb     --hash=sha256:24360002ae845e7866522b0a5bbf690802e7bc388cac8663502e78aa98598aa2     --hash=sha256:26e22435f63bcdcf396b574273f29f13dd531f5ea035801f5be10ba1540a4e60     --hash=sha256:2bd41b0d201bc81575531b96b713d3eb5e5f50fb0b82101ff0f92294fdc236ac     --hash=sha256:38c3dcb9a1ffb85505ec53d54c7b4aea0cff70050425a7760c2af661ac85df05     --hash=sha256:4306775fad04cc4b472a1b15af1ae9cede1540fbfcc17fbce3767cd8dc7ae283     --hash=sha256:4ccacf04ca5f4b492158a5f28afe0ace43f81b2571e4b9a66d34848b46128949     --hash=sha256:5162ad10a418c8a282dde04c9aa06965de3e9a65f33c1440c0ae69bb1a09d913     --hash=sha256:5808d98f15c6bf6d9d96d2348c1997392a5888ce7097e664105f930c4bca1277     --hash=sha256:5b934c45c252844a91d69fda3a34cff5e7307e1db10d77cb10a3980312c74713     --hash=sha256:5bad8f8b9950321b54c965fdcbac6c6c55e79e16646b49977bcf3668d3870a1a     --hash=sha256:5be45aa4a42a68a533913a6ed736cf309de2226411c79ef8d609a5456f1939b1     --hash=sha256:5e50ed4da51974e86e940690e9a3d82e729b62b5a49f7c9bac534d515d39d86f     --hash=sha256:64fa347efc1c839c487433e40c5144d38c336e8a2b59c81aa8660373945c2673     --hash=sha256:78fc56eafd4edb9575d2d8950d1dd152061abb573341a1cb7e099fc40f6c6666     --hash=sha256:80746d63bd4b6eaca54d36fe5feaf4d28bb38dc6f9470f81c7cad7c40155f119     --hash=sha256:8833266989d3a5110178a9fae30783675460724d0e1efb13b14901d2c660c557     --hash=sha256:9656acd4e93f74e0b66c8a36c88830a99252dfa900044d36bc2212ae89a47162     --hash=sha256:d77f54c017633791bc0225a43e2f8d03745fdcfe4880268fcc4df15f505dec2e     --hash=sha256:da76d09304a4706db7cc1e3ebaa3b6b98a67365cc11d2996c4f1e58ba47df714     --hash=sha256:ee1a8db2c18c08e34c7412d4b10be1cac214cd4ea7dc9715a6a327eb49a37c96",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "051075bda8b7aab87b1906ab3d4740a1e1224a19d7b3781a576736edc94e76aa"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "056c92bb67ad4c28463c2f2653d9701449201e7e7a9e94e321be0f71c4fef2b8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "147e9329ef0e39f75d4cffa02b2aa48d827832684926cd5210d9a2cb5c57246b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1b944b6db288f6b926e3650026ddafb988929de95d11fc2cc5fa117773c9ba42"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1fea2cc5677ab49d6f5bade978c866da44957b712d92e9635e8b4f723013c3cb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "24360002ae845e7866522b0a5bbf690802e7bc388cac8663502e78aa98598aa2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "26e22435f63bcdcf396b574273f29f13dd531f5ea035801f5be10ba1540a4e60"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2bd41b0d201bc81575531b96b713d3eb5e5f50fb0b82101ff0f92294fdc236ac"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "38c3dcb9a1ffb85505ec53d54c7b4aea0cff70050425a7760c2af661ac85df05"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4306775fad04cc4b472a1b15af1ae9cede1540fbfcc17fbce3767cd8dc7ae283"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4ccacf04ca5f4b492158a5f28afe0ace43f81b2571e4b9a66d34848b46128949"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5162ad10a418c8a282dde04c9aa06965de3e9a65f33c1440c0ae69bb1a09d913"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5808d98f15c6bf6d9d96d2348c1997392a5888ce7097e664105f930c4bca1277"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5b934c45c252844a91d69fda3a34cff5e7307e1db10d77cb10a3980312c74713"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5bad8f8b9950321b54c965fdcbac6c6c55e79e16646b49977bcf3668d3870a1a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5be45aa4a42a68a533913a6ed736cf309de2226411c79ef8d609a5456f1939b1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5e50ed4da51974e86e940690e9a3d82e729b62b5a49f7c9bac534d515d39d86f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "64fa347efc1c839c487433e40c5144d38c336e8a2b59c81aa8660373945c2673"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "78fc56eafd4edb9575d2d8950d1dd152061abb573341a1cb7e099fc40f6c6666"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "80746d63bd4b6eaca54d36fe5feaf4d28bb38dc6f9470f81c7cad7c40155f119"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8833266989d3a5110178a9fae30783675460724d0e1efb13b14901d2c660c557"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9656acd4e93f74e0b66c8a36c88830a99252dfa900044d36bc2212ae89a47162"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d77f54c017633791bc0225a43e2f8d03745fdcfe4880268fcc4df15f505dec2e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "da76d09304a4706db7cc1e3ebaa3b6b98a67365cc11d2996c4f1e58ba47df714"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ee1a8db2c18c08e34c7412d4b10be1cac214cd4ea7dc9715a6a327eb49a37c96"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/scikit-learn/"
+        }
+      ],
+      "name": "scikit-learn",
+      "purl": "pkg:pypi/scikit-learn@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "bom-ref": "requirements-L290",
+      "description": "requirements line 290: scipy==1.16.3     --hash=sha256:01e87659402762f43bd2fee13370553a17ada367d42e7487800bf2916535aecb     --hash=sha256:03192a35e661470197556de24e7cb1330d84b35b94ead65c46ad6f16f6b28f2a     --hash=sha256:0553371015692a898e1aa858fed67a3576c34edefa6b7ebdb4e9dde49ce5c203     --hash=sha256:062246acacbe9f8210de8e751b16fc37458213f124bef161a5a02c7a39284304     --hash=sha256:0c3b4dd3d9b08dbce0f3440032c52e9e2ab9f96ade2d3943313dfe51a7056959     --hash=sha256:0c623a54f7b79dd88ef56da19bc2873afec9673a48f3b85b18e4d402bdd29a5a     --hash=sha256:16b8bc35a4cc24db80a0ec836a9286d0e31b2503cb2fd7ff7fb0e0374a97081d     --hash=sha256:1fb2472e72e24d1530debe6ae078db70fb1605350c88a3d14bc401d6306dbffe     --hash=sha256:21d9d6b197227a12dcbf9633320a4e34c6b0e51c57268df255a0942983bac562     --hash=sha256:2b71d93c8a9936046866acebc915e2af2e292b883ed6e2cbe5c34beb094b82d9     --hash=sha256:2d1ae2cf0c350e7705168ff2429962a89ad90c2d49d1dd300686d8b2a5af22fc     --hash=sha256:3a4c460301fb2cffb7f88528f30b3127742cff583603aa7dc964a52c463b385d     --hash=sha256:3d4a07a8e785d80289dfe66b7c27d8634a773020742ec7187b85ccc4b0e7b686     --hash=sha256:4aff59800a3b7f786b70bfd6ab551001cb553244988d7d6b8299cb1ea653b353     --hash=sha256:50a3dbf286dbc7d84f176f9a1574c705f277cb6565069f88f60db9eafdbe3ee2     --hash=sha256:56edc65510d1331dae01ef9b658d428e33ed48b4f77b1d51caf479a0253f96dc     --hash=sha256:57d01cb6f85e34f0946b33caa66e892aae072b64b034183f3d87c4025802a119     --hash=sha256:5803c5fadd29de0cf27fa08ccbfe7a9e5d741bf63e4ab1085437266f12460ff9     --hash=sha256:6020470b9d00245926f2d5bb93b119ca0340f0d564eb6fbaad843eaebf9d690f     --hash=sha256:63d3cdacb8a824a295191a723ee5e4ea7768ca5ca5f2838532d9f2e2b3ce2135     --hash=sha256:663b8d66a8748051c3ee9c96465fb417509315b99c71550fda2591d7dd634234     --hash=sha256:72d1717fd3b5e6ec747327ce9bda32d5463f472c9dce9f54499e81fbd50245a1     --hash=sha256:7dc1360c06535ea6116a2220f760ae572db9f661aba2d88074fe30ec2aa1ff88     --hash=sha256:7f68154688c515cdb541a31ef8eb66d8cd1050605be9dcd74199cbd22ac739bc     --hash=sha256:81fc5827606858cf71446a5e98715ba0e11f0dbc83d71c7409d05486592a45d6     --hash=sha256:875555ce62743e1d54f06cdf22c1e0bc47b91130ac40fe5d783b6dfa114beeb6     --hash=sha256:8b3c820ddb80029fe9f43d61b81d8b488d3ef8ca010d15122b152db77dc94c22     --hash=sha256:8d09d72dc92742988b0e7750bddb8060b0c7079606c0d24a8cc8e9c9c11f9079     --hash=sha256:96491a6a54e995f00a28a3c3badfff58fd093bf26cd5fb34a2188c8c756a3a2c     --hash=sha256:9b9c9c07b6d56a35777a1b4cc8966118fb16cfd8daf6743867d17d36cfad2d40     --hash=sha256:a8a26c78ef223d3e30920ef759e25625a0ecdd0d60e5a8818b7513c3e5384cf2     --hash=sha256:aadd23f98f9cb069b3bd64ddc900c4d277778242e961751f77a8cb5c4b946fb0     --hash=sha256:b7c5f1bda1354d6a19bc6af73a649f8285ca63ac6b52e64e658a5a11d4d69800     --hash=sha256:b81c27fc41954319a943d43b20e07c40bdcd3ff7cf013f4fb86286faefe546c4     --hash=sha256:bb61878c18a470021fb515a843dc7a76961a8daceaaaa8bad1332f1bf4b54657     --hash=sha256:c5192722cffe15f9329a3948c4b1db789fbb1f05c97899187dcf009b283aea70     --hash=sha256:c97176013d404c7346bf57874eaac5187d969293bf40497140b0a2b2b7482e07     --hash=sha256:cd13e354df9938598af2be05822c323e97132d5e6306b83a3b4ee6724c6e522e     --hash=sha256:d2ec56337675e61b312179a1ad124f5f570c00f920cc75e1000025451b88241c     --hash=sha256:d3837938ae715fc0fe3c39c0202de3a8853aff22ca66781ddc2ade7554b7e2cc     --hash=sha256:d9f48cafc7ce94cf9b15c6bffdc443a81a27bf7075cf2dcd5c8b40f85d10c4e7     --hash=sha256:da7763f55885045036fabcebd80144b757d3db06ab0861415d1c3b7c69042146     --hash=sha256:e1d27cbcb4602680a49d787d90664fa4974063ac9d4134813332a8c53dbe667c     --hash=sha256:e5d42a9472e7579e473879a1990327830493a7047506d58d73fc429b84c1d49d     --hash=sha256:e7efa2681ea410b10dde31a52b18b0154d66f2485328830e45fdf183af5aefc6     --hash=sha256:eab43fae33a0c39006a88096cd7b4f4ef545ea0447d250d5ac18202d40b6611d     --hash=sha256:f2622206f5559784fa5c4b53a950c3c7c1cf3e84ca1b9c4b6c03f062f289ca26     --hash=sha256:f379b54b77a597aa7ee5e697df0d66903e41b9c85a6dd7946159e356319158e8     --hash=sha256:f667a4542cc8917af1db06366d3f78a5c8e83badd56409f94d1eac8d8d9133fa     --hash=sha256:fb4b29f4cf8cc5a8d628bc8d8e26d12d7278cd1f219f22698a378c3d67db5e4b     --hash=sha256:ffa6eea95283b2b8079b821dc11f50a17d0571c92b43e2b5b12764dc5f9b285d",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "01e87659402762f43bd2fee13370553a17ada367d42e7487800bf2916535aecb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "03192a35e661470197556de24e7cb1330d84b35b94ead65c46ad6f16f6b28f2a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0553371015692a898e1aa858fed67a3576c34edefa6b7ebdb4e9dde49ce5c203"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "062246acacbe9f8210de8e751b16fc37458213f124bef161a5a02c7a39284304"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0c3b4dd3d9b08dbce0f3440032c52e9e2ab9f96ade2d3943313dfe51a7056959"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "0c623a54f7b79dd88ef56da19bc2873afec9673a48f3b85b18e4d402bdd29a5a"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "16b8bc35a4cc24db80a0ec836a9286d0e31b2503cb2fd7ff7fb0e0374a97081d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "1fb2472e72e24d1530debe6ae078db70fb1605350c88a3d14bc401d6306dbffe"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "21d9d6b197227a12dcbf9633320a4e34c6b0e51c57268df255a0942983bac562"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2b71d93c8a9936046866acebc915e2af2e292b883ed6e2cbe5c34beb094b82d9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "2d1ae2cf0c350e7705168ff2429962a89ad90c2d49d1dd300686d8b2a5af22fc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3a4c460301fb2cffb7f88528f30b3127742cff583603aa7dc964a52c463b385d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "3d4a07a8e785d80289dfe66b7c27d8634a773020742ec7187b85ccc4b0e7b686"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "4aff59800a3b7f786b70bfd6ab551001cb553244988d7d6b8299cb1ea653b353"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "50a3dbf286dbc7d84f176f9a1574c705f277cb6565069f88f60db9eafdbe3ee2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "56edc65510d1331dae01ef9b658d428e33ed48b4f77b1d51caf479a0253f96dc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "57d01cb6f85e34f0946b33caa66e892aae072b64b034183f3d87c4025802a119"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "5803c5fadd29de0cf27fa08ccbfe7a9e5d741bf63e4ab1085437266f12460ff9"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6020470b9d00245926f2d5bb93b119ca0340f0d564eb6fbaad843eaebf9d690f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "63d3cdacb8a824a295191a723ee5e4ea7768ca5ca5f2838532d9f2e2b3ce2135"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "663b8d66a8748051c3ee9c96465fb417509315b99c71550fda2591d7dd634234"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "72d1717fd3b5e6ec747327ce9bda32d5463f472c9dce9f54499e81fbd50245a1"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7dc1360c06535ea6116a2220f760ae572db9f661aba2d88074fe30ec2aa1ff88"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "7f68154688c515cdb541a31ef8eb66d8cd1050605be9dcd74199cbd22ac739bc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "81fc5827606858cf71446a5e98715ba0e11f0dbc83d71c7409d05486592a45d6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "875555ce62743e1d54f06cdf22c1e0bc47b91130ac40fe5d783b6dfa114beeb6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8b3c820ddb80029fe9f43d61b81d8b488d3ef8ca010d15122b152db77dc94c22"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8d09d72dc92742988b0e7750bddb8060b0c7079606c0d24a8cc8e9c9c11f9079"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "96491a6a54e995f00a28a3c3badfff58fd093bf26cd5fb34a2188c8c756a3a2c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "9b9c9c07b6d56a35777a1b4cc8966118fb16cfd8daf6743867d17d36cfad2d40"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "a8a26c78ef223d3e30920ef759e25625a0ecdd0d60e5a8818b7513c3e5384cf2"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "aadd23f98f9cb069b3bd64ddc900c4d277778242e961751f77a8cb5c4b946fb0"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b7c5f1bda1354d6a19bc6af73a649f8285ca63ac6b52e64e658a5a11d4d69800"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "b81c27fc41954319a943d43b20e07c40bdcd3ff7cf013f4fb86286faefe546c4"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "bb61878c18a470021fb515a843dc7a76961a8daceaaaa8bad1332f1bf4b54657"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c5192722cffe15f9329a3948c4b1db789fbb1f05c97899187dcf009b283aea70"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "c97176013d404c7346bf57874eaac5187d969293bf40497140b0a2b2b7482e07"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "cd13e354df9938598af2be05822c323e97132d5e6306b83a3b4ee6724c6e522e"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d2ec56337675e61b312179a1ad124f5f570c00f920cc75e1000025451b88241c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d3837938ae715fc0fe3c39c0202de3a8853aff22ca66781ddc2ade7554b7e2cc"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "d9f48cafc7ce94cf9b15c6bffdc443a81a27bf7075cf2dcd5c8b40f85d10c4e7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "da7763f55885045036fabcebd80144b757d3db06ab0861415d1c3b7c69042146"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e1d27cbcb4602680a49d787d90664fa4974063ac9d4134813332a8c53dbe667c"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e5d42a9472e7579e473879a1990327830493a7047506d58d73fc429b84c1d49d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e7efa2681ea410b10dde31a52b18b0154d66f2485328830e45fdf183af5aefc6"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "eab43fae33a0c39006a88096cd7b4f4ef545ea0447d250d5ac18202d40b6611d"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f2622206f5559784fa5c4b53a950c3c7c1cf3e84ca1b9c4b6c03f062f289ca26"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f379b54b77a597aa7ee5e697df0d66903e41b9c85a6dd7946159e356319158e8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "f667a4542cc8917af1db06366d3f78a5c8e83badd56409f94d1eac8d8d9133fa"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "fb4b29f4cf8cc5a8d628bc8d8e26d12d7278cd1f219f22698a378c3d67db5e4b"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ffa6eea95283b2b8079b821dc11f50a17d0571c92b43e2b5b12764dc5f9b285d"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/scipy/"
+        }
+      ],
+      "name": "scipy",
+      "purl": "pkg:pypi/scipy@1.16.3",
+      "type": "library",
+      "version": "1.16.3"
+    },
+    {
+      "bom-ref": "requirements-L345",
+      "description": "requirements line 345: shellingham==1.5.4     --hash=sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686     --hash=sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/shellingham/"
+        }
+      ],
+      "name": "shellingham",
+      "purl": "pkg:pypi/shellingham@1.5.4",
+      "type": "library",
+      "version": "1.5.4"
+    },
+    {
+      "bom-ref": "requirements-L349",
+      "description": "requirements line 349: six==1.17.0     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/six/"
+        }
+      ],
+      "name": "six",
+      "purl": "pkg:pypi/six@1.17.0",
+      "type": "library",
+      "version": "1.17.0"
+    },
+    {
+      "bom-ref": "requirements-L353",
+      "description": "requirements line 353: threadpoolctl==3.6.0     --hash=sha256:43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb     --hash=sha256:8ab8b4aa3491d812b623328249fab5302a68d2d71745c8a4c719a2fcaba9f44e",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "8ab8b4aa3491d812b623328249fab5302a68d2d71745c8a4c719a2fcaba9f44e"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/threadpoolctl/"
+        }
+      ],
+      "name": "threadpoolctl",
+      "purl": "pkg:pypi/threadpoolctl@3.6.0",
+      "type": "library",
+      "version": "3.6.0"
+    },
+    {
+      "bom-ref": "requirements-L357",
+      "description": "requirements line 357: typer==0.27.0     --hash=sha256:629bd12ea5d13a17148125d9a264f949eb171fb3f120f9b04d85873cab054fa5     --hash=sha256:6f4b27631e47f077871b7dc30e933ec0131c1390fbe0e387ea5574b5bac9ccf1",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "629bd12ea5d13a17148125d9a264f949eb171fb3f120f9b04d85873cab054fa5"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6f4b27631e47f077871b7dc30e933ec0131c1390fbe0e387ea5574b5bac9ccf1"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/typer/"
+        }
+      ],
+      "name": "typer",
+      "purl": "pkg:pypi/typer@0.27.0",
+      "type": "library",
+      "version": "0.27.0"
+    },
+    {
+      "bom-ref": "requirements-L361",
+      "description": "requirements line 361: typing-extensions==4.16.0     --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/typing-extensions/"
+        }
+      ],
+      "name": "typing-extensions",
+      "purl": "pkg:pypi/typing-extensions@4.16.0",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "bom-ref": "requirements-L369",
+      "description": "requirements line 369: typing-inspection==0.4.2     --hash=sha256:4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7     --hash=sha256:ba561c48a67c5958007083d386c3295464928b01faa735ab8547c5692e87f464",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "ba561c48a67c5958007083d386c3295464928b01faa735ab8547c5692e87f464"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/typing-inspection/"
+        }
+      ],
+      "name": "typing-inspection",
+      "purl": "pkg:pypi/typing-inspection@0.4.2",
+      "type": "library",
+      "version": "0.4.2"
+    },
+    {
+      "bom-ref": "requirements-L373",
+      "description": "requirements line 373: tzdata==2026.3     --hash=sha256:4a1518b8993086a7982523e071643f3c0e5f213e75b21318e78bcabfff9d1415     --hash=sha256:dc096730c87af6cab1b171c9d532be840741ff5d459015e7f6947bd7d7e54931",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "4a1518b8993086a7982523e071643f3c0e5f213e75b21318e78bcabfff9d1415"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "dc096730c87af6cab1b171c9d532be840741ff5d459015e7f6947bd7d7e54931"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/tzdata/"
+        }
+      ],
+      "name": "tzdata",
+      "purl": "pkg:pypi/tzdata@2026.3",
+      "type": "library",
+      "version": "2026.3"
+    },
+    {
+      "bom-ref": "requirements-L377",
+      "description": "requirements line 377: xarray==2024.11.0     --hash=sha256:1ccace44573ddb862e210ad3ec204210654d2c750bec11bbe7d842dfc298591f     --hash=sha256:6ee94f63ddcbdd0cf3909d1177f78cdac756640279c0e32ae36819a89cdaba37",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "1ccace44573ddb862e210ad3ec204210654d2c750bec11bbe7d842dfc298591f"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "6ee94f63ddcbdd0cf3909d1177f78cdac756640279c0e32ae36819a89cdaba37"
+            }
+          ],
+          "type": "distribution",
+          "url": "https://pypi.org/simple/xarray/"
+        }
+      ],
+      "name": "xarray",
+      "purl": "pkg:pypi/xarray@2024.11.0",
+      "type": "library",
+      "version": "2024.11.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "requirements-L11",
+        "requirements-L37",
+        "requirements-L92",
+        "requirements-L130",
+        "requirements-L145",
+        "requirements-L176",
+        "requirements-L263",
+        "requirements-L290",
+        "requirements-L357",
+        "requirements-L361",
+        "requirements-L377"
+      ],
+      "ref": "root-component"
+    },
+    {
+      "ref": "requirements-L11"
+    },
+    {
+      "ref": "requirements-L130"
+    },
+    {
+      "ref": "requirements-L134"
+    },
+    {
+      "ref": "requirements-L145"
+    },
+    {
+      "ref": "requirements-L15"
+    },
+    {
+      "ref": "requirements-L176"
+    },
+    {
+      "ref": "requirements-L180"
+    },
+    {
+      "ref": "requirements-L21"
+    },
+    {
+      "ref": "requirements-L247"
+    },
+    {
+      "ref": "requirements-L25"
+    },
+    {
+      "ref": "requirements-L251"
+    },
+    {
+      "ref": "requirements-L255"
+    },
+    {
+      "ref": "requirements-L259"
+    },
+    {
+      "ref": "requirements-L263"
+    },
+    {
+      "ref": "requirements-L29"
+    },
+    {
+      "ref": "requirements-L290"
+    },
+    {
+      "ref": "requirements-L3"
+    },
+    {
+      "ref": "requirements-L33"
+    },
+    {
+      "ref": "requirements-L345"
+    },
+    {
+      "ref": "requirements-L349"
+    },
+    {
+      "ref": "requirements-L353"
+    },
+    {
+      "ref": "requirements-L357"
+    },
+    {
+      "ref": "requirements-L361"
+    },
+    {
+      "ref": "requirements-L369"
+    },
+    {
+      "ref": "requirements-L37"
+    },
+    {
+      "ref": "requirements-L373"
+    },
+    {
+      "ref": "requirements-L377"
+    },
+    {
+      "ref": "requirements-L7"
+    },
+    {
+      "ref": "requirements-L88"
+    },
+    {
+      "ref": "requirements-L92"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "root-component",
+      "description": "A Python library for Value of Information analysis.",
+      "externalReferences": [
+        {
+          "comment": "from pyproject urls: Documentation",
+          "type": "documentation",
+          "url": "https://edithatogo.github.io/voiage"
+        },
+        {
+          "comment": "from pyproject urls: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/edithatogo/voiage/issues"
+        },
+        {
+          "comment": "from pyproject urls: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/edithatogo/voiage/blob/main/changelog.md"
+        },
+        {
+          "comment": "from pyproject urls: Repository",
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        },
+        {
+          "comment": "from pyproject urls: Homepage",
+          "type": "website",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "voiage:source:commit",
+        "value": "05cc373d78ae74143194e889ff1317de4dfea52e"
+      },
+      {
+        "name": "voiage:source:tag",
+        "value": "v1.0.0"
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "description": "CycloneDX Software Bill of Materials (SBOM) generator for Python projects and environments",
+          "externalReferences": [
+            {
+              "type": "build-system",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/actions"
+            },
+            {
+              "type": "distribution",
+              "url": "https://pypi.org/project/cyclonedx-bom/"
+            },
+            {
+              "type": "documentation",
+              "url": "https://cyclonedx-bom-tool.readthedocs.io/"
+            },
+            {
+              "type": "issue-tracker",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/issues"
+            },
+            {
+              "type": "license",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/blob/main/LICENSE"
+            },
+            {
+              "type": "release-notes",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/blob/main/CHANGELOG.md"
+            },
+            {
+              "type": "vcs",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/"
+            },
+            {
+              "type": "website",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/#readme"
+            }
+          ],
+          "group": "CycloneDX",
+          "licenses": [
+            {
+              "license": {
+                "acknowledgement": "declared",
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "name": "cyclonedx-py",
+          "type": "application",
+          "version": "7.3.0"
+        },
+        {
+          "description": "Python library for CycloneDX",
+          "externalReferences": [
+            {
+              "type": "build-system",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/actions"
+            },
+            {
+              "type": "distribution",
+              "url": "https://pypi.org/project/cyclonedx-python-lib/"
+            },
+            {
+              "type": "documentation",
+              "url": "https://cyclonedx-python-library.readthedocs.io/"
+            },
+            {
+              "type": "issue-tracker",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/issues"
+            },
+            {
+              "type": "license",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/LICENSE"
+            },
+            {
+              "type": "release-notes",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/CHANGELOG.md"
+            },
+            {
+              "type": "vcs",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib"
+            },
+            {
+              "type": "website",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/#readme"
+            }
+          ],
+          "group": "CycloneDX",
+          "licenses": [
+            {
+              "license": {
+                "acknowledgement": "declared",
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "name": "cyclonedx-python-lib",
+          "type": "library",
+          "version": "11.11.0"
+        }
+      ]
+    }
+  },
+  "specVersion": "1.6",
+  "version": 1
+}

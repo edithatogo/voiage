@@ -9,23 +9,13 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _package_version
 from typing import TYPE_CHECKING
 
-from . import (
-    analysis,
-    config,
-    core,
-    exceptions,
-    factory,
-    fluent,
-    hta_integration,
-    schema,
-)
-from .analysis import DecisionAnalysis
+from . import config, exceptions, schema
 from .methods.basic import evpi, evppi
 from .methods.ceaf import CEAFResult
 from .methods.ceaf import calculate_ceaf as ceaf
 from .methods.dominance import DominanceResult
 from .methods.dominance import calculate_dominance as dominance
-from .methods.sample_information import enbs, evsi
+from .methods.sample_information import enbs, evsi, normal_normal_two_arm_evsi
 from .schema import (
     DecisionOption,
     ParameterSet,
@@ -37,6 +27,7 @@ from .schema import (
 
 if TYPE_CHECKING:
     from . import ecosystem_integration
+    from .analysis import DecisionAnalysis
     from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
 
 try:
@@ -46,7 +37,23 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
 
 
 _JAX_MODULES = frozenset({"health_economics", "multi_domain"})
-_LAZY_MODULES = frozenset({"backends", "cli", "experimental", "methods", "plot"})
+_LAZY_MODULES = frozenset(
+    {
+        "analysis",
+        "backends",
+        "cli",
+        "core",
+        "experimental",
+        "factory",
+        "fluent",
+        "hta_integration",
+        "methods",
+        "plot",
+    }
+)
+_LAZY_EXPORTS = {
+    "DecisionAnalysis": (".analysis", "DecisionAnalysis"),
+}
 _ECOSYSTEM_EXPORTS = {
     "ecosystem_integration": None,
     "HeomlRunBundle": "HeomlRunBundle",
@@ -267,6 +274,12 @@ def __getattr__(name: str) -> object:
         module = import_module(f".{name}", __name__)
         globals()[name] = module
         return module
+    if name in _LAZY_EXPORTS:
+        module_name, export_name = _LAZY_EXPORTS[name]
+        module = import_module(module_name, __name__)
+        value = getattr(module, export_name)
+        globals()[name] = value
+        return value
     if name in _EXTENSION_EXPORTS:
         module_name, export_name = _EXTENSION_EXPORTS[name]
         module = import_module(module_name, __name__)
@@ -323,6 +336,7 @@ __all__ = [  # noqa: RUF022 - stable symbols precede provisional namespaces
     "evpi",
     "evppi",
     "evsi",
+    "normal_normal_two_arm_evsi",
     "HeomlRunBundle",
     "analysis",
     "backends",

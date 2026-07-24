@@ -1,5 +1,5 @@
 test_that("the package-level documentation topic is present", {
-  rd_db <- tools::Rd_db("voiageR")
+  rd_db <- source_rd_db()
   rd_files <- names(rd_db)
   expect_true("voiageR.Rd" %in% rd_files)
   expect_true("evpi.Rd" %in% rd_files)

@@ -477,6 +477,7 @@ def test_top_level_package_exports_modules() -> None:
         "evpi",
         "evppi",
         "evsi",
+        "normal_normal_two_arm_evsi",
         "HeomlRunBundle",
         "analysis",
         "backends",

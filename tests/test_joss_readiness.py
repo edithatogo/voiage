@@ -30,7 +30,7 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
         encoding="utf-8"
     )
 
-    assert "voiage==1.0.0" in protocol
+    assert "voiage==2.0.0" in protocol
     assert "EVPI: 0.667" in protocol
     assert "issue #471" in protocol
     assert "AI-agent run" in protocol
@@ -128,7 +128,7 @@ def test_joss_validator_rejects_discovery_metadata_version_drift(
     codemeta = tmp_path / "codemeta.json"
     codemeta.write_text(
         codemeta.read_text(encoding="utf-8").replace(
-            '"version": "1.0.0"', '"version": "0.9.0"'
+            '"version": "2.0.0"', '"version": "0.9.0"'
         ),
         encoding="utf-8",
     )

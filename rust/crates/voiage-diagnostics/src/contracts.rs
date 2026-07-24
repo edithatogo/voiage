@@ -237,14 +237,14 @@ impl<'de> Deserialize<'de> for Diagnostics {
 #[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum MethodMaturity {
+    /// Method is specified in the roadmap but is not yet implemented.
+    Planned,
+    /// Method is callable but its scientific and compatibility contract may change.
+    Experimental,
+    /// Method is checked against deterministic fixtures but not yet stable.
+    FixtureBacked,
     /// Stable contract method.
     Stable,
-    /// Intentionally approximate method.
-    Approximate,
-    /// Experimental method.
-    Experimental,
-    /// Behavior depends on an explicit backend.
-    BackendDependent,
 }
 
 /// Published approximation behavior.
@@ -302,16 +302,6 @@ impl MethodMetadata {
     ) -> ContractResult<Self> {
         let method_family = checked_text(method_family, "method_family")?;
         validate_labels(&capability_labels, "capability_labels")?;
-        if matches!(
-            method_maturity,
-            MethodMaturity::Approximate | MethodMaturity::BackendDependent
-        ) && approximation_status == ApproximationStatus::Exact
-        {
-            return Err(invalid(
-                "approximation_status",
-                "approximate or backend-dependent methods cannot report exact",
-            ));
-        }
         Ok(Self {
             analysis_type: MethodMetadataDiscriminator::MethodMetadata,
             method_family,
