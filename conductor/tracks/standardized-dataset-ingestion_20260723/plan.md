@@ -46,18 +46,18 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 3 — Establish the optional provider boundary (#328)
 
-- [ ] **P3-T1 / AC-03:** Write failing fake-provider, missing-extra,
+- [x] **P3-T1 / AC-03:** Write failing fake-provider, missing-extra,
   import-isolation, error-taxonomy, source-policy, and resolver-injection tests.
-- [ ] **P3-T2 / AC-03:** Implement the `IngestionProvider` protocol, provider
+- [x] **P3-T2 / AC-03:** Implement the `IngestionProvider` protocol, provider
   registry, stable errors, and conservative provider probing.
-- [ ] **P3-T3 / AC-03:** Implement `SourceAccessPolicy` and the deterministic,
+- [x] **P3-T3 / AC-03:** Implement `SourceAccessPolicy` and the deterministic,
   dependency-injected resource-resolution boundary.
 - [x] **P3-T4 / AC-03:** Add provider capability declarations for versions,
   media types, transforms, projection, filtering, streaming, and random access.
 - [x] **P3-T5 / AC-03:** Add opt-in, allow-listed Python entry-point discovery;
   prohibit automatic third-party imports during package import and probing.
 - [x] **P3-T6 / AC-03:** Document the third-party provider extension contract.
-- [ ] **P3-T7 / AC-03:** Verify clean base installation, run automated review,
+- [x] **P3-T7 / AC-03:** Verify clean base installation, run automated review,
   focused validation, and the phase checkpoint protocol.
 
 ## Phase 4 — Implement the two source-format providers (#329, #330)
