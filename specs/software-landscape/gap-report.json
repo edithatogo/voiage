@@ -7,7 +7,7 @@
     "review_due": "2026-10-23"
   },
   "summary": {
-    "external_tools": 20,
+    "external_tools": 26,
     "canonical_methods": 60,
     "external_feature_states": {
       "adapter": 1,
@@ -15,10 +15,10 @@
       "excluded": 1,
       "native": 2,
       "not-reproducible": 5,
-      "planned": 22
+      "planned": 29
     },
-    "open_feature_gaps": 29,
-    "open_method_or_assurance_gaps": 57
+    "open_feature_gaps": 36,
+    "open_method_or_assurance_gaps": 58
   },
   "feature_gaps": [
     {
@@ -103,6 +103,20 @@
       "voiage_evidence": "Decision-value contracts are planned; generic model fitting remains delegated."
     },
     {
+      "tool_id": "gaussian-voi-supplement",
+      "feature_id": "gaussian-approximation-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evppi-regression",
+        "evsi-regression"
+      ],
+      "evidence": [
+        "https://github.com/feralaes/VOI-Gaussian-Approximation",
+        "https://doi.org/10.1177/0272989X17715627"
+      ],
+      "voiage_evidence": "Regression estimators exist, but the published Gaussian-approximation algorithm and independent reference fixture have not been reproduced."
+    },
+    {
       "tool_id": "kirstine",
       "feature_id": "kirstine-design",
       "parity_state": "planned",
@@ -114,6 +128,36 @@
         "https://github.com/lsandig/Kirstine.jl"
       ],
       "voiage_evidence": "General design optimization is adjacent; VOIAGE needs decision-utility linkage and Julia conformance."
+    },
+    {
+      "tool_id": "metavoi",
+      "feature_id": "metavoi-meta-analysis",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi",
+        "optimal-study-design",
+        "heterogeneity-voi",
+        "nma-voi"
+      ],
+      "evidence": [
+        "https://github.com/mahmood726-cyber/metavoi"
+      ],
+      "voiage_evidence": "The component methods exist or are planned, but the tool's posterior, heterogeneity, optimal-sample and certainty-mapping behavior lacks independent reproduction."
+    },
+    {
+      "tool_id": "nrel-geothermal-voi",
+      "feature_id": "geothermal-imperfect-information",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://github.com/NatLabRockies/Value_of_Information_App"
+      ],
+      "voiage_evidence": "Generic EVPI and EVSI are available, but the imperfect geophysical-signal likelihood workflow and public domain fixture are not yet reproduced."
     },
     {
       "tool_id": "pyro-oed",
@@ -242,6 +286,64 @@
         "https://search.r-project.org/CRAN/refmans/hesim/html/cea.html"
       ],
       "voiage_evidence": "Individual calculations exist; integrated subgroup result parity is not yet demonstrated."
+    },
+    {
+      "tool_id": "r-metanb",
+      "feature_id": "metanb-cluster-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "heterogeneity-voi",
+        "validation-voi",
+        "nma-voi"
+      ],
+      "evidence": [
+        "https://github.com/zhipeiwang/MetaNB",
+        "https://arxiv.org/abs/2607.02321"
+      ],
+      "voiage_evidence": "VOIAGE has component estimands, but it lacks the global-versus-local cluster contract, prevalence EVPPI and trivariate meta-analytic fixture."
+    },
+    {
+      "tool_id": "r-predtools",
+      "feature_id": "predtools-validation-evpi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "validation-voi"
+      ],
+      "evidence": [
+        "https://cran.r-project.org/package=predtools",
+        "https://doi.org/10.1177/0272989X231178317"
+      ],
+      "voiage_evidence": "Validation VOI exists experimentally, but the bivariate-normal moment estimator and an independent prediction-model fixture remain unimplemented."
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-optimization",
+      "parity_state": "planned",
+      "method_ids": [
+        "optimal-study-design",
+        "portfolio-voi"
+      ],
+      "evidence": [
+        "https://prioritizr.github.io/surveyvoi/"
+      ],
+      "voiage_evidence": "Portfolio VOI exists experimentally, but spatial survey design, detection models and exact-versus-heuristic conformance remain unimplemented."
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-survey-value",
+      "parity_state": "planned",
+      "method_ids": [
+        "evsi",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://prioritizr.github.io/surveyvoi/",
+        "https://doi.org/10.1111/1365-2664.14309"
+      ],
+      "voiage_evidence": "The generic DecisionProblemV2 can represent surveys, detection error and acquisition cost, but no conservation-survey estimator or fixture is implemented."
     },
     {
       "tool_id": "r-voi",
@@ -626,10 +728,14 @@
       "affected_tool_ids": [
         "analytica",
         "bceaweb",
+        "metavoi",
+        "nrel-geothermal-voi",
         "r-dampack",
         "r-decisionsupport",
         "r-heemod",
         "r-hesim",
+        "r-metanb",
+        "r-predtools",
         "rane",
         "trd-cea-toolkit",
         "treeage-pro"
@@ -647,8 +753,10 @@
       "affected_tool_ids": [
         "analytica",
         "bceaweb",
+        "metavoi",
         "r-dampack",
         "r-decisionsupport",
+        "r-metanb",
         "savi",
         "trd-cea-toolkit",
         "treeage-pro"
@@ -675,6 +783,7 @@
       "authority_state": "rust-authoritative",
       "remaining_implementation_gate": "none",
       "affected_tool_ids": [
+        "gaussian-voi-supplement",
         "r-voi"
       ],
       "owner_track": "stable_voi_rust_core_completion_20260723"
@@ -688,7 +797,10 @@
       "authority_state": "rust-authoritative",
       "remaining_implementation_gate": "none",
       "affected_tool_ids": [
+        "metavoi",
+        "nrel-geothermal-voi",
         "r-dampack",
+        "r-surveyvoi",
         "rane",
         "trd-cea-toolkit",
         "victor"
@@ -730,6 +842,7 @@
       "authority_state": "rust-authoritative",
       "remaining_implementation_gate": "none",
       "affected_tool_ids": [
+        "gaussian-voi-supplement",
         "r-voi"
       ],
       "owner_track": "stable_voi_rust_core_completion_20260723"
@@ -784,8 +897,10 @@
       "authority_state": "python-experimental",
       "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
+        "metavoi",
         "r-heemod",
         "r-hesim",
+        "r-metanb",
         "trd-cea-toolkit"
       ],
       "owner_track": "supported_frontier_method_completion_20260723"
@@ -894,6 +1009,20 @@
       "owner_track": "stable_voi_rust_core_completion_20260723"
     },
     {
+      "method_id": "nma-voi",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "authority_state": "rust-backed-python-orchestration",
+      "remaining_implementation_gate": "none",
+      "affected_tool_ids": [
+        "metavoi",
+        "r-metanb"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
       "method_id": "optimal-study-design",
       "maturity": "planned",
       "voiage_state": "planned",
@@ -903,6 +1032,8 @@
       "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "kirstine",
+        "metavoi",
+        "r-surveyvoi",
         "rane",
         "victor"
       ],
@@ -1014,7 +1145,9 @@
       "promotion_gate": "independent-replication",
       "authority_state": "python-experimental",
       "remaining_implementation_gate": "experimental-promotion",
-      "affected_tool_ids": [],
+      "affected_tool_ids": [
+        "r-surveyvoi"
+      ],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
@@ -1126,7 +1259,10 @@
       "promotion_gate": "independent-replication",
       "authority_state": "python-experimental",
       "remaining_implementation_gate": "experimental-promotion",
-      "affected_tool_ids": [],
+      "affected_tool_ids": [
+        "r-metanb",
+        "r-predtools"
+      ],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {

@@ -68,6 +68,13 @@ def test_required_ecosystems_and_seed_tools_are_present() -> None:
         "analytica",
         "pyro-oed",
         "botorch",
+        "decision-security",
+        "r-surveyvoi",
+        "r-predtools",
+        "r-metanb",
+        "gaussian-voi-supplement",
+        "metavoi",
+        "nrel-geothermal-voi",
     } <= ids
     assert len(ids) == len(tools)
 

@@ -26,6 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added generated implementation evidence for every method claimed as native,
   linking each claim to its implementation, executable tests, numerical
   authority, maturity, and remaining promotion gate.
+- Added verified landscape records for ecological survey design, external
+  prediction-model validation, heterogeneous meta-analysis, Gaussian
+  approximation, meta-analysis study design, and geothermal imperfect
+  information after the refreshed registry and repository search found these
+  previously omitted capabilities.
 - Added method-level scientific dispositions for all 60 canonical methods,
   explicit classifications for 15 adjacent VOI concepts, a backend-neutral
   DecisionProblemV2 interchange schema, competitor-free positive-parity

@@ -14,10 +14,10 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 
 ## Coverage summary
 
-- 22 software or binding records across 7 ecosystems.
+- 28 software or binding records across 7 ecosystems.
 - 60 canonical VOI, VOP, estimator, visualization, and related-method records.
-- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 22.
-- 29 external feature gaps and 57 method or assurance gaps remain routed to Conductor tracks.
+- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 29.
+- 36 external feature gaps and 58 method or assurance gaps remain routed to Conductor tracks.
 
 ## Software landscape
 
@@ -30,6 +30,8 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | [BoTorch](https://botorch.readthedocs.io/en/stable/acquisition.html) | python | active-learning-library | maintained | 0.18.1 | 3 |
 | [decision-security](https://pypi.org/project/decision-security/) | python | decision-analysis-library | maintained | 0.1.0a7 | 1 |
 | [Emukit](https://emukit.github.io/) | python | experimental-design-library | maintained | 0.5.1 | 1 |
+| [MetaVoI](https://github.com/mahmood726-cyber/metavoi) | python | voi-library | maintained | 95860bb | 1 |
+| [NREL geothermal Value of Information app](https://github.com/NatLabRockies/Value_of_Information_App) | python | web-application | maintained | 0549820 | 1 |
 | [Pyro optimal experimental design](https://docs.pyro.ai/en/stable/contrib.oed.html) | python | experimental-design-library | maintained | 1.9.1 | 1 |
 | [scikit-activeml](https://scikit-activeml.github.io/latest/) | python | active-learning-library | maintained | 1.0.0 | 1 |
 | [TRD CEA Toolkit](https://pypi.org/pypi/trd-cea-toolkit/json) | python | decision-analysis-library | maintained | 0.4.0 | 2 |
@@ -39,7 +41,11 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | [decisionSupport](https://search.r-project.org/CRAN/refmans/decisionSupport/html/00Index.html) | r | decision-analysis-library | maintained | 1.115 | 1 |
 | [heemod](https://aphp.github.io/heemod/) | r | modeling-library | maintained | 1.1.0 | 2 |
 | [hesim](https://search.r-project.org/CRAN/refmans/hesim/html/cea.html) | r | modeling-library | maintained | 0.5.8 | 1 |
+| [MetaNB](https://github.com/zhipeiwang/MetaNB) | r | voi-library | maintained | 0.0.0.9000+289cccd | 1 |
+| [predtools](https://cran.r-project.org/package=predtools) | r | decision-analysis-library | limited | 0.0.3 | 1 |
+| [surveyvoi](https://cran.r-project.org/package=surveyvoi) | r | voi-library | maintained | 1.1.1 | 2 |
 | [voi](https://cran.r-project.org/package=voi) | r | voi-library | maintained | 1.0.3 | 4 |
+| [VOI Gaussian Approximation supplement](https://github.com/feralaes/VOI-Gaussian-Approximation) | r | voi-library | limited | 756b15b | 1 |
 | [voiage Rust core](https://github.com/edithatogo/voiage) | rust | voi-library | maintained | 1.0.0 | 1 |
 | [BCEAweb](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | web | web-application | unknown | unverified | 1 |
 | [Rapid Assessment of Need for Evidence](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | web | web-application | unknown | unverified | 1 |
@@ -59,6 +65,8 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | BoTorch | [Predictive entropy search and preference acquisition](https://botorch.readthedocs.io/en/stable/acquisition.html) | estimator | `entropy-search`, `preference-acquisition` | `planned` | Contracts and deterministic fixtures remain planned. |
 | decision-security | [Cybersecurity Monte Carlo EVPI and ROI selection](https://pypi.org/project/decision-security/) | application | `evpi`, `net-benefit` | `equivalent` | Domain-neutral EVPI and utility inputs support the same class of decision; a security worked example is still desirable. |
 | Emukit | [Bayesian optimization, experimental design and multi-fidelity workflows](https://emukit.github.io/) | workflow | `bayesian-oed`, `multi-fidelity-acquisition`, `entropy-search` | `planned` | Decision-value contracts are planned; generic model fitting remains delegated. |
+| MetaVoI | [Meta-analysis EVPI, EVPPI, EVSI, optimal trial size and GRADE bridge](https://github.com/mahmood726-cyber/metavoi) | workflow | `evpi`, `evppi`, `evsi`, `optimal-study-design`, `heterogeneity-voi`, `nma-voi` | `planned` | The component methods exist or are planned, but the tool's posterior, heterogeneity, optimal-sample and certainty-mapping behavior lacks independent reproduction. |
+| NREL geothermal Value of Information app | [Perfect and imperfect information for geothermal drill-or-walk-away decisions](https://github.com/NatLabRockies/Value_of_Information_App) | application | `evpi`, `evsi` | `planned` | Generic EVPI and EVSI are available, but the imperfect geophysical-signal likelihood workflow and public domain fixture are not yet reproduced. |
 | Pyro optimal experimental design | [Nested Monte Carlo, variational, Laplace and posterior expected-information-gain estimators](https://docs.pyro.ai/en/stable/contrib.oed.html) | estimator | `expected-information-gain`, `bayesian-oed` | `planned` | Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional. |
 | scikit-activeml | [Pool, stream and multi-annotator query strategies](https://scikit-activeml.github.io/latest/) | workflow | `active-learning`, `data-valuation` | `planned` | VOIAGE will value information actions, not duplicate a general active-learning toolkit. |
 | TRD CEA Toolkit | [CEA, DCEA, budget impact, MCDA, PSA, subgroup and implementation workflows](https://pypi.org/pypi/trd-cea-toolkit/json) | related-analysis | `net-benefit`, `icer`, `equity-voi`, `heterogeneity-voi`, `implementation-voi` | `planned` | VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures. |
@@ -73,10 +81,15 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | heemod | [Model-integrated PSA and EVPI](https://aphp.github.io/heemod/) | workflow | `evpi` | `adapter` | Independent EVPI exists; optional import normalization exists and requires expanded fixtures. |
 | heemod | [State-transition modeling, heterogeneity and budget impact](https://aphp.github.io/heemod/) | related-analysis | `heterogeneity-voi`, `implementation-voi` | `excluded` | General model construction is delegated; posterior/model outputs remain accepted inputs. |
 | hesim | [Subgroup CEA, CEAF, EVPI, NMB, ICER and CE-plane outputs](https://search.r-project.org/CRAN/refmans/hesim/html/cea.html) | workflow | `evpi`, `ceaf`, `net-benefit`, `icer`, `cea-plane`, `heterogeneity-voi` | `planned` | Individual calculations exist; integrated subgroup result parity is not yet demonstrated. |
+| MetaNB | [Global and cluster-specific EVPI and partial information for heterogeneous validation settings](https://github.com/zhipeiwang/MetaNB) | estimand | `evpi`, `evppi`, `heterogeneity-voi`, `validation-voi`, `nma-voi` | `planned` | VOIAGE has component estimands, but it lacks the global-versus-local cluster contract, prevalence EVPPI and trivariate meta-analytic fixture. |
+| predtools | [Expected value of perfect information for external validation from net-benefit moments](https://cran.r-project.org/package=predtools) | application | `evpi`, `validation-voi` | `planned` | Validation VOI exists experimentally, but the bivariate-normal moment estimator and an independent prediction-model fixture remain unimplemented. |
+| surveyvoi | [Budget-constrained exact, approximate and heuristic survey-scheme optimization](https://prioritizr.github.io/surveyvoi/) | workflow | `optimal-study-design`, `portfolio-voi` | `planned` | Portfolio VOI exists experimentally, but spatial survey design, detection models and exact-versus-heuristic conformance remain unimplemented. |
+| surveyvoi | [Expected value of ecological survey schemes with imperfect detection](https://prioritizr.github.io/surveyvoi/) | estimand | `evsi`, `optimal-study-design` | `planned` | The generic DecisionProblemV2 can represent surveys, detection error and acquisition cost, but no conservation-survey estimator or fixture is implemented. |
 | voi | [EVPI, multiparameter EVPPI, EVSI and ENBS](https://cran.r-project.org/package=voi) | estimand | `evpi`, `evppi`, `evsi`, `enbs` | `native` | voiage/methods/basic.py; voiage/methods/sample_information.py |
 | voi | [GAM, GP, earth, BART and INLA EVPPI estimators](https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html) | estimator | `evppi-regression` | `planned` | GAM/random-forest/BART-style metamodel surfaces exist, but estimator-by-estimator equivalence is not yet demonstrated. |
 | voi | [Regression, moment-matching and importance-sampling EVSI](https://search.r-project.org/CRAN/refmans/voi/html/evsi.html) | estimator | `evsi-regression`, `evsi-moment-matching`, `evsi-importance-sampling` | `planned` | Regression and moment-based estimators exist; importance-sampling equivalence remains planned. |
 | voi | [Tidy results and VOI plotting](https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html) | workflow | `voi-curve`, `expected-loss-curve` | `planned` | VOI curves exist; tidy result and expected-loss projection require conformance evidence. |
+| VOI Gaussian Approximation supplement | [General Gaussian-approximation EVPPI and EVSI workflow](https://github.com/feralaes/VOI-Gaussian-Approximation) | estimator | `evppi-regression`, `evsi-regression` | `planned` | Regression estimators exist, but the published Gaussian-approximation algorithm and independent reference fixture have not been reproduced. |
 | voiage Rust core | [Rust-authoritative stable decision-VOI kernels](https://github.com/edithatogo/voiage) | workflow | `evpi`, `evppi`, `evsi`, `enbs`, `ceaf`, `dominance`, `structural-voi` | `native` | rust/crates/voiage-numerics and shared fixtures |
 | BCEAweb | [Web economic evaluation and BCEA VOI workflow](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | workflow | `evpi`, `evppi`, `ceac`, `ceaf` | `not-reproducible` | Only literature-described behavior is recorded. |
 | Rapid Assessment of Need for Evidence | [Rapid minimal-model research-need assessment](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | workflow | `evpi`, `evsi`, `optimal-study-design` | `not-reproducible` | Literature triage only; current service behavior was not verified. |
