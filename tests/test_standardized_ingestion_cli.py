@@ -55,3 +55,13 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     assert output.is_file()
     assert calculated.exit_code == 0
     assert "input_digest" in json.loads(calculated.output)
+
+
+def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
+    descriptor = tmp_path / "unknown.json"
+    descriptor.write_text("{}", encoding="utf-8")
+
+    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+
+    assert result.exit_code == 2
+    assert "exactly one" in result.output

@@ -13,6 +13,9 @@ from voiage.ingestion import (
     default_registry,
     from_dataframe,
 )
+from voiage.ingestion.croissant import CroissantProvider
+from voiage.ingestion.frictionless import FrictionlessProvider
+from voiage.ingestion.registry import ProviderRegistry
 
 
 def _write_csv(tmp_path) -> None:
@@ -68,6 +71,12 @@ def test_source_policy_blocks_path_traversal_and_network(tmp_path) -> None:
         policy.resolve("../outside.csv")
     with pytest.raises(IngestionError, match="network"):
         policy.resolve("https://example.invalid/input.csv")
+    with pytest.raises(IngestionError, match="not implemented"):
+        SourceAccessPolicy(tmp_path, allow_network=True).resolve(
+            "https://example.invalid/input.csv"
+        )
+    with pytest.raises(IngestionError, match="does not exist"):
+        policy.resolve("missing.csv")
 
 
 def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> (
@@ -79,3 +88,48 @@ def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library
 
     assert bundle.manifest.provenance.provider_id == "dataframe-interchange"
     assert bundle.table("data").column_names == ["a", "b"]
+
+
+@pytest.mark.parametrize(
+    ("provider", "name", "descriptor", "message"),
+    [
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {"@context": "mlcommons.org/croissant"},
+            "recordSet",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": []},
+            "exactly one resource",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": [{"name": "x", "path": "x.csv", "schema": {}}]},
+            "requires fields",
+        ),
+    ],
+)
+def test_providers_reject_ambiguous_or_incomplete_descriptors(
+    tmp_path, provider, name, descriptor, message
+) -> None:
+    path = tmp_path / name
+    path.write_text(json.dumps(descriptor), encoding="utf-8")
+    with pytest.raises(IngestionError, match=message):
+        provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
+    invalid = tmp_path / "invalid.json"
+    invalid.write_text("[1]", encoding="utf-8")
+    with pytest.raises(IngestionError, match="root"):
+        ProviderRegistry().ingest(invalid)
+    invalid.write_text("not-json", encoding="utf-8")
+    with pytest.raises(IngestionError, match="valid UTF-8 JSON"):
+        ProviderRegistry().ingest(invalid)
+    invalid.write_text("{}", encoding="utf-8")
+    with pytest.raises(IngestionError, match="exactly one"):
+        ProviderRegistry().ingest(invalid)
