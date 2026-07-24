@@ -13,7 +13,10 @@ import pytest
 from voiage.contracts import (
     DatasetManifest,
     FieldManifest,
+    IngestionDiagnostic,
+    KeyReference,
     NormalizedInputBundle,
+    ResourceManifest,
     SourceProvenance,
     TableManifest,
     VOIBinding,
@@ -198,3 +201,93 @@ def test_ipc_export_rejects_multiple_tables(tmp_path) -> None:
     )
     with pytest.raises(ValueError, match="exactly one"):
         bundle.write_ipc(tmp_path / "bundle.arrow")
+
+
+def test_manifest_preserves_explicit_resource_and_relationship_contracts() -> None:
+    manifest = DatasetManifest(
+        dataset_id="linked",
+        tables=(
+            TableManifest(
+                table_id="samples",
+                fields=(FieldManifest(field_id="strategy_id", dtype="string"),),
+                primary_key=("strategy_id",),
+            ),
+            TableManifest(
+                table_id="outcomes",
+                fields=(FieldManifest(field_id="strategy_id", dtype="string"),),
+            ),
+        ),
+        resources=(
+            ResourceManifest(
+                resource_id="samples-csv",
+                uri="samples.csv",
+                sha256="b" * 64,
+                media_type="text/csv",
+            ),
+        ),
+        key_references=(
+            KeyReference(
+                source_table_id="outcomes",
+                source_field_ids=("strategy_id",),
+                target_table_id="samples",
+                target_field_ids=("strategy_id",),
+            ),
+        ),
+        diagnostics=(
+            IngestionDiagnostic(code="validated", severity="info", message="ok"),
+        ),
+        provenance=SourceProvenance(
+            provider_id="direct",
+            source_uri="file:///descriptor.json",
+            descriptor_digest="c" * 64,
+        ),
+    )
+
+    payload = json.loads(manifest.canonical_json())
+
+    assert payload["resources"][0]["resource_id"] == "samples-csv"
+    assert payload["key_references"][0]["target_table_id"] == "samples"
+    assert payload["diagnostics"][0]["severity"] == "info"
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"extensions": {"plain": "value"}}, "namespaced"),
+        ({"extensions": {"vendor:extension": "value"}}, "namespaced"),
+        (
+            {
+                "resources": (
+                    ResourceManifest(resource_id="x", uri="x", sha256="d" * 64),
+                )
+                * 2
+            },
+            "resource identifiers",
+        ),
+    ],
+)
+def test_manifest_rejects_ambiguous_extensions_and_resources(kwargs, message) -> None:
+    with pytest.raises(ValidationError, match=message):
+        DatasetManifest(
+            dataset_id="bad",
+            tables=(
+                TableManifest(
+                    table_id="t", fields=(FieldManifest(field_id="x", dtype="float64"),)
+                ),
+            ),
+            provenance=SourceProvenance(
+                provider_id="direct",
+                source_uri="file:///descriptor.json",
+                descriptor_digest="d" * 64,
+            ),
+            **kwargs,
+        )
+
+
+def test_provenance_redacts_credential_bearing_source_uris() -> None:
+    with pytest.raises(ValidationError, match="credentials or query strings"):
+        SourceProvenance(
+            provider_id="direct",
+            source_uri="https://user:secret@example.test/data?token=secret",
+            descriptor_digest="d" * 64,
+        )
