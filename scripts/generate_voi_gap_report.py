@@ -15,6 +15,8 @@ METHODS = LANDSCAPE / "methods.json"
 EVIDENCE = LANDSCAPE / "method-evidence.json"
 IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
 UPSTREAM_EVIDENCE = LANDSCAPE / "upstream-feature-evidence.json"
+LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
+FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 OUTPUT = LANDSCAPE / "gap-report.json"
 
 IMPLEMENTATION_TRACKS = {
@@ -42,6 +44,13 @@ def render() -> str:
         (item["tool_id"], item["feature_id"]): item
         for item in json.loads(UPSTREAM_EVIDENCE.read_text(encoding="utf-8"))["records"]
     }
+    license_rights = json.loads(LICENSE_RIGHTS.read_text(encoding="utf-8"))
+    dispositions = {
+        (item["tool_id"], item["feature_id"]): item
+        for item in json.loads(FEATURE_DISPOSITIONS.read_text(encoding="utf-8"))[
+            "records"
+        ]
+    }
     feature_states: Counter[str] = Counter()
     affected_tools: defaultdict[str, set[str]] = defaultdict(set)
     feature_gaps: list[dict[str, object]] = []
@@ -65,6 +74,9 @@ def render() -> str:
                     "upstream_extraction_state": upstream["extraction_state"],
                     "upstream_limitations": upstream["limitations"],
                     "voiage_evidence": feature["voiage_evidence"],
+                    "reviewed_disposition": dispositions.get(
+                        (tool["id"], feature["id"])
+                    ),
                 }
             )
 
@@ -116,6 +128,11 @@ def render() -> str:
             )["schema_version"],
             "searched_on": registry["searched_on"],
             "review_due": registry["review_due"],
+            "license_rights_schema_version": license_rights["schema_version"],
+            "license_rights_review_due": license_rights["review_due"],
+            "feature_dispositions_schema_version": json.loads(
+                FEATURE_DISPOSITIONS.read_text(encoding="utf-8")
+            )["schema_version"],
         },
         "summary": {
             "external_tools": sum(

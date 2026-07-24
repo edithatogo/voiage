@@ -39,6 +39,14 @@ def _render() -> str:
     method_registry = _load(LANDSCAPE / "methods.json")
     evidence_registry = _load(LANDSCAPE / "method-evidence.json")
     gap_report = _load(LANDSCAPE / "gap-report.json")
+    license_rights = {
+        item["tool_id"]: item
+        for item in _load(LANDSCAPE / "license-rights.json")["records"]
+    }
+    dispositions = {
+        (item["tool_id"], item["feature_id"]): item
+        for item in _load(LANDSCAPE / "feature-dispositions.json")["records"]
+    }
     method_evidence = {
         item["method_id"]: item for item in evidence_registry["coverage"]
     }
@@ -87,8 +95,8 @@ def _render() -> str:
         "",
         "## Software landscape",
         "",
-        "| Tool | Ecosystem | Category | Maintenance | Version | Feature groups |",
-        "| --- | --- | --- | --- | --- | ---: |",
+        "| Tool | Ecosystem | Category | Maintenance | Version | License review | Fixture policy | Feature groups |",
+        "| --- | --- | --- | --- | --- | --- | --- | ---: |",
     ]
     for tool in tools:
         sources = tool["authoritative_sources"]
@@ -102,6 +110,8 @@ def _render() -> str:
                     _cell(tool["tool_kind"]),
                     _cell(tool["maintenance"]),
                     _cell(tool["version"]),
+                    _cell(license_rights[tool["id"]]["review_state"]),
+                    _cell(license_rights[tool["id"]]["reference_fixture_policy"]),
                     str(len(tool["features"])),
                 ]
             )
@@ -135,6 +145,36 @@ def _render() -> str:
                         f"`{_cell(upstream['extraction_state'])}`",
                         f"`{_cell(feature['parity_state'])}`",
                         _cell(feature["voiage_evidence"]),
+                    ]
+                )
+                + " |"
+            )
+
+    lines.extend(
+        [
+            "",
+            "## Reviewed exclusions and non-reproducible behavior",
+            "",
+            "| Tool | Feature | State | Reason | Closest supported workflow | User impact | Review due |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+    )
+    for tool in tools:
+        for feature in sorted(tool["features"], key=lambda item: item["id"]):
+            disposition = dispositions.get((tool["id"], feature["id"]))
+            if disposition is None:
+                continue
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        _cell(tool["name"]),
+                        _cell(feature["label"]),
+                        f"`{_cell(disposition['parity_state'])}`",
+                        _cell(disposition["exact_reason"]),
+                        _cell(disposition["closest_supported_workflow"]),
+                        _cell(disposition["user_impact"]),
+                        _cell(disposition["review_due"]),
                     ]
                 )
                 + " |"
@@ -188,6 +228,9 @@ def _render() -> str:
             "- Positive external parity claims name competitor-free fixtures in",
             "  `specs/software-landscape/parity-fixtures.json`; all other gaps are routed",
             "  by `specs/software-landscape/gap-report.json`.",
+            "- Machine-readable license review and reference-fixture reuse boundaries are",
+            "  recorded in `specs/software-landscape/license-rights.json`; exclusions and",
+            "  non-reproducible features are reviewed in `feature-dispositions.json`.",
             "",
             "The source registry, recorded searches, versions, licenses, and limitations are in",
             "[`specs/software-landscape/registry.json`](https://github.com/edithatogo/voiage/tree/main/specs/software-landscape).",

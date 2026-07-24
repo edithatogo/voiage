@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/feature-dispositions.schema.json",
+  "title": "VOIAGE reviewed external-feature dispositions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/record"}
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_id",
+        "feature_id",
+        "parity_state",
+        "reason_category",
+        "exact_reason",
+        "closest_supported_workflow",
+        "user_impact",
+        "review_date",
+        "review_due",
+        "evidence"
+      ],
+      "properties": {
+        "tool_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "feature_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "parity_state": {"enum": ["excluded", "not-reproducible"]},
+        "reason_category": {
+          "enum": [
+            "delegated-general-engine",
+            "behavior-unobservable",
+            "proprietary-unobservable"
+          ]
+        },
+        "exact_reason": {"type": "string", "minLength": 20},
+        "closest_supported_workflow": {"type": "string", "minLength": 10},
+        "user_impact": {"type": "string", "minLength": 10},
+        "review_date": {"type": "string", "format": "date"},
+        "review_due": {"type": "string", "format": "date"},
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^https://"}
+        }
+      }
+    }
+  }
+}

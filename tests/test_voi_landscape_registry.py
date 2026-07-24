@@ -24,6 +24,10 @@ PARITY_FIXTURES = LANDSCAPE / "parity-fixtures.json"
 IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
 UPSTREAM_EVIDENCE = LANDSCAPE / "upstream-feature-evidence.json"
 UPSTREAM_EVIDENCE_SCHEMA = LANDSCAPE / "upstream-feature-evidence.schema.json"
+LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
+LICENSE_RIGHTS_SCHEMA = LANDSCAPE / "license-rights.schema.json"
+FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
+FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
 DECISION_PROBLEM_SCHEMA = (
     ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
 )
@@ -104,6 +108,60 @@ def test_method_and_feature_references_are_complete() -> None:
                 "not-reproducible",
             }
             assert feature["evidence"]
+
+
+def test_every_tool_has_machine_readable_license_rights() -> None:
+    """Every candidate needs an explicit reuse boundary and license review."""
+    registry = _read_json(REGISTRY)
+    rights = _read_json(LICENSE_RIGHTS)
+    schema = _read_json(LICENSE_RIGHTS_SCHEMA)
+    assert isinstance(registry, dict)
+    assert isinstance(rights, dict)
+
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(rights)
+    tool_ids = {tool["id"] for tool in registry["tools"]}
+    records = rights["records"]
+    assert {record["tool_id"] for record in records} == tool_ids
+    assert len(records) == len(tool_ids)
+    for record in records:
+        assert record["reference_fixture_policy"] in {
+            "independent-only",
+            "repository-owned",
+        }
+        if record["review_state"] != "spdx-normalized":
+            assert record["license_expression"] is None
+        if record["review_state"] == "no-license":
+            assert record["source_reuse"] == "prohibited"
+
+
+def test_exclusions_and_unreproducible_features_have_reviewed_dispositions() -> None:
+    """Negative parity states must state impact, alternative, and review date."""
+    registry = _read_json(REGISTRY)
+    dispositions = _read_json(FEATURE_DISPOSITIONS)
+    schema = _read_json(FEATURE_DISPOSITIONS_SCHEMA)
+    assert isinstance(registry, dict)
+    assert isinstance(dispositions, dict)
+
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(dispositions)
+    required = {
+        (tool["id"], feature["id"])
+        for tool in registry["tools"]
+        for feature in tool["features"]
+        if feature["parity_state"] in {"excluded", "not-reproducible"}
+    }
+    records = {
+        (record["tool_id"], record["feature_id"]) for record in dispositions["records"]
+    }
+    assert records == required
+    assert len(records) == len(dispositions["records"])
+    for record in dispositions["records"]:
+        assert date.fromisoformat(record["review_date"]) <= date.fromisoformat(
+            record["review_due"]
+        )
+        assert record["closest_supported_workflow"]
+        assert record["user_impact"]
 
 
 def test_method_taxonomy_covers_core_vop_and_ml_families() -> None:
@@ -278,6 +336,10 @@ def test_landscape_freshness_validator_has_deterministic_boundary() -> None:
     assert on_deadline.returncode == 0
     assert overdue.returncode == 1
     assert "review overdue" in overdue.stdout
+    assert "license rights review overdue" in overdue.stdout
+    assert "feature disposition r-heemod/heemod-modeling review overdue" in (
+        overdue.stdout
+    )
 
 
 def test_generated_feature_matrix_is_current() -> None:
@@ -410,6 +472,12 @@ def test_generated_gap_report_is_current_and_routed() -> None:
     )
     assert all(item["owner_track"] for item in report["method_gaps"])
     assert "expected-loss" not in {item["method_id"] for item in report["method_gaps"]}
+    negative_states = {"excluded", "not-reproducible"}
+    assert all(
+        item["reviewed_disposition"] is not None
+        for item in report["feature_gaps"]
+        if item["parity_state"] in negative_states
+    )
 
 
 def test_native_or_equivalent_external_claims_have_independent_fixtures() -> None:

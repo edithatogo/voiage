@@ -29,11 +29,26 @@ def main() -> int:
     methods = json.loads(
         (LANDSCAPE / "method-evidence.json").read_text(encoding="utf-8")
     )
+    license_rights = json.loads(
+        (LANDSCAPE / "license-rights.json").read_text(encoding="utf-8")
+    )
+    feature_dispositions = json.loads(
+        (LANDSCAPE / "feature-dispositions.json").read_text(encoding="utf-8")
+    )
     deadlines = {
         "software landscape": date.fromisoformat(software["review_due"]),
         "adjacent-method dispositions": date.fromisoformat(adjacent["review_due"]),
         "method evidence": date.fromisoformat(methods["review_due"]),
+        "license rights": date.fromisoformat(license_rights["review_due"]),
     }
+    deadlines.update(
+        {
+            f"feature disposition {record['tool_id']}/{record['feature_id']}": (
+                date.fromisoformat(record["review_due"])
+            )
+            for record in feature_dispositions["records"]
+        }
+    )
     overdue = {
         name: deadline.isoformat()
         for name, deadline in deadlines.items()

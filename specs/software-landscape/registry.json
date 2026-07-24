@@ -45,7 +45,7 @@
     {
       "id":"r-heemod","name":"heemod","ecosystem":"r","scope":"external","tool_kind":"modeling-library","maintenance":"maintained","license":"GPL-3-or-later","version":"1.1.0","release_date":"2025-06-16","repository":"https://github.com/pierucci/heemod","registry":"https://cran.r-project.org/package=heemod","authoritative_sources":["https://aphp.github.io/heemod/"],"runtime_dependency":false,
       "features":[
-        {"id":"heemod-evpi","label":"Model-integrated PSA and EVPI","kind":"workflow","method_ids":["evpi"],"parity_state":"adapter","voiage_evidence":"Independent EVPI exists; optional import normalization exists and requires expanded fixtures.","evidence":["https://aphp.github.io/heemod/"]},
+        {"id":"heemod-evpi","label":"Model-integrated PSA and EVPI","kind":"workflow","method_ids":["evpi"],"parity_state":"planned","voiage_evidence":"Independent EVPI exists, but no tested heemod migration adapter or independently constructed heemod-shaped fixture is present.","evidence":["https://aphp.github.io/heemod/"]},
         {"id":"heemod-modeling","label":"State-transition modeling, heterogeneity and budget impact","kind":"related-analysis","method_ids":["heterogeneity-voi","implementation-voi"],"parity_state":"excluded","voiage_evidence":"General model construction is delegated; posterior/model outputs remain accepted inputs.","evidence":["https://aphp.github.io/heemod/"],"notes":"VOIAGE should not duplicate a general health-economic simulation engine."}
       ]
     },

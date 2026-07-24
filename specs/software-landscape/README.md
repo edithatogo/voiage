@@ -15,6 +15,13 @@ It records observable capabilities rather than marketing parity.
 - `upstream-feature-evidence.json` and its schema record the reviewed upstream
   source, tests, documentation, examples, schemas, version, and limitations
   for every external feature without executing competitor code.
+- `license-rights.json` and its schema normalize licenses only when the exact
+  SPDX expression is supported by reviewed evidence, and otherwise fail closed
+  to manual review, unknown, proprietary, or no-license states. They also make
+  source-reuse and independently constructed fixture boundaries explicit.
+- `feature-dispositions.json` and its schema record the exact reason, closest
+  supported workflow, user impact, evidence, and bounded review date for every
+  excluded or currently non-reproducible feature.
 - `adjacent-method-dispositions.json` records why neighboring concepts are
   mapped to a canonical method, retained as related analyses/applications,
   admitted as a new method, or excluded from the VOI core.
@@ -41,9 +48,12 @@ and `knowledge gradient`.
 A record is included when authoritative package documentation, source,
 registry metadata, or a peer-reviewed software description identifies a
 relevant capability. A search hit alone is insufficient. Current versions and
-licenses are pinned where an authoritative registry exposes them. Web and
-commercial tools remain `not-reproducible` when current behavior cannot be
-observed and pinned.
+licenses are pinned where an authoritative registry exposes them. Ambiguous
+license labels are not guessed into SPDX expressions. External reference
+fixtures remain independently constructed even when source reuse would be
+permitted by a recorded license; unlicensed, unknown, or proprietary sources
+are never copied. Web and commercial tools remain `not-reproducible` when
+current behavior cannot be observed and pinned.
 
 The census cannot prove universal completeness because registries and search
 indexes are incomplete and terminology varies. A missed-candidate issue is a
