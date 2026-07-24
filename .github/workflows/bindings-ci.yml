@@ -96,7 +96,23 @@ jobs:
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
-      - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+      - name: Verify packaged EVPI fixture matches the canonical reference
+        run: >-
+          julia --project=. -e
+          'using Pkg;
+          Pkg.instantiate();
+          using JSON;
+          packaged = JSON.parsefile("test/fixtures/evpi-cases.json");
+          canonical = JSON.parsefile("../../specs/numerical-reference/v1/evpi-cases.json");
+          @assert packaged == canonical'
+      - name: Test a standalone Julia package copy
+        shell: bash
+        run: |
+          standalone_dir="${RUNNER_TEMP}/voiage-julia-standalone"
+          mkdir -p "${standalone_dir}"
+          git archive HEAD:bindings/julia | tar -x -C "${standalone_dir}"
+          cd "${standalone_dir}"
+          julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
 

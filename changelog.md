@@ -9,8 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added independent analytical checks for the worked example's EVPI, EVPPI,
+  and EVSI values, plus a permanent eight-role round-four JOSS review record.
+- Packaged the shared EVPI reference fixture with the Julia binding and added a
+  standalone-package test that cannot depend on the monorepo layout.
+
 ### Changed
 
+- Reframed the JOSS worked example's reduced-form scenario as value
+  realisation rather than intervention uptake, clarified its study model,
+  timing, units, Monte Carlo uncertainty, and deterministic seeds, and aligned
+  the generated figure and machine-readable outputs.
 - Moved current Python runtime classification to additive v2 policy manifests,
   preserving the byte-for-byte immutable v1 contract while covering the
   optional ingestion adapters.

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 import shutil
 
@@ -38,6 +39,22 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
     assert "automated accounts" in readiness
     assert "confirmed by the author on 24 July 2026" in readiness
     assert "No external funding and no competing interests" in readiness
+
+
+def test_paper_reproduction_manifest_matches_tracked_outputs() -> None:
+    """The reviewer command should verify every generated paper artefact."""
+    manifest = ROOT / "paper/reproduction.sha256"
+    entries = [
+        line.split(maxsplit=1)
+        for line in manifest.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+    assert len(entries) == 5
+    for expected_digest, relative_path in entries:
+        artefact = ROOT / relative_path
+        assert artefact.is_file()
+        assert hashlib.sha256(artefact.read_bytes()).hexdigest() == expected_digest
 
 
 def test_joss_workflow_uses_pinned_open_journals_builder() -> None:

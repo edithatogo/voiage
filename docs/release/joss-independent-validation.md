@@ -71,8 +71,9 @@ declared health example:
 ```console
 git clone https://github.com/edithatogo/voiage.git
 cd voiage
-git checkout v2.0.0
-uv run --extra plotting python scripts/generate_paper_health_example.py
+git checkout --detach v2.0.0
+uv run --locked --extra plotting python scripts/generate_paper_health_example.py
+shasum -a 256 --check paper/reproduction.sha256
 ```
 
 The participant should compare
@@ -83,7 +84,8 @@ The participant should compare
 - the uncertain health effect and programme cost;
 - which quantity the proposed study informs;
 - the outcome variance, allocation, and candidate sample sizes;
-- the population, time horizon, discount rate, uptake, delay, and study costs;
+- the population, time horizon, discount rate, value realisation, delay, and
+  study costs;
 - the meaning of EVPI, EVPPI, EVSI, and ENBS; and
 - why the two ENBS scenarios cross zero at different sample sizes.
 
