@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a Rust-authoritative expected opportunity-loss kernel, typed Python
+  result, canonical serialization schema, analytical/property tests, and a
+  public `expected_loss` API whose selected loss agrees with EVPI.
 - Added immutable, commit-pinned upstream source, test, documentation, example,
   schema-availability, and limitation evidence for every observed external
   software feature in the VOI landscape.
@@ -77,8 +80,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Corrected the method registry so expected loss and nested-Monte-Carlo EVPPI
-  remain planned rather than being presented as native stable capabilities.
+- Separated external workflow-parity gaps from method implementation and
+  assurance gaps so a fully evidenced native method is not reported as
+  incomplete merely because a broader competitor workflow remains open.
+- Corrected the method registry so nested-Monte-Carlo EVPPI remains planned
+  rather than being presented as a native stable capability.
 - Replaced Dependabot version-update configuration with Renovate, retained
   GitHub advisory alerts, raised dependency-review blocking to moderate
   severity, and constrained JupyterLab to the first release that fixes alerts

@@ -18,7 +18,7 @@
       "planned": 30
     },
     "open_feature_gaps": 37,
-    "open_method_or_assurance_gaps": 59
+    "open_method_or_assurance_gaps": 44
   },
   "feature_gaps": [
     {
@@ -225,7 +225,7 @@
       ],
       "upstream_extraction_state": "source-tests-and-docs-reviewed",
       "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
-      "voiage_evidence": "Net benefit, CEAC and CEAF exist; expected-loss calculations, BCEA-wide reporting and shared result semantics remain gaps."
+      "voiage_evidence": "Rust-authoritative expected loss, net benefit, CEAC and CEAF exist; BCEA-wide reporting and shared workflow conformance remain gaps."
     },
     {
       "tool_id": "r-bcea",
@@ -681,54 +681,6 @@
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
-      "method_id": "cea-plane",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "visualization-only",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "r-bcea",
-        "r-hesim",
-        "savi"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "ceac",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "visualization-only",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "bceaweb",
-        "r-bcea",
-        "r-dampack",
-        "savi",
-        "treeage-pro"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "ceaf",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "bceaweb",
-        "r-bcea",
-        "r-dampack",
-        "r-hesim"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
       "method_id": "data-quality-voi",
       "maturity": "experimental",
       "voiage_state": "native",
@@ -766,32 +718,6 @@
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
-      "method_id": "dominance",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "r-dampack"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "enbs",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "victor"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
       "method_id": "entropy-search",
       "maturity": "planned",
       "voiage_state": "planned",
@@ -820,52 +746,6 @@
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
-      "method_id": "evpi",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "analytica",
-        "bceaweb",
-        "metavoi",
-        "nrel-geothermal-voi",
-        "r-dampack",
-        "r-decisionsupport",
-        "r-heemod",
-        "r-hesim",
-        "r-metanb",
-        "r-predtools",
-        "rane",
-        "trd-cea-toolkit",
-        "treeage-pro"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "evppi",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "analytica",
-        "bceaweb",
-        "metavoi",
-        "r-dampack",
-        "r-decisionsupport",
-        "r-metanb",
-        "savi",
-        "trd-cea-toolkit",
-        "treeage-pro"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
       "method_id": "evppi-nested-mc",
       "maturity": "planned",
       "voiage_state": "planned",
@@ -875,39 +755,6 @@
       "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
-    },
-    {
-      "method_id": "evppi-regression",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "gaussian-voi-supplement",
-        "r-voi"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "evsi",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "metavoi",
-        "nrel-geothermal-voi",
-        "r-dampack",
-        "r-surveyvoi",
-        "rane",
-        "trd-cea-toolkit",
-        "victor"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
     },
     {
       "method_id": "evsi-importance-sampling",
@@ -923,33 +770,6 @@
       "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
-      "method_id": "evsi-moment-matching",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "r-voi"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "evsi-regression",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-authoritative",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "gaussian-voi-supplement",
-        "r-voi"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
       "method_id": "expected-information-gain",
       "maturity": "planned",
       "voiage_state": "planned",
@@ -962,20 +782,6 @@
         "pyro-oed"
       ],
       "owner_track": "ml_llm_agent_voi_20260723"
-    },
-    {
-      "method_id": "expected-loss",
-      "maturity": "planned",
-      "voiage_state": "planned",
-      "review_state": "primary-verified",
-      "promotion_gate": "independent-replication",
-      "authority_state": "not-implemented",
-      "remaining_implementation_gate": "implementation",
-      "affected_tool_ids": [
-        "analytica",
-        "r-bcea"
-      ],
-      "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
       "method_id": "expected-loss-curve",
@@ -1006,21 +812,6 @@
         "trd-cea-toolkit"
       ],
       "owner_track": "supported_frontier_method_completion_20260723"
-    },
-    {
-      "method_id": "icer",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "related-analysis",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "r-hesim",
-        "trd-cea-toolkit",
-        "treeage-pro"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
     },
     {
       "method_id": "implementation-voi",
@@ -1107,20 +898,6 @@
         "r-bcea",
         "r-hesim",
         "trd-cea-toolkit"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
-    },
-    {
-      "method_id": "nma-voi",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "rust-backed-python-orchestration",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "metavoi",
-        "r-metanb"
       ],
       "owner_track": "stable_voi_rust_core_completion_20260723"
     },
@@ -1390,22 +1167,6 @@
         "r-dampack"
       ],
       "owner_track": "supported_frontier_method_completion_20260723"
-    },
-    {
-      "method_id": "voi-curve",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "visualization-only",
-      "remaining_implementation_gate": "none",
-      "affected_tool_ids": [
-        "r-bcea",
-        "r-decisionsupport",
-        "r-voi",
-        "savi"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
     }
   ]
 }

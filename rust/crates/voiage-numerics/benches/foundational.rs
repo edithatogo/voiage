@@ -6,6 +6,7 @@ use std::time::Instant;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
+    expected_loss,
 };
 
 #[allow(clippy::too_many_lines)]
@@ -23,6 +24,17 @@ fn main() {
     });
     benchmark("enbs", || {
         black_box(enbs(12.5, 5.0).expect("ENBS benchmark"));
+    });
+    benchmark("expected_loss", || {
+        let rows = (0..4096)
+            .map(|sample| {
+                (0..8)
+                    .map(|strategy| f64::from((sample + strategy * 17) % 101))
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
+        let values: SampleMatrix = rows.try_into().expect("benchmark matrix");
+        black_box(expected_loss(&values).expect("expected-loss benchmark"));
     });
     benchmark("evppi", || {
         let net_benefit: SampleMatrix = (0..2048)

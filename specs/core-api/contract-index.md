@@ -36,6 +36,7 @@ by `fixtures/v1/compatibility-manifest.json`.
 - `schemas/v1/results/ceac.schema.json` -> `examples/v1/ceac.example.json`
 - `schemas/v1/results/ceaf.schema.json` -> `examples/v1/ceaf.example.json`
 - `schemas/v1/results/dominance.schema.json` -> `examples/v1/dominance.example.json`
+- `schemas/v1/results/expected-loss.schema.json` -> `examples/v1/expected-loss.example.json`
 
 ## Deferred Surfaces
 

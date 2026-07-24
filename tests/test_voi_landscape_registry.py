@@ -409,6 +409,7 @@ def test_generated_gap_report_is_current_and_routed() -> None:
         report["method_gaps"]
     )
     assert all(item["owner_track"] for item in report["method_gaps"])
+    assert "expected-loss" not in {item["method_id"] for item in report["method_gaps"]}
 
 
 def test_native_or_equivalent_external_claims_have_independent_fixtures() -> None:

@@ -17,7 +17,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 - 29 software or binding records across 7 ecosystems.
 - 61 canonical VOI, VOP, estimator, visualization, and related-method records.
 - Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 30.
-- 37 external feature gaps and 59 method or assurance gaps remain routed to Conductor tracks.
+- 37 external feature gaps and 44 method or assurance gaps remain routed to Conductor tracks.
 
 ## Software landscape
 
@@ -73,7 +73,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | TRD CEA Toolkit | [CEA, DCEA, budget impact, MCDA, PSA, subgroup and implementation workflows](https://pypi.org/pypi/trd-cea-toolkit/json) | related-analysis | `net-benefit`, `icer`, `equity-voi`, `heterogeneity-voi`, `implementation-voi` | `documentation-only` | `planned` | VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures. |
 | TRD CEA Toolkit | [EVPI, EVPPI and EVSI analysis](https://pypi.org/pypi/trd-cea-toolkit/json) | workflow | `evpi`, `evppi`, `evsi` | `documentation-only` | `planned` | Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced. |
 | vop-poc-nz | [Directional perspective discordance, equity and perspective-sensitive CEA](https://pypi.org/project/vop-poc-nz/) | estimand | `directional-evop`, `pairwise-evop`, `perspective-optima`, `perspective-switching`, `equity-voi` | `source-tests-and-docs-reviewed` | `planned` | Current perspective module covers a subset; C01/C02 conformance remains the controlling contract. |
-| BCEA | [Net benefit, optimal strategy, CEAC, CEAF and expected loss](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | workflow | `net-benefit`, `expected-loss`, `ceac`, `ceaf` | `source-tests-and-docs-reviewed` | `planned` | Net benefit, CEAC and CEAF exist; expected-loss calculations, BCEA-wide reporting and shared result semantics remain gaps. |
+| BCEA | [Net benefit, optimal strategy, CEAC, CEAF and expected loss](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | workflow | `net-benefit`, `expected-loss`, `ceac`, `ceaf` | `source-tests-and-docs-reviewed` | `planned` | Rust-authoritative expected loss, net benefit, CEAC and CEAF exist; BCEA-wide reporting and shared workflow conformance remain gaps. |
 | BCEA | [Base, ggplot2 and plotly economic-evaluation plots](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | visualization | `cea-plane`, `ceac`, `ceaf`, `voi-curve` | `source-tests-and-docs-reviewed` | `planned` | Static Python plots exist; interactive reporting is not yet equivalent. |
 | BCEA | [EVPI and single-parameter EVPPI surfaces](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | estimand | `evpi`, `evppi` | `source-tests-and-docs-reviewed` | `native` | voiage/methods/basic.py |
 | dampack | [PSA, CEAC, CEAF, dominance and sensitivity workflows](https://stat.ethz.ch/CRAN/web/packages/dampack/dampack.pdf) | workflow | `ceac`, `ceaf`, `dominance`, `variance-sensitivity` | `source-tests-and-docs-reviewed` | `planned` | CEAC, CEAF and dominance exist; full sensitivity workflow remains incomplete. |
@@ -129,7 +129,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | `evsi-nested-mc` | Nested Monte Carlo EVSI | estimator | must | `native` | `stable` | `rust-authoritative` | `primary-verified` | `requires-decision-problem-v2` | `none` |
 | `evsi-regression` | Regression or metamodel EVSI | estimator | must | `native` | `stable` | `rust-authoritative` | `primary-verified` | `requires-decision-problem-v2` | `none` |
 | `expected-information-gain` | Expected information gain | estimand | must | `planned` | `planned` | `not-implemented` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
-| `expected-loss` | Expected loss and opportunity loss | estimand | must | `planned` | `planned` | `not-implemented` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `expected-loss` | Expected loss and opportunity loss | estimand | must | `native` | `stable` | `rust-authoritative` | `primary-verified` | `requires-decision-problem-v2` | `none` |
 | `expected-loss-curve` | Expected loss curve | visualization | should | `planned` | `planned` | `not-implemented` | `primary-verified` | `derived-decision-output` | `independent-replication` |
 | `heterogeneity-voi` | Heterogeneity and individualized decision value | estimand | should | `native` | `experimental` | `python-experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
 | `icer` | Incremental cost-effectiveness ratios | related-analysis | must | `native` | `stable` | `related-analysis` | `primary-verified` | `derived-decision-output` | `none` |

@@ -237,7 +237,7 @@
         "time_horizon",
         "provenance"
       ],
-      "promotion_gate": "independent-replication",
+      "promotion_gate": "none",
       "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
     },
     {

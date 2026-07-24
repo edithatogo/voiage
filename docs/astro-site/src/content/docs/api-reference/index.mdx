@@ -20,6 +20,7 @@ retained bindings use the same Rust implementation.
 | `enbs` | cost and value-of-information inputs | finite float | `InputError` |
 | `ceaf` | net benefits and optional thresholds | `CEAFResult` | `InputError`, `DimensionMismatchError` |
 | `dominance` | strategy costs and effects | `DominanceResult` | `InputError`, `DimensionMismatchError` |
+| `expected_loss` | sample-by-strategy net benefits | `ExpectedLossResult` | `InputError` |
 
 Stable numerical defaults are absolute tolerance `1e-10`, relative tolerance
 `1e-8`, unsigned 64-bit seeds, rejection of infinity, and rejection of missing
@@ -37,8 +38,9 @@ The stable error vocabulary is `InputError`, `DimensionMismatchError`,
 `BackendNotAvailableError`, `NumericalError`, and `SerializationError`.
 
 The stable Python symbols are `DecisionAnalysis`, `DecisionOption`,
-`CEAFResult`, `DominanceResult`, `ParameterSet`, `PortfolioSpec`,
-`PortfolioStudy`, `TrialDesign`, `ValueArray`, `ceaf`, `dominance`, `enbs`,
+`CEAFResult`, `DominanceResult`, `ExpectedLossResult`, `ParameterSet`,
+`PortfolioSpec`, `PortfolioStudy`, `TrialDesign`, `ValueArray`, `ceaf`,
+`dominance`, `enbs`, `expected_loss`,
 `evpi`, `evppi`, and `evsi`.
 
 The generated language-specific API navigation remains below this normative

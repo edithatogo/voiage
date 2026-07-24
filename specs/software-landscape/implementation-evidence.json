@@ -206,6 +206,18 @@
       "remaining_gate": "none"
     },
     {
+      "method_id": "expected-loss",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/expected_loss.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/expected_loss.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
       "method_id": "heterogeneity-voi",
       "maturity": "experimental",
       "authority_state": "python-experimental",

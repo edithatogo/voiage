@@ -3,7 +3,7 @@
   "searched_on": "2026-07-24",
   "methods": [
     {"id":"net-benefit","label":"Net or generalized benefit construction","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
-    {"id":"expected-loss","label":"Expected loss and opportunity loss","class":"estimand","moscow":"must","voiage_state":"planned","maturity":"planned"},
+    {"id":"expected-loss","label":"Expected loss and opportunity loss","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"evpi","label":"Expected value of perfect information","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"population-evpi","label":"Population expected value of perfect information","class":"estimand","moscow":"must","voiage_state":"planned","maturity":"planned"},
     {"id":"evppi","label":"Expected value of partial perfect information","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},

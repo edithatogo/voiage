@@ -2,7 +2,7 @@
 
 #![forbid(unsafe_code)]
 
-use core::fmt;
+use core::{cmp::Ordering, fmt};
 use serde::{de, Deserialize, Deserializer, Serialize};
 use serde_json::{Map, Value};
 use std::collections::HashSet;
@@ -486,6 +486,164 @@ impl TryFrom<EnbsResultV1Input> for EnbsResultV1 {
             expected_perfect_information: input.expected_perfect_information,
             method: input.method,
             diagnostics: input.diagnostics,
+        })
+    }
+}
+
+/// Flat expected opportunity-loss v1 result.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct ExpectedLossResultV1 {
+    analysis_id: String,
+    decision_problem_id: String,
+    analysis_type: ExpectedLossType,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    method: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    reporting: Option<Map<String, Value>>,
+}
+
+/// Validated construction input for an expected-loss result.
+#[derive(Clone, Debug, PartialEq)]
+pub struct ExpectedLossResultV1Input {
+    /// Stable analysis identifier.
+    pub analysis_id: String,
+    /// Stable decision-problem identifier.
+    pub decision_problem_id: String,
+    /// Ordered strategy names.
+    pub strategy_names: Vec<String>,
+    /// Mean net or generalized benefit aligned with strategy names.
+    pub expected_net_benefit_by_strategy: Vec<f64>,
+    /// Mean opportunity loss aligned with strategy names.
+    pub expected_opportunity_loss_by_strategy: Vec<f64>,
+    /// Lowest-index strategy with greatest expected benefit.
+    pub optimal_strategy_index: u64,
+    /// Expected opportunity loss of the selected strategy.
+    pub minimum_expected_opportunity_loss: f64,
+    /// Number of uncertainty samples.
+    pub sample_count: u64,
+    /// Optional estimator or method label.
+    pub method: Option<String>,
+    /// Optional reporting extensions.
+    pub reporting: Option<Map<String, Value>>,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+enum ExpectedLossType {
+    ExpectedLoss,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ExpectedLossRaw {
+    analysis_id: String,
+    decision_problem_id: String,
+    analysis_type: ExpectedLossType,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    method: Option<String>,
+    reporting: Option<Map<String, Value>>,
+}
+
+deserialize_validated!(ExpectedLossResultV1, ExpectedLossRaw);
+
+impl TryFrom<ExpectedLossRaw> for ExpectedLossResultV1 {
+    type Error = ValidationError;
+
+    fn try_from(raw: ExpectedLossRaw) -> Result<Self, Self::Error> {
+        ids(&raw.analysis_id, &raw.decision_problem_id)?;
+        texts(&raw.strategy_names)?;
+        finite_values(&raw.expected_net_benefit_by_strategy)?;
+        finite_values(&raw.expected_opportunity_loss_by_strategy)?;
+        if raw.strategy_names.len() != raw.expected_net_benefit_by_strategy.len()
+            || raw.strategy_names.len() != raw.expected_opportunity_loss_by_strategy.len()
+        {
+            return Err(ValidationError(
+                "expected-loss strategy arrays must be aligned",
+            ));
+        }
+        for &loss in &raw.expected_opportunity_loss_by_strategy {
+            nonnegative(loss)?;
+        }
+        nonnegative(raw.minimum_expected_opportunity_loss)?;
+        let optimal_index = usize::try_from(raw.optimal_strategy_index)
+            .map_err(|_| ValidationError("optimal strategy index is out of range"))?;
+        if optimal_index >= raw.strategy_names.len() {
+            return Err(ValidationError("optimal strategy index is out of range"));
+        }
+        let expected_optimal = raw
+            .expected_net_benefit_by_strategy
+            .iter()
+            .enumerate()
+            .fold(0, |best, (index, value)| {
+                if *value > raw.expected_net_benefit_by_strategy[best] {
+                    index
+                } else {
+                    best
+                }
+            });
+        if optimal_index != expected_optimal {
+            return Err(ValidationError(
+                "optimal strategy index must select the first greatest expected benefit",
+            ));
+        }
+        if raw
+            .minimum_expected_opportunity_loss
+            .partial_cmp(&raw.expected_opportunity_loss_by_strategy[optimal_index])
+            != Some(Ordering::Equal)
+        {
+            return Err(ValidationError(
+                "minimum expected opportunity loss must match the selected strategy",
+            ));
+        }
+        if raw.sample_count == 0 {
+            return Err(ValidationError("sample_count must be positive"));
+        }
+        if let Some(method) = &raw.method {
+            text(method)?;
+        }
+        Ok(Self {
+            analysis_id: raw.analysis_id,
+            decision_problem_id: raw.decision_problem_id,
+            analysis_type: raw.analysis_type,
+            strategy_names: raw.strategy_names,
+            expected_net_benefit_by_strategy: raw.expected_net_benefit_by_strategy,
+            expected_opportunity_loss_by_strategy: raw.expected_opportunity_loss_by_strategy,
+            optimal_strategy_index: raw.optimal_strategy_index,
+            minimum_expected_opportunity_loss: raw.minimum_expected_opportunity_loss,
+            sample_count: raw.sample_count,
+            method: raw.method,
+            reporting: raw.reporting,
+        })
+    }
+}
+
+impl TryFrom<ExpectedLossResultV1Input> for ExpectedLossResultV1 {
+    type Error = ValidationError;
+
+    fn try_from(input: ExpectedLossResultV1Input) -> Result<Self, Self::Error> {
+        Self::try_from(ExpectedLossRaw {
+            analysis_id: input.analysis_id,
+            decision_problem_id: input.decision_problem_id,
+            analysis_type: ExpectedLossType::ExpectedLoss,
+            strategy_names: input.strategy_names,
+            expected_net_benefit_by_strategy: input.expected_net_benefit_by_strategy,
+            expected_opportunity_loss_by_strategy: input.expected_opportunity_loss_by_strategy,
+            optimal_strategy_index: input.optimal_strategy_index,
+            minimum_expected_opportunity_loss: input.minimum_expected_opportunity_loss,
+            sample_count: input.sample_count,
+            method: input.method,
+            reporting: input.reporting,
         })
     }
 }

@@ -18,6 +18,11 @@ EVIDENCE = {
         "tests/test_utils_comprehensive.py",
         "python-stable-gap",
     ),
+    "expected-loss": (
+        "rust/crates/voiage-numerics/src/expected_loss.rs",
+        "rust/crates/voiage-numerics/tests/expected_loss.rs",
+        "rust-authoritative",
+    ),
     "evpi": (
         "rust/crates/voiage-numerics/src/evpi.rs",
         "rust/crates/voiage-numerics/tests/foundational_kernels.rs",

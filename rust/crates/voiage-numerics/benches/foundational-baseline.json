@@ -3,6 +3,7 @@
   "workloads": {
     "evpi": {"samples": 4096, "strategies": 8},
     "enbs": {"evsi_result": 12.5, "research_cost": 5.0},
+    "expected_loss": {"samples": 4096, "strategies": 8},
     "evppi": {"samples": 2048, "strategies": 4, "parameters": 2},
     "evsi": {"samples": 2048, "strategies": 4, "trial_sample_size": 32, "resample_count": 64, "seed": 42},
     "evsi_efficient_linear": {"samples": 512, "strategies": 4, "parameters": 2, "trial_sample_size": 32},
@@ -10,7 +11,7 @@
     "dominance": {"strategies": 128},
     "ceaf": {"samples": 2048, "strategies": 4, "thresholds": 8}
   },
-  "required_operations": ["evpi", "enbs", "evppi", "evsi", "evsi_efficient_linear", "evsi_moment_based", "dominance", "ceaf"],
+  "required_operations": ["evpi", "enbs", "expected_loss", "evppi", "evsi", "evsi_efficient_linear", "evsi_moment_based", "dominance", "ceaf"],
   "regression_policy": "workload-and-contract-baseline; native EVSI timing is bounded by the explicit regression budgets below",
   "regression_budget_version": 1,
   "regression_budgets": {

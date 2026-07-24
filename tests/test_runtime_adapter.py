@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 import pytest
 
+import voiage
 from voiage import _runtime
 from voiage.exceptions import DimensionMismatchError, InputError, SerializationError
 from voiage.methods.ceaf import CEAFResult
@@ -66,12 +67,17 @@ def test_result_serializers_pass_keyword_primitives_to_native(monkeypatch) -> No
         captured["dominance"] = kwargs
         return {"kind": "dominance"}
 
+    def expected_loss(**kwargs: object) -> dict[str, object]:
+        captured["expected_loss"] = kwargs
+        return {"kind": "expected_loss"}
+
     monkeypatch.setattr(
         _runtime,
         "_native",
         lambda: SimpleNamespace(
             serialize_ceaf_result=ceaf,
             serialize_dominance_result=dominance,
+            serialize_expected_loss_result=expected_loss,
         ),
     )
 
@@ -81,11 +87,27 @@ def test_result_serializers_pass_keyword_primitives_to_native(monkeypatch) -> No
     assert _dominance_result().to_dict(
         analysis_id="analysis-1", decision_problem_id="decision-1"
     ) == {"kind": "dominance"}
+    expected_loss_result = voiage.ExpectedLossResult(
+        expected_net_benefit_by_strategy=np.array([2.0, 1.5]),
+        expected_opportunity_loss_by_strategy=np.array([0.5, 1.0]),
+        optimal_strategy_index=0,
+        minimum_expected_opportunity_loss=0.5,
+        sample_count=2,
+        strategy_count=2,
+        strategy_names=["Strategy 1", "Strategy 2"],
+    )
+    assert expected_loss_result.to_dict(
+        analysis_id="analysis-1", decision_problem_id="decision-1"
+    ) == {"kind": "expected_loss"}
     assert captured["ceaf"]["wtp_thresholds"] == [0.0]
     assert captured["ceaf"]["optimal_strategy_names"] == ["B"]
     assert captured["dominance"]["strategy_names"] == ["A", "B"]
     assert captured["dominance"]["costs"] == [1.0, 2.0]
     assert captured["dominance"]["icers"] == [1.0]
+    assert captured["expected_loss"]["strategy_names"] == [
+        "Strategy 1",
+        "Strategy 2",
+    ]
 
 
 @pytest.mark.parametrize(
@@ -205,6 +227,25 @@ def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
     )
 
     assert _runtime.compute_evpi([[0.0, 2.0], [1.0, 0.0]]) == 0.5
+    assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
+
+
+def test_compute_expected_loss_forwards_matrix_payload_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(net_benefit: list[list[float]]) -> dict[str, object]:
+        captured["net_benefit"] = net_benefit
+        return {"minimum_expected_opportunity_loss": 0.5}
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_expected_loss=compute),
+    )
+
+    assert _runtime.compute_expected_loss([[0.0, 2.0], [1.0, 0.0]]) == {
+        "minimum_expected_opportunity_loss": 0.5
+    }
     assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
 
 

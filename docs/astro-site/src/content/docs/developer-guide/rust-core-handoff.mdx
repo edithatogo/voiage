@@ -34,6 +34,7 @@ bridge, with the Rust kernel as the authoritative implementation:
 | Operation | Native Rust route | Python compatibility path |
 | --- | --- | --- |
 | EVPI | `compute_evpi` | retained only when the extension is unavailable |
+| Expected loss | `compute_expected_loss` | none; fails closed without the extension |
 | EVPPI | `compute_evppi` for the default full-sample linear contract | retained for custom models, subsampling, chunking, or no extension |
 | EVSI | seeded bootstrap, efficient-linear, and moment-based kernels | retained for two-loop, regression, random-forest, adaptive, and NMA semantics |
 | Dominance | `compute_dominance` | retained only when the extension is unavailable |

@@ -78,7 +78,6 @@ def render() -> str:
         if (
             method["voiage_state"] == "native"
             and method_evidence["promotion_gate"] == "none"
-            and method["id"] not in affected_tools
             and remaining_implementation_gate == "none"
         ):
             continue
