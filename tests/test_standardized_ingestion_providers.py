@@ -293,6 +293,25 @@ def test_entry_point_discovery_rejects_missing_invalid_and_failing_providers() -
     assert "private source details" not in str(error.value)
 
 
+def test_entry_point_discovery_converts_a_missing_optional_extra_to_stable_error() -> (
+    None
+):
+    class EntryPoint:
+        name = "requires-extra"
+
+        def load(self) -> object:
+            raise ModuleNotFoundError("No module named 'optional_provider_extra'")
+
+    def resolver(*, group: str):
+        assert group == "voiage.ingestion.providers"
+        return (EntryPoint(),)
+
+    with pytest.raises(IngestionError, match="could not be loaded") as error:
+        discover_entry_point_providers(allowlist=("requires-extra",), resolver=resolver)
+
+    assert "optional_provider_extra" not in str(error.value)
+
+
 def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
     source = tmp_path / "samples.txt"
     source.write_text("a\n1\n", encoding="utf-8")
