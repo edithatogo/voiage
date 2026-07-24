@@ -27,7 +27,9 @@ def _validate_provider(provider: object) -> IngestionProvider:
         and callable(getattr(provider, "ingest", None))
         and getattr(provider, "capabilities", None) is not None
     ):
-        raise IngestionError("entry-point provider does not satisfy the provider contract")
+        raise IngestionError(
+            "entry-point provider does not satisfy the provider contract"
+        )
     return cast("IngestionProvider", provider)
 
 

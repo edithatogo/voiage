@@ -217,7 +217,9 @@ def test_entry_point_discovery_rejects_missing_invalid_and_failing_providers() -
         return (EntryPoint(object()),)
 
     with pytest.raises(IngestionError, match="does not satisfy"):
-        discover_entry_point_providers(allowlist=("example-provider",), resolver=resolver)
+        discover_entry_point_providers(
+            allowlist=("example-provider",), resolver=resolver
+        )
     with pytest.raises(IngestionError, match="unavailable"):
         discover_entry_point_providers(allowlist=("missing",), resolver=resolver)
 
