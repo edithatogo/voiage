@@ -39,6 +39,9 @@
   validator after the Conductor phase review. (`80af0da`)
 - [x] Reconcile registry-readiness contract tests with the expanded command
   evidence and completed authenticated arXiv submission. (`f40c2da`)
+- [x] Replace mismatched foundational bibliography records with authoritative
+  source metadata and reject placeholder author lists in JOSS preflight.
+  (`c37c78e`)
 
 ## Phase 3: Reconciliation and closeout
 

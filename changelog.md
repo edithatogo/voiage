@@ -93,6 +93,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Replaced two mismatched JOSS bibliography records with authoritative PubMed
+  metadata and added a preflight failure for placeholder author lists.
 - Aligned the v1 programme status test with the registry's active
   research-readiness marker.
 - Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve

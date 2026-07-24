@@ -59,3 +59,25 @@ def test_joss_validator_rejects_placeholder_language(tmp_path: Path) -> None:
     findings = validate_joss_package(tmp_path)
 
     assert any("placeholder" in finding for finding in findings)
+
+
+def test_joss_validator_rejects_placeholder_bibliography_authors(
+    tmp_path: Path,
+) -> None:
+    """Incomplete author lists cannot pass the submission preflight."""
+    source = (ROOT / "paper.md").read_text(encoding="utf-8")
+    bibliography = (ROOT / "paper.bib").read_text(encoding="utf-8")
+    (tmp_path / "paper.md").write_text(source, encoding="utf-8")
+    (tmp_path / "paper.bib").write_text(
+        bibliography.replace(
+            "author = {Ades, A. E. and Lu, G. and Claxton, Karl}",
+            "author = {Ades, A. E. and Lu, G. and Claxton, Karl and others}",
+        ),
+        encoding="utf-8",
+    )
+
+    findings = validate_joss_package(tmp_path)
+
+    assert findings == [
+        "paper.bib contains placeholder author lists; record complete authors"
+    ]

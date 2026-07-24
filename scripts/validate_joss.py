@@ -86,6 +86,10 @@ def validate_joss_package(root: Path) -> list[str]:
         findings.append("paper must link to a permanent software archive")
     if "human author" not in lowered or "validated" not in lowered:
         findings.append("AI disclosure must record human review and validation")
+    if re.search(r"\band\s+others\b", bibliography, re.IGNORECASE):
+        findings.append(
+            "paper.bib contains placeholder author lists; record complete authors"
+        )
 
     cited = set(CITATION_PATTERN.findall(body))
     bibliography_keys = set(BIB_KEY_PATTERN.findall(bibliography))
