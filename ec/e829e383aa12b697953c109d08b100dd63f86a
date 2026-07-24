@@ -1,0 +1,9 @@
+Task: Clear new CodeQL errors on stable expected-loss exports.
+
+Summary: Defined ExpectedLossResult and expected_loss directly in the lazy methods namespace, while retaining lazy resolution for optional and experimental methods; made optional metamodel dependency assertions explicit.
+
+Files: voiage/methods/__init__.py; tests/test_metamodeling_comprehensive.py.
+
+Why: Stable exports must be statically and dynamically defined so pull-request code scanning can prove their contract without weakening optional-module lazy loading.
+
+Verification: Ruff format/check; ty check; 32 focused tests passed with 1 documented optional dependency skip.
