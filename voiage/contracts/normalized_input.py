@@ -5,7 +5,7 @@ their source-specific metadata and resources into these records; calculation
 code consumes only this contract.
 """
 
-# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownVariableType=false
+# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUnknownVariableType=false, reportUnannotatedClassAttribute=false
 
 from __future__ import annotations
 
