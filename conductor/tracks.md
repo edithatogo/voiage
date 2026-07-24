@@ -23,10 +23,10 @@ freeze.*
 
 ---
 
-## [ ] Track: Stable VOI Rust Core Completion
+## [~] Track: Stable VOI Rust Core Completion
 *Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
 *Execution order: 04 of 11.*
-*Status: new — complete v1.1 Rust numerical authority.*
+*Status: in progress — complete v1.1 Rust numerical authority.*
 
 ---
 

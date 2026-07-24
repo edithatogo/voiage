@@ -2,7 +2,7 @@
 
 ## Phase 1: Numerical contract tests
 
-- [ ] Add failing analytical, property, error, RNG, and serialization tests.
+- [~] Add failing analytical, property, error, RNG, and serialization tests.
 - [ ] Freeze stable estimator, diagnostic, tolerance, tie, and fallback policy.
 - [ ] Freeze bias/variance and Monte Carlo error reporting, convergence,
   effective-sample diagnostics, RNG identity, replication, budget, stopping,

@@ -48,7 +48,12 @@ EXPECTED_PROJECT: dict[int, dict[str, str]] = {
         "review due": "2026-08-31",
         "status": "In Progress",
     },
-    316: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
+    316: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
     317: {"priority": "P1", "risk level": "High", "review due": "2026-09-30"},
     318: {"priority": "P1", "risk level": "Medium", "review due": "2026-09-30"},
     319: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
