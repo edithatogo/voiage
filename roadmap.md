@@ -58,6 +58,14 @@ optional follow-up:
 8. Worked examples include reproducibility cards, assumptions, estimator
    uncertainty, sensitivity, failure cases, accessibility, and deterministic
    offline execution.
+9. Renovate owns version updates across Python, Rust, npm, GitHub Actions and
+   submodules; GitHub's dependency graph and Dependabot alerts remain advisory
+   inputs. Security, major, numerical, lockfile and executable-source changes
+   remain human-reviewed.
+10. Release posture reconciles live GitHub settings, required checks, CodeQL,
+    dependency review, Scorecard, workflow audit, secrets, SBOM, provenance and
+    open alerts. Critical/high findings block release; moderate findings need a
+    bounded reviewed disposition.
 
 These refinements remain within the existing ten child workstreams. Creating
 additional tracks would fragment ownership and duplicate acceptance gates.

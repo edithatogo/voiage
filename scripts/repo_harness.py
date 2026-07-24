@@ -22,6 +22,7 @@ REQUIRED_FILES = (
     ".github/CODEOWNERS",
     ".github/PULL_REQUEST_TEMPLATE/default.md",
     ".pre-commit-config.yaml",
+    "renovate.json",
     "roadmap.md",
     "todo.md",
     "changelog.md",

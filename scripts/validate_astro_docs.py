@@ -27,6 +27,10 @@ class Finding:
 
 def _route_exists(content_root: Path, route: str) -> bool:
     route = route.strip("/")
+    if route == "voiage":
+        route = ""
+    elif route.startswith("voiage/"):
+        route = route.removeprefix("voiage/")
     if not route:
         return (content_root / "index.mdx").is_file()
     candidates = (

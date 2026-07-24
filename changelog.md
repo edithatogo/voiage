@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a Renovate-first dependency and GitHub security programme covering all
+  retained package managers, vulnerability-driven updates, stability and
+  protected-check policy, live posture reconciliation, SBOM/provenance, and
+  fail-closed alert release criteria.
 - Added cross-cutting programme requirements for a canonical Decision Problem
   interchange model, estimator-assurance envelopes, adjacent decision-theory
   triage, registry-derived claim conformance, deterministic scalability,
@@ -53,6 +57,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Replaced Dependabot version-update configuration with Renovate, retained
+  GitHub advisory alerts, raised dependency-review blocking to moderate
+  severity, and constrained JupyterLab to the first release that fixes alerts
+  #64--#68.
 - Allowed the frozen v1 programme validator to coexist with separately
   governed post-v1 tracks while continuing to reject missing v1 records.
 - Consolidated the preprint around the decision problem, information measures,

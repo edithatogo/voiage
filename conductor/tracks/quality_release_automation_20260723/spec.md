@@ -20,6 +20,25 @@ deprecation ledgers, numerical and resource budgets, deterministic parallel
 execution, adversarial ML/agent fixtures, and reviewed ecosystem-drift
 proposals.
 
+Renovate is the sole version-update bot. GitHub's dependency graph and
+Dependabot alerts remain enabled as advisory inputs, but `dependabot.yml` is
+absent. Renovate must cover Python/PEP 621, Cargo, npm, Pixi, pre-commit,
+Docker Compose, GitHub Actions, lockfiles, and git submodules; bypass normal
+schedules for vulnerability repairs; expose a dependency dashboard; pin
+Actions and container images; apply release-age and artifact checks; and
+require human review for security, major, numerical, executable-hook,
+environment, container, submodule, and lock-maintenance changes. Dependabot
+security updates remain temporarily enabled only until the Renovate App has
+produced a verified dashboard and test PR, preventing an alert-remediation
+gap.
+
+Repository security posture must be reconciled live: active maximal-quality
+ruleset, required SBOM and dependency-review checks, CodeQL security-and-quality
+queries, secret scanning and push protection, non-provider patterns and
+validity checks where supported, private vulnerability reporting, action SHA
+pinning, open vulnerability and secret alert inventories, and signed release
+provenance.
+
 Dry-run PyPI, crates.io, CRAN-compatible, Julia General, and Mojo packaging.
 Produce reproducible signed artifacts and checksums only through authorized
 release workflows.
@@ -27,7 +46,10 @@ release workflows.
 ## Failure and external policy
 
 Flaky numerics, hidden network access, unsupported runners, nondeterministic
-artifacts, stale generation, or optional-lane overclaim block release.
+artifacts, stale generation, unresolved critical/high vulnerabilities,
+unresolved secrets, inactive dependency automation, or optional-lane overclaim
+block release. Moderate vulnerabilities require remediation or a
+time-bounded, owner-confirmed risk decision before release.
 Credentials, signing, publication, and registry acceptance remain external.
 
 ## Acceptance criteria

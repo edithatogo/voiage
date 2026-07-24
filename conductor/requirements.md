@@ -83,6 +83,13 @@ programme. The canonical cross-repository requirements are maintained in
 - Stable kernels define deterministic parallel reduction, recorded splittable
   RNG streams, streaming or out-of-core behavior, and bounded memory, latency,
   and energy evidence for advertised scalability profiles.
+- Renovate is the sole version-update bot and covers every retained package
+  manager, lockfile, GitHub Action, and source-pinned submodule. GitHub
+  Dependabot alerts remain enabled as an advisory feed, while duplicate
+  Dependabot version updates are disabled.
+- Releases have no unresolved critical/high dependency or secret findings.
+  Moderate findings require remediation or a time-bounded, maintainer-confirmed
+  risk record with compensating controls and a review date.
 
 ### Should have
 
@@ -114,6 +121,9 @@ programme. The canonical cross-repository requirements are maintained in
   literature registries, language toolchains, lockfiles, actions, and the
   source-pinned documentation plugin without automatically changing scientific
   dispositions.
+- Renovate should delay ordinary releases for stability, require all protected
+  checks before automerge, and never automerge security, major, numerical,
+  submodule, or lock-maintenance changes.
 
 ### Could have
 

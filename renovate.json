@@ -4,58 +4,122 @@
     "config:recommended",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
-    ":automergeMinor",
-    ":automergePatch",
-    ":disableRateLimiting",
-    "group:allNonMajor",
+    ":dependencyDashboard",
+    ":enableVulnerabilityAlerts",
+    ":pinDigestsDisabled",
     "group:monorepos",
     "group:recommended"
   ],
+  "enabledManagers": [
+    "cargo",
+    "docker-compose",
+    "github-actions",
+    "git-submodules",
+    "npm",
+    "pep621",
+    "pixi",
+    "pre-commit"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate dependency and security dashboard",
+  "dependencyDashboardLabels": ["dependencies"],
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "dependencyDashboardReportAbandonment": true,
+  "osvVulnerabilityAlerts": true,
+  "abandonmentThreshold": "2 years",
   "schedule": ["every weekend"],
+  "prCreation": "not-pending",
+  "internalChecksFilter": "strict",
+  "minimumReleaseAge": "7 days",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+  "rebaseWhen": "behind-base-branch",
+  "platformAutomerge": true,
+  "automergeType": "pr",
+  "statusCheckWhen": {
+    "artifactError": "always",
+    "configValidation": "always",
+    "minimumReleaseAge": "always"
+  },
   "packageRules": [
     {
-      "matchManagers": ["pip_requirements", "pip_setup", "pyproject"],
+      "description": "Automerge ordinary non-major updates only after stability and required checks",
+      "matchManagers": ["cargo", "npm", "pep621"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
-      "automergeType": "branch",
-      "groupName": "python dependencies",
-      "groupSlug": "python-all"
+      "groupName": "non-major dependencies",
+      "groupSlug": "non-major-dependencies"
     },
     {
+      "description": "Keep GitHub Actions immutable and reviewed",
       "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "branch",
-      "groupName": "github actions"
+      "pinDigests": true,
+      "automerge": false,
+      "groupName": "github actions",
+      "addLabels": ["github-actions", "security"]
     },
     {
+      "description": "Pin container image digests and require supply-chain review",
+      "matchManagers": ["docker-compose"],
+      "pinDigests": true,
+      "automerge": false,
+      "addLabels": ["supply-chain"]
+    },
+    {
+      "description": "Environment and executable hook updates require review",
+      "matchManagers": ["pixi", "pre-commit"],
+      "automerge": false,
+      "addLabels": ["quality-tooling", "supply-chain"]
+    },
+    {
+      "description": "Python runtime upgrades require an explicit compatibility track",
       "matchPackageNames": ["python"],
       "enabled": false
     },
     {
-      "matchPackagePatterns": ["^jax", "^numpyro"],
+      "description": "Numerical, inference and interchange dependencies always require review",
+      "matchPackageNames": [
+        "/^(jax|jaxlib|numpy|numpyro|pyarrow|polars|scipy|scikit-learn|xarray)$/"
+      ],
+      "automerge": false,
+      "addLabels": ["numerical-assurance"]
+    },
+    {
+      "matchPackageNames": ["/^(pytest|hypothesis|coverage|pytest-.+)$/"],
+      "groupName": "testing dependencies",
+      "groupSlug": "testing",
+      "automerge": false,
+      "addLabels": ["quality-tooling"]
+    },
+    {
+      "matchPackageNames": ["/^(ruff|ty|basedpyright)$/"],
+      "groupName": "linting and type checking",
+      "groupSlug": "linting",
+      "automerge": false,
+      "addLabels": ["quality-tooling"]
+    },
+    {
+      "description": "Major and breaking updates require human review",
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": ["dependencies", "jax-ecosystem"]
+      "dependencyDashboardApproval": true,
+      "addLabels": ["breaking-change"]
     },
     {
-      "matchPackagePatterns": ["pytest", "hypothesis", "coverage"],
-      "groupName": "testing dependencies",
-      "groupSlug": "testing"
+      "description": "Submodule changes carry executable source and require review",
+      "matchManagers": ["git-submodules"],
+      "automerge": false,
+      "addLabels": ["supply-chain"]
     },
     {
-      "matchPackagePatterns": ["ruff", "ty"],
-      "groupName": "linting and type checking",
-      "groupSlug": "linting"
-    },
-    {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true
+      "description": "Lock maintenance is reviewed and exercised by the complete matrix",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": false,
+      "addLabels": ["lockfile"]
     }
   ],
   "labels": ["dependencies"],
-  "prConcurrentLimit": 10,
-  "prHourlyLimit": 5,
+  "prConcurrentLimit": 6,
+  "prHourlyLimit": 2,
   "rangeStrategy": "pin",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
@@ -66,6 +130,10 @@
   },
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security"]
+    "vulnerabilityFixStrategy": "lowest",
+    "automerge": false,
+    "labels": ["dependencies", "security"],
+    "addLabels": ["priority:security"],
+    "schedule": ["at any time"]
   }
 }

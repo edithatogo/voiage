@@ -120,6 +120,29 @@ Machine updates may propose dependency and landscape changes. They do not
 approve a method, exclusion, maturity promotion, or architecture decision.
 
 ```mermaid
+flowchart TD
+    Advisory["GitHub dependency graph and Dependabot alerts"] --> Renovate["Renovate"]
+    OSV["OSV vulnerability feed"] --> Renovate
+    Registries["Python, Cargo, npm, Actions, submodules"] --> Renovate
+    Renovate --> Dashboard["Dependency and security dashboard"]
+    Renovate --> PR["Immutable update PR"]
+    PR --> Stability["Release-age and artifact checks"]
+    Stability --> Protected["Maximal-quality required checks"]
+    Protected --> Review{"Human review required?"}
+    Review -- "Security, major, numerical, lock or submodule" --> Human["Maintainer review"]
+    Review -- "Eligible ordinary non-major" --> Auto["Protected automerge"]
+    Human --> Merge["Merge"]
+    Auto --> Merge
+    Merge --> Posture["Live alert and security-posture reconciliation"]
+    Posture --> Release{"Release gate"}
+```
+
+Deleting `dependabot.yml` disables duplicate Dependabot version updates, not
+GitHub's advisory alerts. Dependabot security updates remain a temporary
+fallback until the Renovate App demonstrates a dashboard and checked PR; only
+then are they disabled to ensure one update owner without a coverage gap.
+
+```mermaid
 flowchart LR
     VOP[VOP canonical contract]
     Mirror[Digest-pinned VOIAGE mirror]
