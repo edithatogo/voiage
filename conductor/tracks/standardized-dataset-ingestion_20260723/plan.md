@@ -228,11 +228,17 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Current execution boundary
 
-- Track and issue/project initialization are authorized and complete.
-- Functional implementation has not started.
-- Cross-reference PR #465 should merge before PR #334 is rebased and promoted
-  from draft, preserving the central manifest as the first integration step.
-- Dependabot PR #324 is a separate repository-security lane for five current
-  JupyterLab alerts; it is not evidence that ingestion work is implemented.
+- Track and issue/project initialization are authorized and complete. PR #334
+  merged on 2026-07-24 after PR #465 and its final rebase, with required CI and
+  strict changed-line assurance passing.
+- The merged baseline implements the normalized bundle, preparation boundary,
+  optional Croissant/Frictionless CSV profiles, CLI, DataFrame interchange
+  adapter, and reference documentation. It is not evidence for unchecked plan
+  tasks or the entire issue acceptance checklists.
+- Dependabot PR #324 is merged as a separate repository-security lane; it is
+  not evidence that the remaining ingestion acceptance criteria are complete.
+- The track, parent issue #325, child issues #326–#333 and #467–#468, and their
+  Project 28 items remain active. Archive is prohibited until the unchecked
+  plan tasks and issue acceptance criteria have supporting evidence.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.

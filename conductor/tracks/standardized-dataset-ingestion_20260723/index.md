@@ -1,7 +1,8 @@
 # Standardized Dataset Ingestion
 
-Status: in progress; planning review recommendations are being reconciled,
-while functional implementation remains pending
+Status: in progress; PR #334 establishes the tested baseline implementation,
+while the remaining published conformance, security, SDK, and cross-domain
+acceptance criteria stay active.
 
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)
