@@ -27,15 +27,16 @@ not replace it.
 | More than six months of public development | Public history from July 2025 | Ready |
 | Iterative open development | Distributed commits, issues, pull requests, changelog and tagged releases | Ready |
 | Research application | VOI analysis for research prioritisation and probabilistic decision models | Ready |
-| Demonstrated developer research use | Fixed-seed health example and versioned `vop_poc_nz` integration contract | Ready, but independent adoption would strengthen screening |
-| Single-author community engagement | Public history contains only the author and automated accounts; [independent validation protocol](joss-independent-validation.md) and issue #471 are ready | External evidence required before submission |
+| Developer-created demonstrations | Fixed-seed health example and versioned `vop_poc_nz` integration contract | Reproducible; not represented as independent research use |
+| Research-use evidence | The same-author `vop_poc_nz` bundle documents an interoperability contract, not execution of `voiage` in research. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek attributable installation, use, or feedback | Externally pending; no independent use is claimed |
 | JOSS manuscript structure | All current required sections and 750–1,750-word contract | Ready |
 | Design-thinking account | Kernel/orchestration boundary and cross-language trade-offs described | Ready |
 | Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026 | Ready |
-| AI usage disclosure | Tools, retained version limits, scope, human decisions and validation stated; confirmed by the author on 24 July 2026 | Ready |
+| AI usage disclosure | Tools, retained version limits, and scope are stated. The comprehensive human decision, review, modification, and validation affirmation has been requested from the author | Awaiting explicit author attestation |
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
-| Reproducible JOSS PDF | Official Open Journals action pinned by commit; three-page artifact visually reviewed | Ready |
+| Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
+| Reproducible JOSS PDF | Official Open Journals action pinned by commit; the available six-page PDF predates the current source | Rebuild and inspect from the exact reviewed revision |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 
@@ -52,14 +53,14 @@ retains it as an Actions artifact. It never submits the paper.
 ## Reviewer-facing packaging
 
 JOSS reviews the software that the paper describes. The primary review surface
-for version 1.0.0 is the Python package:
+for version 2.0.0 is the Python package:
 
 | Surface | Reviewer path | Current evidence | Boundary |
 | --- | --- | --- | --- |
-| Python | `python -m pip install voiage==1.0.0` | PyPI wheel/source release, clean-room exercise, Python 3.12–3.14 CI | Primary JOSS installation |
+| Python | `python -m pip install voiage==2.0.0` | Release-candidate wheel/source build and Python 3.12–3.14 CI; public PyPI installation must be verified after publication | Primary JOSS installation |
 | Rust | `cargo test --manifest-path rust/Cargo.toml --workspace --exclude voiage-python` plus the PyO3 wheel build | Native crates, property tests, fuzzing, Miri, sanitizers and coverage | Internal workspace; crates.io publication is not required for JOSS |
-| R | Source package under `r-package/voiageR` | `R CMD check`, testthat, vignette and manual tooling | Secondary binding; CRAN/r-universe review is independent of JOSS |
-| Julia | Source package under `bindings/julia` | `Pkg.test` after building `voiage-ffi` and setting `VOIAGE_FFI_LIBRARY` | Secondary binding; a Julia artifact/JLL is required before standalone General installation |
+| R | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `R CMD build r-package/voiageR`, `R CMD check --as-cran --no-manual voiageR_*.tar.gz`, and an installed smoke test with `VOIAGE_FFI_LIBRARY` set to the platform library | Installed package calls the separately built Rust EVPI library; tests pass, while the current package check reports two vignette warnings; Linux/macOS/Windows native smoke matrix is configured | Secondary binding; CRAN/r-universe review is independent of JOSS |
+| Julia | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `VOIAGE_FFI_LIBRARY=<platform-library> julia --project=bindings/julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'` | The fixture is packaged with the Julia source, and CI tests an archived standalone package copy against the separately built native library | Secondary binding; a Julia artifact/JLL is required before standalone General installation |
 
 The paper therefore describes R and Julia as source bindings and does not claim
 that they are independently installable from their language registries. A JOSS
@@ -81,9 +82,11 @@ became the primary independently installable research package.
 
 The recommended sequence is:
 
-1. obtain one attributable or editor-verifiable independent installation and
-   research-use report through issue #471;
-2. resolve any problems identified by that exercise;
+1. publish and archive the exact software revision described by the final
+   paper, and retain its hosted test, SBOM, provenance, and digest evidence;
+2. continue seeking attributable independent installation or use evidence
+   through issue #471 without representing it as a universal JOSS prerequisite;
+   automated accounts and AI-agent runs do not establish independent adoption;
 3. wait for and record the permanent arXiv identifier, following the author's
    preferred arXiv-first sequence;
 4. submit the repository and `paper.md` directly to JOSS;
@@ -93,8 +96,9 @@ The recommended sequence is:
 
 ## Remaining gates
 
-- Obtain independent installation and research-use evidence through issue #471;
-  automated accounts and same-author integrations do not satisfy this gate.
+- Continue the independent installation and research-use request in issue #471
+  as additional engagement evidence; do not claim independent adoption until
+  attributable evidence exists.
 - Record the permanent arXiv identifier when arXiv assigns it.
 - Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external

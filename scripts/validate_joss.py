@@ -17,6 +17,7 @@ REQUIRED_SECTIONS = (
     "Research impact statement",
     "AI usage disclosure",
     "Acknowledgements",
+    "Software and data availability",
     "References",
 )
 PLACEHOLDER_PATTERNS = (

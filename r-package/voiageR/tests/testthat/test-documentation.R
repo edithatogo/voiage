@@ -1,15 +1,13 @@
 test_that("voiageR help and package index are available", {
-  help_topic <- help("voiageR", package = "voiageR")
-  expect_s3_class(help_topic, "help_files_with_topic")
+  rd_db <- source_rd_db()
+  description <- package_description_record()
 
-  help_index <- help(package = "voiageR")
-  expect_s3_class(help_index, "packageInfo")
-  expect_identical(help_index$name, "voiageR")
-  expect_match(paste(help_index$info[[1]], collapse = "\n"), "^Package:\\s+voiageR", perl = TRUE)
+  expect_true("voiageR.Rd" %in% names(rd_db))
+  expect_identical(unname(description[["Package"]]), "voiageR")
 })
 
 test_that("the Rd surface matches the exported package API", {
-  rd_db <- tools::Rd_db("voiageR")
+  rd_db <- source_rd_db()
   rd_topics <- sort(sub("\\.Rd$", "", names(rd_db)))
 
   expect_setequal(
@@ -27,7 +25,7 @@ test_that("the Rd surface matches the exported package API", {
 })
 
 test_that("exported Rd examples can be extracted consistently", {
-  rd_db <- tools::Rd_db("voiageR")
+  rd_db <- source_rd_db()
   topics <- setdiff(names(rd_db), "voiageR.Rd")
 
   for (topic in topics) {

@@ -8,6 +8,7 @@ Implementation of Value of Information methods related to sample information.
 from collections.abc import Callable
 import importlib.util
 from typing import Any
+import warnings
 
 import numpy as np
 
@@ -17,12 +18,87 @@ from voiage.exceptions import (
     raise_input_error,
 )
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
-from voiage.stats import normal_normal_update
 
 SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
+TrialSimulatorType = Callable[
+    [dict[str, float], TrialDesign, np.random.Generator],
+    object,
+]
+PosteriorSamplerType = Callable[
+    [ParameterSet, object, TrialDesign, int, np.random.Generator],
+    ParameterSet,
+]
+
+_MAX_ANALYTICAL_SAMPLE_SIZE = 2**32 - 1
+
+
+def _finite_float_argument(value: object, name: str) -> float:
+    """Convert one public analytical scalar through the package error boundary."""
+    if isinstance(value, bool):
+        raise_input_error(
+            f"`{name}` must be a finite real number, not a Boolean.",
+            diagnostic_code="invalid_scalar_input",
+        )
+    try:
+        converted = float(value)
+    except (TypeError, ValueError, OverflowError) as error:
+        raise_input_error(
+            f"`{name}` must be a finite real number.",
+            diagnostic_code="invalid_scalar_input",
+        )
+        raise AssertionError("unreachable") from error
+    if not np.isfinite(converted):
+        raise_input_error(
+            f"`{name}` must be finite.",
+            diagnostic_code="non_finite_value",
+        )
+    return converted
+
+
+def normal_normal_two_arm_evsi(
+    *,
+    prior_mean: float,
+    prior_standard_deviation: float,
+    outcome_standard_deviation: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Calculate EVSI for a declared equal-allocation normal study.
+
+    The uncertain incremental effect has a normal prior. The proposed two-arm
+    study has a common known outcome standard deviation and equal allocation.
+    Incremental net benefit is linear in the effect.
+    """
+    if (
+        isinstance(total_sample_size, bool)
+        or not isinstance(total_sample_size, int)
+        or total_sample_size <= 0
+        or total_sample_size % 2 != 0
+        or total_sample_size > _MAX_ANALYTICAL_SAMPLE_SIZE
+    ):
+        raise_input_error(
+            "`total_sample_size` must be a positive even integer within the "
+            "supported unsigned 32-bit range.",
+            diagnostic_code="invalid_total_sample_size",
+        )
+    return _runtime.compute_normal_normal_two_arm_evsi(
+        _finite_float_argument(prior_mean, "prior_mean"),
+        _finite_float_argument(
+            prior_standard_deviation,
+            "prior_standard_deviation",
+        ),
+        _finite_float_argument(
+            outcome_standard_deviation,
+            "outcome_standard_deviation",
+        ),
+        total_sample_size,
+        _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
+        _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
+    )
 
 
 def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -30,9 +106,15 @@ def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.fl
     if not psa_prior.parameters:
         raise_input_error("`psa_prior` must contain at least one parameter.")
 
-    matrix = np.column_stack(
-        [np.asarray(values, dtype=float) for values in psa_prior.parameters.values()]
-    )
+    columns = [
+        np.asarray(values, dtype=float) for values in psa_prior.parameters.values()
+    ]
+    if any(column.ndim != 1 for column in columns):
+        raise_input_error(
+            "EVSI requires one scalar value per parameter and PSA row.",
+            diagnostic_code="non_scalar_parameter",
+        )
+    matrix = np.column_stack(columns)
     if matrix.ndim != 2 or matrix.shape[0] != psa_prior.n_samples:
         raise_input_error("PSA parameters must form a 2D sample-by-parameter matrix.")
     if not np.all(np.isfinite(matrix)):
@@ -61,6 +143,20 @@ def _validate_net_benefits(
             diagnostic_code="non_finite_value",
         )
     return values
+
+
+def _finite_strategy_means(
+    net_benefits: np.ndarray[Any, np.dtype[np.float64]],
+) -> np.ndarray[Any, np.dtype[np.float64]]:
+    """Reduce net benefits without allowing finite-input overflow to escape."""
+    with np.errstate(over="ignore", invalid="ignore"):
+        means = np.asarray(np.mean(net_benefits, axis=0), dtype=float)
+    if not np.all(np.isfinite(means)):
+        raise_input_error(
+            "Net-benefit aggregation produced a non-finite strategy mean.",
+            diagnostic_code="non_finite_reduction",
+        )
+    return means
 
 
 def _trial_information_fraction(
@@ -308,45 +404,491 @@ def _simulate_trial_data(
     return data
 
 
+def _arm_parameter_name(arm_name: str) -> str:
+    """Map one trial-arm label to its declared mean-parameter name."""
+    return f"mean_{arm_name.lower().replace(' ', '_')}"
+
+
+def _known_outcome_standard_deviation(prior_samples: ParameterSet) -> float:
+    """Return the one finite positive outcome SD required by the built-in model."""
+    if "sd_outcome" not in prior_samples.parameters:
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires a fixed `sd_outcome` parameter."
+        )
+    values = np.asarray(prior_samples.parameters["sd_outcome"], dtype=float)
+    if (
+        values.size == 0
+        or not np.all(np.isfinite(values))
+        or not np.all(values > 0.0)
+        or not np.all(values == values[0])
+    ):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires one finite, positive known "
+            "`sd_outcome`."
+        )
+    outcome_sd = float(values[0])
+    if outcome_sd < np.sqrt(np.finfo(float).tiny) or outcome_sd > np.sqrt(
+        np.finfo(float).max
+    ):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires `sd_outcome` whose squared "
+            "observation variance is representable as a finite positive float.",
+            diagnostic_code="invalid_observation_scale",
+        )
+    observation_variance = outcome_sd * outcome_sd
+    if not np.isfinite(observation_variance) or observation_variance <= 0.0:
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires `sd_outcome` whose squared "
+            "observation variance is representable as a finite positive float.",
+            diagnostic_code="invalid_observation_scale",
+        )
+    return outcome_sd
+
+
+def _validate_builtin_normal_contract(
+    prior_samples: ParameterSet,
+    trial_design: TrialDesign,
+) -> None:
+    """Validate the complete built-in two-loop study-model contract."""
+    _known_outcome_standard_deviation(prior_samples)
+    arm_parameters = [_arm_parameter_name(arm.name) for arm in trial_design.arms]
+    if len(set(arm_parameters)) != len(arm_parameters):
+        raise_input_error(
+            "Trial-arm names must map to unique `mean_<arm>` parameter names.",
+            diagnostic_code="arm_parameter_name_collision",
+        )
+    for arm in trial_design.arms:
+        try:
+            sample_size = float(arm.sample_size)
+        except (TypeError, ValueError, OverflowError) as error:
+            raise_input_error(
+                "Built-in normal two-loop EVSI requires each arm sample size "
+                "to be representable as a finite positive float.",
+                diagnostic_code="invalid_sample_size",
+            )
+            raise AssertionError("unreachable") from error
+        if not np.isfinite(sample_size) or sample_size <= 0.0:
+            raise_input_error(
+                "Built-in normal two-loop EVSI requires each arm sample size "
+                "to be representable as a finite positive float.",
+                diagnostic_code="invalid_sample_size",
+            )
+    missing = [name for name in arm_parameters if name not in prior_samples.parameters]
+    if missing:
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires one parameter named "
+            f"`mean_<arm>` for every trial arm; missing {', '.join(missing)}."
+        )
+
+
+def _joint_normal_prior_parameters(
+    prior_samples: ParameterSet,
+) -> tuple[
+    list[str],
+    np.ndarray[Any, np.dtype[np.float64]],
+    np.ndarray[Any, np.dtype[np.float64]],
+]:
+    """Fit the one joint Gaussian prior used by the built-in EVSI contract."""
+    uncertain_names = [
+        name for name in prior_samples.parameters if name != "sd_outcome"
+    ]
+    if not uncertain_names:
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires uncertain model parameters."
+        )
+    if prior_samples.n_samples <= len(uncertain_names):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires more prior draws than "
+            "uncertain parameters so the fitted covariance is identifiable.",
+            diagnostic_code="rank_deficient_prior",
+        )
+    prior_columns = [
+        np.asarray(prior_samples.parameters[name], dtype=float)
+        for name in uncertain_names
+    ]
+    if any(column.ndim != 1 for column in prior_columns):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires one scalar value per "
+            "uncertain parameter and PSA row.",
+            diagnostic_code="non_scalar_parameter",
+        )
+    prior_matrix = np.column_stack(prior_columns)
+    if not np.all(np.isfinite(prior_matrix)):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires finite prior draws.",
+            diagnostic_code="non_finite_value",
+        )
+    prior_mean = np.asarray(np.mean(prior_matrix, axis=0), dtype=float)
+    prior_covariance = np.atleast_2d(
+        np.asarray(np.cov(prior_matrix, rowvar=False, ddof=1), dtype=float)
+    )
+    if not np.all(np.isfinite(prior_covariance)):
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires a finite joint prior covariance."
+        )
+    try:
+        eigenvalues = np.linalg.eigvalsh((prior_covariance + prior_covariance.T) / 2.0)
+    except np.linalg.LinAlgError as error:
+        raise_input_error(
+            "Joint prior covariance decomposition failed.",
+            diagnostic_code="covariance_decomposition_failed",
+        )
+        raise AssertionError("unreachable") from error
+    spectral_scale = max(float(np.max(np.abs(eigenvalues))), np.finfo(float).tiny)
+    tolerance = (
+        100.0 * np.finfo(float).eps * max(1, len(uncertain_names)) * spectral_scale
+    )
+    if float(np.min(eigenvalues)) < -tolerance:
+        raise_input_error(
+            "Built-in normal two-loop EVSI requires a positive-semidefinite "
+            "joint prior covariance.",
+            diagnostic_code="invalid_prior_covariance",
+        )
+    return uncertain_names, prior_mean, prior_covariance
+
+
+def _positive_semidefinite_draws(
+    mean: np.ndarray[Any, np.dtype[np.float64]],
+    covariance: np.ndarray[Any, np.dtype[np.float64]],
+    n_draws: int,
+    rng: np.random.Generator,
+) -> np.ndarray[Any, np.dtype[np.float64]]:
+    """Draw from a possibly singular Gaussian using an audited eigensystem."""
+    symmetric = (covariance + covariance.T) / 2.0
+    try:
+        eigenvalues, eigenvectors = np.linalg.eigh(symmetric)
+    except np.linalg.LinAlgError as error:
+        raise_input_error(
+            "Gaussian covariance decomposition failed.",
+            diagnostic_code="covariance_decomposition_failed",
+        )
+        raise AssertionError("unreachable") from error
+    scale = max(
+        float(np.max(np.abs(eigenvalues))),
+        float(np.max(np.abs(covariance))),
+        np.finfo(float).tiny,
+    )
+    tolerance = 100.0 * np.finfo(float).eps * max(1, covariance.shape[0]) * scale
+    if float(np.min(eigenvalues)) < -tolerance:
+        raise_input_error(
+            "Gaussian covariance is not positive semidefinite at its numerical scale.",
+            diagnostic_code="invalid_posterior_covariance",
+        )
+    root = eigenvectors * np.sqrt(np.clip(eigenvalues, 0.0, None))
+    standard = rng.standard_normal((n_draws, mean.size))
+    return np.asarray(mean + standard @ root.T, dtype=float)
+
+
+def _normal_observation_contract(
+    prior_samples: ParameterSet,
+    trial_design: TrialDesign,
+) -> tuple[
+    list[str],
+    np.ndarray[Any, np.dtype[np.float64]],
+    np.ndarray[Any, np.dtype[np.float64]],
+    np.ndarray[Any, np.dtype[np.float64]],
+    np.ndarray[Any, np.dtype[np.float64]],
+]:
+    """Return the fitted Gaussian prior and its known-variance observation model."""
+    _validate_builtin_normal_contract(prior_samples, trial_design)
+    uncertain_names, prior_mean, prior_covariance = _joint_normal_prior_parameters(
+        prior_samples
+    )
+    parameter_index = {name: index for index, name in enumerate(uncertain_names)}
+    design_matrix = np.zeros((len(trial_design.arms), len(uncertain_names)))
+    for row, arm in enumerate(trial_design.arms):
+        design_matrix[row, parameter_index[_arm_parameter_name(arm.name)]] = 1.0
+    outcome_sd = _known_outcome_standard_deviation(prior_samples)
+    observation_covariance = np.diag(
+        [outcome_sd**2 / float(arm.sample_size) for arm in trial_design.arms]
+    )
+    if not np.all(np.isfinite(observation_covariance)) or not np.all(
+        np.diag(observation_covariance) > 0.0
+    ):
+        raise_input_error(
+            "Trial observation variances must be finite and positive.",
+            diagnostic_code="invalid_observation_scale",
+        )
+    return (
+        uncertain_names,
+        prior_mean,
+        prior_covariance,
+        design_matrix,
+        observation_covariance,
+    )
+
+
+def _joint_normal_posterior_from_contract(
+    uncertain_names: list[str],
+    prior_mean: np.ndarray[Any, np.dtype[np.float64]],
+    prior_covariance: np.ndarray[Any, np.dtype[np.float64]],
+    design_matrix: np.ndarray[Any, np.dtype[np.float64]],
+    observation_covariance: np.ndarray[Any, np.dtype[np.float64]],
+    observation: np.ndarray[Any, np.dtype[np.float64]],
+    outcome_sd: float,
+    n_draws: int,
+    rng: np.random.Generator,
+) -> ParameterSet:
+    """Sample a posterior from one prevalidated joint Gaussian contract."""
+    if isinstance(n_draws, bool) or not isinstance(n_draws, int) or n_draws <= 0:
+        raise_input_error("Posterior draw count must be positive.")
+    if not np.all(np.isfinite(observation)):
+        raise_input_error(
+            "Built-in normal trial data must contain one finite mean per arm."
+        )
+
+    predictive_covariance = (
+        design_matrix @ prior_covariance @ design_matrix.T + observation_covariance
+    )
+    try:
+        predictive_factor = np.linalg.cholesky(predictive_covariance)
+        solved = np.linalg.solve(
+            predictive_factor,
+            design_matrix @ prior_covariance,
+        )
+        gain = np.linalg.solve(predictive_factor.T, solved).T
+    except np.linalg.LinAlgError as error:
+        raise_input_error(
+            "Built-in normal EVSI predictive covariance is singular or not "
+            "positive definite.",
+            diagnostic_code="singular_predictive_covariance",
+        )
+        raise AssertionError("unreachable") from error
+    posterior_mean = prior_mean + gain @ (observation - design_matrix @ prior_mean)
+    identity_minus_gain = np.eye(prior_covariance.shape[0]) - gain @ design_matrix
+    posterior_covariance = (
+        identity_minus_gain @ prior_covariance @ identity_minus_gain.T
+        + gain @ observation_covariance @ gain.T
+    )
+    posterior_covariance = (posterior_covariance + posterior_covariance.T) / 2.0
+    draws = np.atleast_2d(
+        _positive_semidefinite_draws(
+            posterior_mean,
+            posterior_covariance,
+            n_draws,
+            rng,
+        )
+    )
+    if draws.shape != (n_draws, len(uncertain_names)):
+        draws = draws.reshape(n_draws, len(uncertain_names))
+    posterior_parameters = {
+        name: draws[:, index] for index, name in enumerate(uncertain_names)
+    }
+    posterior_parameters["sd_outcome"] = np.full(n_draws, outcome_sd)
+    return ParameterSet.from_numpy_or_dict(posterior_parameters)
+
+
+def _joint_normal_posterior(
+    prior_samples: ParameterSet,
+    sample_means: dict[str, float],
+    trial_design: TrialDesign,
+    n_draws: int,
+    rng: np.random.Generator,
+) -> ParameterSet:
+    """Sample the joint Gaussian posterior for the built-in normal study model."""
+    outcome_sd = _known_outcome_standard_deviation(prior_samples)
+    (
+        uncertain_names,
+        prior_mean,
+        prior_covariance,
+        design_matrix,
+        observation_covariance,
+    ) = _normal_observation_contract(prior_samples, trial_design)
+    observation = np.asarray(
+        [sample_means[arm.name] for arm in trial_design.arms],
+        dtype=float,
+    )
+    return _joint_normal_posterior_from_contract(
+        uncertain_names,
+        prior_mean,
+        prior_covariance,
+        design_matrix,
+        observation_covariance,
+        observation,
+        outcome_sd,
+        n_draws,
+        rng,
+    )
+
+
 def _bayesian_update(
     prior_samples: ParameterSet,
     trial_data: dict[str, np.ndarray[Any, Any]],
     trial_design: TrialDesign,
     rng: np.random.Generator | None = None,
+    n_draws: int | None = None,
 ) -> ParameterSet:
-    """Update prior beliefs with simulated trial data."""
-    posterior_samples = {}
-    for param_name, prior_values in prior_samples.parameters.items():
-        if "mean" in param_name:
-            arm_name = param_name.replace("mean_", "").replace("_", " ").title()
-            if arm_name in trial_data:
-                data = trial_data[arm_name]
-                posterior_mean, posterior_std = normal_normal_update(
-                    prior_values,
-                    prior_samples.parameters["sd_outcome"],
-                    np.mean(data),
-                    np.std(data),
-                    len(data),
-                )
-                if rng is None:
-                    posterior_samples[param_name] = np.random.normal(
-                        posterior_mean, posterior_std, len(prior_values)
-                    )
-                else:
-                    posterior_samples[param_name] = rng.normal(
-                        posterior_mean, posterior_std, len(prior_values)
-                    )
-            else:
-                posterior_samples[param_name] = prior_values
-        else:
-            posterior_samples[param_name] = prior_values
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in posterior_samples.items()},
-        coords={"n_samples": np.arange(len(next(iter(posterior_samples.values()))))},
+    """Update a joint Gaussian prior under a known-variance arm-mean likelihood."""
+    draw_count = n_draws if n_draws is not None else prior_samples.n_samples
+    generator = rng if rng is not None else np.random.default_rng()
+    try:
+        sample_means = {
+            arm.name: float(np.mean(np.asarray(trial_data[arm.name], dtype=float)))
+            for arm in trial_design.arms
+        }
+    except (KeyError, TypeError, ValueError) as error:
+        raise_input_error(
+            "Normal posterior updating requires finite trial data for every arm."
+        )
+        raise AssertionError("unreachable") from error
+    if not all(np.isfinite(value) for value in sample_means.values()):
+        raise_input_error(
+            "Normal posterior updating requires finite trial data for every arm."
+        )
+    return _joint_normal_posterior(
+        prior_samples,
+        sample_means,
+        trial_design,
+        draw_count,
+        generator,
     )
-    return ParameterSet(dataset=dataset)
+
+
+def _builtin_normal_trial_simulator(
+    true_parameters: dict[str, float],
+    trial_design: TrialDesign,
+    rng: np.random.Generator,
+) -> object:
+    """Simulate arm sample means for the built-in known-variance normal model."""
+    outcome_sd = float(true_parameters["sd_outcome"])
+    return {
+        arm.name: float(
+            rng.normal(
+                true_parameters[_arm_parameter_name(arm.name)],
+                outcome_sd / np.sqrt(float(arm.sample_size)),
+            )
+        )
+        for arm in trial_design.arms
+    }
+
+
+def _builtin_joint_normal_posterior_sampler(
+    prior_samples: ParameterSet,
+    trial_data: object,
+    trial_design: TrialDesign,
+    n_draws: int,
+    rng: np.random.Generator,
+) -> ParameterSet:
+    """Adapt built-in trial means to the joint Gaussian posterior sampler."""
+    if not isinstance(trial_data, dict):
+        raise_input_error("Built-in normal trial data must be a mapping of arm means.")
+    try:
+        sample_means = {
+            arm.name: float(trial_data[arm.name]) for arm in trial_design.arms
+        }
+    except (KeyError, TypeError, ValueError) as error:
+        raise_input_error(
+            "Built-in normal trial data must contain one finite mean per arm."
+        )
+        raise AssertionError("unreachable") from error
+    if not all(np.isfinite(value) for value in sample_means.values()):
+        raise_input_error(
+            "Built-in normal trial data must contain one finite mean per arm."
+        )
+    return _joint_normal_posterior(
+        prior_samples,
+        sample_means,
+        trial_design,
+        n_draws,
+        rng,
+    )
+
+
+def _parameter_set_from_joint_normal_draws(
+    uncertain_names: list[str],
+    draws: np.ndarray[Any, np.dtype[np.float64]],
+    outcome_sd: float,
+) -> ParameterSet:
+    """Build a parameter set from joint Gaussian draws and the fixed study SD."""
+    parameters = {name: draws[:, index] for index, name in enumerate(uncertain_names)}
+    parameters["sd_outcome"] = np.full(draws.shape[0], outcome_sd)
+    return ParameterSet.from_numpy_or_dict(parameters)
+
+
+def _evsi_builtin_joint_normal(
+    model_func: EconomicModelFunctionType,
+    psa_prior: ParameterSet,
+    trial_design: TrialDesign,
+    n_outer_loops: int,
+    n_inner_loops: int,
+    rng: np.random.Generator,
+) -> tuple[float, float]:
+    """Estimate EVSI coherently under one fitted joint Gaussian prior.
+
+    The empirical PSA draws are used only to fit the prior moments. Current
+    value, predictive trial outcomes, and posterior values are then all
+    integrated under that same fitted Gaussian model.
+    """
+    (
+        uncertain_names,
+        prior_mean,
+        prior_covariance,
+        design_matrix,
+        observation_covariance,
+    ) = _normal_observation_contract(psa_prior, trial_design)
+    outcome_sd = _known_outcome_standard_deviation(psa_prior)
+
+    current_draw_count = max(n_inner_loops, psa_prior.n_samples)
+    prior_draws = _positive_semidefinite_draws(
+        prior_mean,
+        prior_covariance,
+        current_draw_count,
+        rng,
+    )
+    gaussian_prior = _parameter_set_from_joint_normal_draws(
+        uncertain_names,
+        prior_draws,
+        outcome_sd,
+    )
+    prior_net_benefits = _validate_net_benefits(
+        model_func(gaussian_prior).numpy_values,
+        current_draw_count,
+    )
+    current_value = float(np.max(_finite_strategy_means(prior_net_benefits)))
+
+    predictive_mean = design_matrix @ prior_mean
+    predictive_covariance = (
+        design_matrix @ prior_covariance @ design_matrix.T + observation_covariance
+    )
+    try:
+        predictive_factor = np.linalg.cholesky(predictive_covariance)
+    except np.linalg.LinAlgError as error:
+        raise_input_error(
+            "Built-in normal EVSI predictive covariance is singular or not "
+            "positive definite.",
+            diagnostic_code="singular_predictive_covariance",
+        )
+        raise AssertionError("unreachable") from error
+
+    posterior_values: list[float] = []
+    for _ in range(n_outer_loops):
+        observation = predictive_mean + predictive_factor @ rng.standard_normal(
+            predictive_mean.size
+        )
+        posterior_psa = _joint_normal_posterior_from_contract(
+            uncertain_names,
+            prior_mean,
+            prior_covariance,
+            design_matrix,
+            observation_covariance,
+            observation,
+            outcome_sd,
+            n_inner_loops,
+            rng,
+        )
+        net_benefits = _validate_net_benefits(
+            model_func(posterior_psa).numpy_values,
+            n_inner_loops,
+        )
+        posterior_values.append(float(np.max(_finite_strategy_means(net_benefits))))
+    with np.errstate(over="ignore", invalid="ignore"):
+        expected_sample_value = float(np.mean(posterior_values))
+    if not np.isfinite(expected_sample_value):
+        raise_input_error(
+            "Posterior net-benefit aggregation produced a non-finite result.",
+            diagnostic_code="non_finite_reduction",
+        )
+    return expected_sample_value, current_value
 
 
 def _evsi_two_loop(
@@ -355,35 +897,53 @@ def _evsi_two_loop(
     trial_design: TrialDesign,
     n_outer_loops: int,
     n_inner_loops: int,
-    rng: np.random.Generator | None = None,
+    trial_simulator: TrialSimulatorType,
+    posterior_sampler: PosteriorSamplerType,
+    rng: np.random.Generator,
 ) -> float:
-    """EVSI calculation using a two-loop Monte Carlo simulation.
+    """Calculate EVSI using caller-declared sampling and posterior models.
 
     Each outer loop samples one possible trial data set. The inner loop then
-    draws posterior samples for that same data set and averages the resulting
-    decision value, making ``n_inner_loops`` an effective Monte Carlo control
-    rather than an ignored compatibility parameter.
+    receives exactly ``n_inner_loops`` joint posterior draws from the caller's
+    posterior sampler. Keeping both callbacks explicit prevents this generic
+    interface from silently replacing a joint prior with marginal updates.
     """
     max_nb_post_study = []
     for _ in range(n_outer_loops):
-        if rng is None:
-            true_params_idx = np.random.randint(0, psa_prior.n_samples)
-        else:
-            true_params_idx = rng.integers(0, psa_prior.n_samples)
+        true_params_idx = rng.integers(0, psa_prior.n_samples)
         true_params = {
-            name: values[true_params_idx]
+            name: float(values[true_params_idx])
             for name, values in psa_prior.parameters.items()
         }
 
-        trial_data = _simulate_trial_data(true_params, trial_design, rng)
-        inner_decision_values = []
-        for _ in range(n_inner_loops):
-            posterior_psa = _bayesian_update(psa_prior, trial_data, trial_design, rng)
-            nb_posterior = model_func(posterior_psa).numpy_values
-            inner_decision_values.append(np.max(np.mean(nb_posterior, axis=0)))
-        max_nb_post_study.append(float(np.mean(inner_decision_values)))
+        trial_data = trial_simulator(true_params, trial_design, rng)
+        posterior_psa = posterior_sampler(
+            psa_prior,
+            trial_data,
+            trial_design,
+            n_inner_loops,
+            rng,
+        )
+        if not isinstance(posterior_psa, ParameterSet):
+            raise_input_error("`posterior_sampler` must return a ParameterSet.")
+        if posterior_psa.n_samples != n_inner_loops:
+            raise_input_error(
+                "`posterior_sampler` must return exactly `n_inner_loops` joint draws."
+            )
+        nb_posterior = _validate_net_benefits(
+            model_func(posterior_psa).numpy_values,
+            n_inner_loops,
+        )
+        max_nb_post_study.append(float(np.max(_finite_strategy_means(nb_posterior))))
 
-    return float(np.mean(max_nb_post_study))
+    with np.errstate(over="ignore", invalid="ignore"):
+        result = float(np.mean(max_nb_post_study))
+    if not np.isfinite(result):
+        raise_input_error(
+            "Posterior net-benefit aggregation produced a non-finite result.",
+            diagnostic_code="non_finite_reduction",
+        )
+    return result
 
 
 def _evsi_regression(
@@ -429,7 +989,12 @@ def _evsi_regression(
         trial_data = _simulate_trial_data(true_params, trial_design)
 
         # Bayesian update
-        posterior_psa = _bayesian_update(sampled_psa, trial_data, trial_design)
+        posterior_psa = _bayesian_update(
+            psa_prior,
+            trial_data,
+            trial_design,
+            n_draws=psa_prior.n_samples,
+        )
 
         # Run model on posterior
         nb_posterior = model_func(posterior_psa).numpy_values
@@ -497,7 +1062,10 @@ def evsi(
     n_outer_loops: int = 100,
     n_inner_loops: int = 1000,
     metamodel: MetamodelName = "linear",
+    *,
     seed: int | None = None,
+    trial_simulator: TrialSimulatorType | None = None,
+    posterior_sampler: PosteriorSamplerType | None = None,
 ) -> float:
     r"""Calculate expected value of sample information.
 
@@ -528,7 +1096,18 @@ def evsi(
         Strategy-level surrogate model used by the efficient approximation.
     seed : int, optional
         A uint64-range seed for reproducible Python two-loop simulation. When
-        omitted, the historical NumPy global random stream is preserved.
+        omitted, a fresh local random generator is used.
+    trial_simulator : callable, optional
+        Given one joint prior draw, the trial design, and a random generator,
+        returns data from a declared sampling model. Supply this together with
+        ``posterior_sampler`` for a custom two-loop model. When both callbacks
+        are omitted, the built-in joint multivariate-normal prior and
+        known-variance arm-mean likelihood are used.
+    posterior_sampler : callable, optional
+        Given the joint prior, simulated data, trial design, requested draw
+        count, and random generator, returns exactly that many joint posterior
+        draws as a ``ParameterSet``. It must be supplied together with
+        ``trial_simulator``.
 
     Returns
     -------
@@ -544,9 +1123,14 @@ def evsi(
 
        \mathrm{EVSI} = E_y\left[\max_d E[NB_d \mid y]\right] - \max_d E[NB_d].
 
-    The exact two-loop estimator uses nested Monte Carlo. The efficient and
-    moment-based estimators approximate the same preposterior target while
-    avoiding the inner simulation loop.
+    Without custom callbacks, the built-in v2 contract estimates a joint
+    multivariate-normal prior from the PSA draws and uses one ``mean_<arm>``
+    parameter per trial arm plus a fixed ``sd_outcome``. Current value,
+    predictive trial outcomes, and posterior value are all integrated under
+    that fitted Gaussian prior, and correlated parameters are updated jointly.
+    Custom callbacks may instead declare another coherent sampling and
+    posterior model. Compatibility estimators remain available for older
+    workflows but are not stable scientific contracts.
 
     References
     ----------
@@ -585,29 +1169,35 @@ def evsi(
         raise_input_error("seed must be an integer between 0 and 2**64 - 1 inclusive.")
     if seed is not None and method != "two_loop":
         raise_input_error("seed is currently supported only for method='two_loop'.")
-    if n_outer_loops <= 0 or n_inner_loops <= 0:
-        raise_input_error("n_outer_loops and n_inner_loops must be positive.")
+    if (
+        isinstance(n_outer_loops, bool)
+        or not isinstance(n_outer_loops, int)
+        or n_outer_loops <= 0
+        or isinstance(n_inner_loops, bool)
+        or not isinstance(n_inner_loops, int)
+        or n_inner_loops <= 0
+    ):
+        raise_input_error(
+            "n_outer_loops and n_inner_loops must be non-Boolean positive integers.",
+            diagnostic_code="invalid_loop_count",
+        )
     _parameter_matrix(psa_prior)
 
-    nb_prior_values = _validate_net_benefits(
-        model_func(psa_prior).numpy_values,
-        psa_prior.n_samples,
-    )
-    mean_nb_per_strategy_prior = np.mean(nb_prior_values, axis=0)
-    max_expected_nb_current_info: float = np.max(mean_nb_per_strategy_prior)
-
     expected_max_nb_post_study: float
+    max_expected_nb_current_info: float
+    nb_prior_values: np.ndarray[Any, np.dtype[np.float64]]
 
     if method == "two_loop":
-        if seed is None:
-            # Preserve the historical call shape and global NumPy stream for
-            # unseeded callers, including integrations that monkeypatch this
-            # private helper.
-            expected_max_nb_post_study = _evsi_two_loop(
-                model_func, psa_prior, trial_design, n_outer_loops, n_inner_loops
+        if (trial_simulator is None) != (posterior_sampler is None):
+            raise_input_error(
+                "Custom method='two_loop' models require both `trial_simulator` "
+                "and `posterior_sampler` callbacks."
             )
-        else:
-            expected_max_nb_post_study = _evsi_two_loop(
+        if trial_simulator is None:
+            (
+                expected_max_nb_post_study,
+                max_expected_nb_current_info,
+            ) = _evsi_builtin_joint_normal(
                 model_func,
                 psa_prior,
                 trial_design,
@@ -615,13 +1205,66 @@ def evsi(
                 n_inner_loops,
                 np.random.default_rng(seed),
             )
+        else:
+            nb_prior_values = _validate_net_benefits(
+                model_func(psa_prior).numpy_values,
+                psa_prior.n_samples,
+            )
+            max_expected_nb_current_info = float(
+                np.max(_finite_strategy_means(nb_prior_values))
+            )
+            assert posterior_sampler is not None
+            expected_max_nb_post_study = _evsi_two_loop(
+                model_func,
+                psa_prior,
+                trial_design,
+                n_outer_loops,
+                n_inner_loops,
+                trial_simulator,
+                posterior_sampler,
+                np.random.default_rng(seed),
+            )
     elif method == "regression":
+        nb_prior_values = _validate_net_benefits(
+            model_func(psa_prior).numpy_values,
+            psa_prior.n_samples,
+        )
+        max_expected_nb_current_info = float(
+            np.max(_finite_strategy_means(nb_prior_values))
+        )
+        warnings.warn(
+            "[evsi_regression_nonstable] The regression EVSI compatibility "
+            "estimator does not expose a "
+            "complete, validated study-model contract and is not a stable "
+            "scientific estimator. Use method='two_loop' with a declared "
+            "study model or normal_normal_two_arm_evsi(); see the v1-to-v2 "
+            "migration guide.",
+            FutureWarning,
+            stacklevel=2,
+        )
         # Implement regression-based EVSI method
         expected_max_nb_post_study = _evsi_regression(
             model_func, psa_prior, trial_design, n_outer_loops
         )
 
     elif method in {"efficient", "efficient_regression"}:
+        nb_prior_values = _validate_net_benefits(
+            model_func(psa_prior).numpy_values,
+            psa_prior.n_samples,
+        )
+        max_expected_nb_current_info = float(
+            np.max(_finite_strategy_means(nb_prior_values))
+        )
+        warnings.warn(
+            "[evsi_efficient_nonstable] The efficient EVSI compatibility "
+            "estimator does not expose a "
+            "complete, validated study-model contract and is not a stable "
+            "scientific estimator. Use method='two_loop' with a declared "
+            "study model or normal_normal_two_arm_evsi(); see the v1-to-v2 "
+            "migration guide.",
+            FutureWarning,
+            stacklevel=2,
+        )
         expected_max_nb_post_study = _evsi_efficient_regression(
             nb_prior_values,
             psa_prior,
@@ -630,6 +1273,23 @@ def evsi(
         )
 
     elif method == "moment_based":
+        nb_prior_values = _validate_net_benefits(
+            model_func(psa_prior).numpy_values,
+            psa_prior.n_samples,
+        )
+        max_expected_nb_current_info = float(
+            np.max(_finite_strategy_means(nb_prior_values))
+        )
+        warnings.warn(
+            "[evsi_moment_based_nonstable] The moment-based EVSI compatibility "
+            "estimator does not expose a "
+            "complete, validated study-model contract and is not a stable "
+            "scientific estimator. Use method='two_loop' with a declared "
+            "study model or normal_normal_two_arm_evsi(); see the v1-to-v2 "
+            "migration guide.",
+            FutureWarning,
+            stacklevel=2,
+        )
         expected_max_nb_post_study = _evsi_moment_based(
             nb_prior_values,
             psa_prior,
@@ -641,8 +1301,32 @@ def evsi(
             f"EVSI method '{method}' is not recognized or implemented."
         )
 
-    per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
-    per_decision_evsi = max(0.0, per_decision_evsi)
+    raw_per_decision_evsi = expected_max_nb_post_study - max_expected_nb_current_info
+    if not np.isfinite(raw_per_decision_evsi):
+        raise_input_error(
+            "EVSI subtraction produced a non-finite result.",
+            diagnostic_code="non_finite_reduction",
+        )
+    if method == "two_loop" and raw_per_decision_evsi < 0.0:
+        model_guidance = (
+            " Also verify that the custom prior, trial simulator, and posterior "
+            "sampler define one coherent model."
+            if trial_simulator is not None
+            else ""
+        )
+        warnings.warn(
+            "[evsi_negative_monte_carlo_estimate] The untruncated Monte Carlo "
+            f"EVSI estimate was {raw_per_decision_evsi:.12g}. Repeat across "
+            "seeds, increase outer and inner loops, and assess convergence "
+            f"before interpreting it.{model_guidance}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+    per_decision_evsi = (
+        raw_per_decision_evsi
+        if method == "two_loop"
+        else max(0.0, raw_per_decision_evsi)
+    )
 
     if population is not None and time_horizon is not None:
         if population <= 0:
@@ -657,7 +1341,14 @@ def evsi(
         annuity = (
             (1 - (1 + dr) ** -time_horizon) / dr if dr > 0 else float(time_horizon)
         )
-        return per_decision_evsi * population * annuity
+        with np.errstate(over="ignore", invalid="ignore"):
+            scaled_evsi = per_decision_evsi * population * annuity
+        if not np.isfinite(scaled_evsi):
+            raise_input_error(
+                "Population scaling produced a non-finite EVSI result.",
+                diagnostic_code="non_finite_reduction",
+            )
+        return scaled_evsi
 
     return per_decision_evsi
 

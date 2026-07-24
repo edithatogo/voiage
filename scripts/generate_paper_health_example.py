@@ -5,14 +5,14 @@ from __future__ import annotations
 import csv
 from dataclasses import dataclass
 from functools import lru_cache
-from math import erf, exp, pi, sqrt
+from math import sqrt
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from voiage.methods.basic import evpi, evppi
-from voiage.methods.sample_information import enbs
+from voiage.methods.sample_information import enbs, normal_normal_two_arm_evsi
 from voiage.schema import ParameterSet
 
 SEED = 20260723
@@ -60,17 +60,7 @@ class SensitivityScenario:
     annual_population: float = ANNUAL_POPULATION
     fixed_cost: float = STUDY_FIXED_COST
     delay_years: int = 0
-    uptake: float = 1.0
-
-
-def _expected_positive_normal(mean: float, standard_deviation: float) -> float:
-    """Return E[max(0, X)] for a normally distributed random variable X."""
-    if standard_deviation <= 0:
-        return max(0.0, mean)
-    z_score = mean / standard_deviation
-    density = exp(-(z_score**2) / 2.0) / sqrt(2.0 * pi)
-    distribution = 0.5 * (1.0 + erf(z_score / sqrt(2.0)))
-    return standard_deviation * density + mean * distribution
+    value_realisation: float = 1.0
 
 
 def normal_normal_evsi(
@@ -89,20 +79,16 @@ def normal_normal_evsi(
     """
     if total_sample_size <= 0 or total_sample_size % 2:
         raise ValueError("total_sample_size must be a positive even integer")
-
-    prior_variance = EFFECT_PRIOR_SD**2
     if outcome_sd <= 0:
         raise ValueError("outcome_sd must be positive")
-    sampling_variance = 4.0 * outcome_sd**2 / total_sample_size
-    posterior_mean_variance = prior_variance**2 / (prior_variance + sampling_variance)
-    incremental_nb_mean = REFERENCE_WTP * EFFECT_MEAN - COST_MEAN
-    incremental_nb_sd = REFERENCE_WTP * sqrt(posterior_mean_variance)
-    expected_after_study = _expected_positive_normal(
-        incremental_nb_mean,
-        incremental_nb_sd,
+    return normal_normal_two_arm_evsi(
+        prior_mean=EFFECT_MEAN,
+        prior_standard_deviation=EFFECT_PRIOR_SD,
+        outcome_standard_deviation=outcome_sd,
+        total_sample_size=total_sample_size,
+        net_benefit_slope=REFERENCE_WTP,
+        net_benefit_intercept=-COST_MEAN,
     )
-    current_value = max(0.0, incremental_nb_mean)
-    return expected_after_study - current_value
 
 
 def _bootstrap_intervals(
@@ -142,9 +128,7 @@ def _bootstrap_intervals(
                 REFERENCE_WTP * sampled_effect - sampled_cost,
             ]
         )
-        estimates["probability_preferred"][replicate] = np.mean(
-            sampled_nb[:, 1] > 0.0
-        )
+        estimates["probability_preferred"][replicate] = np.mean(sampled_nb[:, 1] > 0.0)
         estimates["evpi"][replicate] = evpi(sampled_nb)
         estimates["evppi_effect"][replicate] = evppi(
             sampled_nb,
@@ -235,7 +219,7 @@ def calculate_example() -> HealthExample:
 
 
 def calculate_sensitivity() -> list[tuple[SensitivityScenario, np.ndarray]]:
-    """Calculate ENBS under prespecified, interpretable one-way scenarios."""
+    """Calculate ENBS under prespecified sensitivity scenarios."""
     scenarios = [
         SensitivityScenario("Base case"),
         SensitivityScenario("Outcome SD 0.75", outcome_sd=0.75),
@@ -244,14 +228,22 @@ def calculate_sensitivity() -> list[tuple[SensitivityScenario, np.ndarray]]:
         SensitivityScenario("Annual population 1,600", annual_population=1_600),
         SensitivityScenario("Fixed study cost 0.9m", fixed_cost=900_000),
         SensitivityScenario("Fixed study cost 1.5m", fixed_cost=1_500_000),
-        SensitivityScenario("One-year delay; 80% uptake", delay_years=1, uptake=0.8),
-        SensitivityScenario("Three-year delay; 40% uptake", delay_years=3, uptake=0.4),
+        SensitivityScenario(
+            "One-year delay; 80% value realisation",
+            delay_years=1,
+            value_realisation=0.8,
+        ),
+        SensitivityScenario(
+            "Three-year delay; 40% value realisation",
+            delay_years=3,
+            value_realisation=0.4,
+        ),
     ]
     sample_sizes = np.array([50, 100, 200, 400, 800, 1_200])
     output: list[tuple[SensitivityScenario, np.ndarray]] = []
     for scenario in scenarios:
         opportunities = (
-            scenario.uptake
+            scenario.value_realisation
             * scenario.annual_population
             * sum(
                 (1.0 + DISCOUNT_RATE) ** -year
@@ -287,6 +279,7 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "metric",
                 "estimate",
@@ -329,12 +322,13 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "sample_size",
                 "evsi_per_person",
                 "research_cost",
-                "enbs_immediate_full_uptake",
-                "enbs_two_year_delay_60pct_uptake",
+                "enbs_immediate_full_realisation",
+                "enbs_two_year_delay_60pct_realisation",
             ],
         )
         writer.writeheader()
@@ -344,10 +338,10 @@ def write_results(
                     "sample_size": int(sample_size),
                     "evsi_per_person": f"{example.evsi_per_person[index]:.6f}",
                     "research_cost": f"{example.research_cost[index]:.2f}",
-                    "enbs_immediate_full_uptake": (
+                    "enbs_immediate_full_realisation": (
                         f"{example.enbs_immediate[index]:.2f}"
                     ),
-                    "enbs_two_year_delay_60pct_uptake": (
+                    "enbs_two_year_delay_60pct_realisation": (
                         f"{example.enbs_delayed[index]:.2f}"
                     ),
                 }
@@ -359,13 +353,14 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "scenario",
                 "outcome_sd",
                 "annual_population",
                 "fixed_cost",
                 "delay_years",
-                "uptake",
+                "value_realisation",
                 "sample_size",
                 "enbs",
             ],
@@ -380,7 +375,7 @@ def write_results(
                         "annual_population": scenario.annual_population,
                         "fixed_cost": scenario.fixed_cost,
                         "delay_years": scenario.delay_years,
-                        "uptake": scenario.uptake,
+                        "value_realisation": scenario.value_realisation,
                         "sample_size": int(sample_size),
                         "enbs": f"{value:.2f}",
                     }
@@ -399,7 +394,7 @@ def render(example: HealthExample, output_stem: Path) -> None:
     blue = "#0072B2"
     orange = "#E69F00"
     green = "#009E73"
-    purple = "#CC79A7"
+    purple = "#9B3F75"
 
     axis_a.plot(
         example.thresholds / 1_000,
@@ -409,15 +404,15 @@ def render(example: HealthExample, output_stem: Path) -> None:
     )
     axis_a.axvline(REFERENCE_WTP / 1_000, color="#555555", linestyle="--")
     axis_a.set(
-        xlabel="Value placed on one QALY (thousand value units)",
-        ylabel="Probability new programme is preferred",
+        xlabel="Value per QALY (thousand value units)",
+        ylabel="Probability programme is preferred",
         ylim=(0, 1),
         title="A  Decision uncertainty",
     )
 
     partial_values = [example.evppi_effect, example.evppi_cost]
     axis_b.bar(
-        ["Health effect", "Programme cost"],
+        ["Health gain", "Programme cost"],
         partial_values,
         color=[green, orange],
     )
@@ -428,10 +423,16 @@ def render(example: HealthExample, output_stem: Path) -> None:
         label="EVPI (all uncertainty)",
     )
     axis_b.set(
-        ylabel="Value per person",
+        ylabel="Value units per person",
         title="B  Priorities for further evidence",
     )
-    axis_b.legend(frameon=False, fontsize=8)
+    axis_b.legend(
+        frameon=True,
+        facecolor="white",
+        edgecolor="none",
+        framealpha=0.9,
+        fontsize=9,
+    )
 
     axis_c.axhline(0, color="#555555", linewidth=1)
     axis_c.plot(
@@ -439,7 +440,7 @@ def render(example: HealthExample, output_stem: Path) -> None:
         example.enbs_immediate / 1_000_000,
         color=blue,
         marker="o",
-        label="Immediate results; full uptake",
+        label="Immediate evidence; full value realisation",
     )
     axis_c.plot(
         example.sample_sizes,
@@ -447,17 +448,17 @@ def render(example: HealthExample, output_stem: Path) -> None:
         color=orange,
         marker="s",
         linestyle="--",
-        label="Two-year delay; 60% uptake",
+        label="Two-year delay; 60% value realisation",
     )
     axis_c.set(
         xlabel="Total study sample size",
         ylabel="Population ENBS (million value units)",
-        title="C  Study value depends on delivery",
+        title="C  Expected net benefit of sampling",
     )
-    axis_c.legend(frameon=False, fontsize=8)
+    axis_c.legend(frameon=False, fontsize=9)
 
     figure.suptitle(
-        "Synthetic health example: a new programme compared with standard care",
+        "Synthetic health example: a programme compared with current practice",
         fontsize=11,
     )
     output_stem.parent.mkdir(parents=True, exist_ok=True)

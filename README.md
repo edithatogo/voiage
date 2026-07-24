@@ -11,7 +11,7 @@
 
 `voiage` provides Value of Information (VOI) methods for comparing decisions
 under uncertainty and assessing whether additional evidence may be worth
-collecting. The v1.0 release combines:
+collecting. The v2.0 release combines:
 
 - a Python API and command-line interface (CLI);
 - binding-independent Rust domain, diagnostics, numerical, and serialization
@@ -61,7 +61,7 @@ python -m pip install voiage
 
 Python 3.12, 3.13, and 3.14 are supported. Wheels use the CPython 3.12 stable
 ABI and are published for the platforms listed in the
-[v1.0.0 release](https://github.com/edithatogo/voiage/releases/tag/v1.0.0).
+[v2.0.0 release](https://github.com/edithatogo/voiage/releases/tag/v2.0.0).
 
 Optional features are installed explicitly:
 
@@ -128,13 +128,14 @@ for input schemas, output formats, logging controls, and additional commands.
 
 | Capability | Status | Scope |
 | --- | --- | --- |
-| EVPI, EVPPI, EVSI, ENBS | Stable | Python API and CLI, with selected Rust-backed aggregation |
+| EVPI, EVPPI, ENBS | Stable | Python API and CLI with Rust-owned numerical policy |
+| EVSI | Method-specific | The analytical two-arm normal path is stable; the developing two-loop path uses one coherent fitted Gaussian prior or explicit custom sampling and joint-posterior callbacks; compatibility estimators without a complete validated study-model contract are non-stable |
 | Acceptability, frontier, dominance, heterogeneity | Stable | Analysis and plotting helpers |
 | Structural and network meta-analysis VOI | Stable | Python method surface |
 | Adaptive, calibration, observational, sequential VOI | Stable | Python study-design workflows |
 | Portfolio VOI | Stable | Budget-constrained portfolio analysis |
 | Diagnostics and data interchange | Stable | Versioned contracts; Arrow/Parquet is the canonical tabular interchange |
-| R and Julia EVPI | Released binding source | Direct versioned Rust C ABI |
+| R and Julia EVPI | Released binding source | Direct versioned Rust interface; both require the separately supplied `voiage-ffi` library |
 | Broader R and Julia method parity | Partial | Advanced R paths retain the documented Python bridge; Julia is EVPI-focused |
 | Perspective and frontier extensions | Experimental | Fixture-backed contracts; not represented as stable |
 | Mojo binding | Not released | No publishable Mojo package is claimed |
@@ -142,7 +143,7 @@ for input schemas, output formats, logging controls, and additional commands.
 
 ## Architecture
 
-The repository is moving towards a binding-independent Rust core, but v1.0 is
+The repository is moving towards a binding-independent Rust core, but v2.0 is
 still a hybrid implementation:
 
 ```text
@@ -174,7 +175,7 @@ records the supported boundary and migration policy.
 
 | Surface | Source | Current use | Distribution status |
 | --- | --- | --- | --- |
-| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v1.0.0](https://pypi.org/project/voiage/1.0.0/) and TestPyPI |
+| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v2.0.0](https://pypi.org/project/voiage/2.0.0/) and TestPyPI |
 | Rust | [`rust/`](rust/) | Domain contracts, diagnostics, selected kernels, serialization | Crates are package-ready; consult the [release checklist](docs/release/binding-submission-checklist.md) for verified registry state |
 | R | [`r-package/voiageR/`](r-package/voiageR/) | Direct C-ABI EVPI; documented bridge for wider Python methods | [r-universe](https://edithatogo.r-universe.dev/voiageR); CRAN review remains external |
 | Julia | [`bindings/julia/`](bindings/julia/) | Direct C-ABI EVPI | Prepared for Julia General; registry entry is not yet verified |
@@ -230,7 +231,7 @@ and [SECURITY.md](SECURITY.md).
 ## Releases, citation, and archival
 
 - Latest software release:
-  [v1.0.0](https://github.com/edithatogo/voiage/releases/tag/v1.0.0)
+  [v2.0.0](https://github.com/edithatogo/voiage/releases/tag/v2.0.0)
 - Python package: [PyPI](https://pypi.org/project/voiage/)
 - Citation metadata: [`CITATION.cff`](CITATION.cff)
 - Software metadata: [`codemeta.json`](codemeta.json)

@@ -35,7 +35,7 @@ bridge, with the Rust kernel as the authoritative implementation:
 | --- | --- | --- |
 | EVPI | `compute_evpi` | retained only when the extension is unavailable |
 | EVPPI | `compute_evppi` for the default full-sample linear contract | retained for custom models, subsampling, chunking, or no extension |
-| EVSI | seeded bootstrap, efficient-linear, and moment-based kernels | retained for two-loop, regression, random-forest, adaptive, and NMA semantics |
+| EVSI | analytical normal--normal, seeded bootstrap, efficient-linear, and moment-based kernels | Python orchestrates the developing coherent-Gaussian two-loop model; regression, random-forest, adaptive, and NMA semantics remain method-specific |
 | Dominance | `compute_dominance` | retained only when the extension is unavailable |
 | CEAF | `compute_ceaf` | retained only when the extension is unavailable |
 

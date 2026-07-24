@@ -1,8 +1,14 @@
 """Regression tests for the synthetic health example in the preprint."""
 
+from math import pi, sqrt
+
 import pytest
 
 from scripts.generate_paper_health_example import (
+    COST_PRIOR_SD,
+    EFFECT_PRIOR_SD,
+    OUTCOME_SD,
+    REFERENCE_WTP,
     _bootstrap_intervals,
     calculate_example,
     calculate_sensitivity,
@@ -50,6 +56,39 @@ def test_normal_normal_evsi_uses_declared_equal_allocation_likelihood() -> None:
         normal_normal_evsi(50, outcome_sd=0)
 
 
+def test_reported_values_agree_with_independent_analytical_references() -> None:
+    """Known Normal-model expectations independently bound the simulation."""
+    example = calculate_example()
+    expected_evpi = sqrt(
+        (REFERENCE_WTP * EFFECT_PRIOR_SD) ** 2 + COST_PRIOR_SD**2
+    ) / sqrt(2 * pi)
+    expected_effect_evppi = REFERENCE_WTP * EFFECT_PRIOR_SD / sqrt(2 * pi)
+    expected_cost_evppi = COST_PRIOR_SD / sqrt(2 * pi)
+
+    assert expected_evpi == pytest.approx(652.1821719528144)
+    assert expected_effect_evppi == pytest.approx(598.4134206021490)
+    assert expected_cost_evppi == pytest.approx(259.3124822609312)
+    assert example.bootstrap_intervals["evpi"][0] < expected_evpi
+    assert example.bootstrap_intervals["evpi"][1] > expected_evpi
+    assert example.bootstrap_intervals["evppi_effect"][0] < expected_effect_evppi
+    assert example.bootstrap_intervals["evppi_effect"][1] > expected_effect_evppi
+    assert example.bootstrap_intervals["evppi_cost"][0] < expected_cost_evppi
+    assert example.bootstrap_intervals["evppi_cost"][1] > expected_cost_evppi
+
+    expected_evsi = []
+    for sample_size in example.sample_sizes:
+        sampling_variance = 4 * OUTCOME_SD**2 / sample_size
+        preposterior_variance = EFFECT_PRIOR_SD**4 / (
+            EFFECT_PRIOR_SD**2 + sampling_variance
+        )
+        expected_evsi.append(REFERENCE_WTP * sqrt(preposterior_variance) / sqrt(2 * pi))
+    assert example.evsi_per_person == pytest.approx(expected_evsi, abs=1e-10)
+    assert all(
+        0 <= value <= expected_effect_evppi <= expected_evpi
+        for value in example.evsi_per_person
+    )
+
+
 def test_reported_manuscript_results_are_reproducible() -> None:
     """The prose-level results remain tied to the fixed-seed calculation."""
     example = calculate_example()
@@ -75,9 +114,9 @@ def test_bootstrap_and_sensitivity_are_declared_and_decision_relevant() -> None:
     ):
         lower, upper = example.bootstrap_intervals[metric]
         assert lower < point < upper
-    assert scenarios["One-year delay; 80% uptake"][2] < 0
-    assert scenarios["One-year delay; 80% uptake"][3] > 0
-    assert all(scenarios["Three-year delay; 40% uptake"] < 0)
+    assert scenarios["One-year delay; 80% value realisation"][2] < 0
+    assert scenarios["One-year delay; 80% value realisation"][3] > 0
+    assert all(scenarios["Three-year delay; 40% value realisation"] < 0)
 
 
 def test_bootstrap_requires_enough_replicates() -> None:

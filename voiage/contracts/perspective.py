@@ -249,7 +249,7 @@ def run_perspective(
         ),
         selected_backend=descriptor.backend_name,
         backend_version=descriptor.backend_version,
-        device=resolved_policy.device or sorted(descriptor.devices)[0],
+        device=resolved_policy.device or min(descriptor.devices),
         capabilities=frozenset(item.value for item in descriptor.features),
         package_version=package_version,
         python_version=platform.python_version(),

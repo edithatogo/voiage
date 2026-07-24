@@ -31,6 +31,138 @@ NULL
 .use_virtualenv <- function(env) reticulate::use_virtualenv(env)
 .use_condaenv <- function(env) reticulate::use_condaenv(env)
 
+.normalise_trial_design <- function(trial_design) {
+  if (
+    !is.list(trial_design) ||
+      is.null(trial_design$arms) ||
+      !is.list(trial_design$arms) ||
+      length(trial_design$arms) == 0L
+  ) {
+    stop("`trial_design` must contain a non-empty `arms` list.", call. = FALSE)
+  }
+
+  trial_design$arms <- lapply(trial_design$arms, function(arm) {
+    if (
+      !is.list(arm) ||
+        !is.character(arm$name) ||
+        length(arm$name) != 1L ||
+        is.na(arm$name) ||
+        !nzchar(arm$name)
+    ) {
+      stop(
+        "Each trial arm must have one non-empty character `name`.",
+        call. = FALSE
+      )
+    }
+    if (
+      !is.numeric(arm$sample_size) ||
+        length(arm$sample_size) != 1L ||
+        is.na(arm$sample_size) ||
+        !is.finite(arm$sample_size) ||
+        arm$sample_size <= 0 ||
+        arm$sample_size != floor(arm$sample_size) ||
+        arm$sample_size > .Machine$integer.max
+    ) {
+      stop(
+        "Each trial arm must have one positive integer `sample_size`.",
+        call. = FALSE
+      )
+    }
+    arm$sample_size <- as.integer(arm$sample_size)
+    arm
+  })
+
+  arm_names <- vapply(trial_design$arms, function(arm) arm$name, character(1))
+  if (anyDuplicated(arm_names)) {
+    stop("Trial arm names must be unique.", call. = FALSE)
+  }
+  trial_design
+}
+
+.arm_parameter_name <- function(arm_name) {
+  paste0("mean_", tolower(gsub(" ", "_", arm_name, fixed = TRUE)))
+}
+
+.positive_integer_control <- function(value, name) {
+  if (
+    !is.numeric(value) ||
+      length(value) != 1L ||
+      is.na(value) ||
+      !is.finite(value) ||
+      value <= 0 ||
+      value != floor(value) ||
+      value > .Machine$integer.max
+  ) {
+    stop(paste0("`", name, "` must be one positive integer."), call. = FALSE)
+  }
+  as.integer(value)
+}
+
+.normalise_seed <- function(seed) {
+  if (is.null(seed)) {
+    return(NULL)
+  }
+  if (
+    !is.numeric(seed) ||
+      length(seed) != 1L ||
+      is.na(seed) ||
+      !is.finite(seed) ||
+      seed < 0 ||
+      seed != floor(seed) ||
+      seed > .Machine$integer.max
+  ) {
+    stop("`seed` must be one non-negative integer.", call. = FALSE)
+  }
+  as.integer(seed)
+}
+
+.validate_builtin_two_loop_contract <- function(prior_samples, trial_design) {
+  if (!is.list(prior_samples) || is.null(names(prior_samples)) || any(names(prior_samples) == "")) {
+    stop("`prior_samples` must be a named list, data frame, or matrix.", call. = FALSE)
+  }
+
+  parameter_names <- vapply(
+    trial_design$arms,
+    function(arm) .arm_parameter_name(arm$name),
+    character(1)
+  )
+  if (anyDuplicated(parameter_names)) {
+    stop(
+      "Trial arm names must map to unique `mean_<normalised arm>` parameters.",
+      call. = FALSE
+    )
+  }
+
+  missing_parameters <- setdiff(parameter_names, names(prior_samples))
+  if (length(missing_parameters) > 0L) {
+    stop(
+      paste0(
+        "Built-in two-loop EVSI requires one `mean_<normalised arm>` ",
+        "parameter per trial arm; missing: ",
+        paste(missing_parameters, collapse = ", "),
+        "."
+      ),
+      call. = FALSE
+    )
+  }
+
+  outcome_sd <- prior_samples$sd_outcome
+  if (
+    !is.numeric(outcome_sd) ||
+      length(outcome_sd) == 0L ||
+      anyNA(outcome_sd) ||
+      any(!is.finite(outcome_sd)) ||
+      any(outcome_sd <= 0) ||
+      any(outcome_sd != outcome_sd[[1L]])
+  ) {
+    stop(
+      "Built-in two-loop EVSI requires a finite, strictly positive, fixed `sd_outcome`.",
+      call. = FALSE
+    )
+  }
+  invisible(NULL)
+}
+
 .evpi_native <- function(net_benefits) {
   library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
   loaded <- tryCatch(
@@ -41,15 +173,27 @@ NULL
   )
   on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
 
+  symbol <- tryCatch(
+    getNativeSymbolInfo(
+      "voiage_v1_evpi_i32_r",
+      PACKAGE = loaded
+    )[["address"]],
+    error = function(error) {
+      stop(
+        "The voiage Rust C ABI library does not export the EVPI symbol: ",
+        error$message,
+        call. = FALSE
+      )
+    }
+  )
   values <- as.double(t(net_benefits))
   result <- .C(
-    "voiage_v1_evpi_i32_r",
+    symbol,
     values = values,
     rows = as.integer(nrow(net_benefits)),
     columns = as.integer(ncol(net_benefits)),
     out_value = double(1),
-    out_status = integer(1),
-    PACKAGE = "voiageR"
+    out_status = integer(1)
   )
   if (!identical(as.integer(result$out_status), 0L)) {
     stop("voiage Rust EVPI ABI failed", call. = FALSE)
@@ -214,46 +358,75 @@ evppi <- function(
 
 #' Calculate Expected Value of Sample Information (EVSI)
 #'
-#' This function calculates the Expected Value of Sample Information using the voiage library.
+#' This function calculates Expected Value of Sample Information through the
+#' Python voiage bridge.
 #'
 #' @param model_func A function that takes parameter samples and returns net benefits.
-#' @param prior_samples A named list or data frame with prior parameter samples.
-#' @param trial_design A list of trial arm specifications.
+#' @param prior_samples A named list, data frame, or matrix with prior parameter
+#'   samples.
+#' @param trial_design A list containing an `arms` list. Each arm must provide
+#'   a unique `name` and positive integer `sample_size`.
 #' @param population Optional population size for scaling the result.
 #' @param time_horizon Optional time horizon for scaling the result.
 #' @param discount_rate Optional discount rate for scaling the result.
-#' @param n_simulations Number of simulations to run.
-#' @param ... Additional arguments passed to the underlying Python function.
+#' @param method EVSI estimator. `two_loop` is the corrected built-in
+#'   joint-normal study model; the other values are compatibility estimators.
+#' @param n_outer_loops Number of simulated trial data sets for `two_loop`.
+#' @param n_inner_loops Number of joint posterior draws per simulated trial.
+#' @param metamodel Metamodel used by compatible approximation methods.
+#' @param seed Optional non-negative integer seed for reproducible `two_loop`
+#'   simulation.
 #'
 #' @return The calculated EVSI value.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' # Define a simple model function
 #' model_func <- function(params) {
-#'   # Simple example - in practice, this would be a more complex economic model
-#'   nb_strategy1 <- params$param1
-#'   nb_strategy2 <- params$param2
-#'   return(cbind(nb_strategy1, nb_strategy2))
+#'   cbind(
+#'     Treatment = 50000 * params$mean_treatment - 3000,
+#'     Control = 50000 * params$mean_control
+#'   )
 #' }
 #'
-#' # Create prior samples
+#' set.seed(17)
+#' draws <- 1000L
 #' prior_samples <- list(
-#'   param1 = rnorm(1000),
-#'   param2 = rnorm(1000)
+#'   mean_treatment = rnorm(draws, mean = 0.06, sd = 0.03),
+#'   mean_control = rnorm(draws, mean = 0.00, sd = 0.02),
+#'   sd_outcome = rep(1.0, draws)
 #' )
 #'
-#' # Define trial design
 #' trial_design <- list(
-#'   treatment = list(name = "Treatment", sample_size = 50),
-#'   control = list(name = "Control", sample_size = 50)
+#'   arms = list(
+#'     list(name = "Treatment", sample_size = 100L),
+#'     list(name = "Control", sample_size = 100L)
+#'   )
 #' )
 #'
-#' # Calculate EVSI
-#' evsi_value <- evsi(model_func, prior_samples, trial_design)
+#' evsi_value <- evsi(
+#'   model_func,
+#'   prior_samples,
+#'   trial_design,
+#'   method = "two_loop",
+#'   n_outer_loops = 100L,
+#'   n_inner_loops = 1000L,
+#'   seed = 20260724L
+#' )
 #' print(evsi_value)
 #' }
+#'
+#' @details
+#' The built-in `two_loop` method uses a fitted joint multivariate-normal prior
+#' and a known-variance arm-mean likelihood. `prior_samples` must contain one
+#' parameter named `mean_<normalised arm>` for each trial arm, where
+#' normalisation lowercases the arm name and replaces spaces with underscores.
+#' It must also contain a finite, strictly positive `sd_outcome` whose value is
+#' fixed across all prior draws.
+#'
+#' Custom `trial_simulator` and `posterior_sampler` callbacks are available
+#' only from the Python API. The R facade does not convert or execute those
+#' callbacks and therefore does not claim parity for custom two-loop models.
 evsi <- function(
     model_func,
     prior_samples,
@@ -264,7 +437,8 @@ evsi <- function(
     method = c("two_loop", "regression", "efficient", "moment_based"),
     n_outer_loops = 100,
     n_inner_loops = 1000,
-    metamodel = "linear"
+    metamodel = "linear",
+    seed = NULL
 ) {
   .voiage <- .get_voiage_module()
   method <- match.arg(method)
@@ -277,6 +451,14 @@ evsi <- function(
     prior_samples <- as.list(prior_samples)
   } else if (is.matrix(prior_samples)) {
     prior_samples <- as.list(as.data.frame(prior_samples))
+  }
+
+  trial_design <- .normalise_trial_design(trial_design)
+  n_outer_loops <- .positive_integer_control(n_outer_loops, "n_outer_loops")
+  n_inner_loops <- .positive_integer_control(n_inner_loops, "n_inner_loops")
+  seed <- .normalise_seed(seed)
+  if (method == "two_loop") {
+    .validate_builtin_two_loop_contract(prior_samples, trial_design)
   }
 
   py_trial_design <- .voiage$TrialDesign$from_dict(trial_design)
@@ -303,7 +485,8 @@ evsi <- function(
     method = method,
     n_outer_loops = n_outer_loops,
     n_inner_loops = n_inner_loops,
-    metamodel = metamodel
+    metamodel = metamodel,
+    seed = seed
   )
 }
 

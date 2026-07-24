@@ -2,11 +2,22 @@ name: Supply-chain assurance
 
 on:
   pull_request:
+  push:
+    tags: ["v*"]
   release:
     types: [published]
   schedule:
     - cron: "43 4 * * 1"
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing published release tag to audit (for example, v1.0.0)"
+        required: false
+        type: string
+      software_heritage_id:
+        description: "Snapshot SWHID containing the audited release tag"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -20,18 +31,84 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
-        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        ref: ${{ inputs.release_tag || github.event.release.tag_name || github.event.pull_request.head.sha || github.sha }}
         fetch-depth: 0
         persist-credentials: false
 
-    - name: Assert and record exact source head
+    - name: Resolve and record exact source revision
+      id: source
       env:
+        DISPATCH_TAG: ${{ inputs.release_tag }}
+        EVENT_RELEASE_TAG: ${{ github.event.release.tag_name }}
+        EVENT_NAME: ${{ github.event_name }}
+        EVENT_REF_TYPE: ${{ github.ref_type }}
+        EVENT_REF_NAME: ${{ github.ref_name }}
         EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        REQUESTED_SWHID: ${{ inputs.software_heritage_id }}
       run: |
+        set -euo pipefail
         tested_head="$(git rev-parse HEAD)"
-        echo "tested_head=${tested_head}"
-        test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-        printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+        source_tag=""
+        if [ -n "${DISPATCH_TAG}" ]; then
+          source_tag="${DISPATCH_TAG}"
+        elif [ -n "${EVENT_RELEASE_TAG}" ]; then
+          source_tag="${EVENT_RELEASE_TAG}"
+        elif [ "${EVENT_REF_TYPE}" = "tag" ]; then
+          source_tag="${EVENT_REF_NAME}"
+        fi
+
+        if [ -n "${source_tag}" ]; then
+          case "${source_tag}" in
+            v[0-9]*) ;;
+            *) echo "release tag must start with v followed by a digit" >&2; exit 1 ;;
+          esac
+          git fetch --force --no-tags origin \
+            "refs/tags/${source_tag}:refs/tags/${source_tag}"
+          tag_commit="$(git rev-parse --verify "refs/tags/${source_tag}^{commit}")"
+          test "${tested_head}" = "${tag_commit}"
+          source_version="${source_tag#v}"
+          release_url="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${source_tag}"
+          swhid="${REQUESTED_SWHID}"
+          if [ -z "${swhid}" ] && [ "${source_tag}" = "v1.0.0" ]; then
+            swhid="swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32"
+          fi
+          artifact_suffix="${source_tag}"
+        else
+          test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
+          source_version="0+${tested_head:0:12}"
+          release_url=""
+          swhid=""
+          artifact_suffix="${tested_head:0:12}"
+        fi
+
+        audit_published_release="false"
+        if [ "${EVENT_NAME}" = "release" ] || [ -n "${DISPATCH_TAG}" ]; then
+          audit_published_release="true"
+        fi
+        release_evidence_ready="false"
+        if [ "${audit_published_release}" = "true" ] && [ -n "${swhid}" ]; then
+          release_evidence_ready="true"
+        fi
+
+        {
+          echo "commit=${tested_head}"
+          echo "tag=${source_tag}"
+          echo "version=${source_version}"
+          echo "release_url=${release_url}"
+          echo "software_heritage_id=${swhid}"
+          echo "artifact_suffix=${artifact_suffix}"
+          echo "audit_published_release=${audit_published_release}"
+          echo "release_evidence_ready=${release_evidence_ready}"
+        } >> "${GITHUB_OUTPUT}"
+        {
+          printf '### Exact source revision\n\n'
+          printf -- '- Commit: %s\n' "${tested_head}"
+          printf -- '- Tag: %s\n' "${source_tag:-not a release run}"
+          printf -- '- Version: %s\n' "${source_version}"
+          printf -- '- Software Heritage: %s\n' "${swhid:-pending or not applicable}"
+          printf -- '- Published release audit: %s\n' "${audit_published_release}"
+          printf -- '- Complete release evidence ready: %s\n' "${release_evidence_ready}"
+        } >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
@@ -53,23 +130,258 @@ jobs:
     - name: Verify reproducible distributions
       run: uv run python scripts/reproducible_build.py . --output .assurance/reproducible-build.json --dist-dir .assurance/dist
 
-    - name: Generate CycloneDX SBOM
+    - name: Generate resolved Python CycloneDX inventory
       run: |
+        set -euo pipefail
         uv export --frozen --no-dev --no-emit-project --format requirements-txt --output-file .assurance/release-requirements.txt
         uv venv .assurance/sbom-env --python 3.14
         uv pip install --python .assurance/sbom-env/bin/python --require-hashes -r .assurance/release-requirements.txt
         uv pip install --python .assurance/sbom-env/bin/python --no-deps .assurance/dist/*.whl
-        uvx --from cyclonedx-bom==7.3.0 cyclonedx-py environment .assurance/sbom-env --pyproject pyproject.toml --mc-type library --output-reproducible --of JSON -o .assurance/sbom.cdx.json
+        uvx --from cyclonedx-bom==7.3.0 cyclonedx-py environment .assurance/sbom-env --pyproject pyproject.toml --mc-type library --output-reproducible --of JSON -o .assurance/python.sbom.cdx.json
+
+    - name: Compose mixed-language CycloneDX SBOM
+      env:
+        SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        SOURCE_TAG: ${{ steps.source.outputs.tag }}
+        SOURCE_VERSION: ${{ steps.source.outputs.version }}
+      run: |
+        set -euo pipefail
+        uv run python scripts/compose_polyglot_sbom.py compose \
+          --python-sbom .assurance/python.sbom.cdx.json \
+          --cargo-workspace rust \
+          --r-description r-package/voiageR/DESCRIPTION \
+          --julia-project bindings/julia/Project.toml \
+          --source-version "${SOURCE_VERSION}" \
+          --source-commit "${SOURCE_COMMIT}" \
+          --source-tag "${SOURCE_TAG}" \
+          --output .assurance/sbom.cdx.json
+
+    - name: Validate mixed-language scope and dependency graph
+      env:
+        SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        SOURCE_TAG: ${{ steps.source.outputs.tag }}
+        SOURCE_VERSION: ${{ steps.source.outputs.version }}
+      run: |
+        set -euo pipefail
+        uv run python scripts/compose_polyglot_sbom.py validate \
+          .assurance/sbom.cdx.json \
+          --expected-version "${SOURCE_VERSION}" \
+          --expected-commit "${SOURCE_COMMIT}" \
+          --expected-tag "${SOURCE_TAG}"
+
+    - name: Validate CycloneDX 1.6 schema
+      env:
+        CYCLONEDX_CLI_SHA256: bfc8b2538da86fe239bc53658bbb63c1c8c510a293c1e6891aa5bea5d3c58746
+        CYCLONEDX_CLI_VERSION: 0.33.1
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        cyclonedx_repository="CycloneDX/cyclonedx-cli"
+        cyclonedx_asset="cyclonedx-linux-x64"
+        cyclonedx_release="${RUNNER_TEMP}/cyclonedx-release.json"
+        cyclonedx_cli="${RUNNER_TEMP}/cyclonedx"
+        gh api \
+          "repos/${cyclonedx_repository}/releases/tags/v${CYCLONEDX_CLI_VERSION}" \
+          > "${cyclonedx_release}"
+        test "$(jq -r .tag_name "${cyclonedx_release}")" = "v${CYCLONEDX_CLI_VERSION}"
+        test "$(jq -r .draft "${cyclonedx_release}")" = "false"
+        test "$(jq --arg name "${cyclonedx_asset}" '[.assets[] | select(.name == $name)] | length' "${cyclonedx_release}")" = "1"
+        asset_url="$(jq -r --arg name "${cyclonedx_asset}" '.assets[] | select(.name == $name) | .browser_download_url' "${cyclonedx_release}")"
+        asset_digest="$(jq -r --arg name "${cyclonedx_asset}" '.assets[] | select(.name == $name) | .digest' "${cyclonedx_release}")"
+        expected_url="https://github.com/${cyclonedx_repository}/releases/download/v${CYCLONEDX_CLI_VERSION}/${cyclonedx_asset}"
+        test "${asset_url}" = "${expected_url}"
+        test "${asset_digest}" = "sha256:${CYCLONEDX_CLI_SHA256}"
+        curl --proto '=https' --tlsv1.2 --fail --location --silent --show-error \
+          "${asset_url}" \
+          --output "${cyclonedx_cli}"
+        printf '%s  %s\n' "${CYCLONEDX_CLI_SHA256}" "${cyclonedx_cli}" \
+          | sha256sum --check
+        chmod +x "${cyclonedx_cli}"
+        case "$("${cyclonedx_cli}" --version)" in
+          "${CYCLONEDX_CLI_VERSION}"+*) ;;
+          *) echo "CycloneDX CLI reported an unexpected version" >&2; exit 1 ;;
+        esac
+        jq \
+          --arg repository "${cyclonedx_repository}" \
+          --arg asset "${cyclonedx_asset}" \
+          --arg sha256 "${CYCLONEDX_CLI_SHA256}" \
+          '{
+            repository: $repository,
+            release_tag: .tag_name,
+            asset: (
+              .assets[]
+              | select(.name == $asset)
+              | {
+                  name,
+                  browser_download_url,
+                  digest
+                }
+            ),
+            verified_sha256: $sha256
+          }' \
+          "${cyclonedx_release}" \
+          > .assurance/cyclonedx-cli-source.json
+        "${cyclonedx_cli}" validate \
+          --input-file .assurance/sbom.cdx.json \
+          --input-format json \
+          --input-version v1_6 \
+          --fail-on-errors
+
+    - name: Record release-evidence completeness
+      env:
+        RELEASE_EVIDENCE_READY: ${{ steps.source.outputs.release_evidence_ready }}
+        SOFTWARE_HERITAGE_ID: ${{ steps.source.outputs.software_heritage_id }}
+        SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        SOURCE_TAG: ${{ steps.source.outputs.tag }}
+        SOURCE_VERSION: ${{ steps.source.outputs.version }}
+      run: |
+        set -euo pipefail
+        status="revision_sbom_only"
+        reason="This run is not bound to a release tag."
+        if [ -n "${SOURCE_TAG}" ] && [ -z "${SOFTWARE_HERITAGE_ID}" ]; then
+          status="partial_missing_software_heritage_snapshot"
+          reason="The mixed-language SBOM is complete; release-evidence creation is deferred until a snapshot SWHID is supplied by manual dispatch."
+        elif [ -n "${SOURCE_TAG}" ] && [ "${RELEASE_EVIDENCE_READY}" != "true" ]; then
+          status="sbom_complete_release_evidence_deferred"
+          reason="The mixed-language SBOM is complete; this tag event does not audit a published GitHub Release."
+        elif [ "${RELEASE_EVIDENCE_READY}" = "true" ]; then
+          status="pending_release_evidence_manifest"
+          reason="The SWHID is present and the published release audit will create the complete evidence manifest."
+        fi
+        jq -n \
+          --arg status "${status}" \
+          --arg reason "${reason}" \
+          --arg commit "${SOURCE_COMMIT}" \
+          --arg tag "${SOURCE_TAG}" \
+          --arg version "${SOURCE_VERSION}" \
+          --arg swhid "${SOFTWARE_HERITAGE_ID}" \
+          '{
+            status: $status,
+            reason: $reason,
+            source: {
+              commit: $commit,
+              tag: $tag,
+              version: $version
+            },
+            sbom: {
+              path: "sbom.cdx.json",
+              scope: "mixed-language-release"
+            },
+            software_heritage_snapshot: (
+              if $swhid == "" then null else $swhid end
+            )
+          }' \
+          > .assurance/release-evidence-status.json
+        {
+          printf '### Release-evidence completeness\n\n'
+          printf -- '- Status: %s\n' "${status}"
+          printf -- '- Reason: %s\n' "${reason}"
+        } >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Retain vulnerability evidence
       run: uvx --from pip-audit==2.10.1 pip-audit -r .assurance/release-requirements.txt --format=json --output=.assurance/pip-audit.json
 
-    - name: Upload SBOM artifacts
+    - name: Download and verify published release evidence
+      if: steps.source.outputs.audit_published_release == 'true'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        SOURCE_TAG: ${{ steps.source.outputs.tag }}
+      run: |
+        set -euo pipefail
+        mkdir -p .assurance/release-assets
+        gh release view "${SOURCE_TAG}" \
+          --repo "${GITHUB_REPOSITORY}" \
+          --json isDraft,isPrerelease,tagName,targetCommitish,url \
+          > .assurance/github-release.json
+        test "$(jq -r .isDraft .assurance/github-release.json)" = "false"
+        test "$(jq -r .tagName .assurance/github-release.json)" = "${SOURCE_TAG}"
+        tag_commit="$(git rev-parse --verify "refs/tags/${SOURCE_TAG}^{commit}")"
+        test "${tag_commit}" = "${SOURCE_COMMIT}"
+        release_target="$(jq -r '.targetCommitish // ""' .assurance/github-release.json)"
+        printf -- '- GitHub Release targetCommitish (recorded metadata): %s\n' \
+          "${release_target:-not supplied}" \
+          >> "${GITHUB_STEP_SUMMARY}"
+        gh release download "${SOURCE_TAG}" \
+          --repo "${GITHUB_REPOSITORY}" \
+          --dir .assurance/release-assets
+        (
+          cd .assurance/release-assets
+          sha256sum --check SHA256SUMS
+        )
+        sdist="$(find .assurance/release-assets -maxdepth 1 -type f -name '*.tar.gz' -print -quit)"
+        test -n "${sdist}"
+        gh attestation verify "${sdist}" \
+          --repo "${GITHUB_REPOSITORY}" \
+          --format json \
+          > .assurance/attestations.json
+
+    - name: Create and validate release-evidence manifest
+      if: steps.source.outputs.release_evidence_ready == 'true'
+      env:
+        SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        SOURCE_TAG: ${{ steps.source.outputs.tag }}
+        SOURCE_VERSION: ${{ steps.source.outputs.version }}
+        RELEASE_URL: ${{ steps.source.outputs.release_url }}
+        SOFTWARE_HERITAGE_ID: ${{ steps.source.outputs.software_heritage_id }}
+      run: |
+        set -euo pipefail
+        uv run python scripts/release_evidence_manifest.py create \
+          --repository "${GITHUB_REPOSITORY}" \
+          --version "${SOURCE_VERSION}" \
+          --tag "${SOURCE_TAG}" \
+          --commit "${SOURCE_COMMIT}" \
+          --release-url "${RELEASE_URL}" \
+          --asset-directory .assurance/release-assets \
+          --sbom .assurance/sbom.cdx.json \
+          --sbom-recorded-path sbom.cdx.json \
+          --software-heritage-id "${SOFTWARE_HERITAGE_ID}" \
+          --attestation-report .assurance/attestations.json \
+          --output .assurance/release-evidence.json
+        uv run python scripts/release_evidence_manifest.py validate \
+          .assurance/release-evidence.json \
+          --artifact-root .assurance \
+          --repository-root .
+        status_tmp="$(mktemp)"
+        jq \
+          '.status = "complete"
+           | .reason = "The SBOM, published assets, provenance and Software Heritage snapshot are bound in release-evidence.json."' \
+          .assurance/release-evidence-status.json \
+          > "${status_tmp}"
+        mv "${status_tmp}" .assurance/release-evidence-status.json
+
+    - name: Record assurance checksums
+      if: always()
+      run: |
+        set -euo pipefail
+        find .assurance -type f \
+          ! -path '.assurance/sbom-env/*' \
+          ! -name release-evidence-checksums.txt \
+          -print0 \
+          | LC_ALL=C sort -z \
+          | xargs -0 sha256sum \
+          > .assurance/release-evidence-checksums.txt
+        sha256sum --check .assurance/release-evidence-checksums.txt
+
+    - name: Upload SBOM and release-evidence artifacts
       if: always()
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
-        name: supply-chain-assurance
-        path: .assurance/
+        name: supply-chain-assurance-${{ steps.source.outputs.artifact_suffix || github.run_id }}
+        path: |
+          .assurance/attestations.json
+          .assurance/cyclonedx-cli-source.json
+          .assurance/dist/
+          .assurance/github-release.json
+          .assurance/pip-audit.json
+          .assurance/python.sbom.cdx.json
+          .assurance/release-assets/
+          .assurance/release-evidence-checksums.txt
+          .assurance/release-evidence.json
+          .assurance/release-evidence-status.json
+          .assurance/release-requirements.txt
+          .assurance/reproducible-build.json
+          .assurance/sbom.cdx.json
         include-hidden-files: true
         if-no-files-found: error
         retention-days: 90

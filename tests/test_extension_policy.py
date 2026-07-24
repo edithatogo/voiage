@@ -65,7 +65,7 @@ def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:
 
 def test_extension_surface_policy_covers_every_runtime_python_file() -> None:
     policy = json.loads(
-        (ROOT / "specs/v1/extension-surface-policy.json").read_text(encoding="utf-8")
+        (ROOT / "specs/v2/extension-surface-policy.json").read_text(encoding="utf-8")
     )
     files = {
         path.relative_to(ROOT).as_posix()

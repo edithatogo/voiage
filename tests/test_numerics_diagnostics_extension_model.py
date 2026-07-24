@@ -97,7 +97,7 @@ def test_method_metadata_requires_explicit_approximation_status() -> None:
     invalid = {
         "analysis_type": "method_metadata",
         "method_family": "evsi",
-        "method_maturity": "approximate",
+        "method_maturity": "fixture-backed",
         "capability_labels": ["surrogate-regression"],
     }
 

@@ -1,7 +1,7 @@
 {
   "analysis_type": "method_metadata",
   "method_family": "evsi",
-  "method_maturity": "approximate",
+  "method_maturity": "fixture-backed",
   "approximation_status": "surrogate",
   "capability_labels": [
     "surrogate-regression",

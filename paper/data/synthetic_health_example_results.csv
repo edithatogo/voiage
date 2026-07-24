@@ -1,4 +1,4 @@
-sample_size,evsi_per_person,research_cost,enbs_immediate_full_uptake,enbs_two_year_delay_60pct_uptake
+sample_size,evsi_per_person,research_cost,enbs_immediate_full_realisation,enbs_two_year_delay_60pct_realisation
 50,63.117286,1205000.00,-505075.77,-879248.41
 100,88.768918,1210000.00,-225618.06,-751859.01
 200,124.179366,1220000.00,157057.73,-579103.86

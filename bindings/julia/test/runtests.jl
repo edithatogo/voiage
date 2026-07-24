@@ -8,9 +8,8 @@ using Voiage
 end
 
 @testset "Shared numerical reference" begin
-    fixture_path = normpath(joinpath(
-        @__DIR__, "..", "..", "..", "specs", "numerical-reference", "v1", "evpi-cases.json"
-    ))
+    fixture_path = normpath(joinpath(@__DIR__, "fixtures", "evpi-cases.json"))
+    @test isfile(fixture_path)
     reference = JSON.parsefile(fixture_path)
     @test reference["schema_version"] == "1.0.0"
     @test reference["method"] == "evpi"

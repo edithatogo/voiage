@@ -1,9 +1,11 @@
 Package: voiageR
 Type: Package
 Title: Value of Information Analysis in R
-Version: 1.0.0
-Author: voiage Development Team
-Maintainer: voiage Development Team <voiage@users.noreply.github.com>
+Version: 2.0.0
+Authors@R: person("Dylan", "Mordaunt",
+    email = "voiage@users.noreply.github.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-9775-0603"))
 Description: An R interface to the Rust-backed voiage core for Value of Information analysis,
     with a direct Rust C ABI EVPI path and helper functions for Python environment management
     where advanced methods still use reticulate. Provides functions for calculating Expected Value of Perfect Information
@@ -16,7 +18,8 @@ Encoding: UTF-8
 NeedsCompilation: no
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
-SystemRequirements: Python (>= 3.12)
+SystemRequirements: voiage-ffi shared library (version 2.0.0 or compatible);
+    Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
 Suggests:
     reticulate (>= 1.20),
     knitr (>= 1.45),
