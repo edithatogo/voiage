@@ -150,6 +150,35 @@ class VOIBinding(ContractModel):
         return self
 
 
+class BindingProfile(ContractModel):
+    """Independently versioned VOI semantics for a normalized dataset."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    bindings: tuple[VOIBinding, ...]
+
+    @model_validator(mode="after")
+    def validate_unique_roles(self) -> BindingProfile:
+        """Reject duplicate definitions of the same semantic role."""
+        roles = tuple(binding.role for binding in self.bindings)
+        if len(roles) != len(set(roles)):
+            raise ValueError("binding profile roles must be unique")
+        return self
+
+    def canonical_json(self) -> str:
+        """Return canonical profile JSON for reproducible semantic identity."""
+        return json.dumps(
+            self.model_dump(mode="json"),
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+
+    @property
+    def digest(self) -> str:
+        """Return the SHA-256 digest of the canonical binding profile."""
+        return sha256(self.canonical_json().encode()).hexdigest()
+
+
 class DatasetManifest(ContractModel):
     """Versioned metadata sufficient to interpret a normalized dataset."""
 
@@ -161,6 +190,7 @@ class DatasetManifest(ContractModel):
     key_references: tuple[KeyReference, ...] = ()
     diagnostics: tuple[IngestionDiagnostic, ...] = ()
     bindings: tuple[VOIBinding, ...] = ()
+    binding_profile: BindingProfile | None = None
     extensions: Mapping[str, object] = Field(default_factory=dict)
 
     @field_serializer("extensions")
@@ -189,6 +219,17 @@ class DatasetManifest(ContractModel):
                 raise ValueError(
                     f"binding references unknown field(s): {sorted(unknown)}"
                 )
+        if self.binding_profile is not None:
+            if self.bindings and self.bindings != self.binding_profile.bindings:
+                raise ValueError("embedded bindings conflicts with binding_profile")
+            for binding in self.binding_profile.bindings:
+                table = table_map.get(binding.table_id)
+                if table is None or not set(binding.field_ids).issubset(
+                    {field.field_id for field in table.fields}
+                ):
+                    raise ValueError(
+                        "binding_profile references an unknown table or field"
+                    )
         for reference in self.key_references:
             source = table_map.get(reference.source_table_id)
             target = table_map.get(reference.target_table_id)

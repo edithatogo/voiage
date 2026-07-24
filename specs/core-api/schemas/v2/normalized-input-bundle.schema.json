@@ -14,6 +14,7 @@
     "key_references": {"type": "array", "items": {"$ref": "#/$defs/keyReference"}},
     "diagnostics": {"type": "array", "items": {"$ref": "#/$defs/diagnostic"}},
     "bindings": {"type": "array"},
+    "binding_profile": {"anyOf": [{"$ref": "#/$defs/bindingProfile"}, {"type": "null"}]},
     "extensions": {"type": "object"}
   },
   "$defs": {
@@ -77,6 +78,15 @@
         "message": {"type": "string"},
         "table_id": {"type": ["string", "null"]},
         "field_id": {"type": ["string", "null"]}
+      }
+    },
+    "bindingProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "bindings"],
+      "properties": {
+        "schema_version": {"const": "1.0.0"},
+        "bindings": {"type": "array"}
       }
     }
   }

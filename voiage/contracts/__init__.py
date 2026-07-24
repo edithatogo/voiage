@@ -51,6 +51,7 @@ from .interchange import (
 )
 from .kernel import CalculationKernel, EvpiKernel, dispatch_calculation, run_evpi
 from .normalized_input import (
+    BindingProfile,
     DatasetManifest,
     FieldManifest,
     IngestionDiagnostic,
@@ -68,6 +69,7 @@ __all__ = [
     "AnalysisResult",
     "AnalysisSpec",
     "BackendCapabilities",
+    "BindingProfile",
     "BundleVerificationError",
     "CalculationKernel",
     "Capability",

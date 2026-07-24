@@ -11,6 +11,7 @@ from pydantic import ValidationError
 import pytest
 
 from voiage.contracts import (
+    BindingProfile,
     DatasetManifest,
     FieldManifest,
     IngestionDiagnostic,
@@ -291,3 +292,37 @@ def test_provenance_redacts_credential_bearing_source_uris() -> None:
             source_uri="https://user:secret@example.test/data?token=secret",
             descriptor_digest="d" * 64,
         )
+
+
+def test_binding_profile_is_versioned_deterministic_and_reference_checked() -> None:
+    profile = BindingProfile(
+        bindings=(
+            VOIBinding(
+                role="net_benefit",
+                table_id="net_benefit",
+                field_ids=("strategy_a", "strategy_b"),
+                strategy_names=("A", "B"),
+            ),
+        )
+    )
+    manifest = _bundle().manifest.model_copy(update={"binding_profile": profile})
+
+    assert (
+        profile.digest
+        == BindingProfile.model_validate_json(profile.canonical_json()).digest
+    )
+    assert manifest.bindings == profile.bindings
+    with pytest.raises(ValueError, match="conflicts"):
+        _bundle().manifest.model_copy(
+            update={
+                "binding_profile": BindingProfile(
+                    bindings=(
+                        VOIBinding(
+                            role="net_benefit",
+                            table_id="net_benefit",
+                            field_ids=("strategy_b", "strategy_a"),
+                        ),
+                    )
+                )
+            }
+        ).validate_references()
