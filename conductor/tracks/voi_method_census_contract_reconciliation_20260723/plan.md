@@ -52,6 +52,12 @@
 ## Phase 3: Review and freeze
 
 - [ ] Run registry, citation, SourceRight, docs, and full repository gates.
+- [x] Generate a deterministic, hash-bound scientific-review candidate that
+  joins all method maturity, evidence, implementation-authority, remaining-gate,
+  and DecisionProblemV2 compatibility records without recording approval.
+  Candidate digest:
+  `9f437ea0b0521297b81f66adfac980e537db3c0ebf63823445f3bff2d285c3f9`.
+  (`7a9d6b9`)
 - [x] Add citation-identifier validation and an evidence-preserving quarterly
   refresh job with a 93-day freshness limit. (`6e3ebb1`)
 - [x] Add a missed-library/missed-method contribution template and duplicate-
