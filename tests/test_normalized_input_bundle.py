@@ -121,6 +121,53 @@ def test_preparation_preserves_explicit_binding_and_digest() -> None:
     assert prepared.quality_report.population_transforms == ()
 
 
+def test_preparation_quality_report_records_keys_and_explicit_noop_decisions() -> None:
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="quality-fixture",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy_a", dtype="float64"),
+                        FieldManifest(field_id="strategy_b", dtype="float64"),
+                    ),
+                    primary_key=("sample_id",),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("strategy_a", "strategy_b"),
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [1, 1, None],
+                    "strategy_a": [1.0, 1.0, 3.0],
+                    "strategy_b": [2.0, 2.0, 1.0],
+                }
+            )
+        },
+    )
+
+    report = prepare_analysis_inputs(bundle).quality_report
+
+    assert report.unique_value_counts == {"strategy_a": 2, "strategy_b": 2}
+    assert report.primary_key_fields == ("sample_id",)
+    assert report.primary_key_null_count == 1
+    assert report.primary_key_duplicate_count == 1
+    assert report.join_coverage == {}
+    assert report.coercions == ()
+    assert report.exclusions == ()
+    assert report.selected_partitions == ()
+
+
 def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> None:
     prepared = prepare_analysis_inputs(_bundle())
     spec = analysis_spec_from_prepared_inputs(
