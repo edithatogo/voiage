@@ -1,0 +1,6 @@
+Exact-ref CodeQL scan evidence
+
+- Added workflow_dispatch for release-candidate and layered-branch scans
+- Added merge_group coverage for protected merge queue commits
+- Focused code-scanning, quality, and harness tests: 43 passed
+- Repository harness and local zizmor audit: pass
