@@ -3065,10 +3065,28 @@
         {
           "number": 477,
           "url": "https://github.com/edithatogo/voiage/pull/477",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "5239de166e63c710959393041d7d5a8b5b1a2e5c"
           ]
+        },
+        {
+          "number": 479,
+          "url": "https://github.com/edithatogo/voiage/pull/479",
+          "status": "merged",
+          "evidence": ["944feec6f92b632d931d7368e45f2d6cfe23670b"]
+        },
+        {
+          "number": 481,
+          "url": "https://github.com/edithatogo/voiage/pull/481",
+          "status": "merged",
+          "evidence": ["ccd61b6a704c02f4cfaf737daebddb4792813ee0"]
+        },
+        {
+          "number": 482,
+          "url": "https://github.com/edithatogo/voiage/pull/482",
+          "status": "merged",
+          "evidence": ["933f8ce748f36e68d0e3800eb9452da3abb49dee"]
         }
       ],
       "pull_request_evidence": "evidenced",

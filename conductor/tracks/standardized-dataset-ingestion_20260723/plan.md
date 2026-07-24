@@ -32,13 +32,13 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   alignment, joins, strategies, nulls, dtypes, and cardinality.
 - [ ] **P2-T2 / AC-02:** Implement `PreparedAnalysisInputs` and the
   format-neutral preparation layer.
-- [ ] **P2-T3 / AC-02, AC-11:** Emit a machine-readable data-quality report for
+- [x] **P2-T3 / AC-02, AC-11:** Emit a machine-readable data-quality report for
   row counts, missingness, uniqueness, keys, join coverage, coercions,
-  exclusions, and selected records or partitions.
+  exclusions, and selected records or partitions. (`944feec`)
 - [x] **P2-T4 / AC-02:** Propagate artifact IDs and normalized input digests
   through `AnalysisSpec`, `RunContext`, diagnostics, and provenance. (`5239de1`)
-- [ ] **P2-T5 / AC-02:** Add the method/input capability matrix and preserve
-  existing direct Python and CSV entry points.
+- [x] **P2-T5 / AC-02:** Add the method/input capability matrix and preserve
+  existing direct Python and CSV entry points. (`ccd61b6`)
 - [ ] **P2-T6 / AC-02:** Verify that filtering, projection, sampling,
   aggregation, and exclusion cannot occur implicitly.
 - [ ] **P2-T7 / AC-02, AC-11:** Run direct-versus-normalized numerical-equivalence
