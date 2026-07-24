@@ -26,6 +26,7 @@ from voiage.contracts import (
     prepare_analysis_inputs,
     run_evpi,
 )
+from voiage.methods.basic import evpi
 
 
 def _bundle() -> NormalizedInputBundle:
@@ -187,6 +188,23 @@ def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> Non
     assert result.provenance.input_artifact_ids == spec.input_artifact_ids
     assert result.provenance.details["normalized_input_digest"] == prepared.input_digest
     assert result.diagnostics.warnings[0].code == "normalized_input_provenance"
+
+
+def test_normalized_preparation_matches_direct_evpi_numerics() -> None:
+    bundle = _bundle()
+    prepared = prepare_analysis_inputs(bundle)
+    spec = analysis_spec_from_prepared_inputs(
+        analysis_id="normalized-evpi-equivalence",
+        decision_problem_id="decision-fixture",
+        method_family="evpi",
+        method_contract_version="1.0.0",
+        prepared=prepared,
+    )
+
+    normalized_result = run_evpi(prepared.net_benefits.numpy_values, spec=spec)
+    direct_result = evpi(bundle.table("net_benefit").to_pandas().to_numpy())
+
+    assert normalized_result.payload.value == pytest.approx(direct_result)
 
 
 def test_preparation_uses_the_explicit_binding_profile_identity() -> None:
