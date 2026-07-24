@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-07-24",
+  "snapshot": {
+    "software-registry": {
+      "registry_digest": "1dc09d6d98793c4cefa420ca706d343a49ce9cfa11fb3e81e0c2bd0f33c2384e",
+      "method_registry_digest": "c9e200877765beb0d0c49f791d4a396cfe591807d86248e1bf444a9fec75254f",
+      "searched_on": "2026-07-24",
+      "review_due": "2026-10-23",
+      "tool_count": 29
+    },
+    "toolchains": {
+      "python": ">=3.12",
+      "rust": "1.85",
+      "node_package_manager": "pnpm@10.32.1",
+      "pyproject_digest": "f15c9c6bffe2f3e33b166540a11ad1816e5c14ae3ed9e7d7c4f9e050dbe5ff8a",
+      "cargo_workspace_digest": "66ce670d715cdde859e3597b7b2265d6bebab64a1c9b75c1c96668eb14944a58",
+      "docs_package_digest": "2b5fa3dee20d2f84fb81908d2cf9ff7a234591a56b78be3cf10654036704fdc8"
+    },
+    "lockfiles": {
+      "uv.lock": "bc991275cf70d66a790c5bb7bd209711185322fd89b42c6e3b70e8846dc39475",
+      "pixi.lock": "c13f151658948aca0955b0d3df7ca24a77421db3fe9abbc6c1822b5d0acc1c6d",
+      "rust/Cargo.lock": "7bf349ed1c2513544425242f0ec3dccf66734c36b4e8fb39c814f700b80c6ff7",
+      "rust/fuzz/Cargo.lock": "35a73ee0665168256bc00a9d912b3a16e07a595c8bf56024653e8239bb1072e2",
+      "docs/astro-site/pnpm-lock.yaml": "6caedd6befee3cc401a1a31ba6db52f232019f701027575f4a16a0ac6f9a6a44"
+    },
+    "github-actions": {
+      "workflow_count": 27,
+      "workflow_digest": "cd6ae64b0fd22c78c9b2fffdcc8af874595f657b56d55456d0037571d4a07365",
+      "action_references": [
+        "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b",
+        "YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df",
+        "actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373",
+        "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+        "actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+        "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+        "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+        "actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d",
+        "actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294",
+        "actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128",
+        "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+        "actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16",
+        "actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
+        "actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+        "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+        "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+        "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9",
+        "astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+        "codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f",
+        "dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c",
+        "github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "github/codeql-action/autobuild@99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "github/codeql-action/upload-sarif@99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "ossf/scorecard-action@4eaacf0543bb3f2c246792bd56e8cdeffafb205a",
+        "pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320",
+        "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b",
+        "rust-lang/crates-io-auth-action@c6f97d42243bad5fab37ca0427f495c86d5b1a18",
+        "zizmorcore/zizmor-action@f52a838cfabf134edcbaa7c8b3677dde20045018"
+      ],
+      "mutable_action_references": []
+    },
+    "documentation-plugin": {
+      "path": ".repo-tools/astro-polyglot",
+      "gitlink_commit": "054d11e08d8b28fd50821ede8a97f8be3ad50447",
+      "url": "https://github.com/edithatogo/astro-polyglot.git"
+    }
+  }
+}

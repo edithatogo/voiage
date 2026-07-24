@@ -37,6 +37,11 @@ It records observable capabilities rather than marketing parity.
   authority, remaining gates, and the additive DecisionProblemV2 contract. Its
   approval state remains fail-closed until an accountable human explicitly
   approves the exact candidate digest.
+- `ecosystem-drift-baseline.json` and
+  `ecosystem-drift-proposal.schema.json` cover the software registry,
+  language/toolchain constraints, lockfiles, GitHub Action references, and the
+  source-pinned Astro polyglot plugin. Scheduled observations upload proposals
+  with `auto_apply: false`; they cannot alter scientific dispositions.
 - The generated documentation matrix is produced by
   `scripts/generate_voi_feature_matrix.py`.
 

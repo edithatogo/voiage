@@ -33,3 +33,13 @@ jobs:
           python scripts/generate_voi_gap_report.py --check
           python scripts/generate_voi_feature_matrix.py --check
           python scripts/generate_scientific_freeze_candidate.py --check
+      - name: Propose ecosystem drift without applying changes
+        run: >-
+          python scripts/propose_ecosystem_drift.py
+          --output ecosystem-drift-proposal.json
+      - name: Upload evidence-preserving drift proposal
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ecosystem-drift-proposal
+          path: ecosystem-drift-proposal.json
+          if-no-files-found: error
