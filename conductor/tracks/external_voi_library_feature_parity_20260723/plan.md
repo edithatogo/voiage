@@ -26,7 +26,9 @@
   `decision-security`, decisionSupport, and TRD CEA Toolkit provenance.
   (`5dadf91`, `7443253`, `ae77dc1`)
 - [x] Build independent fixtures and feature-to-method mappings. (`6e3ebb1`)
-- [ ] Implement missing justified features without competitor runtime imports.
+- [~] Implement missing justified features without competitor runtime imports.
+  - [x] Add the Rust-authoritative expected opportunity-loss foundation required
+    by BCEA, dampack, and expected-loss reporting. (`95beb20`)
 - [ ] Add optional migration adapters and reviewed exclusions.
 - [ ] Preserve archived or unavailable tools with unique features, maintenance
   state, last verifiable behavior, and closest supported workflow.
