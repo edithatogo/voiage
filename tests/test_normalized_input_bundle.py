@@ -411,3 +411,35 @@ def test_new_contract_validation_failure_paths() -> None:
             DatasetManifest(
                 dataset_id="x", tables=(table,), provenance=provenance, **kwargs
             )
+
+
+def test_binding_profile_and_namespaced_extensions_validate_without_shortcuts() -> None:
+    table = TableManifest(
+        table_id="t", fields=(FieldManifest(field_id="a", dtype="float64"),)
+    )
+    provenance = SourceProvenance(
+        provider_id="p", source_uri="file:///x", descriptor_digest="e" * 64
+    )
+    profile = BindingProfile(
+        bindings=(VOIBinding(role="cost", table_id="t", field_ids=("a",)),)
+    )
+    manifest = DatasetManifest(
+        dataset_id="x",
+        tables=(table,),
+        provenance=provenance,
+        binding_profile=profile,
+        extensions={"example.org:source": "fixture"},
+    )
+
+    assert manifest.binding_profile == profile
+    with pytest.raises(ValidationError, match="unknown table or field"):
+        DatasetManifest(
+            dataset_id="x",
+            tables=(table,),
+            provenance=provenance,
+            binding_profile=BindingProfile(
+                bindings=(
+                    VOIBinding(role="cost", table_id="t", field_ids=("missing",)),
+                )
+            ),
+        )
