@@ -1,0 +1,7 @@
+Task: Reconcile code, schemas, maturity, docs, roadmap, and fixtures
+
+Summary: Corrected unsupported native/stable claims for expected loss and nested-MC EVPPI; added generated method-to-implementation/test/authority evidence; routed authority gaps into the gap report and generated Astro matrix; added freshness and regression enforcement.
+
+Why: A native capability claim must be backed by a real implementation and executable tests, and stable numerical authority gaps must remain visible until Rust-backed.
+
+Validation: 39 focused tests passed; Ruff check/format passed; Astro check/build passed (704 pages, links valid); repository harness passed with 0 findings across 27 workflows; live GitHub programme validation passed.
