@@ -43,3 +43,45 @@ The same contract supports more than one community-facing example:
 Each example must declare its binding rather than relying on a domain-specific
 calculation path, so their resulting net-benefit matrices are directly
 comparable with the existing VOI APIs.
+
+## Third-party providers
+
+Third-party packages may implement `IngestionProvider`, but they remain outside
+the calculation runtime. A provider must expose a stable `provider_id`, a
+`ProviderCapabilities` value, `can_handle(descriptor)`, and
+`ingest(descriptor_path, policy=...)`. `can_handle` is a conservative,
+side-effect-free recognizer: it receives an already-read JSON object and must
+not resolve resources, access the network, or import optional parser stacks.
+`ingest` must return a `NormalizedInputBundle` and must resolve every declared
+resource through the supplied `SourceAccessPolicy`.
+
+Publish an initialized provider instance under the
+`voiage.ingestion.providers` entry-point group. The entry-point name is the
+deployment identifier that applications add to their allow-list; it need not
+equal `provider_id`.
+
+```toml
+[project.entry-points."voiage.ingestion.providers"]
+acme-catalog = "acme_voiage:provider"
+```
+
+Applications must opt in explicitly:
+
+```python
+from voiage.ingestion import discover_entry_point_providers
+
+providers = discover_entry_point_providers(allowlist={"acme-catalog"})
+```
+
+An empty allow-list does not inspect installed entry points. Entries not named
+in the allow-list are never loaded, so installing a package cannot change
+VOIAGE behaviour by itself. Discovery errors use `IngestionError`; providers
+should therefore avoid embedding credentials, URLs with secrets, or source
+contents in their exception messages.
+
+Before publishing, provider authors should test: a valid supported descriptor,
+unsupported version/media-type failures, traversal and network refusal by
+`SourceAccessPolicy`, deterministic provenance and digests, and base-package
+import isolation. Providers must declare unsupported projection, filtering,
+streaming, and random-access features as `False`; no data transformation may
+be inferred or performed implicitly.
