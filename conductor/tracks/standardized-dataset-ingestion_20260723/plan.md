@@ -52,7 +52,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   registry, stable errors, and conservative provider probing.
 - [ ] **P3-T3 / AC-03:** Implement `SourceAccessPolicy` and the deterministic,
   dependency-injected resource-resolution boundary.
-- [ ] **P3-T4 / AC-03:** Add provider capability declarations for versions,
+- [x] **P3-T4 / AC-03:** Add provider capability declarations for versions,
   media types, transforms, projection, filtering, streaming, and random access.
 - [ ] **P3-T5 / AC-03:** Add opt-in, allow-listed Python entry-point discovery;
   prohibit automatic third-party imports during package import and probing.
