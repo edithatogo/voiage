@@ -29,11 +29,18 @@
 - [~] Implement missing justified features without competitor runtime imports.
   - [x] Add the Rust-authoritative expected opportunity-loss foundation required
     by BCEA, dampack, and expected-loss reporting. (`95beb20`)
-- [ ] Add optional migration adapters and reviewed exclusions.
-- [ ] Preserve archived or unavailable tools with unique features, maintenance
-  state, last verifiable behavior, and closest supported workflow.
-- [ ] Normalize licenses to SPDX where possible and prohibit reference-fixture
-  copying until source rights are recorded.
+- [~] Add optional migration adapters and reviewed exclusions.
+  - [x] Record schema-validated reasons, closest workflows, user impacts,
+    evidence, and bounded review dates for every excluded or currently
+    non-reproducible feature. (`e1080ef`)
+  - [ ] Implement only migration adapters that have an independently
+    constructed source-shaped fixture and demonstrable user value; the
+    unsupported heemod adapter claim was corrected to `planned`.
+- [x] Preserve archived or unavailable tools with unique features, maintenance
+  state, last verifiable behavior, and closest supported workflow. (`e1080ef`)
+- [x] Normalize licenses to SPDX where exact evidence supports the expression,
+  retain explicit manual/unknown/proprietary/no-license states otherwise, and
+  prohibit copied external reference fixtures. (`e1080ef`)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
