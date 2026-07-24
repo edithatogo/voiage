@@ -1,0 +1,9 @@
+Task: Reconcile exact-ref CodeQL remediation in the quality track.
+
+Summary: Recorded exact-ref workflow enablement, the 65-to-26 finding reduction, successful PR-attached scanning, and the remaining default-branch reconciliation boundary.
+
+Files: conductor/tracks/quality_release_automation_20260723/plan.md; metadata.json; evidence.jsonl.
+
+Why: Keep release-quality claims tied to exact hosted evidence and distinguish candidate readiness from default-branch closure.
+
+Verification: evidence JSONL and metadata JSON parsed; 8 governance/code-scanning tests passed; live GitHub programme validation passed.
