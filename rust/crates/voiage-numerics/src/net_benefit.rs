@@ -28,43 +28,18 @@ pub struct NetBenefitKernelResult {
 /// Calculate `effect * willingness_to_pay - cost`.
 ///
 /// Negative finite thresholds are valid. All inputs and results must be finite.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] when inputs are empty, dimensionally
+/// incompatible, non-finite, or produce a non-finite result.
 pub fn net_benefit(
     costs: &[f64],
     effects: &[f64],
     willingness_to_pay: &[f64],
     mode: WtpMode,
 ) -> Result<NetBenefitKernelResult, NumericalInputError> {
-    if costs.is_empty() {
-        return Err(NumericalInputError::invalid(
-            "costs",
-            "costs and effects must not be empty",
-        ));
-    }
-    if costs.len() != effects.len() {
-        return Err(NumericalInputError::dimension(
-            "effects",
-            costs.len(),
-            effects.len(),
-            "costs and effects must have the same number of values",
-        ));
-    }
-    if willingness_to_pay.is_empty() {
-        return Err(NumericalInputError::invalid(
-            "willingness_to_pay",
-            "willingness to pay must not be empty",
-        ));
-    }
-    if costs
-        .iter()
-        .chain(effects)
-        .chain(willingness_to_pay)
-        .any(|value| !value.is_finite())
-    {
-        return Err(NumericalInputError::invalid(
-            "net_benefit",
-            "costs, effects, and willingness to pay must be finite",
-        ));
-    }
+    validate_inputs(costs, effects, willingness_to_pay)?;
 
     let mut values = Vec::new();
     let mut push_value = |value_index: usize, threshold: f64| {
@@ -143,6 +118,45 @@ pub fn net_benefit(
         }
     }
     Ok(NetBenefitKernelResult { values })
+}
+
+fn validate_inputs(
+    costs: &[f64],
+    effects: &[f64],
+    willingness_to_pay: &[f64],
+) -> Result<(), NumericalInputError> {
+    if costs.is_empty() {
+        return Err(NumericalInputError::invalid(
+            "costs",
+            "costs and effects must not be empty",
+        ));
+    }
+    if costs.len() != effects.len() {
+        return Err(NumericalInputError::dimension(
+            "effects",
+            costs.len(),
+            effects.len(),
+            "costs and effects must have the same number of values",
+        ));
+    }
+    if willingness_to_pay.is_empty() {
+        return Err(NumericalInputError::invalid(
+            "willingness_to_pay",
+            "willingness to pay must not be empty",
+        ));
+    }
+    if costs
+        .iter()
+        .chain(effects)
+        .chain(willingness_to_pay)
+        .any(|value| !value.is_finite())
+    {
+        return Err(NumericalInputError::invalid(
+            "net_benefit",
+            "costs, effects, and willingness to pay must be finite",
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(test)]

@@ -576,6 +576,14 @@ jobs:
       run: >-
         uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json
 
+    - name: Enforce bounded Rust net-benefit mutation audit
+      id: net-benefit-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/run_net_benefit_mutation_audit.py .
+        --output .benchmarks/mutation-net-benefit.json
+
     - name: Enforce source and configuration bound mutation cohort
       id: cohort-mutation
       if: always()
@@ -598,13 +606,15 @@ jobs:
         GENERATION_OUTCOME: ${{ steps.broad-generation.outcome }}
         BROAD_OUTCOME: ${{ steps.broad-mutation.outcome }}
         CRITICAL_OUTCOME: ${{ steps.critical-mutation.outcome }}
+        NET_BENEFIT_OUTCOME: ${{ steps.net-benefit-mutation.outcome }}
         COHORT_OUTCOME: ${{ steps.cohort-mutation.outcome }}
       run: |
         echo "broad generation: ${GENERATION_OUTCOME}"
         echo "broad ratchet: ${BROAD_OUTCOME}"
         echo "critical score: ${CRITICAL_OUTCOME}"
+        echo "Rust net-benefit audit: ${NET_BENEFIT_OUTCOME}"
         echo "cohort identity and debt: ${COHORT_OUTCOME}"
-        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
+        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${NET_BENEFIT_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
           exit 1
         fi
     - name: Upload mutation evidence
@@ -615,6 +625,7 @@ jobs:
         path: |
           .benchmarks/mutation-score-broad.json
           .benchmarks/mutation-critical.json
+          .benchmarks/mutation-net-benefit.json
           .benchmarks/mutation-cohort.json
           mutants/mutmut-cicd-stats.json
           mutants/mutmut-universe.txt

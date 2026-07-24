@@ -9,9 +9,13 @@ import json
 import math
 from pathlib import Path
 import sys
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import xarray as xr
+
+if TYPE_CHECKING:
+    from typing import Literal
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -31,11 +35,20 @@ from voiage import (
 from voiage import (
     __version__ as voiage_version,
 )
+from voiage.core.utils import calculate_net_benefit
 from voiage.methods.ceaf import calculate_ceaf
 from voiage.methods.dominance import calculate_dominance
 
 DEFAULT_FIXTURE_ROOT = validator.FIXTURE_ROOT.resolve()
-STABLE_METHODS = {"evpi", "evppi", "evsi", "enbs", "ceaf", "dominance"}
+STABLE_METHODS = {
+    "net_benefit",
+    "evpi",
+    "evppi",
+    "evsi",
+    "enbs",
+    "ceaf",
+    "dominance",
+}
 REQUIRED_CLASSIFICATIONS = {"normal", "edge", "invalid"}
 
 
@@ -49,7 +62,24 @@ def _constant_model(specification: dict[str, object]):
     return model
 
 
-def _execute_method(method: str, inputs: dict[str, object]) -> object:
+def _execute_method(method: str, inputs: dict[str, object]) -> object:  # noqa: PLR0911
+    if method == "net_benefit":
+        wtp_value = inputs["willingness_to_pay"]
+        if not isinstance(wtp_value, (int, float, list)):
+            raise validator.ValidationError(
+                "willingness_to_pay must be a number or array"
+            )
+        wtp_axis = inputs.get("wtp_axis", "auto")
+        if wtp_axis not in {"auto", "thresholds", "elementwise"}:
+            raise validator.ValidationError("invalid wtp_axis")
+        return calculate_net_benefit(
+            np.asarray(inputs["costs"], dtype=float),
+            np.asarray(inputs["effects"], dtype=float),
+            np.asarray(wtp_value, dtype=float)
+            if isinstance(wtp_value, list)
+            else float(wtp_value),
+            wtp_axis=cast('Literal["auto", "thresholds", "elementwise"]', wtp_axis),
+        ).tolist()
     if method == "evpi":
         return evpi(np.asarray(inputs["net_benefit"], dtype=float))
     if method == "evppi":
@@ -183,6 +213,10 @@ def _normalise_error(method: str, exc: Exception) -> dict[str, str]:
     if diagnostic_code:
         return {"category": "input", "code": str(diagnostic_code)}
     mappings = {
+        ("net_benefit", "DimensionMismatchError"): (
+            "dimension",
+            "shape_mismatch",
+        ),
         ("evpi", "DimensionMismatchError"): ("dimension", "shape_mismatch"),
         ("evppi", "InputError"): ("input", "unknown_parameter"),
         ("evsi", "BackendNotAvailableError"): (

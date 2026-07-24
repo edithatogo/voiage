@@ -10,12 +10,12 @@ use voiage_test_support::{
 };
 
 #[test]
-fn classifies_all_25_fixtures_through_rust_contracts_without_running_kernels() {
+fn classifies_all_28_fixtures_through_rust_contracts_without_running_kernels() {
     let cases = load_compatibility_cases().expect("canonical cases must load");
     let reports = classify_compatibility_contracts(&cases)
         .expect("all canonical fixture shapes and mappings must validate");
 
-    assert_eq!(reports.len(), 25);
+    assert_eq!(reports.len(), 28);
     assert!(reports
         .iter()
         .all(|report| !report.numerical_kernel_executed));
@@ -24,6 +24,7 @@ fn classifies_all_25_fixtures_through_rust_contracts_without_running_kernels() {
     assert_eq!(
         methods,
         BTreeSet::from([
+            CompatibilityMethod::NetBenefit,
             CompatibilityMethod::Evpi,
             CompatibilityMethod::Evppi,
             CompatibilityMethod::Evsi,
@@ -54,6 +55,11 @@ fn preserves_exact_method_classification_and_error_code_mappings() {
         .collect();
 
     let invalid = [
+        (
+            "net-benefit-invalid-shape-001",
+            "shape_mismatch",
+            ErrorCode::DimensionMismatch,
+        ),
         (
             "evpi-invalid-shape-001",
             "shape_mismatch",
@@ -145,7 +151,7 @@ fn preserves_exact_method_classification_and_error_code_mappings() {
 }
 
 #[test]
-fn validates_every_success_result_shape_through_canonical_serialization_dtos() {
+fn validates_every_success_result_shape_through_stable_result_contracts() {
     let cases = load_compatibility_cases().expect("canonical cases must load");
     let reports = classify_compatibility_contracts(&cases).expect("contracts must classify");
 
@@ -154,7 +160,7 @@ fn validates_every_success_result_shape_through_canonical_serialization_dtos() {
             .iter()
             .filter(|report| matches!(report.outcome, ContractOutcome::Result))
             .count(),
-        12
+        14
     );
     assert!(reports.iter().all(|report| report.input_contract_validated));
     assert!(reports
@@ -197,15 +203,16 @@ fn executes_all_deterministic_kernel_fixtures_and_preserves_invalid_mappings() {
     let reports = execute_deterministic_compatibility_contracts(&cases)
         .expect("deterministic kernels must match canonical fixtures");
 
-    assert_eq!(reports.len(), 21);
+    assert_eq!(reports.len(), 24);
     assert_eq!(
         reports
             .iter()
             .filter(|report| report.numerical_kernel_executed)
             .count(),
-        10
+        12
     );
     let expected_invalid = BTreeMap::from([
+        ("net-benefit-invalid-shape-001", "shape_mismatch"),
         ("ceaf-invalid-thresholds-001", "threshold_count_mismatch"),
         ("ceaf-nan-invalid-001", "non_finite_value"),
         ("dominance-invalid-length-001", "strategy_count_mismatch"),

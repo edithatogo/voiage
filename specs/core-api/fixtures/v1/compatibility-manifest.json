@@ -8,6 +8,27 @@
   },
   "cases": [
     {
+      "case_id": "net-benefit-normal-001",
+      "method": "net_benefit",
+      "classification": "normal",
+      "input_artifact": "compatibility/inputs/net-benefit-normal-001.json",
+      "expected_artifact": "compatibility/expected/net-benefit-normal-001.json"
+    },
+    {
+      "case_id": "net-benefit-negative-threshold-edge-001",
+      "method": "net_benefit",
+      "classification": "edge",
+      "input_artifact": "compatibility/inputs/net-benefit-negative-threshold-edge-001.json",
+      "expected_artifact": "compatibility/expected/net-benefit-negative-threshold-edge-001.json"
+    },
+    {
+      "case_id": "net-benefit-invalid-shape-001",
+      "method": "net_benefit",
+      "classification": "invalid",
+      "input_artifact": "compatibility/inputs/net-benefit-invalid-shape-001.json",
+      "expected_artifact": "compatibility/expected/net-benefit-invalid-shape-001.json"
+    },
+    {
       "case_id": "evpi-normal-001",
       "method": "evpi",
       "classification": "normal",

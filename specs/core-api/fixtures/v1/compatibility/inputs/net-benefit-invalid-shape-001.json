@@ -1,0 +1,6 @@
+{
+  "costs": [100.0, 150.0],
+  "effects": [0.5],
+  "willingness_to_pay": 20000.0,
+  "wtp_axis": "auto"
+}

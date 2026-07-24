@@ -17,6 +17,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             parity and scientific freeze remain in progress.
     *   Deliver stable Rust authority, complete Value of Perspective, supported
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
+        *   Net-benefit construction is now Rust-authoritative and covered by
+            cross-language normal/edge/invalid fixtures, properties,
+            diagnostics, a CI-gated benchmark, and a bounded critical mutation
+            audit. The remaining stable-core estimator-policy and assurance
+            envelopes are still open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

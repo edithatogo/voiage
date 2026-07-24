@@ -515,6 +515,8 @@ fn compute_expected_loss<'py>(
 /// Compute Rust-authoritative net benefit from row-major flattened inputs.
 #[pyfunction]
 #[pyo3(signature = (costs, effects, willingness_to_pay, mode, sample_count=None, threshold_count=None))]
+// PyO3 extracts Python sequences into owned vectors at the binding boundary.
+#[allow(clippy::needless_pass_by_value)]
 fn compute_net_benefit(
     costs: Vec<f64>,
     effects: Vec<f64>,
