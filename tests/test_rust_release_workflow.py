@@ -24,7 +24,18 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert (
         "cargo publish --locked --package voiage-serialization" in crates_workflow_text
     )
-    assert "CARGO_REGISTRY_TOKEN" in crates_workflow_text
+    assert "environment: crates-io" in crates_workflow_text
+    assert "id-token: write" in crates_workflow_text
+    assert (
+        "rust-lang/crates-io-auth-action@"
+        "c6f97d42243bad5fab37ca0427f495c86d5b1a18"
+        in crates_workflow_text
+    )
+    assert "secrets.CARGO_REGISTRY_TOKEN" not in crates_workflow_text
+    assert (
+        "CARGO_REGISTRY_TOKEN: ${{ steps.crates-io-auth.outputs.token }}"
+        in crates_workflow_text
+    )
 
     assert (
         "The Rust crate remains the canonical execution core and contract owner."
