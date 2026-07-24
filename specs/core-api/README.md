@@ -14,6 +14,9 @@ diagnostics, numerical-equivalence rules, and conformance-fixture foundation.
 - `extension-evolution.md` defines the versioning, deprecation, and additive-extension rules for the stable contracts and future namespaces.
 - `contract-index.md` lists the versioned contract artifacts that are expected to stay in sync.
 - `schemas/v1/` contains the normative schema definitions for the core API result types.
+- `schemas/v2/` contains additive v1.1 candidates, including the
+  backend-neutral DecisionProblemV2 interchange boundary; v1 compatibility is
+  retained until language bindings and migrations pass conformance.
 - `examples/v1/` contains matching example payloads used by the contract checks.
 - `fixtures/v1/` contains the versioned conformance fixture set, its manifest, and the shared deterministic input bundles used by the normative cases.
 - `fixtures/v1/runner.md` defines the language-neutral runner contract and CI strategy for future bindings.

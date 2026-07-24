@@ -110,6 +110,13 @@
       "features":[{"id":"security-evpi","label":"Cybersecurity Monte Carlo EVPI and ROI selection","kind":"application","method_ids":["evpi","net-benefit"],"parity_state":"equivalent","voiage_evidence":"Domain-neutral EVPI and utility inputs support the same class of decision; a security worked example is still desirable.","evidence":["https://pypi.org/project/decision-security/"]}]
     },
     {
+      "id":"trd-cea-toolkit","name":"TRD CEA Toolkit","ecosystem":"python","scope":"external","tool_kind":"decision-analysis-library","maintenance":"maintained","license":"Apache-2.0","version":"0.4.0","release_date":"2025-11-08","repository":"https://github.com/trd-cea/trd-cea-toolkit","registry":"https://pypi.org/project/trd-cea-toolkit/","authoritative_sources":["https://pypi.org/pypi/trd-cea-toolkit/json","https://github.com/trd-cea/trd-cea-toolkit"],"runtime_dependency":false,
+      "features":[
+        {"id":"trd-voi","label":"EVPI, EVPPI and EVSI analysis","kind":"workflow","method_ids":["evpi","evppi","evsi"],"parity_state":"planned","voiage_evidence":"Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced.","evidence":["https://pypi.org/pypi/trd-cea-toolkit/json"]},
+        {"id":"trd-economic-evaluation","label":"CEA, DCEA, budget impact, MCDA, PSA, subgroup and implementation workflows","kind":"related-analysis","method_ids":["net-benefit","icer","equity-voi","heterogeneity-voi","implementation-voi"],"parity_state":"planned","voiage_evidence":"VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures.","evidence":["https://pypi.org/pypi/trd-cea-toolkit/json"]}
+      ]
+    },
+    {
       "id":"kirstine","name":"Kirstine.jl","ecosystem":"julia","scope":"external","tool_kind":"experimental-design-library","maintenance":"maintained","license":"License file requires manual SPDX confirmation","version":"0.9.0","release_date":"2025 snapshot","repository":"https://github.com/lsandig/Kirstine.jl","registry":"https://github.com/JuliaRegistries/General/tree/master/K/Kirstine","authoritative_sources":["https://github.com/lsandig/Kirstine.jl","https://github.com/JuliaRegistries/General/tree/master/K/Kirstine"],"runtime_dependency":false,
       "features":[{"id":"kirstine-design","label":"Bayesian optimal design for nonlinear regression models","kind":"workflow","method_ids":["bayesian-oed","optimal-study-design"],"parity_state":"planned","voiage_evidence":"General design optimization is adjacent; VOIAGE needs decision-utility linkage and Julia conformance.","evidence":["https://github.com/lsandig/Kirstine.jl"]}]
     },

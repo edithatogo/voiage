@@ -9,7 +9,16 @@ It records observable capabilities rather than marketing parity.
   visualizations, applications, and related analyses.
 - `method-evidence.json` and `method-evidence.schema.json` make the source and
   review state for every method family executable.
+- `adjacent-method-dispositions.json` records why neighboring concepts are
+  mapped to a canonical method, retained as related analyses/applications,
+  admitted as a new method, or excluded from the VOI core.
 - `schema.json` is the public software-registry contract.
+- `gap-report.json` is generated from the registries and routes every
+  non-equivalent feature or unresolved method-assurance gap to an existing
+  Conductor implementation track.
+- `parity-fixtures.json` prevents a `native` or `equivalent` external-feature
+  claim unless independent, competitor-free fixtures and executable tests are
+  named.
 - The generated documentation matrix is produced by
   `scripts/generate_voi_feature_matrix.py`.
 
@@ -47,3 +56,19 @@ keeps distinct:
 
 Information-theoretic acquisition is not represented as decision-theoretic or
 economic VOI without an explicit action set and utility or loss.
+
+## Canonical decision-problem boundary
+
+`../core-api/schemas/v2/decision-problem.schema.json` is the versioned,
+backend-neutral interchange contract used to determine whether an analysis is
+decision-theoretic VOI. It requires alternatives, uncertain states, explicit
+information actions and their costs, a utility/loss/net-benefit objective,
+perspectives, population, time horizon, and provenance. Numerical draws and
+model implementations remain referenced artifacts rather than being embedded
+in the contract.
+
+The v1 net-benefit-first schema remains supported for compatibility. Promotion
+to v2 is additive: bindings may read v1, but stable cross-domain and
+perspective-aware methods must emit or losslessly map to v2. An entropy,
+acquisition, sensitivity, or prediction score without this decision boundary
+remains a related analysis rather than economic VOI.

@@ -40,3 +40,15 @@ by `fixtures/v1/compatibility-manifest.json`.
 ## Deferred Surfaces
 
 Population VOI, structural VOI, network-meta-analysis VOI, adaptive design VOI, and portfolio optimization are deferred until a later spec revision promotes them into stable scope.
+
+## Additive v2 candidates
+
+These contracts are frozen candidates for v1.1 implementation and binding
+conformance. They do not remove the stable v1 readers.
+
+- `schemas/v2/decision-problem.schema.json` ->
+  `examples/v2/decision-problem.example.json`
+- `schemas/v2/analysis-spec.schema.json` ->
+  `examples/v2/analysis-spec.example.json`
+- `schemas/v2/perspective-result.schema.json` ->
+  `examples/v2/perspective-result.example.json`

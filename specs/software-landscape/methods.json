@@ -49,6 +49,7 @@
     {"id":"monitoring-voi","label":"Monitoring, surveillance and evidence-refresh value","class":"estimand","moscow":"should","voiage_state":"native","maturity":"experimental"},
     {"id":"value-of-computation","label":"Value of computation, simulation and stopping","class":"estimand","moscow":"must","voiage_state":"native","maturity":"experimental"},
     {"id":"expected-information-gain","label":"Expected information gain","class":"estimand","moscow":"must","voiage_state":"planned","maturity":"planned"},
+    {"id":"robust-expected-information-gain","label":"Robust expected information gain over ambiguity sets","class":"estimand","moscow":"should","voiage_state":"planned","maturity":"planned"},
     {"id":"predictive-information-gain","label":"Predictive information gain","class":"estimand","moscow":"should","voiage_state":"planned","maturity":"planned"},
     {"id":"bayesian-oed","label":"Bayesian optimal experimental design","class":"workflow","moscow":"must","voiage_state":"planned","maturity":"planned"},
     {"id":"active-learning","label":"Active and batch-active learning","class":"workflow","moscow":"must","voiage_state":"planned","maturity":"planned"},

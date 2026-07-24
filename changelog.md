@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added method-level scientific dispositions for all 60 canonical methods,
+  explicit classifications for 15 adjacent VOI concepts, a backend-neutral
+  DecisionProblemV2 interchange schema, competitor-free positive-parity
+  fixtures, a routed gap report, and scheduled landscape-freshness checks.
+- Added the verified TRD CEA Toolkit software candidate and a duplicate-aware
+  contribution template for missed libraries and methods.
 - Added a Renovate-first dependency and GitHub security programme covering all
   retained package managers, vulnerability-driven updates, stability and
   protected-check policy, live posture reconciliation, SBOM/provenance, and

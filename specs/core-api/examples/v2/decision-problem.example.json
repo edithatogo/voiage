@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0.0",
+  "decision_problem_id": "screening-program-v2",
+  "title": "Choose a screening programme and whether to commission a study",
+  "description": "Synthetic, backend-neutral example spanning parameter and perspective uncertainty.",
+  "alternatives": [
+    {
+      "alternative_id": "usual-care",
+      "label": "Usual care",
+      "is_reference": true
+    },
+    {
+      "alternative_id": "targeted-screening",
+      "label": "Targeted screening",
+      "is_reference": false
+    }
+  ],
+  "uncertainty": {
+    "state_variables": [
+      {
+        "variable_id": "incremental-cost",
+        "label": "Incremental cost",
+        "role": "parameter",
+        "unit": "AUD",
+        "artifact_id": "screening-psa-v2"
+      },
+      {
+        "variable_id": "governing-perspective",
+        "label": "Governing perspective",
+        "role": "perspective",
+        "artifact_id": "perspective-draws-v1"
+      }
+    ],
+    "representation": "posterior-draws",
+    "joint_distribution_artifact_id": "joint-draws-v1",
+    "preserves_dependence": true
+  },
+  "information_actions": [
+    {
+      "information_action_id": "current-information",
+      "label": "Act on current information",
+      "action_type": "none",
+      "reveals": [],
+      "cost": {"value": 0, "unit": "AUD"}
+    },
+    {
+      "information_action_id": "screening-trial",
+      "label": "Commission a screening trial",
+      "action_type": "sample-information",
+      "reveals": ["incremental-cost"],
+      "design_artifact_id": "screening-trial-design-v1",
+      "updater_artifact_id": "screening-posterior-updater-v1",
+      "cost": {"value": 250000, "unit": "AUD"},
+      "latency": {"value": 2, "unit": "years"}
+    }
+  ],
+  "objective": {
+    "objective_type": "net-benefit",
+    "direction": "maximize",
+    "unit": "AUD",
+    "currency_year": 2026,
+    "artifact_id": "screening-net-benefit-v1",
+    "thresholds": [{"value": 50000, "unit": "AUD/QALY"}]
+  },
+  "perspectives": [
+    {
+      "perspective_id": "health-system",
+      "label": "Health-system perspective",
+      "weight": 0.6,
+      "objective_artifact_id": "health-system-net-benefit-v1"
+    },
+    {
+      "perspective_id": "societal",
+      "label": "Societal perspective",
+      "weight": 0.4,
+      "objective_artifact_id": "societal-net-benefit-v1"
+    }
+  ],
+  "population": {
+    "population_id": "eligible-adults",
+    "scope": "Adults eligible for the screening programme",
+    "size": 100000
+  },
+  "time_horizon": {
+    "value": 10,
+    "unit": "years",
+    "discount_rate": 0.03
+  },
+  "provenance": {
+    "created_at": "2026-07-24T00:00:00Z",
+    "creator": "VOIAGE synthetic fixture",
+    "input_artifact_ids": [
+      "joint-draws-v1",
+      "screening-net-benefit-v1",
+      "screening-trial-design-v1"
+    ],
+    "source_uris": [
+      "https://github.com/edithatogo/voiage"
+    ],
+    "license": "CC0-1.0"
+  },
+  "extensions": {}
+}

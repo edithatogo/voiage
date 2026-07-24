@@ -9,10 +9,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
     `rust_polyglot_voi_completion_20260723`.
     *   Complete the method and external-library censuses before v1.1 contract
         freeze.
-        *   Initial 2026-07-24 landscape: 21 software/binding records and 59
+        *   Initial 2026-07-24 landscape: 22 software/binding records and 60
             canonical method records, with deterministic feature-matrix
-            generation; primary-citation review and feature-level executable
-            parity remain in progress.
+            generation, method-level evidence, adjacent-method dispositions,
+            and routed gaps; primary-citation review and feature-level
+            executable parity remain in progress.
     *   Deliver stable Rust authority, complete Value of Perspective, supported
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
     *   Deliver executable datasets/examples, contribution transparency, and

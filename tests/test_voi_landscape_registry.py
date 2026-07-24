@@ -17,6 +17,16 @@ SCHEMA = LANDSCAPE / "schema.json"
 METHODS = LANDSCAPE / "methods.json"
 METHOD_EVIDENCE = LANDSCAPE / "method-evidence.json"
 METHOD_EVIDENCE_SCHEMA = LANDSCAPE / "method-evidence.schema.json"
+ADJACENT_METHODS = LANDSCAPE / "adjacent-method-dispositions.json"
+ADJACENT_METHODS_SCHEMA = LANDSCAPE / "adjacent-method-dispositions.schema.json"
+GAP_REPORT = LANDSCAPE / "gap-report.json"
+PARITY_FIXTURES = LANDSCAPE / "parity-fixtures.json"
+DECISION_PROBLEM_SCHEMA = (
+    ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
+)
+DECISION_PROBLEM_EXAMPLE = (
+    ROOT / "specs" / "core-api" / "examples" / "v2" / "decision-problem.example.json"
+)
 
 
 def _read_json(path: Path) -> object:
@@ -100,6 +110,7 @@ def test_method_taxonomy_covers_core_vop_and_ml_families() -> None:
         "perspective-frontier",
         "perspective-sample-information",
         "expected-information-gain",
+        "robust-expected-information-gain",
         "bayesian-oed",
         "active-learning",
         "knowledge-gradient",
@@ -147,14 +158,71 @@ def test_every_method_has_reviewed_source_coverage() -> None:
     method_ids = {method["id"] for method in methods["methods"]}
     source_ids = {source["id"] for source in evidence["sources"]}
     assert len(source_ids) == len(evidence["sources"])
+    for source in evidence["sources"]:
+        identifier = source["identifier"]
+        if identifier.startswith("doi:"):
+            doi = identifier.removeprefix("doi:")
+            assert source["url"] == f"https://doi.org/{doi}"
+            assert "/" in doi
+            assert " " not in doi
+        elif source["kind"] == "repository-contract":
+            assert identifier.startswith("repo:")
+        else:
+            assert identifier.startswith("url:")
 
     covered: set[str] = set()
-    for family in evidence["coverage"]:
-        assert set(family["method_ids"]) <= method_ids
-        assert set(family["source_ids"]) <= source_ids
-        covered.update(family["method_ids"])
+    for method_evidence in evidence["coverage"]:
+        assert method_evidence["method_id"] in method_ids
+        assert method_evidence["method_id"] not in covered
+        assert set(method_evidence["source_ids"]) <= source_ids
+        if method_evidence["disposition"] in {
+            "canonical-estimand",
+            "canonical-estimator",
+        }:
+            assert {"uncertainty", "objective", "provenance"} <= set(
+                method_evidence["required_decision_fields"]
+            )
+        if method_evidence["family"] == "value-of-perspective":
+            assert "perspectives" in method_evidence["required_decision_fields"]
+        covered.add(method_evidence["method_id"])
 
     assert covered == method_ids
+
+
+def test_adjacent_methods_have_explicit_non_duplicative_dispositions() -> None:
+    """Named neighboring methods must be mapped, retained, added, or excluded."""
+    methods = _read_json(METHODS)
+    adjacent = _read_json(ADJACENT_METHODS)
+    schema = _read_json(ADJACENT_METHODS_SCHEMA)
+    assert isinstance(methods, dict)
+    assert isinstance(adjacent, dict)
+
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(adjacent)
+    method_ids = {method["id"] for method in methods["methods"]}
+    record_ids = {record["id"] for record in adjacent["records"]}
+    assert len(record_ids) == len(adjacent["records"])
+    assert {
+        "buying-price-voi",
+        "constructed-scale-voi",
+        "robust-expected-information-gain",
+        "validation-study-evsi",
+        "blackwell-informativeness",
+        "value-of-signals",
+        "value-of-clairvoyance",
+        "value-of-control",
+        "value-of-flexibility",
+        "rational-inattention",
+        "bayesian-persuasion",
+        "strategic-information-sharing",
+        "causal-discovery-design",
+        "model-discrimination-design",
+        "measurement-test-accuracy-voi",
+    } <= record_ids
+    for record in adjacent["records"]:
+        assert set(record["canonical_method_ids"]) <= method_ids
+        if record["disposition"] == "exclude-from-voi-core":
+            assert not record["canonical_method_ids"]
 
 
 def test_search_snapshot_is_bounded_and_refreshable() -> None:
@@ -174,6 +242,28 @@ def test_search_snapshot_is_bounded_and_refreshable() -> None:
         assert search["result"] in {"candidates-found", "no-direct-package-found"}
 
 
+def test_landscape_freshness_validator_has_deterministic_boundary() -> None:
+    """Scheduled enforcement must pass on the deadline and fail the next day."""
+    validator = ROOT / "scripts" / "validate_voi_landscape_freshness.py"
+    on_deadline = subprocess.run(
+        [sys.executable, str(validator), "--as-of", "2026-10-23"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    overdue = subprocess.run(
+        [sys.executable, str(validator), "--as-of", "2026-10-24"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert on_deadline.returncode == 0
+    assert overdue.returncode == 1
+    assert "review overdue" in overdue.stdout
+
+
 def test_generated_feature_matrix_is_current() -> None:
     """The human matrix must be a deterministic projection of the registries."""
     result = subprocess.run(
@@ -189,3 +279,104 @@ def test_generated_feature_matrix_is_current() -> None:
     )
 
     assert result.returncode == 0, result.stderr or result.stdout
+
+
+def test_generated_method_evidence_registry_is_current() -> None:
+    """Method-level dispositions must be a deterministic reviewed projection."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "generate_method_evidence_registry.py"),
+            "--check",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+
+
+def test_generated_gap_report_is_current_and_routed() -> None:
+    """Every non-equivalent external feature must remain visible and owned."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "generate_voi_gap_report.py"),
+            "--check",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
+
+    report = _read_json(GAP_REPORT)
+    assert isinstance(report, dict)
+    assert report["summary"]["open_feature_gaps"] == len(report["feature_gaps"])
+    assert report["summary"]["open_method_or_assurance_gaps"] == len(
+        report["method_gaps"]
+    )
+    assert all(item["owner_track"] for item in report["method_gaps"])
+
+
+def test_native_or_equivalent_external_claims_have_independent_fixtures() -> None:
+    """No positive parity claim may rely only on competitor execution."""
+    registry = _read_json(REGISTRY)
+    assurance = _read_json(PARITY_FIXTURES)
+    assert isinstance(registry, dict)
+    assert isinstance(assurance, dict)
+
+    positive_claims = {
+        (tool["id"], feature["id"])
+        for tool in registry["tools"]
+        if tool["scope"] == "external"
+        for feature in tool["features"]
+        if feature["parity_state"] in {"native", "equivalent"}
+    }
+    records = {
+        (record["tool_id"], record["feature_id"]): record
+        for record in assurance["records"]
+    }
+    assert set(records) == positive_claims
+    for record in records.values():
+        assert record["assurance_state"] in {
+            "independent-fixtures",
+            "analytical-equivalence",
+        }
+        for relative_path in record["fixture_paths"] + record["test_paths"]:
+            assert (ROOT / relative_path).is_file(), relative_path
+
+
+def test_decision_problem_v2_is_backend_neutral_and_valid() -> None:
+    """The frozen interchange model must represent decisions, information and value."""
+    schema = _read_json(DECISION_PROBLEM_SCHEMA)
+    example = _read_json(DECISION_PROBLEM_EXAMPLE)
+    assert isinstance(schema, dict)
+    assert isinstance(example, dict)
+
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=None).validate(example)
+
+    assert len(example["alternatives"]) >= 2
+    assert example["uncertainty"]["state_variables"]
+    assert example["information_actions"]
+    assert example["objective"]["direction"] in {"maximize", "minimize"}
+    assert example["perspectives"]
+    assert example["population"]["scope"]
+    assert example["time_horizon"]["value"] > 0
+    assert example["provenance"]["input_artifact_ids"]
+
+
+def test_decision_problem_v2_rejects_implicit_information_cost() -> None:
+    """Every information action must carry an explicit cost, including no action."""
+    schema = _read_json(DECISION_PROBLEM_SCHEMA)
+    example = _read_json(DECISION_PROBLEM_EXAMPLE)
+    assert isinstance(schema, dict)
+    assert isinstance(example, dict)
+    del example["information_actions"][0]["cost"]
+
+    errors = list(Draft202012Validator(schema).iter_errors(example))
+    assert any(error.validator == "required" for error in errors)

@@ -23,6 +23,9 @@ programme. The canonical cross-repository requirements are maintained in
 - Every observed software feature maps to one or more stable canonical method
   identifiers and one of `native`, `equivalent`, `adapter`, `planned`,
   `excluded`, or `not-reproducible`.
+- Every external `native` or `equivalent` claim names independent,
+  competitor-free fixtures and executable tests; a generated gap report routes
+  every other feature or method-assurance gap to an existing Conductor track.
 - The generated feature matrix reports versions, maintenance, licenses,
   evidence links, method class, MoSCoW priority, VOIAGE state, and gaps.
 - Direct decision VOI, Value of Perspective, estimators, visualizations,
@@ -73,6 +76,9 @@ programme. The canonical cross-repository requirements are maintained in
   value of signals, clairvoyance, control and flexibility, rational
   inattention, Bayesian persuasion and strategic information design, causal
   discovery, model discrimination, and value of measurement or test accuracy.
+- Robust expected information gain is retained as a distinct planned
+  information-theoretic estimand over ambiguity sets and is not presented as
+  economic VOI without the canonical decision boundary.
 - Capability tables, binding availability, public documentation, and release
   claims are generated or checked against the canonical registries and fail
   closed on unsupported or maturity-inflated claims.
@@ -134,9 +140,8 @@ programme. The canonical cross-repository requirements are maintained in
 - SPDX normalization, citation-identifier validation, and automated registry
   metadata refresh for records with authoritative machine-readable endpoints.
 - A documented candidate-submission template for libraries missed by the
-  reproducible search.
-- A machine-readable gap report that opens or updates bounded method-triage
-  issues without creating duplicate issues.
+  reproducible search. This is implemented; future forms may add automatic
+  registry pre-validation.
 - A conformance corpus for adversarial and safety-sensitive information
   actions, including poisoned retrieval, dependent judges, and abstention or
   escalation under correlated errors.

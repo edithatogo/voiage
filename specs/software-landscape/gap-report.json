@@ -1,0 +1,1050 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from": {
+    "software_registry_schema_version": "1.0.0",
+    "method_registry_schema_version": "1.0.0",
+    "searched_on": "2026-07-24",
+    "review_due": "2026-10-23"
+  },
+  "summary": {
+    "external_tools": 20,
+    "canonical_methods": 60,
+    "external_feature_states": {
+      "adapter": 1,
+      "equivalent": 1,
+      "excluded": 1,
+      "native": 2,
+      "not-reproducible": 5,
+      "planned": 22
+    },
+    "open_feature_gaps": 29,
+    "open_method_or_assurance_gaps": 56
+  },
+  "feature_gaps": [
+    {
+      "tool_id": "analytica",
+      "feature_id": "analytica-voi",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "expected-loss"
+      ],
+      "evidence": [
+        "https://docs.analytica.com/"
+      ],
+      "voiage_evidence": "Core estimands exist, but proprietary workflow and numerical details are not reproducible."
+    },
+    {
+      "tool_id": "bceaweb",
+      "feature_id": "bceaweb-surface",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "ceac",
+        "ceaf"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "voiage_evidence": "Only literature-described behavior is recorded."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-bald",
+      "parity_state": "planned",
+      "method_ids": [
+        "active-learning",
+        "expected-information-gain"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "voiage_evidence": "No stable BALD estimator yet; BoTorch remains optional."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-kg",
+      "parity_state": "planned",
+      "method_ids": [
+        "knowledge-gradient"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "voiage_evidence": "Backend-neutral value-of-computation/acquisition contract remains planned."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-pes",
+      "parity_state": "planned",
+      "method_ids": [
+        "entropy-search",
+        "preference-acquisition"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "voiage_evidence": "Contracts and deterministic fixtures remain planned."
+    },
+    {
+      "tool_id": "emukit",
+      "feature_id": "emukit-design",
+      "parity_state": "planned",
+      "method_ids": [
+        "bayesian-oed",
+        "multi-fidelity-acquisition",
+        "entropy-search"
+      ],
+      "evidence": [
+        "https://emukit.github.io/"
+      ],
+      "voiage_evidence": "Decision-value contracts are planned; generic model fitting remains delegated."
+    },
+    {
+      "tool_id": "kirstine",
+      "feature_id": "kirstine-design",
+      "parity_state": "planned",
+      "method_ids": [
+        "bayesian-oed",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://github.com/lsandig/Kirstine.jl"
+      ],
+      "voiage_evidence": "General design optimization is adjacent; VOIAGE needs decision-utility linkage and Julia conformance."
+    },
+    {
+      "tool_id": "pyro-oed",
+      "feature_id": "pyro-eig",
+      "parity_state": "planned",
+      "method_ids": [
+        "expected-information-gain",
+        "bayesian-oed"
+      ],
+      "evidence": [
+        "https://docs.pyro.ai/en/stable/contrib.oed.html"
+      ],
+      "voiage_evidence": "Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-economic-evaluation",
+      "parity_state": "planned",
+      "method_ids": [
+        "net-benefit",
+        "expected-loss",
+        "ceac",
+        "ceaf"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "voiage_evidence": "Core calculations exist; BCEA-wide reporting and result semantics are not yet covered by shared fixtures."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-interactive-plots",
+      "parity_state": "planned",
+      "method_ids": [
+        "cea-plane",
+        "ceac",
+        "ceaf",
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "voiage_evidence": "Static Python plots exist; interactive reporting is not yet equivalent."
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-psa",
+      "parity_state": "planned",
+      "method_ids": [
+        "ceac",
+        "ceaf",
+        "dominance",
+        "variance-sensitivity"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/dampack.pdf"
+      ],
+      "voiage_evidence": "CEAC, CEAF and dominance exist; full sensitivity workflow remains incomplete."
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/vignettes/voi.html"
+      ],
+      "voiage_evidence": "Estimands exist; dampack Gaussian-approximation equivalence needs fixtures."
+    },
+    {
+      "tool_id": "r-decisionsupport",
+      "feature_id": "decisionsupport-evpi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/decisionSupport/html/00Index.html"
+      ],
+      "voiage_evidence": "EVPI/EVPPI exist; welfare-decision input and plotting parity require fixtures."
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-evpi",
+      "parity_state": "adapter",
+      "method_ids": [
+        "evpi"
+      ],
+      "evidence": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "voiage_evidence": "Independent EVPI exists; optional import normalization exists and requires expanded fixtures."
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-modeling",
+      "parity_state": "excluded",
+      "method_ids": [
+        "heterogeneity-voi",
+        "implementation-voi"
+      ],
+      "evidence": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "voiage_evidence": "General model construction is delegated; posterior/model outputs remain accepted inputs."
+    },
+    {
+      "tool_id": "r-hesim",
+      "feature_id": "hesim-cea",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "ceaf",
+        "net-benefit",
+        "icer",
+        "cea-plane",
+        "heterogeneity-voi"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/hesim/html/cea.html"
+      ],
+      "voiage_evidence": "Individual calculations exist; integrated subgroup result parity is not yet demonstrated."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evppi-estimators",
+      "parity_state": "planned",
+      "method_ids": [
+        "evppi-regression"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "voiage_evidence": "GAM/random-forest/BART-style metamodel surfaces exist, but estimator-by-estimator equivalence is not yet demonstrated."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evsi-estimators",
+      "parity_state": "planned",
+      "method_ids": [
+        "evsi-regression",
+        "evsi-moment-matching",
+        "evsi-importance-sampling"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html"
+      ],
+      "voiage_evidence": "Regression and moment-based estimators exist; importance-sampling equivalence remains planned."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-tidy-plots",
+      "parity_state": "planned",
+      "method_ids": [
+        "voi-curve",
+        "expected-loss-curve"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "voiage_evidence": "VOI curves exist; tidy result and expected-loss projection require conformance evidence."
+    },
+    {
+      "tool_id": "rane",
+      "feature_id": "rane-minimal-model",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evsi",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "voiage_evidence": "Literature triage only; current service behavior was not verified."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-analysis",
+      "parity_state": "planned",
+      "method_ids": [
+        "cea-plane",
+        "ceac",
+        "population-evpi",
+        "evppi"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "voiage_evidence": "Core analysis exists; population scaling, CSV migration and grouped regression fixtures are incomplete."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-burdens",
+      "parity_state": "planned",
+      "method_ids": [
+        "payer-burden"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "voiage_evidence": "No named payer-burden result contract yet."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-reports",
+      "parity_state": "planned",
+      "method_ids": [
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "voiage_evidence": "Reporting exists but not equivalent multi-format output."
+    },
+    {
+      "tool_id": "scikit-activeml",
+      "feature_id": "skactiveml-query",
+      "parity_state": "planned",
+      "method_ids": [
+        "active-learning",
+        "data-valuation"
+      ],
+      "evidence": [
+        "https://scikit-activeml.github.io/latest/"
+      ],
+      "voiage_evidence": "VOIAGE will value information actions, not duplicate a general active-learning toolkit."
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-economic-evaluation",
+      "parity_state": "planned",
+      "method_ids": [
+        "net-benefit",
+        "icer",
+        "equity-voi",
+        "heterogeneity-voi",
+        "implementation-voi"
+      ],
+      "evidence": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "voiage_evidence": "VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures."
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "voiage_evidence": "Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced."
+    },
+    {
+      "tool_id": "treeage-pro",
+      "feature_id": "treeage-decision-modeling",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "ceac",
+        "icer"
+      ],
+      "evidence": [
+        "https://www.treeage.com/"
+      ],
+      "voiage_evidence": "VOIAGE consumes decision outputs and does not imitate the proprietary model editor."
+    },
+    {
+      "tool_id": "victor",
+      "feature_id": "victor-trial",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evsi",
+        "enbs",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "voiage_evidence": "Literature triage only; current service behavior was not verified."
+    },
+    {
+      "tool_id": "vop-poc-nz",
+      "feature_id": "vop-directional",
+      "parity_state": "planned",
+      "method_ids": [
+        "directional-evop",
+        "pairwise-evop",
+        "perspective-optima",
+        "perspective-switching",
+        "equity-voi"
+      ],
+      "evidence": [
+        "https://pypi.org/project/vop-poc-nz/"
+      ],
+      "voiage_evidence": "Current perspective module covers a subset; C01/C02 conformance remains the controlling contract."
+    }
+  ],
+  "method_gaps": [
+    {
+      "method_id": "active-learning",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "botorch",
+        "scikit-activeml"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "agent-information-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "bayesian-oed",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "emukit",
+        "kirstine",
+        "pyro-oed"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "causal-transportability-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "cea-plane",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-bcea",
+        "r-hesim",
+        "savi"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "ceac",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "bceaweb",
+        "r-bcea",
+        "r-dampack",
+        "savi",
+        "treeage-pro"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "ceaf",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "bceaweb",
+        "r-bcea",
+        "r-dampack",
+        "r-hesim"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "data-quality-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "data-valuation",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "scikit-activeml"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "directional-evop",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "dominance",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-dampack"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "enbs",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "victor"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "entropy-search",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "botorch",
+        "emukit"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "equity-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "trd-cea-toolkit",
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "evpi",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "analytica",
+        "bceaweb",
+        "r-dampack",
+        "r-decisionsupport",
+        "r-heemod",
+        "r-hesim",
+        "rane",
+        "trd-cea-toolkit",
+        "treeage-pro"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "evppi",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "analytica",
+        "bceaweb",
+        "r-dampack",
+        "r-decisionsupport",
+        "savi",
+        "trd-cea-toolkit",
+        "treeage-pro"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "evppi-regression",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "evsi",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-dampack",
+        "rane",
+        "trd-cea-toolkit",
+        "victor"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "evsi-importance-sampling",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "evsi-moment-matching",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "evsi-regression",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "expected-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "botorch",
+        "pyro-oed"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "expected-loss",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "analytica",
+        "r-bcea"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "expected-loss-curve",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "heterogeneity-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "r-heemod",
+        "r-hesim",
+        "trd-cea-toolkit"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "icer",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-hesim",
+        "trd-cea-toolkit",
+        "treeage-pro"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "implementation-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "r-heemod",
+        "trd-cea-toolkit"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "joint-parameter-perspective",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "knowledge-gradient",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "botorch"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "llm-routing-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "monitoring-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "multi-fidelity-acquisition",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "emukit"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "net-benefit",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-bcea",
+        "r-hesim",
+        "trd-cea-toolkit"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    },
+    {
+      "method_id": "optimal-study-design",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "kirstine",
+        "rane",
+        "victor"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "pairwise-evop",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "payer-burden",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "savi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-frontier",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-optima",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-perfect-information",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-sample-information",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-switching",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "population-evpi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "savi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "portfolio-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "predictive-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "preference-acquisition",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [
+        "botorch"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "preference-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "rag-acquisition-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "real-options-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "robust-expected-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "robust-perspective-decisions",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "selective-prediction",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "sequential-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "validation-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "value-of-computation",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "variance-sensitivity",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "triage-required",
+      "promotion_gate": "primary-literature-review",
+      "affected_tool_ids": [
+        "r-dampack"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "voi-curve",
+      "maturity": "stable",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "none",
+      "affected_tool_ids": [
+        "r-bcea",
+        "r-decisionsupport",
+        "r-voi",
+        "savi"
+      ],
+      "owner_track": "stable_voi_rust_core_completion_20260723"
+    }
+  ]
+}

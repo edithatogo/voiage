@@ -37,6 +37,11 @@ def _cell(value: object) -> str:
 def _render() -> str:
     registry = _load(LANDSCAPE / "registry.json")
     method_registry = _load(LANDSCAPE / "methods.json")
+    evidence_registry = _load(LANDSCAPE / "method-evidence.json")
+    gap_report = _load(LANDSCAPE / "gap-report.json")
+    method_evidence = {
+        item["method_id"]: item for item in evidence_registry["coverage"]
+    }
     tools = sorted(
         registry["tools"], key=lambda item: (item["ecosystem"], item["name"].lower())
     )
@@ -68,6 +73,9 @@ def _render() -> str:
         "- Parity dispositions: "
         + ", ".join(f"`{key}` {states[key]}" for key in sorted(states))
         + ".",
+        f"- {gap_report['summary']['open_feature_gaps']} external feature gaps and "
+        f"{gap_report['summary']['open_method_or_assurance_gaps']} method or "
+        "assurance gaps remain routed to Conductor tracks.",
         "",
         "## Software landscape",
         "",
@@ -124,8 +132,8 @@ def _render() -> str:
             "",
             "## Canonical method coverage",
             "",
-            "| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity |",
-            "| --- | --- | --- | --- | --- | --- |",
+            "| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity | Evidence state | Decision boundary | Promotion gate |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
         ]
     )
     lines.extend(
@@ -139,6 +147,9 @@ def _render() -> str:
                     _cell(method["moscow"]),
                     f"`{_cell(method['voiage_state'])}`",
                     f"`{_cell(method['maturity'])}`",
+                    f"`{_cell(method_evidence[method['id']]['review_state'])}`",
+                    f"`{_cell(method_evidence[method['id']]['decision_boundary'])}`",
+                    f"`{_cell(method_evidence[method['id']]['promotion_gate'])}`",
                 ]
             )
             + " |"
@@ -160,6 +171,9 @@ def _render() -> str:
             "  optimization remain delegated when they are not themselves VOI estimands.",
             "- EIG, BALD, entropy search, and similar scores are not called economic VOI unless",
             "  a downstream decision and utility or loss are explicit.",
+            "- Positive external parity claims name competitor-free fixtures in",
+            "  `specs/software-landscape/parity-fixtures.json`; all other gaps are routed",
+            "  by `specs/software-landscape/gap-report.json`.",
             "",
             "The source registry, recorded searches, versions, licenses, and limitations are in",
             "[`specs/software-landscape/registry.json`](https://github.com/edithatogo/voiage/tree/main/specs/software-landscape).",

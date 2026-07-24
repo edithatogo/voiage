@@ -14,9 +14,10 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 
 ## Coverage summary
 
-- 21 software or binding records across 7 ecosystems.
-- 59 canonical VOI, VOP, estimator, visualization, and related-method records.
-- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 20.
+- 22 software or binding records across 7 ecosystems.
+- 60 canonical VOI, VOP, estimator, visualization, and related-method records.
+- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 22.
+- 29 external feature gaps and 56 method or assurance gaps remain routed to Conductor tracks.
 
 ## Software landscape
 
@@ -31,6 +32,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | [Emukit](https://emukit.github.io/) | python | experimental-design-library | maintained | 0.5.1 | 1 |
 | [Pyro optimal experimental design](https://docs.pyro.ai/en/stable/contrib.oed.html) | python | experimental-design-library | maintained | 1.9.1 | 1 |
 | [scikit-activeml](https://scikit-activeml.github.io/latest/) | python | active-learning-library | maintained | 1.0.0 | 1 |
+| [TRD CEA Toolkit](https://pypi.org/pypi/trd-cea-toolkit/json) | python | decision-analysis-library | maintained | 0.4.0 | 2 |
 | [vop-poc-nz](https://pypi.org/project/vop-poc-nz/) | python | voi-library | maintained | 0.1.8 | 1 |
 | [BCEA](https://cran.r-project.org/package=BCEA) | r | decision-analysis-library | maintained | 2.4.83 | 3 |
 | [dampack](https://stat.ethz.ch/CRAN/web/packages/dampack/vignettes/voi.html) | r | decision-analysis-library | maintained | 1.0.2.1000 | 2 |
@@ -59,6 +61,8 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | Emukit | [Bayesian optimization, experimental design and multi-fidelity workflows](https://emukit.github.io/) | workflow | `bayesian-oed`, `multi-fidelity-acquisition`, `entropy-search` | `planned` | Decision-value contracts are planned; generic model fitting remains delegated. |
 | Pyro optimal experimental design | [Nested Monte Carlo, variational, Laplace and posterior expected-information-gain estimators](https://docs.pyro.ai/en/stable/contrib.oed.html) | estimator | `expected-information-gain`, `bayesian-oed` | `planned` | Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional. |
 | scikit-activeml | [Pool, stream and multi-annotator query strategies](https://scikit-activeml.github.io/latest/) | workflow | `active-learning`, `data-valuation` | `planned` | VOIAGE will value information actions, not duplicate a general active-learning toolkit. |
+| TRD CEA Toolkit | [CEA, DCEA, budget impact, MCDA, PSA, subgroup and implementation workflows](https://pypi.org/pypi/trd-cea-toolkit/json) | related-analysis | `net-benefit`, `icer`, `equity-voi`, `heterogeneity-voi`, `implementation-voi` | `planned` | VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures. |
+| TRD CEA Toolkit | [EVPI, EVPPI and EVSI analysis](https://pypi.org/pypi/trd-cea-toolkit/json) | workflow | `evpi`, `evppi`, `evsi` | `planned` | Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced. |
 | vop-poc-nz | [Directional perspective discordance, equity and perspective-sensitive CEA](https://pypi.org/project/vop-poc-nz/) | estimand | `directional-evop`, `pairwise-evop`, `perspective-optima`, `perspective-switching`, `equity-voi` | `planned` | Current perspective module covers a subset; C01/C02 conformance remains the controlling contract. |
 | BCEA | [Net benefit, optimal strategy, CEAC, CEAF and expected loss](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | workflow | `net-benefit`, `expected-loss`, `ceac`, `ceaf` | `planned` | Core calculations exist; BCEA-wide reporting and result semantics are not yet covered by shared fixtures. |
 | BCEA | [Base, ggplot2 and plotly economic-evaluation plots](https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html) | visualization | `cea-plane`, `ceac`, `ceaf`, `voi-curve` | `planned` | Static Python plots exist; interactive reporting is not yet equivalent. |
@@ -83,67 +87,68 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 
 ## Canonical method coverage
 
-| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity |
-| --- | --- | --- | --- | --- | --- |
-| `active-learning` | Active and batch-active learning | workflow | must | `planned` | `planned` |
-| `agent-information-voi` | Agent tool-call, delegation and consultation value | application | must | `planned` | `planned` |
-| `bayesian-oed` | Bayesian optimal experimental design | workflow | must | `planned` | `planned` |
-| `causal-transportability-voi` | Causal identification, transportability and external-validity value | estimand | should | `native` | `experimental` |
-| `cea-plane` | Cost-effectiveness plane | visualization | should | `native` | `stable` |
-| `ceac` | Cost-effectiveness acceptability curve | visualization | must | `native` | `stable` |
-| `ceaf` | Cost-effectiveness acceptability frontier | estimand | must | `native` | `stable` |
-| `data-quality-voi` | Data quality, measurement, linkage and provenance value | estimand | should | `native` | `experimental` |
-| `data-valuation` | Value of acquiring, cleaning or relabelling data | estimand | must | `planned` | `planned` |
-| `directional-evop` | Directional current-information expected value of perspective | estimand | must | `native` | `experimental` |
-| `dominance` | Strong and extended dominance | related-analysis | must | `native` | `stable` |
-| `enbs` | Expected net benefit of sampling or research | estimand | must | `native` | `stable` |
-| `entropy-search` | Entropy-search acquisition | estimator | could | `planned` | `planned` |
-| `equity-voi` | Distributional and equity value of information | estimand | should | `native` | `experimental` |
-| `evpi` | Expected value of perfect information | estimand | must | `native` | `stable` |
-| `evppi` | Expected value of partial perfect information | estimand | must | `native` | `stable` |
-| `evppi-nested-mc` | Nested Monte Carlo EVPPI | estimator | should | `native` | `stable` |
-| `evppi-regression` | Regression and metamodel EVPPI | estimator | must | `native` | `stable` |
-| `evsi` | Expected value of sample information | estimand | must | `native` | `stable` |
-| `evsi-importance-sampling` | Importance-sampling EVSI | estimator | must | `planned` | `planned` |
-| `evsi-moment-matching` | Moment-matching EVSI | estimator | must | `native` | `stable` |
-| `evsi-nested-mc` | Nested Monte Carlo EVSI | estimator | must | `native` | `stable` |
-| `evsi-regression` | Regression or metamodel EVSI | estimator | must | `native` | `stable` |
-| `expected-information-gain` | Expected information gain | estimand | must | `planned` | `planned` |
-| `expected-loss` | Expected loss and opportunity loss | estimand | must | `native` | `stable` |
-| `expected-loss-curve` | Expected loss curve | visualization | should | `planned` | `planned` |
-| `heterogeneity-voi` | Heterogeneity and individualized decision value | estimand | should | `native` | `experimental` |
-| `icer` | Incremental cost-effectiveness ratios | related-analysis | must | `native` | `stable` |
-| `implementation-voi` | Implementation-adjusted value of information | estimand | should | `native` | `experimental` |
-| `joint-parameter-perspective` | Joint parameter and perspective uncertainty | estimand | must | `planned` | `planned` |
-| `knowledge-gradient` | Knowledge-gradient acquisition | estimator | should | `planned` | `planned` |
-| `llm-routing-voi` | LLM routing and provider-selection value | application | must | `planned` | `planned` |
-| `monitoring-voi` | Monitoring, surveillance and evidence-refresh value | estimand | should | `native` | `experimental` |
-| `multi-fidelity-acquisition` | Multi-fidelity and multi-task acquisition | workflow | should | `planned` | `planned` |
-| `net-benefit` | Net or generalized benefit construction | estimand | must | `native` | `stable` |
-| `nma-voi` | Network meta-analysis value of information | application | must | `native` | `stable` |
-| `optimal-study-design` | Optimal study design, sample size and allocation | workflow | must | `planned` | `planned` |
-| `pairwise-evop` | Ordered pairwise perspective regret | estimand | must | `native` | `experimental` |
-| `payer-burden` | Payer strategy-specific and uncertainty burdens | related-analysis | should | `planned` | `planned` |
-| `perspective-frontier` | Perspective acceptability frontier | estimand | must | `planned` | `planned` |
-| `perspective-optima` | Perspective-specific optima and probabilities | estimand | must | `native` | `experimental` |
-| `perspective-perfect-information` | Perfect information about governing perspective | estimand | must | `planned` | `planned` |
-| `perspective-sample-information` | Sample information about uncertain perspective parameters | estimand | must | `planned` | `planned` |
-| `perspective-switching` | Perspective mixture switch points and regions | estimand | must | `native` | `experimental` |
-| `population-evpi` | Population expected value of perfect information | estimand | must | `planned` | `planned` |
-| `portfolio-voi` | Portfolio and budget-constrained research value | workflow | should | `native` | `experimental` |
-| `predictive-information-gain` | Predictive information gain | estimand | should | `planned` | `planned` |
-| `preference-acquisition` | Preference-learning acquisition | estimator | should | `planned` | `planned` |
-| `preference-voi` | Preference and utility uncertainty value | estimand | should | `native` | `experimental` |
-| `rag-acquisition-voi` | Retrieval and context-acquisition value | application | must | `planned` | `planned` |
-| `real-options-voi` | Dynamic real-options value of information | estimand | should | `native` | `experimental` |
-| `robust-perspective-decisions` | Consensus, robust, maximin and minimax-regret perspective decisions | workflow | should | `planned` | `planned` |
-| `selective-prediction` | Human escalation, abstention and decision deferral | workflow | must | `planned` | `planned` |
-| `sequential-voi` | Sequential and adaptive value of information | estimand | should | `native` | `experimental` |
-| `structural-voi` | Structural and model-form value of information | estimand | must | `native` | `stable` |
-| `validation-voi` | Validation, replication and reproducibility value | estimand | should | `native` | `experimental` |
-| `value-of-computation` | Value of computation, simulation and stopping | estimand | must | `native` | `experimental` |
-| `variance-sensitivity` | Variance-based global sensitivity analysis | related-analysis | should | `planned` | `planned` |
-| `voi-curve` | Value-of-information curve | visualization | must | `native` | `stable` |
+| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity | Evidence state | Decision boundary | Promotion gate |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `active-learning` | Active and batch-active learning | workflow | must | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `agent-information-voi` | Agent tool-call, delegation and consultation value | application | must | `planned` | `planned` | `contract-verified` | `requires-decision-problem-v2` | `method-contract-and-fixtures` |
+| `bayesian-oed` | Bayesian optimal experimental design | workflow | must | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `causal-transportability-voi` | Causal identification, transportability and external-validity value | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `cea-plane` | Cost-effectiveness plane | visualization | should | `native` | `stable` | `primary-verified` | `derived-decision-output` | `none` |
+| `ceac` | Cost-effectiveness acceptability curve | visualization | must | `native` | `stable` | `primary-verified` | `derived-decision-output` | `none` |
+| `ceaf` | Cost-effectiveness acceptability frontier | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `data-quality-voi` | Data quality, measurement, linkage and provenance value | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `data-valuation` | Value of acquiring, cleaning or relabelling data | estimand | must | `planned` | `planned` | `triage-required` | `information-theoretic-only` | `primary-literature-review` |
+| `directional-evop` | Directional current-information expected value of perspective | estimand | must | `native` | `experimental` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `dominance` | Strong and extended dominance | related-analysis | must | `native` | `stable` | `primary-verified` | `derived-decision-output` | `none` |
+| `enbs` | Expected net benefit of sampling or research | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `entropy-search` | Entropy-search acquisition | estimator | could | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `equity-voi` | Distributional and equity value of information | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `evpi` | Expected value of perfect information | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evppi` | Expected value of partial perfect information | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evppi-nested-mc` | Nested Monte Carlo EVPPI | estimator | should | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evppi-regression` | Regression and metamodel EVPPI | estimator | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evsi` | Expected value of sample information | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evsi-importance-sampling` | Importance-sampling EVSI | estimator | must | `planned` | `planned` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `evsi-moment-matching` | Moment-matching EVSI | estimator | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evsi-nested-mc` | Nested Monte Carlo EVSI | estimator | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `evsi-regression` | Regression or metamodel EVSI | estimator | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `expected-information-gain` | Expected information gain | estimand | must | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `expected-loss` | Expected loss and opportunity loss | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `expected-loss-curve` | Expected loss curve | visualization | should | `planned` | `planned` | `triage-required` | `derived-decision-output` | `primary-literature-review` |
+| `heterogeneity-voi` | Heterogeneity and individualized decision value | estimand | should | `native` | `experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `icer` | Incremental cost-effectiveness ratios | related-analysis | must | `native` | `stable` | `primary-verified` | `derived-decision-output` | `none` |
+| `implementation-voi` | Implementation-adjusted value of information | estimand | should | `native` | `experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `joint-parameter-perspective` | Joint parameter and perspective uncertainty | estimand | must | `planned` | `planned` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `knowledge-gradient` | Knowledge-gradient acquisition | estimator | should | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `llm-routing-voi` | LLM routing and provider-selection value | application | must | `planned` | `planned` | `contract-verified` | `requires-decision-problem-v2` | `method-contract-and-fixtures` |
+| `monitoring-voi` | Monitoring, surveillance and evidence-refresh value | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `multi-fidelity-acquisition` | Multi-fidelity and multi-task acquisition | workflow | should | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `net-benefit` | Net or generalized benefit construction | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `nma-voi` | Network meta-analysis value of information | application | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `optimal-study-design` | Optimal study design, sample size and allocation | workflow | must | `planned` | `planned` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `pairwise-evop` | Ordered pairwise perspective regret | estimand | must | `native` | `experimental` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `payer-burden` | Payer strategy-specific and uncertainty burdens | related-analysis | should | `planned` | `planned` | `triage-required` | `derived-decision-output` | `primary-literature-review` |
+| `perspective-frontier` | Perspective acceptability frontier | estimand | must | `planned` | `planned` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `perspective-optima` | Perspective-specific optima and probabilities | estimand | must | `native` | `experimental` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `perspective-perfect-information` | Perfect information about governing perspective | estimand | must | `planned` | `planned` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `perspective-sample-information` | Sample information about uncertain perspective parameters | estimand | must | `planned` | `planned` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `perspective-switching` | Perspective mixture switch points and regions | estimand | must | `native` | `experimental` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `population-evpi` | Population expected value of perfect information | estimand | must | `planned` | `planned` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `portfolio-voi` | Portfolio and budget-constrained research value | workflow | should | `native` | `experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `predictive-information-gain` | Predictive information gain | estimand | should | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `preference-acquisition` | Preference-learning acquisition | estimator | should | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `preference-voi` | Preference and utility uncertainty value | estimand | should | `native` | `experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `rag-acquisition-voi` | Retrieval and context-acquisition value | application | must | `planned` | `planned` | `contract-verified` | `requires-decision-problem-v2` | `method-contract-and-fixtures` |
+| `real-options-voi` | Dynamic real-options value of information | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `robust-expected-information-gain` | Robust expected information gain over ambiguity sets | estimand | should | `planned` | `planned` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `robust-perspective-decisions` | Consensus, robust, maximin and minimax-regret perspective decisions | workflow | should | `planned` | `planned` | `contract-verified` | `repository-defined-perspective-contract` | `external-scientific-review` |
+| `selective-prediction` | Human escalation, abstention and decision deferral | workflow | must | `planned` | `planned` | `triage-required` | `information-theoretic-only` | `primary-literature-review` |
+| `sequential-voi` | Sequential and adaptive value of information | estimand | should | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `structural-voi` | Structural and model-form value of information | estimand | must | `native` | `stable` | `primary-verified` | `requires-decision-problem-v2` | `none` |
+| `validation-voi` | Validation, replication and reproducibility value | estimand | should | `native` | `experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
+| `value-of-computation` | Value of computation, simulation and stopping | estimand | must | `native` | `experimental` | `triage-required` | `requires-decision-problem-v2` | `primary-literature-review` |
+| `variance-sensitivity` | Variance-based global sensitivity analysis | related-analysis | should | `planned` | `planned` | `triage-required` | `derived-decision-output` | `primary-literature-review` |
+| `voi-curve` | Value-of-information curve | visualization | must | `native` | `stable` | `primary-verified` | `derived-decision-output` | `none` |
 
 ## Interpretation and exclusions
 
@@ -156,6 +161,9 @@ the capability is not yet evidenced as equivalent in VOIAGE.
   optimization remain delegated when they are not themselves VOI estimands.
 - EIG, BALD, entropy search, and similar scores are not called economic VOI unless
   a downstream decision and utility or loss are explicit.
+- Positive external parity claims name competitor-free fixtures in
+  `specs/software-landscape/parity-fixtures.json`; all other gaps are routed
+  by `specs/software-landscape/gap-report.json`.
 
 The source registry, recorded searches, versions, licenses, and limitations are in
 [`specs/software-landscape/registry.json`](https://github.com/edithatogo/voiage/tree/main/specs/software-landscape).

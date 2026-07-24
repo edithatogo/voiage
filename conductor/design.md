@@ -57,9 +57,14 @@ flowchart TD
     Workflow --> Methods
     Visual --> Methods
     Related --> Methods
-    Methods --> Disposition[VOIAGE parity disposition]
+    Methods --> Adjacent[Adjacent-method disposition registry]
+    Adjacent --> Disposition[VOIAGE parity disposition]
     Disposition --> Matrix[Generated public feature matrix]
+    Disposition --> Fixtures[Independent positive-claim fixtures]
+    Disposition --> Gaps[Machine-readable routed gap report]
     Matrix --> Tests[Schema, traceability and freshness tests]
+    Fixtures --> Tests
+    Gaps --> Tests
 ```
 
 ```mermaid
@@ -82,7 +87,7 @@ license decisions remain reviewed changes.
 
 ```mermaid
 flowchart LR
-    Problem["Canonical Decision Problem"] --> Alternatives["Alternatives"]
+    Problem["DecisionProblemV2"] --> Alternatives["Alternatives"]
     Problem --> States["Uncertain states"]
     Problem --> Actions["Information actions"]
     Problem --> Utility["Utility or loss"]

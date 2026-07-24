@@ -86,6 +86,8 @@ jobs:
           toolchain: "1.85"
       - name: Install locked validation tooling
         run: uv sync --locked --extra ci
+      - name: Fail closed on stale VOI software or literature landscape
+        run: uv run --no-sync python scripts/validate_voi_landscape_freshness.py
       - name: Fail closed on release version
         run: uv run --no-sync python -m voiage.versioning --release-tag "$RELEASE_TAG"
 
