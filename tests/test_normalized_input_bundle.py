@@ -183,8 +183,8 @@ def test_manifest_and_bundle_reject_duplicate_or_dangling_references() -> None:
 def test_ipc_export_rejects_multiple_tables(tmp_path) -> None:
     manifest = _bundle().manifest.model_copy(
         update={
-            "tables": _bundle().manifest.tables
-            + (
+            "tables": (
+                *_bundle().manifest.tables,
                 TableManifest(
                     table_id="other",
                     fields=(FieldManifest(field_id="x", dtype="float64"),),

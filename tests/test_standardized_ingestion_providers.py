@@ -8,15 +8,6 @@ import polars as pl
 import pyarrow as pa
 import pytest
 
-from voiage.ingestion import (
-    IngestionError,
-    SourceAccessPolicy,
-    default_registry,
-    from_dataframe,
-)
-from voiage.ingestion.croissant import CroissantProvider
-from voiage.ingestion.frictionless import FrictionlessProvider
-from voiage.ingestion.registry import ProviderRegistry
 from voiage.contracts import (
     DatasetManifest,
     FieldManifest,
@@ -26,6 +17,15 @@ from voiage.contracts import (
     VOIBinding,
     prepare_analysis_inputs,
 )
+from voiage.ingestion import (
+    IngestionError,
+    SourceAccessPolicy,
+    default_registry,
+    from_dataframe,
+)
+from voiage.ingestion.croissant import CroissantProvider
+from voiage.ingestion.frictionless import FrictionlessProvider
+from voiage.ingestion.registry import ProviderRegistry
 
 
 def _write_csv(tmp_path) -> None:
