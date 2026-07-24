@@ -32,3 +32,4 @@ jobs:
           python scripts/generate_upstream_feature_evidence.py --check
           python scripts/generate_voi_gap_report.py --check
           python scripts/generate_voi_feature_matrix.py --check
+          python scripts/generate_scientific_freeze_candidate.py --check

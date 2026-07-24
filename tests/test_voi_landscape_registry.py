@@ -28,6 +28,8 @@ LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
 LICENSE_RIGHTS_SCHEMA = LANDSCAPE / "license-rights.schema.json"
 FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
+FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
+FREEZE_CANDIDATE_SCHEMA = LANDSCAPE / "v1.1-scientific-freeze-candidate.schema.json"
 DECISION_PROBLEM_SCHEMA = (
     ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
 )
@@ -478,6 +480,45 @@ def test_generated_gap_report_is_current_and_routed() -> None:
         for item in report["feature_gaps"]
         if item["parity_state"] in negative_states
     )
+
+
+def test_v1_1_scientific_freeze_candidate_is_current_and_fail_closed() -> None:
+    """The human review request must be deterministic and remain unapproved."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "generate_scientific_freeze_candidate.py"),
+            "--check",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
+
+    methods = _read_json(METHODS)
+    candidate = _read_json(FREEZE_CANDIDATE)
+    schema = _read_json(FREEZE_CANDIDATE_SCHEMA)
+    assert isinstance(methods, dict)
+    assert isinstance(candidate, dict)
+    assert isinstance(schema, dict)
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(candidate)
+    stable_ids = {
+        method["id"] for method in methods["methods"] if method["maturity"] == "stable"
+    }
+    assert {record["method_id"] for record in candidate["stable_methods"]} == stable_ids
+    assert candidate["approval"]["status"] == "pending-human-review"
+    assert candidate["approval"]["approved_by"] is None
+    assert candidate["approval"]["approved_at"] is None
+    assert len(candidate["candidate_digest"]) == 64
+    net_benefit = next(
+        record
+        for record in candidate["stable_methods"]
+        if record["method_id"] == "net-benefit"
+    )
+    assert net_benefit["remaining_implementation_gate"] == "stable-rust-authority"
 
 
 def test_native_or_equivalent_external_claims_have_independent_fixtures() -> None:

@@ -32,6 +32,11 @@ It records observable capabilities rather than marketing parity.
 - `parity-fixtures.json` prevents a `native` or `equivalent` external-feature
   claim unless independent, competitor-free fixtures and executable tests are
   named.
+- `v1.1-scientific-freeze-candidate.json` is a generated, hash-bound review
+  request that joins method maturity, evidence disposition, implementation
+  authority, remaining gates, and the additive DecisionProblemV2 contract. Its
+  approval state remains fail-closed until an accountable human explicitly
+  approves the exact candidate digest.
 - The generated documentation matrix is produced by
   `scripts/generate_voi_feature_matrix.py`.
 
