@@ -8,6 +8,7 @@ from .adapters import (
     adapt_parameter_set,
     adapt_value_array,
     analysis_spec_from_inputs,
+    analysis_spec_from_prepared_inputs,
 )
 from .analysis import (
     AnalysisResult,
@@ -115,6 +116,7 @@ __all__ = [
     "adapt_value_array",
     "analysis_result_table",
     "analysis_spec_from_inputs",
+    "analysis_spec_from_prepared_inputs",
     "canonical_bundle_digest",
     "dispatch_calculation",
     "evaluate_backend",

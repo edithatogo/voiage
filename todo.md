@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [x] Implement standardized dataset ingestion through one format-neutral
+*   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.
     *   Conductor track: `standardized-dataset-ingestion_20260723`.
     *   GitHub parent issue: #325.
@@ -15,6 +15,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         existing direct Python/CSV APIs, explicit VOI semantic bindings, and
         strict separation between core contracts and optional Croissant or
         Frictionless parsers.
+    *   Current merged increments establish the baseline contract, preparation
+        boundary, optional CSV profiles, and provenance propagation. The
+        unchecked acceptance criteria in the Conductor track remain active;
+        issues #325--#333 and #467--#468 must not be closed or archived yet.
 
 ## Completed public documentation
 

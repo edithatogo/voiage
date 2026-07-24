@@ -1,11 +1,13 @@
 {
   "analysis_id": "perspective-v2-example",
+  "binding_profile_digest": null,
   "decision_problem_id": "screening-program-001",
   "extensions": {},
   "input_artifact_ids": [],
   "method_contract_version": "1.1.0",
   "method_family": "value_of_perspective",
   "method_options": {},
+  "normalized_input_digest": null,
   "numerical_policy": {
     "absolute_tolerance": 1e-10,
     "allow_fallback": false,

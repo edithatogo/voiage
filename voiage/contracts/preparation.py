@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING
 import numpy as np
 import pyarrow as pa
 
-from voiage.contracts.normalized_input import (  # noqa: TC001 - public runtime API
+from voiage.contracts.normalized_input import (
+    BindingProfile,
     NormalizedInputBundle,
     VOIBinding,
 )
@@ -39,15 +40,20 @@ class PreparedAnalysisInputs:
 
     net_benefits: ValueArray
     input_digest: str
+    binding_profile_digest: str
     binding: VOIBinding
     quality_report: DataQualityReport
 
 
 def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisInputs:
     """Prepare a wide net-benefit binding without implicit filtering or coercion."""
-    bindings = tuple(
-        item for item in bundle.manifest.bindings if item.role == "net_benefit"
+    binding_profile = getattr(bundle.manifest, "binding_profile", None)
+    declared_bindings = (
+        binding_profile.bindings
+        if binding_profile is not None
+        else bundle.manifest.bindings
     )
+    bindings = tuple(item for item in declared_bindings if item.role == "net_benefit")
     if len(bindings) != 1:
         raise ValueError("exactly one net_benefit binding is required")
     binding = bindings[0]
@@ -79,6 +85,11 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
     return PreparedAnalysisInputs(
         net_benefits=ValueArray.from_numpy(values, strategies),
         input_digest=bundle.content_digest,
+        binding_profile_digest=(
+            binding_profile.digest
+            if binding_profile is not None
+            else BindingProfile(bindings=(binding,)).digest
+        ),
         binding=binding,
         quality_report=quality_report,
     )

@@ -292,6 +292,19 @@
       "title": "Analysis Id",
       "type": "string"
     },
+    "binding_profile_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Binding Profile Digest"
+    },
     "decision_problem_id": {
       "minLength": 1,
       "title": "Decision Problem Id",
@@ -329,6 +342,19 @@
       },
       "title": "Method Options",
       "type": "object"
+    },
+    "normalized_input_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized Input Digest"
     },
     "numerical_policy": {
       "$ref": "#/$defs/NumericalPolicy"
