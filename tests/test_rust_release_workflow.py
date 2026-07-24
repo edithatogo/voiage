@@ -28,8 +28,7 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert "id-token: write" in crates_workflow_text
     assert (
         "rust-lang/crates-io-auth-action@"
-        "c6f97d42243bad5fab37ca0427f495c86d5b1a18"
-        in crates_workflow_text
+        "c6f97d42243bad5fab37ca0427f495c86d5b1a18" in crates_workflow_text
     )
     assert "secrets.CARGO_REGISTRY_TOKEN" not in crates_workflow_text
     assert (
