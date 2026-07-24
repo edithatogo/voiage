@@ -56,7 +56,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   media types, transforms, projection, filtering, streaming, and random access.
 - [x] **P3-T5 / AC-03:** Add opt-in, allow-listed Python entry-point discovery;
   prohibit automatic third-party imports during package import and probing.
-- [ ] **P3-T6 / AC-03:** Document the third-party provider extension contract.
+- [x] **P3-T6 / AC-03:** Document the third-party provider extension contract.
 - [ ] **P3-T7 / AC-03:** Verify clean base installation, run automated review,
   focused validation, and the phase checkpoint protocol.
 
