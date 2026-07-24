@@ -1,0 +1,1 @@
+Security workflow review: Renovate config validated with 43.279.0; tox lint, Vale, harness, typecheck, docs, Python 3.12-3.14, min/max dependencies, frontier/version sync and coverage passed; coverage 91.01%. JupyterLab 4.6.2 closes default-branch candidates for alerts 64-68. Renovate App activation remains external.
