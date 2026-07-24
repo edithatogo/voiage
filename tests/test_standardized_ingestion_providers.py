@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 
 import polars as pl
 import pyarrow as pa
@@ -23,6 +24,7 @@ from voiage.ingestion import (
     default_registry,
     from_dataframe,
 )
+from voiage.ingestion._tabular import digest_file, read_csv
 from voiage.ingestion.croissant import CroissantProvider
 from voiage.ingestion.frictionless import FrictionlessProvider
 from voiage.ingestion.registry import ProviderRegistry
@@ -165,6 +167,19 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
     )
     with pytest.raises(IngestionError, match="CSV"):
         default_registry().ingest(descriptor)
+    csv_source = tmp_path / "unreadable.csv"
+    csv_source.write_text("a\n1\n", encoding="utf-8")
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(
+            "voiage.ingestion._tabular.csv.read_csv",
+            lambda _: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
+        )
+        with pytest.raises(IngestionError, match="cannot be parsed"):
+            read_csv("unreadable.csv", SourceAccessPolicy(tmp_path))
+    assert (
+        digest_file(csv_source)
+        == "309b0e45a73d3fc5325e2b6ed0a01ef8b9cde6b05a5633c1f893f970d52bfddc"
+    )
     manifest = DatasetManifest(
         dataset_id="x",
         tables=(
@@ -194,6 +209,95 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
         prepare_analysis_inputs(
             NormalizedInputBundle(manifest=bound, tables={"t": pa.table({"a": [None]})})
         )
+
+
+def test_preparation_rejects_non_numeric_arrow_column() -> None:
+    class NonNumericColumn:
+        null_count = 0
+
+        def combine_chunks(self):
+            return self
+
+        def to_numpy(self, *, zero_copy_only: bool):
+            raise pa.ArrowInvalid("cannot convert")
+
+    class SelectedTable:
+        num_rows = 1
+
+        def __getitem__(self, field: str) -> NonNumericColumn:
+            assert field == "a"
+            return NonNumericColumn()
+
+    class Table:
+        def select(self, fields: tuple[str, ...]) -> SelectedTable:
+            assert fields == ("a",)
+            return SelectedTable()
+
+    binding = VOIBinding(role="net_benefit", table_id="t", field_ids=("a",))
+    bundle = SimpleNamespace(
+        manifest=SimpleNamespace(bindings=(binding,)), table=lambda _: Table()
+    )
+    with pytest.raises(ValueError, match="not numeric"):
+        prepare_analysis_inputs(bundle)
+
+
+@pytest.mark.parametrize(
+    ("provider", "name", "descriptor", "message"),
+    [
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {"recordSet": [{"name": "samples", "field": []}]},
+            "distribution",
+        ),
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {
+                "recordSet": [{"field": []}],
+                "distribution": [{"contentUrl": "samples.csv"}],
+            },
+            "requires name",
+        ),
+        (
+            CroissantProvider(),
+            "croissant.json",
+            {
+                "recordSet": [{"name": "samples", "field": [{"name": "missing"}]}],
+                "distribution": [{"contentUrl": "samples.csv"}],
+            },
+            "exactly declare",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {"resources": [{"path": "samples.csv", "schema": {"fields": []}}]},
+            "requires name",
+        ),
+        (
+            FrictionlessProvider(),
+            "datapackage.json",
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "missing"}]},
+                    }
+                ]
+            },
+            "exactly declare",
+        ),
+    ],
+)
+def test_providers_reject_incomplete_or_mismatched_declarations(
+    tmp_path, provider, name, descriptor, message
+) -> None:
+    _write_csv(tmp_path)
+    path = tmp_path / name
+    path.write_text(json.dumps(descriptor), encoding="utf-8")
+    with pytest.raises(IngestionError, match=message):
+        provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
 
 
 def test_dataframe_adapter_rejects_non_dataframe() -> None:
