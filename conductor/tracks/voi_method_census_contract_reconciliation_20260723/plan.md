@@ -66,6 +66,9 @@
   refresh job with a 93-day freshness limit. (`6e3ebb1`)
 - [x] Add a missed-library/missed-method contribution template and duplicate-
   resistant triage automation. (`6e3ebb1`)
+- [x] Add a fail-closed, append-only approval recorder that binds an accountable
+  human decision to the exact candidate digest and refuses stale candidates,
+  incomplete evidence, or overwrites. (`c596380`)
 - [ ] Obtain human scientific review of stable definitions and dispositions.
 - [ ] Freeze the v1.1 registry revision and record remaining research gates.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
