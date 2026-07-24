@@ -63,7 +63,11 @@ from .normalized_input import (
     VOIBinding,
 )
 from .perspective import PerspectivePayload, adapt_perspective_result, run_perspective
-from .preparation import PreparedAnalysisInputs, prepare_analysis_inputs
+from .preparation import (
+    DataQualityReport,
+    PreparedAnalysisInputs,
+    prepare_analysis_inputs,
+)
 
 __all__ = [
     "AnalysisResult",
@@ -78,6 +82,7 @@ __all__ = [
     "ConcernSpec",
     "ContractModel",
     "ContractPerformanceBudget",
+    "DataQualityReport",
     "DatasetManifest",
     "DiagnosticEnvelope",
     "DiagnosticRecord",

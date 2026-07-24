@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from types import MappingProxyType
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pyarrow as pa
@@ -15,6 +17,21 @@ from voiage.contracts.normalized_input import (  # noqa: TC001 - public runtime 
 )
 from voiage.schema import ValueArray
 
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+
+@dataclass(frozen=True)
+class DataQualityReport:
+    """Machine-readable evidence that preparation retained the input population."""
+
+    table_id: str
+    selected_field_ids: tuple[str, ...]
+    row_count: int
+    null_counts: Mapping[str, int]
+    duplicate_row_count: int
+    population_transforms: tuple[str, ...] = ()
+
 
 @dataclass(frozen=True)
 class PreparedAnalysisInputs:
@@ -23,6 +40,7 @@ class PreparedAnalysisInputs:
     net_benefits: ValueArray
     input_digest: str
     binding: VOIBinding
+    quality_report: DataQualityReport
 
 
 def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisInputs:
@@ -48,8 +66,19 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
             raise ValueError(f"net-benefit field {field!r} is not numeric") from error
     values = np.column_stack(arrays).astype(float, copy=False)
     strategies = list(binding.strategy_names or binding.field_ids)
+    rows = tuple(tuple(row.values()) for row in selected.to_pylist())
+    quality_report = DataQualityReport(
+        table_id=binding.table_id,
+        selected_field_ids=tuple(binding.field_ids),
+        row_count=selected.num_rows,
+        null_counts=MappingProxyType(
+            {field: selected[field].null_count for field in binding.field_ids}
+        ),
+        duplicate_row_count=selected.num_rows - len(set(rows)),
+    )
     return PreparedAnalysisInputs(
         net_benefits=ValueArray.from_numpy(values, strategies),
         input_digest=bundle.content_digest,
         binding=binding,
+        quality_report=quality_report,
     )
