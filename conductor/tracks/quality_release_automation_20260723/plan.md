@@ -38,6 +38,14 @@
     crates.io trusted-publishing findings have a tested fix in `5e5091d`; the
     Scorecard SAST-coverage finding and remaining quality findings require
     default-branch rescan evidence or bounded reviewed dispositions.
+    - [x] Enable exact-ref manual and merge-queue CodeQL analysis (`30693e2`)
+      so candidate commits can be scanned before they reach the default branch.
+    - [x] Remove all pull-request-blocking CodeQL errors (`9f4275b`,
+      `89c7962`, `ece829e`); exact-branch open findings fell from 65 to 26,
+      and run 30069242255 plus the PR-attached CodeQL check passed.
+    - [ ] Reconcile the default-branch queue after merge and disposition the
+      remaining non-security quality notes without weakening lazy imports or
+      masking genuine scientific defects.
 - [~] Upgrade or constrain JupyterLab to a patched release and close open
   Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
   the two high-severity XSS alerts block release.
