@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added generated implementation evidence for every method claimed as native,
+  linking each claim to its implementation, executable tests, numerical
+  authority, maturity, and remaining promotion gate.
 - Added method-level scientific dispositions for all 60 canonical methods,
   explicit classifications for 15 adjacent VOI concepts, a backend-neutral
   DecisionProblemV2 interchange schema, competitor-free positive-parity
@@ -63,6 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Corrected the method registry so expected loss and nested-Monte-Carlo EVPPI
+  remain planned rather than being presented as native stable capabilities.
 - Replaced Dependabot version-update configuration with Renovate, retained
   GitHub advisory alerts, raised dependency-review blocking to moderate
   severity, and constrained JupyterLab to the first release that fixes alerts

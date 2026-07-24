@@ -215,8 +215,7 @@
       "method_id": "expected-loss",
       "family": "stable-decision-voi-and-economic-evaluation",
       "source_ids": [
-        "ispor-voi-task-force",
-        "jackson-voi-overview"
+        "ispor-voi-task-force"
       ],
       "review_state": "primary-verified",
       "disposition": "canonical-estimand",
@@ -230,7 +229,7 @@
         "time_horizon",
         "provenance"
       ],
-      "promotion_gate": "none",
+      "promotion_gate": "independent-replication",
       "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
     },
     {
@@ -532,7 +531,7 @@
         "time_horizon",
         "provenance"
       ],
-      "promotion_gate": "none",
+      "promotion_gate": "independent-replication",
       "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
     },
     {

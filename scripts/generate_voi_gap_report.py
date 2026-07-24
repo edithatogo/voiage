@@ -13,6 +13,7 @@ LANDSCAPE = ROOT / "specs" / "software-landscape"
 REGISTRY = LANDSCAPE / "registry.json"
 METHODS = LANDSCAPE / "methods.json"
 EVIDENCE = LANDSCAPE / "method-evidence.json"
+IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
 OUTPUT = LANDSCAPE / "gap-report.json"
 
 IMPLEMENTATION_TRACKS = {
@@ -29,6 +30,12 @@ def render() -> str:
     evidence = {
         item["method_id"]: item
         for item in json.loads(EVIDENCE.read_text(encoding="utf-8"))["coverage"]
+    }
+    implementation_evidence = {
+        item["method_id"]: item
+        for item in json.loads(IMPLEMENTATION_EVIDENCE.read_text(encoding="utf-8"))[
+            "records"
+        ]
     }
     feature_states: Counter[str] = Counter()
     affected_tools: defaultdict[str, set[str]] = defaultdict(set)
@@ -56,10 +63,15 @@ def render() -> str:
     method_gaps = []
     for method in methods:
         method_evidence = evidence[method["id"]]
+        implementation = implementation_evidence.get(method["id"])
+        remaining_implementation_gate = (
+            implementation["remaining_gate"] if implementation else "implementation"
+        )
         if (
             method["voiage_state"] == "native"
             and method_evidence["promotion_gate"] == "none"
             and method["id"] not in affected_tools
+            and remaining_implementation_gate == "none"
         ):
             continue
         method_gaps.append(
@@ -69,6 +81,12 @@ def render() -> str:
                 "voiage_state": method["voiage_state"],
                 "review_state": method_evidence["review_state"],
                 "promotion_gate": method_evidence["promotion_gate"],
+                "authority_state": (
+                    implementation["authority_state"]
+                    if implementation
+                    else "not-implemented"
+                ),
+                "remaining_implementation_gate": remaining_implementation_gate,
                 "affected_tool_ids": sorted(affected_tools[method["id"]]),
                 "owner_track": (
                     "ml_llm_agent_voi_20260723"

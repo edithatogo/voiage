@@ -3,7 +3,7 @@
   "searched_on": "2026-07-24",
   "methods": [
     {"id":"net-benefit","label":"Net or generalized benefit construction","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
-    {"id":"expected-loss","label":"Expected loss and opportunity loss","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
+    {"id":"expected-loss","label":"Expected loss and opportunity loss","class":"estimand","moscow":"must","voiage_state":"planned","maturity":"planned"},
     {"id":"evpi","label":"Expected value of perfect information","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"population-evpi","label":"Population expected value of perfect information","class":"estimand","moscow":"must","voiage_state":"planned","maturity":"planned"},
     {"id":"evppi","label":"Expected value of partial perfect information","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
@@ -18,7 +18,7 @@
     {"id":"icer","label":"Incremental cost-effectiveness ratios","class":"related-analysis","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"cea-plane","label":"Cost-effectiveness plane","class":"visualization","moscow":"should","voiage_state":"native","maturity":"stable"},
     {"id":"evppi-regression","label":"Regression and metamodel EVPPI","class":"estimator","moscow":"must","voiage_state":"native","maturity":"stable"},
-    {"id":"evppi-nested-mc","label":"Nested Monte Carlo EVPPI","class":"estimator","moscow":"should","voiage_state":"native","maturity":"stable"},
+    {"id":"evppi-nested-mc","label":"Nested Monte Carlo EVPPI","class":"estimator","moscow":"should","voiage_state":"planned","maturity":"planned"},
     {"id":"evsi-nested-mc","label":"Nested Monte Carlo EVSI","class":"estimator","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"evsi-regression","label":"Regression or metamodel EVSI","class":"estimator","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"evsi-moment-matching","label":"Moment-matching EVSI","class":"estimator","moscow":"must","voiage_state":"native","maturity":"stable"},

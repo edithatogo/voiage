@@ -18,7 +18,7 @@
       "planned": 22
     },
     "open_feature_gaps": 29,
-    "open_method_or_assurance_gaps": 56
+    "open_method_or_assurance_gaps": 57
   },
   "feature_gaps": [
     {
@@ -141,7 +141,7 @@
       "evidence": [
         "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
       ],
-      "voiage_evidence": "Core calculations exist; BCEA-wide reporting and result semantics are not yet covered by shared fixtures."
+      "voiage_evidence": "Net benefit, CEAC and CEAF exist; expected-loss calculations, BCEA-wide reporting and shared result semantics remain gaps."
     },
     {
       "tool_id": "r-bcea",
@@ -431,6 +431,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "botorch",
         "scikit-activeml"
@@ -443,6 +445,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -452,6 +456,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "emukit",
         "kirstine",
@@ -465,6 +471,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -474,6 +482,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "visualization-only",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-bcea",
         "r-hesim",
@@ -487,6 +497,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "visualization-only",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "bceaweb",
         "r-bcea",
@@ -502,6 +514,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "bceaweb",
         "r-bcea",
@@ -516,6 +530,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -525,6 +541,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "scikit-activeml"
       ],
@@ -536,6 +554,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "vop-poc-nz"
       ],
@@ -547,6 +567,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-dampack"
       ],
@@ -558,6 +580,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "victor"
       ],
@@ -569,6 +593,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "botorch",
         "emukit"
@@ -581,6 +607,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "trd-cea-toolkit",
         "vop-poc-nz"
@@ -593,6 +621,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "analytica",
         "bceaweb",
@@ -612,6 +642,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "analytica",
         "bceaweb",
@@ -624,11 +656,24 @@
       "owner_track": "stable_voi_rust_core_completion_20260723"
     },
     {
+      "method_id": "evppi-nested-mc",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
       "method_id": "evppi-regression",
       "maturity": "stable",
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -640,6 +685,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-dampack",
         "rane",
@@ -654,6 +701,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -665,6 +714,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -676,6 +727,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "rust-authoritative",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -687,6 +740,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "botorch",
         "pyro-oed"
@@ -695,15 +750,17 @@
     },
     {
       "method_id": "expected-loss",
-      "maturity": "stable",
-      "voiage_state": "native",
+      "maturity": "planned",
+      "voiage_state": "planned",
       "review_state": "primary-verified",
-      "promotion_gate": "none",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "analytica",
         "r-bcea"
       ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
+      "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
       "method_id": "expected-loss-curve",
@@ -711,6 +768,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "r-voi"
       ],
@@ -722,6 +781,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "r-heemod",
         "r-hesim",
@@ -735,6 +796,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "related-analysis",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-hesim",
         "trd-cea-toolkit",
@@ -748,6 +811,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "r-heemod",
         "trd-cea-toolkit"
@@ -760,6 +825,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -769,6 +836,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "botorch"
       ],
@@ -780,6 +849,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -789,6 +860,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -798,6 +871,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "emukit"
       ],
@@ -809,6 +884,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "python-stable-gap",
+      "remaining_implementation_gate": "stable-rust-authority",
       "affected_tool_ids": [
         "r-bcea",
         "r-hesim",
@@ -822,6 +899,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "kirstine",
         "rane",
@@ -835,6 +914,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "vop-poc-nz"
       ],
@@ -846,6 +927,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "savi"
       ],
@@ -857,6 +940,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -866,6 +951,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "vop-poc-nz"
       ],
@@ -877,6 +964,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -886,6 +975,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -895,6 +986,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [
         "vop-poc-nz"
       ],
@@ -906,6 +999,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "savi"
       ],
@@ -917,6 +1012,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -926,6 +1023,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -935,6 +1034,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "botorch"
       ],
@@ -946,6 +1047,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -955,6 +1058,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -964,6 +1069,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -973,6 +1080,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -982,6 +1091,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -991,6 +1102,8 @@
       "voiage_state": "planned",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [],
       "owner_track": "ml_llm_agent_voi_20260723"
     },
@@ -1000,6 +1113,8 @@
       "voiage_state": "native",
       "review_state": "contract-verified",
       "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -1009,6 +1124,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -1018,6 +1135,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
       "affected_tool_ids": [],
       "owner_track": "supported_frontier_method_completion_20260723"
     },
@@ -1027,6 +1146,8 @@
       "voiage_state": "planned",
       "review_state": "primary-verified",
       "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
         "r-dampack"
       ],
@@ -1038,6 +1159,8 @@
       "voiage_state": "native",
       "review_state": "primary-verified",
       "promotion_gate": "none",
+      "authority_state": "visualization-only",
+      "remaining_implementation_gate": "none",
       "affected_tool_ids": [
         "r-bcea",
         "r-decisionsupport",

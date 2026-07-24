@@ -42,6 +42,10 @@ def _render() -> str:
     method_evidence = {
         item["method_id"]: item for item in evidence_registry["coverage"]
     }
+    implementation_evidence = {
+        item["method_id"]: item
+        for item in _load(LANDSCAPE / "implementation-evidence.json")["records"]
+    }
     tools = sorted(
         registry["tools"], key=lambda item: (item["ecosystem"], item["name"].lower())
     )
@@ -132,8 +136,8 @@ def _render() -> str:
             "",
             "## Canonical method coverage",
             "",
-            "| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity | Evidence state | Decision boundary | Promotion gate |",
-            "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+            "| ID | Method or analysis | Class | MoSCoW | VOIAGE state | Maturity | Authority | Evidence state | Decision boundary | Promotion gate |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
         ]
     )
     lines.extend(
@@ -147,6 +151,7 @@ def _render() -> str:
                     _cell(method["moscow"]),
                     f"`{_cell(method['voiage_state'])}`",
                     f"`{_cell(method['maturity'])}`",
+                    f"`{_cell(implementation_evidence.get(method['id'], {}).get('authority_state', 'not-implemented'))}`",
                     f"`{_cell(method_evidence[method['id']]['review_state'])}`",
                     f"`{_cell(method_evidence[method['id']]['decision_boundary'])}`",
                     f"`{_cell(method_evidence[method['id']]['promotion_gate'])}`",

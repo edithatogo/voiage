@@ -21,6 +21,7 @@ ADJACENT_METHODS = LANDSCAPE / "adjacent-method-dispositions.json"
 ADJACENT_METHODS_SCHEMA = LANDSCAPE / "adjacent-method-dispositions.schema.json"
 GAP_REPORT = LANDSCAPE / "gap-report.json"
 PARITY_FIXTURES = LANDSCAPE / "parity-fixtures.json"
+IMPLEMENTATION_EVIDENCE = LANDSCAPE / "implementation-evidence.json"
 DECISION_PROBLEM_SCHEMA = (
     ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
 )
@@ -301,6 +302,27 @@ def test_generated_method_evidence_registry_is_current() -> None:
     )
 
     assert result.returncode == 0, result.stderr or result.stdout
+
+
+def test_generated_method_implementation_evidence_is_current() -> None:
+    """Every native claim must resolve to implementation and executable tests."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "generate_method_implementation_evidence.py"),
+            "--check",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
+
+    evidence = _read_json(IMPLEMENTATION_EVIDENCE)
+    assert isinstance(evidence, dict)
+    assert all(record["implementation_paths"] for record in evidence["records"])
+    assert all(record["test_paths"] for record in evidence["records"])
 
 
 def test_generated_gap_report_is_current_and_routed() -> None:

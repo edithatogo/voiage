@@ -170,6 +170,7 @@ SOURCE_OVERRIDES = {
     "validation-voi": ("sadatsafavi-validation-evsi",),
     "portfolio-voi": ("zan-bickel-portfolio",),
     "population-evpi": ("ispor-voi-task-force",),
+    "expected-loss": ("ispor-voi-task-force",),
     "optimal-study-design": ("ispor-voi-task-force",),
     "expected-loss-curve": ("bcea-reference",),
     "variance-sensitivity": ("r-voi-documentation",),

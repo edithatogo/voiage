@@ -9,6 +9,9 @@ It records observable capabilities rather than marketing parity.
   visualizations, applications, and related analyses.
 - `method-evidence.json` and `method-evidence.schema.json` make the source and
   review state for every method family executable.
+- `implementation-evidence.json` is generated from reviewed implementation and
+  test paths and fails if a method is called `native` without executable
+  repository evidence.
 - `adjacent-method-dispositions.json` records why neighboring concepts are
   mapped to a canonical method, retained as related analyses/applications,
   admitted as a new method, or excluded from the VOI core.
