@@ -63,9 +63,8 @@ developer research use, transparent AI-use disclosure, Software Heritage
 citation, a fail-closed local validator, and a pinned Open Journals draft build.
 Direct JOSS review is selected for the Rust-centred polyglot package. Issue #471
 tracks the remaining independent non-author installation and research-use
-evidence; funding and conflict confirmation, authenticated submission,
-editorial review, acceptance, and DOI assignment remain explicit human or
-external gates.
+evidence; authenticated submission, editorial review, acceptance, and DOI
+assignment remain explicit human or external gates.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

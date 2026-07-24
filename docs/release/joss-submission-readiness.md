@@ -31,8 +31,9 @@ not replace it.
 | Single-author community engagement | Public history contains only the author and automated accounts; [independent validation protocol](joss-independent-validation.md) and issue #471 are ready | External evidence required before submission |
 | JOSS manuscript structure | All current required sections and 750–1,750-word contract | Ready |
 | Design-thinking account | Kernel/orchestration boundary and cross-language trade-offs described | Ready |
-| AI usage disclosure | Tools, retained version limits, scope, human decisions and validation stated | Ready for author verification |
-| Funding acknowledgement | Draft says no external funding is declared | Author confirmation required |
+| Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026 | Ready |
+| AI usage disclosure | Tools, retained version limits, scope, human decisions and validation stated; confirmed by the author on 24 July 2026 | Ready |
+| Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Reproducible JOSS PDF | Official Open Journals action pinned by commit; three-page artifact visually reviewed | Ready |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
@@ -83,20 +84,15 @@ The recommended sequence is:
 1. obtain one attributable or editor-verifiable independent installation and
    research-use report through issue #471;
 2. resolve any problems identified by that exercise;
-3. confirm the paper's funding statement, authorship, affiliations, ORCID,
-   conflicts of interest, and AI disclosure;
-4. wait for and record the permanent arXiv identifier, following the author's
+3. wait for and record the permanent arXiv identifier, following the author's
    preferred arXiv-first sequence;
-5. submit the repository and `paper.md` directly to JOSS;
-6. respond to review comments personally and without generative AI drafting;
-7. after acceptance-ready review, tag the reviewed version and create a
+4. submit the repository and `paper.md` directly to JOSS;
+5. respond to review comments personally and without generative AI drafting;
+6. after acceptance-ready review, tag the reviewed version and create a
    DOI-bearing Zenodo or Figshare archive requested by JOSS.
 
 ## Remaining gates
 
-- Confirm that “No external funding is declared for this submission” is
-  accurate.
-- Confirm the author list, affiliations and ORCID metadata.
 - Obtain independent installation and research-use evidence through issue #471;
   automated accounts and same-author integrations do not satisfy this gate.
 - Record the permanent arXiv identifier when arXiv assigns it.

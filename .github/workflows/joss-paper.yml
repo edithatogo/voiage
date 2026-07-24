@@ -5,6 +5,8 @@ on:
     paths:
       - "paper.md"
       - "paper.bib"
+      - "CITATION.cff"
+      - "codemeta.json"
       - "scripts/validate_joss.py"
       - "tests/test_joss_readiness.py"
       - ".github/workflows/joss-paper.yml"
@@ -13,6 +15,8 @@ on:
     paths:
       - "paper.md"
       - "paper.bib"
+      - "CITATION.cff"
+      - "codemeta.json"
       - "scripts/validate_joss.py"
       - "tests/test_joss_readiness.py"
       - ".github/workflows/joss-paper.yml"

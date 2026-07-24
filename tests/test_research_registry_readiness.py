@@ -43,3 +43,7 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7861466"
     assert "submission `7861466` is complete" in plan
     assert handoff["joss_submission_evidence"]["selected_route"] == "direct_joss"
+    assert (
+        handoff["joss_submission_evidence"]["status"]
+        == "repository_ready_pending_external_evidence"
+    )

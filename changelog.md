@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added cross-file JOSS preflight checks for CFF and CodeMeta release metadata,
+  including version, repository, licence, URL, ORCID, release, and download
+  identity checks, and run the hosted JOSS build when either metadata file
+  changes.
 - Added current-format JOSS paper content, concrete research-use and
   software-design evidence, transparent AI disclosure, a Software Heritage
   citation, a fail-closed manuscript validator, and a pinned Open Journals
