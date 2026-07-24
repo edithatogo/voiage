@@ -51,7 +51,10 @@
 
 - [x] Generate the test-linked comparison. (`2630e39`; clean competitor-absent
   isolation tests remain part of the implementation phase)
-- [ ] Run license, provenance, docs, and complete quality gates.
+- [x] Run license, provenance, docs, and complete quality gates.
+  (`f32573d`; license/disposition schemas, deterministic generated registries,
+  Astro/polyglot docs, all 13 tox environments, 91.00% coverage, the
+  27-workflow repository harness, and live GitHub reconciliation passed)
 - [x] Schedule quarterly and pre-minor-release refresh checks. (`6e3ebb1`)
 - [x] Include registry, toolchain, lockfile, action, and source-pinned
   documentation-plugin drift in evidence-preserving refresh proposals that

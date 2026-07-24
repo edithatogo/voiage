@@ -51,7 +51,11 @@
 
 ## Phase 3: Review and freeze
 
-- [ ] Run registry, citation, SourceRight, docs, and full repository gates.
+- [x] Run registry, citation, SourceRight, docs, and full repository gates.
+  (`f32573d`; generated registries and the freeze candidate were current,
+  SourceRight reported zero diagnostics on a temporary normalized CSL
+  projection, all 13 tox environments passed with 91.00% coverage, and the
+  live GitHub programme validator and 27-workflow repository harness passed)
 - [x] Generate a deterministic, hash-bound scientific-review candidate that
   joins all method maturity, evidence, implementation-authority, remaining-gate,
   and DecisionProblemV2 compatibility records without recording approval.
@@ -82,3 +86,6 @@
 - [x] Correct the census after the external-software refresh found that the
   existing calibration VOI runtime and primary calibration-target literature
   were missing from the canonical method registry. (`7443253`)
+- [x] Apply Ruff formatting to the trusted-publishing workflow assertion after
+  the complete repository gate exposed pre-existing formatting drift.
+  (`f32573d`)
