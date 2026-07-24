@@ -1,12 +1,21 @@
 # Project Tracks
 
-- [~] **Track: Standardized Dataset Ingestion**
+## [~] Track: Conductor GitHub Cross-Reference Reconciliation
+*Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
+*GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
+native sub-issue of [#322](https://github.com/edithatogo/voiage/issues/322),
+in [Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — all completed-track issues and native hierarchy links
+exist; repository manifest, validation, and PR handoff are being finalized.*
+
+---
+
+## [~] Track: Standardized Dataset Ingestion
   *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: in progress — planning review recommendations are being reconciled;
-  functional implementation has not started.*
+  *Status: in progress — functional implementation is under hosted validation.*
 
 ---
 

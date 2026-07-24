@@ -29,6 +29,10 @@
     "https://github.com/edithatogo/voiage/issues/468"
   ],
   "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/325",
+    "pull_request": "https://github.com/edithatogo/voiage/pull/334"
+  },
   "gates": [
     {
       "id": "specification-and-plan-approval",

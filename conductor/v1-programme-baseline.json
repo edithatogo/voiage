@@ -20,6 +20,7 @@
   },
   "conductor": {
     "active_track_ids": [
+      "conductor-github-cross-reference-reconciliation_20260724",
       "research_software_registry_readiness_20260721",
       "standardized-dataset-ingestion_20260723"
     ],
@@ -30,6 +31,7 @@
       ],
       "historical_groundwork": "conductor/archive/",
       "post_v1_or_optional": [
+        "conductor-github-cross-reference-reconciliation_20260724",
         "research_software_registry_readiness_20260721",
         "standardized-dataset-ingestion_20260723",
         "accelerator production-speedup evidence",

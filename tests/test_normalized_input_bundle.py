@@ -5,8 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pyarrow as pa
 from jsonschema import Draft202012Validator
+import pyarrow as pa
 from pydantic import ValidationError
 import pytest
 
