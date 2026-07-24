@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Recorded the repository maintainer's hash-bound scientific-contract approval
+  for the v1.1 method freeze while retaining every implementation, numerical,
+  binding, release, publication, and external gate.
 - Added a fail-closed, append-only scientific-freeze approval recorder that
   binds an accountable human decision to the exact candidate artifact and
   requested decisions, rejects stale digests and incomplete evidence, and

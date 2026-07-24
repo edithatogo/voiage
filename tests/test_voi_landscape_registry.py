@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
+from hashlib import sha256
 import json
 from pathlib import Path
 import subprocess
@@ -30,6 +31,8 @@ FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
 FREEZE_CANDIDATE_SCHEMA = LANDSCAPE / "v1.1-scientific-freeze-candidate.schema.json"
+FREEZE_APPROVAL = LANDSCAPE / "v1.1-scientific-freeze-approval.json"
+FREEZE_APPROVAL_SCHEMA = LANDSCAPE / "v1.1-scientific-freeze-approval.schema.json"
 DECISION_PROBLEM_SCHEMA = (
     ROOT / "specs" / "core-api" / "schemas" / "v2" / "decision-problem.schema.json"
 )
@@ -519,6 +522,34 @@ def test_v1_1_scientific_freeze_candidate_is_current_and_fail_closed() -> None:
         if record["method_id"] == "net-benefit"
     )
     assert net_benefit["remaining_implementation_gate"] == "stable-rust-authority"
+
+
+def test_v1_1_scientific_freeze_approval_is_exactly_candidate_bound() -> None:
+    """The checked-in human approval must bind the immutable review candidate."""
+    candidate = _read_json(FREEZE_CANDIDATE)
+    approval = _read_json(FREEZE_APPROVAL)
+    schema = _read_json(FREEZE_APPROVAL_SCHEMA)
+    assert isinstance(candidate, dict)
+    assert isinstance(approval, dict)
+    assert isinstance(schema, dict)
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(approval)
+    assert approval["candidate_digest"] == candidate["candidate_digest"]
+    assert (
+        approval["candidate_artifact_sha256"]
+        == sha256(FREEZE_CANDIDATE.read_bytes()).hexdigest()
+    )
+    assert approval["approved_by"] == "edithatogo (repository maintainer)"
+    assert approval["status"] == "approved"
+    assert approval["decision_scope"] == "scientific-contract-only"
+    assert approval["non_waived_gates"] == [
+        "implementation",
+        "numerical-validation",
+        "binding-conformance",
+        "release",
+        "publication",
+        "external",
+    ]
 
 
 def test_native_or_equivalent_external_claims_have_independent_fixtures() -> None:
