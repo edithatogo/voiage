@@ -1,0 +1,5 @@
+Task: Record fail-closed scientific approval tooling
+Summary: Completed the approval-recorder task and appended its exact validation evidence while preserving pending human approval.
+Files: method-census plan.md and evidence.jsonl
+Why: Keep Conductor state aligned with the implemented approval boundary without claiming approval.
+Verification: Evidence JSONL parsed; eight focused tests passed; live GitHub programme validation passed; git diff --check passed.
