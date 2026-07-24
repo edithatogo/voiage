@@ -111,6 +111,11 @@ def test_preparation_preserves_explicit_binding_and_digest() -> None:
     assert prepared.net_benefits.strategy_names == ["A", "B"]
     assert prepared.net_benefits.numpy_values.tolist() == [[1.0, 2.0], [3.0, 1.0]]
     assert prepared.input_digest == _bundle().content_digest
+    assert prepared.quality_report.table_id == "net_benefit"
+    assert prepared.quality_report.selected_field_ids == ("strategy_a", "strategy_b")
+    assert prepared.quality_report.row_count == 2
+    assert prepared.quality_report.null_counts == {"strategy_a": 0, "strategy_b": 0}
+    assert prepared.quality_report.population_transforms == ()
 
 
 def test_manifest_matches_published_json_schema() -> None:
