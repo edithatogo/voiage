@@ -23,7 +23,10 @@
 - [x] Verify primary citations and classify estimand versus estimator.
   (`ab55c1e`; 41 source-verified and 19 explicitly contract-verified records,
   with no unresolved triage state)
-- [~] Reconcile code, schemas, maturity, docs, roadmap, and fixtures.
+- [x] Reconcile code, schemas, maturity, docs, roadmap, and fixtures.
+  (`3112d69`; corrected unsupported expected-loss and nested-MC EVPPI claims,
+  and added generated implementation, test, authority, and remaining-gate
+  evidence for every native method)
 - [x] Generate capability and method matrices. (`2630e39`)
 - [x] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
   robust EIG, validation-study EVSI, and other genuinely distinct estimands
@@ -38,9 +41,11 @@
 - [x] Reconcile VOP against preference, equity, heterogeneity, scenario, and
   robust-decision methods so perspective is not collapsed into those concepts.
   (`6e3ebb1`)
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update. (`3112d69`)
+- [x] Automated review and validation checkpoint. (`3112d69`; 202 mapped
+  Python tests and the complete `voiage-numerics` crate test suite passed;
+  no additional correctness finding remained)
 - [ ] Conductor - User Manual Verification 'Phase 2: Census and reconciliation'
   (Protocol in workflow.md).
 
