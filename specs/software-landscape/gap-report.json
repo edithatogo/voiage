@@ -7,18 +7,18 @@
     "review_due": "2026-10-23"
   },
   "summary": {
-    "external_tools": 26,
-    "canonical_methods": 60,
+    "external_tools": 27,
+    "canonical_methods": 61,
     "external_feature_states": {
       "adapter": 1,
       "equivalent": 1,
       "excluded": 1,
       "native": 2,
       "not-reproducible": 5,
-      "planned": 29
+      "planned": 30
     },
-    "open_feature_gaps": 36,
-    "open_method_or_assurance_gaps": 58
+    "open_feature_gaps": 37,
+    "open_method_or_assurance_gaps": 59
   },
   "feature_gaps": [
     {
@@ -34,6 +34,20 @@
         "https://docs.analytica.com/"
       ],
       "voiage_evidence": "Core estimands exist, but proprietary workflow and numerical details are not reproducible."
+    },
+    {
+      "tool_id": "bayescal-voi",
+      "feature_id": "bayescal-gaussian-process-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "calibration-voi",
+        "bayesian-oed"
+      ],
+      "evidence": [
+        "https://github.com/mal84emma/BayesCal-VOI",
+        "https://doi.org/10.1016/j.jval.2024.10.788"
+      ],
+      "voiage_evidence": "VOIAGE has an experimental calibration-study estimand, but not an independently reproduced Gaussian-process calibration estimator or reference fixture."
     },
     {
       "tool_id": "bceaweb",
@@ -561,11 +575,25 @@
       "authority_state": "not-implemented",
       "remaining_implementation_gate": "implementation",
       "affected_tool_ids": [
+        "bayescal-voi",
         "emukit",
         "kirstine",
         "pyro-oed"
       ],
       "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "calibration-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "bayescal-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
     },
     {
       "method_id": "causal-transportability-voi",

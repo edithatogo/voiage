@@ -14,10 +14,10 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 
 ## Coverage summary
 
-- 28 software or binding records across 7 ecosystems.
-- 60 canonical VOI, VOP, estimator, visualization, and related-method records.
-- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 29.
-- 36 external feature gaps and 58 method or assurance gaps remain routed to Conductor tracks.
+- 29 software or binding records across 7 ecosystems.
+- 61 canonical VOI, VOP, estimator, visualization, and related-method records.
+- Parity dispositions: `adapter` 2, `equivalent` 1, `excluded` 1, `native` 3, `not-reproducible` 5, `planned` 30.
+- 37 external feature gaps and 59 method or assurance gaps remain routed to Conductor tracks.
 
 ## Software landscape
 
@@ -46,6 +46,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | [surveyvoi](https://cran.r-project.org/package=surveyvoi) | r | voi-library | maintained | 1.1.1 | 2 |
 | [voi](https://cran.r-project.org/package=voi) | r | voi-library | maintained | 1.0.3 | 4 |
 | [VOI Gaussian Approximation supplement](https://github.com/feralaes/VOI-Gaussian-Approximation) | r | voi-library | limited | 756b15b | 1 |
+| [BayesCal-VOI](https://github.com/mal84emma/BayesCal-VOI) | rust | voi-library | maintained | 0.1.0+d9d3993 | 1 |
 | [voiage Rust core](https://github.com/edithatogo/voiage) | rust | voi-library | maintained | 1.0.0 | 1 |
 | [BCEAweb](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | web | web-application | unknown | unverified | 1 |
 | [Rapid Assessment of Need for Evidence](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | web | web-application | unknown | unverified | 1 |
@@ -90,6 +91,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | voi | [Regression, moment-matching and importance-sampling EVSI](https://search.r-project.org/CRAN/refmans/voi/html/evsi.html) | estimator | `evsi-regression`, `evsi-moment-matching`, `evsi-importance-sampling` | `planned` | Regression and moment-based estimators exist; importance-sampling equivalence remains planned. |
 | voi | [Tidy results and VOI plotting](https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html) | workflow | `voi-curve`, `expected-loss-curve` | `planned` | VOI curves exist; tidy result and expected-loss projection require conformance evidence. |
 | VOI Gaussian Approximation supplement | [General Gaussian-approximation EVPPI and EVSI workflow](https://github.com/feralaes/VOI-Gaussian-Approximation) | estimator | `evppi-regression`, `evsi-regression` | `planned` | Regression estimators exist, but the published Gaussian-approximation algorithm and independent reference fixture have not been reproduced. |
+| BayesCal-VOI | [Gaussian-process value of information for Bayesian calibration](https://github.com/mal84emma/BayesCal-VOI) | estimand | `calibration-voi`, `bayesian-oed` | `planned` | VOIAGE has an experimental calibration-study estimand, but not an independently reproduced Gaussian-process calibration estimator or reference fixture. |
 | voiage Rust core | [Rust-authoritative stable decision-VOI kernels](https://github.com/edithatogo/voiage) | workflow | `evpi`, `evppi`, `evsi`, `enbs`, `ceaf`, `dominance`, `structural-voi` | `native` | rust/crates/voiage-numerics and shared fixtures |
 | BCEAweb | [Web economic evaluation and BCEA VOI workflow](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | workflow | `evpi`, `evppi`, `ceac`, `ceaf` | `not-reproducible` | Only literature-described behavior is recorded. |
 | Rapid Assessment of Need for Evidence | [Rapid minimal-model research-need assessment](https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/) | workflow | `evpi`, `evsi`, `optimal-study-design` | `not-reproducible` | Literature triage only; current service behavior was not verified. |
@@ -105,6 +107,7 @@ the capability is not yet evidenced as equivalent in VOIAGE.
 | `active-learning` | Active and batch-active learning | workflow | must | `planned` | `planned` | `not-implemented` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
 | `agent-information-voi` | Agent tool-call, delegation and consultation value | application | must | `planned` | `planned` | `not-implemented` | `contract-verified` | `requires-decision-problem-v2` | `method-contract-and-fixtures` |
 | `bayesian-oed` | Bayesian optimal experimental design | workflow | must | `planned` | `planned` | `not-implemented` | `primary-verified` | `information-theoretic-only` | `independent-replication` |
+| `calibration-voi` | Value of information for model calibration and calibration-target data | estimand | should | `native` | `experimental` | `python-experimental` | `primary-verified` | `requires-decision-problem-v2` | `independent-replication` |
 | `causal-transportability-voi` | Causal identification, transportability and external-validity value | estimand | should | `native` | `experimental` | `python-experimental` | `contract-verified` | `requires-decision-problem-v2` | `method-contract-and-fixtures` |
 | `cea-plane` | Cost-effectiveness plane | visualization | should | `native` | `stable` | `visualization-only` | `primary-verified` | `derived-decision-output` | `none` |
 | `ceac` | Cost-effectiveness acceptability curve | visualization | must | `native` | `stable` | `visualization-only` | `primary-verified` | `derived-decision-output` | `none` |

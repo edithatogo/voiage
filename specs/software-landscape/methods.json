@@ -36,6 +36,7 @@
     {"id":"robust-perspective-decisions","label":"Consensus, robust, maximin and minimax-regret perspective decisions","class":"workflow","moscow":"should","voiage_state":"planned","maturity":"planned"},
     {"id":"structural-voi","label":"Structural and model-form value of information","class":"estimand","moscow":"must","voiage_state":"native","maturity":"stable"},
     {"id":"nma-voi","label":"Network meta-analysis value of information","class":"application","moscow":"must","voiage_state":"native","maturity":"stable"},
+    {"id":"calibration-voi","label":"Value of information for model calibration and calibration-target data","class":"estimand","moscow":"should","voiage_state":"native","maturity":"experimental"},
     {"id":"sequential-voi","label":"Sequential and adaptive value of information","class":"estimand","moscow":"should","voiage_state":"native","maturity":"experimental"},
     {"id":"real-options-voi","label":"Dynamic real-options value of information","class":"estimand","moscow":"should","voiage_state":"native","maturity":"experimental"},
     {"id":"portfolio-voi","label":"Portfolio and budget-constrained research value","class":"workflow","moscow":"should","voiage_state":"native","maturity":"experimental"},

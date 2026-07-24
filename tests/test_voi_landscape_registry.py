@@ -73,6 +73,7 @@ def test_required_ecosystems_and_seed_tools_are_present() -> None:
         "r-predtools",
         "r-metanb",
         "gaussian-voi-supplement",
+        "bayescal-voi",
         "metavoi",
         "nrel-geothermal-voi",
     } <= ids

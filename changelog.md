@@ -28,9 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   authority, maturity, and remaining promotion gate.
 - Added verified landscape records for ecological survey design, external
   prediction-model validation, heterogeneous meta-analysis, Gaussian
-  approximation, meta-analysis study design, and geothermal imperfect
-  information after the refreshed registry and repository search found these
-  previously omitted capabilities.
+  approximation, Bayesian calibration, meta-analysis study design, and
+  geothermal imperfect information after the refreshed registry and repository
+  search found these previously omitted capabilities.
+- Added calibration VOI to the canonical method and implementation-evidence
+  registries after reconciling the existing experimental runtime and primary
+  calibration-target literature.
 - Added method-level scientific dispositions for all 60 canonical methods,
   explicit classifications for 15 adjacent VOI concepts, a backend-neutral
   DecisionProblemV2 interchange schema, competitor-free positive-parity

@@ -2,6 +2,18 @@
   "schema_version": "1.0.0",
   "records": [
     {
+      "method_id": "calibration-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/calibration.py"
+      ],
+      "test_paths": [
+        "tests/test_calibration.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
       "method_id": "causal-transportability-voi",
       "maturity": "experimental",
       "authority_state": "python-experimental",

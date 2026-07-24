@@ -65,6 +65,13 @@ SOURCES = {
         "https://doi.org/10.1177/0272989X251314010",
         "doi:10.1177/0272989X251314010",
     ),
+    "mohammed-calibration-target-voi": (
+        "Deriving Decision Uncertainty Associated With Calibration Target Data: "
+        "A Value of Information Approach",
+        "primary-paper",
+        "https://doi.org/10.1016/j.jval.2024.10.788",
+        "doi:10.1016/j.jval.2024.10.788",
+    ),
     "zan-bickel-portfolio": (
         "Components of Portfolio Value of Information",
         "primary-paper",
@@ -168,6 +175,7 @@ SOURCE_OVERRIDES = {
     "preference-voi": ("basu-individualized-care",),
     "implementation-voi": ("andronis-implementation",),
     "validation-voi": ("sadatsafavi-validation-evsi",),
+    "calibration-voi": ("mohammed-calibration-target-voi",),
     "portfolio-voi": ("zan-bickel-portfolio",),
     "population-evpi": ("ispor-voi-task-force",),
     "expected-loss": ("ispor-voi-task-force",),

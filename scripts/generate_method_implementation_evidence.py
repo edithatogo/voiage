@@ -114,6 +114,11 @@ EVIDENCE = {
         "tests/test_network_meta_analysis.py",
         "rust-backed-python-orchestration",
     ),
+    "calibration-voi": (
+        "voiage/methods/calibration.py",
+        "tests/test_calibration.py",
+        "python-experimental",
+    ),
     "sequential-voi": (
         "voiage/methods/sequential.py",
         "tests/test_sequential.py",
