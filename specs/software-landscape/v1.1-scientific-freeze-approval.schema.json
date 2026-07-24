@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/v1.1-scientific-freeze-approval.schema.json",
+  "title": "VOIAGE v1.1 scientific freeze approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_target",
+    "status",
+    "decision_scope",
+    "candidate_digest",
+    "candidate_artifact_sha256",
+    "candidate_path",
+    "approved_by",
+    "approved_at",
+    "evidence",
+    "requested_decisions_sha256",
+    "non_waived_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "release_target": {"const": "v1.1"},
+    "status": {"const": "approved"},
+    "decision_scope": {"const": "scientific-contract-only"},
+    "candidate_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidate_artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidate_path": {
+      "const": "specs/software-landscape/v1.1-scientific-freeze-candidate.json"
+    },
+    "approved_by": {
+      "type": "string",
+      "minLength": 3
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https://"
+      }
+    },
+    "requested_decisions_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "non_waived_gates": {
+      "const": [
+        "implementation",
+        "numerical-validation",
+        "binding-conformance",
+        "release",
+        "publication",
+        "external"
+      ]
+    }
+  }
+}

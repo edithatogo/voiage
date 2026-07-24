@@ -8,7 +8,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import sys
-from typing import Any
+from typing import Any, cast
 
 ROOT = Path(__file__).parents[1]
 LANDSCAPE = ROOT / "specs" / "software-landscape"
@@ -145,12 +145,9 @@ def _table(records: list[dict[str, str]]) -> list[str]:
 
 
 def _document(candidate: dict[str, object]) -> str:
-    stable = candidate["stable_methods"]
-    experimental = candidate["experimental_methods"]
-    planned = candidate["planned_methods"]
-    assert isinstance(stable, list)
-    assert isinstance(experimental, list)
-    assert isinstance(planned, list)
+    stable = cast("list[dict[str, str]]", candidate["stable_methods"])
+    experimental = cast("list[dict[str, str]]", candidate["experimental_methods"])
+    planned = cast("list[dict[str, str]]", candidate["planned_methods"])
     lines = [
         "---",
         "title: v1.1 scientific freeze review",
@@ -189,6 +186,15 @@ def _document(candidate: dict[str, object]) -> str:
         "`pending-human-review`. No agent, test, generated document, or CI result",
         "can change this state. Approval evidence must identify this exact digest and",
         "an accountable human reviewer.",
+        "",
+        "## Recording an approval",
+        "",
+        "After an accountable human explicitly approves this exact digest, use",
+        "`scripts/record_scientific_freeze_approval.py` with the digest, reviewer,",
+        "UTC approval time, and an absolute HTTPS evidence reference. The recorder",
+        "creates a separate append-only artifact and refuses stale digests or",
+        "overwrites. It does not waive implementation, validation, binding, release,",
+        "publication, or external gates.",
         "",
     ]
     return "\n".join(lines)

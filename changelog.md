@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a fail-closed, append-only scientific-freeze approval recorder that
+  binds an accountable human decision to the exact candidate artifact and
+  requested decisions, rejects stale digests and incomplete evidence, and
+  leaves implementation, validation, binding, release, publication, and
+  external gates open.
 - Added a Rust-authoritative expected opportunity-loss kernel, typed Python
   result, canonical serialization schema, analytical/property tests, and a
   public `expected_loss` API whose selected loss agrees with EVPI.

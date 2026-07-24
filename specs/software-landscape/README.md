@@ -37,6 +37,11 @@ It records observable capabilities rather than marketing parity.
   authority, remaining gates, and the additive DecisionProblemV2 contract. Its
   approval state remains fail-closed until an accountable human explicitly
   approves the exact candidate digest.
+- `v1.1-scientific-freeze-approval.schema.json` governs the separate approval
+  record created by `scripts/record_scientific_freeze_approval.py`. The
+  recorder binds the candidate artifact and requested decisions, refuses stale
+  digests and overwrites, and leaves implementation, numerical validation,
+  binding conformance, release, publication, and external gates open.
 - `ecosystem-drift-baseline.json` and
   `ecosystem-drift-proposal.schema.json` cover the software registry,
   language/toolchain constraints, lockfiles, GitHub Action references, and the

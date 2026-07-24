@@ -99,3 +99,12 @@ v1 inputs remain readable and must losslessly map into the v2 representation.
 `pending-human-review`. No agent, test, generated document, or CI result
 can change this state. Approval evidence must identify this exact digest and
 an accountable human reviewer.
+
+## Recording an approval
+
+After an accountable human explicitly approves this exact digest, use
+`scripts/record_scientific_freeze_approval.py` with the digest, reviewer,
+UTC approval time, and an absolute HTTPS evidence reference. The recorder
+creates a separate append-only artifact and refuses stale digests or
+overwrites. It does not waive implementation, validation, binding, release,
+publication, or external gates.
