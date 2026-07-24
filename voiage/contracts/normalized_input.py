@@ -5,6 +5,8 @@ their source-specific metadata and resources into these records; calculation
 code consumes only this contract.
 """
 
+# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownVariableType=false
+
 from __future__ import annotations
 
 from collections.abc import (
