@@ -9,7 +9,7 @@ from .base import (
 from .croissant import CroissantProvider
 from .dataframe import from_dataframe
 from .frictionless import FrictionlessProvider
-from .registry import ProviderRegistry, default_registry
+from .registry import ProviderRegistry, default_registry, discover_entry_point_providers
 
 __all__ = [
     "CroissantProvider",
@@ -20,5 +20,6 @@ __all__ = [
     "ProviderRegistry",
     "SourceAccessPolicy",
     "default_registry",
+    "discover_entry_point_providers",
     "from_dataframe",
 ]
