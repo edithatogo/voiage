@@ -64,8 +64,12 @@ def normalize(
 def calculate_from_dataset(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
     table: str = typer.Option(..., "--table", help="Explicit normalized table ID."),
-    field: list[str] = typer.Option(..., "--field", help="Net-benefit field; repeat per strategy."),
-    strategy: list[str] = typer.Option([], "--strategy", help="Optional strategy name; repeat in field order."),
+    field: list[str] = typer.Option(
+        ..., "--field", help="Net-benefit field; repeat per strategy."
+    ),
+    strategy: list[str] = typer.Option(
+        [], "--strategy", help="Optional strategy name; repeat in field order."
+    ),
 ) -> None:
     """Calculate EVPI from explicitly selected normalized net-benefit fields."""
     try:
@@ -77,14 +81,18 @@ def calculate_from_dataset(
             strategy_names=tuple(strategy),
         )
         manifest = DatasetManifest(
-            **bundle.manifest.model_dump(mode="python", exclude={"bindings"}), bindings=(binding,)
+            **bundle.manifest.model_dump(mode="python", exclude={"bindings"}),
+            bindings=(binding,),
         )
         prepared = prepare_analysis_inputs(
             NormalizedInputBundle(manifest=manifest, tables=bundle.tables)
         )
         typer.echo(
             json.dumps(
-                {"evpi": evpi(prepared.net_benefits), "input_digest": prepared.input_digest},
+                {
+                    "evpi": evpi(prepared.net_benefits),
+                    "input_digest": prepared.input_digest,
+                },
                 sort_keys=True,
             )
         )

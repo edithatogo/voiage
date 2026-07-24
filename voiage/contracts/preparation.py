@@ -25,7 +25,9 @@ class PreparedAnalysisInputs:
 
 def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisInputs:
     """Prepare a wide net-benefit binding without implicit filtering or coercion."""
-    bindings = tuple(item for item in bundle.manifest.bindings if item.role == "net_benefit")
+    bindings = tuple(
+        item for item in bundle.manifest.bindings if item.role == "net_benefit"
+    )
     if len(bindings) != 1:
         raise ValueError("exactly one net_benefit binding is required")
     binding = bindings[0]

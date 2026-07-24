@@ -17,7 +17,9 @@ class ProviderRegistry:
     def __init__(self, providers: tuple[IngestionProvider, ...] = ()) -> None:
         self._providers = providers
 
-    def ingest(self, descriptor_path: Path, *, policy: SourceAccessPolicy | None = None) -> NormalizedInputBundle:
+    def ingest(
+        self, descriptor_path: Path, *, policy: SourceAccessPolicy | None = None
+    ) -> NormalizedInputBundle:
         """Choose exactly one recognizer and convert its descriptor."""
         try:
             descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
@@ -25,9 +27,13 @@ class ProviderRegistry:
             raise IngestionError("descriptor is not valid UTF-8 JSON") from error
         if not isinstance(descriptor, dict):
             raise IngestionError("descriptor root must be a JSON object")
-        matches = tuple(provider for provider in self._providers if provider.can_handle(descriptor))
+        matches = tuple(
+            provider for provider in self._providers if provider.can_handle(descriptor)
+        )
         if len(matches) != 1:
-            raise IngestionError("descriptor must match exactly one registered provider")
+            raise IngestionError(
+                "descriptor must match exactly one registered provider"
+            )
         return matches[0].ingest(
             descriptor_path, policy=policy or SourceAccessPolicy(descriptor_path.parent)
         )

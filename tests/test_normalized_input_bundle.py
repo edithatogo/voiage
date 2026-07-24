@@ -76,7 +76,9 @@ def test_bundle_rejects_stale_binding_reference() -> None:
                 ),
             ),
             provenance=SourceProvenance(
-                provider_id="direct", source_uri="file:///input", descriptor_digest="a" * 64
+                provider_id="direct",
+                source_uri="file:///input",
+                descriptor_digest="a" * 64,
             ),
             bindings=(
                 VOIBinding(

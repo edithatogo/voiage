@@ -16,7 +16,13 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         json.dumps(
             {
                 "name": "cli-fixture",
-                "resources": [{"name": "samples", "path": "samples.csv", "schema": {"fields": [{"name": "a"}, {"name": "b"}]}}],
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ],
             }
         ),
         encoding="utf-8",
@@ -25,7 +31,9 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
 
     inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
     output = tmp_path / "normalized.arrow"
-    normalized = runner.invoke(app, ["ingest", "normalize", str(descriptor), "--output", str(output)])
+    normalized = runner.invoke(
+        app, ["ingest", "normalize", str(descriptor), "--output", str(output)]
+    )
     calculated = runner.invoke(
         app,
         [

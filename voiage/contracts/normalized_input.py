@@ -116,17 +116,24 @@ class DatasetManifest(ContractModel):
         for binding in self.bindings:
             table = table_map.get(binding.table_id)
             if table is None:
-                raise ValueError(f"binding references unknown table {binding.table_id!r}")
+                raise ValueError(
+                    f"binding references unknown table {binding.table_id!r}"
+                )
             available = {field.field_id for field in table.fields}
             unknown = set(binding.field_ids).difference(available)
             if unknown:
-                raise ValueError(f"binding references unknown field(s): {sorted(unknown)}")
+                raise ValueError(
+                    f"binding references unknown field(s): {sorted(unknown)}"
+                )
         return self
 
     def canonical_json(self) -> str:
         """Return deterministic JSON used for metadata and content identity."""
         return json.dumps(
-            self.model_dump(mode="json"), ensure_ascii=False, separators=(",", ":"), sort_keys=True
+            self.model_dump(mode="json"),
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
         )
 
 
@@ -137,7 +144,9 @@ class NormalizedInputBundle:
     logical schemas and supports zero-copy handoff to Polars and other engines.
     """
 
-    def __init__(self, *, manifest: DatasetManifest, tables: Mapping[str, pa.Table]) -> None:
+    def __init__(
+        self, *, manifest: DatasetManifest, tables: Mapping[str, pa.Table]
+    ) -> None:
         expected = {table.table_id for table in manifest.tables}
         actual = set(tables)
         if expected != actual:
@@ -169,7 +178,9 @@ class NormalizedInputBundle:
             name: schema_fingerprint(self.tables[name].schema)
             for name in sorted(self.tables)
         }
-        return sha256(json.dumps(payload, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
+        return sha256(
+            json.dumps(payload, separators=(",", ":"), sort_keys=True).encode()
+        ).hexdigest()
 
     @property
     def content_digest(self) -> str:
@@ -194,7 +205,9 @@ class NormalizedInputBundle:
             b"voiage.normalized.table_id": table_name.encode(),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
-        with ipc.new_file(path, table.replace_schema_metadata(metadata).schema) as writer:
+        with ipc.new_file(
+            path, table.replace_schema_metadata(metadata).schema
+        ) as writer:
             writer.write_table(table.replace_schema_metadata(metadata))
 
     @classmethod
@@ -204,8 +217,12 @@ class NormalizedInputBundle:
             table = reader.read_all()
         metadata = table.schema.metadata or {}
         try:
-            manifest = DatasetManifest.model_validate_json(metadata[b"voiage.normalized.manifest"])
+            manifest = DatasetManifest.model_validate_json(
+                metadata[b"voiage.normalized.manifest"]
+            )
             table_name = metadata[b"voiage.normalized.table_id"].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized IPC file") from error
-        return cls(manifest=manifest, tables={table_name: table.replace_schema_metadata(None)})
+        return cls(
+            manifest=manifest, tables={table_name: table.replace_schema_metadata(None)}
+        )

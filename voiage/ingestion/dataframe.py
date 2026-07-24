@@ -28,7 +28,9 @@ def from_dataframe(
     try:
         table = arrow_from_dataframe(dataframe)
     except (TypeError, ValueError, pa.ArrowException) as error:
-        raise ValueError("input does not implement the dataframe interchange protocol") from error
+        raise ValueError(
+            "input does not implement the dataframe interchange protocol"
+        ) from error
     descriptor_digest = hashlib.sha256(
         f"dataframe-interchange:{dataset_id}:{table_id}".encode()
     ).hexdigest()

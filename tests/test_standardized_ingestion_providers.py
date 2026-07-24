@@ -28,7 +28,9 @@ def _write_csv(tmp_path) -> None:
                 "@context": "http://mlcommons.org/croissant/1.1",
                 "name": "ml-fixture",
                 "distribution": [{"contentUrl": "samples.csv"}],
-                "recordSet": [{"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
             },
         ),
         (
@@ -46,7 +48,9 @@ def _write_csv(tmp_path) -> None:
         ),
     ],
 )
-def test_built_in_providers_normalize_supported_csv_profile(tmp_path, name, descriptor) -> None:
+def test_built_in_providers_normalize_supported_csv_profile(
+    tmp_path, name, descriptor
+) -> None:
     _write_csv(tmp_path)
     descriptor_path = tmp_path / name
     descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
@@ -66,8 +70,12 @@ def test_source_policy_blocks_path_traversal_and_network(tmp_path) -> None:
         policy.resolve("https://example.invalid/input.csv")
 
 
-def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> None:
-    bundle = from_dataframe(pl.DataFrame({"a": [1.0], "b": [2.0]}), dataset_id="business")
+def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> (
+    None
+):
+    bundle = from_dataframe(
+        pl.DataFrame({"a": [1.0], "b": [2.0]}), dataset_id="business"
+    )
 
     assert bundle.manifest.provenance.provider_id == "dataframe-interchange"
     assert bundle.table("data").column_names == ["a", "b"]

@@ -28,23 +28,35 @@ class CroissantProvider:
         context = descriptor.get("@context")
         return isinstance(context, str) and "mlcommons.org/croissant" in context
 
-    def ingest(self, descriptor_path: Path, *, policy: SourceAccessPolicy) -> NormalizedInputBundle:
+    def ingest(
+        self, descriptor_path: Path, *, policy: SourceAccessPolicy
+    ) -> NormalizedInputBundle:
         """Materialize the supported, unambiguous one-resource Croissant profile."""
         raw = json.loads(descriptor_path.read_text(encoding="utf-8"))
         descriptor = cast("dict[str, object]", raw)
         record_sets = descriptor.get("recordSet")
         distributions = descriptor.get("distribution")
         if not isinstance(record_sets, list) or len(record_sets) != 1:
-            raise IngestionError("supported Croissant profile requires exactly one recordSet")
+            raise IngestionError(
+                "supported Croissant profile requires exactly one recordSet"
+            )
         if not isinstance(distributions, list) or len(distributions) != 1:
-            raise IngestionError("supported Croissant profile requires exactly one distribution")
+            raise IngestionError(
+                "supported Croissant profile requires exactly one distribution"
+            )
         record_set = cast("dict[str, object]", record_sets[0])
         distribution = cast("dict[str, object]", distributions[0])
         table_id = record_set.get("name")
         reference = distribution.get("contentUrl")
         fields = record_set.get("field")
-        if not isinstance(table_id, str) or not isinstance(reference, str) or not isinstance(fields, list):
-            raise IngestionError("Croissant recordSet requires name, field, and distribution contentUrl")
+        if (
+            not isinstance(table_id, str)
+            or not isinstance(reference, str)
+            or not isinstance(fields, list)
+        ):
+            raise IngestionError(
+                "Croissant recordSet requires name, field, and distribution contentUrl"
+            )
         table = read_csv(reference, policy)
         manifest_fields = tuple(
             FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
@@ -53,8 +65,12 @@ class CroissantProvider:
             for name in [item.get("name")]
             if isinstance(name, str) and name in table.column_names
         )
-        if tuple(field.field_id for field in manifest_fields) != tuple(table.column_names):
-            raise IngestionError("Croissant fields must exactly declare the CSV columns")
+        if tuple(field.field_id for field in manifest_fields) != tuple(
+            table.column_names
+        ):
+            raise IngestionError(
+                "Croissant fields must exactly declare the CSV columns"
+            )
         digest = hashlib.sha256(descriptor_path.read_bytes()).hexdigest()
         return NormalizedInputBundle(
             manifest=DatasetManifest(

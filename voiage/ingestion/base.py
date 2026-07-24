@@ -43,5 +43,7 @@ class IngestionProvider(Protocol):
     def can_handle(self, descriptor: dict[str, object]) -> bool:
         """Return whether this provider recognizes the already-read descriptor."""
 
-    def ingest(self, descriptor_path: Path, *, policy: SourceAccessPolicy) -> NormalizedInputBundle:
+    def ingest(
+        self, descriptor_path: Path, *, policy: SourceAccessPolicy
+    ) -> NormalizedInputBundle:
         """Parse one descriptor and materialize its explicitly declared resources."""
