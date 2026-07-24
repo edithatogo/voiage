@@ -53,8 +53,9 @@
   isolation tests remain part of the implementation phase)
 - [ ] Run license, provenance, docs, and complete quality gates.
 - [x] Schedule quarterly and pre-minor-release refresh checks. (`6e3ebb1`)
-- [ ] Include registry, toolchain, lockfile, action, and source-pinned
-  documentation-plugin drift in evidence-preserving refresh proposals.
+- [x] Include registry, toolchain, lockfile, action, and source-pinned
+  documentation-plugin drift in evidence-preserving refresh proposals that
+  cannot auto-apply or change scientific dispositions. (`534d7a1`)
 - [~] Produce a machine-readable gap report and bounded GitHub triage updates;
   never generate duplicate issues or overwrite human notes.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
