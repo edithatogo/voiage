@@ -176,11 +176,11 @@ try:
     # Try to import optional dependencies
     SKLEARN_AVAILABLE = False
     try:
-        import sklearn  # noqa: F401
+        from sklearn import __version__ as _sklearn_version
 
-        SKLEARN_AVAILABLE = True
+        SKLEARN_AVAILABLE = bool(_sklearn_version)
     except ImportError:
-        pass
+        SKLEARN_AVAILABLE = False
 
     class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""
@@ -215,12 +215,6 @@ try:
 
                 # Calculate the expected net benefit for each decision option
                 expected_nb_options = jnp.mean(nb_array, axis=0)
-
-                # Find the maximum expected net benefit
-                max_expected_nb = jnp.max(expected_nb_options)
-
-                # Calculate the expected maximum net benefit
-                expected_max_nb = jnp.mean(max_nb)
 
                 # Optimized calculation with memory efficiency
                 with jax.default_matmul_precision("float32"):
