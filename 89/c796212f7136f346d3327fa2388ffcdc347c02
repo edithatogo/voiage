@@ -1,0 +1,9 @@
+Task: Reduce CodeQL ambiguity in metamodel tests and observational example.
+
+Summary: Replaced exception-swallowing optional metamodel test paths with explicit dependency and value checks, strengthened type narrowing, and made selection bias affect the sophisticated observational model calculation.
+
+Files: tests/test_metamodeling_comprehensive.py; tests/test_metamodels.py; examples/observational_validation_example.py.
+
+Why: Ensure static-analysis findings correspond to real behavior and keep optional dependency tests deterministic and auditable.
+
+Verification: Ruff format/check; ty check; 32 focused tests passed with 2 dependency skips; example compiled.
