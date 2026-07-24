@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-24T05:02:39Z",
+  "updated_at": "2026-07-24T05:09:51Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -79,8 +79,8 @@
     {
       "id": "normalized-runtime-provenance",
       "kind": "repository",
-      "status": "in_progress",
-      "evidence": "Commit 5239de16 and open PR #477 propagate normalized-input and binding-profile identities through AnalysisSpec, RunContext, diagnostics, and provenance. Focused tests, schema export verification, typing, frontier validation, and the full 91.31% coverage suite pass locally; hosted checks remain pending."
+      "status": "satisfied",
+      "evidence": "PR #477 merged as d07eed2b on 2026-07-24 after every required hosted check passed. It propagates normalized-input and binding-profile identities through AnalysisSpec, RunContext, diagnostics, and provenance; it does not complete the remaining programme acceptance criteria."
     }
   ]
 }

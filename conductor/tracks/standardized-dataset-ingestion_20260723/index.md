@@ -3,7 +3,7 @@
 Status: in progress; PR #334 establishes the tested baseline implementation and
 PR #477 carries normalized-input provenance through the existing runtime. The
 remaining published conformance, security, SDK, and cross-domain acceptance
-criteria stay active.
+criteria stay active. Both PRs are merged evidence, not track closeout evidence.
 
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)
