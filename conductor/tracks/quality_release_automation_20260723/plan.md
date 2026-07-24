@@ -27,10 +27,17 @@
   security updates while retaining GitHub dependency-graph and Dependabot
   alerts. Until that evidence exists, keep security updates enabled to avoid a
   remediation gap.
-- [ ] Add Codecov, CodeQL, dependency review at moderate severity, Scorecard,
+- [~] Add Codecov, CodeQL, dependency review at moderate severity, Scorecard,
   secret scanning, push protection, private vulnerability reporting,
   non-provider and validity checks where supported, SBOM, provenance,
   attestation, license, malware/OSV, and release dry-run gates.
+  - [x] Replace the long-lived crates.io publication secret with the official
+    pinned OIDC trusted-publishing action and a named deployment environment.
+    (`5e5091d`)
+  - [~] Reconcile the live default-branch code-scanning queue. The four
+    crates.io trusted-publishing findings have a tested fix in `5e5091d`; the
+    Scorecard SAST-coverage finding and remaining quality findings require
+    default-branch rescan evidence or bounded reviewed dispositions.
 - [~] Upgrade or constrain JupyterLab to a patched release and close open
   Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
   the two high-severity XSS alerts block release.
@@ -66,6 +73,10 @@
 - [ ] Renovate App activation, its dependency dashboard, and one checked test
   PR remain external GitHub evidence before Dependabot security updates can be
   disabled.
+- [x] Commit `5e5091d` replaces the Rust release workflow's long-lived
+  crates.io token with the official commit-pinned OIDC authentication action,
+  job-scoped `id-token: write`, and the `crates-io` environment. Registry-side
+  trusted-publisher registration remains an external human gate.
 
 ## Phase 3: Staged release evidence
 
