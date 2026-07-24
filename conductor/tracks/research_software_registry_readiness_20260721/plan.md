@@ -51,6 +51,26 @@
   #471](https://github.com/edithatogo/voiage/issues/471); external participant
   required)
 
+## Phase 2B: Independent simulated JOSS editorial review
+
+- [~] Define a fail-closed 1,000-point JOSS manuscript rubric and run documented,
+  independent editor-in-chief, handling-editor, domain, software, reproducibility,
+  numerical, accessibility, and sentence-level reviews of `paper.md`.
+- [~] Reproduce and remediate the panel's scientific EVSI finding: move the
+  validated normal-normal study model into the public package, correct the
+  built-in estimator so current, predictive, and posterior calculations use
+  one coherent fitted Gaussian prior; retain correlations through a numerically
+  guarded joint update; add explicit custom two-loop callbacks; and remove
+  stable scientific claims from generic estimators that lack complete
+  method-specific validation.
+- [x] Synthesize and prioritize the panel findings from manuscript purpose and
+  structure through paragraph, claim, citation, and sentence-level changes.
+- [ ] Implement the evidence-supported revisions and rerun the repository-owned
+  JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
+- [ ] Return the revision to the full panel and repeat review/remediation rounds
+  until every complete panel assessment is at least 996/1000 with no unresolved
+  manuscript blocker; report external JOSS screening gates separately.
+
 ## Phase 3: Reconciliation and closeout
 
 - [x] Reconcile Conductor status, release evidence, and external-gate boundaries.

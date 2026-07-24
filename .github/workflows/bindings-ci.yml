@@ -136,3 +136,40 @@ jobs:
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
+
+  r-native:
+    name: R installed native smoke (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            library: libvoiage_ffi.so
+          - os: macos-latest
+            library: libvoiage_ffi.dylib
+          - os: windows-latest
+            library: voiage_ffi.dll
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by R
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - name: Install the R source package
+        run: R CMD INSTALL r-package/voiageR
+      - name: Call the installed Rust EVPI path
+        env:
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/${{ matrix.library }}
+        run: >-
+          Rscript -e
+          "library(voiageR);
+          value <- evpi(matrix(c(0, 1, 2, 0), nrow = 2, byrow = TRUE));
+          stopifnot(isTRUE(all.equal(value, 0.5, tolerance = 1e-12)))"

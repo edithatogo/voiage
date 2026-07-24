@@ -5,14 +5,14 @@ from __future__ import annotations
 import csv
 from dataclasses import dataclass
 from functools import lru_cache
-from math import erf, exp, pi, sqrt
+from math import sqrt
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from voiage.methods.basic import evpi, evppi
-from voiage.methods.sample_information import enbs
+from voiage.methods.sample_information import enbs, normal_normal_two_arm_evsi
 from voiage.schema import ParameterSet
 
 SEED = 20260723
@@ -63,16 +63,6 @@ class SensitivityScenario:
     uptake: float = 1.0
 
 
-def _expected_positive_normal(mean: float, standard_deviation: float) -> float:
-    """Return E[max(0, X)] for a normally distributed random variable X."""
-    if standard_deviation <= 0:
-        return max(0.0, mean)
-    z_score = mean / standard_deviation
-    density = exp(-(z_score**2) / 2.0) / sqrt(2.0 * pi)
-    distribution = 0.5 * (1.0 + erf(z_score / sqrt(2.0)))
-    return standard_deviation * density + mean * distribution
-
-
 def normal_normal_evsi(
     total_sample_size: int,
     *,
@@ -89,20 +79,16 @@ def normal_normal_evsi(
     """
     if total_sample_size <= 0 or total_sample_size % 2:
         raise ValueError("total_sample_size must be a positive even integer")
-
-    prior_variance = EFFECT_PRIOR_SD**2
     if outcome_sd <= 0:
         raise ValueError("outcome_sd must be positive")
-    sampling_variance = 4.0 * outcome_sd**2 / total_sample_size
-    posterior_mean_variance = prior_variance**2 / (prior_variance + sampling_variance)
-    incremental_nb_mean = REFERENCE_WTP * EFFECT_MEAN - COST_MEAN
-    incremental_nb_sd = REFERENCE_WTP * sqrt(posterior_mean_variance)
-    expected_after_study = _expected_positive_normal(
-        incremental_nb_mean,
-        incremental_nb_sd,
+    return normal_normal_two_arm_evsi(
+        prior_mean=EFFECT_MEAN,
+        prior_standard_deviation=EFFECT_PRIOR_SD,
+        outcome_standard_deviation=outcome_sd,
+        total_sample_size=total_sample_size,
+        net_benefit_slope=REFERENCE_WTP,
+        net_benefit_intercept=-COST_MEAN,
     )
-    current_value = max(0.0, incremental_nb_mean)
-    return expected_after_study - current_value
 
 
 def _bootstrap_intervals(

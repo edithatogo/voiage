@@ -23,10 +23,10 @@
     "method_maturity": {
       "type": "string",
       "enum": [
-        "stable",
-        "approximate",
+        "planned",
         "experimental",
-        "backend-dependent"
+        "fixture-backed",
+        "stable"
       ]
     },
     "approximation_status": {

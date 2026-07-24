@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -117,6 +118,28 @@ for name in ("health_economics", "multi_domain"):
 """
     result = _run_isolated_probe(probe)
     assert result.returncode == 0, result.stderr
+
+
+def test_top_level_import_is_bounded_and_does_not_load_heavy_estimators() -> None:
+    """Reviewer smoke imports must avoid eager JAX, SciPy, and scikit-learn."""
+    probe = r"""
+import sys
+import time
+
+started = time.perf_counter()
+import voiage
+elapsed = time.perf_counter() - started
+
+assert elapsed < 5.0, elapsed
+for name in ("jax", "scipy", "sklearn"):
+    assert name not in sys.modules, name
+"""
+    started = time.perf_counter()
+    result = _run_isolated_probe(probe)
+    wall_time = time.perf_counter() - started
+
+    assert result.returncode == 0, result.stderr
+    assert wall_time < 10.0
 
 
 def test_base_import_preserves_lazy_ecosystem_and_plotting_contracts() -> None:

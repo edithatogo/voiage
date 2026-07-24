@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
+## [2.0.0] - 2026-07-24
+
 ### Removed
 
 - Removed the obsolete local `paper/paper.tex` manuscript and added an
@@ -21,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a Rust-owned analytical normal--normal EVSI calculation, a public
+  Python adapter, prespecified analytical and nested-simulation recovery tests,
+  and a fixed-seed worked example that now uses the package calculation.
+- Added eight-role JOSS screening, editorial, scientific, reproducibility,
+  accessibility, and sentence-level review records with a fail-closed
+  synthesis and explicit external gates.
 - Added cross-file JOSS preflight checks for CFF and CodeMeta release metadata,
   including version, repository, licence, URL, ORCID, release, and download
   identity checks, and run the hosted JOSS build when either metadata file
@@ -62,6 +76,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Replaced independent marginal two-loop EVSI updates with a joint
+  multivariate-normal contract that uses the same fitted prior for current,
+  predictive, and posterior calculations; added guarded covariance algebra,
+  genuine Gaussian simulation draws, explicit custom study-model callbacks,
+  operational loop controls, and diagnostic warnings; and marked generic
+  estimators without complete method-specific validation as non-stable.
+- Rewrote the JOSS paper around applied research decisions and verified health
+  example results; bounded cross-language and impact claims; corrected the
+  related-software comparison, maturity taxonomy, declarations, and
+  availability section.
+- Reconciled method maturity with the governed planned, experimental,
+  fixture-backed, and stable promotion ladder while keeping approximation and
+  backend dependence on separate metadata axes.
+- Repaired the installed R package's native EVPI symbol resolution and added a
+  genuine installed-package test against the Rust shared library.
 - Corrected the R vignette packaging contract so clean package checks do not
   attempt to activate a developer-specific Python environment.
 - Documented the Julia binding's required native library build and the
@@ -105,6 +134,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Kept analytical and generic EVSI sample-size conversion failures inside the
+  package `InputError` boundary, and added direct regression evidence that
+  negative nested Monte Carlo estimates remain untruncated with convergence
+  and custom-model-coherence guidance.
 - Replaced two mismatched JOSS bibliography records with authoritative PubMed
   metadata and added a preflight failure for placeholder author lists.
 - Aligned the v1 programme status test with the registry's active

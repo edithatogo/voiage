@@ -9,10 +9,10 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
-*   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
+*   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, EVSI aggregation, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains validation/orchestration and explicitly tracked compatibility paths. Retained Python/Mojo, R, and Julia surfaces still require final hosted and external parity evidence.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R and Julia expose the shared EVPI kernel through a separately supplied native library and still require hosted and registry evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
@@ -118,8 +118,16 @@ creates a second preparation path or domain-specific numerical kernel.
 
 1.  **Robust EVSI Implementation:**
     *   **Status: `✅ Done`**
-    *   Two-loop Monte Carlo method implemented in `sample_information.py`.
-    *   Regression-based EVSI with metamodel support (GAM, RandomForest, BART via metamodels module).
+    *   The built-in two-loop model fits one joint normal prior and uses it for
+        current value, predictive study results, and posterior value. It
+        updates all correlated parameters together, consumes its inner-loop
+        draw count, and uses genuine Gaussian draws; custom models use explicit
+        trial-simulation and joint-posterior callbacks.
+    *   A Rust-owned analytical normal--normal model is tested against a
+        prespecified reference.
+    *   Regression, efficient, and moment-based compatibility estimators are
+        explicitly non-stable until they expose a complete validated study
+        model.
 2.  **Network Meta-Analysis (NMA) VOI:**
     *   **Status: `✅ Done`**
     *   `calculate_nma_evpi()` and `calculate_nma_evppi()` in `voiage/methods/network_meta_analysis.py`.

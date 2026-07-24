@@ -1,7 +1,7 @@
 name = "Voiage"
 uuid = "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
 authors = ["voiage Contributors <voiage@users.noreply.github.com>"]
-version = "1.0.0"
+version = "2.0.0"
 
 [deps]
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"

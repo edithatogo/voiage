@@ -2,7 +2,8 @@
 
 [build-system]
 requires = ["maturin>=1.9,<2.0"]
-build-backend = "maturin"
+build-backend = "build_backend"
+backend-path = ["."]
 
 [project]
 name = "voiage"
@@ -132,6 +133,7 @@ bindings = "pyo3"
 features = ["pyo3/extension-module"]
 locked = true
 include = [
+    { path = "build_backend.py", format = "sdist" },
     { path = "specs/**/*.json", format = "sdist" },
     { path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" },
 ]
@@ -171,7 +173,7 @@ ignore = [
     # Assert statements needed in tests
     "S101",
     # Complexity limits - too strict for existing codebase
-    "C901", "PLR0913", "PLR0912", "PLR0915",
+    "C901", "PLR0913", "PLR0917", "PLR0912", "PLR0915",
     # Exception message handling - stylistic
     "TRY003", "EM101", "EM102",
     # TODO/FIXME comments are useful
