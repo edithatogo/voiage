@@ -146,7 +146,8 @@ def dispatch_calculation[PayloadT: ContractModel](
     context = RunContext(
         run_id=uuid4().hex,
         spec_digest=effective_spec.contract_digest(),
-        input_digest=array_digest(inputs),
+        input_digest=effective_spec.normalized_input_digest or array_digest(inputs),
+        binding_profile_digest=effective_spec.binding_profile_digest,
         requested_backend=policy.backend_preference[0]
         if policy.backend_preference
         else None,
@@ -168,6 +169,28 @@ def dispatch_calculation[PayloadT: ContractModel](
     payload_object: object = payload
     if not isinstance(payload_object, ContractModel):
         raise TypeError("calculation kernels must return a ContractModel payload")
+    warnings: tuple[DiagnosticRecord, ...] = ()
+    if effective_spec.normalized_input_digest is not None:
+        warnings += (
+            DiagnosticRecord(
+                severity="info",
+                code="normalized_input_provenance",
+                message="Calculation inputs were explicitly prepared from a normalized bundle.",
+            ),
+        )
+    if fallback_used:
+        warnings += (
+            DiagnosticRecord(
+                severity="warning",
+                code="backend_fallback",
+                message=(
+                    f"Requested backend could not satisfy the kernel; "
+                    f"used {capabilities.backend_name}."
+                ),
+                capability="kernel-requirements",
+                backend=capabilities.backend_name,
+            ),
+        )
     return AnalysisResult(
         analysis_id=effective_spec.analysis_id,
         decision_problem_id=effective_spec.decision_problem_id,
@@ -181,20 +204,7 @@ def dispatch_calculation[PayloadT: ContractModel](
             analysis_id=effective_spec.analysis_id,
             status="degraded" if fallback_used else "ok",
             backend=capabilities.backend_name,
-            warnings=(
-                DiagnosticRecord(
-                    severity="warning",
-                    code="backend_fallback",
-                    message=(
-                        f"Requested backend could not satisfy the kernel; "
-                        f"used {capabilities.backend_name}."
-                    ),
-                    capability="kernel-requirements",
-                    backend=capabilities.backend_name,
-                ),
-            )
-            if fallback_used
-            else (),
+            warnings=warnings,
             degraded_paths=("backend-fallback",) if fallback_used else (),
         ),
         provenance=Provenance(
@@ -205,8 +215,10 @@ def dispatch_calculation[PayloadT: ContractModel](
             input_artifact_ids=effective_spec.input_artifact_ids,
             details={
                 "backend_fallback": fallback_used,
+                "binding_profile_digest": effective_spec.binding_profile_digest,
                 "kernel_id": kernel.kernel_id,
                 "kernel_version": kernel.kernel_version,
+                "normalized_input_digest": effective_spec.normalized_input_digest,
             },
         ),
     )

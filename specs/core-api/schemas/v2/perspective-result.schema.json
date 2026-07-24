@@ -563,6 +563,19 @@
           "default": null,
           "title": "Backend Version"
         },
+        "binding_profile_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Binding Profile Digest"
+        },
         "capabilities": {
           "default": [],
           "items": {

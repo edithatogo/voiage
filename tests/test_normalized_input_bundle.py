@@ -21,7 +21,9 @@ from voiage.contracts import (
     SourceProvenance,
     TableManifest,
     VOIBinding,
+    analysis_spec_from_prepared_inputs,
     prepare_analysis_inputs,
+    run_evpi,
 )
 
 
@@ -111,11 +113,47 @@ def test_preparation_preserves_explicit_binding_and_digest() -> None:
     assert prepared.net_benefits.strategy_names == ["A", "B"]
     assert prepared.net_benefits.numpy_values.tolist() == [[1.0, 2.0], [3.0, 1.0]]
     assert prepared.input_digest == _bundle().content_digest
+    assert len(prepared.binding_profile_digest) == 64
     assert prepared.quality_report.table_id == "net_benefit"
     assert prepared.quality_report.selected_field_ids == ("strategy_a", "strategy_b")
     assert prepared.quality_report.row_count == 2
     assert prepared.quality_report.null_counts == {"strategy_a": 0, "strategy_b": 0}
     assert prepared.quality_report.population_transforms == ()
+
+
+def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> None:
+    prepared = prepare_analysis_inputs(_bundle())
+    spec = analysis_spec_from_prepared_inputs(
+        analysis_id="normalized-evpi",
+        decision_problem_id="decision-fixture",
+        method_family="evpi",
+        method_contract_version="1.0.0",
+        prepared=prepared,
+    )
+
+    result = run_evpi(prepared.net_benefits.numpy_values, spec=spec)
+
+    assert spec.input_artifact_ids == (f"normalized-input:{prepared.input_digest}",)
+    assert result.run_context.input_digest == prepared.input_digest
+    assert result.run_context.binding_profile_digest == prepared.binding_profile_digest
+    assert result.provenance.input_artifact_ids == spec.input_artifact_ids
+    assert result.provenance.details["normalized_input_digest"] == prepared.input_digest
+    assert result.diagnostics.warnings[0].code == "normalized_input_provenance"
+
+
+def test_preparation_uses_the_explicit_binding_profile_identity() -> None:
+    bundle = _bundle()
+    profile = BindingProfile(bindings=bundle.manifest.bindings)
+    profiled_bundle = NormalizedInputBundle(
+        manifest=bundle.manifest.model_copy(
+            update={"bindings": (), "binding_profile": profile}
+        ),
+        tables=bundle.tables,
+    )
+
+    prepared = prepare_analysis_inputs(profiled_bundle)
+
+    assert prepared.binding_profile_digest == profile.digest
 
 
 def test_manifest_matches_published_json_schema() -> None:

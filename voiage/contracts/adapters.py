@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from numpy.typing import ArrayLike, NDArray
 
     from voiage.contracts.capabilities import BackendCapabilities
+    from voiage.contracts.preparation import PreparedAnalysisInputs
     from voiage.main_backends import Backend
 
 
@@ -130,4 +131,37 @@ def analysis_spec_from_inputs(
         strategy_names=tuple(values.strategy_names),
         parameters=parameter_specs,
         numerical_policy=numerical_policy or NumericalPolicy(),
+    )
+
+
+def analysis_spec_from_prepared_inputs(
+    *,
+    analysis_id: str,
+    decision_problem_id: str,
+    method_family: str,
+    method_contract_version: str,
+    prepared: PreparedAnalysisInputs,
+    parameters: ParameterSet | None = None,
+    numerical_policy: NumericalPolicy | None = None,
+) -> AnalysisSpec:
+    """Create a spec that preserves normalized-input identity end to end.
+
+    The numerical values still flow through the established runtime adapters;
+    this helper only makes their explicitly selected source auditable.
+    """
+    spec = analysis_spec_from_inputs(
+        analysis_id=analysis_id,
+        decision_problem_id=decision_problem_id,
+        method_family=method_family,
+        method_contract_version=method_contract_version,
+        values=prepared.net_benefits,
+        parameters=parameters,
+        numerical_policy=numerical_policy,
+    )
+    return spec.model_copy(
+        update={
+            "input_artifact_ids": (f"normalized-input:{prepared.input_digest}",),
+            "normalized_input_digest": prepared.input_digest,
+            "binding_profile_digest": prepared.binding_profile_digest,
+        }
     )

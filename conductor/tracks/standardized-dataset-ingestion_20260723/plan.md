@@ -35,8 +35,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [ ] **P2-T3 / AC-02, AC-11:** Emit a machine-readable data-quality report for
   row counts, missingness, uniqueness, keys, join coverage, coercions,
   exclusions, and selected records or partitions.
-- [ ] **P2-T4 / AC-02:** Propagate artifact IDs and normalized input digests
-  through `AnalysisSpec`, `RunContext`, diagnostics, and provenance.
+- [x] **P2-T4 / AC-02:** Propagate artifact IDs and normalized input digests
+  through `AnalysisSpec`, `RunContext`, diagnostics, and provenance. (`5239de1`)
 - [ ] **P2-T5 / AC-02:** Add the method/input capability matrix and preserve
   existing direct Python and CSV entry points.
 - [ ] **P2-T6 / AC-02:** Verify that filtering, projection, sampling,

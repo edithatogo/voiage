@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added decoupled built-in Croissant ML and Frictionless Data Package CSV
   providers with fail-closed local source access and `voiage ingest` inspection
   and normalization commands.
+- Added normalized-input provenance propagation from prepared datasets through
+  analysis specifications, runtime contexts, diagnostics, and result evidence.
 
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
