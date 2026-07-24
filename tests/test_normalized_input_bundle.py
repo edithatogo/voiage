@@ -326,3 +326,88 @@ def test_binding_profile_is_versioned_deterministic_and_reference_checked() -> N
                 )
             }
         ).validate_references()
+
+
+def test_new_contract_validation_failure_paths() -> None:
+    with pytest.raises(ValidationError, match="matching non-empty"):
+        KeyReference(
+            source_table_id="a",
+            source_field_ids=(),
+            target_table_id="b",
+            target_field_ids=("id",),
+        )
+    with pytest.raises(ValidationError, match="credentials or query strings"):
+        SourceProvenance(
+            provider_id="p",
+            source_uri="https://user@example.test/input",
+            descriptor_digest="e" * 64,
+        )
+    with pytest.raises(ValidationError, match="roles must be unique"):
+        BindingProfile(
+            bindings=(
+                VOIBinding(role="cost", table_id="t", field_ids=("a",)),
+                VOIBinding(role="cost", table_id="t", field_ids=("b",)),
+            )
+        )
+    table = TableManifest(
+        table_id="t", fields=(FieldManifest(field_id="a", dtype="float64"),)
+    )
+    provenance = SourceProvenance(
+        provider_id="p", source_uri="file:///x", descriptor_digest="e" * 64
+    )
+    cases = (
+        (
+            {
+                "binding_profile": BindingProfile(
+                    bindings=(
+                        VOIBinding(role="cost", table_id="missing", field_ids=("a",)),
+                    )
+                )
+            },
+            "unknown table or field",
+        ),
+        (
+            {
+                "key_references": (
+                    KeyReference(
+                        source_table_id="missing",
+                        source_field_ids=("a",),
+                        target_table_id="t",
+                        target_field_ids=("a",),
+                    ),
+                )
+            },
+            "unknown table",
+        ),
+        (
+            {
+                "key_references": (
+                    KeyReference(
+                        source_table_id="t",
+                        source_field_ids=("missing",),
+                        target_table_id="t",
+                        target_field_ids=("a",),
+                    ),
+                )
+            },
+            "unknown field",
+        ),
+        (
+            {
+                "key_references": (
+                    KeyReference(
+                        source_table_id="t",
+                        source_field_ids=("a",),
+                        target_table_id="t",
+                        target_field_ids=("a",),
+                    ),
+                )
+            },
+            "primary_key",
+        ),
+    )
+    for kwargs, message in cases:
+        with pytest.raises(ValidationError, match=message):
+            DatasetManifest(
+                dataset_id="x", tables=(table,), provenance=provenance, **kwargs
+            )
