@@ -20,7 +20,9 @@
 
 - [x] Inventory repository methods and initial literature candidates.
   (`2630e39`; the search remains refreshable rather than universally exhaustive)
-- [~] Verify primary citations and classify estimand versus estimator.
+- [x] Verify primary citations and classify estimand versus estimator.
+  (`ab55c1e`; 41 source-verified and 19 explicitly contract-verified records,
+  with no unresolved triage state)
 - [~] Reconcile code, schemas, maturity, docs, roadmap, and fixtures.
 - [x] Generate capability and method matrices. (`2630e39`)
 - [x] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
