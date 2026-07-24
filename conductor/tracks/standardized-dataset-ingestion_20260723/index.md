@@ -1,8 +1,9 @@
 # Standardized Dataset Ingestion
 
-Status: in progress; PR #334 establishes the tested baseline implementation,
-while the remaining published conformance, security, SDK, and cross-domain
-acceptance criteria stay active.
+Status: in progress; PR #334 establishes the tested baseline implementation and
+PR #477 carries normalized-input provenance through the existing runtime. The
+remaining published conformance, security, SDK, and cross-domain acceptance
+criteria stay active.
 
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)
