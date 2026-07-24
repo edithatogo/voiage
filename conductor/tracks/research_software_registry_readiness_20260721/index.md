@@ -8,7 +8,8 @@ tracked
 Parent issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 
 Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
-[#312](https://github.com/edithatogo/voiage/issues/312)
+[#312](https://github.com/edithatogo/voiage/issues/312) and
+[#471](https://github.com/edithatogo/voiage/issues/471)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
@@ -19,4 +20,4 @@ Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
 
 - Track issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 - Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
-- Pull requests: [#300](https://github.com/edithatogo/voiage/pull/300), [#308](https://github.com/edithatogo/voiage/pull/308), [#309](https://github.com/edithatogo/voiage/pull/309), [#310](https://github.com/edithatogo/voiage/pull/310), [#311](https://github.com/edithatogo/voiage/pull/311)
+- Pull requests: [#300](https://github.com/edithatogo/voiage/pull/300), [#308](https://github.com/edithatogo/voiage/pull/308), [#309](https://github.com/edithatogo/voiage/pull/309), [#310](https://github.com/edithatogo/voiage/pull/310), [#311](https://github.com/edithatogo/voiage/pull/311), [#469](https://github.com/edithatogo/voiage/pull/469), [#470](https://github.com/edithatogo/voiage/pull/470), [#472](https://github.com/edithatogo/voiage/pull/472)

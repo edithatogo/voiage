@@ -2,9 +2,10 @@
 
 ## Current boundary
 
-The arXiv draft submission `7861466` is recorded by the authenticated arXiv
-account as `submitted`. A permanent arXiv identifier and announcement are not
-yet available and must not be inferred from the submission number.
+The arXiv draft submission `7861466` was rechecked on 24 July 2026 in the
+authenticated arXiv account and remains `submitted`. It is not yet listed under
+the account's announced articles. A permanent arXiv identifier and announcement
+are not available and must not be inferred from the submission number.
 
 The JOSS package is:
 
@@ -27,6 +28,7 @@ not replace it.
 | Iterative open development | Distributed commits, issues, pull requests, changelog and tagged releases | Ready |
 | Research application | VOI analysis for research prioritisation and probabilistic decision models | Ready |
 | Demonstrated developer research use | Fixed-seed health example and versioned `vop_poc_nz` integration contract | Ready, but independent adoption would strengthen screening |
+| Single-author community engagement | Public history contains only the author and automated accounts; [independent validation protocol](joss-independent-validation.md) and issue #471 are ready | External evidence required before submission |
 | JOSS manuscript structure | All current required sections and 750–1,750-word contract | Ready |
 | Design-thinking account | Kernel/orchestration boundary and cross-language trade-offs described | Ready |
 | AI usage disclosure | Tools, retained version limits, scope, human decisions and validation stated | Ready for author verification |
@@ -63,32 +65,31 @@ that they are independently installable from their language registries. A JOSS
 reviewer can assess the primary Python package without installing those
 secondary surfaces.
 
-## Direct JOSS versus partner review
+## Selected submission route
 
-Two valid routes are available:
+The selected route is **direct JOSS submission** after the remaining evidence
+gates are satisfied. This preserves the package's Rust-centred, polyglot scope
+rather than presenting the Python binding as the entire submission.
 
-1. **Direct JOSS submission.** This is the shorter route and reviews the paper,
-   research-software significance, installation, documentation, functionality,
-   tests and open-development evidence.
-2. **pyOpenSci review before JOSS.** pyOpenSci provides a deeper Python
-   packaging, usability and maintenance review. An accepted package that also
-   meets JOSS scope can use the pyOpenSci/JOSS partnership without a second
-   software review. The package should not be under simultaneous active review
-   at pyOpenSci and JOSS.
-
-pyOpenSci is the relevant partner because the primary installable user surface
-is Python. rOpenSci would become relevant only if `voiageR` were developed into
-the primary independently installable research package; the current R binding
-is not the appropriate submission unit.
+pyOpenSci remains a useful later review of the Python package's packaging,
+usability, and maintenance practices. Its partner route is not selected for
+this submission because it reviews the Python surface rather than the complete
+Rust-centred polyglot package. The project will not enter simultaneous active
+reviews at pyOpenSci and JOSS. rOpenSci would be relevant only if `voiageR`
+became the primary independently installable research package.
 
 The recommended sequence is:
 
-1. confirm the paper's funding statement, authorship and AI disclosure;
-2. wait for and record the permanent arXiv identifier;
-3. choose either direct JOSS or pyOpenSci-first review;
-4. for direct JOSS, submit the repository and `paper.md`;
-5. respond to review comments personally and without generative AI drafting;
-6. after acceptance-ready review, tag the reviewed version and create a
+1. obtain one attributable or editor-verifiable independent installation and
+   research-use report through issue #471;
+2. resolve any problems identified by that exercise;
+3. confirm the paper's funding statement, authorship, affiliations, ORCID,
+   conflicts of interest, and AI disclosure;
+4. wait for and record the permanent arXiv identifier, following the author's
+   preferred arXiv-first sequence;
+5. submit the repository and `paper.md` directly to JOSS;
+6. respond to review comments personally and without generative AI drafting;
+7. after acceptance-ready review, tag the reviewed version and create a
    DOI-bearing Zenodo or Figshare archive requested by JOSS.
 
 ## Remaining gates
@@ -96,9 +97,9 @@ The recommended sequence is:
 - Confirm that “No external funding is declared for this submission” is
   accurate.
 - Confirm the author list, affiliations and ORCID metadata.
+- Obtain independent installation and research-use evidence through issue #471;
+  automated accounts and same-author integrations do not satisfy this gate.
 - Record the permanent arXiv identifier when arXiv assigns it.
-- Choose direct JOSS or pyOpenSci-first review; do not run both reviews
-  concurrently.
-- Authorise and perform the authenticated JOSS submission.
+- Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external
   outcomes.

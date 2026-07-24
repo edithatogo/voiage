@@ -28,6 +28,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         deliverables in #297--#299.
     *   The arXiv-first manuscript lane is native subissue #312 under #299;
         PR #311 contains the final repository-owned review changes.
+    *   Direct JOSS review is selected; native subissue #471 records the
+        independent non-author installation and research-use evidence required
+        before submission.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 

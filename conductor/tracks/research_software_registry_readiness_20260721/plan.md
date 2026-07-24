@@ -42,6 +42,12 @@
 - [x] Replace mismatched foundational bibliography records with authoritative
   source metadata and reject placeholder author lists in JOSS preflight.
   (`c37c78e`)
+- [x] Select direct JOSS review for the Rust-centred polyglot package and
+  publish a bounded independent-validation protocol. (issue #471)
+- [~] Obtain attributable non-author installation and research-use evidence
+  before direct JOSS submission. ([Issue
+  #471](https://github.com/edithatogo/voiage/issues/471); external participant
+  required)
 
 ## Phase 3: Reconciliation and closeout
 
@@ -61,18 +67,21 @@
   and snapshot
   `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
-- JOSS route: the canonical arXiv LaTeX preprint and JOSS adaptation are
-  repository-ready; funding confirmation, submission-route selection,
-  authenticated submission, and editorial review remain human or external.
+- JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
+  The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
+  independent validation, funding and conflict confirmation, authenticated
+  submission, and editorial review remain human or external.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
 - GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
   registry subissues; #312 is the native arXiv subissue of #299 and is present
-  in GitHub Project 28.
+  in GitHub Project 28; #471 is the native independent-validation subissue of
+  #299.
 - JOSS submission package: draft-ready with `paper.md`, `paper.bib`,
   `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
-  Author affiliations and ORCID are recorded; the funding statement still
-  requires author confirmation. Concrete developer-led research use is stated
-  without claiming independent adoption.
+  Author affiliations and ORCID are recorded; the funding and conflict
+  statements still require author confirmation. Concrete developer-led
+  research use is stated without claiming independent adoption, and issue #471
+  records the current single-author community-engagement evidence gate.
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
