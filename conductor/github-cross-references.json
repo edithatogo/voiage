@@ -3123,6 +3123,12 @@
           "url": "https://github.com/edithatogo/voiage/pull/492",
           "status": "merged",
           "evidence": ["f479bd058ee8a3e4f4893d90325857ab4559e505"]
+        },
+        {
+          "number": 494,
+          "url": "https://github.com/edithatogo/voiage/pull/494",
+          "status": "merged",
+          "evidence": ["772626789c56b087cd84a450d0c54c6484e81ca0"]
         }
       ],
       "pull_request_evidence": "evidenced",
