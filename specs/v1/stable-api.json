@@ -105,6 +105,23 @@
     "removed": []
   },
   "methods": {
+    "net_benefit": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "cost[value]+effect[value]+wtp[scalar|threshold|sample,threshold]",
+      "output": "finite-array; threshold axes append after value axes",
+      "wtp_axis_policy": {
+        "scalar": "preserve-input-shape",
+        "thresholds": "append-threshold-axis",
+        "elementwise": "explicit-v1-compatibility",
+        "auto": "deprecated-elementwise-inference-for-shape-match"
+      },
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
     "evpi": {
       "status": "stable",
       "implementation": "rust",

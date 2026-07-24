@@ -95,6 +95,30 @@ def compute_expected_loss(net_benefit: list[list[float]]) -> dict[str, object]:
     return dict(result)
 
 
+def compute_net_benefit(
+    costs: list[float],
+    effects: list[float],
+    willingness_to_pay: list[float],
+    *,
+    mode: str,
+    sample_count: int | None = None,
+    threshold_count: int | None = None,
+) -> list[float]:
+    """Compute row-major net-benefit values in Rust."""
+    try:
+        result = _native().compute_net_benefit(
+            costs,
+            effects,
+            willingness_to_pay,
+            mode,
+            sample_count,
+            threshold_count,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return [float(value) for value in result]
+
+
 def compute_enbs(evsi_result: float, research_cost: float) -> float:
     """Compute the stable ENBS kernel in Rust."""
     try:

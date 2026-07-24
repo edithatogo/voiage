@@ -3,10 +3,12 @@
 """Utility functions for the voiage library."""
 
 from collections.abc import Sequence
-from typing import cast
+from typing import Literal, cast
+import warnings
 
 import numpy as np
 
+from voiage import _runtime
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import DimensionMismatchError, InputError
 from voiage.schema import ValueArray
@@ -155,7 +157,11 @@ def check_input_array(
 
 
 def calculate_net_benefit(
-    costs: np.ndarray, effects: np.ndarray, wtp: float | np.ndarray
+    costs: np.ndarray,
+    effects: np.ndarray,
+    wtp: float | np.ndarray,
+    *,
+    wtp_axis: Literal["auto", "thresholds", "elementwise"] = "auto",
 ) -> np.ndarray:
     """Calculate net monetary benefit (NMB).
 
@@ -172,6 +178,10 @@ def calculate_net_benefit(
                              Broadcasting rules apply. If WTP is an array, its shape
                              should be compatible for broadcasting with effects and costs.
                              E.g., (n_wtp_thresholds,) or (n_samples, n_wtp_thresholds).
+        wtp_axis: Interpretation for a 2-D WTP array. ``"thresholds"`` treats
+            rows as sample-specific threshold vectors; ``"elementwise"`` uses
+            the v1 compatibility behavior; ``"auto"`` preserves elementwise
+            behavior only when the WTP and input shapes match.
 
     Returns
     -------
@@ -204,6 +214,8 @@ def calculate_net_benefit(
 
     if not isinstance(wtp, (float, int, np.ndarray)):
         raise _wtp_type_error()
+    if wtp_axis not in {"auto", "thresholds", "elementwise"}:
+        raise InputError("wtp_axis must be 'auto', 'thresholds', or 'elementwise'.")
 
     wtp_arr = np.asarray(wtp, dtype=DEFAULT_DTYPE)
     if (
@@ -214,45 +226,64 @@ def calculate_net_benefit(
         # Depending on context, WTP could be negative, but usually non-negative.
         # print("Warning: WTP contains negative values.")
         pass
+    if wtp_arr.ndim < 2 and wtp_axis != "auto":
+        raise InputError("wtp_axis is only configurable for a 2-D WTP array.")
 
-    # NMB calculation: (effects * wtp) - costs
-    # NumPy's broadcasting rules will handle scalar or array WTP.
-    # If costs/effects are (N, S) and WTP is (K,), result might be (N, S, K)
-    # If WTP is scalar, result is (N, S)
-    # To ensure consistent broadcasting, we might need to reshape WTP if it's 1D (K,)
-    # to be (1, 1, K) or (K, 1, 1) depending on desired output structure.
-    # For now, let's assume standard broadcasting is sufficient.
-    # If effects is (N,S) and wtp is (K), (effects_reshaped_for_wtp * wtp_reshaped)
-    # effects_expanded = effects[..., np.newaxis] if wtp_arr.ndim > 0 and costs.ndim > wtp_arr.ndim else effects
-    # costs_expanded = costs[..., np.newaxis] if wtp_arr.ndim > 0 and costs.ndim > wtp_arr.ndim else costs
+    costs_flat = np.asarray(costs, dtype=DEFAULT_DTYPE).ravel().tolist()
+    effects_flat = np.asarray(effects, dtype=DEFAULT_DTYPE).ravel().tolist()
+    wtp_flat = wtp_arr.ravel().tolist()
+    if wtp_arr.ndim == 0:
+        mode = "scalar"
+        output_shape = costs.shape
+        sample_count = threshold_count = None
+    elif wtp_arr.ndim == 1:
+        mode = "thresholds"
+        output_shape = (*costs.shape, wtp_arr.shape[0])
+        sample_count = threshold_count = None
+    elif wtp_axis == "elementwise" or (
+        wtp_axis == "auto"
+        and (
+            wtp_arr.shape == costs.shape
+            or (costs.ndim == 1 and wtp_arr.size == costs.size)
+        )
+    ):
+        # Compatibility for the v1 elementwise 2-D behavior. New
+        # sample-specific threshold matrices use the explicit branch below.
+        if wtp_axis == "auto":
+            warnings.warn(
+                "Inferring elementwise behavior from a 2-D WTP shape is "
+                "deprecated; pass wtp_axis='elementwise' or "
+                "wtp_axis='thresholds' explicitly.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+        mode = "legacy-elementwise"
+        try:
+            output_shape = np.broadcast_shapes(costs.shape, wtp_arr.shape)
+        except ValueError as error:
+            raise DimensionMismatchError(
+                "Elementwise WTP must broadcast to costs and effects."
+            ) from error
+        sample_count = threshold_count = None
+    elif wtp_arr.shape[0] == costs.shape[0]:
+        mode = "sample-thresholds"
+        sample_count, threshold_count = wtp_arr.shape
+        output_shape = (*costs.shape, threshold_count)
+    else:
+        raise DimensionMismatchError(
+            "2-D WTP must match costs/effects for legacy elementwise use or "
+            "share their sample dimension."
+        )
 
-    # A common way to handle (N,S) and (K,) WTP to get (N,S,K) is:
-    # nmb = effects[:, :, np.newaxis] * wtp_arr[np.newaxis, np.newaxis, :] - costs[:, :, np.newaxis]
-    # This can get complex. Let's simplify for common cases.
-
-    if wtp_arr.ndim == 0:  # Scalar WTP
-        nmb = (effects * wtp_arr) - costs
-    elif (
-        wtp_arr.ndim == 1 and costs.ndim == 2
-    ):  # WTP is (K,), costs/effects are (N,S) -> NMB (N,S,K)
-        nmb = (effects[..., np.newaxis] * wtp_arr) - costs[..., np.newaxis]
-    elif (
-        wtp_arr.ndim == 1 and costs.ndim == 1
-    ):  # WTP is (K,), costs/effects are (N,) -> NMB (N,K)
-        nmb = (effects[:, np.newaxis] * wtp_arr) - costs[:, np.newaxis]
-    elif (
-        wtp_arr.ndim == 2 and costs.ndim == 2
-    ):  # WTP (N,K), costs/effects (N,S) -> NMB (N,S,K) (if S=1 for WTP) or complex
-        # This case requires careful thought on shapes. If WTP is (N_samples, K_thresholds)
-        # and costs/effects are (N_samples, S_strategies),
-        # nmb = (effects[:, :, np.newaxis] * wtp_arr[:, np.newaxis, :]) - costs[:, :, np.newaxis]
-        # This would result in (N, S, K)
-        # For now, let's assume if wtp_arr is 2D, it's (N_samples, 1) or compatible with (N_samples, S_strategies) directly
-        nmb = (effects * wtp_arr) - costs  # Relies on standard broadcasting
-    else:  # Fallback to standard broadcasting, which might be what's desired or raise error
-        nmb = (effects * wtp_arr) - costs
-
-    return cast("np.ndarray", nmb.astype(DEFAULT_DTYPE, copy=False))
+    values = _runtime.compute_net_benefit(
+        costs_flat,
+        effects_flat,
+        wtp_flat,
+        mode=mode,
+        sample_count=sample_count,
+        threshold_count=threshold_count,
+    )
+    return np.asarray(values, dtype=DEFAULT_DTYPE).reshape(output_shape)
 
 
 def get_optimal_strategy_index(

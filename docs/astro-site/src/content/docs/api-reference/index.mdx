@@ -14,6 +14,7 @@ retained bindings use the same Rust implementation.
 
 | Operation | Inputs | Result | Rust-owned errors |
 | --- | --- | --- | --- |
+| `net_benefit` | costs, effects, and scalar or array WTP | finite array with explicit threshold axes | `InputError`, `DimensionMismatchError` |
 | `evpi` | `net_benefit[sample, strategy]` | finite float ≥ 0 | `InputError`, `DimensionMismatchError` |
 | `evppi` | net benefits and parameter samples | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError` |
 | `evsi` | net benefits, priors, trial design | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError`, `NumericalError` |

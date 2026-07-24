@@ -268,14 +268,14 @@
     {
       "method_id": "net-benefit",
       "maturity": "stable",
-      "authority_state": "python-stable-gap",
+      "authority_state": "rust-authoritative",
       "implementation_paths": [
-        "voiage/core/utils.py"
+        "rust/crates/voiage-numerics/src/net_benefit.rs"
       ],
       "test_paths": [
-        "tests/test_utils_comprehensive.py"
+        "rust/crates/voiage-numerics/tests/net_benefit.rs"
       ],
-      "remaining_gate": "stable-rust-authority"
+      "remaining_gate": "none"
     },
     {
       "method_id": "nma-voi",

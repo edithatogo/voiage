@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added Rust-authoritative net-benefit construction with scalar, threshold,
+  sample-specific threshold, and explicit v1 elementwise compatibility modes;
+  both public Python helpers now use the native kernel and reject non-finite
+  inputs or results.
 - Recorded the repository maintainer's hash-bound scientific-contract approval
   for the v1.1 method freeze while retaining every implementation, numerical,
   binding, release, publication, and external gate.

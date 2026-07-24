@@ -19,8 +19,8 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, expected_loss, heterogeneity, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus,
+    evsi_stochastic, expected_loss, heterogeneity, net_benefit, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, WtpMode,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -510,6 +510,52 @@ fn compute_expected_loss<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
     Ok(output)
+}
+
+/// Compute Rust-authoritative net benefit from row-major flattened inputs.
+#[pyfunction]
+#[pyo3(signature = (costs, effects, willingness_to_pay, mode, sample_count=None, threshold_count=None))]
+fn compute_net_benefit(
+    costs: Vec<f64>,
+    effects: Vec<f64>,
+    willingness_to_pay: Vec<f64>,
+    mode: &str,
+    sample_count: Option<usize>,
+    threshold_count: Option<usize>,
+) -> PyResult<Vec<f64>> {
+    let mode = match mode {
+        "scalar" => WtpMode::Scalar,
+        "thresholds" => WtpMode::Thresholds,
+        "legacy-elementwise" => WtpMode::LegacyElementwise,
+        "sample-thresholds" => WtpMode::SampleThresholds {
+            sample_count: sample_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "sample_count is required for sample-thresholds",
+                ))
+            })?,
+            threshold_count: threshold_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "threshold_count is required for sample-thresholds",
+                ))
+            })?,
+        },
+        _ => {
+            return Err(InputError::new_err((
+                "invalid_input",
+                "unsupported willingness-to-pay mode",
+            )))
+        }
+    };
+    net_benefit(&costs, &effects, &willingness_to_pay, mode)
+        .map(|result| result.values)
+        .map_err(|error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })
 }
 
 /// Compute the stable ENBS kernel for Python callers.
@@ -1057,6 +1103,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_expected_loss, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_net_benefit, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
@@ -1433,6 +1480,31 @@ mod tests {
             assert!((losses[0] - 1.0).abs() <= 1.0e-12);
             assert!((losses[1] - 2.0 / 3.0).abs() <= 1.0e-12);
             assert_eq!(optimal, 1);
+        });
+    }
+
+    #[test]
+    fn compute_net_benefit_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_net_benefit, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_net_benefit").unwrap();
+            let result = function
+                .call1((
+                    vec![100.0_f64, 150.0],
+                    vec![0.5_f64, 0.6],
+                    vec![10_000.0_f64, 20_000.0],
+                    "thresholds",
+                    None::<usize>,
+                    None::<usize>,
+                ))
+                .unwrap()
+                .extract::<Vec<f64>>()
+                .unwrap();
+            assert_eq!(result, vec![4_900.0, 9_900.0, 5_850.0, 11_850.0]);
         });
     }
 

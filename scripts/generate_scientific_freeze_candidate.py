@@ -13,6 +13,7 @@ from typing import Any, cast
 ROOT = Path(__file__).parents[1]
 LANDSCAPE = ROOT / "specs" / "software-landscape"
 JSON_OUTPUT = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
+APPROVAL = LANDSCAPE / "v1.1-scientific-freeze-approval.json"
 DOC_OUTPUT = (
     ROOT
     / "docs"
@@ -144,7 +145,10 @@ def _table(records: list[dict[str, str]]) -> list[str]:
     return lines
 
 
-def _document(candidate: dict[str, object]) -> str:
+def _document(
+    candidate: dict[str, object],
+    approval: dict[str, Any] | None = None,
+) -> str:
     stable = cast("list[dict[str, str]]", candidate["stable_methods"])
     experimental = cast("list[dict[str, str]]", candidate["experimental_methods"])
     planned = cast("list[dict[str, str]]", candidate["planned_methods"])
@@ -183,9 +187,23 @@ def _document(candidate: dict[str, object]) -> str:
         "",
         "## Approval state",
         "",
-        "`pending-human-review`. No agent, test, generated document, or CI result",
-        "can change this state. Approval evidence must identify this exact digest and",
-        "an accountable human reviewer.",
+        *(
+            [
+                f"`approved` by `{approval['approved_by']}` at "
+                f"`{approval['approved_at']}`.",
+                "",
+                "The separate append-only approval artifact binds this exact digest",
+                "and candidate-file hash. Implementation, numerical validation,",
+                "binding conformance, release, publication, and external gates remain",
+                "open.",
+            ]
+            if approval is not None
+            else [
+                "`pending-human-review`. No agent, test, generated document, or CI result",
+                "can change this state. Approval evidence must identify this exact digest and",
+                "an accountable human reviewer.",
+            ]
+        ),
         "",
         "## Recording an approval",
         "",
@@ -200,11 +218,45 @@ def _document(candidate: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
+def _check_approved_candidate(*, check: bool) -> int:
+    if not JSON_OUTPUT.exists():
+        print("approved scientific freeze candidate is missing", file=sys.stderr)
+        return 1
+    candidate = _load(JSON_OUTPUT)
+    approval = _load(APPROVAL)
+    artifact_digest = sha256(JSON_OUTPUT.read_bytes()).hexdigest()
+    if (
+        approval.get("candidate_digest") != candidate.get("candidate_digest")
+        or approval.get("candidate_artifact_sha256") != artifact_digest
+    ):
+        print(
+            "scientific freeze approval does not match the immutable candidate",
+            file=sys.stderr,
+        )
+        return 1
+    if not check:
+        print(
+            "scientific freeze is approved and immutable; create a new "
+            "versioned candidate for later scientific changes",
+            file=sys.stderr,
+        )
+        return 1
+    doc_rendered = _document(candidate, approval)
+    if not DOC_OUTPUT.exists() or DOC_OUTPUT.read_text(encoding="utf-8") != doc_rendered:
+        print("approved scientific freeze review page is stale", file=sys.stderr)
+        return 1
+    print("approved scientific freeze candidate is immutable and current")
+    return 0
+
+
 def main() -> int:
     """Write or check the deterministic candidate and review page."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
+    if APPROVAL.exists():
+        return _check_approved_candidate(check=args.check)
+
     candidate = _candidate()
     json_rendered = json.dumps(candidate, indent=2, ensure_ascii=False) + "\n"
     doc_rendered = _document(candidate)

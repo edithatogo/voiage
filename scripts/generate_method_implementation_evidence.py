@@ -14,9 +14,9 @@ OUTPUT = LANDSCAPE / "implementation-evidence.json"
 
 EVIDENCE = {
     "net-benefit": (
-        "voiage/core/utils.py",
-        "tests/test_utils_comprehensive.py",
-        "python-stable-gap",
+        "rust/crates/voiage-numerics/src/net_benefit.rs",
+        "rust/crates/voiage-numerics/tests/net_benefit.rs",
+        "rust-authoritative",
     ),
     "expected-loss": (
         "rust/crates/voiage-numerics/src/expected_loss.rs",

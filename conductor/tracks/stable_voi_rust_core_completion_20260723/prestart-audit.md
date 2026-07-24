@@ -78,3 +78,13 @@ window. It must not be silently inferred from shape.
 This audit does not approve the freeze, start issue #316, promote a method,
 waive manual verification, or satisfy Rust, Python, ABI, binding, release, or
 external gates.
+
+## Post-start resolution
+
+The approved candidate is now an immutable scientific snapshot. Implementation
+evidence can advance without rewriting that artifact; a later change to method
+definitions, maturity, or dispositions requires a new versioned candidate and
+review. The v1 elementwise WTP behavior remains available in the Rust kernel
+through `wtp_axis="elementwise"`. Automatic shape inference emits a
+deprecation warning, and `wtp_axis="thresholds"` disambiguates square
+sample-by-threshold matrices.

@@ -14,6 +14,7 @@ mod evsi_moment;
 mod evsi_regression;
 mod expected_loss;
 mod heterogeneity;
+mod net_benefit;
 mod structural;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
@@ -27,6 +28,7 @@ pub use evsi_moment::evsi_moment_based;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use expected_loss::{expected_loss, ExpectedLossKernelResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
+pub use net_benefit::{net_benefit, NetBenefitKernelResult, WtpMode};
 pub use structural::{structural_evpi, structural_evppi};
 
 /// Identifies this crate while numerical kernels are migrated.

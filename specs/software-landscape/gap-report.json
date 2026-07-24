@@ -20,7 +20,7 @@
       "planned": 31
     },
     "open_feature_gaps": 37,
-    "open_method_or_assurance_gaps": 44
+    "open_method_or_assurance_gaps": 43
   },
   "feature_gaps": [
     {
@@ -1002,21 +1002,6 @@
         "emukit"
       ],
       "owner_track": "ml_llm_agent_voi_20260723"
-    },
-    {
-      "method_id": "net-benefit",
-      "maturity": "stable",
-      "voiage_state": "native",
-      "review_state": "primary-verified",
-      "promotion_gate": "none",
-      "authority_state": "python-stable-gap",
-      "remaining_implementation_gate": "stable-rust-authority",
-      "affected_tool_ids": [
-        "r-bcea",
-        "r-hesim",
-        "trd-cea-toolkit"
-      ],
-      "owner_track": "stable_voi_rust_core_completion_20260723"
     },
     {
       "method_id": "optimal-study-design",

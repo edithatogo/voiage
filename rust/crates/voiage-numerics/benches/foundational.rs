@@ -6,11 +6,21 @@ use std::time::Instant;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
-    expected_loss,
+    expected_loss, net_benefit, WtpMode,
 };
 
 #[allow(clippy::too_many_lines)]
 fn main() {
+    benchmark("net_benefit", || {
+        let costs = (0..32_768).map(f64::from).collect::<Vec<_>>();
+        let effects = (0..32_768)
+            .map(|value| f64::from(value) / 100.0)
+            .collect::<Vec<_>>();
+        black_box(
+            net_benefit(&costs, &effects, &[50_000.0], WtpMode::Scalar)
+                .expect("net-benefit benchmark"),
+        );
+    });
     benchmark("evpi", || {
         let rows = (0..4096)
             .map(|sample| {

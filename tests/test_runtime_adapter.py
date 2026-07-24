@@ -249,6 +249,51 @@ def test_compute_expected_loss_forwards_matrix_payload_to_native(monkeypatch) ->
     assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
 
 
+def test_compute_net_benefit_forwards_shape_policy_to_native(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(
+        costs: list[float],
+        effects: list[float],
+        willingness_to_pay: list[float],
+        mode: str,
+        sample_count: int | None,
+        threshold_count: int | None,
+    ) -> list[float]:
+        captured.update(
+            costs=costs,
+            effects=effects,
+            willingness_to_pay=willingness_to_pay,
+            mode=mode,
+            sample_count=sample_count,
+            threshold_count=threshold_count,
+        )
+        return [1.0, 2.0]
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_net_benefit=compute),
+    )
+
+    assert _runtime.compute_net_benefit(
+        [100.0],
+        [0.5],
+        [10_000.0, 20_000.0],
+        mode="sample-thresholds",
+        sample_count=1,
+        threshold_count=2,
+    ) == [1.0, 2.0]
+    assert captured == {
+        "costs": [100.0],
+        "effects": [0.5],
+        "willingness_to_pay": [10_000.0, 20_000.0],
+        "mode": "sample-thresholds",
+        "sample_count": 1,
+        "threshold_count": 2,
+    }
+
+
 def test_compute_dominance_forwards_vectors_to_native(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
