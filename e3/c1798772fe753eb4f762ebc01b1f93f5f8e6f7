@@ -1,0 +1,5 @@
+Task: Pre-start audit of stable Rust net-benefit authority
+Summary: Mapped the remaining stable authority gap, both public Python calculation paths, current test coverage, the PyO3/runtime route, and the ambiguous two-dimensional WTP broadcasting behavior.
+Files: stable-core prestart-audit.md, index.md, evidence.jsonl
+Why: Make issue #316 immediately executable after scientific approval without starting the track or prejudging the contract.
+Verification: Evidence JSONL parsed; Vale passed 1074 files; four governance tests and live GitHub programme validation passed; git diff --check passed.
