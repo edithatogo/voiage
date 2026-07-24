@@ -1,0 +1,7 @@
+Task: Refresh external VOI software census
+
+Summary: Corrected decision-security provenance and added six previously omitted external records covering ecological survey design, validation EVPI, heterogeneous meta-analysis, Gaussian approximation, meta-analysis study design, and geothermal imperfect-information analysis. All new parity rows remain planned with explicit implementation gaps.
+
+Why: The parity registry must preserve discovered maintained or methodologically unique software instead of presenting the seeded candidate list as exhaustive.
+
+Validation: 35 registry and decision-contract tests passed; Astro check passed with zero diagnostics; Ruff and diff integrity passed.
