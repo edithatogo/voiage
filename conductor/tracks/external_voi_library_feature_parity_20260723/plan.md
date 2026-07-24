@@ -17,12 +17,14 @@
 
 ## Phase 2: Feature census and parity
 
-- [~] Inventory source, tests, docs, examples, vignettes, schemas, and
-  releases; the initial feature-level snapshot is committed, while
-  estimator-by-estimator source/test extraction remains open. The refreshed
-  search added seven previously omitted external records, including the
-  source-rights-blocked BayesCal-VOI supplement, and corrected
-  `decision-security` provenance. (`5dadf91`, `7443253`)
+- [x] Inventory source, tests, docs, examples, vignettes, schemas, and
+  releases. Every observed external feature now has a versioned artifact
+  record; GitHub source, test, and example evidence is pinned to an exact
+  reviewed commit, and absent artifact classes are explicit limitations.
+  The refreshed search also added seven previously omitted external records,
+  including the source-rights-blocked BayesCal-VOI supplement, and corrected
+  `decision-security`, decisionSupport, and TRD CEA Toolkit provenance.
+  (`5dadf91`, `7443253`, `ae77dc1`)
 - [x] Build independent fixtures and feature-to-method mappings. (`6e3ebb1`)
 - [ ] Implement missing justified features without competitor runtime imports.
 - [ ] Add optional migration adapters and reviewed exclusions.
@@ -58,3 +60,6 @@
   links cannot be mistaken for complete scientific support. (`c4c4fab`)
 - [x] Require every positive external parity claim to name competitor-free
   fixtures and tests after checkpoint review. (`6e3ebb1`)
+- [x] Replace mutable upstream `HEAD` evidence links with exact commit-pinned
+  source, test, and example records and expose extraction limitations in the
+  generated matrix and routed gap report. (`ae77dc1`)
