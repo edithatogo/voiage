@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/v1.1-scientific-freeze-candidate.schema.json",
+  "title": "VOIAGE v1.1 scientific freeze candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_target",
+    "review_requested_on",
+    "candidate_digest",
+    "source_digests",
+    "decision_contract",
+    "stable_methods",
+    "experimental_methods",
+    "planned_methods",
+    "requested_decisions",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "release_target": {"const": "v1.1"},
+    "review_requested_on": {"type": "string", "format": "date"},
+    "candidate_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_digests": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "decision_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_version", "compatibility", "schema_path"],
+      "properties": {
+        "canonical_version": {"const": "v2"},
+        "compatibility": {"const": "additive-v1-read-and-lossless-map"},
+        "schema_path": {"const": "specs/core-api/schemas/v2/decision-problem.schema.json"}
+      }
+    },
+    "stable_methods": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/method"}
+    },
+    "experimental_methods": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/method"}
+    },
+    "planned_methods": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/method"}
+    },
+    "requested_decisions": {
+      "type": "array",
+      "minItems": 4,
+      "items": {"type": "string", "minLength": 10}
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "approved_by", "approved_at", "evidence"],
+      "properties": {
+        "status": {"const": "pending-human-review"},
+        "approved_by": {"type": "null"},
+        "approved_at": {"type": "null"},
+        "evidence": {"type": "null"}
+      }
+    }
+  },
+  "$defs": {
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_id",
+        "label",
+        "class",
+        "moscow",
+        "maturity",
+        "voiage_state",
+        "review_state",
+        "disposition",
+        "promotion_gate",
+        "authority_state",
+        "remaining_implementation_gate"
+      ],
+      "properties": {
+        "method_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "label": {"type": "string", "minLength": 3},
+        "class": {"type": "string", "minLength": 3},
+        "moscow": {"enum": ["must", "should", "could", "wont"]},
+        "maturity": {"enum": ["stable", "experimental", "planned"]},
+        "voiage_state": {"enum": ["native", "equivalent", "planned", "excluded"]},
+        "review_state": {"type": "string", "minLength": 3},
+        "disposition": {"type": "string", "minLength": 3},
+        "promotion_gate": {"type": "string", "minLength": 3},
+        "authority_state": {"type": "string", "minLength": 3},
+        "remaining_implementation_gate": {"type": "string", "minLength": 3}
+      }
+    }
+  }
+}

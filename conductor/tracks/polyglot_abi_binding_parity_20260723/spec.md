@@ -17,6 +17,10 @@ and Mojo.
 5. Package Mojo C-ABI wrappers with owned buffers and structured errors; label
    CLI/JSON as fallback until direct Rust interop qualifies.
 6. Generate capability surfaces from the canonical registry.
+7. Serialize the canonical Decision Problem and estimator-assurance envelopes
+   consistently in Arrow, JSON, the C ABI, and language-native types.
+8. Fail conformance when code, packages, capability manifests, or
+   documentation advertise an unsupported method or maturity.
 
 ## Compatibility and failure policy
 
@@ -29,4 +33,3 @@ drift, and silent fallback block release.
 Clean installed packages call every advertised method and pass golden and
 randomized differential fixtures on supported platforms. Unsupported methods
 fail explicitly.
-

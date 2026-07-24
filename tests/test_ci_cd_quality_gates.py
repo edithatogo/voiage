@@ -12,6 +12,7 @@ according to the strict CI/CD quality gates policy, including:
 - Binding language-native gates
 """
 
+import json
 from pathlib import Path
 import re
 
@@ -22,7 +23,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 GITHUB_WORKFLOWS_DIR = PROJECT_ROOT / ".github" / "workflows"
 TOX_INI = PROJECT_ROOT / "tox.ini"
 PYPROJECT_TOML = PROJECT_ROOT / "pyproject.toml"
-DEPENDABOT_CONFIG = PROJECT_ROOT / ".github" / "dependabot.yml"
+RENOVATE_CONFIG = PROJECT_ROOT / "renovate.json"
 RUST_DENY_CONFIG = PROJECT_ROOT / "rust" / "deny.toml"
 
 
@@ -164,6 +165,16 @@ class TestCICDQualityGatesConfiguration:
         # Check for CodeQL workflow
         codeql_workflow = GITHUB_WORKFLOWS_DIR / "codeql.yml"
         assert codeql_workflow.exists(), "CodeQL workflow not found"
+
+        dependency_review = yaml.safe_load(
+            (GITHUB_WORKFLOWS_DIR / "dependency-review.yml").read_text(encoding="utf-8")
+        )
+        review_options = dependency_review["jobs"]["dependency-review"]["steps"][0][
+            "with"
+        ]
+        assert review_options["fail-on-severity"] == "moderate"
+        assert review_options["vulnerability-check"] is True
+        assert review_options["license-check"] is True
 
     def test_documentation_build_configured(self):
         """Test that documentation build is configured."""
@@ -363,22 +374,24 @@ class TestQualityGatePolicyCompliance:
 
     def test_rust_supply_chain_is_updated_and_fail_closed(self):
         """Require Cargo updates and all cargo-deny policy families."""
-        dependabot = yaml.safe_load(DEPENDABOT_CONFIG.read_text(encoding="utf-8"))
-        cargo_updates = [
-            update
-            for update in dependabot["updates"]
-            if update["package-ecosystem"] == "cargo"
-        ]
-        assert cargo_updates == [
-            {
-                "package-ecosystem": "cargo",
-                "directory": "/rust",
-                "schedule": {"interval": "weekly"},
-                "cooldown": {"default-days": 7},
-                "open-pull-requests-limit": 10,
-                "labels": ["dependencies", "rust"],
-            }
-        ]
+        renovate = json.loads(RENOVATE_CONFIG.read_text(encoding="utf-8"))
+        assert set(renovate["enabledManagers"]) == {
+            "cargo",
+            "docker-compose",
+            "github-actions",
+            "git-submodules",
+            "npm",
+            "pep621",
+            "pixi",
+            "pre-commit",
+        }
+        assert renovate["vulnerabilityAlerts"]["enabled"] is True
+        assert renovate["vulnerabilityAlerts"]["automerge"] is False
+        assert renovate["vulnerabilityAlerts"]["schedule"] == ["at any time"]
+        assert renovate["osvVulnerabilityAlerts"] is True
+        assert renovate["minimumReleaseAge"] == "7 days"
+        assert renovate["internalChecksFilter"] == "strict"
+        assert not (PROJECT_ROOT / ".github" / "dependabot.yml").exists()
 
         workflow = yaml.safe_load(
             (GITHUB_WORKFLOWS_DIR / "rust-security.yml").read_text(encoding="utf-8")

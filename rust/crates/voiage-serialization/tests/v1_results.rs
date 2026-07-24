@@ -1,4 +1,4 @@
-//! Contract tests for the six stable v1 result DTOs.
+//! Contract tests for the stable v1 result DTOs.
 
 use serde::de::DeserializeOwned;
 use serde_json::{json, Value};
@@ -6,7 +6,8 @@ use std::{collections::BTreeSet, fs, path::PathBuf};
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
     EnbsResultV1, EnbsResultV1Input, EvpiResultV1, EvpiResultV1Input, EvppiResultV1,
-    EvppiResultV1Input, EvsiResultV1, EvsiResultV1Input,
+    EvppiResultV1Input, EvsiResultV1, EvsiResultV1Input, ExpectedLossResultV1,
+    ExpectedLossResultV1Input,
 };
 
 #[test]
@@ -58,6 +59,19 @@ fn future_kernels_can_construct_all_results_without_json_round_trips() {
         expected_perfect_information: None,
         method: None,
         diagnostics: None,
+    })
+    .is_ok());
+    assert!(ExpectedLossResultV1::try_from(ExpectedLossResultV1Input {
+        analysis_id: "a".into(),
+        decision_problem_id: "d".into(),
+        strategy_names: vec!["A".into(), "B".into()],
+        expected_net_benefit_by_strategy: vec![1.0, 2.0],
+        expected_opportunity_loss_by_strategy: vec![1.0, 0.5],
+        optimal_strategy_index: 1,
+        minimum_expected_opportunity_loss: 0.5,
+        sample_count: 10,
+        method: Some("expected-opportunity-loss".into()),
+        reporting: None,
     })
     .is_ok());
     assert!(CeafResultV1::try_from(CeafResultV1Input {
@@ -147,13 +161,29 @@ fn assert_json_equivalent(actual: &Value, expected: &Value) {
 }
 
 #[test]
-fn all_six_canonical_examples_round_trip_exactly() {
+fn all_canonical_examples_round_trip_exactly() {
     round_trip::<EvpiResultV1>("evpi");
     round_trip::<EvppiResultV1>("evppi");
     round_trip::<EvsiResultV1>("evsi");
     round_trip::<EnbsResultV1>("enbs");
+    round_trip::<ExpectedLossResultV1>("expected-loss");
     round_trip::<CeafResultV1>("ceaf");
     round_trip::<DominanceResultV1>("dominance");
+}
+
+#[test]
+fn expected_loss_enforces_alignment_optimum_and_selected_loss() {
+    let mut misaligned = example("expected-loss");
+    misaligned["strategy_names"] = json!(["Current practice"]);
+    assert!(serde_json::from_value::<ExpectedLossResultV1>(misaligned).is_err());
+
+    let mut wrong_optimum = example("expected-loss");
+    wrong_optimum["optimal_strategy_index"] = json!(0);
+    assert!(serde_json::from_value::<ExpectedLossResultV1>(wrong_optimum).is_err());
+
+    let mut wrong_loss = example("expected-loss");
+    wrong_loss["minimum_expected_opportunity_loss"] = json!(1.0);
+    assert!(serde_json::from_value::<ExpectedLossResultV1>(wrong_loss).is_err());
 }
 
 #[test]

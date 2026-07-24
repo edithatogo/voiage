@@ -1,5 +1,9 @@
 # Changelog
 
+- Upgrade the documentation site to Astro 7.1.3 and Starlight 0.41.4, integrate
+  the commit-pinned `astro-polyglot` plugin for generated Python API pages, and
+  add build-time link validation with reproducible native-tool setup.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -19,6 +23,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added Rust-authoritative net-benefit construction with scalar, threshold,
+  sample-specific threshold, and explicit v1 elementwise compatibility modes;
+  both public Python helpers now use the native kernel and reject non-finite
+  inputs or results.
+- Recorded the repository maintainer's hash-bound scientific-contract approval
+  for the v1.1 method freeze while retaining every implementation, numerical,
+  binding, release, publication, and external gate.
+- Added a fail-closed, append-only scientific-freeze approval recorder that
+  binds an accountable human decision to the exact candidate artifact and
+  requested decisions, rejects stale digests and incomplete evidence, and
+  leaves implementation, validation, binding, release, publication, and
+  external gates open.
+- Added a Rust-authoritative expected opportunity-loss kernel, typed Python
+  result, canonical serialization schema, analytical/property tests, and a
+  public `expected_loss` API whose selected loss agrees with EVPI.
+- Added immutable, commit-pinned upstream source, test, documentation, example,
+  schema-availability, and limitation evidence for every observed external
+  software feature in the VOI landscape.
+- Added generated implementation evidence for every method claimed as native,
+  linking each claim to its implementation, executable tests, numerical
+  authority, maturity, and remaining promotion gate.
+- Added verified landscape records for ecological survey design, external
+  prediction-model validation, heterogeneous meta-analysis, Gaussian
+  approximation, Bayesian calibration, meta-analysis study design, and
+  geothermal imperfect information after the refreshed registry and repository
+  search found these previously omitted capabilities.
+- Added calibration VOI to the canonical method and implementation-evidence
+  registries after reconciling the existing experimental runtime and primary
+  calibration-target literature.
+- Added method-level scientific dispositions for all 60 canonical methods,
+  explicit classifications for 15 adjacent VOI concepts, a backend-neutral
+  DecisionProblemV2 interchange schema, competitor-free positive-parity
+  fixtures, a routed gap report, and scheduled landscape-freshness checks.
+- Added the verified TRD CEA Toolkit software candidate and a duplicate-aware
+  contribution template for missed libraries and methods.
+- Added a Renovate-first dependency and GitHub security programme covering all
+  retained package managers, vulnerability-driven updates, stability and
+  protected-check policy, live posture reconciliation, SBOM/provenance, and
+  fail-closed alert release criteria.
+- Added cross-cutting programme requirements for a canonical Decision Problem
+  interchange model, estimator-assurance envelopes, adjacent decision-theory
+  triage, registry-derived claim conformance, deterministic scalability,
+  adversarial ML/agent evaluation, architecture decisions, ecosystem-drift
+  review, and reproducibility cards.
+- Added a versioned, evidence-linked census of VOI, Value of Perspective,
+  experimental-design, active-learning, web, and commercial software, plus a
+  generated feature and method matrix with explicit parity dispositions.
 - Added the comprehensive Rust-first polyglot VOIAGE programme, eleven
   cross-linked Conductor tracks, a native GitHub parent/subissue hierarchy,
   Project 28 metadata, and reusable local/live governance validation.
@@ -41,6 +92,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Separated external workflow-parity gaps from method implementation and
+  assurance gaps so a fully evidenced native method is not reported as
+  incomplete merely because a broader competitor workflow remains open.
+- Corrected the method registry so nested-Monte-Carlo EVPPI remains planned
+  rather than being presented as a native stable capability.
+- Replaced Dependabot version-update configuration with Renovate, retained
+  GitHub advisory alerts, raised dependency-review blocking to moderate
+  severity, and constrained JupyterLab to the first release that fixes alerts
+  #64--#68.
 - Allowed the frozen v1 programme validator to coexist with separately
   governed post-v1 tracks while continuing to reject missing v1 records.
 - Consolidated the preprint around the decision problem, information measures,

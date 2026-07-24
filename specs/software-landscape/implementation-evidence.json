@@ -1,0 +1,425 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "method_id": "calibration-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/calibration.py"
+      ],
+      "test_paths": [
+        "tests/test_calibration.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "causal-transportability-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/causal_transportability.py"
+      ],
+      "test_paths": [
+        "tests/test_causal_transportability.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "cea-plane",
+      "maturity": "stable",
+      "authority_state": "visualization-only",
+      "implementation_paths": [
+        "voiage/plot/dominance.py"
+      ],
+      "test_paths": [
+        "tests/test_plotting.py"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "ceac",
+      "maturity": "stable",
+      "authority_state": "visualization-only",
+      "implementation_paths": [
+        "voiage/plot/ceac.py"
+      ],
+      "test_paths": [
+        "tests/test_plotting.py"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "ceaf",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/ceaf.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/ceaf.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "data-quality-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/data_quality.py"
+      ],
+      "test_paths": [
+        "tests/test_data_quality.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "directional-evop",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/perspective.py"
+      ],
+      "test_paths": [
+        "tests/test_perspective.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "dominance",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/dominance.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/dominance.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "enbs",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/enbs.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/foundational_kernels.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "equity-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/distributional.py"
+      ],
+      "test_paths": [
+        "tests/test_distributional.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "evpi",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evpi.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/foundational_kernels.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evppi",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evppi.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evppi.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evppi-regression",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evppi.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evppi.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evsi",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evsi.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evsi.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evsi-moment-matching",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evsi_moment.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evsi_moment.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evsi-nested-mc",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evsi.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evsi.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "evsi-regression",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/evsi_regression.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/evsi_regression.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "expected-loss",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/expected_loss.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/expected_loss.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "heterogeneity-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/heterogeneity.py"
+      ],
+      "test_paths": [
+        "tests/test_heterogeneity.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "icer",
+      "maturity": "stable",
+      "authority_state": "related-analysis",
+      "implementation_paths": [
+        "voiage/methods/dominance.py"
+      ],
+      "test_paths": [
+        "tests/test_dominance.py"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "implementation-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/implementation.py"
+      ],
+      "test_paths": [
+        "tests/test_implementation.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "monitoring-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/monitoring_surveillance.py"
+      ],
+      "test_paths": [
+        "tests/test_monitoring_surveillance.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "net-benefit",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/net_benefit.rs"
+      ],
+      "test_paths": [
+        "rust/crates/voiage-numerics/tests/net_benefit.rs"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "nma-voi",
+      "maturity": "stable",
+      "authority_state": "rust-backed-python-orchestration",
+      "implementation_paths": [
+        "voiage/methods/network_meta_analysis.py"
+      ],
+      "test_paths": [
+        "tests/test_network_meta_analysis.py"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "pairwise-evop",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/perspective.py"
+      ],
+      "test_paths": [
+        "tests/test_perspective.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "perspective-optima",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/perspective.py"
+      ],
+      "test_paths": [
+        "tests/test_perspective.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "perspective-switching",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/perspective.py"
+      ],
+      "test_paths": [
+        "tests/test_perspective.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "portfolio-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/portfolio.py"
+      ],
+      "test_paths": [
+        "tests/test_portfolio_comprehensive.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "preference-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/preference.py"
+      ],
+      "test_paths": [
+        "tests/test_preference.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "real-options-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/dynamic_real_options.py"
+      ],
+      "test_paths": [
+        "tests/test_dynamic_real_options.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "sequential-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/sequential.py"
+      ],
+      "test_paths": [
+        "tests/test_sequential.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "structural-voi",
+      "maturity": "stable",
+      "authority_state": "rust-authoritative",
+      "implementation_paths": [
+        "rust/crates/voiage-numerics/src/structural.rs"
+      ],
+      "test_paths": [
+        "tests/test_structural.py"
+      ],
+      "remaining_gate": "none"
+    },
+    {
+      "method_id": "validation-voi",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/validation.py"
+      ],
+      "test_paths": [
+        "tests/test_validation.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "value-of-computation",
+      "maturity": "experimental",
+      "authority_state": "python-experimental",
+      "implementation_paths": [
+        "voiage/methods/computational.py"
+      ],
+      "test_paths": [
+        "tests/test_computational.py"
+      ],
+      "remaining_gate": "experimental-promotion"
+    },
+    {
+      "method_id": "voi-curve",
+      "maturity": "stable",
+      "authority_state": "visualization-only",
+      "implementation_paths": [
+        "voiage/plot/voi_curves.py"
+      ],
+      "test_paths": [
+        "tests/test_plotting.py"
+      ],
+      "remaining_gate": "none"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/software-landscape/upstream-feature-evidence-1.0.0.json",
+  "title": "VOIAGE upstream feature evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tool_id",
+          "feature_id",
+          "reviewed_version",
+          "reviewed_revision",
+          "reviewed_on",
+          "extraction_state",
+          "source_artifacts",
+          "test_artifacts",
+          "documentation_artifacts",
+          "example_artifacts",
+          "schema_artifacts",
+          "limitations"
+        ],
+        "properties": {
+          "tool_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "feature_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "reviewed_version": {"type": "string", "minLength": 1},
+          "reviewed_revision": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "reviewed_on": {"type": "string", "format": "date"},
+          "extraction_state": {
+            "enum": [
+              "source-tests-and-docs-reviewed",
+              "source-and-docs-reviewed",
+              "repository-and-docs-reviewed",
+              "documentation-only"
+            ]
+          },
+          "source_artifacts": {
+            "type": "array",
+            "items": {"type": "string", "format": "uri"}
+          },
+          "test_artifacts": {
+            "type": "array",
+            "items": {"type": "string", "format": "uri"}
+          },
+          "documentation_artifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "format": "uri"}
+          },
+          "example_artifacts": {
+            "type": "array",
+            "items": {"type": "string", "format": "uri"}
+          },
+          "schema_artifacts": {
+            "type": "array",
+            "items": {"type": "string", "format": "uri"}
+          },
+          "limitations": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,12 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import polyglot, { sidebarGroup } from "astro-polyglot";
+import starlightLinksValidator from "starlight-links-validator";
 import starlightLlmsTxt from "starlight-llms-txt";
+
+const repositoryRoot = fileURLToPath(new URL("../../", import.meta.url));
 
 export default defineConfig({
   site: "https://edithatogo.github.io/voiage",
@@ -30,8 +36,20 @@ export default defineConfig({
       lastUpdated: true,
 
       plugins: [
+        polyglot({
+          contentDir: "src/content/docs",
+          python: {
+            entryPoints: [path.join(repositoryRoot, "voiage")],
+            output: "api-reference/generated/python",
+            basePath: "/voiage",
+            pythonExecutable:
+              process.env.STARLIGHT_POLYGLOT_PYTHON ??
+              path.join(repositoryRoot, ".venv/bin/python"),
+          },
+          failFast: true,
+        }),
+        starlightLinksValidator(),
         starlightLlmsTxt(),
-
       ],
 
       sidebar: [
@@ -59,6 +77,7 @@ export default defineConfig({
           label: "API Reference",
           items: [{ autogenerate: { directory: "api-reference" } }],
         },
+        sidebarGroup,
         {
           label: "Examples",
           items: [{ autogenerate: { directory: "examples" } }],

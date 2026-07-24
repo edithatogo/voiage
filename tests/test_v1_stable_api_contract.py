@@ -74,7 +74,15 @@ def test_v1_contract_specifies_core_method_shapes_and_failures() -> None:
     """Core methods must define input shape, output, missing values, and errors."""
     methods = _contract()["methods"]
 
-    assert set(methods) == {"evpi", "evppi", "evsi", "enbs", "ceaf", "dominance"}
+    assert set(methods) == {
+        "net_benefit",
+        "evpi",
+        "evppi",
+        "evsi",
+        "enbs",
+        "ceaf",
+        "dominance",
+    }
     for name, method in methods.items():
         assert method["status"] == "stable"
         assert method["implementation"] == "rust"

@@ -1,2 +1,2 @@
 {"schema_version":"1.0","timestamp":"2026-07-23T13:18:53Z","task":"track-initialization","status":"passed","evidence":["https://github.com/edithatogo/voiage/issues/321"],"notes":"Native programme subissue and Project 28 record created."}
-
+{"schema_version":"1.0","timestamp":"2026-07-24T00:00:00Z","task":"example-reproducibility-card-planning","status":"passed","evidence":["conductor/tracks/datasets_worked_examples_20260723/spec.md","conductor/tracks/datasets_worked_examples_20260723/plan.md"],"notes":"Required reproducibility cards, assumptions, estimator uncertainty, sensitivity, failure cases, accessible outputs, and deterministic offline instructions for worked examples."}

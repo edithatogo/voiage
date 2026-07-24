@@ -29,11 +29,11 @@ def test_v1_readiness_page_uses_astro_internal_links() -> None:
     text = PAGE.read_text(encoding="utf-8")
     assert ".rst" not in text
     for link in (
-        "/getting-started/",
-        "/introduction/",
-        "/api-reference/",
-        "/user-guide/migration-guide/",
-        "/reference/bindings/",
+        "/voiage/getting-started",
+        "/voiage/introduction",
+        "/voiage/api-reference",
+        "/voiage/user-guide/migration-guide",
+        "/voiage/reference/bindings",
     ):
         assert link in text
 

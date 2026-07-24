@@ -16,6 +16,11 @@ Make Rust authoritative for the complete stable decision-VOI surface.
    fallback policy in versioned contracts.
 4. Publish a supported Rust facade and remove silent Python numerical
    divergence.
+5. Report estimator-specific Monte Carlo error, convergence, effective sample
+   size where meaningful, RNG identity, replication, budget, stopping, and
+   numerical-error evidence.
+6. Specify deterministic parallel, streaming/out-of-core, memory, latency, and
+   energy behavior for every advertised scalability profile.
 
 ## Compatibility and failure policy
 
@@ -32,4 +37,3 @@ owns versioned fixtures.
 ## Out of scope
 
 Promotion of experimental estimators without scientific and numerical evidence.
-

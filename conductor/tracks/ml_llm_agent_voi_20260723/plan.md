@@ -5,6 +5,9 @@
 - [ ] Add failing utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
+- [ ] Threat-model prompt injection, data/retrieval poisoning, tool
+  exfiltration, reward hacking, evaluation contamination, adaptive overfitting,
+  correlated judge/verifier failures, provider drift, and human override.
 - [ ] Register ML/LLM/agent methods at experimental maturity.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
@@ -18,6 +21,8 @@
 - [ ] Implement label, model, retrieval, compute, escalation, drift, tool, and
   delegation decision contexts.
 - [ ] Add calibration, sensitivity, stopping, privacy, and provenance results.
+- [ ] Add adversarial-information, safety-constraint, dependent-evaluator, and
+  escalation/abstention analyses when they change net information value.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -34,4 +39,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Evidence and maturity'
   (Protocol in workflow.md).
-

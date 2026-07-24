@@ -32,7 +32,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
 | R | GitHub Release source archives | CRAN and r-universe | No |
 | Julia | TagBot sync plus GitHub Release artifacts | Julia General registry approval | No |
-| Rust | Publishable core crates plus GitHub Release workspace artifacts | crates.io review/indexing and trusted publishing credentials | Yes, repository-ready |
+| Rust | Publishable core crates plus GitHub Release workspace artifacts | crates.io review/indexing and registry-side trusted-publisher registration | Yes, repository-ready |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
 | EasyBuild | Manual easyconfig preparation for EasyBuild repository | EasyBuild maintainer review and PR merge | No |
 | HPSF | Manual curation submission | External curation review / listing policy | No |
@@ -72,7 +72,12 @@ Software Heritage archival is complete for the v1.0.0 origin request: request
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
 - [x] The binding-independent Rust core crates are publishable on crates.io; FFI, PyO3, and test-support crates remain private.
-- [x] The tag-driven crates.io workflow publishes core crates in dependency order using `CARGO_REGISTRY_TOKEN`.
+- [x] The tag-driven crates.io workflow publishes core crates in dependency
+  order using a short-lived OIDC token from the official pinned
+  `crates-io-auth-action`; no long-lived registry secret is used.
+- [ ] Each public crate must be registered on crates.io to trust
+  `rust-crates-release.yml` and the `crates-io` GitHub environment before the
+  first live publication.
 - [x] GitHub Release source archives are attached to the release.
 - [x] The Rust crate remains the canonical execution core and contract owner.
 
@@ -81,7 +86,9 @@ Software Heritage archival is complete for the v1.0.0 origin request: request
 If the question is "are all language versions submitted to their corresponding
 registries today?", the repo can only answer this partially:
 
-- The in-repo publishing workflows are in place for Python and the binding-independent Rust core; crates.io publication still requires the maintainer token and registry-side acceptance.
+- The in-repo publishing workflows are in place for Python and the
+  binding-independent Rust core; crates.io publication still requires
+  registry-side trusted-publisher registration and acceptance.
 - Julia, conda-forge, CRAN, and r-universe still require external registry-side
   action or approval.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with

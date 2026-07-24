@@ -6,10 +6,21 @@ use std::time::Instant;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
+    expected_loss, net_benefit, WtpMode,
 };
 
 #[allow(clippy::too_many_lines)]
 fn main() {
+    benchmark("net_benefit", || {
+        let costs = (0..32_768).map(f64::from).collect::<Vec<_>>();
+        let effects = (0..32_768)
+            .map(|value| f64::from(value) / 100.0)
+            .collect::<Vec<_>>();
+        black_box(
+            net_benefit(&costs, &effects, &[50_000.0], WtpMode::Scalar)
+                .expect("net-benefit benchmark"),
+        );
+    });
     benchmark("evpi", || {
         let rows = (0..4096)
             .map(|sample| {
@@ -23,6 +34,17 @@ fn main() {
     });
     benchmark("enbs", || {
         black_box(enbs(12.5, 5.0).expect("ENBS benchmark"));
+    });
+    benchmark("expected_loss", || {
+        let rows = (0..4096)
+            .map(|sample| {
+                (0..8)
+                    .map(|strategy| f64::from((sample + strategy * 17) % 101))
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
+        let values: SampleMatrix = rows.try_into().expect("benchmark matrix");
+        black_box(expected_loss(&values).expect("expected-loss benchmark"));
     });
     benchmark("evppi", || {
         let net_benefit: SampleMatrix = (0..2048)

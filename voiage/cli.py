@@ -15,7 +15,7 @@ from collections.abc import Callable, Iterable
 import csv
 import io
 import json
-import logging
+import logging as stdlib_logging
 from pathlib import Path
 import re
 from typing import Any, Literal, cast
@@ -172,7 +172,7 @@ app = typer.Typer(
 OutputFormat = Literal["text", "json", "csv"]
 
 _SCALAR_PATTERN = re.compile(r"[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][-+]?\d+)?")
-_CLI_LOGGER = logging.getLogger("voiage.cli")
+_CLI_LOGGER = stdlib_logging.getLogger("voiage.cli")
 _CLI_STATE: dict[str, bool | OutputFormat] = {
     "output_format": "text",
     "quiet": False,

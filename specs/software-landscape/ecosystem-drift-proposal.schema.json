@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/ecosystem-drift-proposal.schema.json",
+  "title": "VOIAGE evidence-preserving ecosystem drift proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observed_on",
+    "baseline_digest",
+    "current_digest",
+    "has_drift",
+    "auto_apply",
+    "scientific_disposition_allowed",
+    "proposals"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "observed_on": {"type": "string", "format": "date"},
+    "baseline_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "current_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "has_drift": {"type": "boolean"},
+    "auto_apply": {"const": false},
+    "scientific_disposition_allowed": {"const": false},
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "baseline",
+          "observed",
+          "required_action",
+          "review_required"
+        ],
+        "properties": {
+          "category": {
+            "enum": [
+              "software-registry",
+              "toolchains",
+              "lockfiles",
+              "github-actions",
+              "documentation-plugin"
+            ]
+          },
+          "baseline": {},
+          "observed": {},
+          "required_action": {"const": "open-reviewed-change"},
+          "review_required": {"const": true}
+        }
+      }
+    }
+  }
+}

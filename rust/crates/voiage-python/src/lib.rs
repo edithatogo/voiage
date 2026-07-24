@@ -19,11 +19,12 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus,
+    evsi_stochastic, expected_loss, heterogeneity, net_benefit, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, WtpMode,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
+    ExpectedLossResultV1, ExpectedLossResultV1Input,
 };
 
 create_exception!(
@@ -479,6 +480,84 @@ fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
     })
 }
 
+/// Compute the stable expected opportunity-loss kernel for Python callers.
+#[pyfunction]
+fn compute_expected_loss<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let result = expected_loss(&net_benefit).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item(
+        "expected_net_benefit_by_strategy",
+        result.expected_net_benefit_by_strategy,
+    )?;
+    output.set_item(
+        "expected_opportunity_loss_by_strategy",
+        result.expected_opportunity_loss_by_strategy,
+    )?;
+    output.set_item("optimal_strategy_index", result.optimal_strategy_index)?;
+    output.set_item(
+        "minimum_expected_opportunity_loss",
+        result.minimum_expected_opportunity_loss,
+    )?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    Ok(output)
+}
+
+/// Compute Rust-authoritative net benefit from row-major flattened inputs.
+#[pyfunction]
+#[pyo3(signature = (costs, effects, willingness_to_pay, mode, sample_count=None, threshold_count=None))]
+fn compute_net_benefit(
+    costs: Vec<f64>,
+    effects: Vec<f64>,
+    willingness_to_pay: Vec<f64>,
+    mode: &str,
+    sample_count: Option<usize>,
+    threshold_count: Option<usize>,
+) -> PyResult<Vec<f64>> {
+    let mode = match mode {
+        "scalar" => WtpMode::Scalar,
+        "thresholds" => WtpMode::Thresholds,
+        "legacy-elementwise" => WtpMode::LegacyElementwise,
+        "sample-thresholds" => WtpMode::SampleThresholds {
+            sample_count: sample_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "sample_count is required for sample-thresholds",
+                ))
+            })?,
+            threshold_count: threshold_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "threshold_count is required for sample-thresholds",
+                ))
+            })?,
+        },
+        _ => {
+            return Err(InputError::new_err((
+                "invalid_input",
+                "unsupported willingness-to-pay mode",
+            )))
+        }
+    };
+    net_benefit(&costs, &effects, &willingness_to_pay, mode)
+        .map(|result| result.values)
+        .map_err(|error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })
+}
+
 /// Compute the stable ENBS kernel for Python callers.
 #[pyfunction]
 fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
@@ -891,6 +970,40 @@ fn serialize_ceaf_result<'py>(
     }
 }
 
+/// Construct, validate, and serialize a canonical expected-loss result.
+#[pyfunction]
+#[pyo3(signature = (*, analysis_id, decision_problem_id, strategy_names, expected_net_benefit_by_strategy, expected_opportunity_loss_by_strategy, optimal_strategy_index, minimum_expected_opportunity_loss, sample_count, method=None, reporting=None))]
+#[allow(clippy::too_many_arguments)]
+fn serialize_expected_loss_result<'py>(
+    py: Python<'py>,
+    analysis_id: String,
+    decision_problem_id: String,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    method: Option<String>,
+    reporting: Option<&Bound<'_, PyAny>>,
+) -> PyResult<Bound<'py, PyDict>> {
+    validate_identifiers(&analysis_id, &decision_problem_id).map_err(BoundaryError::into_pyerr)?;
+    let result = ExpectedLossResultV1::try_from(ExpectedLossResultV1Input {
+        analysis_id,
+        decision_problem_id,
+        strategy_names,
+        expected_net_benefit_by_strategy,
+        expected_opportunity_loss_by_strategy,
+        optimal_strategy_index,
+        minimum_expected_opportunity_loss,
+        sample_count,
+        method,
+        reporting: reporting_from_python(reporting)?,
+    })
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    result_to_dict(py, &result).map(|(result, _)| result)
+}
+
 /// Construct, validate, and serialize a canonical dominance result without computing it.
 #[pyfunction]
 #[pyo3(signature = (*, analysis_id, decision_problem_id, strategy_names, costs, effects, frontier_indices, strongly_dominated_indices, extended_dominated_indices, status, incremental_costs, incremental_effects, icers, reporting=None))]
@@ -989,6 +1102,8 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_expected_loss, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_net_benefit, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
@@ -1001,6 +1116,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
+    module.add_function(wrap_pyfunction!(serialize_expected_loss_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())
 }
@@ -1328,6 +1444,67 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 0.5).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_expected_loss_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_expected_loss, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_expected_loss").unwrap();
+            let result = function
+                .call1((vec![
+                    vec![10.0_f64, 12.0],
+                    vec![11.0, 9.0],
+                    vec![13.0, 14.0],
+                ],))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let losses = result
+                .get_item("expected_opportunity_loss_by_strategy")
+                .unwrap()
+                .unwrap()
+                .extract::<Vec<f64>>()
+                .unwrap();
+            let optimal = result
+                .get_item("optimal_strategy_index")
+                .unwrap()
+                .unwrap()
+                .extract::<usize>()
+                .unwrap();
+            assert!((losses[0] - 1.0).abs() <= 1.0e-12);
+            assert!((losses[1] - 2.0 / 3.0).abs() <= 1.0e-12);
+            assert_eq!(optimal, 1);
+        });
+    }
+
+    #[test]
+    fn compute_net_benefit_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_net_benefit, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_net_benefit").unwrap();
+            let result = function
+                .call1((
+                    vec![100.0_f64, 150.0],
+                    vec![0.5_f64, 0.6],
+                    vec![10_000.0_f64, 20_000.0],
+                    "thresholds",
+                    None::<usize>,
+                    None::<usize>,
+                ))
+                .unwrap()
+                .extract::<Vec<f64>>()
+                .unwrap();
+            assert_eq!(result, vec![4_900.0, 9_900.0, 5_850.0, 11_850.0]);
         });
     }
 

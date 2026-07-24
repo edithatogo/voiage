@@ -68,6 +68,15 @@ def serialize_dominance_result(**payload: object) -> dict[str, object]:
     return dict(result)
 
 
+def serialize_expected_loss_result(**payload: object) -> dict[str, object]:
+    """Return the Rust-owned canonical expected-loss result payload."""
+    try:
+        result = _native().serialize_expected_loss_result(**payload)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evpi(net_benefit: list[list[float]]) -> float:
     """Compute the stable EVPI kernel in Rust."""
     try:
@@ -75,6 +84,39 @@ def compute_evpi(net_benefit: list[list[float]]) -> float:
     except Exception as error:
         _raise_native_error(error)
     return float(result)
+
+
+def compute_expected_loss(net_benefit: list[list[float]]) -> dict[str, object]:
+    """Compute the stable expected opportunity-loss kernel in Rust."""
+    try:
+        result = _native().compute_expected_loss(net_benefit)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_net_benefit(
+    costs: list[float],
+    effects: list[float],
+    willingness_to_pay: list[float],
+    *,
+    mode: str,
+    sample_count: int | None = None,
+    threshold_count: int | None = None,
+) -> list[float]:
+    """Compute row-major net-benefit values in Rust."""
+    try:
+        result = _native().compute_net_benefit(
+            costs,
+            effects,
+            willingness_to_pay,
+            mode,
+            sample_count,
+            threshold_count,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return [float(value) for value in result]
 
 
 def compute_enbs(evsi_result: float, research_cost: float) -> float:

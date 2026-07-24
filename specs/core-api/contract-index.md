@@ -36,7 +36,20 @@ by `fixtures/v1/compatibility-manifest.json`.
 - `schemas/v1/results/ceac.schema.json` -> `examples/v1/ceac.example.json`
 - `schemas/v1/results/ceaf.schema.json` -> `examples/v1/ceaf.example.json`
 - `schemas/v1/results/dominance.schema.json` -> `examples/v1/dominance.example.json`
+- `schemas/v1/results/expected-loss.schema.json` -> `examples/v1/expected-loss.example.json`
 
 ## Deferred Surfaces
 
 Population VOI, structural VOI, network-meta-analysis VOI, adaptive design VOI, and portfolio optimization are deferred until a later spec revision promotes them into stable scope.
+
+## Additive v2 candidates
+
+These contracts are frozen candidates for v1.1 implementation and binding
+conformance. They do not remove the stable v1 readers.
+
+- `schemas/v2/decision-problem.schema.json` ->
+  `examples/v2/decision-problem.example.json`
+- `schemas/v2/analysis-spec.schema.json` ->
+  `examples/v2/analysis-spec.example.json`
+- `schemas/v2/perspective-result.schema.json` ->
+  `examples/v2/perspective-result.example.json`

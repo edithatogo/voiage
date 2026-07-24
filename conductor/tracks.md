@@ -1,32 +1,32 @@
 # Project Tracks
 
-## [ ] Track: Comprehensive Rust-First Polyglot VOIAGE Completion
+## [~] Track: Comprehensive Rust-First Polyglot VOIAGE Completion
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *Execution order: 01 of 11.*
-*Status: new — parent programme for GitHub issue #313 and native subissues
+*Status: in progress — parent programme for GitHub issue #313 and native subissues
 #314--#323; closure requires all repository-owned child work.*
 
 ---
 
-## [ ] Track: VOI/VOP Method Census And Contract Reconciliation
+## [~] Track: VOI/VOP Method Census And Contract Reconciliation
 *Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
 *Execution order: 02 of 11.*
-*Status: new — canonical method and literature registry required before API
+*Status: in progress — canonical method and literature registry required before API
 freeze.*
 
 ---
 
-## [ ] Track: External VOI Library Feature Parity
+## [~] Track: External VOI Library Feature Parity
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
 *Execution order: 03 of 11.*
-*Status: new — open-source feature equivalence and evidence-backed exclusions.*
+*Status: in progress — open-source feature equivalence and evidence-backed exclusions.*
 
 ---
 
-## [ ] Track: Stable VOI Rust Core Completion
+## [~] Track: Stable VOI Rust Core Completion
 *Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
 *Execution order: 04 of 11.*
-*Status: new — complete v1.1 Rust numerical authority.*
+*Status: in progress — complete v1.1 Rust numerical authority.*
 
 ---
 
@@ -73,10 +73,11 @@ experimental until evidence supports promotion.*
 
 ---
 
-## [ ] Track: Quality, Security, Release, And Registry Automation
+## [~] Track: Quality, Security, Release, And Registry Automation
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
 *Execution order: 11 of 11.*
-*Status: new — staged v1.1--v1.3 evidence and external gates.*
+*Status: in progress — Renovate migration, alert remediation, staged
+v1.1--v1.3 evidence, and external gates.*
 
 ---
 

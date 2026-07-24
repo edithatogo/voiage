@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-core",
+      "assurance_state": "independent-fixtures",
+      "fixture_paths": [
+        "specs/core-api/fixtures/v1/compatibility/inputs/evpi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evpi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/inputs/evppi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evppi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/inputs/evsi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evsi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/inputs/enbs-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/enbs-normal-001.json"
+      ],
+      "test_paths": ["tests/test_core_api_fixture_runner_contract.py"],
+      "notes": "Fixtures are analytical VOIAGE contracts and do not import or copy R voi."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-voi",
+      "assurance_state": "independent-fixtures",
+      "fixture_paths": [
+        "specs/core-api/fixtures/v1/compatibility/inputs/evpi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evpi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/inputs/evppi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evppi-normal-001.json"
+      ],
+      "test_paths": ["tests/test_core_api_fixture_runner_contract.py"],
+      "notes": "Only the EVPI and EVPPI estimands are claimed native; BCEA reporting remains a gap."
+    },
+    {
+      "tool_id": "decision-security",
+      "feature_id": "security-evpi",
+      "assurance_state": "analytical-equivalence",
+      "fixture_paths": [
+        "specs/core-api/fixtures/v1/compatibility/inputs/evpi-normal-001.json",
+        "specs/core-api/fixtures/v1/compatibility/expected/evpi-normal-001.json"
+      ],
+      "test_paths": ["tests/test_core_api_fixture_runner_contract.py"],
+      "notes": "Equivalence is at the domain-neutral EVPI estimand, not package API or cybersecurity workflow."
+    }
+  ]
+}

@@ -30,16 +30,41 @@ TRACK_ISSUES: dict[str, int] = {
     "research_contribution_ai_transparency_20260723": 323,
 }
 EXPECTED_PROJECT: dict[int, dict[str, str]] = {
-    313: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
-    314: {"priority": "P0", "risk level": "Medium", "review due": "2026-08-15"},
-    315: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
-    316: {"priority": "P0", "risk level": "High", "review due": "2026-08-31"},
+    313: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
+    314: {
+        "priority": "P0",
+        "risk level": "Medium",
+        "review due": "2026-08-15",
+        "status": "In Progress",
+    },
+    315: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
+    316: {
+        "priority": "P0",
+        "risk level": "High",
+        "review due": "2026-08-31",
+        "status": "In Progress",
+    },
     317: {"priority": "P1", "risk level": "High", "review due": "2026-09-30"},
     318: {"priority": "P1", "risk level": "Medium", "review due": "2026-09-30"},
     319: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
     320: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
     321: {"priority": "P2", "risk level": "Medium", "review due": "2026-10-31"},
-    322: {"priority": "P1", "risk level": "High", "review due": "2026-10-31"},
+    322: {
+        "priority": "P1",
+        "risk level": "High",
+        "review due": "2026-10-31",
+        "status": "In Progress",
+    },
     323: {"priority": "P1", "risk level": "High", "review due": "2026-08-31"},
 }
 REQUIRED_FILES = ("spec.md", "plan.md", "metadata.json", "index.md", "evidence.jsonl")
@@ -194,23 +219,29 @@ def _run_json(command: list[str], repo: Path) -> Any:
     return json.loads(completed.stdout)
 
 
+def missing_required_subissues(observed: set[int]) -> set[int]:
+    """Return required programme subissues absent from a live parent."""
+    expected = set(TRACK_ISSUES.values()) - {PARENT_ISSUE}
+    return expected - observed
+
+
 def validate_live_github(repo: Path) -> list[str]:
     """Return live GitHub issue, subissue, and Project 28 validation errors."""
     errors: list[str] = []
     query = (
         'query { repository(owner:"edithatogo",name:"voiage") { '
-        "issue(number:313) { number subIssues(first:20) { nodes { number } } } } }"
+        "issue(number:313) { number subIssues(first:100) { nodes { number } } } } }"
     )
     result = _run_json(["gh", "api", "graphql", "-f", f"query={query}"], repo)
     subissues = {
         node["number"]
         for node in result["data"]["repository"]["issue"]["subIssues"]["nodes"]
     }
-    expected_subissues = set(TRACK_ISSUES.values()) - {PARENT_ISSUE}
-    if subissues != expected_subissues:
+    missing_subissues = missing_required_subissues(subissues)
+    if missing_subissues:
         errors.append(
-            f"native subissues mismatch: expected {sorted(expected_subissues)}, "
-            f"got {sorted(subissues)}"
+            "required native subissues missing: "
+            f"{sorted(missing_subissues)}; got {sorted(subissues)}"
         )
 
     issue_data = _run_json(

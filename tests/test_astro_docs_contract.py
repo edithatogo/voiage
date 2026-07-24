@@ -1,5 +1,6 @@
 """Contract checks for the Astro/Starlight documentation authority."""
 
+import json
 from pathlib import Path
 from shutil import which
 import subprocess
@@ -16,6 +17,25 @@ def test_astro_site_is_the_active_docs_build() -> None:
     assert '"astro"' in manifest
     assert '"@astrojs/starlight"' in manifest
     assert "sphinx" not in workflow.lower()
+
+
+def test_astro_site_uses_current_polyglot_stack() -> None:
+    """The docs build pins the reviewed current stack and owner's plugin."""
+    manifest = json.loads(
+        (ROOT / "docs/astro-site/package.json").read_text(encoding="utf-8")
+    )
+    config = (ROOT / "docs/astro-site/astro.config.mjs").read_text(encoding="utf-8")
+    workflow = (ROOT / ".github/workflows/docs.yml").read_text(encoding="utf-8")
+    modules = (ROOT / ".gitmodules").read_text(encoding="utf-8")
+
+    dependencies = manifest["dependencies"]
+    assert dependencies["astro"] == "7.1.3"
+    assert dependencies["@astrojs/starlight"] == "0.41.4"
+    assert dependencies["astro-polyglot"].startswith("link:")
+    assert 'from "astro-polyglot"' in config
+    assert "polyglot({" in config
+    assert "submodules: recursive" in workflow
+    assert ".repo-tools/astro-polyglot" in modules
 
 
 def test_astro_release_build_has_no_package_age_delay() -> None:
