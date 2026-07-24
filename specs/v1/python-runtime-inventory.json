@@ -28,7 +28,7 @@
     },
     "cli_and_orchestration": {
       "status": "retain_as_facade",
-      "roots": ["voiage/analysis.py", "voiage/cli.py", "voiage/clinical_trials.py", "voiage/ingestion/", "voiage/multi_domain.py", "voiage/parallel/"]
+      "roots": ["voiage/analysis.py", "voiage/cli.py", "voiage/clinical_trials.py", "voiage/multi_domain.py", "voiage/parallel/"]
     },
     "optional_extension": {
       "status": "retain_or_extract_by_extension_policy",
