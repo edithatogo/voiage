@@ -11,14 +11,14 @@ import sys
 
 def validate(repo_root: Path) -> list[str]:
     """Return policy violations in the machine-readable runtime inventory."""
-    manifest_path = repo_root / "specs/v1/python-runtime-inventory.json"
+    manifest_path = repo_root / "specs/v2/python-runtime-inventory.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     categories = manifest["categories"]
-    retained = set(manifest["v1_retained_categories"])
+    retained = set(manifest["v2_retained_categories"])
     transitional = manifest["transitional_kernel_modules"]
     errors: list[str] = []
     if "transitional_numerical_core" in retained:
-        errors.append("transitional_numerical_core cannot be in v1_retained_categories")
+        errors.append("transitional_numerical_core cannot be in v2_retained_categories")
     if transitional.get("authoritative_owner") != "rust":
         errors.append(
             "transitional numerical kernels must declare Rust as authoritative"
@@ -49,7 +49,7 @@ def validate(repo_root: Path) -> list[str]:
                 f"{relative}: expected exactly one inventory category, found {matches}"
             )
     if any(category not in categories for category in retained):
-        errors.append("v1_retained_categories contains an unknown category")
+        errors.append("v2_retained_categories contains an unknown category")
     return errors
 
 

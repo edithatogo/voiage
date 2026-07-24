@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "purpose": "Classify every Python runtime module for the v2 Rust-centred runtime.",
+  "categories": {
+    "facade": {
+      "status": "retain",
+      "roots": ["voiage/__init__.py", "voiage/__main__.py", "voiage/_runtime.py", "voiage/exceptions.py", "voiage/factory.py", "voiage/fluent.py", "voiage/governance.py", "voiage/logging.py", "voiage/reporting.py", "voiage/stats.py", "voiage/versioning.py"]
+    },
+    "contracts": {
+      "status": "retain_as_governed_boundary",
+      "roots": ["voiage/contracts/"]
+    },
+    "assurance": {
+      "status": "retain_as_verification_support",
+      "roots": ["voiage/assurance_policy.py", "voiage/c15_oracles.py", "voiage/c15_otel.py", "voiage/c15_performance.py", "voiage/c15_reproducibility.py", "voiage/mutation_policy.py"]
+    },
+    "transitional_numerical_core": {
+      "status": "retired_as_authority_retain_rust_facades",
+      "roots": ["voiage/methods/"]
+    },
+    "schema_and_io": {
+      "status": "retain",
+      "roots": ["voiage/schema.py", "voiage/config.py", "voiage/config_objects.py"]
+    },
+    "ingestion": {
+      "status": "retain_as_optional_adapter",
+      "roots": ["voiage/ingestion/"]
+    },
+    "backend": {
+      "status": "retain_as_adapter",
+      "roots": ["voiage/backends/", "voiage/main_backends.py", "voiage/core/", "voiage/metamodels.py"]
+    },
+    "cli_and_orchestration": {
+      "status": "retain_as_facade",
+      "roots": ["voiage/analysis.py", "voiage/cli.py", "voiage/clinical_trials.py", "voiage/multi_domain.py", "voiage/parallel/"]
+    },
+    "optional_extension": {
+      "status": "retain_or_extract_by_extension_policy",
+      "roots": ["voiage/ecosystem_integration.py", "voiage/environmental/", "voiage/experimental_design.py", "voiage/financial/", "voiage/health_economics.py", "voiage/healthcare/", "voiage/hta_integration.py", "voiage/plot/", "voiage/widgets/", "voiage/web/"]
+    },
+    "experimental_namespace": {
+      "status": "exclude_from_v2_stable_surface",
+      "roots": ["voiage/experimental/"]
+    }
+  },
+  "v2_retained_categories": [
+    "facade",
+    "contracts",
+    "assurance",
+    "schema_and_io",
+    "ingestion",
+    "backend",
+    "cli_and_orchestration",
+    "optional_extension"
+  ],
+  "transitional_kernel_modules": {
+    "status": "must_route_to_rust_or_be_removed",
+    "authoritative_owner": "rust",
+    "python_role": "rust_facade_and_orchestration_only",
+    "modules": [
+      "voiage/methods/basic.py",
+      "voiage/methods/ceaf.py",
+      "voiage/methods/dominance.py",
+      "voiage/methods/sample_information.py"
+    ],
+    "reason": "These modules retain validation, typed conversion, callbacks, reporting, and compatibility adapters around Rust-owned stable kernels. Stable default EVPI, EVPPI, EVSI, ENBS, CEAF, and dominance paths fail closed when the required native capability is unavailable; Python-only estimators remain explicitly optional or experimental rather than stable fallbacks."
+  },
+  "unclassified_policy": "fail",
+  "retirement_gate": "No module classified as transitional_numerical_core remains a stable numerical authority; retained Python code is facade, orchestration, or an explicitly non-stable extension."
+}

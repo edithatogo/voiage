@@ -11,7 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Moved current Python runtime classification to additive v2 policy manifests,
+  preserving the byte-for-byte immutable v1 contract while covering the
+  optional ingestion adapters.
+
 ### Fixed
+
+- Made the installed R binding smoke test portable to Windows PowerShell by
+  installing through `Rscript` rather than the conflicting `R` alias.
+- Distinguished internal review evidence under `docs/reviews/` from
+  reader-facing documentation governed by the Astro content-tree contract.
 
 ## [2.0.0] - 2026-07-24
 
