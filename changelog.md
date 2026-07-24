@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   installing through `Rscript` rather than the conflicting `R` alias.
 - Distinguished internal review evidence under `docs/reviews/` from
   reader-facing documentation governed by the Astro content-tree contract.
+- Made full unit and coverage lanes fetch release tags before validating the
+  checked-in immutable release-evidence manifest.
 
 ## [2.0.0] - 2026-07-24
 
