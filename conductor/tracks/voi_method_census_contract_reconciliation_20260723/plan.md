@@ -73,3 +73,6 @@
 - [x] Add executable required-field mappings after checkpoint review found that
   a boundary label alone did not satisfy the DecisionProblemV2 mapping claim.
   (`6e3ebb1`)
+- [x] Correct the census after the external-software refresh found that the
+  existing calibration VOI runtime and primary calibration-target literature
+  were missing from the canonical method registry. (`7443253`)
