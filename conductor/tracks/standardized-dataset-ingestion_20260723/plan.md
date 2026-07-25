@@ -12,10 +12,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [x] **P1-T2 / AC-01:** Add the versioned dataset, resource, table, field,
   relationship, provenance, diagnostic, and binding models under
   `voiage/contracts/`. (`41e829c`)
-- [ ] **P1-T3 / AC-01:** Add
+- [x] **P1-T3 / AC-01:** Add
   `specs/core-api/schemas/v2/normalized-input-bundle.schema.json`, compatibility
-  rules, exports, and deterministic golden fixtures.
-- [ ] **P1-T4 / AC-10:** Define the independently versioned VOI binding profile,
+  rules, exports, and deterministic golden fixtures. (`0af240c`)
+- [~] **P1-T4 / AC-10:** Define the independently versioned VOI binding profile,
   its JSON Schema, canonical serialization, digest, precedence rules, units,
   perspectives, transformations, and method-applicability validation.
 - [ ] **P1-T5 / AC-01, AC-10:** Add unsupported-version, conflicting-binding,
