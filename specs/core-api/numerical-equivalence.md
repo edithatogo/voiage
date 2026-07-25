@@ -148,3 +148,12 @@ diagnostic rules are frozen in
 `../v1/stable-estimator-assurance.json`. Its scientific definitions are bound
 to the approved v1.1 freeze, while each `implementation_state` independently
 records whether the remaining numerical-assurance gate has passed.
+
+The companion `../v1/stable-estimator-statistical-assurance.json` policy
+freezes estimator-family reporting for bias, variance, Monte Carlo error,
+confidence intervals, convergence, effective sample size, RNG identity,
+replication, computational budget, stopping, and numerical error. Serialized
+runtime evidence uses
+`../v1/schemas/statistical-assurance-envelope.schema.json`; null values mean
+the profile declares a field inapplicable, not that required evidence was
+silently omitted.

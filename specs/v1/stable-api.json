@@ -2,6 +2,7 @@
   "contract_version": "1.0.0",
   "status": "normative",
   "estimator_assurance_contract": "specs/v1/stable-estimator-assurance.json",
+  "statistical_assurance_contract": "specs/v1/stable-estimator-statistical-assurance.json",
   "python": {
     "versions": [
       "3.12",

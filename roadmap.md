@@ -24,7 +24,10 @@ explicit threshold-axis semantics and shared Python/Rust fixtures. Its
 schema-validated estimator-assurance registry now freezes numerical
 comparisons, ties, clipping, failures, diagnostics, and fallbacks for every
 approved stable method through an executable profile or explicit delegation.
-Completion of v1.1 still requires estimator-wide uncertainty, convergence,
+The companion statistical-assurance policy freezes estimator-family bias,
+variance, Monte Carlo error, convergence, effective sample size, RNG,
+replication, budget, stopping, and numerical-error reporting. Completion of
+v1.1 still requires implementing these runtime envelopes and recording
 resource, performance, and promotion evidence defined by the stable-core
 track.
 

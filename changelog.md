@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   approved stable method to an executable numerical profile or an explicit
   delegated contract, and freezes tolerance, tie, clipping, failure,
   diagnostic, and fallback policy without waiving implementation evidence.
+- Added estimator-family statistical-assurance policy and a portable runtime
+  evidence schema covering bias, variance, Monte Carlo error, confidence
+  intervals, convergence, effective sample size, RNG identity, replication,
+  computational budget, stopping, and numerical error.
 - Added Rust-authoritative net-benefit construction with scalar, threshold,
   sample-specific threshold, and explicit v1 elementwise compatibility modes;
   both public Python helpers now use the native kernel and reject non-finite

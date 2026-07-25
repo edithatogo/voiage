@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/stable-estimator-statistical-assurance.schema.json",
+  "title": "VOIAGE stable estimator statistical-assurance policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "status", "schema", "runtime_envelope_schema", "profiles"],
+  "properties": {
+    "contract_version": {"const": "1.1.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/stable-estimator-statistical-assurance.schema.json"},
+    "runtime_envelope_schema": {"const": "specs/v1/schemas/statistical-assurance-envelope.schema.json"},
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "method_id",
+          "reporting_class",
+          "bias_policy",
+          "variance_policy",
+          "monte_carlo_error_policy",
+          "convergence_policy",
+          "effective_sample_size_policy",
+          "rng_identity_policy",
+          "replication_policy",
+          "budget_policy",
+          "stopping_policy",
+          "numerical_error_policy"
+        ],
+        "properties": {
+          "method_id": {"type": "string", "minLength": 1},
+          "reporting_class": {
+            "enum": ["deterministic", "sample-average", "regression-or-metamodel", "nested-monte-carlo", "moment-matching"]
+          },
+          "bias_policy": {"type": "string", "minLength": 1},
+          "variance_policy": {"type": "string", "minLength": 1},
+          "monte_carlo_error_policy": {"type": "string", "minLength": 1},
+          "convergence_policy": {"type": "string", "minLength": 1},
+          "effective_sample_size_policy": {
+            "enum": ["not-applicable-independent-unweighted-draws", "required-for-weighted-or-correlated-draws"]
+          },
+          "rng_identity_policy": {"type": "string", "minLength": 1},
+          "replication_policy": {"type": "string", "minLength": 1},
+          "budget_policy": {"type": "string", "minLength": 1},
+          "stopping_policy": {"type": "string", "minLength": 1},
+          "numerical_error_policy": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
