@@ -238,6 +238,15 @@ class DatasetManifest(ContractModel):
                 raise ValueError(
                     f"binding references unknown field(s): {sorted(unknown)}"
                 )
+            declared_units = {
+                field.unit for field in table.fields if field.field_id in binding.field_ids
+            }
+            if (
+                binding.unit is not None
+                and declared_units != {None}
+                and binding.unit not in declared_units
+            ):
+                raise ValueError("binding unit is incompatible with declared fields")
         if self.binding_profile is not None:
             if self.bindings and self.bindings != self.binding_profile.bindings:
                 raise ValueError("embedded bindings conflicts with binding_profile")

@@ -542,6 +542,21 @@ def test_binding_profile_declares_precedence_transformations_and_method_scope() 
         profile.binding_for("net_benefit", method_family="evsi")
 
 
+def test_binding_rejects_incompatible_declared_unit() -> None:
+    with pytest.raises(ValidationError, match="unit is incompatible"):
+        DatasetManifest(
+            dataset_id="unit-mismatch",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(FieldManifest(field_id="cost", dtype="float64", unit="AUD"),),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(VOIBinding(role="cost", table_id="data", field_ids=("cost",), unit="USD"),),
+        )
+
+
 def test_new_contract_validation_failure_paths() -> None:
     with pytest.raises(ValidationError, match="matching non-empty"):
         KeyReference(

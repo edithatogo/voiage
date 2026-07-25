@@ -31,7 +31,7 @@
       {"code": "fixture_validated", "severity": "info", "message": "deterministic fixture", "table_id": "net_benefit", "field_id": null}
     ],
     "bindings": [
-      {"role": "net_benefit", "table_id": "net_benefit", "field_ids": ["strategy_a", "strategy_b"], "strategy_names": ["A", "B"], "unit": "utility", "perspective": "decision-maker"}
+      {"role": "net_benefit", "table_id": "net_benefit", "field_ids": ["strategy_a", "strategy_b"], "strategy_names": ["A", "B"], "unit": "utility", "perspective": "decision-maker", "transformations": [], "applicable_method_families": []}
     ],
     "binding_profile": null,
     "extensions": {"https://voiage.dev/fixture": "v2"}
