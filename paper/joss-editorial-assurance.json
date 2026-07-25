@@ -31,10 +31,13 @@
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "pending_current_source_hosted_report",
-      "workflow_run": null,
-      "warnings": null,
-      "interpretation": "The revised source needs a fresh hosted review-only report; no automatic acceptance threshold applies."
+      "status": "review_only",
+      "workflow_run": 30166336066,
+      "warnings": [],
+      "flesch_reading_ease": 36.4655,
+      "flesch_kincaid_grade": 11.4712,
+      "text_standard": "14th and 15th grade",
+      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -67,14 +70,14 @@
     "joss_submission_conversation": "human_only"
   },
   "official_pdf_review": {
-    "status": "pending_current_source_build",
-    "workflow_run": null,
-    "commit": null,
-    "artifact_id": null,
-    "artifact_sha256": null,
-    "pdf_sha256": null,
-    "pages": null,
-    "visual_review": "The evidence-led revision requires a fresh Open Journals build and page-by-page inspection.",
+    "status": "pass",
+    "workflow_run": 30166336066,
+    "commit": "d8e3d006501be42f4416ddeec8946625f39fee98",
+    "artifact_id": 8621698185,
+    "artifact_sha256": "086bd0e899ef9aa5dae0c260588e85a9d46771dc77d23b0e872b60f280dc1378",
+    "pdf_sha256": "c02b5f4442a9cadac08b0a25be2bacb3f4c217b48ae00e5d202f8115b34fe0c5",
+    "pages": 6,
+    "visual_review": "All six pages of the Open Journals PDF were inspected at 120 dpi; headings, citations, links, figure, caption, author metadata, references, and page furniture render without clipping, overlap, or missing content.",
     "submission_performed": false
   }
 }

@@ -46,5 +46,17 @@ The revised source contains 1,583 body words, within the repository's
 1,568--1,632 contract and JOSS's 750--1,750 range. SourceRight reconciles all 18
 citation occurrences with no citation issue and retains six bounded warnings
 for software or web references without DOIs. Authentext reports no selected
-pattern finding. A current-source Open Journals PDF, Textstat report, and visual
-review are required before this round can be closed.
+pattern finding.
+
+Hosted workflow run
+[30166336066](https://github.com/edithatogo/voiage/actions/runs/30166336066)
+built the source at commit `d8e3d006501be42f4416ddeec8946625f39fee98`
+with the Open Journals toolchain. Artifact `8621698185` has GitHub digest
+`sha256:086bd0e899ef9aa5dae0c260588e85a9d46771dc77d23b0e872b60f280dc1378`;
+the six-page PDF has SHA-256
+`c02b5f4442a9cadac08b0a25be2bacb3f4c217b48ae00e5d202f8115b34fe0c5`.
+All six rendered pages were inspected without finding clipping, overlap,
+missing content, broken page furniture, or an unreadable figure. Textstat
+reported Flesch reading ease 36.4655 and Flesch--Kincaid grade 11.4712 as
+review-only evidence, not a scientific-quality threshold. This closes the
+repository-owned round-nine manuscript review; the external gates above remain.
