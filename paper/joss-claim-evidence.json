@@ -223,7 +223,7 @@
     {
       "id": "worked-example-evpi-evppi",
       "section": "Worked example",
-      "statement": "Estimated EVPI is 644 value units per person (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
+      "statement": "Estimated EVPI is the maximum expected gain per person from eliminating all modelled uncertainty: 644 value units (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
       "status": "verified",
       "evidence": [
         {
@@ -255,7 +255,7 @@
     {
       "id": "worked-example-enbs",
       "section": "Worked example",
-      "statement": "With immediate, complete use, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% value realisation, it is negative at 800 and positive at 1,200.",
+      "statement": "With immediate, complete use, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% of potential benefit reaching practice, it is negative at 800 and positive at 1,200.",
       "status": "verified",
       "evidence": [
         {
@@ -341,7 +341,7 @@
     {
       "id": "result-context-fields",
       "section": "Summary",
-      "statement": "A versioned specification records option names, units, input identifiers, and data-source references; typed results link back to it by digest.",
+      "statement": "A versioned analysis record keeps option names, units, uncertain inputs, and data sources with each result.",
       "status": "verified",
       "evidence": [
         {
@@ -361,7 +361,7 @@
     {
       "id": "target-domain-boundary",
       "section": "Statement of need",
-      "statement": "It is designed for analysts deciding whether further evidence is worth collecting in healthcare, public policy, economics, business, and related fields.",
+      "statement": "It is designed for researchers and analysts using simulation models to decide whether further evidence is worth collecting in healthcare, public policy, economics, business, and related fields.",
       "status": "bounded",
       "evidence": [
         {
@@ -454,7 +454,7 @@
     {
       "id": "preference-bootstrap",
       "section": "Worked example",
-      "statement": "The programme has positive incremental net benefit in 49.2% of simulations. Its paired 95% percentile-bootstrap interval is 48.2% to 50.2% and describes Monte Carlo sampling error rather than model uncertainty.",
+      "statement": "The programme is preferred in 49.2% of simulations. Its paired 95% percentile-bootstrap interval is 48.2% to 50.2% and describes Monte Carlo sampling error rather than model uncertainty.",
       "status": "verified",
       "evidence": [
         {
@@ -502,7 +502,7 @@
     {
       "id": "ai-human-attestation",
       "section": "AI usage disclosure",
-      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, reviewed, edited, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
+      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, thoroughly reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
       "status": "bounded",
       "evidence": [
         {

@@ -40,12 +40,12 @@
     "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30160891929",
-    "commit": "7d7615af10050c296c7973a720a9fa31d5cee825",
+    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
+    "commit": "4dbaecaf192b64d28273bef1b4caea44af137556",
     "artifact": "voiage-joss-paper",
     "official_open_journals_build": "pass",
-    "visual_review": "all six pages inspected; no clipping or overflow found",
-    "body_word_count": 1615,
+    "visual_review": "all six pages inspected at full resolution; no clipping or overflow found",
+    "body_word_count": 1628,
     "textstat_status": "review_only_complete"
   },
   "repository_gates": {

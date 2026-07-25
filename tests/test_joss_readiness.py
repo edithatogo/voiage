@@ -177,6 +177,11 @@ def test_joss_article_contract_has_exact_target_and_substantive_sections() -> No
         "accepted_maximum": 1632,
     }
     assert contract["section_order"] == list(contract["sections"])
+    assert contract["metadata"]["affiliation_rors"] == {
+        "1": "0040r6f76",
+        "2": "01kpzv902",
+        "3": "01ej9dk98",
+    }
     assert all(
         rules["minimum_words"] <= rules["maximum_words"] and rules["requirements"]
         for rules in contract["sections"].values()
@@ -239,6 +244,24 @@ def test_joss_validator_rejects_unresolved_author_affiliation(tmp_path: Path) ->
     findings = validate_joss_package(tmp_path)
 
     assert "paper.md author affiliation indices do not resolve: 4" in findings
+
+
+def test_joss_validator_rejects_incorrect_affiliation_ror(tmp_path: Path) -> None:
+    """Affiliation metadata remains linked to its authoritative ROR record."""
+    source = (ROOT / "paper.md").read_text(encoding="utf-8")
+    (tmp_path / "paper.md").write_text(
+        source.replace('ror: "01kpzv902"', 'ror: "000000000"'),
+        encoding="utf-8",
+    )
+    (tmp_path / "paper.bib").write_text(
+        (ROOT / "paper.bib").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    _write_submission_metadata(tmp_path)
+
+    findings = validate_joss_package(tmp_path)
+
+    assert "paper.md affiliation 2 ROR identifier is missing or incorrect" in findings
 
 
 def test_sourceright_adapter_preserves_pandoc_citation_keys() -> None:

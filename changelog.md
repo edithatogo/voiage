@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Refined the JOSS manuscript for non-specialist readers, clarified the EVPI
+  and study-uptake interpretations, expanded the required AI-assistance scope,
+  and linked all affiliations to verified ROR identifiers with fail-closed
+  metadata tests.
 - Rewrote the JOSS opening and architecture account in plain language,
   strengthened the separate-package rationale, identified regression-estimated
   EVPPI and conditional scenario results, corrected cross-language test

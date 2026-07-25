@@ -50,7 +50,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   PR #480 contains the active multi-role JOSS review loop, plain-language
         revision, explicit 1,600 ±2% article contract, SourceRight/AuthenText
         assurance, claim-to-interface reconciliation, and reproducibility
-        evidence. The local manuscript contract passes at 1,615 words.
+        evidence. The local manuscript contract passes at 1,628 words.
         Exact v2 release identity, author-confirmed AI attestation, a freshly
         reviewed Open Journals PDF, final human source verification, and the
         external engagement record remain open.

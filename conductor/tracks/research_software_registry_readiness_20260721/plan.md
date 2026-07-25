@@ -76,9 +76,10 @@
   structure through paragraph, claim, citation, and sentence-level changes.
 - [x] Implement the evidence-supported revisions and rerun the repository-owned
   JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
-  The local contract passes at 1,615 words with 19/19 citations reconciled;
-  hosted Open Journals run 30160891929 passed and all six PDF pages were
-  visually inspected; human source review remains pending.
+  The current contract passes at 1,628 words with 19/19 citations reconciled;
+  hosted Open Journals run 30162649796 passed for the current manuscript and
+  all six PDF pages were inspected at full resolution; human source review
+  remains pending.
 - [x] Return the revision to the full panel, remediate every supported
   manuscript finding, and record snapshot scores as diagnostic evidence rather
   than artificial acceptance thresholds; report external JOSS screening gates

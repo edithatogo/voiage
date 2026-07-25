@@ -8,7 +8,7 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
       "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
       "citation_occurrences": 19,
       "citation_matches": 19,
@@ -26,15 +26,15 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
       "finding_count": 0
     },
     "textstat": {
       "version": "0.7.13",
       "status": "review_only_complete",
-      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30160891929",
-      "flesch_reading_ease": 35.957,
-      "flesch_kincaid_grade": 11.6166,
+      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
+      "flesch_reading_ease": 36.1777,
+      "flesch_kincaid_grade": 11.567,
       "warnings": 0,
       "interpretation": "Editorial evidence only; no automatic acceptance threshold."
     },
@@ -57,7 +57,8 @@
     "build/joss/sourceright/citation-sync-preview.json",
     "build/joss/authentext.json",
     "build/joss/readability.json",
-    "docs/reviews/joss-panel/round-6/synthesis.md"
+    "docs/reviews/joss-panel/round-6/synthesis.md",
+    "docs/reviews/joss-panel/round-7/editorial-delta-review.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
@@ -68,7 +69,7 @@
   "official_pdf_review": {
     "status": "pass",
     "pages": 6,
-    "visual_review": "all pages inspected; headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow",
+    "visual_review": "All six pages of the current-revision artifact were inspected at full resolution; ROR links, headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow.",
     "submission_performed": false
   }
 }

@@ -40,6 +40,11 @@ CFF_SCALAR_PATTERN = re.compile(
     re.MULTILINE,
 )
 CFF_ORCID_PATTERN = re.compile(r"^\s+orcid:\s*(?P<orcid>\S+)\s*$", re.MULTILINE)
+EXPECTED_AFFILIATION_RORS = {
+    1: "0040r6f76",
+    2: "01kpzv902",
+    3: "01ej9dk98",
+}
 
 
 def _body_without_front_matter(text: str) -> str:
@@ -105,6 +110,11 @@ def _validate_joss_metadata(paper: str) -> list[str]:
                 affiliation_indices.add(index)
             if not isinstance(name, str) or not name.strip():
                 findings.append("paper.md affiliation names must be non-empty")
+            ror = affiliation.get("ror")
+            if isinstance(index, int) and ror != EXPECTED_AFFILIATION_RORS.get(index):
+                findings.append(
+                    f"paper.md affiliation {index} ROR identifier is missing or incorrect"
+                )
 
     authors = metadata.get("authors")
     if not isinstance(authors, list) or not authors:
