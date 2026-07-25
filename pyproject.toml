@@ -60,7 +60,7 @@ frictionless = []
 ingestion = []
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
 jax = [
-    "jax>=0.7.1,<0.8",
+    "jax>=0.11.0,<0.12",
 ]
 ci = [
     "defusedxml>=0.7.1,<1.0",
@@ -68,7 +68,7 @@ ci = [
     "fastapi>=0.139.2,<1.0",
     "httpx>=0.28.1,<1.0",
     "hypothesis>=6.157.0,<7.0",
-    "jax>=0.7.1,<0.8",
+    "jax>=0.11.0,<0.12",
     "jsonschema>=4.26.0,<5.0",
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
