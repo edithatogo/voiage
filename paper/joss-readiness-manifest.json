@@ -1,6 +1,6 @@
 {
   "schema_version": "voiage.joss-readiness.v1",
-  "criteria_as_of": "2026-07-25",
+  "criteria_as_of": "2026-07-26",
   "canonical_source": "paper.md",
   "article_contract": "paper/joss-article-contract.json",
   "source_assurance": {
@@ -40,12 +40,15 @@
     "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
-    "commit": "4dbaecaf192b64d28273bef1b4caea44af137556",
+    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30164270490",
+    "commit": "c0f2fc623ffea36f600a6b82c6597d949ab32bc0",
     "artifact": "voiage-joss-paper",
+    "artifact_id": 8621121756,
+    "artifact_sha256": "2eb6fa0e052553b01432103960b3c5374049d6114e430213d20569920f60fb59",
+    "pdf_sha256": "c7845d99a135a68b1480706bee7f7c0cacf737d66811386ef604339c15970fe8",
     "official_open_journals_build": "pass",
-    "visual_review": "all six pages inspected at full resolution; no clipping or overflow found",
-    "body_word_count": 1628,
+    "visual_review": "pass_all_six_pages",
+    "body_word_count": 1629,
     "textstat_status": "review_only_complete"
   },
   "repository_gates": {
@@ -55,13 +58,18 @@
     "exact_reviewed_immutable_archive": "pending"
   },
   "external_gates": {
+    "demonstrated_research_use": "pending",
     "genuine_community_engagement_external_use_or_collaborative_input": "pending",
     "joss_submission": "not_started",
     "joss_editorial_screening_review_and_acceptance": "not_started"
   },
   "author_project_sequence": {
     "permanent_arxiv_identifier_and_announcement_before_joss_submission": "pending",
-    "joss_requirement": false
+    "community_engagement_before_joss_submission": "pending",
+    "joss_requirement": {
+      "permanent_arxiv_identifier": false,
+      "community_engagement": "detailed_review_criterion_and_strong_positive_pre_review_signal"
+    }
   },
   "human_gates": [
     "confirm the complete AI-use attestation and best-available historical model inventory",

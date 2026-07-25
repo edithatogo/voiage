@@ -182,10 +182,39 @@ def test_joss_article_contract_has_exact_target_and_substantive_sections() -> No
         "2": "01kpzv902",
         "3": "01ej9dk98",
     }
+    assert contract["assessment_layers"]["external"] == [
+        "demonstrated research use, at minimum by the developer",
+        (
+            "community engagement or collaborative input as a detailed-review "
+            "criterion and strong positive pre-review signal"
+        ),
+        "JOSS editorial screening, review, and acceptance",
+    ]
     assert all(
         rules["minimum_words"] <= rules["maximum_words"] and rules["requirements"]
         for rules in contract["sections"].values()
     )
+
+
+def test_joss_readiness_distinguishes_use_gate_from_engagement_signal() -> None:
+    """Submission readiness should preserve the current criteria distinction."""
+    readiness = json.loads(
+        (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
+    )
+
+    assert readiness["external_gates"]["demonstrated_research_use"] == "pending"
+    assert (
+        readiness["author_project_sequence"][
+            "community_engagement_before_joss_submission"
+        ]
+        == "pending"
+    )
+    assert readiness["author_project_sequence"]["joss_requirement"] == {
+        "permanent_arxiv_identifier": False,
+        "community_engagement": (
+            "detailed_review_criterion_and_strong_positive_pre_review_signal"
+        ),
+    }
 
 
 def test_joss_validator_rejects_internal_word_budget_drift(tmp_path: Path) -> None:

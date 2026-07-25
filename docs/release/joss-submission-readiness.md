@@ -40,8 +40,9 @@ not replace it.
 | Research application | VOI analysis for research prioritisation and probabilistic decision models | Ready |
 | Credible near-term significance | Fixed-seed health example, independent analytical benchmarks, sensitivity scenarios, machine-readable results, structured reproduction manifest, and clean regeneration in CI | Ready as specific reproducible material; this does not establish human engagement |
 | Research-workflow integration | The same-author `vop_poc_nz` bundle documents an intended interoperability contract, not completed execution of `voiage` in research | Candidly bounded; no independent adoption claimed |
-| Collaborative-effort screening | The 2026 criteria classify a single-author project with no community engagement, external use, or collaborative input as not acceptable. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek an attributable human installation, use, or substantive feedback record | Externally pending; agents, bots, and same-author repositories do not qualify |
-| JOSS manuscript structure | All contracted sections are substantive and ordered; deterministic count is 1,628, inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready |
+| Demonstrated research use | The current pre-review criteria require evidence that the software is used for research, at minimum by its developer. The worked demonstration and an optional same-author adapter do not yet establish completed research-workflow use | Externally pending; aspirational or fallback-only integrations do not qualify |
+| Collaborative-effort screening | The detailed review criteria treat a single-author project without community engagement, external use, or collaborative input as not acceptable. The submission and editorial guides separately describe non-author engagement as a strong positive pre-review signal rather than a hard gate. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek attributable evidence | Author-selected prerequisite and material review risk; agents, bots, and same-author repositories do not qualify |
+| JOSS manuscript structure | All contracted sections are substantive and ordered; hosted deterministic count is 1,629, inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready |
 | Citation and prose assurance | SourceRight reconciles all 19 occurrences, all 15 references have queued sidecars, and six non-DOI software/web warnings remain; selected Authentext blocking patterns report no finding | Machine checks ready; final human source check pending |
 | Design-thinking account | The Rust reference-calculation boundary, protection against cross-language drift, native-build cost, and deliberately narrower R/Julia interfaces are described | Ready |
 | Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026; each affiliation is linked to its verified ROR record | Ready |
@@ -49,7 +50,7 @@ not replace it.
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
-| Reproducible JOSS PDF | Official Open Journals workflow run 30162649796 passed for commit `4dbaecaf`; all six pages were inspected at full resolution without clipping or overflow, and the review-only Textstat report had no warnings | Ready for author review |
+| Reproducible JOSS PDF | Official Open Journals workflow run [30164270490](https://github.com/edithatogo/voiage/actions/runs/30164270490) built commit `c0f2fc623ffea36f600a6b82c6597d949ab32bc0`. Artifact `8621121756` and the six-page PDF have recorded SHA-256 digests; all pages passed visual review and the current-source Textstat report is retained as non-gating editorial evidence | Ready for the current source |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 
@@ -99,19 +100,24 @@ The recommended sequence is:
 
 1. publish and archive the exact software revision described by the final
    paper, and retain its hosted test, SBOM, provenance, and digest evidence;
-2. obtain attributable human community engagement, external use, or
-   collaborative input through issue #471 or another documented route; under
-   the current single-author screening criterion this is a prerequisite, while
-   automated accounts and AI-agent runs do not qualify;
-3. wait for and record the permanent arXiv identifier, following the author's
+2. document completed research-workflow use, at minimum by the developer, to
+   satisfy the demonstrated-use pre-review gate;
+3. obtain attributable human community engagement, external use, or
+   collaborative input through issue #471 or another documented route; this is
+   a detailed-review criterion, a strong positive pre-review signal, and the
+   author's selected prerequisite, while automated accounts and AI-agent runs
+   do not qualify;
+4. wait for and record the permanent arXiv identifier, following the author's
    preferred arXiv-first sequence;
-4. submit the repository and `paper.md` directly to JOSS;
-5. respond to review comments personally and without generative AI drafting;
-6. after acceptance-ready review, tag the reviewed version and create a
+5. submit the repository and `paper.md` directly to JOSS;
+6. respond to review comments personally and without generative AI drafting;
+7. after acceptance-ready review, tag the reviewed version and create a
    DOI-bearing Zenodo or Figshare archive requested by JOSS.
 
 ## Remaining gates
 
+- Document completed research-workflow use of the released package; do not
+  count the paper's synthetic demonstration or a fallback-only adapter as use.
 - Obtain and document qualifying human community engagement, external use, or
   collaborative input in issue #471; do not claim it until attributable
   evidence exists.

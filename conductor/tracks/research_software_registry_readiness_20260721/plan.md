@@ -46,8 +46,11 @@
   publish a bounded independent-validation protocol. (issue #471)
 - [x] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
   and trigger hosted JOSS validation for either metadata file. (`2ba6e854`)
-- [~] Obtain attributable human community engagement, external use, or
-  collaborative-input evidence before direct JOSS submission. ([Issue
+- [~] Document completed research-workflow use and obtain attributable human
+  community engagement, external use, or collaborative-input evidence before
+  direct JOSS submission. The former is a hard pre-review gate; the latter is
+  a detailed-review criterion, strong positive pre-review signal, and
+  author-selected prerequisite. ([Issue
   #471](https://github.com/edithatogo/voiage/issues/471); human participant
   required; agents, bots, and same-author repositories do not qualify)
 - [ ] Obtain the author's explicit JOSS AI-policy affirmation and bind every
@@ -76,10 +79,10 @@
   structure through paragraph, claim, citation, and sentence-level changes.
 - [x] Implement the evidence-supported revisions and rerun the repository-owned
   JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
-  The current contract passes at 1,628 words with 19/19 citations reconciled;
-  hosted Open Journals run 30162649796 passed for the current manuscript and
-  all six PDF pages were inspected at full resolution; human source review
-  remains pending.
+  The current contract passes at 1,629 words with 19/19 citations reconciled.
+  Hosted Open Journals run 30164270490 built the exact source at
+  `c0f2fc623ffea36f600a6b82c6597d949ab32bc0`; all six pages passed visual
+  review. Human source review remains pending.
 - [x] Return the revision to the full panel, remediate every supported
   manuscript finding, and record snapshot scores as diagnostic evidence rather
   than artificial acceptance thresholds; report external JOSS screening gates
@@ -105,7 +108,8 @@
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
-  exact v2 publication, human engagement, author-confirmed AI attestation,
+  exact v2 publication, demonstrated research use, human engagement,
+  author-confirmed AI attestation,
   authenticated submission, and editorial review remain human or external.
   The author confirmed funding, competing-interest, affiliation, and ORCID
   metadata on 24 July 2026.
@@ -120,7 +124,7 @@
   `docs/release/joss-submission-readiness.md`. The fixed-seed example and
   independent benchmarks provide specific reproducible near-term-significance
   evidence without claiming independent adoption. Issue #471 records the
-  separate single-author human-engagement gate.
+  separate demonstrated-use gate and single-author engagement risk.
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent

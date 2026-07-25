@@ -50,5 +50,6 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     remaining = handoff["joss_submission_evidence"]["remaining_submission_gates"]
     assert any("exact v2 release" in gate for gate in remaining)
     assert any("AI-policy attestation" in gate for gate in remaining)
+    assert any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
     assert any("Open Journals PDF" in gate for gate in remaining)

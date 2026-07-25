@@ -198,8 +198,8 @@ and expected-result formats intended for exchange with `voiage`
 not completed use or independent adoption. The fixed-seed example,
 implementation-independent equations, sensitivity table, and clean
 regeneration allow others to inspect the calculations and outputs. The package
-has been developed publicly since July
-2025. Attributable non-author engagement or use has not yet been documented.
+has been developed publicly since July 2025. Completed research-workflow use
+and non-author engagement have not yet been documented.
 
 # AI usage disclosure
 

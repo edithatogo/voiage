@@ -22,7 +22,7 @@ Parent: [#296](https://github.com/edithatogo/voiage/issues/296)
   - [#312](https://github.com/edithatogo/voiage/issues/312) — arXiv preprint
     readiness, author review, and submission evidence
   - [#471](https://github.com/edithatogo/voiage/issues/471) — independent
-    human community engagement, external use, or collaborative-input evidence
+    research-use, human community-engagement, or collaborative-input evidence
     before JOSS submission
 
 ## Acceptance
@@ -32,7 +32,9 @@ project-visible, and traceable from this track. The arXiv preparation lane is
 represented separately from JOSS submission so that an arXiv-first author
 decision does not imply a JOSS submission. The JOSS lane distinguishes specific
 reproducible material supporting credible near-term significance from the
-separate 2026 single-author collaborative-effort criterion. It does not count
+separate 2026 demonstrated-use gate and single-author collaborative-effort
+criterion. The latter is a detailed-review criterion and strong positive
+pre-review signal rather than a hard pre-review gate. It does not count
 automated accounts or same-author repositories as human engagement. Individual
 registry deliverables close only with authoritative evidence or a documented
 ineligibility decision.

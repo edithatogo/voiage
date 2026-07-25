@@ -1,6 +1,6 @@
 {
   "schema_version": "voiage.joss-article-contract.v1",
-  "criteria_as_of": "2026-07-25",
+  "criteria_as_of": "2026-07-26",
   "canonical_source": "paper.md",
   "authoritative_sources": [
     "https://joss.readthedocs.io/en/latest/submitting.html",
@@ -189,7 +189,8 @@
       "exact release and archive"
     ],
     "external": [
-      "genuine community engagement, external use, or collaborative input",
+      "demonstrated research use, at minimum by the developer",
+      "community engagement or collaborative input as a detailed-review criterion and strong positive pre-review signal",
       "JOSS editorial screening, review, and acceptance"
     ],
     "project_sequence": [

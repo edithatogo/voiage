@@ -523,9 +523,7 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
     if not isinstance(external, dict):
         findings.append("JOSS readiness external_gates must be an object")
     else:
-        required_before_submission = {
-            "genuine_community_engagement_external_use_or_collaborative_input",
-        }
+        required_before_submission = {"demonstrated_research_use"}
         findings.extend(
             f"JOSS external submission gate is not ready: {gate}={external.get(gate)}"
             for gate in required_before_submission
@@ -534,21 +532,16 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
     sequence = readiness.get("author_project_sequence")
     if not isinstance(sequence, dict):
         findings.append("JOSS readiness author_project_sequence must be an object")
-    elif (
-        sequence.get(
-            "permanent_arxiv_identifier_and_announcement_before_joss_submission"
-        )
-        != "ready"
-    ):
-        findings.append(
-            "author-requested pre-JOSS sequence is not ready: "
-            "permanent_arxiv_identifier_and_announcement_before_joss_submission="
-            + str(
-                sequence.get(
-                    "permanent_arxiv_identifier_and_announcement_before_joss_submission"
+    else:
+        for gate in (
+            "permanent_arxiv_identifier_and_announcement_before_joss_submission",
+            "community_engagement_before_joss_submission",
+        ):
+            if sequence.get(gate) != "ready":
+                findings.append(
+                    f"author-requested pre-JOSS sequence is not ready: "
+                    f"{gate}={sequence.get(gate)}"
                 )
-            )
-        )
     assurance, assurance_findings = _load_json_object(
         root / "paper/joss-editorial-assurance.json",
         "JOSS editorial assurance manifest",
