@@ -20,7 +20,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   perspectives, transformations, and method-applicability validation.
 - [~] **P1-T5 / AC-01, AC-10:** Add unsupported-version, conflicting-binding,
   stale-reference, unit-incompatibility, and namespaced-extension tests.
-- [ ] **P1-T6 / AC-01:** Verify that the core contract imports no external
+- [~] **P1-T6 / AC-01:** Verify that the core contract imports no external
   ingestion dependency.
 - [ ] **P1-T7 / AC-01, AC-10:** Run automated review, focused tests, schema validation,
   Arrow/Polars fresh-process round trips, and the phase checkpoint protocol.

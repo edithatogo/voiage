@@ -5,6 +5,8 @@ from __future__ import annotations
 from hashlib import sha256
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
@@ -549,11 +551,17 @@ def test_binding_rejects_incompatible_declared_unit() -> None:
             tables=(
                 TableManifest(
                     table_id="data",
-                    fields=(FieldManifest(field_id="cost", dtype="float64", unit="AUD"),),
+                    fields=(
+                        FieldManifest(field_id="cost", dtype="float64", unit="AUD"),
+                    ),
                 ),
             ),
             provenance=_bundle().manifest.provenance,
-            bindings=(VOIBinding(role="cost", table_id="data", field_ids=("cost",), unit="USD"),),
+            bindings=(
+                VOIBinding(
+                    role="cost", table_id="data", field_ids=("cost",), unit="USD"
+                ),
+            ),
         )
 
 
@@ -563,6 +571,22 @@ def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
 
     with pytest.raises(ValidationError, match="1.0.0"):
         DatasetManifest.model_validate_json(json.dumps(payload))
+
+
+def test_normalized_contract_import_does_not_load_ingestion_modules() -> None:
+    script = "; ".join(
+        (
+            "import sys",
+            "import voiage.contracts.normalized_input",
+            "assert not any(name.startswith('voiage.ingestion') for name in sys.modules)",
+        )
+    )
+
+    result = subprocess.run(
+        [sys.executable, "-c", script], check=False, capture_output=True, text=True
+    )
+
+    assert result.returncode == 0, result.stderr
 
 
 def test_new_contract_validation_failure_paths() -> None:
