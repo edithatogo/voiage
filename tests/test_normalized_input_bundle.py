@@ -7,6 +7,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
+from pyarrow import parquet as pq
 from pydantic import ValidationError
 import pytest
 
@@ -104,6 +105,18 @@ def test_bundle_arrow_round_trip(tmp_path) -> None:
 
     bundle.write_ipc(path)
     restored = NormalizedInputBundle.read_ipc(path)
+
+    assert restored.content_digest == bundle.content_digest
+    assert restored.table("net_benefit").equals(bundle.table("net_benefit"))
+
+
+def test_bundle_parquet_round_trip(tmp_path) -> None:
+    """Parquet preserves the normalized manifest and physical table identity."""
+    bundle = _bundle()
+    path = tmp_path / "input.parquet"
+
+    bundle.write_parquet(path)
+    restored = NormalizedInputBundle.read_parquet(path)
 
     assert restored.content_digest == bundle.content_digest
     assert restored.table("net_benefit").equals(bundle.table("net_benefit"))
@@ -325,6 +338,16 @@ def test_ipc_export_rejects_multiple_tables(tmp_path) -> None:
     )
     with pytest.raises(ValueError, match="exactly one"):
         bundle.write_ipc(tmp_path / "bundle.arrow")
+    with pytest.raises(ValueError, match="exactly one"):
+        bundle.write_parquet(tmp_path / "bundle.parquet")
+
+
+def test_parquet_import_rejects_missing_normalized_metadata(tmp_path) -> None:
+    path = tmp_path / "not-normalized.parquet"
+    pq.write_table(pa.table({"a": [1]}), path)
+
+    with pytest.raises(ValueError, match="not a voiage"):
+        NormalizedInputBundle.read_parquet(path)
 
 
 def test_manifest_preserves_explicit_resource_and_relationship_contracts() -> None:

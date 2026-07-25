@@ -21,6 +21,7 @@ from urllib.parse import urlsplit
 
 import pyarrow as pa
 from pyarrow import ipc
+from pyarrow import parquet as pq
 from pydantic import Field, StringConstraints, field_serializer, model_validator
 
 from voiage.contracts.analysis import ContractModel, thaw_json
@@ -333,6 +334,21 @@ class NormalizedInputBundle:
         ) as writer:
             writer.write_table(table.replace_schema_metadata(metadata))
 
+    def write_parquet(self, path: Path) -> None:
+        """Write a deterministic single-table Parquet file with bundle metadata."""
+        if len(self.tables) != 1:
+            raise ValueError("Parquet export currently requires exactly one table")
+        table_name, table = next(iter(self.tables.items()))
+        metadata = {
+            **(table.schema.metadata or {}),
+            b"voiage.normalized.manifest": self.canonical_json.encode(),
+            b"voiage.normalized.table_id": table_name.encode(),
+        }
+        path.parent.mkdir(parents=True, exist_ok=True)
+        pq.write_table(
+            table.replace_schema_metadata(metadata), path, compression="zstd"
+        )
+
     @classmethod
     def read_ipc(cls, path: Path) -> NormalizedInputBundle:
         """Restore a normalized bundle previously written by :meth:`write_ipc`."""
@@ -346,6 +362,22 @@ class NormalizedInputBundle:
             table_name = metadata[b"voiage.normalized.table_id"].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized IPC file") from error
+        return cls(
+            manifest=manifest, tables={table_name: table.replace_schema_metadata(None)}
+        )
+
+    @classmethod
+    def read_parquet(cls, path: Path) -> NormalizedInputBundle:
+        """Restore a normalized bundle previously written by :meth:`write_parquet`."""
+        table = pq.read_table(path)
+        metadata = table.schema.metadata or {}
+        try:
+            manifest = DatasetManifest.model_validate_json(
+                metadata[b"voiage.normalized.manifest"]
+            )
+            table_name = metadata[b"voiage.normalized.table_id"].decode()
+        except KeyError as error:
+            raise ValueError("not a voiage normalized Parquet file") from error
         return cls(
             manifest=manifest, tables={table_name: table.replace_schema_metadata(None)}
         )
