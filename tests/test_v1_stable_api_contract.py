@@ -85,7 +85,10 @@ def test_v1_contract_specifies_core_method_shapes_and_failures() -> None:
     }
     for name, method in methods.items():
         assert method["status"] == "stable"
-        assert method["implementation"] == "rust"
+        expected_implementation = (
+            "rust-with-explicit-python-compatibility-path" if name == "evsi" else "rust"
+        )
+        assert method["implementation"] == expected_implementation
         assert method["missing_values"] == "reject"
         assert method["errors"]
         assert method["output"]

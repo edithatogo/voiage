@@ -39,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   order, indexed EVSI RNG streams, materialized-input and out-of-core
   boundaries, estimator memory models, latency evidence, and the absence of
   energy claims pending measurements.
+- Added a stable-core validation-evidence contract mapping every approved
+  estimator profile to analytical, independently derived, and metamorphic
+  tests. Differential fixtures remain supplementary, and the aggregate EVSI
+  contract now discloses its remaining Python two-loop compatibility path.
 - Added Rust-authoritative net-benefit construction with scalar, threshold,
   sample-specific threshold, and explicit v1 elementwise compatibility modes;
   both public Python helpers now use the native kernel and reject non-finite

@@ -40,3 +40,12 @@ policy defines which bias, variance, Monte Carlo error, confidence interval,
 convergence, effective-sample-size, RNG, replication, budget, stopping, and
 numerical-error evidence each estimator family must report. Statistical error
 and floating-point error are recorded separately.
+
+The schema-validated
+[`stable-core-validation-evidence.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-validation-evidence.json)
+contract maps every stable estimator profile to test-level analytical,
+independent-reference, and metamorphic evidence. Differential comparisons are
+supplementary and cannot substitute for an independently derived result. This
+mapping also makes the remaining two-loop EVSI Python compatibility path
+visible; Rust seeded-bootstrap evidence is not presented as authority for that
+different algorithm.

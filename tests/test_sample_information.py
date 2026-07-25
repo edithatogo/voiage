@@ -145,6 +145,68 @@ def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -
     assert evsi_val >= 0, "EVSI should be non-negative."
 
 
+def test_two_loop_constant_single_strategy_matches_zero_analytical_evsi(
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+) -> None:
+    """A constant single strategy cannot change the decision after sampling."""
+
+    def constant_model(psa_params_or_sample: PSASample) -> ValueArray:
+        values = np.full((psa_params_or_sample.n_samples, 1), 7.5)
+        return ValueArray.from_numpy(values, ["only-strategy"])
+
+    assert (
+        evsi(
+            model_func=constant_model,
+            psa_prior=dummy_psa_for_evsi,
+            trial_design=dummy_trial_design_for_evsi,
+            method="two_loop",
+            n_outer_loops=3,
+            n_inner_loops=2,
+            seed=42,
+        )
+        == 0.0
+    )
+
+
+def test_two_loop_evsi_is_translation_invariant_and_positive_homogeneous(
+    dummy_psa_for_evsi, dummy_trial_design_for_evsi
+) -> None:
+    """A fixed random stream preserves the defining affine VOI invariants."""
+
+    def transformed_model(
+        psa_params_or_sample: PSASample,
+        *,
+        offset: float,
+        factor: float,
+    ) -> ValueArray:
+        baseline = deterministic_model_func_evsi(psa_params_or_sample)
+        return ValueArray.from_numpy(
+            offset + factor * baseline.numpy_values,
+            baseline.strategy_names,
+        )
+
+    common = {
+        "psa_prior": dummy_psa_for_evsi,
+        "trial_design": dummy_trial_design_for_evsi,
+        "method": "two_loop",
+        "n_outer_loops": 4,
+        "n_inner_loops": 3,
+        "seed": 42,
+    }
+    baseline = evsi(model_func=deterministic_model_func_evsi, **common)
+    translated = evsi(
+        model_func=lambda psa: transformed_model(psa, offset=100.0, factor=1.0),
+        **common,
+    )
+    scaled = evsi(
+        model_func=lambda psa: transformed_model(psa, offset=0.0, factor=2.5),
+        **common,
+    )
+
+    assert translated == pytest.approx(baseline, abs=1e-10)
+    assert scaled == pytest.approx(2.5 * baseline, abs=1e-10)
+
+
 def test_evsi_two_loop_consumes_requested_inner_loop_count(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi
 ) -> None:

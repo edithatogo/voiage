@@ -1,0 +1,123 @@
+{
+  "contract_version": "1.1.0",
+  "status": "normative",
+  "schema": "specs/v1/stable-core-validation-evidence.schema.json",
+  "claim_policy": {
+    "published_parity": "no-external-package-parity-claim-from-this-contract",
+    "scientific_validation": "supports-repository-promotion-only-with-human-review",
+    "differential_role": "supplementary-not-a-substitute-for-independent-evidence"
+  },
+  "methods": [
+    {
+      "method_id": "net-benefit",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/net_benefit.rs", "test_id": "scalar_kernel_matches_the_analytical_definition", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/net_benefit.rs", "test_id": "elementwise_compatibility_is_explicit_and_rust_owned", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/net_benefit.rs", "test_id": "adding_a_cost_constant_translates_net_benefit", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Covers arithmetic authority; it does not validate application-specific utility construction."]
+    },
+    {
+      "method_id": "expected-loss",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/expected_loss.rs", "test_id": "expected_loss_matches_the_analytical_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/expected_loss.rs", "test_id": "expected_loss_uses_the_lowest_index_for_exact_ties", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/expected_loss_properties.rs", "test_id": "minimum_expected_loss_equals_evpi_and_is_translation_invariant", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Sample-average evidence does not itself establish sampling uncertainty coverage."]
+    },
+    {
+      "method_id": "evpi",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/foundational_kernels.rs", "test_id": "evpi_matches_the_canonical_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "tests/test_c15_oracles.py", "test_id": "test_decimal_numpy_and_native_voiage_surfaces_match", "reference_boundary": "separately-implemented-oracle"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/foundational_properties.rs", "test_id": "evpi_is_non_negative_and_translation_invariant", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Decimal and NumPy oracles validate finite fixtures, not every binary64 rounding path."]
+    },
+    {
+      "method_id": "evppi-regression",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/evppi.rs", "test_id": "evppi_matches_the_canonical_linear_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/evppi.rs", "test_id": "evppi_is_zero_for_identical_or_single_strategy_samples", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/evppi_properties.rs", "test_id": "evppi_scales_with_positive_factors", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Evidence covers the frozen linear estimator, not optional external metamodel engines."]
+    },
+    {
+      "method_id": "evsi-nested-mc",
+      "implementation_boundary": "python-compatibility-path",
+      "evidence": [
+        {"kind": "analytical", "path": "tests/test_sample_information.py", "test_id": "test_two_loop_constant_single_strategy_matches_zero_analytical_evsi", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "tests/test_sample_information.py", "test_id": "test_two_loop_constant_single_strategy_matches_zero_analytical_evsi", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "tests/test_sample_information.py", "test_id": "test_two_loop_evsi_is_translation_invariant_and_positive_homogeneous", "reference_boundary": "transformation-invariant"},
+        {"kind": "differential", "path": "rust/crates/voiage-numerics/tests/evsi_differential.rs", "test_id": "seeded_bootstrap_matches_reference_for_multiple_seeds_and_loop_sizes", "reference_boundary": "same-runtime-differential"}
+      ],
+      "limitations": ["The public joint-normal two-loop estimator remains a visible Python compatibility path; the Rust seeded-bootstrap differential evidence is supplementary and is not authority for that Python algorithm."]
+    },
+    {
+      "method_id": "evsi-regression",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/evsi_regression.rs", "test_id": "regression_matches_linear_fixture_and_reports_envelope", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/evsi_regression.rs", "test_id": "regression_matches_linear_fixture_and_reports_envelope", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/evsi_metamorphic.rs", "test_id": "deterministic_evsi_estimators_preserve_value_shift_and_scale_invariants", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["The hand-derived fixtures do not replace out-of-sample metamodel-bias assessment."]
+    },
+    {
+      "method_id": "evsi-moment-matching",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/evsi_moment.rs", "test_id": "moment_based_matches_the_normative_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/evsi_moment.rs", "test_id": "moment_based_matches_the_normative_fixture", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/evsi_metamorphic.rs", "test_id": "deterministic_evsi_estimators_preserve_value_shift_and_scale_invariants", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Exact fixtures validate the frozen approximation, not universal moment-matching adequacy."]
+    },
+    {
+      "method_id": "enbs",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/foundational_kernels.rs", "test_id": "enbs_preserves_raw_negative_results_and_break_even", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/foundational_properties.rs", "test_id": "raw_enbs_is_exact_subtraction_for_finite_non_negative_costs", "reference_boundary": "separately-implemented-oracle"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/foundational_properties.rs", "test_id": "raw_enbs_is_exact_subtraction_for_finite_non_negative_costs", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["ENBS inherits uncertainty and bias from its EVSI input."]
+    },
+    {
+      "method_id": "ceaf",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/ceaf.rs", "test_id": "ceaf_matches_the_canonical_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/ceaf_properties.rs", "test_id": "probabilities_are_sample_fractions", "reference_boundary": "separately-implemented-oracle"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/ceaf_properties.rs", "test_id": "threshold_permutation_permutates_every_output", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Wald interval coverage remains asymptotic and is separately disclosed."]
+    },
+    {
+      "method_id": "dominance",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/tests/dominance.rs", "test_id": "dominance_matches_the_canonical_fixture", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/tests/dominance.rs", "test_id": "equal_adjacent_icers_remove_the_middle_strategy", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/dominance_properties.rs", "test_id": "translating_all_costs_preserves_classification_and_icers", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Evidence validates the frozen tolerance and tie policy, not alternative guideline conventions."]
+    },
+    {
+      "method_id": "structural-voi",
+      "implementation_boundary": "rust-kernel",
+      "evidence": [
+        {"kind": "analytical", "path": "rust/crates/voiage-numerics/src/structural.rs", "test_id": "structural_evpi_matches_python_aggregation_contract", "reference_boundary": "closed-form-definition"},
+        {"kind": "independent-reference", "path": "rust/crates/voiage-numerics/src/structural.rs", "test_id": "structural_evppi_matches_known_structure_contract", "reference_boundary": "hand-derived-fixture"},
+        {"kind": "metamorphic", "path": "rust/crates/voiage-numerics/tests/structural_properties.rs", "test_id": "structural_values_are_translation_invariant_and_positive_homogeneous", "reference_boundary": "transformation-invariant"}
+      ],
+      "limitations": ["Model probabilities and within-model draws are treated as supplied inputs; their elicitation is not validated here."]
+    }
+  ]
+}

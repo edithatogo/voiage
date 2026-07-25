@@ -40,6 +40,13 @@ memory models, latency evidence, and the absence of an energy claim. Parallel
 reduction, Rust out-of-core execution, and measured energy profiles remain
 promotion-gated rather than being inferred from Python orchestration helpers.
 
+Stable-core validation evidence now maps every approved estimator profile to
+named analytical, independently derived, and metamorphic tests. Differential
+fixtures remain supplementary. The mapping also corrects the aggregate API
+claim for EVSI: native regression and moment kernels coexist with a visible
+Python two-loop compatibility path, which remains a Rust-authority gap rather
+than being hidden behind a general `rust` label.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

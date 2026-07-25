@@ -28,9 +28,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
             budgets are now bound to their distinct execution boundaries
             without making an invalid speedup comparison. Stable reduction,
             RNG-stream, streaming/out-of-core, memory, latency, and energy
-            claim boundaries are now explicit. Implementation of runtime
-            envelopes plus parallel, matched, and measured resource evidence
-            remains open.
+            claim boundaries are now explicit. Every stable estimator profile
+            now maps to named analytical, independent-reference, and
+            metamorphic evidence, while the two-loop EVSI Python compatibility
+            path is explicitly retained as an authority gap. Implementation
+            of runtime envelopes plus parallel, matched, and measured resource
+            evidence remains open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

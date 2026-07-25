@@ -5,6 +5,7 @@
   "statistical_assurance_contract": "specs/v1/stable-estimator-statistical-assurance.json",
   "performance_contract": "specs/v1/stable-core-performance.json",
   "scalability_contract": "specs/v1/stable-core-scalability.json",
+  "validation_evidence_contract": "specs/v1/stable-core-validation-evidence.json",
   "python": {
     "versions": [
       "3.12",
@@ -151,7 +152,7 @@
     },
     "evsi": {
       "status": "stable",
-      "implementation": "rust",
+      "implementation": "rust-with-explicit-python-compatibility-path",
       "input_shape": "net_benefit[sample,strategy]+prior[sample,parameter]+trial-design",
       "output": "finite-float>=0",
       "missing_values": "reject",
