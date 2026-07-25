@@ -55,9 +55,9 @@
   two-loop Python evidence plus structural Rust properties, treats
   differential tests as supplementary, and exposes the two-loop Rust-authority
   gap)
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update. (`2cd23b7b`; Conductor evidence reconciled in `1df1525d`)
+- [~] Automated review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 2: Rust implementation'
   (Protocol in workflow.md).
 
