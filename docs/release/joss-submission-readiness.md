@@ -49,7 +49,7 @@ not replace it.
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
-| Reproducible JOSS PDF | The prior official Open Journals artifact passed visual review; the current 26 July editorial revision requires a fresh hosted build, page inspection, and Textstat report | Pending current-revision build |
+| Reproducible JOSS PDF | Official Open Journals workflow run 30162649796 passed for commit `4dbaecaf`; all six pages were inspected at full resolution without clipping or overflow, and the review-only Textstat report had no warnings | Ready for author review |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 

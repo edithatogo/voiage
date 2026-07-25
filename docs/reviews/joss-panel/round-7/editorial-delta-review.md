@@ -32,10 +32,11 @@ citation occurrences; six software or web records retain missing-DOI warnings
 for human source review. The selected deterministic Authentext patterns report
 no findings. The article contract and focused tests pass locally.
 
-The source change invalidates the earlier rendered-PDF attestation. A fresh
-official Open Journals build, visual inspection, and review-only Textstat
-record remain required before the current revision can be described as
-rendered and reviewed.
+Hosted Open Journals run 30162649796 subsequently built the exact manuscript
+source at commit `4dbaecaf192b64d28273bef1b4caea44af137556`. All six pages
+were inspected at full resolution without clipping or overflow. The
+review-only Textstat report completed without warnings; its scores remain
+editorial evidence rather than acceptance thresholds.
 
 ## Unchanged external boundaries
 

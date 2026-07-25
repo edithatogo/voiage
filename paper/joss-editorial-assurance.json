@@ -31,12 +31,12 @@
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "pending_current_revision",
-      "workflow_run": null,
-      "flesch_reading_ease": null,
-      "flesch_kincaid_grade": null,
-      "warnings": null,
-      "interpretation": "The previous revision completed review-only Textstat analysis. The current source requires a fresh hosted report; no automatic acceptance threshold applies."
+      "status": "review_only_complete",
+      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
+      "flesch_reading_ease": 36.1777,
+      "flesch_kincaid_grade": 11.567,
+      "warnings": 0,
+      "interpretation": "Editorial evidence only; no automatic acceptance threshold."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -67,9 +67,9 @@
     "joss_submission_conversation": "human_only"
   },
   "official_pdf_review": {
-    "status": "pending_current_revision_build",
-    "pages": null,
-    "visual_review": "The previous six-page artifact passed visual review; the current source revision requires a fresh hosted Open Journals build and inspection.",
+    "status": "pass",
+    "pages": 6,
+    "visual_review": "All six pages of the current-revision artifact were inspected at full resolution; ROR links, headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow.",
     "submission_performed": false
   }
 }
