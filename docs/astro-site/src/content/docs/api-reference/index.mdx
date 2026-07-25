@@ -8,7 +8,11 @@ sidebar:
 The v1.0 stable API is defined by the normative
 [`specs/v1/stable-api.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-api.json)
 contract. Rust owns numerical policy; Python is the reference facade and the
-retained bindings use the same Rust implementation.
+retained bindings use the same Rust implementation where the method contract
+declares Rust authority. EVSI currently has the explicit implementation label
+`rust-with-explicit-python-compatibility-path`: regression and moment
+aggregation are Rust-backed, while two-loop model orchestration remains a
+visible Python compatibility path.
 
 ## Stable numerical operations
 
