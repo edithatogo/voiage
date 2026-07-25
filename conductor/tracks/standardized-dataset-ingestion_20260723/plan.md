@@ -15,13 +15,13 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [x] **P1-T3 / AC-01:** Add
   `specs/core-api/schemas/v2/normalized-input-bundle.schema.json`, compatibility
   rules, exports, and deterministic golden fixtures. (`0af240c`)
-- [~] **P1-T4 / AC-10:** Define the independently versioned VOI binding profile,
+- [x] **P1-T4 / AC-10:** Define the independently versioned VOI binding profile,
   its JSON Schema, canonical serialization, digest, precedence rules, units,
-  perspectives, transformations, and method-applicability validation.
-- [~] **P1-T5 / AC-01, AC-10:** Add unsupported-version, conflicting-binding,
-  stale-reference, unit-incompatibility, and namespaced-extension tests.
-- [~] **P1-T6 / AC-01:** Verify that the core contract imports no external
-  ingestion dependency.
+  perspectives, transformations, and method-applicability validation. (`fa91f90`)
+- [x] **P1-T5 / AC-01, AC-10:** Add unsupported-version, conflicting-binding,
+  stale-reference, unit-incompatibility, and namespaced-extension tests. (`a2e082f`)
+- [x] **P1-T6 / AC-01:** Verify that the core contract imports no external
+  ingestion dependency. (`b13a76c`)
 - [ ] **P1-T7 / AC-01, AC-10:** Run automated review, focused tests, schema validation,
   Arrow/Polars fresh-process round trips, and the phase checkpoint protocol.
 
