@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "reviewed_on": "2026-07-24",
+  "reviewed_on": "2026-07-26",
   "snapshot": {
     "software-registry": {
       "registry_digest": "1dc09d6d98793c4cefa420ca706d343a49ce9cfa11fb3e81e0c2bd0f33c2384e",
@@ -26,7 +26,7 @@
     },
     "github-actions": {
       "workflow_count": 27,
-      "workflow_digest": "cd6ae64b0fd22c78c9b2fffdcc8af874595f657b56d55456d0037571d4a07365",
+      "workflow_digest": "9be2003870abd2548c40a162c3b625d54d07b619eb2021edb266ad8f04d8f0cc",
       "action_references": [
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b",
         "YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df",
