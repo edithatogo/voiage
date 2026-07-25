@@ -24,11 +24,14 @@ B = \lambda\delta-C.
 
 The generating mean of \(B\) is zero and its standard deviation is
 1,634.778 value units. The theoretical probability that the programme is
-preferred is therefore 0.5. The generating-distribution benchmarks are
-652.182 value units per person for expected value of perfect information,
-598.413 for expected value of partial perfect information about health gain,
-and 259.312 for expected value of partial perfect information about programme
-cost.
+preferred is therefore 0.5. The fixed 10,000-draw sample has mean incremental
+net benefit of -15.860 value units because of Monte Carlo sampling error. EVPI
+and EVPPI are estimated from that sample, whereas EVSI uses the declared
+generating prior. The generating-distribution benchmarks are 652.182 value
+units for each eligible future person for expected value of perfect
+information, 598.413 for expected value of partial perfect information about
+health gain, and 259.312 for expected value of partial perfect information
+about programme cost.
 
 ## Analytical study model
 
@@ -38,9 +41,12 @@ The uncertain incremental effect has the prior
 \delta \sim N(\mu_0,\tau^2).
 \]
 
-For a two-group normal study with equal allocation, total sample size \(n\),
-and known common individual outcome variance \(\sigma^2\), the difference in
-sample means follows
+This is an algebraic study-model illustration rather than a proposed trial. It
+does not specify follow-up, QALY measurement, missing data, treatment switching,
+or mapping from observed outcomes into a clinical decision model. For a
+two-group normal study with equal allocation, total sample size \(n\), and known
+common individual outcome variance \(\sigma^2\), the difference in sample means
+follows
 
 \[
 \bar Y_1-\bar Y_0\mid\delta \sim N(\delta,4\sigma^2/n).
@@ -70,7 +76,8 @@ EVSI calculation. The two-option expected value of sample information is
 where \(\phi\) and \(\Phi\) are the standard normal density and distribution
 functions. When \(s=0\), the expression is evaluated by continuity and EVSI is
 zero. For the worked example, \(\sigma=1.0\) QALY and \(n=200\) give EVSI of
-124.179 value units per person.
+124.179 value units for each eligible future person whose decision could use
+the evidence.
 
 ## Population value and study cost
 
@@ -82,10 +89,14 @@ delay \(d\), and realised proportion \(r\), discounted opportunities are
 O(d,r)=rN\sum_{t=d+1}^{T}(1+i)^{-t}.
 \]
 
-Immediate use sets \(d=0\) and \(r=1\), discounting 1,300 eligible decisions
-per year for ten years at 3% and giving 11,089.264 discounted opportunities.
-The delayed scenario sets \(d=2\) and \(r=0.60\), omitting the first two years
-and giving 5,161.052 discounted opportunities. For fixed study cost \(F\),
+All monetary quantities are undated synthetic units and imply no jurisdictional
+or payer perspective. The 3% rate discounts future decision opportunities, not
+the generated health and cost outcomes. Immediate use sets \(d=0\) and \(r=1\),
+discounting 1,300 eligible decisions per year for ten years and giving
+11,089.264 discounted opportunities. The delayed scenario sets \(d=2\) and
+\(r=0.60\), omitting the first two years and giving 5,161.052 discounted
+opportunities. Delay is fixed independently of sample size; recruitment,
+follow-up, and reporting time are not modelled. For fixed study cost \(F\),
 per-participant cost \(c\), and total sample size \(n\),
 
 \[
@@ -103,11 +114,13 @@ evaluations bracket sign changes but do not estimate a continuous optimum.
 
 ## Monte Carlo sampling intervals
 
-The EVPPI point estimates use the package's regression estimator. Its target is
-the expected gain from learning each selected input under the finite
-probabilistic-sensitivity-analysis sample; it is not an exact finite-sample
-conditional decomposition. Each bootstrap replicate refits that same
-estimator.
+The EVPPI point estimates use ordinary least squares. Net benefit is linear in
+each independently generated input in this example, so the regression model is
+correctly specified here. This does not validate the estimator for nonlinear or
+correlated models. Its target is the expected gain from learning each selected
+input under the finite probabilistic-sensitivity-analysis sample; it is not an
+exact finite-sample conditional decomposition. Each bootstrap replicate refits
+that same estimator.
 
 The EVPI, EVPPI, and preference-probability intervals describe Monte Carlo
 sampling error in the 10,000 paired health-gain and cost draws. The procedure

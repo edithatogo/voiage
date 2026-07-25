@@ -3,13 +3,18 @@
 from math import pi, sqrt
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from scripts.generate_paper_health_example import (
+    COST_MEAN,
     COST_PRIOR_SD,
+    EFFECT_MEAN,
     EFFECT_PRIOR_SD,
+    N_PSA,
     OUTCOME_SD,
     REFERENCE_WTP,
+    SEED,
     _bootstrap_intervals,
     calculate_example,
     calculate_sensitivity,
@@ -90,6 +95,16 @@ def test_reported_values_agree_with_independent_analytical_references() -> None:
         0 <= value <= expected_effect_evppi <= expected_evpi
         for value in example.evsi_per_person
     )
+
+
+def test_fixed_sample_mean_is_distinguished_from_generating_expectation() -> None:
+    """The manuscript's finite-sample mean is reproducible and not theoretical."""
+    rng = np.random.default_rng(SEED)
+    effect = rng.normal(EFFECT_MEAN, EFFECT_PRIOR_SD, N_PSA)
+    cost = rng.normal(COST_MEAN, COST_PRIOR_SD, N_PSA)
+
+    assert REFERENCE_WTP * EFFECT_MEAN - COST_MEAN == 0
+    assert np.mean(REFERENCE_WTP * effect - cost) == pytest.approx(-15.860326997541796)
 
 
 def test_reported_manuscript_results_are_reproducible() -> None:

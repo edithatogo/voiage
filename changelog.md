@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   demonstrated research use as a pre-review gate and non-author engagement as
   a detailed-review criterion and strong positive pre-review signal; retained
   independent validation as an author-selected prerequisite.
+- Refined the JOSS worked example after independent screening, methodological,
+  and plain-language reviews: distinguished generating and simulated means,
+  defined the future-person denominator, bounded the algebraic study model,
+  clarified discounting and timing assumptions, narrowed EVPPI interpretation,
+  and added implementation-independent correctness evidence.
 - Bound the criteria-reconciled JOSS source to its successful hosted Open
   Journals build, artifact and PDF digests, exact 1,629-word contract result,
   current Textstat evidence, and complete six-page visual review.

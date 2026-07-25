@@ -225,7 +225,7 @@ def test_joss_validator_rejects_internal_word_budget_drift(tmp_path: Path) -> No
             "The synthetic health example compares",
             "Briefly, the synthetic health example compares",
         )
-        + "\nAdditional uncontracted prose " * 10,
+        + "\nAdditional uncontracted prose " * 30,
         encoding="utf-8",
     )
     (tmp_path / "paper.bib").write_text(
