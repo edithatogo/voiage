@@ -140,6 +140,8 @@ class VOIBinding(ContractModel):
     strategy_names: tuple[Identifier, ...] = ()
     unit: str | None = None
     perspective: str | None = None
+    transformations: tuple[str, ...] = ()
+    applicable_method_families: tuple[Identifier, ...] = ()
 
     @model_validator(mode="after")
     def validate_strategy_names(self) -> VOIBinding:
@@ -156,6 +158,7 @@ class BindingProfile(ContractModel):
 
     schema_version: Literal["1.0.0"] = "1.0.0"
     bindings: tuple[VOIBinding, ...]
+    precedence: Literal["profile"] = "profile"
 
     @model_validator(mode="after")
     def validate_unique_roles(self) -> BindingProfile:
@@ -164,6 +167,21 @@ class BindingProfile(ContractModel):
         if len(roles) != len(set(roles)):
             raise ValueError("binding profile roles must be unique")
         return self
+
+    def binding_for(self, role: str, *, method_family: str) -> VOIBinding:
+        """Resolve one role only when the profile explicitly allows the method."""
+        matches = tuple(binding for binding in self.bindings if binding.role == role)
+        if len(matches) != 1:
+            raise ValueError(f"exactly one {role} binding is required")
+        binding = matches[0]
+        if (
+            binding.applicable_method_families
+            and method_family not in binding.applicable_method_families
+        ):
+            raise ValueError(
+                f"binding role {role!r} is not applicable to {method_family!r}"
+            )
+        return binding
 
     def canonical_json(self) -> str:
         """Return canonical profile JSON for reproducible semantic identity."""

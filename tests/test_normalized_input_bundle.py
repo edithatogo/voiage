@@ -526,6 +526,22 @@ def test_binding_profile_is_versioned_deterministic_and_reference_checked() -> N
         ).validate_references()
 
 
+def test_binding_profile_declares_precedence_transformations_and_method_scope() -> None:
+    binding = VOIBinding(
+        role="net_benefit",
+        table_id="net_benefit",
+        field_ids=("strategy_a", "strategy_b"),
+        transformations=("currency-2026",),
+        applicable_method_families=("evpi",),
+    )
+    profile = BindingProfile(bindings=(binding,))
+
+    assert profile.precedence == "profile"
+    assert profile.binding_for("net_benefit", method_family="evpi") == binding
+    with pytest.raises(ValueError, match="not applicable"):
+        profile.binding_for("net_benefit", method_family="evsi")
+
+
 def test_new_contract_validation_failure_paths() -> None:
     with pytest.raises(ValidationError, match="matching non-empty"):
         KeyReference(

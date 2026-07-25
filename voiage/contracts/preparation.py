@@ -94,10 +94,13 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
         if binding_profile is not None
         else bundle.manifest.bindings
     )
-    bindings = tuple(item for item in declared_bindings if item.role == "net_benefit")
-    if len(bindings) != 1:
-        raise ValueError("exactly one net_benefit binding is required")
-    binding = bindings[0]
+    binding = (
+        binding_profile.binding_for("net_benefit", method_family="evpi")
+        if binding_profile is not None
+        else BindingProfile(bindings=declared_bindings).binding_for(
+            "net_benefit", method_family="evpi"
+        )
+    )
     table = bundle.table(binding.table_id)
     selected = table.select(binding.field_ids)
     if selected.num_rows == 0:
