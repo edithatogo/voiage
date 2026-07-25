@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import json
 from pathlib import Path
 
@@ -254,6 +255,19 @@ def test_manifest_matches_published_json_schema() -> None:
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
 
     Draft202012Validator(schema).validate(_bundle().manifest.model_dump(mode="json"))
+
+
+def test_normalized_input_golden_fixture_is_schema_valid_and_deterministic() -> None:
+    fixture_path = Path("specs/core-api/fixtures/v2/normalized-input-bundle.json")
+    schema_path = Path("specs/core-api/schemas/v2/normalized-input-bundle.schema.json")
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+
+    Draft202012Validator(schema).validate(fixture["manifest"])
+    manifest = DatasetManifest.model_validate_json(json.dumps(fixture["manifest"]))
+
+    assert manifest.canonical_json() == fixture["canonical_json"]
+    assert sha256(manifest.canonical_json().encode()).hexdigest() == fixture["digest"]
 
 
 @pytest.mark.parametrize(
