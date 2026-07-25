@@ -68,7 +68,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   `python scripts/dependency_frontier.py . --strict`; review and record the
   Croissant parser dependency and supported-profile decision before changing
   dependencies. (`e41591e`)
-- [ ] **P4-T2 / AC-04:** Write failing offline fixtures/tests for versioning,
+- [~] **P4-T2 / AC-04:** Write failing offline fixtures/tests for versioning,
   identities, resources, record sets, fields, keys, references, splits,
   supported transformations, integrity failures, archives, nesting, and
   ambiguous semantics.
