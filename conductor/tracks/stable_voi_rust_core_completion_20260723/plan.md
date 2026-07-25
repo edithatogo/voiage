@@ -10,9 +10,12 @@
   (`a62e79d9`; the schema-validated v1.1 registry covers every approved stable
   method through an executable profile or explicit delegation and freezes
   comparison tolerances, ties, clipping, failures, diagnostics, and fallbacks)
-- [ ] Freeze bias/variance and Monte Carlo error reporting, convergence,
+- [x] Freeze bias/variance and Monte Carlo error reporting, convergence,
   effective-sample diagnostics, RNG identity, replication, budget, stopping,
   and numerical-error envelopes by estimator family.
+  (`e4e0f5c1`; a schema-validated family policy plus portable runtime envelope
+  separates statistical, approximation, and floating-point error and makes
+  replay, convergence, resource, and stopping evidence explicit)
 - [ ] Record Python/Rust baseline differences and performance budgets.
 - [ ] Define deterministic parallel reduction, splittable RNG streams,
   streaming/out-of-core behavior, and memory/latency/energy profiles.
