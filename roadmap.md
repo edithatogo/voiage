@@ -28,8 +28,11 @@ The companion statistical-assurance policy freezes estimator-family bias,
 variance, Monte Carlo error, convergence, effective sample size, RNG,
 replication, budget, stopping, and numerical-error reporting. Completion of
 v1.1 still requires implementing these runtime envelopes and recording
-resource, performance, and promotion evidence defined by the stable-core
-track.
+resource, matched-performance, and promotion evidence defined by the
+stable-core track. Existing Python and Rust regression budgets are now
+contracted separately because they exercise different execution boundaries;
+no cross-language speedup claim is permitted without a matched hosted
+benchmark.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

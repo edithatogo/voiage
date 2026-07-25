@@ -5,6 +5,21 @@ description: Optimizing voiage performance
 
 This guide provides tips and best practices for optimizing voiage performance.
 
+## Stable-core baselines
+
+The versioned
+[`stable-core-performance.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-performance.json)
+contract records the current Rust and Python regression budgets and, just as
+importantly, what they do not establish. The Rust foundational benchmark calls
+native kernels directly. The existing Python C15 benchmark calls the NumPy
+reference oracle. Because those execution boundaries and workloads differ,
+their timings must not be used to claim a Python-versus-Rust speedup.
+
+A cross-language performance claim requires matched workloads, result digests,
+warmup and repeated-sample intervals, runner and toolchain identity, and
+platform evidence. Until that gate passes, each budget is only a regression
+guard for its own declared runner cohort.
+
 Hardware lanes remain evidence-gated: **FPGA: separate execution lane** and
 **ASIC: contract-gated custom-circuit lane** are not production claims until
 reviewed device-backed evidence exists.

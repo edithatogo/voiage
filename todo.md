@@ -24,8 +24,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
             scientific-freeze-bound registry covering tolerance, ties,
             clipping, failure diagnostics, and fallbacks. A companion
             estimator-family policy freezes statistical assurance and its
-            portable runtime envelope. Implementation of those envelopes plus
-            resource and performance evidence remains open.
+            portable runtime envelope. Existing Python and Rust performance
+            budgets are now bound to their distinct execution boundaries
+            without making an invalid speedup comparison. Implementation of
+            runtime envelopes plus matched and resource evidence remains open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

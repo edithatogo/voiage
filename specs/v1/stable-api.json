@@ -3,6 +3,7 @@
   "status": "normative",
   "estimator_assurance_contract": "specs/v1/stable-estimator-assurance.json",
   "statistical_assurance_contract": "specs/v1/stable-estimator-statistical-assurance.json",
+  "performance_contract": "specs/v1/stable-core-performance.json",
   "python": {
     "versions": [
       "3.12",

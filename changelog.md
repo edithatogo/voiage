@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   evidence schema covering bias, variance, Monte Carlo error, confidence
   intervals, convergence, effective sample size, RNG identity, replication,
   computational budget, stopping, and numerical error.
+- Added a stable-core performance contract that binds the existing Rust and
+  Python regression budgets to their executable baseline files, documents
+  their different execution boundaries, and prohibits cross-language speedup
+  claims until matched hosted evidence exists.
 - Added Rust-authoritative net-benefit construction with scalar, threshold,
   sample-specific threshold, and explicit v1 elementwise compatibility modes;
   both public Python helpers now use the native kernel and reject non-finite

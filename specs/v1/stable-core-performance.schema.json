@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/stable-core-performance.schema.json",
+  "title": "VOIAGE stable-core performance evidence contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "schema",
+    "comparison_policy",
+    "baselines",
+    "paired_baseline_gate",
+    "dependency_frontier_gate"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.1.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/stable-core-performance.schema.json"},
+    "comparison_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paired_speedup_claim", "reason", "allowed_claims"],
+      "properties": {
+        "paired_speedup_claim": {"const": "prohibited"},
+        "reason": {"type": "string", "minLength": 1},
+        "allowed_claims": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "baselines": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "baseline_id",
+          "language",
+          "source",
+          "execution_boundary",
+          "runner_scope",
+          "measures",
+          "does_not_measure",
+          "budgets",
+          "claim_limit"
+        ],
+        "properties": {
+          "baseline_id": {"type": "string", "minLength": 1},
+          "language": {"enum": ["python", "rust"]},
+          "source": {"type": "string", "minLength": 1},
+          "execution_boundary": {"type": "string", "minLength": 1},
+          "runner_scope": {"type": "string", "minLength": 1},
+          "measures": {"type": "string", "minLength": 1},
+          "does_not_measure": {"type": "string", "minLength": 1},
+          "budgets": {"type": "object", "minProperties": 1},
+          "claim_limit": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "paired_baseline_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "required_evidence", "promotion_rule"],
+      "properties": {
+        "status": {"const": "open"},
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "promotion_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "dependency_frontier_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "command",
+        "reason",
+        "does_not_invalidate_performance_contract"
+      ],
+      "properties": {
+        "status": {"const": "open"},
+        "command": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "does_not_invalidate_performance_contract": {"const": true}
+      }
+    }
+  }
+}
