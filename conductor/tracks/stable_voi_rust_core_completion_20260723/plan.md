@@ -16,7 +16,10 @@
   (`e4e0f5c1`; a schema-validated family policy plus portable runtime envelope
   separates statistical, approximation, and floating-point error and makes
   replay, convergence, resource, and stopping evidence explicit)
-- [ ] Record Python/Rust baseline differences and performance budgets.
+- [x] Record Python/Rust baseline differences and performance budgets.
+  (`25658925`; the versioned contract binds existing Rust direct-kernel and
+  Python NumPy-oracle budgets to their executable sources and prohibits
+  unmatched cross-language speedup claims)
 - [ ] Define deterministic parallel reduction, splittable RNG streams,
   streaming/out-of-core behavior, and memory/latency/energy profiles.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
