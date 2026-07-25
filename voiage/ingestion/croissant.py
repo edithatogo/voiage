@@ -58,6 +58,7 @@ class CroissantProvider:
             )
         record_set = cast("dict[str, object]", record_sets[0])
         distribution = cast("dict[str, object]", distributions[0])
+        self._reject_unsupported_semantics(descriptor, distribution, record_set)
         table_id = record_set.get("name")
         reference = distribution.get("contentUrl")
         fields = record_set.get("field")
@@ -106,3 +107,54 @@ class CroissantProvider:
             ),
             tables={table_id: table},
         )
+
+    @staticmethod
+    def _reject_unsupported_semantics(
+        descriptor: dict[str, object],
+        distribution: dict[str, object],
+        record_set: dict[str, object],
+    ) -> None:
+        """Reject semantics that the conservative profile cannot preserve."""
+        if "@id" in descriptor:
+            raise IngestionError(
+                "supported Croissant profile does not support identities"
+            )
+        conforms_to = descriptor.get("conformsTo")
+        if (
+            conforms_to is not None
+            and conforms_to != "http://mlcommons.org/croissant/1.1"
+        ):
+            raise IngestionError(
+                "supported Croissant profile requires Croissant 1.1 conformsTo"
+            )
+        encoding_format = distribution.get("encodingFormat")
+        if encoding_format is not None and encoding_format != "text/csv":
+            raise IngestionError("supported Croissant profile requires CSV media type")
+        if any(
+            key in distribution for key in ("sha256", "contentChecksum", "checksum")
+        ):
+            raise IngestionError(
+                "supported Croissant profile does not support integrity declarations"
+            )
+        if any(key in record_set for key in ("key", "primaryKey")):
+            raise IngestionError("supported Croissant profile does not support keys")
+        if "split" in record_set:
+            raise IngestionError("supported Croissant profile does not support splits")
+        fields = record_set.get("field")
+        if not isinstance(fields, list):
+            return
+        for field in fields:
+            if not isinstance(field, dict):
+                continue
+            if "references" in field:
+                raise IngestionError(
+                    "supported Croissant profile does not support field references"
+                )
+            if "subField" in field:
+                raise IngestionError(
+                    "supported Croissant profile does not support nested fields"
+                )
+            if "source" in field:
+                raise IngestionError(
+                    "supported Croissant profile does not support field sources"
+                )
