@@ -26,9 +26,10 @@
 - [x] Route Python stable APIs through Rust with explicit compatibility paths.
   (`ebd32c6b`; both array and scalar helpers use PyO3, with warned v1
   elementwise inference and explicit `thresholds`/`elementwise` policies)
-- [~] Add properties, mutation tests, benchmarks, diagnostics, and fixtures.
-  (`ebd32c6b`; analytical/property/error coverage and the CI-gated
-  foundational benchmark are complete; mutation and final fixture audit remain)
+- [x] Add properties, mutation tests, benchmarks, diagnostics, and fixtures.
+  (`f89e70c2`; analytical/property/error coverage, the CI-gated foundational
+  benchmark, shared Python/Rust normal-edge-invalid fixtures, and a fail-closed
+  bounded Rust mutation audit are complete)
 - [ ] Validate analytical oracles, independent references, and metamorphic
   invariants in addition to differential fixtures.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
