@@ -2,20 +2,31 @@
 
 ## Purpose
 
-The Journal of Open Source Software (JOSS) accepts specific reproducible
-materials as evidence of credible near-term scholarly significance. Its 2026
+The Journal of Open Source Software (JOSS) requires demonstrated research use,
+at minimum by the developer, as a pre-review gate. Its detailed
 collaborative-effort criterion separately classifies a single-author project
 with no community engagement, external use, or collaborative input as not
-acceptable. Non-author issues, pull requests, discussions, installation
-reports, and research use can provide that human evidence. Automated agents,
-dependency bots, and another repository maintained by the same author cannot.
+acceptable, although the pre-review and editorial guides call non-author
+engagement a strong positive signal rather than a hard gate. Non-author issues,
+pull requests, discussions, installation reports, and research use can provide
+that human evidence. Automated agents, dependency bots, fallback-only adapters,
+and aspirations in another repository maintained by the same author cannot.
 
-This protocol gives a non-author researcher or research-software practitioner a
-small, reproducible exercise. It does not ask for an endorsement. Problems,
+This protocol separates a completed developer research-use record from a
+non-author validation exercise. It does not ask for an endorsement. Problems,
 confusion, and unsuccessful installation attempts are useful evidence and
 should be reported accurately.
 
 Tracking issue: [#471](https://github.com/edithatogo/voiage/issues/471).
+
+## Developer research-use record
+
+Record a completed analysis that uses the exact public release in a research
+workflow. The record should identify the research question, competing options,
+uncertain quantities, units, release version, commands, and retained results.
+It may be public or available confidentially to the JOSS editorial team. The
+paper's synthetic demonstration and a project that merely plans or falls back
+from a `voiage` integration do not establish this use.
 
 ## Clean installation
 
@@ -116,8 +127,10 @@ supports that exact statement.
 
 ## Completion boundary
 
-This gate is complete when attributable or editor-verifiable evidence records
-genuine human community engagement, external use, or collaborative input. The
-exercise above is one route, not the only possible route. A locally repeated
-test, an AI-agent run, or an automated continuous-integration result does not
-satisfy it.
+The demonstrated-use gate is complete when attributable or editor-verifiable
+evidence records completed research-workflow use of the released package. The
+author-selected engagement prerequisite is complete when separate evidence
+records genuine non-author community engagement, external use, or collaborative
+input. The exercise above is one route, not the only possible route. A locally
+repeated demonstration, an AI-agent run, or an automated continuous-integration
+result does not satisfy either evidence class.

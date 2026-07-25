@@ -2,7 +2,8 @@
 
 Status: in progress; signed public v1.0.0 release evidence, Software Heritage
 archival, and authenticated arXiv submission are recorded. The exact v2 JOSS
-candidate, human engagement, author-confirmed AI attestation, arXiv
+candidate, demonstrated research use, human engagement, author-confirmed AI
+attestation, arXiv
 announcement, RRID, JOSS, and external registry outcomes remain explicitly
 tracked.
 

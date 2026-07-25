@@ -64,9 +64,11 @@ AI-use disclosure, Software Heritage citation, a fail-closed local validator,
 an exact 1,600 ±2% article contract, SourceRight citation reconciliation,
 selected Authentext pattern evidence, and a pinned Open Journals draft build.
 Direct JOSS review is selected for the
-Rust-centred polyglot package. Issue #471 tracks attributable human community
-engagement, external use, or collaborative input for the separate
-single-author screening criterion. Exact v2 release evidence, author-confirmed
+Rust-centred polyglot package. Issue #471 tracks demonstrated research use and
+attributable human community engagement, external use, or collaborative input.
+The former is a hard pre-review gate; the latter remains a detailed-review
+criterion, strong positive pre-review signal, and author-selected prerequisite.
+Exact v2 release evidence, author-confirmed
 AI attestation, final human source verification, exact-revision PDF review,
 authenticated submission, editorial review, acceptance, and DOI assignment
 remain explicit human or external gates. The permanent arXiv identifier is the

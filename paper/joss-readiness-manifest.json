@@ -1,6 +1,6 @@
 {
   "schema_version": "voiage.joss-readiness.v1",
-  "criteria_as_of": "2026-07-25",
+  "criteria_as_of": "2026-07-26",
   "canonical_source": "paper.md",
   "article_contract": "paper/joss-article-contract.json",
   "source_assurance": {
@@ -37,16 +37,16 @@
     "citation_and_source_audit": "pass_with_human_confirmation_pending",
     "authentext_review": "pass",
     "independent_panel_review": "complete_internal_review",
-    "official_pdf_build_and_visual_review": "pass"
+    "official_pdf_build_and_visual_review": "pending_current_source_build"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
-    "commit": "4dbaecaf192b64d28273bef1b4caea44af137556",
+    "workflow_run": null,
+    "commit": null,
     "artifact": "voiage-joss-paper",
-    "official_open_journals_build": "pass",
-    "visual_review": "all six pages inspected at full resolution; no clipping or overflow found",
+    "official_open_journals_build": "pending_current_source_build",
+    "visual_review": "pending for the criteria-reconciled source",
     "body_word_count": 1628,
-    "textstat_status": "review_only_complete"
+    "textstat_status": "pending_current_source_build"
   },
   "repository_gates": {
     "public_development_history": "ready",
@@ -55,13 +55,18 @@
     "exact_reviewed_immutable_archive": "pending"
   },
   "external_gates": {
+    "demonstrated_research_use": "pending",
     "genuine_community_engagement_external_use_or_collaborative_input": "pending",
     "joss_submission": "not_started",
     "joss_editorial_screening_review_and_acceptance": "not_started"
   },
   "author_project_sequence": {
     "permanent_arxiv_identifier_and_announcement_before_joss_submission": "pending",
-    "joss_requirement": false
+    "community_engagement_before_joss_submission": "pending",
+    "joss_requirement": {
+      "permanent_arxiv_identifier": false,
+      "community_engagement": "detailed_review_criterion_and_strong_positive_pre_review_signal"
+    }
   },
   "human_gates": [
     "confirm the complete AI-use attestation and best-available historical model inventory",

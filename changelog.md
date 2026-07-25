@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Reconciled the JOSS readiness contract with the current distinction between
+  demonstrated research use as a pre-review gate and non-author engagement as
+  a detailed-review criterion and strong positive pre-review signal; retained
+  independent validation as an author-selected prerequisite.
 - Refined the JOSS manuscript for non-specialist readers, clarified the EVPI
   and study-uptake interpretations, expanded the required AI-assistance scope,
   and linked all affiliations to verified ROR identifiers with fail-closed

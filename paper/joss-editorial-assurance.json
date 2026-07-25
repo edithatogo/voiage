@@ -1,14 +1,14 @@
 {
   "schema_version": "voiage.joss-editorial-assurance.v1",
   "canonical_source": "paper.md",
-  "criteria_date": "2026-07-25",
+  "criteria_date": "2026-07-26",
   "tools": {
     "sourceright": {
       "version": "0.1.2 development snapshot",
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
+      "source_sha256": "d02b1a3c17044cb51297a3737e9b2a4cb267c48f10421372e5431f7cae8b2da9",
       "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
       "citation_occurrences": 19,
       "citation_matches": 19,
@@ -26,17 +26,17 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
+      "source_sha256": "d02b1a3c17044cb51297a3737e9b2a4cb267c48f10421372e5431f7cae8b2da9",
       "finding_count": 0
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "review_only_complete",
+      "status": "previous_source_review_only_complete",
       "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30162649796",
       "flesch_reading_ease": 36.1777,
       "flesch_kincaid_grade": 11.567,
       "warnings": 0,
-      "interpretation": "Editorial evidence only; no automatic acceptance threshold."
+      "interpretation": "Previous-source editorial evidence only; the criteria-reconciled source needs a fresh hosted report and no automatic acceptance threshold applies."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -58,7 +58,8 @@
     "build/joss/authentext.json",
     "build/joss/readability.json",
     "docs/reviews/joss-panel/round-6/synthesis.md",
-    "docs/reviews/joss-panel/round-7/editorial-delta-review.md"
+    "docs/reviews/joss-panel/round-7/editorial-delta-review.md",
+    "docs/reviews/joss-panel/round-8/criteria-reconciliation.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
@@ -67,9 +68,9 @@
     "joss_submission_conversation": "human_only"
   },
   "official_pdf_review": {
-    "status": "pass",
-    "pages": 6,
-    "visual_review": "All six pages of the current-revision artifact were inspected at full resolution; ROR links, headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow.",
+    "status": "pending_current_source_build",
+    "pages": null,
+    "visual_review": "The previous six-page artifact passed visual review, but the criteria-reconciled source requires a fresh hosted build and inspection.",
     "submission_performed": false
   }
 }

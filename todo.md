@@ -43,10 +43,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
         deliverables in #297--#299.
     *   The arXiv-first manuscript lane is native subissue #312 under #299;
         PR #311 contains the final repository-owned review changes.
-    *   Direct JOSS review is selected; native subissue #471 records the
-        attributable human community engagement, external use, or
-        collaborative input required for the current single-author screening
-        criterion.
+    *   Direct JOSS review is selected; native subissue #471 records
+        demonstrated research use plus attributable human community
+        engagement, external use, or collaborative input. Demonstrated use is
+        a pre-review gate; engagement is a detailed-review criterion, strong
+        positive pre-review signal, and author-selected prerequisite.
     *   PR #480 contains the active multi-role JOSS review loop, plain-language
         revision, explicit 1,600 ±2% article contract, SourceRight/AuthenText
         assurance, claim-to-interface reconciliation, and reproducibility
