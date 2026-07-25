@@ -6,7 +6,10 @@
   (`ebd32c6b`; net-benefit is deterministic and array-returning, so RNG and
   result-envelope requirements are inapplicable; analytical, property,
   dimension, non-finite, overflow, adapter, and PyO3 tests cover its contract)
-- [ ] Freeze stable estimator, diagnostic, tolerance, tie, and fallback policy.
+- [x] Freeze stable estimator, diagnostic, tolerance, tie, and fallback policy.
+  (`a62e79d9`; the schema-validated v1.1 registry covers every approved stable
+  method through an executable profile or explicit delegation and freezes
+  comparison tolerances, ties, clipping, failures, diagnostics, and fallbacks)
 - [ ] Freeze bias/variance and Monte Carlo error reporting, convergence,
   effective-sample diagnostics, RNG identity, replication, budget, stopping,
   and numerical-error envelopes by estimator family.
