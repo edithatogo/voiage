@@ -565,6 +565,29 @@ def test_binding_rejects_incompatible_declared_unit() -> None:
         )
 
 
+def test_binding_profile_rejects_incompatible_declared_unit() -> None:
+    with pytest.raises(ValidationError, match="binding_profile unit is incompatible"):
+        DatasetManifest(
+            dataset_id="profile-unit-mismatch",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(
+                        FieldManifest(field_id="cost", dtype="float64", unit="AUD"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            binding_profile=BindingProfile(
+                bindings=(
+                    VOIBinding(
+                        role="cost", table_id="data", field_ids=("cost",), unit="USD"
+                    ),
+                )
+            ),
+        )
+
+
 def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
     payload = _bundle().manifest.model_dump(mode="json")
     payload["schema_version"] = "2.0.0"
