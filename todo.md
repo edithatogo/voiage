@@ -51,9 +51,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   PR #480 established the multi-role JOSS review loop, plain-language
         revision, explicit 1,600 ±2% article contract, SourceRight/AuthenText
         assurance, claim-to-interface reconciliation, and reproducibility
-        evidence. PR #521 reconciles the current research-use criteria. Its
-        hosted Open Journals run 30164270490 passes for the exact source at
-        1,629 words, and all six PDF pages pass visual review.
+        evidence. PR #521 reconciled the current research-use criteria.
+        Round nine now distinguishes generating from simulated results,
+        tightens study-model interpretation, and passes locally at 1,583 words
+        with 18/18 citation occurrences reconciled; its current-source hosted
+        PDF and visual review remain pending.
         Exact v2 release identity, author-confirmed AI attestation, final human
         source verification, and the external engagement record remain open.
     *   Preparation is repository-owned; archival, identifiers, submission,

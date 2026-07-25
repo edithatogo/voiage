@@ -5,7 +5,7 @@
     {
       "id": "summary-input-output",
       "section": "Summary",
-      "statement": "`voiage` calculates EVPI and EVPPI from simulated results, analytical EVSI from a declared study model, and ENBS from EVSI and research costs.",
+      "statement": "`voiage` calculates these quantities from simulated results or a declared study model.",
       "status": "verified",
       "evidence": [
         {
@@ -25,7 +25,7 @@
     {
       "id": "summary-language-boundary",
       "section": "Summary",
-      "statement": "EVPI uses the same Rust implementation from Python, R, and Julia; R also offers Python-backed EVPPI and EVSI, whereas Julia is EVPI-only.",
+      "statement": "The same EVPI calculation is available from Python, R, and Julia.",
       "status": "verified",
       "evidence": [
         {
@@ -45,7 +45,7 @@
     {
       "id": "implemented-contribution",
       "section": "Statement of need",
-      "statement": "It provides the same core EVPI calculation across several languages and a shared, structured reference for exchanging richer analysis records.",
+      "statement": "`voiage` instead provides a shared EVPI calculation and structured reference for exchanging richer analysis records across languages.",
       "status": "verified",
       "evidence": [
         {
@@ -69,7 +69,7 @@
     {
       "id": "build-versus-contribute",
       "section": "State of the field",
-      "statement": "Adding it to one language-specific package would make that ecosystem the gateway for the others. A separate core lets specialist packages remain independent while bindings share a versioned boundary.",
+      "statement": "Keeping this shared function in a separate core allows existing specialist packages to remain independent.",
       "status": "bounded",
       "evidence": [
         {
@@ -104,7 +104,7 @@
     {
       "id": "architecture-tradeoffs",
       "section": "Software design",
-      "statement": "Independent implementations would simplify native packaging but could drift numerically. Routing every interface through Python would simplify the bindings but make Python mandatory. Direct native bindings instead preserve each language's workflow, at the cost of distributing the Rust library separately.",
+      "statement": "Each EVPI interface calls Rust directly, so R and Julia users do not need Python. This choice requires a compiled library for each operating system.",
       "status": "bounded",
       "evidence": [
         {
@@ -124,7 +124,7 @@
     {
       "id": "stable-promotion-boundary",
       "section": "Software design",
-      "statement": "Scientific checks for a method include specified inputs and outputs, comparison with equations derived separately from the implementation, and tests of repeated runs and invalid inputs. Stable promotion additionally requires cross-language and Rust parity, documentation, release records, and compatibility evidence.",
+      "statement": "Method tests compare specified inputs and outputs with equations implemented independently, and check repeatability and invalid inputs. Before a method enters a stable release, it also needs agreement across the Rust implementation and language interfaces, documentation, release records, and evidence of platform compatibility.",
       "status": "verified",
       "evidence": [
         {
@@ -155,7 +155,7 @@
     {
       "id": "rust-evpi-boundary",
       "section": "Software design",
-      "statement": "EVPI is calculated by one Rust implementation, whether the analyst works in Python, R, or Julia.",
+      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, reducing differences caused by separate language implementations.",
       "status": "verified",
       "evidence": [
         {
@@ -221,14 +221,42 @@
       ]
     },
     {
+      "id": "worked-example-generating-versus-sample-mean",
+      "section": "Worked example",
+      "statement": "At 50,000 units per QALY, generating expected incremental net benefit is zero; the fixed sample mean is -15.9 because of simulation error.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "independent-reference-test",
+          "locator": "tests/test_paper_health_example.py"
+        },
+        {
+          "type": "implementation",
+          "locator": "scripts/generate_paper_health_example.py"
+        },
+        {
+          "type": "methods",
+          "locator": "paper/health-example-methods.md"
+        }
+      ]
+    },
+    {
       "id": "worked-example-evpi-evppi",
       "section": "Worked example",
-      "statement": "Estimated EVPI is the maximum expected gain per person from eliminating all modelled uncertainty: 644 value units (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
+      "statement": "Estimated EVPI is 644 units for each eligible future person (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
       "status": "verified",
       "evidence": [
         {
           "type": "generated-data",
           "locator": "paper/data/synthetic_health_example_summary.csv"
+        },
+        {
+          "type": "independent-reference-test",
+          "locator": "tests/test_paper_health_example.py"
+        },
+        {
+          "type": "implementation",
+          "locator": "rust/crates/voiage-numerics/src/evppi.rs"
         },
         {
           "type": "checksum",
@@ -239,12 +267,20 @@
     {
       "id": "worked-example-evsi",
       "section": "Worked example",
-      "statement": "Under the stated assumptions, a 200-participant study has an EVSI of 124 value units per person.",
+      "statement": "Under the stated assumptions, a 200-participant study has an EVSI of 124 units per eligible future person.",
       "status": "verified",
       "evidence": [
         {
           "type": "generated-data",
           "locator": "paper/data/synthetic_health_example_results.csv"
+        },
+        {
+          "type": "independent-reference-test",
+          "locator": "tests/test_paper_health_example.py"
+        },
+        {
+          "type": "implementation",
+          "locator": "rust/crates/voiage-numerics/src/evsi_normal_normal.rs"
         },
         {
           "type": "repository",
@@ -255,19 +291,27 @@
     {
       "id": "worked-example-enbs",
       "section": "Worked example",
-      "statement": "With immediate, complete use, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% of potential benefit reaching practice, it is negative at 800 and positive at 1,200.",
+      "statement": "If findings were available immediately and fully adopted, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% of potential benefit reaching practice, it is negative at 800 and positive at 1,200.",
       "status": "verified",
       "evidence": [
         {
           "type": "generated-data",
           "locator": "paper/data/synthetic_health_example_results.csv"
+        },
+        {
+          "type": "independent-reference-test",
+          "locator": "tests/test_paper_health_example.py"
+        },
+        {
+          "type": "implementation",
+          "locator": "scripts/generate_paper_health_example.py"
         }
       ]
     },
     {
       "id": "impact-boundary",
       "section": "Research impact statement",
-      "statement": "This documents the intended interoperability mechanism, but not completed use or independent adoption.",
+      "statement": "This provides a concrete exchange test case, but not evidence of independent adoption or completed research use.",
       "status": "bounded",
       "citation_keys": [
         "vop_poc_nz2026"
@@ -286,7 +330,7 @@
     {
       "id": "public-development-boundary",
       "section": "Research impact statement",
-      "statement": "The package has been developed publicly since July 2025. Completed research-workflow use and non-author engagement have not yet been documented.",
+      "statement": "The package has been developed publicly since July 2025. No completed research-workflow use or engagement by non-authors has yet been documented.",
       "status": "bounded",
       "evidence": [
         {
@@ -341,7 +385,7 @@
     {
       "id": "result-context-fields",
       "section": "Summary",
-      "statement": "A versioned analysis record keeps option names, units, uncertain inputs, and data sources with each result.",
+      "statement": "A versioned analysis record can keep option names, units, uncertain inputs, and data sources with each result.",
       "status": "verified",
       "evidence": [
         {
@@ -454,7 +498,7 @@
     {
       "id": "preference-bootstrap",
       "section": "Worked example",
-      "statement": "The programme is preferred in 49.2% of simulations. Its paired 95% percentile-bootstrap interval is 48.2% to 50.2% and describes Monte Carlo sampling error rather than model uncertainty.",
+      "statement": "The programme is preferred in 49.2% of simulations. Resampling gives a 95% range of 48.2% to 50.2%, which measures simulation error rather than model uncertainty.",
       "status": "verified",
       "evidence": [
         {
@@ -486,7 +530,7 @@
     {
       "id": "clean-regeneration",
       "section": "Research impact statement",
-      "statement": "The fixed-seed example, implementation-independent equations, sensitivity table, and clean regeneration allow others to inspect the calculations and outputs.",
+      "statement": "The fixed-seed example, supporting equations, sensitivity data, and regeneration instructions allow readers to inspect the calculations.",
       "status": "verified",
       "evidence": [
         {

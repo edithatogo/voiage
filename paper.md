@@ -34,23 +34,22 @@ repository: https://github.com/edithatogo/voiage
 
 # Summary
 
-Researchers often need to decide whether existing evidence is sufficient or
-further research would be worthwhile. Value-of-information (VOI) analysis asks
-four related questions: what it would be worth to remove all uncertainty, to
-resolve uncertainty about selected inputs, to conduct a proposed study, and,
-after study costs, whether that research would provide net value
-[@rothery2020voi]. These quantities are expected value of perfect information
-(EVPI), expected value of partial perfect information (EVPPI), expected value
-of sample information (EVSI), and expected net benefit of sampling (ENBS).
+Researchers often need to decide whether existing evidence is enough or a new
+study is worth its cost. Value-of-information (VOI) analysis estimates the
+benefit of resolving all uncertainty (EVPI), selected uncertainty (EVPPI), or
+uncertainty through a proposed study (EVSI). Expected net benefit of sampling
+(ENBS) compares a study's expected benefit with its research cost
+[@rothery2020voi].
 
-`voiage` calculates EVPI and EVPPI from simulated results, analytical EVSI from
-a declared study model, and ENBS from EVSI and research costs. A versioned
-analysis record keeps option names, units, uncertain inputs, and data sources
-with each result. EVPI uses the same Rust implementation from Python, R, and
-Julia; R also offers Python-backed EVPPI and EVSI, whereas Julia is EVPI-only.
-In the fixed-seed health example, EVPI was estimated at 644 value units per
-person, and uncertainty about health gain had greater EVPPI than uncertainty
-about programme cost.
+`voiage` calculates these quantities from simulated results or a declared study
+model. A versioned analysis record can keep option names, units, uncertain
+inputs, and data sources with each result. The same EVPI calculation is
+available from Python, R, and Julia. These measures let analysts compare acting
+on current evidence with collecting more information, while preserving enough
+context for another researcher to interpret the result clearly. In the fixed-seed
+health example, EVPI was estimated at 644 value units for each eligible future
+person, and perfectly resolving health-gain uncertainty had greater value than
+perfectly resolving programme-cost uncertainty.
 
 # Statement of need
 
@@ -63,15 +62,15 @@ two identical-looking values may describe different choices, populations, or
 periods.
 
 `voiage` validates a versioned description of competing options, uncertain
-quantities, units, and input references. Typed result records link calculations
-back to that description; simpler workflows can return a number alone. It is
+quantities, units, and input references. Result records link calculations back
+to that description; simpler workflows can return a number alone. It is
 designed for researchers and analysts using simulation models to decide whether
 further evidence is worth collecting in healthcare, public policy, economics,
 business, and related fields. Analysts choose the outcomes and value units, so
-the structure can describe decisions across these domains. `voiage` does not
-introduce a new EVPI formula. It provides the same core EVPI calculation across
-several languages and a shared, structured reference for exchanging richer
-analysis records.
+the structure can describe decisions across these domains. Existing tools
+concentrate on methods and reporting within particular software environments;
+`voiage` instead provides a shared EVPI calculation and structured reference
+for exchanging richer analysis records across languages.
 
 # State of the field
 
@@ -96,30 +95,26 @@ uncertain option in a simplified binary decision
 [@adamczewski2022valueofinformation]. The author's
 `trd-cea-toolkit` places VOI within a disease-specific health-economic workflow
 [@mordaunt2025trdcea]. `voiage` does not replace these tools or claim broader
-method coverage. `voiage` addresses a narrower need: a versioned decision
-description and a shared EVPI implementation exposed through Python, R, and
-Julia. Adding it to one language-specific package would
-make that ecosystem the gateway for the others. A separate core lets specialist
-packages remain independent while bindings share a versioned boundary.
+method coverage. It instead focuses on exchanging a versioned description of a
+decision and calculating EVPI consistently in Python, R, and Julia. Keeping
+this shared function in a separate core allows existing specialist packages to
+remain independent.
 
 # Software design
 
-EVPI is calculated by one Rust implementation, whether the analyst works in
-Python, R, or Julia. This reduces the chance that equivalent analyses return
-different answers solely because they use different languages. Data
-preparation, model fitting, and plotting remain in the analyst's chosen
-language. Independent implementations would simplify native packaging but
-could drift numerically. Routing every interface through Python would simplify
-the bindings but make Python mandatory. Direct native bindings instead preserve
-each language's workflow, at the cost of distributing the Rust library
-separately. Python supports the broadest workflow; R also provides optional
-Python-backed EVPPI and EVSI; and Julia currently supports EVPI.
+One Rust implementation calculates EVPI for Python, R, and Julia, reducing
+differences caused by separate language implementations. Analysts still
+prepare data, fit models, and plot results in their preferred language. Each
+EVPI interface calls Rust directly, so R and Julia users do not need Python.
+This choice requires a compiled library for each operating system. Python
+currently supports the broadest workflow; R also offers optional Python-backed
+EVPPI and EVSI, while Julia supports EVPI only.
 
-Scientific checks for a method include specified inputs and outputs,
-comparison with equations derived separately from the implementation, and
-tests of repeated runs and invalid inputs. Stable promotion additionally
-requires cross-language and Rust parity, documentation, release records, and
-compatibility evidence. The worked example uses a conjugate normal--normal EVSI
+Method tests compare specified inputs and outputs with equations implemented
+independently, and check repeatability and invalid inputs. Before a method
+enters a stable release, it also needs agreement across the Rust implementation
+and language interfaces, documentation, release records, and evidence of
+platform compatibility. The worked example uses a conjugate normal--normal EVSI
 calculation derived from the sampling model in the
 [reproduction notes](paper/health-example-methods.md). It assumes equal
 allocation, known outcome variability, and a linear relationship between
@@ -135,47 +130,48 @@ currently tested on Ubuntu.
 # Worked example
 
 The synthetic health example compares a programme with current practice using
-10,000 simulated health-gain and programme-cost pairs. Health gain follows a
-normal distribution with mean 0.06 quality-adjusted life years (QALYs) and
-standard deviation 0.03 QALYs. Cost is generated independently with mean 3,000
-and standard deviation 650 value units. At 50,000 value units per QALY, expected
-health value equals expected cost, so expected incremental net benefit is zero.
-Although mean net benefit is zero by design, information can still improve the
-choice.
+10,000 simulated health-gain and programme-cost pairs. Health gain has mean
+0.06 quality-adjusted life years (QALYs) and standard deviation 0.03 QALYs;
+cost is generated independently with mean 3,000 and standard deviation 650.
+Amounts are undated synthetic units with no jurisdictional or payer
+perspective. At 50,000 units per QALY, generating expected incremental net
+benefit is zero; the fixed sample mean is -15.9 because of simulation error.
 
-The stylised study estimates the difference in mean QALYs between two equally
-allocated groups. Its normal model uses a known standard deviation of 1.0 QALY
-only to demonstrate the calculation; it is not a realistic clinical outcome
-model or a proposed trial. Total sample sizes range from 50 to 1,200. The study
-informs health gain, while programme-cost uncertainty remains in the decision
-but is not updated.
+The algebraic study illustration estimates the difference in mean QALYs between
+two equally allocated groups. Its normal model uses a known standard deviation
+of 1.0 QALY only to demonstrate the calculation; it does not specify clinical
+follow-up, missing data, or treatment switching and is not a proposed trial.
+Total sample sizes range from 50 to 1,200. The study informs health gain, while
+programme-cost uncertainty remains in the decision but is not updated.
 
-The programme is preferred in 49.2% of simulations.
-Its paired 95% percentile-bootstrap interval is 48.2% to 50.2% and describes
-Monte Carlo sampling error rather than model uncertainty. Estimated EVPI is
-the maximum expected gain per person from eliminating all modelled uncertainty:
-644 value units (624 to 658). Regression-estimated EVPPI is 590 for health gain
-(569 to 603) and 250 for programme cost (229 to 265). Health-gain uncertainty
-therefore has greater potential value to resolve before considering study
-feasibility or cost. The EVPPI estimates are separate conditional analyses,
-not additive parts of EVPI.
+The programme is preferred in 49.2% of simulations. Resampling gives a 95%
+range of 48.2% to 50.2%, which measures simulation error rather than model
+uncertainty. Estimated EVPI is 644 units for each eligible future person (624
+to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250
+for programme cost (229 to 265). The linear regression is correctly specified
+here because net benefit is linear and the inputs are independent; this does
+not validate nonlinear or correlated models. Perfectly resolving health-gain
+uncertainty has greater value here than perfectly resolving programme-cost
+uncertainty. This comparison alone does not identify a preferred study, and
+the separate EVPPI estimates should not be added together.
 
-Under the stated assumptions, a 200-participant study has an EVSI of 124 value
-units per person. ENBS compares its population value with its cost
+Under the stated assumptions, a 200-participant study has an EVSI of 124 units
+per eligible future person. ENBS compares its population value with its cost
 [@rothery2020voi]. The calculation assumes 1,300 eligible people annually for
 ten years, 3% annual discounting, a fixed study cost of 1.2 million, and 100
-value units per participant. With immediate, complete use, ENBS is negative at
-100 participants and positive at 200. With a two-year delay and 60% of
-potential benefit reaching practice, it is negative at 800 and positive at
-1,200. These brackets do not identify an optimum. This uptake assumption is
-not an implementation model, and the example does not recommend a real study.
+units per participant. The discount rate applies to future decision
+opportunities, not the generated health and cost outcomes; delay is fixed
+independently of sample size. If findings were available immediately and fully
+adopted, ENBS is negative at 100 participants and positive at 200. With a
+two-year delay and 60% of potential benefit reaching practice, it is negative
+at 800 and positive at 1,200. These ranges show where ENBS changes sign; they
+do not identify the best sample size. The 60% figure is an assumption, not a
+model of how practice changes, and the example does not recommend a real study.
 
-The [machine-readable sensitivity table](paper/data/synthetic_health_example_sensitivity.csv)
-varies outcome variability, eligible population, fixed study cost, and
-scenarios that jointly change delay and value realisation. Figure
-\autoref{fig:health-example} summarises these results and scenarios; they do
-not assign probabilities to model structures. Panel C shows conditional
-scenarios, not uncertainty intervals.
+The [sensitivity table](paper/data/synthetic_health_example_sensitivity.csv)
+varies outcome variability, population, study cost, delay, and value
+realisation. Figure \autoref{fig:health-example} summarises the results. Panel C
+shows conditional scenarios, not uncertainty intervals.
 
 ![Worked health example. In panel A, the vertical line marks 50,000 value units
 per QALY. In panel B, the dashed line marks EVPI. In panel C, markers are
@@ -185,21 +181,16 @@ indicate expected population benefit exceeds study cost. EVPI and EVPPI use
 analytical. All inputs and results are
 synthetic.](paper/figures/synthetic_health_example.png){#fig:health-example}
 
-The [decision-curve table](paper/data/synthetic_health_example_curve.csv),
-[summary table](paper/data/synthetic_health_example_summary.csv), and
-[study-value table](paper/data/synthetic_health_example_results.csv) provide
-the numerical data behind panels A, B, and C, respectively.
-
 # Research impact statement
 
 A related health-economic project by the same author publishes versioned input
-and expected-result formats intended for exchange with `voiage`
-[@vop_poc_nz2026]. This documents the intended interoperability mechanism, but
-not completed use or independent adoption. The fixed-seed example,
-implementation-independent equations, sensitivity table, and clean
-regeneration allow others to inspect the calculations and outputs. The package
-has been developed publicly since July 2025. Completed research-workflow use
-and non-author engagement have not yet been documented.
+and expected-result formats designed to work with `voiage`
+[@vop_poc_nz2026]. This provides a concrete exchange test case, but not evidence
+of independent adoption or completed research use. The fixed-seed example,
+supporting equations, sensitivity data, and regeneration instructions allow
+readers to inspect the calculations. The package has been developed publicly
+since July 2025. No completed research-workflow use or engagement by non-authors
+has yet been documented.
 
 # AI usage disclosure
 

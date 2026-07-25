@@ -8,10 +8,10 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "d02b1a3c17044cb51297a3737e9b2a4cb267c48f10421372e5431f7cae8b2da9",
+      "source_sha256": "8398e33fbc358f221cfe28bd519942ec15f6b86abbf1bd1b2c92a50cfba91b55",
       "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
-      "citation_occurrences": 19,
-      "citation_matches": 19,
+      "citation_occurrences": 18,
+      "citation_matches": 18,
       "citation_issues": 0,
       "journal_screen_warnings": 6,
       "queued_reference_reviews": 15,
@@ -26,20 +26,18 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "d02b1a3c17044cb51297a3737e9b2a4cb267c48f10421372e5431f7cae8b2da9",
+      "source_sha256": "8398e33fbc358f221cfe28bd519942ec15f6b86abbf1bd1b2c92a50cfba91b55",
       "finding_count": 0
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "current_source_review_only_complete",
-      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30164270490",
-      "flesch_reading_ease": 36.1667,
-      "flesch_kincaid_grade": 11.57,
-      "gunning_fog": 13.8959,
-      "smog_index": 12.9382,
+      "status": "review_only",
+      "workflow_run": 30166336066,
+      "warnings": [],
+      "flesch_reading_ease": 36.4655,
+      "flesch_kincaid_grade": 11.4712,
       "text_standard": "14th and 15th grade",
-      "warnings": 0,
-      "interpretation": "Current-source editorial evidence only; no automatic acceptance threshold applies."
+      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -62,7 +60,8 @@
     "build/joss/readability.json",
     "docs/reviews/joss-panel/round-6/synthesis.md",
     "docs/reviews/joss-panel/round-7/editorial-delta-review.md",
-    "docs/reviews/joss-panel/round-8/criteria-reconciliation.md"
+    "docs/reviews/joss-panel/round-8/criteria-reconciliation.md",
+    "docs/reviews/joss-panel/round-9/evidence-led-refinement.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
@@ -72,13 +71,13 @@
   },
   "official_pdf_review": {
     "status": "pass",
-    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30164270490",
-    "commit": "c0f2fc623ffea36f600a6b82c6597d949ab32bc0",
-    "artifact_id": 8621121756,
-    "artifact_sha256": "2eb6fa0e052553b01432103960b3c5374049d6114e430213d20569920f60fb59",
-    "pdf_sha256": "c7845d99a135a68b1480706bee7f7c0cacf737d66811386ef604339c15970fe8",
+    "workflow_run": 30166336066,
+    "commit": "d8e3d006501be42f4416ddeec8946625f39fee98",
+    "artifact_id": 8621698185,
+    "artifact_sha256": "086bd0e899ef9aa5dae0c260588e85a9d46771dc77d23b0e872b60f280dc1378",
+    "pdf_sha256": "c02b5f4442a9cadac08b0a25be2bacb3f4c217b48ae00e5d202f8115b34fe0c5",
     "pages": 6,
-    "visual_review": "All six pages of the exact criteria-reconciled source were inspected. Text, citations, links, figure panels, captions, metadata, page breaks, and references render without clipping, omission, overlap, or broken cross-reference.",
+    "visual_review": "All six pages of the Open Journals PDF were inspected at 120 dpi; headings, citations, links, figure, caption, author metadata, references, and page furniture render without clipping, overlap, or missing content.",
     "submission_performed": false
   }
 }
