@@ -20,8 +20,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         *   Net-benefit construction is now Rust-authoritative and covered by
             cross-language normal/edge/invalid fixtures, properties,
             diagnostics, a CI-gated benchmark, and a bounded critical mutation
-            audit. The remaining stable-core estimator-policy and assurance
-            envelopes are still open.
+            audit. The stable estimator policy now has a schema-validated,
+            scientific-freeze-bound registry covering tolerance, ties,
+            clipping, failure diagnostics, and fallbacks. Estimator uncertainty,
+            convergence, resource, and performance envelopes remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/stable-estimator-assurance.schema.json",
+  "title": "VOIAGE stable estimator assurance contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "schema",
+    "scientific_freeze",
+    "scope",
+    "global_policy",
+    "profiles"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.1.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/stable-estimator-assurance.schema.json"},
+    "scientific_freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_digest",
+        "approval_path",
+        "scope",
+        "implementation_gate_waived"
+      ],
+      "properties": {
+        "candidate_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "approval_path": {"type": "string", "minLength": 1},
+        "scope": {"const": "scientific-contract-only"},
+        "implementation_gate_waived": {"const": false}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included", "delegated"],
+      "properties": {
+        "included": {"type": "string", "minLength": 1},
+        "delegated": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "global_policy": {
+      "type": "object",
+      "additionalProperties": {"type": ["string", "number"]},
+      "required": [
+        "float_type",
+        "absolute_tolerance",
+        "relative_tolerance",
+        "non_finite_input",
+        "non_finite_output",
+        "overflow",
+        "fallback_default",
+        "fallback_visibility",
+        "unsupported_capability"
+      ]
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "method_id",
+          "estimator_id",
+          "maturity",
+          "implementation_state",
+          "implementation",
+          "comparison_policy",
+          "tie_policy",
+          "fallback_policy",
+          "clipping_policy",
+          "failure_policy",
+          "required_diagnostics"
+        ],
+        "properties": {
+          "method_id": {"type": "string", "minLength": 1},
+          "estimator_id": {"type": "string", "minLength": 1},
+          "maturity": {"const": "stable"},
+          "implementation_state": {
+            "enum": ["conformant", "requires-assurance-evidence"]
+          },
+          "implementation": {"type": "string", "minLength": 1},
+          "comparison_policy": {
+            "enum": [
+              "exact-structure-and-declared-numeric-tolerance",
+              "declared-numeric-tolerance"
+            ]
+          },
+          "tie_policy": {"type": "string", "minLength": 1},
+          "fallback_policy": {
+            "enum": ["fail-closed", "explicit-opt-in-and-diagnosed"]
+          },
+          "clipping_policy": {"type": "string", "minLength": 1},
+          "failure_policy": {"type": "string", "minLength": 1},
+          "required_diagnostics": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

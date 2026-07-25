@@ -20,9 +20,13 @@ reviewed exclusion, not an imitation of another package API. Literature,
 software, data, model, and maturity claims remain evidence-gated.
 
 The v1.1 core now has Rust authority for net-benefit construction, including
-explicit threshold-axis semantics and shared Python/Rust fixtures. Completion
-of v1.1 still requires the estimator-wide diagnostic, uncertainty, fallback,
-performance, and promotion evidence defined by the stable-core track.
+explicit threshold-axis semantics and shared Python/Rust fixtures. Its
+schema-validated estimator-assurance registry now freezes numerical
+comparisons, ties, clipping, failures, diagnostics, and fallbacks for every
+approved stable method through an executable profile or explicit delegation.
+Completion of v1.1 still requires estimator-wide uncertainty, convergence,
+resource, performance, and promotion evidence defined by the stable-core
+track.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

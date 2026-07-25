@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a schema-validated v1.1 estimator-assurance registry that binds every
+  approved stable method to an executable numerical profile or an explicit
+  delegated contract, and freezes tolerance, tie, clipping, failure,
+  diagnostic, and fallback policy without waiving implementation evidence.
 - Added Rust-authoritative net-benefit construction with scalar, threshold,
   sample-specific threshold, and explicit v1 elementwise compatibility modes;
   both public Python helpers now use the native kernel and reject non-finite

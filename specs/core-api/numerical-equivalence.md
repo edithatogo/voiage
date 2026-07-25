@@ -142,3 +142,9 @@ See `diagnostics.md` for the stable diagnostic payloads used by the core API.
 See `method-metadata.md` for the capability, stability, and maturity
 metadata contract. Approximate methods must declare `approximation_status`
 explicitly rather than looking exact by omission.
+
+The normative estimator-by-estimator tie, clipping, fallback, failure, and
+diagnostic rules are frozen in
+`../v1/stable-estimator-assurance.json`. Its scientific definitions are bound
+to the approved v1.1 freeze, while each `implementation_state` independently
+records whether the remaining numerical-assurance gate has passed.
