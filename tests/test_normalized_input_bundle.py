@@ -397,6 +397,44 @@ def test_manifest_preserves_explicit_resource_and_relationship_contracts() -> No
     assert payload["diagnostics"][0]["severity"] == "info"
 
 
+def test_public_manifest_models_are_strict_and_immutable() -> None:
+    """Every P1-T2 model remains a fail-closed public contract."""
+    field = FieldManifest(field_id="id", dtype="int64")
+    table = TableManifest(table_id="records", fields=(field,), primary_key=("id",))
+    resource = ResourceManifest(
+        resource_id="records-csv", uri="records.csv", sha256="a" * 64
+    )
+    relationship = KeyReference(
+        source_table_id="records",
+        source_field_ids=("id",),
+        target_table_id="records",
+        target_field_ids=("id",),
+    )
+    provenance = SourceProvenance(
+        provider_id="fixture",
+        source_uri="file:///records.csv",
+        descriptor_digest="b" * 64,
+    )
+    diagnostic = IngestionDiagnostic(code="validated", severity="info", message="ok")
+    binding = VOIBinding(role="parameter", table_id="records", field_ids=("id",))
+
+    manifest = DatasetManifest(
+        dataset_id="strict-models",
+        tables=(table,),
+        resources=(resource,),
+        key_references=(relationship,),
+        provenance=provenance,
+        diagnostics=(diagnostic,),
+        bindings=(binding,),
+    )
+
+    assert manifest.schema_version == "1.0.0"
+    with pytest.raises(ValidationError):
+        FieldManifest(field_id="id", dtype="int64", unexpected=True)
+    with pytest.raises(ValidationError):
+        manifest.dataset_id = "mutated"
+
+
 @pytest.mark.parametrize(
     ("kwargs", "message"),
     [
