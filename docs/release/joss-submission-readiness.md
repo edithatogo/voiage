@@ -49,7 +49,7 @@ not replace it.
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
-| Reproducible JOSS PDF | Official Open Journals action pinned by commit; clean output regeneration is now fail-closed in the workflow | Rebuild and inspect from the exact reviewed revision |
+| Reproducible JOSS PDF | Official Open Journals workflow run 30160891929 passed at commit `7d7615af`; all six artifact pages were visually inspected without clipping or overflow, and review-only Textstat evidence reported no warnings | Ready for author review; rebuild after any source change |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 
@@ -119,7 +119,8 @@ The recommended sequence is:
   establishable tool/model version without inventing historical identifiers.
 - Publish and archive the exact v2 release, then replace prospective manuscript
   wording with observed release, digest, provenance, SBOM, and SWHID evidence.
-- Rebuild, inspect, and retain the official JOSS PDF from that exact revision.
+- Rebuild and inspect the official JOSS PDF after the exact v2 release metadata
+  replaces the current prospective availability statement.
 - Record the permanent arXiv identifier when arXiv assigns it.
 - Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external

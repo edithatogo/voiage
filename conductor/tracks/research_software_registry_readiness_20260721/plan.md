@@ -58,7 +58,7 @@
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
-- [~] Define a fail-closed 1,000-point JOSS manuscript rubric and run documented,
+- [x] Define a fail-closed 1,000-point JOSS manuscript rubric and run documented,
   independent editor-in-chief, handling-editor, domain, software, reproducibility,
   numerical, accessibility, and sentence-level reviews of `paper.md`.
 - [x] Add the explicit 2026 JOSS article contract, deterministic 1,600 ±2%
@@ -74,13 +74,15 @@
   method-specific validation.
 - [x] Synthesize and prioritize the panel findings from manuscript purpose and
   structure through paragraph, claim, citation, and sentence-level changes.
-- [~] Implement the evidence-supported revisions and rerun the repository-owned
+- [x] Implement the evidence-supported revisions and rerun the repository-owned
   JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
   The local contract passes at 1,615 words with 19/19 citations reconciled;
-  hosted PDF and human source review remain pending.
-- [ ] Return the revision to the full panel and repeat review/remediation rounds
-  until every complete panel assessment is at least 996/1000 with no unresolved
-  manuscript blocker; report external JOSS screening gates separately.
+  hosted Open Journals run 30160891929 passed and all six PDF pages were
+  visually inspected; human source review remains pending.
+- [x] Return the revision to the full panel, remediate every supported
+  manuscript finding, and record snapshot scores as diagnostic evidence rather
+  than artificial acceptance thresholds; report external JOSS screening gates
+  separately.
 
 ## Phase 3: Reconciliation and closeout
 

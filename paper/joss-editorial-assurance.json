@@ -31,7 +31,12 @@
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "pending_official_pdf"
+      "status": "review_only_complete",
+      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30160891929",
+      "flesch_reading_ease": 35.957,
+      "flesch_kincaid_grade": 11.6166,
+      "warnings": 0,
+      "interpretation": "Editorial evidence only; no automatic acceptance threshold."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -59,5 +64,11 @@
     "citation_source_check": "pending_explicit_final_confirmation",
     "all_retained_ai_outputs_reviewed_modified_and_validated": "pending_explicit_final_confirmation",
     "joss_submission_conversation": "human_only"
+  },
+  "official_pdf_review": {
+    "status": "pass",
+    "pages": 6,
+    "visual_review": "all pages inspected; headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow",
+    "submission_performed": false
   }
 }

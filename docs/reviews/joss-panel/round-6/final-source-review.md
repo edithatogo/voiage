@@ -47,6 +47,8 @@ reported values and found no material statistical or scientific error.
 
 The review did not manufacture evidence for the remaining gates. Attributable
 non-author research use or engagement, the exact v2 release and immutable
-archive, final author source and AI-policy attestations, and the official
-Open Journals PDF remain open. The permanent arXiv identifier is the author's
-chosen sequencing gate rather than a JOSS requirement.
+archive, and final author source and AI-policy attestations remain open. Hosted
+Open Journals run 30160891929 subsequently passed, and all six PDF pages were
+visually inspected without clipping or overflow. The permanent arXiv
+identifier is the author's chosen sequencing gate rather than a JOSS
+requirement.

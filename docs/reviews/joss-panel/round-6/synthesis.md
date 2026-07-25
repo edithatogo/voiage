@@ -62,8 +62,8 @@ external screening gates remain open.
 - Publish an exact v2 release containing the reviewed software, manuscript,
   tests, and reproduction evidence, then create and verify its immutable
   archive.
-- Build and visually inspect the official Open Journals PDF from the exact
-  reviewed commit.
+- Rebuild and visually inspect the official Open Journals PDF after replacing
+  prospective availability text with the exact v2 release and archive.
 - Obtain the author's final source-by-source confirmation and comprehensive
   JOSS AI-policy attestation.
 - Obtain attributable non-author research use, community engagement, or
