@@ -38,7 +38,7 @@
 - [ ] Conductor - User Manual Verification 'Phase 1: Numerical contract tests'
   (Protocol in workflow.md).
 
-## Phase 2: Rust implementation
+## Phase 2: Rust implementation [checkpoint: 46d86e8c]
 
 - [x] Implement the missing stable kernels and public Rust facade. (`ebd32c6b`;
   net-benefit was the sole stable authority gap)
@@ -57,7 +57,12 @@
   gap)
 - [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update. (`2cd23b7b`; Conductor evidence reconciled in `1df1525d`)
-- [~] Automated review and validation checkpoint.
+- [x] Review Fixes. (`99ebb054`; synchronized the normative Astro API
+  reference with the corrected EVSI Rust/Python implementation boundary)
+- [x] Automated review and validation checkpoint. (`46d86e8c`; 2108 top-level
+  Python tests, the Rust workspace, warnings-denied clippy, every tox
+  environment, 92.46% coverage, a 708-page Astro build, and local/live GitHub
+  reconciliation passed)
 - [ ] Conductor - User Manual Verification 'Phase 2: Rust implementation'
   (Protocol in workflow.md).
 
