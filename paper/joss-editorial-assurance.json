@@ -8,7 +8,7 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
       "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
       "citation_occurrences": 19,
       "citation_matches": 19,
@@ -26,17 +26,17 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "source_sha256": "2acc713096caaee942fc620a683a027d952049e2b8e4d8275259a0a0ada6199d",
       "finding_count": 0
     },
     "textstat": {
       "version": "0.7.13",
-      "status": "review_only_complete",
-      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30160891929",
-      "flesch_reading_ease": 35.957,
-      "flesch_kincaid_grade": 11.6166,
-      "warnings": 0,
-      "interpretation": "Editorial evidence only; no automatic acceptance threshold."
+      "status": "pending_current_revision",
+      "workflow_run": null,
+      "flesch_reading_ease": null,
+      "flesch_kincaid_grade": null,
+      "warnings": null,
+      "interpretation": "The previous revision completed review-only Textstat analysis. The current source requires a fresh hosted report; no automatic acceptance threshold applies."
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -57,7 +57,8 @@
     "build/joss/sourceright/citation-sync-preview.json",
     "build/joss/authentext.json",
     "build/joss/readability.json",
-    "docs/reviews/joss-panel/round-6/synthesis.md"
+    "docs/reviews/joss-panel/round-6/synthesis.md",
+    "docs/reviews/joss-panel/round-7/editorial-delta-review.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
@@ -66,9 +67,9 @@
     "joss_submission_conversation": "human_only"
   },
   "official_pdf_review": {
-    "status": "pass",
-    "pages": 6,
-    "visual_review": "all pages inspected; headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow",
+    "status": "pending_current_revision_build",
+    "pages": null,
+    "visual_review": "The previous six-page artifact passed visual review; the current source revision requires a fresh hosted Open Journals build and inspection.",
     "submission_performed": false
   }
 }

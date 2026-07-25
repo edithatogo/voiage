@@ -24,7 +24,12 @@
       "surname",
       "affiliation"
     ],
-    "affiliation_rule": "Every author affiliation index resolves to one uniquely indexed, non-empty affiliation.",
+    "affiliation_rule": "Every author affiliation index resolves to one uniquely indexed, non-empty affiliation with its verified ROR identifier.",
+    "affiliation_rors": {
+      "1": "0040r6f76",
+      "2": "01kpzv902",
+      "3": "01ej9dk98"
+    },
     "date_format": "D Month YYYY",
     "bibliography": "paper.bib",
     "repository": "https://github.com/edithatogo/voiage"
