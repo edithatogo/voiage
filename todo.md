@@ -48,13 +48,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
         engagement, external use, or collaborative input. Demonstrated use is
         a pre-review gate; engagement is a detailed-review criterion, strong
         positive pre-review signal, and author-selected prerequisite.
-    *   PR #480 contains the active multi-role JOSS review loop, plain-language
+    *   PR #480 established the multi-role JOSS review loop, plain-language
         revision, explicit 1,600 ±2% article contract, SourceRight/AuthenText
         assurance, claim-to-interface reconciliation, and reproducibility
-        evidence. The local manuscript contract passes at 1,628 words.
-        Exact v2 release identity, author-confirmed AI attestation, a freshly
-        reviewed Open Journals PDF, final human source verification, and the
-        external engagement record remain open.
+        evidence. PR #521 reconciles the current research-use criteria. Its
+        hosted Open Journals run 30164270490 passes for the exact source at
+        1,629 words, and all six PDF pages pass visual review.
+        Exact v2 release identity, author-confirmed AI attestation, final human
+        source verification, and the external engagement record remain open.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 

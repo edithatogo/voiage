@@ -69,10 +69,11 @@ attributable human community engagement, external use, or collaborative input.
 The former is a hard pre-review gate; the latter remains a detailed-review
 criterion, strong positive pre-review signal, and author-selected prerequisite.
 Exact v2 release evidence, author-confirmed
-AI attestation, final human source verification, exact-revision PDF review,
-authenticated submission, editorial review, acceptance, and DOI assignment
-remain explicit human or external gates. The permanent arXiv identifier is the
-author's requested sequencing gate, not a JOSS eligibility requirement.
+AI attestation, final human source verification, authenticated submission,
+editorial review, acceptance, and DOI assignment remain explicit human or
+external gates. The criteria-reconciled JOSS source has passed its exact-revision
+Open Journals build and six-page visual review. The permanent arXiv identifier
+is the author's requested sequencing gate, not a JOSS eligibility requirement.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

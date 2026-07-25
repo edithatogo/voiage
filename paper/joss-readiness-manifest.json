@@ -37,16 +37,19 @@
     "citation_and_source_audit": "pass_with_human_confirmation_pending",
     "authentext_review": "pass",
     "independent_panel_review": "complete_internal_review",
-    "official_pdf_build_and_visual_review": "pending_current_source_build"
+    "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": null,
-    "commit": null,
+    "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30164270490",
+    "commit": "c0f2fc623ffea36f600a6b82c6597d949ab32bc0",
     "artifact": "voiage-joss-paper",
-    "official_open_journals_build": "pending_current_source_build",
-    "visual_review": "pending for the criteria-reconciled source",
-    "body_word_count": 1628,
-    "textstat_status": "pending_current_source_build"
+    "artifact_id": 8621121756,
+    "artifact_sha256": "2eb6fa0e052553b01432103960b3c5374049d6114e430213d20569920f60fb59",
+    "pdf_sha256": "c7845d99a135a68b1480706bee7f7c0cacf737d66811386ef604339c15970fe8",
+    "official_open_journals_build": "pass",
+    "visual_review": "pass_all_six_pages",
+    "body_word_count": 1629,
+    "textstat_status": "review_only_complete"
   },
   "repository_gates": {
     "public_development_history": "ready",

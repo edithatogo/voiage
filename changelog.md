@@ -34,6 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   demonstrated research use as a pre-review gate and non-author engagement as
   a detailed-review criterion and strong positive pre-review signal; retained
   independent validation as an author-selected prerequisite.
+- Bound the criteria-reconciled JOSS source to its successful hosted Open
+  Journals build, artifact and PDF digests, exact 1,629-word contract result,
+  current Textstat evidence, and complete six-page visual review.
 - Refined the JOSS manuscript for non-specialist readers, clarified the EVPI
   and study-uptake interpretations, expanded the required AI-assistance scope,
   and linked all affiliations to verified ROR identifiers with fail-closed

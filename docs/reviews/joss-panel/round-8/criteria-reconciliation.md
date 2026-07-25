@@ -34,6 +34,9 @@ pre-review gate.
 
 SourceRight reconciles all 19 citation occurrences with no citation issue and
 retains six bounded missing-DOI warnings for software or web references.
-Authentext reports no selected-pattern finding. A fresh Open Journals PDF build
-and visual review remain required because this pass changes the canonical JOSS
-source.
+Authentext reports no selected-pattern finding. Open Journals workflow run
+[`30164270490`](https://github.com/edithatogo/voiage/actions/runs/30164270490)
+built the exact source at commit
+`c0f2fc623ffea36f600a6b82c6597d949ab32bc0`; the hosted article contract passed
+at 1,629 words, and all six PDF pages passed visual review. Textstat remains
+review-only evidence rather than an acceptance threshold.
