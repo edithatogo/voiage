@@ -8,7 +8,11 @@ from pathlib import Path
 import shutil
 
 from scripts.audit_joss_sources import _sourceright_manuscript
-from scripts.validate_joss import _normalise_prose, validate_joss_package
+from scripts.validate_joss import (
+    _normalise_prose,
+    _submodule_commit,
+    validate_joss_package,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,6 +38,18 @@ def _write_submission_metadata(destination: Path) -> None:
 def test_current_joss_package_satisfies_repository_contract() -> None:
     """The checked-in JOSS package should pass all automatable preflight gates."""
     assert validate_joss_package(ROOT) == []
+
+
+def test_joss_tool_revisions_come_from_pinned_gitlinks() -> None:
+    """General CI can validate pins without initialized submodule worktrees."""
+    assert (
+        _submodule_commit(ROOT, ".repo-tools/sourceright")
+        == "dde39b3bb334f79f12e395a5317b21e036336bdd"
+    )
+    assert (
+        _submodule_commit(ROOT, ".repo-tools/authentext")
+        == "7f70dad5b6deab1af92faf037ef2638e7f3aea05"
+    )
 
 
 def test_joss_independent_validation_protocol_is_bounded() -> None:

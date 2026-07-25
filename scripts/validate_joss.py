@@ -174,17 +174,46 @@ def _load_json_object(
 
 
 def _submodule_commit(root: Path, relative_path: str) -> str | None:
-    """Read the exact checked-out tool revision without modifying it."""
+    """Read the pinned gitlink, falling back to an initialized tool checkout."""
+    gitlink = subprocess.run(  # noqa: S603 - fixed local Git inspection
+        [  # noqa: S607 - system Git is required for repository metadata
+            "git",
+            "-C",
+            str(root),
+            "ls-tree",
+            "HEAD",
+            "--",
+            relative_path,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    fields = gitlink.stdout.split()
+    if gitlink.returncode == 0 and len(fields) >= 3 and fields[0] == "160000":
+        return fields[2]
+
     path = root / relative_path
     if not path.is_dir():
         return None
-    result = subprocess.run(  # noqa: S603 - fixed local Git inspection
+    top_level = subprocess.run(  # noqa: S603 - fixed local Git inspection
+        ["git", "-C", str(path), "rev-parse", "--show-toplevel"],  # noqa: S607
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if (
+        top_level.returncode != 0
+        or Path(top_level.stdout.strip()).resolve() != path.resolve()
+    ):
+        return None
+    checkout = subprocess.run(  # noqa: S603 - fixed local Git inspection
         ["git", "-C", str(path), "rev-parse", "HEAD"],  # noqa: S607
         check=False,
         capture_output=True,
         text=True,
     )
-    return result.stdout.strip() if result.returncode == 0 else None
+    return checkout.stdout.strip() if checkout.returncode == 0 else None
 
 
 def _validate_article_contract(
