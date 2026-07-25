@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-24T02:36:19Z",
-  "next_action": "Obtain the non-author installation and research-use evidence tracked in issue #471, record the permanent arXiv identifier after announcement, and then perform the selected direct JOSS submission. Julia General still needs artifact/JLL packaging; R registry submission and SciCrunch/RRID curation remain separate external paths.",
-  "external_gate": "The signed public v1.0.0 release, Software Heritage snapshot, and authenticated arXiv submission are complete. The arXiv dashboard still reports submission 7861466 as submitted without a permanent identifier. Independent non-author validation, arXiv announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-24T07:13:20Z",
+  "next_action": "Complete the PR #480 review loop, publish and archive the exact v2 release, obtain the author's complete AI-policy attestation, obtain genuine human engagement through issue #471 or another attributable route, review the release-bound PDF, and record the permanent arXiv identifier before direct JOSS submission. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
+  "external_gate": "The signed public v1.0.0 release, its Software Heritage snapshot, and authenticated arXiv submission are complete. The arXiv dashboard still reports submission 7861466 as submitted without a permanent identifier. Human community engagement, author AI attestation, arXiv announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled. The exact v2 release and archive are repository-owned work that is not yet complete.",
   "release_evidence": {
     "tag": "v1.0.0",
     "url": "https://github.com/edithatogo/voiage/releases/tag/v1.0.0",
@@ -38,8 +38,15 @@
     "verification": "Software Heritage reports a full visit and snapshot for the repository origin."
   },
   "joss_submission_evidence": {
-    "status": "repository_ready_pending_external_evidence",
-    "files": ["paper.md", "paper.bib", "codemeta.json", "CITATION.cff"],
+    "status": "revision_in_progress_pending_release_and_external_evidence",
+    "files": [
+      "paper.md",
+      "paper.bib",
+      "paper/health-example-methods.md",
+      "paper/reproduction-manifest.json",
+      "codemeta.json",
+      "CITATION.cff"
+    ],
     "readiness_document": "docs/release/joss-submission-readiness.md",
     "validator": "scripts/validate_joss.py",
     "hosted_workflow": ".github/workflows/joss-paper.yml",
@@ -52,13 +59,17 @@
     "selected_route": "direct_joss",
     "route_rationale": "Direct JOSS preserves the submission's Rust-centred polyglot scope. pyOpenSci remains an optional later Python-package review rather than the selected route.",
     "independent_validation": {
-      "status": "external_evidence_required",
+      "status": "human_evidence_required",
       "github_issue": "https://github.com/edithatogo/voiage/issues/471",
       "protocol": "docs/release/joss-independent-validation.md",
-      "boundary": "The public repository history currently contains the author and automated accounts only. Bots, AI agents, and same-author integrations are not independent community engagement."
+      "boundary": "The public repository history currently contains the author and automated accounts only. Under the 2026 criteria, a single-author project needs human community engagement, external use, or collaborative input. Bots, AI agents, and same-author integrations do not qualify."
     },
     "remaining_submission_gates": [
-      "obtain attributable or editor-verifiable non-author validation",
+      "publish, verify, and archive the exact v2 release described by the paper",
+      "obtain the author's comprehensive AI-policy attestation and best-available tool-version inventory",
+      "obtain attributable or editor-verifiable human community engagement, external use, or collaborative input",
+      "build and inspect the release-bound Open Journals PDF",
+      "record the permanent arXiv identifier after announcement",
       "perform the selected direct authenticated JOSS submission"
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
@@ -102,7 +113,7 @@
       "runner": "local Git worktree",
       "status": "passed",
       "artifact": "paper.md, paper.bib, CITATION.cff, codemeta.json, validator, and hosted workflow",
-      "details": "JOSS draft paper and metadata are prepared; the author confirmed metadata, funding, competing-interest, and AI-disclosure statements on 24 July 2026. Independent validation and authenticated submission remain."
+      "details": "JOSS draft paper and metadata are prepared; the author confirmed authorship metadata, funding, and competing interests on 24 July 2026. The comprehensive AI-policy attestation, exact v2 release, human engagement, final PDF review, and authenticated submission remain."
     },
     {
       "command": "review RRID software registration guidance",
@@ -144,7 +155,7 @@
       "runner": "GitHub API, authenticated arXiv account, and official JOSS documentation",
       "status": "passed_with_external_gate",
       "artifact": "issue #471 and docs/release/joss-independent-validation.md",
-      "details": "Submission 7861466 remains submitted without a permanent identifier. The public repository contains the author and automated contributors only, so independent non-author validation remains an explicit JOSS screening gate; direct JOSS is selected for the Rust-centred polyglot package."
+      "details": "Submission 7861466 remains submitted without a permanent identifier. The public repository contains the author and automated contributors only, so genuine human community engagement, external use, or collaborative input remains an explicit single-author screening gate; direct JOSS is selected for the Rust-centred polyglot package."
     }
   ]
 }

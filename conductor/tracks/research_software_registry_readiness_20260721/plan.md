@@ -46,10 +46,43 @@
   publish a bounded independent-validation protocol. (issue #471)
 - [x] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
   and trigger hosted JOSS validation for either metadata file. (`2ba6e854`)
-- [~] Obtain attributable non-author installation and research-use evidence
-  before direct JOSS submission. ([Issue
-  #471](https://github.com/edithatogo/voiage/issues/471); external participant
-  required)
+- [~] Obtain attributable human community engagement, external use, or
+  collaborative-input evidence before direct JOSS submission. ([Issue
+  #471](https://github.com/edithatogo/voiage/issues/471); human participant
+  required; agents, bots, and same-author repositories do not qualify)
+- [ ] Obtain the author's explicit JOSS AI-policy affirmation and bind every
+  tool/model version that can be established without guessing.
+- [ ] Publish, verify, and archive the exact v2 release described by `paper.md`,
+  then replace prospective availability wording with observed release,
+  provenance, SBOM, digest, clean-installation, and Software Heritage evidence.
+
+## Phase 2B: Independent simulated JOSS editorial review
+
+- [x] Define a fail-closed 1,000-point JOSS manuscript rubric and run documented,
+  independent editor-in-chief, handling-editor, domain, software, reproducibility,
+  numerical, accessibility, and sentence-level reviews of `paper.md`.
+- [x] Add the explicit 2026 JOSS article contract, deterministic 1,600 ±2%
+  target, structured metadata and section validation, claim ledger,
+  SourceRight queued-reference sidecars, selected Authentext checks, and
+  review-only Textstat workflow.
+- [~] Reproduce and remediate the panel's scientific EVSI finding: move the
+  validated normal-normal study model into the public package, correct the
+  built-in estimator so current, predictive, and posterior calculations use
+  one coherent fitted Gaussian prior; retain correlations through a numerically
+  guarded joint update; add explicit custom two-loop callbacks; and remove
+  stable scientific claims from generic estimators that lack complete
+  method-specific validation.
+- [x] Synthesize and prioritize the panel findings from manuscript purpose and
+  structure through paragraph, claim, citation, and sentence-level changes.
+- [x] Implement the evidence-supported revisions and rerun the repository-owned
+  JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
+  The local contract passes at 1,615 words with 19/19 citations reconciled;
+  hosted Open Journals run 30160891929 passed and all six PDF pages were
+  visually inspected; human source review remains pending.
+- [x] Return the revision to the full panel, remediate every supported
+  manuscript finding, and record snapshot scores as diagnostic evidence rather
+  than artificial acceptance thresholds; report external JOSS screening gates
+  separately.
 
 ## Phase 3: Reconciliation and closeout
 
@@ -71,27 +104,31 @@
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
-  independent validation, authenticated submission, and editorial review remain
-  human or external. The author confirmed funding, competing-interest,
-  affiliation, ORCID, and JOSS AI-disclosure statements on 24 July 2026.
+  exact v2 publication, human engagement, author-confirmed AI attestation,
+  authenticated submission, and editorial review remain human or external.
+  The author confirmed funding, competing-interest, affiliation, and ORCID
+  metadata on 24 July 2026.
 - Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
 - GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
   registry subissues; #312 is the native arXiv subissue of #299 and is present
   in GitHub Project 28; #471 is the native independent-validation subissue of
   #299.
-- JOSS submission package: draft-ready with `paper.md`, `paper.bib`,
-  `codemeta.json`, `CITATION.cff`, and `docs/joss-submission-readiness.md`.
-  Author affiliations, ORCID, funding, competing-interest, and AI-disclosure
-  statements are confirmed. Concrete developer-led research use is stated
-  without claiming independent adoption, and issue #471 records the current
-  single-author community-engagement evidence gate.
+- JOSS submission package: under active review in PR #480 with `paper.md`,
+  `paper.bib`, `paper/health-example-methods.md`,
+  `paper/reproduction-manifest.json`, `codemeta.json`, `CITATION.cff`, and
+  `docs/release/joss-submission-readiness.md`. The fixed-seed example and
+  independent benchmarks provide specific reproducible near-term-significance
+  evidence without claiming independent adoption. Issue #471 records the
+  separate single-author human-engagement gate.
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
   cleaner/collector variants. Authenticated submission `7861466` is complete;
   announcement and the permanent arXiv identifier remain external.
 - Direct JOSS submission is authorised by the author but remains unperformed
-  until issue #471 contains genuine non-author evidence and the author-preferred
-  arXiv announcement/permanent-identifier boundary is resolved.
+  until issue #471 contains genuine human engagement evidence, the exact v2
+  release is archived, the AI attestation is confirmed, the final PDF is
+  reviewed, and the author-preferred arXiv announcement/permanent-identifier
+  boundary is resolved.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;
   arXiv timing is therefore not a JOSS blocker.

@@ -1,0 +1,94 @@
+{
+  "schema_version": "voiage.paper.reproduction.v1",
+  "source_reference": "v2.0.0",
+  "source_resolution": "The release tag must resolve to the commit containing this manifest.",
+  "synthetic_data": true,
+  "generator": "scripts/generate_paper_health_example.py",
+  "verification_command": "uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked",
+  "lockfile": {
+    "path": "uv.lock",
+    "sha256": "742275634263dda671191f246a5b0a87fad9819fa0e0e2af4a3df69ade626c43"
+  },
+  "supported_python_versions": [
+    "3.12",
+    "3.13",
+    "3.14"
+  ],
+  "seeds": {
+    "probabilistic_sensitivity_analysis": 20260723,
+    "bootstrap": 20260724
+  },
+  "inputs": {
+    "probabilistic_sensitivity_analysis_draws": 10000,
+    "bootstrap_replicates": 1000,
+    "reference_value_per_qaly": 50000.0,
+    "incremental_qaly_mean": 0.06,
+    "incremental_qaly_standard_deviation": 0.03,
+    "incremental_cost_mean": 3000.0,
+    "incremental_cost_standard_deviation": 650.0,
+    "study_outcome_standard_deviation": 1.0,
+    "evaluated_total_sample_sizes": [
+      50,
+      100,
+      200,
+      400,
+      800,
+      1200
+    ],
+    "annual_population": 1300.0,
+    "time_horizon_years": 10,
+    "discount_rate": 0.03,
+    "delayed_scenario_years": 2,
+    "delayed_scenario_value_realisation": 0.6,
+    "fixed_study_cost": 1200000.0,
+    "study_cost_per_participant": 100.0,
+    "bootstrap_interval": {
+      "method": "paired percentile bootstrap of PSA draws",
+      "confidence_level": 0.95
+    },
+    "sensitivity_scenarios": [
+      "base case",
+      "outcome SD 0.75",
+      "outcome SD 1.25",
+      "annual population 1000",
+      "annual population 1600",
+      "fixed study cost 900000",
+      "fixed study cost 1500000",
+      "one-year delay and 80% value realisation",
+      "three-year delay and 40% value realisation"
+    ]
+  },
+  "outputs": [
+    {
+      "path": "paper/data/synthetic_health_example_curve.csv",
+      "sha256": "b84f90627f2a7a01d0c6cc37bd974f3a38bcb6a35403c4707f52a398b8a31b4f",
+      "verification": "byte_equal"
+    },
+    {
+      "path": "paper/data/synthetic_health_example_summary.csv",
+      "sha256": "840bfbd15ef5f63673214c8ddbdd9618737f87e7c8e2d46c4fa39d8c52b1b030",
+      "verification": "byte_equal"
+    },
+    {
+      "path": "paper/data/synthetic_health_example_results.csv",
+      "sha256": "8f51af70ef30a6f9468363aafa9c0a9297062f3dad29ca3a241a62c393f5bf73",
+      "verification": "byte_equal"
+    },
+    {
+      "path": "paper/data/synthetic_health_example_sensitivity.csv",
+      "sha256": "7dcc98435e3214a8bd55dad3fc65bccfd807877bd90f6cea7b19a2b0eb440a5f",
+      "verification": "byte_equal"
+    },
+    {
+      "path": "paper/figures/synthetic_health_example.png",
+      "sha256": "5a646d2972bc072c8b132101dc77982022caa1d6703d1449a95ef59baf893a49",
+      "verification": "tracked_reference_and_clean_render"
+    },
+    {
+      "path": "paper/figures/synthetic_health_example.pdf",
+      "sha256": "4c60892a6eba3b8cfb7cf4689a7c8b42de2d5a4ec152fe4c4d9afd5c4bca2b82",
+      "verification": "tracked_reference_and_clean_render"
+    }
+  ],
+  "rendering_note": "Tabular outputs are byte-reproduced. Figures and the JOSS PDF are rebuildable; font and build timestamps can change binary hashes across environments."
+}

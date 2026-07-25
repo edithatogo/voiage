@@ -71,20 +71,23 @@ evppi(net_benefits, parameter_samples, parameters_of_interest = "effect")
 ```{r evsi, purl=FALSE}
 model_func <- function(params) {
   cbind(
-    Strategy_A = params$effect * 100 - params$cost,
-    Strategy_B = params$effect * 110 - params$cost
+    Treatment = 50000 * params$mean_treatment - 3000,
+    Control = 50000 * params$mean_control
   )
 }
 
+set.seed(17)
+draws <- 1000L
 prior_samples <- list(
-  effect = c(0.10, 0.12, 0.11),
-  cost = c(1000, 980, 1025)
+  mean_treatment = rnorm(draws, mean = 0.06, sd = 0.03),
+  mean_control = rnorm(draws, mean = 0.00, sd = 0.02),
+  sd_outcome = rep(1.0, draws)
 )
 
 trial_design <- list(
   arms = list(
-    list(name = "Treatment", sample_size = 50),
-    list(name = "Control", sample_size = 50)
+    list(name = "Treatment", sample_size = 100L),
+    list(name = "Control", sample_size = 100L)
   )
 )
 
@@ -92,11 +95,21 @@ evsi(
   model_func,
   prior_samples,
   trial_design,
-  method = "efficient",
-  n_outer_loops = 100,
-  n_inner_loops = 1000
+  method = "two_loop",
+  n_outer_loops = 100L,
+  n_inner_loops = 1000L,
+  seed = 20260724L
 )
 ```
+
+The built-in model expects one `mean_<normalised arm>` parameter for every
+trial arm. It lowercases each arm name and replaces spaces with underscores.
+`sd_outcome` is the known outcome standard deviation and is fixed across the
+prior draws.
+
+Custom trial-simulation and posterior-sampling callbacks remain Python-only.
+The R facade does not convert or execute those callbacks and does not claim
+custom-model parity.
 
 # Current wrapper surface
 
@@ -104,7 +117,7 @@ The current R package exports the core analysis wrappers only:
 
 - `evpi()` for perfect-information value
 - `evppi()` for parameter-specific information value
-- `evsi()` for sample-information value
+- `evsi()` for the built-in two-loop model and compatibility estimators
 
 Composite metrics such as ENBS are currently part of the Python surface and
 can be composed from the results above when needed.

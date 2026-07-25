@@ -293,6 +293,32 @@ def test_compute_evsi_forwards_seeded_kernel_arguments(monkeypatch) -> None:
     }
 
 
+def test_compute_normal_normal_evsi_forwards_declared_study(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def compute(*args: object) -> float:
+        captured["args"] = args
+        return 124.1793655206238
+
+    monkeypatch.setattr(
+        _runtime,
+        "_native",
+        lambda: SimpleNamespace(compute_normal_normal_two_arm_evsi=compute),
+    )
+
+    result = _runtime.compute_normal_normal_two_arm_evsi(
+        0.06,
+        0.03,
+        1.0,
+        200,
+        50_000.0,
+        -3_000.0,
+    )
+
+    assert result == 124.1793655206238
+    assert captured["args"] == (0.06, 0.03, 1.0, 200, 50_000.0, -3_000.0)
+
+
 def test_compute_evsi_efficient_linear_forwards_kernel_arguments(monkeypatch) -> None:
     captured: dict[str, object] = {}
 

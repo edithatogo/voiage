@@ -16,6 +16,13 @@ test_that("voiageR package loads and exports the expected surface", {
   )
 })
 
+test_that("the R EVSI facade exposes supported controls without custom callbacks", {
+  evsi_arguments <- names(formals(evsi))
+
+  expect_true(all(c("n_outer_loops", "n_inner_loops", "metamodel", "seed") %in% evsi_arguments))
+  expect_false(any(c("trial_simulator", "posterior_sampler") %in% evsi_arguments))
+})
+
 voiage_namespace <- function() {
   asNamespace("voiageR")
 }
@@ -253,7 +260,8 @@ test_that("evsi wraps the model function and dispatches through reticulate", {
         method = "two_loop",
         n_outer_loops = 100,
         n_inner_loops = 1000,
-        metamodel = "linear"
+        metamodel = "linear",
+        seed = NULL
       ) {
         seen$args <- list(
           psa_prior = psa_prior,
@@ -264,7 +272,8 @@ test_that("evsi wraps the model function and dispatches through reticulate", {
           method = method,
           n_outer_loops = n_outer_loops,
           n_inner_loops = n_inner_loops,
-          metamodel = metamodel
+          metamodel = metamodel,
+          seed = seed
         )
         model_result <- model_func(list(parameters = list(alpha = 1, beta = 2)))
         seen$model_func_result <- model_result
@@ -279,14 +288,15 @@ test_that("evsi wraps the model function and dispatches through reticulate", {
       data.frame(strategy_a = c(1, 2), strategy_b = c(3, 4))
     },
     prior_samples = data.frame(alpha = c(0.1, 0.2), beta = c(0.3, 0.4)),
-    trial_design = list(arms = list(list(name = "Arm A", sample_size = 10))),
+    trial_design = list(arms = list(list(name = "Arm A", sample_size = 10L))),
     population = 1000,
     time_horizon = 12,
     discount_rate = 0.04,
     method = "efficient",
     n_outer_loops = 99,
     n_inner_loops = 17,
-    metamodel = "linear"
+    metamodel = "linear",
+    seed = NULL
   )
 
   expect_identical(result, 4.25)
@@ -299,9 +309,10 @@ test_that("evsi wraps the model function and dispatches through reticulate", {
   expect_identical(seen$args$time_horizon, 12)
   expect_identical(seen$args$discount_rate, 0.04)
   expect_identical(seen$args$method, "efficient")
-  expect_identical(seen$args$n_outer_loops, 99)
-  expect_identical(seen$args$n_inner_loops, 17)
+  expect_identical(seen$args$n_outer_loops, 99L)
+  expect_identical(seen$args$n_inner_loops, 17L)
   expect_identical(seen$args$metamodel, "linear")
+  expect_null(seen$args$seed)
   expect_equal(
     seen$model_output,
     matrix(
@@ -311,4 +322,200 @@ test_that("evsi wraps the model function and dispatches through reticulate", {
     )
   )
   expect_equal(seen$model_func_result, list(tag = "value_array"))
+})
+
+test_that("evsi forwards the corrected built-in two-loop contract", {
+  seen <- new.env(parent = emptyenv())
+  fake_voiage <- list(
+    TrialDesign = list(
+      from_dict = function(trial_design) {
+        seen$trial_design <- trial_design
+        list(tag = "trial")
+      }
+    ),
+    ParameterSet = list(
+      from_numpy_or_dict = function(prior_samples) {
+        seen$prior_samples <- prior_samples
+        list(tag = "psa")
+      }
+    ),
+    ValueArray = list(from_numpy = function(result) result),
+    evsi = function(
+      model_func,
+      psa_prior,
+      trial_design,
+      population = NULL,
+      time_horizon = NULL,
+      discount_rate = NULL,
+      method = "two_loop",
+      n_outer_loops = 100,
+      n_inner_loops = 1000,
+      metamodel = "linear",
+      seed = NULL
+    ) {
+      seen$args <- list(
+        psa_prior = psa_prior,
+        trial_design = trial_design,
+        population = population,
+        time_horizon = time_horizon,
+        discount_rate = discount_rate,
+        method = method,
+        n_outer_loops = n_outer_loops,
+        n_inner_loops = n_inner_loops,
+        metamodel = metamodel,
+        seed = seed
+      )
+      6.5
+    }
+  )
+
+  result <- with_voiage_stub(
+    fake_voiage,
+    evsi(
+      model_func = function(params) {
+        cbind(Treatment = params$mean_treatment, Control = params$mean_control)
+      },
+      prior_samples = list(
+        mean_treatment = c(0.04, 0.06, 0.08),
+        mean_control = c(-0.01, 0.00, 0.01),
+        sd_outcome = rep(1.0, 3L)
+      ),
+      trial_design = list(
+        arms = list(
+          list(name = "Treatment", sample_size = 75),
+          list(name = "Control", sample_size = 80L)
+        )
+      ),
+      population = 1300,
+      time_horizon = 10,
+      discount_rate = 0.03,
+      method = "two_loop",
+      n_outer_loops = 200L,
+      n_inner_loops = 500L,
+      metamodel = "linear",
+      seed = 42L
+    )
+  )
+
+  expect_identical(result, 6.5)
+  expect_identical(
+    vapply(seen$trial_design$arms, function(arm) arm$sample_size, integer(1)),
+    c(75L, 80L)
+  )
+  expect_named(
+    seen$prior_samples,
+    c("mean_treatment", "mean_control", "sd_outcome")
+  )
+  expect_identical(seen$args$method, "two_loop")
+  expect_identical(seen$args$n_outer_loops, 200L)
+  expect_identical(seen$args$n_inner_loops, 500L)
+  expect_identical(seen$args$seed, 42L)
+})
+
+test_that("evsi rejects incomplete built-in two-loop inputs before Python dispatch", {
+  fake_voiage <- list(
+    TrialDesign = list(
+      from_dict = function(...) stop("Python dispatch should not occur.")
+    ),
+    ParameterSet = list(
+      from_numpy_or_dict = function(...) stop("Python dispatch should not occur.")
+    )
+  )
+  design <- list(
+    arms = list(
+      list(name = "Treatment", sample_size = 50L),
+      list(name = "Control", sample_size = 50L)
+    )
+  )
+  model <- function(params) cbind(params$mean_treatment, params$mean_control)
+
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(
+        model,
+        list(mean_treatment = c(0.1, 0.2), sd_outcome = c(1, 1)),
+        design
+      ),
+      "missing: mean_control"
+    )
+  )
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(
+        model,
+        list(
+          mean_treatment = c(0.1, 0.2),
+          mean_control = c(0.0, 0.1),
+          sd_outcome = c(1, 2)
+        ),
+        design
+      ),
+      "strictly positive, fixed"
+    )
+  )
+})
+
+test_that("evsi rejects ambiguous arm normalisation and invalid designs", {
+  fake_voiage <- list()
+  prior <- list(mean_a_b = c(0.1, 0.2), sd_outcome = c(1, 1))
+  model <- function(params) cbind(params$mean_a_b, params$mean_a_b)
+
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(
+        model,
+        prior,
+        list(
+          arms = list(
+            list(name = "A B", sample_size = 10L),
+            list(name = "A_B", sample_size = 10L)
+          )
+        )
+      ),
+      "unique `mean_<normalised arm>`"
+    )
+  )
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(
+        model,
+        prior,
+        list(arms = list(list(name = "A B", sample_size = 1.5)))
+      ),
+      "positive integer"
+    )
+  )
+})
+
+test_that("evsi validates integer simulation controls before Python dispatch", {
+  fake_voiage <- list()
+  prior <- list(mean_treatment = c(0.1, 0.2), sd_outcome = c(1, 1))
+  design <- list(arms = list(list(name = "Treatment", sample_size = 10L)))
+  model <- function(params) cbind(params$mean_treatment, params$mean_treatment)
+
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(model, prior, design, n_outer_loops = 1.5),
+      "`n_outer_loops` must be one positive integer"
+    )
+  )
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(model, prior, design, n_inner_loops = 0),
+      "`n_inner_loops` must be one positive integer"
+    )
+  )
+  with_voiage_stub(
+    fake_voiage,
+    expect_error(
+      evsi(model, prior, design, seed = -1),
+      "`seed` must be one non-negative integer"
+    )
+  )
 })

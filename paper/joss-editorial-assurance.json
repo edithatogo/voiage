@@ -1,0 +1,74 @@
+{
+  "schema_version": "voiage.joss-editorial-assurance.v1",
+  "canonical_source": "paper.md",
+  "criteria_date": "2026-07-25",
+  "tools": {
+    "sourceright": {
+      "version": "0.1.2 development snapshot",
+      "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
+      "mode": "read_only",
+      "status": "pass_with_warnings",
+      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
+      "citation_occurrences": 19,
+      "citation_matches": 19,
+      "citation_issues": 0,
+      "journal_screen_warnings": 6,
+      "queued_reference_reviews": 15,
+      "warning_boundary": "All references have queued verification sidecars. Six software or web records lack DOIs; human checking of source accuracy and appropriateness remains pending."
+    },
+    "authentext": {
+      "version": "3.2.0",
+      "commit": "7f70dad5b6deab1af92faf037ef2638e7f3aea05",
+      "profiles_consulted": [
+        "core-patterns",
+        "academic"
+      ],
+      "automated_coverage": "selected deterministic blocking patterns",
+      "status": "pass",
+      "source_sha256": "e1b2c91d8c9fd60982b38a474c1c8b8bb9869aae7979b15a077238d8d6078c0f",
+      "finding_count": 0
+    },
+    "textstat": {
+      "version": "0.7.13",
+      "status": "review_only_complete",
+      "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/30160891929",
+      "flesch_reading_ease": 35.957,
+      "flesch_kincaid_grade": 11.6166,
+      "warnings": 0,
+      "interpretation": "Editorial evidence only; no automatic acceptance threshold."
+    },
+    "codex": {
+      "cli_version": "0.144.1",
+      "model_record": "GPT-5 family; exact historical identifiers incomplete"
+    },
+    "jules": {
+      "cli_version": "0.1.42",
+      "commit": "4bd6b25084aa1af52d6d3979cda31f3a3d99fc04",
+      "model_record": "Google-managed models; service did not expose every identifier"
+    }
+  },
+  "required_reports": [
+    "build/joss/article-contract-report.json",
+    "build/joss/sourceright/validate-csl.json",
+    "build/joss/sourceright/citations.md",
+    "build/joss/sourceright/provenance.json",
+    "build/joss/sourceright/reference-report.json",
+    "build/joss/sourceright/citation-sync-preview.json",
+    "build/joss/authentext.json",
+    "build/joss/readability.json",
+    "docs/reviews/joss-panel/round-6/synthesis.md"
+  ],
+  "human_review": {
+    "authorship_funding_conflicts": "confirmed",
+    "citation_source_check": "pending_explicit_final_confirmation",
+    "all_retained_ai_outputs_reviewed_modified_and_validated": "pending_explicit_final_confirmation",
+    "joss_submission_conversation": "human_only"
+  },
+  "official_pdf_review": {
+    "status": "pass",
+    "pages": 6,
+    "visual_review": "all pages inspected; headings, citations, figure, caption, disclosures, availability text, and references render without clipping or overflow",
+    "submission_performed": false
+  }
+}

@@ -55,6 +55,7 @@ def test_user_documentation_exists_only_in_the_astro_content_tree() -> None:
         if (ROOT / path).exists()
         if not path.startswith("docs/astro-site/src/content/docs/")
         and not path.startswith("docs/release/")
+        and not path.startswith("docs/reviews/")
     ]
 
     assert legacy_user_docs == []

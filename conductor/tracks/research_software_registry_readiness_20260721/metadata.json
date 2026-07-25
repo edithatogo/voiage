@@ -4,8 +4,8 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-24T02:36:19Z",
-  "description": "Track archival, identifier, language-registry, arXiv, and deferred JOSS readiness for the signed v1.0.0 research software release.",
+  "updated_at": "2026-07-24T07:13:20Z",
+  "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
   "github_subissues": [
@@ -27,7 +27,7 @@
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage request 2397350 completed with snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32. Authenticated arXiv submission 7861466 remains submitted but awaits announcement and a permanent identifier. The author confirmed JOSS authorship, affiliations, ORCID, funding, competing-interest, and AI-disclosure statements on 24 July 2026. Direct JOSS is the selected route; issue #471 tracks independent non-author installation and research-use evidence before submission. Julia General, R registry, SciCrunch/RRID, and JOSS still require external submission, curation, evidence, or editorial decisions."
+      "evidence": "Software Heritage request 2397350 completed with snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32. Authenticated arXiv submission 7861466 remains submitted but awaits announcement and a permanent identifier. JOSS authorship, affiliations, ORCID, funding, and competing-interest metadata are confirmed; the comprehensive AI attestation and best-available version inventory remain pending. Direct JOSS is selected. Issue #471 tracks genuine human community engagement, external use, or collaborative input. Exact v2 publication and archival evidence, Julia General, R registry, SciCrunch/RRID, and JOSS still require repository work, external submission, curation, evidence, or editorial decisions."
     }
   ],
   "github_cross_reference": {
@@ -42,7 +42,9 @@
       "https://github.com/edithatogo/voiage/pull/311",
       "https://github.com/edithatogo/voiage/pull/469",
       "https://github.com/edithatogo/voiage/pull/470",
-      "https://github.com/edithatogo/voiage/pull/472"
+      "https://github.com/edithatogo/voiage/pull/472",
+      "https://github.com/edithatogo/voiage/pull/473",
+      "https://github.com/edithatogo/voiage/pull/480"
     ],
     "pull_request_evidence": "evidenced"
   }

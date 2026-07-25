@@ -185,6 +185,29 @@ def compute_evsi(
     return dict(result)
 
 
+def compute_normal_normal_two_arm_evsi(
+    prior_mean: float,
+    prior_standard_deviation: float,
+    outcome_standard_deviation: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute EVSI for a declared equal-allocation normal study in Rust."""
+    try:
+        result = _native().compute_normal_normal_two_arm_evsi(
+            prior_mean,
+            prior_standard_deviation,
+            outcome_standard_deviation,
+            total_sample_size,
+            net_benefit_slope,
+            net_benefit_intercept,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
+
+
 def compute_evsi_efficient_linear(
     net_benefit: list[list[float]],
     parameter_samples: list[list[float]],

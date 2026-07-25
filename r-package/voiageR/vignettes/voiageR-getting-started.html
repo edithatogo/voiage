@@ -385,31 +385,43 @@ Python session.</p>
 <h1>EVSI</h1>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>model_func <span class="ot">&lt;-</span> <span class="cf">function</span>(params) {</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">Strategy_A =</span> params<span class="sc">$</span>effect <span class="sc">*</span> <span class="dv">100</span> <span class="sc">-</span> params<span class="sc">$</span>cost,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">Strategy_B =</span> params<span class="sc">$</span>effect <span class="sc">*</span> <span class="dv">110</span> <span class="sc">-</span> params<span class="sc">$</span>cost</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">Treatment =</span> <span class="dv">50000</span> <span class="sc">*</span> params<span class="sc">$</span>mean_treatment <span class="sc">-</span> <span class="dv">3000</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">Control =</span> <span class="dv">50000</span> <span class="sc">*</span> params<span class="sc">$</span>mean_control</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  )</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>}</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>prior_samples <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">effect =</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.12</span>, <span class="fl">0.11</span>),</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">cost =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">980</span>, <span class="dv">1025</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>)</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>trial_design <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="at">arms =</span> <span class="fu">list</span>(</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">name =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">sample_size =</span> <span class="dv">50</span>),</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">name =</span> <span class="st">&quot;Control&quot;</span>, <span class="at">sample_size =</span> <span class="dv">50</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  )</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>)</span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="fu">evsi</span>(</span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  model_func,</span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  prior_samples,</span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  trial_design,</span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;efficient&quot;</span>,</span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  <span class="at">n_outer_loops =</span> <span class="dv">100</span>,</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>  <span class="at">n_inner_loops =</span> <span class="dv">1000</span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">17</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>draws <span class="ot">&lt;-</span> <span class="dv">1000</span><span class="dt">L</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>prior_samples <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">mean_treatment =</span> <span class="fu">rnorm</span>(draws, <span class="at">mean =</span> <span class="fl">0.06</span>, <span class="at">sd =</span> <span class="fl">0.03</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="at">mean_control =</span> <span class="fu">rnorm</span>(draws, <span class="at">mean =</span> <span class="fl">0.00</span>, <span class="at">sd =</span> <span class="fl">0.02</span>),</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="at">sd_outcome =</span> <span class="fu">rep</span>(<span class="fl">1.0</span>, draws)</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>)</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>trial_design <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="at">arms =</span> <span class="fu">list</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">name =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">sample_size =</span> <span class="dv">100</span><span class="dt">L</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">name =</span> <span class="st">&quot;Control&quot;</span>, <span class="at">sample_size =</span> <span class="dv">100</span><span class="dt">L</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  )</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>)</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">evsi</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>  model_func,</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  prior_samples,</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>  trial_design,</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;two_loop&quot;</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>  <span class="at">n_outer_loops =</span> <span class="dv">100</span><span class="dt">L</span>,</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>  <span class="at">n_inner_loops =</span> <span class="dv">1000</span><span class="dt">L</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">20260724</span><span class="dt">L</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>)</span></code></pre></div>
+<p>The built-in model expects one
+<code>mean_&lt;normalised arm&gt;</code> parameter for every trial arm.
+It lowercases each arm name and replaces spaces with underscores.
+<code>sd_outcome</code> is the known outcome standard deviation and is
+fixed across the prior draws.</p>
+<p>Custom trial-simulation and posterior-sampling callbacks remain
+Python-only. The R facade does not convert or execute those callbacks
+and does not claim custom-model parity.</p>
 </div>
 <div id="current-wrapper-surface" class="section level1">
 <h1>Current wrapper surface</h1>
@@ -417,7 +429,8 @@ Python session.</p>
 <ul>
 <li><code>evpi()</code> for perfect-information value</li>
 <li><code>evppi()</code> for parameter-specific information value</li>
-<li><code>evsi()</code> for sample-information value</li>
+<li><code>evsi()</code> for the built-in two-loop model and
+compatibility estimators</li>
 </ul>
 <p>Composite metrics such as ENBS are currently part of the Python
 surface and can be composed from the results above when needed.</p>

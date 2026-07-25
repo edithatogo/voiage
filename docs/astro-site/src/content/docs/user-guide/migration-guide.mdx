@@ -1,11 +1,165 @@
 ---
 title: Migration Guide
-description: Migrating from voiage 0.x and other VOI tools to the Rust-backed v1 API
+description: Migrating between the versioned voiage stable APIs
 ---
 
-This guide covers migration to the Rust-backed v1 API. The normative surface is
-the [stable API reference](/api-reference/); experimental and provisional
-extensions do not receive the same compatibility guarantee.
+This guide covers migration between the released v1 API and the normative v2
+release contract, as well as the earlier 0.x-to-v1 transition. The
+[API reference](/api-reference/) links each machine-readable contract.
+Experimental and provisional extensions do not receive the same compatibility
+guarantee.
+
+## Migrating from 1.x to 2.0
+
+v2 corrects the scientific model used by the built-in two-loop expected value
+of sample information (EVSI) calculation. The correction changes numerical
+behaviour, not only implementation details, so it is a major-version change.
+The immutable v1 contract remains in `specs/v1/`; the v2 contract is in
+`specs/v2/`.
+
+### Signature boundary
+
+The v1 signature ended with a positional-or-keyword seed and did not expose
+study-model callbacks:
+
+```python
+evsi(
+    model_func,
+    psa_prior,
+    trial_design,
+    population=None,
+    discount_rate=None,
+    time_horizon=None,
+    method="two_loop",
+    n_outer_loops=100,
+    n_inner_loops=1000,
+    metamodel="linear",
+    seed=None,
+)
+```
+
+In v2, `seed` becomes keyword-only, and the paired custom-model callbacks are
+also keyword-only:
+
+```python
+evsi(
+    model_func,
+    psa_prior,
+    trial_design,
+    population=None,
+    discount_rate=None,
+    time_horizon=None,
+    method="two_loop",
+    n_outer_loops=100,
+    n_inner_loops=1000,
+    metamodel="linear",
+    *,
+    seed=None,
+    trial_simulator=None,
+    posterior_sampler=None,
+)
+```
+
+Pass `seed` by name before upgrading:
+
+```python
+value = evsi(
+    model,
+    prior,
+    design,
+    method="two_loop",
+    n_outer_loops=500,
+    n_inner_loops=2_000,
+    seed=20260724,
+)
+```
+
+Do not compare a v1 and v2 result as if they were two implementations of the
+same estimator. Preserve the v1 environment, input artifact, seed, result, and
+version metadata when an analysis requires an audit trail.
+
+### Behaviour boundary
+
+| Concern | v1 | v2 |
+| --- | --- | --- |
+| Built-in prior | empirical PSA rows for outer truths; separate marginal normal updates | one fitted joint multivariate-normal prior throughout |
+| Current decision | empirical PSA sample | draws or integration from the fitted joint prior |
+| Posterior | observed arm means updated independently | exact joint Gaussian conditioning for every correlated stochastic parameter |
+| Fixed outcome SD | part of the parameter sample | validated as finite, constant, and positive; excluded from stochastic covariance |
+| Inner-loop meaning | repeated posterior/model calculations with v1 sample-size behaviour | exactly `n_inner_loops` joint posterior draws per outer data set |
+| Negative simulation estimate | clipped to zero by the public calculation | returned untruncated so simulation error remains visible |
+| Custom study model | unavailable | paired keyword-only simulation and posterior callbacks |
+| Unseeded RNG | NumPy process-global stream | fresh local `numpy.random.Generator` |
+| Seeded RNG | local generator, but seed could be positional | local generator with keyword-only unsigned 64-bit seed |
+
+The coherent built-in model requires:
+
+- finite PSA rows from which a joint multivariate-normal prior can be fitted;
+- one unique `mean_<arm>` stochastic parameter for each study arm;
+- a common `sd_outcome` that is finite, strictly positive, and constant across
+  the PSA rows;
+- positive, non-Boolean integer outer- and inner-loop counts; and
+- a covariance matrix that can be conditioned safely.
+
+Inputs that do not define that model raise `InputError` or `NumericalError`.
+Raw NumPy linear-algebra exceptions are not part of the public contract.
+
+### Analytical normal--normal EVSI
+
+Use `normal_normal_two_arm_evsi` when the decision problem has one uncertain
+incremental effect, an equal-allocation two-arm normal study with known common
+outcome variance, and linear incremental net benefit:
+
+```python
+from voiage import normal_normal_two_arm_evsi
+
+value = normal_normal_two_arm_evsi(
+    prior_mean=0.06,
+    prior_standard_deviation=0.03,
+    outcome_standard_deviation=1.0,
+    total_sample_size=200,
+    net_benefit_slope=50_000.0,
+    net_benefit_intercept=-3_000.0,
+)
+```
+
+This function is analytical, Rust-owned, deterministic, and uses no random
+number generator. All arguments are keyword-only and `total_sample_size` is a
+positive even integer.
+
+### Custom two-loop studies
+
+If the fitted-normal model is not appropriate, provide both callbacks:
+
+```python
+value = evsi(
+    model,
+    prior,
+    design,
+    method="two_loop",
+    seed=20260724,
+    trial_simulator=simulate_trial,
+    posterior_sampler=sample_joint_posterior,
+)
+```
+
+`trial_simulator(true_joint_parameters, trial_design, rng)` returns one
+simulated data set. `posterior_sampler(prior, trial_data, trial_design,
+n_draws, rng)` returns exactly `n_draws` complete, joint posterior rows in a
+`ParameterSet`. Both callbacks need to represent the same prior, likelihood,
+and posterior model.
+
+The regression, efficient, efficient-regression, and moment-based EVSI
+estimators are provisional in v2. Treat them as compatibility tools rather
+than substitutes for a declared study model.
+
+### Binding migration
+
+Python, R, and Julia packages that expose EVSI need to identify the contract
+version they implement. A binding remains on the v1 contract until its
+signature, local-RNG behaviour, model semantics, errors, fixtures, and
+documentation conform to v2. Merely linking a newer shared library does not
+establish v2 conformance.
 
 ## Migrating from 0.x to 1.0
 

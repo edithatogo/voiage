@@ -19,7 +19,7 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, structural_evpi, structural_evppi,
+    evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
     DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
@@ -713,6 +713,35 @@ fn compute_evsi<'py>(
     Ok(output)
 }
 
+/// Compute EVSI for a declared equal-allocation, two-arm normal study.
+#[pyfunction]
+#[pyo3(signature = (
+    prior_mean,
+    prior_standard_deviation,
+    outcome_standard_deviation,
+    total_sample_size,
+    net_benefit_slope,
+    net_benefit_intercept
+))]
+fn compute_normal_normal_two_arm_evsi(
+    prior_mean: f64,
+    prior_standard_deviation: f64,
+    outcome_standard_deviation: f64,
+    total_sample_size: usize,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+) -> PyResult<f64> {
+    normal_normal_two_arm_evsi(
+        prior_mean,
+        prior_standard_deviation,
+        outcome_standard_deviation,
+        total_sample_size,
+        net_benefit_slope,
+        net_benefit_intercept,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
 /// Compute the explicit deterministic efficient-linear EVSI kernel.
 #[pyfunction]
 #[pyo3(signature = (net_benefit, parameter_samples, trial_sample_size))]
@@ -997,6 +1026,10 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_normal_normal_two_arm_evsi,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
@@ -1435,6 +1468,35 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((evsi - 0.75).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_normal_normal_evsi_executes_the_rust_kernel() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_normal_normal_two_arm_evsi, &module).unwrap(),
+                )
+                .unwrap();
+            let function = module
+                .getattr("compute_normal_normal_two_arm_evsi")
+                .unwrap();
+            let result = function
+                .call1((
+                    0.06_f64,
+                    0.03_f64,
+                    1.0_f64,
+                    200_usize,
+                    50_000.0_f64,
+                    -3_000.0_f64,
+                ))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 124.179_365_520_623_8).abs() <= 1.0e-5);
         });
     }
 

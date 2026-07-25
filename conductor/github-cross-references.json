@@ -2713,7 +2713,8 @@
         "https://github.com/edithatogo/voiage/issues/297",
         "https://github.com/edithatogo/voiage/issues/298",
         "https://github.com/edithatogo/voiage/issues/299",
-        "https://github.com/edithatogo/voiage/issues/312"
+        "https://github.com/edithatogo/voiage/issues/312",
+        "https://github.com/edithatogo/voiage/issues/471"
       ],
       "pull_requests": [
         {
@@ -2758,6 +2759,46 @@
             "80c574346e2d6f5d2907623e1672a5275e58b7f1",
             "explicit-track-reference",
             "f86957f6acb08284619523f75a326795650af38f"
+          ]
+        },
+        {
+          "number": 469,
+          "url": "https://github.com/edithatogo/voiage/pull/469",
+          "status": "merged",
+          "evidence": [
+            "421370d04faa608769c01965d577f0351a590c97"
+          ]
+        },
+        {
+          "number": 470,
+          "url": "https://github.com/edithatogo/voiage/pull/470",
+          "status": "merged",
+          "evidence": [
+            "45acd6f3d980325531e0c014ccebdadf894a99a3"
+          ]
+        },
+        {
+          "number": 472,
+          "url": "https://github.com/edithatogo/voiage/pull/472",
+          "status": "merged",
+          "evidence": [
+            "370441a97458533c320ad4297ad4cb3f5d7083e5"
+          ]
+        },
+        {
+          "number": 473,
+          "url": "https://github.com/edithatogo/voiage/pull/473",
+          "status": "merged",
+          "evidence": [
+            "1dfcd3d42af591ca15fcc03ad958123cc153dbbf"
+          ]
+        },
+        {
+          "number": 480,
+          "url": "https://github.com/edithatogo/voiage/pull/480",
+          "status": "open",
+          "evidence": [
+            "07cf3f83098952439f7b94773c62a8cbf9c176c1"
           ]
         }
       ],

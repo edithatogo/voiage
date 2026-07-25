@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/python-rust-bridge.yml"
+      - "build_backend.py"
       - "pyproject.toml"
       - "uv.lock"
       - "rust/**"
@@ -18,6 +19,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/python-rust-bridge.yml"
+      - "build_backend.py"
       - "pyproject.toml"
       - "uv.lock"
       - "rust/**"
@@ -113,6 +115,41 @@ jobs:
         run: |
           cd "$RUNNER_TEMP/wheel-black-box"
           uv run --python "$WHEEL_VENV" --no-project pytest test_wheel_black_box.py test_runtime_adapter.py --import-mode=importlib
+      - name: Test PEP 517 provenance wrapper
+        if: matrix.python == '3.12'
+        run: uv run --no-sync pytest tests/packaging/test_build_backend.py --no-cov
+      - name: Build ordinary clean source distribution
+        if: matrix.python == '3.12'
+        run: env -u VOIAGE_SOURCE_REVISION -u VOIAGE_SOURCE_TREE_GIT_OID -u VOIAGE_SOURCE_CLEAN uv build --sdist --out-dir pep517-dist
+      - name: Extract source distribution outside the checkout
+        if: matrix.python == '3.12'
+        run: |
+          mkdir -p "$RUNNER_TEMP/voiage-sdist-source" "$RUNNER_TEMP/voiage-sdist-wheel"
+          tar -xzf pep517-dist/*.tar.gz -C "$RUNNER_TEMP/voiage-sdist-source" --strip-components=1
+          test ! -e "$RUNNER_TEMP/voiage-sdist-source/.git"
+      - name: Build ordinary wheel from Git-less source distribution
+        if: matrix.python == '3.12'
+        working-directory: ${{ runner.temp }}/voiage-sdist-source
+        run: env -u VOIAGE_SOURCE_REVISION -u VOIAGE_SOURCE_TREE_GIT_OID -u VOIAGE_SOURCE_CLEAN uv build --wheel --out-dir "$RUNNER_TEMP/voiage-sdist-wheel"
+      - name: Install and verify Git-less sdist-derived wheel
+        if: matrix.python == '3.12'
+        working-directory: ${{ runner.temp }}
+        env:
+          EXPECTED_SOURCE_REVISION: ${{ github.sha }}
+          EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
+        run: |
+          uv venv --python 3.12 "$RUNNER_TEMP/voiage-sdist-wheel-venv"
+          uv pip install --python "$RUNNER_TEMP/voiage-sdist-wheel-venv" "$RUNNER_TEMP"/voiage-sdist-wheel/*.whl
+          uv pip check --python "$RUNNER_TEMP/voiage-sdist-wheel-venv"
+          uv run --python "$RUNNER_TEMP/voiage-sdist-wheel-venv" --no-project python - <<'PY'
+          import os
+          from voiage._core import runtime_info
+
+          info = runtime_info()
+          assert info["source_revision"] == os.environ["EXPECTED_SOURCE_REVISION"]
+          assert info["source_tree_git_oid"] == os.environ["EXPECTED_SOURCE_TREE_GIT_OID"]
+          assert info["source_dirty"] is False
+          PY
 
   abi3-platforms:
     name: Wheel contract (${{ matrix.os }})

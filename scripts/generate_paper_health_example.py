@@ -2,17 +2,20 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 from dataclasses import dataclass
+import filecmp
 from functools import lru_cache
-from math import erf, exp, pi, sqrt
+from math import sqrt
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from voiage.methods.basic import evpi, evppi
-from voiage.methods.sample_information import enbs
+from voiage.methods.sample_information import enbs, normal_normal_two_arm_evsi
 from voiage.schema import ParameterSet
 
 SEED = 20260723
@@ -30,6 +33,12 @@ STUDY_FIXED_COST = 1_200_000.0
 STUDY_COST_PER_PARTICIPANT = 100.0
 BOOTSTRAP_REPLICATES = 1_000
 BOOTSTRAP_SEED = 20260724
+GENERATED_DATA_FILES = (
+    "synthetic_health_example_curve.csv",
+    "synthetic_health_example_results.csv",
+    "synthetic_health_example_sensitivity.csv",
+    "synthetic_health_example_summary.csv",
+)
 
 
 @dataclass(frozen=True)
@@ -60,17 +69,7 @@ class SensitivityScenario:
     annual_population: float = ANNUAL_POPULATION
     fixed_cost: float = STUDY_FIXED_COST
     delay_years: int = 0
-    uptake: float = 1.0
-
-
-def _expected_positive_normal(mean: float, standard_deviation: float) -> float:
-    """Return E[max(0, X)] for a normally distributed random variable X."""
-    if standard_deviation <= 0:
-        return max(0.0, mean)
-    z_score = mean / standard_deviation
-    density = exp(-(z_score**2) / 2.0) / sqrt(2.0 * pi)
-    distribution = 0.5 * (1.0 + erf(z_score / sqrt(2.0)))
-    return standard_deviation * density + mean * distribution
+    value_realisation: float = 1.0
 
 
 def normal_normal_evsi(
@@ -89,20 +88,16 @@ def normal_normal_evsi(
     """
     if total_sample_size <= 0 or total_sample_size % 2:
         raise ValueError("total_sample_size must be a positive even integer")
-
-    prior_variance = EFFECT_PRIOR_SD**2
     if outcome_sd <= 0:
         raise ValueError("outcome_sd must be positive")
-    sampling_variance = 4.0 * outcome_sd**2 / total_sample_size
-    posterior_mean_variance = prior_variance**2 / (prior_variance + sampling_variance)
-    incremental_nb_mean = REFERENCE_WTP * EFFECT_MEAN - COST_MEAN
-    incremental_nb_sd = REFERENCE_WTP * sqrt(posterior_mean_variance)
-    expected_after_study = _expected_positive_normal(
-        incremental_nb_mean,
-        incremental_nb_sd,
+    return normal_normal_two_arm_evsi(
+        prior_mean=EFFECT_MEAN,
+        prior_standard_deviation=EFFECT_PRIOR_SD,
+        outcome_standard_deviation=outcome_sd,
+        total_sample_size=total_sample_size,
+        net_benefit_slope=REFERENCE_WTP,
+        net_benefit_intercept=-COST_MEAN,
     )
-    current_value = max(0.0, incremental_nb_mean)
-    return expected_after_study - current_value
 
 
 def _bootstrap_intervals(
@@ -142,9 +137,7 @@ def _bootstrap_intervals(
                 REFERENCE_WTP * sampled_effect - sampled_cost,
             ]
         )
-        estimates["probability_preferred"][replicate] = np.mean(
-            sampled_nb[:, 1] > 0.0
-        )
+        estimates["probability_preferred"][replicate] = np.mean(sampled_nb[:, 1] > 0.0)
         estimates["evpi"][replicate] = evpi(sampled_nb)
         estimates["evppi_effect"][replicate] = evppi(
             sampled_nb,
@@ -235,7 +228,7 @@ def calculate_example() -> HealthExample:
 
 
 def calculate_sensitivity() -> list[tuple[SensitivityScenario, np.ndarray]]:
-    """Calculate ENBS under prespecified, interpretable one-way scenarios."""
+    """Calculate ENBS under prespecified sensitivity scenarios."""
     scenarios = [
         SensitivityScenario("Base case"),
         SensitivityScenario("Outcome SD 0.75", outcome_sd=0.75),
@@ -244,14 +237,22 @@ def calculate_sensitivity() -> list[tuple[SensitivityScenario, np.ndarray]]:
         SensitivityScenario("Annual population 1,600", annual_population=1_600),
         SensitivityScenario("Fixed study cost 0.9m", fixed_cost=900_000),
         SensitivityScenario("Fixed study cost 1.5m", fixed_cost=1_500_000),
-        SensitivityScenario("One-year delay; 80% uptake", delay_years=1, uptake=0.8),
-        SensitivityScenario("Three-year delay; 40% uptake", delay_years=3, uptake=0.4),
+        SensitivityScenario(
+            "One-year delay; 80% value realisation",
+            delay_years=1,
+            value_realisation=0.8,
+        ),
+        SensitivityScenario(
+            "Three-year delay; 40% value realisation",
+            delay_years=3,
+            value_realisation=0.4,
+        ),
     ]
     sample_sizes = np.array([50, 100, 200, 400, 800, 1_200])
     output: list[tuple[SensitivityScenario, np.ndarray]] = []
     for scenario in scenarios:
         opportunities = (
-            scenario.uptake
+            scenario.value_realisation
             * scenario.annual_population
             * sum(
                 (1.0 + DISCOUNT_RATE) ** -year
@@ -280,6 +281,31 @@ def write_results(
 ) -> None:
     """Write machine-readable values behind the manuscript figure and prose."""
     output_directory.mkdir(parents=True, exist_ok=True)
+    with (output_directory / "synthetic_health_example_curve.csv").open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as stream:
+        writer = csv.DictWriter(
+            stream,
+            lineterminator="\n",
+            fieldnames=[
+                "value_per_qaly",
+                "probability_programme_preferred",
+            ],
+        )
+        writer.writeheader()
+        for threshold, probability in zip(
+            example.thresholds,
+            example.probability_cost_effective,
+            strict=True,
+        ):
+            writer.writerow(
+                {
+                    "value_per_qaly": f"{threshold:.2f}",
+                    "probability_programme_preferred": f"{probability:.8f}",
+                }
+            )
     with (output_directory / "synthetic_health_example_summary.csv").open(
         "w",
         newline="",
@@ -287,6 +313,7 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "metric",
                 "estimate",
@@ -329,12 +356,13 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "sample_size",
                 "evsi_per_person",
                 "research_cost",
-                "enbs_immediate_full_uptake",
-                "enbs_two_year_delay_60pct_uptake",
+                "enbs_immediate_full_realisation",
+                "enbs_two_year_delay_60pct_realisation",
             ],
         )
         writer.writeheader()
@@ -344,10 +372,10 @@ def write_results(
                     "sample_size": int(sample_size),
                     "evsi_per_person": f"{example.evsi_per_person[index]:.6f}",
                     "research_cost": f"{example.research_cost[index]:.2f}",
-                    "enbs_immediate_full_uptake": (
+                    "enbs_immediate_full_realisation": (
                         f"{example.enbs_immediate[index]:.2f}"
                     ),
-                    "enbs_two_year_delay_60pct_uptake": (
+                    "enbs_two_year_delay_60pct_realisation": (
                         f"{example.enbs_delayed[index]:.2f}"
                     ),
                 }
@@ -359,13 +387,14 @@ def write_results(
     ) as stream:
         writer = csv.DictWriter(
             stream,
+            lineterminator="\n",
             fieldnames=[
                 "scenario",
                 "outcome_sd",
                 "annual_population",
                 "fixed_cost",
                 "delay_years",
-                "uptake",
+                "value_realisation",
                 "sample_size",
                 "enbs",
             ],
@@ -380,7 +409,7 @@ def write_results(
                         "annual_population": scenario.annual_population,
                         "fixed_cost": scenario.fixed_cost,
                         "delay_years": scenario.delay_years,
-                        "uptake": scenario.uptake,
+                        "value_realisation": scenario.value_realisation,
                         "sample_size": int(sample_size),
                         "enbs": f"{value:.2f}",
                     }
@@ -399,7 +428,7 @@ def render(example: HealthExample, output_stem: Path) -> None:
     blue = "#0072B2"
     orange = "#E69F00"
     green = "#009E73"
-    purple = "#CC79A7"
+    purple = "#9B3F75"
 
     axis_a.plot(
         example.thresholds / 1_000,
@@ -409,29 +438,44 @@ def render(example: HealthExample, output_stem: Path) -> None:
     )
     axis_a.axvline(REFERENCE_WTP / 1_000, color="#555555", linestyle="--")
     axis_a.set(
-        xlabel="Value placed on one QALY (thousand value units)",
-        ylabel="Probability new programme is preferred",
+        xlabel="Value per QALY (thousand value units)",
+        ylabel="Probability programme is preferred",
         ylim=(0, 1),
         title="A  Decision uncertainty",
     )
 
     partial_values = [example.evppi_effect, example.evppi_cost]
     axis_b.bar(
-        ["Health effect", "Programme cost"],
+        ["Health gain", "Programme cost"],
         partial_values,
         color=[green, orange],
     )
+    for position, value in enumerate(partial_values):
+        axis_b.text(
+            position,
+            value + 12,
+            f"{value:.0f}",
+            ha="center",
+            va="bottom",
+            fontsize=9,
+        )
     axis_b.axhline(
         example.evpi,
         color=purple,
         linestyle="--",
-        label="EVPI (all uncertainty)",
+        label="All uncertainty (EVPI)",
     )
     axis_b.set(
-        ylabel="Value per person",
-        title="B  Priorities for further evidence",
+        ylabel="Value of resolving one input\n(EVPPI; units per person)",
+        title="B  Which uncertainty matters most?",
     )
-    axis_b.legend(frameon=False, fontsize=8)
+    axis_b.legend(
+        frameon=True,
+        facecolor="white",
+        edgecolor="none",
+        framealpha=0.9,
+        fontsize=9,
+    )
 
     axis_c.axhline(0, color="#555555", linewidth=1)
     axis_c.plot(
@@ -439,7 +483,7 @@ def render(example: HealthExample, output_stem: Path) -> None:
         example.enbs_immediate / 1_000_000,
         color=blue,
         marker="o",
-        label="Immediate results; full uptake",
+        label="Immediate evidence; full value realisation",
     )
     axis_c.plot(
         example.sample_sizes,
@@ -447,27 +491,31 @@ def render(example: HealthExample, output_stem: Path) -> None:
         color=orange,
         marker="s",
         linestyle="--",
-        label="Two-year delay; 60% uptake",
+        label="Two-year delay; 60% value realisation",
     )
     axis_c.set(
         xlabel="Total study sample size",
-        ylabel="Population ENBS (million value units)",
-        title="C  Study value depends on delivery",
+        ylabel="Expected net benefit of sampling\n(million value units)",
+        title="C  Is the evidence worth its study cost?",
     )
-    axis_c.legend(frameon=False, fontsize=8)
+    axis_c.legend(frameon=False, fontsize=9)
 
     figure.suptitle(
-        "Synthetic health example: a new programme compared with standard care",
+        "Synthetic health example: a programme compared with current practice",
         fontsize=11,
     )
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(
         output_stem.with_suffix(".png"),
         dpi=300,
+        bbox_inches="tight",
+        pad_inches=0.08,
         metadata={"Software": "voiage"},
     )
     figure.savefig(
         output_stem.with_suffix(".pdf"),
+        bbox_inches="tight",
+        pad_inches=0.08,
         metadata={
             "Creator": "voiage",
             "CreationDate": None,
@@ -477,13 +525,56 @@ def render(example: HealthExample, output_stem: Path) -> None:
     plt.close(figure)
 
 
-def main() -> None:
-    """Generate the tracked manuscript figure and print review values."""
+def generate(output_directory: Path) -> HealthExample:
+    """Generate the example's data and figures beneath one output directory."""
     example = calculate_example()
     sensitivity = calculate_sensitivity()
-    output_stem = Path("paper/figures/synthetic_health_example")
+    output_stem = output_directory / "figures" / "synthetic_health_example"
     render(example, output_stem)
-    write_results(example, sensitivity, Path("paper/data"))
+    write_results(example, sensitivity, output_directory / "data")
+    return example
+
+
+def verify_tracked_outputs(tracked_directory: Path) -> None:
+    """Regenerate in a clean directory and compare portable tabular outputs."""
+    with TemporaryDirectory(prefix="voiage-paper-") as temporary:
+        generated_directory = Path(temporary)
+        generate(generated_directory)
+        for filename in GENERATED_DATA_FILES:
+            generated = generated_directory / "data" / filename
+            tracked = tracked_directory / "data" / filename
+            if not filecmp.cmp(generated, tracked, shallow=False):
+                raise RuntimeError(f"tracked paper output differs: {filename}")
+        for suffix in (".pdf", ".png"):
+            figure = (
+                generated_directory / "figures" / f"synthetic_health_example{suffix}"
+            )
+            if not figure.is_file() or figure.stat().st_size == 0:
+                raise RuntimeError(f"paper figure did not render: {figure.name}")
+
+
+def main() -> None:
+    """Generate or verify the deterministic manuscript example."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output-directory",
+        type=Path,
+        default=Path("paper"),
+        help="Directory containing the data and figures subdirectories.",
+    )
+    parser.add_argument(
+        "--verify-tracked",
+        action="store_true",
+        help="Regenerate in a clean directory and compare tracked CSV outputs.",
+    )
+    arguments = parser.parse_args()
+    if arguments.verify_tracked:
+        verify_tracked_outputs(arguments.output_directory)
+        print("tracked paper outputs match clean regeneration")
+        return
+
+    example = generate(arguments.output_directory)
+    output_stem = arguments.output_directory / "figures" / "synthetic_health_example"
     print(f"wrote {output_stem.with_suffix('.png')}")
     print(f"wrote {output_stem.with_suffix('.pdf')}")
     print(f"EVPI={example.evpi:.2f}")

@@ -153,7 +153,7 @@ def dispatch_calculation[PayloadT: ContractModel](
         else None,
         selected_backend=capabilities.backend_name,
         backend_version=capabilities.backend_version,
-        device=policy.device or sorted(capabilities.devices)[0],
+        device=policy.device or min(capabilities.devices),
         capabilities=frozenset(item.value for item in capabilities.features),
         package_version=package_version,
         python_version=platform.python_version(),
