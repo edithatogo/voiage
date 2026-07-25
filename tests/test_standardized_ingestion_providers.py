@@ -542,7 +542,7 @@ def test_croissant_provider_rejects_unsupported_archives_and_transformations(
             "conformsTo",
         ),
         ({}, {"encodingFormat": "application/json"}, {}, {}, "CSV media type"),
-        ({}, {"sha256": "00"}, {}, {}, "integrity declarations"),
+        ({}, {"contentChecksum": "00"}, {}, {}, "integrity declarations"),
         ({}, {}, {"key": ["a"]}, {}, "keys"),
         ({}, {}, {"split": "train"}, {}, "splits"),
         ({}, {}, {}, {"references": "other-table"}, "references"),
@@ -578,6 +578,53 @@ def test_croissant_provider_rejects_unsupported_profile_semantics_explicitly(
 
     with pytest.raises(IngestionError, match=message):
         CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+@pytest.mark.parametrize(
+    ("checksum", "message"),
+    [
+        (None, None),
+        ("0" * 64, "SHA-256"),
+    ],
+)
+def test_croissant_provider_validates_declared_local_sha256(
+    tmp_path, checksum, message
+) -> None:
+    """A declared local FileObject checksum must be verified before parsing."""
+    _write_csv(tmp_path)
+    descriptor_path = tmp_path / "croissant.json"
+    distribution = {"contentUrl": "samples.csv"}
+    if checksum is None:
+        distribution["sha256"] = digest_file(tmp_path / "samples.csv")
+    else:
+        distribution["sha256"] = checksum
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "name": "checksum-fixture",
+                "distribution": [distribution],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    if message is not None:
+        with pytest.raises(IngestionError, match=message):
+            CroissantProvider().ingest(
+                descriptor_path, policy=SourceAccessPolicy(tmp_path)
+            )
+    else:
+        assert (
+            CroissantProvider()
+            .ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+            .table("samples")
+            .num_rows
+            == 2
+        )
 
 
 def test_dataframe_adapter_rejects_non_dataframe() -> None:

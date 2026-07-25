@@ -14,7 +14,7 @@ from voiage.contracts.normalized_input import (
     SourceProvenance,
     TableManifest,
 )
-from voiage.ingestion._tabular import read_csv
+from voiage.ingestion._tabular import digest_file, read_csv
 from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
@@ -78,6 +78,14 @@ class CroissantProvider:
             raise IngestionError(
                 "supported Croissant profile does not support transformations"
             )
+        declared_sha256 = distribution.get("sha256")
+        if declared_sha256 is not None and (
+            not isinstance(declared_sha256, str)
+            or digest_file(policy.resolve(reference)).lower() != declared_sha256.lower()
+        ):
+            raise IngestionError(
+                "declared Croissant SHA-256 does not match local content"
+            )
         table = read_csv(reference, policy)
         manifest_fields = tuple(
             FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
@@ -130,9 +138,7 @@ class CroissantProvider:
         encoding_format = distribution.get("encodingFormat")
         if encoding_format is not None and encoding_format != "text/csv":
             raise IngestionError("supported Croissant profile requires CSV media type")
-        if any(
-            key in distribution for key in ("sha256", "contentChecksum", "checksum")
-        ):
+        if any(key in distribution for key in ("contentChecksum", "checksum")):
             raise IngestionError(
                 "supported Croissant profile does not support integrity declarations"
             )
