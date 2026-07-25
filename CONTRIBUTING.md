@@ -7,6 +7,8 @@ We welcome contributions from the community, whether from humans or AI agents. T
 ### Prerequisites
 
 *   Python 3.12-3.14
+*   [Rust](https://www.rust-lang.org/tools/install) 1.85 or later for source builds
+*   [uv](https://docs.astral.sh/uv/) for locked environments and builds
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
 
 ### Setting Up the Development Environment
@@ -21,7 +23,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 2.  **Install Dependencies:**
     ```bash
-    pip install -e ".[dev]"
+    uv sync --extra dev --extra ci
     ```
 
 3.  **Install Pre-commit Hooks:**
@@ -50,7 +52,7 @@ the required CI, security, coverage, documentation, and contract checks pass.
 3.  **Verify Changes:**
     *   Run the full suite of tests, linting, and type checks using `tox`. This is the same check that runs in our CI pipeline.
         ```bash
-    tox
+        tox
         ```
     *   Fix any errors reported by `tox` before proceeding.
     *   Run the repository-owned security and workflow harness directly when
@@ -80,7 +82,7 @@ the required CI, security, coverage, documentation, and contract checks pass.
 For a more detailed walkthrough of the Conductor workflow, docs structure, and
 testing expectations, see the [How to contribute guide](https://edithatogo.github.io/voiage/developer-guide/how-to-contribute/).
 For the repository security model and hosted GitHub gates, see
-the [quality and security guidance](https://edithatogo.github.io/voiage/developer-guide/how-to-contribute/).
+the [quality and security guidance](https://edithatogo.github.io/voiage/developer-guide/quality-and-security/).
 
 For help requests, support questions, and security reporting, see
 [`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and

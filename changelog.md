@@ -9,17 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a machine-readable JOSS article contract with an exact 1,600 ±2% body
+  target, structural YAML validation, ordered substantive section budgets, a
+  comprehensive claim ledger, queued SourceRight reference sidecars, and
+  source-hash-bound editorial assurance.
+- Added pinned SourceRight citation reconciliation, selected Authentext
+  pattern checks, review-only Textstat evidence, adversarial contract tests,
+  and retained assurance artefacts to the hosted Open Journals workflow.
+- Added a six-role round-six JOSS review and a separate three-way
+  source-verification pass, with manuscript scores kept distinct from release,
+  engagement, human-attestation, and editorial gates.
 - Added independent analytical checks for the worked example's EVPI, EVPPI,
   and EVSI values, plus a permanent eight-role round-four JOSS review record.
+- Added complete worked-example equations and benchmarks, a structured
+  reproduction manifest, clean non-destructive regeneration checks, accessible
+  tabular figure data, and separate round-five JOSS editorial reports with a
+  prioritised synthesis.
 - Packaged the shared EVPI reference fixture with the Julia binding and added a
   standalone-package test that cannot depend on the monorepo layout.
 
 ### Changed
 
+- Rewrote the JOSS opening and architecture account in plain language,
+  strengthened the separate-package rationale, identified regression-estimated
+  EVPPI and conditional scenario results, corrected cross-language test
+  evidence, and labelled and cross-referenced the worked-example figure.
+- Reclassified arXiv announcement as the author's sequencing preference rather
+  than a JOSS requirement, and made Authentext automation's selected-pattern
+  coverage explicit.
 - Reframed the JOSS worked example's reduced-form scenario as value
   realisation rather than intervention uptake, clarified its study model,
   timing, units, Monte Carlo uncertainty, and deterministic seeds, and aligned
   the generated figure and machine-readable outputs.
+- Rewrote the JOSS adaptation for applied researchers, led with the decision
+  problem and results, narrowed the R and Julia claim to shared scalar EVPI,
+  simplified the Rust design account, and revised the health figure with
+  plain-language panel questions and labelled values.
+- Corrected the JOSS readiness and independent-validation records to distinguish
+  reproducible near-term significance from the current single-author
+  community-engagement gate.
 - Moved current Python runtime classification to additive v2 policy manifests,
   preserving the byte-for-byte immutable v1 contract while covering the
   optional ingestion adapters.
@@ -30,6 +58,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   installing through `Rscript` rather than the conflicting `R` alias.
 - Distinguished internal review evidence under `docs/reviews/` from
   reader-facing documentation governed by the Astro content-tree contract.
+- Corrected stale public documentation links, removed a nonexistent Python
+  EVSI API example, and replaced architecture claims that exceeded the
+  implemented Python, R, and Julia surfaces.
 - Made full unit and coverage lanes fetch release tags before validating the
   checked-in immutable release-evidence manifest.
 

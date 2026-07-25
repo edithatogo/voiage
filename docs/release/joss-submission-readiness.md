@@ -11,6 +11,17 @@ The JOSS package is:
 
 - `paper.md`: the JOSS-format manuscript;
 - `paper.bib`: the manuscript bibliography;
+- `paper/health-example-methods.md`: the complete analytical model and
+  independently checked benchmarks behind the worked example;
+- `paper/reproduction-manifest.json`: structured inputs, seeds, lock digest,
+  outputs, hashes, and clean-regeneration command;
+- `paper/joss-article-contract.json`: current-criteria section, evidence, and
+  exact 1,600 ±2% word-count contract;
+- `paper/joss-claim-evidence.json`: material claim-to-evidence ledger;
+- `paper/joss-references.verification.json`: SourceRight reference records
+  queued for final human review;
+- `paper/joss-editorial-assurance.json`: source-hash-bound SourceRight,
+  Authentext, Textstat, and human-gate state;
 - `CITATION.cff` and `codemeta.json`: software citation and discovery metadata;
 - `scripts/validate_joss.py`: fail-closed repository preflight;
 - `.github/workflows/joss-paper.yml`: pinned Open Journals/Inara PDF build.
@@ -27,16 +38,18 @@ not replace it.
 | More than six months of public development | Public history from July 2025 | Ready |
 | Iterative open development | Distributed commits, issues, pull requests, changelog and tagged releases | Ready |
 | Research application | VOI analysis for research prioritisation and probabilistic decision models | Ready |
-| Developer-created demonstrations | Fixed-seed health example and versioned `vop_poc_nz` integration contract | Reproducible; not represented as independent research use |
-| Research-use evidence | The same-author `vop_poc_nz` bundle documents an interoperability contract, not execution of `voiage` in research. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek attributable installation, use, or feedback | Externally pending; no independent use is claimed |
-| JOSS manuscript structure | All current required sections and 750–1,750-word contract | Ready |
-| Design-thinking account | Kernel/orchestration boundary and cross-language trade-offs described | Ready |
+| Credible near-term significance | Fixed-seed health example, independent analytical benchmarks, sensitivity scenarios, machine-readable results, structured reproduction manifest, and clean regeneration in CI | Ready as specific reproducible material; this does not establish human engagement |
+| Research-workflow integration | The same-author `vop_poc_nz` bundle documents an intended interoperability contract, not completed execution of `voiage` in research | Candidly bounded; no independent adoption claimed |
+| Collaborative-effort screening | The 2026 criteria classify a single-author project with no community engagement, external use, or collaborative input as not acceptable. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek an attributable human installation, use, or substantive feedback record | Externally pending; agents, bots, and same-author repositories do not qualify |
+| JOSS manuscript structure | All contracted sections are substantive and ordered; deterministic count is 1,615, inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready |
+| Citation and prose assurance | SourceRight reconciles all 19 occurrences, all 15 references have queued sidecars, and six non-DOI software/web warnings remain; selected Authentext blocking patterns report no finding | Machine checks ready; final human source check pending |
+| Design-thinking account | The Rust reference-calculation boundary, protection against cross-language drift, native-build cost, and deliberately narrower R/Julia interfaces are described | Ready |
 | Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026 | Ready |
-| AI usage disclosure | Tools, retained version limits, and scope are stated. The comprehensive human decision, review, modification, and validation affirmation has been requested from the author | Awaiting explicit author attestation |
+| AI usage disclosure | Tool families, retained identifier limits, scope, and verification approach are stated. JOSS also requires versions and the author's comprehensive affirmation that the human author made the core decisions and reviewed, edited, and validated every retained AI-assisted output | Awaiting explicit author attestation and best-available version inventory; identifiers must not be guessed |
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
-| Reproducible JOSS PDF | Official Open Journals action pinned by commit; the available six-page PDF predates the current source | Rebuild and inspect from the exact reviewed revision |
+| Reproducible JOSS PDF | Official Open Journals action pinned by commit; clean output regeneration is now fail-closed in the workflow | Rebuild and inspect from the exact reviewed revision |
 | arXiv reference | Submission verified; permanent identifier pending | External gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 
@@ -44,6 +57,8 @@ Run the repository-owned preflight with:
 
 ```console
 uv run python scripts/validate_joss.py
+uv run python scripts/audit_joss_sources.py
+uv run python scripts/audit_joss_authentext.py
 uv run tox -e joss
 ```
 
@@ -62,10 +77,10 @@ for version 2.0.0 is the Python package:
 | R | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `R CMD build r-package/voiageR`, `R CMD check --as-cran --no-manual voiageR_*.tar.gz`, and an installed smoke test with `VOIAGE_FFI_LIBRARY` set to the platform library | Installed package calls the separately built Rust EVPI library; tests pass, while the current package check reports two vignette warnings; Linux/macOS/Windows native smoke matrix is configured | Secondary binding; CRAN/r-universe review is independent of JOSS |
 | Julia | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `VOIAGE_FFI_LIBRARY=<platform-library> julia --project=bindings/julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'` | The fixture is packaged with the Julia source, and CI tests an archived standalone package copy against the separately built native library | Secondary binding; a Julia artifact/JLL is required before standalone General installation |
 
-The paper therefore describes R and Julia as source bindings and does not claim
-that they are independently installable from their language registries. A JOSS
-reviewer can assess the primary Python package without installing those
-secondary surfaces.
+The paper therefore describes R and Julia as source bindings that share scalar
+EVPI, not as semantic equivalents of the Python decision record or as
+independently installable registry packages. A JOSS reviewer can assess the
+primary Python package without installing those secondary surfaces.
 
 ## Selected submission route
 
@@ -84,9 +99,10 @@ The recommended sequence is:
 
 1. publish and archive the exact software revision described by the final
    paper, and retain its hosted test, SBOM, provenance, and digest evidence;
-2. continue seeking attributable independent installation or use evidence
-   through issue #471 without representing it as a universal JOSS prerequisite;
-   automated accounts and AI-agent runs do not establish independent adoption;
+2. obtain attributable human community engagement, external use, or
+   collaborative input through issue #471 or another documented route; under
+   the current single-author screening criterion this is a prerequisite, while
+   automated accounts and AI-agent runs do not qualify;
 3. wait for and record the permanent arXiv identifier, following the author's
    preferred arXiv-first sequence;
 4. submit the repository and `paper.md` directly to JOSS;
@@ -96,9 +112,14 @@ The recommended sequence is:
 
 ## Remaining gates
 
-- Continue the independent installation and research-use request in issue #471
-  as additional engagement evidence; do not claim independent adoption until
-  attributable evidence exists.
+- Obtain and document qualifying human community engagement, external use, or
+  collaborative input in issue #471; do not claim it until attributable
+  evidence exists.
+- Obtain the author's complete AI-policy affirmation and record every
+  establishable tool/model version without inventing historical identifiers.
+- Publish and archive the exact v2 release, then replace prospective manuscript
+  wording with observed release, digest, provenance, SBOM, and SWHID evidence.
+- Rebuild, inspect, and retain the official JOSS PDF from that exact revision.
 - Record the permanent arXiv identifier when arXiv assigns it.
 - Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external

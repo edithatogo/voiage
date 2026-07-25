@@ -5,9 +5,19 @@ on:
     paths:
       - "paper.md"
       - "paper.bib"
+      - "paper/**"
       - "CITATION.cff"
       - "codemeta.json"
+      - "pyproject.toml"
+      - "requirements-joss.txt"
+      - "uv.lock"
+      - "scripts/audit_arxiv_readability.py"
+      - "scripts/audit_joss_authentext.py"
+      - "scripts/audit_joss_readability.py"
+      - "scripts/audit_joss_sources.py"
+      - "scripts/generate_paper_health_example.py"
       - "scripts/validate_joss.py"
+      - "tests/test_paper_health_example.py"
       - "tests/test_joss_readiness.py"
       - ".github/workflows/joss-paper.yml"
   push:
@@ -15,9 +25,19 @@ on:
     paths:
       - "paper.md"
       - "paper.bib"
+      - "paper/**"
       - "CITATION.cff"
       - "codemeta.json"
+      - "pyproject.toml"
+      - "requirements-joss.txt"
+      - "uv.lock"
+      - "scripts/audit_arxiv_readability.py"
+      - "scripts/audit_joss_authentext.py"
+      - "scripts/audit_joss_readability.py"
+      - "scripts/audit_joss_sources.py"
+      - "scripts/generate_paper_health_example.py"
       - "scripts/validate_joss.py"
+      - "tests/test_paper_health_example.py"
       - "tests/test_joss_readiness.py"
       - ".github/workflows/joss-paper.yml"
   workflow_dispatch:
@@ -35,17 +55,53 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
-      - name: Validate JOSS submission package
-        run: python3 scripts/validate_joss.py
+          submodules: recursive
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+      - name: Install manuscript-assurance tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes pandoc poppler-utils
+          uv venv .venv-joss --python 3.12
+          uv pip install --python .venv-joss/bin/python --requirements requirements-joss.txt
+          NLTK_DATA="$RUNNER_TEMP/nltk_data" \
+            .venv-joss/bin/python -m nltk.downloader \
+            -d "$RUNNER_TEMP/nltk_data" cmudict
+      - name: Audit citations with pinned SourceRight
+        run: |
+          uv sync --frozen --extra ci
+          uv run --frozen --extra ci python scripts/audit_joss_sources.py \
+            --output-directory build/joss/sourceright
+      - name: Audit prose with pinned Authentext patterns
+        run: |
+          uv run --frozen --extra ci python scripts/audit_joss_authentext.py \
+            paper.md --output build/joss/authentext.json
+      - name: Validate JOSS article contract
+        run: |
+          uv run --frozen --extra ci python scripts/validate_joss.py \
+            --report build/joss/article-contract-report.json
+      - name: Reproduce portable manuscript outputs
+        run: |
+          uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked
       - name: Build with the Open Journals toolchain
         uses: openjournals/openjournals-draft-action@85a18372e48f551d8af9ddb7a747de685fbbb01c
         with:
           journal: joss
           paper-path: paper.md
-      - name: Upload review PDF
+      - name: Record review-only readability evidence
+        env:
+          NLTK_DATA: ${{ runner.temp }}/nltk_data
+        run: |
+          .venv-joss/bin/python scripts/audit_joss_readability.py \
+            paper.pdf build/joss/readability.json
+      - name: Upload review PDF and assurance evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: voiage-joss-paper
-          path: paper.pdf
+          path: |
+            paper.pdf
+            build/joss/
           if-no-files-found: error
           retention-days: 30

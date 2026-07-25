@@ -21,6 +21,10 @@ sentences.
 
 The scoring protocol is defined in [rubric.md](rubric.md). Submission
 eligibility is tracked separately because no manuscript score can establish
-JOSS's demonstrated-research-impact gate. The same-author `vop_poc_nz`
-integration is the current research-workflow evidence; non-author activity is
-a strong positive signal, not a separate universal gate.
+JOSS's research-impact, open-development, or collaborative-effort gates. The
+same-author `vop_poc_nz` integration is current research-workflow evidence but
+not independent adoption. Under the 2026 criteria, credible reproducible
+materials can establish near-term scholarly significance, while a single-author
+project with no community engagement, external use, or collaborative input is
+separately classified as not acceptable. Automated agents do not satisfy that
+human gate.

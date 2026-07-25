@@ -58,13 +58,19 @@ study-value sensitivity scenarios, and machine-readable numerical results.
 The authenticated arXiv draft was rechecked on 24 July 2026 and remains
 submitted under submission number `7861466`; announcement and a permanent arXiv
 identifier remain external gates. The JOSS adaptation follows the current 2026
-screening and paper requirements, including design trade-offs, concrete
-developer research use, transparent AI-use disclosure, Software Heritage
-citation, a fail-closed local validator, and a pinned Open Journals draft build.
-Direct JOSS review is selected for the Rust-centred polyglot package. Issue #471
-tracks the remaining independent non-author installation and research-use
-evidence; authenticated submission, editorial review, acceptance, and DOI
-assignment remain explicit human or external gates.
+screening and paper requirements, including design trade-offs, specific
+reproducible material supporting credible near-term significance, transparent
+AI-use disclosure, Software Heritage citation, a fail-closed local validator,
+an exact 1,600 ±2% article contract, SourceRight citation reconciliation,
+selected Authentext pattern evidence, and a pinned Open Journals draft build.
+Direct JOSS review is selected for the
+Rust-centred polyglot package. Issue #471 tracks attributable human community
+engagement, external use, or collaborative input for the separate
+single-author screening criterion. Exact v2 release evidence, author-confirmed
+AI attestation, final human source verification, exact-revision PDF review,
+authenticated submission, editorial review, acceptance, and DOI assignment
+remain explicit human or external gates. The permanent arXiv identifier is the
+author's requested sequencing gate, not a JOSS eligibility requirement.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 from dataclasses import dataclass
+import filecmp
 from functools import lru_cache
 from math import sqrt
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -30,6 +33,12 @@ STUDY_FIXED_COST = 1_200_000.0
 STUDY_COST_PER_PARTICIPANT = 100.0
 BOOTSTRAP_REPLICATES = 1_000
 BOOTSTRAP_SEED = 20260724
+GENERATED_DATA_FILES = (
+    "synthetic_health_example_curve.csv",
+    "synthetic_health_example_results.csv",
+    "synthetic_health_example_sensitivity.csv",
+    "synthetic_health_example_summary.csv",
+)
 
 
 @dataclass(frozen=True)
@@ -272,6 +281,31 @@ def write_results(
 ) -> None:
     """Write machine-readable values behind the manuscript figure and prose."""
     output_directory.mkdir(parents=True, exist_ok=True)
+    with (output_directory / "synthetic_health_example_curve.csv").open(
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as stream:
+        writer = csv.DictWriter(
+            stream,
+            lineterminator="\n",
+            fieldnames=[
+                "value_per_qaly",
+                "probability_programme_preferred",
+            ],
+        )
+        writer.writeheader()
+        for threshold, probability in zip(
+            example.thresholds,
+            example.probability_cost_effective,
+            strict=True,
+        ):
+            writer.writerow(
+                {
+                    "value_per_qaly": f"{threshold:.2f}",
+                    "probability_programme_preferred": f"{probability:.8f}",
+                }
+            )
     with (output_directory / "synthetic_health_example_summary.csv").open(
         "w",
         newline="",
@@ -416,15 +450,24 @@ def render(example: HealthExample, output_stem: Path) -> None:
         partial_values,
         color=[green, orange],
     )
+    for position, value in enumerate(partial_values):
+        axis_b.text(
+            position,
+            value + 12,
+            f"{value:.0f}",
+            ha="center",
+            va="bottom",
+            fontsize=9,
+        )
     axis_b.axhline(
         example.evpi,
         color=purple,
         linestyle="--",
-        label="EVPI (all uncertainty)",
+        label="All uncertainty (EVPI)",
     )
     axis_b.set(
-        ylabel="Value units per person",
-        title="B  Priorities for further evidence",
+        ylabel="Value of resolving one input\n(EVPPI; units per person)",
+        title="B  Which uncertainty matters most?",
     )
     axis_b.legend(
         frameon=True,
@@ -452,8 +495,8 @@ def render(example: HealthExample, output_stem: Path) -> None:
     )
     axis_c.set(
         xlabel="Total study sample size",
-        ylabel="Population ENBS (million value units)",
-        title="C  Expected net benefit of sampling",
+        ylabel="Expected net benefit of sampling\n(million value units)",
+        title="C  Is the evidence worth its study cost?",
     )
     axis_c.legend(frameon=False, fontsize=9)
 
@@ -465,10 +508,14 @@ def render(example: HealthExample, output_stem: Path) -> None:
     figure.savefig(
         output_stem.with_suffix(".png"),
         dpi=300,
+        bbox_inches="tight",
+        pad_inches=0.08,
         metadata={"Software": "voiage"},
     )
     figure.savefig(
         output_stem.with_suffix(".pdf"),
+        bbox_inches="tight",
+        pad_inches=0.08,
         metadata={
             "Creator": "voiage",
             "CreationDate": None,
@@ -478,13 +525,56 @@ def render(example: HealthExample, output_stem: Path) -> None:
     plt.close(figure)
 
 
-def main() -> None:
-    """Generate the tracked manuscript figure and print review values."""
+def generate(output_directory: Path) -> HealthExample:
+    """Generate the example's data and figures beneath one output directory."""
     example = calculate_example()
     sensitivity = calculate_sensitivity()
-    output_stem = Path("paper/figures/synthetic_health_example")
+    output_stem = output_directory / "figures" / "synthetic_health_example"
     render(example, output_stem)
-    write_results(example, sensitivity, Path("paper/data"))
+    write_results(example, sensitivity, output_directory / "data")
+    return example
+
+
+def verify_tracked_outputs(tracked_directory: Path) -> None:
+    """Regenerate in a clean directory and compare portable tabular outputs."""
+    with TemporaryDirectory(prefix="voiage-paper-") as temporary:
+        generated_directory = Path(temporary)
+        generate(generated_directory)
+        for filename in GENERATED_DATA_FILES:
+            generated = generated_directory / "data" / filename
+            tracked = tracked_directory / "data" / filename
+            if not filecmp.cmp(generated, tracked, shallow=False):
+                raise RuntimeError(f"tracked paper output differs: {filename}")
+        for suffix in (".pdf", ".png"):
+            figure = (
+                generated_directory / "figures" / f"synthetic_health_example{suffix}"
+            )
+            if not figure.is_file() or figure.stat().st_size == 0:
+                raise RuntimeError(f"paper figure did not render: {figure.name}")
+
+
+def main() -> None:
+    """Generate or verify the deterministic manuscript example."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output-directory",
+        type=Path,
+        default=Path("paper"),
+        help="Directory containing the data and figures subdirectories.",
+    )
+    parser.add_argument(
+        "--verify-tracked",
+        action="store_true",
+        help="Regenerate in a clean directory and compare tracked CSV outputs.",
+    )
+    arguments = parser.parse_args()
+    if arguments.verify_tracked:
+        verify_tracked_outputs(arguments.output_directory)
+        print("tracked paper outputs match clean regeneration")
+        return
+
+    example = generate(arguments.output_directory)
+    output_stem = arguments.output_directory / "figures" / "synthetic_health_example"
     print(f"wrote {output_stem.with_suffix('.png')}")
     print(f"wrote {output_stem.with_suffix('.pdf')}")
     print(f"EVPI={example.evpi:.2f}")

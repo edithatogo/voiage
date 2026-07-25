@@ -3,18 +3,32 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 import shutil
 
-from scripts.validate_joss import validate_joss_package
+from scripts.audit_joss_sources import _sourceright_manuscript
+from scripts.validate_joss import _normalise_prose, validate_joss_package
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def _write_submission_metadata(destination: Path) -> None:
-    """Copy the checked-in discovery metadata into a temporary JOSS package."""
+    """Copy the checked-in contract surface into a temporary JOSS package."""
     for filename in ("CITATION.cff", "codemeta.json"):
         shutil.copy2(ROOT / filename, destination / filename)
+    shutil.copytree(ROOT / "paper", destination / "paper")
+    for directory in (
+        ".repo-tools",
+        "bindings",
+        "docs",
+        "r-package",
+        "rust",
+        "scripts",
+        "tests",
+        "voiage",
+    ):
+        (destination / directory).symlink_to(ROOT / directory, target_is_directory=True)
 
 
 def test_current_joss_package_satisfies_repository_contract() -> None:
@@ -50,11 +64,60 @@ def test_paper_reproduction_manifest_matches_tracked_outputs() -> None:
         if line.strip()
     ]
 
-    assert len(entries) == 5
+    assert len(entries) == 6
     for expected_digest, relative_path in entries:
         artefact = ROOT / relative_path
         assert artefact.is_file()
         assert hashlib.sha256(artefact.read_bytes()).hexdigest() == expected_digest
+
+
+def test_structured_reproduction_manifest_binds_inputs_and_outputs() -> None:
+    """The reviewer record declares identity, environment, seeds, and inputs."""
+    manifest = json.loads(
+        (ROOT / "paper/reproduction-manifest.json").read_text(encoding="utf-8")
+    )
+    checksum_entries = {
+        relative_path: expected_digest
+        for expected_digest, relative_path in (
+            line.split(maxsplit=1)
+            for line in (ROOT / "paper/reproduction.sha256")
+            .read_text(encoding="utf-8")
+            .splitlines()
+            if line.strip()
+        )
+    }
+
+    assert manifest["schema_version"] == "voiage.paper.reproduction.v1"
+    assert manifest["source_reference"] == "v2.0.0"
+    assert manifest["synthetic_data"] is True
+    assert manifest["seeds"] == {
+        "probabilistic_sensitivity_analysis": 20260723,
+        "bootstrap": 20260724,
+    }
+    assert (
+        manifest["lockfile"]["sha256"]
+        == hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest()
+    )
+    assert manifest["verification_command"].endswith("--verify-tracked")
+    assert manifest["inputs"]["probabilistic_sensitivity_analysis_draws"] == 10_000
+    assert manifest["inputs"]["evaluated_total_sample_sizes"] == [
+        50,
+        100,
+        200,
+        400,
+        800,
+        1_200,
+    ]
+    assert manifest["inputs"]["delayed_scenario_years"] == 2
+    assert manifest["inputs"]["delayed_scenario_value_realisation"] == 0.6
+    assert manifest["inputs"]["bootstrap_interval"] == {
+        "method": "paired percentile bootstrap of PSA draws",
+        "confidence_level": 0.95,
+    }
+    assert len(manifest["inputs"]["sensitivity_scenarios"]) == 9
+    assert {
+        item["path"]: item["sha256"] for item in manifest["outputs"]
+    } == checksum_entries
 
 
 def test_joss_workflow_uses_pinned_open_journals_builder() -> None:
@@ -66,10 +129,114 @@ def test_joss_workflow_uses_pinned_open_journals_builder() -> None:
         "openjournals/openjournals-draft-action@"
         "85a18372e48f551d8af9ddb7a747de685fbbb01c"
     ) in workflow
-    assert "python3 scripts/validate_joss.py" in workflow
+    assert "python scripts/validate_joss.py" in workflow
+    assert "generate_paper_health_example.py --verify-tracked" in workflow
+    assert "submodules: recursive" in workflow
+    assert "scripts/audit_joss_sources.py" in workflow
+    assert "scripts/audit_joss_authentext.py" in workflow
+    assert "scripts/audit_joss_readability.py" in workflow
+    assert "build/joss/article-contract-report.json" in workflow
+    assert "requirements-joss.txt" in workflow
     assert "if-no-files-found: error" in workflow
     assert '"CITATION.cff"' in workflow
     assert '"codemeta.json"' in workflow
+
+
+def test_joss_article_contract_has_exact_target_and_substantive_sections() -> None:
+    """The checked-in contract fixes the internal budget and section substance."""
+    contract = json.loads(
+        (ROOT / "paper/joss-article-contract.json").read_text(encoding="utf-8")
+    )
+
+    assert contract["word_count"] == {
+        "unit": (
+            "body words after YAML front matter, including headings and "
+            "figure descriptions"
+        ),
+        "official_minimum": 750,
+        "official_maximum": 1750,
+        "target": 1600,
+        "tolerance_fraction": 0.02,
+        "accepted_minimum": 1568,
+        "accepted_maximum": 1632,
+    }
+    assert contract["section_order"] == list(contract["sections"])
+    assert all(
+        rules["minimum_words"] <= rules["maximum_words"] and rules["requirements"]
+        for rules in contract["sections"].values()
+    )
+
+
+def test_joss_validator_rejects_internal_word_budget_drift(tmp_path: Path) -> None:
+    """The stricter 1,600 ±2% budget remains a fail-closed article gate."""
+    source = (ROOT / "paper.md").read_text(encoding="utf-8")
+    (tmp_path / "paper.md").write_text(
+        source.replace(
+            "The synthetic health example compares",
+            "Briefly, the synthetic health example compares",
+        )
+        + "\nAdditional uncontracted prose " * 10,
+        encoding="utf-8",
+    )
+    (tmp_path / "paper.bib").write_text(
+        (ROOT / "paper.bib").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    _write_submission_metadata(tmp_path)
+
+    findings = validate_joss_package(tmp_path)
+
+    assert any("contract target is 1600" in finding for finding in findings)
+
+
+def test_joss_validator_rejects_section_order_drift(tmp_path: Path) -> None:
+    """Required headings cannot pass when their article order changes."""
+    source = (ROOT / "paper.md").read_text(encoding="utf-8")
+    source = source.replace("# Statement of need", "# TEMPORARY")
+    source = source.replace("# State of the field", "# Statement of need")
+    source = source.replace("# TEMPORARY", "# State of the field")
+    (tmp_path / "paper.md").write_text(source, encoding="utf-8")
+    (tmp_path / "paper.bib").write_text(
+        (ROOT / "paper.bib").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    _write_submission_metadata(tmp_path)
+
+    findings = validate_joss_package(tmp_path)
+
+    assert any("section order differs" in finding for finding in findings)
+
+
+def test_joss_validator_rejects_unresolved_author_affiliation(tmp_path: Path) -> None:
+    """Structured YAML checks resolve every author affiliation by index."""
+    source = (ROOT / "paper.md").read_text(encoding="utf-8")
+    (tmp_path / "paper.md").write_text(
+        source.replace('affiliation: "1, 2, 3"', 'affiliation: "1, 2, 4"'),
+        encoding="utf-8",
+    )
+    (tmp_path / "paper.bib").write_text(
+        (ROOT / "paper.bib").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    _write_submission_metadata(tmp_path)
+
+    findings = validate_joss_package(tmp_path)
+
+    assert "paper.md author affiliation indices do not resolve: 4" in findings
+
+
+def test_sourceright_adapter_preserves_pandoc_citation_keys() -> None:
+    """SourceRight receives exact citation identifiers rather than styled prose."""
+    converted = _sourceright_manuscript("Evidence [@alpha2024; see @beta2025, p. 4].")
+
+    assert converted == r"Evidence \cite{alpha2024,beta2025}."
+
+
+def test_claim_reconciliation_ignores_markdown_link_destinations() -> None:
+    """Evidence claims compare authored prose rather than Markdown destinations."""
+    prose = "Derived from the [reproduction notes](paper/methods.md)."
+
+    assert _normalise_prose(prose) == "derived from the reproduction notes."
 
 
 def test_joss_validator_rejects_missing_required_section(tmp_path: Path) -> None:
@@ -126,9 +293,10 @@ def test_joss_validator_rejects_placeholder_bibliography_authors(
 
     findings = validate_joss_package(tmp_path)
 
-    assert findings == [
+    assert (
         "paper.bib contains placeholder author lists; record complete authors"
-    ]
+        in findings
+    )
 
 
 def test_joss_validator_rejects_discovery_metadata_version_drift(

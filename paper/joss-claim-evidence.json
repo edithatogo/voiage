@@ -1,0 +1,527 @@
+{
+  "schema_version": "voiage.joss-claim-evidence.v1",
+  "canonical_source": "paper.md",
+  "claims": [
+    {
+      "id": "summary-input-output",
+      "section": "Summary",
+      "statement": "`voiage` calculates EVPI and EVPPI from simulated results, analytical EVSI from a declared study model, and ENBS from EVSI and research costs.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "voiage/analysis.py"
+        },
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-numerics/src/evsi_normal_normal.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "voiage/methods/sample_information.py"
+        }
+      ]
+    },
+    {
+      "id": "summary-language-boundary",
+      "section": "Summary",
+      "statement": "EVPI uses the same Rust implementation from Python, R, and Julia; R also offers Python-backed EVPPI and EVSI, whereas Julia is EVPI-only.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-ffi/src/lib.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/R/voiageR.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/src/Voiage.jl"
+        }
+      ]
+    },
+    {
+      "id": "implemented-contribution",
+      "section": "Statement of need",
+      "statement": "It provides the same core EVPI calculation across several languages and a shared, structured reference for exchanging richer analysis records.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "voiage/contracts/analysis.py"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_numerical_reference_cases.py"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/test/runtests.jl"
+        }
+      ]
+    },
+    {
+      "id": "build-versus-contribute",
+      "section": "State of the field",
+      "statement": "Adding it to one language-specific package would make that ecosystem the gateway for the others. A separate core lets specialist packages remain independent while bindings share a versioned boundary.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-ffi/src/lib.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/R/voiageR.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/src/Voiage.jl"
+        }
+      ]
+    },
+    {
+      "id": "r-specialist-tooling",
+      "section": "State of the field",
+      "statement": "The R package `voi` implements several approaches to EVPI, EVPPI, EVSI, and ENBS.",
+      "status": "verified",
+      "citation_keys": [
+        "voi_cran2024"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "architecture-tradeoffs",
+      "section": "Software design",
+      "statement": "Independent implementations would simplify native packaging but could drift numerically. Routing every interface through Python would simplify the bindings but make Python mandatory. Direct native bindings instead preserve each language's workflow, at the cost of distributing the Rust library separately.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-ffi/src/lib.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/R/voiageR.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/src/Voiage.jl"
+        }
+      ]
+    },
+    {
+      "id": "stable-promotion-boundary",
+      "section": "Software design",
+      "statement": "Scientific checks for a method include specified inputs and outputs, comparison with equations derived separately from the implementation, and tests of repeated runs and invalid inputs. Stable promotion additionally requires cross-language and Rust parity, documentation, release records, and compatibility evidence.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "voiage/governance.py"
+        },
+        {
+          "type": "repository",
+          "locator": "docs/astro-site/src/content/docs/developer-guide/frontier-governance.mdx"
+        }
+      ]
+    },
+    {
+      "id": "implementation-adjustment",
+      "section": "State of the field",
+      "statement": "Implementation-adjusted methods also estimate how much value will be realised when new evidence does not fully change practice.",
+      "status": "verified",
+      "citation_keys": [
+        "andronis2016implementation"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "rust-evpi-boundary",
+      "section": "Software design",
+      "statement": "EVPI is calculated by one Rust implementation, whether the analyst works in Python, R, or Julia.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-numerics/src/lib.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_numerical_reference_cases.py"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/test/runtests.jl"
+        }
+      ]
+    },
+    {
+      "id": "stable-evsi-model",
+      "section": "Software design",
+      "statement": "The worked example uses a conjugate normal--normal EVSI calculation derived from the sampling model in the reproduction notes. It assumes equal allocation, known outcome variability, and a linear relationship between health gain and net benefit.",
+      "status": "verified",
+      "citation_keys": [
+        "ades2004evsi",
+        "rothery2020voi"
+      ],
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "rust/crates/voiage-numerics/src/evsi_normal_normal.rs"
+        },
+        {
+          "type": "repository",
+          "locator": "paper/health-example-methods.md"
+        }
+      ]
+    },
+    {
+      "id": "cross-language-verification",
+      "section": "Software design",
+      "statement": "Repository tests compare EVPI with hand-calculated cases in Python and Julia and with a native Rust-backed case in R. They compare analytical EVSI with a closed-form reference and reject invalid inputs.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "tests/test_numerical_reference_cases.py"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_paper_health_example.py"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/tests/testthat/test-native-ffi.R"
+        },
+        {
+          "type": "repository",
+          "locator": "bindings/julia/test/runtests.jl"
+        }
+      ]
+    },
+    {
+      "id": "worked-example-evpi-evppi",
+      "section": "Worked example",
+      "statement": "Estimated EVPI is 644 value units per person (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "generated-data",
+          "locator": "paper/data/synthetic_health_example_summary.csv"
+        },
+        {
+          "type": "checksum",
+          "locator": "paper/reproduction.sha256"
+        }
+      ]
+    },
+    {
+      "id": "worked-example-evsi",
+      "section": "Worked example",
+      "statement": "Under the stated assumptions, a 200-participant study has an EVSI of 124 value units per person.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "generated-data",
+          "locator": "paper/data/synthetic_health_example_results.csv"
+        },
+        {
+          "type": "repository",
+          "locator": "paper/health-example-methods.md"
+        }
+      ]
+    },
+    {
+      "id": "worked-example-enbs",
+      "section": "Worked example",
+      "statement": "With immediate, complete use, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% value realisation, it is negative at 800 and positive at 1,200.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "generated-data",
+          "locator": "paper/data/synthetic_health_example_results.csv"
+        }
+      ]
+    },
+    {
+      "id": "impact-boundary",
+      "section": "Research impact statement",
+      "statement": "This documents the intended interoperability mechanism, but not completed use or independent adoption.",
+      "status": "bounded",
+      "citation_keys": [
+        "vop_poc_nz2026"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        },
+        {
+          "type": "external-gate",
+          "locator": "https://github.com/edithatogo/voiage/issues/471"
+        }
+      ]
+    },
+    {
+      "id": "public-development-boundary",
+      "section": "Research impact statement",
+      "statement": "The package has been developed publicly since July 2025. Attributable non-author engagement or use has not yet been documented.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "repository-history",
+          "locator": "https://github.com/edithatogo/voiage/commits/main/"
+        },
+        {
+          "type": "external-gate",
+          "locator": "https://github.com/edithatogo/voiage/issues/471"
+        }
+      ]
+    },
+    {
+      "id": "ai-tool-versions",
+      "section": "AI usage disclosure",
+      "statement": "The current preparation environment records Codex CLI 0.144.1 and Jules CLI 0.1.42.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "editorial-assurance",
+          "locator": "paper/joss-editorial-assurance.json"
+        }
+      ]
+    },
+    {
+      "id": "archive-scope",
+      "section": "Software and data availability",
+      "statement": "The signed v1.0.0 tag is included in the Software Heritage snapshot `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.",
+      "status": "verified",
+      "citation_keys": [
+        "voiage_software_heritage"
+      ],
+      "evidence": [
+        {
+          "type": "release-evidence",
+          "locator": "docs/release/v1.0.0-release-evidence.json"
+        }
+      ]
+    },
+    {
+      "id": "reviewed-release-pending",
+      "section": "Software and data availability",
+      "statement": "The exact reviewed revision therefore requires a new release and archive before JOSS submission.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "readiness-manifest",
+          "locator": "paper/joss-readiness-manifest.json"
+        }
+      ]
+    },
+    {
+      "id": "result-context-fields",
+      "section": "Summary",
+      "statement": "A versioned specification records option names, units, input identifiers, and data-source references; typed results link back to it by digest.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "voiage/contracts/analysis.py"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_analysis_contracts.py"
+        },
+        {
+          "type": "specification",
+          "locator": "specs/core-api/decision-record.md"
+        }
+      ]
+    },
+    {
+      "id": "target-domain-boundary",
+      "section": "Statement of need",
+      "statement": "It is designed for analysts deciding whether further evidence is worth collecting in healthcare, public policy, economics, business, and related fields.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "repository",
+          "locator": "tests/test_multi_domain_comprehensive.py"
+        },
+        {
+          "type": "documentation",
+          "locator": "docs/astro-site/src/content/docs/cross-domain-usage.mdx"
+        }
+      ]
+    },
+    {
+      "id": "bcea-comparison",
+      "section": "State of the field",
+      "statement": "`BCEA` combines Bayesian cost-effectiveness analysis with VOI and graphical reporting",
+      "status": "verified",
+      "citation_keys": [
+        "green2022bcea"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "dampack-comparison",
+      "section": "State of the field",
+      "statement": "`dampack` supports analysis and visualisation of decision-model outputs, sensitivity analysis, and VOI",
+      "status": "verified",
+      "citation_keys": [
+        "dampack2024"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "savi-comparison",
+      "section": "State of the field",
+      "statement": "The Sheffield Accelerated Value of Information (SAVI) application provides web-based EVPI and regression-based EVPPI",
+      "status": "verified",
+      "citation_keys": [
+        "savi2025",
+        "strong2014evppi"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "python-comparisons",
+      "section": "State of the field",
+      "statement": "`value-of-information` estimates the value of a noisy signal about one uncertain option in a simplified binary decision",
+      "status": "verified",
+      "citation_keys": [
+        "adamczewski2022valueofinformation"
+      ],
+      "evidence": [
+        {
+          "type": "bibliography",
+          "locator": "paper.bib"
+        }
+      ]
+    },
+    {
+      "id": "cross-platform-installation",
+      "section": "Software design",
+      "statement": "Continuous integration tests Python wheels and native R installation on Linux, macOS, and Windows; Julia is currently tested on Ubuntu.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "workflow",
+          "locator": ".github/workflows/python-rust-bridge.yml"
+        },
+        {
+          "type": "workflow",
+          "locator": ".github/workflows/bindings-ci.yml"
+        }
+      ]
+    },
+    {
+      "id": "preference-bootstrap",
+      "section": "Worked example",
+      "statement": "The programme has positive incremental net benefit in 49.2% of simulations. Its paired 95% percentile-bootstrap interval is 48.2% to 50.2% and describes Monte Carlo sampling error rather than model uncertainty.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "generated-data",
+          "locator": "paper/data/synthetic_health_example_summary.csv"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_paper_health_example.py"
+        }
+      ]
+    },
+    {
+      "id": "sensitivity-boundary",
+      "section": "Worked example",
+      "statement": "Panel C shows conditional scenarios, not uncertainty intervals.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "generated-data",
+          "locator": "paper/data/synthetic_health_example_sensitivity.csv"
+        },
+        {
+          "type": "reproduction-manifest",
+          "locator": "paper/reproduction-manifest.json"
+        }
+      ]
+    },
+    {
+      "id": "clean-regeneration",
+      "section": "Research impact statement",
+      "statement": "The fixed-seed example, implementation-independent equations, sensitivity table, and clean regeneration allow others to inspect the calculations and outputs.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "checksum",
+          "locator": "paper/reproduction.sha256"
+        },
+        {
+          "type": "repository",
+          "locator": "tests/test_paper_health_example.py"
+        }
+      ]
+    },
+    {
+      "id": "ai-human-attestation",
+      "section": "AI usage disclosure",
+      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, reviewed, edited, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
+      "status": "bounded",
+      "evidence": [
+        {
+          "type": "human-gate",
+          "locator": "paper/joss-editorial-assurance.json"
+        }
+      ]
+    },
+    {
+      "id": "reproduction-manifest-contents",
+      "section": "Software and data availability",
+      "statement": "Its reproduction manifest records the inputs, fixed seeds, lockfile digest, output hashes, and verification command.",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "reproduction-manifest",
+          "locator": "paper/reproduction-manifest.json"
+        }
+      ]
+    }
+  ]
+}

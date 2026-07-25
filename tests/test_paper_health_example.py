@@ -1,6 +1,7 @@
 """Regression tests for the synthetic health example in the preprint."""
 
 from math import pi, sqrt
+from pathlib import Path
 
 import pytest
 
@@ -12,7 +13,9 @@ from scripts.generate_paper_health_example import (
     _bootstrap_intervals,
     calculate_example,
     calculate_sensitivity,
+    generate,
     normal_normal_evsi,
+    verify_tracked_outputs,
 )
 
 
@@ -128,3 +131,30 @@ def test_bootstrap_requires_enough_replicates() -> None:
             example.thresholds[:10],
             replicates=19,
         )
+
+
+def test_clean_regeneration_matches_tracked_tables(tmp_path: Path) -> None:
+    """Tracked portable results are regenerated without modifying the source."""
+    output_directory = tmp_path / "generated"
+    generate(output_directory)
+
+    for filename in (
+        "synthetic_health_example_curve.csv",
+        "synthetic_health_example_results.csv",
+        "synthetic_health_example_sensitivity.csv",
+        "synthetic_health_example_summary.csv",
+    ):
+        assert (output_directory / "data" / filename).read_bytes() == (
+            Path("paper") / "data" / filename
+        ).read_bytes()
+    assert (
+        (output_directory / "figures" / "synthetic_health_example.pdf").stat().st_size
+    )
+    assert (
+        (output_directory / "figures" / "synthetic_health_example.png").stat().st_size
+    )
+
+
+def test_verification_mode_accepts_current_tracked_outputs() -> None:
+    """The command-level verification path checks clean regeneration."""
+    verify_tracked_outputs(Path("paper"))

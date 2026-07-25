@@ -1,0 +1,64 @@
+{
+  "schema_version": "voiage.joss-readiness.v1",
+  "criteria_as_of": "2026-07-25",
+  "canonical_source": "paper.md",
+  "article_contract": "paper/joss-article-contract.json",
+  "source_assurance": {
+    "sourceright": {
+      "path": ".repo-tools/sourceright",
+      "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
+      "mode": "read_only",
+      "required_checks": [
+        "validate-csl",
+        "citations",
+        "provenance",
+        "citation-sync-preview"
+      ]
+    },
+    "authentext": {
+      "path": ".repo-tools/authentext",
+      "commit": "7f70dad5b6deab1af92faf037ef2638e7f3aea05",
+      "mode": "editorial_review",
+      "profiles_consulted": [
+        "core-patterns",
+        "academic"
+      ],
+      "automated_coverage": "selected deterministic blocking patterns"
+    },
+    "readability": {
+      "tool": "textstat",
+      "version": "0.7.13",
+      "status": "review_only",
+      "automatic_quality_threshold": false
+    }
+  },
+  "manuscript_gates": {
+    "article_contract": "in_progress",
+    "citation_and_source_audit": "in_progress",
+    "authentext_review": "in_progress",
+    "independent_panel_review": "in_progress",
+    "official_pdf_build_and_visual_review": "pending"
+  },
+  "repository_gates": {
+    "public_development_history": "ready",
+    "license_documentation_tests_and_contribution_paths": "ready",
+    "exact_reviewed_v2_release": "pending",
+    "exact_reviewed_immutable_archive": "pending"
+  },
+  "external_gates": {
+    "genuine_community_engagement_external_use_or_collaborative_input": "pending",
+    "joss_submission": "not_started",
+    "joss_editorial_screening_review_and_acceptance": "not_started"
+  },
+  "author_project_sequence": {
+    "permanent_arxiv_identifier_and_announcement_before_joss_submission": "pending",
+    "joss_requirement": false
+  },
+  "human_gates": [
+    "confirm the complete AI-use attestation and best-available historical model inventory",
+    "verify every cited source against the claim it supports",
+    "confirm authorship, funding, and competing interests",
+    "perform JOSS submission and communicate personally with editors and reviewers"
+  ],
+  "submission_performed": false
+}

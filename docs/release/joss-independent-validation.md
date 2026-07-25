@@ -2,11 +2,13 @@
 
 ## Purpose
 
-The Journal of Open Source Software (JOSS) screens for demonstrated research
-use. Non-author issues, pull requests, discussions, installation reports, and
-research use are strong positive signals for a single-author project.
-Automated agents, dependency bots, and another repository maintained by the
-same author are not independent evidence.
+The Journal of Open Source Software (JOSS) accepts specific reproducible
+materials as evidence of credible near-term scholarly significance. Its 2026
+collaborative-effort criterion separately classifies a single-author project
+with no community engagement, external use, or collaborative input as not
+acceptable. Non-author issues, pull requests, discussions, installation
+reports, and research use can provide that human evidence. Automated agents,
+dependency bots, and another repository maintained by the same author cannot.
 
 This protocol gives a non-author researcher or research-software practitioner a
 small, reproducible exercise. It does not ask for an endorsement. Problems,
@@ -114,7 +116,8 @@ supports that exact statement.
 
 ## Completion boundary
 
-This gate is complete only when a non-author has performed the exercise and
-reported attributable or editor-verifiable evidence. A locally repeated test,
-an AI-agent run, or an automated continuous-integration result does not satisfy
-it.
+This gate is complete when attributable or editor-verifiable evidence records
+genuine human community engagement, external use, or collaborative input. The
+exercise above is one route, not the only possible route. A locally repeated
+test, an AI-agent run, or an automated continuous-integration result does not
+satisfy it.

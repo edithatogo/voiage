@@ -44,8 +44,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   The arXiv-first manuscript lane is native subissue #312 under #299;
         PR #311 contains the final repository-owned review changes.
     *   Direct JOSS review is selected; native subissue #471 records the
-        independent non-author installation and research-use evidence required
-        before submission.
+        attributable human community engagement, external use, or
+        collaborative input required for the current single-author screening
+        criterion.
+    *   PR #480 contains the active multi-role JOSS review loop, plain-language
+        revision, explicit 1,600 ±2% article contract, SourceRight/AuthenText
+        assurance, claim-to-interface reconciliation, and reproducibility
+        evidence. The local manuscript contract passes at 1,615 words.
+        Exact v2 release identity, author-confirmed AI attestation, a freshly
+        reviewed Open Journals PDF, final human source verification, and the
+        external engagement record remain open.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 
@@ -74,13 +82,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [x] Harden the repository-owned JOSS submission package.
     *   Added current JOSS paper sections, field comparisons, design
-        trade-offs, concrete developer research uses, archive references, and
-        transparent AI-use boundaries.
+        trade-offs, reproducible near-term-significance evidence, archive
+        references, and transparent AI-use boundaries.
     *   Added a fail-closed validator and pinned Open Journals/Inara hosted PDF
         build.
+    *   Added a strict 2026 article contract, YAML and affiliation validation,
+        1,600 ±2% target, comprehensive claim ledger, queued SourceRight
+        sidecars, selected Authentext checks, and review-only Textstat evidence.
     *   Audited Python, Rust, R, and Julia reviewer installation paths and
-        retained funding confirmation, the permanent arXiv identifier, partner
-        route selection, submission, review, and acceptance as explicit gates.
+        retained v2 publication, community engagement, AI attestation, the
+        permanent arXiv identifier, submission, review, and acceptance as
+        explicit gates.
 
 *   [x] Strengthen the arXiv worked example with uncertainty and sensitivity
     evidence.

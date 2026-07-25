@@ -82,7 +82,8 @@ not impersonate JOSS editors or reviewers and cannot make acceptance decisions.
 
 The final report separately marks each current JOSS pre-review gate as ready,
 not ready, or externally pending. In particular, a >995 manuscript result does
-not prove demonstrated research impact. The panel must inspect the documented
-same-author research integration, while issue #471 seeks non-author activity
-as the strong positive signal identified by JOSS rather than treating it as a
-universal hard gate.
+not prove research impact or collaborative effort. The panel must distinguish
+specific reproducible material supporting credible near-term significance from
+the 2026 screening rule that a single-author project with no community
+engagement, external use, or collaborative input is not acceptable. Issue #471
+tracks genuine human evidence for that separate gate.
