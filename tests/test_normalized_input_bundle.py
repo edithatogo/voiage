@@ -557,6 +557,14 @@ def test_binding_rejects_incompatible_declared_unit() -> None:
         )
 
 
+def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
+    payload = _bundle().manifest.model_dump(mode="json")
+    payload["schema_version"] = "2.0.0"
+
+    with pytest.raises(ValidationError, match="1.0.0"):
+        DatasetManifest.model_validate_json(json.dumps(payload))
+
+
 def test_new_contract_validation_failure_paths() -> None:
     with pytest.raises(ValidationError, match="matching non-empty"):
         KeyReference(
