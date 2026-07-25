@@ -20,8 +20,11 @@
   (`25658925`; the versioned contract binds existing Rust direct-kernel and
   Python NumPy-oracle budgets to their executable sources and prohibits
   unmatched cross-language speedup claims)
-- [ ] Define deterministic parallel reduction, splittable RNG streams,
+- [x] Define deterministic parallel reduction, splittable RNG streams,
   streaming/out-of-core behavior, and memory/latency/energy profiles.
+  (`d0167c9e`; stable reductions are fixed-order sequential, EVSI streams are
+  indexed and splittable by contract, unsupported parallel/out-of-core modes
+  fail closed, and every stable method has bounded resource claims)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
