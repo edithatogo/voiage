@@ -1,6 +1,6 @@
 # Track Implementation Plan: Stable VOI Rust Core Completion
 
-## Phase 1: Numerical contract tests
+## Phase 1: Numerical contract tests [checkpoint: c5a7ad0e]
 
 - [x] Add failing analytical, property, error, RNG, and serialization tests.
   (`ebd32c6b`; net-benefit is deterministic and array-returning, so RNG and
@@ -25,9 +25,16 @@
   (`d0167c9e`; stable reductions are fixed-order sequential, EVSI streams are
   indexed and splittable by contract, unsupported parallel/out-of-core modes
   fail closed, and every stable method has bounded resource claims)
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update. (`25658925`, `d0167c9e`, and Conductor evidence commits
+  `fa7217a9` and `f71224a7`)
+- [x] Review Fixes. (`6cf10968`; refreshed the reviewed ecosystem workflow
+  digest after the Phase 1 CI mutation job was added; no scientific or runtime
+  contract changed)
+- [x] Automated review and validation checkpoint. (`c5a7ad0e`; 2101 Python
+  tests passed with 16 documented skips, the Rust workspace and warnings-denied
+  clippy passed, all tox environments passed with 90.99% coverage, Astro built
+  708 pages with valid links, and local/live GitHub reconciliation passed)
 - [ ] Conductor - User Manual Verification 'Phase 1: Numerical contract tests'
   (Protocol in workflow.md).
 
