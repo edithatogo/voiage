@@ -49,8 +49,12 @@
   (`f89e70c2`; analytical/property/error coverage, the CI-gated foundational
   benchmark, shared Python/Rust normal-edge-invalid fixtures, and a fail-closed
   bounded Rust mutation audit are complete)
-- [ ] Validate analytical oracles, independent references, and metamorphic
-  invariants in addition to differential fixtures.
+- [x] Validate analytical oracles, independent references, and metamorphic
+  invariants in addition to differential fixtures. (`2cd23b7b`; a
+  schema-validated map covers all 11 stable profiles, adds exact and affine
+  two-loop Python evidence plus structural Rust properties, treats
+  differential tests as supplementary, and exposes the two-loop Rust-authority
+  gap)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
