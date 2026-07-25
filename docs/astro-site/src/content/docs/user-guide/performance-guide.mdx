@@ -20,6 +20,21 @@ warmup and repeated-sample intervals, runner and toolchain identity, and
 platform evidence. Until that gate passes, each budget is only a regression
 guard for its own declared runner cohort.
 
+## Determinism, streaming, and resources
+
+The
+[`stable-core-scalability.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-scalability.json)
+contract defines the current supported boundary. Stable Rust reductions use
+fixed sequential input order. The EVSI bootstrap assigns a deterministic RNG
+stream to each `(seed, resample index)` pair, but parallel execution is not yet
+a supported stable mode. Rust stable-core inputs remain materialized; Python
+chunking options do not establish Rust streaming or out-of-core execution.
+
+Each stable estimator has a declared memory model and latency-evidence source.
+Energy has not yet been measured, so the project makes no energy-efficiency
+claim. Parallel reduction and out-of-core promotion require shared fixtures,
+fixed merge order, bounded-memory evidence, and failure-recovery tests.
+
 Hardware lanes remain evidence-gated: **FPGA: separate execution lane** and
 **ASIC: contract-gated custom-circuit lane** are not production claims until
 reviewed device-backed evidence exists.

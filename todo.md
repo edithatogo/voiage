@@ -26,8 +26,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             estimator-family policy freezes statistical assurance and its
             portable runtime envelope. Existing Python and Rust performance
             budgets are now bound to their distinct execution boundaries
-            without making an invalid speedup comparison. Implementation of
-            runtime envelopes plus matched and resource evidence remains open.
+            without making an invalid speedup comparison. Stable reduction,
+            RNG-stream, streaming/out-of-core, memory, latency, and energy
+            claim boundaries are now explicit. Implementation of runtime
+            envelopes plus parallel, matched, and measured resource evidence
+            remains open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

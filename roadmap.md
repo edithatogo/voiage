@@ -34,6 +34,12 @@ contracted separately because they exercise different execution boundaries;
 no cross-language speedup claim is permitted without a matched hosted
 benchmark.
 
+The stable scalability contract now records fixed sequential reduction,
+indexed EVSI random streams, materialized-input boundaries, method-specific
+memory models, latency evidence, and the absence of an energy claim. Parallel
+reduction, Rust out-of-core execution, and measured energy profiles remain
+promotion-gated rather than being inferred from Python orchestration helpers.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,
