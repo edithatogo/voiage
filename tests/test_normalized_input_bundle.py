@@ -186,6 +186,61 @@ def test_preparation_quality_report_records_keys_and_explicit_noop_decisions() -
     assert report.selected_partitions == ()
 
 
+def test_preparation_never_implicitly_changes_the_selected_population() -> None:
+    """Wide preparation must retain row order and multiplicity exactly as supplied."""
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="no-implicit-population-change",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy_a", dtype="float64"),
+                        FieldManifest(field_id="strategy_b", dtype="float64"),
+                        FieldManifest(
+                            field_id="excluded_from_binding", dtype="float64"
+                        ),
+                    ),
+                    primary_key=("sample_id",),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("strategy_a", "strategy_b"),
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [4, 1, 1, 3],
+                    "strategy_a": [4.0, 1.0, 1.0, 3.0],
+                    "strategy_b": [0.0, 2.0, 2.0, 1.0],
+                    "excluded_from_binding": [99.0, 99.0, 99.0, 99.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle)
+
+    assert prepared.net_benefits.numpy_values.tolist() == [
+        [4.0, 0.0],
+        [1.0, 2.0],
+        [1.0, 2.0],
+        [3.0, 1.0],
+    ]
+    assert prepared.quality_report.row_count == 4
+    assert prepared.quality_report.duplicate_row_count == 1
+    assert prepared.quality_report.coercions == ()
+    assert prepared.quality_report.exclusions == ()
+    assert prepared.quality_report.population_transforms == ()
+
+
 def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> None:
     prepared = prepare_analysis_inputs(_bundle())
     spec = analysis_spec_from_prepared_inputs(
