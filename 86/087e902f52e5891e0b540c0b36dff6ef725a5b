@@ -1,0 +1,3 @@
+Fix: conda-forge native build contract
+
+Hide conda-build synthetic Git metadata so the signed sdist embedded provenance is authoritative, and declare the C standard library so Windows runtime dependencies are exported. Added workflow contract assertions.
