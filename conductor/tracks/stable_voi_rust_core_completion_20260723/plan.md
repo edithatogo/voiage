@@ -72,7 +72,10 @@
   (`2b6ca058`; 2108 top-level tests, the Rust workspace, all tox environments,
   92.46% coverage, ten hosted checks, four-of-four bounded mutation kills, and
   native benchmarks within declared budgets passed)
-- [ ] Reconcile docs, roadmap, changelog, capabilities, and maturity.
+- [x] Reconcile docs, roadmap, changelog, capabilities, and maturity.
+  (`7cfd9525`; a generated status registry now joins the normative stable-core
+  contracts and keeps API stability distinct from method assurance and
+  aggregate v1.1 release readiness)
 - [ ] Record v1.1 promotion evidence and unresolved external gates.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
