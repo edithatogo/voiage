@@ -65,7 +65,5 @@ def test_croissant_offline_identity_fixture_preserves_governance() -> None:
     )
 
     assert bundle.manifest.extensions == {
-        "mlcommons.org:croissant-governance": {
-            "@id": "https://example.invalid/dataset"
-        }
+        "mlcommons.org:croissant-governance": {"@id": "https://example.invalid/dataset"}
     }
