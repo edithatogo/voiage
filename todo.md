@@ -37,6 +37,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             keeps stable API maturity distinct from v1.1 method eligibility and
             aggregate release readiness; it fails closed on the remaining
             method, repository, and human gates.
+        *   Runtime-envelope integration has started with expected opportunity
+            loss: Rust reports selected-strategy variance and Monte Carlo
+            standard error, Python exposes a typed envelope, and serialization
+            preserves it. Replication and convergence assurance plus the
+            remaining estimator families are still open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

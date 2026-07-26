@@ -17,6 +17,14 @@ pub struct ExpectedLossKernelResult {
     pub sample_count: usize,
     /// Number of decision strategies.
     pub strategy_count: usize,
+    /// Unbiased sample variance of opportunity loss for the selected strategy.
+    ///
+    /// This is unavailable for a single supplied draw.
+    pub opportunity_loss_variance: Option<f64>,
+    /// Standard error of the selected strategy's mean opportunity loss.
+    ///
+    /// This is unavailable for a single supplied draw.
+    pub monte_carlo_standard_error: Option<f64>,
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -31,6 +39,30 @@ impl CompensatedSum {
         let next = self.total + corrected;
         self.compensation = (next - self.total) - corrected;
         self.total = next;
+    }
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+struct RunningMoments {
+    count: u32,
+    mean: f64,
+    squared_deviation_total: f64,
+}
+
+impl RunningMoments {
+    fn add(&mut self, value: f64) {
+        self.count = self.count.saturating_add(1);
+        let delta = value - self.mean;
+        self.mean += delta / f64::from(self.count);
+        let next_delta = value - self.mean;
+        self.squared_deviation_total += delta * next_delta;
+    }
+
+    fn sample_variance(self) -> Option<f64> {
+        (self.count > 1).then(|| {
+            let variance = self.squared_deviation_total / f64::from(self.count - 1);
+            variance.max(0.0)
+        })
     }
 }
 
@@ -57,6 +89,7 @@ pub fn expected_loss(
     })?);
     let mut benefit_totals = vec![CompensatedSum::default(); strategy_count];
     let mut loss_totals = vec![CompensatedSum::default(); strategy_count];
+    let mut loss_moments = vec![RunningMoments::default(); strategy_count];
 
     for row in net_benefit.rows() {
         let sample_optimum = row.iter().copied().fold(f64::NEG_INFINITY, f64::max);
@@ -70,6 +103,7 @@ pub fn expected_loss(
                 ));
             }
             loss_totals[strategy].add(loss);
+            loss_moments[strategy].add(loss);
         }
     }
 
@@ -102,6 +136,19 @@ pub fn expected_loss(
     }
     let minimum_expected_opportunity_loss =
         expected_opportunity_loss_by_strategy[optimal_strategy_index];
+    let opportunity_loss_variance = loss_moments[optimal_strategy_index].sample_variance();
+    let monte_carlo_standard_error =
+        opportunity_loss_variance.map(|variance| (variance / divisor).sqrt());
+    if opportunity_loss_variance
+        .into_iter()
+        .chain(monte_carlo_standard_error)
+        .any(|value| !value.is_finite())
+    {
+        return Err(NumericalInputError::invalid(
+            "net_benefit",
+            "opportunity-loss sampling uncertainty is not finite",
+        ));
+    }
 
     Ok(ExpectedLossKernelResult {
         expected_net_benefit_by_strategy,
@@ -110,5 +157,7 @@ pub fn expected_loss(
         minimum_expected_opportunity_loss,
         sample_count,
         strategy_count,
+        opportunity_loss_variance,
+        monte_carlo_standard_error,
     })
 }

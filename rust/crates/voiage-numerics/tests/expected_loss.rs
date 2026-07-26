@@ -26,6 +26,10 @@ fn expected_loss_matches_the_analytical_fixture() {
     assert!((result.expected_opportunity_loss_by_strategy[0] - 1.0).abs() <= 1.0e-12);
     assert!((result.expected_opportunity_loss_by_strategy[1] - 2.0 / 3.0).abs() <= 1.0e-12);
     assert!((result.minimum_expected_opportunity_loss - 2.0 / 3.0).abs() <= 1.0e-12);
+    assert!((result.opportunity_loss_variance.expect("variance") - 4.0 / 3.0).abs() <= 1.0e-12);
+    assert!(
+        (result.monte_carlo_standard_error.expect("standard error") - 2.0 / 3.0).abs() <= 1.0e-12
+    );
 }
 
 #[test]
@@ -48,6 +52,18 @@ fn expected_loss_is_zero_for_a_single_strategy() {
     assert_eq!(result.optimal_strategy_index, 0);
     assert_eq!(result.expected_opportunity_loss_by_strategy, vec![0.0]);
     assert!(result.minimum_expected_opportunity_loss.abs() <= 1.0e-12);
+    assert_eq!(result.opportunity_loss_variance, Some(0.0));
+    assert_eq!(result.monte_carlo_standard_error, Some(0.0));
+}
+
+#[test]
+fn one_sample_reports_unavailable_sampling_uncertainty() {
+    let samples = matrix(&[&[1.0, 3.0]]);
+
+    let result = expected_loss(&samples).expect("expected loss should be computable");
+
+    assert_eq!(result.opportunity_loss_variance, None);
+    assert_eq!(result.monte_carlo_standard_error, None);
 }
 
 #[test]

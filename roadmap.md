@@ -55,6 +55,13 @@ while runtime statistical envelopes, matched cross-language performance,
 dependency-frontier remediation, and the three manual phase reviews remain
 open.
 
+Expected opportunity loss is the first sample-average method with a runtime
+statistical-assurance envelope. Rust now owns its selected-strategy sampling
+variance and Monte Carlo standard error; Python exposes the typed envelope and
+canonical serialization preserves it. Replication, convergence, effective
+sample size, and RNG identity are not inferred from supplied draws, so method
+promotion remains open while the remaining estimator families are integrated.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

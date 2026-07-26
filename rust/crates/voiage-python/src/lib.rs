@@ -15,6 +15,7 @@ use sha2::{Digest, Sha256};
 use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
+use std::time::Instant;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
@@ -486,6 +487,7 @@ fn compute_expected_loss<'py>(
     py: Python<'py>,
     net_benefit: &Bound<'_, PyAny>,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let result = expected_loss(&net_benefit).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
@@ -509,6 +511,59 @@ fn compute_expected_loss<'py>(
     )?;
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
+
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "sample-average")?;
+    assurance.set_item(
+        "bias_assessment",
+        if result.sample_count == 1 {
+            "Sampling uncertainty is unavailable from a single supplied draw."
+        } else {
+            "Finite-sample and input-draw bias remain application-dependent; \
+             the reported variance treats supplied draws as an unweighted sample."
+        },
+    )?;
+    assurance.set_item("variance_estimate", result.opportunity_loss_variance)?;
+    assurance.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    if let Some(standard_error) = result.monte_carlo_standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item(
+            "lower",
+            (result.minimum_expected_opportunity_loss - 1.959_963_984_540_054 * standard_error)
+                .max(0.0),
+        )?;
+        interval.set_item(
+            "upper",
+            result.minimum_expected_opportunity_loss + 1.959_963_984_540_054 * standard_error,
+        )?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", result.sample_count)?;
+    budget.set_item(
+        "evaluations",
+        result.sample_count.saturating_mul(result.strategy_count),
+    )?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
     Ok(output)
 }
 
@@ -1482,6 +1537,32 @@ mod tests {
             assert!((losses[0] - 1.0).abs() <= 1.0e-12);
             assert!((losses[1] - 2.0 / 3.0).abs() <= 1.0e-12);
             assert_eq!(optimal, 1);
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("reporting_class")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "sample-average"
+            );
+            assert!(
+                (assurance
+                    .get_item("monte_carlo_standard_error")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    - 2.0 / 3.0)
+                    .abs()
+                    <= 1.0e-12
+            );
         });
     }
 

@@ -41,6 +41,12 @@ def test_status_keeps_api_maturity_distinct_from_v11_assurance() -> None:
     assert all(record["api_maturity"] == "stable" for record in by_id.values())
     assert by_id["net-benefit"]["v1_1_assurance_state"] == "eligible"
     assert by_id["dominance"]["v1_1_assurance_state"] == "eligible"
+    assert by_id["expected-loss"]["runtime_assurance_state"] == (
+        "integrated-incomplete-assurance"
+    )
+    assert by_id["expected-loss"]["open_gates"] == [
+        "replication-and-convergence-assurance"
+    ]
     assert by_id["evsi-nested-mc"]["authority_boundary"] == (
         "python-compatibility-path"
     )

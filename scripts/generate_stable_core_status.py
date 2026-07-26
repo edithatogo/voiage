@@ -37,6 +37,8 @@ def _load(relative_path: str) -> dict[str, Any]:
 def _runtime_state(method_id: str, reporting_class: str) -> str:
     if method_id in {"net-benefit", "dominance"}:
         return "not-applicable-deterministic"
+    if method_id == "expected-loss":
+        return "integrated-incomplete-assurance"
     if method_id == "enbs":
         return "inherits-open-evsi-gate"
     if reporting_class == "deterministic":
@@ -73,6 +75,8 @@ def generate_status() -> dict[str, Any]:
             open_gates.append("estimator-assurance-evidence")
         if runtime_state == "inherits-open-evsi-gate":
             open_gates.append("upstream-evsi-assurance")
+        elif runtime_state == "integrated-incomplete-assurance":
+            open_gates.append("replication-and-convergence-assurance")
         elif runtime_state == "contract-defined-runtime-not-integrated":
             open_gates.append("runtime-statistical-envelope-integration")
 

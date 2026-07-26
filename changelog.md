@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added Rust-owned runtime statistical assurance for expected opportunity
+  loss, including sample variance, Monte Carlo standard error, a disclosed
+  confidence interval, computational budget, numerical-error policy, a typed
+  Python envelope, and canonical serialized reporting.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

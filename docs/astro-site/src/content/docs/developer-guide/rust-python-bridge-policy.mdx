@@ -59,3 +59,11 @@ eligibility and aggregate release readiness. Only deterministic net-benefit
 and dominance currently have no estimator-family runtime envelope to
 integrate; ENBS inherits its EVSI input assurance, and the other profiles
 retain explicit runtime-assurance gates.
+
+Expected opportunity loss now provides the first Rust-owned sample-average
+runtime envelope. It reports the selected strategy's unbiased opportunity-loss
+variance, Monte Carlo standard error, a disclosed normal-approximation
+interval, supplied-draw budget, elapsed time, and numerical policy. It does
+not infer independence, RNG identity, convergence, or effective sample size
+from an unlabelled input matrix. Replication and convergence evidence therefore
+remain open before v1.1 assurance promotion.

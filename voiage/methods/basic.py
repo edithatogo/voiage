@@ -20,6 +20,7 @@ from voiage.exceptions import (
     raise_input_error,
 )
 from voiage.schema import ParameterSet as PSASample
+from voiage.statistical_assurance import StatisticalAssurance
 
 if TYPE_CHECKING:
     from voiage.schema import ValueArray
@@ -67,6 +68,7 @@ class ExpectedLossResult:
     sample_count: int
     strategy_count: int
     strategy_names: list[str]
+    assurance: StatisticalAssurance | None = None
 
     def to_dict(
         self,
@@ -89,7 +91,11 @@ class ExpectedLossResult:
             minimum_expected_opportunity_loss=self.minimum_expected_opportunity_loss,
             sample_count=self.sample_count,
             method="expected-opportunity-loss",
-            reporting=None,
+            reporting=(
+                {"statistical_assurance": self.assurance.to_dict()}
+                if self.assurance is not None
+                else None
+            ),
         )
 
 
@@ -154,6 +160,7 @@ def expected_loss(
         sample_count=int(payload["sample_count"]),
         strategy_count=int(payload["strategy_count"]),
         strategy_names=strategy_names,
+        assurance=StatisticalAssurance.from_mapping(payload["statistical_assurance"]),
     )
 
 

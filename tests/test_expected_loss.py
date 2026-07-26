@@ -15,6 +15,9 @@ from voiage.methods.basic import evpi
 from voiage.schema import ValueArray
 
 ROOT = Path(__file__).parents[1]
+ASSURANCE_SCHEMA = ROOT / (
+    "specs/v1/schemas/statistical-assurance-envelope.schema.json"
+)
 
 
 def test_expected_loss_matches_analytical_fixture_and_evpi() -> None:
@@ -39,6 +42,43 @@ def test_expected_loss_matches_analytical_fixture_and_evpi() -> None:
         [1.0, 2.0 / 3.0],
     )
     assert result.minimum_expected_opportunity_loss == pytest.approx(evpi(values))
+    assert result.assurance is not None
+    assert result.assurance.reporting_class == "sample-average"
+    assert result.assurance.variance_estimate == pytest.approx(4.0 / 3.0)
+    assert result.assurance.monte_carlo_standard_error == pytest.approx(2.0 / 3.0)
+    assert result.assurance.replications == 1
+    assert result.assurance.budget.draws == 3
+    assert result.assurance.budget.evaluations == 6
+    assert result.assurance.stopping_reason == "fixed-budget"
+
+
+def test_expected_loss_assurance_conforms_to_the_portable_schema() -> None:
+    result = expected_loss(np.array([[10.0, 12.0], [11.0, 9.0], [13.0, 14.0]]))
+
+    assurance = result.assurance
+
+    assert assurance is not None
+    payload = assurance.to_dict()
+    Draft202012Validator(
+        json.loads(ASSURANCE_SCHEMA.read_text(encoding="utf-8"))
+    ).validate(payload)
+    assert payload["confidence_interval"]["lower"] == 0.0
+    assert payload["confidence_interval"]["upper"] == pytest.approx(
+        2.0 / 3.0 + 1.959963984540054 * 2.0 / 3.0
+    )
+    json.dumps(payload, allow_nan=False)
+
+
+def test_one_sample_expected_loss_discloses_unavailable_uncertainty() -> None:
+    result = expected_loss(np.array([[1.0, 3.0]]))
+
+    assurance = result.assurance
+
+    assert assurance is not None
+    assert assurance.variance_estimate is None
+    assert assurance.monte_carlo_standard_error is None
+    assert assurance.confidence_interval is None
+    assert "single supplied draw" in assurance.bias_assessment
 
 
 def test_expected_loss_accepts_value_array_and_uses_first_tie() -> None:
@@ -84,6 +124,7 @@ def test_expected_loss_serializes_to_the_closed_result_schema() -> None:
     Draft202012Validator(schema).validate(payload)
     assert payload["analysis_type"] == "expected_loss"
     assert payload["method"] == "expected-opportunity-loss"
+    assert payload["reporting"]["statistical_assurance"] == (result.assurance.to_dict())
     json.dumps(payload, allow_nan=False)
 
 
