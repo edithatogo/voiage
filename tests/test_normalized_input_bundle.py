@@ -294,6 +294,56 @@ def test_preparation_pivots_an_explicit_long_net_benefit_table() -> None:
     assert prepared.quality_report.exclusions == ()
 
 
+def test_wide_and_long_normalized_inputs_are_evpi_equivalent() -> None:
+    wide = _bundle()
+    long = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="equivalent-long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="value", dtype="float64"),
+                    ),
+                    primary_key=("sample_id", "strategy"),
+                ),
+            ),
+            provenance=wide.manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("value",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="value",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [0, 0, 1, 1],
+                    "strategy": ["A", "B", "A", "B"],
+                    "value": [1.0, 2.0, 3.0, 1.0],
+                }
+            )
+        },
+    )
+
+    wide_prepared = prepare_analysis_inputs(wide)
+    long_prepared = prepare_analysis_inputs(long)
+
+    assert long_prepared.net_benefits == wide_prepared.net_benefits
+    assert evpi(long_prepared.net_benefits.numpy_values) == pytest.approx(
+        evpi(wide_prepared.net_benefits.numpy_values)
+    )
+
+
 def test_preparation_derives_net_benefit_from_explicit_cost_outcome_bindings() -> None:
     bundle = NormalizedInputBundle(
         manifest=DatasetManifest(
