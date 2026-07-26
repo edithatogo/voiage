@@ -89,3 +89,19 @@
   pages, generated-contract drift checks, and live reconciliation passed)
 - [ ] Conductor - User Manual Verification 'Phase 3: Stable-core evidence'
   (Protocol in workflow.md).
+
+## Phase 4: Runtime statistical assurance
+
+- [x] Add Rust-owned sample-average assurance to expected loss and propagate it
+  through the typed Python result and canonical serialization. (`41253fc9`;
+  Rust owns variance and Monte Carlo standard error, the typed portable
+  envelope is serialized canonically, and unavailable replication,
+  convergence, ESS, and RNG evidence remains explicit)
+- [ ] Integrate statistically valid envelopes for the remaining stable
+  sample-average, regression, nested-Monte-Carlo, and moment-matching methods.
+- [ ] Regenerate stable-core maturity and promotion evidence from runtime
+  assurance coverage.
+- [ ] Commit, attach git notes, record task SHAs, and reconcile evidence.
+- [ ] Automated review and validation checkpoint.
+- [ ] Conductor - User Manual Verification
+  'Phase 4: Runtime statistical assurance' (Protocol in workflow.md).
