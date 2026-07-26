@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a second standardized-ingestion reference case that derives EVPI from
   explicit cost and outcome bindings across Croissant, Frictionless, and direct
   Arrow inputs.
+- Documented the conservative Croissant, Frictionless, and DataFrame
+  interoperability profiles and their explicit unsupported boundaries.
 - Added `voiage ingest validate` for safe, machine-readable validation of a
   supported dataset descriptor and its declared local resources.
 - Expanded `voiage ingest inspect` with stable provider capabilities, safe
