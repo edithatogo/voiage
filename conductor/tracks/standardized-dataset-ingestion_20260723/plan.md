@@ -22,8 +22,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   stale-reference, unit-incompatibility, and namespaced-extension tests. (`a2e082f`)
 - [x] **P1-T6 / AC-01:** Verify that the core contract imports no external
   ingestion dependency. (`b13a76c`)
-- [ ] **P1-T7 / AC-01, AC-10:** Run automated review, focused tests, schema validation,
-  Arrow/Polars fresh-process round trips, and the phase checkpoint protocol.
+- [x] **P1-T7 / AC-01, AC-10:** Run automated review, focused tests, schema validation,
+  Arrow/Polars fresh-process round trips, and the phase checkpoint protocol. (#523)
 
 ## Phase 2 — Prepare existing VOI runtime inputs (#327)
 
