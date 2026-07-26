@@ -304,7 +304,7 @@ jobs:
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
       - name: Download all release artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: voiage-*
           path: dist
@@ -355,7 +355,7 @@ jobs:
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
           test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
       - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: voiage-attested-release
           path: dist
@@ -450,7 +450,7 @@ jobs:
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
       - name: Download reviewed release payload
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: reviewed-release-payload
           path: dist
@@ -543,7 +543,7 @@ jobs:
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
       - name: Download reviewed release payload
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: reviewed-release-payload
           path: dist
@@ -585,7 +585,7 @@ jobs:
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
       - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: voiage-attested-release
           path: dist
