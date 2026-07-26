@@ -32,9 +32,18 @@ class ProviderCapabilities:
 class SourceAccessPolicy:
     """Fail-closed local source policy for descriptor-relative resources."""
 
-    def __init__(self, root: Path, *, allow_network: bool = False) -> None:
+    def __init__(
+        self,
+        root: Path,
+        *,
+        allow_network: bool = False,
+        max_resource_bytes: int = 512 * 1024 * 1024,
+    ) -> None:
+        if max_resource_bytes <= 0:
+            raise ValueError("max_resource_bytes must be positive")
         self.root = root.resolve()
         self.allow_network = allow_network
+        self.max_resource_bytes = max_resource_bytes
 
     def resolve(self, reference: str) -> Path:
         """Resolve a relative local reference without allowing path traversal."""
@@ -47,6 +56,8 @@ class SourceAccessPolicy:
             raise IngestionError("resource path escapes the configured source root")
         if not candidate.is_file():
             raise IngestionError("declared resource does not exist")
+        if candidate.stat().st_size > self.max_resource_bytes:
+            raise IngestionError("declared resource exceeds configured size limit")
         return candidate
 
 

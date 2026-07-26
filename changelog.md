@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   supported dataset descriptor and its declared local resources.
 - Expanded `voiage ingest inspect` with stable provider capabilities, safe
   provenance, preserved governance metadata, and ingestion diagnostics.
+- Added fail-closed configurable local-resource size limits to standardized
+  ingestion source policies.
 
 ### Changed
 
