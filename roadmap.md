@@ -74,6 +74,12 @@ assurance envelope per threshold. Runtime serialization coverage is therefore
 complete for the stable profiles, while replicated convergence,
 estimator-specific validation, and promotion evidence remain open.
 
+EVSI estimators now have an explicit independent-replication boundary:
+callers provide estimates from unique seeds, and Rust reports between-run
+variance, Monte Carlo error, a confidence interval, and split-half relative
+mean convergence. The committed fixture covers nested Monte Carlo; regression
+and moment estimators retain their separate estimator-validation gates.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

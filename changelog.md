@@ -40,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   EVPI/EVPPI while preserving their scalar APIs. CEAF now reports a separate
   typed assurance envelope for each threshold, avoiding an ambiguous scalar
   summary for its vector-valued frontier.
+- Added a Rust-owned independent-replication summary for EVSI estimators with
+  unique seed enforcement, between-run variance and Monte Carlo error,
+  split-half convergence, typed Python results, and fail-closed validation.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

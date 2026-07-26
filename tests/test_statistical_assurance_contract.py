@@ -6,6 +6,10 @@ import json
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
+import pytest
+
+from voiage.exceptions import InputError
+from voiage.statistical_assurance import summarize_evsi_replications
 
 POLICY_PATH = Path("specs/v1/stable-estimator-statistical-assurance.json")
 POLICY_SCHEMA_PATH = Path("specs/v1/stable-estimator-statistical-assurance.schema.json")
@@ -70,3 +74,28 @@ def test_effective_sample_size_is_required_only_when_statistically_meaningful() 
 
     for profile in profiles:
         assert profile["effective_sample_size_policy"] in allowed
+
+
+def test_independent_evsi_replications_produce_typed_convergence_evidence() -> None:
+    result = summarize_evsi_replications(
+        [1.0, 1.1, 0.9, 1.0],
+        [11, 12, 13, 14],
+        reporting_class="nested-monte-carlo",
+        relative_tolerance=0.2,
+    )
+
+    assert result.estimate == pytest.approx(1.0)
+    assert result.replication_seeds == (11, 12, 13, 14)
+    assert result.assurance.replications == 4
+    assert result.assurance.convergence is not None
+    assert result.assurance.convergence.converged
+    assert result.assurance.monte_carlo_standard_error is not None
+
+
+def test_evsi_replication_summary_rejects_duplicate_seeds() -> None:
+    with pytest.raises(InputError, match="unique seeds"):
+        summarize_evsi_replications(
+            [1.0, 1.1],
+            [11, 11],
+            reporting_class="nested-monte-carlo",
+        )

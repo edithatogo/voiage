@@ -267,6 +267,25 @@ def compute_evsi(
     return dict(result)
 
 
+def summarize_evsi_replications(
+    estimates: list[float],
+    seeds: list[int],
+    reporting_class: str,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize independently seeded EVSI estimator runs in Rust."""
+    try:
+        result = _native().summarize_evsi_replications(
+            estimates,
+            seeds,
+            reporting_class,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evsi_efficient_linear(
     net_benefit: list[list[float]],
     parameter_samples: list[list[float]],

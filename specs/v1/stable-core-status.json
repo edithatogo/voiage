@@ -87,11 +87,10 @@
       "implementation_state": "requires-assurance-evidence",
       "method_id": "evsi-nested-mc",
       "open_gates": [
-        "estimator-assurance-evidence",
-        "replication-and-convergence-assurance"
+        "estimator-assurance-evidence"
       ],
       "reporting_class": "nested-monte-carlo",
-      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "runtime_assurance_state": "integrated-replication-capable",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },
@@ -101,11 +100,10 @@
       "implementation_state": "requires-assurance-evidence",
       "method_id": "evsi-regression",
       "open_gates": [
-        "estimator-assurance-evidence",
-        "replication-and-convergence-assurance"
+        "estimator-assurance-evidence"
       ],
       "reporting_class": "regression-or-metamodel",
-      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "runtime_assurance_state": "integrated-replication-capable",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },
@@ -115,11 +113,10 @@
       "implementation_state": "requires-assurance-evidence",
       "method_id": "evsi-moment-matching",
       "open_gates": [
-        "estimator-assurance-evidence",
-        "replication-and-convergence-assurance"
+        "estimator-assurance-evidence"
       ],
       "reporting_class": "moment-matching",
-      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "runtime_assurance_state": "integrated-replication-capable",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },

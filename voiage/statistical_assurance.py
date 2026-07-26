@@ -156,3 +156,41 @@ class StatisticalAssurance:
     def to_dict(self) -> dict[str, object]:
         """Return the schema-compatible plain mapping."""
         return cast("dict[str, object]", asdict(self))
+
+
+@dataclass(frozen=True)
+class ReplicatedAssuranceResult:
+    """Mean estimate and assurance from independently seeded runs."""
+
+    estimate: float
+    replication_seeds: tuple[int, ...]
+    assurance: StatisticalAssurance
+
+
+def summarize_evsi_replications(
+    estimates: list[float],
+    seeds: list[int],
+    *,
+    reporting_class: Literal[
+        "nested-monte-carlo",
+        "regression-or-metamodel",
+        "moment-matching",
+    ],
+    relative_tolerance: float = 0.05,
+) -> ReplicatedAssuranceResult:
+    """Summarize independent EVSI runs with between-run convergence evidence."""
+    from voiage import _runtime
+
+    payload = _runtime.summarize_evsi_replications(
+        estimates,
+        seeds,
+        reporting_class,
+        relative_tolerance,
+    )
+    return ReplicatedAssuranceResult(
+        estimate=float(payload["estimate"]),
+        replication_seeds=tuple(cast("list[int]", payload["replication_seeds"])),
+        assurance=StatisticalAssurance.from_mapping(
+            cast("dict[str, object]", payload["statistical_assurance"])
+        ),
+    )

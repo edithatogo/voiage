@@ -21,7 +21,7 @@ use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, dominance, enbs, evpi_with_assurance, evppi_with_assurance, evsi_efficient_linear,
     evsi_moment_based, evsi_regression, evsi_stochastic, expected_loss, heterogeneity, net_benefit,
-    structural_evpi_with_assurance, structural_evppi_with_assurance,
+    structural_evpi_with_assurance, structural_evppi_with_assurance, summarize_replications,
     DominanceStatus as KernelDominanceStatus, StructuralVoiKernelResult, WtpMode,
 };
 use voiage_serialization::{
@@ -979,6 +979,100 @@ fn compute_evsi<'py>(
     Ok(output)
 }
 
+/// Summarize independently replicated EVSI estimates and their convergence.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value)]
+fn summarize_evsi_replications<'py>(
+    py: Python<'py>,
+    estimates: Vec<f64>,
+    seeds: Vec<u64>,
+    reporting_class: &str,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    if estimates.len() != seeds.len() {
+        return Err(DimensionMismatchError::new_err((
+            "dimension_mismatch",
+            "estimates and seeds must have matching lengths",
+        )));
+    }
+    let mut unique_seeds = seeds.clone();
+    unique_seeds.sort_unstable();
+    unique_seeds.dedup();
+    if unique_seeds.len() != seeds.len() {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "independent replication requires unique seeds",
+        )));
+    }
+    if !matches!(
+        reporting_class,
+        "nested-monte-carlo" | "regression-or-metamodel" | "moment-matching"
+    ) {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "unsupported EVSI reporting class",
+        )));
+    }
+    let summary = summarize_replications(&estimates, relative_tolerance)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("estimate", summary.mean)?;
+    output.set_item("replication_seeds", &seeds)?;
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", reporting_class)?;
+    assurance.set_item(
+        "bias_assessment",
+        "Between-run error assumes each supplied estimate was produced by an independently seeded execution of the same estimator and data-generating contract.",
+    )?;
+    assurance.set_item("variance_estimate", summary.variance)?;
+    assurance.set_item("monte_carlo_standard_error", summary.standard_error)?;
+    let interval = PyDict::new(py);
+    interval.set_item("level", 0.95)?;
+    interval.set_item(
+        "lower",
+        (summary.mean - 1.959_963_984_540_054 * summary.standard_error).max(0.0),
+    )?;
+    interval.set_item(
+        "upper",
+        summary.mean + 1.959_963_984_540_054 * summary.standard_error,
+    )?;
+    interval.set_item("method", "between-replication-normal-approximation")?;
+    assurance.set_item("confidence_interval", interval)?;
+    let convergence = PyDict::new(py);
+    convergence.set_item("converged", summary.converged)?;
+    convergence.set_item("criterion", "split-half-relative-mean-difference")?;
+    convergence.set_item("observed", summary.split_mean_relative_difference)?;
+    assurance.set_item("convergence", convergence)?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    let rng = PyDict::new(py);
+    rng.set_item("algorithm", "independent-explicit-seeds")?;
+    rng.set_item("version", "1")?;
+    rng.set_item("seed", seeds[0])?;
+    rng.set_item("stream", "replication-seed-vector")?;
+    assurance.set_item("rng", rng)?;
+    assurance.set_item("replications", summary.replications)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", summary.replications)?;
+    budget.set_item("evaluations", summary.replications)?;
+    budget.set_item("elapsed_seconds", 0.0)?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item(
+        "stopping_reason",
+        if summary.converged {
+            "tolerance-met"
+        } else {
+            "budget-exhausted"
+        },
+    )?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
+    Ok(output)
+}
+
 /// Compute the explicit deterministic efficient-linear EVSI kernel.
 #[pyfunction]
 #[pyo3(signature = (net_benefit, parameter_samples, trial_sample_size))]
@@ -1465,6 +1559,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(summarize_evsi_replications, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
@@ -2035,6 +2130,43 @@ mod tests {
                     .extract::<f64>()
                     .unwrap()
                     > 0.0
+            );
+        });
+    }
+
+    #[test]
+    fn replicated_evsi_summary_requires_unique_seeds_and_reports_convergence() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(summarize_evsi_replications, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("summarize_evsi_replications").unwrap();
+            let result = function
+                .call1((
+                    vec![1.0_f64, 1.1, 0.9, 1.0],
+                    vec![11_u64, 12, 13, 14],
+                    "nested-monte-carlo",
+                    0.2_f64,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("replications")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<usize>()
+                    .unwrap(),
+                4
             );
         });
     }

@@ -39,6 +39,12 @@ def _runtime_state(method_id: str, reporting_class: str) -> str:
     if method_id in {"net-benefit", "dominance"}:
         return "not-applicable-deterministic"
     if method_id in {
+        "evsi-nested-mc",
+        "evsi-regression",
+        "evsi-moment-matching",
+    }:
+        return "integrated-replication-capable"
+    if method_id in {
         "expected-loss",
         "evpi",
         "evppi-regression",

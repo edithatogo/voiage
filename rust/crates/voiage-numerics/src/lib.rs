@@ -15,6 +15,7 @@ mod evsi_regression;
 mod expected_loss;
 mod heterogeneity;
 mod net_benefit;
+mod replication;
 mod structural;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
@@ -29,6 +30,7 @@ pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use expected_loss::{expected_loss, ExpectedLossKernelResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 pub use net_benefit::{net_benefit, NetBenefitKernelResult, WtpMode};
+pub use replication::{summarize_replications, ReplicationSummary};
 pub use structural::{
     structural_evpi, structural_evpi_with_assurance, structural_evppi,
     structural_evppi_with_assurance, StructuralVoiKernelResult,
