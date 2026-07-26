@@ -83,8 +83,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ### Frictionless Data
 
-- [ ] **P4-T6 / AC-05:** Review and record the Frictionless dependency and
-  supported-profile decision through the same dependency-frontier evidence.
+- [x] **P4-T6 / AC-05:** Review and record the Frictionless dependency and
+  supported-profile decision through the same dependency-frontier evidence. (`frictionless==5.19.0` decision)
 - [ ] **P4-T7 / AC-05:** Write failing offline fixtures/tests for package and
   data validation, resources, schemas, dialects, types, constraints, missing
   values, keys, integrity, governance metadata, supported tabular formats, and
