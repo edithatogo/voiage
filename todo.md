@@ -71,6 +71,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
             matrix boundary also rejects misalignment and oversized Rust
             slices before dereference. Remaining stable result envelopes and
             language-native adapters remain open.
+        *   C ABI v1.4 now exposes Rust-authoritative ENBS, including valid
+            negative net research value and no-write invalid-input behavior.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

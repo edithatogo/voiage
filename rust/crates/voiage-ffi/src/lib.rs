@@ -26,7 +26,7 @@ mod status;
 use std::panic::{self, AssertUnwindSafe};
 
 use voiage_domain::SampleMatrix;
-use voiage_numerics::{evpi, evpi_with_assurance, EvpiKernelResult};
+use voiage_numerics::{enbs, evpi, evpi_with_assurance, EvpiKernelResult};
 
 pub use capability_document::voiage_v1_capabilities_json;
 pub use error_transport::voiage_v1_error_message;
@@ -41,7 +41,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 3;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 4;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -60,6 +60,9 @@ pub const VOIAGE_ABI_CAPABILITY_DOCUMENT: u64 = 1 << 4;
 
 /// Capability bit for typed expected-loss results and caller-owned arrays.
 pub const VOIAGE_ABI_EXPECTED_LOSS_RESULT: u64 = 1 << 5;
+
+/// Capability bit for Rust-authoritative expected net benefit of sampling.
+pub const VOIAGE_ABI_ENBS: u64 = 1 << 6;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -140,7 +143,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_EVPI
             | VOIAGE_ABI_EVPI_RESULT
             | VOIAGE_ABI_CAPABILITY_DOCUMENT
-            | VOIAGE_ABI_EXPECTED_LOSS_RESULT,
+            | VOIAGE_ABI_EXPECTED_LOSS_RESULT
+            | VOIAGE_ABI_ENBS,
     }
 }
 
@@ -217,6 +221,35 @@ pub unsafe extern "C" fn voiage_v1_evpi(
             VoiageStatusV1::Ok
         }
         Ok(Err(status)) => status,
+        Err(_) => VoiageStatusV1::Panic,
+    }
+}
+
+/// Computes raw expected net benefit of sampling as `EVSI - research cost`.
+///
+/// Negative results are valid and are not clipped.
+///
+/// # Safety
+///
+/// `out` must be non-null, aligned, and writable for one `f64`. It is not
+/// retained. Invalid inputs and contained panics do not write output.
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_enbs(
+    evsi_result: f64,
+    research_cost: f64,
+    out: *mut f64,
+) -> VoiageStatusV1 {
+    if out.is_null() || (out as usize) % std::mem::align_of::<f64>() != 0 {
+        return VoiageStatusV1::InvalidArgument;
+    }
+    match panic::catch_unwind(AssertUnwindSafe(|| enbs(evsi_result, research_cost))) {
+        Ok(Ok(value)) => {
+            // SAFETY: nullness and alignment were validated above.
+            unsafe { out.write(value) };
+            VoiageStatusV1::Ok
+        }
+        Ok(Err(_)) => VoiageStatusV1::InvalidArgument,
         Err(_) => VoiageStatusV1::Panic,
     }
 }

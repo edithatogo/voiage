@@ -9,11 +9,11 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `3`
+- ABI major: `1`; ABI minor: `4`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
-  document, plus typed expected loss with caller-owned arrays.
+  document, typed expected loss with caller-owned arrays, and ENBS.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -24,6 +24,7 @@ voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_capabilities_json
 voiage_v1_evpi
+voiage_v1_enbs
 voiage_v1_evpi_result
 voiage_v1_expected_loss_result
 voiage_v1_evpi_i32
@@ -49,6 +50,9 @@ opportunity loss into two caller-owned arrays, plus a fixed-width summary with
 the optimum strategy, dimensions, minimum expected loss, variance, and Monte
 Carlo error. Capacity, nullness, and alignment are validated before any output
 is written.
+
+`voiage_v1_enbs` delegates to the Rust ENBS kernel and returns raw
+`EVSI - research cost`; negative net value is valid and is not clipped.
 
 ## Status and error transport
 

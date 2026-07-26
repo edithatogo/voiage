@@ -8,8 +8,9 @@ use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageEvpiResultV1,
     VoiageExpectedLossResultV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT,
-    VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_EVPI_RESULT, VOIAGE_ABI_EXPECTED_LOSS_RESULT,
-    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
+    VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
+    VOIAGE_ABI_EXPECTED_LOSS_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
+    VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -40,8 +41,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | VOIAGE_ABI_EVPI_RESULT
             | VOIAGE_ABI_CAPABILITY_DOCUMENT
             | VOIAGE_ABI_EXPECTED_LOSS_RESULT
+            | VOIAGE_ABI_ENBS
     );
-    assert_eq!(capabilities.capability_bits & !0b11_1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b111_1111, 0);
 }
 
 #[test]

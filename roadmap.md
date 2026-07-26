@@ -120,6 +120,10 @@ matrix-taking entry points reject misaligned pointers and address-space-
 oversized slices before constructing Rust views. The same no-partial-write
 pattern is the basis for broader stable result types and direct bindings.
 
+C ABI v1.4 exposes Rust-authoritative ENBS without clipping negative net
+research value. It validates finite inputs and non-negative research cost,
+contains panics, and leaves caller output untouched on failure.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

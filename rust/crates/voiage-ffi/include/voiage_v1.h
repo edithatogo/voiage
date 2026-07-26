@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(3)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(4)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -32,6 +32,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_EVPI_RESULT (UINT64_C(1) << 3)
 #define VOIAGE_V1_CAPABILITY_DOCUMENT (UINT64_C(1) << 4)
 #define VOIAGE_V1_CAPABILITY_EXPECTED_LOSS_RESULT (UINT64_C(1) << 5)
+#define VOIAGE_V1_CAPABILITY_ENBS (UINT64_C(1) << 6)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -99,6 +100,10 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_evpi(
     const double *values,
     uint64_t rows,
     uint64_t columns,
+    double *out_value);
+VOIAGE_V1_API voiage_v1_status voiage_v1_enbs(
+    double evsi_result,
+    double research_cost,
     double *out_value);
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_result(
     const double *values,

@@ -43,6 +43,11 @@ static int exercise_contract(void) {
         expected_loss_result.strategy_count != 2) {
         return 7;
     }
+    double enbs = 0.0;
+    if (voiage_v1_enbs(12.5, 3.0, &enbs) != VOIAGE_V1_STATUS_OK ||
+        enbs != 9.5) {
+        return 8;
+    }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     uint64_t required_size = 0;
     voiage_v1_status status = voiage_v1_handle_create(&handle);
