@@ -66,7 +66,7 @@
 - [ ] Conductor - User Manual Verification 'Phase 2: Rust implementation'
   (Protocol in workflow.md).
 
-## Phase 3: Stable-core evidence
+## Phase 3: Stable-core evidence [checkpoint: d501ef95]
 
 - [x] Run Rust, Python, fixture, mutation, benchmark, and full tox gates.
   (`2b6ca058`; 2108 top-level tests, the Rust workspace, all tox environments,
@@ -83,6 +83,9 @@
 - [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update. (`7cfd9525`, `07589392`; Conductor evidence reconciled in
   `223fdd66` and `a8a4b063`)
-- [ ] Final review and validation checkpoint.
+- [x] Final review and validation checkpoint. (`d501ef95`; no High or Critical
+  findings, 2,116 Python tests with 16 documented skips, the Rust workspace,
+  warnings-denied Clippy, all tox environments with 92.46% coverage, 708 Astro
+  pages, generated-contract drift checks, and live reconciliation passed)
 - [ ] Conductor - User Manual Verification 'Phase 3: Stable-core evidence'
   (Protocol in workflow.md).
