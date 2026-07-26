@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-26T00:05:55Z",
+  "updated_at": "2026-07-26T01:09:29Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -31,7 +31,7 @@
   "github_project": "https://github.com/users/edithatogo/projects/28",
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/325",
-    "pull_request": "https://github.com/edithatogo/voiage/pull/523"
+    "pull_request": "https://github.com/edithatogo/voiage/pull/525"
   },
   "gates": [
     {
@@ -56,7 +56,7 @@
       "id": "functional-implementation",
       "kind": "repository",
       "status": "in_progress",
-      "evidence": "Merged PRs #334, #477, #479, #481, #482, #484, #486, #487, #488, #490, #492, #494, #495, #519, and #523 establish the tested baseline contract, preparation boundary, runtime provenance, data-quality reporting, EVPI capability declaration, direct-versus-normalized equivalence evidence, provider capability declarations, opt-in allow-listed discovery, provider-boundary test coverage, the third-party extension contract, explicit Croissant 1.1 and unsupported archive/transformation rejection, missing-extra error coverage, deterministic normalized Parquet interchange, and the completed Phase 1 binding-profile/schema/import-isolation checkpoint. Commit e41591e records the Croissant parser-dependency decision without adding it. The full acceptance plan remains active: its uncompleted preparation, conformance, security, SDK, and cross-domain case criteria cannot be represented as complete."
+      "evidence": "Merged PRs #334, #477, #479, #481, #482, #484, #486, #487, #488, #490, #492, #494, #495, #519, #523, #525, #526, and #527 establish the tested baseline contract, preparation boundary, runtime provenance, data-quality reporting, EVPI capability declaration, direct-versus-normalized equivalence evidence, provider capability declarations, opt-in allow-listed discovery, provider-boundary test coverage, the third-party extension contract, explicit Croissant 1.1 and unsupported archive/transformation rejection, missing-extra error coverage, deterministic normalized Parquet interchange, the completed Phase 1 checkpoint, wide/long and cost/outcome normalized preparation, and strict Frictionless CSV schema validation. Commits e41591e and 0d782b58 record the Croissant and Frictionless parser-dependency decisions without adding parser dependencies. The full acceptance plan remains active: its remaining conformance, security, SDK, and cross-domain case criteria cannot be represented as complete."
     },
     {
       "id": "cross-reference-integration-order",
