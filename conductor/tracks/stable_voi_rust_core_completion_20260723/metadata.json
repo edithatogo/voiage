@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:18:53Z",
-  "updated_at": "2026-07-26T01:52:00Z",
+  "updated_at": "2026-07-26T02:15:00Z",
   "description": "Complete the stable Rust VOI numerical surface and eliminate silent language-specific divergence.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -21,7 +21,7 @@
       "id": "stable-numerical-evidence",
       "kind": "repository",
       "status": "in_progress",
-      "evidence": "Phase 1 repository automation passed at c5a7ad0e. Phase 2 repository automation and all ten protected hosted checks passed at 46d86e8c/53c28932. Phase 3 automated review and validation passed at d501ef95 with 2,116 Python tests, the Rust workspace, warnings-denied Clippy, every tox environment, 92.46 percent coverage, a 708-page Astro build, generated-contract drift checks, and local/live GitHub reconciliation. Runtime assurance envelopes now cover the stable stochastic profiles, and Rust summarizes independent EVSI replications with unique seeds, uncertainty, and split-half convergence. Estimator-specific replication and convergence, matched cross-language performance, and four named human checkpoints remain open."
+      "evidence": "Phase 1 repository automation passed at c5a7ad0e. Phase 2 repository automation and all ten protected hosted checks passed at 46d86e8c/53c28932. Phase 3 automated review and validation passed at d501ef95. Phase 4 automated review and the corrected full matrix passed at aaede69e/270297a1, including Python 3.12-3.14, minimum and maximum dependency cohorts, 91.04 percent coverage, the Rust workspace, warnings-denied Clippy, every tox environment, a 717-page Astro/polyglot build, generated evidence, strict dependency frontier, and local/live GitHub reconciliation. Estimator-specific replication and convergence, matched cross-language performance, and four named human checkpoints remain open."
     },
     {
       "id": "dependency-frontier",
