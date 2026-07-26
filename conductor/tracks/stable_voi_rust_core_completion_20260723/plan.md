@@ -76,7 +76,10 @@
   (`7cfd9525`; a generated status registry now joins the normative stable-core
   contracts and keeps API stability distinct from method assurance and
   aggregate v1.1 release readiness)
-- [ ] Record v1.1 promotion evidence and unresolved external gates.
+- [x] Record v1.1 promotion evidence and unresolved external gates.
+  (`07589392`; the hash-bound candidate remains blocked and separates
+  repository, maintainer, and Python/R/Julia/Mojo/Rust distribution gates
+  without extending the scientific-freeze approval)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Final review and validation checkpoint.
