@@ -93,12 +93,16 @@
     "binding": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["role", "table_id", "field_ids", "strategy_names", "unit", "perspective", "transformations", "applicable_method_families"],
+      "required": ["role", "table_id", "field_ids", "strategy_names", "layout", "sample_id_field_id", "strategy_field_id", "value_field_id", "unit", "perspective", "transformations", "applicable_method_families"],
       "properties": {
         "role": {"enum": ["net_benefit", "parameter", "cost", "outcome", "weight"]},
         "table_id": {"$ref": "#/$defs/identifier"},
         "field_ids": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identifier"}},
         "strategy_names": {"type": "array", "items": {"$ref": "#/$defs/identifier"}},
+        "layout": {"enum": ["wide", "long"]},
+        "sample_id_field_id": {"anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "strategy_field_id": {"anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "value_field_id": {"anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
         "unit": {"type": ["string", "null"]},
         "perspective": {"type": ["string", "null"]},
         "transformations": {"type": "array", "items": {"type": "string"}},

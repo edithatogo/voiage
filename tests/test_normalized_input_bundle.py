@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
+import math
 from pathlib import Path
 import subprocess
 import sys
+from types import SimpleNamespace
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
@@ -29,6 +31,11 @@ from voiage.contracts import (
     method_input_capability,
     prepare_analysis_inputs,
     run_evpi,
+)
+from voiage.contracts.preparation import (
+    _long_net_benefit_values,
+    _prepared_parameters,
+    _resolve_binding,
 )
 from voiage.methods.basic import evpi
 
@@ -186,6 +193,406 @@ def test_preparation_quality_report_records_keys_and_explicit_noop_decisions() -
     assert report.selected_partitions == ()
 
 
+def test_preparation_never_implicitly_changes_the_selected_population() -> None:
+    """Wide preparation must retain row order and multiplicity exactly as supplied."""
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="no-implicit-population-change",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy_a", dtype="float64"),
+                        FieldManifest(field_id="strategy_b", dtype="float64"),
+                        FieldManifest(
+                            field_id="excluded_from_binding", dtype="float64"
+                        ),
+                    ),
+                    primary_key=("sample_id",),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("strategy_a", "strategy_b"),
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [4, 1, 1, 3],
+                    "strategy_a": [4.0, 1.0, 1.0, 3.0],
+                    "strategy_b": [0.0, 2.0, 2.0, 1.0],
+                    "excluded_from_binding": [99.0, 99.0, 99.0, 99.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle)
+
+    assert prepared.net_benefits.numpy_values.tolist() == [
+        [4.0, 0.0],
+        [1.0, 2.0],
+        [1.0, 2.0],
+        [3.0, 1.0],
+    ]
+    assert prepared.quality_report.row_count == 4
+    assert prepared.quality_report.duplicate_row_count == 1
+    assert prepared.quality_report.coercions == ()
+    assert prepared.quality_report.exclusions == ()
+    assert prepared.quality_report.population_transforms == ()
+
+
+def test_preparation_pivots_an_explicit_long_net_benefit_table() -> None:
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="net_benefit", dtype="float64"),
+                    ),
+                    primary_key=("sample_id", "strategy"),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("net_benefit",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="net_benefit",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [2, 2, 1, 1],
+                    "strategy": ["A", "B", "A", "B"],
+                    "net_benefit": [3.0, 1.0, 1.0, 2.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle)
+
+    assert prepared.net_benefits.strategy_names == ["A", "B"]
+    assert prepared.net_benefits.numpy_values.tolist() == [[3.0, 1.0], [1.0, 2.0]]
+    assert prepared.quality_report.selected_field_ids == (
+        "sample_id",
+        "strategy",
+        "net_benefit",
+    )
+    assert prepared.quality_report.row_count == 4
+    assert prepared.quality_report.exclusions == ()
+
+
+def test_wide_and_long_normalized_inputs_are_evpi_equivalent() -> None:
+    wide = _bundle()
+    long = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="equivalent-long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="value", dtype="float64"),
+                    ),
+                    primary_key=("sample_id", "strategy"),
+                ),
+            ),
+            provenance=wide.manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("value",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="value",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [0, 0, 1, 1],
+                    "strategy": ["A", "B", "A", "B"],
+                    "value": [1.0, 2.0, 3.0, 1.0],
+                }
+            )
+        },
+    )
+
+    wide_prepared = prepare_analysis_inputs(wide)
+    long_prepared = prepare_analysis_inputs(long)
+
+    assert long_prepared.net_benefits == wide_prepared.net_benefits
+    assert evpi(long_prepared.net_benefits.numpy_values) == pytest.approx(
+        evpi(wide_prepared.net_benefits.numpy_values)
+    )
+
+
+def test_preparation_derives_net_benefit_from_explicit_cost_outcome_bindings() -> None:
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="cost-outcome-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="outcomes",
+                    fields=(
+                        FieldManifest(field_id="cost_a", dtype="float64"),
+                        FieldManifest(field_id="cost_b", dtype="float64"),
+                        FieldManifest(field_id="outcome_a", dtype="float64"),
+                        FieldManifest(field_id="outcome_b", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="cost",
+                    table_id="outcomes",
+                    field_ids=("cost_a", "cost_b"),
+                    strategy_names=("A", "B"),
+                ),
+                VOIBinding(
+                    role="outcome",
+                    table_id="outcomes",
+                    field_ids=("outcome_a", "outcome_b"),
+                    strategy_names=("A", "B"),
+                ),
+            ),
+        ),
+        tables={
+            "outcomes": pa.table(
+                {
+                    "cost_a": [10.0, 20.0],
+                    "cost_b": [30.0, 10.0],
+                    "outcome_a": [2.0, 3.0],
+                    "outcome_b": [1.0, 4.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle, willingness_to_pay=100.0)
+
+    assert prepared.net_benefits.strategy_names == ["A", "B"]
+    assert prepared.net_benefits.numpy_values.tolist() == [
+        [190.0, 70.0],
+        [280.0, 390.0],
+    ]
+    assert prepared.quality_report.population_transforms == (
+        "net_benefit = willingness_to_pay * outcome - cost",
+    )
+
+
+def test_preparation_converts_explicit_aligned_parameter_fields() -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "tables": (
+                    TableManifest(
+                        table_id="net_benefit",
+                        fields=(
+                            FieldManifest(field_id="strategy_a", dtype="float64"),
+                            FieldManifest(field_id="strategy_b", dtype="float64"),
+                            FieldManifest(field_id="prevalence", dtype="float64"),
+                        ),
+                    ),
+                ),
+                "bindings": (
+                    *source.manifest.bindings,
+                    VOIBinding(
+                        role="parameter",
+                        table_id="net_benefit",
+                        field_ids=("prevalence",),
+                    ),
+                ),
+            }
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "strategy_a": [1.0, 3.0],
+                    "strategy_b": [2.0, 1.0],
+                    "prevalence": [0.1, 0.2],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle, method_family="evppi")
+
+    assert prepared.parameters is not None
+    assert prepared.parameters.parameter_names == ["prevalence"]
+    assert prepared.parameters.parameters["prevalence"].tolist() == [0.1, 0.2]
+
+
+def test_preparation_requires_a_declared_willingness_to_pay_for_cost_outcome() -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="cost",
+                        table_id="net_benefit",
+                        field_ids=("strategy_a",),
+                    ),
+                    VOIBinding(
+                        role="outcome",
+                        table_id="net_benefit",
+                        field_ids=("strategy_b",),
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+
+    with pytest.raises(ValueError, match="willingness_to_pay"):
+        prepare_analysis_inputs(bundle)
+
+
+@pytest.mark.parametrize(
+    ("cost_fields", "cost_names", "outcome_fields", "outcome_names", "wtp", "message"),
+    [
+        (
+            ("strategy_a",),
+            ("A",),
+            ("strategy_b",),
+            ("A",),
+            math.nan,
+            "finite willingness_to_pay",
+        ),
+        (
+            ("strategy_a", "strategy_b"),
+            ("A", "B"),
+            ("strategy_a",),
+            ("A",),
+            100.0,
+            "aligned wide fields",
+        ),
+        (
+            ("strategy_a",),
+            ("A",),
+            ("strategy_b",),
+            ("B",),
+            100.0,
+            "same strategies",
+        ),
+    ],
+)
+def test_preparation_rejects_invalid_cost_outcome_declarations(
+    cost_fields, cost_names, outcome_fields, outcome_names, wtp, message
+) -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="cost",
+                        table_id="net_benefit",
+                        field_ids=cost_fields,
+                        strategy_names=cost_names,
+                    ),
+                    VOIBinding(
+                        role="outcome",
+                        table_id="net_benefit",
+                        field_ids=outcome_fields,
+                        strategy_names=outcome_names,
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+
+    with pytest.raises(ValueError, match=message):
+        prepare_analysis_inputs(bundle, willingness_to_pay=wtp)
+
+
+@pytest.mark.parametrize(
+    ("rows", "message"),
+    [
+        (
+            ([1, 1, 1], ["A", "A", "B"], [1.0, 2.0, 3.0]),
+            "duplicate sample-strategy",
+        ),
+        (
+            ([1], ["A"], [1.0]),
+            "every declared strategy",
+        ),
+    ],
+)
+def test_preparation_rejects_ambiguous_or_incomplete_long_net_benefit_rows(
+    rows, message
+) -> None:
+    sample_ids, strategies, values = rows
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="invalid-long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="net_benefit", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("net_benefit",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="net_benefit",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": sample_ids,
+                    "strategy": strategies,
+                    "net_benefit": values,
+                }
+            )
+        },
+    )
+
+    with pytest.raises(ValueError, match=message):
+        prepare_analysis_inputs(bundle)
+
+
 def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> None:
     prepared = prepare_analysis_inputs(_bundle())
     spec = analysis_spec_from_prepared_inputs(
@@ -248,8 +655,144 @@ def test_method_input_capability_matrix_is_explicit_and_fail_closed() -> None:
         "normalized-bundle",
     )
     assert capability.requires_sample_alignment is True
+    assert method_input_capability("evppi").required_binding_roles == (
+        "net_benefit",
+        "parameter",
+    )
+    assert method_input_capability("evsi").required_binding_roles == (
+        "net_benefit",
+        "parameter",
+    )
+    assert method_input_capability("enbs").required_binding_roles == ("net_benefit",)
+    assert method_input_capability("ceac").required_binding_roles == ("net_benefit",)
+    assert method_input_capability("ceaf").required_binding_roles == ("net_benefit",)
     with pytest.raises(ValueError, match="no normalized input capability"):
-        method_input_capability("evsi")
+        method_input_capability("unsupported")
+
+
+def test_preparation_rejects_inapplicable_binding_and_missing_required_parameter() -> (
+    None
+):
+    source = _bundle()
+    restricted = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="net_benefit",
+                        table_id="net_benefit",
+                        field_ids=("strategy_a", "strategy_b"),
+                        applicable_method_families=("evpi",),
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+    with pytest.raises(ValueError, match="not applicable"):
+        prepare_analysis_inputs(restricted, method_family="ceac")
+    with pytest.raises(ValueError, match="requires an explicit parameter"):
+        prepare_analysis_inputs(source, method_family="evppi")
+
+
+@pytest.mark.parametrize(
+    ("table", "binding", "message"),
+    [
+        (
+            pa.table({"value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id=None,
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "incomplete",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": [None], "value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "cannot contain null",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": ["B"], "value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "undeclared strategy",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": ["A"], "value": ["bad"]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "not numeric",
+        ),
+    ],
+)
+def test_long_preparation_helper_rejects_invalid_rows(table, binding, message) -> None:
+    with pytest.raises(ValueError, match=message):
+        _long_net_benefit_values(table, binding)
+
+
+def test_preparation_helpers_reject_binding_and_parameter_mismatches() -> None:
+    parameter = VOIBinding(role="parameter", table_id="data", field_ids=("p",))
+    net_benefit = VOIBinding(role="net_benefit", table_id="data", field_ids=("n",))
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="helper-validation",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(
+                        FieldManifest(field_id="p", dtype="float64"),
+                        FieldManifest(field_id="n", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+        ),
+        tables={"data": pa.table({"p": [1.0], "n": [2.0]})},
+    )
+
+    with pytest.raises(ValueError, match="exactly one"):
+        _resolve_binding((), "net_benefit", method_family="evpi")
+    with pytest.raises(ValueError, match="at most one"):
+        _prepared_parameters(
+            bundle,
+            (parameter, parameter),
+            method_family="evpi",
+            n_samples=1,
+            table_id="data",
+        )
+    with pytest.raises(ValueError, match="aligned with net benefit"):
+        _prepared_parameters(
+            bundle,
+            (parameter.model_copy(update={"table_id": "other"}),),
+            method_family="evpi",
+            n_samples=1,
+            table_id="data",
+        )
+    with pytest.raises(ValueError, match="align with net-benefit"):
+        _prepared_parameters(
+            bundle, (parameter,), method_family="evpi", n_samples=2, table_id="data"
+        )
+    with pytest.raises(ValueError, match="not applicable"):
+        _resolve_binding(
+            (net_benefit.model_copy(update={"applicable_method_families": ("evpi",)}),),
+            "net_benefit",
+            method_family="ceac",
+        )
 
 
 def test_manifest_matches_published_json_schema() -> None:
@@ -586,6 +1129,56 @@ def test_binding_profile_rejects_incompatible_declared_unit() -> None:
                 )
             ),
         )
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        (
+            {"layout": "wide", "sample_id_field_id": "sample"},
+            "wide bindings cannot declare",
+        ),
+        (
+            {"role": "cost", "layout": "long"},
+            "only for net_benefit",
+        ),
+        (
+            {"layout": "long"},
+            "require sample_id, strategy, and value",
+        ),
+        (
+            {
+                "layout": "long",
+                "sample_id_field_id": "sample",
+                "strategy_field_id": "strategy",
+                "value_field_id": "value",
+                "field_ids": ("wrong",),
+                "strategy_names": ("A",),
+            },
+            "must contain only value_field_id",
+        ),
+        (
+            {
+                "layout": "long",
+                "sample_id_field_id": "sample",
+                "strategy_field_id": "strategy",
+                "value_field_id": "value",
+                "field_ids": ("value",),
+            },
+            "explicit strategy order",
+        ),
+    ],
+)
+def test_binding_layout_validation_is_fail_closed(kwargs, message) -> None:
+    values = {
+        "role": "net_benefit",
+        "table_id": "data",
+        "field_ids": ("value",),
+    }
+    values.update(kwargs)
+
+    with pytest.raises(ValidationError, match=message):
+        VOIBinding(**values)
 
 
 def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
