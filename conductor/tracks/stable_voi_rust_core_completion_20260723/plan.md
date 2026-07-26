@@ -80,8 +80,9 @@
   (`07589392`; the hash-bound candidate remains blocked and separates
   repository, maintainer, and Python/R/Julia/Mojo/Rust distribution gates
   without extending the scientific-freeze approval)
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update. (`7cfd9525`, `07589392`; Conductor evidence reconciled in
+  `223fdd66` and `a8a4b063`)
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Stable-core evidence'
   (Protocol in workflow.md).
