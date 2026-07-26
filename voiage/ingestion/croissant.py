@@ -14,7 +14,7 @@ from voiage.contracts.normalized_input import (
     SourceProvenance,
     TableManifest,
 )
-from voiage.ingestion._tabular import digest_file, read_csv
+from voiage.ingestion._tabular import digest_file, materialization_receipt, read_csv
 from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
@@ -105,6 +105,7 @@ class CroissantProvider:
             manifest=DatasetManifest(
                 dataset_id=str(descriptor.get("name", table_id)),
                 tables=(TableManifest(table_id=table_id, fields=manifest_fields),),
+                resources=(materialization_receipt(reference, table_id, policy),),
                 provenance=SourceProvenance(
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),
