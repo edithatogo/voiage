@@ -33,7 +33,20 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     runner = CliRunner()
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
-    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
+    inspected = runner.invoke(
+        app,
+        [
+            "ingest",
+            "inspect",
+            str(descriptor),
+            "--table",
+            "samples",
+            "--field",
+            "a",
+            "--field",
+            "b",
+        ],
+    )
     output = tmp_path / "normalized.arrow"
     normalized = runner.invoke(
         app, ["ingest", "normalize", str(descriptor), "--output", str(output)]
@@ -74,6 +87,20 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
             {"role": "author", "title": "Fixture maintainer"}
         ],
         "frictionlessdata.org:licenses": [{"name": "CC-BY-4.0"}],
+    }
+    resolution = inspection["binding_resolution"]
+    assert resolution["binding"]["role"] == "net_benefit"
+    assert resolution["binding"]["table_id"] == "samples"
+    assert resolution["binding"]["field_ids"] == ["a", "b"]
+    assert len(resolution["binding_profile_digest"]) == 64
+    assert len(resolution["input_digest"]) == 64
+    assert resolution["data_quality"] == {
+        **resolution["data_quality"],
+        "null_counts": {"a": 0, "b": 0},
+        "row_count": 1,
+        "selected_field_ids": ["a", "b"],
+        "table_id": "samples",
+        "unique_value_counts": {"a": 1, "b": 1},
     }
     assert inspection["resources"] == [
         {
