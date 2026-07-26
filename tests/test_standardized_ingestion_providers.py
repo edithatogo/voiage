@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 import subprocess
 import sys
@@ -435,6 +436,45 @@ def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library
 
     assert bundle.manifest.provenance.provider_id == "dataframe-interchange"
     assert bundle.table("data").column_names == ["a", "b"]
+
+
+def test_dataframe_interchange_preserves_supported_nullable_and_temporal_values() -> (
+    None
+):
+    frame = pl.DataFrame(
+        {
+            "active": [True, None],
+            "label": ["alpha", None],
+            "observed_at": [
+                datetime(2026, 1, 1, tzinfo=UTC),
+                datetime(2026, 1, 2, tzinfo=UTC),
+            ],
+        }
+    )
+
+    bundle = from_dataframe(frame, dataset_id="engineering")
+
+    assert bundle.table("data").to_pylist() == [
+        {
+            "active": True,
+            "label": "alpha",
+            "observed_at": datetime(2026, 1, 1, tzinfo=UTC),
+        },
+        {
+            "active": None,
+            "label": None,
+            "observed_at": datetime(2026, 1, 2, tzinfo=UTC),
+        },
+    ]
+
+
+def test_dataframe_interchange_rejects_unsupported_nested_values_with_stable_error() -> (
+    None
+):
+    frame = pl.DataFrame({"scenario": [["one", "two"]]})
+
+    with pytest.raises(ValueError, match="dataframe interchange protocol"):
+        from_dataframe(frame, dataset_id="nested")
 
 
 @pytest.mark.parametrize(
