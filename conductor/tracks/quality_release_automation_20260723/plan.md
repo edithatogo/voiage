@@ -46,9 +46,14 @@
     - [ ] Reconcile the default-branch queue after merge and disposition the
       remaining non-security quality notes without weakening lazy imports or
       masking genuine scientific defects.
-- [~] Upgrade or constrain JupyterLab to a patched release and close open
-  Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
-  the two high-severity XSS alerts block release.
+- [x] Upgrade JupyterLab to 4.6.2 and close Dependabot alerts #64--#68.
+  GitHub's live Dependabot API returned zero open alerts on 2026-07-26, and
+  local Python and production-documentation dependency audits reported no
+  known vulnerabilities.
+- [x] Make dependency-frontier verification lock-aware: preserve declared
+  compatibility floors, compare the upgraded `uv.lock` resolution with the
+  newest stable release admitted by each range, and disclose newer releases
+  outside that range without silently widening it.
 - [x] Require the reproducible-build/SBOM job in the active main ruleset and
   reconcile required contexts against actual hosted check names without
   weakening signed commits, linear history, thread resolution, or strict
@@ -76,8 +81,8 @@
   breaking frontier after the upgrade rehearsal exposed new lint semantics.
 - [x] Review fix in `b03d9a85`: normalize the Astro `/voiage` deployment base
   in documentation-link validation and add regression coverage.
-- [~] Dependabot alerts #64--#68 close only after `b03d9a85` reaches the
-  default branch and GitHub rescans the patched JupyterLab lock.
+- [x] Dependabot alerts #64--#68 are closed; the live repository API returned
+  zero open alerts on 2026-07-26 after the JupyterLab 4.6.2 remediation.
 - [ ] Renovate App activation, its dependency dashboard, and one checked test
   PR remain external GitHub evidence before Dependabot security updates can be
   disabled.

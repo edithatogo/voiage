@@ -108,9 +108,10 @@
 - [x] Add independent replicated convergence evidence for EVSI estimators.
   (`382d6cfb`; unique seeds, between-run uncertainty, split-half convergence,
   typed Python results, and executable nested-Monte-Carlo evidence)
-- [ ] Regenerate stable-core maturity and promotion evidence from runtime
-  assurance coverage.
-- [ ] Commit, attach git notes, record task SHAs, and reconcile evidence.
+- [x] Regenerate stable-core maturity and promotion evidence from runtime
+  assurance coverage and remove the satisfied dependency-frontier gate.
+  (`7eecacd8`)
+- [x] Commit, attach git notes, record task SHAs, and reconcile evidence.
 - [ ] Automated review and validation checkpoint.
 - [ ] Conductor - User Manual Verification
   'Phase 4: Runtime statistical assurance' (Protocol in workflow.md).
