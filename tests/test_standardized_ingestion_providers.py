@@ -429,6 +429,23 @@ def test_source_policy_enforces_an_explicit_resource_size_limit(tmp_path) -> Non
         SourceAccessPolicy(tmp_path, max_resource_bytes=0)
 
 
+@pytest.mark.parametrize(
+    "reference",
+    [
+        "http://127.0.0.1/private.csv",
+        "https://example.invalid/redirect.csv",
+        "ftp://example.invalid/resource.csv",
+        "s3://bucket/private.csv",
+        "file:///etc/passwd",
+    ],
+)
+def test_source_policy_rejects_every_url_scheme_before_any_network_access(
+    tmp_path, reference
+) -> None:
+    with pytest.raises(IngestionError, match="network resource access is disabled"):
+        SourceAccessPolicy(tmp_path).resolve(reference)
+
+
 def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> (
     None
 ):
