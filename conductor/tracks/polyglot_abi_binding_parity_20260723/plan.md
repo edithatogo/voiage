@@ -4,8 +4,8 @@
 
 - [ ] Add failing symbol, layout, ownership, error, lifetime, capability,
   install, and differential tests.
-  - [~] Generate a caller-owned C-ABI capability document from the canonical
-    stable-core status and fail on generated-artifact drift.
+  - [x] Generate a caller-owned C-ABI capability document from the canonical
+    stable-core status and fail on generated-artifact drift. (`71c9d15f`)
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
