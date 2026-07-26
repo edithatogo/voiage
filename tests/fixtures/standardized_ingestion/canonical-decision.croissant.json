@@ -1,0 +1,22 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.1",
+  "distribution": [
+    {
+      "contentUrl": "canonical-decision.csv"
+    }
+  ],
+  "name": "canonical-decision-fixture",
+  "recordSet": [
+    {
+      "field": [
+        {
+          "name": "strategy_a"
+        },
+        {
+          "name": "strategy_b"
+        }
+      ],
+      "name": "samples"
+    }
+  ]
+}
