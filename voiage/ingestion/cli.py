@@ -35,6 +35,20 @@ def _bundle_summary(descriptor: Path) -> dict[str, object]:
     }
 
 
+@app.command("validate")
+def validate(
+    descriptor: Path = typer.Argument(..., exists=True, readable=True),
+) -> None:
+    """Validate a supported descriptor and its declared local resources."""
+    try:
+        typer.echo(
+            json.dumps({"valid": True, **_bundle_summary(descriptor)}, sort_keys=True)
+        )
+    except IngestionError as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(2) from error
+
+
 @app.command()
 def inspect(descriptor: Path = typer.Argument(..., exists=True, readable=True)) -> None:
     """Inspect a descriptor and emit its normalized identity as JSON."""
