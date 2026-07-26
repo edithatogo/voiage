@@ -185,8 +185,12 @@ def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
         "sameAs",
         "usageInfo",
     )
-    return {
-        "mlcommons.org:croissant-governance": {
-            key: descriptor[key] for key in keys if key in descriptor
+    return (
+        {
+            "mlcommons.org:croissant-governance": {
+                key: descriptor[key] for key in keys if key in descriptor
+            }
         }
-    } if any(key in descriptor for key in keys) else {}
+        if any(key in descriptor for key in keys)
+        else {}
+    )
