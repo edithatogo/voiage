@@ -384,6 +384,15 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
     assert capabilities.supports_random_access is False
 
 
+def test_registry_capability_lookup_rejects_unknown_provider() -> None:
+    """Inspection must not report a capability profile for an unregistered ID."""
+    registry = default_registry()
+
+    assert registry.capabilities_for("croissant").provider_id == "croissant"
+    with pytest.raises(IngestionError, match="unregistered provider"):
+        registry.capabilities_for("unknown")
+
+
 def test_source_policy_blocks_path_traversal_and_network(tmp_path) -> None:
     policy = SourceAccessPolicy(tmp_path)
 
