@@ -5,8 +5,12 @@
 - [ ] Add failing symbol, layout, ownership, error, lifetime, capability,
   install, and differential tests.
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
+  - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
+    scalar v1.0 entry points.
 - [ ] Include the canonical Decision Problem and estimator-assurance envelopes
   in Arrow, JSON, C ABI, and language-native representations.
+  - [x] Carry EVPI sample-average variance and Monte Carlo error through the C
+    ABI typed result.
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
