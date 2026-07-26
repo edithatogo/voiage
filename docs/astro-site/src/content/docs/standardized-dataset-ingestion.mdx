@@ -29,6 +29,12 @@ descriptor provenance, preserved governance metadata, diagnostics, table row
 counts, schema fingerprint, and content digest; neither command echoes resource
 contents or credentials.
 
+Local resources are fail-closed: paths cannot escape the configured descriptor
+root, network access is disabled by default, and a resource larger than the
+default 512 MiB policy limit is rejected before parsing. Applications can set a
+smaller explicit `SourceAccessPolicy.max_resource_bytes` limit for constrained
+workloads.
+
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from
 field names. This keeps machine-learning, engineering, and business datasets
