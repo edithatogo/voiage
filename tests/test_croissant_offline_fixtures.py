@@ -17,7 +17,6 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
     [
         ("unsupported/archive.json", "archives"),
         ("unsupported/checksum-mismatch.json", "SHA-256"),
-        ("unsupported/identity.json", "identities"),
         ("unsupported/key.json", "keys"),
         ("unsupported/multiple-distributions.json", "exactly one distribution"),
         ("unsupported/multiple-record-sets.json", "exactly one recordSet"),
@@ -56,3 +55,17 @@ def test_croissant_offline_valid_profile_fixture_materializes() -> None:
         {"strategy_a": 100.0, "strategy_b": 80.0},
         {"strategy_a": 60.0, "strategy_b": 90.0},
     ]
+
+
+def test_croissant_offline_identity_fixture_preserves_governance() -> None:
+    """Croissant identities are retained as metadata, not VOI semantics."""
+    bundle = CroissantProvider().ingest(
+        _FIXTURE_ROOT / "unsupported" / "identity.json",
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.manifest.extensions == {
+        "mlcommons.org:croissant-governance": {
+            "@id": "https://example.invalid/dataset"
+        }
+    }
