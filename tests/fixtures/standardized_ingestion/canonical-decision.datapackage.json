@@ -1,0 +1,21 @@
+{
+  "name": "canonical-decision-fixture",
+  "resources": [
+    {
+      "name": "samples",
+      "path": "canonical-decision.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "strategy_a",
+            "type": "number"
+          },
+          {
+            "name": "strategy_b",
+            "type": "number"
+          }
+        ]
+      }
+    }
+  ]
+}

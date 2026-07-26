@@ -1,0 +1,21 @@
+{
+  "binding": {
+    "field_ids": [
+      "strategy_a",
+      "strategy_b"
+    ],
+    "role": "net_benefit",
+    "strategy_names": [
+      "A",
+      "B"
+    ],
+    "table_id": "samples"
+  },
+  "dataset_id": "canonical-decision-fixture",
+  "files": {
+    "canonical-decision.croissant.json": "1d3cfd3539f215d0df0410732313f3f73c0ee5042b2e8fd5dfa7563d32d237c5",
+    "canonical-decision.csv": "f56d1b3708adff6ea76db79abb77f897bae4fbb2d96f112a13814eb21f6d5ab9",
+    "canonical-decision.datapackage.json": "4252c19f66d9dac69e071fb55f1c66bdd9f568a7ad2d0695f578757e20de45c0"
+  },
+  "schema_version": "1.0.0"
+}

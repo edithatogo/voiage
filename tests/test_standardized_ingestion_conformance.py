@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import json
+from pathlib import Path
 
 import numpy as np
 import polars as pl
@@ -20,6 +22,8 @@ from voiage.contracts import (
 )
 from voiage.ingestion import SourceAccessPolicy, default_registry, from_dataframe
 from voiage.methods.basic import evpi
+
+_FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "standardized_ingestion"
 
 
 def _binding() -> VOIBinding:
@@ -63,62 +67,49 @@ def _direct_bundle(table: pa.Table) -> NormalizedInputBundle:
     )
 
 
+def test_canonical_decision_fixture_manifest_pins_source_artifacts() -> None:
+    """Fixture bytes and its explicit VOI binding remain deterministic evidence."""
+    manifest = json.loads(
+        (_FIXTURE_ROOT / "canonical-decision.manifest.json").read_text(encoding="utf-8")
+    )
+
+    assert manifest["schema_version"] == "1.0.0"
+    assert manifest["dataset_id"] == "canonical-decision-fixture"
+    assert manifest["binding"] == {
+        "field_ids": ["strategy_a", "strategy_b"],
+        "role": "net_benefit",
+        "strategy_names": ["A", "B"],
+        "table_id": "samples",
+    }
+    assert {
+        path.name: sha256(path.read_bytes()).hexdigest()
+        for path in _FIXTURE_ROOT.glob("canonical-decision.*")
+        if path.name != "canonical-decision.manifest.json"
+    } == manifest["files"]
+
+
 def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> None:
     """Every supported representation reaches one unchanged preparation path."""
     values = {"strategy_a": [10.0, 30.0, 20.0], "strategy_b": [20.0, 10.0, 25.0]}
-    (tmp_path / "samples.csv").write_text(
-        "strategy_a,strategy_b\n10.0,20.0\n30.0,10.0\n20.0,25.0\n",
-        encoding="utf-8",
-    )
-    croissant_path = tmp_path / "croissant.json"
-    croissant_path.write_text(
-        json.dumps(
-            {
-                "@context": "https://mlcommons.org/croissant/1.1",
-                "name": "canonical-decision-fixture",
-                "distribution": [{"contentUrl": "samples.csv"}],
-                "recordSet": [
-                    {
-                        "name": "samples",
-                        "field": [{"name": "strategy_a"}, {"name": "strategy_b"}],
-                    }
-                ],
-            }
-        ),
-        encoding="utf-8",
-    )
-    package_path = tmp_path / "datapackage.json"
-    package_path.write_text(
-        json.dumps(
-            {
-                "name": "canonical-decision-fixture",
-                "resources": [
-                    {
-                        "name": "samples",
-                        "path": "samples.csv",
-                        "schema": {
-                            "fields": [
-                                {"name": "strategy_a", "type": "number"},
-                                {"name": "strategy_b", "type": "number"},
-                            ]
-                        },
-                    }
-                ],
-            }
-        ),
-        encoding="utf-8",
-    )
 
     direct = _direct_bundle(pa.table(values))
     ipc_path = tmp_path / "fixture.arrow"
     parquet_path = tmp_path / "fixture.parquet"
     direct.write_ipc(ipc_path)
     direct.write_parquet(parquet_path)
-    policy = SourceAccessPolicy(tmp_path)
+    policy = SourceAccessPolicy(_FIXTURE_ROOT)
     bundles = (
         direct,
-        _bound(default_registry().ingest(croissant_path, policy=policy)),
-        _bound(default_registry().ingest(package_path, policy=policy)),
+        _bound(
+            default_registry().ingest(
+                _FIXTURE_ROOT / "canonical-decision.croissant.json", policy=policy
+            )
+        ),
+        _bound(
+            default_registry().ingest(
+                _FIXTURE_ROOT / "canonical-decision.datapackage.json", policy=policy
+            )
+        ),
         NormalizedInputBundle.read_ipc(ipc_path),
         NormalizedInputBundle.read_parquet(parquet_path),
         from_dataframe(
