@@ -61,12 +61,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
         The signed v2.0.0 GitHub, PyPI, TestPyPI, crates.io, provenance, SBOM,
         clean-install, and Software Heritage evidence is complete.
         Author-confirmed AI attestation, final human source verification,
-        release-bound PDF review, and the external engagement record remain
-        open. Conda-forge PR #34308 is under external review.
+        and the external engagement record remain open. The release-bound PDF
+        has passed its hosted build and six-page visual review. Conda-forge PR
+        #34308 has green lint and cross-platform builds and is under external
+        review.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
-        submission `7861466` is absent from the active-submission table and no
-        permanent identifier is available. Resolve that external disposition
-        before the author's arXiv-first JOSS submission step.
+        submission `7861466` is absent from the active-submission table.
+        Replacement `7870358` is an incomplete start-stage draft expiring
+        9 August 2026 and is not completed submission evidence. Resolve that
+        author and external gate before the arXiv-first JOSS submission step.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 

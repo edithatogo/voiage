@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Reconciled registry-readiness records with the green conda-forge
+  cross-platform build, the reviewed release-bound JOSS PDF, and the
+  authenticated incomplete replacement arXiv submission.
 - Bound the JOSS manuscript and registry-readiness records to the public
   v2.0.0 release, its clean-install evidence, mixed-language CycloneDX SBOM,
   provenance, package digests, crates.io publications, and Software Heritage

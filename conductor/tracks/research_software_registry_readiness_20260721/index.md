@@ -1,11 +1,11 @@
 # research_software_registry_readiness_20260721
 
-Status: in progress; signed public v1.0.0 release evidence, Software Heritage
-archival, and authenticated arXiv submission are recorded. The exact v2 JOSS
-candidate, demonstrated research use, human engagement, author-confirmed AI
-attestation, arXiv
-announcement, RRID, JOSS, and external registry outcomes remain explicitly
-tracked.
+Status: in progress; signed public v2.0.0 release evidence, Software Heritage
+archival, crates.io publication, and the release-bound JOSS PDF are recorded.
+The prior arXiv submission is absent and replacement submission `7870358`
+remains incomplete. Demonstrated research use, human engagement,
+author-confirmed AI attestation, arXiv announcement, RRID, JOSS, and external
+registry outcomes remain explicitly tracked.
 
 Parent issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 

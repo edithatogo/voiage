@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-26T11:52:00Z",
+  "updated_at": "2026-07-26T12:49:21Z",
   "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
@@ -33,7 +33,7 @@
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage request 2399846 completed with v2 snapshot SWHID swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d. Authenticated arXiv submission 7861466 still lacks an observed permanent identifier. JOSS authorship, affiliations, ORCID, funding, and competing-interest metadata are confirmed; the comprehensive AI attestation and best-available version inventory remain pending. Direct JOSS is selected. Issue #471 tracks demonstrated research use and genuine human community engagement, external use, or collaborative input. Conda-forge PR 34308 is submitted. Julia General, R registry, SciCrunch/RRID, and JOSS still require external submission, curation, evidence, or editorial decisions."
+      "evidence": "Software Heritage request 2399846 completed with v2 snapshot SWHID swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft and is not submission evidence. JOSS authorship, affiliations, ORCID, funding, and competing-interest metadata are confirmed; the comprehensive AI attestation and best-available version inventory remain pending. Direct JOSS is selected. Issue #471 tracks demonstrated research use and genuine human community engagement, external use, or collaborative input. Conda-forge PR 34308 has green lint and cross-platform builds but awaits external review and merge. Julia General, R registry, SciCrunch/RRID, and JOSS still require external submission, curation, evidence, or editorial decisions."
     }
   ],
   "github_cross_reference": {
