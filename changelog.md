@@ -79,6 +79,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the
   TestPyPI and PyPI gates succeed.
+- Added a fail-closed OpenSSF Best Practices badge readiness map that separates
+  repository evidence from maintainer attestations, external submission, and
+  badge award.
 - Added a stable-core scalability contract defining sequential reduction
   order, indexed EVSI RNG streams, materialized-input and out-of-core
   boundaries, estimator memory models, latency evidence, and the absence of
