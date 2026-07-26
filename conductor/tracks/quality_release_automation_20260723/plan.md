@@ -65,6 +65,10 @@
 - [ ] Add scheduled and pre-release live posture reconciliation for open
   dependency, code-scanning, secret-scanning, and workflow-audit findings,
   security settings, ruleset drift, Renovate activity, and artifact retention.
+- [x] Prepare a fail-closed OpenSSF Best Practices badge evidence map and
+  application protocol without claiming submission or award.
+  (`82af3f7b`; maintainer attestations, external submission, and the public
+  badge URL remain an external gate)
 - [ ] Add deterministic generated-artifact and clean-install gates.
 - [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
   deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
