@@ -213,6 +213,15 @@ def test_release_wheels_are_installed_and_exercised_before_upload() -> None:
     assert "WHEEL_VENV" in release_workflow
 
 
+def test_private_draft_review_has_scoped_push_access() -> None:
+    workflow = yaml.safe_load(
+        Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+    )
+
+    assert workflow["jobs"]["resolve-tag"]["permissions"]["contents"] == "read"
+    assert workflow["jobs"]["reviewed-payload"]["permissions"]["contents"] == "write"
+
+
 def test_release_builds_embed_immutable_source_and_platform_provenance() -> None:
     workflow = yaml.safe_load(
         Path(".github/workflows/release.yml").read_text(encoding="utf-8")
