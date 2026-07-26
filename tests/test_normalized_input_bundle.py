@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+from types import SimpleNamespace
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
@@ -29,6 +30,11 @@ from voiage.contracts import (
     method_input_capability,
     prepare_analysis_inputs,
     run_evpi,
+)
+from voiage.contracts.preparation import (
+    _long_net_benefit_values,
+    _prepared_parameters,
+    _resolve_binding,
 )
 from voiage.methods.basic import evpi
 
@@ -627,6 +633,106 @@ def test_preparation_rejects_inapplicable_binding_and_missing_required_parameter
         prepare_analysis_inputs(restricted, method_family="ceac")
     with pytest.raises(ValueError, match="requires an explicit parameter"):
         prepare_analysis_inputs(source, method_family="evppi")
+
+
+@pytest.mark.parametrize(
+    ("table", "binding", "message"),
+    [
+        (
+            pa.table({"value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id=None,
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "incomplete",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": [None], "value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "cannot contain null",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": ["B"], "value": [1.0]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "undeclared strategy",
+        ),
+        (
+            pa.table({"sample": [1], "strategy": ["A"], "value": ["bad"]}),
+            SimpleNamespace(
+                sample_id_field_id="sample",
+                strategy_field_id="strategy",
+                value_field_id="value",
+                strategy_names=("A",),
+            ),
+            "not numeric",
+        ),
+    ],
+)
+def test_long_preparation_helper_rejects_invalid_rows(table, binding, message) -> None:
+    with pytest.raises(ValueError, match=message):
+        _long_net_benefit_values(table, binding)
+
+
+def test_preparation_helpers_reject_binding_and_parameter_mismatches() -> None:
+    parameter = VOIBinding(role="parameter", table_id="data", field_ids=("p",))
+    net_benefit = VOIBinding(role="net_benefit", table_id="data", field_ids=("n",))
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="helper-validation",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(
+                        FieldManifest(field_id="p", dtype="float64"),
+                        FieldManifest(field_id="n", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+        ),
+        tables={"data": pa.table({"p": [1.0], "n": [2.0]})},
+    )
+
+    with pytest.raises(ValueError, match="exactly one"):
+        _resolve_binding((), "net_benefit", method_family="evpi")
+    with pytest.raises(ValueError, match="at most one"):
+        _prepared_parameters(
+            bundle,
+            (parameter, parameter),
+            method_family="evpi",
+            n_samples=1,
+            table_id="data",
+        )
+    with pytest.raises(ValueError, match="aligned with net benefit"):
+        _prepared_parameters(
+            bundle,
+            (parameter.model_copy(update={"table_id": "other"}),),
+            method_family="evpi",
+            n_samples=1,
+            table_id="data",
+        )
+    with pytest.raises(ValueError, match="align with net-benefit"):
+        _prepared_parameters(
+            bundle, (parameter,), method_family="evpi", n_samples=2, table_id="data"
+        )
+    with pytest.raises(ValueError, match="not applicable"):
+        _resolve_binding(
+            (net_benefit.model_copy(update={"applicable_method_families": ("evpi",)}),),
+            "net_benefit",
+            method_family="ceac",
+        )
 
 
 def test_manifest_matches_published_json_schema() -> None:
