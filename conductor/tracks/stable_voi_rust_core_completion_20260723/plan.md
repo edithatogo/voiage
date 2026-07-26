@@ -68,7 +68,10 @@
 
 ## Phase 3: Stable-core evidence
 
-- [ ] Run Rust, Python, fixture, mutation, benchmark, and full tox gates.
+- [x] Run Rust, Python, fixture, mutation, benchmark, and full tox gates.
+  (`2b6ca058`; 2108 top-level tests, the Rust workspace, all tox environments,
+  92.46% coverage, ten hosted checks, four-of-four bounded mutation kills, and
+  native benchmarks within declared budgets passed)
 - [ ] Reconcile docs, roadmap, changelog, capabilities, and maturity.
 - [ ] Record v1.1 promotion evidence and unresolved external gates.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
