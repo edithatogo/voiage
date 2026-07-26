@@ -76,3 +76,58 @@ def test_materialize_rejects_checksum_mismatch_and_cache_context_mismatch(
     )
     with pytest.raises(IngestionError, match="verified offline materialization"):
         other_context.materialize("source.csv", sha256=digest)
+
+
+def test_materialize_without_cache_returns_the_verified_source(tmp_path) -> None:
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+
+    assert (
+        SourceAccessPolicy(tmp_path).materialize("source.csv", sha256=_digest(payload))
+        == source
+    )
+
+
+@pytest.mark.parametrize("digest", ["not-a-digest", "g" * 64])
+def test_materialize_rejects_malformed_expected_digest(tmp_path, digest) -> None:
+    with pytest.raises(IngestionError, match="lowercase hexadecimal"):
+        SourceAccessPolicy(tmp_path).materialize("missing.csv", sha256=digest)
+
+
+def test_materialize_rejects_corrupted_cached_data_on_replay_and_cache_hit(
+    tmp_path,
+) -> None:
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    policy = SourceAccessPolicy(tmp_path, cache_dir=cache)
+    cached = policy.materialize("source.csv", sha256=digest)
+
+    assert policy.materialize("source.csv", sha256=digest) == cached
+    cached.write_bytes(b"modified")
+    with pytest.raises(IngestionError, match="cached materialization checksum"):
+        policy.materialize("source.csv", sha256=digest)
+    with pytest.raises(IngestionError, match="cached materialization checksum"):
+        SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True).materialize(
+            "source.csv", sha256=digest
+        )
+
+
+def test_materialize_rejects_a_symlinked_cache_entry(tmp_path) -> None:
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    policy = SourceAccessPolicy(tmp_path, cache_dir=cache)
+    cached = policy.materialize("source.csv", sha256=digest)
+    replacement = tmp_path / "replacement.csv"
+    replacement.write_bytes(payload)
+    cached.unlink()
+    cached.symlink_to(replacement)
+
+    with pytest.raises(IngestionError, match="cached materialization checksum"):
+        policy.materialize("source.csv", sha256=digest)
