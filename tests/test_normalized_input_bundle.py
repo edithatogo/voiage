@@ -241,6 +241,118 @@ def test_preparation_never_implicitly_changes_the_selected_population() -> None:
     assert prepared.quality_report.population_transforms == ()
 
 
+def test_preparation_pivots_an_explicit_long_net_benefit_table() -> None:
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="net_benefit", dtype="float64"),
+                    ),
+                    primary_key=("sample_id", "strategy"),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("net_benefit",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="net_benefit",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": [2, 2, 1, 1],
+                    "strategy": ["A", "B", "A", "B"],
+                    "net_benefit": [3.0, 1.0, 1.0, 2.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle)
+
+    assert prepared.net_benefits.strategy_names == ["A", "B"]
+    assert prepared.net_benefits.numpy_values.tolist() == [[3.0, 1.0], [1.0, 2.0]]
+    assert prepared.quality_report.selected_field_ids == (
+        "sample_id",
+        "strategy",
+        "net_benefit",
+    )
+    assert prepared.quality_report.row_count == 4
+    assert prepared.quality_report.exclusions == ()
+
+
+@pytest.mark.parametrize(
+    ("rows", "message"),
+    [
+        (
+            ([1, 1, 1], ["A", "A", "B"], [1.0, 2.0, 3.0]),
+            "duplicate sample-strategy",
+        ),
+        (
+            ([1], ["A"], [1.0]),
+            "every declared strategy",
+        ),
+    ],
+)
+def test_preparation_rejects_ambiguous_or_incomplete_long_net_benefit_rows(
+    rows, message
+) -> None:
+    sample_ids, strategies, values = rows
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="invalid-long-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="net_benefit",
+                    fields=(
+                        FieldManifest(field_id="sample_id", dtype="int64"),
+                        FieldManifest(field_id="strategy", dtype="string"),
+                        FieldManifest(field_id="net_benefit", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="net_benefit",
+                    table_id="net_benefit",
+                    field_ids=("net_benefit",),
+                    strategy_names=("A", "B"),
+                    layout="long",
+                    sample_id_field_id="sample_id",
+                    strategy_field_id="strategy",
+                    value_field_id="net_benefit",
+                ),
+            ),
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "sample_id": sample_ids,
+                    "strategy": strategies,
+                    "net_benefit": values,
+                }
+            )
+        },
+    )
+
+    with pytest.raises(ValueError, match=message):
+        prepare_analysis_inputs(bundle)
+
+
 def test_prepared_inputs_propagate_normalized_identity_into_calculation() -> None:
     prepared = prepare_analysis_inputs(_bundle())
     spec = analysis_spec_from_prepared_inputs(

@@ -86,8 +86,63 @@ class PreparedAnalysisInputs:
     quality_report: DataQualityReport
 
 
+def _long_net_benefit_values(
+    selected: pa.Table, binding: VOIBinding
+) -> tuple[np.ndarray, list[str]]:
+    """Pivot an explicitly declared long table without changing its population."""
+    sample_field = binding.sample_id_field_id
+    strategy_field = binding.strategy_field_id
+    value_field = binding.value_field_id
+    if sample_field is None or strategy_field is None or value_field is None:
+        raise ValueError("long net-benefit binding is incomplete")
+
+    expected_strategies = tuple(binding.strategy_names)
+    expected_set = set(expected_strategies)
+    samples: dict[object, dict[str, float]] = {}
+    sample_order: list[object] = []
+    for row in selected.to_pylist():
+        sample = row[sample_field]
+        strategy = row[strategy_field]
+        value = row[value_field]
+        if sample is None or strategy is None or value is None:
+            raise ValueError(
+                "long net-benefit rows cannot contain null sample, strategy, or value"
+            )
+        if not isinstance(strategy, str) or strategy not in expected_set:
+            raise ValueError("long net-benefit row names an undeclared strategy")
+        if sample not in samples:
+            samples[sample] = {}
+            sample_order.append(sample)
+        if strategy in samples[sample]:
+            raise ValueError(
+                "long net-benefit rows contain duplicate sample-strategy pairs"
+            )
+        try:
+            samples[sample][strategy] = float(value)
+        except (TypeError, ValueError) as error:
+            raise ValueError("long net-benefit value is not numeric") from error
+
+    incomplete = [
+        sample for sample in sample_order if set(samples[sample]) != expected_set
+    ]
+    if incomplete:
+        raise ValueError(
+            "long net-benefit samples must contain every declared strategy"
+        )
+    return (
+        np.asarray(
+            [
+                [samples[sample][strategy] for strategy in expected_strategies]
+                for sample in sample_order
+            ],
+            dtype=float,
+        ),
+        list(expected_strategies),
+    )
+
+
 def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisInputs:
-    """Prepare a wide net-benefit binding without implicit filtering or coercion."""
+    """Prepare an explicitly bound wide or long net-benefit table."""
     binding_profile = getattr(bundle.manifest, "binding_profile", None)
     declared_bindings = (
         binding_profile.bindings
@@ -102,20 +157,36 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
         )
     )
     table = bundle.table(binding.table_id)
-    selected = table.select(binding.field_ids)
+    selected_field_ids = (
+        (
+            binding.sample_id_field_id,
+            binding.strategy_field_id,
+            binding.value_field_id,
+        )
+        if binding.layout == "long"
+        else binding.field_ids
+    )
+    if any(field is None for field in selected_field_ids):
+        raise ValueError("long net-benefit binding is incomplete")
+    selected = table.select(selected_field_ids)
     if selected.num_rows == 0:
         raise ValueError("net-benefit input must contain at least one row")
-    arrays = []
-    for field in binding.field_ids:
-        column = selected[field]
-        if column.null_count:
-            raise ValueError(f"net-benefit field {field!r} contains nulls")
-        try:
-            arrays.append(column.combine_chunks().to_numpy(zero_copy_only=False))
-        except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
-            raise ValueError(f"net-benefit field {field!r} is not numeric") from error
-    values = np.column_stack(arrays).astype(float, copy=False)
-    strategies = list(binding.strategy_names or binding.field_ids)
+    if binding.layout == "long":
+        values, strategies = _long_net_benefit_values(selected, binding)
+    else:
+        arrays = []
+        for field in binding.field_ids:
+            column = selected[field]
+            if column.null_count:
+                raise ValueError(f"net-benefit field {field!r} contains nulls")
+            try:
+                arrays.append(column.combine_chunks().to_numpy(zero_copy_only=False))
+            except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
+                raise ValueError(
+                    f"net-benefit field {field!r} is not numeric"
+                ) from error
+        values = np.column_stack(arrays).astype(float, copy=False)
+        strategies = list(binding.strategy_names or binding.field_ids)
     rows = tuple(tuple(row.values()) for row in selected.to_pylist())
     table_manifest = next(
         item for item in bundle.manifest.tables if item.table_id == binding.table_id
@@ -129,16 +200,23 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
     )
     quality_report = DataQualityReport(
         table_id=binding.table_id,
-        selected_field_ids=tuple(binding.field_ids),
+        selected_field_ids=tuple(
+            field for field in selected_field_ids if field is not None
+        ),
         row_count=selected.num_rows,
         null_counts=MappingProxyType(
-            {field: selected[field].null_count for field in binding.field_ids}
+            {
+                field: selected[field].null_count
+                for field in selected_field_ids
+                if field is not None
+            }
         ),
         duplicate_row_count=selected.num_rows - len(set(rows)),
         unique_value_counts=MappingProxyType(
             {
                 field: len(set(selected[field].to_pylist()))
-                for field in binding.field_ids
+                for field in selected_field_ids
+                if field is not None
             }
         ),
         primary_key_fields=table_manifest.primary_key,

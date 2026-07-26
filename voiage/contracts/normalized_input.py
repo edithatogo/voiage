@@ -138,6 +138,10 @@ class VOIBinding(ContractModel):
     table_id: Identifier
     field_ids: tuple[Identifier, ...]
     strategy_names: tuple[Identifier, ...] = ()
+    layout: Literal["wide", "long"] = "wide"
+    sample_id_field_id: Identifier | None = None
+    strategy_field_id: Identifier | None = None
+    value_field_id: Identifier | None = None
     unit: str | None = None
     perspective: str | None = None
     transformations: tuple[str, ...] = ()
@@ -148,8 +152,35 @@ class VOIBinding(ContractModel):
         """Require a non-empty mapping and aligned user-facing strategies."""
         if not self.field_ids:
             raise ValueError("a VOI binding must reference at least one field")
-        if self.strategy_names and len(self.strategy_names) != len(self.field_ids):
+        if (
+            self.layout == "wide"
+            and self.strategy_names
+            and len(self.strategy_names) != len(self.field_ids)
+        ):
             raise ValueError("strategy_names must match field_ids when supplied")
+        long_fields = (
+            self.sample_id_field_id,
+            self.strategy_field_id,
+            self.value_field_id,
+        )
+        if self.layout == "wide":
+            if any(field is not None for field in long_fields):
+                raise ValueError("wide bindings cannot declare long-layout fields")
+            return self
+        if self.role != "net_benefit":
+            raise ValueError("long layout is currently supported only for net_benefit")
+        if any(field is None for field in long_fields):
+            raise ValueError(
+                "long net_benefit bindings require sample_id, strategy, and value fields"
+            )
+        if self.field_ids != (self.value_field_id,):
+            raise ValueError(
+                "long net_benefit field_ids must contain only value_field_id"
+            )
+        if not self.strategy_names:
+            raise ValueError(
+                "long net_benefit bindings require an explicit strategy order"
+            )
         return self
 
 
@@ -233,7 +264,16 @@ class DatasetManifest(ContractModel):
                     f"binding references unknown table {binding.table_id!r}"
                 )
             available = {field.field_id for field in table.fields}
-            unknown = set(binding.field_ids).difference(available)
+            referenced_fields = set(binding.field_ids).union(
+                field
+                for field in (
+                    binding.sample_id_field_id,
+                    binding.strategy_field_id,
+                    binding.value_field_id,
+                )
+                if field is not None
+            )
+            unknown = referenced_fields.difference(available)
             if unknown:
                 raise ValueError(
                     f"binding references unknown field(s): {sorted(unknown)}"
@@ -254,7 +294,16 @@ class DatasetManifest(ContractModel):
                 raise ValueError("embedded bindings conflicts with binding_profile")
             for binding in self.binding_profile.bindings:
                 table = table_map.get(binding.table_id)
-                if table is None or not set(binding.field_ids).issubset(
+                referenced_fields = set(binding.field_ids).union(
+                    field
+                    for field in (
+                        binding.sample_id_field_id,
+                        binding.strategy_field_id,
+                        binding.value_field_id,
+                    )
+                    if field is not None
+                )
+                if table is None or not referenced_fields.issubset(
                     {field.field_id for field in table.fields}
                 ):
                     raise ValueError(
