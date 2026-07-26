@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import json
 
 from typer.testing import CliRunner
@@ -74,7 +75,15 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         ],
         "frictionlessdata.org:licenses": [{"name": "CC-BY-4.0"}],
     }
-    assert inspection["resources"] == []
+    assert inspection["resources"] == [
+        {
+            "byte_size": (tmp_path / "samples.csv").stat().st_size,
+            "media_type": "text/csv",
+            "resource_id": "samples",
+            "sha256": sha256((tmp_path / "samples.csv").read_bytes()).hexdigest(),
+            "uri": (tmp_path / "samples.csv").resolve().as_uri(),
+        }
+    ]
     assert normalized.exit_code == 0
     assert output.is_file()
     assert calculated.exit_code == 0
