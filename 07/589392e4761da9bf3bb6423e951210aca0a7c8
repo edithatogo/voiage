@@ -1,0 +1,1 @@
+Conductor evidence: hash-bound v1.1 stable-core promotion candidate preserves the approved scientific-freeze scope and fails closed on repository, maintainer, and external distribution gates. Twelve focused tests, schema validation, Ruff, formatting, and Astro/polyglot diagnostics passed. No submission, review, registry merge, or public release is claimed.
