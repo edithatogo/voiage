@@ -65,9 +65,10 @@
     "paired_baseline_gate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "required_evidence", "promotion_rule"],
+      "required": ["status", "blocked_by", "required_evidence", "promotion_rule"],
       "properties": {
-        "status": {"const": "open"},
+        "status": {"enum": ["open", "blocked"]},
+        "blocked_by": {"type": "string", "minLength": 1},
         "required_evidence": {
           "type": "array",
           "minItems": 1,

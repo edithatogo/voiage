@@ -50,6 +50,16 @@ def test_performance_budgets_are_bound_to_executable_baselines() -> None:
     }
 
 
+def test_paired_benchmark_waits_for_the_public_rust_facade() -> None:
+    gate = _load(CONTRACT_PATH)["paired_baseline_gate"]
+
+    assert gate["status"] == "blocked"
+    assert gate["blocked_by"] == (
+        "polyglot_abi_binding_parity_20260723:publishable-rust-facade"
+    )
+    assert "direct Rust facade timing" in gate["required_evidence"]
+
+
 def test_every_baseline_declares_runner_and_claim_limitations() -> None:
     for baseline in _load(CONTRACT_PATH)["baselines"]:
         assert Path(baseline["source"]).is_file()

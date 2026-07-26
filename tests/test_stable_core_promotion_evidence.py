@@ -34,7 +34,10 @@ def test_promotion_evidence_fails_closed_on_open_gates() -> None:
     assert evidence["promotion"]["repository_promotion_ready"] is False
     assert evidence["promotion"]["public_release_ready"] is False
     assert evidence["promotion"]["decision"] == "blocked"
-    assert all(gate["status"] == "open" for gate in evidence["repository_gates"])
+    assert all(
+        gate["status"] in {"open", "blocked"} for gate in evidence["repository_gates"]
+    )
+    assert any(gate["status"] == "blocked" for gate in evidence["repository_gates"])
     assert all(gate["status"] == "open" for gate in evidence["human_gates"])
 
 

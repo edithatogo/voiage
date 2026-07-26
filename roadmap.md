@@ -91,6 +91,12 @@ releases are disclosed for review rather than forcing an unreviewed major
 upgrade. The current strict frontier and local Python and documentation
 security audits pass, and GitHub reports zero open Dependabot alerts.
 
+Matched Python-versus-Rust performance evidence is dependency-ordered behind
+the publishable public Rust facade in the binding-parity track. Benchmarking
+the internal numerics kernel now would not satisfy the frozen direct-facade
+comparison contract, so no speedup or overhead claim is made from the existing
+non-equivalent baselines.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

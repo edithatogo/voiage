@@ -72,6 +72,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Python regression budgets to their executable baseline files, documents
   their different execution boundaries, and prohibits cross-language speedup
   claims until matched hosted evidence exists.
+- Bound the matched cross-language benchmark gate to the publishable public
+  Rust facade in the binding-parity track, preventing internal-kernel timings
+  from being mislabeled as direct-facade performance evidence.
 - Added a stable-core scalability contract defining sequential reduction
   order, indexed EVSI RNG streams, materialized-input and out-of-core
   boundaries, estimator memory models, latency evidence, and the absence of

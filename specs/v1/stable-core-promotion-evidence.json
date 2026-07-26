@@ -28,8 +28,8 @@
     {
       "id": "matched-cross-language-performance",
       "owner": "repository",
-      "status": "open",
-      "evidence_or_next_action": "Run matched hosted benchmarks before making cross-language performance claims."
+      "status": "blocked",
+      "evidence_or_next_action": "Complete the publishable public Rust facade in the binding-parity track, then run identical-digest hosted benchmarks before making cross-language performance claims."
     }
   ],
   "human_gates": [
