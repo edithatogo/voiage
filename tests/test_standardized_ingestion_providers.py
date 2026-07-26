@@ -190,6 +190,7 @@ def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -
         (["Apache-2.0"], "Apache-2.0"),
         ([{"title": "BSD-3-Clause"}], "BSD-3-Clause"),
         ([{"path": "LICENSE"}], "LICENSE"),
+        ([{}, "GPL-3.0-only"], "GPL-3.0-only"),
         ([], None),
     ],
 )
