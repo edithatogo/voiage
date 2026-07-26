@@ -3,11 +3,12 @@
 ## Current boundary
 
 The authenticated arXiv account was rechecked on 26 July 2026. Submission
-`7861466` is no longer present in the active-submission table, and the account
-lists only the two previously announced articles. A permanent identifier,
-announcement, withdrawal, expiry, or other disposition must not be inferred
-without authoritative arXiv evidence. The author needs to resolve this external
-state before the selected arXiv-first JOSS sequence can continue.
+`7861466` is no longer present in the active-submission table. Replacement
+submission `7870358` exists only as an incomplete start-stage draft, expires on
+9 August 2026, and has no files, metadata, category, or licence recorded. It is
+not evidence of a completed resubmission. The author needs to complete the
+author-controlled fields and submission before the selected arXiv-first JOSS
+sequence can continue.
 
 The JOSS package is:
 
@@ -44,7 +45,7 @@ not replace it.
 | Research-workflow integration | The same-author `vop_poc_nz` bundle documents an intended interoperability contract, not completed execution of `voiage` in research | Candidly bounded; no independent adoption claimed |
 | Demonstrated research use | The current pre-review criteria require evidence that the software is used for research, at minimum by its developer. The worked demonstration and an optional same-author adapter do not yet establish completed research-workflow use | Externally pending; aspirational or fallback-only integrations do not qualify |
 | Collaborative-effort screening | The detailed review criteria treat a single-author project without community engagement, external use, or collaborative input as not acceptable. The submission and editorial guides separately describe non-author engagement as a strong positive pre-review signal rather than a hard gate. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek attributable evidence | Author-selected prerequisite and material review risk; agents, bots, and same-author repositories do not qualify |
-| JOSS manuscript structure | All contracted sections are substantive and ordered; hosted run `30182384336` confirms 1,583 body words, inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready for the release-bound source |
+| JOSS manuscript structure | All contracted sections are substantive and ordered; hosted release-bound run `30202496481` confirms the article contract, including 1,583 body words inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready for the release-bound source |
 | Citation and prose assurance | SourceRight reconciles all 18 occurrences, all 15 references have queued sidecars, and six non-DOI software/web warnings remain; selected Authentext blocking patterns report no finding | Machine checks ready; final human source check pending |
 | Design-thinking account | The Rust reference-calculation boundary, protection against cross-language drift, native-build cost, and deliberately narrower R/Julia interfaces are described | Ready |
 | Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026; each affiliation is linked to its verified ROR record | Ready |
@@ -52,8 +53,8 @@ not replace it.
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v2.0.0 tag, commit, asset digests, verified provenance, mixed-language CycloneDX SBOM and SWHID are bound in `docs/release/v2.0.0-release-evidence.json` | Reviewed release evidence ready |
-| Reproducible JOSS PDF | Open Journals run `30182384336` built commit `766797398654fc7637e19767993535e416bb00c9`; artifact `8625969915` has digest `sha256:5098c43bea9b0f4bd6e94179d9f705387922419d9ad05ccb15a02a07e6c0995e`, and its six-page PDF has SHA-256 `43759919dbb9dccf2ecb3356da6a7a65ed67a5bf8043c2a776fa69b278156d22`. Every page was visually inspected; the hosted Textstat report remains review-only evidence | Ready for the release-bound source |
-| arXiv reference | Submission `7861466` is absent from the authenticated account's active-submission table and has no permanent identifier | External disposition gate |
+| Reproducible JOSS PDF | Open Journals run `30202496481` built commit `5c472402ed0fa0e70af3bd98c6d1dde59b5d7811`; artifact `8632098142` has digest `sha256:85b58a21cba15577d874c690317c571192b9dde943007a0308a3a438bf127a8b`, and its six-page PDF has SHA-256 `132af479c9d76091478459652ff12091d04bd3dd426ef5e90265ec1e4bab3e71`. Every page was visually inspected; the hosted Textstat report remains review-only evidence | Ready for the release-bound source |
+| arXiv reference | Submission `7861466` is absent. Replacement `7870358` is incomplete at the start stage, expires 9 August 2026, and has no permanent identifier | Author and external completion gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
 
 Run the repository-owned preflight with:
@@ -125,9 +126,8 @@ The recommended sequence is:
   evidence exists.
 - Obtain the author's complete AI-policy affirmation and record every
   establishable tool/model version without inventing historical identifiers.
-- Rebuild and inspect the official JOSS PDF after the observed v2 release,
-  provenance, SBOM, digest, and SWHID evidence replaced the prospective
-  availability statement.
+- Keep the reviewed release-bound PDF evidence synchronized if `paper.md` or
+  its release evidence changes.
 - Record the permanent arXiv identifier when arXiv assigns it.
 - Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external

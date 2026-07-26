@@ -56,10 +56,10 @@ synthetic health example now reports simulation uncertainty, prespecified
 study-value sensitivity scenarios, and machine-readable numerical results.
 
 The authenticated arXiv account was rechecked on 26 July 2026. Submission
-`7861466` is no longer present in the active-submission table, and the account
-lists only the two previously announced articles. Its disposition must be
-resolved by the author or arXiv before any announcement or permanent identifier
-can be claimed. The JOSS adaptation follows the current 2026
+`7861466` is no longer present in the active-submission table. Replacement
+submission `7870358` exists only as an incomplete start-stage draft expiring
+9 August 2026; it has no files, metadata, category, or licence recorded and is
+not evidence of completed resubmission. The JOSS adaptation follows the current 2026
 screening and paper requirements, including design trade-offs, specific
 reproducible material supporting credible near-term significance, transparent
 AI-use disclosure, Software Heritage citation, a fail-closed local validator,
@@ -73,6 +73,7 @@ criterion, strong positive pre-review signal, and author-selected prerequisite.
 The signed v2.0.0 release, PyPI/TestPyPI packages, four crates.io crates,
 mixed-language SBOM, provenance, clean-install evidence, and Software Heritage
 snapshot are complete. Conda-forge PR #34308 is under external review.
+Its linter and Linux, macOS, and Windows builds are green.
 Author-confirmed AI attestation, final human source verification,
 authenticated submission, editorial review, acceptance, and DOI assignment
 remain explicit human or external gates. The round-nine JOSS source has passed its local article,

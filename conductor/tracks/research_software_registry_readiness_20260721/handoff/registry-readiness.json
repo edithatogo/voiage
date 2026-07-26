@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-26T11:52:00Z",
-  "next_action": "Obtain the author's complete AI-policy attestation, document completed research-workflow use, obtain genuine human engagement through issue #471 or another attributable route, rebuild and review the release-bound PDF, and record the permanent arXiv identifier before direct JOSS submission. Monitor conda-forge PR 34308. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, and clean-install evidence are complete. Conda-forge PR 34308 is submitted and externally reviewed. The observed arXiv state for submission 7861466 still lacks a permanent identifier. Demonstrated research use is a JOSS pre-review gate. Human community engagement is a detailed-review criterion, strong positive pre-review signal, and author-selected prerequisite. Author AI attestation, arXiv announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-26T12:49:21Z",
+  "next_action": "Obtain the author's complete AI-policy attestation, document completed research-workflow use, and obtain genuine human engagement through issue #471 or another attributable route. Complete replacement arXiv submission 7870358 through the author-controlled category and licence choices, then record its permanent identifier before direct JOSS submission. Monitor conda-forge PR 34308 for external review and merge. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
+  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 has green lint and Linux, macOS, and Windows builds but awaits external review and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft expiring 9 August 2026 and is not completed submission evidence. Demonstrated research use is a JOSS pre-review gate. Human community engagement is a detailed-review criterion, strong positive pre-review signal, and author-selected prerequisite. Author AI attestation, arXiv completion and announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -57,6 +57,15 @@
     "readiness_document": "docs/release/joss-submission-readiness.md",
     "validator": "scripts/validate_joss.py",
     "hosted_workflow": ".github/workflows/joss-paper.yml",
+    "release_bound_pdf": {
+      "workflow_run": 30202496481,
+      "revision": "5c472402ed0fa0e70af3bd98c6d1dde59b5d7811",
+      "artifact_id": 8632098142,
+      "artifact_digest": "sha256:85b58a21cba15577d874c690317c571192b9dde943007a0308a3a438bf127a8b",
+      "pdf_sha256": "132af479c9d76091478459652ff12091d04bd3dd426ef5e90265ec1e4bab3e71",
+      "pages": 6,
+      "visual_review": "passed"
+    },
     "package_validation": {
       "python": "clean PyPI install reports metadata and runtime version 2.0.0 and loads the Rust core from the published abi3 wheel",
       "rust": "workspace tests pass excluding the separately wheel-tested private PyO3 crate",
@@ -75,25 +84,26 @@
       "obtain the author's comprehensive AI-policy attestation and best-available tool-version inventory",
       "document completed research-workflow use of the released package",
       "obtain attributable or editor-verifiable human community engagement, external use, or collaborative input",
-      "build and inspect the release-bound Open Journals PDF",
       "record the permanent arXiv identifier after announcement",
       "perform the selected direct authenticated JOSS submission"
     ],
     "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
   },
   "arxiv_preprint_evidence": {
-    "status": "submitted_pending_identifier",
+    "status": "replacement_incomplete",
     "github_issue": "https://github.com/edithatogo/voiage/issues/312",
     "review_pr": "https://github.com/edithatogo/voiage/pull/311",
     "canonical_source": "paper/main.tex",
     "metadata": "paper/metadata.json",
     "readiness_manifest": "paper/readiness-manifest.json",
     "builder": "scripts/build_arxiv_submission.py",
-    "submission_performed": true,
-    "submission_id": "7861466",
-    "dashboard_checked_at": "2026-07-24T00:46:29Z",
-    "dashboard_state": "submitted and not yet listed as an announced article",
+    "submission_performed": false,
+    "prior_submission_id": "7861466",
+    "submission_id": "7870358",
+    "dashboard_checked_at": "2026-07-26T12:49:21Z",
+    "dashboard_state": "prior submission 7861466 absent; replacement 7870358 incomplete at the start stage, expiring 2026-08-09, with no files, metadata, category, or licence recorded",
     "remaining_human_gates": [
+      "select the category and licence and complete replacement submission 7870358",
       "record the permanent arXiv identifier after announcement"
     ]
   },
@@ -162,7 +172,7 @@
       "runner": "GitHub API, authenticated arXiv account, and official JOSS documentation",
       "status": "passed_with_external_gate",
       "artifact": "issue #471 and docs/release/joss-independent-validation.md",
-      "details": "Submission 7861466 remains submitted without a permanent identifier. Demonstrated research use is a hard pre-review gate. Non-author engagement is a strong positive pre-review signal and an explicit detailed-review criterion, so issue #471 remains an author-selected prerequisite for the direct JOSS route."
+      "details": "Prior submission 7861466 is absent. Replacement 7870358 is incomplete at the start stage and is not submission evidence. Demonstrated research use is a hard pre-review gate. Non-author engagement is a strong positive pre-review signal and an explicit detailed-review criterion, so issue #471 remains an author-selected prerequisite for the direct JOSS route."
     },
     {
       "command": "release workflow 30200134119; clean PyPI install; crates workflow 30200722982; Software Heritage request 2399846; supply-chain workflow 30200921515",
@@ -176,7 +186,7 @@
       "runner": "GitHub Actions and conda-forge staged-recipes",
       "status": "submitted_external_review",
       "artifact": "https://github.com/conda-forge/staged-recipes/pull/34308",
-      "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe; conda-forge lint and platform builds remain external checks."
+      "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe; conda-forge lint and Linux, macOS, and Windows builds pass. Maintainer review, merge, feedstock creation, and channel indexing remain external."
     }
   ]
 }

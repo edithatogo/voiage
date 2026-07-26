@@ -40,8 +40,12 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert arxiv_issue in specification
     assert independent_validation_issue in specification
     assert handoff["arxiv_preprint_evidence"]["review_pr"].endswith("/pull/311")
-    assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7861466"
-    assert "submission `7861466` is complete" in plan
+    assert handoff["arxiv_preprint_evidence"]["prior_submission_id"] == "7861466"
+    assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7870358"
+    assert handoff["arxiv_preprint_evidence"]["status"] == "replacement_incomplete"
+    assert handoff["arxiv_preprint_evidence"]["submission_performed"] is False
+    assert "Replacement submission `7870358`" in plan
+    assert "it is not submission evidence" in plan
     assert handoff["joss_submission_evidence"]["selected_route"] == "direct_joss"
     assert (
         handoff["joss_submission_evidence"]["status"]
@@ -52,7 +56,11 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert any("AI-policy attestation" in gate for gate in remaining)
     assert any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
-    assert any("Open Journals PDF" in gate for gate in remaining)
+    assert not any("Open Journals PDF" in gate for gate in remaining)
+    assert (
+        handoff["joss_submission_evidence"]["release_bound_pdf"]["visual_review"]
+        == "passed"
+    )
     assert handoff["release_evidence"]["tag"] == "v2.0.0"
     assert (
         handoff["software_heritage_archival_request"]["snapshot_swhid"]

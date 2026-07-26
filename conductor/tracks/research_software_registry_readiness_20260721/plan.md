@@ -16,8 +16,11 @@
   adaptation prepared; authenticated submission, editorial review, acceptance,
   and DOI assignment remain human or external gates.
   - [~] [Issue #312](https://github.com/edithatogo/voiage/issues/312) —
-    authenticated arXiv submission `7861466` is complete; announcement and a
-    permanent arXiv identifier remain external gates.
+    prior submission `7861466` is absent from the authenticated dashboard.
+    Replacement submission `7870358` exists only as an incomplete start-stage
+    draft expiring 9 August 2026; author selection of category and licence,
+    file upload, completion, moderation, announcement, and a permanent arXiv
+    identifier remain human or external gates.
 
 ## Phase 2A: JOSS readiness after arXiv submission [checkpoint: 80af0da]
 
@@ -29,9 +32,9 @@
 - [x] Audit reviewer-facing installation, packaging, documentation, examples,
   tests, and release evidence for the Python, Rust, R, and Julia surfaces,
   including the pyOpenSci/rOpenSci partner routes. (`80af0da`)
-- [x] Record the submitted arXiv draft as authoritative submission evidence and
-  retain announcement, permanent identifier, JOSS submission, review, and
-  acceptance as external gates. (`80af0da`)
+- [x] Record the historical submitted arXiv state and preserve later
+  authenticated disposition checks without treating a submission number as a
+  permanent identifier. (`80af0da`; refreshed 2026-07-26)
 
 ## Review fixes
 
@@ -60,6 +63,14 @@
   provenance, SBOM, digest, clean-installation, and Software Heritage evidence.
   (`cdc40de`; `v2.0.0`; release run `30200134119`; supply-chain run
   `30200921515`; Software Heritage request `2399846`)
+- [x] Build and visually inspect the release-bound Open Journals PDF from the
+  exact v2 evidence revision. (run `30202496481`; artifact `8632098142`;
+  six-page PDF SHA-256
+  `132af479c9d76091478459652ff12091d04bd3dd426ef5e90265ec1e4bab3e71`)
+- [x] Submit the v2.0.0 conda-forge staged recipe and obtain green lint,
+  Linux, macOS, and Windows build evidence. ([conda-forge PR
+  #34308](https://github.com/conda-forge/staged-recipes/pull/34308);
+  maintainer review and merge remain external)
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
@@ -132,12 +143,13 @@
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
-  cleaner/collector variants. Authenticated submission `7861466` is complete;
-  announcement and the permanent arXiv identifier remain external.
+  cleaner/collector variants. Prior submission `7861466` is absent from the
+  authenticated dashboard. Replacement submission `7870358` is incomplete at
+  the start stage and expires on 9 August 2026; it is not submission evidence.
 - Direct JOSS submission is authorised by the author but remains unperformed
   until issue #471 contains genuine human engagement evidence, the exact v2
-  release is archived, the AI attestation is confirmed, the final PDF is
-  reviewed, and the author-preferred arXiv announcement/permanent-identifier
-  boundary is resolved.
+  release is archived, the AI attestation is confirmed, and the
+  author-preferred arXiv announcement/permanent-identifier boundary is
+  resolved. The release-bound PDF has been built and reviewed.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;
   arXiv timing is therefore not a JOSS blocker.
