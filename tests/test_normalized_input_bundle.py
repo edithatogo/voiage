@@ -294,6 +294,87 @@ def test_preparation_pivots_an_explicit_long_net_benefit_table() -> None:
     assert prepared.quality_report.exclusions == ()
 
 
+def test_preparation_derives_net_benefit_from_explicit_cost_outcome_bindings() -> None:
+    bundle = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="cost-outcome-net-benefit",
+            tables=(
+                TableManifest(
+                    table_id="outcomes",
+                    fields=(
+                        FieldManifest(field_id="cost_a", dtype="float64"),
+                        FieldManifest(field_id="cost_b", dtype="float64"),
+                        FieldManifest(field_id="outcome_a", dtype="float64"),
+                        FieldManifest(field_id="outcome_b", dtype="float64"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="cost",
+                    table_id="outcomes",
+                    field_ids=("cost_a", "cost_b"),
+                    strategy_names=("A", "B"),
+                ),
+                VOIBinding(
+                    role="outcome",
+                    table_id="outcomes",
+                    field_ids=("outcome_a", "outcome_b"),
+                    strategy_names=("A", "B"),
+                ),
+            ),
+        ),
+        tables={
+            "outcomes": pa.table(
+                {
+                    "cost_a": [10.0, 20.0],
+                    "cost_b": [30.0, 10.0],
+                    "outcome_a": [2.0, 3.0],
+                    "outcome_b": [1.0, 4.0],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle, willingness_to_pay=100.0)
+
+    assert prepared.net_benefits.strategy_names == ["A", "B"]
+    assert prepared.net_benefits.numpy_values.tolist() == [
+        [190.0, 70.0],
+        [280.0, 390.0],
+    ]
+    assert prepared.quality_report.population_transforms == (
+        "net_benefit = willingness_to_pay * outcome - cost",
+    )
+
+
+def test_preparation_requires_a_declared_willingness_to_pay_for_cost_outcome() -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="cost",
+                        table_id="net_benefit",
+                        field_ids=("strategy_a",),
+                    ),
+                    VOIBinding(
+                        role="outcome",
+                        table_id="net_benefit",
+                        field_ids=("strategy_b",),
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+
+    with pytest.raises(ValueError, match="willingness_to_pay"):
+        prepare_analysis_inputs(bundle)
+
+
 @pytest.mark.parametrize(
     ("rows", "message"),
     [

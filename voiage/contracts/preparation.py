@@ -141,7 +141,41 @@ def _long_net_benefit_values(
     )
 
 
-def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisInputs:
+def _resolve_binding(
+    bindings: tuple[VOIBinding, ...], role: str, *, method_family: str
+) -> VOIBinding:
+    """Resolve a binding role and enforce its declared method applicability."""
+    matches = tuple(binding for binding in bindings if binding.role == role)
+    if len(matches) != 1:
+        raise ValueError(f"exactly one {role} binding is required")
+    binding = matches[0]
+    if (
+        binding.applicable_method_families
+        and method_family not in binding.applicable_method_families
+    ):
+        raise ValueError(
+            f"binding role {role!r} is not applicable to {method_family!r}"
+        )
+    return binding
+
+
+def _wide_binding_values(table: pa.Table, binding: VOIBinding) -> np.ndarray:
+    """Return explicit wide columns only after numeric and null validation."""
+    arrays = []
+    for field in binding.field_ids:
+        column = table[field]
+        if column.null_count:
+            raise ValueError(f"net-benefit field {field!r} contains nulls")
+        try:
+            arrays.append(column.combine_chunks().to_numpy(zero_copy_only=False))
+        except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
+            raise ValueError(f"net-benefit field {field!r} is not numeric") from error
+    return np.column_stack(arrays).astype(float, copy=False)
+
+
+def prepare_analysis_inputs(
+    bundle: NormalizedInputBundle, *, willingness_to_pay: float | None = None
+) -> PreparedAnalysisInputs:
     """Prepare an explicitly bound wide or long net-benefit table."""
     binding_profile = getattr(bundle.manifest, "binding_profile", None)
     declared_bindings = (
@@ -149,43 +183,76 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
         if binding_profile is not None
         else bundle.manifest.bindings
     )
-    binding = (
-        binding_profile.binding_for("net_benefit", method_family="evpi")
-        if binding_profile is not None
-        else BindingProfile(bindings=declared_bindings).binding_for(
-            "net_benefit", method_family="evpi"
-        )
+    net_benefit_bindings = tuple(
+        binding for binding in declared_bindings if binding.role == "net_benefit"
     )
+    derived = False
+    wtp: float | None = None
+    if net_benefit_bindings:
+        binding = _resolve_binding(
+            declared_bindings, "net_benefit", method_family="evpi"
+        )
+    else:
+        if willingness_to_pay is None:
+            raise ValueError(
+                "cost/outcome preparation requires a finite willingness_to_pay"
+            )
+        wtp = float(willingness_to_pay)
+        if not np.isfinite(wtp):
+            raise ValueError(
+                "cost/outcome preparation requires a finite willingness_to_pay"
+            )
+        cost_binding = _resolve_binding(declared_bindings, "cost", method_family="evpi")
+        outcome_binding = _resolve_binding(
+            declared_bindings, "outcome", method_family="evpi"
+        )
+        if (
+            cost_binding.layout != "wide"
+            or outcome_binding.layout != "wide"
+            or cost_binding.table_id != outcome_binding.table_id
+            or len(cost_binding.field_ids) != len(outcome_binding.field_ids)
+        ):
+            raise ValueError(
+                "cost and outcome bindings must be aligned wide fields in one table"
+            )
+        cost_names = cost_binding.strategy_names or cost_binding.field_ids
+        outcome_names = outcome_binding.strategy_names or outcome_binding.field_ids
+        if cost_names != outcome_names:
+            raise ValueError(
+                "cost and outcome bindings must declare the same strategies"
+            )
+        binding = outcome_binding
+        derived = True
     table = bundle.table(binding.table_id)
-    selected_field_ids = (
+    selected_field_ids: tuple[str | None, ...] = (
         (
             binding.sample_id_field_id,
             binding.strategy_field_id,
             binding.value_field_id,
         )
         if binding.layout == "long"
-        else binding.field_ids
+        else (
+            tuple(cost_binding.field_ids) + tuple(binding.field_ids)
+            if derived
+            else binding.field_ids
+        )
     )
     if any(field is None for field in selected_field_ids):
         raise ValueError("long net-benefit binding is incomplete")
     selected = table.select(selected_field_ids)
     if selected.num_rows == 0:
         raise ValueError("net-benefit input must contain at least one row")
-    if binding.layout == "long":
+    if derived:
+        if wtp is None:
+            raise ValueError("cost/outcome preparation requires a willingness_to_pay")
+        cost_values = _wide_binding_values(table, cost_binding)
+        outcome_values = _wide_binding_values(table, binding)
+        values = wtp * outcome_values - cost_values
+        strategies = list(binding.strategy_names or binding.field_ids)
+    elif binding.layout == "long":
         values, strategies = _long_net_benefit_values(selected, binding)
     else:
-        arrays = []
-        for field in binding.field_ids:
-            column = selected[field]
-            if column.null_count:
-                raise ValueError(f"net-benefit field {field!r} contains nulls")
-            try:
-                arrays.append(column.combine_chunks().to_numpy(zero_copy_only=False))
-            except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
-                raise ValueError(
-                    f"net-benefit field {field!r} is not numeric"
-                ) from error
-        values = np.column_stack(arrays).astype(float, copy=False)
+        values = _wide_binding_values(table, binding)
         strategies = list(binding.strategy_names or binding.field_ids)
     rows = tuple(tuple(row.values()) for row in selected.to_pylist())
     table_manifest = next(
@@ -227,6 +294,9 @@ def prepare_analysis_inputs(bundle: NormalizedInputBundle) -> PreparedAnalysisIn
             else 0
         ),
         join_coverage=MappingProxyType({}),
+        population_transforms=(
+            ("net_benefit = willingness_to_pay * outcome - cost",) if derived else ()
+        ),
     )
     return PreparedAnalysisInputs(
         net_benefits=ValueArray.from_numpy(values, strategies),
