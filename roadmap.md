@@ -99,6 +99,13 @@ benchmark result or crates.io publication. The paired hosted benchmark gate is
 open, and no speedup or overhead claim is made from the existing non-equivalent
 baselines.
 
+The additive C ABI v1.1 increment preserves every scalar EVPI entry point and
+adds a self-describing `VoiageEvpiResultV1` envelope. Its fixed-width layout
+carries value, sample and strategy counts, assurance availability, selected-
+strategy opportunity-loss variance, and Monte Carlo standard error. Broader
+method/result types, serialization buffers, and generated registry-derived
+capabilities remain part of the binding-parity track.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

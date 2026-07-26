@@ -6,7 +6,8 @@ use std::mem::{align_of, offset_of, size_of};
 
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
-    VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY,
+    voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageEvpiResultV1,
+    VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_EVPI_RESULT,
     VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
 };
 
@@ -24,7 +25,7 @@ fn version_query_returns_a_fixed_width_self_describing_structure() {
 }
 
 #[test]
-fn capability_query_advertises_infrastructure_only() {
+fn capability_query_advertises_typed_evpi_results() {
     let capabilities = voiage_v1_capabilities();
 
     assert_eq!(size_of::<VoiageAbiCapabilitiesV1>(), 16);
@@ -32,17 +33,26 @@ fn capability_query_advertises_infrastructure_only() {
     assert_eq!(capabilities.struct_version, 1);
     assert_eq!(
         capabilities.capability_bits,
-        VOIAGE_ABI_VERSION_NEGOTIATION | VOIAGE_ABI_CAPABILITY_QUERY | voiage_ffi::VOIAGE_ABI_EVPI
+        VOIAGE_ABI_VERSION_NEGOTIATION
+            | VOIAGE_ABI_CAPABILITY_QUERY
+            | voiage_ffi::VOIAGE_ABI_EVPI
+            | VOIAGE_ABI_EVPI_RESULT
     );
-    assert_eq!(capabilities.capability_bits & !0b111, 0);
+    assert_eq!(capabilities.capability_bits & !0b1111, 0);
 }
 
 #[test]
 fn public_queries_have_the_exact_namespaced_function_signatures() {
     let version_query: extern "C" fn() -> VoiageAbiVersionV1 = voiage_v1_abi_version;
     let capability_query: extern "C" fn() -> VoiageAbiCapabilitiesV1 = voiage_v1_capabilities;
+    let typed_evpi: unsafe extern "C" fn(
+        *const f64,
+        u64,
+        u64,
+        *mut VoiageEvpiResultV1,
+    ) -> VoiageStatusV1 = voiage_v1_evpi_result;
 
-    let _ = (version_query, capability_query);
+    let _ = (version_query, capability_query, typed_evpi);
 }
 
 #[test]
@@ -67,6 +77,39 @@ fn evpi_i32_abi_adapter_reuses_the_rust_kernel() {
 }
 
 #[test]
+fn typed_evpi_result_exposes_dimensions_and_assurance() {
+    let values = [10.0, 1.0, 2.0, 8.0];
+    let mut result = VoiageEvpiResultV1 {
+        struct_size: 0,
+        struct_version: 0,
+        value: 0.0,
+        sample_count: 0,
+        strategy_count: 0,
+        has_assurance: 0,
+        reserved: 1,
+        opportunity_loss_variance: 0.0,
+        monte_carlo_standard_error: 0.0,
+    };
+    let status = unsafe { voiage_v1_evpi_result(values.as_ptr(), 2, 2, &raw mut result) };
+
+    assert_eq!(status, VoiageStatusV1::Ok);
+    assert_eq!(result.struct_size, 56);
+    assert_eq!(result.struct_version, 1);
+    assert!((result.value - 3.0).abs() < f64::EPSILON);
+    assert_eq!(result.sample_count, 2);
+    assert_eq!(result.strategy_count, 2);
+    assert_eq!(result.has_assurance, 1);
+    assert_eq!(result.reserved, 0);
+    assert!((result.opportunity_loss_variance - 18.0).abs() < f64::EPSILON);
+    assert!((result.monte_carlo_standard_error - 3.0).abs() < f64::EPSILON);
+
+    let status = unsafe {
+        voiage_v1_evpi_result(values.as_ptr(), 2, 2, std::ptr::null_mut())
+    };
+    assert_eq!(status, VoiageStatusV1::InvalidArgument);
+}
+
+#[test]
 fn committed_layout_baseline_matches_rust_types_exactly() {
     let expected = LAYOUT_BASELINE
         .lines()
@@ -83,6 +126,16 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
             "VoiageAbiCapabilitiesV1.struct_size {}\n",
             "VoiageAbiCapabilitiesV1.struct_version {}\n",
             "VoiageAbiCapabilitiesV1.capability_bits {}\n",
+            "VoiageEvpiResultV1 {} {}\n",
+            "VoiageEvpiResultV1.struct_size {}\n",
+            "VoiageEvpiResultV1.struct_version {}\n",
+            "VoiageEvpiResultV1.value {}\n",
+            "VoiageEvpiResultV1.sample_count {}\n",
+            "VoiageEvpiResultV1.strategy_count {}\n",
+            "VoiageEvpiResultV1.has_assurance {}\n",
+            "VoiageEvpiResultV1.reserved {}\n",
+            "VoiageEvpiResultV1.opportunity_loss_variance {}\n",
+            "VoiageEvpiResultV1.monte_carlo_standard_error {}\n",
             "VoiageHandleV1 {} {}\n",
             "voiage_v1_status {} {}",
         ),
@@ -96,6 +149,17 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
         offset_of!(VoiageAbiCapabilitiesV1, struct_size),
         offset_of!(VoiageAbiCapabilitiesV1, struct_version),
         offset_of!(VoiageAbiCapabilitiesV1, capability_bits),
+        size_of::<VoiageEvpiResultV1>(),
+        align_of::<VoiageEvpiResultV1>(),
+        offset_of!(VoiageEvpiResultV1, struct_size),
+        offset_of!(VoiageEvpiResultV1, struct_version),
+        offset_of!(VoiageEvpiResultV1, value),
+        offset_of!(VoiageEvpiResultV1, sample_count),
+        offset_of!(VoiageEvpiResultV1, strategy_count),
+        offset_of!(VoiageEvpiResultV1, has_assurance),
+        offset_of!(VoiageEvpiResultV1, reserved),
+        offset_of!(VoiageEvpiResultV1, opportunity_loss_variance),
+        offset_of!(VoiageEvpiResultV1, monte_carlo_standard_error),
         size_of::<u64>(),
         align_of::<u64>(),
         size_of::<VoiageStatusV1>(),

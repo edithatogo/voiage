@@ -79,6 +79,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   contract, release ordering, and conformance tests. The matched facade
   benchmark is now ready for hosted measurement, while crates.io trusted
   publisher registration and publication remain explicit external gates.
+- Extended ABI v1 additively with `VoiageEvpiResultV1` and
+  `voiage_v1_evpi_result`, preserving the scalar EVPI symbols while exposing
+  fixed-width dimensions, variance availability, variance, and Monte Carlo
+  standard error.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

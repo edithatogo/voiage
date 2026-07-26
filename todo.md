@@ -58,6 +58,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
             Python dependencies. Matched hosted facade benchmarks, typed C-ABI
             expansion, remaining language bindings, and crates.io trusted
             publishing remain open.
+        *   C ABI v1.1 now adds a fixed-width typed EVPI result with dimensions
+            and runtime assurance while retaining scalar compatibility. Typed
+            results for the remaining stable methods, generated capabilities,
+            serialization buffers, and language adapters remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

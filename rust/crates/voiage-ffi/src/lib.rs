@@ -17,7 +17,7 @@ mod status;
 use std::panic::{self, AssertUnwindSafe};
 
 use voiage_domain::SampleMatrix;
-use voiage_numerics::evpi;
+use voiage_numerics::{evpi, evpi_with_assurance, EvpiKernelResult};
 
 pub use error_transport::voiage_v1_error_message;
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
@@ -30,7 +30,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 0;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 1;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -41,8 +41,12 @@ pub const VOIAGE_ABI_CAPABILITY_QUERY: u64 = 1 << 1;
 /// Capability bit for the stable scalar EVPI operation.
 pub const VOIAGE_ABI_EVPI: u64 = 1 << 2;
 
+/// Capability bit for the typed EVPI result envelope.
+pub const VOIAGE_ABI_EVPI_RESULT: u64 = 1 << 3;
+
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
+const EVPI_RESULT_STRUCT_SIZE: u32 = 56;
 
 /// Fixed-width, self-describing v1 ABI version response.
 #[repr(C)]
@@ -66,6 +70,30 @@ pub struct VoiageAbiCapabilitiesV1 {
     pub struct_version: u32,
     /// Capability bitset for supported ABI operations.
     pub capability_bits: u64,
+}
+
+/// Fixed-width typed EVPI result with explicit assurance availability.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct VoiageEvpiResultV1 {
+    /// Byte size of this structure for forward-compatible callers.
+    pub struct_size: u32,
+    /// Version of this result structure.
+    pub struct_version: u32,
+    /// Expected value of perfect information.
+    pub value: f64,
+    /// Number of uncertainty samples.
+    pub sample_count: u64,
+    /// Number of strategies.
+    pub strategy_count: u64,
+    /// One when variance and Monte Carlo error are available, otherwise zero.
+    pub has_assurance: u32,
+    /// Reserved; callers must ignore and producers set to zero.
+    pub reserved: u32,
+    /// Unbiased selected-strategy opportunity-loss variance.
+    pub opportunity_loss_variance: f64,
+    /// Monte Carlo standard error of EVPI.
+    pub monte_carlo_standard_error: f64,
 }
 
 /// Returns the portable v1 ABI version contract.
@@ -92,8 +120,23 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
         struct_version: 1,
         capability_bits: VOIAGE_ABI_VERSION_NEGOTIATION
             | VOIAGE_ABI_CAPABILITY_QUERY
-            | VOIAGE_ABI_EVPI,
+            | VOIAGE_ABI_EVPI
+            | VOIAGE_ABI_EVPI_RESULT,
     }
+}
+
+fn validated_matrix(
+    values: &[f64],
+    row_count: usize,
+    column_count: usize,
+) -> Result<SampleMatrix, VoiageStatusV1> {
+    let matrix = (0..row_count)
+        .map(|row| {
+            let start = row * column_count;
+            values[start..start + column_count].to_vec()
+        })
+        .collect::<Vec<_>>();
+    SampleMatrix::try_from(matrix).map_err(|_| VoiageStatusV1::InvalidArgument)
 }
 
 /// Computes EVPI from a row-major, finite net-benefit matrix.
@@ -132,13 +175,7 @@ pub unsafe extern "C" fn voiage_v1_evpi(
     let result = panic::catch_unwind(AssertUnwindSafe(|| {
         // SAFETY: the caller contract guarantees a readable row-major region.
         let slice = unsafe { std::slice::from_raw_parts(values, length) };
-        let matrix = (0..row_count)
-            .map(|row| {
-                let start = row * column_count;
-                slice[start..start + column_count].to_vec()
-            })
-            .collect::<Vec<_>>();
-        let matrix = SampleMatrix::try_from(matrix).map_err(|_| VoiageStatusV1::InvalidArgument)?;
+        let matrix = validated_matrix(slice, row_count, column_count)?;
         evpi(&matrix).map_err(|_| VoiageStatusV1::NumericalFailure)
     }));
     match result {
@@ -149,6 +186,74 @@ pub unsafe extern "C" fn voiage_v1_evpi(
         }
         Ok(Err(status)) => status,
         Err(_) => VoiageStatusV1::Panic,
+    }
+}
+
+/// Computes EVPI into a self-describing typed result envelope.
+///
+/// # Safety
+///
+/// `values` must point to `rows * columns` readable `f64` values and `out`
+/// must be non-null, aligned, and writable for one [`VoiageEvpiResultV1`].
+/// Neither pointer is retained after this call.
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_evpi_result(
+    values: *const f64,
+    rows: u64,
+    columns: u64,
+    out: *mut VoiageEvpiResultV1,
+) -> VoiageStatusV1 {
+    if values.is_null()
+        || out.is_null()
+        || rows == 0
+        || columns == 0
+        || (out as usize) % std::mem::align_of::<VoiageEvpiResultV1>() != 0
+    {
+        return VoiageStatusV1::InvalidArgument;
+    }
+    let Some(length) = rows
+        .checked_mul(columns)
+        .and_then(|value| usize::try_from(value).ok())
+    else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    let (Ok(row_count), Ok(column_count)) = (usize::try_from(rows), usize::try_from(columns))
+    else {
+        return VoiageStatusV1::InvalidArgument;
+    };
+    let result = panic::catch_unwind(AssertUnwindSafe(|| {
+        // SAFETY: the caller contract guarantees a readable row-major region.
+        let slice = unsafe { std::slice::from_raw_parts(values, length) };
+        let matrix = validated_matrix(slice, row_count, column_count)?;
+        evpi_with_assurance(&matrix).map_err(|_| VoiageStatusV1::NumericalFailure)
+    }));
+    match result {
+        Ok(Ok(result)) => {
+            let envelope = evpi_result_envelope(&result);
+            // SAFETY: nullness and alignment were validated above.
+            unsafe { out.write(envelope) };
+            VoiageStatusV1::Ok
+        }
+        Ok(Err(status)) => status,
+        Err(_) => VoiageStatusV1::Panic,
+    }
+}
+
+fn evpi_result_envelope(result: &EvpiKernelResult) -> VoiageEvpiResultV1 {
+    let assurance = result
+        .opportunity_loss_variance
+        .zip(result.monte_carlo_standard_error);
+    VoiageEvpiResultV1 {
+        struct_size: EVPI_RESULT_STRUCT_SIZE,
+        struct_version: 1,
+        value: result.value,
+        sample_count: result.sample_count as u64,
+        strategy_count: result.strategy_count as u64,
+        has_assurance: u32::from(assurance.is_some()),
+        reserved: 0,
+        opportunity_loss_variance: assurance.map_or(0.0, |values| values.0),
+        monte_carlo_standard_error: assurance.map_or(0.0, |values| values.1),
     }
 }
 

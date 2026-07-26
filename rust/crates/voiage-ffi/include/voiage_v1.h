@@ -24,11 +24,12 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(0)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(1)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
 #define VOIAGE_V1_CAPABILITY_EVPI (UINT64_C(1) << 2)
+#define VOIAGE_V1_CAPABILITY_EVPI_RESULT (UINT64_C(1) << 3)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -56,6 +57,18 @@ typedef struct VoiageAbiCapabilitiesV1 {
     uint64_t capability_bits;
 } VoiageAbiCapabilitiesV1;
 
+typedef struct VoiageEvpiResultV1 {
+    uint32_t struct_size;
+    uint32_t struct_version;
+    double value;
+    uint64_t sample_count;
+    uint64_t strategy_count;
+    uint32_t has_assurance;
+    uint32_t reserved;
+    double opportunity_loss_variance;
+    double monte_carlo_standard_error;
+} VoiageEvpiResultV1;
+
 /* A handle is an opaque process-local token, never an address. Zero is null. */
 typedef uint64_t VoiageHandleV1;
 
@@ -66,6 +79,11 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_evpi(
     uint64_t rows,
     uint64_t columns,
     double *out_value);
+VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_result(
+    const double *values,
+    uint64_t rows,
+    uint64_t columns,
+    VoiageEvpiResultV1 *out_result);
 /* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
     const double *values,

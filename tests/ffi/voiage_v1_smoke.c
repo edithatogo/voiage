@@ -12,10 +12,19 @@ _Static_assert(offsetof(VoiageAbiCapabilitiesV1, capability_bits) == 8,
                "capability bit offset drift");
 _Static_assert(sizeof(VoiageHandleV1) == 8, "handle width drift");
 _Static_assert(sizeof(voiage_v1_status) == 4, "status width drift");
+_Static_assert(sizeof(VoiageEvpiResultV1) == 56, "EVPI result layout drift");
 
 static int exercise_contract(void) {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
     VoiageAbiCapabilitiesV1 capabilities = voiage_v1_capabilities();
+    const double values[] = {10.0, 1.0, 2.0, 8.0};
+    VoiageEvpiResultV1 evpi_result = {0};
+    if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=
+            VOIAGE_V1_STATUS_OK ||
+        evpi_result.struct_size != sizeof(evpi_result) ||
+        evpi_result.sample_count != 2 || evpi_result.strategy_count != 2) {
+        return 5;
+    }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     uint64_t required_size = 0;
     voiage_v1_status status = voiage_v1_handle_create(&handle);

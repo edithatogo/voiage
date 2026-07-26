@@ -36,6 +36,13 @@ int main(void) {
         return 1;
     }
 
+    const double values[] = {10.0, 1.0, 2.0, 8.0};
+    VoiageEvpiResultV1 result = {0};
+    if (voiage_v1_evpi_result(values, 2, 2, &result) != VOIAGE_V1_STATUS_OK ||
+        result.struct_size != sizeof(result) || result.has_assurance != 1) {
+        return 8;
+    }
+
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
         if (voiage_v1_handle_create(&handle) != VOIAGE_V1_STATUS_OK ||
