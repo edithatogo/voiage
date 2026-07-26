@@ -349,6 +349,49 @@ def test_preparation_derives_net_benefit_from_explicit_cost_outcome_bindings() -
     )
 
 
+def test_preparation_converts_explicit_aligned_parameter_fields() -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "tables": (
+                    TableManifest(
+                        table_id="net_benefit",
+                        fields=(
+                            FieldManifest(field_id="strategy_a", dtype="float64"),
+                            FieldManifest(field_id="strategy_b", dtype="float64"),
+                            FieldManifest(field_id="prevalence", dtype="float64"),
+                        ),
+                    ),
+                ),
+                "bindings": (
+                    *source.manifest.bindings,
+                    VOIBinding(
+                        role="parameter",
+                        table_id="net_benefit",
+                        field_ids=("prevalence",),
+                    ),
+                ),
+            }
+        ),
+        tables={
+            "net_benefit": pa.table(
+                {
+                    "strategy_a": [1.0, 3.0],
+                    "strategy_b": [2.0, 1.0],
+                    "prevalence": [0.1, 0.2],
+                }
+            )
+        },
+    )
+
+    prepared = prepare_analysis_inputs(bundle)
+
+    assert prepared.parameters is not None
+    assert prepared.parameters.parameter_names == ["prevalence"]
+    assert prepared.parameters.parameters["prevalence"].tolist() == [0.1, 0.2]
+
+
 def test_preparation_requires_a_declared_willingness_to_pay_for_cost_outcome() -> None:
     source = _bundle()
     bundle = NormalizedInputBundle(

@@ -16,7 +16,7 @@ from voiage.contracts.normalized_input import (
     NormalizedInputBundle,
     VOIBinding,
 )
-from voiage.schema import ValueArray
+from voiage.schema import ParameterSet, ValueArray
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -84,6 +84,7 @@ class PreparedAnalysisInputs:
     binding_profile_digest: str
     binding: VOIBinding
     quality_report: DataQualityReport
+    parameters: ParameterSet | None = None
 
 
 def _long_net_benefit_values(
@@ -171,6 +172,33 @@ def _wide_binding_values(table: pa.Table, binding: VOIBinding) -> np.ndarray:
         except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
             raise ValueError(f"net-benefit field {field!r} is not numeric") from error
     return np.column_stack(arrays).astype(float, copy=False)
+
+
+def _prepared_parameters(
+    bundle: NormalizedInputBundle,
+    bindings: tuple[VOIBinding, ...],
+    *,
+    n_samples: int,
+    table_id: str,
+) -> ParameterSet | None:
+    """Convert one explicit, row-aligned parameter binding without joins."""
+    matches = tuple(binding for binding in bindings if binding.role == "parameter")
+    if not matches:
+        return None
+    if len(matches) != 1:
+        raise ValueError("at most one parameter binding is supported")
+    binding = _resolve_binding(matches, "parameter", method_family="evpi")
+    if binding.layout != "wide" or binding.table_id != table_id:
+        raise ValueError(
+            "parameter binding must be a wide table aligned with net benefit"
+        )
+    values = _wide_binding_values(bundle.table(binding.table_id), binding)
+    if values.shape[0] != n_samples:
+        raise ValueError("parameter samples must align with net-benefit samples")
+    names = binding.strategy_names or binding.field_ids
+    return ParameterSet.from_numpy_or_dict(
+        {name: values[:, index] for index, name in enumerate(names)}
+    )
 
 
 def prepare_analysis_inputs(
@@ -308,4 +336,10 @@ def prepare_analysis_inputs(
         ),
         binding=binding,
         quality_report=quality_report,
+        parameters=_prepared_parameters(
+            bundle,
+            declared_bindings,
+            n_samples=values.shape[0],
+            table_id=binding.table_id,
+        ),
     )
