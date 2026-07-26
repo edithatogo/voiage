@@ -43,6 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a Rust-owned independent-replication summary for EVSI estimators with
   unique seed enforcement, between-run variance and Monte Carlo error,
   split-half convergence, typed Python results, and fail-closed validation.
+- Made dependency-frontier verification lock-aware: upgraded resolutions must
+  match the newest stable releases admitted by declared compatibility ranges,
+  while newer incompatible releases are reported for review. The refreshed
+  lock, local Python and documentation audits, and GitHub's zero-open-alert
+  Dependabot state provide the current remediation evidence.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

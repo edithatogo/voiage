@@ -19,8 +19,7 @@
     ],
     "open_repository_gates": [
       "replication-and-convergence-assurance",
-      "matched-cross-language-performance",
-      "dependency-frontier-remediation"
+      "matched-cross-language-performance"
     ],
     "v1_1_release_ready": false
   },

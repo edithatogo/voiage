@@ -59,9 +59,12 @@ def test_every_baseline_declares_runner_and_claim_limitations() -> None:
         assert baseline["claim_limit"]
 
 
-def test_dependency_frontier_failure_is_retained_as_a_separate_gate() -> None:
+def test_dependency_frontier_success_is_retained_as_separate_evidence() -> None:
     gate = _load(CONTRACT_PATH)["dependency_frontier_gate"]
 
-    assert gate["status"] == "open"
-    assert gate["reason"] == "declared-minimum-versions-trail-current-releases"
+    assert gate["status"] == "satisfied"
+    assert gate["reason"] == (
+        "upgraded-lock-matches-newest-stable-releases-admitted-by-declared-"
+        "compatibility-ranges"
+    )
     assert gate["does_not_invalidate_performance_contract"] is True

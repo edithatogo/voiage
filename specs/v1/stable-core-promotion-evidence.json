@@ -9,7 +9,7 @@
   },
   "stable_core_status": {
     "path": "specs/v1/stable-core-status.json",
-    "sha256": "d9d184b716e44f0ec6b7ed8863ba64766a51e0a105cbae0f37d5ff025ed84230"
+    "sha256": "eb71f4e4cfa420f8aa128705570dab3515e85f84b6850f0bbadc957658cbe1b9"
   },
   "scientific_freeze_approval": {
     "candidate_digest": "9f437ea0b0521297b81f66adfac980e537db3c0ebf63823445f3bff2d285c3f9",
@@ -20,22 +20,16 @@
   },
   "repository_gates": [
     {
-      "id": "runtime-statistical-envelope-integration",
+      "id": "replication-and-convergence-assurance",
       "owner": "repository",
       "status": "open",
-      "evidence_or_next_action": "Implement and validate estimator-family runtime assurance envelopes."
+      "evidence_or_next_action": "Complete estimator-specific replication, convergence, and validation evidence beyond the shared EVSI replication contract."
     },
     {
       "id": "matched-cross-language-performance",
       "owner": "repository",
       "status": "open",
       "evidence_or_next_action": "Run matched hosted benchmarks before making cross-language performance claims."
-    },
-    {
-      "id": "dependency-frontier-remediation",
-      "owner": "repository",
-      "status": "open",
-      "evidence_or_next_action": "Remediate outdated declared requirements through the Renovate-governed workflow."
     }
   ],
   "human_gates": [
@@ -56,6 +50,12 @@
       "owner": "repository-maintainer",
       "status": "open",
       "evidence_or_next_action": "Perform and record the Phase 3 stable-core evidence manual protocol."
+    },
+    {
+      "id": "phase-4-manual-verification",
+      "owner": "repository-maintainer",
+      "status": "open",
+      "evidence_or_next_action": "Perform and record the Phase 4 runtime statistical-assurance manual protocol."
     }
   ],
   "external_gates": [

@@ -63,7 +63,6 @@ def test_status_disallows_aggregate_release_readiness_claim() -> None:
     assert status["aggregate"]["open_repository_gates"] == [
         "replication-and-convergence-assurance",
         "matched-cross-language-performance",
-        "dependency-frontier-remediation",
     ]
     assert status["aggregate"]["human_gates"] == [
         "phase-1-manual-verification",

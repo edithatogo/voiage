@@ -51,9 +51,10 @@ A generated stable-core status registry now reconciles those contracts into
 method-level API maturity, numerical authority, validation state, runtime
 assurance, and v1.1 eligibility. It prevents a stable public symbol from being
 mistaken for a completed release gate. The aggregate remains not release-ready
-while runtime statistical envelopes, matched cross-language performance,
-dependency-frontier remediation, and the three manual phase reviews remain
-open.
+while estimator-specific replication and convergence assurance, matched
+cross-language performance, and the four manual phase reviews remain open. The
+lock-aware dependency frontier is satisfied without widening declared
+compatibility ranges.
 
 Expected opportunity loss is the first sample-average method with a runtime
 statistical-assurance envelope. Rust now owns its selected-strategy sampling
@@ -79,6 +80,13 @@ callers provide estimates from unique seeds, and Rust reports between-run
 variance, Monte Carlo error, a confidence interval, and split-half relative
 mean convergence. The committed fixture covers nested Monte Carlo; regression
 and moment estimators retain their separate estimator-validation gates.
+
+The dependency frontier now distinguishes compatibility floors from resolved
+versions. Required lock refreshes must resolve every direct dependency to the
+newest stable version admitted by its declared range; newer incompatible
+releases are disclosed for review rather than forcing an unreviewed major
+upgrade. The current strict frontier and local Python and documentation
+security audits pass, and GitHub reports zero open Dependabot alerts.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

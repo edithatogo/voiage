@@ -60,9 +60,9 @@
     "promotion_rule": "a reviewed paired artifact may permit a narrowly scoped overhead or speedup claim; local measurements alone cannot"
   },
   "dependency_frontier_gate": {
-    "status": "open",
+    "status": "satisfied",
     "command": "uv run python scripts/dependency_frontier.py . --strict",
-    "reason": "declared-minimum-versions-trail-current-releases",
+    "reason": "upgraded-lock-matches-newest-stable-releases-admitted-by-declared-compatibility-ranges",
     "does_not_invalidate_performance_contract": true
   }
 }

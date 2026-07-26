@@ -87,7 +87,7 @@
         "does_not_invalidate_performance_contract"
       ],
       "properties": {
-        "status": {"const": "open"},
+        "status": {"enum": ["open", "satisfied"]},
         "command": {"type": "string", "minLength": 1},
         "reason": {"type": "string", "minLength": 1},
         "does_not_invalidate_performance_contract": {"const": true}

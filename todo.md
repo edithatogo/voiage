@@ -63,9 +63,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         profiles, architecture decisions, drift proposals, and reproducibility
         cards within the existing child tracks.
     *   Complete the Renovate-first dependency and GitHub security workflow:
-        remediate open alerts, activate and verify Renovate, retire duplicate
-        Dependabot update automation without disabling advisory alerts, and
-        require live posture, SBOM, provenance, workflow and release gates.
+        activate and verify the Renovate App and require live posture, SBOM,
+        provenance, workflow and release gates. Duplicate Dependabot version
+        automation is retired, current alerts are remediated, and the strict
+        lock-aware dependency frontier passes without widening compatibility.
 *None at the moment.*
 
 ## Completed public documentation

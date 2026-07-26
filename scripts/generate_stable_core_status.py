@@ -20,7 +20,6 @@ SOURCES = (
 OPEN_REPOSITORY_GATES = [
     "replication-and-convergence-assurance",
     "matched-cross-language-performance",
-    "dependency-frontier-remediation",
 ]
 HUMAN_GATES = [
     "phase-1-manual-verification",
