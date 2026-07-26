@@ -61,7 +61,7 @@ def test_status_disallows_aggregate_release_readiness_claim() -> None:
     assert status["aggregate"]["v1_1_release_ready"] is False
     assert status["aggregate"]["open_method_gates"]
     assert status["aggregate"]["open_repository_gates"] == [
-        "runtime-statistical-envelope-integration",
+        "replication-and-convergence-assurance",
         "matched-cross-language-performance",
         "dependency-frontier-remediation",
     ]
@@ -69,4 +69,5 @@ def test_status_disallows_aggregate_release_readiness_claim() -> None:
         "phase-1-manual-verification",
         "phase-2-manual-verification",
         "phase-3-manual-verification",
+        "phase-4-manual-verification",
     ]

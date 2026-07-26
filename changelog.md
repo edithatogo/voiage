@@ -36,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Monte Carlo standard error, a disclosed interval, indexed RNG identity, and
   observed draw/evaluation budgets. Replicate convergence and application-level
   bootstrap bias remain explicit promotion gates.
+- Added additive Rust assurance results for EVPI, linear EVPPI, and structural
+  EVPI/EVPPI while preserving their scalar APIs. CEAF now reports a separate
+  typed assurance envelope for each threshold, avoiding an ambiguous scalar
+  summary for its vector-valued frontier.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

@@ -43,10 +43,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
             preserves it. Linear and callback regression EVSI plus moment-based
             EVSI now fail closed on typed single-fit assurance envelopes, with
             unavailable statistical fields explicit. Replication, convergence,
-            EVPI, EVPPI, CEAF, and structural-VOI assurance remain open.
             Seeded-bootstrap EVSI now reports resample variance, Monte Carlo
             error, an indexed RNG identity, and budget evidence, but still
-            requires independent replicated convergence evidence.
+            requires independent replicated convergence evidence. EVPI,
+            linear EVPPI, structural VOI, and threshold-specific CEAF runtime
+            envelopes are integrated; estimator validation, replication, and
+            convergence remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

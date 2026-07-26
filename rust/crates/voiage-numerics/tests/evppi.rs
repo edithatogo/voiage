@@ -2,7 +2,7 @@
 
 use voiage_diagnostics::{ErrorCategory, ErrorCode};
 use voiage_domain::SampleMatrix;
-use voiage_numerics::evppi;
+use voiage_numerics::{evppi, evppi_with_assurance};
 
 fn matrix(rows: &[&[f64]]) -> SampleMatrix {
     rows.iter()
@@ -20,6 +20,19 @@ fn evppi_matches_the_canonical_linear_fixture() {
     let result = evppi(&net_benefit, &parameters).expect("EVPPI should be computable");
 
     assert!((result - 0.05).abs() <= 1.0e-10);
+}
+
+#[test]
+fn evppi_assurance_identifies_the_single_regression_fit() {
+    let net_benefit = matrix(&[&[0.0, 2.0], &[1.0, 0.0], &[2.0, 1.0], &[3.0, 4.0]]);
+    let parameters = matrix(&[&[0.0], &[1.0], &[2.0], &[3.0]]);
+
+    let result = evppi_with_assurance(&net_benefit, &parameters).expect("valid EVPPI inputs");
+
+    assert!((result.value - evppi(&net_benefit, &parameters).unwrap()).abs() <= 1.0e-12);
+    assert_eq!(result.sample_count, 4);
+    assert_eq!(result.strategy_count, 2);
+    assert_eq!(result.parameter_count, 1);
 }
 
 #[test]

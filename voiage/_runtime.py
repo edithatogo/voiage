@@ -79,11 +79,16 @@ def serialize_expected_loss_result(**payload: object) -> dict[str, object]:
 
 def compute_evpi(net_benefit: list[list[float]]) -> float:
     """Compute the stable EVPI kernel in Rust."""
+    return float(compute_evpi_result(net_benefit)["value"])
+
+
+def compute_evpi_result(net_benefit: list[list[float]]) -> dict[str, object]:
+    """Compute EVPI with its native runtime-assurance envelope."""
     try:
         result = _native().compute_evpi(net_benefit)
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_expected_loss(net_benefit: list[list[float]]) -> dict[str, object]:
@@ -144,6 +149,19 @@ def compute_structural_evpi(
     structure_probabilities: list[float],
 ) -> float:
     """Aggregate structural EVPI in the Rust core."""
+    return float(
+        compute_structural_evpi_result(
+            net_benefit_by_structure,
+            structure_probabilities,
+        )["value"]
+    )
+
+
+def compute_structural_evpi_result(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+) -> dict[str, object]:
+    """Aggregate structural EVPI with native runtime assurance."""
     try:
         result = _native().compute_structural_evpi(
             net_benefit_by_structure,
@@ -151,7 +169,7 @@ def compute_structural_evpi(
         )
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_structural_evppi(
@@ -160,6 +178,21 @@ def compute_structural_evppi(
     structures_of_interest: list[int],
 ) -> float:
     """Aggregate structural EVPPI in the Rust core."""
+    return float(
+        compute_structural_evppi_result(
+            net_benefit_by_structure,
+            structure_probabilities,
+            structures_of_interest,
+        )["value"]
+    )
+
+
+def compute_structural_evppi_result(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+    structures_of_interest: list[int],
+) -> dict[str, object]:
+    """Aggregate structural EVPPI with native runtime assurance."""
     try:
         result = _native().compute_structural_evppi(
             net_benefit_by_structure,
@@ -168,7 +201,7 @@ def compute_structural_evppi(
         )
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
@@ -201,11 +234,18 @@ def compute_evppi(
     net_benefit: list[list[float]], parameter_samples: list[list[float]]
 ) -> float:
     """Compute the stable full-sample linear EVPPI kernel in Rust."""
+    return float(compute_evppi_result(net_benefit, parameter_samples)["value"])
+
+
+def compute_evppi_result(
+    net_benefit: list[list[float]], parameter_samples: list[list[float]]
+) -> dict[str, object]:
+    """Compute linear EVPPI with its native runtime-assurance envelope."""
     try:
         result = _native().compute_evppi(net_benefit, parameter_samples)
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_evsi(

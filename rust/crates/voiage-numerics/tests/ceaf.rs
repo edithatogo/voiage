@@ -30,6 +30,8 @@ fn ceaf_matches_the_canonical_fixture() {
     assert_eq!(result.probability_lower, [1.0, 1.0]);
     assert_eq!(result.probability_upper, [1.0, 1.0]);
     assert_eq!(result.expected_net_benefit, [5.0, 2.0]);
+    assert_eq!(result.probability_variance, [Some(0.0), Some(0.0)]);
+    assert_eq!(result.probability_standard_error, [Some(0.0), Some(0.0)]);
 }
 
 #[test]

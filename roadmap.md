@@ -67,8 +67,12 @@ variance, convergence, effective sample size, and RNG evidence as unavailable
 until replicated estimator-specific assurance is implemented. The
 seeded-bootstrap EVSI kernel now reports resample variance, Monte Carlo standard
 error, a disclosed interval, indexed RNG identity, and observed budgets; its
-replicate-convergence gate remains open. EVPI, EVPPI, CEAF, and structural-VOI
-envelopes remain open.
+replicate-convergence gate remains open. EVPI now reuses Rust-owned
+opportunity-loss sampling error; linear EVPPI exposes its single-fit metadata;
+structural EVPI/EVPPI report aligned sample error; and CEAF reports one
+assurance envelope per threshold. Runtime serialization coverage is therefore
+complete for the stable profiles, while replicated convergence,
+estimator-specific validation, and promotion evidence remain open.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

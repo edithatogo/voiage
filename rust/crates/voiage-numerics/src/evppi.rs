@@ -2,6 +2,19 @@ use voiage_domain::SampleMatrix;
 
 use crate::NumericalInputError;
 
+/// Regression EVPPI estimate and deterministic fit dimensions.
+#[derive(Clone, Debug, PartialEq)]
+pub struct EvppiKernelResult {
+    /// Non-negative EVPPI estimate.
+    pub value: f64,
+    /// Number of aligned PSA samples.
+    pub sample_count: usize,
+    /// Number of strategies.
+    pub strategy_count: usize,
+    /// Number of parameters in the regression design.
+    pub parameter_count: usize,
+}
+
 /// Computes regression-based EVPPI from net-benefit and parameter samples.
 ///
 /// Each strategy is fitted independently using ordinary least squares with an
@@ -17,6 +30,19 @@ pub fn evppi(
     net_benefit: &SampleMatrix,
     parameter_samples: &SampleMatrix,
 ) -> Result<f64, NumericalInputError> {
+    evppi_with_assurance(net_benefit, parameter_samples).map(|result| result.value)
+}
+
+/// Computes regression EVPPI with fit-dimension metadata.
+///
+/// # Errors
+///
+/// Returns the same dimension and finite-value errors as [`evppi`].
+#[allow(clippy::too_many_lines)]
+pub fn evppi_with_assurance(
+    net_benefit: &SampleMatrix,
+    parameter_samples: &SampleMatrix,
+) -> Result<EvppiKernelResult, NumericalInputError> {
     let [sample_count, strategy_count] = net_benefit.shape();
     let [parameter_sample_count, parameter_count] = parameter_samples.shape();
     if sample_count != parameter_sample_count {
@@ -29,7 +55,12 @@ pub fn evppi(
     }
 
     if strategy_count <= 1 {
-        return Ok(0.0);
+        return Ok(EvppiKernelResult {
+            value: 0.0,
+            sample_count,
+            strategy_count,
+            parameter_count,
+        });
     }
 
     let (parameter_means, parameter_scales) = parameter_location_and_scale(parameter_samples)?;
@@ -131,7 +162,12 @@ pub fn evppi(
             "EVPPI result is not finite",
         ));
     }
-    Ok(result)
+    Ok(EvppiKernelResult {
+        value: result,
+        sample_count,
+        strategy_count,
+        parameter_count,
+    })
 }
 
 fn parameter_location_and_scale(

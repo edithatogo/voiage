@@ -18,7 +18,7 @@ SOURCES = (
 )
 
 OPEN_REPOSITORY_GATES = [
-    "runtime-statistical-envelope-integration",
+    "replication-and-convergence-assurance",
     "matched-cross-language-performance",
     "dependency-frontier-remediation",
 ]
@@ -26,6 +26,7 @@ HUMAN_GATES = [
     "phase-1-manual-verification",
     "phase-2-manual-verification",
     "phase-3-manual-verification",
+    "phase-4-manual-verification",
 ]
 
 
@@ -39,9 +40,13 @@ def _runtime_state(method_id: str, reporting_class: str) -> str:
         return "not-applicable-deterministic"
     if method_id in {
         "expected-loss",
+        "evpi",
+        "evppi-regression",
         "evsi-nested-mc",
         "evsi-regression",
         "evsi-moment-matching",
+        "ceaf",
+        "structural-voi",
     }:
         return "integrated-incomplete-assurance"
     if method_id == "enbs":

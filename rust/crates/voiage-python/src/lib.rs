@@ -8,7 +8,7 @@
 use pyo3::create_exception;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
-use pyo3::types::{PyDict, PyModule};
+use pyo3::types::{PyDict, PyList, PyModule};
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 #[cfg(test)]
@@ -19,9 +19,10 @@ use std::time::Instant;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, expected_loss, heterogeneity, net_benefit, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus, WtpMode,
+    ceaf, dominance, enbs, evpi_with_assurance, evppi_with_assurance, evsi_efficient_linear,
+    evsi_moment_based, evsi_regression, evsi_stochastic, expected_loss, heterogeneity, net_benefit,
+    structural_evpi_with_assurance, structural_evppi_with_assurance,
+    DominanceStatus as KernelDominanceStatus, StructuralVoiKernelResult, WtpMode,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -471,14 +472,36 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
 
 /// Compute the stable EVPI kernel for Python callers.
 #[pyfunction]
-fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
+fn compute_evpi<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
-    evpi(&net_benefit).map_err(|error| match error.category() {
+    let result = evpi_with_assurance(&net_benefit).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
             DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
         }
         _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    add_sample_average_assurance(
+        py,
+        &output,
+        result.value,
+        result.opportunity_loss_variance,
+        result.monte_carlo_standard_error,
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        &started,
+        "Finite-sample and input-draw bias remain application-dependent; uncertainty treats supplied opportunity losses as an unweighted sample.",
+    )?;
+    Ok(output)
 }
 
 /// Compute the stable expected opportunity-loss kernel for Python callers.
@@ -665,33 +688,38 @@ fn compute_heterogeneity<'py>(
 
 /// Aggregate structural EVPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evpi(
+fn compute_structural_evpi<'py>(
+    py: Python<'py>,
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit_by_structure = cube_from_python(net_benefit_by_structure, "net_benefit")?;
     let structure_probabilities = SampleVector::try_from(vector_from_python(
         structure_probabilities,
         "structure_probabilities",
     )?)
     .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
-    structural_evpi(&net_benefit_by_structure, &structure_probabilities).map_err(
-        |error| match error.category() {
-            ErrorCategory::DimensionMismatch => {
-                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-            }
-            _ => InputError::new_err(("invalid_input", error.to_string())),
-        },
-    )
+    let result =
+        structural_evpi_with_assurance(&net_benefit_by_structure, &structure_probabilities)
+            .map_err(|error| match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            })?;
+    structural_result_to_python(py, &result, started)
 }
 
 /// Aggregate structural EVPPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evppi(
+fn compute_structural_evppi<'py>(
+    py: Python<'py>,
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
     structures_of_interest: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let cube = cube_from_python(net_benefit_by_structure, "net_benefit")?;
     let probabilities = SampleVector::try_from(vector_from_python(
         structure_probabilities,
@@ -709,12 +737,16 @@ fn compute_structural_evppi(
             })
         })
         .collect::<PyResult<Vec<_>>>()?;
-    structural_evppi(&cube, &probabilities, &indices).map_err(|error| match error.category() {
-        ErrorCategory::DimensionMismatch => {
-            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-        }
-        _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    let result =
+        structural_evppi_with_assurance(&cube, &probabilities, &indices).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    structural_result_to_python(py, &result, started)
 }
 
 /// Compute the stable dominance kernel for Python callers.
@@ -773,7 +805,9 @@ fn compute_ceaf<'py>(
     wtp_thresholds: &Bound<'_, PyAny>,
     confidence_level: f64,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = cube_from_python(net_benefit, "net_benefit")?;
+    let [sample_count, strategy_count, threshold_count] = net_benefit.shape();
     let wtp_thresholds =
         SampleVector::try_from(vector_from_python(wtp_thresholds, "wtp_thresholds")?)
             .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
@@ -787,32 +821,70 @@ fn compute_ceaf<'py>(
             }
         })?;
     let output = PyDict::new(py);
-    output.set_item("wtp_thresholds", result.wtp_thresholds)?;
-    output.set_item("optimal_strategy_indices", result.optimal_strategy_indices)?;
+    output.set_item("wtp_thresholds", &result.wtp_thresholds)?;
+    output.set_item("optimal_strategy_indices", &result.optimal_strategy_indices)?;
     output.set_item(
         "acceptability_probabilities",
-        result.acceptability_probabilities,
+        &result.acceptability_probabilities,
     )?;
-    output.set_item("probability_lower", result.probability_lower)?;
-    output.set_item("probability_upper", result.probability_upper)?;
-    output.set_item("expected_net_benefit", result.expected_net_benefit)?;
+    output.set_item("probability_lower", &result.probability_lower)?;
+    output.set_item("probability_upper", &result.probability_upper)?;
+    output.set_item("expected_net_benefit", &result.expected_net_benefit)?;
+    let assurance_by_threshold = PyList::empty(py);
+    for threshold in 0..threshold_count {
+        let assurance = build_sample_average_assurance(
+            py,
+            result.acceptability_probabilities[threshold],
+            result.probability_variance[threshold],
+            result.probability_standard_error[threshold],
+            sample_count,
+            sample_count.saturating_mul(strategy_count),
+            &started,
+            "The Bernoulli indicator variance treats supplied PSA rows as independent, equally weighted samples; frontier-selection and input-model bias remain application-dependent.",
+        )?;
+        assurance_by_threshold.append(assurance)?;
+    }
+    output.set_item("statistical_assurance_by_threshold", assurance_by_threshold)?;
     Ok(output)
 }
 
 /// Compute the stable regression-based EVPPI kernel for Python callers.
 #[pyfunction]
-fn compute_evppi(
+fn compute_evppi<'py>(
+    py: Python<'py>,
     net_benefit: &Bound<'_, PyAny>,
     parameter_samples: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
-    evppi(&net_benefit, &parameter_samples).map_err(|error| match error.category() {
-        ErrorCategory::DimensionMismatch => {
-            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-        }
-        _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    let result =
+        evppi_with_assurance(&net_benefit, &parameter_samples).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic EVPPI regression fit does not estimate model bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count)
+            .saturating_mul(result.parameter_count.saturating_add(1)),
+        started,
+    )?;
+    Ok(output)
 }
 
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
@@ -1076,6 +1148,102 @@ fn add_incomplete_estimator_assurance(
     numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
     assurance.set_item("numerical_error", numerical_error)?;
     output.set_item("statistical_assurance", assurance)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_sample_average_assurance<'py>(
+    py: Python<'py>,
+    estimate: f64,
+    variance: Option<f64>,
+    standard_error: Option<f64>,
+    draws: usize,
+    evaluations: usize,
+    started: &Instant,
+    bias_assessment: &str,
+) -> PyResult<Bound<'py, PyDict>> {
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "sample-average")?;
+    assurance.set_item("bias_assessment", bias_assessment)?;
+    assurance.set_item("variance_estimate", variance)?;
+    assurance.set_item("monte_carlo_standard_error", standard_error)?;
+    if let Some(error) = standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item("lower", (estimate - 1.959_963_984_540_054 * error).max(0.0))?;
+        interval.set_item("upper", estimate + 1.959_963_984_540_054 * error)?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", draws)?;
+    budget.set_item("evaluations", evaluations)?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    Ok(assurance)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn add_sample_average_assurance(
+    py: Python<'_>,
+    output: &Bound<'_, PyDict>,
+    estimate: f64,
+    variance: Option<f64>,
+    standard_error: Option<f64>,
+    draws: usize,
+    evaluations: usize,
+    started: &Instant,
+    bias_assessment: &str,
+) -> PyResult<()> {
+    let assurance = build_sample_average_assurance(
+        py,
+        estimate,
+        variance,
+        standard_error,
+        draws,
+        evaluations,
+        started,
+        bias_assessment,
+    )?;
+    output.set_item("statistical_assurance", assurance)
+}
+
+fn structural_result_to_python<'py>(
+    py: Python<'py>,
+    result: &StructuralVoiKernelResult,
+    started: Instant,
+) -> PyResult<Bound<'py, PyDict>> {
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("structure_count", result.structure_count)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    add_sample_average_assurance(
+        py,
+        &output,
+        result.value,
+        result.informed_value_variance,
+        result.monte_carlo_standard_error,
+        result.sample_count,
+        result
+            .structure_count
+            .saturating_mul(result.sample_count)
+            .saturating_mul(result.strategy_count),
+        &started,
+        "Structure probabilities are treated as fixed and supplied rows as aligned, equally weighted samples; model-form and probability-elicitation bias remain application-dependent.",
+    )?;
+    Ok(output)
 }
 
 fn add_operation_snapshot(
@@ -1608,9 +1776,16 @@ mod tests {
                     vec![vec![0.0_f64], vec![1.0], vec![2.0], vec![3.0]],
                 ))
                 .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let value = result
+                .get_item("value")
+                .unwrap()
+                .unwrap()
                 .extract::<f64>()
                 .unwrap();
-            assert!((result - 0.05).abs() <= 1.0e-10);
+            assert!((value - 0.05).abs() <= 1.0e-10);
+            assert!(result.get_item("statistical_assurance").unwrap().is_some());
         });
     }
 
@@ -1626,9 +1801,16 @@ mod tests {
             let result = function
                 .call1((vec![vec![0.0_f64, 2.0], vec![1.0, 0.0]],))
                 .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let value = result
+                .get_item("value")
+                .unwrap()
+                .unwrap()
                 .extract::<f64>()
                 .unwrap();
-            assert!((result - 0.5).abs() <= 1.0e-12);
+            assert!((value - 0.5).abs() <= 1.0e-12);
+            assert!(result.get_item("statistical_assurance").unwrap().is_some());
         });
     }
 
@@ -1789,6 +1971,13 @@ mod tests {
                 .extract::<Vec<usize>>()
                 .unwrap();
             assert_eq!(indices, vec![0, 1]);
+            let assurance = result
+                .get_item("statistical_assurance_by_threshold")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyList>()
+                .unwrap();
+            assert_eq!(assurance.len(), 2);
         });
     }
 

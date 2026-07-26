@@ -3,7 +3,8 @@
     "human_gates": [
       "phase-1-manual-verification",
       "phase-2-manual-verification",
-      "phase-3-manual-verification"
+      "phase-3-manual-verification",
+      "phase-4-manual-verification"
     ],
     "open_method_gates": [
       "expected-loss",
@@ -17,7 +18,7 @@
       "structural-voi"
     ],
     "open_repository_gates": [
-      "runtime-statistical-envelope-integration",
+      "replication-and-convergence-assurance",
       "matched-cross-language-performance",
       "dependency-frontier-remediation"
     ],
@@ -60,10 +61,10 @@
       "implementation_state": "conformant",
       "method_id": "evpi",
       "open_gates": [
-        "runtime-statistical-envelope-integration"
+        "replication-and-convergence-assurance"
       ],
       "reporting_class": "sample-average",
-      "runtime_assurance_state": "contract-defined-runtime-not-integrated",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },
@@ -73,10 +74,10 @@
       "implementation_state": "conformant",
       "method_id": "evppi-regression",
       "open_gates": [
-        "runtime-statistical-envelope-integration"
+        "replication-and-convergence-assurance"
       ],
       "reporting_class": "regression-or-metamodel",
-      "runtime_assurance_state": "contract-defined-runtime-not-integrated",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },
@@ -141,10 +142,10 @@
       "implementation_state": "conformant",
       "method_id": "ceaf",
       "open_gates": [
-        "runtime-statistical-envelope-integration"
+        "replication-and-convergence-assurance"
       ],
       "reporting_class": "sample-average",
-      "runtime_assurance_state": "contract-defined-runtime-not-integrated",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },
@@ -165,10 +166,10 @@
       "implementation_state": "conformant",
       "method_id": "structural-voi",
       "open_gates": [
-        "runtime-statistical-envelope-integration"
+        "replication-and-convergence-assurance"
       ],
       "reporting_class": "sample-average",
-      "runtime_assurance_state": "contract-defined-runtime-not-integrated",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     }

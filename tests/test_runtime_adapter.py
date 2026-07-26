@@ -193,10 +193,12 @@ def test_remaining_runtime_adapters_translate_native_errors(
 def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
-    def compute(net_benefit: list[list[float]], parameters: list[list[float]]) -> float:
+    def compute(
+        net_benefit: list[list[float]], parameters: list[list[float]]
+    ) -> dict[str, object]:
         captured["net_benefit"] = net_benefit
         captured["parameters"] = parameters
-        return 0.05
+        return {"value": 0.05, "statistical_assurance": {}}
 
     monkeypatch.setattr(
         _runtime,
@@ -207,6 +209,10 @@ def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
     result = _runtime.compute_evppi([[0.0, 2.0], [1.0, 0.0]], [[0.0], [1.0]])
 
     assert result == 0.05
+    assert (
+        _runtime.compute_evppi_result([[0.0, 2.0], [1.0, 0.0]], [[0.0], [1.0]])["value"]
+        == 0.05
+    )
     assert captured == {
         "net_benefit": [[0.0, 2.0], [1.0, 0.0]],
         "parameters": [[0.0], [1.0]],
@@ -216,9 +222,9 @@ def test_compute_evppi_forwards_matrix_payloads_to_native(monkeypatch) -> None:
 def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
-    def compute(net_benefit: list[list[float]]) -> float:
+    def compute(net_benefit: list[list[float]]) -> dict[str, object]:
         captured["net_benefit"] = net_benefit
-        return 0.5
+        return {"value": 0.5, "statistical_assurance": {}}
 
     monkeypatch.setattr(
         _runtime,
@@ -227,6 +233,7 @@ def test_compute_evpi_forwards_matrix_payload_to_native(monkeypatch) -> None:
     )
 
     assert _runtime.compute_evpi([[0.0, 2.0], [1.0, 0.0]]) == 0.5
+    assert _runtime.compute_evpi_result([[0.0, 2.0], [1.0, 0.0]])["value"] == 0.5
     assert captured == {"net_benefit": [[0.0, 2.0], [1.0, 0.0]]}
 
 
