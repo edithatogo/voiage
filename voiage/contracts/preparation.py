@@ -60,7 +60,37 @@ _METHOD_INPUT_CAPABILITIES: Mapping[str, MethodInputCapability] = MappingProxyTy
             required_binding_roles=("net_benefit",),
             accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
             requires_sample_alignment=True,
-        )
+        ),
+        "evppi": MethodInputCapability(
+            method_family="evppi",
+            required_binding_roles=("net_benefit", "parameter"),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        ),
+        "evsi": MethodInputCapability(
+            method_family="evsi",
+            required_binding_roles=("parameter",),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        ),
+        "enbs": MethodInputCapability(
+            method_family="enbs",
+            required_binding_roles=("net_benefit",),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        ),
+        "ceac": MethodInputCapability(
+            method_family="ceac",
+            required_binding_roles=("net_benefit",),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        ),
+        "ceaf": MethodInputCapability(
+            method_family="ceaf",
+            required_binding_roles=("net_benefit",),
+            accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
+            requires_sample_alignment=True,
+        ),
     }
 )
 
@@ -178,6 +208,7 @@ def _prepared_parameters(
     bundle: NormalizedInputBundle,
     bindings: tuple[VOIBinding, ...],
     *,
+    method_family: str,
     n_samples: int,
     table_id: str,
 ) -> ParameterSet | None:
@@ -187,7 +218,7 @@ def _prepared_parameters(
         return None
     if len(matches) != 1:
         raise ValueError("at most one parameter binding is supported")
-    binding = _resolve_binding(matches, "parameter", method_family="evpi")
+    binding = _resolve_binding(matches, "parameter", method_family=method_family)
     if binding.layout != "wide" or binding.table_id != table_id:
         raise ValueError(
             "parameter binding must be a wide table aligned with net benefit"
@@ -202,9 +233,13 @@ def _prepared_parameters(
 
 
 def prepare_analysis_inputs(
-    bundle: NormalizedInputBundle, *, willingness_to_pay: float | None = None
+    bundle: NormalizedInputBundle,
+    *,
+    method_family: str = "evpi",
+    willingness_to_pay: float | None = None,
 ) -> PreparedAnalysisInputs:
     """Prepare an explicitly bound wide or long net-benefit table."""
+    capability = method_input_capability(method_family)
     binding_profile = getattr(bundle.manifest, "binding_profile", None)
     declared_bindings = (
         binding_profile.bindings
@@ -218,7 +253,7 @@ def prepare_analysis_inputs(
     wtp: float | None = None
     if net_benefit_bindings:
         binding = _resolve_binding(
-            declared_bindings, "net_benefit", method_family="evpi"
+            declared_bindings, "net_benefit", method_family=method_family
         )
     else:
         if willingness_to_pay is None:
@@ -230,9 +265,11 @@ def prepare_analysis_inputs(
             raise ValueError(
                 "cost/outcome preparation requires a finite willingness_to_pay"
             )
-        cost_binding = _resolve_binding(declared_bindings, "cost", method_family="evpi")
+        cost_binding = _resolve_binding(
+            declared_bindings, "cost", method_family=method_family
+        )
         outcome_binding = _resolve_binding(
-            declared_bindings, "outcome", method_family="evpi"
+            declared_bindings, "outcome", method_family=method_family
         )
         if (
             cost_binding.layout != "wide"
@@ -326,6 +363,15 @@ def prepare_analysis_inputs(
             ("net_benefit = willingness_to_pay * outcome - cost",) if derived else ()
         ),
     )
+    parameters = _prepared_parameters(
+        bundle,
+        declared_bindings,
+        method_family=method_family,
+        n_samples=values.shape[0],
+        table_id=binding.table_id,
+    )
+    if "parameter" in capability.required_binding_roles and parameters is None:
+        raise ValueError(f"{method_family} requires an explicit parameter binding")
     return PreparedAnalysisInputs(
         net_benefits=ValueArray.from_numpy(values, strategies),
         input_digest=bundle.content_digest,
@@ -336,10 +382,5 @@ def prepare_analysis_inputs(
         ),
         binding=binding,
         quality_report=quality_report,
-        parameters=_prepared_parameters(
-            bundle,
-            declared_bindings,
-            n_samples=values.shape[0],
-            table_id=binding.table_id,
-        ),
+        parameters=parameters,
     )

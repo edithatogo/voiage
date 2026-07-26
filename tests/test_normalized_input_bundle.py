@@ -385,7 +385,7 @@ def test_preparation_converts_explicit_aligned_parameter_fields() -> None:
         },
     )
 
-    prepared = prepare_analysis_inputs(bundle)
+    prepared = prepare_analysis_inputs(bundle, method_family="evppi")
 
     assert prepared.parameters is not None
     assert prepared.parameters.parameter_names == ["prevalence"]
@@ -539,8 +539,16 @@ def test_method_input_capability_matrix_is_explicit_and_fail_closed() -> None:
         "normalized-bundle",
     )
     assert capability.requires_sample_alignment is True
+    assert method_input_capability("evppi").required_binding_roles == (
+        "net_benefit",
+        "parameter",
+    )
+    assert method_input_capability("evsi").required_binding_roles == ("parameter",)
+    assert method_input_capability("enbs").required_binding_roles == ("net_benefit",)
+    assert method_input_capability("ceac").required_binding_roles == ("net_benefit",)
+    assert method_input_capability("ceaf").required_binding_roles == ("net_benefit",)
     with pytest.raises(ValueError, match="no normalized input capability"):
-        method_input_capability("evsi")
+        method_input_capability("unsupported")
 
 
 def test_manifest_matches_published_json_schema() -> None:
