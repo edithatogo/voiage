@@ -1,0 +1,42 @@
+---
+title: Standardized Ingestion Reference Cases
+description: Deterministic ML, engineering, and business EVPI examples using one explicit VOI binding.
+---
+
+These three synthetic, rights-cleared reference cases use the same pinned
+decision samples and the same explicit net-benefit binding. They demonstrate
+format interoperability, not domain-specific modelling: no field names,
+strategies, units, or transformations are inferred.
+
+| Community | Descriptor or input | Decision interpretation |
+| --- | --- | --- |
+| Machine learning | Croissant 1.1 | Compare model-selection net benefits across posterior samples. |
+| Engineering and operations | Frictionless Data Package | Compare design alternatives across simulated operating scenarios. |
+| Business | Direct normalized Arrow table | Compare investment strategies across decision scenarios. |
+
+The fixture records two strategies, `strategy_a` and `strategy_b`, and binds
+them explicitly as `A` and `B`:
+
+```python
+VOIBinding(
+    role="net_benefit",
+    table_id="samples",
+    field_ids=("strategy_a", "strategy_b"),
+    strategy_names=("A", "B"),
+)
+```
+
+Run the complete reproducible walkthrough from a source checkout:
+
+```bash
+uv run python examples/standardized_ingestion/reference_cases.py
+```
+
+The output contains identical EVPI values for `ml`, `engineering`, and
+`business`. The runner fails if any format reaches a different value, making
+the example an executable cross-format regression check as well as a tutorial.
+
+The input descriptors and their SHA-256 digests live in
+[`tests/fixtures/standardized_ingestion/`](https://github.com/edithatogo/voiage/tree/main/tests/fixtures/standardized_ingestion).
+Use `canonical-decision.manifest.json` to verify exact source artifacts before
+reproducing a result.
