@@ -109,9 +109,10 @@ class CroissantProvider:
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),
                     descriptor_digest=digest,
-                    license=cast("str | None", descriptor.get("license")),
-                    citation=cast("str | None", descriptor.get("citation")),
+                    license=_scalar_metadata(descriptor.get("license")),
+                    citation=_scalar_metadata(descriptor.get("citation")),
                 ),
+                extensions=_governance_extensions(descriptor),
             ),
             tables={table_id: table},
         )
@@ -123,10 +124,6 @@ class CroissantProvider:
         record_set: dict[str, object],
     ) -> None:
         """Reject semantics that the conservative profile cannot preserve."""
-        if "@id" in descriptor:
-            raise IngestionError(
-                "supported Croissant profile does not support identities"
-            )
         conforms_to = descriptor.get("conformsTo")
         if (
             conforms_to is not None
@@ -164,3 +161,36 @@ class CroissantProvider:
                 raise IngestionError(
                     "supported Croissant profile does not support field sources"
                 )
+
+
+def _scalar_metadata(value: object) -> str | None:
+    """Expose scalar metadata in provenance without coercing structured values."""
+    return value if isinstance(value, str) else None
+
+
+def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
+    """Retain Croissant governance metadata without inferring VOI semantics."""
+    keys = (
+        "@id",
+        "citation",
+        "creator",
+        "datePublished",
+        "description",
+        "isAccessibleForFree",
+        "keywords",
+        "license",
+        "odrl",
+        "provenance",
+        "rai",
+        "sameAs",
+        "usageInfo",
+    )
+    return (
+        {
+            "mlcommons.org:croissant-governance": {
+                key: descriptor[key] for key in keys if key in descriptor
+            }
+        }
+        if any(key in descriptor for key in keys)
+        else {}
+    )

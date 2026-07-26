@@ -819,7 +819,6 @@ def test_croissant_provider_rejects_unsupported_archives_and_transformations(
         "message",
     ),
     [
-        ({"@id": "https://example.invalid/dataset"}, {}, {}, {}, "identities"),
         (
             {"conformsTo": "http://mlcommons.org/croissant/1.0"},
             {},
@@ -864,6 +863,64 @@ def test_croissant_provider_rejects_unsupported_profile_semantics_explicitly(
 
     with pytest.raises(IngestionError, match=message):
         CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_croissant_provider_preserves_governance_metadata_without_inference(
+    tmp_path,
+) -> None:
+    """Governance descriptors remain inspectable but never change calculation input."""
+    _write_csv(tmp_path)
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "@id": "https://example.invalid/datasets/posterior-samples",
+                "name": "governed-ml-fixture",
+                "citation": "Example et al. (2026)",
+                "license": "CC-BY-4.0",
+                "creator": [{"name": "ML team"}],
+                "datePublished": "2026-01-01",
+                "description": "Synthetic posterior samples.",
+                "isAccessibleForFree": True,
+                "keywords": ["VOI", "synthetic"],
+                "odrl": {"permission": "use"},
+                "provenance": {"wasGeneratedBy": "simulation"},
+                "rai": {"risk": "low"},
+                "sameAs": ["https://example.invalid/catalog/record"],
+                "usageInfo": "Use only for deterministic tests.",
+                "distribution": [{"contentUrl": "samples.csv"}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = CroissantProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.manifest.provenance.license == "CC-BY-4.0"
+    assert bundle.manifest.provenance.citation == "Example et al. (2026)"
+    assert bundle.manifest.extensions == {
+        "mlcommons.org:croissant-governance": {
+            "@id": "https://example.invalid/datasets/posterior-samples",
+            "citation": "Example et al. (2026)",
+            "creator": ({"name": "ML team"},),
+            "datePublished": "2026-01-01",
+            "description": "Synthetic posterior samples.",
+            "isAccessibleForFree": True,
+            "keywords": ("VOI", "synthetic"),
+            "license": "CC-BY-4.0",
+            "odrl": {"permission": "use"},
+            "provenance": {"wasGeneratedBy": "simulation"},
+            "rai": {"risk": "low"},
+            "sameAs": ("https://example.invalid/catalog/record",),
+            "usageInfo": "Use only for deterministic tests.",
+        }
+    }
 
 
 @pytest.mark.parametrize(
