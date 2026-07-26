@@ -3170,6 +3170,18 @@
           "url": "https://github.com/edithatogo/voiage/pull/494",
           "status": "merged",
           "evidence": ["772626789c56b087cd84a450d0c54c6484e81ca0"]
+        },
+        {
+          "number": 519,
+          "url": "https://github.com/edithatogo/voiage/pull/519",
+          "status": "merged",
+          "evidence": ["ed606920b134c1d9e5c83ea0efd1b2dd7cfebeb5"]
+        },
+        {
+          "number": 523,
+          "url": "https://github.com/edithatogo/voiage/pull/523",
+          "status": "merged",
+          "evidence": ["97aa1a53f5edb605526ae1448d164b2e2f214562"]
         }
       ],
       "pull_request_evidence": "evidenced",
