@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import shutil
 
 import pytest
 
@@ -52,6 +53,13 @@ def test_offline_materialize_requires_a_digest_and_never_refreshes(tmp_path) -> 
         policy.materialize("missing.csv")
     with pytest.raises(IngestionError, match="verified offline materialization"):
         policy.materialize("missing.csv", sha256=_digest(b"missing"))
+
+
+def test_offline_materialize_without_a_cache_rejects_a_valid_digest(tmp_path) -> None:
+    with pytest.raises(IngestionError, match="verified offline materialization"):
+        SourceAccessPolicy(tmp_path, offline=True).materialize(
+            "missing.csv", sha256=_digest(b"missing")
+        )
 
 
 def test_materialize_rejects_checksum_mismatch_and_cache_context_mismatch(
@@ -131,3 +139,20 @@ def test_materialize_rejects_a_symlinked_cache_entry(tmp_path) -> None:
 
     with pytest.raises(IngestionError, match="cached materialization checksum"):
         policy.materialize("source.csv", sha256=digest)
+
+
+def test_materialize_rejects_a_corrupt_copy_result(tmp_path, monkeypatch) -> None:
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    original_copyfile = shutil.copyfile
+
+    def corrupt_copy(source_path, target_path):
+        original_copyfile(source_path, target_path)
+        target_path.write_bytes(b"corrupt")
+
+    monkeypatch.setattr("voiage.ingestion.base.shutil.copyfile", corrupt_copy)
+    with pytest.raises(IngestionError, match="cached materialization checksum"):
+        SourceAccessPolicy(tmp_path, cache_dir=tmp_path / "cache").materialize(
+            "source.csv", sha256=_digest(payload)
+        )
