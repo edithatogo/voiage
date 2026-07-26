@@ -1,6 +1,6 @@
 """Explicit conversion of normalized tables into existing VOI runtime inputs."""
 
-# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownVariableType=false
+# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUnknownVariableType=false
 
 from __future__ import annotations
 
