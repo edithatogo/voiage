@@ -8,6 +8,7 @@
 - [ ] Include the canonical Decision Problem and estimator-assurance envelopes
   in Arrow, JSON, C ABI, and language-native representations.
 - [ ] Define per-language public and packaging contracts.
+  - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -17,6 +18,10 @@
 ## Phase 2: Binding implementation
 
 - [ ] Expand Rust facade and C ABI with panic containment.
+  - [x] Add the publishable, module-qualified `voiage` Rust facade without
+    binding-layer dependencies.
+  - [ ] Expand the typed C ABI and retain panic containment across every new
+    entry point.
 - [ ] Complete Python, direct R, Julia Artifacts/JLL, and Mojo packages.
 - [ ] Generate capabilities, headers, docs, and migration adapters.
 - [ ] Generate deterministic unsupported-method responses and fail CI when a
