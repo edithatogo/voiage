@@ -604,6 +604,31 @@ def test_method_input_capability_matrix_is_explicit_and_fail_closed() -> None:
         method_input_capability("unsupported")
 
 
+def test_preparation_rejects_inapplicable_binding_and_missing_required_parameter() -> (
+    None
+):
+    source = _bundle()
+    restricted = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="net_benefit",
+                        table_id="net_benefit",
+                        field_ids=("strategy_a", "strategy_b"),
+                        applicable_method_families=("evpi",),
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+    with pytest.raises(ValueError, match="not applicable"):
+        prepare_analysis_inputs(restricted, method_family="ceac")
+    with pytest.raises(ValueError, match="requires an explicit parameter"):
+        prepare_analysis_inputs(source, method_family="evppi")
+
+
 def test_manifest_matches_published_json_schema() -> None:
     schema_path = Path("specs/core-api/schemas/v2/normalized-input-bundle.schema.json")
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
@@ -938,6 +963,56 @@ def test_binding_profile_rejects_incompatible_declared_unit() -> None:
                 )
             ),
         )
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        (
+            {"layout": "wide", "sample_id_field_id": "sample"},
+            "wide bindings cannot declare",
+        ),
+        (
+            {"role": "cost", "layout": "long"},
+            "only for net_benefit",
+        ),
+        (
+            {"layout": "long"},
+            "require sample_id, strategy, and value",
+        ),
+        (
+            {
+                "layout": "long",
+                "sample_id_field_id": "sample",
+                "strategy_field_id": "strategy",
+                "value_field_id": "value",
+                "field_ids": ("wrong",),
+                "strategy_names": ("A",),
+            },
+            "must contain only value_field_id",
+        ),
+        (
+            {
+                "layout": "long",
+                "sample_id_field_id": "sample",
+                "strategy_field_id": "strategy",
+                "value_field_id": "value",
+                "field_ids": ("value",),
+            },
+            "explicit strategy order",
+        ),
+    ],
+)
+def test_binding_layout_validation_is_fail_closed(kwargs, message) -> None:
+    values = {
+        "role": "net_benefit",
+        "table_id": "data",
+        "field_ids": ("value",),
+    }
+    values.update(kwargs)
+
+    with pytest.raises(ValidationError, match=message):
+        VOIBinding(**values)
 
 
 def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
