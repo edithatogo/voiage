@@ -111,8 +111,13 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     assert "{{ compiler('rust') }}" in recipe
     assert "{{ stdlib('c') }}" in recipe
     assert "maturin >=1.9,<2.0" in recipe
-    assert 'GIT_DIR="$SRC_DIR/.conda-no-git"' in recipe  # noqa: Q000
-    assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in recipe
+    assert "script:" not in recipe
+    assert 'GIT_DIR="${SRC_DIR}/.conda-no-git"' in Path(
+        "conda-recipe/build.sh"
+    ).read_text(encoding="utf-8")
+    assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in Path(
+        "conda-recipe/bld.bat"
+    ).read_text(encoding="utf-8")
     assert "    - python {{ python_min }}" in recipe
     assert "  run:\n    - python\n" in recipe
     assert "python >= {{ python_min }}" not in recipe
@@ -121,6 +126,11 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     workflow = Path(".github/workflows/conda-update.yml").read_text(encoding="utf-8")
     assert 'meta = Path("recipes/voiage/meta.yaml")' in workflow
     assert 'r"sha256: [0-9a-fA-F_]+"' in workflow
+    assert (
+        "cp conda-recipe/meta.yaml conda-recipe/build.sh conda-recipe/bld.bat"
+        in workflow
+    )
+    assert "recipes/voiage/bld.bat" in workflow
 
 
 def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
