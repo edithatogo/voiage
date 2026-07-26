@@ -83,6 +83,12 @@ def test_built_in_providers_normalize_supported_csv_profile(
 
     assert bundle.manifest.dataset_id in {"ml-fixture", "operations-fixture"}
     assert bundle.table("samples").column_names == ["a", "b"]
+    assert bundle.manifest.resources[0].resource_id == "samples"
+    assert bundle.manifest.resources[0].sha256 == digest_file(tmp_path / "samples.csv")
+    assert (
+        bundle.manifest.resources[0].byte_size
+        == (tmp_path / "samples.csv").stat().st_size
+    )
 
 
 def test_frictionless_provider_validates_declared_types_constraints_and_primary_key(
