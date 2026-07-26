@@ -111,8 +111,8 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     assert "{{ compiler('rust') }}" in recipe
     assert "{{ stdlib('c') }}" in recipe
     assert "maturin >=1.9,<2.0" in recipe
-    assert 'GIT_DIR="$SRC_DIR/.conda-no-git"' in recipe
-    assert 'GIT_DIR=%SRC_DIR%\\.conda-no-git' in recipe
+    assert "GIT_DIR=\"$SRC_DIR/.conda-no-git\"" in recipe
+    assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in recipe
     assert "    - python {{ python_min }}" in recipe
     assert "  run:\n    - python\n" in recipe
     assert "python >= {{ python_min }}" not in recipe
