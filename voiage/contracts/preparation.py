@@ -192,9 +192,10 @@ def _resolve_binding(
 
 def _wide_binding_values(table: pa.Table, binding: VOIBinding) -> np.ndarray:
     """Return explicit wide columns only after numeric and null validation."""
+    selected = table.select(binding.field_ids)
     arrays = []
     for field in binding.field_ids:
-        column = table[field]
+        column = selected[field]
         if column.null_count:
             raise ValueError(f"net-benefit field {field!r} contains nulls")
         try:
@@ -251,11 +252,19 @@ def prepare_analysis_inputs(
     )
     derived = False
     wtp: float | None = None
+    cost_binding: VOIBinding | None = None
     if net_benefit_bindings:
         binding = _resolve_binding(
             declared_bindings, "net_benefit", method_family=method_family
         )
     else:
+        cost_outcome_roles = {
+            binding.role
+            for binding in declared_bindings
+            if binding.role in {"cost", "outcome"}
+        }
+        if not cost_outcome_roles:
+            raise ValueError("exactly one net_benefit binding is required")
         if willingness_to_pay is None:
             raise ValueError(
                 "cost/outcome preparation requires a finite willingness_to_pay"
@@ -298,7 +307,7 @@ def prepare_analysis_inputs(
         if binding.layout == "long"
         else (
             tuple(cost_binding.field_ids) + tuple(binding.field_ids)
-            if derived
+            if derived and cost_binding is not None
             else binding.field_ids
         )
     )
@@ -308,7 +317,7 @@ def prepare_analysis_inputs(
     if selected.num_rows == 0:
         raise ValueError("net-benefit input must contain at least one row")
     if derived:
-        if wtp is None:
+        if wtp is None or cost_binding is None:
             raise ValueError("cost/outcome preparation requires a willingness_to_pay")
         cost_values = _wide_binding_values(table, cost_binding)
         outcome_values = _wide_binding_values(table, binding)
