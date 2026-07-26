@@ -1,0 +1,13 @@
+{
+  "name": "cost-outcome-decision-fixture",
+  "resources": [{
+    "name": "samples",
+    "path": "cost-outcome-decision.csv",
+    "schema": {"fields": [
+      {"name": "cost_a", "type": "number"},
+      {"name": "cost_b", "type": "number"},
+      {"name": "outcome_a", "type": "number"},
+      {"name": "outcome_b", "type": "number"}
+    ]}
+  }]
+}

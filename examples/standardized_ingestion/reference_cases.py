@@ -66,6 +66,57 @@ def _direct() -> NormalizedInputBundle:
     )
 
 
+def _cost_outcome_bindings() -> tuple[VOIBinding, VOIBinding]:
+    return (
+        VOIBinding(
+            role="cost",
+            table_id="samples",
+            field_ids=("cost_a", "cost_b"),
+            strategy_names=("A", "B"),
+            unit="currency",
+        ),
+        VOIBinding(
+            role="outcome",
+            table_id="samples",
+            field_ids=("outcome_a", "outcome_b"),
+            strategy_names=("A", "B"),
+            unit="outcome",
+        ),
+    )
+
+
+def _direct_cost_outcome() -> NormalizedInputBundle:
+    table = pa.table(
+        {
+            "cost_a": [100.0, 180.0, 130.0],
+            "cost_b": [150.0, 120.0, 160.0],
+            "outcome_a": [0.010, 0.016, 0.009],
+            "outcome_b": [0.014, 0.012, 0.013],
+        }
+    )
+    return NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="cost-outcome-decision-fixture",
+            tables=(
+                TableManifest(
+                    table_id="samples",
+                    fields=tuple(
+                        FieldManifest(field_id=field.name, dtype=str(field.type))
+                        for field in table.schema
+                    ),
+                ),
+            ),
+            provenance=SourceProvenance(
+                provider_id="direct-reference-case",
+                source_uri="urn:voiage:reference-case:business-cost-outcome",
+                descriptor_digest="e" * 64,
+            ),
+            bindings=_cost_outcome_bindings(),
+        ),
+        tables={"samples": table},
+    )
+
+
 def run_reference_cases() -> dict[str, object]:
     """Calculate one explicit EVPI case through each supported input surface."""
     policy = SourceAccessPolicy(_FIXTURES)
@@ -89,6 +140,45 @@ def run_reference_cases() -> dict[str, object]:
     if len(set(values.values())) != 1:
         raise RuntimeError("reference cases must have identical explicit EVPI")
     return {"binding": _binding().model_dump(mode="json"), "evpi": values}
+
+
+def run_cost_outcome_reference_cases() -> dict[str, float]:
+    """Derive net benefit from explicit cost/outcome bindings in each surface."""
+    policy = SourceAccessPolicy(_FIXTURES)
+    bindings = _cost_outcome_bindings()
+
+    def with_bindings(bundle: NormalizedInputBundle) -> NormalizedInputBundle:
+        return NormalizedInputBundle(
+            manifest=bundle.manifest.model_copy(update={"bindings": bindings}),
+            tables=bundle.tables,
+        )
+
+    bundles = {
+        "ml": with_bindings(
+            default_registry().ingest(
+                _FIXTURES / "cost-outcome-decision.croissant.json", policy=policy
+            )
+        ),
+        "engineering": with_bindings(
+            default_registry().ingest(
+                _FIXTURES / "cost-outcome-decision.datapackage.json", policy=policy
+            )
+        ),
+        "business": _direct_cost_outcome(),
+    }
+    values = {
+        domain: float(
+            evpi(
+                prepare_analysis_inputs(
+                    bundle, willingness_to_pay=20_000.0
+                ).net_benefits
+            )
+        )
+        for domain, bundle in bundles.items()
+    }
+    if len(set(values.values())) != 1:
+        raise RuntimeError("cost/outcome reference cases must have identical EVPI")
+    return values
 
 
 if __name__ == "__main__":

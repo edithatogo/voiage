@@ -36,6 +36,25 @@ The output contains identical EVPI values for `ml`, `engineering`, and
 `business`. The runner fails if any format reaches a different value, making
 the example an executable cross-format regression check as well as a tutorial.
 
+## Cost/outcome derivation case
+
+A second synthetic case exercises a different decision path: it records costs
+and outcomes rather than precomputed net benefit. Explicit, aligned strategy
+bindings derive net benefit at 20,000 currency units per outcome unit. The same
+case is materialized through Croissant, Frictionless, and a direct Arrow table,
+and has an EVPI of `20 / 3` in every surface.
+
+```python
+from examples.standardized_ingestion.reference_cases import (
+    run_cost_outcome_reference_cases,
+)
+
+assert run_cost_outcome_reference_cases()["ml"] == 20.0 / 3.0
+```
+
+The pinned sources, digests, binding details, and willingness-to-pay value are
+recorded in `cost-outcome-decision.manifest.json` beside the fixture files.
+
 The input descriptors and their SHA-256 digests live in
 [`tests/fixtures/standardized_ingestion/`](https://github.com/edithatogo/voiage/tree/main/tests/fixtures/standardized_ingestion).
 Use `canonical-decision.manifest.json` to verify exact source artifacts before
