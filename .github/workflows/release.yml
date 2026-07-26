@@ -391,7 +391,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      contents: read
+      # Draft releases are visible only to tokens with push-level repository
+      # access. Keep this elevation scoped to the digest-review job.
+      contents: write
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
