@@ -60,6 +60,12 @@ and dominance currently have no estimator-family runtime envelope to
 integrate; ENBS inherits its EVSI input assurance, and the other profiles
 retain explicit runtime-assurance gates.
 
+The Rust-native linear-regression and moment-matching EVSI estimators are
+assurance-conformant: each has analytical, independently derived, metamorphic,
+runtime-envelope, and independently seeded replication evidence. This does not
+promote the distinct public joint-normal two-loop compatibility estimator,
+which remains Python-owned and explicitly assurance-gated.
+
 Expected opportunity loss now provides the first Rust-owned sample-average
 runtime envelope. It reports the selected strategy's unbiased opportunity-loss
 variance, Monte Carlo standard error, a disclosed normal-approximation

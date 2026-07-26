@@ -188,7 +188,7 @@ def summarize_evsi_replications(
         relative_tolerance,
     )
     return ReplicatedAssuranceResult(
-        estimate=float(payload["estimate"]),
+        estimate=cast("float", payload["estimate"]),
         replication_seeds=tuple(cast("list[int]", payload["replication_seeds"])),
         assurance=StatisticalAssurance.from_mapping(
             cast("dict[str, object]", payload["statistical_assurance"])

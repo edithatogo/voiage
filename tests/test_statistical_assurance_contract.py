@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Literal
 
 from jsonschema import Draft202012Validator
 import pytest
@@ -90,6 +91,26 @@ def test_independent_evsi_replications_produce_typed_convergence_evidence() -> N
     assert result.assurance.convergence is not None
     assert result.assurance.convergence.converged
     assert result.assurance.monte_carlo_standard_error is not None
+
+
+@pytest.mark.parametrize(
+    "reporting_class",
+    ["regression-or-metamodel", "moment-matching"],
+)
+def test_rust_native_evsi_classes_support_replicated_convergence(
+    reporting_class: Literal["regression-or-metamodel", "moment-matching"],
+) -> None:
+    result = summarize_evsi_replications(
+        [2.0, 2.1, 1.9, 2.0],
+        [101, 102, 103, 104],
+        reporting_class=reporting_class,
+        relative_tolerance=0.1,
+    )
+
+    assert result.assurance.reporting_class == reporting_class
+    assert result.assurance.replications == 4
+    assert result.assurance.convergence is not None
+    assert result.assurance.convergence.converged
 
 
 def test_evsi_replication_summary_rejects_duplicate_seeds() -> None:

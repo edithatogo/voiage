@@ -79,7 +79,10 @@ EVSI estimators now have an explicit independent-replication boundary:
 callers provide estimates from unique seeds, and Rust reports between-run
 variance, Monte Carlo error, a confidence interval, and split-half relative
 mean convergence. The committed fixture covers nested Monte Carlo; regression
-and moment estimators retain their separate estimator-validation gates.
+and moment estimators have executable replicated fixtures and are
+assurance-conformant when joined with their analytical, independent-reference,
+and metamorphic evidence. The public joint-normal two-loop compatibility path
+retains its separate estimator-assurance and Rust-authority gates.
 
 The dependency frontier now distinguishes compatibility floors from resolved
 versions. Required lock refreshes must resolve every direct dependency to the

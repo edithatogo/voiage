@@ -43,6 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a Rust-owned independent-replication summary for EVSI estimators with
   unique seed enforcement, between-run variance and Monte Carlo error,
   split-half convergence, typed Python results, and fail-closed validation.
+- Promoted the Rust-native linear-regression and moment-matching EVSI
+  estimators to assurance-conformant after joining their analytical,
+  independent-reference, metamorphic, runtime-envelope, and replicated
+  convergence evidence. The Python joint-normal two-loop estimator remains
+  explicitly assurance-gated.
 - Made dependency-frontier verification lock-aware: upgraded resolutions must
   match the newest stable releases admitted by declared compatibility ranges,
   while newer incompatible releases are reported for review. The refreshed

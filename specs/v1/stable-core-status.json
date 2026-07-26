@@ -11,8 +11,6 @@
       "evpi",
       "evppi-regression",
       "evsi-nested-mc",
-      "evsi-regression",
-      "evsi-moment-matching",
       "enbs",
       "ceaf",
       "structural-voi"
@@ -96,27 +94,23 @@
     {
       "api_maturity": "stable",
       "authority_boundary": "rust-kernel",
-      "implementation_state": "requires-assurance-evidence",
+      "implementation_state": "conformant",
       "method_id": "evsi-regression",
-      "open_gates": [
-        "estimator-assurance-evidence"
-      ],
+      "open_gates": [],
       "reporting_class": "regression-or-metamodel",
       "runtime_assurance_state": "integrated-replication-capable",
-      "v1_1_assurance_state": "open",
+      "v1_1_assurance_state": "eligible",
       "validation_state": "analytical-independent-metamorphic"
     },
     {
       "api_maturity": "stable",
       "authority_boundary": "rust-kernel",
-      "implementation_state": "requires-assurance-evidence",
+      "implementation_state": "conformant",
       "method_id": "evsi-moment-matching",
-      "open_gates": [
-        "estimator-assurance-evidence"
-      ],
+      "open_gates": [],
       "reporting_class": "moment-matching",
       "runtime_assurance_state": "integrated-replication-capable",
-      "v1_1_assurance_state": "open",
+      "v1_1_assurance_state": "eligible",
       "validation_state": "analytical-independent-metamorphic"
     },
     {

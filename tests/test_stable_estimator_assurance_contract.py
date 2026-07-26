@@ -102,6 +102,19 @@ def test_required_diagnostics_use_stable_binding_error_codes() -> None:
         assert set(profile["required_diagnostics"]) <= stable_codes
 
 
+def test_rust_native_evsi_estimators_have_completed_assurance_evidence() -> None:
+    profiles = {
+        profile["method_id"]: profile for profile in _load(ASSURANCE_PATH)["profiles"]
+    }
+
+    assert profiles["evsi-regression"]["implementation_state"] == "conformant"
+    assert profiles["evsi-moment-matching"]["implementation_state"] == "conformant"
+    assert (
+        profiles["evsi-nested-mc"]["implementation_state"]
+        == "requires-assurance-evidence"
+    )
+
+
 def test_global_policy_freezes_tolerances_failures_and_fallback_visibility() -> None:
     policy = _load(ASSURANCE_PATH)["global_policy"]
 
