@@ -48,6 +48,16 @@ def _bundle_summary(descriptor: Path) -> dict[str, object]:
         "governance": bundle.manifest.model_dump(mode="json")["extensions"],
         "provider": bundle.manifest.provenance.provider_id,
         "provenance": bundle.manifest.provenance.model_dump(mode="json"),
+        "resources": [
+            {
+                "byte_size": resource.byte_size,
+                "media_type": resource.media_type,
+                "resource_id": resource.resource_id,
+                "sha256": resource.sha256,
+                "uri": resource.uri,
+            }
+            for resource in bundle.manifest.resources
+        ],
         "schema_fingerprint": bundle.schema_fingerprint,
         "tables": {name: table.num_rows for name, table in bundle.tables.items()},
     }

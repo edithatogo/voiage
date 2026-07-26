@@ -74,6 +74,7 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         ],
         "frictionlessdata.org:licenses": [{"name": "CC-BY-4.0"}],
     }
+    assert inspection["resources"] == []
     assert normalized.exit_code == 0
     assert output.is_file()
     assert calculated.exit_code == 0
