@@ -102,9 +102,10 @@
   convergence, ESS, and RNG evidence as null. (`f975ea2b`)
 - [x] Add Rust-owned resample variance, Monte Carlo error, interval, indexed
   RNG identity, and budget assurance to seeded-bootstrap EVSI. (`dd1e132b`)
-- [ ] Integrate statistically valid envelopes for the remaining stable
-  sample-average, EVPPI regression, CEAF, and structural methods, plus
-  replicated convergence evidence for EVSI estimators.
+- [x] Integrate statistically valid envelopes for the remaining stable
+  sample-average, EVPPI regression, threshold-specific CEAF, and structural
+  methods. (`35cedb85`)
+- [~] Add independent replicated convergence evidence for EVSI estimators.
 - [ ] Regenerate stable-core maturity and promotion evidence from runtime
   assurance coverage.
 - [ ] Commit, attach git notes, record task SHAs, and reconcile evidence.
