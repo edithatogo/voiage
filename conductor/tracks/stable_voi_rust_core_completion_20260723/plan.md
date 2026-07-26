@@ -97,8 +97,12 @@
   Rust owns variance and Monte Carlo standard error, the typed portable
   envelope is serialized canonically, and unavailable replication,
   convergence, ESS, and RNG evidence remains explicit)
+- [x] Integrate fail-closed single-fit envelopes for linear and callback
+  regression EVSI and moment-based EVSI, preserving unavailable variance,
+  convergence, ESS, and RNG evidence as null. (`f975ea2b`)
 - [ ] Integrate statistically valid envelopes for the remaining stable
-  sample-average, regression, nested-Monte-Carlo, and moment-matching methods.
+  sample-average, EVPPI regression, nested-Monte-Carlo, CEAF, and structural
+  methods, plus replicated convergence evidence for EVSI approximations.
 - [ ] Regenerate stable-core maturity and promotion evidence from runtime
   assurance coverage.
 - [ ] Commit, attach git notes, record task SHAs, and reconcile evidence.
