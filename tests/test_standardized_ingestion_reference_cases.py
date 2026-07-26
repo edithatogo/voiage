@@ -7,6 +7,8 @@ from pathlib import Path
 
 import pytest
 
+from voiage.ingestion import SourceAccessPolicy, default_registry
+
 
 def test_reference_cases_use_one_binding_and_one_evpi() -> None:
     path = (
@@ -52,3 +54,21 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
         "engineering": pytest.approx(20.0 / 3.0),
         "business": pytest.approx(20.0 / 3.0),
     }
+
+
+def test_cross_format_reference_descriptors_preserve_identical_schema_order() -> None:
+    fixtures = Path(__file__).parent / "fixtures" / "standardized_ingestion"
+    policy = SourceAccessPolicy(fixtures)
+    registry = default_registry()
+
+    croissant = registry.ingest(
+        fixtures / "canonical-decision.croissant.json", policy=policy
+    )
+    frictionless = registry.ingest(
+        fixtures / "canonical-decision.datapackage.json", policy=policy
+    )
+
+    assert croissant.table("samples").schema == frictionless.table("samples").schema
+    assert tuple(
+        field.field_id for field in croissant.manifest.tables[0].fields
+    ) == tuple(field.field_id for field in frictionless.manifest.tables[0].fields)
