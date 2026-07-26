@@ -62,6 +62,21 @@ int main(void) {
         enbs != 9.5) {
         return 11;
     }
+    const double costs[] = {100.0, 120.0, 150.0};
+    const double effects[] = {1.0, 0.9, 2.0};
+    int32_t dominance_status[3] = {-1, -1, -1};
+    uint64_t frontier[3] = {0};
+    double incremental_costs[2] = {0};
+    double incremental_effects[2] = {0};
+    double icers[2] = {0};
+    VoiageDominanceResultV1 dominance_result = {0};
+    if (voiage_v1_dominance_result(
+            costs, effects, 3, dominance_status, frontier, 3,
+            incremental_costs, incremental_effects, icers, 2,
+            &dominance_result) != VOIAGE_V1_STATUS_OK ||
+        dominance_result.frontier_count != 2) {
+        return 12;
+    }
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;

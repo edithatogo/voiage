@@ -16,6 +16,8 @@ static_assert(sizeof(voiage_v1_status) == 4, "status width drift");
 static_assert(sizeof(VoiageEvpiResultV1) == 56, "EVPI result layout drift");
 static_assert(sizeof(VoiageExpectedLossResultV1) == 64,
               "expected-loss result layout drift");
+static_assert(sizeof(VoiageDominanceResultV1) == 48,
+              "dominance result layout drift");
 
 static int exercise_contract() {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -48,6 +50,22 @@ static int exercise_contract() {
     if (voiage_v1_enbs(12.5, 3.0, &enbs) != VOIAGE_V1_STATUS_OK ||
         enbs != 9.5) {
         return 8;
+    }
+    const double costs[] = {100.0, 120.0, 150.0};
+    const double effects[] = {1.0, 0.9, 2.0};
+    std::int32_t dominance_status[3] = {-1, -1, -1};
+    std::uint64_t frontier[3]{};
+    double incremental_costs[2]{};
+    double incremental_effects[2]{};
+    double icers[2]{};
+    VoiageDominanceResultV1 dominance_result{};
+    if (voiage_v1_dominance_result(
+            costs, effects, 3, dominance_status, frontier, 3,
+            incremental_costs, incremental_effects, icers, 2,
+            &dominance_result) != VOIAGE_V1_STATUS_OK ||
+        dominance_result.frontier_count != 2 ||
+        dominance_result.strongly_dominated_count != 1) {
+        return 9;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     std::uint64_t required_size = 0;

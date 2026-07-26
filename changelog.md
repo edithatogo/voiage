@@ -94,6 +94,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.4 Rust-authoritative ENBS with finite-input and non-negative
   research-cost validation, contained panics, no-write failures, and
   preservation of negative net research value.
+- Added ABI v1.5 deterministic dominance with caller-owned strategy
+  classifications, frontier indices, incremental costs/effects, ICERs,
+  fixed-width counts, and no-partial-write capacity validation.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

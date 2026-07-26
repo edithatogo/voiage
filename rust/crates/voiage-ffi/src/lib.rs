@@ -12,6 +12,10 @@ mod error_transport;
 // contains panics before copying a generated immutable byte slice.
 #[allow(unsafe_code)]
 mod capability_document;
+// SAFETY: dominance transport validates all caller-owned pointers, capacities,
+// and addressable lengths, contains panics, and writes only after computation.
+#[allow(unsafe_code)]
+mod dominance_result;
 mod generated_capabilities;
 // SAFETY: expected-loss transport validates all caller-owned pointers and
 // capacities, contains panics, and writes only after successful computation.
@@ -29,6 +33,7 @@ use voiage_domain::SampleMatrix;
 use voiage_numerics::{enbs, evpi, evpi_with_assurance, EvpiKernelResult};
 
 pub use capability_document::voiage_v1_capabilities_json;
+pub use dominance_result::{voiage_v1_dominance_result, VoiageDominanceResultV1};
 pub use error_transport::voiage_v1_error_message;
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
@@ -41,7 +46,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 4;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 5;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -63,6 +68,9 @@ pub const VOIAGE_ABI_EXPECTED_LOSS_RESULT: u64 = 1 << 5;
 
 /// Capability bit for Rust-authoritative expected net benefit of sampling.
 pub const VOIAGE_ABI_ENBS: u64 = 1 << 6;
+
+/// Capability bit for deterministic dominance, frontier, and ICER results.
+pub const VOIAGE_ABI_DOMINANCE_RESULT: u64 = 1 << 7;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -144,7 +152,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_EVPI_RESULT
             | VOIAGE_ABI_CAPABILITY_DOCUMENT
             | VOIAGE_ABI_EXPECTED_LOSS_RESULT
-            | VOIAGE_ABI_ENBS,
+            | VOIAGE_ABI_ENBS
+            | VOIAGE_ABI_DOMINANCE_RESULT,
     }
 }
 

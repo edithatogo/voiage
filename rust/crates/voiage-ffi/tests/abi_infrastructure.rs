@@ -6,11 +6,11 @@ use std::mem::{align_of, offset_of, size_of};
 
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
-    voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageEvpiResultV1,
-    VoiageExpectedLossResultV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT,
-    VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
-    VOIAGE_ABI_EXPECTED_LOSS_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
-    VOIAGE_V1_ABI_MINOR,
+    voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageDominanceResultV1,
+    VoiageEvpiResultV1, VoiageExpectedLossResultV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT,
+    VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_DOMINANCE_RESULT, VOIAGE_ABI_ENBS,
+    VOIAGE_ABI_EVPI_RESULT, VOIAGE_ABI_EXPECTED_LOSS_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION,
+    VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -42,8 +42,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | VOIAGE_ABI_CAPABILITY_DOCUMENT
             | VOIAGE_ABI_EXPECTED_LOSS_RESULT
             | VOIAGE_ABI_ENBS
+            | VOIAGE_ABI_DOMINANCE_RESULT
     );
-    assert_eq!(capabilities.capability_bits & !0b111_1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b1111_1111, 0);
 }
 
 #[test]
@@ -160,6 +161,14 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
             "VoiageExpectedLossResultV1.reserved {}\n",
             "VoiageExpectedLossResultV1.opportunity_loss_variance {}\n",
             "VoiageExpectedLossResultV1.monte_carlo_standard_error {}\n",
+            "VoiageDominanceResultV1 {} {}\n",
+            "VoiageDominanceResultV1.struct_size {}\n",
+            "VoiageDominanceResultV1.struct_version {}\n",
+            "VoiageDominanceResultV1.strategy_count {}\n",
+            "VoiageDominanceResultV1.frontier_count {}\n",
+            "VoiageDominanceResultV1.strongly_dominated_count {}\n",
+            "VoiageDominanceResultV1.extended_dominated_count {}\n",
+            "VoiageDominanceResultV1.transition_count {}\n",
             "VoiageHandleV1 {} {}\n",
             "voiage_v1_status {} {}",
         ),
@@ -199,6 +208,15 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
         offset_of!(VoiageExpectedLossResultV1, reserved),
         offset_of!(VoiageExpectedLossResultV1, opportunity_loss_variance),
         offset_of!(VoiageExpectedLossResultV1, monte_carlo_standard_error),
+        size_of::<VoiageDominanceResultV1>(),
+        align_of::<VoiageDominanceResultV1>(),
+        offset_of!(VoiageDominanceResultV1, struct_size),
+        offset_of!(VoiageDominanceResultV1, struct_version),
+        offset_of!(VoiageDominanceResultV1, strategy_count),
+        offset_of!(VoiageDominanceResultV1, frontier_count),
+        offset_of!(VoiageDominanceResultV1, strongly_dominated_count),
+        offset_of!(VoiageDominanceResultV1, extended_dominated_count),
+        offset_of!(VoiageDominanceResultV1, transition_count),
         size_of::<u64>(),
         align_of::<u64>(),
         size_of::<VoiageStatusV1>(),

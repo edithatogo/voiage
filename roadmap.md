@@ -124,6 +124,11 @@ C ABI v1.4 exposes Rust-authoritative ENBS without clipping negative net
 research value. It validates finite inputs and non-negative research cost,
 contains panics, and leaves caller output untouched on failure.
 
+C ABI v1.5 exposes Rust-authoritative dominance, the cost-effectiveness
+frontier, and ICER transitions through bounded caller-owned arrays. Stable
+classification codes distinguish frontier, strong dominance, and extended
+dominance, while a fixed-width summary records valid output counts.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,
