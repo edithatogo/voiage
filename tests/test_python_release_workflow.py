@@ -108,6 +108,7 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
 
     assert not Path("conda/meta.yaml").exists()
     assert "noarch: python" not in recipe
+    assert "  build:\n    - {{ compiler('c') }}" in recipe
     assert "{{ compiler('c') }}" in recipe
     assert "{{ compiler('rust') }}" in recipe
     assert "{{ stdlib('c') }}" in recipe
