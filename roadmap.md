@@ -75,9 +75,10 @@ AI attestation, final human source verification, authenticated submission,
 editorial review, acceptance, and DOI assignment remain explicit human or
 external gates. The round-nine JOSS source has passed its local article,
 SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
-decision-maker wording retained for the release-bound source now requires one
-fresh exact-revision build before tagging. The permanent arXiv identifier is
-the author's requested sequencing gate, not a JOSS eligibility requirement.
+decision-maker wording retained for the release-bound source passed a fresh
+exact-revision Open Journals build and six-page visual review in PR #529. The
+permanent arXiv identifier is the author's requested sequencing gate, not a
+JOSS eligibility requirement.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

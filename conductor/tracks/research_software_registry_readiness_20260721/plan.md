@@ -82,8 +82,8 @@
   The round-nine source passes its local contract at 1,583 words with 18/18
   citations reconciled. PR #522 passed the hosted Open Journals build,
   Textstat report, and six-page visual review. The retained decision-maker
-  wording requires one release-bound rebuild; human source review remains
-  pending.
+  wording passed its release-bound rebuild and six-page visual review in PR
+  #529; human source review remains pending.
 - [x] Return the revision to the full panel, remediate every supported
   manuscript finding, and record snapshot scores as diagnostic evidence rather
   than artificial acceptance thresholds; report external JOSS screening gates

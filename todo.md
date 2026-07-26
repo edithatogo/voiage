@@ -56,8 +56,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         tightens study-model interpretation, and passes locally at 1,583 words
         with 18/18 citation occurrences reconciled. Its hosted Open Journals
         PDF and six-page visual review passed for PR #522; the retained
-        decision-maker wording requires one release-bound rebuild before the
-        v2 tag.
+        decision-maker wording passed its release-bound rebuild and six-page
+        visual review in PR #529.
         Exact v2 release identity, author-confirmed AI attestation, final human
         source verification, and the external engagement record remain open.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
