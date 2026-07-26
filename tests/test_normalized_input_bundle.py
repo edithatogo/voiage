@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
@@ -256,6 +259,19 @@ def test_manifest_matches_published_json_schema() -> None:
     Draft202012Validator(schema).validate(_bundle().manifest.model_dump(mode="json"))
 
 
+def test_normalized_input_golden_fixture_is_schema_valid_and_deterministic() -> None:
+    fixture_path = Path("specs/core-api/fixtures/v2/normalized-input-bundle.json")
+    schema_path = Path("specs/core-api/schemas/v2/normalized-input-bundle.schema.json")
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+
+    Draft202012Validator(schema).validate(fixture["manifest"])
+    manifest = DatasetManifest.model_validate_json(json.dumps(fixture["manifest"]))
+
+    assert manifest.canonical_json() == fixture["canonical_json"]
+    assert sha256(manifest.canonical_json().encode()).hexdigest() == fixture["digest"]
+
+
 @pytest.mark.parametrize(
     "factory",
     [
@@ -397,6 +413,44 @@ def test_manifest_preserves_explicit_resource_and_relationship_contracts() -> No
     assert payload["diagnostics"][0]["severity"] == "info"
 
 
+def test_public_manifest_models_are_strict_and_immutable() -> None:
+    """Every P1-T2 model remains a fail-closed public contract."""
+    field = FieldManifest(field_id="id", dtype="int64")
+    table = TableManifest(table_id="records", fields=(field,), primary_key=("id",))
+    resource = ResourceManifest(
+        resource_id="records-csv", uri="records.csv", sha256="a" * 64
+    )
+    relationship = KeyReference(
+        source_table_id="records",
+        source_field_ids=("id",),
+        target_table_id="records",
+        target_field_ids=("id",),
+    )
+    provenance = SourceProvenance(
+        provider_id="fixture",
+        source_uri="file:///records.csv",
+        descriptor_digest="b" * 64,
+    )
+    diagnostic = IngestionDiagnostic(code="validated", severity="info", message="ok")
+    binding = VOIBinding(role="parameter", table_id="records", field_ids=("id",))
+
+    manifest = DatasetManifest(
+        dataset_id="strict-models",
+        tables=(table,),
+        resources=(resource,),
+        key_references=(relationship,),
+        provenance=provenance,
+        diagnostics=(diagnostic,),
+        bindings=(binding,),
+    )
+
+    assert manifest.schema_version == "1.0.0"
+    with pytest.raises(ValidationError):
+        FieldManifest(field_id="id", dtype="int64", unexpected=True)
+    with pytest.raises(ValidationError):
+        manifest.dataset_id = "mutated"
+
+
 @pytest.mark.parametrize(
     ("kwargs", "message"),
     [
@@ -472,6 +526,90 @@ def test_binding_profile_is_versioned_deterministic_and_reference_checked() -> N
                 )
             }
         ).validate_references()
+
+
+def test_binding_profile_declares_precedence_transformations_and_method_scope() -> None:
+    binding = VOIBinding(
+        role="net_benefit",
+        table_id="net_benefit",
+        field_ids=("strategy_a", "strategy_b"),
+        transformations=("currency-2026",),
+        applicable_method_families=("evpi",),
+    )
+    profile = BindingProfile(bindings=(binding,))
+
+    assert profile.precedence == "profile"
+    assert profile.binding_for("net_benefit", method_family="evpi") == binding
+    with pytest.raises(ValueError, match="not applicable"):
+        profile.binding_for("net_benefit", method_family="evsi")
+
+
+def test_binding_rejects_incompatible_declared_unit() -> None:
+    with pytest.raises(ValidationError, match="unit is incompatible"):
+        DatasetManifest(
+            dataset_id="unit-mismatch",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(
+                        FieldManifest(field_id="cost", dtype="float64", unit="AUD"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            bindings=(
+                VOIBinding(
+                    role="cost", table_id="data", field_ids=("cost",), unit="USD"
+                ),
+            ),
+        )
+
+
+def test_binding_profile_rejects_incompatible_declared_unit() -> None:
+    with pytest.raises(ValidationError, match="binding_profile unit is incompatible"):
+        DatasetManifest(
+            dataset_id="profile-unit-mismatch",
+            tables=(
+                TableManifest(
+                    table_id="data",
+                    fields=(
+                        FieldManifest(field_id="cost", dtype="float64", unit="AUD"),
+                    ),
+                ),
+            ),
+            provenance=_bundle().manifest.provenance,
+            binding_profile=BindingProfile(
+                bindings=(
+                    VOIBinding(
+                        role="cost", table_id="data", field_ids=("cost",), unit="USD"
+                    ),
+                )
+            ),
+        )
+
+
+def test_manifest_rejects_unsupported_serialized_schema_version() -> None:
+    payload = _bundle().manifest.model_dump(mode="json")
+    payload["schema_version"] = "2.0.0"
+
+    with pytest.raises(ValidationError, match="1.0.0"):
+        DatasetManifest.model_validate_json(json.dumps(payload))
+
+
+def test_normalized_contract_import_does_not_load_ingestion_modules() -> None:
+    script = "; ".join(
+        (
+            "import sys",
+            "import voiage.contracts.normalized_input",
+            "assert not any(name.startswith('voiage.ingestion') for name in sys.modules)",
+        )
+    )
+
+    result = subprocess.run(
+        [sys.executable, "-c", script], check=False, capture_output=True, text=True
+    )
+
+    assert result.returncode == 0, result.stderr
 
 
 def test_new_contract_validation_failure_paths() -> None:

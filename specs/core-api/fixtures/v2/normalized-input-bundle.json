@@ -1,0 +1,41 @@
+{
+  "fixture_version": "1.0.0",
+  "schema": "../../schemas/v2/normalized-input-bundle.schema.json",
+  "manifest": {
+    "schema_version": "1.0.0",
+    "dataset_id": "normalized-input-golden",
+    "tables": [
+      {
+        "table_id": "net_benefit",
+        "fields": [
+          {"field_id": "strategy_a", "dtype": "float64", "unit": null, "nullable": false, "description": null, "semantic_type": "net_benefit"},
+          {"field_id": "strategy_b", "dtype": "float64", "unit": null, "nullable": false, "description": null, "semantic_type": "net_benefit"}
+        ],
+        "primary_key": []
+      }
+    ],
+    "provenance": {
+      "provider_id": "fixture",
+      "source_uri": "file:///normalized-input-golden.csv",
+      "descriptor_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "retrieved_at": null,
+      "license": "CC0-1.0",
+      "citation": "Deterministic normalized-input fixture",
+      "governance": {"https://voiage.dev/governance": "synthetic"}
+    },
+    "resources": [
+      {"resource_id": "net-benefit-csv", "uri": "net-benefit.csv", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "media_type": "text/csv", "byte_size": 42, "retrieved_at": null}
+    ],
+    "key_references": [],
+    "diagnostics": [
+      {"code": "fixture_validated", "severity": "info", "message": "deterministic fixture", "table_id": "net_benefit", "field_id": null}
+    ],
+    "bindings": [
+      {"role": "net_benefit", "table_id": "net_benefit", "field_ids": ["strategy_a", "strategy_b"], "strategy_names": ["A", "B"], "unit": "utility", "perspective": "decision-maker", "transformations": [], "applicable_method_families": []}
+    ],
+    "binding_profile": null,
+    "extensions": {"https://voiage.dev/fixture": "v2"}
+  },
+  "canonical_json": "{\"binding_profile\":null,\"bindings\":[{\"applicable_method_families\":[],\"field_ids\":[\"strategy_a\",\"strategy_b\"],\"perspective\":\"decision-maker\",\"role\":\"net_benefit\",\"strategy_names\":[\"A\",\"B\"],\"table_id\":\"net_benefit\",\"transformations\":[],\"unit\":\"utility\"}],\"dataset_id\":\"normalized-input-golden\",\"diagnostics\":[{\"code\":\"fixture_validated\",\"field_id\":null,\"message\":\"deterministic fixture\",\"severity\":\"info\",\"table_id\":\"net_benefit\"}],\"extensions\":{\"https://voiage.dev/fixture\":\"v2\"},\"key_references\":[],\"provenance\":{\"citation\":\"Deterministic normalized-input fixture\",\"descriptor_digest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"governance\":{\"https://voiage.dev/governance\":\"synthetic\"},\"license\":\"CC0-1.0\",\"provider_id\":\"fixture\",\"retrieved_at\":null,\"source_uri\":\"file:///normalized-input-golden.csv\"},\"resources\":[{\"byte_size\":42,\"media_type\":\"text/csv\",\"resource_id\":\"net-benefit-csv\",\"retrieved_at\":null,\"sha256\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"uri\":\"net-benefit.csv\"}],\"schema_version\":\"1.0.0\",\"tables\":[{\"fields\":[{\"description\":null,\"dtype\":\"float64\",\"field_id\":\"strategy_a\",\"nullable\":false,\"semantic_type\":\"net_benefit\",\"unit\":null},{\"description\":null,\"dtype\":\"float64\",\"field_id\":\"strategy_b\",\"nullable\":false,\"semantic_type\":\"net_benefit\",\"unit\":null}],\"primary_key\":[],\"table_id\":\"net_benefit\"}]}",
+  "digest": "e0cdc0226d1edd951e1ce704a70c4758d21c08bd218dab4c39c6b9f9256257dd"
+}

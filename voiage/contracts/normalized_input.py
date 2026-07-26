@@ -140,6 +140,8 @@ class VOIBinding(ContractModel):
     strategy_names: tuple[Identifier, ...] = ()
     unit: str | None = None
     perspective: str | None = None
+    transformations: tuple[str, ...] = ()
+    applicable_method_families: tuple[Identifier, ...] = ()
 
     @model_validator(mode="after")
     def validate_strategy_names(self) -> VOIBinding:
@@ -156,6 +158,7 @@ class BindingProfile(ContractModel):
 
     schema_version: Literal["1.0.0"] = "1.0.0"
     bindings: tuple[VOIBinding, ...]
+    precedence: Literal["profile"] = "profile"
 
     @model_validator(mode="after")
     def validate_unique_roles(self) -> BindingProfile:
@@ -164,6 +167,21 @@ class BindingProfile(ContractModel):
         if len(roles) != len(set(roles)):
             raise ValueError("binding profile roles must be unique")
         return self
+
+    def binding_for(self, role: str, *, method_family: str) -> VOIBinding:
+        """Resolve one role only when the profile explicitly allows the method."""
+        matches = tuple(binding for binding in self.bindings if binding.role == role)
+        if len(matches) != 1:
+            raise ValueError(f"exactly one {role} binding is required")
+        binding = matches[0]
+        if (
+            binding.applicable_method_families
+            and method_family not in binding.applicable_method_families
+        ):
+            raise ValueError(
+                f"binding role {role!r} is not applicable to {method_family!r}"
+            )
+        return binding
 
     def canonical_json(self) -> str:
         """Return canonical profile JSON for reproducible semantic identity."""
@@ -220,6 +238,17 @@ class DatasetManifest(ContractModel):
                 raise ValueError(
                     f"binding references unknown field(s): {sorted(unknown)}"
                 )
+            declared_units = {
+                field.unit
+                for field in table.fields
+                if field.field_id in binding.field_ids
+            }
+            if (
+                binding.unit is not None
+                and declared_units != {None}
+                and binding.unit not in declared_units
+            ):
+                raise ValueError("binding unit is incompatible with declared fields")
         if self.binding_profile is not None:
             if self.bindings and self.bindings != self.binding_profile.bindings:
                 raise ValueError("embedded bindings conflicts with binding_profile")
@@ -230,6 +259,19 @@ class DatasetManifest(ContractModel):
                 ):
                     raise ValueError(
                         "binding_profile references an unknown table or field"
+                    )
+                declared_units = {
+                    field.unit
+                    for field in table.fields
+                    if field.field_id in binding.field_ids
+                }
+                if (
+                    binding.unit is not None
+                    and declared_units != {None}
+                    and binding.unit not in declared_units
+                ):
+                    raise ValueError(
+                        "binding_profile unit is incompatible with declared fields"
                     )
         for reference in self.key_references:
             source = table_map.get(reference.source_table_id)
