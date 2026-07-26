@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -472,6 +473,65 @@ def test_preparation_requires_a_declared_willingness_to_pay_for_cost_outcome() -
 
     with pytest.raises(ValueError, match="willingness_to_pay"):
         prepare_analysis_inputs(bundle)
+
+
+@pytest.mark.parametrize(
+    ("cost_fields", "cost_names", "outcome_fields", "outcome_names", "wtp", "message"),
+    [
+        (
+            ("strategy_a",),
+            ("A",),
+            ("strategy_b",),
+            ("A",),
+            math.nan,
+            "finite willingness_to_pay",
+        ),
+        (
+            ("strategy_a", "strategy_b"),
+            ("A", "B"),
+            ("strategy_a",),
+            ("A",),
+            100.0,
+            "aligned wide fields",
+        ),
+        (
+            ("strategy_a",),
+            ("A",),
+            ("strategy_b",),
+            ("B",),
+            100.0,
+            "same strategies",
+        ),
+    ],
+)
+def test_preparation_rejects_invalid_cost_outcome_declarations(
+    cost_fields, cost_names, outcome_fields, outcome_names, wtp, message
+) -> None:
+    source = _bundle()
+    bundle = NormalizedInputBundle(
+        manifest=source.manifest.model_copy(
+            update={
+                "bindings": (
+                    VOIBinding(
+                        role="cost",
+                        table_id="net_benefit",
+                        field_ids=cost_fields,
+                        strategy_names=cost_names,
+                    ),
+                    VOIBinding(
+                        role="outcome",
+                        table_id="net_benefit",
+                        field_ids=outcome_fields,
+                        strategy_names=outcome_names,
+                    ),
+                )
+            }
+        ),
+        tables=source.tables,
+    )
+
+    with pytest.raises(ValueError, match=message):
+        prepare_analysis_inputs(bundle, willingness_to_pay=wtp)
 
 
 @pytest.mark.parametrize(

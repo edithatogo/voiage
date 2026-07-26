@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import pyarrow as pa
@@ -311,17 +311,15 @@ def prepare_analysis_inputs(
             else binding.field_ids
         )
     )
-    if any(field is None for field in selected_field_ids):
-        raise ValueError("long net-benefit binding is incomplete")
-    selected = table.select(selected_field_ids)
+    # VOIBinding validates long identifiers; only valid field IDs reach Arrow.
+    selected = table.select(cast("tuple[str, ...]", selected_field_ids))
     if selected.num_rows == 0:
         raise ValueError("net-benefit input must contain at least one row")
     if derived:
-        if wtp is None or cost_binding is None:
-            raise ValueError("cost/outcome preparation requires a willingness_to_pay")
-        cost_values = _wide_binding_values(table, cost_binding)
+        # Both values are established before setting ``derived`` above.
+        cost_values = _wide_binding_values(table, cast("VOIBinding", cost_binding))
         outcome_values = _wide_binding_values(table, binding)
-        values = wtp * outcome_values - cost_values
+        values = cast("float", wtp) * outcome_values - cost_values
         strategies = list(binding.strategy_names or binding.field_ids)
     elif binding.layout == "long":
         values, strategies = _long_net_benefit_values(selected, binding)
