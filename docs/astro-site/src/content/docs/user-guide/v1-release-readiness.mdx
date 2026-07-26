@@ -59,6 +59,14 @@ the public joint-normal two-loop EVSI estimator remains an explicit Python
 compatibility path, and estimator-family runtime assurance envelopes still
 require integration.
 
+The
+[`stable-core-promotion-evidence.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-promotion-evidence.json)
+candidate binds that status by digest and fails closed. It separates
+repository implementation gates, maintainer manual-review gates, and external
+distribution gates for Python, R, Julia, Mojo, and Rust. External registry
+review is never inferred from green CI, and repository completion does not
+imply that a package has been submitted, reviewed, or published.
+
 For 0.x migrations, read the [migration guide](/voiage/user-guide/migration-guide)
 and [data structures](/voiage/data-structures). In particular, prefer typed schema
 objects and the stable facade over compatibility aliases that are explicitly

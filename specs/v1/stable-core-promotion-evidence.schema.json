@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.org/specs/v1/stable-core-promotion-evidence.schema.json",
+  "title": "VOIAGE stable-core promotion evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "promotion",
+    "stable_core_status",
+    "scientific_freeze_approval",
+    "repository_gates",
+    "human_gates",
+    "external_gates",
+    "claim_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "candidate-blocked"},
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release_target",
+        "decision",
+        "repository_promotion_ready",
+        "public_release_ready"
+      ],
+      "properties": {
+        "release_target": {"const": "v1.1"},
+        "decision": {"const": "blocked"},
+        "repository_promotion_ready": {"const": false},
+        "public_release_ready": {"const": false}
+      }
+    },
+    "stable_core_status": {"$ref": "#/$defs/boundArtifact"},
+    "scientific_freeze_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_digest",
+        "reviewer",
+        "reviewer_role",
+        "scope",
+        "waives_implementation_or_release_gates"
+      ],
+      "properties": {
+        "candidate_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "reviewer": {"type": "string", "minLength": 1},
+        "reviewer_role": {"const": "repository-maintainer"},
+        "scope": {"const": "scientific-contract-only"},
+        "waives_implementation_or_release_gates": {"const": false}
+      }
+    },
+    "repository_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/localGate"}
+    },
+    "human_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/localGate"}
+    },
+    "external_gates": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"$ref": "#/$defs/externalGate"}
+    },
+    "claim_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "green_ci",
+        "scientific_freeze",
+        "repository_completion",
+        "external_approval"
+      ],
+      "properties": {
+        "green_ci": {"const": "automated-evidence-only"},
+        "scientific_freeze": {"const": "does-not-waive-implementation-gates"},
+        "repository_completion": {
+          "const": "does-not-imply-registry-publication"
+        },
+        "external_approval": {
+          "const": "requires-authoritative-external-evidence"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "boundArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "localGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "owner", "status", "evidence_or_next_action"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1},
+        "status": {"const": "open"},
+        "evidence_or_next_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "externalGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "gate",
+        "status",
+        "repository_prerequisite_complete",
+        "external_owner",
+        "next_action",
+        "claim_policy"
+      ],
+      "properties": {
+        "binding_id": {
+          "enum": ["python", "r", "julia", "mojo", "rust"]
+        },
+        "gate": {"type": "string", "minLength": 1},
+        "status": {"enum": ["not-started", "blocked"]},
+        "repository_prerequisite_complete": {"type": "boolean"},
+        "external_owner": {"type": "string", "minLength": 1},
+        "next_action": {"type": "string", "minLength": 1},
+        "claim_policy": {
+          "const": "no-distribution-claim-before-evidence"
+        }
+      }
+    }
+  }
+}

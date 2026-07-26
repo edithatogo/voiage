@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without
   treating stable symbols or green CI as promotion evidence.
+- Added hash-bound v1.1 stable-core promotion evidence that records the
+  approved scientific-freeze scope while separating open repository, human,
+  and external Python/R/Julia/Mojo/Rust distribution gates.
 - Added a schema-validated v1.1 estimator-assurance registry that binds every
   approved stable method to an executable numerical profile or an explicit
   delegated contract, and freezes tolerance, tie, clipping, failure,
