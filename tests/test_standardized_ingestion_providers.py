@@ -163,6 +163,117 @@ def test_frictionless_provider_rejects_unsupported_or_invalid_schema_claims(
 
 
 @pytest.mark.parametrize(
+    ("csv", "resource", "message"),
+    [
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "dialect": {"delimiter": ";"},
+                "schema": {"fields": [{"name": "id"}]},
+            },
+            "only CSV comma dialect",
+        ),
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"primaryKey": 1, "fields": [{"name": "id"}]},
+            },
+            "primaryKey must be a string or field list",
+        ),
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"primaryKey": ["missing"], "fields": [{"name": "id"}]},
+            },
+            "primaryKey references an unknown",
+        ),
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"fields": [{}]},
+            },
+            "fields require string names",
+        ),
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"fields": [{"name": "missing"}]},
+            },
+            "exactly declare",
+        ),
+        (
+            "id\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"fields": [{"name": "id", "constraints": []}]},
+            },
+            "constraints must be an object",
+        ),
+        (
+            "id\n1\n1\n",
+            {
+                "name": "samples",
+                "path": "samples.csv",
+                "schema": {"fields": [{"name": "id", "constraints": {"unique": True}}]},
+            },
+            "unique field contains duplicate",
+        ),
+    ],
+)
+def test_frictionless_provider_covers_remaining_strict_profile_rejections(
+    tmp_path, csv, resource, message
+) -> None:
+    (tmp_path / "samples.csv").write_text(csv, encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(json.dumps({"resources": [resource]}), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+def test_frictionless_provider_rejects_required_null_field(tmp_path) -> None:
+    (tmp_path / "samples.csv").write_text("id,value\n,1\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {
+                            "fields": [
+                                {"name": "id", "constraints": {"required": True}},
+                                {"name": "value"},
+                            ]
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="required field contains null"):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
     ("provider", "version"),
     [(CroissantProvider(), "1.1"), (FrictionlessProvider(), "1")],
 )
