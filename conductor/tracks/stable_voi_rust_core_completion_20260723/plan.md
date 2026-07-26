@@ -108,6 +108,14 @@
 - [x] Add independent replicated convergence evidence for EVSI estimators.
   (`382d6cfb`; unique seeds, between-run uncertainty, split-half convergence,
   typed Python results, and executable nested-Monte-Carlo evidence)
+- [x] Promote the Rust-native linear-regression and moment-matching EVSI
+  estimators after joining analytical, independent-reference, metamorphic,
+  runtime-envelope, and replicated-convergence evidence. (`3f428c3a`; the
+  distinct Python two-loop estimator remains explicitly assurance-gated)
+- [x] Dependency-order matched cross-language performance behind the
+  publishable public Rust facade in the binding-parity track. (`e0b473d8`;
+  internal-kernel timings cannot satisfy the direct-facade contract and remain
+  ineligible for speedup or overhead claims)
 - [x] Regenerate stable-core maturity and promotion evidence from runtime
   assurance coverage and remove the satisfied dependency-frontier gate.
   (`7eecacd8`)
