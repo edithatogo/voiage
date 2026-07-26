@@ -35,6 +35,12 @@ int main(void) {
         capabilities.struct_size != sizeof(capabilities)) {
         return 1;
     }
+    uint64_t capability_document_size = 0;
+    if (voiage_v1_capabilities_json(NULL, 0, &capability_document_size) !=
+            VOIAGE_V1_STATUS_OK ||
+        capability_document_size <= 1) {
+        return 9;
+    }
 
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 result = {0};

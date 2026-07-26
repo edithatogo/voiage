@@ -83,6 +83,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `voiage_v1_evpi_result`, preserving the scalar EVPI symbols while exposing
   fixed-width dimensions, variance availability, variance, and Monte Carlo
   standard error.
+- Added ABI v1.2 caller-owned capability discovery. The canonical JSON document
+  is generated from stable-core status, retains method maturity, authority,
+  assurance, and open-gate truth, and fails CI when the checked-in Rust
+  artifact drifts.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

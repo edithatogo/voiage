@@ -7,8 +7,9 @@ use std::mem::{align_of, offset_of, size_of};
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageEvpiResultV1,
-    VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_EVPI_RESULT,
-    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
+    VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY,
+    VOIAGE_ABI_EVPI_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
+    VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -37,8 +38,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | VOIAGE_ABI_CAPABILITY_QUERY
             | voiage_ffi::VOIAGE_ABI_EVPI
             | VOIAGE_ABI_EVPI_RESULT
+            | VOIAGE_ABI_CAPABILITY_DOCUMENT
     );
-    assert_eq!(capabilities.capability_bits & !0b1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b1_1111, 0);
 }
 
 #[test]
@@ -103,9 +105,7 @@ fn typed_evpi_result_exposes_dimensions_and_assurance() {
     assert!((result.opportunity_loss_variance - 18.0).abs() < f64::EPSILON);
     assert!((result.monte_carlo_standard_error - 3.0).abs() < f64::EPSILON);
 
-    let status = unsafe {
-        voiage_v1_evpi_result(values.as_ptr(), 2, 2, std::ptr::null_mut())
-    };
+    let status = unsafe { voiage_v1_evpi_result(values.as_ptr(), 2, 2, std::ptr::null_mut()) };
     assert_eq!(status, VoiageStatusV1::InvalidArgument);
 }
 

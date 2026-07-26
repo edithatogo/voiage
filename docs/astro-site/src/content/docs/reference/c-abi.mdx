@@ -9,10 +9,11 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `1`
+- ABI major: `1`; ABI minor: `2`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
-  and the typed EVPI result envelope.
+  the typed EVPI result envelope, and the registry-generated capability
+  document.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -21,6 +22,7 @@ the release allowlists.
 ```text
 voiage_v1_abi_version
 voiage_v1_capabilities
+voiage_v1_capabilities_json
 voiage_v1_evpi
 voiage_v1_evpi_result
 voiage_v1_evpi_i32
@@ -35,6 +37,11 @@ forms exist for runtimes whose foreign-function conventions use signed 32-bit
 dimensions; they do not define a separate numerical policy.
 `voiage_v1_evpi_result` preserves the scalar value and adds sample and strategy
 counts plus explicit variance and Monte Carlo standard-error availability.
+
+`voiage_v1_capabilities_json` returns canonical UTF-8 JSON generated from the
+stable-core status registry. A null, zero-capacity buffer queries its required
+size, including the trailing NUL. The caller owns all output storage, and an
+undersized buffer is left untouched.
 
 ## Status and error transport
 

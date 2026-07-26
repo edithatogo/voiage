@@ -4,10 +4,15 @@
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
-// SAFETY: this is the sole pointer-dereferencing module. Every unsafe block is
-// locally documented and guarded by the v1 pointer contract.
+// SAFETY: error transport validates caller-owned pointers. Every unsafe block
+// is locally documented and guarded by the v1 pointer contract.
 #[allow(unsafe_code)]
 mod error_transport;
+// SAFETY: capability document transport validates caller-owned pointers and
+// contains panics before copying a generated immutable byte slice.
+#[allow(unsafe_code)]
+mod capability_document;
+mod generated_capabilities;
 // SAFETY: lifecycle validates its sole caller-owned output pointer before the
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
@@ -19,6 +24,7 @@ use std::panic::{self, AssertUnwindSafe};
 use voiage_domain::SampleMatrix;
 use voiage_numerics::{evpi, evpi_with_assurance, EvpiKernelResult};
 
+pub use capability_document::voiage_v1_capabilities_json;
 pub use error_transport::voiage_v1_error_message;
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use status::VoiageStatusV1;
@@ -30,7 +36,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 1;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 2;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -43,6 +49,9 @@ pub const VOIAGE_ABI_EVPI: u64 = 1 << 2;
 
 /// Capability bit for the typed EVPI result envelope.
 pub const VOIAGE_ABI_EVPI_RESULT: u64 = 1 << 3;
+
+/// Capability bit for the registry-generated JSON capability document.
+pub const VOIAGE_ABI_CAPABILITY_DOCUMENT: u64 = 1 << 4;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -121,7 +130,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
         capability_bits: VOIAGE_ABI_VERSION_NEGOTIATION
             | VOIAGE_ABI_CAPABILITY_QUERY
             | VOIAGE_ABI_EVPI
-            | VOIAGE_ABI_EVPI_RESULT,
+            | VOIAGE_ABI_EVPI_RESULT
+            | VOIAGE_ABI_CAPABILITY_DOCUMENT,
     }
 }
 

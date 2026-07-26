@@ -106,6 +106,13 @@ strategy opportunity-loss variance, and Monte Carlo standard error. Broader
 method/result types, serialization buffers, and generated registry-derived
 capabilities remain part of the binding-parity track.
 
+C ABI v1.2 adds caller-owned capability discovery generated from the canonical
+stable-core status. The compact JSON preserves every method's maturity,
+execution-authority boundary, implementation state, runtime assurance, and
+open gates instead of relying on manually synchronized wrapper claims.
+Generation drift is test-failing; typed method results and language-native
+adapters remain separate implementation work.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,
