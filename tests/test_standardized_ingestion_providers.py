@@ -124,6 +124,14 @@ def test_frictionless_provider_validates_declared_types_constraints_and_primary_
     ("csv", "schema", "message"),
     [
         (
+            "id,value\n,1\n",
+            {
+                "primaryKey": "id",
+                "fields": [{"name": "id"}, {"name": "value"}],
+            },
+            "primaryKey contains null",
+        ),
+        (
             "id\n1\n1\n",
             {"primaryKey": "id", "fields": [{"name": "id", "type": "integer"}]},
             "primaryKey contains duplicate",
