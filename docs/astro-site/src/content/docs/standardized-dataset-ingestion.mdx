@@ -24,8 +24,10 @@ voiage ingest normalize datapackage.json --output normalized.arrow
 `datapackage.json` from its Data Package resource list, not from the filename.
 `validate` resolves the descriptor and every declared local resource through
 the source-access policy, then returns a stable JSON confirmation. The
-`inspect` response contains the provider, table row counts, schema fingerprint,
-and content digest; neither command echoes resource contents.
+`inspect` response contains the provider, its declared capability profile, safe
+descriptor provenance, preserved governance metadata, diagnostics, table row
+counts, schema fingerprint, and content digest; neither command echoes resource
+contents or credentials.
 
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from

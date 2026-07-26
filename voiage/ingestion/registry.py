@@ -14,7 +14,12 @@ if TYPE_CHECKING:
 from voiage.contracts.normalized_input import (
     NormalizedInputBundle,  # noqa: TC001 - public runtime API
 )
-from voiage.ingestion.base import IngestionError, IngestionProvider, SourceAccessPolicy
+from voiage.ingestion.base import (
+    IngestionError,
+    IngestionProvider,
+    ProviderCapabilities,
+    SourceAccessPolicy,
+)
 
 _ENTRY_POINT_GROUP = "voiage.ingestion.providers"
 
@@ -91,6 +96,13 @@ class ProviderRegistry:
         return matches[0].ingest(
             descriptor_path, policy=policy or SourceAccessPolicy(descriptor_path.parent)
         )
+
+    def capabilities_for(self, provider_id: str) -> ProviderCapabilities:
+        """Return the declared support profile for one registered provider."""
+        for provider in self._providers:
+            if provider.provider_id == provider_id:
+                return provider.capabilities
+        raise IngestionError("normalized bundle names an unregistered provider")
 
 
 def default_registry() -> ProviderRegistry:

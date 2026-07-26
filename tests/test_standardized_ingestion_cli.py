@@ -16,6 +16,8 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         json.dumps(
             {
                 "name": "cli-fixture",
+                "licenses": [{"name": "CC-BY-4.0"}],
+                "contributors": [{"title": "Fixture maintainer", "role": "author"}],
                 "resources": [
                     {
                         "name": "samples",
@@ -53,7 +55,25 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     assert validated.exit_code == 0
     assert json.loads(validated.output)["valid"] is True
     assert inspected.exit_code == 0
-    assert json.loads(inspected.output)["provider"] == "frictionless"
+    inspection = json.loads(inspected.output)
+    assert inspection["provider"] == "frictionless"
+    assert inspection["capabilities"] == {
+        "format_versions": ["1"],
+        "media_types": ["text/csv"],
+        "provider_id": "frictionless",
+        "supported_transforms": [],
+        "supports_filtering": False,
+        "supports_projection": False,
+        "supports_random_access": False,
+        "supports_streaming": False,
+    }
+    assert inspection["provenance"]["license"] == "CC-BY-4.0"
+    assert inspection["governance"] == {
+        "frictionlessdata.org:contributors": [
+            {"role": "author", "title": "Fixture maintainer"}
+        ],
+        "frictionlessdata.org:licenses": [{"name": "CC-BY-4.0"}],
+    }
     assert normalized.exit_code == 0
     assert output.is_file()
     assert calculated.exit_code == 0

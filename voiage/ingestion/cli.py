@@ -25,11 +25,29 @@ app = typer.Typer(help="Validate and normalize standardized dataset descriptors.
 
 def _bundle_summary(descriptor: Path) -> dict[str, object]:
     """Return stable, non-secret metadata for a descriptor."""
-    bundle = default_registry().ingest(descriptor)
+    registry = default_registry()
+    bundle = registry.ingest(descriptor)
+    capabilities = registry.capabilities_for(bundle.manifest.provenance.provider_id)
     return {
+        "capabilities": {
+            "format_versions": capabilities.format_versions,
+            "media_types": capabilities.media_types,
+            "provider_id": capabilities.provider_id,
+            "supported_transforms": capabilities.supported_transforms,
+            "supports_filtering": capabilities.supports_filtering,
+            "supports_projection": capabilities.supports_projection,
+            "supports_random_access": capabilities.supports_random_access,
+            "supports_streaming": capabilities.supports_streaming,
+        },
         "content_digest": bundle.content_digest,
         "dataset_id": bundle.manifest.dataset_id,
+        "diagnostics": [
+            diagnostic.model_dump(mode="json")
+            for diagnostic in bundle.manifest.diagnostics
+        ],
+        "governance": bundle.manifest.model_dump(mode="json")["extensions"],
         "provider": bundle.manifest.provenance.provider_id,
+        "provenance": bundle.manifest.provenance.model_dump(mode="json"),
         "schema_fingerprint": bundle.schema_fingerprint,
         "tables": {name: table.num_rows for name, table in bundle.tables.items()},
     }
