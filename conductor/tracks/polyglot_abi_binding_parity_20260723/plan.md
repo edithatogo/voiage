@@ -6,6 +6,8 @@
   install, and differential tests.
   - [x] Generate a caller-owned C-ABI capability document from the canonical
     stable-core status and fail on generated-artifact drift. (`71c9d15f`)
+  - [~] Add a fixed-width expected-loss result with caller-owned per-strategy
+    arrays and strict ownership, alignment, and capacity validation.
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
