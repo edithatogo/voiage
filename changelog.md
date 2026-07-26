@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a generated stable-core status registry that reconciles stable API
+  maturity, numerical authority, validation evidence, runtime statistical
+  assurance, method eligibility, and aggregate v1.1 release gates without
+  treating stable symbols or green CI as promotion evidence.
 - Added a schema-validated v1.1 estimator-assurance registry that binds every
   approved stable method to an executable numerical profile or an explicit
   delegated contract, and freezes tolerance, tie, clipping, failure,

@@ -47,6 +47,14 @@ claim for EVSI: native regression and moment kernels coexist with a visible
 Python two-loop compatibility path, which remains a Rust-authority gap rather
 than being hidden behind a general `rust` label.
 
+A generated stable-core status registry now reconciles those contracts into
+method-level API maturity, numerical authority, validation state, runtime
+assurance, and v1.1 eligibility. It prevents a stable public symbol from being
+mistaken for a completed release gate. The aggregate remains not release-ready
+while runtime statistical envelopes, matched cross-language performance,
+dependency-frontier remediation, and the three manual phase reviews remain
+open.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

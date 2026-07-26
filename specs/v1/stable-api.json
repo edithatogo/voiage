@@ -5,6 +5,7 @@
   "statistical_assurance_contract": "specs/v1/stable-estimator-statistical-assurance.json",
   "performance_contract": "specs/v1/stable-core-performance.json",
   "scalability_contract": "specs/v1/stable-core-scalability.json",
+  "status_contract": "specs/v1/stable-core-status.json",
   "validation_evidence_contract": "specs/v1/stable-core-validation-evidence.json",
   "python": {
     "versions": [

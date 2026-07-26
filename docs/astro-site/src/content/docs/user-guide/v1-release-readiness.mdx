@@ -49,6 +49,16 @@ stable API is defined by the [stable API reference](/voiage/api-reference) and t
 Rust-owned contracts; provisional and experimental methods are not stable API
 guarantees.
 
+Stable API maturity does not by itself mean that a method is eligible for
+v1.1 promotion. The generated
+[`stable-core-status.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-status.json)
+registry reconciles API maturity, numerical authority, validation evidence,
+runtime statistical assurance, and remaining human and repository gates.
+It currently records the aggregate v1.1 release as not ready. In particular,
+the public joint-normal two-loop EVSI estimator remains an explicit Python
+compatibility path, and estimator-family runtime assurance envelopes still
+require integration.
+
 For 0.x migrations, read the [migration guide](/voiage/user-guide/migration-guide)
 and [data structures](/voiage/data-structures). In particular, prefer typed schema
 objects and the stable facade over compatibility aliases that are explicitly

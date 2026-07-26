@@ -33,7 +33,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
             metamorphic evidence, while the two-loop EVSI Python compatibility
             path is explicitly retained as an authority gap. Implementation
             of runtime envelopes plus parallel, matched, and measured resource
-            evidence remains open.
+            evidence remains open. A generated stable-core status registry now
+            keeps stable API maturity distinct from v1.1 method eligibility and
+            aggregate release readiness; it fails closed on the remaining
+            method, repository, and human gates.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

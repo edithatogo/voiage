@@ -49,3 +49,13 @@ supplementary and cannot substitute for an independently derived result. This
 mapping also makes the remaining two-loop EVSI Python compatibility path
 visible; Rust seeded-bootstrap evidence is not presented as authority for that
 different algorithm.
+
+The generated
+[`stable-core-status.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-status.json)
+registry joins these normative contracts. Run
+`python scripts/generate_stable_core_status.py --check` to detect drift. The
+registry deliberately separates stable API maturity from v1.1 assurance
+eligibility and aggregate release readiness. Only deterministic net-benefit
+and dominance currently have no estimator-family runtime envelope to
+integrate; ENBS inherits its EVSI input assurance, and the other profiles
+retain explicit runtime-assurance gates.
