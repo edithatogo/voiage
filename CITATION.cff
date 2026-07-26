@@ -3,7 +3,7 @@ message: "If you use voiage, please cite the v2.0.0 software release and the JOS
 title: "voiage: Value of Information Analysis"
 type: software
 version: 2.0.0
-date-released: 2026-07-24
+date-released: 2026-07-26
 authors:
   - family-names: Mordaunt
     given-names: Dylan

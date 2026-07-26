@@ -54,10 +54,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
         evidence. PR #521 reconciled the current research-use criteria.
         Round nine now distinguishes generating from simulated results,
         tightens study-model interpretation, and passes locally at 1,583 words
-        with 18/18 citation occurrences reconciled; its current-source hosted
-        PDF and visual review remain pending.
+        with 18/18 citation occurrences reconciled. Its hosted Open Journals
+        PDF and six-page visual review passed for PR #522; the retained
+        decision-maker wording passed its release-bound rebuild and six-page
+        visual review in PR #529.
         Exact v2 release identity, author-confirmed AI attestation, final human
         source verification, and the external engagement record remain open.
+    *   The authenticated arXiv account was rechecked on 26 July 2026:
+        submission `7861466` is absent from the active-submission table and no
+        permanent identifier is available. Resolve that external disposition
+        before the author's arXiv-first JOSS submission step.
     *   Preparation is repository-owned; archival, identifiers, submission,
         review, acceptance, and indexing remain evidence-gated external states.
 

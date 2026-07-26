@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [2.0.0] - 2026-07-26
+
+### Added
+
 - Added a machine-readable JOSS article contract with an exact 1,600 ±2% body
   target, structural YAML validation, ordered substantive section budgets, a
   comprehensive claim ledger, queued SourceRight reference sidecars, and
@@ -79,8 +87,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   implemented Python, R, and Julia surfaces.
 - Made full unit and coverage lanes fetch release tags before validating the
   checked-in immutable release-evidence manifest.
-
-## [2.0.0] - 2026-07-24
 
 ### Removed
 

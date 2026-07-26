@@ -40,12 +40,12 @@
     "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": 30166336066,
-    "commit": "d8e3d006501be42f4416ddeec8946625f39fee98",
+    "workflow_run": 30182384336,
+    "commit": "766797398654fc7637e19767993535e416bb00c9",
     "artifact": "voiage-joss-paper",
-    "artifact_id": 8621698185,
-    "artifact_sha256": "086bd0e899ef9aa5dae0c260588e85a9d46771dc77d23b0e872b60f280dc1378",
-    "pdf_sha256": "c02b5f4442a9cadac08b0a25be2bacb3f4c217b48ae00e5d202f8115b34fe0c5",
+    "artifact_id": 8625969915,
+    "artifact_sha256": "5098c43bea9b0f4bd6e94179d9f705387922419d9ad05ccb15a02a07e6c0995e",
+    "pdf_sha256": "43759919dbb9dccf2ecb3356da6a7a65ed67a5bf8043c2a776fa69b278156d22",
     "official_open_journals_build": "pass",
     "visual_review": "pass_all_6_pages",
     "body_word_count": 1583,

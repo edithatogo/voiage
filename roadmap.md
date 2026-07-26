@@ -55,9 +55,11 @@ to Conductor track `research_software_registry_readiness_20260721`. The
 synthetic health example now reports simulation uncertainty, prespecified
 study-value sensitivity scenarios, and machine-readable numerical results.
 
-The authenticated arXiv draft was rechecked on 24 July 2026 and remains
-submitted under submission number `7861466`; announcement and a permanent arXiv
-identifier remain external gates. The JOSS adaptation follows the current 2026
+The authenticated arXiv account was rechecked on 26 July 2026. Submission
+`7861466` is no longer present in the active-submission table, and the account
+lists only the two previously announced articles. Its disposition must be
+resolved by the author or arXiv before any announcement or permanent identifier
+can be claimed. The JOSS adaptation follows the current 2026
 screening and paper requirements, including design trade-offs, specific
 reproducible material supporting credible near-term significance, transparent
 AI-use disclosure, Software Heritage citation, a fail-closed local validator,
@@ -72,9 +74,11 @@ Exact v2 release evidence, author-confirmed
 AI attestation, final human source verification, authenticated submission,
 editorial review, acceptance, and DOI assignment remain explicit human or
 external gates. The round-nine JOSS source has passed its local article,
-SourceRight, and Authentext checks; its exact-revision Open Journals build and
-visual review remain pending. The permanent arXiv identifier is the author's
-requested sequencing gate, not a JOSS eligibility requirement.
+SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
+decision-maker wording retained for the release-bound source passed a fresh
+exact-revision Open Journals build and six-page visual review in PR #529. The
+permanent arXiv identifier is the author's requested sequencing gate, not a
+JOSS eligibility requirement.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

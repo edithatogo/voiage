@@ -34,7 +34,7 @@ repository: https://github.com/edithatogo/voiage
 
 # Summary
 
-Researchers often need to decide whether existing evidence is enough or a new
+Decision-makers often need to decide whether existing evidence is enough or a new
 study is worth its cost. Value-of-information (VOI) analysis estimates the
 benefit of resolving all uncertainty (EVPI), selected uncertainty (EVPPI), or
 uncertainty through a proposed study (EVSI). Expected net benefit of sampling

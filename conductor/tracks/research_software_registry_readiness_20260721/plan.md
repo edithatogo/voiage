@@ -80,8 +80,10 @@
 - [x] Implement the evidence-supported revisions and rerun the repository-owned
   JOSS, citation-provenance, prose, readability, and rendered-PDF checks.
   The round-nine source passes its local contract at 1,583 words with 18/18
-  citations reconciled. A fresh hosted Open Journals build, Textstat report,
-  page-by-page visual review, and human source review remain pending.
+  citations reconciled. PR #522 passed the hosted Open Journals build,
+  Textstat report, and six-page visual review. The retained decision-maker
+  wording passed its release-bound rebuild and six-page visual review in PR
+  #529; human source review remains pending.
 - [x] Return the revision to the full panel, remediate every supported
   manuscript finding, and record snapshot scores as diagnostic evidence rather
   than artificial acceptance thresholds; report external JOSS screening gates
