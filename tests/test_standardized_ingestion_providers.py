@@ -80,6 +80,88 @@ def test_built_in_providers_normalize_supported_csv_profile(
     assert bundle.table("samples").column_names == ["a", "b"]
 
 
+def test_frictionless_provider_validates_declared_types_constraints_and_primary_key(
+    tmp_path,
+) -> None:
+    (tmp_path / "samples.csv").write_text("id,value\n1,1.5\n2,2.5\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "strict-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "dialect": {"delimiter": ","},
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "constraints": {"required": True, "unique": True},
+                                },
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.manifest.tables[0].primary_key == ("id",)
+    assert bundle.table("samples").column_names == ["id", "value"]
+
+
+@pytest.mark.parametrize(
+    ("csv", "schema", "message"),
+    [
+        (
+            "id\n1\n1\n",
+            {"primaryKey": "id", "fields": [{"name": "id", "type": "integer"}]},
+            "primaryKey contains duplicate",
+        ),
+        (
+            "id\nnot-a-number\n",
+            {"fields": [{"name": "id", "type": "integer"}]},
+            "field type does not match",
+        ),
+        (
+            "id\n1\n",
+            {"fields": [{"name": "id", "type": "date"}]},
+            "unsupported Data Package field type",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_unsupported_or_invalid_schema_claims(
+    tmp_path, csv, schema, message
+) -> None:
+    (tmp_path / "samples.csv").write_text(csv, encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {"name": "samples", "path": "samples.csv", "schema": schema}
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
 @pytest.mark.parametrize(
     ("provider", "version"),
     [(CroissantProvider(), "1.1"), (FrictionlessProvider(), "1")],
