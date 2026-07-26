@@ -13,6 +13,8 @@
     validation and panic containment. (`7d54581c`)
   - [x] Add deterministic dominance, frontier, and ICER results with
     caller-owned classification, index, and transition arrays. (`6928b47b`)
+  - [~] Add threshold-aligned CEAF probabilities, intervals, expected net
+    benefit, and assurance through caller-owned arrays.
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
