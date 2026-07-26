@@ -43,6 +43,10 @@
     - [x] Remove all pull-request-blocking CodeQL errors (`9f4275b`,
       `89c7962`, `ece829e`); exact-branch open findings fell from 65 to 26,
       and run 30069242255 plus the PR-attached CodeQL check passed.
+    - [x] Remove the high-risk pre-publication `contents: write` token flagged
+      by Scorecard alert #1095. (`6dfb97da`; staging uses immutable same-run
+      Actions artifacts and reviewed digests; only final GitHub publication
+      retains narrowly scoped write permission after TestPyPI and PyPI)
     - [ ] Reconcile the default-branch queue after merge and disposition the
       remaining non-security quality notes without weakening lazy imports or
       masking genuine scientific defects.
