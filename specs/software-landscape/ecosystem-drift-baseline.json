@@ -18,7 +18,7 @@
       "docs_package_digest": "2b5fa3dee20d2f84fb81908d2cf9ff7a234591a56b78be3cf10654036704fdc8"
     },
     "lockfiles": {
-      "uv.lock": "bc991275cf70d66a790c5bb7bd209711185322fd89b42c6e3b70e8846dc39475",
+      "uv.lock": "d0638301e6fafd0661e40be74203faa635e62679bb3f44674dfdf21eed0e8677",
       "pixi.lock": "c13f151658948aca0955b0d3df7ca24a77421db3fe9abbc6c1822b5d0acc1c6d",
       "rust/Cargo.lock": "7bf349ed1c2513544425242f0ec3dccf66734c36b4e8fb39c814f700b80c6ff7",
       "rust/fuzz/Cargo.lock": "35a73ee0665168256bc00a9d912b3a16e07a595c8bf56024653e8239bb1072e2",

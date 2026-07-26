@@ -24,7 +24,8 @@
     "assurance": [
       "voiage/assurance_policy.py",
       "voiage/c15_*.py",
-      "voiage/mutation_policy.py"
+      "voiage/mutation_policy.py",
+      "voiage/statistical_assurance.py"
     ],
     "optional_extension": [
       "voiage/methods/**",
