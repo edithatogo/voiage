@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   provenance, preserved governance metadata, and ingestion diagnostics.
 - Added fail-closed configurable local-resource size limits to standardized
   ingestion source policies.
+- Added policy-scoped, content-addressed local materialization caches with
+  SHA-256 verification and explicit offline replay for standardized-dataset
+  resources.
 
 ### Changed
 

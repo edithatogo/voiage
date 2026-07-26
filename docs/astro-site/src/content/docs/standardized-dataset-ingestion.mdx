@@ -35,6 +35,34 @@ default 512 MiB policy limit is rejected before parsing. Applications can set a
 smaller explicit `SourceAccessPolicy.max_resource_bytes` limit for constrained
 workloads.
 
+## Verified local replay
+
+`SourceAccessPolicy` is local-only by default. For a reviewable offline
+workflow, materialize an explicitly declared resource with its expected SHA-256
+digest into a policy-scoped content-addressed cache. Later, an `offline=True`
+policy can replay only that verified digest; it never falls back to a changed or
+missing source file and never performs a network refresh.
+
+```python
+from pathlib import Path
+
+from voiage.ingestion import SourceAccessPolicy
+
+policy = SourceAccessPolicy(Path("fixtures"), cache_dir=Path(".voiage-cache"))
+resource = policy.materialize("samples.csv", sha256="<64-character-sha256>")
+
+replay = SourceAccessPolicy(
+    Path("fixtures"),
+    cache_dir=Path(".voiage-cache"),
+    offline=True,
+)
+resource = replay.materialize("samples.csv", sha256="<same-sha256>")
+```
+
+Use a stable, explicit `cache_namespace` when multiple trusted source-policy
+contexts share a cache directory. Cache entries are digest-checked on write and
+replay and are kept separate by that namespace.
+
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from
 field names. This keeps machine-learning, engineering, and business datasets
