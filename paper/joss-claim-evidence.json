@@ -358,7 +358,7 @@
     {
       "id": "archive-scope",
       "section": "Software and data availability",
-      "statement": "The signed v1.0.0 tag is included in the Software Heritage snapshot `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.",
+      "statement": "The signed v2.0.0 tag is included in the Software Heritage snapshot `swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`.",
       "status": "verified",
       "citation_keys": [
         "voiage_software_heritage"
@@ -366,15 +366,15 @@
       "evidence": [
         {
           "type": "release-evidence",
-          "locator": "docs/release/v1.0.0-release-evidence.json"
+          "locator": "docs/release/v2.0.0-release-evidence.json"
         }
       ]
     },
     {
       "id": "reviewed-release-pending",
       "section": "Software and data availability",
-      "statement": "The exact reviewed revision therefore requires a new release and archive before JOSS submission.",
-      "status": "bounded",
+      "statement": "The release-evidence manifest binds the reviewed commit, package assets, checksums, provenance, mixed-language software bill of materials, and archive identifier.",
+      "status": "verified",
       "evidence": [
         {
           "type": "readiness-manifest",
@@ -558,7 +558,7 @@
     {
       "id": "reproduction-manifest-contents",
       "section": "Software and data availability",
-      "statement": "Its reproduction manifest records the inputs, fixed seeds, lockfile digest, output hashes, and verification command.",
+      "statement": "The reproduction manifest records the inputs, fixed seeds, lockfile digest, output hashes, and verification command.",
       "status": "verified",
       "evidence": [
         {

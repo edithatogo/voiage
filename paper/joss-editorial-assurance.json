@@ -8,8 +8,8 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "5fac4db6e37a7aa7ebc24386f84f6ad01f879f6d30013dca3ea634bef6b19e91",
-      "bibliography_sha256": "a63cf808c1ae6980b9964c4c86abc7785bca7eb3347185db6138f0ecf97a5880",
+      "source_sha256": "59162ab08b3d74bc6e49e57518ebc9956e38bffcd07530f3439a86ba920e3948",
+      "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
       "citation_occurrences": 18,
       "citation_matches": 18,
       "citation_issues": 0,
@@ -26,7 +26,7 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "5fac4db6e37a7aa7ebc24386f84f6ad01f879f6d30013dca3ea634bef6b19e91",
+      "source_sha256": "59162ab08b3d74bc6e49e57518ebc9956e38bffcd07530f3439a86ba920e3948",
       "finding_count": 0
     },
     "textstat": {

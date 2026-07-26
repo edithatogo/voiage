@@ -73,11 +73,11 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         'python -m voiage.versioning --release-tag "$RELEASE_TAG"' in release_workflow
     )
     assert (
-        "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
         in release_workflow
     )
     assert (
-        "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
+        "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"
         in release_workflow
     )
     assert (
@@ -108,14 +108,34 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
 
     assert not Path("conda/meta.yaml").exists()
     assert "noarch: python" not in recipe
+    assert "  build:\n    - {{ compiler('c') }}" in recipe
+    assert "{{ compiler('c') }}" in recipe
     assert "{{ compiler('rust') }}" in recipe
+    assert "{{ stdlib('c') }}" in recipe
     assert "maturin >=1.9,<2.0" in recipe
-    assert "python >= {{ python_min }}" in recipe
-    assert "sha256: UPDATE_ON_RELEASE" in recipe
+    assert "script:" not in recipe
+    assert 'GIT_DIR="${SRC_DIR}/.conda-no-git"' in Path(
+        "conda-recipe/build.sh"
+    ).read_text(encoding="utf-8")
+    assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in Path("conda-recipe/bld.bat").read_text(
+        encoding="utf-8"
+    )
+    assert "    - python {{ python_min }}" in recipe
+    assert "  run:\n    - python\n" in recipe
+    assert "python >= {{ python_min }}" not in recipe
+    assert (
+        "sha256: 82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de"
+        in recipe
+    )
 
     workflow = Path(".github/workflows/conda-update.yml").read_text(encoding="utf-8")
     assert 'meta = Path("recipes/voiage/meta.yaml")' in workflow
     assert 'r"sha256: [0-9a-fA-F_]+"' in workflow
+    assert (
+        "cp conda-recipe/meta.yaml conda-recipe/build.sh conda-recipe/bld.bat"
+        in workflow
+    )
+    assert "recipes/voiage/bld.bat" in workflow
 
 
 def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:

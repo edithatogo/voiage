@@ -13,8 +13,8 @@ repository-code: https://github.com/edithatogo/voiage
 url: https://edithatogo.github.io/voiage
 identifiers:
   - type: swh
-    value: swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32
-    description: Historical Software Heritage snapshot of the v1.0 repository
+    value: swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d
+    description: Software Heritage snapshot containing the signed v2.0.0 release
 license: Apache-2.0
 abstract: >-
   voiage provides Value of Information analysis through a hybrid Rust and

@@ -18,7 +18,7 @@ def test_registry_handoff_preserves_release_and_external_gates() -> None:
         "track_id": "research_software_registry_readiness_20260721",
         "channel": "research-software-registries",
         "status": "blocked",
-        "command_count": 8,
+        "command_count": 10,
         "evidence_count": 8,
     }
 
@@ -45,11 +45,16 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert handoff["joss_submission_evidence"]["selected_route"] == "direct_joss"
     assert (
         handoff["joss_submission_evidence"]["status"]
-        == "revision_in_progress_pending_release_and_external_evidence"
+        == "revision_in_progress_pending_human_and_external_evidence"
     )
     remaining = handoff["joss_submission_evidence"]["remaining_submission_gates"]
-    assert any("exact v2 release" in gate for gate in remaining)
+    assert not any("exact v2 release" in gate for gate in remaining)
     assert any("AI-policy attestation" in gate for gate in remaining)
     assert any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
     assert any("Open Journals PDF" in gate for gate in remaining)
+    assert handoff["release_evidence"]["tag"] == "v2.0.0"
+    assert (
+        handoff["software_heritage_archival_request"]["snapshot_swhid"]
+        == "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d"
+    )

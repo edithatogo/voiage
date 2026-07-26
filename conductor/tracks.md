@@ -21,13 +21,13 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
 
 ## [~] Track: Research Software Registry Readiness
 *Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
-*Execution order: 02 of 02, after the signed v1.0 release provides immutable
+*Execution order: 02 of 02, after the signed releases provide immutable
 release and archival evidence.*
-*Status: in progress — release and Software Heritage evidence are complete;
-RRID curation, arXiv author review/submission, JOSS deferral, and external
-language-registry outcomes remain explicit gates. Repository readiness can
-proceed before release, but live
-archival, identifiers, submission, review, and acceptance remain external.*
+*Status: in progress — signed v2.0.0 release, PyPI/TestPyPI, crates.io,
+Software Heritage, SBOM, provenance, digest, and clean-install evidence are
+complete; conda-forge PR #34308 is submitted. RRID curation, arXiv
+identification, human JOSS evidence, and external language-registry outcomes
+remain explicit gates.*
 
 ---
 
