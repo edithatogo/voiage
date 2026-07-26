@@ -1,0 +1,4807 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "Pygments==2.20.0",
+      "description": "Pygments is a syntax highlighting package written in Python.",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://pygments.org/docs"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Bug Tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/pygments/pygments/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pygments/pygments"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/pygments/pygments/blob/master/CHANGES"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://pygments.org"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "name": "Pygments",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pygments@2.20.0",
+      "type": "library",
+      "version": "2.20.0"
+    },
+    {
+      "bom-ref": "annotated-doc==0.0.4",
+      "description": "Document parameters, class attributes, return types, and variables inline, with Annotated.",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://github.com/fastapi/annotated-doc"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/fastapi/annotated-doc/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/fastapi/annotated-doc/release-notes.md"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/fastapi/annotated-doc"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/fastapi/annotated-doc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "annotated-doc",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/annotated-doc@0.0.4",
+      "type": "library",
+      "version": "0.0.4"
+    },
+    {
+      "bom-ref": "annotated-types==0.8.0",
+      "description": "Reusable constraint types to use with typing.Annotated",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/annotated-types/annotated-types"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/annotated-types/annotated-types/releases"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/annotated-types/annotated-types"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "annotated-types",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/annotated-types@0.8.0",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "bom-ref": "click==8.4.2",
+      "description": "Composable command line interface toolkit",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Chat",
+          "type": "chat",
+          "url": "https://discord.gg/pallets"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://click.palletsprojects.com/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pallets/click/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Donate",
+          "type": "other",
+          "url": "https://palletsprojects.com/donate"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changes",
+          "type": "release-notes",
+          "url": "https://click.palletsprojects.com/page/changes/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "name": "click",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/click@8.4.2",
+      "type": "library",
+      "version": "8.4.2"
+    },
+    {
+      "bom-ref": "joblib==1.5.3",
+      "description": "Lightweight pipelining with Python functions",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/joblib/joblib"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://joblib.readthedocs.io"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "name": "joblib",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/joblib@1.5.3",
+      "type": "library",
+      "version": "1.5.3"
+    },
+    {
+      "bom-ref": "markdown-it-py==4.2.0",
+      "description": "Python port of markdown-it. Markdown parsing, done right!",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://markdown-it-py.readthedocs.io"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/executablebooks/markdown-it-py"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "markdown-it-py",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/markdown-it-py@4.2.0",
+      "type": "library",
+      "version": "4.2.0"
+    },
+    {
+      "bom-ref": "mdurl==0.1.2",
+      "description": "Markdown URL utilities",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/executablebooks/mdurl"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "mdurl",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/mdurl@0.1.2",
+      "type": "library",
+      "version": "0.1.2"
+    },
+    {
+      "bom-ref": "narwhals==2.24.0",
+      "description": "Extremely lightweight compatibility layer between dataframe libraries",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://narwhals-dev.github.io/narwhals/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Bug Tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/narwhals-dev/narwhals/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/narwhals-dev/narwhals"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/narwhals-dev/narwhals"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "narwhals",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/narwhals@2.24.0",
+      "type": "library",
+      "version": "2.24.0"
+    },
+    {
+      "bom-ref": "numpy==2.5.1",
+      "description": "Fundamental package for array computing in Python",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: download",
+          "type": "distribution",
+          "url": "https://pypi.org/project/numpy/#files"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: documentation",
+          "type": "documentation",
+          "url": "https://numpy.org/doc/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/numpy/numpy/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: source",
+          "type": "other",
+          "url": "https://github.com/numpy/numpy"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: release notes",
+          "type": "other",
+          "url": "https://numpy.org/doc/stable/release"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://numpy.org"
+        }
+      ],
+      "licenses": [
+        {
+          "acknowledgement": "declared",
+          "expression": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+        }
+      ],
+      "name": "numpy",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/numpy@2.5.1",
+      "type": "library",
+      "version": "2.5.1"
+    },
+    {
+      "bom-ref": "packaging==26.2",
+      "description": "Core utilities for Python packages",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://packaging.pypa.io/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pypa/packaging"
+        }
+      ],
+      "licenses": [
+        {
+          "acknowledgement": "declared",
+          "expression": "Apache-2.0 OR BSD-2-Clause"
+        }
+      ],
+      "name": "packaging",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/packaging@26.2",
+      "type": "library",
+      "version": "26.2"
+    },
+    {
+      "bom-ref": "pandas==2.3.3",
+      "description": "Powerful data structures for data analysis, time series, and statistics",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: documentation",
+          "type": "documentation",
+          "url": "https://pandas.pydata.org/docs/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: repository",
+          "type": "vcs",
+          "url": "https://github.com/pandas-dev/pandas"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://pandas.pydata.org"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: BSD License"
+          }
+        }
+      ],
+      "name": "pandas",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pandas@2.3.3",
+      "type": "library",
+      "version": "2.3.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/autocfg@1.5.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
+        }
+      ],
+      "name": "autocfg",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/autocfg@1.5.1",
+      "type": "library",
+      "version": "1.5.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/bit-set@0.8.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "08807e080ed7f9d5433fa9b275196cfc35414f66a0c79d864dc51a0d825231a3"
+        }
+      ],
+      "name": "bit-set",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/bit-set@0.8.0",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/bit-vec@0.8.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5e764a1d40d510daf35e07be9eb06e75770908c27d411ee6c92109c9840eaaf7"
+        }
+      ],
+      "name": "bit-vec",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/bit-vec@0.8.0",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/bitflags@2.13.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b588b76d00fde79687d7646a9b5bdf3cc0f655e0bbd080335a95d7e96f3587da"
+        }
+      ],
+      "name": "bitflags",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/bitflags@2.13.1",
+      "type": "library",
+      "version": "2.13.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/block-buffer@0.12.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d2f6c7dbe95a6ed67ad9f18e57daf93a2f034c524b99fd2b76d18fdfeb6660aa"
+        }
+      ],
+      "name": "block-buffer",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/block-buffer@0.12.1",
+      "type": "library",
+      "version": "0.12.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/cfg-if@1.0.4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
+        }
+      ],
+      "name": "cfg-if",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/cfg-if@1.0.4",
+      "type": "library",
+      "version": "1.0.4"
+    },
+    {
+      "bom-ref": "pkg:cargo/const-oid@0.10.2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a6ef517f0926dd24a1582492c791b6a4818a4d94e789a334894aa15b0d12f55c"
+        }
+      ],
+      "name": "const-oid",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/const-oid@0.10.2",
+      "type": "library",
+      "version": "0.10.2"
+    },
+    {
+      "bom-ref": "pkg:cargo/cpufeatures@0.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8b2a41393f66f16b0823bb79094d54ac5fbd34ab292ddafb9a0456ac9f87d201"
+        }
+      ],
+      "name": "cpufeatures",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/cpufeatures@0.3.0",
+      "type": "library",
+      "version": "0.3.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/crypto-common@0.2.2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ce6e4c961d6cd6c9a86db418387425e8bdeaf05b3c8bc1411e6dca4c252f1453"
+        }
+      ],
+      "name": "crypto-common",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/crypto-common@0.2.2",
+      "type": "library",
+      "version": "0.2.2"
+    },
+    {
+      "bom-ref": "pkg:cargo/digest@0.11.3",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f1dd6dbb5841937940781866fa1281a1ff7bd3bf827091440879f9994983d5c2"
+        }
+      ],
+      "name": "digest",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/digest@0.11.3",
+      "type": "library",
+      "version": "0.11.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/errno@0.3.14",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
+        }
+      ],
+      "name": "errno",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/errno@0.3.14",
+      "type": "library",
+      "version": "0.3.14"
+    },
+    {
+      "bom-ref": "pkg:cargo/fastrand@2.5.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
+        }
+      ],
+      "name": "fastrand",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/fastrand@2.5.0",
+      "type": "library",
+      "version": "2.5.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/fnv@1.0.7",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
+        }
+      ],
+      "name": "fnv",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/fnv@1.0.7",
+      "type": "library",
+      "version": "1.0.7"
+    },
+    {
+      "bom-ref": "pkg:cargo/getrandom@0.3.4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+        }
+      ],
+      "name": "getrandom",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/getrandom@0.3.4",
+      "type": "library",
+      "version": "0.3.4"
+    },
+    {
+      "bom-ref": "pkg:cargo/getrandom@0.4.3",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "300e883d756b2e4ec94e02791f39b04b522276138852cfc41d9fb7e904106099"
+        }
+      ],
+      "name": "getrandom",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/getrandom@0.4.3",
+      "type": "library",
+      "version": "0.4.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/heck@0.5.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
+        }
+      ],
+      "name": "heck",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/heck@0.5.0",
+      "type": "library",
+      "version": "0.5.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/hybrid-array@0.4.13",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "818356c5132c1fede50f837ca96afbe78ff42413047f4abb886217845e1b6c8c"
+        }
+      ],
+      "name": "hybrid-array",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/hybrid-array@0.4.13",
+      "type": "library",
+      "version": "0.4.13"
+    },
+    {
+      "bom-ref": "pkg:cargo/itoa@1.0.18",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
+        }
+      ],
+      "name": "itoa",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/itoa@1.0.18",
+      "type": "library",
+      "version": "1.0.18"
+    },
+    {
+      "bom-ref": "pkg:cargo/libc@0.2.187",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a7743783ea728ef5c31194c6590797eed286449b4a4e87d626d8a51f0a94e732"
+        }
+      ],
+      "name": "libc",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/libc@0.2.187",
+      "type": "library",
+      "version": "0.2.187"
+    },
+    {
+      "bom-ref": "pkg:cargo/linux-raw-sys@0.12.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53"
+        }
+      ],
+      "name": "linux-raw-sys",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/linux-raw-sys@0.12.1",
+      "type": "library",
+      "version": "0.12.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/memchr@2.8.3",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
+        }
+      ],
+      "name": "memchr",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/memchr@2.8.3",
+      "type": "library",
+      "version": "2.8.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/num-traits@0.2.19",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
+        }
+      ],
+      "name": "num-traits",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/num-traits@0.2.19",
+      "type": "library",
+      "version": "0.2.19"
+    },
+    {
+      "bom-ref": "pkg:cargo/once_cell@1.21.4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
+        }
+      ],
+      "name": "once_cell",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/once_cell@1.21.4",
+      "type": "library",
+      "version": "1.21.4"
+    },
+    {
+      "bom-ref": "pkg:cargo/portable-atomic@1.14.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3d20d5497ef88037a52ff98267d066e7f11fcc5e99bbfbd58a42336193aacec3"
+        }
+      ],
+      "name": "portable-atomic",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/portable-atomic@1.14.0",
+      "type": "library",
+      "version": "1.14.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/ppv-lite86@0.2.21",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "85eae3c4ed2f50dcfe72643da4befc30deadb458a9b590d720cde2f2b1e97da9"
+        }
+      ],
+      "name": "ppv-lite86",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/ppv-lite86@0.2.21",
+      "type": "library",
+      "version": "0.2.21"
+    },
+    {
+      "bom-ref": "pkg:cargo/proc-macro2@1.0.107",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
+        }
+      ],
+      "name": "proc-macro2",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/proc-macro2@1.0.107",
+      "type": "library",
+      "version": "1.0.107"
+    },
+    {
+      "bom-ref": "pkg:cargo/proptest@1.11.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4b45fcc2344c680f5025fe57779faef368840d0bd1f42f216291f0dc4ace4744"
+        }
+      ],
+      "name": "proptest",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/proptest@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/pyo3-build-config@0.29.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c5e2a7d2f0d013342f295c048ad19237add5154a55b1c5a254c0ec93d4109078"
+        }
+      ],
+      "name": "pyo3-build-config",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/pyo3-build-config@0.29.0",
+      "type": "library",
+      "version": "0.29.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/pyo3-ffi@0.29.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ca85c467da1bbc8d866eea5deff9cf29ea5f7785054a17da36e65bda9c05845b"
+        }
+      ],
+      "name": "pyo3-ffi",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/pyo3-ffi@0.29.0",
+      "type": "library",
+      "version": "0.29.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/pyo3-macros-backend@0.29.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4ca3a1557399783172dc5bf39cfca835157732532cba56b71d2292161e53b362"
+        }
+      ],
+      "name": "pyo3-macros-backend",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/pyo3-macros-backend@0.29.0",
+      "type": "library",
+      "version": "0.29.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/pyo3-macros@0.29.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9ac53762fd065daa3194dd09337a38bd793a188100fd1a9304c4ab312d901771"
+        }
+      ],
+      "name": "pyo3-macros",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/pyo3-macros@0.29.0",
+      "type": "library",
+      "version": "0.29.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/pyo3@0.29.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cd274650b21d4bfc26a0a47587962c1edb425f69287324355cd040c3ea66071c"
+        }
+      ],
+      "name": "pyo3",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/pyo3@0.29.0",
+      "type": "library",
+      "version": "0.29.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/quick-error@1.2.3",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
+        }
+      ],
+      "name": "quick-error",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/quick-error@1.2.3",
+      "type": "library",
+      "version": "1.2.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/quote@1.0.47",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
+        }
+      ],
+      "name": "quote",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/quote@1.0.47",
+      "type": "library",
+      "version": "1.0.47"
+    },
+    {
+      "bom-ref": "pkg:cargo/r-efi@5.3.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
+        }
+      ],
+      "name": "r-efi",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/r-efi@5.3.0",
+      "type": "library",
+      "version": "5.3.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/r-efi@6.0.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf"
+        }
+      ],
+      "name": "r-efi",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/r-efi@6.0.0",
+      "type": "library",
+      "version": "6.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/rand@0.9.5",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b9ef1d0d795eb7d84685bca4f72f3649f064e6641543d3a8c415898726a57b41"
+        }
+      ],
+      "name": "rand",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rand@0.9.5",
+      "type": "library",
+      "version": "0.9.5"
+    },
+    {
+      "bom-ref": "pkg:cargo/rand_chacha@0.9.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d3022b5f1df60f26e1ffddd6c66e8aa15de382ae63b3a0c1bfc0e4d3e3f325cb"
+        }
+      ],
+      "name": "rand_chacha",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rand_chacha@0.9.0",
+      "type": "library",
+      "version": "0.9.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/rand_core@0.9.5",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "76afc826de14238e6e8c374ddcc1fa19e374fd8dd986b0d2af0d02377261d83c"
+        }
+      ],
+      "name": "rand_core",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rand_core@0.9.5",
+      "type": "library",
+      "version": "0.9.5"
+    },
+    {
+      "bom-ref": "pkg:cargo/rand_xorshift@0.4.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "513962919efc330f829edb2535844d1b912b0fbe2ca165d613e4e8788bb05a5a"
+        }
+      ],
+      "name": "rand_xorshift",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rand_xorshift@0.4.0",
+      "type": "library",
+      "version": "0.4.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/regex-syntax@0.8.11",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
+        }
+      ],
+      "name": "regex-syntax",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/regex-syntax@0.8.11",
+      "type": "library",
+      "version": "0.8.11"
+    },
+    {
+      "bom-ref": "pkg:cargo/rustix@1.1.4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b6fe4565b9518b83ef4f91bb47ce29620ca828bd32cb7e408f0062e9930ba190"
+        }
+      ],
+      "name": "rustix",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rustix@1.1.4",
+      "type": "library",
+      "version": "1.1.4"
+    },
+    {
+      "bom-ref": "pkg:cargo/rusty-fork@0.3.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cc6bf79ff24e648f6da1f8d1f011e9cac26491b619e6b9280f2b47f1774e6ee2"
+        }
+      ],
+      "name": "rusty-fork",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/rusty-fork@0.3.1",
+      "type": "library",
+      "version": "0.3.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/ryu-js@1.0.3",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "04d056b875a9d2e6cb9a61d127afee9ac5999b9f87bcb32079d1318e505be714"
+        }
+      ],
+      "name": "ryu-js",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/ryu-js@1.0.3",
+      "type": "library",
+      "version": "1.0.3"
+    },
+    {
+      "bom-ref": "pkg:cargo/serde@1.0.229",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba"
+        }
+      ],
+      "name": "serde",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/serde@1.0.229",
+      "type": "library",
+      "version": "1.0.229"
+    },
+    {
+      "bom-ref": "pkg:cargo/serde_core@1.0.229",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "67dca2c9c51e58a4791a4b1ed58308b39c64224d349a935ab5039aa360942a48"
+        }
+      ],
+      "name": "serde_core",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/serde_core@1.0.229",
+      "type": "library",
+      "version": "1.0.229"
+    },
+    {
+      "bom-ref": "pkg:cargo/serde_derive@1.0.229",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e7a5d71263a5a7d47b41f6b3f06ba276f10cc18b0931f1799f710578e2309348"
+        }
+      ],
+      "name": "serde_derive",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/serde_derive@1.0.229",
+      "type": "library",
+      "version": "1.0.229"
+    },
+    {
+      "bom-ref": "pkg:cargo/serde_json@1.0.151",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c841b55ecdae098c80dcae9cf767f6f8a0c2cdb3416bbef72181df4d0fe73f14"
+        }
+      ],
+      "name": "serde_json",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/serde_json@1.0.151",
+      "type": "library",
+      "version": "1.0.151"
+    },
+    {
+      "bom-ref": "pkg:cargo/serde_json_canonicalizer@0.3.2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fe52319a927259afbfa5180c5157cd8167edfd3e8c254f9558c7fef44c5649f2"
+        }
+      ],
+      "name": "serde_json_canonicalizer",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/serde_json_canonicalizer@0.3.2",
+      "type": "library",
+      "version": "0.3.2"
+    },
+    {
+      "bom-ref": "pkg:cargo/sha2@0.11.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "446ba717509524cb3f22f17ecc096f10f4822d76ab5c0b9822c5f9c284e825f4"
+        }
+      ],
+      "name": "sha2",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/sha2@0.11.0",
+      "type": "library",
+      "version": "0.11.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/syn@2.0.119",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297"
+        }
+      ],
+      "name": "syn",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/syn@2.0.119",
+      "type": "library",
+      "version": "2.0.119"
+    },
+    {
+      "bom-ref": "pkg:cargo/syn@3.0.2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a207d6d6a2b7fc470b80443726053f18a2481b7e1eee970597051596567987a3"
+        }
+      ],
+      "name": "syn",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/syn@3.0.2",
+      "type": "library",
+      "version": "3.0.2"
+    },
+    {
+      "bom-ref": "pkg:cargo/target-lexicon@0.13.5",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "adb6935a6f5c20170eeceb1a3835a49e12e19d792f6dd344ccc76a985ca5a6ca"
+        }
+      ],
+      "name": "target-lexicon",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/target-lexicon@0.13.5",
+      "type": "library",
+      "version": "0.13.5"
+    },
+    {
+      "bom-ref": "pkg:cargo/tempfile@3.27.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd"
+        }
+      ],
+      "name": "tempfile",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/tempfile@3.27.0",
+      "type": "library",
+      "version": "3.27.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/typenum@1.20.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20"
+        }
+      ],
+      "name": "typenum",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/typenum@1.20.1",
+      "type": "library",
+      "version": "1.20.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/unarray@0.1.4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480ab9a94"
+        }
+      ],
+      "name": "unarray",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/unarray@0.1.4",
+      "type": "library",
+      "version": "0.1.4"
+    },
+    {
+      "bom-ref": "pkg:cargo/unicode-ident@1.0.24",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
+        }
+      ],
+      "name": "unicode-ident",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/unicode-ident@1.0.24",
+      "type": "library",
+      "version": "1.0.24"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-diagnostics@2.0.0",
+      "description": "Structured diagnostics and error contracts for voiage.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-diagnostics",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-diagnostics@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-domain@2.0.0",
+      "description": "Validated, binding-independent domain contracts for voiage.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-domain",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-domain@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-ffi@2.0.0",
+      "description": "Leaf C ABI adapter for the voiage Rust core.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-ffi",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-ffi@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-numerics@2.0.0",
+      "description": "Binding-independent numerical kernels for voiage.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-numerics",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-numerics@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-python@2.0.0",
+      "description": "Private PyO3 adapter for the voiage Rust core.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-python",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-python@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-serialization@2.0.0",
+      "description": "Canonical serialization adapters for validated voiage contracts.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-serialization",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-serialization@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/voiage-test-support@2.0.0",
+      "description": "Shared fixture and test support for the voiage Rust workspace.",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage-test-support",
+      "properties": [
+        {
+          "name": "voiage:cargo:workspace-member",
+          "value": "true"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/voiage-test-support@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:cargo/wait-timeout@0.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "09ac3b126d3914f9849036f826e054cbabdc8519970b8998ddaf3b5bd3c65f11"
+        }
+      ],
+      "name": "wait-timeout",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/wait-timeout@0.2.1",
+      "type": "library",
+      "version": "0.2.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/wasip2@1.0.4%2Bwasi-0.2.12",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b67efb37e106e55ce722a510d6b5f9c17f083e5fc79afc2badeb12cc313d9487"
+        }
+      ],
+      "name": "wasip2",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/wasip2@1.0.4%2Bwasi-0.2.12",
+      "type": "library",
+      "version": "1.0.4+wasi-0.2.12"
+    },
+    {
+      "bom-ref": "pkg:cargo/windows-link@0.2.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5"
+        }
+      ],
+      "name": "windows-link",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/windows-link@0.2.1",
+      "type": "library",
+      "version": "0.2.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/windows-sys@0.61.2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc"
+        }
+      ],
+      "name": "windows-sys",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/windows-sys@0.61.2",
+      "type": "library",
+      "version": "0.61.2"
+    },
+    {
+      "bom-ref": "pkg:cargo/wit-bindgen@0.57.1",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e"
+        }
+      ],
+      "name": "wit-bindgen",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/wit-bindgen@0.57.1",
+      "type": "library",
+      "version": "0.57.1"
+    },
+    {
+      "bom-ref": "pkg:cargo/zerocopy-derive@0.8.55",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0fe976fb70c78cd64cccfe3a6fc142244e8a77b70959b30faf9d0ac37ee228eb"
+        }
+      ],
+      "name": "zerocopy-derive",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/zerocopy-derive@0.8.55",
+      "type": "library",
+      "version": "0.8.55"
+    },
+    {
+      "bom-ref": "pkg:cargo/zerocopy@0.8.55",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b5a105cd7b140f6eeec8acff2ea38135d3cab283ada58540f629fe51e46696eb"
+        }
+      ],
+      "name": "zerocopy",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/zerocopy@0.8.55",
+      "type": "library",
+      "version": "0.8.55"
+    },
+    {
+      "bom-ref": "pkg:cargo/zmij@1.0.23",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
+        }
+      ],
+      "name": "zmij",
+      "properties": [
+        {
+          "name": "voiage:cargo:source",
+          "value": "registry+https://github.com/rust-lang/crates.io-index"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "cargo"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-lock"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "rust/Cargo.lock"
+        }
+      ],
+      "purl": "pkg:cargo/zmij@1.0.23",
+      "type": "library",
+      "version": "1.0.23"
+    },
+    {
+      "bom-ref": "pkg:cran/knitr",
+      "name": "knitr",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "r"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "Suggests"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "r-package/voiageR/DESCRIPTION"
+        },
+        {
+          "name": "voiage:inventory:version-constraint",
+          "value": ">= 1.45"
+        }
+      ],
+      "purl": "pkg:cran/knitr",
+      "scope": "optional",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:cran/reticulate",
+      "name": "reticulate",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "r"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "Suggests"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "r-package/voiageR/DESCRIPTION"
+        },
+        {
+          "name": "voiage:inventory:version-constraint",
+          "value": ">= 1.20"
+        }
+      ],
+      "purl": "pkg:cran/reticulate",
+      "scope": "optional",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:cran/rmarkdown",
+      "name": "rmarkdown",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "r"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "Suggests"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "r-package/voiageR/DESCRIPTION"
+        },
+        {
+          "name": "voiage:inventory:version-constraint",
+          "value": ">= 2.26"
+        }
+      ],
+      "purl": "pkg:cran/rmarkdown",
+      "scope": "optional",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:cran/testthat",
+      "name": "testthat",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "r"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "Suggests"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "r-package/voiageR/DESCRIPTION"
+        },
+        {
+          "name": "voiage:inventory:version-constraint",
+          "value": ">= 3.0.0"
+        }
+      ],
+      "purl": "pkg:cran/testthat",
+      "scope": "optional",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:cran/voiageR@2.0.0",
+      "description": "An R interface to the Rust-backed voiage core for Value of Information analysis, with a direct Rust C ABI EVPI path and helper functions for Python environment management where advanced methods still use reticulate. Provides functions for calculating Expected Value of Perfect Information (EVPI), Expected Value of Partial Perfect Information (EVPPI), and Expected Value of Sample Information (EVSI).",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache License (>= 2.0)"
+          }
+        }
+      ],
+      "name": "voiageR",
+      "properties": [
+        {
+          "name": "voiage:binding:native-component",
+          "value": "pkg:cargo/voiage-ffi@2.0.0"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "r"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "r-package/voiageR/DESCRIPTION"
+        }
+      ],
+      "purl": "pkg:cran/voiageR@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "pkg:julia/JSON?uuid=682c06a0-de6a-54ab-a142-c8b1cf79cde6",
+      "name": "JSON",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "julia"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "deps"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "bindings/julia/Project.toml"
+        },
+        {
+          "name": "voiage:inventory:version-constraint",
+          "value": "0.21"
+        },
+        {
+          "name": "voiage:julia:uuid",
+          "value": "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+        }
+      ],
+      "purl": "pkg:julia/JSON?uuid=682c06a0-de6a-54ab-a142-c8b1cf79cde6",
+      "scope": "required",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:julia/Libdl?uuid=8f399da3-3557-5675-b5ff-fb832c97cbdb",
+      "name": "Libdl",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "julia"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "deps"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "bindings/julia/Project.toml"
+        },
+        {
+          "name": "voiage:julia:uuid",
+          "value": "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+        }
+      ],
+      "purl": "pkg:julia/Libdl?uuid=8f399da3-3557-5675-b5ff-fb832c97cbdb",
+      "scope": "required",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:julia/Statistics?uuid=10745b16-79ce-11e8-11f9-7d13ad32a3b2",
+      "name": "Statistics",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "julia"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "deps"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "bindings/julia/Project.toml"
+        },
+        {
+          "name": "voiage:julia:uuid",
+          "value": "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+        }
+      ],
+      "purl": "pkg:julia/Statistics?uuid=10745b16-79ce-11e8-11f9-7d13ad32a3b2",
+      "scope": "required",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:julia/Test?uuid=8dfed614-e22c-5e08-85e1-65c5234f0b40",
+      "name": "Test",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "julia"
+        },
+        {
+          "name": "voiage:inventory:dependency-field",
+          "value": "extras"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared-unresolved"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "bindings/julia/Project.toml"
+        },
+        {
+          "name": "voiage:julia:uuid",
+          "value": "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+        }
+      ],
+      "purl": "pkg:julia/Test?uuid=8dfed614-e22c-5e08-85e1-65c5234f0b40",
+      "scope": "optional",
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:julia/Voiage@2.0.0?uuid=8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f",
+      "name": "Voiage",
+      "properties": [
+        {
+          "name": "voiage:binding:native-component",
+          "value": "pkg:cargo/voiage-ffi@2.0.0"
+        },
+        {
+          "name": "voiage:ecosystem",
+          "value": "julia"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "declared"
+        },
+        {
+          "name": "voiage:inventory:source",
+          "value": "bindings/julia/Project.toml"
+        },
+        {
+          "name": "voiage:julia:uuid",
+          "value": "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
+        },
+        {
+          "name": "voiage:julia:version-constraint",
+          "value": "1.10"
+        }
+      ],
+      "purl": "pkg:julia/Voiage@2.0.0?uuid=8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "bom-ref": "polars-runtime-32==1.43.0",
+      "description": "Blazingly fast DataFrame library",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://docs.pola.rs/api/python/stable/reference/index.html"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/pola-rs/polars/releases"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/pola-rs/polars"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://www.pola.rs/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "polars-runtime-32",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/polars-runtime-32@1.43.0",
+      "type": "library",
+      "version": "1.43.0"
+    },
+    {
+      "bom-ref": "polars==1.43.0",
+      "description": "Blazingly fast DataFrame library",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://docs.pola.rs/api/python/stable/reference/index.html"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/pola-rs/polars/releases"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/pola-rs/polars"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://www.pola.rs/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "polars",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/polars@1.43.0",
+      "type": "library",
+      "version": "1.43.0"
+    },
+    {
+      "bom-ref": "pyarrow==25.0.0",
+      "description": "Python library for Apache Arrow",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://arrow.apache.org/docs/python"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/apache/arrow/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/apache/arrow"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://arrow.apache.org/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "pyarrow",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pyarrow@25.0.0",
+      "type": "library",
+      "version": "25.0.0"
+    },
+    {
+      "bom-ref": "pydantic==2.13.4",
+      "description": "Data validation using Python type hints",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://docs.pydantic.dev"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pydantic/pydantic"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Funding",
+          "type": "other",
+          "url": "https://github.com/sponsors/samuelcolvin"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://docs.pydantic.dev/latest/changelog/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "pydantic",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pydantic@2.13.4",
+      "type": "library",
+      "version": "2.13.4"
+    },
+    {
+      "bom-ref": "pydantic_core==2.46.4",
+      "description": "Core functionality for Pydantic validation and serialization",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pydantic/pydantic/tree/main/pydantic-core"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Funding",
+          "type": "other",
+          "url": "https://github.com/sponsors/samuelcolvin"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic"
+        },
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "pydantic_core",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pydantic-core@2.46.4",
+      "type": "library",
+      "version": "2.46.4"
+    },
+    {
+      "bom-ref": "python-dateutil==2.9.0.post0",
+      "description": "Extensions to the standard Python datetime module",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://dateutil.readthedocs.io/en/stable/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/dateutil/dateutil"
+        },
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/dateutil/dateutil"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: Apache Software License"
+          }
+        },
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: BSD License"
+          }
+        }
+      ],
+      "name": "python-dateutil",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/python-dateutil@2.9.0.post0",
+      "type": "library",
+      "version": "2.9.0.post0"
+    },
+    {
+      "bom-ref": "pytz==2026.2",
+      "description": "World timezone definitions, modern and historical",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata: Download-URL",
+          "type": "distribution",
+          "url": "https://pypi.org/project/pytz/"
+        },
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "http://pythonhosted.org/pytz"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "pytz",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/pytz@2026.2",
+      "type": "library",
+      "version": "2026.2"
+    },
+    {
+      "bom-ref": "rich==15.0.0",
+      "description": "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://rich.readthedocs.io/en/latest/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/Textualize/rich"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "rich",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/rich@15.0.0",
+      "type": "library",
+      "version": "15.0.0"
+    },
+    {
+      "bom-ref": "scikit-learn==1.9.0",
+      "description": "A set of python modules for machine learning and data mining",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: download",
+          "type": "distribution",
+          "url": "https://pypi.org/project/scikit-learn/#files"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/scikit-learn/scikit-learn/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: source",
+          "type": "other",
+          "url": "https://github.com/scikit-learn/scikit-learn"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: release notes",
+          "type": "other",
+          "url": "https://scikit-learn.org/stable/whats_new"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://scikit-learn.org"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "name": "scikit-learn",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/scikit-learn@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "bom-ref": "scipy==1.16.3",
+      "description": "Fundamental algorithms for scientific computing in Python",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: download",
+          "type": "distribution",
+          "url": "https://github.com/scipy/scipy/releases"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: documentation",
+          "type": "documentation",
+          "url": "https://docs.scipy.org/doc/scipy/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/scipy/scipy/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: source",
+          "type": "other",
+          "url": "https://github.com/scipy/scipy"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://scipy.org/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: BSD License"
+          }
+        }
+      ],
+      "name": "scipy",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/scipy@1.16.3",
+      "type": "library",
+      "version": "1.16.3"
+    },
+    {
+      "bom-ref": "shellingham==1.5.4",
+      "description": "Tool to Detect Surrounding Shell",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/sarugaku/shellingham"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "ISC"
+          }
+        }
+      ],
+      "name": "shellingham",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/shellingham@1.5.4",
+      "type": "library",
+      "version": "1.5.4"
+    },
+    {
+      "bom-ref": "six==1.17.0",
+      "description": "Python 2 and 3 compatibility utilities",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/benjaminp/six"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "six",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/six@1.17.0",
+      "type": "library",
+      "version": "1.17.0"
+    },
+    {
+      "bom-ref": "threadpoolctl==3.6.0",
+      "description": "threadpoolctl",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/joblib/threadpoolctl"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: BSD License"
+          }
+        }
+      ],
+      "name": "threadpoolctl",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/threadpoolctl@3.6.0",
+      "type": "library",
+      "version": "3.6.0"
+    },
+    {
+      "bom-ref": "typer==0.27.0",
+      "description": "Typer, build great CLIs. Easy to code. Based on Python type hints.",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://typer.tiangolo.com"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/fastapi/typer/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://typer.tiangolo.com/release-notes/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/fastapi/typer"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/fastapi/typer"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "typer",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/typer@0.27.0",
+      "type": "library",
+      "version": "0.27.0"
+    },
+    {
+      "bom-ref": "typing-inspection==0.4.2",
+      "description": "Runtime typing introspection tools",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://pydantic.github.io/typing-inspection/dev/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/pydantic/typing-inspection"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/pydantic/typing-inspection/blob/main/HISTORY.md"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/typing-inspection"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "typing-inspection",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/typing-inspection@0.4.2",
+      "type": "library",
+      "version": "0.4.2"
+    },
+    {
+      "bom-ref": "typing_extensions==4.16.0",
+      "description": "Backported and Experimental Type Hints for Python 3.9+",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://typing-extensions.readthedocs.io/"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Bug Tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/python/typing_extensions/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Q & A",
+          "type": "other",
+          "url": "https://github.com/python/typing/discussions"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changes",
+          "type": "release-notes",
+          "url": "https://github.com/python/typing_extensions/blob/main/CHANGELOG.md"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Repository",
+          "type": "vcs",
+          "url": "https://github.com/python/typing_extensions"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Home",
+          "type": "website",
+          "url": "https://github.com/python/typing_extensions"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "name": "typing_extensions",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/typing-extensions@4.16.0",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "bom-ref": "tzdata==2026.3",
+      "description": "Provider of IANA time zone data",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://tzdata.python.org"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Bug Reports",
+          "type": "issue-tracker",
+          "url": "https://github.com/python/tzdata/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/python/tzdata"
+        },
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/python/tzdata"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "tzdata",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/tzdata@2026.3",
+      "type": "library",
+      "version": "2026.3"
+    },
+    {
+      "bom-ref": "xarray==2024.11.0",
+      "description": "N-D labeled arrays and datasets in Python",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Documentation",
+          "type": "documentation",
+          "url": "https://docs.xarray.dev"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: issue-tracker",
+          "type": "issue-tracker",
+          "url": "https://github.com/pydata/xarray/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: source-code",
+          "type": "other",
+          "url": "https://github.com/pydata/xarray"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: SciPy2015-talk",
+          "type": "other",
+          "url": "https://www.youtube.com/watch?v=X0pAhJgySxk"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://xarray.dev/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        },
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: Apache Software License"
+          }
+        }
+      ],
+      "name": "xarray",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        }
+      ],
+      "purl": "pkg:pypi/xarray@2024.11.0",
+      "type": "library",
+      "version": "2024.11.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "Pygments==2.20.0"
+    },
+    {
+      "ref": "annotated-doc==0.0.4"
+    },
+    {
+      "ref": "annotated-types==0.8.0"
+    },
+    {
+      "ref": "click==8.4.2"
+    },
+    {
+      "ref": "joblib==1.5.3"
+    },
+    {
+      "dependsOn": [
+        "mdurl==0.1.2"
+      ],
+      "ref": "markdown-it-py==4.2.0"
+    },
+    {
+      "ref": "mdurl==0.1.2"
+    },
+    {
+      "dependsOn": [
+        "packaging==26.2",
+        "pandas==2.3.3",
+        "polars==1.43.0",
+        "pyarrow==25.0.0"
+      ],
+      "ref": "narwhals==2.24.0"
+    },
+    {
+      "ref": "numpy==2.5.1"
+    },
+    {
+      "ref": "packaging==26.2"
+    },
+    {
+      "dependsOn": [
+        "numpy==2.5.1",
+        "pyarrow==25.0.0",
+        "python-dateutil==2.9.0.post0",
+        "pytz==2026.2",
+        "scipy==1.16.3",
+        "tzdata==2026.3",
+        "xarray==2024.11.0"
+      ],
+      "ref": "pandas==2.3.3"
+    },
+    {
+      "ref": "pkg:cargo/autocfg@1.5.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/bit-vec@0.8.0"
+      ],
+      "ref": "pkg:cargo/bit-set@0.8.0"
+    },
+    {
+      "ref": "pkg:cargo/bit-vec@0.8.0"
+    },
+    {
+      "ref": "pkg:cargo/bitflags@2.13.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/hybrid-array@0.4.13"
+      ],
+      "ref": "pkg:cargo/block-buffer@0.12.1"
+    },
+    {
+      "ref": "pkg:cargo/cfg-if@1.0.4"
+    },
+    {
+      "ref": "pkg:cargo/const-oid@0.10.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/libc@0.2.187"
+      ],
+      "ref": "pkg:cargo/cpufeatures@0.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/hybrid-array@0.4.13"
+      ],
+      "ref": "pkg:cargo/crypto-common@0.2.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/block-buffer@0.12.1",
+        "pkg:cargo/const-oid@0.10.2",
+        "pkg:cargo/crypto-common@0.2.2"
+      ],
+      "ref": "pkg:cargo/digest@0.11.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/windows-sys@0.61.2"
+      ],
+      "ref": "pkg:cargo/errno@0.3.14"
+    },
+    {
+      "ref": "pkg:cargo/fastrand@2.5.0"
+    },
+    {
+      "ref": "pkg:cargo/fnv@1.0.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/cfg-if@1.0.4",
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/r-efi@5.3.0",
+        "pkg:cargo/wasip2@1.0.4%2Bwasi-0.2.12"
+      ],
+      "ref": "pkg:cargo/getrandom@0.3.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/cfg-if@1.0.4",
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/r-efi@6.0.0"
+      ],
+      "ref": "pkg:cargo/getrandom@0.4.3"
+    },
+    {
+      "ref": "pkg:cargo/heck@0.5.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/typenum@1.20.1"
+      ],
+      "ref": "pkg:cargo/hybrid-array@0.4.13"
+    },
+    {
+      "ref": "pkg:cargo/itoa@1.0.18"
+    },
+    {
+      "ref": "pkg:cargo/libc@0.2.187"
+    },
+    {
+      "ref": "pkg:cargo/linux-raw-sys@0.12.1"
+    },
+    {
+      "ref": "pkg:cargo/memchr@2.8.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/autocfg@1.5.1"
+      ],
+      "ref": "pkg:cargo/num-traits@0.2.19"
+    },
+    {
+      "ref": "pkg:cargo/once_cell@1.21.4"
+    },
+    {
+      "ref": "pkg:cargo/portable-atomic@1.14.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/zerocopy@0.8.55"
+      ],
+      "ref": "pkg:cargo/ppv-lite86@0.2.21"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/unicode-ident@1.0.24"
+      ],
+      "ref": "pkg:cargo/proc-macro2@1.0.107"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/bit-set@0.8.0",
+        "pkg:cargo/bit-vec@0.8.0",
+        "pkg:cargo/bitflags@2.13.1",
+        "pkg:cargo/num-traits@0.2.19",
+        "pkg:cargo/rand@0.9.5",
+        "pkg:cargo/rand_chacha@0.9.0",
+        "pkg:cargo/rand_xorshift@0.4.0",
+        "pkg:cargo/regex-syntax@0.8.11",
+        "pkg:cargo/rusty-fork@0.3.1",
+        "pkg:cargo/tempfile@3.27.0",
+        "pkg:cargo/unarray@0.1.4"
+      ],
+      "ref": "pkg:cargo/proptest@1.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/target-lexicon@0.13.5"
+      ],
+      "ref": "pkg:cargo/pyo3-build-config@0.29.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/pyo3-build-config@0.29.0"
+      ],
+      "ref": "pkg:cargo/pyo3-ffi@0.29.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/heck@0.5.0",
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/syn@2.0.119"
+      ],
+      "ref": "pkg:cargo/pyo3-macros-backend@0.29.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/pyo3-macros-backend@0.29.0",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/syn@2.0.119"
+      ],
+      "ref": "pkg:cargo/pyo3-macros@0.29.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/once_cell@1.21.4",
+        "pkg:cargo/portable-atomic@1.14.0",
+        "pkg:cargo/pyo3-build-config@0.29.0",
+        "pkg:cargo/pyo3-ffi@0.29.0",
+        "pkg:cargo/pyo3-macros@0.29.0"
+      ],
+      "ref": "pkg:cargo/pyo3@0.29.0"
+    },
+    {
+      "ref": "pkg:cargo/quick-error@1.2.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107"
+      ],
+      "ref": "pkg:cargo/quote@1.0.47"
+    },
+    {
+      "ref": "pkg:cargo/r-efi@5.3.0"
+    },
+    {
+      "ref": "pkg:cargo/r-efi@6.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/rand_chacha@0.9.0",
+        "pkg:cargo/rand_core@0.9.5"
+      ],
+      "ref": "pkg:cargo/rand@0.9.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/ppv-lite86@0.2.21",
+        "pkg:cargo/rand_core@0.9.5"
+      ],
+      "ref": "pkg:cargo/rand_chacha@0.9.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/getrandom@0.3.4"
+      ],
+      "ref": "pkg:cargo/rand_core@0.9.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/rand_core@0.9.5"
+      ],
+      "ref": "pkg:cargo/rand_xorshift@0.4.0"
+    },
+    {
+      "ref": "pkg:cargo/regex-syntax@0.8.11"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/bitflags@2.13.1",
+        "pkg:cargo/errno@0.3.14",
+        "pkg:cargo/libc@0.2.187",
+        "pkg:cargo/linux-raw-sys@0.12.1",
+        "pkg:cargo/windows-sys@0.61.2"
+      ],
+      "ref": "pkg:cargo/rustix@1.1.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/fnv@1.0.7",
+        "pkg:cargo/quick-error@1.2.3",
+        "pkg:cargo/tempfile@3.27.0",
+        "pkg:cargo/wait-timeout@0.2.1"
+      ],
+      "ref": "pkg:cargo/rusty-fork@0.3.1"
+    },
+    {
+      "ref": "pkg:cargo/ryu-js@1.0.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/serde_core@1.0.229",
+        "pkg:cargo/serde_derive@1.0.229"
+      ],
+      "ref": "pkg:cargo/serde@1.0.229"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/serde_derive@1.0.229"
+      ],
+      "ref": "pkg:cargo/serde_core@1.0.229"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/syn@3.0.2"
+      ],
+      "ref": "pkg:cargo/serde_derive@1.0.229"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/itoa@1.0.18",
+        "pkg:cargo/memchr@2.8.3",
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_core@1.0.229",
+        "pkg:cargo/zmij@1.0.23"
+      ],
+      "ref": "pkg:cargo/serde_json@1.0.151"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/ryu-js@1.0.3",
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151"
+      ],
+      "ref": "pkg:cargo/serde_json_canonicalizer@0.3.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/cfg-if@1.0.4",
+        "pkg:cargo/cpufeatures@0.3.0",
+        "pkg:cargo/digest@0.11.3"
+      ],
+      "ref": "pkg:cargo/sha2@0.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/unicode-ident@1.0.24"
+      ],
+      "ref": "pkg:cargo/syn@2.0.119"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/unicode-ident@1.0.24"
+      ],
+      "ref": "pkg:cargo/syn@3.0.2"
+    },
+    {
+      "ref": "pkg:cargo/target-lexicon@0.13.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/fastrand@2.5.0",
+        "pkg:cargo/getrandom@0.4.3",
+        "pkg:cargo/once_cell@1.21.4",
+        "pkg:cargo/rustix@1.1.4",
+        "pkg:cargo/windows-sys@0.61.2"
+      ],
+      "ref": "pkg:cargo/tempfile@3.27.0"
+    },
+    {
+      "ref": "pkg:cargo/typenum@1.20.1"
+    },
+    {
+      "ref": "pkg:cargo/unarray@0.1.4"
+    },
+    {
+      "ref": "pkg:cargo/unicode-ident@1.0.24"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151",
+        "pkg:cargo/voiage-domain@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-diagnostics@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proptest@1.11.0",
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151"
+      ],
+      "ref": "pkg:cargo/voiage-domain@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0",
+        "pkg:cargo/voiage-numerics@2.0.0",
+        "pkg:cargo/voiage-serialization@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-ffi@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proptest@1.11.0",
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-numerics@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/pyo3@0.29.0",
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151",
+        "pkg:cargo/serde_json_canonicalizer@0.3.2",
+        "pkg:cargo/sha2@0.11.0",
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0",
+        "pkg:cargo/voiage-numerics@2.0.0",
+        "pkg:cargo/voiage-serialization@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-python@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151",
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-serialization@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/serde@1.0.229",
+        "pkg:cargo/serde_json@1.0.151",
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0",
+        "pkg:cargo/voiage-numerics@2.0.0",
+        "pkg:cargo/voiage-serialization@2.0.0"
+      ],
+      "ref": "pkg:cargo/voiage-test-support@2.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/libc@0.2.187"
+      ],
+      "ref": "pkg:cargo/wait-timeout@0.2.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/wit-bindgen@0.57.1"
+      ],
+      "ref": "pkg:cargo/wasip2@1.0.4%2Bwasi-0.2.12"
+    },
+    {
+      "ref": "pkg:cargo/windows-link@0.2.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/windows-link@0.2.1"
+      ],
+      "ref": "pkg:cargo/windows-sys@0.61.2"
+    },
+    {
+      "ref": "pkg:cargo/wit-bindgen@0.57.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/proc-macro2@1.0.107",
+        "pkg:cargo/quote@1.0.47",
+        "pkg:cargo/syn@2.0.119"
+      ],
+      "ref": "pkg:cargo/zerocopy-derive@0.8.55"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/zerocopy-derive@0.8.55"
+      ],
+      "ref": "pkg:cargo/zerocopy@0.8.55"
+    },
+    {
+      "ref": "pkg:cargo/zmij@1.0.23"
+    },
+    {
+      "ref": "pkg:cran/knitr"
+    },
+    {
+      "ref": "pkg:cran/reticulate"
+    },
+    {
+      "ref": "pkg:cran/rmarkdown"
+    },
+    {
+      "ref": "pkg:cran/testthat"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/voiage-ffi@2.0.0",
+        "pkg:cran/knitr",
+        "pkg:cran/reticulate",
+        "pkg:cran/rmarkdown",
+        "pkg:cran/testthat"
+      ],
+      "ref": "pkg:cran/voiageR@2.0.0"
+    },
+    {
+      "ref": "pkg:julia/JSON?uuid=682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+    },
+    {
+      "ref": "pkg:julia/Libdl?uuid=8f399da3-3557-5675-b5ff-fb832c97cbdb"
+    },
+    {
+      "ref": "pkg:julia/Statistics?uuid=10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+    },
+    {
+      "ref": "pkg:julia/Test?uuid=8dfed614-e22c-5e08-85e1-65c5234f0b40"
+    },
+    {
+      "dependsOn": [
+        "pkg:cargo/voiage-ffi@2.0.0",
+        "pkg:julia/JSON?uuid=682c06a0-de6a-54ab-a142-c8b1cf79cde6",
+        "pkg:julia/Libdl?uuid=8f399da3-3557-5675-b5ff-fb832c97cbdb",
+        "pkg:julia/Statistics?uuid=10745b16-79ce-11e8-11f9-7d13ad32a3b2",
+        "pkg:julia/Test?uuid=8dfed614-e22c-5e08-85e1-65c5234f0b40"
+      ],
+      "ref": "pkg:julia/Voiage@2.0.0?uuid=8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
+    },
+    {
+      "ref": "polars-runtime-32==1.43.0"
+    },
+    {
+      "dependsOn": [
+        "numpy==2.5.1",
+        "pandas==2.3.3",
+        "polars-runtime-32==1.43.0",
+        "pyarrow==25.0.0",
+        "pydantic==2.13.4",
+        "tzdata==2026.3"
+      ],
+      "ref": "polars==1.43.0"
+    },
+    {
+      "ref": "pyarrow==25.0.0"
+    },
+    {
+      "dependsOn": [
+        "annotated-types==0.8.0",
+        "pydantic_core==2.46.4",
+        "typing-inspection==0.4.2",
+        "typing_extensions==4.16.0",
+        "tzdata==2026.3"
+      ],
+      "ref": "pydantic==2.13.4"
+    },
+    {
+      "dependsOn": [
+        "typing_extensions==4.16.0"
+      ],
+      "ref": "pydantic_core==2.46.4"
+    },
+    {
+      "dependsOn": [
+        "six==1.17.0"
+      ],
+      "ref": "python-dateutil==2.9.0.post0"
+    },
+    {
+      "ref": "pytz==2026.2"
+    },
+    {
+      "dependsOn": [
+        "Pygments==2.20.0",
+        "markdown-it-py==4.2.0"
+      ],
+      "ref": "rich==15.0.0"
+    },
+    {
+      "dependsOn": [
+        "click==8.4.2",
+        "numpy==2.5.1",
+        "pandas==2.3.3",
+        "pkg:cargo/voiage-diagnostics@2.0.0",
+        "pkg:cargo/voiage-domain@2.0.0",
+        "pkg:cargo/voiage-ffi@2.0.0",
+        "pkg:cargo/voiage-numerics@2.0.0",
+        "pkg:cargo/voiage-python@2.0.0",
+        "pkg:cargo/voiage-serialization@2.0.0",
+        "pkg:cargo/voiage-test-support@2.0.0",
+        "pkg:cran/voiageR@2.0.0",
+        "pkg:julia/Voiage@2.0.0?uuid=8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f",
+        "polars==1.43.0",
+        "pyarrow==25.0.0",
+        "pydantic==2.13.4",
+        "scikit-learn==1.9.0",
+        "scipy==1.16.3",
+        "typer==0.27.0",
+        "typing_extensions==4.16.0",
+        "xarray==2024.11.0"
+      ],
+      "ref": "root-component"
+    },
+    {
+      "dependsOn": [
+        "joblib==1.5.3",
+        "narwhals==2.24.0",
+        "numpy==2.5.1",
+        "pandas==2.3.3",
+        "polars==1.43.0",
+        "pyarrow==25.0.0",
+        "rich==15.0.0",
+        "scipy==1.16.3",
+        "threadpoolctl==3.6.0"
+      ],
+      "ref": "scikit-learn==1.9.0"
+    },
+    {
+      "dependsOn": [
+        "numpy==2.5.1",
+        "threadpoolctl==3.6.0",
+        "typing_extensions==4.16.0"
+      ],
+      "ref": "scipy==1.16.3"
+    },
+    {
+      "ref": "shellingham==1.5.4"
+    },
+    {
+      "ref": "six==1.17.0"
+    },
+    {
+      "ref": "threadpoolctl==3.6.0"
+    },
+    {
+      "dependsOn": [
+        "annotated-doc==0.0.4",
+        "rich==15.0.0",
+        "shellingham==1.5.4"
+      ],
+      "ref": "typer==0.27.0"
+    },
+    {
+      "dependsOn": [
+        "typing_extensions==4.16.0"
+      ],
+      "ref": "typing-inspection==0.4.2"
+    },
+    {
+      "ref": "typing_extensions==4.16.0"
+    },
+    {
+      "ref": "tzdata==2026.3"
+    },
+    {
+      "dependsOn": [
+        "numpy==2.5.1",
+        "packaging==26.2",
+        "pandas==2.3.3",
+        "scipy==1.16.3"
+      ],
+      "ref": "xarray==2024.11.0"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "root-component",
+      "description": "Value of Information analysis with a Rust core and Python, R, and Julia interfaces.",
+      "externalReferences": [
+        {
+          "comment": "from pyproject urls: Documentation",
+          "type": "documentation",
+          "url": "https://edithatogo.github.io/voiage"
+        },
+        {
+          "comment": "from pyproject urls: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/edithatogo/voiage/issues"
+        },
+        {
+          "comment": "from pyproject urls: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/edithatogo/voiage/blob/main/changelog.md"
+        },
+        {
+          "comment": "from pyproject urls: Repository",
+          "type": "vcs",
+          "url": "https://github.com/edithatogo/voiage"
+        },
+        {
+          "comment": "from pyproject urls: Homepage",
+          "type": "website",
+          "url": "https://github.com/edithatogo/voiage"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "voiage",
+      "properties": [
+        {
+          "name": "voiage:ecosystem",
+          "value": "python"
+        },
+        {
+          "name": "voiage:inventory:resolution",
+          "value": "resolved-installed"
+        },
+        {
+          "name": "voiage:sbom:aggregate-root",
+          "value": "true"
+        }
+      ],
+      "type": "library",
+      "version": "2.0.0"
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "voiage:sbom:cargo",
+        "value": "resolved-cargo-lock-workspace"
+      },
+      {
+        "name": "voiage:sbom:ecosystems",
+        "value": "python,cargo,r,julia"
+      },
+      {
+        "name": "voiage:sbom:julia",
+        "value": "declared-project-dependencies"
+      },
+      {
+        "name": "voiage:sbom:python",
+        "value": "resolved-installed-runtime-environment"
+      },
+      {
+        "name": "voiage:sbom:r",
+        "value": "declared-description-dependencies"
+      },
+      {
+        "name": "voiage:sbom:scope",
+        "value": "mixed-language-release"
+      },
+      {
+        "name": "voiage:source:commit",
+        "value": "e849e89152c306e79c96d0a8a9815ee5faca0529"
+      },
+      {
+        "name": "voiage:source:tag",
+        "value": "v2.0.0"
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "description": "CycloneDX Software Bill of Materials (SBOM) generator for Python projects and environments",
+          "externalReferences": [
+            {
+              "type": "build-system",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/actions"
+            },
+            {
+              "type": "distribution",
+              "url": "https://pypi.org/project/cyclonedx-bom/"
+            },
+            {
+              "type": "documentation",
+              "url": "https://cyclonedx-bom-tool.readthedocs.io/"
+            },
+            {
+              "type": "issue-tracker",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/issues"
+            },
+            {
+              "type": "license",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/blob/main/LICENSE"
+            },
+            {
+              "type": "release-notes",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/blob/main/CHANGELOG.md"
+            },
+            {
+              "type": "vcs",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/"
+            },
+            {
+              "type": "website",
+              "url": "https://github.com/CycloneDX/cyclonedx-python/#readme"
+            }
+          ],
+          "group": "CycloneDX",
+          "licenses": [
+            {
+              "license": {
+                "acknowledgement": "declared",
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "name": "cyclonedx-py",
+          "type": "application",
+          "version": "7.3.0"
+        },
+        {
+          "description": "Python library for CycloneDX",
+          "externalReferences": [
+            {
+              "type": "build-system",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/actions"
+            },
+            {
+              "type": "distribution",
+              "url": "https://pypi.org/project/cyclonedx-python-lib/"
+            },
+            {
+              "type": "documentation",
+              "url": "https://cyclonedx-python-library.readthedocs.io/"
+            },
+            {
+              "type": "issue-tracker",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/issues"
+            },
+            {
+              "type": "license",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/LICENSE"
+            },
+            {
+              "type": "release-notes",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/CHANGELOG.md"
+            },
+            {
+              "type": "vcs",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib"
+            },
+            {
+              "type": "website",
+              "url": "https://github.com/CycloneDX/cyclonedx-python-lib/#readme"
+            }
+          ],
+          "group": "CycloneDX",
+          "licenses": [
+            {
+              "license": {
+                "acknowledgement": "declared",
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "name": "cyclonedx-python-lib",
+          "type": "library",
+          "version": "11.11.0"
+        }
+      ]
+    }
+  },
+  "specVersion": "1.6",
+  "version": 1
+}

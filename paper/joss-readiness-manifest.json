@@ -54,8 +54,8 @@
   "repository_gates": {
     "public_development_history": "ready",
     "license_documentation_tests_and_contribution_paths": "ready",
-    "exact_reviewed_v2_release": "pending",
-    "exact_reviewed_immutable_archive": "pending"
+    "exact_reviewed_v2_release": "ready",
+    "exact_reviewed_immutable_archive": "ready"
   },
   "external_gates": {
     "demonstrated_research_use": "pending",

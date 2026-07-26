@@ -214,14 +214,14 @@ interests.
 
 # Software and data availability
 
-The source code and release 1.0.0 are public [@voiage2026]. The fixed-seed
+The source code and release 2.0.0 are public [@voiage2026]. The fixed-seed
 health-example script, `scripts/generate_paper_health_example.py`, and its
-machine-readable outputs use synthetic data. The signed v1.0.0 tag is included
+machine-readable outputs use synthetic data. The signed v2.0.0 tag is included
 in the Software Heritage snapshot
-`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`
-[@voiage_software_heritage]. Release 1.0.0 predates the revised EVSI contract
-described here. The exact reviewed revision therefore requires a new release
-and archive before JOSS submission. Its reproduction manifest records the
+`swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`
+[@voiage_software_heritage]. The release-evidence manifest binds the reviewed
+commit, package assets, checksums, provenance, mixed-language software bill of
+materials, and archive identifier. The reproduction manifest records the
 inputs, fixed seeds, lockfile digest, output hashes, and verification command.
 
 # References

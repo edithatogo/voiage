@@ -16,7 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Bound the JOSS manuscript and registry-readiness records to the public
+  v2.0.0 release, its clean-install evidence, mixed-language CycloneDX SBOM,
+  provenance, package digests, crates.io publications, and Software Heritage
+  snapshot.
+- Updated the conda-forge recipe for v2.0.0 and the confirmed maintainer
+  identity, and moved artifact workflows to immutable Node 24-native action
+  revisions.
+
 ### Fixed
+
+- Corrected the compiled conda recipe's runtime Python requirement so it
+  satisfies conda-forge's non-noarch packaging contract.
 
 ## [2.0.0] - 2026-07-26
 

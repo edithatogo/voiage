@@ -1,5 +1,5 @@
 {% set name = "voiage" %}
-{% set version = "1.0.0" %}
+{% set version = "2.0.0" %}
 {% set python_min = "3.12" %}
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: UPDATE_ON_RELEASE
+  sha256: 82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de
 
 build:
   number: 0
@@ -23,7 +23,7 @@ requirements:
     - pip
     - maturin >=1.9,<2.0
   run:
-    - python >= {{ python_min }}
+    - python
     - click >=8.3.3,<9
     - numpy >=2.2.6,<3.0
     - scipy >=1.16.3,<1.17
@@ -65,4 +65,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - doughnut
+    - edithatogo

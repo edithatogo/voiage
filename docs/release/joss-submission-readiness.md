@@ -51,7 +51,7 @@ not replace it.
 | AI usage disclosure | Tool families, retained identifier limits, scope, and verification approach are stated. JOSS also requires versions and the author's comprehensive affirmation that the human author made the core decisions and reviewed, edited, and validated every retained AI-assisted output | Awaiting explicit author attestation and best-available version inventory; identifiers must not be guessed |
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
-| Release evidence | Exact v1.0.0 tag, commit, asset digests, verified provenance, Python runtime CycloneDX SBOM and SWHID are bound in `docs/release/v1.0.0-release-evidence.json`; version 2.0.0 is the reviewed release candidate | Historical evidence ready; publish and bind the v2.0.0 mixed-language SBOM, provenance, digests and archive identifier before submission |
+| Release evidence | Exact v2.0.0 tag, commit, asset digests, verified provenance, mixed-language CycloneDX SBOM and SWHID are bound in `docs/release/v2.0.0-release-evidence.json` | Reviewed release evidence ready |
 | Reproducible JOSS PDF | Open Journals run `30182384336` built commit `766797398654fc7637e19767993535e416bb00c9`; artifact `8625969915` has digest `sha256:5098c43bea9b0f4bd6e94179d9f705387922419d9ad05ccb15a02a07e6c0995e`, and its six-page PDF has SHA-256 `43759919dbb9dccf2ecb3356da6a7a65ed67a5bf8043c2a776fa69b278156d22`. Every page was visually inspected; the hosted Textstat report remains review-only evidence | Ready for the release-bound source |
 | arXiv reference | Submission `7861466` is absent from the authenticated account's active-submission table and has no permanent identifier | External disposition gate |
 | JOSS submission and review | No submission claimed | Author and external gate |
@@ -75,7 +75,7 @@ for version 2.0.0 is the Python package:
 
 | Surface | Reviewer path | Current evidence | Boundary |
 | --- | --- | --- | --- |
-| Python | `python -m pip install voiage==2.0.0` | Release-candidate wheel/source build and Python 3.12–3.14 CI; public PyPI installation must be verified after publication | Primary JOSS installation |
+| Python | `python -m pip install voiage==2.0.0` | Public PyPI wheel clean-installed outside the checkout; runtime reports the Rust core at version 2.0.0 and source revision `e849e89152c306e79c96d0a8a9815ee5faca0529` | Primary JOSS installation |
 | Rust | `cargo test --manifest-path rust/Cargo.toml --workspace --exclude voiage-python` plus the PyO3 wheel build | Native crates, property tests, fuzzing, Miri, sanitizers and coverage | Internal workspace; crates.io publication is not required for JOSS |
 | R | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `R CMD build r-package/voiageR`, `R CMD check --as-cran --no-manual voiageR_*.tar.gz`, and an installed smoke test with `VOIAGE_FFI_LIBRARY` set to the platform library | Installed package calls the separately built Rust EVPI library; tests pass, while the current package check reports two vignette warnings; Linux/macOS/Windows native smoke matrix is configured | Secondary binding; CRAN/r-universe review is independent of JOSS |
 | Julia | `cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi`, then `VOIAGE_FFI_LIBRARY=<platform-library> julia --project=bindings/julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'` | The fixture is packaged with the Julia source, and CI tests an archived standalone package copy against the separately built native library | Secondary binding; a Julia artifact/JLL is required before standalone General installation |
@@ -125,10 +125,9 @@ The recommended sequence is:
   evidence exists.
 - Obtain the author's complete AI-policy affirmation and record every
   establishable tool/model version without inventing historical identifiers.
-- Publish and archive the exact v2 release, then replace prospective manuscript
-  wording with observed release, digest, provenance, SBOM, and SWHID evidence.
-- Rebuild and inspect the official JOSS PDF after the exact v2 release metadata
-  replaces the current prospective availability statement.
+- Rebuild and inspect the official JOSS PDF after the observed v2 release,
+  provenance, SBOM, digest, and SWHID evidence replaced the prospective
+  availability statement.
 - Record the permanent arXiv identifier when arXiv assigns it.
 - Perform the selected direct authenticated JOSS submission.
 - Treat editorial screening, review, acceptance and DOI assignment as external
