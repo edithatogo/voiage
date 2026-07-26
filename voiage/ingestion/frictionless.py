@@ -1,11 +1,15 @@
 """A conservative Frictionless Data Package CSV profile adapter."""
 
+# pyright: reportAny=false, reportUnannotatedClassAttribute=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUnknownVariableType=false
+
 from __future__ import annotations
 
 import hashlib
 import json
 from pathlib import Path  # noqa: TC003 - public runtime annotation
 from typing import cast
+
+import pyarrow as pa
 
 from voiage.contracts.normalized_input import (
     DatasetManifest,
@@ -68,10 +72,20 @@ class FrictionlessProvider:
             raise IngestionError(
                 "Data Package resource requires name, path, and schema"
             )
+        schema = cast("dict[str, object]", schema)
         fields = schema.get("fields")
         if not isinstance(fields, list):
             raise IngestionError("Data Package schema requires fields")
+        fields = cast("list[object]", fields)
+        dialect = resource.get("dialect")
+        if dialect not in (None, {"delimiter": ","}):
+            raise IngestionError(
+                "supported Data Package profile accepts only CSV comma dialect"
+            )
         table = read_csv(reference, policy)
+        self._validate_schema(table, fields)
+        primary_key = self._primary_key(schema)
+        self._validate_primary_key(table, primary_key)
         manifest_fields = tuple(
             FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
             for item in fields
@@ -89,7 +103,13 @@ class FrictionlessProvider:
         return NormalizedInputBundle(
             manifest=DatasetManifest(
                 dataset_id=str(descriptor.get("name", table_id)),
-                tables=(TableManifest(table_id=table_id, fields=manifest_fields),),
+                tables=(
+                    TableManifest(
+                        table_id=table_id,
+                        fields=manifest_fields,
+                        primary_key=primary_key,
+                    ),
+                ),
                 provenance=SourceProvenance(
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),
@@ -99,3 +119,75 @@ class FrictionlessProvider:
             ),
             tables={table_id: table},
         )
+
+    @staticmethod
+    def _primary_key(schema: dict[str, object]) -> tuple[str, ...]:
+        """Return an explicit Data Package primary key or reject ambiguity."""
+        raw = schema.get("primaryKey", ())
+        if isinstance(raw, str):
+            return (raw,)
+        if isinstance(raw, list) and all(isinstance(field, str) for field in raw):
+            return tuple(cast("str", field) for field in raw)
+        if raw == ():
+            return ()
+        raise IngestionError("Data Package primaryKey must be a string or field list")
+
+    @staticmethod
+    def _validate_primary_key(table: pa.Table, primary_key: tuple[str, ...]) -> None:
+        """Reject null or duplicate declared keys without changing source rows."""
+        if not primary_key:
+            return
+        if not set(primary_key).issubset(table.column_names):
+            raise IngestionError("Data Package primaryKey references an unknown field")
+        rows = tuple(
+            tuple(row[field] for field in primary_key) for row in table.to_pylist()
+        )
+        if any(any(value is None for value in row) for row in rows):
+            raise IngestionError("Data Package primaryKey contains null values")
+        if len(rows) != len(set(rows)):
+            raise IngestionError("Data Package primaryKey contains duplicate values")
+
+    @staticmethod
+    def _validate_schema(table: pa.Table, fields: list[object]) -> None:
+        """Validate the strict supported field names, types, and basic constraints."""
+        for item in fields:
+            if not isinstance(item, dict) or not isinstance(item.get("name"), str):
+                raise IngestionError("Data Package fields require string names")
+            field = cast("dict[str, object]", item)
+            name = cast("str", field["name"])
+            if name not in table.column_names:
+                continue
+            column = table[name]
+            field_type = field.get("type")
+            if field_type is not None and (
+                not isinstance(field_type, str)
+                or field_type
+                not in {
+                    "string",
+                    "integer",
+                    "number",
+                    "boolean",
+                }
+            ):
+                raise IngestionError("unsupported Data Package field type")
+            type_matches = {
+                "string": pa.types.is_string(column.type),
+                "integer": pa.types.is_integer(column.type),
+                "number": pa.types.is_integer(column.type)
+                or pa.types.is_floating(column.type),
+                "boolean": pa.types.is_boolean(column.type),
+            }
+            if field_type is not None and not type_matches[field_type]:
+                raise IngestionError("Data Package field type does not match CSV data")
+            constraints = field.get("constraints", {})
+            if not isinstance(constraints, dict):
+                raise IngestionError("Data Package field constraints must be an object")
+            values = column.to_pylist()
+            if constraints.get("required") is True and any(
+                value is None for value in values
+            ):
+                raise IngestionError("Data Package required field contains null values")
+            if constraints.get("unique") is True and len(values) != len(set(values)):
+                raise IngestionError(
+                    "Data Package unique field contains duplicate values"
+                )
