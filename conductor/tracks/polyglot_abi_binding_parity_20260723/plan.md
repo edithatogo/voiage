@@ -9,6 +9,8 @@
   - [x] Add a fixed-width expected-loss result with caller-owned per-strategy
     arrays and strict ownership, alignment, and capacity validation.
     (`b68b105c`)
+  - [~] Add Rust-authoritative ENBS to the versioned C ABI with typed
+    validation and panic containment.
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
