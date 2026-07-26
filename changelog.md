@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added `voiage ingest validate` for safe, machine-readable validation of a
+  supported dataset descriptor and its declared local resources.
+
 ### Changed
 
 ### Fixed

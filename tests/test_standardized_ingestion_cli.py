@@ -29,6 +29,7 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     )
     runner = CliRunner()
 
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
     inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
     output = tmp_path / "normalized.arrow"
     normalized = runner.invoke(
@@ -49,6 +50,8 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         ],
     )
 
+    assert validated.exit_code == 0
+    assert json.loads(validated.output)["valid"] is True
     assert inspected.exit_code == 0
     assert json.loads(inspected.output)["provider"] == "frictionless"
     assert normalized.exit_code == 0
@@ -62,9 +65,12 @@ def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> 
     descriptor.write_text("{}", encoding="utf-8")
 
     result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+    validated = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
 
     assert result.exit_code == 2
     assert "exactly one" in result.output
+    assert validated.exit_code == 2
+    assert "exactly one" in validated.output
 
 
 def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:

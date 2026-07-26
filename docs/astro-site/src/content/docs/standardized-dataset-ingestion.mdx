@@ -15,14 +15,17 @@ column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
 ```bash
+voiage ingest validate datapackage.json
 voiage ingest inspect croissant.json
 voiage ingest normalize datapackage.json --output normalized.arrow
 ```
 
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
-The `inspect` response contains the provider, table row counts, schema
-fingerprint, and content digest; it does not echo resource contents.
+`validate` resolves the descriptor and every declared local resource through
+the source-access policy, then returns a stable JSON confirmation. The
+`inspect` response contains the provider, table row counts, schema fingerprint,
+and content digest; neither command echoes resource contents.
 
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from
