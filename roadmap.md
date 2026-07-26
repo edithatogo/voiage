@@ -64,8 +64,11 @@ promotion remains open. Linear and callback regression EVSI and moment-based
 EVSI now also carry fail-closed single-fit envelopes with estimator class,
 observed budget, stopping rule, and numerical policy. They deliberately report
 variance, convergence, effective sample size, and RNG evidence as unavailable
-until replicated estimator-specific assurance is implemented. Nested Monte
-Carlo, EVPI, EVPPI, CEAF, and structural-VOI envelopes remain open.
+until replicated estimator-specific assurance is implemented. The
+seeded-bootstrap EVSI kernel now reports resample variance, Monte Carlo standard
+error, a disclosed interval, indexed RNG identity, and observed budgets; its
+replicate-convergence gate remains open. EVPI, EVPPI, CEAF, and structural-VOI
+envelopes remain open.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

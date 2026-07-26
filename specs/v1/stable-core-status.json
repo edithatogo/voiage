@@ -87,10 +87,10 @@
       "method_id": "evsi-nested-mc",
       "open_gates": [
         "estimator-assurance-evidence",
-        "runtime-statistical-envelope-integration"
+        "replication-and-convergence-assurance"
       ],
       "reporting_class": "nested-monte-carlo",
-      "runtime_assurance_state": "contract-defined-runtime-not-integrated",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
       "v1_1_assurance_state": "open",
       "validation_state": "analytical-independent-metamorphic"
     },

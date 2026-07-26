@@ -26,6 +26,22 @@ fn seeded_bootstrap_evsi_matches_the_committed_fixture() {
     assert!((result.expected_sample_value - 7.75).abs() <= 1.0e-12);
     assert!((result.expected_perfect_information - 9.0).abs() <= 1.0e-12);
     assert!((result.evsi - 0.75).abs() <= 1.0e-12);
+    let variance = result.resample_value_variance.expect("resample variance");
+    let standard_error = result
+        .monte_carlo_standard_error
+        .expect("Monte Carlo standard error");
+    assert!(variance > 0.0);
+    assert!((standard_error * standard_error - variance / 4.0).abs() <= 1.0e-12);
+}
+
+#[test]
+fn one_bootstrap_resample_reports_sampling_error_as_unavailable() {
+    let net_benefit = matrix(&[&[10.0, 4.0], &[4.0, 10.0]]);
+
+    let result = evsi_stochastic(&net_benefit, 1, 1, 42).expect("valid one-resample EVSI");
+
+    assert_eq!(result.resample_value_variance, None);
+    assert_eq!(result.monte_carlo_standard_error, None);
 }
 
 #[test]

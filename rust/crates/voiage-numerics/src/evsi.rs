@@ -23,6 +23,10 @@ pub struct EvsiKernelResult {
     pub draw_count: usize,
     /// Number of bootstrap resamples performed.
     pub resample_count: usize,
+    /// Unbiased sample variance of the resample-specific optimal values.
+    pub resample_value_variance: Option<f64>,
+    /// Monte Carlo standard error of the expected sample value.
+    pub monte_carlo_standard_error: Option<f64>,
 }
 
 /// Computes the production seeded-bootstrap EVSI summary.
@@ -83,15 +87,18 @@ pub fn evsi_stochastic(
             evsi: 0.0,
             draw_count,
             resample_count,
+            resample_value_variance: (resample_count >= 2).then_some(0.0),
+            monte_carlo_standard_error: (resample_count >= 2).then_some(0.0),
         });
     }
-    let expected_sample_value = bootstrap_expected_value(
-        net_benefit,
-        draw_count,
-        resample_count,
-        seed,
-        strategy_count,
-    )?;
+    let (expected_sample_value, resample_value_variance, monte_carlo_standard_error) =
+        bootstrap_expected_value(
+            net_benefit,
+            draw_count,
+            resample_count,
+            seed,
+            strategy_count,
+        )?;
     let evsi = (expected_sample_value - expected_current_value).max(0.0);
     Ok(EvsiKernelResult {
         estimator: "seeded_bootstrap",
@@ -102,6 +109,8 @@ pub fn evsi_stochastic(
         evsi,
         draw_count,
         resample_count,
+        resample_value_variance,
+        monte_carlo_standard_error,
     })
 }
 
@@ -162,20 +171,21 @@ fn bootstrap_expected_value(
     resample_count: usize,
     seed: u64,
     strategy_count: usize,
-) -> Result<f64, NumericalInputError> {
+) -> Result<(f64, Option<f64>, Option<f64>), NumericalInputError> {
     let _draw_divisor = f64::from(u32::try_from(draw_count).map_err(|_| {
         NumericalInputError::invalid(
             "trial_sample_size",
             "draw count exceeds the supported numerical range",
         )
     })?);
-    let _resample_divisor = f64::from(u32::try_from(resample_count).map_err(|_| {
+    let resample_divisor = f64::from(u32::try_from(resample_count).map_err(|_| {
         NumericalInputError::invalid(
             "resample_count",
             "resample count exceeds the supported numerical range",
         )
     })?);
     let mut bootstrap_mean = 0.0;
+    let mut bootstrap_m2 = 0.0;
     for resample_index in 0..resample_count {
         let mut means = vec![0.0; strategy_count];
         let mut state = seed ^ ((resample_index as u64 + 1).wrapping_mul(MIX64));
@@ -206,14 +216,23 @@ fn bootstrap_expected_value(
                 "resample count exceeds the supported numerical range",
             )
         })?);
-        bootstrap_mean += (best - bootstrap_mean) / resample_number;
+        let delta = best - bootstrap_mean;
+        bootstrap_mean += delta / resample_number;
+        bootstrap_m2 += delta * (best - bootstrap_mean);
     }
     let result = bootstrap_mean;
-    if !result.is_finite() {
+    let variance = (resample_count >= 2).then(|| bootstrap_m2 / (resample_divisor - 1.0));
+    let standard_error = variance.map(|value| (value / resample_divisor).max(0.0).sqrt());
+    if !result.is_finite()
+        || variance
+            .into_iter()
+            .chain(standard_error)
+            .any(|value| !value.is_finite())
+    {
         return Err(NumericalInputError::invalid(
             "net_benefit",
             "EVSI bootstrap result is not finite",
         ));
     }
-    Ok(result)
+    Ok((result, variance, standard_error))
 }

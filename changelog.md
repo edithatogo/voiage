@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Single-fit execution reports its estimator class, observed budget, stopping
   rule, and numerical policy while leaving unavailable variance, convergence,
   effective-sample-size, and RNG evidence explicitly null.
+- Added seeded-bootstrap EVSI assurance with Rust-owned resample variance,
+  Monte Carlo standard error, a disclosed interval, indexed RNG identity, and
+  observed draw/evaluation budgets. Replicate convergence and application-level
+  bootstrap bias remain explicit promotion gates.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

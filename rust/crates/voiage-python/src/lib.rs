@@ -825,6 +825,7 @@ fn compute_evsi<'py>(
     resample_count: usize,
     seed: u64,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let result = evsi_stochastic(&net_benefit, trial_sample_size, resample_count, seed).map_err(
         |error| match error.category() {
@@ -846,6 +847,63 @@ fn compute_evsi<'py>(
     output.set_item("evsi", result.evsi)?;
     output.set_item("draw_count", result.draw_count)?;
     output.set_item("resample_count", result.resample_count)?;
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "nested-monte-carlo")?;
+    assurance.set_item(
+        "bias_assessment",
+        "Bootstrap resampling and finite trial-draw bias remain application-dependent; Monte Carlo error is estimated across indexed resamples.",
+    )?;
+    assurance.set_item("variance_estimate", result.resample_value_variance)?;
+    assurance.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    if let Some(standard_error) = result.monte_carlo_standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item(
+            "lower",
+            (result.evsi - 1.959_963_984_540_054 * standard_error).max(0.0),
+        )?;
+        interval.set_item(
+            "upper",
+            result.evsi + 1.959_963_984_540_054 * standard_error,
+        )?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    let rng = PyDict::new(py);
+    rng.set_item("algorithm", "xorshift64-star")?;
+    rng.set_item("version", "1")?;
+    rng.set_item("seed", seed)?;
+    rng.set_item("stream", "indexed-bootstrap-resample")?;
+    assurance.set_item("rng", rng)?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item(
+        "draws",
+        result.draw_count.saturating_mul(result.resample_count),
+    )?;
+    budget.set_item(
+        "evaluations",
+        result
+            .draw_count
+            .saturating_mul(result.resample_count)
+            .saturating_mul(net_benefit.shape()[1]),
+    )?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
     Ok(output)
 }
 
@@ -1765,6 +1823,30 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((evsi - 0.75).abs() <= 1.0e-12);
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("reporting_class")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "nested-monte-carlo"
+            );
+            assert!(
+                assurance
+                    .get_item("monte_carlo_standard_error")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    > 0.0
+            );
         });
     }
 
