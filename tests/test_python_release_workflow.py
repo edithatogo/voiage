@@ -88,10 +88,9 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b"
         in release_workflow
     )
-    assert (
-        'gh release create "$RELEASE_TAG" --draft --generate-notes --verify-tag --target "$TAG_SHA"'
-        in release_workflow
-    )
+    assert 'gh release create "$RELEASE_TAG" dist/*' in release_workflow
+    assert "--verify-tag" in release_workflow
+    assert "--target \"$TAG_SHA\"" in release_workflow
     assert "permissions: {}" in release_workflow
     assert "release:\n    types: [published]" in conda_workflow
     assert "workflow_dispatch:" in conda_workflow
@@ -158,7 +157,7 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
 
     assert "publish:" in release_workflow
     assert "type: boolean\n        default: false" in release_workflow
-    assert "stage:\n    name: Build and Stage Private Draft" in release_workflow
+    assert "stage:\n    name: Stage Immutable Review Artifact" in release_workflow
     assert (
         "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI" in release_workflow
     )
@@ -167,7 +166,7 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         in release_workflow
     )
     stage_job = release_workflow.index(
-        "stage:\n    name: Build and Stage Private Draft"
+        "stage:\n    name: Stage Immutable Review Artifact"
     )
     publish_job = release_workflow.index(
         "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI"
@@ -177,27 +176,18 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     assert "expected_wheel_sha256" in release_workflow
     assert "expected_sdist_sha256" in release_workflow
     assert "sha256sum" in release_workflow
-    assert 'gh release view "$RELEASE_TAG" --json isDraft' in release_workflow
+    stage_permissions = release_workflow[stage_job:publish_job]
+    assert "contents: write" not in stage_permissions
+    assert "contents: read" in stage_permissions
+    assert "name: release-payload-${{ env.RELEASE_TAG }}" in stage_permissions
     assert (
-        "if: github.event_name != 'workflow_dispatch' || !inputs.publish"
-        in release_workflow
-    )
-    assert (
-        release_workflow.count(
-            "gh release download \"$RELEASE_TAG\" --repo \"$GITHUB_REPOSITORY\" --dir dist --pattern '*.whl' --pattern '*.tar.gz'"
-        )
-        == 1
-    )
-    assert (
-        "reviewed-payload:\n    name: Validate Reviewed Private Draft"
+        "reviewed-payload:\n    name: Validate Reviewed Staged Artifact"
         in release_workflow
     )
     assert release_workflow.count("name: reviewed-release-payload") == 3
-    assert (
-        'gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft'
-        in release_workflow
-    )
-    assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
+    assert "Download same-run staged artifact" in release_workflow
+    assert 'gh release create "$RELEASE_TAG" dist/*' in release_workflow
+    assert "refusing to overwrite it" in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow
 

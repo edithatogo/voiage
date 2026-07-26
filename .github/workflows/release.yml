@@ -11,7 +11,7 @@ on:
         required: true
         type: string
       publish:
-        description: "Publish the verified private draft to TestPyPI, PyPI, and GitHub"
+        description: "Publish the verified staged artifact to TestPyPI, PyPI, and GitHub"
         required: false
         type: boolean
         default: false
@@ -333,12 +333,12 @@ jobs:
 
 
   stage:
-    name: Build and Stage Private Draft
+    name: Stage Immutable Review Artifact
     needs: [resolve-tag, attest]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      contents: write
+      contents: read
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
@@ -366,18 +366,6 @@ jobs:
         run: |
           cd dist
           sha256sum -- *.whl *.tar.gz | LC_ALL=C sort > SHA256SUMS
-      - name: Create or refresh private draft release
-        if: github.event_name != 'workflow_dispatch' || !inputs.publish
-        shell: bash
-        run: |
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = true
-          else
-            gh release create "$RELEASE_TAG" --draft --generate-notes --verify-tag --target "$TAG_SHA"
-          fi
-          gh release upload "$RELEASE_TAG" dist/* --clobber
-        env:
-          GH_TOKEN: ${{ github.token }}
       - name: Retain immutable publication payload
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -387,7 +375,7 @@ jobs:
           retention-days: 7
 
   reviewed-payload:
-    name: Validate Reviewed Private Draft
+    name: Validate Reviewed Staged Artifact
     needs: [resolve-tag, stage]
     if: github.event_name == 'workflow_dispatch' && inputs.publish
     runs-on: ubuntu-24.04
@@ -397,19 +385,16 @@ jobs:
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
-      - name: Download reviewed private draft payload
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p dist
-          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
-      - name: Require reviewed artifact digests and private draft
+      - name: Download same-run staged artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: release-payload-${{ env.RELEASE_TAG }}
+          path: dist
+      - name: Require reviewed artifact digests
         shell: bash
         env:
           EXPECTED_WHEEL_SHA256: ${{ inputs.expected_wheel_sha256 }}
           EXPECTED_SDIST_SHA256: ${{ inputs.expected_sdist_sha256 }}
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           [[ "$EXPECTED_SDIST_SHA256" =~ ^[0-9a-f]{64}$ ]]
@@ -420,7 +405,6 @@ jobs:
           actual_wheels="$(for wheel in "${wheels[@]}"; do sha256sum "$wheel" | cut -d ' ' -f1; done | paste -sd, -)"
           test "$actual_wheels" = "$EXPECTED_WHEEL_SHA256"
           test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
-          test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft')" = true
       - name: Upload reviewed release payload
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -590,6 +574,15 @@ jobs:
           name: voiage-attested-release
           path: dist
       - name: Publish verified GitHub Release
-        run: gh release edit "$RELEASE_TAG" --draft=false --latest
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "release already exists; refusing to overwrite it" >&2
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" dist/* \
+            --generate-notes \
+            --latest \
+            --target "$TAG_SHA" \
+            --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}
