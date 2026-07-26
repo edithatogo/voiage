@@ -105,7 +105,9 @@
 - [x] Integrate statistically valid envelopes for the remaining stable
   sample-average, EVPPI regression, threshold-specific CEAF, and structural
   methods. (`35cedb85`)
-- [~] Add independent replicated convergence evidence for EVSI estimators.
+- [x] Add independent replicated convergence evidence for EVSI estimators.
+  (`382d6cfb`; unique seeds, between-run uncertainty, split-half convergence,
+  typed Python results, and executable nested-Monte-Carlo evidence)
 - [ ] Regenerate stable-core maturity and promotion evidence from runtime
   assurance coverage.
 - [ ] Commit, attach git notes, record task SHAs, and reconcile evidence.
