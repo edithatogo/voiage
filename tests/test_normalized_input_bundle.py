@@ -543,7 +543,10 @@ def test_method_input_capability_matrix_is_explicit_and_fail_closed() -> None:
         "net_benefit",
         "parameter",
     )
-    assert method_input_capability("evsi").required_binding_roles == ("parameter",)
+    assert method_input_capability("evsi").required_binding_roles == (
+        "net_benefit",
+        "parameter",
+    )
     assert method_input_capability("enbs").required_binding_roles == ("net_benefit",)
     assert method_input_capability("ceac").required_binding_roles == ("net_benefit",)
     assert method_input_capability("ceaf").required_binding_roles == ("net_benefit",)

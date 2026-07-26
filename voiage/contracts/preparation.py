@@ -69,7 +69,7 @@ _METHOD_INPUT_CAPABILITIES: Mapping[str, MethodInputCapability] = MappingProxyTy
         ),
         "evsi": MethodInputCapability(
             method_family="evsi",
-            required_binding_roles=("parameter",),
+            required_binding_roles=("net_benefit", "parameter"),
             accepted_input_kinds=("direct-python", "csv", "normalized-bundle"),
             requires_sample_alignment=True,
         ),
