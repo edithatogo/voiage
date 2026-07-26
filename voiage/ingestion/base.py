@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import hashlib
 from pathlib import Path  # noqa: TC003 - protocol runtime annotation
 import shutil
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from voiage.contracts.normalized_input import (
     NormalizedInputBundle,  # noqa: TC001 - protocol API
@@ -137,6 +137,7 @@ class SourceAccessPolicy:
         return hasher.hexdigest()
 
 
+@runtime_checkable
 class IngestionProvider(Protocol):
     """Adapter protocol; implementations must return only a normalized bundle."""
 
