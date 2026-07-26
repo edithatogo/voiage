@@ -58,8 +58,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
         PDF and six-page visual review passed for PR #522; the retained
         decision-maker wording passed its release-bound rebuild and six-page
         visual review in PR #529.
-        Exact v2 release identity, author-confirmed AI attestation, final human
-        source verification, and the external engagement record remain open.
+        The signed v2.0.0 GitHub, PyPI, TestPyPI, crates.io, provenance, SBOM,
+        clean-install, and Software Heritage evidence is complete.
+        Author-confirmed AI attestation, final human source verification,
+        release-bound PDF review, and the external engagement record remain
+        open. Conda-forge PR #34308 is under external review.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table and no
         permanent identifier is available. Resolve that external disposition

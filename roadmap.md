@@ -70,10 +70,12 @@ Rust-centred polyglot package. Issue #471 tracks demonstrated research use and
 attributable human community engagement, external use, or collaborative input.
 The former is a hard pre-review gate; the latter remains a detailed-review
 criterion, strong positive pre-review signal, and author-selected prerequisite.
-Exact v2 release evidence, author-confirmed
-AI attestation, final human source verification, authenticated submission,
-editorial review, acceptance, and DOI assignment remain explicit human or
-external gates. The round-nine JOSS source has passed its local article,
+The signed v2.0.0 release, PyPI/TestPyPI packages, four crates.io crates,
+mixed-language SBOM, provenance, clean-install evidence, and Software Heritage
+snapshot are complete. Conda-forge PR #34308 is under external review.
+Author-confirmed AI attestation, final human source verification,
+authenticated submission, editorial review, acceptance, and DOI assignment
+remain explicit human or external gates. The round-nine JOSS source has passed its local article,
 SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
 decision-maker wording retained for the release-bound source passed a fresh
 exact-revision Open Journals build and six-page visual review in PR #529. The

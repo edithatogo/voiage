@@ -55,9 +55,11 @@
   required; agents, bots, and same-author repositories do not qualify)
 - [ ] Obtain the author's explicit JOSS AI-policy affirmation and bind every
   tool/model version that can be established without guessing.
-- [ ] Publish, verify, and archive the exact v2 release described by `paper.md`,
+- [x] Publish, verify, and archive the exact v2 release described by `paper.md`,
   then replace prospective availability wording with observed release,
   provenance, SBOM, digest, clean-installation, and Software Heritage evidence.
+  (`cdc40de`; `v2.0.0`; release run `30200134119`; supply-chain run
+  `30200921515`; Software Heritage request `2399846`)
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
@@ -99,22 +101,23 @@
 ## Current evidence boundary
 
 - Repository readiness audit: complete at 2026-07-22T00:41:31Z.
-- Signed public release evidence: complete; `v1.0.0` was published at
-  https://github.com/edithatogo/voiage/releases/tag/v1.0.0 on 2026-07-22T06:35:22Z.
+- Signed public release evidence: complete; `v2.0.0` was published at
+  https://github.com/edithatogo/voiage/releases/tag/v2.0.0 on 2026-07-26T11:41:47Z.
   The release includes `SHA256SUMS`, source, and macOS, Linux, and Windows
-  wheels; PyPI mirrors the source release at https://pypi.org/project/voiage/1.0.0/.
-- Software Heritage archival: complete with request `2397350`, full visit `1`,
+  wheels; PyPI and TestPyPI publish version 2.0.0, and the four public Rust
+  crates publish version 2.0.0.
+- Software Heritage archival: complete with request `2399846`, a full visit,
   and snapshot
-  `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
+  `swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`.
 - RRID route: SciCrunch General Resource registration; assignment and curation external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
-  exact v2 publication, demonstrated research use, human engagement,
-  author-confirmed AI attestation,
+  demonstrated research use, human engagement, author-confirmed AI attestation,
   authenticated submission, and editorial review remain human or external.
   The author confirmed funding, competing-interest, affiliation, and ORCID
   metadata on 24 July 2026.
-- Signed v1.0 release: complete at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; live archival, identifier, submission, review, and indexing gates remain external.
+- Signed v2.0 release and matching archive: complete; remaining identifier,
+  submission, review, adoption, and indexing gates remain external.
 - GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
   registry subissues; #312 is the native arXiv subissue of #299 and is present
   in GitHub Project 28; #471 is the native independent-validation subissue of
