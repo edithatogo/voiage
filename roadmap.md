@@ -113,6 +113,13 @@ open gates instead of relying on manually synchronized wrapper claims.
 Generation drift is test-failing; typed method results and language-native
 adapters remain separate implementation work.
 
+C ABI v1.3 establishes the caller-owned array contract through expected loss:
+two capacity-checked per-strategy arrays accompany a fixed-width optimum,
+dimension, minimum-loss, variance, and Monte Carlo-error summary. All
+matrix-taking entry points reject misaligned pointers and address-space-
+oversized slices before constructing Rust views. The same no-partial-write
+pattern is the basis for broader stable result types and direct bindings.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

@@ -13,6 +13,8 @@ _Static_assert(offsetof(VoiageAbiCapabilitiesV1, capability_bits) == 8,
 _Static_assert(sizeof(VoiageHandleV1) == 8, "handle width drift");
 _Static_assert(sizeof(voiage_v1_status) == 4, "status width drift");
 _Static_assert(sizeof(VoiageEvpiResultV1) == 56, "EVPI result layout drift");
+_Static_assert(sizeof(VoiageExpectedLossResultV1) == 64,
+               "expected-loss result layout drift");
 
 static int exercise_contract(void) {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -30,6 +32,16 @@ static int exercise_contract(void) {
         evpi_result.struct_size != sizeof(evpi_result) ||
         evpi_result.sample_count != 2 || evpi_result.strategy_count != 2) {
         return 5;
+    }
+    double expected_benefits[2] = {0};
+    double expected_losses[2] = {0};
+    VoiageExpectedLossResultV1 expected_loss_result = {0};
+    if (voiage_v1_expected_loss_result(
+            values, 2, 2, expected_benefits, expected_losses, 2,
+            &expected_loss_result) != VOIAGE_V1_STATUS_OK ||
+        expected_loss_result.struct_size != sizeof(expected_loss_result) ||
+        expected_loss_result.strategy_count != 2) {
+        return 7;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     uint64_t required_size = 0;

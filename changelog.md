@@ -87,6 +87,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   is generated from stable-core status, retains method maturity, authority,
   assurance, and open-gate truth, and fails CI when the checked-in Rust
   artifact drifts.
+- Added ABI v1.3 typed expected loss with caller-owned expected-benefit and
+  opportunity-loss arrays, a fixed-width assurance summary, and no-partial-
+  write capacity failures. All matrix-taking ABI functions now reject
+  misaligned or address-space-oversized input slices before dereferencing.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

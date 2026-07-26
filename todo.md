@@ -66,6 +66,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             document and fails on stable-core/generated-artifact drift. Typed
             results for the remaining stable methods, buffer serialization,
             and language-native adapters remain open.
+        *   C ABI v1.3 now exposes typed expected loss with two caller-owned
+            per-strategy arrays and a fixed-width assurance summary. The
+            matrix boundary also rejects misalignment and oversized Rust
+            slices before dereference. Remaining stable result envelopes and
+            language-native adapters remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

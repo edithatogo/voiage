@@ -48,6 +48,15 @@ int main(void) {
         result.struct_size != sizeof(result) || result.has_assurance != 1) {
         return 8;
     }
+    double expected_benefits[2] = {0};
+    double expected_losses[2] = {0};
+    VoiageExpectedLossResultV1 expected_loss_result = {0};
+    if (voiage_v1_expected_loss_result(
+            values, 2, 2, expected_benefits, expected_losses, 2,
+            &expected_loss_result) != VOIAGE_V1_STATUS_OK ||
+        expected_loss_result.struct_size != sizeof(expected_loss_result)) {
+        return 10;
+    }
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;

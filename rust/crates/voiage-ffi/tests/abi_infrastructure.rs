@@ -7,9 +7,9 @@ use std::mem::{align_of, offset_of, size_of};
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageEvpiResultV1,
-    VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY,
-    VOIAGE_ABI_EVPI_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
-    VOIAGE_V1_ABI_MINOR,
+    VoiageExpectedLossResultV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_DOCUMENT,
+    VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_EVPI_RESULT, VOIAGE_ABI_EXPECTED_LOSS_RESULT,
+    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -39,8 +39,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | voiage_ffi::VOIAGE_ABI_EVPI
             | VOIAGE_ABI_EVPI_RESULT
             | VOIAGE_ABI_CAPABILITY_DOCUMENT
+            | VOIAGE_ABI_EXPECTED_LOSS_RESULT
     );
-    assert_eq!(capabilities.capability_bits & !0b1_1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b11_1111, 0);
 }
 
 #[test]
@@ -66,6 +67,16 @@ fn evpi_abi_executes_the_rust_kernel_and_validates_shape() {
     assert!((result - 3.0).abs() < f64::EPSILON);
 
     let status = unsafe { voiage_v1_evpi(std::ptr::null(), 2, 2, &raw mut result) };
+    assert_eq!(status, VoiageStatusV1::InvalidArgument);
+
+    let storage = [0_u8; 40];
+    #[allow(clippy::cast_ptr_alignment)]
+    let misaligned = unsafe { storage.as_ptr().add(1).cast::<f64>() };
+    let status = unsafe { voiage_v1_evpi(misaligned, 2, 2, &raw mut result) };
+    assert_eq!(status, VoiageStatusV1::InvalidArgument);
+
+    let aligned = [0.0];
+    let status = unsafe { voiage_v1_evpi(aligned.as_ptr(), u64::MAX, 2, &raw mut result) };
     assert_eq!(status, VoiageStatusV1::InvalidArgument);
 }
 
@@ -136,6 +147,17 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
             "VoiageEvpiResultV1.reserved {}\n",
             "VoiageEvpiResultV1.opportunity_loss_variance {}\n",
             "VoiageEvpiResultV1.monte_carlo_standard_error {}\n",
+            "VoiageExpectedLossResultV1 {} {}\n",
+            "VoiageExpectedLossResultV1.struct_size {}\n",
+            "VoiageExpectedLossResultV1.struct_version {}\n",
+            "VoiageExpectedLossResultV1.optimal_strategy_index {}\n",
+            "VoiageExpectedLossResultV1.sample_count {}\n",
+            "VoiageExpectedLossResultV1.strategy_count {}\n",
+            "VoiageExpectedLossResultV1.minimum_expected_opportunity_loss {}\n",
+            "VoiageExpectedLossResultV1.has_assurance {}\n",
+            "VoiageExpectedLossResultV1.reserved {}\n",
+            "VoiageExpectedLossResultV1.opportunity_loss_variance {}\n",
+            "VoiageExpectedLossResultV1.monte_carlo_standard_error {}\n",
             "VoiageHandleV1 {} {}\n",
             "voiage_v1_status {} {}",
         ),
@@ -160,6 +182,21 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
         offset_of!(VoiageEvpiResultV1, reserved),
         offset_of!(VoiageEvpiResultV1, opportunity_loss_variance),
         offset_of!(VoiageEvpiResultV1, monte_carlo_standard_error),
+        size_of::<VoiageExpectedLossResultV1>(),
+        align_of::<VoiageExpectedLossResultV1>(),
+        offset_of!(VoiageExpectedLossResultV1, struct_size),
+        offset_of!(VoiageExpectedLossResultV1, struct_version),
+        offset_of!(VoiageExpectedLossResultV1, optimal_strategy_index),
+        offset_of!(VoiageExpectedLossResultV1, sample_count),
+        offset_of!(VoiageExpectedLossResultV1, strategy_count),
+        offset_of!(
+            VoiageExpectedLossResultV1,
+            minimum_expected_opportunity_loss
+        ),
+        offset_of!(VoiageExpectedLossResultV1, has_assurance),
+        offset_of!(VoiageExpectedLossResultV1, reserved),
+        offset_of!(VoiageExpectedLossResultV1, opportunity_loss_variance),
+        offset_of!(VoiageExpectedLossResultV1, monte_carlo_standard_error),
         size_of::<u64>(),
         align_of::<u64>(),
         size_of::<VoiageStatusV1>(),

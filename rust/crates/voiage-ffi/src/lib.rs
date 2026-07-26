@@ -13,6 +13,10 @@ mod error_transport;
 #[allow(unsafe_code)]
 mod capability_document;
 mod generated_capabilities;
+// SAFETY: expected-loss transport validates all caller-owned pointers and
+// capacities, contains panics, and writes only after successful computation.
+#[allow(unsafe_code)]
+mod expected_loss_result;
 // SAFETY: lifecycle validates its sole caller-owned output pointer before the
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
@@ -26,6 +30,7 @@ use voiage_numerics::{evpi, evpi_with_assurance, EvpiKernelResult};
 
 pub use capability_document::voiage_v1_capabilities_json;
 pub use error_transport::voiage_v1_error_message;
+pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use status::VoiageStatusV1;
 
@@ -36,7 +41,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 2;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 3;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -52,6 +57,9 @@ pub const VOIAGE_ABI_EVPI_RESULT: u64 = 1 << 3;
 
 /// Capability bit for the registry-generated JSON capability document.
 pub const VOIAGE_ABI_CAPABILITY_DOCUMENT: u64 = 1 << 4;
+
+/// Capability bit for typed expected-loss results and caller-owned arrays.
+pub const VOIAGE_ABI_EXPECTED_LOSS_RESULT: u64 = 1 << 5;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -131,11 +139,31 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_CAPABILITY_QUERY
             | VOIAGE_ABI_EVPI
             | VOIAGE_ABI_EVPI_RESULT
-            | VOIAGE_ABI_CAPABILITY_DOCUMENT,
+            | VOIAGE_ABI_CAPABILITY_DOCUMENT
+            | VOIAGE_ABI_EXPECTED_LOSS_RESULT,
     }
 }
 
-fn validated_matrix(
+pub(crate) fn checked_dimensions(
+    rows: u64,
+    columns: u64,
+) -> Result<(usize, usize, usize), VoiageStatusV1> {
+    if rows == 0 || columns == 0 {
+        return Err(VoiageStatusV1::InvalidArgument);
+    }
+    let length = rows
+        .checked_mul(columns)
+        .and_then(|value| usize::try_from(value).ok())
+        .ok_or(VoiageStatusV1::InvalidArgument)?;
+    if length > isize::MAX as usize / std::mem::size_of::<f64>() {
+        return Err(VoiageStatusV1::InvalidArgument);
+    }
+    let row_count = usize::try_from(rows).map_err(|_| VoiageStatusV1::InvalidArgument)?;
+    let column_count = usize::try_from(columns).map_err(|_| VoiageStatusV1::InvalidArgument)?;
+    Ok((row_count, column_count, length))
+}
+
+pub(crate) fn validated_matrix(
     values: &[f64],
     row_count: usize,
     column_count: usize,
@@ -168,18 +196,12 @@ pub unsafe extern "C" fn voiage_v1_evpi(
         || out.is_null()
         || rows == 0
         || columns == 0
+        || (values as usize) % std::mem::align_of::<f64>() != 0
         || (out as usize) % std::mem::align_of::<f64>() != 0
     {
         return VoiageStatusV1::InvalidArgument;
     }
-    let Some(length) = rows
-        .checked_mul(columns)
-        .and_then(|value| usize::try_from(value).ok())
-    else {
-        return VoiageStatusV1::InvalidArgument;
-    };
-    let (Ok(row_count), Ok(column_count)) = (usize::try_from(rows), usize::try_from(columns))
-    else {
+    let Ok((row_count, column_count, length)) = checked_dimensions(rows, columns) else {
         return VoiageStatusV1::InvalidArgument;
     };
     let result = panic::catch_unwind(AssertUnwindSafe(|| {
@@ -218,18 +240,12 @@ pub unsafe extern "C" fn voiage_v1_evpi_result(
         || out.is_null()
         || rows == 0
         || columns == 0
+        || (values as usize) % std::mem::align_of::<f64>() != 0
         || (out as usize) % std::mem::align_of::<VoiageEvpiResultV1>() != 0
     {
         return VoiageStatusV1::InvalidArgument;
     }
-    let Some(length) = rows
-        .checked_mul(columns)
-        .and_then(|value| usize::try_from(value).ok())
-    else {
-        return VoiageStatusV1::InvalidArgument;
-    };
-    let (Ok(row_count), Ok(column_count)) = (usize::try_from(rows), usize::try_from(columns))
-    else {
+    let Ok((row_count, column_count, length)) = checked_dimensions(rows, columns) else {
         return VoiageStatusV1::InvalidArgument;
     };
     let result = panic::catch_unwind(AssertUnwindSafe(|| {
