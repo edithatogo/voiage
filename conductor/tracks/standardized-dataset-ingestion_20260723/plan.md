@@ -27,11 +27,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 2 — Prepare existing VOI runtime inputs (#327)
 
-- [ ] **P2-T1 / AC-02:** Write failing tests for wide and long net-benefit
+- [x] **P2-T1 / AC-02:** Write failing tests for wide and long net-benefit
   tables, cost/outcome derivation, perspectives, parameter preparation, sample
-  alignment, joins, strategies, nulls, dtypes, and cardinality.
-- [ ] **P2-T2 / AC-02:** Implement `PreparedAnalysisInputs` and the
-  format-neutral preparation layer.
+  alignment, joins, strategies, nulls, dtypes, and cardinality. (#525)
+- [x] **P2-T2 / AC-02:** Implement `PreparedAnalysisInputs` and the
+  format-neutral preparation layer. (#525)
 - [x] **P2-T3 / AC-02, AC-11:** Emit a machine-readable data-quality report for
   row counts, missingness, uniqueness, keys, join coverage, coercions,
   exclusions, and selected records or partitions. (`944feec`)
@@ -39,10 +39,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   through `AnalysisSpec`, `RunContext`, diagnostics, and provenance. (`5239de1`)
 - [x] **P2-T5 / AC-02:** Add the method/input capability matrix and preserve
   existing direct Python and CSV entry points. (`ccd61b6`)
-- [ ] **P2-T6 / AC-02:** Verify that filtering, projection, sampling,
-  aggregation, and exclusion cannot occur implicitly.
-- [ ] **P2-T7 / AC-02, AC-11:** Run direct-versus-normalized numerical-equivalence
-  tests, automated review, validation, and the phase checkpoint protocol.
+- [x] **P2-T6 / AC-02:** Verify that filtering, projection, sampling,
+  aggregation, and exclusion cannot occur implicitly. (#525)
+- [x] **P2-T7 / AC-02, AC-11:** Run direct-versus-normalized numerical-equivalence
+  tests, automated review, validation, and the phase checkpoint protocol. (#525)
 
 ## Phase 3 — Establish the optional provider boundary (#328)
 
