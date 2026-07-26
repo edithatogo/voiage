@@ -858,6 +858,7 @@ fn compute_evsi_efficient_linear<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     trial_sample_size: usize,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let result = evsi_efficient_linear(&net_benefit, &parameter_samples, trial_sample_size)
@@ -881,6 +882,17 @@ fn compute_evsi_efficient_linear<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic metamodel fit does not estimate fit bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        started,
+    )?;
     Ok(output)
 }
 
@@ -893,6 +905,7 @@ fn compute_evsi_moment_based<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     trial_sample_size: usize,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let result = evsi_moment_based(&net_benefit, &parameter_samples, trial_sample_size).map_err(
@@ -917,6 +930,17 @@ fn compute_evsi_moment_based<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "moment-matching",
+        "A single deterministic moment approximation does not estimate approximation bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        started,
+    )?;
     Ok(output)
 }
 
@@ -928,6 +952,7 @@ fn compute_evsi_regression<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     prediction_samples: &Bound<'_, PyAny>,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let targets = matrix_from_python(targets, "targets")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let prediction_samples = matrix_from_python(prediction_samples, "prediction_samples")?;
@@ -947,7 +972,52 @@ fn compute_evsi_regression<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("prediction_count", result.prediction_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic regression fit does not estimate model bias, sampling variance, or replicate convergence.",
+        result.sample_count.saturating_add(result.prediction_count),
+        result
+            .sample_count
+            .saturating_add(result.prediction_count)
+            .saturating_mul(result.parameter_count.saturating_add(1)),
+        started,
+    )?;
     Ok(output)
+}
+
+fn add_incomplete_estimator_assurance(
+    py: Python<'_>,
+    output: &Bound<'_, PyDict>,
+    reporting_class: &str,
+    bias_assessment: &str,
+    draws: usize,
+    evaluations: usize,
+    started: Instant,
+) -> PyResult<()> {
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", reporting_class)?;
+    assurance.set_item("bias_assessment", bias_assessment)?;
+    assurance.set_item("variance_estimate", py.None())?;
+    assurance.set_item("monte_carlo_standard_error", py.None())?;
+    assurance.set_item("confidence_interval", py.None())?;
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", draws)?;
+    budget.set_item("evaluations", evaluations)?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)
 }
 
 fn add_operation_snapshot(

@@ -37,7 +37,11 @@ def _load(relative_path: str) -> dict[str, Any]:
 def _runtime_state(method_id: str, reporting_class: str) -> str:
     if method_id in {"net-benefit", "dominance"}:
         return "not-applicable-deterministic"
-    if method_id == "expected-loss":
+    if method_id in {
+        "expected-loss",
+        "evsi-regression",
+        "evsi-moment-matching",
+    }:
         return "integrated-incomplete-assurance"
     if method_id == "enbs":
         return "inherits-open-evsi-gate"

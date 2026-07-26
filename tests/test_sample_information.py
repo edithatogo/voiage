@@ -18,6 +18,29 @@ _bayesian_update = si_module._bayesian_update
 enbs = si_module.enbs
 evsi = si_module.evsi
 
+
+def _incomplete_assurance(reporting_class: str) -> dict[str, object]:
+    """Return a valid single-fit assurance envelope for native test doubles."""
+    return {
+        "reporting_class": reporting_class,
+        "bias_assessment": "Single-fit test assurance.",
+        "variance_estimate": None,
+        "monte_carlo_standard_error": None,
+        "confidence_interval": None,
+        "convergence": None,
+        "effective_sample_size": None,
+        "rng": None,
+        "replications": 1,
+        "budget": {"draws": 1, "evaluations": 1, "elapsed_seconds": 0.0},
+        "stopping_reason": "fixed-budget",
+        "numerical_error": {
+            "absolute_bound": 1.0e-10,
+            "relative_bound": 1.0e-8,
+            "source": "stable-estimator-assurance-v1.1-binary64-policy",
+        },
+    }
+
+
 # --- Dummy components for EVSI testing ---
 
 
@@ -381,6 +404,7 @@ def test_evsi_regression_method_does_not_require_sklearn(
             "sample_count": len(targets),
             "prediction_count": len(predictions),
             "parameter_count": len(parameters[0]),
+            "statistical_assurance": _incomplete_assurance("regression-or-metamodel"),
         },
     )
     result = evsi(
@@ -393,7 +417,7 @@ def test_evsi_regression_method_does_not_require_sklearn(
     assert result >= 0.0
 
 
-@pytest.mark.parametrize("malformation", ["metadata", "non_finite"])
+@pytest.mark.parametrize("malformation", ["metadata", "non_finite", "assurance"])
 def test_evsi_regression_rejects_malformed_native_envelope(
     dummy_psa_for_evsi,
     dummy_trial_design_for_evsi,
@@ -414,11 +438,14 @@ def test_evsi_regression_rejects_malformed_native_envelope(
             "sample_count": len(targets),
             "prediction_count": len(predictions),
             "parameter_count": len(parameters[0]),
+            "statistical_assurance": _incomplete_assurance("regression-or-metamodel"),
         }
         if malformation == "metadata":
             result["estimator"] = "unexpected"
-        else:
+        elif malformation == "non_finite":
             result["expected_sample_value"] = float("nan")
+        else:
+            result["statistical_assurance"] = _incomplete_assurance("moment-matching")
         return result
 
     monkeypatch.setattr(_runtime, "compute_evsi_regression", malformed)
@@ -475,6 +502,7 @@ def test_evsi_efficient_method_uses_psa_regression_without_two_loop(
             "sample_count": len(net_benefit),
             "strategy_count": len(net_benefit[0]),
             "parameter_count": len(parameter_samples[0]),
+            "statistical_assurance": _incomplete_assurance("regression-or-metamodel"),
         }
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", native_result)
@@ -517,6 +545,7 @@ def test_evsi_efficient_linear_routes_through_native_kernel(
             "sample_count": 500,
             "strategy_count": 2,
             "parameter_count": 4,
+            "statistical_assurance": _incomplete_assurance("regression-or-metamodel"),
         }
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", compute)
@@ -616,6 +645,7 @@ def test_evsi_efficient_linear_preserves_population_scaling(
             "sample_count": len(net_benefit),
             "strategy_count": len(net_benefit[0]),
             "parameter_count": len(parameter_samples[0]),
+            "statistical_assurance": _incomplete_assurance("regression-or-metamodel"),
         }
 
     monkeypatch.setattr(_runtime, "compute_evsi_efficient_linear", native_result)
@@ -722,6 +752,7 @@ def test_evsi_moment_based_routes_through_native_kernel(
             "sample_count": len(net_benefit),
             "strategy_count": len(net_benefit[0]),
             "parameter_count": len(parameter_samples[0]),
+            "statistical_assurance": _incomplete_assurance("moment-matching"),
         }
 
     monkeypatch.setattr(_runtime, "compute_evsi_moment_based", compute)

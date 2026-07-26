@@ -60,7 +60,12 @@ statistical-assurance envelope. Rust now owns its selected-strategy sampling
 variance and Monte Carlo standard error; Python exposes the typed envelope and
 canonical serialization preserves it. Replication, convergence, effective
 sample size, and RNG identity are not inferred from supplied draws, so method
-promotion remains open while the remaining estimator families are integrated.
+promotion remains open. Linear and callback regression EVSI and moment-based
+EVSI now also carry fail-closed single-fit envelopes with estimator class,
+observed budget, stopping rule, and numerical policy. They deliberately report
+variance, convergence, effective sample size, and RNG evidence as unavailable
+until replicated estimator-specific assurance is implemented. Nested Monte
+Carlo, EVPI, EVPPI, CEAF, and structural-VOI envelopes remain open.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

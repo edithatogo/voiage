@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   loss, including sample variance, Monte Carlo standard error, a disclosed
   confidence interval, computational budget, numerical-error policy, a typed
   Python envelope, and canonical serialized reporting.
+- Added fail-closed runtime assurance envelopes to the Rust-owned linear and
+  callback regression EVSI boundaries and the moment-based EVSI boundary.
+  Single-fit execution reports its estimator class, observed budget, stopping
+  rule, and numerical policy while leaving unavailable variance, convergence,
+  effective-sample-size, and RNG evidence explicitly null.
 - Added a generated stable-core status registry that reconciles stable API
   maturity, numerical authority, validation evidence, runtime statistical
   assurance, method eligibility, and aggregate v1.1 release gates without

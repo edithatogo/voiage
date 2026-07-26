@@ -40,8 +40,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
         *   Runtime-envelope integration has started with expected opportunity
             loss: Rust reports selected-strategy variance and Monte Carlo
             standard error, Python exposes a typed envelope, and serialization
-            preserves it. Replication and convergence assurance plus the
-            remaining estimator families are still open.
+            preserves it. Linear and callback regression EVSI plus moment-based
+            EVSI now fail closed on typed single-fit assurance envelopes, with
+            unavailable statistical fields explicit. Replication, convergence,
+            nested Monte Carlo, EVPI, EVPPI, CEAF, and structural-VOI assurance
+            remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and
