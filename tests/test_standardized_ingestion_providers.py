@@ -422,6 +422,9 @@ def test_source_policy_enforces_an_explicit_resource_size_limit(tmp_path) -> Non
     with pytest.raises(IngestionError, match="configured size limit"):
         SourceAccessPolicy(tmp_path, max_resource_bytes=4).resolve(resource.name)
 
+    with pytest.raises(ValueError, match="must be positive"):
+        SourceAccessPolicy(tmp_path, max_resource_bytes=0)
+
 
 def test_dataframe_interchange_adapter_does_not_require_a_specific_frame_library() -> (
     None
