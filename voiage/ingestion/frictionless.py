@@ -114,8 +114,10 @@ class FrictionlessProvider:
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),
                     descriptor_digest=digest,
-                    license=cast("str | None", descriptor.get("licenses")),
+                    license=_license_label(descriptor.get("licenses")),
+                    citation=_citation_label(descriptor.get("citation")),
                 ),
+                extensions=_governance_extensions(descriptor),
             ),
             tables={table_id: table},
         )
@@ -191,3 +193,43 @@ class FrictionlessProvider:
                 raise IngestionError(
                     "Data Package unique field contains duplicate values"
                 )
+
+
+def _license_label(value: object) -> str | None:
+    """Expose one human-readable licence label while preserving full metadata."""
+    if isinstance(value, str):
+        return value
+    if not isinstance(value, list):
+        return None
+    for item in value:
+        if isinstance(item, str):
+            return item
+        if isinstance(item, dict):
+            for key in ("name", "title", "path"):
+                candidate = item.get(key)
+                if isinstance(candidate, str):
+                    return candidate
+    return None
+
+
+def _citation_label(value: object) -> str | None:
+    """Accept only an explicit scalar citation for the compact provenance field."""
+    return value if isinstance(value, str) else None
+
+
+def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
+    """Preserve standard package governance metadata without semantic inference."""
+    keys = (
+        "licenses",
+        "sources",
+        "contributors",
+        "profile",
+        "version",
+        "title",
+        "description",
+    )
+    return {
+        f"frictionlessdata.org:{key}": descriptor[key]
+        for key in keys
+        if key in descriptor
+    }

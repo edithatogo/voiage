@@ -30,7 +30,12 @@ from voiage.ingestion import (
 )
 from voiage.ingestion._tabular import digest_file, read_csv
 from voiage.ingestion.croissant import CroissantProvider
-from voiage.ingestion.frictionless import FrictionlessProvider
+from voiage.ingestion.frictionless import (
+    FrictionlessProvider,
+    _citation_label,
+    _governance_extensions,
+    _license_label,
+)
 from voiage.ingestion.registry import ProviderRegistry
 
 
@@ -118,6 +123,86 @@ def test_frictionless_provider_validates_declared_types_constraints_and_primary_
 
     assert bundle.manifest.tables[0].primary_key == ("id",)
     assert bundle.table("samples").column_names == ["id", "value"]
+
+
+def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -> None:
+    (tmp_path / "samples.csv").write_text("id,value\n1,1.5\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "governed-operations-fixture",
+                "title": "Governed operations fixture",
+                "description": "Synthetic, rights-cleared test data.",
+                "version": "1.0.0",
+                "profile": "tabular-data-package",
+                "citation": "Example et al. (2026)",
+                "licenses": [
+                    {"name": "CC-BY-4.0", "path": "https://example.invalid/license"}
+                ],
+                "sources": [{"title": "Synthetic source", "path": "source.md"}],
+                "contributors": [{"title": "Maintainer", "role": "author"}],
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                            ]
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.manifest.provenance.license == "CC-BY-4.0"
+    assert bundle.manifest.provenance.citation == "Example et al. (2026)"
+    assert bundle.manifest.extensions == {
+        "frictionlessdata.org:contributors": (
+            {"role": "author", "title": "Maintainer"},
+        ),
+        "frictionlessdata.org:description": "Synthetic, rights-cleared test data.",
+        "frictionlessdata.org:licenses": (
+            {"name": "CC-BY-4.0", "path": "https://example.invalid/license"},
+        ),
+        "frictionlessdata.org:profile": "tabular-data-package",
+        "frictionlessdata.org:sources": (
+            {"path": "source.md", "title": "Synthetic source"},
+        ),
+        "frictionlessdata.org:title": "Governed operations fixture",
+        "frictionlessdata.org:version": "1.0.0",
+    }
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("MIT", "MIT"),
+        (None, None),
+        (["Apache-2.0"], "Apache-2.0"),
+        ([{"title": "BSD-3-Clause"}], "BSD-3-Clause"),
+        ([{"path": "LICENSE"}], "LICENSE"),
+        ([{}, "GPL-3.0-only"], "GPL-3.0-only"),
+        ([0], None),
+        ([], None),
+    ],
+)
+def test_frictionless_governance_helpers_preserve_only_explicit_labels(
+    value, expected
+) -> None:
+    assert _license_label(value) == expected
+    assert _citation_label(value) == (value if isinstance(value, str) else None)
+    assert _governance_extensions({"title": "fixture", "resources": []}) == {
+        "frictionlessdata.org:title": "fixture"
+    }
 
 
 @pytest.mark.parametrize(
