@@ -23,13 +23,19 @@ def from_dataframe(
     dataset_id: str,
     table_id: str = "data",
     bindings: tuple[VOIBinding, ...] = (),
+    allow_copy: bool = True,
 ) -> NormalizedInputBundle:
-    """Convert any dataframe-interchange producer to the normalized contract."""
+    """Convert any dataframe-interchange producer to the normalized contract.
+
+    Set ``allow_copy=False`` when callers need the Arrow interchange layer to
+    reject conversions that cannot preserve a zero-copy boundary.
+    """
     try:
-        table = arrow_from_dataframe(dataframe)
-    except (TypeError, ValueError, pa.ArrowException) as error:
+        table = arrow_from_dataframe(dataframe, allow_copy=allow_copy)
+    except (TypeError, ValueError, RuntimeError, pa.ArrowException) as error:
         raise ValueError(
-            "input does not implement the dataframe interchange protocol"
+            "input does not satisfy the dataframe interchange protocol "
+            "with the requested copy policy"
         ) from error
     descriptor_digest = hashlib.sha256(
         f"dataframe-interchange:{dataset_id}:{table_id}".encode()

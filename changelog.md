@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recorded a fail-closed assessment of Hugging Face and OpenML registry
   integrations; no registry-specific provider is enabled without pinned,
   receipt-bound remote-materialization evidence.
+- Extended the generic DataFrame-interchange adapter with explicit no-copy
+  enforcement and pandas category, nullable-value, and timezone conformance
+  coverage.
 
 ### Changed
 
