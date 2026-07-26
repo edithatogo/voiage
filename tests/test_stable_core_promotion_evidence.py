@@ -37,7 +37,7 @@ def test_promotion_evidence_fails_closed_on_open_gates() -> None:
     assert all(
         gate["status"] in {"open", "blocked"} for gate in evidence["repository_gates"]
     )
-    assert any(gate["status"] == "blocked" for gate in evidence["repository_gates"])
+    assert evidence["repository_gates"]
     assert all(gate["status"] == "open" for gate in evidence["human_gates"])
 
 
@@ -54,7 +54,7 @@ def test_external_distribution_gates_cover_every_binding_without_overclaim() -> 
         assert gate["claim_policy"] == "no-distribution-claim-before-evidence"
 
     assert by_id["mojo"]["repository_prerequisite_complete"] is False
-    assert by_id["rust"]["repository_prerequisite_complete"] is False
+    assert by_id["rust"]["repository_prerequisite_complete"] is True
     assert by_id["python"]["repository_prerequisite_complete"] is True
 
 

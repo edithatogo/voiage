@@ -47,12 +47,12 @@
     {
       "id": "rust",
       "status": "retained",
-      "path": "rust",
-      "adapter": "native_rust_workspace",
+      "path": "rust/crates/voiage",
+      "adapter": "public_rust_facade",
       "supported_runtime_versions": ["1.85", "stable"],
-      "registry": "GitHub Releases (workspace artifact); no crates.io package",
+      "registry": "crates.io pending trusted publisher registration",
       "tag_pattern": "rust-v*",
-      "external_gate": "A separately designed publishable facade crate is required before crates.io publication"
+      "external_gate": "crates.io trusted publisher registration and authorized release"
     }
   ]
 }

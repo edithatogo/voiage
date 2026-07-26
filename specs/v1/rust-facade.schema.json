@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/rust-facade.schema.json",
+  "title": "VOIAGE public Rust facade contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "schema",
+    "package",
+    "authority",
+    "public_namespaces",
+    "forbidden_dependencies",
+    "publication"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/rust-facade.schema.json"},
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "manifest", "version_source", "minimum_rust"],
+      "properties": {
+        "name": {"const": "voiage"},
+        "manifest": {"const": "rust/crates/voiage/Cargo.toml"},
+        "version_source": {"const": "workspace"},
+        "minimum_rust": {"const": "1.85"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_calculations", "capability_source", "ffi_boundary"],
+      "properties": {
+        "stable_calculations": {"const": "rust"},
+        "capability_source": {"const": "specs/v1/stable-core-status.json"},
+        "ffi_boundary": {"const": "separate-voiage-ffi-crate"}
+      }
+    },
+    "public_namespaces": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"enum": ["diagnostics", "domain", "numerics", "serialization"]}
+    },
+    "forbidden_dependencies": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"enum": ["pyo3", "voiage-ffi", "voiage-python"]}
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publish_order", "repository_ready", "external_gate"],
+      "properties": {
+        "publish_order": {"const": "after-workspace-dependencies"},
+        "repository_ready": {"const": true},
+        "external_gate": {"const": "crates.io-trusted-publisher-registration-and-authorized-release"}
+      }
+    }
+  }
+}

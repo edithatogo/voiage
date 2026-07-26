@@ -53,6 +53,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             Rust-owned, unique-seed contract with between-run error and
             split-half convergence. Nested Monte Carlo has executable evidence;
             regression and moment estimators retain validation gates.
+        *   A publishable public `voiage` Rust facade now exposes the domain,
+            diagnostics, numerics, and serialization crates without FFI or
+            Python dependencies. Matched hosted facade benchmarks, typed C-ABI
+            expansion, remaining language bindings, and crates.io trusted
+            publishing remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

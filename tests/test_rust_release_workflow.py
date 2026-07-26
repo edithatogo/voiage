@@ -24,6 +24,7 @@ def test_rust_release_workflow_and_checklist_align() -> None:
     assert (
         "cargo publish --locked --package voiage-serialization" in crates_workflow_text
     )
+    assert "cargo publish --locked --package voiage" in crates_workflow_text
     assert "environment: crates-io" in crates_workflow_text
     assert "id-token: write" in crates_workflow_text
     assert (

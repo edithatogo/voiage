@@ -1,0 +1,20 @@
+[package]
+name = "voiage"
+description = "Supported Rust facade for Value of Information decision analysis."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords = ["value-of-information", "decision-analysis", "statistics"]
+categories = ["science"]
+
+[dependencies]
+voiage-diagnostics.workspace = true
+voiage-domain.workspace = true
+voiage-numerics.workspace = true
+voiage-serialization.workspace = true
+
+[lints]
+workspace = true

@@ -75,6 +75,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bound the matched cross-language benchmark gate to the publishable public
   Rust facade in the binding-parity track, preventing internal-kernel timings
   from being mislabeled as direct-facade performance evidence.
+- Added the publishable `voiage` Rust facade crate, its versioned package
+  contract, release ordering, and conformance tests. The matched facade
+  benchmark is now ready for hosted measurement, while crates.io trusted
+  publisher registration and publication remain explicit external gates.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

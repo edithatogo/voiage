@@ -48,8 +48,7 @@
     }
   ],
   "paired_baseline_gate": {
-    "status": "blocked",
-    "blocked_by": "polyglot_abi_binding_parity_20260723:publishable-rust-facade",
+    "status": "open",
     "required_evidence": [
       "identical versioned workload and result digest",
       "public Python facade timing including validation and PyO3 conversion",

@@ -91,11 +91,13 @@ releases are disclosed for review rather than forcing an unreviewed major
 upgrade. The current strict frontier and local Python and documentation
 security audits pass, and GitHub reports zero open Dependabot alerts.
 
-Matched Python-versus-Rust performance evidence is dependency-ordered behind
-the publishable public Rust facade in the binding-parity track. Benchmarking
-the internal numerics kernel now would not satisfy the frozen direct-facade
-comparison contract, so no speedup or overhead claim is made from the existing
-non-equivalent baselines.
+The publishable `voiage` Rust facade now provides module-qualified domain,
+diagnostic, numerical, and serialization namespaces without depending on the
+C ABI or Python bridge. This removes the repository prerequisite for matched
+Python-versus-Rust performance measurement, but it does not itself provide a
+benchmark result or crates.io publication. The paired hosted benchmark gate is
+open, and no speedup or overhead claim is made from the existing non-equivalent
+baselines.
 
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial

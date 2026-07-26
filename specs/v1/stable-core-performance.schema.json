@@ -65,7 +65,7 @@
     "paired_baseline_gate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "blocked_by", "required_evidence", "promotion_rule"],
+      "required": ["status", "required_evidence", "promotion_rule"],
       "properties": {
         "status": {"enum": ["open", "blocked"]},
         "blocked_by": {"type": "string", "minLength": 1},
@@ -76,7 +76,14 @@
           "items": {"type": "string", "minLength": 1}
         },
         "promotion_rule": {"type": "string", "minLength": 1}
-      }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "blocked"}}},
+          "then": {"required": ["blocked_by"]},
+          "else": {"not": {"required": ["blocked_by"]}}
+        }
+      ]
     },
     "dependency_frontier_gate": {
       "type": "object",

@@ -28,8 +28,8 @@
     {
       "id": "matched-cross-language-performance",
       "owner": "repository",
-      "status": "blocked",
-      "evidence_or_next_action": "Complete the publishable public Rust facade in the binding-parity track, then run identical-digest hosted benchmarks before making cross-language performance claims."
+      "status": "open",
+      "evidence_or_next_action": "Run identical-digest hosted Python-facade and public-Rust-facade benchmarks before making cross-language performance claims."
     }
   ],
   "human_gates": [
@@ -97,11 +97,11 @@
     },
     {
       "binding_id": "rust",
-      "gate": "A separately designed publishable facade crate is required before crates.io publication",
-      "status": "blocked",
-      "repository_prerequisite_complete": false,
+      "gate": "crates.io trusted publisher registration and authorized release",
+      "status": "not-started",
+      "repository_prerequisite_complete": true,
       "external_owner": "crates.io publication boundary",
-      "next_action": "Design, review, and package the public facade crate before requesting publication.",
+      "next_action": "Register the rust-crates-release.yml trusted publisher, then authorize an immutable-tag release after required checks pass.",
       "claim_policy": "no-distribution-claim-before-evidence"
     }
   ],
