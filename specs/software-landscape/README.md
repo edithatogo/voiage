@@ -33,6 +33,9 @@ It records observable capabilities rather than marketing parity.
   #593--#600 software searches to existing capabilities, conservative adjacent
   mappings, unincorporated product candidates, or explicit no-direct-product
   findings without mutating the canonical method registry.
+- `reconciliation.json` records durable fork, interface, hosted-surface,
+  exclusion, deferral, and external-candidate dispositions without presenting
+  the inventory as universally exhaustive.
 - `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
   version, schema, capability, subfeature, option, evidence, rights, duplicate,
   extraction-coverage, and adoption-lesson contract.

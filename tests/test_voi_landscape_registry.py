@@ -37,6 +37,7 @@ COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
 RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
 RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
 AUDITS = LANDSCAPE / "audits"
+RECONCILIATION = LANDSCAPE / "reconciliation.json"
 REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
 REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
@@ -256,6 +257,24 @@ def test_deep_source_audits_are_preserved_for_later_review() -> None:
         "precisiontree",
         "oracle-crystal-ball",
     }
+
+
+def test_reconciliation_preserves_noncanonical_and_bounded_records() -> None:
+    """Forks, hosted surfaces, candidates and exclusions need durable decisions."""
+    reconciliation = _read_json(RECONCILIATION)
+    assert isinstance(reconciliation, dict)
+    assert reconciliation["universally_exhaustive"] is False
+    assert reconciliation["automatic_parity_promotion"] is False
+
+    records = {record["id"]: record for record in reconciliation["records"]}
+    assert records["treeage-pro-web"]["disposition"] == "hosted-surface"
+    assert records["precisiontree"]["disposition"] == "deferred-adjacent"
+    assert records["oracle-crystal-ball"]["disposition"] == "excluded-adjacent"
+    assert records["gams-emp"]["disposition"] == "external-candidate"
+    assert records["sbo-aippms"]["disposition"] == "external-candidate"
+    assert records["bceaweb"]["canonical_product_id"] == "bceaweb"
+    assert records["ax"]["canonical_product_id"] == "botorch"
+    assert records["trieste"]["canonical_product_id"] == "botorch"
 
 
 def test_residual_method_searches_and_software_mappings_are_complete() -> None:

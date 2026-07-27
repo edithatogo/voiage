@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-07-27",
+  "universally_exhaustive": false,
+  "automatic_parity_promotion": false,
+  "scope": "Reconciled exceptions, relationships, exclusions, and external candidates from the evidence-bounded Phase 2 inventory. This report does not mutate canonical methods, runtime support, or product parity.",
+  "records": [
+    {
+      "id": "ax",
+      "disposition": "distinct-adjacent",
+      "canonical_product_id": "botorch",
+      "rationale": "Ax is a distinct experiment-lifecycle layer built around BoTorch; it is not a fork or duplicate implementation.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "bceaweb",
+      "disposition": "distinct-interface",
+      "canonical_product_id": "bceaweb",
+      "rationale": "BCEAweb is a separate UI package using BCEA, not a renamed BCEA package or evidence of hosted-service terms.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "dampack",
+      "disposition": "distinct-integration",
+      "canonical_product_id": "dampack",
+      "rationale": "dampack is a separate decision-analysis package that can integrate with DARTH templates; it is not the DARTH template itself.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "oracle-crystal-ball",
+      "disposition": "excluded-adjacent",
+      "canonical_product_id": "oracle-crystal-ball",
+      "rationale": "Public documentation establishes spreadsheet risk analysis and decision tables, not EVPI, EVPPI, EVSI, or another direct VOI estimator.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "precisiontree",
+      "disposition": "deferred-adjacent",
+      "canonical_product_id": "precisiontree",
+      "rationale": "Public v8.3 documentation supports spreadsheet decision analysis, Bayesian revision and sensitivity features, but not direct VOI or risk-adjusted information-pricing estimands.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "treeage-pro-web",
+      "disposition": "hosted-surface",
+      "canonical_product_id": "treeage-pro",
+      "rationale": "TPWeb is the login-gated hosted sharing surface for prepared TreeAge Pro models, with historically documented quotas that must not be asserted current.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "trieste",
+      "disposition": "distinct-adjacent",
+      "canonical_product_id": "botorch",
+      "rationale": "Trieste is a distinct TensorFlow/GPflow-oriented Bayesian-optimization implementation, conceptually comparable to BoTorch but neither a fork nor a direct VOI engine.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "gams-emp",
+      "disposition": "external-candidate",
+      "canonical_product_id": null,
+      "rationale": "The official GAMS EMP airsp3 example computes EEV-style evaluation, wait-and-see, EVPI and VSS, but the licensed product lacks a complete public inventory record and generalized API evidence.",
+      "review_due": "2026-10-28"
+    },
+    {
+      "id": "sbo-aippms",
+      "disposition": "external-candidate",
+      "canonical_product_id": null,
+      "rationale": "This untagged research application demonstrates nonmyopic informative sensing but lacks a package release, reproducible environment and complete product extraction.",
+      "review_due": "2026-10-28"
+    }
+  ],
+  "limitations": [
+    "Unobserved products, private capabilities, unavailable supplements, and terminology variants can remain outside the recorded discovery channels.",
+    "An excluded or deferred record can be reopened only with fresh observable evidence; it is not a claim that the capability does not exist.",
+    "External candidates require the same version, rights, extraction and reproducibility review as retained inventory products before inclusion."
+  ]
+}
