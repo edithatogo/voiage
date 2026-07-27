@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(5)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(6)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -34,6 +34,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_EXPECTED_LOSS_RESULT (UINT64_C(1) << 5)
 #define VOIAGE_V1_CAPABILITY_ENBS (UINT64_C(1) << 6)
 #define VOIAGE_V1_CAPABILITY_DOMINANCE_RESULT (UINT64_C(1) << 7)
+#define VOIAGE_V1_CAPABILITY_CEAF_RESULT (UINT64_C(1) << 8)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -96,6 +97,14 @@ typedef struct VoiageDominanceResultV1 {
     uint64_t transition_count;
 } VoiageDominanceResultV1;
 
+typedef struct VoiageCeafResultV1 {
+    uint32_t struct_size;
+    uint32_t struct_version;
+    uint64_t sample_count;
+    uint64_t strategy_count;
+    uint64_t threshold_count;
+} VoiageCeafResultV1;
+
 /* A handle is an opaque process-local token, never an address. Zero is null. */
 typedef uint64_t VoiageHandleV1;
 
@@ -142,6 +151,23 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_dominance_result(
     double *out_icers,
     uint64_t transition_capacity,
     VoiageDominanceResultV1 *out_result);
+VOIAGE_V1_API voiage_v1_status voiage_v1_ceaf_result(
+    const double *values,
+    uint64_t sample_count,
+    uint64_t strategy_count,
+    uint64_t threshold_count,
+    const double *thresholds,
+    double confidence_level,
+    uint64_t *out_optimal_strategy_indices,
+    double *out_acceptability_probabilities,
+    double *out_probability_lower,
+    double *out_probability_upper,
+    double *out_expected_net_benefit,
+    uint32_t *out_has_assurance,
+    double *out_probability_variance,
+    double *out_probability_standard_error,
+    uint64_t threshold_capacity,
+    VoiageCeafResultV1 *out_result);
 /* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
     const double *values,

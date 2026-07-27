@@ -18,6 +18,7 @@ static_assert(sizeof(VoiageExpectedLossResultV1) == 64,
               "expected-loss result layout drift");
 static_assert(sizeof(VoiageDominanceResultV1) == 48,
               "dominance result layout drift");
+static_assert(sizeof(VoiageCeafResultV1) == 32, "CEAF result layout drift");
 
 static int exercise_contract() {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -66,6 +67,26 @@ static int exercise_contract() {
         dominance_result.frontier_count != 2 ||
         dominance_result.strongly_dominated_count != 1) {
         return 9;
+    }
+    const double ceaf_values[] = {10.0, 1.0, 5.0, 8.0,
+                                  2.0,  3.0, 7.0, 4.0};
+    const double thresholds[] = {0.0, 100.0};
+    std::uint64_t optimal[2]{};
+    double probability[2]{};
+    double lower[2]{};
+    double upper[2]{};
+    double selected_benefit[2]{};
+    std::uint32_t has_assurance[2]{};
+    double probability_variance[2]{};
+    double probability_error[2]{};
+    VoiageCeafResultV1 ceaf_result{};
+    if (voiage_v1_ceaf_result(
+            ceaf_values, 2, 2, 2, thresholds, 0.95, optimal, probability,
+            lower, upper, selected_benefit, has_assurance,
+            probability_variance, probability_error, 2,
+            &ceaf_result) != VOIAGE_V1_STATUS_OK ||
+        ceaf_result.threshold_count != 2) {
+        return 10;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     std::uint64_t required_size = 0;

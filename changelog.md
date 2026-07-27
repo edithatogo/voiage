@@ -97,6 +97,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.5 deterministic dominance with caller-owned strategy
   classifications, frontier indices, incremental costs/effects, ICERs,
   fixed-width counts, and no-partial-write capacity validation.
+- Added ABI v1.6 CEAF with threshold-aligned optimum indices, acceptability
+  probabilities and intervals, expected net benefit, assurance availability,
+  variance, and Monte Carlo error through bounded caller-owned arrays.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

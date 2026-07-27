@@ -129,6 +129,11 @@ frontier, and ICER transitions through bounded caller-owned arrays. Stable
 classification codes distinguish frontier, strong dominance, and extended
 dominance, while a fixed-width summary records valid output counts.
 
+C ABI v1.6 exposes CEAF as threshold-aligned caller-owned arrays, preserving
+input threshold order and returning optimum indices, acceptability
+probabilities and confidence intervals, selected expected net benefit,
+variance availability, variance, and Monte Carlo error.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

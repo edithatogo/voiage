@@ -2,6 +2,7 @@
 voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_capabilities_json
+voiage_v1_ceaf_result
 voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_dominance_result

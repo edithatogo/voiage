@@ -75,6 +75,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
             negative net research value and no-write invalid-input behavior.
         *   C ABI v1.5 now exposes Rust-authoritative dominance, frontier
             indices, and ICER transitions through bounded caller-owned arrays.
+        *   C ABI v1.6 now exposes threshold-aligned CEAF probabilities,
+            intervals, expected net benefit, and assurance arrays.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and
