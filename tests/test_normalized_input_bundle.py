@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 from types import SimpleNamespace
+from typing import Literal
 
 from jsonschema import Draft202012Validator
 import pyarrow as pa
@@ -82,6 +83,21 @@ def test_bundle_is_strict_immutable_and_canonical() -> None:
     assert json.loads(bundle.canonical_json)["dataset_id"] == "decision-fixture"
     with pytest.raises(TypeError):
         bundle.tables["other"] = pa.table({})  # type: ignore[index]
+
+
+@pytest.mark.parametrize(
+    "role",
+    ["sample", "strategy", "design_variable", "target", "perspective", "split"],
+)
+def test_contract_accepts_explicit_non_calculation_binding_roles(
+    role: Literal[
+        "sample", "strategy", "design_variable", "target", "perspective", "split"
+    ],
+) -> None:
+    """Metadata roles are explicit contract vocabulary, never inferred semantics."""
+    binding = VOIBinding(role=role, table_id="net_benefit", field_ids=("strategy_a",))
+
+    assert binding.role == role
 
 
 def test_bundle_rejects_stale_binding_reference() -> None:

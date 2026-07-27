@@ -134,7 +134,19 @@ class SourceProvenance(ContractModel):
 class VOIBinding(ContractModel):
     """An explicit mapping from source fields to a VOI runtime role."""
 
-    role: Literal["net_benefit", "parameter", "cost", "outcome", "weight"]
+    role: Literal[
+        "sample",
+        "strategy",
+        "net_benefit",
+        "cost",
+        "outcome",
+        "parameter",
+        "design_variable",
+        "target",
+        "weight",
+        "perspective",
+        "split",
+    ]
     table_id: Identifier
     field_ids: tuple[Identifier, ...]
     strategy_names: tuple[Identifier, ...] = ()
