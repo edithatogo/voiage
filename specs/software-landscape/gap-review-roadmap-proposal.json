@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0.0",
+  "source_map": "capability-adoption-map.json",
+  "auto_apply": false,
+  "items": [
+    {
+      "id": "bcea-bcea-cea",
+      "source_record": {
+        "product_id": "bcea",
+        "version_id": "bcea-2-4-83",
+        "capability_id": "bcea-cea",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "cost-effectiveness-analysis",
+          "probabilistic-sensitivity-analysis",
+          "evppi"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "bcea-function-doc",
+          "bcea-site"
+        ],
+        "adoption_lessons": [
+          "bcea-standardised-postprocessing"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "bceaweb-bceaweb-ui",
+      "source_record": {
+        "product_id": "bceaweb",
+        "version_id": "bceaweb-unpinned",
+        "capability_id": "bceaweb-ui",
+        "capability_kind": "application",
+        "canonical_ids": [
+          "cost-effectiveness-analysis"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "bceaweb-pdf"
+        ],
+        "adoption_lessons": [
+          "bceaweb-accessible-ui"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "ce-decision-tree-ce-decision-tree-cea",
+      "source_record": {
+        "product_id": "ce-decision-tree",
+        "version_id": "ce-decision-tree-0-1-0",
+        "capability_id": "ce-decision-tree-cea",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "decision-tree",
+          "cost-effectiveness-analysis"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "ce-decision-tree-site"
+        ],
+        "adoption_lessons": []
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "dampack-dampack-cea",
+      "source_record": {
+        "product_id": "dampack",
+        "version_id": "dampack-1-0-2-1000",
+        "capability_id": "dampack-cea",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "cost-effectiveness-analysis",
+          "evsi"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "dampack-pdf",
+          "dampack-site"
+        ],
+        "adoption_lessons": []
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "dceasim-r-dceasim-r-dcea",
+      "source_record": {
+        "product_id": "dceasim-r",
+        "version_id": "dceasim-r-unpinned",
+        "capability_id": "dceasim-r-dcea",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "distributional-cea",
+          "inequality-index",
+          "social-welfare"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "dceasim-r-site"
+        ],
+        "adoption_lessons": [
+          "dceasim-r-submission-export"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "decision-support-decision-support-evi",
+      "source_record": {
+        "product_id": "decision-support",
+        "version_id": "decision-support-1-115",
+        "capability_id": "decision-support-evi",
+        "capability_kind": "estimand",
+        "canonical_ids": [
+          "expected-value-of-information"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "decision-support-evi-doc"
+        ],
+        "adoption_lessons": []
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "heemod-heemod-markov",
+      "source_record": {
+        "product_id": "heemod",
+        "version_id": "heemod-1-1-0",
+        "capability_id": "heemod-markov",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "markov-model",
+          "probabilistic-sensitivity-analysis",
+          "evpi"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "heemod-site"
+        ],
+        "adoption_lessons": [
+          "heemod-model-composition"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "hesim-hesim-models",
+      "source_record": {
+        "product_id": "hesim",
+        "version_id": "hesim-0-5-8",
+        "capability_id": "hesim-models",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "cohort-markov",
+          "partitioned-survival",
+          "individual-simulation"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "hesim-intro",
+          "hesim-model-doc"
+        ],
+        "adoption_lessons": [
+          "hesim-r6-models"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "representative-commercial-documented-evpi",
+      "source_record": {
+        "product_id": "representative-commercial",
+        "version_id": "representative-commercial-current",
+        "capability_id": "documented-evpi",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "evpi"
+        ],
+        "parity_state": "not-reproducible",
+        "evidence_ids": [
+          "commercial-documentation"
+        ],
+        "adoption_lessons": []
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "savi-savi-voi-workflow",
+      "source_record": {
+        "product_id": "savi",
+        "version_id": "savi-2-2-1",
+        "capability_id": "savi-voi-workflow",
+        "capability_kind": "application",
+        "canonical_ids": [
+          "evpi",
+          "evppi",
+          "ceac"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "savi-app"
+        ],
+        "adoption_lessons": [
+          "savi-low-friction-voi"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "treeage-pro-evpi",
+      "source_record": {
+        "product_id": "treeage-pro",
+        "version_id": "treeage-pro-2026-r2",
+        "capability_id": "evpi",
+        "capability_kind": "estimand",
+        "canonical_ids": [
+          "evpi"
+        ],
+        "parity_state": "not-reproducible",
+        "evidence_ids": [
+          "treeage-decision-tree-evpi",
+          "treeage-evpi-evppi"
+        ],
+        "adoption_lessons": [
+          "explicit-voi-loop-provenance",
+          "visual-review-and-export"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "treeage-pro-evppi",
+      "source_record": {
+        "product_id": "treeage-pro",
+        "version_id": "treeage-pro-2026-r2",
+        "capability_id": "evppi",
+        "capability_kind": "estimator",
+        "canonical_ids": [
+          "evppi"
+        ],
+        "parity_state": "not-reproducible",
+        "evidence_ids": [
+          "treeage-evpi-evppi"
+        ],
+        "adoption_lessons": [
+          "explicit-voi-loop-provenance",
+          "visual-review-and-export"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "treeage-pro-web-hosted-model-sharing",
+      "source_record": {
+        "product_id": "treeage-pro-web",
+        "version_id": "treeage-pro-web-public-documentation",
+        "capability_id": "hosted-model-sharing",
+        "capability_kind": "workflow",
+        "canonical_ids": [],
+        "parity_state": "not-reproducible",
+        "evidence_ids": [
+          "tpweb-2025-release",
+          "tpweb-public-manual"
+        ],
+        "adoption_lessons": [
+          "reviewer-no-install"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "twig-twig-grammar-modeling",
+      "source_record": {
+        "product_id": "twig",
+        "version_id": "twig-1-0-0-0",
+        "capability_id": "twig-grammar-modeling",
+        "capability_kind": "workflow",
+        "canonical_ids": [
+          "decision-tree",
+          "markov-model",
+          "probabilistic-analysis"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "twig-cran",
+          "twig-ui"
+        ],
+        "adoption_lessons": [
+          "twig-dual-interface"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    },
+    {
+      "id": "voi-voi-information-measures",
+      "source_record": {
+        "product_id": "voi",
+        "version_id": "voi-1-0-3",
+        "capability_id": "voi-information-measures",
+        "capability_kind": "estimand",
+        "canonical_ids": [
+          "evpi",
+          "evppi",
+          "evsi",
+          "enbs"
+        ],
+        "parity_state": "planned",
+        "evidence_ids": [
+          "voi-evsi-doc"
+        ],
+        "adoption_lessons": [
+          "voi-pluggable-study"
+        ]
+      },
+      "decision_state": "proposed",
+      "proposed_action": "review-before-roadmap-change",
+      "moscow": "Should",
+      "priority": "review-required",
+      "effort": "unestimated",
+      "license_risk": "preserve-independent-implementation",
+      "user_value": "Assess whether the evidenced external workflow exposes a justified VOIAGE improvement.",
+      "alternatives": [
+        "retain-current-closest-supported-workflow",
+        "defer-until-independent-fixture"
+      ],
+      "proposed_issue": null
+    }
+  ]
+}
