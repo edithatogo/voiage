@@ -22,3 +22,10 @@ def test_r_contracts_use_direct_rust_json_and_arrow_adapters() -> None:
     assert "export(normalize_decision_problem)" in namespace
     assert "export(normalize_statistical_assurance)" in namespace
     assert "export(read_voiage_arrow)" in namespace
+
+
+def test_r_readme_discloses_rust_authority_and_optional_python() -> None:
+    """R documentation must reflect the Rust-first binding policy."""
+    readme = (ROOT / "r-package/voiageR/README.md").read_text(encoding="utf-8")
+    assert "Rust-backed" in readme
+    assert "Python remains an optional compatibility surface" in readme

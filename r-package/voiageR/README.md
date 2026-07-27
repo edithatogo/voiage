@@ -1,8 +1,8 @@
-# voiageR: R Interface to the voiage Python Library
+# voiageR: R Interface to the Rust-backed voiage Core
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-`voiageR` provides an R interface to the [`voiage`](https://github.com/edithatogo/voiage) Python library for Value of Information (VOI) analysis.
+`voiageR` provides an R interface to the Rust-backed [`voiage`](https://github.com/edithatogo/voiage) core for Value of Information (VOI) analysis. Stable numerical paths use the Rust C ABI directly; Python remains an optional compatibility surface for methods not yet promoted to the shared ABI.
 
 ## Overview
 
