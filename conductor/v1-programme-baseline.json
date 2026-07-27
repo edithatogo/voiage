@@ -20,19 +20,17 @@
   },
   "conductor": {
     "active_track_ids": [
-      "conductor-registry-normalization_20260727",
       "conductor-github-cross-reference-reconciliation_20260724",
       "research_software_registry_readiness_20260721",
       "standardized-dataset-ingestion_20260723"
     ],
-    "archived_track_count": 126,
+    "archived_track_count": 127,
     "classifications": {
       "v1_required": [
         "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
       ],
       "historical_groundwork": "conductor/archive/",
       "post_v1_or_optional": [
-        "conductor-registry-normalization_20260727",
         "conductor-github-cross-reference-reconciliation_20260724",
         "research_software_registry_readiness_20260721",
         "standardized-dataset-ingestion_20260723",
