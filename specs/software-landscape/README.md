@@ -33,8 +33,10 @@ It records observable capabilities rather than marketing parity.
   version, schema, capability, subfeature, option, evidence, rights, duplicate,
   extraction-coverage, and adoption-lesson contract.
 - `comprehensive-inventory.json` begins with open and commercial
-  representative records that exercise those semantic boundaries before
-  external-product observations are added.
+  representative records and currently records 27 external products across
+  direct VOI, HTA, OED, active-learning, policy, forecasting, stochastic
+  optimization, POMDP, commercial, hosted, spreadsheet, and adjacent
+  categories. External records remain bounded by their cited observability.
 - `review-protocol.json` and its schema freeze evidence ordering, claim
   ceilings, discovery, inclusion/exclusion, commercial observability, rights,
   freshness, deterministic generation, and checksum-bound analyst review.

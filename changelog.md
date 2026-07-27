@@ -51,6 +51,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   plus semantic validation for evidence references, observability, rights,
   duplicate resolution, extraction coverage and freshness before expanding
   the external-software census.
+- Expanded that inventory to 27 evidence-bounded external products and 11
+  dated discovery searches spanning direct VOI/HTA software, Bayesian OED,
+  active learning, causal policy, forecasting, stochastic optimization,
+  POMDPs, and public commercial or hosted comparators.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

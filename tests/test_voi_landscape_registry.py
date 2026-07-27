@@ -150,6 +150,38 @@ def test_comprehensive_inventory_has_representative_semantic_records() -> None:
     assert commercial["rights"]["source_reuse"] == "prohibited"
 
 
+def test_comprehensive_inventory_preserves_reconciled_discovery_streams() -> None:
+    """The first reconciled census slice must retain every reviewed stream."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    assert isinstance(inventory, dict)
+    product_ids = {product["id"] for product in inventory["products"]}
+    search_ids = {observation["id"] for observation in inventory["search_observations"]}
+
+    assert len(product_ids) == 29
+    assert len(search_ids) == 13
+    assert {
+        "voi",
+        "bcea",
+        "savi",
+        "heemod",
+        "pyro-oed",
+        "botorch",
+        "pyomo-mpi-sppy",
+        "pomdps-jl",
+        "treeage-pro",
+        "treeage-pro-web",
+        "precisiontree",
+        "oracle-crystal-ball",
+    } <= product_ids
+    assert {
+        "cran-voi-search",
+        "oed-primary-search",
+        "operations-primary-search",
+        "policy-signal-primary-search",
+        "treeage-public-documentation-search",
+    } <= search_ids
+
+
 def test_comprehensive_inventory_semantic_validator_passes() -> None:
     """Cross-record evidence, rights, duplicate, and freshness rules must pass."""
     completed = subprocess.run(
@@ -180,34 +212,41 @@ def test_comprehensive_inventory_semantic_validator_rejects_overclaims() -> None
     def errors_for(candidate: dict[str, object]) -> str:
         return "\n".join(validate(candidate, protocol, as_of=date(2026, 7, 27)))
 
+    def product(candidate: dict[str, object], product_id: str) -> dict[str, object]:
+        return next(item for item in candidate["products"] if item["id"] == product_id)
+
     stale = deepcopy(inventory)
     stale["reviewed_on"] = "2025-01-01"
     assert "review age" in errors_for(stale)
 
     unresolved_evidence = deepcopy(inventory)
-    unresolved_evidence["products"][0]["versions"][0]["capabilities"][0][
-        "evidence_ids"
-    ] = ["missing-evidence"]
+    product(unresolved_evidence, "representative-open-source")["versions"][0][
+        "capabilities"
+    ][0]["evidence_ids"] = ["missing-evidence"]
     assert "unknown evidence" in errors_for(unresolved_evidence)
 
     unsafe_rights = deepcopy(inventory)
-    unsafe_rights["products"][0]["rights"]["review_state"] = "unknown"
+    product(unsafe_rights, "representative-open-source")["rights"]["review_state"] = (
+        "unknown"
+    )
     assert "source reuse prohibited" in errors_for(unsafe_rights)
 
     missing_canonical = deepcopy(inventory)
-    missing_canonical["products"][1]["duplicate_resolution"]["canonical_product_id"] = (
-        "missing-product"
-    )
+    product(missing_canonical, "representative-commercial")["duplicate_resolution"][
+        "canonical_product_id"
+    ] = "missing-product"
     assert "lacks canonical product" in errors_for(missing_canonical)
 
     incomplete_extraction = deepcopy(inventory)
-    incomplete_extraction["products"][0]["versions"][0]["extraction_coverage"].pop()
+    product(incomplete_extraction, "representative-open-source")["versions"][0][
+        "extraction_coverage"
+    ].pop()
     assert "extraction coverage mismatch" in errors_for(incomplete_extraction)
 
     commercial_overclaim = deepcopy(inventory)
-    commercial_overclaim["products"][1]["versions"][0]["evidence_observations"][0][
-        "strength"
-    ] = "executable-version-pinned-source-and-tests"
+    product(commercial_overclaim, "representative-commercial")["versions"][0][
+        "evidence_observations"
+    ][0]["strength"] = "executable-version-pinned-source-and-tests"
     commercial_errors = errors_for(commercial_overclaim)
     assert "commercial evidence exceeds observability ceiling" in commercial_errors
     assert "evidence strength and observability disagree" in commercial_errors
