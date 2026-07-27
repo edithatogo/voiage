@@ -75,9 +75,13 @@ The existing 27-tool snapshot is the starting baseline, not comprehensive
 completion.
 
 The output is a provenance-backed inventory, feature/capability matrix, gap
-register and prioritized improvement packet. The maintainer reviews that packet
-before a separate change incorporates accepted proposals into this roadmap; no
-landscape finding becomes a commitment automatically.
+register and prioritized improvement packet. The analyst-approved Phase 3
+packet now admits separate planning for direct VOI/HTA method gaps,
+interoperable decision-model inputs, analyst workflow/reporting lessons, and
+explicit non-reproducible proprietary/hosted boundaries. Each remains subject
+to its owning track, independent fixtures, licensing review, and separate
+runtime approval; no landscape finding is an automatic implementation
+commitment.
 
 The v1.1 core now has Rust authority for net-benefit construction, including
 explicit threshold-axis semantics and shared Python/Rust fixtures. Its
