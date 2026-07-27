@@ -1,9 +1,9 @@
 # Project Tracks
 
-## [ ] Track: Conductor Registry Normalization
+## [~] Track: Conductor Registry Normalization
 *Link: [./tracks/conductor-registry-normalization_20260727/index.md](./tracks/conductor-registry-normalization_20260727/index.md)*
-*Status: pending — normalize the exact 223-error historical baseline without
-changing substantive implementation or external-gate outcomes.*
+*Status: in progress — normalizing the exact 223-error historical baseline
+without changing substantive implementation or external-gate outcomes.*
 
 ---
 

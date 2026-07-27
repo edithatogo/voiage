@@ -2,7 +2,7 @@
 
 ## Phase 1: Baseline and transformation contract
 
-- [ ] Capture and classify the exact 223-error baseline in a machine-readable
+- [~] Capture and classify the exact 223-error baseline in a machine-readable
   audit.
 - [ ] Add failing regression tests for normalization, idempotence, state
   preservation, and final full validation.
