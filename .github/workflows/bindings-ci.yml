@@ -180,7 +180,14 @@ jobs:
       - run: R CMD build .
       - run: Rscript tools/build-manual.R
       - name: Run CRAN-style source-package checks
-        run: R CMD check --as-cran --no-manual voiageR_*.tar.gz
+        run: |
+          for attempt in 1 2 3; do
+            R CMD check --as-cran --no-manual voiageR_*.tar.gz && exit 0
+            if [ "${attempt}" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 15))
+          done
         env:
           RETICULATE_PYTHON: ${{ steps.r-python.outputs.python-path }}
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'

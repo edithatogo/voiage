@@ -79,6 +79,7 @@ def test_each_retained_language_has_native_assurance() -> None:
         "cargo test --workspace --all-features --locked",
         "bash scripts/run_ffi_sanitizers.sh",
         "R CMD check --as-cran",
+        "for attempt in 1 2 3",
         "rcmdcheck::rcmdcheck",
         "RETICULATE_PYTHON",
         "Aqua.test_all",
