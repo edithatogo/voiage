@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a validated SciCrunch registration answer-and-evidence packet with
+  explicit account-declaration, submission, curation, and RRID-assignment
+  boundaries.
 - Switched dependency-update policy from Dependabot version updates to the
   Renovate configuration, covering Python/uv, Cargo, npm, and GitHub Actions.
 - Added a second standardized-ingestion reference case that derives EVPI from
