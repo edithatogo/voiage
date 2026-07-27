@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   for integrity declarations, non-CSV media types, and field sources.
 - Reject malformed Croissant distribution and record-set entries through the
   stable ingestion error boundary rather than leaking implementation exceptions.
+- Add a file-backed Frictionless malformed-resource fixture to the fail-closed
+  ingestion conformance corpus.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.

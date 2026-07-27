@@ -1,0 +1,4 @@
+{
+  "name": "malformed-resource",
+  "resources": ["valid/data.csv"]
+}
