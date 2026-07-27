@@ -25,6 +25,8 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
         ("unsupported/nested-field.json", "nested fields"),
         ("unsupported/references.json", "field references"),
         ("unsupported/field-source.json", "field sources"),
+        ("unsupported/malformed-distribution.json", "distribution object"),
+        ("unsupported/malformed-record-set.json", "recordSet object"),
         ("unsupported/split.json", "splits"),
         ("unsupported/transform.json", "transformations"),
         ("unsupported/version-1-0.json", "version 1.1"),

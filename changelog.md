@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Expanded the offline Croissant 1.1 fixture corpus with fail-closed coverage
   for integrity declarations, non-CSV media types, and field sources.
+- Reject malformed Croissant distribution and record-set entries through the
+  stable ingestion error boundary rather than leaking implementation exceptions.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.

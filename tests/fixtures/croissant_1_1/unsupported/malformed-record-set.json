@@ -1,0 +1,6 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.1",
+  "name": "malformed-record-set",
+  "distribution": [{"contentUrl": "valid/data.csv"}],
+  "recordSet": ["decision_samples"]
+}
