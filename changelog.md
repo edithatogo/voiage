@@ -11,12 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- Added Rust-validated canonical Arrow, IPC, and Parquet representations for
-  v1 Decision Problem and statistical-assurance envelopes, with pinned
-  language-neutral schemas for direct R and Julia adapters.
-
 ### Removed
 
 - Removed the internal acknowledgements placeholder, unused abbreviations, and
@@ -217,6 +211,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added Rust-validated canonical Arrow, IPC, and Parquet representations for
+  v1 Decision Problem and statistical-assurance envelopes, with pinned
+  language-neutral schemas for direct R and Julia adapters.
 - Separated external workflow-parity gaps from method implementation and
   assurance gaps so a fully evidenced native method is not reported as
   incomplete merely because a broader competitor workflow remains open.
