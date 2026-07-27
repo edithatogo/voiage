@@ -81,8 +81,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
   (`9a5b45b7`); the authoritative live probe remains an explicit external gate.
-- [ ] **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
-  publish separate standard-conformance and parser-capability profiles.
+- [~] **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
+  publish separate standard-conformance and parser-capability profiles. Public
+  provider export is now lazy (`2ad0a24a`, partial); profile acceptance evidence
+  remains active.
 - [ ] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
   interoperability probe.
@@ -99,8 +101,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Non-object descriptor-root handling is covered by the shared provider guard
   (`0c19fe1b`, `1e4e6bd7`, partial). Remaining acceptance evidence is tracked
   below.
-- [ ] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
-  documented supported profile.
+- [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
+  documented supported profile. Public provider export is now lazy; profile
+  acceptance evidence remains active (`2ad0a24a`, partial).
 - [ ] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
   provenance, licence/citation/usage preservation, and one opt-in authoritative
   live interoperability probe.
