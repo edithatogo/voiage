@@ -17,6 +17,7 @@ TARGET_KINDS = {
     "package_registry",
     "sustainability",
 }
+PYOPENSCI_STATUSES = {"satisfied", "human_deferred"}
 
 
 def _non_empty(value: Any, label: str) -> str:
@@ -155,6 +156,63 @@ def validate_contract(path: Path, root: Path) -> dict[str, Any]:
     return {"target_count": len(targets), "targets": sorted(identifiers)}
 
 
+def validate_pyopensci_evidence(path: Path, root: Path) -> dict[str, Any]:
+    """Validate the repository-controlled pyOpenSci evidence matrix."""
+    payload: Any = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict) or payload.get("schema_version") != "1.0":
+        raise ValueError("pyOpenSci evidence must use schema_version 1.0")
+    _non_empty(payload.get("criteria_url"), "pyOpenSci criteria_url")
+    _non_empty(payload.get("reviewed_at"), "pyOpenSci reviewed_at")
+    criteria = payload.get("criteria")
+    if not isinstance(criteria, list) or not criteria:
+        raise ValueError("pyOpenSci evidence criteria must be a non-empty array")
+    criterion_ids: set[str] = set()
+    human_deferred: set[str] = set()
+    for criterion in criteria:
+        if not isinstance(criterion, dict):
+            raise TypeError("pyOpenSci criteria must be objects")
+        identifier = _non_empty(criterion.get("id"), "pyOpenSci criterion id")
+        if identifier in criterion_ids:
+            raise ValueError(f"duplicate pyOpenSci criterion: {identifier}")
+        criterion_ids.add(identifier)
+        status = criterion.get("status")
+        if status not in PYOPENSCI_STATUSES:
+            raise ValueError(f"{identifier} has invalid pyOpenSci status: {status}")
+        evidence = criterion.get("evidence")
+        if not isinstance(evidence, list) or not evidence:
+            raise ValueError(f"{identifier} evidence must be a non-empty array")
+        for relative in evidence:
+            relative_path = Path(_non_empty(relative, "pyOpenSci evidence path"))
+            if relative_path.is_absolute() or ".." in relative_path.parts:
+                raise ValueError(f"unsafe pyOpenSci evidence path: {relative}")
+            if not (root / relative_path).exists():
+                raise ValueError(f"pyOpenSci evidence path does not exist: {relative}")
+        if status == "human_deferred":
+            human_deferred.add(identifier)
+    required = payload.get("repository_controlled_criteria")
+    if not isinstance(required, list) or not required:
+        raise ValueError("repository_controlled_criteria must be a non-empty array")
+    if any(
+        not isinstance(identifier, str) or not identifier for identifier in required
+    ):
+        raise ValueError("repository_controlled_criteria must contain non-empty ids")
+    if len(required) != len(set(required)) or not set(required) <= criterion_ids:
+        raise ValueError("repository_controlled_criteria must resolve to criteria")
+    unresolved_repository = {
+        criterion["id"]
+        for criterion in criteria
+        if criterion["id"] in required and criterion["status"] != "satisfied"
+    }
+    if unresolved_repository:
+        raise ValueError(
+            "repository-controlled pyOpenSci criteria remain unresolved: "
+            + ", ".join(sorted(unresolved_repository))
+        )
+    if human_deferred != {"maintainer-commitment", "external-inquiry"}:
+        raise ValueError("pyOpenSci human gates must remain explicit and bounded")
+    return {"criterion_count": len(criteria), "deferred": sorted(human_deferred)}
+
+
 def main() -> int:
     """Run validation from the command line."""
     parser = argparse.ArgumentParser()
@@ -166,8 +224,16 @@ def main() -> int:
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     arguments = parser.parse_args()
-    summary = validate_contract(arguments.contract, arguments.root.resolve())
-    print(f"Submission readiness contract: PASS ({summary['target_count']} targets)")
+    root = arguments.root.resolve()
+    summary = validate_contract(arguments.contract, root)
+    pyopensci = validate_pyopensci_evidence(
+        root / "specs/submission-readiness/pyopensci-evidence.json", root
+    )
+    print(
+        "Submission readiness contract: PASS "
+        f"({summary['target_count']} targets; {pyopensci['criterion_count']} "
+        "pyOpenSci criteria)"
+    )
     return 0
 
 

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "criteria_url": "https://www.pyopensci.org/software-peer-review/how-to/author-guide.html",
+  "reviewed_at": "2026-07-27",
+  "repository_controlled_criteria": [
+    "install-and-import",
+    "scope-and-overlap",
+    "online-documentation",
+    "required-community-files",
+    "issue-template-metadata",
+    "automated-tests-and-ci",
+    "stable-api-and-release-evidence",
+    "support-governance-and-ai-disclosure"
+  ],
+  "criteria": [
+    {
+      "id": "install-and-import",
+      "status": "satisfied",
+      "evidence": ["docs/astro-site/src/content/docs/getting-started/installation.mdx", "docs/release/joss-submission-readiness.md", "tests/packaging/test_wheel_black_box.py"]
+    },
+    {
+      "id": "scope-and-overlap",
+      "status": "satisfied",
+      "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]
+    },
+    {
+      "id": "online-documentation",
+      "status": "satisfied",
+      "evidence": ["docs/astro-site/src/content/docs/getting-started.mdx", "docs/astro-site/src/content/docs/api-reference/index.mdx", "docs/astro-site/src/content/docs/getting-started/installation.mdx"]
+    },
+    {
+      "id": "required-community-files",
+      "status": "satisfied",
+      "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE"]
+    },
+    {
+      "id": "issue-template-metadata",
+      "status": "satisfied",
+      "evidence": [".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/feature_request.md", ".github/ISSUE_TEMPLATE/question.md"]
+    },
+    {
+      "id": "automated-tests-and-ci",
+      "status": "satisfied",
+      "evidence": [".github/workflows/ci.yml", "tox.ini", "tests/test_package_exports.py"]
+    },
+    {
+      "id": "stable-api-and-release-evidence",
+      "status": "satisfied",
+      "evidence": ["docs/astro-site/src/content/docs/user-guide/v1-release-readiness.mdx", "docs/release/release-evidence.md", "tests/test_v1_stable_api_contract.py"]
+    },
+    {
+      "id": "support-governance-and-ai-disclosure",
+      "status": "satisfied",
+      "evidence": ["SUPPORT.md", "GOVERNANCE.md", "AI_USAGE.md"]
+    },
+    {
+      "id": "maintainer-commitment",
+      "status": "human_deferred",
+      "evidence": ["GOVERNANCE.md", "SUPPORT.md"]
+    },
+    {
+      "id": "external-inquiry",
+      "status": "human_deferred",
+      "evidence": ["specs/submission-readiness/targets.json", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]
+    }
+  ]
+}
