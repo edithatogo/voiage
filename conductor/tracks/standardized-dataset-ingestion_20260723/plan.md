@@ -139,8 +139,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   and Frictionless fixtures now assert explicit binding, binding-profile,
   data-quality, and receipt parity while leaving format-specific descriptive
   provenance independent (`e9a22f0c`, partial).
-- [ ] **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
+- [~] **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
+  A fresh-process IPC/Parquet round-trip now reads normalized bundles and
+  converts their Arrow tables through Polars before asserting identical schema
+  and rows (`b16b52df`, partial); adversarial and parser-differential coverage
+  remains active.
 - [ ] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
   automated review, validation, and the phase checkpoint protocol.
 
