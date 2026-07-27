@@ -97,6 +97,24 @@ int main(void) {
         ceaf_result.threshold_count != 2) {
         return 13;
     }
+    const double structural_values[] = {10.0, 8.0, 11.0, 7.0,
+                                        6.0, 12.0, 5.0,  13.0};
+    const double structure_probabilities[] = {0.5, 0.5};
+    const uint64_t structures_of_interest[] = {0, 1};
+    VoiageStructuralVoiResultV1 structural_result = {0};
+    if (voiage_v1_structural_evpi_result(
+            structural_values, 2, 2, 2, structure_probabilities,
+            &structural_result) != VOIAGE_V1_STATUS_OK ||
+        structural_result.value != 1.5) {
+        return 14;
+    }
+    if (voiage_v1_structural_evppi_result(
+            structural_values, 2, 2, 2, structure_probabilities,
+            structures_of_interest, 2,
+            &structural_result) != VOIAGE_V1_STATUS_OK ||
+        structural_result.value != 1.5) {
+        return 15;
+    }
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;

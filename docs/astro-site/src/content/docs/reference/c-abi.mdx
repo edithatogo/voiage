@@ -9,13 +9,14 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `6`
+- ABI major: `1`; ABI minor: `7`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
   document, typed expected loss with caller-owned arrays, and ENBS.
   Deterministic dominance, frontier, and ICER results are also available.
   CEAF exposes threshold-aligned acceptability and assurance outputs.
+  Structural EVPI and EVPPI expose model-form uncertainty and assurance.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -36,6 +37,8 @@ voiage_v1_evpi_i32_r
 voiage_v1_error_message
 voiage_v1_handle_create
 voiage_v1_handle_free
+voiage_v1_structural_evpi_result
+voiage_v1_structural_evppi_result
 ```
 
 The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
@@ -69,6 +72,13 @@ output is written.
 optimum indices, acceptability probabilities and intervals, selected expected
 net benefit, assurance availability, variance, and Monte Carlo error.
 
+`voiage_v1_structural_evpi_result` and
+`voiage_v1_structural_evppi_result` consume row-major
+`[structure][sample][strategy]` net benefit and explicit model probabilities.
+Structural EVPPI additionally consumes caller-owned selected-structure
+indices. Both return dimensions, the structural value, assurance availability,
+informed-value variance, and Monte Carlo error without writing on failure.
+
 ## Status and error transport
 
 Status values are fixed-width: `OK`, `INVALID_ARGUMENT`, `DIMENSION_MISMATCH`,
@@ -89,6 +99,7 @@ message is written when the buffer is too small.
 | `VoiageExpectedLossResultV1` | 64 | 8 | optimum strategy, dimensions, minimum loss, assurance availability, variance, and Monte Carlo error |
 | `VoiageDominanceResultV1` | 48 | 8 | strategy, frontier, dominance, and transition counts |
 | `VoiageCeafResultV1` | 32 | 8 | sample, strategy, and threshold counts |
+| `VoiageStructuralVoiResultV1` | 64 | 8 | value, dimensions, assurance availability, variance, and Monte Carlo error |
 | `VoiageHandleV1` | 8 | 8 | opaque token |
 | `voiage_v1_status` | 4 | 4 | fixed-width status |
 

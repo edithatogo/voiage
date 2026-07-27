@@ -77,6 +77,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
             indices, and ICER transitions through bounded caller-owned arrays.
         *   C ABI v1.6 now exposes threshold-aligned CEAF probabilities,
             intervals, expected net benefit, and assurance arrays.
+        *   C ABI v1.7 now exposes structural EVPI and EVPPI with explicit
+            model probabilities, selected-structure indices, dimensions, and
+            sample-average assurance.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

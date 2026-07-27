@@ -30,6 +30,10 @@ mod expected_loss_result;
 #[allow(unsafe_code)]
 mod lifecycle;
 mod status;
+// SAFETY: structural VOI transport validates caller-owned cube, probability,
+// index, and result pointers, contains panics, and writes only after success.
+#[allow(unsafe_code)]
+mod structural_result;
 
 use std::panic::{self, AssertUnwindSafe};
 
@@ -43,6 +47,10 @@ pub use error_transport::voiage_v1_error_message;
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use status::VoiageStatusV1;
+pub use structural_result::{
+    voiage_v1_structural_evpi_result, voiage_v1_structural_evppi_result,
+    VoiageStructuralVoiResultV1,
+};
 
 /// Identifies this crate while the versioned C ABI is introduced.
 pub const CRATE_NAME: &str = "voiage-ffi";
@@ -51,7 +59,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 6;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 7;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -79,6 +87,9 @@ pub const VOIAGE_ABI_DOMINANCE_RESULT: u64 = 1 << 7;
 
 /// Capability bit for threshold-aligned CEAF and assurance results.
 pub const VOIAGE_ABI_CEAF_RESULT: u64 = 1 << 8;
+
+/// Capability bit for structural and model-form VOI results.
+pub const VOIAGE_ABI_STRUCTURAL_VOI_RESULT: u64 = 1 << 9;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -162,7 +173,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_EXPECTED_LOSS_RESULT
             | VOIAGE_ABI_ENBS
             | VOIAGE_ABI_DOMINANCE_RESULT
-            | VOIAGE_ABI_CEAF_RESULT,
+            | VOIAGE_ABI_CEAF_RESULT
+            | VOIAGE_ABI_STRUCTURAL_VOI_RESULT,
     }
 }
 

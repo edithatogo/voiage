@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(6)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(7)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -35,6 +35,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_ENBS (UINT64_C(1) << 6)
 #define VOIAGE_V1_CAPABILITY_DOMINANCE_RESULT (UINT64_C(1) << 7)
 #define VOIAGE_V1_CAPABILITY_CEAF_RESULT (UINT64_C(1) << 8)
+#define VOIAGE_V1_CAPABILITY_STRUCTURAL_VOI_RESULT (UINT64_C(1) << 9)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -105,6 +106,19 @@ typedef struct VoiageCeafResultV1 {
     uint64_t threshold_count;
 } VoiageCeafResultV1;
 
+typedef struct VoiageStructuralVoiResultV1 {
+    uint32_t struct_size;
+    uint32_t struct_version;
+    double value;
+    uint64_t structure_count;
+    uint64_t sample_count;
+    uint64_t strategy_count;
+    uint32_t has_assurance;
+    uint32_t reserved;
+    double informed_value_variance;
+    double monte_carlo_standard_error;
+} VoiageStructuralVoiResultV1;
+
 /* A handle is an opaque process-local token, never an address. Zero is null. */
 typedef uint64_t VoiageHandleV1;
 
@@ -168,6 +182,24 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_ceaf_result(
     double *out_probability_standard_error,
     uint64_t threshold_capacity,
     VoiageCeafResultV1 *out_result);
+/* Net benefit is row-major [structure][sample][strategy]. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_structural_evpi_result(
+    const double *values,
+    uint64_t structure_count,
+    uint64_t sample_count,
+    uint64_t strategy_count,
+    const double *structure_probabilities,
+    VoiageStructuralVoiResultV1 *out_result);
+/* structures_of_interest may be null only when its count is zero. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_structural_evppi_result(
+    const double *values,
+    uint64_t structure_count,
+    uint64_t sample_count,
+    uint64_t strategy_count,
+    const double *structure_probabilities,
+    const uint64_t *structures_of_interest,
+    uint64_t structures_of_interest_count,
+    VoiageStructuralVoiResultV1 *out_result);
 /* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
     const double *values,

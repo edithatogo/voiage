@@ -19,6 +19,8 @@ static_assert(sizeof(VoiageExpectedLossResultV1) == 64,
 static_assert(sizeof(VoiageDominanceResultV1) == 48,
               "dominance result layout drift");
 static_assert(sizeof(VoiageCeafResultV1) == 32, "CEAF result layout drift");
+static_assert(sizeof(VoiageStructuralVoiResultV1) == 64,
+              "structural VOI result layout drift");
 
 static int exercise_contract() {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -87,6 +89,25 @@ static int exercise_contract() {
             &ceaf_result) != VOIAGE_V1_STATUS_OK ||
         ceaf_result.threshold_count != 2) {
         return 10;
+    }
+    const double structural_values[] = {10.0, 8.0, 11.0, 7.0,
+                                        6.0, 12.0, 5.0,  13.0};
+    const double structure_probabilities[] = {0.5, 0.5};
+    const std::uint64_t structures_of_interest[] = {0, 1};
+    VoiageStructuralVoiResultV1 structural_result{};
+    if (voiage_v1_structural_evpi_result(
+            structural_values, 2, 2, 2, structure_probabilities,
+            &structural_result) != VOIAGE_V1_STATUS_OK ||
+        structural_result.struct_size != sizeof(structural_result) ||
+        structural_result.value != 1.5) {
+        return 11;
+    }
+    if (voiage_v1_structural_evppi_result(
+            structural_values, 2, 2, 2, structure_probabilities,
+            structures_of_interest, 2,
+            &structural_result) != VOIAGE_V1_STATUS_OK ||
+        structural_result.value != 1.5) {
+        return 12;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     std::uint64_t required_size = 0;

@@ -134,6 +134,11 @@ input threshold order and returning optimum indices, acceptability
 probabilities and confidence intervals, selected expected net benefit,
 variance availability, variance, and Monte Carlo error.
 
+C ABI v1.7 exposes structural EVPI and structural EVPPI over explicit
+model-structure probabilities and row-major structure/sample/strategy net
+benefit. The fixed-width result carries dimensions and sample-average
+assurance; selected structural EVPPI indices remain caller-owned.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,
