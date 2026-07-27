@@ -229,6 +229,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - uses: astral-sh/setup-uv@b75a909f75acd358c2191d546b4d3f95b5b76e30
       - name: Document retained runtime boundaries
         run: |
           printf '%s\n' \
@@ -246,4 +247,4 @@ jobs:
           julia=json.loads(pathlib.Path('bindings/julia/test/fixtures/evpi-cases.json').read_text());
           assert canonical == julia"
       - name: Exercise Python reference corpus
-        run: python -m pytest tests/test_numerical_reference_cases.py --no-cov -q
+        run: uv run pytest tests/test_numerical_reference_cases.py --no-cov -q
