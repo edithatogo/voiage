@@ -14,9 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   advisories that do not affect the required and locked Pydantic 2.13.4.
 - Update the pinned OpenSSF Scorecard action to v2.4.4 so its v5.5 scanner
   applies the repository's documented OSV exceptions.
-- Expanded DataFrame-interchange SDK consumer contracts and made the business
-  standardized-ingestion reference cases exercise that public SDK with an
-  explicit zero-copy policy.
+- Expanded DataFrame-interchange SDK consumer contracts for copy-policy
+  forwarding, nullable and timezone-aware schemas, explicit binding validation,
+  and canonical preparation; business standardized-ingestion reference cases
+  now exercise that public SDK with an explicit zero-copy policy.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.

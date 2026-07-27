@@ -93,11 +93,11 @@ APIs.
 VOIAGE intentionally supports a narrow, auditable profile rather than claiming
 complete implementation of either upstream standard.
 
-| Input family | Supported profile | Explicitly not supported in the built-in provider |
-| --- | --- | --- |
-| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
-| Frictionless Data Package | Data Package v1-style descriptor, one local CSV resource with an explicit field schema; optional SHA-256 `hash` and `bytes` verification | Remote URLs, archives, transformations, multiple resources, other integrity algorithms, implicit schema inference |
-| DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | Inferred decision semantics and nested values that Arrow interchange cannot safely materialize |
+| Input family | Supported profile | Consumer contract | Explicitly not supported in the built-in provider |
+| --- | --- | --- | --- |
+| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
+| Frictionless Data Package | Data Package v1-style descriptor, one local CSV resource with an explicit field schema; optional SHA-256 `hash` and `bytes` verification | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, multiple resources, other integrity algorithms, implicit schema inference |
+| DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | `from_dataframe` preserves the Arrow schema and honours `allow_copy`; its bundle enters the same preparation path as providers. | Inferred decision semantics, unsupported nested values, and conversions that require copying when `allow_copy=False`. |
 
 All providers default to local-only access. Inputs that fall outside these
 profiles fail with a stable `IngestionError`; they are not partially loaded or
@@ -118,6 +118,9 @@ The adapter deliberately keeps the exchange boundary visible. Use
 `from_dataframe(frame, dataset_id="business", allow_copy=False)` when the
 caller requires Arrow to reject a conversion that would copy the source data;
 the resulting bundle always follows the same normalized preparation path.
+The supported SDK contract covers explicit bindings, source-neutral provenance,
+and Arrow schema preservation; it does not promise identical behaviour for
+every DataFrame library or unsupported nested dtype.
 
 Each example must declare its binding rather than relying on a domain-specific
 calculation path, so their resulting net-benefit matrices are directly
