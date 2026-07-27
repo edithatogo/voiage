@@ -36,6 +36,7 @@ COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.jso
 COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
 RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
 RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
+AUDITS = LANDSCAPE / "audits"
 REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
 REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
@@ -216,6 +217,34 @@ def test_deep_audit_replaces_rolling_revisions_with_verified_pins() -> None:
         revision = products[product_id]["versions"][0]["reviewed_revision"]
         assert revision is not None
         assert "head" not in revision
+
+
+def test_deep_source_audits_are_preserved_for_later_review() -> None:
+    """Detailed source inspection must remain available after handoff cleanup."""
+    hta = _read_json(AUDITS / "2026-07-27-hta.json")
+    ml = _read_json(AUDITS / "2026-07-27-ml.json")
+    operations = _read_json(AUDITS / "2026-07-27-operations.json")
+    assert isinstance(hta, dict)
+    assert isinstance(ml, dict)
+    assert isinstance(operations, dict)
+
+    assert {record["product_id"] for record in hta["products"]} >= {
+        "voi",
+        "bcea",
+        "savi",
+        "heemod",
+        "hesim",
+    }
+    assert {record["id"] for record in ml["records"]} >= {
+        "pyro-oed",
+        "botorch",
+        "econml",
+    }
+    assert {record.get("record_id") for record in operations["records"]} >= {
+        "pyomo-mpi-sppy",
+        "sddp-jl",
+        "pomdps-jl",
+    }
 
 
 def test_residual_method_searches_and_software_mappings_are_complete() -> None:

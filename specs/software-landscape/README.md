@@ -48,6 +48,9 @@ It records observable capabilities rather than marketing parity.
 - `../../scripts/validate_comprehensive_voi_inventory.py` enforces freshness,
   evidence references, extraction completeness, duplicate resolution, rights,
   and commercial observability across records.
+- `audits/` preserves date-stamped, source-pinned deep-inspection reports used
+  to correct inventory revisions and to retain explicit missingness for later
+  capability review.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing

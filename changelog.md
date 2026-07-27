@@ -62,6 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced rolling source-head references with verified immutable revisions for
   13 audited external products, corrected BCEA to CRAN 2.4.83, and corrected
   EconML's independent canonical-product relationship.
+- Preserved source-pinned HTA, ML, and operations inspection reports with their
+  explicit API, test, dependency, maintenance, rights, and missingness evidence.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

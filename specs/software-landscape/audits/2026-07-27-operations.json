@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "Phase 2 operations deep audit; research-only; no direct VOI capability inferred",
+  "reviewed_on": "2026-07-27",
+  "method": "Pinned official Git tags/commits were cloned and inspected locally. GAMS EMP was inspected through the official GAMS 54 documentation page. A GitHub default-branch commit is immutable but is not a release pin.",
+  "records": [
+    {
+      "record_id": "pyomo-mpi-sppy",
+      "disposition": "retain-included-as-adjacent",
+      "exact_revision": {
+        "mpi_sppy": {"tag": "0.14.0", "commit": "5b6ccf24ad087b834958cad6d518503af6c5cbd6", "committed_at": "2026-07-10T11:06:08-07:00", "url": "https://github.com/Pyomo/mpi-sppy/tree/5b6ccf24ad087b834958cad6d518503af6c5cbd6"},
+        "pyomo": {"tag": "6.10.0", "commit": "2ebd0873e63d60f563fe30ba72548b366e4976f9", "committed_at": "2026-02-20T14:37:03-07:00", "url": "https://github.com/Pyomo/pyomo/tree/2ebd0873e63d60f563fe30ba72548b366e4976f9"}
+      },
+      "corrections": ["Replace reviewed_revision main-head with the two immutable commits above.", "The combined record must not imply a fixed Pyomo 6.10.0 requirement: mpi-sppy 0.14.0 declares pyomo>=6.4.", "No turnkey EEV, VSS, wait-and-see, EVPI, or residual-family report object was located."],
+      "observed": {
+        "api_schema": ["Python scenario_creator callable plus scenario names and scenario_creator_kwargs; Pyomo algebraic models supply variables/objective.", "MPI communicator defaults to MPI.COMM_WORLD in inspected solver base APIs."],
+        "algorithms_features": ["MPI stochastic programming; Progressive Hedging; extensive-form and hub-and-spoke/cylinder workflows; stochastic ADMM wrapper and other extensions documented in source."],
+        "options_defaults_diagnostics": ["Per-spoke solver option dictionaries overlay global solver-options in the release README.", "Source exposes bounds/convergence and iteration progress; solver-specific diagnostics propagate from Pyomo/underlying solver."],
+        "outputs_examples_tests": ["Outputs are solved models, policies/xhats, objective/bound/progress rather than a standardized VOI artifact.", "README contains MPI one-sided installation test; repository has test/examples/doc trees."],
+        "integrations_performance": ["Required: Python >=3.9, numpy, sortedcollections, pyomo>=6.4; optional mpi extra uses mpi4py>=3.0.3. MPI is required for distributed execution.", "Parallel decomposition is a design feature; no comparable benchmark claim extracted."],
+        "rights_maintenance": ["BSD-3-Clause (mpi-sppy); Pyomo has its own BSD license. Both reviewed tags are public source releases."]
+      },
+      "missingness": ["No standardized schema, default solver, numerical-performance benchmark, accessibility evidence, or direct VOI estimand/report."],
+      "evidence": ["https://github.com/Pyomo/mpi-sppy/tree/5b6ccf24ad087b834958cad6d518503af6c5cbd6", "https://github.com/Pyomo/pyomo/tree/2ebd0873e63d60f563fe30ba72548b366e4976f9", "https://mpi-sppy.readthedocs.io/"]
+    },
+    {
+      "record_id": "sddp-jl",
+      "disposition": "retain-included-as-adjacent",
+      "exact_revision": {"tag": "v1.13.3", "commit": "c89416f5611f89cd1fcde1046038a2717aeecd3f", "committed_at": "2026-07-26T17:44:09+12:00", "url": "https://github.com/odow/SDDP.jl/tree/c89416f5611f89cd1fcde1046038a2717aeecd3f"},
+      "corrections": ["Replace reviewed_revision master-head with the immutable release commit.", "Record algorithm coverage as policy-graph SDDP through JuMP, not a general purpose VOI estimator."],
+      "observed": {
+        "api_schema": ["Julia PolicyGraph and JuMP model API; modeler supplies nodes, state variables, uncertainty and objective."],
+        "algorithms_features": ["Multistage SDDP, policy-graph optimization, simulation, risk measures, deterministic-equivalent support, duality handlers and threaded/distributed parallel schemes."],
+        "options_defaults_diagnostics": ["train accepts iteration_limit, time_limit, stopping_rules, log_frequency, log_every_seconds and print_level. Source defaults log frequency to 1 and adds SimulationStoppingRule when no explicit stop rule is supplied.", "termination_status, logs, numerical-stability reporting and JuMP solver termination failures are exposed."],
+        "outputs_examples_tests": ["train mutates/trains a policy graph; simulate returns scenario trajectories; logs/bounds/status are available. Release contains docs tutorials/examples and a test project."],
+        "integrations_performance": ["Julia >=1.6; direct dependencies include JuMP, HTTP, JSON, TimerOutputs and standard libraries. Parallel schemes are supported; no normalized performance benchmark extracted."],
+        "rights_maintenance": ["MPL-2.0; public tagged release dated 2026-07-26."]
+      },
+      "missingness": ["No direct VOI measure/report, input interchange schema, accessibility conformance, or cross-solver benchmark was extracted."],
+      "evidence": ["https://github.com/odow/SDDP.jl/tree/c89416f5611f89cd1fcde1046038a2717aeecd3f", "https://github.com/odow/SDDP.jl/blob/c89416f5611f89cd1fcde1046038a2717aeecd3f/src/algorithm.jl"]
+    },
+    {
+      "record_id": "pomdps-jl",
+      "disposition": "retain-included-as-adjacent",
+      "exact_revision": {"tag": "v1.0.0+docs", "commit": "5893e8669790905b3e11c8c271b548da7cc8eea5", "committed_at": "2024-06-12T17:02:40-06:00", "url": "https://github.com/JuliaPOMDP/POMDPs.jl/tree/5893e8669790905b3e11c8c271b548da7cc8eea5"},
+      "corrections": ["Replace reviewed_revision master-head with the immutable tag commit.", "It defines interfaces; it is not itself a solver/simulator distribution and has no named observation-VOI or sensing-value estimator."],
+      "observed": {
+        "api_schema": ["Abstract POMDP{S,A,O} and MDP{S,A}; model functions include discount, transition and observation. Generative models return NamedTuples.", "Solver/Policy/solve/action and Updater/belief interfaces separate offline and online work."],
+        "algorithms_features": ["Typed interfaces for discrete/continuous MDP/POMDP modeling, belief updates, simulation-facing generation and solver interoperability; no algorithm is implemented by the interface package itself."],
+        "options_defaults_diagnostics": ["Default currentobs is available when a belief implements history. Type-inference helpers raise explanatory errors for non-(PO)MDP types."],
+        "outputs_examples_tests": ["solve convention returns a Policy; action executes a policy. Tagged source contains documentation and a Julia Test target."],
+        "integrations_performance": ["Julia >=1.6; dependencies include Distributions, Graphs, NamedTupleTools and POMDPLinter. POMDPTools is referenced for supporting tools. No performance result extracted."],
+        "rights_maintenance": ["MIT; public tagged source. This version tag is from 2024, so current maintenance cannot be inferred solely from it."]
+      },
+      "missingness": ["No direct VOI output, standardized persisted schema, standard solver defaults, performance benchmark or accessibility evidence."],
+      "evidence": ["https://github.com/JuliaPOMDP/POMDPs.jl/tree/5893e8669790905b3e11c8c271b548da7cc8eea5", "https://juliapomdp.github.io/POMDPs.jl/stable/"]
+    },
+    {
+      "external_candidate_id": "gams-emp",
+      "disposition": "defer",
+      "reason": "Official GAMS 54 EMP Library example airsp3.gms directly computes expected value of EV solution, wait-and-see, EVPI and VSS, but this is an application example inside a licensed commercial product, not an extracted, version-pinned product capability record. Product/release scope, licensing/rights handling, API/schema, diagnostics, test evidence and reproducible extraction remain incomplete.",
+      "exact_evidence": {"documentation_version": "GAMS 54", "source_url": "https://www.gams.com/latest/emplib_ml/libhtml/emplib_airsp3.html", "main_file": "https://www.gams.com/latest/emplib_ml/airsp3.69", "observed_outputs": ["Expected Value of EV solution", "wait-and-see", "Expected Value of Perfect Information (EVPI)", "Value of Stochastic Solution (VSS)"]},
+      "missingness": ["No immutable source/release hash captured; no public software license equivalent to an SPDX source license; no generalized VOI API claim; no EVIU, DVSS or VMS evidence." ]
+    },
+    {
+      "external_candidate_id": "sbo-aippms",
+      "disposition": "defer",
+      "reason": "It is a public, MIT-licensed research application for adaptive informative path planning with multimodal sensing, but is not release-tagged or package-managed, lacks a lockfile/test suite and has stale default-branch activity. It should not enter the maintained software inventory without an explicit application/reproducibility policy; it is not a general VOI estimator.",
+      "exact_evidence": {"commit": "24db0a618a98f7c0c9bed470d25cc68fe6dc9b50", "committed_at": "2024-08-08T14:41:05-07:00", "url": "https://github.com/sisl/SBO_AIPPMS/tree/24db0a618a98f7c0c9bed470d25cc68fe6dc9b50", "license": "MIT", "observed_methods": ["belief-MDP with Gaussian-process belief", "sequential Bayesian optimization", "MCTS-DPW", "POMCP comparison"], "observed_artifacts": ["Rover and Information Search RockSample scripts, plots and images"]},
+      "missingness": ["No release tag, Project.toml/Manifest.toml, automated test directory, reproducible environment, stable invocation (README names Trials_RoverBDMP.jl while tree has Trials_RoverBMDP.jl), standardized input/output schema, diagnostics contract or performance benchmark."]
+    }
+  ],
+  "global_guardrail": "The audited material supports adjacent stochastic-programming/POMDP/application descriptions only. It does not establish direct implementation of any residual VOI family."
+}
