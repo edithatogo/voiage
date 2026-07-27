@@ -20,6 +20,7 @@ def test_astro_binding_reference_covers_the_normative_matrix() -> None:
         "native_rust_workspace": "Native Rust workspace",
         "c_abi": "C ABI",
         "pyo3": "PyO3",
+        "public_rust_facade": "Public Rust facade",
     }
     for binding in matrix["bindings"]:
         if binding["status"] == "external_boundary":

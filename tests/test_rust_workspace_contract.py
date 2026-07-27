@@ -22,6 +22,7 @@ EXPECTED_MEMBERS = {
     "crates/voiage-python",
     "crates/voiage-serialization",
     "crates/voiage-test-support",
+    "crates/voiage",
 }
 CORE_CRATES = {
     "voiage-diagnostics",
@@ -43,6 +44,12 @@ ALLOWED_INTERNAL_DEPENDENCIES = {
         "voiage-serialization",
     },
     "voiage-python": {
+        "voiage-diagnostics",
+        "voiage-domain",
+        "voiage-numerics",
+        "voiage-serialization",
+    },
+    "voiage": {
         "voiage-diagnostics",
         "voiage-domain",
         "voiage-numerics",

@@ -290,6 +290,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Restored the documentation, Rust-facade, and ecosystem-drift contracts so
+  the complete local quality matrix can validate the current Rust workspace and
+  Astro documentation authority.
 - Aligned the v1 programme status test with the registry's active
   research-readiness marker.
 - Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve
