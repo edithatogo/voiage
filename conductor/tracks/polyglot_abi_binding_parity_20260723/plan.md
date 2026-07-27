@@ -41,6 +41,9 @@
   - [x] Add schema-validated expected-loss, CEAF, and dominance result-envelope
     JSON transports, preserving array alignment, probability bounds, and the
     complete dominance partition. (`dd1f6c72`)
+  - [x] Add a canonical statistical-assurance example, validated Rust DTO, and
+    fail-closed caller-owned C-ABI JSON transport without converting absent
+    evidence into positive assurance. (`18ee6ecb`; formatting fix `f0f5b717`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
