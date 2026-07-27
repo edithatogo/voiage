@@ -9,6 +9,13 @@
       "input_artifact": "normative/ai-assisted-evidence-triage-input.json",
       "expected_output_artifact": "normative/value-of-ai-assisted-evidence-triage.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "adversarial information and escalation scenarios",
+      "method_family": "value_of_ai_assisted_evidence_triage",
+      "input_artifact": "normative/adversarial-scenarios.json",
+      "expected_output_artifact": null,
+      "tolerance_policy": "contract"
     }
   ],
   "promotion_boundary": {

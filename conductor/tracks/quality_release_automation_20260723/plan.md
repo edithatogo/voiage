@@ -94,8 +94,9 @@
     implementation, upstream-feature, and feature-matrix claims.
   - [x] Protect the versioned compatibility/deprecation policy contract and
     its architecture/versioning documentation cross-references.
-  - [ ] Add explicit ADR/deprecation-ledger cross-reference validation and
-    adversarial ML/agent fixture coverage.
+  - [ ] Add explicit ADR/deprecation-ledger cross-reference validation.
+  - [x] Add deterministic adversarial ML/agent fixture coverage; full utility
+    estimators and provider/model validation remain owned by the ML/LLM track.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -145,6 +146,9 @@
   adversarial ML/agent fixtures remain open subitems.
 - [x] Added explicit checks linking the core architecture decision, normative
   compatibility/deprecation policy, and versioning documentation.
+- [x] Added a deterministic offline adversarial ML/agent fixture covering
+  prompt injection, retrieval poisoning, correlated judge failure, provider
+  drift, and human escalation, with explicit decision loss and review cost.
 
 ## Phase 3: Staged release evidence
 

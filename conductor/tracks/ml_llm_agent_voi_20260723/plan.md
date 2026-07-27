@@ -8,6 +8,9 @@
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool
   exfiltration, reward hacking, evaluation contamination, adaptive overfitting,
   correlated judge/verifier failures, provider drift, and human override.
+- [x] Add a deterministic offline adversarial scenario fixture covering
+  prompt injection, retrieval poisoning, correlated judges, provider drift,
+  and human escalation; do not promote it as model-validation evidence.
 - [ ] Register ML/LLM/agent methods at experimental maturity.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.

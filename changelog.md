@@ -235,6 +235,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   implementation, upstream-feature, and feature-matrix claim projections.
 - Added a regression guard linking the core architecture decision, normative
   compatibility/deprecation policy, and versioning documentation.
+- Added a deterministic offline adversarial ML/agent fixture covering prompt
+  injection, retrieval poisoning, correlated judge failure, provider drift,
+  and human escalation without claiming model-validation evidence.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.
