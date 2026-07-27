@@ -8,7 +8,7 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "59162ab08b3d74bc6e49e57518ebc9956e38bffcd07530f3439a86ba920e3948",
+      "source_sha256": "589c3c8a23513bab1b12e4a399f36e5df8e4db8f9442b1c76eabf0d3d7f50e4d",
       "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
       "citation_occurrences": 18,
       "citation_matches": 18,
@@ -26,7 +26,7 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "59162ab08b3d74bc6e49e57518ebc9956e38bffcd07530f3439a86ba920e3948",
+      "source_sha256": "589c3c8a23513bab1b12e4a399f36e5df8e4db8f9442b1c76eabf0d3d7f50e4d",
       "finding_count": 0
     },
     "textstat": {
@@ -61,7 +61,8 @@
     "docs/reviews/joss-panel/round-6/synthesis.md",
     "docs/reviews/joss-panel/round-7/editorial-delta-review.md",
     "docs/reviews/joss-panel/round-8/criteria-reconciliation.md",
-    "docs/reviews/joss-panel/round-9/evidence-led-refinement.md"
+    "docs/reviews/joss-panel/round-9/evidence-led-refinement.md",
+    "docs/reviews/joss-panel/round-10/synthesis.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",

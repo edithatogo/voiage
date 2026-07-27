@@ -445,11 +445,15 @@ def render(example: HealthExample, output_stem: Path) -> None:
     )
 
     partial_values = [example.evppi_effect, example.evppi_cost]
-    axis_b.bar(
+    bars = axis_b.bar(
         ["Health gain", "Programme cost"],
         partial_values,
         color=[green, orange],
+        edgecolor="#222222",
+        linewidth=0.7,
     )
+    for bar, hatch in zip(bars, ("", "//"), strict=True):
+        bar.set_hatch(hatch)
     for position, value in enumerate(partial_values):
         axis_b.text(
             position,

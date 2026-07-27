@@ -81,12 +81,12 @@
     },
     {
       "path": "paper/figures/synthetic_health_example.png",
-      "sha256": "5a646d2972bc072c8b132101dc77982022caa1d6703d1449a95ef59baf893a49",
+      "sha256": "4351d313ef3bda51a0a2fd35e39d2a9f8863f0a82fb92895c912d7e9d120e381",
       "verification": "tracked_reference_and_clean_render"
     },
     {
       "path": "paper/figures/synthetic_health_example.pdf",
-      "sha256": "4c60892a6eba3b8cfb7cf4689a7c8b42de2d5a4ec152fe4c4d9afd5c4bca2b82",
+      "sha256": "8f9cadd0f768287b5d048c457f08784a835e8cd35c72080f440f4089e186cbb1",
       "verification": "tracked_reference_and_clean_render"
     }
   ],
