@@ -1,0 +1,8 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "valid/data.csv",
+    "format": "parquet",
+    "schema": {"fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}
+  }]
+}
