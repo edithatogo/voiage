@@ -34,5 +34,18 @@ test_that("the R submission checklist records the bridge role and external regis
   expect_true(any(grepl("The R package remains the thin reticulate bridge", checklist_text, fixed = TRUE)))
   expect_true(any(grepl("shared contract", checklist_text, fixed = TRUE)))
   expect_true(any(grepl("CRAN submission remains external/manual", checklist_text, fixed = TRUE)))
-  expect_true(any(grepl("r-universe indexing remains external/manual", checklist_text, fixed = TRUE)))
+  expect_true(any(grepl("r-universe publication is verified", checklist_text, fixed = TRUE)))
+})
+
+test_that("the CRAN submission bundle records strict check evidence", {
+  comments_path <- repo_file(
+    "r-package",
+    "voiageR",
+    "cran-comments.md"
+  )
+  comments <- readLines(comments_path, warn = FALSE)
+
+  expect_true(any(grepl("0 errors | 0 warnings | 2 notes", comments, fixed = TRUE)))
+  expect_true(any(grepl("New submission", comments, fixed = TRUE)))
+  expect_true(any(grepl("unable to verify current time", comments, fixed = TRUE)))
 })

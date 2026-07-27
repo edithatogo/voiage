@@ -26,6 +26,7 @@ def test_registry_audit_documents_current_live_status() -> None:
     assert "Python `voiage` is present on PyPI" in audit_text
     assert "Rust core crates are publishable on crates.io" in audit_text
     assert "R `voiageR` on CRAN returned `404`" in audit_text
+    assert "r-universe publishes `voiageR` 2.0.0" in audit_text
     assert "conda-forge-feedstock-publication_20260625" in audit_text
     assert "spack-package-merge-followthrough_20260625" in audit_text
     assert "e4s-inclusion-followthrough_20260625" in audit_text
@@ -58,6 +59,8 @@ def test_registry_audit_snapshot_matches_expected_channels() -> None:
     assert snapshot["snapshot"]["python"]["package"] == "voiage"
     assert snapshot["snapshot"]["conda_forge"]["registry"] == "conda-forge"
     assert snapshot["snapshot"]["r_universe"]["registry"] == "r-universe"
+    assert snapshot["snapshot"]["r_universe"]["status"] == "confirmed"
+    assert snapshot["snapshot"]["r_universe"]["published_version"] == "2.0.0"
     assert (
         "core crates are publishable on crates.io"
         in snapshot["snapshot"]["rust"]["notes"]

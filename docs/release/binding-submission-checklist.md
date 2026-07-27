@@ -30,7 +30,7 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | Language | Submission path from this repo | External dependency | Live registry state verifiable here? |
 | --- | --- | --- | --- |
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
-| R | GitHub Release source archives | CRAN and r-universe | No |
+| R | GitHub Release source archives and verified r-universe publication | CRAN review | Yes for r-universe; no for CRAN |
 | Julia | Yggdrasil JLL build, Registrator, and subpackage TagBot sync | BinaryBuilder and Julia General bot/maintainer acceptance | No |
 | Rust | Publishable core crates plus GitHub Release workspace artifacts | crates.io review/indexing and trusted publishing credentials | Yes, repository-ready |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
@@ -53,8 +53,9 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 - [x] GitHub Release source archives are produced from `r-v*` tags.
 - [x] The package docs/manual flow is versioned in-repo.
 - [x] The R package remains the thin reticulate bridge over the shared contract.
+- [x] r-universe publication is verified for `voiageR` 2.0.0, including its
+  source and Linux, macOS, Windows, and WebAssembly build matrix.
 - [ ] CRAN submission remains external/manual.
-- [ ] r-universe indexing remains external/manual.
 
 ## Julia
 
@@ -95,8 +96,9 @@ registries today?", the repo can only answer this partially:
 
 - The in-repo publishing workflows are in place for Python and the binding-independent Rust core; crates.io publication still requires the maintainer token and registry-side acceptance.
 - Julia's JLL recipe is submitted; BinaryBuilder acceptance must precede the
-  source-package Registrator submission. Conda-forge, CRAN, and r-universe
-  still require external registry-side action or approval.
+  source-package Registrator submission. Conda-forge and CRAN still require
+  external registry-side action or approval. r-universe publishes `voiageR`
+  2.0.0.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with
   no live confirmation from this repository.
 
@@ -168,7 +170,8 @@ states:
   - https://github.com/JuliaRegistries/General
 - conda-forge `voiage` was not present in the anaconda.org package API
   - https://anaconda.org/conda-forge/voiage
-- r-universe `voiageR` was not present in the package API
+- r-universe publishes `voiageR` 2.0.0, and its external source, Linux,
+  macOS, Windows, and WebAssembly build/check workflow is green
   - https://edithatogo.r-universe.dev/voiageR
 - Spack `py-voiage` was not present in the upstream package tree
   - https://packages.spack.io/package.html?name=py-voiage
@@ -177,7 +180,8 @@ states:
 - HPSF and E4S remain external/manual curation targets because this repository
   cannot confirm inclusion from a package API alone.
 
-So the current live state is: Python is confirmed on PyPI; Rust is an internal
-workspace artifact; R, Julia, conda-forge, r-universe, Spack, and EasyBuild are
-not confirmed in their external registries; HPSF and E4S remain manual curation
+So the current live state is: Python is confirmed on PyPI, the public Rust
+crates publish version 2.0.0, and R is published through r-universe while CRAN
+submission remains pending. Julia, conda-forge, Spack, and EasyBuild are not
+yet confirmed in their final registries; HPSF and E4S remain manual curation
 targets. The retired Go, TypeScript, and .NET channels are not v1.0 targets.

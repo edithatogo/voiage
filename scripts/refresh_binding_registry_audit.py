@@ -107,8 +107,8 @@ CHANNELS: tuple[Channel, ...] = (
         registry_url="https://cran.r-project.org/web/packages/voiageR/index.html",
         check_url="https://crandb.r-pkg.org/voiageR",
         notes=(
-            "GitHub Release source archives are produced from r-v* tags; CRAN and "
-            "r-universe are external."
+            "GitHub Release source archives are produced from r-v* tags; CRAN "
+            "submission and review remain external."
         ),
         evaluator=_evaluator_http_hit_if_200,
         confidence="medium",
@@ -131,13 +131,14 @@ CHANNELS: tuple[Channel, ...] = (
     ),
     Channel(
         key="rust",
-        package="voiage-core",
+        package="voiage-domain",
         registry="crates.io",
-        registry_url="https://crates.io/crates/voiage-core",
-        check_url="https://crates.io/api/v1/crates/voiage-core",
+        registry_url="https://crates.io/crates/voiage-domain",
+        check_url="https://crates.io/crates/voiage-domain",
         notes=(
-            "Rust is an internal publish=false workspace released through GitHub "
-            "Releases; no crates.io package is claimed."
+            "The four binding-independent core crates are publishable on "
+            "crates.io at version 2.0.0; FFI, PyO3, and test-support crates "
+            "remain private."
         ),
         evaluator=_evaluator_http_hit_if_200,
         confidence="high",
@@ -162,8 +163,8 @@ CHANNELS: tuple[Channel, ...] = (
         registry_url="https://edithatogo.r-universe.dev/voiageR",
         check_url="https://edithatogo.r-universe.dev/api/packages/voiageR",
         notes=(
-            "r-universe indexing is external to this repository and must be "
-            "verified independently from GitHub Release source archives."
+            "r-universe publication is verified independently from GitHub "
+            "Release source archives."
         ),
         evaluator=_evaluator_http_hit_if_200,
         confidence="medium",
@@ -268,7 +269,23 @@ def refresh_snapshot() -> dict[str, dict[str, object]]:
     for channel in CHANNELS:
         status_code, body, error = _fetch_json_bytes(channel.check_url)
         status = channel.evaluator(status_code, body, error)
-        snapshot[channel.key] = _snapshot_entry(channel, status)
+        entry = _snapshot_entry(channel, status)
+        if channel.key == "r_universe" and status == "confirmed" and body:
+            try:
+                metadata = json.loads(body)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                metadata = {}
+            if isinstance(metadata, dict):
+                version = metadata.get("Version")
+                published_at = metadata.get("_published")
+                build_status = metadata.get("_status")
+                if isinstance(version, str):
+                    entry["published_version"] = version
+                if isinstance(published_at, str):
+                    entry["published_at"] = published_at
+                if isinstance(build_status, str):
+                    entry["build_status"] = build_status
+        snapshot[channel.key] = entry
     return snapshot
 
 

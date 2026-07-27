@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T12:54:44Z",
+  "generated_at": "2026-07-27T03:58:53Z",
   "snapshot": {
     "python": {
       "package": "voiage",
@@ -9,7 +9,7 @@
       "details": "Live package payload or metadata endpoint was reachable.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Automated PyPI/TestPyPI publish exists on tags; external conda-forge feedstock merge is manual.",
-      "checked_at": "2026-07-21T12:54:41Z",
+      "checked_at": "2026-07-27T03:58:48Z",
       "evidence_confidence": "high"
     },
     "r": {
@@ -19,8 +19,8 @@
       "status": "unconfirmed",
       "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "GitHub Release source archives are produced from r-v* tags; CRAN and r-universe are external.",
-      "checked_at": "2026-07-21T12:54:41Z",
+      "notes": "GitHub Release source archives are produced from r-v* tags; CRAN submission and review remain external.",
+      "checked_at": "2026-07-27T03:58:49Z",
       "evidence_confidence": "medium"
     },
     "julia": {
@@ -31,18 +31,18 @@
       "details": "General registry contents lookup returned no active package entry.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "TagBot sync and GitHub release artifacts are in-repo. Registry approval still depends on the external Julia ecosystem.",
-      "checked_at": "2026-07-21T12:54:41Z",
+      "checked_at": "2026-07-27T03:58:49Z",
       "evidence_confidence": "medium"
     },
     "rust": {
-      "package": "voiage-core",
+      "package": "voiage-domain",
       "registry": "crates.io",
-      "registry_url": "https://crates.io/crates/voiage-core",
+      "registry_url": "https://crates.io/crates/voiage-domain",
       "status": "not_found",
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "Binding-independent core crates are publishable on crates.io; private FFI, PyO3, and test-support crates remain GitHub Release artifacts. Core crates are publishable on crates.io.",
-      "checked_at": "2026-07-21T12:54:42Z",
+      "notes": "The four binding-independent core crates are publishable on crates.io at version 2.0.0; FFI, PyO3, and test-support crates remain private.",
+      "checked_at": "2026-07-27T03:58:50Z",
       "evidence_confidence": "high"
     },
     "conda_forge": {
@@ -53,19 +53,22 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "The in-repo workflow can create a feedstock update PR; feedstock merge and channel indexing remain external conda-forge gates.",
-      "checked_at": "2026-07-21T12:54:43Z",
+      "checked_at": "2026-07-27T03:58:50Z",
       "evidence_confidence": "medium"
     },
     "r_universe": {
       "package": "voiageR",
       "registry": "r-universe",
       "registry_url": "https://edithatogo.r-universe.dev/voiageR",
-      "status": "not_found",
-      "details": "Manual check returned HTTP 404.",
+      "status": "confirmed",
+      "details": "Live package payload or metadata endpoint was reachable.",
       "evidence": "docs/release/binding-submission-checklist.md",
-      "notes": "r-universe indexing is external to this repository and must be verified independently from GitHub Release source archives.",
-      "checked_at": "2026-07-21T12:54:43Z",
-      "evidence_confidence": "medium"
+      "notes": "r-universe publication is verified independently from GitHub Release source archives.",
+      "checked_at": "2026-07-27T03:58:51Z",
+      "evidence_confidence": "medium",
+      "published_version": "2.0.0",
+      "published_at": "2026-07-27T02:33:00.457Z",
+      "build_status": "success"
     },
     "spack": {
       "package": "py-voiage",
@@ -75,7 +78,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "Spack publication requires an upstream package PR, maintainer review, merge, and package visibility.",
-      "checked_at": "2026-07-21T12:54:43Z",
+      "checked_at": "2026-07-27T03:58:51Z",
       "evidence_confidence": "medium"
     },
     "easybuild": {
@@ -86,7 +89,7 @@
       "details": "Manual check returned HTTP 404.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "EasyBuild publication requires an upstream easyconfig PR, maintainer review, merge, and easyconfig visibility.",
-      "checked_at": "2026-07-21T12:54:44Z",
+      "checked_at": "2026-07-27T03:58:51Z",
       "evidence_confidence": "medium"
     },
     "hpsf": {
@@ -97,7 +100,7 @@
       "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "HPSF curation has no repo-owned package API check here; portal or curation review evidence must be attached by the follow-through track.",
-      "checked_at": "2026-07-21T12:54:44Z",
+      "checked_at": "2026-07-27T03:58:52Z",
       "evidence_confidence": "low"
     },
     "e4s": {
@@ -108,7 +111,7 @@
       "details": "Manual check did not produce a confirmed publication state.",
       "evidence": "docs/release/binding-submission-checklist.md",
       "notes": "E4S inclusion depends on external curation and usually on upstream HPC packaging evidence such as Spack or EasyBuild.",
-      "checked_at": "2026-07-21T12:54:44Z",
+      "checked_at": "2026-07-27T03:58:53Z",
       "evidence_confidence": "low"
     }
   }

@@ -82,6 +82,14 @@
   in Julia General with collision-free TagBot automation. BinaryBuilder,
   General registry bots, and registry maintainers remain external acceptance
   gates.
+- [~] Maintain the successful r-universe publication and complete the CRAN
+  submission path. r-universe publishes `voiageR` 2.0.0 and its hosted source,
+  Linux, macOS, Windows, and WebAssembly checks pass. A fresh CRAN source
+  bundle passes `R CMD check --as-cran` with 0 errors, 0 warnings, and the
+  expected new-submission and clock-verification notes. Replace the current
+  GitHub no-reply maintainer address with an author-controlled confirmation
+  address before upload; record upload, email confirmation, reviewer feedback,
+  and acceptance as separate evidence states.
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
@@ -140,6 +148,10 @@
   metadata on 24 July 2026.
 - Signed v2.0 release and matching archive: complete; remaining identifier,
   submission, review, adoption, and indexing gates remain external.
+- R publication: r-universe publishes `voiageR` 2.0.0 with green hosted
+  builds. The CRAN-quality bundle passes strict local checks; CRAN upload is
+  blocked only by the need for an author-controlled maintainer email, after
+  which confirmation, review, and acceptance remain separate external states.
 - GitHub work hierarchy: #296 is the registry parent; #297--#299 are native
   registry subissues; #312 is the native arXiv subissue of #299 and is present
   in GitHub Project 28; #471 is the native independent-validation subissue of

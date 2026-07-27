@@ -1,0 +1,4 @@
+^cran-comments\.md$
+^CRAN-SUBMISSION$
+^voiageR\.Rcheck$
+^voiageR_[0-9.]+\.tar\.gz$

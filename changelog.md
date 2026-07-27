@@ -29,6 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Recorded the successful `voiageR` 2.0.0 r-universe publication and its green
+  cross-platform build matrix, and added the CRAN-specific submission comments
+  and strict source-package preflight.
 - Expanded the compiled conda-forge recipe from a Python 3.12-only build to
   the supported Python 3.12+ build matrix and added installed-package checks
   for native Rust-core loading, version agreement, and a known EVPI result.

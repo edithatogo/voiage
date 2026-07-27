@@ -3,9 +3,9 @@
   "channel": "CRAN and r-universe",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-17T00:00:00Z",
-  "next_action": "Submit voiageR to CRAN through the manual maintainer path and enable/verify r-universe indexing after the CRAN-quality package review.",
-  "external_gate": "CRAN submission and maintainer review require an account-bound manual action; r-universe indexing is external and neither registry currently contains voiageR.",
+  "checked_at": "2026-07-27T03:55:09Z",
+  "next_action": "Replace the GitHub no-reply maintainer address with an author-controlled email, rebuild and recheck the source bundle, upload it through the CRAN submission portal, confirm the submission email, and record reviewer feedback and acceptance separately.",
+  "external_gate": "r-universe publishes voiageR 2.0.0 with a successful cross-platform build matrix. CRAN upload is blocked until the maintainer provides an address that can receive the required confirmation email; CRAN confirmation, review, and acceptance remain author or maintainer controlled.",
   "evidence_urls": ["https://cran.r-project.org/web/packages/voiageR/index.html", "https://edithatogo.r-universe.dev/voiageR", "https://github.com/edithatogo/voiage/blob/main/r-package/voiageR/DESCRIPTION", "https://github.com/edithatogo/voiage/blob/main/r-package/voiageR/tools/build-manual.R"],
   "commands": [
     {"command":"R CMD build --no-build-vignettes --no-manual r-package/voiageR","runner":"local R 4.3.0 on arm64 macOS","status":"passed","artifact":"voiageR_0.2.0.tar.gz; sha256 dd49b6134bd7e9bb6295d59857bfe5be75d8e4eebde843b5043740c888a5e595","details":"CRAN source package built deterministically from the repository package tree."},
@@ -13,6 +13,8 @@
     {"command":"Rscript tools/build-manual.R r-package/voiageR /tmp/voiageR-manual.pdf","runner":"local R 4.3.0 and TeX Live","status":"passed","artifact":"voiageR-manual.pdf; sha256 66b121e875e469682d207c9012cd815939042689fb4db4834aefef9870d88434","details":"Deterministic PDF manual generated successfully."},
     {"command":"curl -sS -o response -w '%{http_code}' https://cran.r-project.org/web/packages/voiageR/index.html","runner":"networked registry audit","status":"not_found","artifact":"HTTP 404","details":"CRAN does not currently index voiageR."},
     {"command":"curl -sS -o response -w '%{http_code}' https://edithatogo.r-universe.dev/voiageR","runner":"networked registry audit","status":"not_found","artifact":"HTTP 404","details":"r-universe does not currently index voiageR."},
-    {"command":"R CMD check --as-cran --no-manual voiageR_0.2.0.tar.gz","runner":"local R 4.3.0 with networked CRAN incoming checks","status":"blocked","artifact":"00check.log stopped at CRAN incoming feasibility","details":"Account-free deterministic checks are complete; remote CRAN incoming feasibility did not complete in this environment and manual submission remains external."}
+    {"command":"R CMD check --as-cran --no-manual voiageR_0.2.0.tar.gz","runner":"local R 4.3.0 with networked CRAN incoming checks","status":"blocked","artifact":"00check.log stopped at CRAN incoming feasibility","details":"Account-free deterministic checks are complete; remote CRAN incoming feasibility did not complete in this environment and manual submission remains external."},
+    {"command":"r-universe build workflow 30229840760 and package API verification","runner":"r-universe hosted Linux, macOS, Windows, and WebAssembly builders","status":"published","artifact":"https://edithatogo.r-universe.dev/voiageR","details":"voiageR 2.0.0 is registered and published. Source, R release/devel Linux, R old-release/release macOS, R old-release/release/devel Windows, and WebAssembly jobs succeeded."},
+    {"command":"R CMD build --compact-vignettes=gs+qpdf voiageR && R CMD check --as-cran --run-donttest --timings voiageR_2.0.0.tar.gz","runner":"local R 4.3.0 on arm64 macOS with networked CRAN incoming checks","status":"passed_with_notes","artifact":"voiageR_2.0.0.tar.gz; sha256 f0691db8dbb7bacd441398ff70980e1cb66640b61e89d21f104d704970ffa319","details":"Fresh source bundle, vignettes, examples, tests, PDF manual, and HTML manual pass with 0 errors, 0 warnings, and 2 notes: new submission and local runner clock verification. Upload remains blocked by the non-confirmable GitHub no-reply maintainer address."}
   ]
 }
