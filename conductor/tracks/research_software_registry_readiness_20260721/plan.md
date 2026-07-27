@@ -175,8 +175,9 @@ remain explicit gates in the target contract.
   evidence. Use the result to determine R Journal eligibility without drafting
   a duplicate manuscript. (`DESCRIPTION` author/maintainer repair; clean
   built-source `R CMD check --no-manual` and isolated rOpenSci `pkgcheck` passed
-  locally; the self-contained runtime remains outstanding because the package
-  still requires an externally supplied `voiage-ffi` shared library;
+  locally; the self-contained-runtime criterion is now correctly classified as
+  an external native-distribution/checking-environment decision rather than a
+  repository blocker because the package requires `voiage-ffi`;
   `ropensci-evidence.json` maps
   the current bounded R API, documentation, test, numerical-reference,
   input/error, and seed evidence; `validate_r_ffi_install.sh` proves the
