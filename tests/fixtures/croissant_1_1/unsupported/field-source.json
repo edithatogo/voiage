@@ -1,0 +1,1 @@
+{"@context":"https://mlcommons.org/croissant/1.1","distribution":[{"contentUrl":"valid/data.csv"}],"recordSet":[{"name":"samples","field":[{"name":"strategy_a","source":"column_a"},{"name":"strategy_b"}]}]}
