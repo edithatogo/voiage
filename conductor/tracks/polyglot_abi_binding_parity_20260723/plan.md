@@ -70,6 +70,8 @@
     without requiring Python (`301d7179`).
   - [x] Review fixes: reject Arrow tables whose ordered columns do not match
     either pinned v1 logical schema (`301d7179`).
+  - [x] Expose the Rust-authoritative ENBS scalar ABI in Julia with finite-input
+    validation and a documented example (`5b976340`).
 - [ ] Generate capabilities, headers, docs, and migration adapters.
 - [ ] Generate deterministic unsupported-method responses and fail CI when a
   binding or document advertises capabilities absent from the registry.
