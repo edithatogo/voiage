@@ -127,6 +127,25 @@ class TestCICDQualityGatesConfiguration:
             "Type checker (ty) not found in dependencies"
         )
 
+    def test_ty_is_the_fast_gate_and_basedpyright_is_strict_assurance(self):
+        """Keep the slower independent checker out of routine PR type checks."""
+        ci_content = (GITHUB_WORKFLOWS_DIR / "ci.yml").read_text(encoding="utf-8")
+        nox_content = (PROJECT_ROOT / "noxfile.py").read_text(encoding="utf-8")
+
+        assert "- name: Run ty frontier" in ci_content
+        assert "- name: Strict BasedPyright assurance" in ci_content
+        strict_job = ci_content.split("  strict-typecheck:", maxsplit=1)[1].split(
+            "  # Unit tests", maxsplit=1
+        )[0]
+        assert "if: github.event_name == 'schedule' || " in strict_job
+        assert (
+            "(github.event_name == 'workflow_dispatch' && inputs.expensive)"
+            in strict_job
+        )
+        assert "run: uv run basedpyright" in strict_job
+        assert "def typecheck(session: nox.Session)" in nox_content
+        assert "def strict_typecheck(session: nox.Session)" in nox_content
+
     def test_property_based_tests_exist(self):
         """Test that property-based tests exist and are discoverable."""
         tests_dir = PROJECT_ROOT / "tests"

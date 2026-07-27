@@ -51,7 +51,7 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def typecheck(session: nox.Session) -> None:
-    """Run the static type checker."""
+    """Run the fast routine type checker."""
     _sync_project(session)
     session.run(
         "ty",
@@ -86,7 +86,19 @@ def typecheck(session: nox.Session) -> None:
         "redundant-cast",
         *session.posargs,
     )
-    session.run("basedpyright", "voiage/logging.py")
+
+
+@nox.session(default=False)
+def strict_typecheck(session: nox.Session) -> None:
+    """Run the slower independent type-checking assurance lane on demand."""
+    _sync_project(session)
+    session.run(
+        "basedpyright",
+        "voiage/logging.py",
+        "voiage/contracts",
+        "scripts/export_v2_contracts.py",
+        *session.posargs,
+    )
 
 
 @nox.session
@@ -141,7 +153,6 @@ def contracts(session: nox.Session) -> None:
     )
     session.run("ruff", "check", "voiage/contracts", "scripts/export_v2_contracts.py")
     session.run("ty", "check", "voiage/contracts")
-    session.run("basedpyright", "voiage/contracts", "scripts/export_v2_contracts.py")
 
 
 @nox.session(default=False)

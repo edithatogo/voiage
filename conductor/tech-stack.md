@@ -42,8 +42,10 @@
   independent type, dataflow, dependency, mutation, profiling, documentation,
   and orchestration tools remain separate where Ruff has no equivalent
   repository contract.
-- **ty**: >=0.0.61,<1.0 - Static type checking
-- **BasedPyright**: >=1.39.9,<2 - Strict second-opinion static analysis
+- **ty**: >=0.0.61,<1.0 - Fast, routine static type gate for local work and
+  pull requests
+- **BasedPyright**: >=1.39.9,<2 - Independent strict second opinion run only
+  in scheduled or explicitly requested assurance lanes
 - **tox**: >=4.57,<5 - Test environment automation
 - **nox**: >=2026.7.11,<2027 - Python-coded session orchestration backed by uv
 - **pre-commit**: >=4.6,<5 - Git pre-commit hooks

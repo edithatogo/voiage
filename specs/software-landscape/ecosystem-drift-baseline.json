@@ -13,7 +13,7 @@
       "python": ">=3.12",
       "rust": "1.85",
       "node_package_manager": "pnpm@10.32.1",
-      "pyproject_digest": "7dae539cb854f6434c2b97d809976f0f32d0d7476cebfa4ce76642cf8cd2eabe",
+      "pyproject_digest": "d8d4821531e817eb70a159039779d972070d894ca87aefe8d724e63eee8b500d",
       "cargo_workspace_digest": "ea65560a6e1af65fb1221ef57d181340ca96e2258dfa4a33b405ef12ebb065ac",
       "docs_package_digest": "2b5fa3dee20d2f84fb81908d2cf9ff7a234591a56b78be3cf10654036704fdc8"
     },
@@ -26,7 +26,7 @@
     },
     "github-actions": {
       "workflow_count": 27,
-      "workflow_digest": "5eac639cfa737de1de8d8d82a477b3cec32444614f0393f06621213bfb24657f",
+      "workflow_digest": "4edbd56b71e6a6ed84f6ffce46c7b425c38b367198f6fb26156d56231c4768ab",
       "action_references": [
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b",
         "YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df",

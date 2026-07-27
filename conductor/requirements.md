@@ -52,8 +52,10 @@ programme. The canonical cross-repository requirements are maintained in
 - Cargo-authoritative dynamic versions with fail-closed release-tag validation,
   Pydantic v2 logging settings, structured
   run context, and uv/Pixi parity are enforced as production contracts.
-- Ruff, `ty`, BasedPyright, package builds, unit/property/integration/E2E tests,
-  security checks, and benchmark regression remain visible fast gates.
+- Ruff and `ty` are visible fast gates; BasedPyright is an independent strict
+  typing assurance lane run on schedule, on explicit request, and before a
+  release candidate. Package builds, unit/property/integration/E2E tests,
+  security checks, and benchmark regression remain visible gates.
 - Strict Pydantic v2 contracts give concerns, parameters, numerical policies,
   kernels, backend capabilities, run contexts and results stable typed
   identities with deterministic schemas and compatibility adapters.

@@ -223,9 +223,10 @@ flowchart TD
     Settings[Pydantic v2 LoggingSettings] --> Logs[Human or JSONL logs]
     Run[Run and command context] --> Logs
     Pixi[Pixi tasks] --> UV[uv lock and execution]
-    UV --> Fast[Ruff + ty + BasedPyright + test matrix]
+    UV --> Fast[Ruff + ty + test matrix]
     Fast --> Build[Build, install and release gates]
-    Scheduled[Scheduled/manual frontier] --> Scalene[Scalene artifact]
+    Scheduled[Scheduled/manual frontier] --> BasedPyright[BasedPyright strict assurance]
+    Scheduled --> Scalene[Scalene artifact]
     Scheduled --> Mutation[Mutation evidence]
     Scheduled --> Experimental[Experimental/free-threaded probes]
 ```

@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Made `ty` the routine local and pull-request type gate. BasedPyright now
+  provides a separately runnable strict assurance lane on the weekly schedule
+  or an explicit manual request.
+
 ### Removed
 
 - Removed the obsolete `tomli` backport now that Python 3.12 is the supported

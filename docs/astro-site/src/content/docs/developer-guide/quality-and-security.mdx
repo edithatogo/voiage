@@ -31,6 +31,12 @@ package, behavioral, performance, prose, or environment contracts that Ruff
 does not provide. The machine-readable dispositions are recorded in
 `specs/quality/tool-consolidation.json`.
 
+`ty` is the fast routine type checker and is required in local and pull-request
+gates. BasedPyright is an independent, slower second opinion: run
+`uv run nox -s strict_typecheck` for a manual strict review, or rely on the
+weekly scheduled CI lane. Release-candidate review must include current strict
+assurance evidence; BasedPyright is deliberately not a routine PR blocker.
+
 `pip-audit` is the canonical Python dependency-vulnerability scanner: it
 examines the locked installed dependency surface and supplies the SBOM evidence
 lane. The former Safety/pip-tools tox environment was retired because it
