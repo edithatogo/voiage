@@ -741,11 +741,11 @@
     {
       "track_id": "conductor-github-cross-reference-reconciliation_20260724",
       "path": "conductor/tracks/conductor-github-cross-reference-reconciliation_20260724",
-      "lifecycle": "active",
+      "lifecycle": "completed",
       "issue": {
         "number": 462,
         "url": "https://github.com/edithatogo/voiage/issues/462",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
       "subissues": [],
@@ -777,13 +777,13 @@
         {
           "number": 591,
           "url": "https://github.com/edithatogo/voiage/pull/591",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "acd23a397bd9848a180992d6c8e9df4ca5b3cdf4"
           ]
         }
       ],
-      "pull_request_evidence": "track_delivery"
+      "pull_request_evidence": "evidenced"
     },
     {
       "track_id": "core-api-spec-and-polyglot-contracts_20260510",
