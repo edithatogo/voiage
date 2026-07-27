@@ -42,6 +42,8 @@ class CroissantProvider:
     ) -> NormalizedInputBundle:
         """Materialize the supported, unambiguous one-resource Croissant profile."""
         raw = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        if not isinstance(raw, dict):
+            raise IngestionError("descriptor root must be a JSON object")
         descriptor = cast("dict[str, object]", raw)
         context = descriptor.get("@context")
         if not (isinstance(context, str) and "mlcommons.org/croissant/1.1" in context):

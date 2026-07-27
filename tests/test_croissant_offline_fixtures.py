@@ -15,6 +15,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
 @pytest.mark.parametrize(
     ("fixture", "message"),
     [
+        ("unsupported/non-object-root.json", "descriptor root must be a JSON object"),
         ("unsupported/archive.json", "archives"),
         ("unsupported/checksum-mismatch.json", "SHA-256"),
         ("unsupported/integrity-declaration.json", "integrity declarations"),
