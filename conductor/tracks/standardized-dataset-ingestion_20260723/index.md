@@ -1,10 +1,15 @@
 # Standardized Dataset Ingestion
 
-Status: in progress; PR #334 establishes the tested baseline implementation,
-PR #477 carries normalized-input provenance through the existing runtime, and
-PR #494 explicitly rejects unsupported Croissant archives and transformations.
-The remaining published conformance, security, SDK, and cross-domain acceptance
-criteria stay active. These are merged increments, not track closeout evidence.
+Status: in progress. PR #627 is merged with Phase 7 assurance evidence; PR
+#629 has been rebased on current `main` and awaits its refreshed hosted matrix;
+PR #631 is dependent Phase 9 evidence and awaits that prerequisite. Issues
+#325–#333, #467, and #468 remain open because the plan's outstanding provider,
+conformance, product, security, SDK, and worked-example criteria remain active.
+The Project 28 reconciliation field state is blocked on GitHub Projects v2
+GraphQL access. Final review additionally found a pre-existing invalid
+append-only evidence-ledger chain that needs a governed migration before new
+evidence or archival can be recorded. These are increments, not track-closeout
+evidence.
 
 Local evidence on the `codex/sdk-dataframe-worked-examples` branch extends the
 Phase 8–9 DataFrame SDK consumer contracts and routes both business reference
