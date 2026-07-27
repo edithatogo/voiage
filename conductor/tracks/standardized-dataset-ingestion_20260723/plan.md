@@ -85,9 +85,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   publish separate standard-conformance and parser-capability profiles. Public
   provider export is now lazy (`2ad0a24a`, partial); profile acceptance evidence
   remains active.
-- [ ] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
+- [~] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
-  interoperability probe.
+  interoperability probe. CLI inspection coverage now verifies stable provider,
+  checksum/byte receipt, provenance, and retained governance output for an
+  offline Croissant 1.1 fixture (`8d040bef`, partial); the opt-in authoritative
+  live probe remains an explicit external gate.
 
 ### Frictionless Data
 
