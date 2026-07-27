@@ -78,9 +78,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   (`9a5b45b7`); the authoritative live probe remains an explicit external gate.
 - [ ] **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
   publish separate standard-conformance and parser-capability profiles.
-- [ ] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
+- [~] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
-  interoperability probe.
+  interoperability probe. The fail-closed local probe harness is implemented;
+  an approved authoritative source and digest-bound external execution remain
+  required before this task can be marked complete.
 
 ### Frictionless Data
 
