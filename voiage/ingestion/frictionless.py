@@ -80,16 +80,23 @@ class FrictionlessProvider:
         resource_format = resource.get("format")
         if resource_format not in (None, "csv"):
             raise IngestionError("supported Data Package profile requires CSV format")
-        if any(key in resource for key in ("hash", "bytes", "checksum")):
+        if "checksum" in resource:
             raise IngestionError(
                 "supported Data Package profile does not support integrity declarations"
             )
+        declared_sha256 = _sha256(resource.get("hash"))
+        declared_byte_size = _byte_size(resource.get("bytes"))
         dialect = resource.get("dialect")
         if dialect not in (None, {"delimiter": ","}):
             raise IngestionError(
                 "supported Data Package profile accepts only CSV comma dialect"
             )
-        table = read_csv(reference, policy)
+        table = read_csv(
+            reference,
+            policy,
+            sha256=declared_sha256,
+            byte_size=declared_byte_size,
+        )
         self._validate_schema(table, fields)
         primary_key = self._primary_key(schema)
         self._validate_primary_key(table, primary_key)
@@ -117,7 +124,15 @@ class FrictionlessProvider:
                         primary_key=primary_key,
                     ),
                 ),
-                resources=(materialization_receipt(reference, table_id, policy),),
+                resources=(
+                    materialization_receipt(
+                        reference,
+                        table_id,
+                        policy,
+                        sha256=declared_sha256,
+                        byte_size=declared_byte_size,
+                    ),
+                ),
                 provenance=SourceProvenance(
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),
@@ -223,6 +238,31 @@ def _license_label(value: object) -> str | None:
 def _citation_label(value: object) -> str | None:
     """Accept only an explicit scalar citation for the compact provenance field."""
     return value if isinstance(value, str) else None
+
+
+def _sha256(value: object) -> str | None:
+    """Accept only an explicit SHA-256 Data Package resource hash."""
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise IngestionError("Data Package resource hash must be a SHA-256 string")
+    candidate = value.lower()
+    if len(candidate) != 64 or any(
+        char not in "0123456789abcdef" for char in candidate
+    ):
+        raise IngestionError("Data Package resource hash must be a SHA-256 string")
+    return candidate
+
+
+def _byte_size(value: object) -> int | None:
+    """Accept only a non-negative Data Package byte-size declaration."""
+    if value is None:
+        return None
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise IngestionError(
+            "Data Package resource bytes must be a non-negative integer"
+        )
+    return value
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:

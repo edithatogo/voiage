@@ -14,7 +14,7 @@ from voiage.contracts.normalized_input import (
     SourceProvenance,
     TableManifest,
 )
-from voiage.ingestion._tabular import digest_file, materialization_receipt, read_csv
+from voiage.ingestion._tabular import materialization_receipt, read_csv
 from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
@@ -79,14 +79,16 @@ class CroissantProvider:
                 "supported Croissant profile does not support transformations"
             )
         declared_sha256 = distribution.get("sha256")
-        if declared_sha256 is not None and (
-            not isinstance(declared_sha256, str)
-            or digest_file(policy.resolve(reference)).lower() != declared_sha256.lower()
-        ):
-            raise IngestionError(
-                "declared Croissant SHA-256 does not match local content"
-            )
-        table = read_csv(reference, policy)
+        if declared_sha256 is not None and not isinstance(declared_sha256, str):
+            raise IngestionError("declared Croissant SHA-256 must be a string")
+        try:
+            table = read_csv(reference, policy, sha256=declared_sha256)
+        except IngestionError as error:
+            if declared_sha256 is not None and "checksum" in str(error):
+                raise IngestionError(
+                    "declared Croissant SHA-256 does not match local content"
+                ) from error
+            raise
         manifest_fields = tuple(
             FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
             for item in fields
@@ -105,7 +107,11 @@ class CroissantProvider:
             manifest=DatasetManifest(
                 dataset_id=str(descriptor.get("name", table_id)),
                 tables=(TableManifest(table_id=table_id, fields=manifest_fields),),
-                resources=(materialization_receipt(reference, table_id, policy),),
+                resources=(
+                    materialization_receipt(
+                        reference, table_id, policy, sha256=declared_sha256
+                    ),
+                ),
                 provenance=SourceProvenance(
                     provider_id=self.provider_id,
                     source_uri=descriptor_path.resolve().as_uri(),

@@ -18,7 +18,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
         ("unsupported/multiple-resources.json", "exactly one resource"),
         ("unsupported/non-comma-dialect.json", "only CSV comma dialect"),
         ("unsupported/non-csv-format.json", "requires CSV format"),
-        ("unsupported/integrity-declaration.json", "integrity declarations"),
+        ("unsupported/integrity-declaration.json", "hash must be a SHA-256"),
         ("unsupported/unsupported-type.json", "unsupported Data Package field type"),
         ("unsupported/required-null.json", "required field contains null"),
         ("unsupported/duplicate-primary-key.json", "primaryKey contains duplicate"),

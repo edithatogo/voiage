@@ -56,20 +56,20 @@ class SourceAccessPolicy:
 
     def resolve(self, reference: str) -> Path:
         """Resolve a relative local reference without allowing path traversal."""
-        if "://" in reference:
-            if not self.allow_network:
-                raise IngestionError("network resource access is disabled by policy")
-            raise IngestionError("network resource access is not implemented")
-        candidate = (self.root / reference).resolve()
-        if candidate != self.root and self.root not in candidate.parents:
-            raise IngestionError("resource path escapes the configured source root")
+        candidate = self._local_candidate(reference)
         if not candidate.is_file():
             raise IngestionError("declared resource does not exist")
         if candidate.stat().st_size > self.max_resource_bytes:
             raise IngestionError("declared resource exceeds configured size limit")
         return candidate
 
-    def materialize(self, reference: str, *, sha256: str | None = None) -> Path:
+    def materialize(
+        self,
+        reference: str,
+        *,
+        sha256: str | None = None,
+        byte_size: int | None = None,
+    ) -> Path:
         """Return a digest-verified local materialization, optionally from cache.
 
         This method never performs network I/O.  Offline replay is intentionally
@@ -77,6 +77,11 @@ class SourceAccessPolicy:
         silently substituted for a previously reviewed materialization.
         """
         expected = self._validate_digest(sha256) if sha256 is not None else None
+        if byte_size is not None and byte_size < 0:
+            raise IngestionError("expected resource byte size must be non-negative")
+        # Validate the descriptor reference even when an offline cache hit means
+        # the original source is intentionally unavailable.
+        self._local_candidate(reference)
         if self.offline:
             if expected is None:
                 raise IngestionError(
@@ -87,9 +92,13 @@ class SourceAccessPolicy:
                 raise IngestionError("no verified offline materialization is available")
             if self._digest(cached) != expected:
                 raise IngestionError("cached materialization checksum does not match")
+            if byte_size is not None and cached.stat().st_size != byte_size:
+                raise IngestionError("cached materialization byte size does not match")
             return cached
 
         source = self.resolve(reference)
+        if byte_size is not None and source.stat().st_size != byte_size:
+            raise IngestionError("materialized resource byte size does not match")
         actual = self._digest(source)
         if expected is not None and actual != expected:
             raise IngestionError("materialized resource checksum does not match")
@@ -112,10 +121,25 @@ class SourceAccessPolicy:
             raise IngestionError("cached materialization checksum does not match")
         return cached
 
+    def source_uri(self, reference: str) -> str:
+        """Return the validated logical local URI without requiring the source."""
+        return self._local_candidate(reference).as_uri()
+
     def _cache_path(self, digest: str) -> Path | None:
         if self.cache_dir is None:
             return None
         return self.cache_dir / self._cache_context / digest[:2] / digest
+
+    def _local_candidate(self, reference: str) -> Path:
+        """Validate a descriptor-relative local path before any file operation."""
+        if "://" in reference:
+            if not self.allow_network:
+                raise IngestionError("network resource access is disabled by policy")
+            raise IngestionError("network resource access is not implemented")
+        candidate = (self.root / reference).resolve()
+        if candidate != self.root and self.root not in candidate.parents:
+            raise IngestionError("resource path escapes the configured source root")
+        return candidate
 
     @staticmethod
     def _validate_digest(digest: str) -> str:

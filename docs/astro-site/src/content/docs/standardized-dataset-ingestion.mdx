@@ -54,6 +54,14 @@ digest into a policy-scoped content-addressed cache. Later, an `offline=True`
 policy can replay only that verified digest; it never falls back to a changed or
 missing source file and never performs a network refresh.
 
+The built-in providers use this path directly. A Croissant distribution may
+declare `sha256`; a Frictionless CSV resource may declare a 64-character
+SHA-256 `hash` and non-negative `bytes`. With those declarations, ingesting
+once with `cache_dir` creates the verified cache entry, and a later
+`voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
+the original local CSV is no longer present. Other hash algorithms and
+unverifiable integrity declarations are rejected.
+
 ```python
 from pathlib import Path
 
@@ -88,7 +96,7 @@ complete implementation of either upstream standard.
 | Input family | Supported profile | Explicitly not supported in the built-in provider |
 | --- | --- | --- |
 | Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
-| Frictionless Data Package | Data Package v1-style descriptor, one local CSV resource with an explicit field schema | Remote URLs, archives, transformations, multiple resources, implicit schema inference |
+| Frictionless Data Package | Data Package v1-style descriptor, one local CSV resource with an explicit field schema; optional SHA-256 `hash` and `bytes` verification | Remote URLs, archives, transformations, multiple resources, other integrity algorithms, implicit schema inference |
 | DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | Inferred decision semantics and nested values that Arrow interchange cannot safely materialize |
 
 All providers default to local-only access. Inputs that fall outside these
