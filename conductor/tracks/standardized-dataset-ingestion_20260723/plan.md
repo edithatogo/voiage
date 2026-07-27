@@ -72,9 +72,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   identities, resources, record sets, fields, keys, references, splits,
   supported transformations, integrity failures, archives, nesting, and
   ambiguous semantics.
-- [ ] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
+- [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
-  ODRL, and RAI metadata preservation.
+  ODRL, and RAI metadata preservation. Offline governance fixture added
+  (`9a5b45b7`); the authoritative live probe remains an explicit external gate.
 - [ ] **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
   publish separate standard-conformance and parser-capability profiles.
 - [ ] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,

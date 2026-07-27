@@ -67,3 +67,20 @@ def test_croissant_offline_identity_fixture_preserves_governance() -> None:
     assert bundle.manifest.extensions == {
         "mlcommons.org:croissant-governance": {"@id": "https://example.invalid/dataset"}
     }
+
+
+def test_croissant_offline_governance_fixture_preserves_metadata() -> None:
+    """Citation, PROV, usage, ODRL, and RAI metadata remain non-semantic."""
+    bundle = CroissantProvider().ingest(
+        _FIXTURE_ROOT / "valid" / "governed-croissant.json",
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.manifest.provenance.license == "CC-BY-4.0"
+    assert bundle.manifest.provenance.citation == "Example et al. (2026)"
+    governance = bundle.manifest.extensions["mlcommons.org:croissant-governance"]
+    assert governance["citation"] == "Example et al. (2026)"
+    assert governance["usageInfo"] == "Synthetic offline fixture only."
+    assert dict(governance["odrl"]) == {"permission": "use"}
+    assert dict(governance["provenance"]) == {"wasGeneratedBy": "simulation"}
+    assert dict(governance["rai"]) == {"risk": "low"}
