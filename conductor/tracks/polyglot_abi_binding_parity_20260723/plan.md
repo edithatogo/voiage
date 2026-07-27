@@ -65,6 +65,11 @@
   - [ ] Expand the typed C ABI and retain panic containment across every new
     entry point.
 - [ ] Complete Python, direct R, Julia Artifacts/JLL, and Mojo packages.
+  - [x] Add direct R and Julia adapters for Rust-normalized Decision Problem
+    and statistical-assurance JSON plus the pinned Arrow table contract,
+    without requiring Python (`301d7179`).
+  - [x] Review fixes: reject Arrow tables whose ordered columns do not match
+    either pinned v1 logical schema (`301d7179`).
 - [ ] Generate capabilities, headers, docs, and migration adapters.
 - [ ] Generate deterministic unsupported-method responses and fail CI when a
   binding or document advertises capabilities absent from the registry.
