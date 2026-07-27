@@ -311,7 +311,7 @@
           "id": "ax-1-3-1",
           "version": "1.3.1",
           "release_date": "2026-06-09",
-          "reviewed_revision": "main-head",
+          "reviewed_revision": "93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a",
           "platforms": [
             "Python environments"
           ],
@@ -508,10 +508,10 @@
       },
       "versions": [
         {
-          "id": "bcea-2-4-6",
-          "version": "2.4.6",
-          "release_date": null,
-          "reviewed_revision": null,
+          "id": "bcea-2-4-83",
+          "version": "2.4.83",
+          "release_date": "2025-11-26",
+          "reviewed_revision": "e78a922791d649f4e96267474a3344afcc34c26b",
           "platforms": [
             "R"
           ],
@@ -523,8 +523,8 @@
             "remotes::install_github(\"giabaio/BCEA\")"
           ],
           "provenance_urls": [
-            "https://search.r-project.org/CRAN/refmans/BCEA/html/BCEA-package.html",
-            "https://github.com/giabaio/BCEA"
+            "https://cran.r-project.org/src/contrib/BCEA_2.4.83.tar.gz",
+            "https://github.com/giabaio/BCEA/tree/e78a922791d649f4e96267474a3344afcc34c26b"
           ],
           "schema_surfaces": [
             {
@@ -823,7 +823,7 @@
           "id": "bceaweb-unpinned",
           "version": "unknown",
           "release_date": null,
-          "reviewed_revision": null,
+          "reviewed_revision": "2dea7d7ced6d549be362ee986c320cd5579a654d",
           "platforms": [
             "R Shiny",
             "Web"
@@ -1022,7 +1022,7 @@
           "id": "botorch-0-18-1",
           "version": "0.18.1",
           "release_date": "2026-06-08",
-          "reviewed_revision": "main-head",
+          "reviewed_revision": "cd0249c60b2a81af0d91b5e7d462ef6f574fceec",
           "platforms": [
             "Python environments",
             "GPU via PyTorch"
@@ -1221,7 +1221,7 @@
           "id": "causalml-0-17-0",
           "version": "0.17.0",
           "release_date": "2026-07-04",
-          "reviewed_revision": "master-head",
+          "reviewed_revision": "dff8ec352d590161aeba96c89f620acf89953954",
           "platforms": [
             "Python environments"
           ],
@@ -2347,7 +2347,7 @@
       },
       "duplicate_resolution": {
         "relation": "distinct",
-        "canonical_product_id": "causalml",
+        "canonical_product_id": "econml",
         "rationale": "Independent PyWhy/Microsoft causal-estimation implementation."
       },
       "rights": {
@@ -2364,7 +2364,7 @@
           "id": "econml-0-16-0",
           "version": "0.16.0",
           "release_date": "2025-07-14",
-          "reviewed_revision": "main-head",
+          "reviewed_revision": "8e80e89a0fef058b219e2754bb4ed551e5df52c7",
           "platforms": [
             "Python environments"
           ],
@@ -2788,7 +2788,7 @@
           "id": "hesim-0-5-8",
           "version": "0.5.8",
           "release_date": null,
-          "reviewed_revision": null,
+          "reviewed_revision": "676630b6247c8fedec5deed8f23a157e722b392c",
           "platforms": [
             "R"
           ],
@@ -3651,7 +3651,7 @@
           "id": "pomdps-jl-1-0-0-docs",
           "version": "1.0.0+docs",
           "release_date": "2024-06-13",
-          "reviewed_revision": "master-head",
+          "reviewed_revision": "5893e8669790905b3e11c8c271b548da7cc8eea5",
           "platforms": [
             "Julia environments"
           ],
@@ -4143,7 +4143,7 @@
           "id": "pyomo-mpi-sppy-0-14-0",
           "version": "mpi-sppy 0.14.0; Pyomo 6.10.0",
           "release_date": "2026-07-10",
-          "reviewed_revision": "main-head",
+          "reviewed_revision": "mpi-sppy-5b6ccf24ad087b834958cad6d518503af6c5cbd6;pyomo-2ebd0873e63d60f563fe30ba72548b366e4976f9",
           "platforms": [
             "Python environments",
             "MPI clusters"
@@ -4387,7 +4387,7 @@
           "id": "pyro-oed-1-9-1",
           "version": "1.9.1",
           "release_date": "2024-06-02",
-          "reviewed_revision": "dev-head",
+          "reviewed_revision": "64e71eee1c14dc926d5cbc5e762b6337bb4750a6",
           "platforms": [
             "Python environments"
           ],
@@ -5069,7 +5069,7 @@
           "id": "savi-2-2-1",
           "version": "2.2.1",
           "release_date": "2025-02-11",
-          "reviewed_revision": null,
+          "reviewed_revision": "4875b0c1fe6e361536875f32182ab99d38aea399",
           "platforms": [
             "Web",
             "R Shiny Server"
@@ -5328,7 +5328,7 @@
           "id": "sddp-jl-1-13-3",
           "version": "1.13.3",
           "release_date": "2026-07-26",
-          "reviewed_revision": "master-head",
+          "reviewed_revision": "c89416f5611f89cd1fcde1046038a2717aeecd3f",
           "platforms": [
             "Julia environments"
           ],
@@ -6174,7 +6174,7 @@
           "id": "trieste-4-6-0",
           "version": "4.6.0",
           "release_date": "2026-06-17",
-          "reviewed_revision": "develop-head",
+          "reviewed_revision": "2a38167da037ff019a0eb977e1414a4f7f8f3660",
           "platforms": [
             "Python environments",
             "GPU via TensorFlow"
@@ -6641,7 +6641,7 @@
           "id": "voi-1-0-3",
           "version": "1.0.3",
           "release_date": null,
-          "reviewed_revision": null,
+          "reviewed_revision": "b43b89593b2c8c8e5e8024a236a77f9a0dda85ed",
           "platforms": [
             "R"
           ],

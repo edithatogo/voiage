@@ -184,6 +184,40 @@ def test_comprehensive_inventory_preserves_reconciled_discovery_streams() -> Non
     } <= search_ids
 
 
+def test_deep_audit_replaces_rolling_revisions_with_verified_pins() -> None:
+    """Versioned external claims must not depend on moving branch heads."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    assert isinstance(inventory, dict)
+    products = {product["id"]: product for product in inventory["products"]}
+
+    assert products["bcea"]["versions"][0]["version"] == "2.4.83"
+    assert products["bcea"]["versions"][0]["reviewed_revision"] == (
+        "e78a922791d649f4e96267474a3344afcc34c26b"
+    )
+    assert products["econml"]["duplicate_resolution"]["canonical_product_id"] == (
+        "econml"
+    )
+
+    for product_id in (
+        "voi",
+        "bceaweb",
+        "savi",
+        "hesim",
+        "pyro-oed",
+        "botorch",
+        "ax",
+        "trieste",
+        "causalml",
+        "econml",
+        "pyomo-mpi-sppy",
+        "sddp-jl",
+        "pomdps-jl",
+    ):
+        revision = products[product_id]["versions"][0]["reviewed_revision"]
+        assert revision is not None
+        assert "head" not in revision
+
+
 def test_residual_method_searches_and_software_mappings_are_complete() -> None:
     """Issues 593--600 need exact searches without claiming canonical support."""
     inventory = _read_json(COMPREHENSIVE_INVENTORY)
