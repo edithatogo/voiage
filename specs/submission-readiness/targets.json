@@ -96,7 +96,7 @@
       "requirements": [
         {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
-        {"id": "maintenance-and-ai-affirmation", "status": "pending", "evidence": ["SUPPORT.md", "GOVERNANCE.md", "AI_USAGE.md", "paper.md"]}
+        {"id": "maintenance-and-ai-affirmation", "status": "pending", "evidence": ["SUPPORT.md", "GOVERNANCE.md", "AI_USAGE.md", "paper.md", "specs/submission-readiness/pyopensci-evidence.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
       "next_decision": "After the JOSS outcome, refresh criteria and decide whether to open a pre-submission inquiry."

@@ -7,7 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from scripts.validate_submission_readiness import validate_contract
+from scripts.validate_submission_readiness import (
+    validate_contract,
+    validate_pyopensci_evidence,
+)
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs" / "submission-readiness" / "targets.json"
@@ -63,6 +66,15 @@ def test_submission_contract_requires_current_criteria_refresh_evidence() -> Non
 
     assert set(contract["required_target_ids"]) <= set(refresh["target_ids"])
     assert (ROOT / refresh["evidence"]).is_file()
+
+
+def test_pyopensci_matrix_closes_repository_criteria_only() -> None:
+    summary = validate_pyopensci_evidence(
+        ROOT / "specs" / "submission-readiness" / "pyopensci-evidence.json", ROOT
+    )
+
+    assert summary["criterion_count"] >= 10
+    assert summary["deferred"] == ["external-inquiry", "maintainer-commitment"]
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(
