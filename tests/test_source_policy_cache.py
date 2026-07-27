@@ -107,17 +107,26 @@ def test_offline_replay_rejects_path_traversal_before_cache_lookup(
 
 
 @pytest.mark.parametrize(
+    "reference",
+    [
+        "http://127.0.0.1/private.csv",
+        "https://example.invalid/redirect.csv",
+        "ftp://example.invalid/archive.tar",
+        "file:///etc/passwd",
+        "ssh://user:secret@example.invalid/data.csv",
+    ],
+)
+@pytest.mark.parametrize(
     ("allow_network", "message"),
     [(False, "network resource access is disabled"), (True, "not implemented")],
 )
-def test_source_uri_rejects_network_references_under_every_policy(
-    tmp_path, allow_network: bool, message: str
+def test_source_uri_rejects_every_network_scheme_without_leaking_reference(
+    tmp_path, reference: str, allow_network: bool, message: str
 ) -> None:
-    """Descriptors cannot bypass the local-only ingestion boundary via a URI."""
-    with pytest.raises(IngestionError, match=message):
-        SourceAccessPolicy(tmp_path, allow_network=allow_network).source_uri(
-            "https://example.invalid/data.csv"
-        )
+    """No URI reaches DNS, redirects, transport, or an error message."""
+    with pytest.raises(IngestionError, match=message) as error:
+        SourceAccessPolicy(tmp_path, allow_network=allow_network).source_uri(reference)
+    assert reference not in str(error.value)
 
 
 def test_materialize_rejects_checksum_mismatch_and_cache_context_mismatch(
