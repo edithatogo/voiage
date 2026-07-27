@@ -5,9 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 
 from scripts.validate_rust_polyglot_programme import (
+    FRONTIER_PARENT_ISSUE,
+    FRONTIER_SUBISSUES,
+    FRONTIER_TRACK,
     PARENT_ISSUE,
     PARENT_TRACK,
     TRACK_ISSUES,
+    missing_frontier_subissues,
     missing_required_subissues,
     validate_local,
 )
@@ -32,6 +36,22 @@ def test_programme_allows_additional_governed_historical_subissues() -> None:
 
     assert missing_required_subissues(observed) == set()
     assert missing_required_subissues(observed - {314}) == {314}
+
+
+def test_frontier_track_has_five_native_method_gap_subissues() -> None:
+    assert TRACK_ISSUES[FRONTIER_TRACK] == FRONTIER_PARENT_ISSUE == 318
+    assert set(FRONTIER_SUBISSUES) == set(range(556, 561))
+    assert {
+        fields["record id"] for fields in FRONTIER_SUBISSUES.values()
+    } == {
+        "deterministic-sensitivity-analysis",
+        "value-of-distributional-information",
+        "qualitative-voi",
+        "value-of-flexibility",
+        "mcda-voi",
+    }
+    assert missing_frontier_subissues(set(FRONTIER_SUBISSUES)) == set()
+    assert missing_frontier_subissues(set(FRONTIER_SUBISSUES) - {557}) == {557}
 
 
 def test_programme_covers_every_approved_workstream() -> None:

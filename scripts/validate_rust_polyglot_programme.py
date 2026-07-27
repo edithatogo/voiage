@@ -67,6 +67,40 @@ EXPECTED_PROJECT: dict[int, dict[str, str]] = {
     },
     323: {"priority": "P1", "risk level": "High", "review due": "2026-08-31"},
 }
+FRONTIER_TRACK = "supported_frontier_method_completion_20260723"
+FRONTIER_PARENT_ISSUE = TRACK_ISSUES[FRONTIER_TRACK]
+FRONTIER_SUBISSUES: dict[int, dict[str, str]] = {
+    556: {
+        "record id": "deterministic-sensitivity-analysis",
+        "priority": "P1",
+        "risk level": "Medium",
+        "review due": "2026-09-30",
+    },
+    557: {
+        "record id": "value-of-distributional-information",
+        "priority": "P1",
+        "risk level": "High",
+        "review due": "2026-09-30",
+    },
+    558: {
+        "record id": "qualitative-voi",
+        "priority": "P2",
+        "risk level": "High",
+        "review due": "2026-10-31",
+    },
+    559: {
+        "record id": "value-of-flexibility",
+        "priority": "P1",
+        "risk level": "Medium",
+        "review due": "2026-09-30",
+    },
+    560: {
+        "record id": "mcda-voi",
+        "priority": "P1",
+        "risk level": "High",
+        "review due": "2026-09-30",
+    },
+}
 REQUIRED_FILES = ("spec.md", "plan.md", "metadata.json", "index.md", "evidence.jsonl")
 
 
@@ -189,6 +223,29 @@ def validate_local(repo: Path) -> list[str]:
             for filename in index_files
             if f"(./{filename})" not in index
         )
+        if track_id == FRONTIER_TRACK:
+            expected_subissues = {
+                f"https://github.com/edithatogo/voiage/issues/{issue_number}"
+                for issue_number in FRONTIER_SUBISSUES
+            }
+            observed_subissues = set(metadata.get("github_subissues", []))
+            if observed_subissues != expected_subissues:
+                errors.append(
+                    f"{track_id}: GitHub subissues mismatch; expected "
+                    f"{sorted(expected_subissues)}, got {sorted(observed_subissues)}"
+                )
+            for issue_number, fields in FRONTIER_SUBISSUES.items():
+                tokens = (
+                    f"#{issue_number}",
+                    fields["record id"],
+                )
+                for token in tokens:
+                    if token not in spec:
+                        errors.append(f"{track_id}: specification missing {token}")
+                    if token not in plan:
+                        errors.append(f"{track_id}: plan missing {token}")
+                if f"issues/{issue_number}" not in index:
+                    errors.append(f"{track_id}: index missing issue #{issue_number}")
 
         for line_number, line in enumerate(
             (root / "evidence.jsonl").read_text(encoding="utf-8").splitlines(),
@@ -225,23 +282,41 @@ def missing_required_subissues(observed: set[int]) -> set[int]:
     return expected - observed
 
 
+def missing_frontier_subissues(observed: set[int]) -> set[int]:
+    """Return required frontier gap subissues absent from issue #318."""
+    return set(FRONTIER_SUBISSUES) - observed
+
+
 def validate_live_github(repo: Path) -> list[str]:
     """Return live GitHub issue, subissue, and Project 28 validation errors."""
     errors: list[str] = []
     query = (
         'query { repository(owner:"edithatogo",name:"voiage") { '
-        "issue(number:313) { number subIssues(first:100) { nodes { number } } } } }"
+        "programme: issue(number:313) { number "
+        "subIssues(first:100) { nodes { number } } } "
+        "frontier: issue(number:318) { number "
+        "subIssues(first:100) { nodes { number } } } } }"
     )
     result = _run_json(["gh", "api", "graphql", "-f", f"query={query}"], repo)
     subissues = {
         node["number"]
-        for node in result["data"]["repository"]["issue"]["subIssues"]["nodes"]
+        for node in result["data"]["repository"]["programme"]["subIssues"]["nodes"]
     }
     missing_subissues = missing_required_subissues(subissues)
     if missing_subissues:
         errors.append(
             "required native subissues missing: "
             f"{sorted(missing_subissues)}; got {sorted(subissues)}"
+        )
+    frontier_subissues = {
+        node["number"]
+        for node in result["data"]["repository"]["frontier"]["subIssues"]["nodes"]
+    }
+    missing_frontier = missing_frontier_subissues(frontier_subissues)
+    if missing_frontier:
+        errors.append(
+            "required frontier native subissues missing: "
+            f"{sorted(missing_frontier)}; got {sorted(frontier_subissues)}"
         )
 
     issue_data = _run_json(
@@ -280,6 +355,27 @@ def validate_live_github(repo: Path) -> list[str]:
             for token in required_issue_tokens
             if token.casefold() not in body.casefold()
         )
+    for issue_number, fields in FRONTIER_SUBISSUES.items():
+        issue = issues.get(issue_number)
+        if issue is None:
+            errors.append(f"{FRONTIER_TRACK}: GitHub subissue #{issue_number} missing")
+            continue
+        body = issue.get("body") or ""
+        if issue.get("state") != "OPEN":
+            errors.append(f"{FRONTIER_TRACK}: subissue #{issue_number} is not open")
+        required_issue_tokens = (
+            "<!-- voiage-conductor-managed:start -->",
+            FRONTIER_TRACK,
+            f"Parent issue: #{FRONTIER_PARENT_ISSUE}",
+            f"Method family: `{fields['record id']}`",
+            "<!-- voiage-conductor-managed:end -->",
+            "closure",
+        )
+        errors.extend(
+            f"{FRONTIER_TRACK}: subissue #{issue_number} body missing {token}"
+            for token in required_issue_tokens
+            if token.casefold() not in body.casefold()
+        )
 
     project = _run_json(
         [
@@ -290,7 +386,7 @@ def validate_live_github(repo: Path) -> list[str]:
             "--owner",
             "edithatogo",
             "--limit",
-            "200",
+            "500",
             "--format",
             "json",
         ],
@@ -301,7 +397,8 @@ def validate_live_github(repo: Path) -> list[str]:
         for item in project["items"]
         if isinstance(item.get("content"), dict)
         and item["content"].get("repository") == "edithatogo/voiage"
-        and item["content"].get("number") in TRACK_ISSUES.values()
+        and item["content"].get("number")
+        in {*TRACK_ISSUES.values(), *FRONTIER_SUBISSUES}
     }
     common = {
         "status": "Todo",
@@ -330,6 +427,29 @@ def validate_live_github(repo: Path) -> list[str]:
                 errors.append(
                     f"{track_id}: Project field {field!r} expected {value!r}, "
                     f"got {item.get(field)!r}"
+                )
+    frontier_common = {
+        "status": "Todo",
+        "moscow": "Should",
+        "record type": "Development ledger",
+        "lifecycle": "Open",
+        "gate": "Local",
+        "owner role": "Maintainer",
+        "evidence state": "Unverified",
+        "contract version": "1.0.0",
+        "sync state": "Clean",
+        "track id": FRONTIER_TRACK,
+    }
+    for issue_number, specific in FRONTIER_SUBISSUES.items():
+        item = items.get(issue_number)
+        if item is None:
+            errors.append(f"{FRONTIER_TRACK}: Project item #{issue_number} missing")
+            continue
+        for field, value in {**frontier_common, **specific}.items():
+            if item.get(field) != value:
+                errors.append(
+                    f"{FRONTIER_TRACK}: Project item #{issue_number} field "
+                    f"{field!r} expected {value!r}, got {item.get(field)!r}"
                 )
     return errors
 

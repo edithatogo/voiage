@@ -520,7 +520,31 @@ VOI tooling.
         `specs/frontier/shared-maturity/v1/`, and deterministic normative
         fixtures are now committed for the causal, data-quality,
         computational, and expert-synthesis adjacent families.
-5.  **Documentation and Evidence:**
+5.  **Explicit Method-Gap Programme:**
+    *   **Status: `📋 Planned / implementation and parity open`**
+    *   The supported-frontier track
+        `supported_frontier_method_completion_20260723` and GitHub parent #318
+        now own five native subissues:
+        [DSA #556](https://github.com/edithatogo/voiage/issues/556),
+        [VDI #557](https://github.com/edithatogo/voiage/issues/557),
+        [qualitative VoI #558](https://github.com/edithatogo/voiage/issues/558),
+        [VoF #559](https://github.com/edithatogo/voiage/issues/559), and
+        [MCDA-VOI #560](https://github.com/edithatogo/voiage/issues/560).
+    *   DSA is a deterministic parameter/scenario sensitivity workflow, not PSA,
+        global sensitivity, or a VOI estimand. VDI resolves uncertainty over
+        distributional families or assumptions and is not the existing
+        distributional-equity method. Qualitative VoI must remain auditable and
+        non-numeric unless quantitative evidence actually supports an estimand.
+    *   VoF is adjacent option value: the existing dynamic real-options and
+        sequential behavior must be reconciled into an explicit
+        constrained-versus-flexible policy contract. MCDA-VOI requires installed
+        decision/ranking and information-value execution; portfolio/Pareto
+        helpers and mock references do not establish support.
+    *   Each workstream must freeze its estimand or assessment schema, failure
+        policy, diagnostics, fixtures, independent evidence, maturity, and
+        Rust/Python/R/Julia/Mojo disposition. A reviewed exclusion is valid;
+        silent omission or an adjacent implementation is not.
+6.  **Documentation and Evidence:**
     *   **Status: `✅ Fixture-backed documentation baseline complete / stable-method promotion gated`**
     *   Maintain the frontier-method rationale in the Astro route `sota-voi-frontier/`.
     *   Add CHEERS-VOI reporting metadata, schemas, deterministic fixtures,

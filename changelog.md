@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added native GitHub subissues #556--#560 and decision-complete Conductor
+  workstreams for deterministic sensitivity analysis, Value of Distributional
+  Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is
+  planning and governance coverage; it does not claim runtime or binding support.
 - Added Rust-owned runtime statistical assurance for expected opportunity
   loss, including sample variance, Monte Carlo standard error, a disclosed
   confidence interval, computational budget, numerical-error policy, a typed

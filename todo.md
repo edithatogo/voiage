@@ -17,6 +17,24 @@ This document lists the actionable tasks for `voiage` development. Agents should
             parity and scientific freeze remain in progress.
     *   Deliver stable Rust authority, complete Value of Perspective, supported
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
+        *   The supported-frontier parent #318 and Conductor track
+            `supported_frontier_method_completion_20260723` now own native
+            subissues #556--#560. Complete or scientifically exclude:
+            deterministic sensitivity analysis (DSA, #556); Value of
+            Distributional Information over distribution-family uncertainty
+            (VDI, #557); an auditable non-fabricated qualitative VoI workflow
+            (#558); explicit constrained-versus-flexible policy value and its
+            dynamic real-options mapping (VoF, #559); and installed MCDA
+            decision/information-value execution without mock fallbacks
+            (MCDA-VOI, #560).
+        *   For every accepted gap, synchronize the estimand/schema, Rust core
+            where numerical, Python/R/Julia adapters, Mojo disposition,
+            diagnostics, serialization, registry/capabilities, independent
+            reference, analytical or enumerable examples, properties,
+            pathological fixtures, docs, and maturity evidence. Qualitative VoI
+            additionally requires human usability/accessibility and audit review.
+            A citation, mock, schema-only scaffold, or adjacent method cannot
+            close a subissue.
         *   Net-benefit construction is now Rust-authoritative and covered by
             cross-language normal/edge/invalid fixtures, properties,
             diagnostics, a CI-gated benchmark, and a bounded critical mutation

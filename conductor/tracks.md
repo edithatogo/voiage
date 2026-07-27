@@ -40,7 +40,9 @@ freeze.*
 ## [ ] Track: Supported Frontier Method Completion
 *Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
 *Execution order: 06 of 11.*
-*Status: new — complete, consolidate, demote, or gate every broader VOI family.*
+*Status: new — GitHub #318 owns native method-gap subissues #556--#560 for
+DSA, VDI, qualitative VoI, VoF, and MCDA-VOI; complete, consolidate, demote, or
+gate each family without overstating fixture, mock, or adjacent-method evidence.*
 
 ---
 
