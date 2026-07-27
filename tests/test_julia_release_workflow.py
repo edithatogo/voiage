@@ -22,6 +22,5 @@ def test_julia_release_workflow_and_checklist_align() -> None:
         in checklist_text
     )
     assert (
-        "Julia General registry submission/approval remains external/manual."
-        in checklist_text
+        "Julia General registry merge and indexing remain external." in checklist_text
     )

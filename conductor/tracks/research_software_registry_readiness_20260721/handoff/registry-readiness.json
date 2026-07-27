@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-27T00:35:02Z",
-  "next_action": "Monitor conda-forge PR 34308 for external review, merge, feedstock creation, and channel indexing; its corrected hosted matrix is green and review has been requested. Obtain the author's complete AI-policy attestation, document completed research-workflow use, and obtain genuine human engagement through issue #471 or another attributable route. Complete replacement arXiv submission 7870358 through the author-controlled category and licence choices, then record its permanent identifier before direct JOSS submission. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 passes lint and staged-recipes build 1558265 for current Python 3.12/3.13 variants on Linux, macOS, and Windows; installed tests load the Rust core, reconcile native/package versions, and reproduce the known EVPI result. External review, merge, feedstock creation, and channel indexing remain pending. Python 3.14 should follow the normal conda-forge migration when global pins permit it. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft expiring 9 August 2026 and is not completed submission evidence. Demonstrated research use is a JOSS pre-review gate. Human community engagement is a detailed-review criterion, strong positive pre-review signal, and author-selected prerequisite. Author AI attestation, arXiv completion and announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-27T02:18:11Z",
+  "next_action": "Monitor Yggdrasil PR 14292 and answer BinaryBuilder bot or maintainer feedback. After voiage_ffi_jll is registered, add its generated UUID and compat bound to bindings/julia, replace the local-library default with the JLL product, run clean-depot platform tests, merge the repository PR, and trigger @JuliaRegistrator register subdir=bindings/julia. Monitor conda-forge PR 34308 for external review and merge. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry and SciCrunch/RRID remain separate paths.",
+  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -44,6 +44,21 @@
     "verification_at": "2026-07-26T11:50:00Z",
     "verification": "Software Heritage reports a full v2 visit and snapshot containing the signed v2.0.0 release."
   },
+  "julia_registry_evidence": {
+    "status": "jll_recipe_submitted",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/555",
+    "repository_pull_request": "https://github.com/edithatogo/voiage/pull/561",
+    "yggdrasil_pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "source_revision": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "binary_product": "libvoiage_ffi",
+    "target_package": "voiage_ffi_jll",
+    "repository_recipe": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
+    "current_evidence": "The recipe parses and reaches BinaryBuilder runner creation locally. Yggdrasil Buildkite passes all seven requested targets: x86_64 and aarch64 glibc Linux, x86_64 and aarch64 musl Linux, x86_64 and aarch64 macOS, and x86_64 Windows.",
+    "next_external_gate": "BinaryBuilder bot and Yggdrasil maintainer acceptance followed by automatic JLL registration.",
+    "general_trigger": "@JuliaRegistrator register subdir=bindings/julia",
+    "general_gate": "The trigger is intentionally deferred until the registered JLL UUID exists and clean-depot artifact tests pass.",
+    "tagbot_authentication": "Verified repository-scoped write deploy key 158430276 is configured; its private key is stored as the DOCUMENTER_KEY Actions secret so TagBot can trigger downstream release workflows without a broad PAT."
+  },
   "joss_submission_evidence": {
       "status": "revision_in_progress_pending_human_and_external_evidence",
     "files": [
@@ -70,7 +85,7 @@
       "python": "clean PyPI install reports metadata and runtime version 2.0.0 and loads the Rust core from the published abi3 wheel",
       "rust": "workspace tests pass excluding the separately wheel-tested private PyO3 crate",
       "r": "fresh 1.0.0 source package passes R CMD check --as-cran with two environmental/new-submission notes",
-      "julia": "Pkg.test passes against a locally built voiage-ffi library; artifact/JLL distribution remains pending"
+      "julia": "Aqua and Pkg.test pass against a locally built voiage-ffi library; Yggdrasil PR 14292 is submitted and JLL acceptance remains pending"
     },
     "selected_route": "direct_joss",
     "route_rationale": "Direct JOSS preserves the submission's Rust-centred polyglot scope. pyOpenSci remains an optional later Python-package review rather than the selected route.",
@@ -187,6 +202,13 @@
       "status": "submitted_external_review",
       "artifact": "https://github.com/conda-forge/staged-recipes/pull/34308",
       "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe. The corrected recipe passes lint and staged-recipes build 1558265 for current Python 3.12 and 3.13 variants on Linux, macOS, and Windows. Installed tests load the Rust core, reconcile native/package versions, and reproduce the known EVPI result. External maintainer review was requested; merge, feedstock creation, channel indexing, and future Python 3.14 migration remain externally controlled."
+    },
+    {
+      "command": "BinaryBuilder recipe parse; isolated Julia Aqua and Pkg.test; authenticated Yggdrasil fork and pull request",
+      "runner": "local Julia 1.12.6, Rust release build, GitHub API, and Yggdrasil Buildkite",
+      "status": "submitted_external_review",
+      "artifact": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+      "details": "The signed v2.0.0 Rust C ABI source builds locally and exports voiage_v1_evpi. The Julia source package passes all 11 Aqua checks, two EVPI tests, and 11 shared-reference assertions in an isolated package copy. Yggdrasil Buildkite passes all seven requested 64-bit glibc/musl Linux, macOS, and Windows targets. Repository-scoped deploy key 158430276 and DOCUMENTER_KEY enable TagBot-triggered downstream workflows without a broad PAT. JLL acceptance, generated UUID availability, Registrator submission, General merge, and indexing remain external or sequential gates."
     }
   ]
 }

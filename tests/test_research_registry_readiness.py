@@ -18,7 +18,7 @@ def test_registry_handoff_preserves_release_and_external_gates() -> None:
         "track_id": "research_software_registry_readiness_20260721",
         "channel": "research-software-registries",
         "status": "blocked",
-        "command_count": 10,
+        "command_count": 11,
         "evidence_count": 8,
     }
 
