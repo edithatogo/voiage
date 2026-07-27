@@ -2577,7 +2577,7 @@ def calculate_structural_evpi(
 
             # Create evaluator function
             def make_evaluator(nb_array: object) -> Callable[[object], object]:
-                def evaluator(psa_sample: object) -> object:
+                def evaluator(_psa_sample: object) -> object:
                     return nb_array
 
                 return evaluator
@@ -2742,7 +2742,7 @@ def calculate_structural_evppi(
 
             # Create evaluator function
             def make_evaluator(nb_array: object) -> Callable[[object], object]:
-                def evaluator(psa_sample: object) -> object:
+                def evaluator(_psa_sample: object) -> object:
                     return nb_array
 
                 return evaluator

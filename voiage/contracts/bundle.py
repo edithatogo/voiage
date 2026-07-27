@@ -49,9 +49,9 @@ class _ArrowReaderContext(Protocol):
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
-        exc_value: BaseException | None,
-        traceback: object,
+        _exc_type: type[BaseException] | None,
+        _exc_value: BaseException | None,
+        _traceback: object,
     ) -> bool | None: ...
 
 

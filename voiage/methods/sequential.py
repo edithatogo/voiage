@@ -318,7 +318,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     # Test with backward induction method
     def dummy_step_model(
-        psa: object, action: object, dyn_spec: object
+        psa: object, action: object, _dyn_spec: object
     ) -> dict[str, object]:
         """Return the input PSA unchanged for smoke testing."""
         return {"next_psa": psa}
@@ -339,7 +339,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     # Test with generator method
     def dummy_step_model(
-        psa: object, action: object, dyn_spec: object
+        psa: object, action: object, _dyn_spec: object
     ) -> dict[str, object]:
         """Return the input PSA unchanged for smoke testing."""
         return {"next_psa": psa}

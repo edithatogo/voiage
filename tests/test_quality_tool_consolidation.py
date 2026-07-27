@@ -66,6 +66,14 @@ def test_safety_and_pip_tools_do_not_return_to_the_tox_policy() -> None:
     assert dispositions["safety-and-pip-tools"] == "consolidated-into-pip-audit"
 
 
+def test_vulture_dead_code_check_is_blocking() -> None:
+    """Whole-program dead-code evidence must not be advisory-only."""
+    workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+
+    assert "uv run vulture voiage --min-confidence 80" in workflow
+    assert "vulture voiage --min-confidence 80 || true" not in workflow
+
+
 def test_quality_tool_dispositions_are_unique_and_evidence_backed() -> None:
     """Every retained or consolidated tool has a unique, checked disposition."""
     payload = _registry()

@@ -244,9 +244,9 @@ class FluentDecisionAnalysis(DecisionAnalysis):
 
     def __exit__(
         self,
-        exc_type: object,
-        exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
+        _exc_type: object,
+        _exc_val: BaseException | None,
+        _exc_tb: TracebackType | None,
     ) -> None:
         """Exit context manager."""
         pass

@@ -481,13 +481,13 @@ if __name__ == "__main__":  # pragma: no cover
 
     # Test with simple example
     # Create mock model structure evaluators
-    def mock_evaluator1(psa_sample: object) -> NetBenefitArray:
+    def mock_evaluator1(_psa_sample: object) -> NetBenefitArray:
         """Return a fixed two-strategy net benefit array for smoke testing."""
         # Simple evaluator that returns fixed net benefits
         values = np.array([[10, 5], [8, 7], [12, 3]])  # 3 samples, 2 strategies
         return NetBenefitArray.from_numpy(values, ["Strategy A", "Strategy B"])
 
-    def mock_evaluator2(psa_sample: object) -> NetBenefitArray:
+    def mock_evaluator2(_psa_sample: object) -> NetBenefitArray:
         """Return another fixed two-strategy net benefit array for smoke testing."""
         # Another simple evaluator
         values = np.array([[6, 9], [7, 8], [5, 10]])  # 3 samples, 2 strategies

@@ -26,7 +26,7 @@
     },
     "github-actions": {
       "workflow_count": 27,
-      "workflow_digest": "4edbd56b71e6a6ed84f6ffce46c7b425c38b367198f6fb26156d56231c4768ab",
+      "workflow_digest": "f07ee3b7845325f4dddc17431e2613f00bbb6dd8aacd2d0b8b8796a5a61fac68",
       "action_references": [
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b",
         "YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df",

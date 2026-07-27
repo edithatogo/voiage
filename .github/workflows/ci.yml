@@ -244,7 +244,7 @@ jobs:
       run: uv run ruff format voiage tests --check
 
     - name: Check for dead code
-      run: uv run vulture voiage --min-confidence 80 || true
+      run: uv run vulture voiage --min-confidence 80
 
     - name: Run ty frontier
       run: >-

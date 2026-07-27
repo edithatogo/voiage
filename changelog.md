@@ -11,12 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- Made `ty` the routine local and pull-request type gate. BasedPyright now
-  provides a separately runnable strict assurance lane on the weekly schedule
-  or an explicit manual request.
-
 ### Removed
 
 - Removed the obsolete `tomli` backport now that Python 3.12 is the supported
@@ -230,6 +224,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Made `ty` the routine local and pull-request type gate. BasedPyright now
+  provides a separately runnable strict assurance lane on the weekly schedule
+  or an explicit manual request.
+- Made the high-confidence Vulture whole-program dead-code check blocking
+  after resolving its current findings without changing public call contracts.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.
