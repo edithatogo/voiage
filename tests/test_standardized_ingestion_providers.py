@@ -94,6 +94,54 @@ def test_built_in_providers_normalize_supported_csv_profile(
     )
 
 
+@pytest.mark.parametrize("provider", ["croissant", "frictionless"])
+def test_built_in_provider_replays_a_verified_cached_resource_offline(
+    tmp_path, provider
+) -> None:
+    """Built-ins consume the verified cache rather than bypassing it on replay."""
+    _write_csv(tmp_path)
+    source = tmp_path / "samples.csv"
+    digest = digest_file(source)
+    if provider == "croissant":
+        descriptor = {
+            "@context": "https://mlcommons.org/croissant/1.1",
+            "distribution": [{"contentUrl": "samples.csv", "sha256": digest}],
+            "recordSet": [{"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}],
+        }
+        descriptor_path = tmp_path / "croissant.json"
+    else:
+        descriptor = {
+            "resources": [
+                {
+                    "name": "samples",
+                    "path": "samples.csv",
+                    "hash": digest,
+                    "bytes": source.stat().st_size,
+                    "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                }
+            ]
+        }
+        descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+    cache = tmp_path / "cache"
+
+    default_registry().ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(tmp_path, cache_dir=cache, cache_namespace="test"),
+    )
+    source.unlink()
+
+    bundle = default_registry().ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(
+            tmp_path, cache_dir=cache, cache_namespace="test", offline=True
+        ),
+    )
+
+    assert bundle.table("samples").num_rows == 2
+    assert bundle.manifest.resources[0].uri == source.as_uri()
+
+
 def test_frictionless_provider_validates_declared_types_constraints_and_primary_key(
     tmp_path,
 ) -> None:
