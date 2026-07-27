@@ -53,6 +53,46 @@ def test_frictionless_offline_valid_profile_fixture_materializes() -> None:
     )
 
 
+def test_frictionless_rejects_non_object_resource_descriptors(tmp_path) -> None:
+    """Resources must be objects before any materialization is attempted."""
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps({"resources": ["not-a-resource"]}), encoding="utf-8"
+    )
+
+    with pytest.raises(IngestionError, match="resources must be objects"):
+        FrictionlessProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_frictionless_rejects_duplicate_resource_names(tmp_path) -> None:
+    """Resource identifiers must remain unambiguous in normalized bundles."""
+    (tmp_path / "first.csv").write_text("id\n1\n", encoding="utf-8")
+    (tmp_path / "second.csv").write_text("id\n2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "first.csv",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    },
+                    {
+                        "name": "samples",
+                        "path": "second.csv",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="resource names must be unique"):
+        FrictionlessProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+
 def test_frictionless_multiple_resources_preserve_and_validate_foreign_keys(
     tmp_path,
 ) -> None:
@@ -77,6 +117,16 @@ def test_frictionless_multiple_resources_preserve_and_validate_foreign_keys(
     ("foreign_key", "message"),
     [
         ("not-a-list", "foreignKeys must be a list"),
+        (["not-an-object"], "foreignKeys require a reference"),
+        (
+            [
+                {
+                    "fields": "parent_id",
+                    "reference": {"resource": 1, "fields": "id"},
+                }
+            ],
+            "foreignKeys require resource and fields",
+        ),
         (
             [
                 {
