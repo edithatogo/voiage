@@ -77,6 +77,11 @@
   matrix before requesting conda-forge review. (`581fcafb`; staged-recipes
   build `1558265` passes lint and current Python 3.12/3.13 variants on Linux,
   macOS, and Windows; external review requested)
+- [~] Publish the Rust C ABI through BinaryBuilder/Yggdrasil, consume the
+  generated JLL from the Julia binding, and initiate subdirectory registration
+  in Julia General with collision-free TagBot automation. BinaryBuilder,
+  General registry bots, and registry maintainers remain external acceptance
+  gates.
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
