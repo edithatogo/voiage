@@ -1,0 +1,1 @@
+P4-T4/P4-T8 partial implementation: public CroissantProvider and FrictionlessProvider names now resolve lazily through the ingestion package, preventing ordinary ingestion imports from loading either adapter. Red isolation test, focused provider suite, Ruff, and ty pass. The wider profile acceptance criteria remain active.
