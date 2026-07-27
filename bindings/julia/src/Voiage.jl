@@ -5,7 +5,7 @@ using Arrow
 using JSON
 using Tables
 
-export evpi, normalize_decision_problem, normalize_statistical_assurance, read_voiage_arrow
+export enbs, evpi, normalize_decision_problem, normalize_statistical_assurance, read_voiage_arrow
 
 const _OK = Cint(0)
 
@@ -133,6 +133,35 @@ function evpi(net_benefits::AbstractMatrix{<:Real})::Float64
             result,
         )
         status == _OK || throw(ErrorException("voiage Rust EVPI ABI failed with status $status"))
+        return result[]
+    finally
+        Libdl.dlclose(handle)
+    end
+end
+
+"""
+    enbs(evsi_result, research_cost)
+
+Calculate expected net benefit of sampling through the Rust v1 C ABI.
+"""
+function enbs(evsi_result::Real, research_cost::Real)::Float64
+    values = (Float64(evsi_result), Float64(research_cost))
+    if any(value -> !isfinite(value), values)
+        throw(ArgumentError("evsi_result and research_cost must be finite numbers"))
+    end
+    result = Ref{Cdouble}(0.0)
+    handle = _ffi_library()
+    try
+        function_pointer = Libdl.dlsym(handle, :voiage_v1_enbs)
+        status = ccall(
+            function_pointer,
+            Cint,
+            (Cdouble, Cdouble, Ref{Cdouble}),
+            values[1],
+            values[2],
+            result,
+        )
+        status == _OK || throw(ErrorException("voiage Rust ENBS ABI failed with status $status"))
         return result[]
     finally
         Libdl.dlclose(handle)

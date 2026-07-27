@@ -17,8 +17,10 @@ using Voiage
 
 net_benefits = [10.0 1.0; 2.0 8.0]
 evpi_value = evpi(net_benefits)
+enbs_value = enbs(2.5, 1.0)
 
 @show evpi_value
+@show enbs_value
 ```
 
 This example returns `3.0` for the simple two-strategy matrix above.

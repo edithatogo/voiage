@@ -10,6 +10,8 @@ def test_julia_contracts_use_direct_rust_json_and_arrow_adapters() -> None:
     project = (ROOT / "bindings/julia/Project.toml").read_text(encoding="utf-8")
     assert ":voiage_v1_decision_problem_json" in source
     assert ":voiage_v1_statistical_assurance_json" in source
+    assert ":voiage_v1_enbs" in source
+    assert "export enbs" in source
     assert "Arrow.Table(path)" in source
     assert "does not match a pinned voiage v1 schema" in source
     assert 'Arrow = "69666777-d1a9-59fb-9406-91d4454c9d45"' in project
