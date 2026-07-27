@@ -30,6 +30,9 @@
   in Arrow, JSON, C ABI, and language-native representations.
   - [x] Carry EVPI sample-average variance and Monte Carlo error through the C
     ABI typed result.
+  - [x] Add fail-closed Decision Problem JSON validation and caller-owned C-ABI
+    query/copy transport as the first versioned serialization buffer.
+    (`e6777127`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
