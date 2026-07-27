@@ -11,10 +11,18 @@
     "group:monorepos",
     "group:recommended"
   ],
+  "enabledManagers": [
+    "cargo",
+    "github-actions",
+    "npm",
+    "pep621",
+    "pip_requirements",
+    "pip_setup"
+  ],
   "schedule": ["every weekend"],
   "packageRules": [
     {
-      "matchManagers": ["pip_requirements", "pip_setup", "pyproject"],
+      "matchManagers": ["pep621", "pip_requirements", "pip_setup"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "automergeType": "branch",

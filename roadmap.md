@@ -217,7 +217,7 @@ creates a second preparation path or domain-specific numerical kernel.
         environment approvals, and plan-dependent secret-scanning features
         remain explicit administrator-owned gates. The repository lockfiles
         now carry patched Python and Starlight documentation dependencies for
-        the current advisory set; future advisories remain Dependabot-owned
+        the current advisory set; future update follow-up remains Renovate-owned
         follow-up work.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
