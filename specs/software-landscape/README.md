@@ -29,6 +29,12 @@ It records observable capabilities rather than marketing parity.
   primary-source-backed planning candidates and reviewed non-gaps. They do not
   amend the accepted canonical registry or claim runtime/binding support; an
   additive method-census review and hash-bound approval are required first.
+- `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
+  version, schema, capability, subfeature, option, evidence, rights, duplicate,
+  extraction-coverage, and adoption-lesson contract.
+- `review-protocol.json` and its schema freeze evidence ordering, claim
+  ceilings, discovery, inclusion/exclusion, commercial observability, rights,
+  freshness, deterministic generation, and checksum-bound analyst review.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing

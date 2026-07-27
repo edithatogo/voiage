@@ -29,6 +29,11 @@ LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
 LICENSE_RIGHTS_SCHEMA = LANDSCAPE / "license-rights.schema.json"
 FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
+COMPREHENSIVE_INVENTORY_SCHEMA = (
+    LANDSCAPE / "comprehensive-inventory.schema.json"
+)
+REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
+REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
 FREEZE_CANDIDATE_SCHEMA = LANDSCAPE / "v1.1-scientific-freeze-candidate.schema.json"
 FREEZE_APPROVAL = LANDSCAPE / "v1.1-scientific-freeze-approval.json"
@@ -52,6 +57,54 @@ def test_software_landscape_validates_against_schema() -> None:
 
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema).validate(registry)
+
+
+def test_comprehensive_inventory_and_review_protocol_are_frozen() -> None:
+    """Phase 2 must freeze nested records and review policy before discovery."""
+    inventory_schema = _read_json(COMPREHENSIVE_INVENTORY_SCHEMA)
+    protocol = _read_json(REVIEW_PROTOCOL)
+    protocol_schema = _read_json(REVIEW_PROTOCOL_SCHEMA)
+    assert isinstance(inventory_schema, dict)
+    assert isinstance(protocol, dict)
+    assert isinstance(protocol_schema, dict)
+
+    Draft202012Validator.check_schema(inventory_schema)
+    Draft202012Validator.check_schema(protocol_schema)
+    Draft202012Validator(
+        protocol_schema,
+        format_checker=FormatChecker(),
+    ).validate(protocol)
+
+    assert protocol["inventory_schema_version"] == "2.0.0"
+    assert protocol["evidence_strength_order"] == [
+        "executable-version-pinned-source-and-tests",
+        "version-pinned-source",
+        "version-pinned-documentation",
+        "public-observation",
+        "vendor-claim",
+        "inaccessible",
+    ]
+    assert protocol["freshness"]["maximum_age_days"] == 93
+    assert protocol["deterministic_generation"]["source_records_append_only"] is True
+    assert protocol["deterministic_generation"]["analyst_decisions_separate"] is True
+    assert protocol["commercial_observability"]["infer_hidden_behavior"] is False
+    assert protocol["rights"]["unknown_license_source_reuse"] == "prohibited"
+
+    required_dimensions = set(protocol["extraction"]["required_dimensions"])
+    assert {
+        "identity",
+        "versions",
+        "schemas",
+        "features",
+        "subfeatures",
+        "options-and-defaults",
+        "diagnostics-and-errors",
+        "workflows-and-integrations",
+        "reporting-and-accessibility",
+        "tests-and-examples",
+        "performance",
+        "rights-and-provenance",
+    } <= required_dimensions
 
 
 def test_required_ecosystems_and_seed_tools_are_present() -> None:

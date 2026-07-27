@@ -1,0 +1,128 @@
+{
+  "$schema": "./review-protocol.schema.json",
+  "schema_version": "1.0.0",
+  "inventory_schema_version": "2.0.0",
+  "reviewed_on": "2026-07-27",
+  "owner_issue": 569,
+  "evidence_strength_order": [
+    "executable-version-pinned-source-and-tests",
+    "version-pinned-source",
+    "version-pinned-documentation",
+    "public-observation",
+    "vendor-claim",
+    "inaccessible"
+  ],
+  "evidence_claim_ceiling": {
+    "executable-version-pinned-source-and-tests": "reproducible-observation",
+    "version-pinned-source": "inspectable-implementation",
+    "version-pinned-documentation": "documented-behavior",
+    "public-observation": "observed-behavior",
+    "vendor-claim": "claimed-behavior",
+    "inaccessible": "unknown"
+  },
+  "discovery": {
+    "rules": [
+      "Record every registry, repository, archive, paper, supplement, product page, and search query with its date and result.",
+      "Search across decision analysis, HTA, Bayesian experimental design, active learning, causal policy, forecasting, optimization, and information economics.",
+      "Treat the inventory as comprehensive within recorded channels and dates, never universally exhaustive."
+    ]
+  },
+  "inclusion": {
+    "rules": [
+      "Include software that computes, supports, visualizes, or operationalizes a decision-relevant value-of-information estimand, estimator, workflow, or uniquely instructive adjacent analysis.",
+      "Include inactive or archived software when it offers a unique method, schema, workflow, or adoption lesson.",
+      "Retain commercial and hosted software only to the level supported by publicly observable evidence."
+    ]
+  },
+  "exclusion": {
+    "rules": [
+      "Exclude a generic uncertainty, sensitivity, optimization, or machine-learning tool unless a recorded decision-information workflow or uniquely relevant adjacent capability is present.",
+      "Do not infer hidden algorithms, defaults, numerical equivalence, security, performance, or private product behavior.",
+      "Record exclusions and deferred candidates with reasons so later refreshes do not repeat unbounded discovery."
+    ]
+  },
+  "duplicates": {
+    "relations": [
+      "canonical",
+      "fork",
+      "rename",
+      "successor",
+      "duplicate",
+      "distinct"
+    ],
+    "canonical_record_required": true,
+    "preserve_aliases": true
+  },
+  "rights": {
+    "license_evidence_required": true,
+    "unknown_license_source_reuse": "prohibited",
+    "external_fixture_policy": "independent-only",
+    "competitor_dependency_allowed": false
+  },
+  "freshness": {
+    "maximum_age_days": 93,
+    "minor_release_refresh_required": true
+  },
+  "commercial_observability": {
+    "infer_hidden_behavior": false,
+    "purchase_required": false,
+    "allowed_claim_states": [
+      "documented",
+      "observed",
+      "claimed",
+      "inaccessible",
+      "unknown"
+    ]
+  },
+  "extraction": {
+    "required_dimensions": [
+      "identity",
+      "versions",
+      "schemas",
+      "features",
+      "subfeatures",
+      "options-and-defaults",
+      "diagnostics-and-errors",
+      "workflows-and-integrations",
+      "reporting-and-accessibility",
+      "tests-and-examples",
+      "performance",
+      "rights-and-provenance",
+      "maintenance-and-release-history"
+    ],
+    "missingness_states": [
+      "observed",
+      "absent",
+      "unknown",
+      "inaccessible",
+      "not-applicable"
+    ]
+  },
+  "deterministic_generation": {
+    "source_records_append_only": true,
+    "analyst_decisions_separate": true,
+    "stable_sort_keys": [
+      "product.id",
+      "version.id",
+      "schema_surface.id",
+      "capability.id",
+      "subfeature.id",
+      "option.id",
+      "evidence_observation.id"
+    ],
+    "generated_artifacts_overwritable": true,
+    "automatic_roadmap_mutation": false
+  },
+  "analyst_review": {
+    "required_for_improvement_adoption": true,
+    "decision_states": [
+      "pending",
+      "approved",
+      "rejected",
+      "revised",
+      "deferred"
+    ],
+    "checksum_bound": true,
+    "source_inventory_mutable_by_decision": false
+  }
+}

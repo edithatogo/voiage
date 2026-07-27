@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/review-protocol.schema.json",
+  "title": "VOIAGE software landscape review protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "inventory_schema_version",
+    "reviewed_on",
+    "owner_issue",
+    "evidence_strength_order",
+    "evidence_claim_ceiling",
+    "discovery",
+    "inclusion",
+    "exclusion",
+    "duplicates",
+    "rights",
+    "freshness",
+    "commercial_observability",
+    "extraction",
+    "deterministic_generation",
+    "analyst_review"
+  ],
+  "properties": {
+    "$schema": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "1.0.0"},
+    "inventory_schema_version": {"const": "2.0.0"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "owner_issue": {"const": 569},
+    "evidence_strength_order": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "executable-version-pinned-source-and-tests"},
+        {"const": "version-pinned-source"},
+        {"const": "version-pinned-documentation"},
+        {"const": "public-observation"},
+        {"const": "vendor-claim"},
+        {"const": "inaccessible"}
+      ],
+      "items": false
+    },
+    "evidence_claim_ceiling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executable-version-pinned-source-and-tests",
+        "version-pinned-source",
+        "version-pinned-documentation",
+        "public-observation",
+        "vendor-claim",
+        "inaccessible"
+      ],
+      "properties": {
+        "executable-version-pinned-source-and-tests": {
+          "const": "reproducible-observation"
+        },
+        "version-pinned-source": {"const": "inspectable-implementation"},
+        "version-pinned-documentation": {"const": "documented-behavior"},
+        "public-observation": {"const": "observed-behavior"},
+        "vendor-claim": {"const": "claimed-behavior"},
+        "inaccessible": {"const": "unknown"}
+      }
+    },
+    "discovery": {"$ref": "#/$defs/rules"},
+    "inclusion": {"$ref": "#/$defs/rules"},
+    "exclusion": {"$ref": "#/$defs/rules"},
+    "duplicates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relations", "canonical_record_required", "preserve_aliases"],
+      "properties": {
+        "relations": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "canonical",
+              "fork",
+              "rename",
+              "successor",
+              "duplicate",
+              "distinct"
+            ]
+          }
+        },
+        "canonical_record_required": {"const": true},
+        "preserve_aliases": {"const": true}
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "license_evidence_required",
+        "unknown_license_source_reuse",
+        "external_fixture_policy",
+        "competitor_dependency_allowed"
+      ],
+      "properties": {
+        "license_evidence_required": {"const": true},
+        "unknown_license_source_reuse": {"const": "prohibited"},
+        "external_fixture_policy": {"const": "independent-only"},
+        "competitor_dependency_allowed": {"const": false}
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maximum_age_days", "minor_release_refresh_required"],
+      "properties": {
+        "maximum_age_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 93
+        },
+        "minor_release_refresh_required": {"const": true}
+      }
+    },
+    "commercial_observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "infer_hidden_behavior",
+        "purchase_required",
+        "allowed_claim_states"
+      ],
+      "properties": {
+        "infer_hidden_behavior": {"const": false},
+        "purchase_required": {"const": false},
+        "allowed_claim_states": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "documented"},
+            {"const": "observed"},
+            {"const": "claimed"},
+            {"const": "inaccessible"},
+            {"const": "unknown"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_dimensions", "missingness_states"],
+      "properties": {
+        "required_dimensions": {
+          "type": "array",
+          "minItems": 12,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "missingness_states": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "observed"},
+            {"const": "absent"},
+            {"const": "unknown"},
+            {"const": "inaccessible"},
+            {"const": "not-applicable"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "deterministic_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_records_append_only",
+        "analyst_decisions_separate",
+        "stable_sort_keys",
+        "generated_artifacts_overwritable",
+        "automatic_roadmap_mutation"
+      ],
+      "properties": {
+        "source_records_append_only": {"const": true},
+        "analyst_decisions_separate": {"const": true},
+        "stable_sort_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "generated_artifacts_overwritable": {"const": true},
+        "automatic_roadmap_mutation": {"const": false}
+      }
+    },
+    "analyst_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_for_improvement_adoption",
+        "decision_states",
+        "checksum_bound",
+        "source_inventory_mutable_by_decision"
+      ],
+      "properties": {
+        "required_for_improvement_adoption": {"const": true},
+        "decision_states": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "pending"},
+            {"const": "approved"},
+            {"const": "rejected"},
+            {"const": "revised"},
+            {"const": "deferred"}
+          ],
+          "items": false
+        },
+        "checksum_bound": {"const": true},
+        "source_inventory_mutable_by_decision": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rules"],
+      "properties": {
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 10}
+        }
+      }
+    }
+  }
+}
