@@ -33,6 +33,9 @@
   - [x] Add fail-closed Decision Problem JSON validation and caller-owned C-ABI
     query/copy transport as the first versioned serialization buffer.
     (`e6777127`)
+  - [x] Add schema-validated EVPI result-envelope JSON query/copy transport,
+    preserving the canonical v1 discriminator and optional-array invariants.
+    (`59a3024e`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
