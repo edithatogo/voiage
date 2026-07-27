@@ -679,6 +679,29 @@ def test_public_provider_protocol_supports_consumer_runtime_validation() -> None
     assert not isinstance(object(), IngestionProvider)
 
 
+def test_registry_rejects_a_provider_with_mismatched_capability_identity() -> None:
+    """A published provider cannot claim a capability manifest for another ID."""
+
+    class MismatchedProvider:
+        provider_id = "consumer"
+        capabilities = ProviderCapabilities(
+            provider_id="different",
+            format_versions=("1",),
+            media_types=("application/json",),
+        )
+
+        def can_handle(self, descriptor: dict[str, object]) -> bool:
+            return bool(descriptor)
+
+        def ingest(
+            self, descriptor_path, *, policy: SourceAccessPolicy
+        ) -> NormalizedInputBundle:
+            raise AssertionError("not called")
+
+    with pytest.raises(IngestionError, match="provider contract"):
+        ProviderRegistry((MismatchedProvider(),))
+
+
 def test_base_import_does_not_load_builtin_provider_modules() -> None:
     script = "; ".join(
         (

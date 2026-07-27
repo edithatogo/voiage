@@ -8,7 +8,7 @@ import pyarrow as pa
 import pytest
 
 from voiage.contracts import VOIBinding, prepare_analysis_inputs
-from voiage.ingestion import from_dataframe
+from voiage.ingestion import INGESTION_PROVIDER_SDK_VERSION, from_dataframe
 
 
 class _RecordingFrame:
@@ -90,3 +90,25 @@ def test_dataframe_sdk_rejects_a_binding_outside_the_declared_table() -> None:
             dataset_id="business-scenarios",
             bindings=(invalid,),
         )
+
+
+def test_dataframe_sdk_v1_preserves_index_exclusion_and_category_values() -> None:
+    """The interchange contract retains columns, not producer-specific indexes."""
+    pandas = pytest.importorskip("pandas")
+    index = pandas.Index(["one", "two"], name="scenario")
+    frame = pandas.DataFrame(
+        {
+            "tier": pandas.Series(["standard", None], dtype="category", index=index),
+            "net_benefit": pandas.Series([10, None], dtype="Int64", index=index),
+        },
+        index=index,
+    )
+
+    bundle = from_dataframe(frame, dataset_id="consumer-v1")
+
+    assert INGESTION_PROVIDER_SDK_VERSION == "1"
+    assert bundle.table("data").column_names == ["tier", "net_benefit"]
+    assert bundle.table("data").to_pylist() == [
+        {"tier": "standard", "net_benefit": 10},
+        {"tier": None, "net_benefit": None},
+    ]
