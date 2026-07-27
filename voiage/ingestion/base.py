@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 from pathlib import Path  # noqa: TC003 - protocol runtime annotation
+import shutil
 from typing import Protocol
 
 from voiage.contracts.normalized_input import (
@@ -38,12 +40,19 @@ class SourceAccessPolicy:
         *,
         allow_network: bool = False,
         max_resource_bytes: int = 512 * 1024 * 1024,
+        cache_dir: Path | None = None,
+        cache_namespace: str | None = None,
+        offline: bool = False,
     ) -> None:
         if max_resource_bytes <= 0:
             raise ValueError("max_resource_bytes must be positive")
         self.root = root.resolve()
         self.allow_network = allow_network
         self.max_resource_bytes = max_resource_bytes
+        self.cache_dir = cache_dir.resolve() if cache_dir is not None else None
+        self.offline = offline
+        context = cache_namespace or f"root={self.root};network={allow_network}"
+        self._cache_context = hashlib.sha256(context.encode("utf-8")).hexdigest()
 
     def resolve(self, reference: str) -> Path:
         """Resolve a relative local reference without allowing path traversal."""
@@ -59,6 +68,73 @@ class SourceAccessPolicy:
         if candidate.stat().st_size > self.max_resource_bytes:
             raise IngestionError("declared resource exceeds configured size limit")
         return candidate
+
+    def materialize(self, reference: str, *, sha256: str | None = None) -> Path:
+        """Return a digest-verified local materialization, optionally from cache.
+
+        This method never performs network I/O.  Offline replay is intentionally
+        possible only with an expected digest, so a mutable source cannot be
+        silently substituted for a previously reviewed materialization.
+        """
+        expected = self._validate_digest(sha256) if sha256 is not None else None
+        if self.offline:
+            if expected is None:
+                raise IngestionError(
+                    "offline replay requires an expected SHA-256 digest"
+                )
+            cached = self._cache_path(expected)
+            if cached is None or not cached.is_file() or cached.is_symlink():
+                raise IngestionError("no verified offline materialization is available")
+            if self._digest(cached) != expected:
+                raise IngestionError("cached materialization checksum does not match")
+            return cached
+
+        source = self.resolve(reference)
+        actual = self._digest(source)
+        if expected is not None and actual != expected:
+            raise IngestionError("materialized resource checksum does not match")
+        if self.cache_dir is None:
+            return source
+
+        cached = self._cache_path(actual)
+        assert cached is not None
+        cached.parent.mkdir(parents=True, exist_ok=True)
+        if cached.exists():
+            if (
+                not cached.is_file()
+                or cached.is_symlink()
+                or self._digest(cached) != actual
+            ):
+                raise IngestionError("cached materialization checksum does not match")
+            return cached
+        shutil.copyfile(source, cached)
+        if self._digest(cached) != actual:
+            raise IngestionError("cached materialization checksum does not match")
+        return cached
+
+    def _cache_path(self, digest: str) -> Path | None:
+        if self.cache_dir is None:
+            return None
+        return self.cache_dir / self._cache_context / digest[:2] / digest
+
+    @staticmethod
+    def _validate_digest(digest: str) -> str:
+        candidate = digest.lower()
+        if len(candidate) != 64 or any(
+            char not in "0123456789abcdef" for char in candidate
+        ):
+            raise IngestionError(
+                "expected SHA-256 digest must be lowercase hexadecimal"
+            )
+        return candidate
+
+    @staticmethod
+    def _digest(path: Path) -> str:
+        hasher = hashlib.sha256()
+        with path.open("rb") as source:
+            for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                hasher.update(chunk)
+        return hasher.hexdigest()
 
 
 class IngestionProvider(Protocol):
