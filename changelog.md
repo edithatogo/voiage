@@ -55,6 +55,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dated discovery searches spanning direct VOI/HTA software, Bayesian OED,
   active learning, causal policy, forecasting, stochastic optimization,
   POMDPs, and public commercial or hosted comparators.
+- Added eight exact residual-family searches for issues #593--#600 and a
+  schema-validated software mapping that separates direct implementations,
+  adjacent capabilities, external candidates, and no-direct-product findings
+  without changing canonical methods or claiming runtime support.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

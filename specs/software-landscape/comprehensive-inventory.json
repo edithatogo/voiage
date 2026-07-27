@@ -140,6 +140,103 @@
       "limitations": "Repository-owned synthetic record; not a market-discovery claim."
     },
     {
+      "id": "residual-593-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "implementation information decomposition; expected value of perfect implementation (EVPIM); expected value of specific implementation (EVSIM); expected value of expanded implementation (EVEIm; proposed terminology candidate); expected value of sample expanded implementation (EVSEIm; proposed terminology candidate); realizable EVPI; implementation-adjusted EVSI (IA-EVSI); expected value of perfection (EVP)",
+      "source_url": "https://github.com/search?q=%28%22expected+value+of+perfect+implementation%22+OR+EVPIM+OR+EVSIM+OR+EVEIm+OR+EVSEIm+OR+%22realizable+EVPI%22+OR+%22implementation-adjusted+EVSI%22+OR+%22expected+value+of+perfection%22%29&type=repositories",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [
+        "voi"
+      ],
+      "limitations": "The query names every requested submethod: expected value of perfect implementation (EVPIM), expected value of specific implementation (EVSIM), expected value of expanded implementation (EVEIm), expected value of sample expanded implementation (EVSEIm), realizable EVPI, implementation-adjusted EVSI (IA-EVSI), and expected value of perfection (EVP). The literature defines EVPIM/EVSIM, but paper equations are not treated as software evidence. Public GitHub search and the already inventoried VOI package establish only adjacent general EVPI/EVSI coverage; proprietary tools, unpublished scripts, and terminology variants may be missed."
+    },
+    {
+      "id": "residual-594-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "uncertainty modelling value; EVIU; EEV; VSS; wait-and-see; DVSS; VMS",
+      "source_url": "https://www.gams.com/latest/emplib_ml/libhtml/emplib_airsp3.html",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "candidates-found",
+      "candidate_product_ids": [
+        "pyomo-mpi-sppy"
+      ],
+      "limitations": "The query names every requested submethod: EVIU, EEV, VSS, wait-and-see, DVSS, and VMS. The official GAMS aircraft-allocation example explicitly calculates a here-and-now solution, expected value of the EV solution (EEV-style evaluation), wait-and-see, EVPI, and VSS. It does not establish built-in named EVIU, DVSS, or VMS reports, and its metrics are example-model calculations rather than a general-purpose VOI API."
+    },
+    {
+      "id": "residual-595-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "risk adjusted information pricing; EUI; CEI; BPI; SPI; constructed-scale price",
+      "source_url": "https://github.com/search?q=%28EUI+OR+CEI+OR+BPI+OR+SPI+OR+%22constructed-scale+price%22%29+%22information%22+%22decision+analysis%22&type=repositories",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [
+        "precisiontree",
+        "treeage-pro",
+        "voi"
+      ],
+      "limitations": "The query names every requested submethod: EUI, CEI, BPI, SPI, and constructed-scale price. The consulted primary papers define the measures and the public PrecisionTree material discusses certainty equivalents, but no inspected product source or official documentation exposed calculation of information-specific EUI, CEI, BPI, SPI, or constructed-scale prices. General expected-utility or EVPI facilities are not inferred to implement those estimands."
+    },
+    {
+      "id": "residual-596-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "event localized information value; perfect event information; imperfect event information; tail-event information; information density",
+      "source_url": "https://github.com/search?q=%28%22perfect+event+information%22+OR+%22imperfect+event+information%22+OR+%22tail-event+information%22+OR+%22information+density%22%29+%22decision+analysis%22&type=repositories",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [
+        "voi"
+      ],
+      "limitations": "The query names every requested submethod: perfect event information, imperfect event information, tail-event information, and information density. The Decision Analysis papers supply method definitions only; no inspected official repository, registry entry, or product documentation exposed an event-localized/tail-event estimator or an information-density diagnostic. Existing general EVPI/EVSI software is therefore recorded only as adjacent coverage."
+    },
+    {
+      "id": "residual-597-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "belief state sequential information value; POMDP observation VOI; myopic sensing value; nonmyopic sensing value; active adaptive management; dual control",
+      "source_url": "https://github.com/JuliaPOMDP/POMDPs.jl",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "candidates-found",
+      "candidate_product_ids": [
+        "pomdps-jl"
+      ],
+      "limitations": "POMDPs.jl documents an interface for modelling, solving and simulating POMDPs, not a named VOI estimand. SBO_AIPPMS implements nonmyopic adaptive informative sensing as a belief-MDP application, but its public repository does not label a general POMDP-observation VOI, myopic-sensing value, dual-control value, or active-adaptive-management VOI estimator."
+    },
+    {
+      "id": "residual-598-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "signed social information value; negative or harmful information; information avoidance; information overvaluation; private versus social value; team information sharing",
+      "source_url": "https://cran.r-project.org/package=voi",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [],
+      "limitations": "The direct VOI package search exposed conventional non-negative EVPI/EVPPI/EVSI tooling, not an implementation documented for any of the five signed or social submethods. Literature hits were not counted as software evidence."
+    },
+    {
+      "id": "residual-599-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "heterogeneity value decomposition; static value of heterogeneity; dynamic value of heterogeneity",
+      "source_url": "https://pierucci.org/heemod/",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [
+        "heemod",
+        "voi"
+      ],
+      "limitations": "heemod documents heterogeneity/demographic analysis and voi documents EVSI/EVPPI/EVPI, but neither reviewed public product surface documents the static or dynamic value-of-heterogeneity decomposition. The Espinoza et al. paper establishes terminology only."
+    },
+    {
+      "id": "residual-600-software-search",
+      "channel": "exact residual-family search across official registries, repositories, product documentation, and primary implementation sources",
+      "query": "outcome conditional sample information value; delta-EV_x; VSI_x; sigma-VSI; rVSI_delta",
+      "source_url": "https://cran.r-project.org/package=voi",
+      "searched_at": "2026-07-27T00:00:00Z",
+      "result": "no-direct-product-found",
+      "candidate_product_ids": [
+        "voi"
+      ],
+      "limitations": "The CRAN voi documentation establishes conventional EVSI methods (GAM, GP, Earth, INLA, importance sampling and moment matching), but does not document delta-EV_x, VSI_x, sigma-VSI, or rVSI_delta. The named notation is therefore not mapped from the paper alone."
+    },
+    {
       "id": "savi-search",
       "channel": "Official hosted application",
       "query": "Sheffield Accelerated Value of Information",

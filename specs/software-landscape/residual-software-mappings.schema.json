@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/residual-software-mappings.schema.json",
+  "title": "Residual-method software mappings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "status",
+    "reviewed_on",
+    "source_register",
+    "canonical_registry_mutated",
+    "runtime_support_claimed",
+    "records"
+  ],
+  "properties": {
+    "$schema": {"const": "./residual-software-mappings.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "status": {"const": "planning-evidence-not-canonical"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "source_register": {"const": "residual-method-candidates.json"},
+    "canonical_registry_mutated": {"const": false},
+    "runtime_support_claimed": {"const": false},
+    "records": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "issue",
+          "record_id",
+          "product_id",
+          "version_id",
+          "external_candidate_id",
+          "capability_id",
+          "classification",
+          "evidence_urls",
+          "assessment"
+        ],
+        "properties": {
+          "issue": {"type": "integer", "minimum": 593, "maximum": 600},
+          "record_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "product_id": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              {"type": "null"}
+            ]
+          },
+          "version_id": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              {"type": "null"}
+            ]
+          },
+          "external_candidate_id": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              {"type": "null"}
+            ]
+          },
+          "capability_id": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              {"type": "null"}
+            ]
+          },
+          "classification": {
+            "enum": [
+              "estimand",
+              "estimator",
+              "diagnostic",
+              "alias",
+              "application",
+              "adjacent",
+              "no-direct-implementation-found"
+            ]
+          },
+          "evidence_urls": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://"
+            }
+          },
+          "assessment": {"type": "string", "minLength": 20}
+        }
+      }
+    }
+  }
+}

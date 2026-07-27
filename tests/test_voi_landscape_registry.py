@@ -34,6 +34,8 @@ FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
 COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.json"
 COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
+RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
+RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
 REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
 REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
@@ -158,7 +160,7 @@ def test_comprehensive_inventory_preserves_reconciled_discovery_streams() -> Non
     search_ids = {observation["id"] for observation in inventory["search_observations"]}
 
     assert len(product_ids) == 29
-    assert len(search_ids) == 13
+    assert len(search_ids) == 21
     assert {
         "voi",
         "bcea",
@@ -180,6 +182,85 @@ def test_comprehensive_inventory_preserves_reconciled_discovery_streams() -> Non
         "policy-signal-primary-search",
         "treeage-public-documentation-search",
     } <= search_ids
+
+
+def test_residual_method_searches_and_software_mappings_are_complete() -> None:
+    """Issues 593--600 need exact searches without claiming canonical support."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    residual = _read_json(LANDSCAPE / "residual-method-candidates.json")
+    mappings = _read_json(RESIDUAL_SOFTWARE_MAPPINGS)
+    mapping_schema = _read_json(RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA)
+    assert isinstance(inventory, dict)
+    assert isinstance(residual, dict)
+    assert isinstance(mappings, dict)
+    assert isinstance(mapping_schema, dict)
+
+    Draft202012Validator.check_schema(mapping_schema)
+    Draft202012Validator(
+        mapping_schema,
+        format_checker=FormatChecker(),
+    ).validate(mappings)
+
+    candidates = {candidate["issue"]: candidate for candidate in residual["candidates"]}
+    searches = {
+        observation["id"]: observation
+        for observation in inventory["search_observations"]
+    }
+    products = {product["id"]: product for product in inventory["products"]}
+    versions = {
+        (product["id"], version["id"])
+        for product in inventory["products"]
+        for version in product["versions"]
+    }
+    capabilities = {
+        (product["id"], version["id"], capability["id"])
+        for product in inventory["products"]
+        for version in product["versions"]
+        for capability in version["capabilities"]
+    }
+
+    assert set(candidates) == set(range(593, 601))
+    assert {record["issue"] for record in mappings["records"]} == set(candidates)
+    assert mappings["canonical_registry_mutated"] is False
+    assert mappings["runtime_support_claimed"] is False
+
+    for issue, candidate in candidates.items():
+        search_id = f"residual-{issue}-software-search"
+        assert search_id in searches
+        query = searches[search_id]["query"].casefold()
+        assert candidate["record_id"].replace("-", " ") in query
+        assert all(
+            submethod.casefold() in query for submethod in candidate["submethods"]
+        )
+
+    for record in mappings["records"]:
+        assert record["record_id"] == candidates[record["issue"]]["record_id"]
+        assert record["classification"] in {
+            "estimand",
+            "estimator",
+            "diagnostic",
+            "alias",
+            "application",
+            "adjacent",
+            "no-direct-implementation-found",
+        }
+        if record["product_id"] is not None:
+            assert record["product_id"] in products
+            assert (record["product_id"], record["version_id"]) in versions
+            if record["capability_id"] is not None:
+                assert (
+                    record["product_id"],
+                    record["version_id"],
+                    record["capability_id"],
+                ) in capabilities
+        else:
+            assert record["version_id"] is None
+            if record["external_candidate_id"] is None:
+                assert record["classification"] == "no-direct-implementation-found"
+            else:
+                assert record["classification"] in {"application", "adjacent"}
+        assert record["evidence_urls"]
+        assert record["assessment"]
 
 
 def test_comprehensive_inventory_semantic_validator_passes() -> None:

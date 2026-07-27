@@ -29,11 +29,16 @@ It records observable capabilities rather than marketing parity.
   primary-source-backed planning candidates and reviewed non-gaps. They do not
   amend the accepted canonical registry or claim runtime/binding support; an
   additive method-census review and hash-bound approval are required first.
+- `residual-software-mappings.json` and its schema bind exact, reproducible
+  #593--#600 software searches to existing capabilities, conservative adjacent
+  mappings, unincorporated product candidates, or explicit no-direct-product
+  findings without mutating the canonical method registry.
 - `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
   version, schema, capability, subfeature, option, evidence, rights, duplicate,
   extraction-coverage, and adoption-lesson contract.
 - `comprehensive-inventory.json` begins with open and commercial
-  representative records and currently records 27 external products across
+  representative records and currently records 27 external products and 19
+  external discovery searches across
   direct VOI, HTA, OED, active-learning, policy, forecasting, stochastic
   optimization, POMDP, commercial, hosted, spreadsheet, and adjacent
   categories. External records remain bounded by their cited observability.
