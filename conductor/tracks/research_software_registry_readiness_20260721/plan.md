@@ -167,7 +167,7 @@ remain explicit gates in the target contract.
   API, installation, documentation, support, governance, prior art, methods,
   release provenance, and AI-use disclosure. Then leave maintenance commitment
   and any inquiry to the author after the JOSS decision point.
-  (`pyopensci-evidence.json`; pending commit; focused contract validation)
+  (`46ba8fe1`; `pyopensci-evidence.json`; full tox validation passed)
 - [ ] [Issue #615](https://github.com/edithatogo/voiage/issues/615) — make
   `voiageR` self-contained to install and test, define its bounded public API,
   and add a claim-by-claim rOpenSci statistical-software standards matrix with
