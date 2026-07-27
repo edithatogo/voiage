@@ -87,6 +87,39 @@ def test_offline_materialize_without_a_cache_rejects_a_valid_digest(tmp_path) ->
         )
 
 
+@pytest.mark.parametrize("reference", ["../outside.csv", "../../etc/passwd"])
+def test_offline_replay_rejects_path_traversal_before_cache_lookup(
+    tmp_path, reference: str
+) -> None:
+    """A verified cache entry cannot turn an escaping descriptor path into input."""
+    payload = b"value\n1\n"
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    online = SourceAccessPolicy(tmp_path, cache_dir=cache, cache_namespace="fixture")
+    source = tmp_path / "source.csv"
+    source.write_bytes(payload)
+    online.materialize("source.csv", sha256=digest)
+
+    with pytest.raises(IngestionError, match="escapes the configured source root"):
+        SourceAccessPolicy(
+            tmp_path, cache_dir=cache, cache_namespace="fixture", offline=True
+        ).materialize(reference, sha256=digest)
+
+
+@pytest.mark.parametrize(
+    ("allow_network", "message"),
+    [(False, "network resource access is disabled"), (True, "not implemented")],
+)
+def test_source_uri_rejects_network_references_under_every_policy(
+    tmp_path, allow_network: bool, message: str
+) -> None:
+    """Descriptors cannot bypass the local-only ingestion boundary via a URI."""
+    with pytest.raises(IngestionError, match=message):
+        SourceAccessPolicy(tmp_path, allow_network=allow_network).source_uri(
+            "https://example.invalid/data.csv"
+        )
+
+
 def test_materialize_rejects_checksum_mismatch_and_cache_context_mismatch(
     tmp_path,
 ) -> None:
@@ -146,6 +179,23 @@ def test_materialize_rejects_corrupted_cached_data_on_replay_and_cache_hit(
     with pytest.raises(IngestionError, match="cached materialization checksum"):
         SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True).materialize(
             "source.csv", sha256=digest
+        )
+
+
+def test_offline_replay_rejects_a_cached_byte_size_mismatch(tmp_path) -> None:
+    """Offline replay revalidates both declared integrity dimensions."""
+    payload = b"value\n1\n"
+    source = tmp_path / "source.csv"
+    source.write_bytes(payload)
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    SourceAccessPolicy(tmp_path, cache_dir=cache).materialize(
+        "source.csv", sha256=digest, byte_size=len(payload)
+    )
+
+    with pytest.raises(IngestionError, match="byte size does not match"):
+        SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True).materialize(
+            "source.csv", sha256=digest, byte_size=len(payload) + 1
         )
 
 

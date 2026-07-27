@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -70,3 +71,97 @@ def test_frictionless_multiple_resources_preserve_and_validate_foreign_keys(
 
     assert set(bundle.tables) == {"parents", "children"}
     assert bundle.manifest.key_references[0].target_table_id == "parents"
+
+
+@pytest.mark.parametrize(
+    ("foreign_key", "message"),
+    [
+        ("not-a-list", "foreignKeys must be a list"),
+        (
+            [
+                {
+                    "fields": "parent_id",
+                    "reference": {"resource": "missing", "fields": "id"},
+                }
+            ],
+            "foreignKey references an unknown resource",
+        ),
+        (
+            [
+                {
+                    "fields": "parent_id",
+                    "reference": {"resource": "parents", "fields": "missing"},
+                }
+            ],
+            "foreignKey references an unknown field",
+        ),
+    ],
+)
+def test_frictionless_rejects_adversarial_foreign_key_descriptors(
+    tmp_path, foreign_key: object, message: str
+) -> None:
+    """Relationship metadata is fail-closed before it reaches the conductor."""
+    (tmp_path / "parents.csv").write_text("id\n1\n", encoding="utf-8")
+    (tmp_path / "children.csv").write_text("parent_id\n1\n", encoding="utf-8")
+    descriptor = {
+        "resources": [
+            {
+                "name": "parents",
+                "path": "parents.csv",
+                "schema": {"fields": [{"name": "id", "type": "integer"}]},
+            },
+            {
+                "name": "children",
+                "path": "children.csv",
+                "schema": {
+                    "fields": [{"name": "parent_id", "type": "integer"}],
+                    "foreignKeys": foreign_key,
+                },
+            },
+        ]
+    }
+    path = tmp_path / "datapackage.json"
+    path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_frictionless_rejects_foreign_key_values_absent_from_target(tmp_path) -> None:
+    """A syntactically valid relationship must also be referentially valid."""
+    (tmp_path / "parents.csv").write_text("id\n1\n", encoding="utf-8")
+    (tmp_path / "children.csv").write_text("parent_id\n2\n", encoding="utf-8")
+    path = tmp_path / "datapackage.json"
+    path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "parents",
+                        "path": "parents.csv",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    },
+                    {
+                        "name": "children",
+                        "path": "children.csv",
+                        "schema": {
+                            "fields": [{"name": "parent_id", "type": "integer"}],
+                            "foreignKeys": [
+                                {
+                                    "fields": "parent_id",
+                                    "reference": {
+                                        "resource": "parents",
+                                        "fields": "id",
+                                    },
+                                }
+                            ],
+                        },
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="foreignKey references a missing value"):
+        FrictionlessProvider().ingest(path, policy=SourceAccessPolicy(tmp_path))
