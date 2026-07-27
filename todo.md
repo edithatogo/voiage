@@ -98,6 +98,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
             result envelopes while preserving their aligned-array,
             probability-bound, selected-loss, and complete-partition
             invariants.
+        *   C ABI v1.14 now validates the standalone statistical-assurance
+            envelope without converting null or incomplete estimator evidence
+            into positive assurance.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

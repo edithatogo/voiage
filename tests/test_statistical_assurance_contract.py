@@ -18,6 +18,9 @@ ENVELOPE_SCHEMA_PATH = Path(
     "specs/v1/schemas/statistical-assurance-envelope.schema.json"
 )
 ESTIMATOR_PATH = Path("specs/v1/stable-estimator-assurance.json")
+EXAMPLE_PATH = Path(
+    "specs/core-api/examples/v1/statistical-assurance.example.json"
+)
 
 
 def _load(path: Path) -> dict[str, object]:
@@ -28,6 +31,19 @@ def test_statistical_policy_and_runtime_envelope_conform_to_their_schemas() -> N
     policy = _load(POLICY_PATH)
     Draft202012Validator(_load(POLICY_SCHEMA_PATH)).validate(policy)
     Draft202012Validator.check_schema(_load(ENVELOPE_SCHEMA_PATH))
+    Draft202012Validator(_load(ENVELOPE_SCHEMA_PATH)).validate(_load(EXAMPLE_PATH))
+
+
+def test_convergence_evidence_requires_independent_replication() -> None:
+    invalid = _load(EXAMPLE_PATH)
+    invalid["replications"] = 1
+
+    assert any(
+        error.validator == "minimum"
+        for error in Draft202012Validator(_load(ENVELOPE_SCHEMA_PATH)).iter_errors(
+            invalid
+        )
+    )
 
 
 def test_statistical_policy_covers_every_stable_estimator_profile_once() -> None:

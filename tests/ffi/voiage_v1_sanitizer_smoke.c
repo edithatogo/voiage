@@ -94,6 +94,23 @@ int main(void) {
             NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK) {
         return 22;
     }
+    const char assurance_envelope[] =
+        "{\"reporting_class\":\"deterministic\","
+        "\"bias_assessment\":null,\"variance_estimate\":null,"
+        "\"monte_carlo_standard_error\":null,\"confidence_interval\":null,"
+        "\"convergence\":null,\"effective_sample_size\":null,\"rng\":null,"
+        "\"replications\":1,"
+        "\"budget\":{\"draws\":0,\"evaluations\":1,"
+        "\"elapsed_seconds\":0.0},"
+        "\"stopping_reason\":\"deterministic-complete\","
+        "\"numerical_error\":{\"absolute_bound\":0.0,"
+        "\"relative_bound\":0.0,\"source\":\"binary64\"}}";
+    if (voiage_v1_statistical_assurance_json(
+            (const uint8_t *)assurance_envelope,
+            sizeof(assurance_envelope) - 1, NULL, 0, &scalar_size) !=
+        VOIAGE_V1_STATUS_OK) {
+        return 23;
+    }
 
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 result = {0};

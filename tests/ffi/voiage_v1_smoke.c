@@ -124,6 +124,22 @@ static int exercise_contract(void) {
             VOIAGE_V1_STATUS_OK) {
         return 20;
     }
+    const char assurance_envelope[] =
+        "{\"reporting_class\":\"sample-average\","
+        "\"bias_assessment\":null,\"variance_estimate\":null,"
+        "\"monte_carlo_standard_error\":null,\"confidence_interval\":null,"
+        "\"convergence\":null,\"effective_sample_size\":null,\"rng\":null,"
+        "\"replications\":1,"
+        "\"budget\":{\"draws\":1,\"evaluations\":1,"
+        "\"elapsed_seconds\":0.0},\"stopping_reason\":\"fixed-budget\","
+        "\"numerical_error\":{\"absolute_bound\":null,"
+        "\"relative_bound\":null,\"source\":\"declared\"}}";
+    if (voiage_v1_statistical_assurance_json(
+            (const uint8_t *)assurance_envelope,
+            sizeof(assurance_envelope) - 1, NULL, 0, &scalar_size) !=
+        VOIAGE_V1_STATUS_OK) {
+        return 21;
+    }
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 evpi_result = {0};
     if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=

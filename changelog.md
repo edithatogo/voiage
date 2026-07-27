@@ -121,6 +121,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.13 expected-loss, CEAF, and dominance result-envelope JSON
   transports with Rust validation of array alignment, probability bounds,
   selected-loss consistency, and the complete dominance partition.
+- Added ABI v1.14 canonical statistical-assurance envelope JSON transport,
+  including explicit null evidence, interval ordering, replication-aware
+  convergence validation, and fail-closed caller-owned output.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

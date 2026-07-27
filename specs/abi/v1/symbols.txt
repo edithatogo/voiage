@@ -26,3 +26,4 @@ voiage_v1_handle_create
 voiage_v1_handle_free
 voiage_v1_structural_evpi_result
 voiage_v1_structural_evppi_result
+voiage_v1_statistical_assurance_json

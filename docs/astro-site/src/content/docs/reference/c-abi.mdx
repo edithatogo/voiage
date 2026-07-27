@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `13`
+- ABI major: `1`; ABI minor: `14`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -31,6 +31,9 @@ the release allowlists.
   Expected-loss, CEAF, and dominance result envelopes extend that transport
   while preserving aligned arrays, ordered probability bounds, and the
   complete dominance partition.
+  The standalone statistical-assurance envelope preserves explicit absent
+  evidence and validates confidence, replication, convergence, budget, RNG,
+  stopping, and numerical-error fields.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -64,6 +67,7 @@ voiage_v1_handle_create
 voiage_v1_handle_free
 voiage_v1_structural_evpi_result
 voiage_v1_structural_evppi_result
+voiage_v1_statistical_assurance_json
 ```
 
 The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
@@ -151,6 +155,13 @@ benefit as optimum, and the selected strategy's loss as the reported minimum.
 CEAF requires threshold-aligned arrays and ordered probability bounds within
 zero and one. Dominance requires aligned strategy arrays, transition arrays
 matching the frontier, and a unique complete status/index partition.
+
+`voiage_v1_statistical_assurance_json` validates the normative v1 runtime
+evidence envelope. Required null fields remain present and mean unavailable or
+inapplicable evidence; they are not promoted to successful assurance. The Rust
+DTO rejects unknown fields, non-finite or invalid non-negative quantities,
+reversed confidence intervals, blank provenance labels, zero replications,
+and convergence claims based on fewer than two replications.
 
 ## Status and error transport
 

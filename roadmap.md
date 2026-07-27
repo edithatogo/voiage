@@ -175,6 +175,13 @@ strategy and threshold arrays, ordered probability bounds, selected-loss
 consistency, and a unique complete dominance partition. Estimator-assurance
 JSON, Arrow representations, and direct language-native adapters remain open.
 
+C ABI v1.14 adds the canonical statistical-assurance envelope as a standalone
+validated JSON transport. The Rust DTO preserves explicit null evidence,
+rejects unknown or incomplete structures, enforces finite non-negative error
+quantities and ordered confidence intervals, and prevents convergence claims
+from a single replication. Arrow representations and direct language-native
+adapters remain open.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

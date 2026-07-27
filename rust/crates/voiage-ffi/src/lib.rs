@@ -52,6 +52,10 @@ mod lifecycle;
 // contain panics.
 #[allow(unsafe_code)]
 mod scalar_result_json;
+// SAFETY: statistical-assurance JSON transport delegates to the shared
+// checked transport and contains panics.
+#[allow(unsafe_code)]
+mod statistical_assurance_json;
 mod status;
 // SAFETY: structured JSON wrappers delegate to the shared checked transport
 // and contain panics.
@@ -87,6 +91,7 @@ pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use scalar_result_json::{
     voiage_v1_enbs_result_json, voiage_v1_evppi_result_json, voiage_v1_evsi_result_json,
 };
+pub use statistical_assurance_json::voiage_v1_statistical_assurance_json;
 pub use status::VoiageStatusV1;
 pub use structural_result::{
     voiage_v1_structural_evpi_result, voiage_v1_structural_evppi_result,
@@ -104,7 +109,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 13;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 14;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -153,6 +158,9 @@ pub const VOIAGE_ABI_SCALAR_RESULT_JSON: u64 = 1 << 14;
 
 /// Capability bit for expected-loss, CEAF, and dominance result JSON transport.
 pub const VOIAGE_ABI_STRUCTURED_RESULT_JSON: u64 = 1 << 15;
+
+/// Capability bit for statistical-assurance envelope JSON transport.
+pub const VOIAGE_ABI_STATISTICAL_ASSURANCE_JSON: u64 = 1 << 16;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -243,7 +251,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_DECISION_PROBLEM_JSON
             | VOIAGE_ABI_EVPI_RESULT_JSON
             | VOIAGE_ABI_SCALAR_RESULT_JSON
-            | VOIAGE_ABI_STRUCTURED_RESULT_JSON,
+            | VOIAGE_ABI_STRUCTURED_RESULT_JSON
+            | VOIAGE_ABI_STATISTICAL_ASSURANCE_JSON,
     }
 }
 

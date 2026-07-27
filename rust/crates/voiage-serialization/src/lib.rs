@@ -101,6 +101,17 @@ pub fn normalize_dominance_result_json(input: &[u8]) -> serde_json::Result<Vec<u
     serde_json::to_vec(&result)
 }
 
+/// Validates a statistical-assurance v1 envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or assurance invariants
+/// fail.
+pub fn normalize_statistical_assurance_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let assurance: StatisticalAssuranceEnvelopeV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&assurance)
+}
+
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ValidationError(&'static str);
@@ -176,6 +187,173 @@ macro_rules! deserialize_validated {
             }
         }
     };
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+enum AssuranceReportingClass {
+    Deterministic,
+    SampleAverage,
+    RegressionOrMetamodel,
+    NestedMonteCarlo,
+    MomentMatching,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+enum AssuranceStoppingReason {
+    DeterministicComplete,
+    FixedBudget,
+    ToleranceMet,
+    BudgetExhausted,
+    Failed,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceConfidenceInterval {
+    level: f64,
+    lower: f64,
+    upper: f64,
+    method: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceConvergence {
+    converged: bool,
+    criterion: String,
+    observed: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceRng {
+    algorithm: String,
+    version: String,
+    seed: u64,
+    stream: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceBudget {
+    draws: u64,
+    evaluations: u64,
+    elapsed_seconds: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceNumericalError {
+    absolute_bound: Option<f64>,
+    relative_bound: Option<f64>,
+    source: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize)]
+struct StatisticalAssuranceEnvelopeV1 {
+    reporting_class: AssuranceReportingClass,
+    bias_assessment: Option<String>,
+    variance_estimate: Option<f64>,
+    monte_carlo_standard_error: Option<f64>,
+    confidence_interval: Option<AssuranceConfidenceInterval>,
+    convergence: Option<AssuranceConvergence>,
+    effective_sample_size: Option<f64>,
+    rng: Option<AssuranceRng>,
+    replications: u64,
+    budget: AssuranceBudget,
+    stopping_reason: AssuranceStoppingReason,
+    numerical_error: AssuranceNumericalError,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StatisticalAssuranceRaw {
+    reporting_class: AssuranceReportingClass,
+    bias_assessment: Option<String>,
+    variance_estimate: Option<f64>,
+    monte_carlo_standard_error: Option<f64>,
+    confidence_interval: Option<AssuranceConfidenceInterval>,
+    convergence: Option<AssuranceConvergence>,
+    effective_sample_size: Option<f64>,
+    rng: Option<AssuranceRng>,
+    replications: u64,
+    budget: AssuranceBudget,
+    stopping_reason: AssuranceStoppingReason,
+    numerical_error: AssuranceNumericalError,
+}
+
+deserialize_validated!(StatisticalAssuranceEnvelopeV1, StatisticalAssuranceRaw);
+
+impl TryFrom<StatisticalAssuranceRaw> for StatisticalAssuranceEnvelopeV1 {
+    type Error = ValidationError;
+
+    fn try_from(raw: StatisticalAssuranceRaw) -> Result<Self, Self::Error> {
+        if let Some(value) = &raw.bias_assessment {
+            text(value)?;
+        }
+        for value in [
+            raw.variance_estimate,
+            raw.monte_carlo_standard_error,
+            raw.numerical_error.absolute_bound,
+            raw.numerical_error.relative_bound,
+        ]
+        .into_iter()
+        .flatten()
+        {
+            nonnegative(value)?;
+        }
+        if let Some(interval) = &raw.confidence_interval {
+            finite(interval.level)?;
+            finite(interval.lower)?;
+            finite(interval.upper)?;
+            text(&interval.method)?;
+            if interval.level <= 0.0 || interval.level >= 1.0 || interval.lower > interval.upper {
+                return Err(ValidationError("confidence interval is invalid"));
+            }
+        }
+        if let Some(convergence) = &raw.convergence {
+            text(&convergence.criterion)?;
+            finite(convergence.observed)?;
+            if raw.replications < 2 {
+                return Err(ValidationError(
+                    "convergence evidence requires at least two replications",
+                ));
+            }
+        }
+        if let Some(effective_sample_size) = raw.effective_sample_size {
+            finite(effective_sample_size)?;
+            if effective_sample_size <= 0.0 {
+                return Err(ValidationError("effective sample size must be positive"));
+            }
+        }
+        if let Some(rng) = &raw.rng {
+            text(&rng.algorithm)?;
+            text(&rng.version)?;
+            text(&rng.stream)?;
+        }
+        if raw.replications == 0 {
+            return Err(ValidationError("replications must be positive"));
+        }
+        nonnegative(raw.budget.elapsed_seconds)?;
+        text(&raw.numerical_error.source)?;
+
+        Ok(Self {
+            reporting_class: raw.reporting_class,
+            bias_assessment: raw.bias_assessment,
+            variance_estimate: raw.variance_estimate,
+            monte_carlo_standard_error: raw.monte_carlo_standard_error,
+            confidence_interval: raw.confidence_interval,
+            convergence: raw.convergence,
+            effective_sample_size: raw.effective_sample_size,
+            rng: raw.rng,
+            replications: raw.replications,
+            budget: raw.budget,
+            stopping_reason: raw.stopping_reason,
+            numerical_error: raw.numerical_error,
+        })
+    }
 }
 
 /// Flat EVPI v1 result.

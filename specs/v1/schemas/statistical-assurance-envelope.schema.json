@@ -88,5 +88,14 @@
         "source": {"type": "string", "minLength": 1}
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["convergence"],
+        "properties": {"convergence": {"type": "object"}}
+      },
+      "then": {"properties": {"replications": {"minimum": 2}}}
+    }
+  ]
 }
