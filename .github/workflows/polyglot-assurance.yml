@@ -1,6 +1,15 @@
 name: Polyglot Assurance Frontier
 
 on:
+  pull_request:
+    paths:
+      - ".github/workflows/polyglot-assurance.yml"
+      - ".github/workflows/release.yml"
+      - ".github/workflows/rust-crates-release.yml"
+      - "scripts/github_dependency_snapshot.py"
+      - "rust/**"
+      - "pyproject.toml"
+      - "uv.lock"
   workflow_call:
   push:
     branches: [main]
