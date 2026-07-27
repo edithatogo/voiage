@@ -198,6 +198,9 @@ def test_deep_audit_replaces_rolling_revisions_with_verified_pins() -> None:
     assert products["econml"]["duplicate_resolution"]["canonical_product_id"] == (
         "econml"
     )
+    assert products["precisiontree"]["versions"][0]["version"] == (
+        "PrecisionTree v8.3 documentation path"
+    )
 
     for product_id in (
         "voi",
@@ -224,9 +227,11 @@ def test_deep_source_audits_are_preserved_for_later_review() -> None:
     hta = _read_json(AUDITS / "2026-07-27-hta.json")
     ml = _read_json(AUDITS / "2026-07-27-ml.json")
     operations = _read_json(AUDITS / "2026-07-27-operations.json")
+    commercial = _read_json(AUDITS / "2026-07-27-commercial.json")
     assert isinstance(hta, dict)
     assert isinstance(ml, dict)
     assert isinstance(operations, dict)
+    assert isinstance(commercial, dict)
 
     assert {record["product_id"] for record in hta["products"]} >= {
         "voi",
@@ -244,6 +249,12 @@ def test_deep_source_audits_are_preserved_for_later_review() -> None:
         "pyomo-mpi-sppy",
         "sddp-jl",
         "pomdps-jl",
+    }
+    assert {record["product_id"] for record in commercial["products"]} == {
+        "treeage-pro",
+        "treeage-pro-web",
+        "precisiontree",
+        "oracle-crystal-ball",
     }
 
 

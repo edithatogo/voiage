@@ -3880,8 +3880,8 @@
       },
       "versions": [
         {
-          "id": "precisiontree-public-product-page",
-          "version": "Current public product page reviewed 2026-07-27",
+          "id": "precisiontree-v8-3-documentation",
+          "version": "PrecisionTree v8.3 documentation path",
           "release_date": null,
           "reviewed_revision": null,
           "platforms": [
@@ -3897,7 +3897,7 @@
           ],
           "provenance_urls": [
             "https://lumivero.com/products/decision-tools/precisiontree/",
-            "https://help-risk.lumivero.com/v8_5/en/PrecisionTree/Version/PrecisionTree_Version_History.pdf"
+            "https://help-risk.lumivero.com/v8_3/en/PrecisionTree/Version/PrecisionTree_Version_History.pdf"
           ],
           "schema_surfaces": [
             {

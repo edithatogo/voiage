@@ -64,6 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   EconML's independent canonical-product relationship.
 - Preserved source-pinned HTA, ML, and operations inspection reports with their
   explicit API, test, dependency, maintenance, rights, and missingness evidence.
+- Added a public-vendor-only commercial audit for TreeAge Pro/TPWeb,
+  PrecisionTree, and Oracle Crystal Ball; PrecisionTree is now identified as a
+  qualified v8.3 documentation pin rather than a claimed current release.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

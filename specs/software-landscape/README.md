@@ -50,7 +50,7 @@ It records observable capabilities rather than marketing parity.
   and commercial observability across records.
 - `audits/` preserves date-stamped, source-pinned deep-inspection reports used
   to correct inventory revisions and to retain explicit missingness for later
-  capability review.
+  capability review, including a vendor-public-only commercial audit.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing
