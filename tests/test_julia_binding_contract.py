@@ -14,3 +14,11 @@ def test_julia_contracts_use_direct_rust_json_and_arrow_adapters() -> None:
     assert "does not match a pinned voiage v1 schema" in source
     assert 'Arrow = "69666777-d1a9-59fb-9406-91d4454c9d45"' in project
     assert 'Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"' in project
+
+
+def test_julia_readme_discloses_packaging_boundaries() -> None:
+    """Documentation must not imply that source tests publish a JLL."""
+    readme = (ROOT / "bindings/julia/README.md").read_text(encoding="utf-8")
+    assert "Rust as the" in readme and "semantic authority" in readme
+    assert "General-registry and JLL publication are external release" in readme
+    assert "gates and are not implied by passing source tests" in readme
