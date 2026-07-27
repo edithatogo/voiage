@@ -33,6 +33,7 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     runner = CliRunner()
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    default_inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
     inspected = runner.invoke(
         app,
         [
@@ -68,6 +69,8 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
 
     assert validated.exit_code == 0
     assert json.loads(validated.output)["valid"] is True
+    assert default_inspected.exit_code == 0
+    assert json.loads(default_inspected.output)["binding_resolution"] is None
     assert inspected.exit_code == 0
     inspection = json.loads(inspected.output)
     assert inspection["provider"] == "frictionless"
@@ -115,6 +118,38 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     assert output.is_file()
     assert calculated.exit_code == 0
     assert "input_digest" in json.loads(calculated.output)
+
+
+def test_inspect_requires_complete_explicit_binding_options(tmp_path) -> None:
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+
+    table_only = runner.invoke(
+        app, ["ingest", "inspect", str(descriptor), "--table", "samples"]
+    )
+    fields_only = runner.invoke(
+        app, ["ingest", "inspect", str(descriptor), "--field", "a"]
+    )
+
+    assert table_only.exit_code == 2
+    assert fields_only.exit_code == 2
+    assert "--table and at least one --field" in table_only.output
+    assert "--table and at least one --field" in fields_only.output
 
 
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
