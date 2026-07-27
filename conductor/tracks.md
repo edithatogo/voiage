@@ -145,10 +145,10 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: in progress — Phase 10 reconciliation is active: PR #627 is merged,
-  #629 requires refreshed hosted validation, #631 is dependent, and Project 28
-  field reconciliation is blocked on GitHub Projects v2 GraphQL availability;
-  a pre-existing evidence-ledger integrity defect also blocks archival.*
+  *Status: in progress — PR #627 is merged; the SDK and reference-case changes
+  landed separately on `main`; PR #634 carries Phase 10 reconciliation evidence;
+  and Project 28 is reconciled as In Progress. The historical ledger is preserved
+  under a migration receipt.*
 
 ---
 

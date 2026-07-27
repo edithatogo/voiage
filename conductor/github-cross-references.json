@@ -3664,17 +3664,25 @@
         {
           "number": 629,
           "url": "https://github.com/edithatogo/voiage/pull/629",
-          "status": "open",
+          "status": "closed",
           "evidence": [
-            "71a58357bd2a617d62c4a7d54245307521402ee4"
+            "24e1297769588867bb1bf03df23e64c6e62c9c19"
           ]
         },
         {
           "number": 631,
           "url": "https://github.com/edithatogo/voiage/pull/631",
+          "status": "closed",
+          "evidence": [
+            "c4106739f7c67ca02a0751958dac8158280987c8"
+          ]
+        },
+        {
+          "number": 634,
+          "url": "https://github.com/edithatogo/voiage/pull/634",
           "status": "open",
           "evidence": [
-            "5dd69f1aaeb3f22f2c9ac55c11db2eb37322991c"
+            "cd6a3b7beea6615aaca412adb02c8921469eb46d"
           ]
         }
       ],
