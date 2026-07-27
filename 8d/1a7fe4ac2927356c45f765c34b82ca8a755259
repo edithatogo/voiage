@@ -1,1 +1,0 @@
-Gate-unblocking repair after Phase 2 validation: moved the OpenSSF readiness document into Astro, aligned the binding reference and contract with the retained public Rust facade, updated the workspace contract, and regenerated the reviewed ecosystem-drift baseline from the inspected non-applying proposal. Focused contract suite and drift check passed.
