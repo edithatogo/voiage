@@ -26,6 +26,9 @@
 - [x] Remove the redundant `tomli` backport now that Python 3.12 is the
   supported floor, update stale local validation references, and record the
   retained dependency-audit boundary. (`74e4be05`)
+- [x] Make `ty` the fast routine typing gate and move BasedPyright to explicit
+  scheduled/manual strict-assurance lanes, with a documented release-review
+  boundary. (`8f03ed09`)
 - [x] Make Renovate the sole version-update bot; validate its configuration,
   dependency dashboard, supported managers, vulnerability bypass, Action
   pinning, stability checks, grouping, concurrency, human-review boundaries,
@@ -115,6 +118,9 @@
   Safety/pip-tools temporary-resolution lane in favour of the pinned
   pip-audit/SBOM path, and updates the supplementary local validator to the
   active toolchain. The complete tox matrix passed with 91.07% coverage.
+- [x] Commit `8f03ed09` makes `ty` the fast local and pull-request typing
+  gate, with BasedPyright retained as an explicit scheduled/manual strict
+  assurance lane and release-review input.
 
 ## Phase 3: Staged release evidence
 

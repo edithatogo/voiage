@@ -165,6 +165,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Make `ty` the fast local and pull-request typing gate, and retain
+    BasedPyright as a scheduled/manual strict-assurance and release-review
+    control.
+
 *   [x] Remove the obsolete `tomli` backport and retire the stale
     Safety/pip-tools temporary-resolution lane in favour of the pinned
     pip-audit/SBOM dependency-audit path.
