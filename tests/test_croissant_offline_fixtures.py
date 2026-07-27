@@ -57,6 +57,35 @@ def test_croissant_offline_valid_profile_fixture_materializes() -> None:
     ]
 
 
+def test_croissant_preserves_declared_field_data_type_as_descriptive_metadata(
+    tmp_path,
+) -> None:
+    """A declared ML data type remains descriptive until a binding uses it."""
+    (tmp_path / "samples.csv").write_text("score\n1.5\n", encoding="utf-8")
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        '{"@context":"https://mlcommons.org/croissant/1.1","distribution":[{"contentUrl":"samples.csv"}],"recordSet":[{"name":"samples","field":[{"name":"score","dataType":"sc:Float"}]}]}',
+        encoding="utf-8",
+    )
+
+    bundle = CroissantProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+    assert bundle.manifest.tables[0].fields[0].semantic_type == "sc:Float"
+
+
+def test_croissant_rejects_a_non_scalar_declared_field_data_type(tmp_path) -> None:
+    """Descriptor metadata cannot smuggle structured field semantics downstream."""
+    (tmp_path / "samples.csv").write_text("score\n1.5\n", encoding="utf-8")
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        '{"@context":"https://mlcommons.org/croissant/1.1","distribution":[{"contentUrl":"samples.csv"}],"recordSet":[{"name":"samples","field":[{"name":"score","dataType":{"@id":"sc:Float"}}]}]}',
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="dataType must be a string"):
+        CroissantProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+
 def test_croissant_offline_identity_fixture_preserves_governance() -> None:
     """Croissant identities are retained as metadata, not VOI semantics."""
     bundle = CroissantProvider().ingest(
