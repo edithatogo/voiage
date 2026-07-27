@@ -43,7 +43,10 @@ than a release or performance claim.
 The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and
 Zizmor. Workflows also enforce SHA-pinned actions, least-privilege
 permissions, disabled credential persistence on security-sensitive checkouts,
-and release artifact provenance attestations.
+and release artifact provenance attestations. The release workflow also
+publishes the signed SLSA bundle as a `.intoto.jsonl` release asset so
+independent tools can discover provenance without privileged access to
+GitHub's attestation store.
 
 The protected `main` ruleset requires pull requests, resolved review threads,
 successful required checks, signed commits, and linear history. The required
@@ -51,6 +54,15 @@ approval count is zero for the single-maintainer operating model; CODEOWNERS
 still routes review responsibility without creating an impossible independent
 approval gate. Hosted settings must be verified through the GitHub API because
 they are not represented by files in the checkout.
+
+OpenSSF's aggregate Scorecard is interpreted check by check. Independent human
+review and multi-organisation contributor diversity are useful signals, but a
+single-maintainer project cannot manufacture either signal. The repository
+therefore retains zero required approvals while requiring the complete
+automated matrix, signed commits, current branches, resolved threads, and
+immutable releases. Those deliberate exceptions should not be bypassed with
+bot approvals, alternate accounts, synthetic contributors, or placeholder
+releases.
 
 ## Owner and organization gates
 

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Export future GitHub release attestations as discoverable SLSA
+  `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
+  advisories that do not affect the required and locked Pydantic 2.13.4.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.
