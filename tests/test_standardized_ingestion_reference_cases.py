@@ -32,6 +32,9 @@ def test_reference_cases_use_one_binding_and_one_evpi() -> None:
         "engineering": pytest.approx(5.0),
         "business": pytest.approx(5.0),
     }
+    assert len(set(result["schema"].values())) == 1
+    assert result["resource_digests"]["ml"] == result["resource_digests"]["engineering"]
+    assert len(result["provenance_digests"]["business"]) == 64
     assert module._business_dataframe().manifest.provenance.provider_id == (
         "dataframe-interchange"
     )
@@ -79,3 +82,31 @@ def test_cross_format_reference_descriptors_preserve_identical_schema_order() ->
     assert tuple(
         field.field_id for field in croissant.manifest.tables[0].fields
     ) == tuple(field.field_id for field in frictionless.manifest.tables[0].fields)
+
+
+def test_direct_dataframe_provenance_digest_changes_when_content_changes() -> None:
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    original = module._business_dataframe()
+    changed = module.from_dataframe(
+        module.pa.table({"strategy_a": [11.0], "strategy_b": [20.0]}),
+        dataset_id="canonical-decision-fixture",
+        table_id="samples",
+        bindings=(module._binding(),),
+        allow_copy=False,
+    )
+
+    assert (
+        original.manifest.provenance.descriptor_digest
+        != changed.manifest.provenance.descriptor_digest
+    )

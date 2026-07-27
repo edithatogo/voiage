@@ -193,16 +193,16 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 9 — Ship cross-domain reference cases (#468)
 
-- [ ] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
+- [~] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
   engineering/operations, and business decision cases with explicit method
   applicability.
-- [ ] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
+- [~] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
   direct inputs using the same binding profile and pinned artifact digests.
-- [ ] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
+- [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence.
-- [ ] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
+- [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
   without adding domain-specific kernels or semantic inference.
-- [ ] **P9-T5 / AC-13:** Publish the support matrix and run fixture
+- [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
 
 ## Follow-on recommendation incorporation (2026-07-24)
@@ -216,15 +216,15 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 10 — Reconcile Conductor and GitHub (#325)
 
-- [ ] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
+- [~] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
   #467, and #468,
   native parent/sub-issue links, Project 28 status/fields, pull requests, and
   evidence ledger entries.
-- [ ] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
+- [~] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
   by repository and hosted evidence or remains explicitly blocked.
-- [ ] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
+- [~] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
   this track's state from pre-existing legacy archive-validation debt.
-- [ ] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
+- [~] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
 
@@ -242,5 +242,17 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - The track, parent issue #325, child issues #326–#333 and #467–#468, and their
   Project 28 items remain active. Archive is prohibited until the unchecked
   plan tasks and issue acceptance criteria have supporting evidence.
+- Phase 10 reconciliation on 2026-07-27 confirms that #325–#333, #467, and
+  #468 are open; #627 is merged, while #629 and #631 remain open pending their
+  refreshed hosted evidence. Project 28 field state cannot be read or changed
+  until the GitHub GraphQL rate limit resets; the REST Projects endpoint does
+  not expose Projects v2. This is an explicit external reconciliation gate,
+  not completion evidence.
+- Final Conductor review also found that the pre-existing append-only evidence
+  ledger fails schema validation at entries 9 and 10: both omit required
+  artifact digests, and entry 10 records a non-zero validation command as
+  `passed`. The historical chain cannot be rewritten without invalidating its
+  hashes. Repair requires a governed ledger-migration decision; until then,
+  new ledger evidence and archival are blocked.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.

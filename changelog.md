@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Froze the v1 ingestion-provider SDK with capability-identity validation and
   a published compatibility/publication contract; expanded DataFrame consumer
   validation for categorical nullable columns and index exclusion.
+- Published executable ML, engineering/operations, and business reference-case
+  evidence across Croissant, Frictionless, and direct DataFrame inputs, with
+  normalized-schema, pinned-resource, provenance-digest, and EVPI equivalence.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.

@@ -109,7 +109,22 @@ def run_reference_cases() -> dict[str, object]:
     }
     if len(set(values.values())) != 1:
         raise RuntimeError("reference cases must have identical explicit EVPI")
-    return {"binding": _binding().model_dump(mode="json"), "evpi": values}
+    return {
+        "binding": _binding().model_dump(mode="json"),
+        "evpi": values,
+        "schema": {
+            domain: str(bundle.table("samples").schema)
+            for domain, bundle in bundles.items()
+        },
+        "provenance_digests": {
+            domain: bundle.manifest.provenance.descriptor_digest
+            for domain, bundle in bundles.items()
+        },
+        "resource_digests": {
+            domain: [resource.sha256 for resource in bundle.manifest.resources]
+            for domain, bundle in bundles.items()
+        },
+    }
 
 
 def run_cost_outcome_reference_cases() -> dict[str, float]:
