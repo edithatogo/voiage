@@ -100,6 +100,22 @@ def test_landscape_freshness_workflow_enforces_claim_projections() -> None:
         assert command in workflow
 
 
+def test_architecture_and_deprecation_records_are_cross_referenced() -> None:
+    """Architecture authority and deprecation policy must have live links."""
+    decision = (ROOT / "specs/core-api/decision-record.md").read_text(encoding="utf-8")
+    policy = (ROOT / "specs/v1/compatibility-policy.json").read_text(encoding="utf-8")
+    docs = (
+        ROOT
+        / "docs/astro-site/src/content/docs/developer-guide/versioning-and-release-policy.mdx"
+    ).read_text(encoding="utf-8")
+
+    assert "## Authority Rule" in decision
+    assert "./compatibility-policy.schema.json" in policy
+    assert '"deprecation"' in policy
+    assert "specs/v1/compatibility-policy.json" in docs
+    assert "Deprecation window" in docs
+
+
 def test_quality_tool_dispositions_are_unique_and_evidence_backed() -> None:
     """Every retained or consolidated tool has a unique, checked disposition."""
     payload = _registry()

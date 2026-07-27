@@ -233,6 +233,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   isolated SBOM environment, and fail-closed artifact retention.
 - Added a regression guard ensuring landscape freshness checks cover method,
   implementation, upstream-feature, and feature-matrix claim projections.
+- Added a regression guard linking the core architecture decision, normative
+  compatibility/deprecation policy, and versioning documentation.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.
