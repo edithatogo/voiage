@@ -2,7 +2,9 @@
 
 ## Phase 1: Decision and backend contracts
 
-- [ ] Add failing utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
+- [~] Add utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
+  - [x] Add a deterministic EIG-versus-decision-VOI fixture and regression
+    test; protocol, privacy, and fallback tests remain open.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool

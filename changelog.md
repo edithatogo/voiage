@@ -238,6 +238,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a deterministic offline adversarial ML/agent fixture covering prompt
   injection, retrieval poisoning, correlated judge failure, provider drift,
   and human escalation without claiming model-validation evidence.
+- Added a normative fixture and test that keep expected information gain
+  distinct from utility- and cost-based decision VOI.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.

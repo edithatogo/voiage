@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "decision_alternatives": ["deploy", "defer"],
+  "state_probabilities": [0.5, 0.5],
+  "prior_entropy_nats": 0.6931471805599453,
+  "posterior_entropy_nats": 0.34657359027997265,
+  "expected_information_gain_nats": 0.34657359027997265,
+  "current_decision": "defer",
+  "posterior_decisions": ["deploy", "defer"],
+  "current_expected_utility": 1.0,
+  "posterior_expected_utility": 2.5,
+  "information_cost": 0.25,
+  "expected_decision_voi": 1.25,
+  "interpretation": "EIG is an information measure; decision VOI uses utility and cost."
+}
