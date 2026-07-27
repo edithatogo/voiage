@@ -36,6 +36,9 @@ It records observable capabilities rather than marketing parity.
 - `reconciliation.json` records durable fork, interface, hosted-surface,
   exclusion, deferral, and external-candidate dispositions without presenting
   the inventory as universally exhaustive.
+- `baseline-preservation.json` binds the established registry, fixture,
+  rights, evidence, and disposition artifacts that the expanded inventory must
+  retain unless a fresh reviewed record explicitly reopens them.
 - `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
   version, schema, capability, subfeature, option, evidence, rights, duplicate,
   extraction-coverage, and adoption-lesson contract.

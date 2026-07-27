@@ -69,6 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   qualified v8.3 documentation pin rather than a claimed current release.
 - Added a durable reconciliation report for distinct interfaces, hosted
   surfaces, deferred and excluded adjacent products, and external candidates.
+- Added a preservation manifest that prevents the expanded inventory from
+  silently displacing established fixture, rights, evidence, or disposition
+  records.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

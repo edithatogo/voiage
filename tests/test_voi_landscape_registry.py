@@ -38,6 +38,7 @@ RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
 RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
 AUDITS = LANDSCAPE / "audits"
 RECONCILIATION = LANDSCAPE / "reconciliation.json"
+BASELINE_PRESERVATION = LANDSCAPE / "baseline-preservation.json"
 REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
 REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
@@ -275,6 +276,25 @@ def test_reconciliation_preserves_noncanonical_and_bounded_records() -> None:
     assert records["bceaweb"]["canonical_product_id"] == "bceaweb"
     assert records["ax"]["canonical_product_id"] == "botorch"
     assert records["trieste"]["canonical_product_id"] == "botorch"
+
+
+def test_comprehensive_inventory_preserves_baseline_evidence_artifacts() -> None:
+    """Phase 2 must not silently replace the established comparison evidence."""
+    manifest = _read_json(BASELINE_PRESERVATION)
+    assert isinstance(manifest, dict)
+    assert manifest["expanded_schema_invalidates_baseline"] is False
+    assert manifest["reopen_required_before_displacement"] is True
+    paths = {record["path"] for record in manifest["artifacts"]}
+    assert {
+        "registry.json",
+        "parity-fixtures.json",
+        "implementation-evidence.json",
+        "upstream-feature-evidence.json",
+        "license-rights.json",
+        "feature-dispositions.json",
+    } <= paths
+    for path in paths:
+        assert (LANDSCAPE / path).is_file(), path
 
 
 def test_residual_method_searches_and_software_mappings_are_complete() -> None:
