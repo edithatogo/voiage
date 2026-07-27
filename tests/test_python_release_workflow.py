@@ -84,6 +84,10 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         "actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373"
         in release_workflow
     )
+    assert "id: provenance" in release_workflow
+    assert "${{ steps.provenance.outputs.bundle-path }}" in release_workflow
+    assert "dist/voiage-${RELEASE_TAG#v}.intoto.jsonl" in release_workflow
+    assert "dist/*.intoto.jsonl" in release_workflow
     assert (
         "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b"
         in release_workflow
