@@ -31,10 +31,10 @@
   existing Conductor tracks, native GitHub subissues, Project 28 metadata and
   useful views. The landscape improvement packet remains a human-review gate
   before any later roadmap adoption. (`994cc820`)
-- [ ] Incorporate the residual method census across MoSCoW requirements,
+- [x] Incorporate the residual method census across MoSCoW requirements,
   Mermaid design, roadmap, method-census/supported-frontier/binding tracks,
   native GitHub #318 subissues #593--#600, Project 28 metadata, validators, and
-  tests without claiming runtime or binding support.
+  tests without claiming runtime or binding support. (`79400ed0`)
 - [ ] Complete the method and external-library censuses.
 - [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
 - [ ] Freeze the canonical Decision Problem interchange representation and
