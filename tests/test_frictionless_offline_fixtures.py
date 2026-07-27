@@ -16,6 +16,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
 @pytest.mark.parametrize(
     ("fixture", "message"),
     [
+        ("unsupported/malformed-resource.json", "resources must be objects"),
         ("unsupported/non-comma-dialect.json", "only CSV comma dialect"),
         ("unsupported/non-csv-format.json", "requires CSV format"),
         ("unsupported/integrity-declaration.json", "hash must be a SHA-256"),

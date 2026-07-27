@@ -94,7 +94,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   data validation, resources, schemas, dialects, types, constraints, missing
   values, keys, integrity, governance metadata, supported tabular formats, and
   ambiguous resources. File-backed baseline and fail-closed format/integrity
-  coverage added (`d0c1b238`); remaining acceptance evidence is tracked below.
+  coverage added (`d0c1b238`); malformed-resource coverage is also file-backed.
+  (`6c57a7a8`, partial). Remaining acceptance evidence is tracked below.
 - [ ] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile.
 - [ ] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
