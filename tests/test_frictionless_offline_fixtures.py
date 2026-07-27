@@ -15,7 +15,6 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
 @pytest.mark.parametrize(
     ("fixture", "message"),
     [
-        ("unsupported/multiple-resources.json", "exactly one resource"),
         ("unsupported/non-comma-dialect.json", "only CSV comma dialect"),
         ("unsupported/non-csv-format.json", "requires CSV format"),
         ("unsupported/integrity-declaration.json", "hash must be a SHA-256"),
@@ -51,3 +50,23 @@ def test_frictionless_offline_valid_profile_fixture_materializes() -> None:
     assert bundle.manifest.extensions["frictionlessdata.org:profile"] == (
         "tabular-data-package"
     )
+
+
+def test_frictionless_multiple_resources_preserve_and_validate_foreign_keys(
+    tmp_path,
+) -> None:
+    """A package relationship becomes a checked normalized KeyReference."""
+    (tmp_path / "parents.csv").write_text("id\n1\n2\n", encoding="utf-8")
+    (tmp_path / "children.csv").write_text("parent_id\n1\n2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        '{"resources":[{"name":"parents","path":"parents.csv","schema":{"primaryKey":"id","fields":[{"name":"id","type":"integer"}]}},{"name":"children","path":"children.csv","schema":{"fields":[{"name":"parent_id","type":"integer"}],"foreignKeys":[{"fields":"parent_id","reference":{"resource":"parents","fields":"id"}}]}}]}',
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert set(bundle.tables) == {"parents", "children"}
+    assert bundle.manifest.key_references[0].target_table_id == "parents"

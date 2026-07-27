@@ -592,7 +592,7 @@ def test_dataframe_interchange_rejects_unsupported_nested_values_with_stable_err
             FrictionlessProvider(),
             "datapackage.json",
             {"resources": []},
-            "exactly one resource",
+            "requires resources",
         ),
         (
             FrictionlessProvider(),
