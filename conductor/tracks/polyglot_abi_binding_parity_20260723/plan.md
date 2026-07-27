@@ -44,6 +44,11 @@
   - [x] Add a canonical statistical-assurance example, validated Rust DTO, and
     fail-closed caller-owned C-ABI JSON transport without converting absent
     evidence into positive assurance. (`18ee6ecb`; formatting fix `f0f5b717`)
+  - [x] Add Rust-validated canonical Arrow tables and deterministic IPC/Parquet
+    round trips for Decision Problem and statistical-assurance envelopes.
+    (`4b7799c8`)
+    - [x] Review fix: preserve the unique Unreleased changelog sections after
+      the cleanup gate rejected a duplicate heading. (`c4d9c44f`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
