@@ -91,6 +91,19 @@ static int exercise_contract() {
             &scalar_size) != VOIAGE_V1_STATUS_OK) {
         return 19;
     }
+    const char expected_loss_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"expected_loss\",\"strategy_names\":[\"s\"],"
+        "\"expected_net_benefit_by_strategy\":[1.0],"
+        "\"expected_opportunity_loss_by_strategy\":[0.0],"
+        "\"optimal_strategy_index\":0,"
+        "\"minimum_expected_opportunity_loss\":0.0,\"sample_count\":1}";
+    if (voiage_v1_expected_loss_result_json(
+            reinterpret_cast<const std::uint8_t *>(expected_loss_envelope),
+            sizeof(expected_loss_envelope) - 1, nullptr, 0, &scalar_size) !=
+        VOIAGE_V1_STATUS_OK) {
+        return 20;
+    }
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 evpi_result{};
     if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=

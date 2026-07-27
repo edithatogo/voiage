@@ -4,10 +4,12 @@ voiage_v1_capabilities
 voiage_v1_capabilities_json
 voiage_v1_decision_problem_json
 voiage_v1_ceaf_result
+voiage_v1_ceaf_result_json
 voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_enbs_result_json
 voiage_v1_dominance_result
+voiage_v1_dominance_result_json
 voiage_v1_evpi_result
 voiage_v1_evpi_result_json
 voiage_v1_evppi_regression_result
@@ -16,6 +18,7 @@ voiage_v1_evsi_moment_matching_result
 voiage_v1_evsi_regression_result
 voiage_v1_evsi_result_json
 voiage_v1_expected_loss_result
+voiage_v1_expected_loss_result_json
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
 voiage_v1_error_message

@@ -118,6 +118,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.12 EVPPI, EVSI, and ENBS result-envelope JSON transports and
   consolidated all JSON query/copy entry points on one checked ownership
   implementation.
+- Added ABI v1.13 expected-loss, CEAF, and dominance result-envelope JSON
+  transports with Rust validation of array alignment, probability bounds,
+  selected-loss consistency, and the complete dominance partition.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

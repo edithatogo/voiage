@@ -81,6 +81,19 @@ int main(void) {
         scalar_size <= 1) {
         return 21;
     }
+    const char ceaf_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"ceaf\",\"wtp_thresholds\":[1.0],"
+        "\"optimal_strategy_indices\":[0],"
+        "\"optimal_strategy_names\":[\"s\"],"
+        "\"acceptability_probabilities\":[0.5],"
+        "\"probability_lower\":[0.4],\"probability_upper\":[0.6],"
+        "\"expected_net_benefit\":[1.0]}";
+    if (voiage_v1_ceaf_result_json(
+            (const uint8_t *)ceaf_envelope, sizeof(ceaf_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK) {
+        return 22;
+    }
 
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 result = {0};

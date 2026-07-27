@@ -94,6 +94,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
             invariants.
         *   C ABI v1.12 now consolidates checked JSON ownership/copy transport
             and validates EVPPI, EVSI, and ENBS v1 result envelopes.
+        *   C ABI v1.13 now validates expected-loss, CEAF, and dominance v1
+            result envelopes while preserving their aligned-array,
+            probability-bound, selected-loss, and complete-partition
+            invariants.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

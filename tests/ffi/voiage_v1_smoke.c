@@ -87,6 +87,43 @@ static int exercise_contract(void) {
             NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK) {
         return 19;
     }
+    const char expected_loss_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"expected_loss\",\"strategy_names\":[\"s\"],"
+        "\"expected_net_benefit_by_strategy\":[1.0],"
+        "\"expected_opportunity_loss_by_strategy\":[0.0],"
+        "\"optimal_strategy_index\":0,"
+        "\"minimum_expected_opportunity_loss\":0.0,\"sample_count\":1}";
+    const char ceaf_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"ceaf\",\"wtp_thresholds\":[1.0],"
+        "\"optimal_strategy_indices\":[0],"
+        "\"optimal_strategy_names\":[\"s\"],"
+        "\"acceptability_probabilities\":[0.5],"
+        "\"probability_lower\":[0.4],\"probability_upper\":[0.6],"
+        "\"expected_net_benefit\":[1.0]}";
+    const char dominance_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"dominance\",\"strategy_names\":[\"a\",\"b\"],"
+        "\"costs\":[1.0,2.0],\"effects\":[1.0,2.0],"
+        "\"frontier_indices\":[0,1],\"strongly_dominated_indices\":[],"
+        "\"extended_dominated_indices\":[],"
+        "\"status\":[\"frontier\",\"frontier\"],"
+        "\"incremental_costs\":[1.0],\"incremental_effects\":[1.0],"
+        "\"icers\":[1.0]}";
+    if (voiage_v1_expected_loss_result_json(
+            (const uint8_t *)expected_loss_envelope,
+            sizeof(expected_loss_envelope) - 1, NULL, 0, &scalar_size) !=
+            VOIAGE_V1_STATUS_OK ||
+        voiage_v1_ceaf_result_json(
+            (const uint8_t *)ceaf_envelope, sizeof(ceaf_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK ||
+        voiage_v1_dominance_result_json(
+            (const uint8_t *)dominance_envelope,
+            sizeof(dominance_envelope) - 1, NULL, 0, &scalar_size) !=
+            VOIAGE_V1_STATUS_OK) {
+        return 20;
+    }
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 evpi_result = {0};
     if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=

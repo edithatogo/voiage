@@ -71,6 +71,36 @@ pub fn normalize_enbs_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
     serde_json::to_vec(&result)
 }
 
+/// Validates an expected-loss v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_expected_loss_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: ExpectedLossResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates a CEAF v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_ceaf_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: CeafResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates a dominance v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_dominance_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: DominanceResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ValidationError(&'static str);

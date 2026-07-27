@@ -169,6 +169,12 @@ validation. Each retains its own discriminator and method-specific invariants;
 ENBS correctly permits negative net research value. Expected-loss, CEAF,
 dominance, estimator-assurance JSON, and Arrow remain open.
 
+C ABI v1.13 adds canonical expected-loss, CEAF, and dominance result-envelope
+JSON validation through that shared transport. Rust DTOs enforce aligned
+strategy and threshold arrays, ordered probability bounds, selected-loss
+consistency, and a unique complete dominance partition. Estimator-assurance
+JSON, Arrow representations, and direct language-native adapters remain open.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

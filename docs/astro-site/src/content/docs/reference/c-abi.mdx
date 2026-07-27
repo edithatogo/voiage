@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `12`
+- ABI major: `1`; ABI minor: `13`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -28,6 +28,9 @@ the release allowlists.
   scalars, and optional per-strategy arrays.
   EVPPI, EVSI, and ENBS result envelopes use the same shared checked transport
   and their distinct versioned Rust DTOs.
+  Expected-loss, CEAF, and dominance result envelopes extend that transport
+  while preserving aligned arrays, ordered probability bounds, and the
+  complete dominance partition.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -39,10 +42,12 @@ voiage_v1_capabilities
 voiage_v1_capabilities_json
 voiage_v1_decision_problem_json
 voiage_v1_ceaf_result
+voiage_v1_ceaf_result_json
 voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_enbs_result_json
 voiage_v1_dominance_result
+voiage_v1_dominance_result_json
 voiage_v1_evpi_result
 voiage_v1_evpi_result_json
 voiage_v1_evppi_regression_result
@@ -51,6 +56,7 @@ voiage_v1_evsi_moment_matching_result
 voiage_v1_evsi_regression_result
 voiage_v1_evsi_result_json
 voiage_v1_expected_loss_result
+voiage_v1_expected_loss_result_json
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
 voiage_v1_error_message
@@ -127,7 +133,7 @@ does not claim RFC 8785 digest canonicalization.
 the canonical EVPI v1 result envelope. It rejects unknown fields, a wrong
 analysis discriminator, non-finite or invalid scalars, negative EVPI, blank
 identifiers, and optional strategy arrays that are missing their paired array
-or differ in length. Other result families remain separate capability work.
+or differ in length.
 
 `voiage_v1_evppi_result_json`, `voiage_v1_evsi_result_json`, and
 `voiage_v1_enbs_result_json` validate their distinct v1 discriminators and
@@ -137,6 +143,14 @@ non-negative value. ENBS requires a trial design, positive sample size,
 non-negative design cost, and permits scientifically valid negative net
 research value. All JSON entry points share one checked ownership and copy
 implementation.
+
+`voiage_v1_expected_loss_result_json`, `voiage_v1_ceaf_result_json`, and
+`voiage_v1_dominance_result_json` validate the structured stable envelopes.
+Expected loss requires aligned strategy arrays, the first greatest expected
+benefit as optimum, and the selected strategy's loss as the reported minimum.
+CEAF requires threshold-aligned arrays and ordered probability bounds within
+zero and one. Dominance requires aligned strategy arrays, transition arrays
+matching the frontier, and a unique complete status/index partition.
 
 ## Status and error transport
 
