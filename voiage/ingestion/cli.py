@@ -23,12 +23,59 @@ from voiage.methods.basic import evpi
 app = typer.Typer(help="Validate and normalize standardized dataset descriptors.")
 
 
-def _bundle_summary(descriptor: Path) -> dict[str, object]:
+def _prepared_summary(bundle: NormalizedInputBundle) -> dict[str, object]:
+    """Expose explicit binding resolution and data quality without inference."""
+    prepared = prepare_analysis_inputs(bundle)
+    quality = prepared.quality_report
+    return {
+        "binding": prepared.binding.model_dump(mode="json"),
+        "binding_profile_digest": prepared.binding_profile_digest,
+        "data_quality": {
+            "coercions": list(quality.coercions),
+            "duplicate_row_count": quality.duplicate_row_count,
+            "exclusions": list(quality.exclusions),
+            "join_coverage": dict(quality.join_coverage),
+            "null_counts": dict(quality.null_counts),
+            "population_transforms": list(quality.population_transforms),
+            "primary_key_duplicate_count": quality.primary_key_duplicate_count,
+            "primary_key_fields": list(quality.primary_key_fields),
+            "primary_key_null_count": quality.primary_key_null_count,
+            "row_count": quality.row_count,
+            "selected_field_ids": list(quality.selected_field_ids),
+            "selected_partitions": list(quality.selected_partitions),
+            "table_id": quality.table_id,
+            "unique_value_counts": dict(quality.unique_value_counts),
+        },
+        "input_digest": prepared.input_digest,
+    }
+
+
+def _inspection_binding(
+    table: str | None, field: list[str], strategy: list[str]
+) -> VOIBinding | None:
+    """Build an optional explicit inspection binding without semantic inference."""
+    if (table is None) != (not field):
+        raise ValueError("--table and at least one --field must be supplied together")
+    return (
+        VOIBinding(
+            role="net_benefit",
+            table_id=table,
+            field_ids=tuple(field),
+            strategy_names=tuple(strategy),
+        )
+        if table is not None
+        else None
+    )
+
+
+def _bundle_summary(
+    descriptor: Path, *, binding: VOIBinding | None = None
+) -> dict[str, object]:
     """Return stable, non-secret metadata for a descriptor."""
     registry = default_registry()
     bundle = registry.ingest(descriptor)
     capabilities = registry.capabilities_for(bundle.manifest.provenance.provider_id)
-    return {
+    summary: dict[str, object] = {
         "capabilities": {
             "format_versions": capabilities.format_versions,
             "media_types": capabilities.media_types,
@@ -48,9 +95,30 @@ def _bundle_summary(descriptor: Path) -> dict[str, object]:
         "governance": bundle.manifest.model_dump(mode="json")["extensions"],
         "provider": bundle.manifest.provenance.provider_id,
         "provenance": bundle.manifest.provenance.model_dump(mode="json"),
+        "resources": [
+            {
+                "byte_size": resource.byte_size,
+                "media_type": resource.media_type,
+                "resource_id": resource.resource_id,
+                "sha256": resource.sha256,
+                "uri": resource.uri,
+            }
+            for resource in bundle.manifest.resources
+        ],
         "schema_fingerprint": bundle.schema_fingerprint,
         "tables": {name: table.num_rows for name, table in bundle.tables.items()},
     }
+    if binding is not None:
+        manifest = DatasetManifest(
+            **bundle.manifest.model_dump(mode="python", exclude={"bindings"}),
+            bindings=(binding,),
+        )
+        summary["binding_resolution"] = _prepared_summary(
+            NormalizedInputBundle(manifest=manifest, tables=bundle.tables)
+        )
+    else:
+        summary["binding_resolution"] = None
+    return summary
 
 
 @app.command("validate")
@@ -68,11 +136,25 @@ def validate(
 
 
 @app.command()
-def inspect(descriptor: Path = typer.Argument(..., exists=True, readable=True)) -> None:
-    """Inspect a descriptor and emit its normalized identity as JSON."""
+def inspect(
+    descriptor: Path = typer.Argument(..., exists=True, readable=True),
+    table: str | None = typer.Option(
+        None, "--table", help="Optional explicit table ID for binding resolution."
+    ),
+    field: list[str] = typer.Option(
+        [], "--field", help="Net-benefit field; repeat per strategy."
+    ),
+    strategy: list[str] = typer.Option(
+        [], "--strategy", help="Optional strategy name; repeat in field order."
+    ),
+) -> None:
+    """Inspect identity and optionally resolve one explicit EVPI binding."""
     try:
-        typer.echo(json.dumps(_bundle_summary(descriptor), sort_keys=True))
-    except IngestionError as error:
+        binding = _inspection_binding(table, field, strategy)
+        typer.echo(
+            json.dumps(_bundle_summary(descriptor, binding=binding), sort_keys=True)
+        )
+    except (IngestionError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(2) from error
 
