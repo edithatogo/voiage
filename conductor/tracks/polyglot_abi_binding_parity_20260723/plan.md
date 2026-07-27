@@ -18,6 +18,8 @@
   - [x] Add typed structural EVPI and structural EVPPI results with explicit
     model probabilities, selected-structure indices, and sampling assurance.
     (`feeb342c`)
+  - [x] Add the stable full-sample linear-regression EVPPI result with fit
+    dimensions and an explicit incomplete-assurance state. (`4013003f`)
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
