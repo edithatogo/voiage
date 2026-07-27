@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "source_map": "capability-adoption-map.json",
+  "record_count": 30,
+  "by_parity_state": {
+    "adapter": 12,
+    "excluded": 2,
+    "native": 1,
+    "not-reproducible": 4,
+    "planned": 11
+  },
+  "by_capability_kind": {
+    "algorithm": 4,
+    "application": 2,
+    "estimand": 4,
+    "estimator": 5,
+    "related-analysis": 3,
+    "workflow": 12
+  },
+  "by_product": {
+    "ax": [
+      "experiment-lifecycle"
+    ],
+    "bcea": [
+      "bcea-cea"
+    ],
+    "bceaweb": [
+      "bceaweb-ui"
+    ],
+    "botorch": [
+      "knowledge-gradient"
+    ],
+    "causalml": [
+      "uplift-and-cate"
+    ],
+    "ce-decision-tree": [
+      "ce-decision-tree-cea"
+    ],
+    "dampack": [
+      "dampack-cea"
+    ],
+    "dceasim-r": [
+      "dceasim-r-dcea"
+    ],
+    "decision-support": [
+      "decision-support-evi"
+    ],
+    "econml": [
+      "orthogonal-causal-learning"
+    ],
+    "heemod": [
+      "heemod-markov"
+    ],
+    "hesim": [
+      "hesim-models"
+    ],
+    "open-bandit-pipeline": [
+      "offline-policy-evaluation"
+    ],
+    "oracle-crystal-ball": [
+      "decision-table-analysis"
+    ],
+    "orbit": [
+      "bayesian-forecasting"
+    ],
+    "pomdps-jl": [
+      "pomdp-model-and-simulation"
+    ],
+    "precisiontree": [
+      "probabilistic-decision-trees"
+    ],
+    "pyomo-mpi-sppy": [
+      "stochastic-programming"
+    ],
+    "pyro-oed": [
+      "expected-information-gain"
+    ],
+    "representative-commercial": [
+      "documented-evpi"
+    ],
+    "representative-open-source": [
+      "evpi"
+    ],
+    "savi": [
+      "savi-voi-workflow"
+    ],
+    "sddp-jl": [
+      "stochastic-dual-dynamic-programming"
+    ],
+    "treeage-pro": [
+      "evpi",
+      "evppi"
+    ],
+    "treeage-pro-web": [
+      "hosted-model-sharing"
+    ],
+    "trieste": [
+      "active-learning-and-bo"
+    ],
+    "twig": [
+      "twig-grammar-modeling"
+    ],
+    "voi": [
+      "voi-information-measures"
+    ],
+    "vowpal-wabbit": [
+      "contextual-bandits"
+    ]
+  }
+}
