@@ -271,3 +271,58 @@ def test_ingest_cli_replays_a_declared_resource_from_offline_cache(tmp_path) -> 
     assert cached.exit_code == 0
     assert replayed.exit_code == 0
     assert json.loads(replayed.output)["valid"] is True
+
+
+def test_croissant_inspection_exposes_governance_and_receipt_identity(tmp_path) -> None:
+    """Croissant inspection retains governance without inferring VOI semantics."""
+    source = tmp_path / "samples.csv"
+    source.write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "name": "governed-ml-fixture",
+                "license": "CC-BY-4.0",
+                "citation": "Example et al. (2026)",
+                "usageInfo": "Synthetic test data only.",
+                "rai": {"dataBiases": "None asserted for this synthetic fixture."},
+                "distribution": [
+                    {
+                        "contentUrl": "samples.csv",
+                        "encodingFormat": "text/csv",
+                        "sha256": sha256(source.read_bytes()).hexdigest(),
+                    }
+                ],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+
+    assert result.exit_code == 0
+    inspection = json.loads(result.output)
+    assert inspection["provider"] == "croissant"
+    assert inspection["provenance"]["license"] == "CC-BY-4.0"
+    assert inspection["provenance"]["citation"] == "Example et al. (2026)"
+    assert inspection["governance"] == {
+        "mlcommons.org:croissant-governance": {
+            "citation": "Example et al. (2026)",
+            "license": "CC-BY-4.0",
+            "rai": {"dataBiases": "None asserted for this synthetic fixture."},
+            "usageInfo": "Synthetic test data only.",
+        }
+    }
+    assert inspection["resources"] == [
+        {
+            "byte_size": source.stat().st_size,
+            "media_type": "text/csv",
+            "resource_id": "samples",
+            "sha256": sha256(source.read_bytes()).hexdigest(),
+            "uri": source.resolve().as_uri(),
+        }
+    ]
