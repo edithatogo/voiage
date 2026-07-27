@@ -19,6 +19,60 @@ Feature parity means independently implemented equivalent capability or a
 reviewed exclusion, not an imitation of another package API. Literature,
 software, data, model, and maturity claims remain evidence-gated.
 
+### Industry decision-value and adoption programme
+
+The current programme now includes a governed industry and adoption layer
+without treating planning as implementation:
+
+- GitHub #314/#566 extends the canonical Decision Problem with reusable
+  policies, utility/loss, risk measures, constraints, segments and
+  perspectives, time, implementation, information-source portfolios, units,
+  provenance, privacy/rights and estimator-assurance fields.
+- GitHub #318 owns DSA, VDI, qualitative VoI, VoF and MCDA-VOI in #556--#560,
+  plus risk-sensitive/constrained VOI (#570), experiment-portfolio VOI (#571),
+  forecast/signal information value (#572), and dependent information-source
+  portfolio VOI (#582).
+- GitHub #319 owns policy/uplift VOI (#578) and decision-focused model value
+  (#576), preserving the difference between prediction, causal policy value,
+  information value and implementation value.
+- GitHub #320/#579 carries the complete industry decision contract through
+  Rust, the C ABI, Python, R, Julia and Mojo using generated capability-aware
+  builders and round-trip conformance.
+- GitHub #321 owns the churn/retention policy-VOI suite (#574), broader
+  consulting and business-domain example packs (#575), and a versioned domain
+  template/adapter registry (#577).
+- GitHub #322 owns Decision Registry cards (#580), a local-first Decision
+  Studio and reporting surface (#581), thin enterprise integrations (#583),
+  and industry decision-correctness assurance (#584).
+
+These are planned workstreams. Runtime, binding, public-data, practitioner,
+usability and adoption claims remain gated by the owning Conductor tracks and
+executable evidence.
+
+### Next review: comprehensive VOI software landscape
+
+The next programme slice is GitHub #315 and Conductor track
+`external_voi_library_feature_parity_20260723`, refined as a comprehensive
+open-source, commercial, hosted and embedded VOI software landscape. Its native
+subissues govern the open-source inventory (#565), commercial/hosted inventory
+(#568), schema and review protocol (#569), capability/adoption map (#573), and
+review-ready gap and improvement proposal (#567).
+
+The review records product and release identity, access and evidence limits,
+licensing/commercial model, implementation approach, decision and data schema,
+methods, features, subfeatures, options, estimators, assurance, workflow, UX,
+reporting, integration, governance and operating-model capabilities. It maps
+each observation to VOIAGE parity, gaps, differentiators and learnable design
+patterns. Commercial features that cannot be inspected are reported as
+documented, observed, inaccessible or unknown rather than reverse-engineered.
+The existing 27-tool snapshot is the starting baseline, not comprehensive
+completion.
+
+The output is a provenance-backed inventory, feature/capability matrix, gap
+register and prioritized improvement packet. The maintainer reviews that packet
+before a separate change incorporates accepted proposals into this roadmap; no
+landscape finding becomes a commitment automatically.
+
 The v1.1 core now has Rust authority for net-benefit construction, including
 explicit threshold-axis semantics and shared Python/Rust fixtures. Its
 schema-validated estimator-assurance registry now freezes numerical

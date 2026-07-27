@@ -267,3 +267,100 @@ sequenceDiagram
       R-->>S: Versioned serializable result
     end
 ```
+
+## Decision-value middleware
+
+```mermaid
+flowchart LR
+    subgraph Producers["Existing analytical systems"]
+        Predict["Predictive distributions"]
+        Causal["CATE and uplift artifacts"]
+        Forecast["Probabilistic forecasts"]
+        Experiment["Experiment results and designs"]
+        Optimizer["Optimization models and constraints"]
+        Registry["Model, metric, and lineage registries"]
+    end
+
+    Producers --> Adapters["Versioned optional adapters"]
+    Adapters --> Problem["DecisionProblem industry contract"]
+    Problem --> Criterion["Expected value or utility, CVaR, chance constraints, regret"]
+    Problem --> Constraints["Budget, capacity, eligibility, fairness, regulation, liquidity"]
+    Problem --> Information["Experiments, data, vendors, forecasts, sensors, experts"]
+    Criterion --> Rust["Rust decision-value kernels"]
+    Constraints --> Rust
+    Information --> Rust
+    Rust --> Policies["Current and post-information policies"]
+    Rust --> Results["VOI, regret, switches, diagnostics, provenance"]
+    Results --> Bindings["Rust, Python, R, Julia, and Mojo capability surfaces"]
+    Results --> DecisionRegistry["Decision Registry and signed result bundle"]
+```
+
+Domain tools retain their model-fitting and execution responsibilities.
+VOIAGE consumes versioned artifacts and owns accepted generic decision-value
+kernels, preventing adapters or examples from becoming duplicate numerical
+authorities.
+
+## Customer churn and retention
+
+```mermaid
+sequenceDiagram
+    participant Data as Customer and experiment artifacts
+    participant Causal as CATE or uplift adapter
+    participant VOI as VOIAGE policy VOI
+    participant Ops as Budget and contact capacity
+    participant Pilot as Candidate retention pilot
+    participant Card as Decision Card
+
+    Data->>Causal: Outcomes, actions, eligibility, provenance
+    Causal->>VOI: Posterior treatment-effect artifacts
+    Ops->>VOI: Costs, capacity, fairness, fatigue, opt-outs
+    VOI->>VOI: Compare risk targeting, uplift, and constrained policies
+    Pilot->>VOI: Design, sample size, delay, information cost
+    VOI-->>Pilot: EVSI, ENBS, stopping, and policy-change probability
+    VOI-->>Card: Who, which action, expected incremental CLV, regret, refresh
+```
+
+The synthetic fixture supplies known potential outcomes for decision-correctness
+tests. A rights-reviewed randomized uplift dataset supplies external evidence.
+A prediction-only churn dataset demonstrates why risk prediction does not
+identify an intervention policy.
+
+## Software landscape review
+
+```mermaid
+flowchart TD
+    Protocol["#569 schema and review protocol"] --> OSS["#565 open-source inventory"]
+    Protocol --> Commercial["#568 commercial and hosted inventory"]
+    OSS --> Normalize["#573 capability, schema, workflow, UX, and adoption map"]
+    Commercial --> Normalize
+    Normalize --> Gap["Deterministic gap and learning analysis"]
+    Gap --> Proposal["#567 MoSCoW improvement proposal"]
+    Proposal --> Review{"Named maintainer review"}
+    Review -- Approve --> Route["Route to existing tracks and native subissues"]
+    Review -- Revise --> Gap
+    Review -- Reject or defer --> Ledger["Preserve decision and rationale"]
+    Route --> Roadmap["Roadmap update in a later reviewed change"]
+```
+
+The census source remains distinct from its generated comparison and from the
+reviewed improvement proposal. Discovery never promotes a method, copies
+license-incompatible behavior, or infers proprietary implementation details.
+
+## Decision Registry and Decision Studio
+
+```mermaid
+flowchart LR
+    Import["Local artifact import"] --> Studio["Local Rust/WASM Decision Studio"]
+    Studio --> Core["Canonical Rust result"]
+    Core --> Bundle["Hash-bound JSON and Arrow bundle"]
+    Bundle --> Card["Accessible Decision Card"]
+    Bundle --> Registry["Versioned Decision Registry"]
+    Registry --> Diff["Compare, supersede, expire, or refresh"]
+    Lineage["MLflow, OpenLineage, dbt, OpenFeature, experiment IDs"] --> Bundle
+    Human["Decision owner and reviewer"] --> Approval["Separate approval state"]
+    Approval --> Registry
+```
+
+The Studio is a local consumer of the same contracts and kernels as every
+binding. Reporting, review, and lifecycle state are adoption surfaces; they do
+not silently authorize a decision or introduce a second calculation path.

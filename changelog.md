@@ -23,6 +23,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a review-gated industry decision-value and adoption programme across
+  MoSCoW requirements, Mermaid architecture, Conductor tracks, native GitHub
+  subissues and Project 28. Planned work covers risk-sensitive/constrained,
+  policy/uplift, model, source-portfolio, experiment-portfolio and
+  forecast/signal VOI; a complete industry Decision Problem; churn and broader
+  business examples; domain templates; Decision Registry/Studio surfaces;
+  enterprise adapters; and decision-correctness assurance. This is planning,
+  not a runtime or binding-support claim.
+- Refined the external-library track into the next comprehensive open-source,
+  commercial, hosted and embedded VOI software landscape. Its schema records
+  methods, schemas, approaches, features, subfeatures, options, evidence,
+  assurance, UX, integrations and operating models, and requires maintainer
+  review of proposed improvements before any later roadmap adoption.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

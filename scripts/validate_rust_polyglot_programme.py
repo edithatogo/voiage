@@ -67,39 +67,342 @@ EXPECTED_PROJECT: dict[int, dict[str, str]] = {
     },
     323: {"priority": "P1", "risk level": "High", "review due": "2026-08-31"},
 }
+EXPECTED_PROJECT_VIEWS: dict[str, dict[str, str]] = {
+    "Current Delivery": {
+        "layout": "TABLE_LAYOUT",
+        "filter": 'status:"In Progress"',
+    },
+    "Next: Software Landscape": {
+        "layout": "TABLE_LAYOUT",
+        "filter": 'track-id:"external_voi_library_feature_parity_20260723"',
+    },
+    "MoSCoW & Priority": {
+        "layout": "BOARD_LAYOUT",
+        "filter": "",
+    },
+    "Industry & Adoption": {
+        "layout": "TABLE_LAYOUT",
+        "filter": 'record-type:"Development ledger"',
+    },
+    "Gates & High Risk": {
+        "layout": "TABLE_LAYOUT",
+        "filter": "risk-level:High",
+    },
+    "Evidence & Review Due": {
+        "layout": "TABLE_LAYOUT",
+        "filter": "evidence-state:Unverified",
+    },
+}
 FRONTIER_TRACK = "supported_frontier_method_completion_20260723"
 FRONTIER_PARENT_ISSUE = TRACK_ISSUES[FRONTIER_TRACK]
-FRONTIER_SUBISSUES: dict[int, dict[str, str]] = {
+FRONTIER_METHOD_GAP_SUBISSUES: dict[int, dict[str, str]] = {
     556: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
         "record id": "deterministic-sensitivity-analysis",
+        "moscow": "Should",
         "priority": "P1",
         "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.0.0",
         "review due": "2026-09-30",
     },
     557: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
         "record id": "value-of-distributional-information",
+        "moscow": "Should",
         "priority": "P1",
         "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.0.0",
         "review due": "2026-09-30",
     },
     558: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
         "record id": "qualitative-voi",
+        "moscow": "Should",
         "priority": "P2",
         "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.0.0",
         "review due": "2026-10-31",
     },
     559: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
         "record id": "value-of-flexibility",
+        "moscow": "Should",
         "priority": "P1",
         "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.0.0",
         "review due": "2026-09-30",
     },
     560: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
         "record id": "mcda-voi",
+        "moscow": "Should",
         "priority": "P1",
         "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.0.0",
         "review due": "2026-09-30",
     },
+}
+INDUSTRY_SUBISSUES: dict[int, dict[str, str]] = {
+    565: {
+        "track id": "external_voi_library_feature_parity_20260723",
+        "parent issue": "315",
+        "record id": "landscape-open-source-inventory",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-08-15",
+    },
+    566: {
+        "track id": "voi_method_census_contract_reconciliation_20260723",
+        "parent issue": "314",
+        "record id": "industry-decision-problem-contract",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+    567: {
+        "track id": "external_voi_library_feature_parity_20260723",
+        "parent issue": "315",
+        "record id": "landscape-gap-review-roadmap-proposal",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Human",
+        "contract version": "1.1.0",
+        "review due": "2026-08-31",
+    },
+    568: {
+        "track id": "external_voi_library_feature_parity_20260723",
+        "parent issue": "315",
+        "record id": "landscape-commercial-hosted-inventory",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "External",
+        "contract version": "1.1.0",
+        "review due": "2026-08-15",
+    },
+    569: {
+        "track id": "external_voi_library_feature_parity_20260723",
+        "parent issue": "315",
+        "record id": "landscape-schema-review-protocol",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-08-15",
+    },
+    570: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
+        "record id": "risk-sensitive-constrained-voi",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+    571: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
+        "record id": "experiment-portfolio-voi",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    572: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
+        "record id": "forecast-signal-information-voi",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    573: {
+        "track id": "external_voi_library_feature_parity_20260723",
+        "parent issue": "315",
+        "record id": "landscape-capability-adoption-map",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-08-31",
+    },
+    574: {
+        "track id": "datasets_worked_examples_20260723",
+        "parent issue": "321",
+        "record id": "churn-retention-policy-voi-example",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "External",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+    575: {
+        "track id": "datasets_worked_examples_20260723",
+        "parent issue": "321",
+        "record id": "industry-domain-example-packs",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "Medium",
+        "gate": "External",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    576: {
+        "track id": "ml_llm_agent_voi_20260723",
+        "parent issue": "319",
+        "record id": "decision-focused-model-value",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    577: {
+        "track id": "datasets_worked_examples_20260723",
+        "parent issue": "321",
+        "record id": "domain-template-adapter-registry",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "Medium",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    578: {
+        "track id": "ml_llm_agent_voi_20260723",
+        "parent issue": "319",
+        "record id": "policy-uplift-voi",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+    579: {
+        "track id": "polyglot_abi_binding_parity_20260723",
+        "parent issue": "320",
+        "record id": "industry-decision-contract-binding-parity",
+        "moscow": "Must",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    580: {
+        "track id": "quality_release_automation_20260723",
+        "parent issue": "322",
+        "record id": "decision-registry-cards",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Human",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+    581: {
+        "track id": "quality_release_automation_20260723",
+        "parent issue": "322",
+        "record id": "local-decision-studio-reporting",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    582: {
+        "track id": FRONTIER_TRACK,
+        "parent issue": str(FRONTIER_PARENT_ISSUE),
+        "record id": "information-source-portfolio-voi",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    583: {
+        "track id": "quality_release_automation_20260723",
+        "parent issue": "322",
+        "record id": "enterprise-integration-adapters",
+        "moscow": "Should",
+        "priority": "P1",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-10-31",
+    },
+    584: {
+        "track id": "quality_release_automation_20260723",
+        "parent issue": "322",
+        "record id": "decision-correctness-industry-assurance",
+        "moscow": "Must",
+        "priority": "P0",
+        "risk level": "High",
+        "gate": "Local",
+        "contract version": "1.1.0",
+        "review due": "2026-09-30",
+    },
+}
+FRONTIER_SUBISSUES = {
+    **FRONTIER_METHOD_GAP_SUBISSUES,
+    **{
+        issue_number: fields
+        for issue_number, fields in INDUSTRY_SUBISSUES.items()
+        if fields["track id"] == FRONTIER_TRACK
+    },
+}
+SUBISSUE_GROUPS: dict[str, dict[str, Any]] = {
+    track_id: {
+        "parent issue": TRACK_ISSUES[track_id],
+        "issues": {
+            issue_number: fields
+            for issue_number, fields in {
+                **FRONTIER_METHOD_GAP_SUBISSUES,
+                **INDUSTRY_SUBISSUES,
+            }.items()
+            if fields["track id"] == track_id
+        },
+    }
+    for track_id in (
+        "voi_method_census_contract_reconciliation_20260723",
+        "external_voi_library_feature_parity_20260723",
+        FRONTIER_TRACK,
+        "ml_llm_agent_voi_20260723",
+        "polyglot_abi_binding_parity_20260723",
+        "datasets_worked_examples_20260723",
+        "quality_release_automation_20260723",
+    )
 }
 REQUIRED_FILES = ("spec.md", "plan.md", "metadata.json", "index.md", "evidence.jsonl")
 
@@ -223,10 +526,11 @@ def validate_local(repo: Path) -> list[str]:
             for filename in index_files
             if f"(./{filename})" not in index
         )
-        if track_id == FRONTIER_TRACK:
+        if track_id in SUBISSUE_GROUPS:
+            subissues = SUBISSUE_GROUPS[track_id]["issues"]
             expected_subissues = {
                 f"https://github.com/edithatogo/voiage/issues/{issue_number}"
-                for issue_number in FRONTIER_SUBISSUES
+                for issue_number in subissues
             }
             observed_subissues = set(metadata.get("github_subissues", []))
             if observed_subissues != expected_subissues:
@@ -234,7 +538,7 @@ def validate_local(repo: Path) -> list[str]:
                     f"{track_id}: GitHub subissues mismatch; expected "
                     f"{sorted(expected_subissues)}, got {sorted(observed_subissues)}"
                 )
-            for issue_number, fields in FRONTIER_SUBISSUES.items():
+            for issue_number, fields in subissues.items():
                 tokens = (
                     f"#{issue_number}",
                     fields["record id"],
@@ -287,20 +591,31 @@ def missing_frontier_subissues(observed: set[int]) -> set[int]:
     return set(FRONTIER_SUBISSUES) - observed
 
 
+def missing_track_subissues(track_id: str, observed: set[int]) -> set[int]:
+    """Return required native subissues absent from a governed track parent."""
+    group = SUBISSUE_GROUPS[track_id]
+    return set(group["issues"]) - observed
+
+
 def validate_live_github(repo: Path) -> list[str]:
     """Return live GitHub issue, subissue, and Project 28 validation errors."""
     errors: list[str] = []
+    subissue_queries = " ".join(
+        f"group{index}: issue(number:{group['parent issue']}) {{ number "
+        "subIssues(first:100) { nodes { number } } }"
+        for index, group in enumerate(SUBISSUE_GROUPS.values())
+    )
     query = (
         'query { repository(owner:"edithatogo",name:"voiage") { '
         "programme: issue(number:313) { number "
         "subIssues(first:100) { nodes { number } } } "
-        "frontier: issue(number:318) { number "
-        "subIssues(first:100) { nodes { number } } } } }"
+        f"{subissue_queries} }} }}"
     )
     result = _run_json(["gh", "api", "graphql", "-f", f"query={query}"], repo)
+    repository = result["data"]["repository"]
     subissues = {
         node["number"]
-        for node in result["data"]["repository"]["programme"]["subIssues"]["nodes"]
+        for node in repository["programme"]["subIssues"]["nodes"]
     }
     missing_subissues = missing_required_subissues(subissues)
     if missing_subissues:
@@ -308,16 +623,17 @@ def validate_live_github(repo: Path) -> list[str]:
             "required native subissues missing: "
             f"{sorted(missing_subissues)}; got {sorted(subissues)}"
         )
-    frontier_subissues = {
-        node["number"]
-        for node in result["data"]["repository"]["frontier"]["subIssues"]["nodes"]
-    }
-    missing_frontier = missing_frontier_subissues(frontier_subissues)
-    if missing_frontier:
-        errors.append(
-            "required frontier native subissues missing: "
-            f"{sorted(missing_frontier)}; got {sorted(frontier_subissues)}"
-        )
+    for index, (track_id, _group) in enumerate(SUBISSUE_GROUPS.items()):
+        observed = {
+            node["number"]
+            for node in repository[f"group{index}"]["subIssues"]["nodes"]
+        }
+        missing = missing_track_subissues(track_id, observed)
+        if missing:
+            errors.append(
+                f"{track_id}: required native subissues missing: "
+                f"{sorted(missing)}; got {sorted(observed)}"
+            )
 
     issue_data = _run_json(
         [
@@ -355,24 +671,35 @@ def validate_live_github(repo: Path) -> list[str]:
             for token in required_issue_tokens
             if token.casefold() not in body.casefold()
         )
-    for issue_number, fields in FRONTIER_SUBISSUES.items():
+    governed_subissues = {
+        issue_number: fields
+        for group in SUBISSUE_GROUPS.values()
+        for issue_number, fields in group["issues"].items()
+    }
+    for issue_number, fields in governed_subissues.items():
+        track_id = fields["track id"]
         issue = issues.get(issue_number)
         if issue is None:
-            errors.append(f"{FRONTIER_TRACK}: GitHub subissue #{issue_number} missing")
+            errors.append(f"{track_id}: GitHub subissue #{issue_number} missing")
             continue
         body = issue.get("body") or ""
         if issue.get("state") != "OPEN":
-            errors.append(f"{FRONTIER_TRACK}: subissue #{issue_number} is not open")
+            errors.append(f"{track_id}: subissue #{issue_number} is not open")
+        record_token = (
+            f"Method family: `{fields['record id']}`"
+            if issue_number in FRONTIER_METHOD_GAP_SUBISSUES
+            else f"Record ID: `{fields['record id']}`"
+        )
         required_issue_tokens = (
             "<!-- voiage-conductor-managed:start -->",
-            FRONTIER_TRACK,
-            f"Parent issue: #{FRONTIER_PARENT_ISSUE}",
-            f"Method family: `{fields['record id']}`",
+            track_id,
+            f"Parent issue: #{fields['parent issue']}",
+            record_token,
             "<!-- voiage-conductor-managed:end -->",
             "closure",
         )
         errors.extend(
-            f"{FRONTIER_TRACK}: subissue #{issue_number} body missing {token}"
+            f"{track_id}: subissue #{issue_number} body missing {token}"
             for token in required_issue_tokens
             if token.casefold() not in body.casefold()
         )
@@ -398,7 +725,7 @@ def validate_live_github(repo: Path) -> list[str]:
         if isinstance(item.get("content"), dict)
         and item["content"].get("repository") == "edithatogo/voiage"
         and item["content"].get("number")
-        in {*TRACK_ISSUES.values(), *FRONTIER_SUBISSUES}
+        in {*TRACK_ISSUES.values(), *governed_subissues}
     }
     common = {
         "status": "Todo",
@@ -428,28 +755,53 @@ def validate_live_github(repo: Path) -> list[str]:
                     f"{track_id}: Project field {field!r} expected {value!r}, "
                     f"got {item.get(field)!r}"
                 )
-    frontier_common = {
+    subissue_common = {
         "status": "Todo",
-        "moscow": "Should",
         "record type": "Development ledger",
         "lifecycle": "Open",
-        "gate": "Local",
         "owner role": "Maintainer",
         "evidence state": "Unverified",
-        "contract version": "1.0.0",
         "sync state": "Clean",
-        "track id": FRONTIER_TRACK,
     }
-    for issue_number, specific in FRONTIER_SUBISSUES.items():
+    for issue_number, specific in governed_subissues.items():
+        track_id = specific["track id"]
         item = items.get(issue_number)
         if item is None:
-            errors.append(f"{FRONTIER_TRACK}: Project item #{issue_number} missing")
+            errors.append(f"{track_id}: Project item #{issue_number} missing")
             continue
-        for field, value in {**frontier_common, **specific}.items():
+        for field, value in {**subissue_common, **specific}.items():
+            if field == "parent issue":
+                continue
             if item.get(field) != value:
                 errors.append(
-                    f"{FRONTIER_TRACK}: Project item #{issue_number} field "
+                    f"{track_id}: Project item #{issue_number} field "
                     f"{field!r} expected {value!r}, got {item.get(field)!r}"
+                )
+
+    view_query = (
+        'query { user(login:"edithatogo") { projectV2(number:28) { '
+        "views(first:100) { nodes { name layout filter } } } } }"
+    )
+    view_result = _run_json(
+        ["gh", "api", "graphql", "-f", f"query={view_query}"], repo
+    )
+    project_views = {
+        node["name"]: {
+            "layout": node["layout"],
+            "filter": node.get("filter") or "",
+        }
+        for node in view_result["data"]["user"]["projectV2"]["views"]["nodes"]
+    }
+    for view_name, expected in EXPECTED_PROJECT_VIEWS.items():
+        observed = project_views.get(view_name)
+        if observed is None:
+            errors.append(f"Project 28 view missing: {view_name}")
+            continue
+        for field, value in expected.items():
+            if observed.get(field) != value:
+                errors.append(
+                    f"Project 28 view {view_name!r} {field!r} expected "
+                    f"{value!r}, got {observed.get(field)!r}"
                 )
     return errors
 

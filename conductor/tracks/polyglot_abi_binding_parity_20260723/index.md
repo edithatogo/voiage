@@ -5,4 +5,5 @@
 - [Metadata](./metadata.json)
 - [Evidence ledger](./evidence.jsonl)
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/320)
-
+- Native industry subissue:
+  [#579 industry Decision Problem binding parity](https://github.com/edithatogo/voiage/issues/579).

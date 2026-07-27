@@ -21,6 +21,20 @@ and Mojo.
    consistently in Arrow, JSON, the C ABI, and language-native types.
 8. Fail conformance when code, packages, capability manifests, or
    documentation advertise an unsupported method or maturity.
+9. Deliver GitHub [#579](https://github.com/edithatogo/voiage/issues/579),
+   record ID `industry-decision-contract-binding-parity`: preserve the complete
+   industry Decision Problem across Rust, the C ABI, Python, R, Julia, and
+   Mojo. Portable fields include alternatives and policies; uncertainty and
+   dependence; information actions and source portfolios; outcomes, utility,
+   risk measures and constraints; populations, segments and perspectives;
+   costs, time, implementation and flexibility; provenance, units, missingness,
+   identifiers, privacy and rights; estimator assurance; and decision/audit
+   results.
+10. Generate language-native builders and validators from the canonical schema
+    and keep BI, warehouse, notebook, decision-service, and workflow adapters
+    outside the numerical core. Round trips must preserve unknown additive
+    fields, declared unsupported capabilities, categorical identifiers and
+    units without silently coercing them.
 
 ## Compatibility and failure policy
 
@@ -31,5 +45,7 @@ drift, and silent fallback block release.
 ## Acceptance criteria
 
 Clean installed packages call every advertised method and pass golden and
-randomized differential fixtures on supported platforms. Unsupported methods
-fail explicitly.
+randomized differential fixtures on supported platforms. Issue #579 passes
+cross-language Decision Problem, result, diagnostics and assurance round trips,
+including pathological and unsupported cases. Unsupported methods fail
+explicitly.

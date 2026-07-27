@@ -24,6 +24,18 @@ and related methods before the v1.1 contract freeze.
 7. Define a portable Decision Problem contract covering alternatives, states,
    information actions, utility/loss, perspective, population, horizon, units,
    provenance, and model draws.
+8. Under [#566](https://github.com/edithatogo/voiage/issues/566),
+   `industry-decision-problem-contract`, extend that boundary additively with:
+   - declared expected-value, expected-utility, CVaR/expected-shortfall,
+     chance-constraint, and minimax-regret criteria;
+   - budget, capacity, eligibility, fairness, regulatory, carbon, liquidity,
+     and service-level constraints;
+   - subject or segment policies, action applicability, observation
+     likelihood, missingness, quality, privacy, latency, and freshness;
+   - sequential state, transitions, stopping, metrics, guardrails, and
+     versioned model, dataset, experiment, and optimizer artifact references;
+   - typed predictive-distribution, CATE/uplift, forecast, optimization, and
+     experiment-platform adapter protocols.
 
 ## Compatibility, risk, and gates
 
@@ -36,7 +48,9 @@ review are required before publication claims.
 
 Every current method has an evidence-backed disposition; stable methods have
 formal definitions and validation; generated surfaces are deterministic; no
-narrative/runtime maturity conflict remains.
+narrative/runtime maturity conflict remains. Issue #566 has a reviewed schema,
+migration, error, fixture, interchange, and binding disposition before the
+industry decision methods freeze.
 
 ## Out of scope
 

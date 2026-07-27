@@ -5,4 +5,5 @@
 - [Metadata](./metadata.json)
 - [Evidence ledger](./evidence.jsonl)
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/314)
-
+- Native subissue:
+  [#566 industry DecisionProblem contract](https://github.com/edithatogo/voiage/issues/566).

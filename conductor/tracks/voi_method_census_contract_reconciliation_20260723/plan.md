@@ -97,3 +97,26 @@
 - [x] Apply Ruff formatting to the trusted-publishing workflow assertion after
   the complete repository gate exposed pre-existing formatting drift.
   (`f32573d`)
+
+## Phase 4: Additive industry DecisionProblem contract
+
+- [ ] Under [#566](https://github.com/edithatogo/voiage/issues/566), freeze
+  `industry-decision-problem-contract` as an additive v2 revision or a new
+  version; do not mutate the accepted v2 meaning in place.
+- [ ] Add failing schemas and semantic tests for decision criteria, risk
+  measures, constraints, policies, action eligibility, observation models,
+  privacy, latency, freshness, sequential state/stopping, metrics, guardrails,
+  and versioned artifact references.
+- [ ] Define typed predictive-distribution, CATE/uplift, forecast, optimization,
+  experiment, model-registry, metric, and lineage adapter protocols without
+  making external engines stable dependencies.
+- [ ] Add deterministic JSON and Arrow fixtures, migration cases, invalid and
+  pathological cases, capability requirements, and Rust/Python/R/Julia/Mojo
+  dispositions.
+- [ ] Reconcile the expanded contract with the canonical method registry and
+  the supported-frontier, ML/causal, binding, example, and automation tracks.
+- [ ] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update.
+- [ ] Automated review and validation checkpoint.
+- [ ] Conductor - User Manual Verification 'Phase 4: Additive industry DecisionProblem contract'
+  (Protocol in workflow.md).

@@ -36,7 +36,32 @@
   aggregation, thresholds/vetoes, alternatives, uncertainty, information
   actions, normalization, rankings, regret, rank acceptability, and estimator
   assurance.
-- [ ] Record a Rust/Python/R/Julia/Mojo disposition for #556--#560 using only
+- [ ] Freeze the risk-sensitive and constrained VOI contract under
+  [#570](https://github.com/edithatogo/voiage/issues/570), record ID
+  `risk-sensitive-constrained-voi`: declared utility or loss, CVaR,
+  chance-constraint, minimax-regret and supported fairness, liquidity,
+  eligibility, regulation, budget, capacity, feasibility, tie, optimizer, and
+  information-cost semantics; reconcile the existing capacity/budget runtime.
+- [ ] Freeze the information-source portfolio contract under
+  [#582](https://github.com/edithatogo/voiage/issues/582), record ID
+  `information-source-portfolio-voi`: joint observation models, dependence,
+  complementarity, redundancy, ordering, rights, privacy, freshness, latency,
+  acquisition failure, cost, bundle/sequence optimization, and decision-value
+  attribution.
+- [ ] Freeze the experiment-portfolio contract under
+  [#571](https://github.com/edithatogo/voiage/issues/571), record ID
+  `experiment-portfolio-voi`: shared traffic, units, sample, time and capacity;
+  primary/secondary metrics and guardrails; delayed and heterogeneous effects;
+  interference, multiplicity, stopping, implementation delay, opportunity cost,
+  allocation, and net research value.
+- [ ] Freeze the forecast and signal information-value contract under
+  [#572](https://github.com/edithatogo/voiage/issues/572), record ID
+  `forecast-signal-information-voi`: calibrated probabilistic forecasts,
+  horizon, freshness, latency, temporal dependence, decision lead time,
+  constraints, downstream policy, value by signal/horizon/freshness, and
+  maximum acquisition price.
+- [ ] Record a Rust/Python/R/Julia/Mojo disposition for #556--#560, #570--#572,
+  and #582 using only
   `implemented`, `adapter`, `contract-only`, `unsupported`, or
   `upstream-blocked`; fail governance when capability claims exceed installed
   execution.
@@ -71,6 +96,19 @@
   for each accepted decision-rule family, including decision/ranking output,
   criterion/preference information value, regret, rank acceptability,
   dominance diagnostics, and fail-closed model-family validation.
+- [ ] Implement #570 from its frozen contract with a single reusable
+  risk/constraint/policy boundary, gross and net VOI, decision and constraint
+  switches, regret, feasibility evidence, and optimizer assurance.
+- [ ] Implement #582 as dependent source-bundle and source-sequence
+  optimization with marginal and conditional information value, maximum
+  willingness to pay, attribution, approximation diagnostics, and fail-closed
+  source-rights and privacy policy.
+- [ ] Implement #571 as a deterministic experiment-portfolio policy over shared
+  resources, dependencies, guardrails, stopping and delay; keep platform
+  integrations optional and outside the numerical core.
+- [ ] Implement #572 through the downstream business decision rather than a
+  forecast-accuracy proxy, with calibration, coverage, temporal and policy
+  diagnostics.
 - [ ] Consolidate duplicates and remove placeholders with compatibility aliases.
 - [ ] Add Rust-owned numerical kernels for accepted quantitative estimands,
   thin Python/R/Julia adapters, an explicit Mojo upstream disposition, and
@@ -91,8 +129,9 @@
 
 - [ ] Run per-family, Rust, binding, frontier, docs, and full quality gates.
 - [ ] Verify the native GitHub #318 subissue set contains #556--#560, each issue
-  points back to this track, Project 28 metadata is complete, and local
-  metadata/index/plan references match live state.
+  plus #570--#572 and #582; each issue points back to this track, Project 28
+  metadata is complete, and local metadata/index/plan references match live
+  state.
 - [ ] Verify each accepted quantitative workstream through the public Rust
   facade and every advertised language binding; record explicit
   unsupported/upstream-blocked evidence rather than treating omission as parity.
@@ -101,7 +140,7 @@
   judgements.
 - [ ] Reconcile every maturity claim and external public-data gate.
 - [ ] Record separate v1.2/v1.3 implementation, scaffold, exclusion, and
-  maturity decisions for #556, #557, #558, #559, and #560. Issue closure
+  maturity decisions for #556--#560, #570--#572, and #582. Issue closure
   requires estimand-specific executable evidence or a reviewed exclusion; a
   citation, mock, schema-only scaffold, or adjacent method is insufficient.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the

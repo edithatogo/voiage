@@ -1,1 +1,44 @@
-{"track_id":"external_voi_library_feature_parity_20260723","version":"1.0.0","type":"feature","status":"in_progress","created_at":"2026-07-23T13:18:53Z","updated_at":"2026-07-24T05:47:07Z","description":"Inventory external VOI software and deliver evidence-backed standalone feature equivalence or reviewed exclusions.","evidence_schema":"1.0","owner_repo":"edithatogo/voiage","github_issue":"https://github.com/edithatogo/voiage/issues/315","github_parent_issue":"https://github.com/edithatogo/voiage/issues/313","github_project":"https://github.com/users/edithatogo/projects/28","release_targets":["v1.1","v1.2","v1.3"],"dependencies":["voi_method_census_contract_reconciliation_20260723"],"gates":[{"id":"external-observability","kind":"external","status":"pending","evidence":"Proprietary and web-only behavior can be claimed only when publicly reproducible."}]}
+{
+  "track_id": "external_voi_library_feature_parity_20260723",
+  "version": "1.1.0",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-07-23T13:18:53Z",
+  "updated_at": "2026-07-27T03:38:01Z",
+  "description": "Run the next comprehensive, review-first open-source and commercial VOI software landscape, capability map, gap analysis, and improvement proposal.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/315",
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/565",
+    "https://github.com/edithatogo/voiage/issues/567",
+    "https://github.com/edithatogo/voiage/issues/568",
+    "https://github.com/edithatogo/voiage/issues/569",
+    "https://github.com/edithatogo/voiage/issues/573"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "release_targets": [
+    "v1.1",
+    "v1.2",
+    "v1.3"
+  ],
+  "programme_position": "next",
+  "dependencies": [
+    "voi_method_census_contract_reconciliation_20260723"
+  ],
+  "gates": [
+    {
+      "id": "external-observability",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Commercial, proprietary, paid, inaccessible, and web-only behavior can be claimed only to the level supported by reproducible public observations."
+    },
+    {
+      "id": "improvement-review",
+      "kind": "human",
+      "status": "pending",
+      "evidence": "The checksum-bound improvement proposal must be reviewed item by item before any recommendation is incorporated into the roadmap."
+    }
+  ]
+}

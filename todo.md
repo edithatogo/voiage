@@ -7,6 +7,19 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   [ ] Execute the comprehensive Rust-first polyglot VOIAGE programme tracked
     by GitHub #313 and Conductor
     `rust_polyglot_voi_completion_20260723`.
+    *   **Next track for maintainer review and execution:** complete the
+        comprehensive software landscape under GitHub #315 and Conductor
+        `external_voi_library_feature_parity_20260723`.
+        *   #565 inventories open-source VOI software; #568 inventories
+            commercial, hosted and embedded products; #569 freezes the
+            schema/evidence/review protocol; #573 maps capability, workflow,
+            integration, assurance, UX and adoption patterns; #567 packages
+            VOIAGE gaps and proposed improvements for named human review.
+        *   Record methods, schemas, approaches, features, subfeatures,
+            options, estimators, evidence, maturity, integrations, workflows,
+            governance and commercial operating models. Treat the existing
+            27-tool snapshot as a baseline. Do not infer inaccessible product
+            behavior or update the roadmap automatically.
     *   Complete the method and external-library censuses before v1.1 contract
         freeze.
         *   Refreshed 2026-07-24 landscape: 27 external tools, two internal
@@ -19,14 +32,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
         *   The supported-frontier parent #318 and Conductor track
             `supported_frontier_method_completion_20260723` now own native
-            subissues #556--#560. Complete or scientifically exclude:
+            subissues #556--#560, #570--#572 and #582. Complete or
+            scientifically exclude:
             deterministic sensitivity analysis (DSA, #556); Value of
             Distributional Information over distribution-family uncertainty
             (VDI, #557); an auditable non-fabricated qualitative VoI workflow
             (#558); explicit constrained-versus-flexible policy value and its
             dynamic real-options mapping (VoF, #559); and installed MCDA
             decision/information-value execution without mock fallbacks
-            (MCDA-VOI, #560).
+            (MCDA-VOI, #560); risk-sensitive/constrained VOI (#570);
+            experiment-portfolio VOI (#571); forecast/signal information value
+            (#572); and dependent information-source portfolio VOI (#582).
         *   For every accepted gap, synchronize the estimand/schema, Rust core
             where numerical, Python/R/Julia adapters, Mojo disposition,
             diagnostics, serialization, registry/capabilities, independent
@@ -97,6 +113,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
             intervals, expected net benefit, and assurance arrays.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
+        *   #574 specifies a churn/retention example that values labels,
+            surveys, features, experiments, model refresh and source bundles
+            through feasible retention policies—not AUC. #575 adds consulting,
+            marketing, pricing, finance, economics, operations and general
+            business packs; #577 governs a versioned domain template/adapter
+            registry.
+        *   #580--#581 and #583--#584 govern Decision Registry cards, a
+            local-first Decision Studio, thin enterprise integrations and
+            decision-correctness assurance. These adoption surfaces compose
+            the public library contracts and must not duplicate estimators.
     *   Freeze a canonical Decision Problem interchange model and
         estimator-assurance envelopes; validate all capability, binding,
         documentation, and release claims from the registries.

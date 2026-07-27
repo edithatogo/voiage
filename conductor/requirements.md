@@ -96,6 +96,42 @@ programme. The canonical cross-repository requirements are maintained in
 - Releases have no unresolved critical/high dependency or secret findings.
   Moderate findings require remediation or a time-bounded, maintainer-confirmed
   risk record with compensating controls and a review date.
+- VOIAGE operates as decision-value middleware: external inference, causal,
+  forecasting, optimization, experiment, and model-registry systems may supply
+  versioned artifacts, while Rust remains authoritative for accepted generic
+  information-value and decision-policy kernels.
+- The Decision Problem contract represents declared expected-value,
+  expected-utility, CVaR/expected-shortfall, chance-constraint, and
+  minimax-regret criteria; budget, capacity, eligibility, fairness, regulatory,
+  carbon, liquidity, and service-level constraints; subject or segment
+  policies; observation quality, privacy, latency, and freshness; sequential
+  state and stopping; metrics and guardrails; and versioned artifact
+  references.
+- Risk-sensitive and constrained VOI, policy and uplift VOI,
+  information-source portfolio and data-procurement VOI,
+  experiment-portfolio VOI, forecast and signal information, and
+  decision-focused model value each have a distinct contract, evidence plan,
+  maturity, and native GitHub subissue.
+- Customer churn and retention is a decision-grade flagship example with a
+  known-counterfactual synthetic trial, a rights-reviewed randomized uplift
+  analogue, and a prediction-only cautionary example. It evaluates policies,
+  capacity, fairness, customer lifetime value, data acquisition, and pilot
+  EVSI/ENBS rather than reporting classification accuracy alone.
+- Commercial and open-source software are inventoried at schema, feature,
+  subfeature, option, algorithm, diagnostic, visualization, reporting,
+  workflow, integration, deployment, governance, and adoption levels. Claims
+  about proprietary or hosted behavior retain explicit observability limits.
+- The external-software landscape produces an evidence-linked improvement
+  proposal for human review. It does not automatically modify the canonical
+  method registry, roadmap, maturity, exclusions, or priorities.
+- A versioned Decision Registry and Decision Card contract binds assumptions,
+  decisions, models, datasets, experiments, constraints, policies, results,
+  hashes, reviewers, lifecycle, supersession, and refresh triggers without
+  treating generated advice as human approval.
+- GitHub issue #313 retains the programme hierarchy; #314, #315, #318--#322
+  own their native industry and adoption subissues. Project 28 contains every
+  issue with populated MoSCoW, priority, status, lifecycle, gate, risk, evidence,
+  track, record, contract-version, sync, owner, and review-due fields.
 
 ### Should have
 
@@ -130,6 +166,25 @@ programme. The canonical cross-repository requirements are maintained in
 - Renovate should delay ordinary releases for stability, require all protected
   checks before automerge, and never automerge security, major, numerical,
   submodule, or lock-maintenance changes.
+- A local-first Rust/WASM Decision Studio should import canonical artifacts,
+  explore decision switches, policies, constraints, information and experiment
+  portfolios, and generate accessible, deterministic business reports without
+  requiring sensitive-data upload or a second numerical core.
+- Optional adapters should consume CATE/uplift, predictive-distribution,
+  probabilistic-forecast, optimizer, experiment-platform, model-registry,
+  governed-metric, lineage, and feature-flag artifacts while preserving source
+  versions, provenance, privacy, and failure states.
+- A curated template and adapter registry should cover churn/retention,
+  marketing measurement, pricing, finance and alternative data, demand and
+  inventory, predictive maintenance, fraud/credit/collections, consulting
+  market entry, economics/policy pilots, and HR attrition.
+- Decision correctness should be tested through exhaustive small cases,
+  counterfactual consistency, policy regret, calibration, constraints,
+  source dependence, delayed outcomes, fairness, invalid artifacts,
+  deterministic parallelism, streaming, and large industry fixtures.
+- Project 28 should expose purpose-specific views for current delivery, the
+  next software-landscape review, industry and adoption work, MoSCoW and
+  priority, gates and risk, and evidence and review dates.
 
 ### Could have
 
@@ -145,6 +200,12 @@ programme. The canonical cross-repository requirements are maintained in
 - A conformance corpus for adversarial and safety-sensitive information
   actions, including poisoned retrieval, dependent judges, and abstention or
   escalation under correlated errors.
+- Shapley-style attribution of joint decision value to information sources,
+  provided it remains distinct from predictive Data Shapley and reports
+  dependence, ordering, and approximation assumptions.
+- Facilitation and collaboration features for qualitative VOI and MCDA,
+  including comments, dissent, redaction, versioned assumptions, and
+  accessibility review.
 
 ### Won't have now
 
@@ -166,3 +227,14 @@ programme. The canonical cross-repository requirements are maintained in
 - Publication of credentials, private evidence, or local-only agent state.
 - Automated acceptance of risk, irreversible decisions, or human-controlled
   issue closure.
+- Reimplementing marketing-mix, causal-inference, forecasting, experiment
+  execution, feature-flag, model-registry, lineage, metric-store, or
+  optimization engines that can instead provide versioned input artifacts.
+- Treating AUC, RMSE, forecast accuracy, entropy, SHAP, CATE estimates, power
+  calculations, or model leaderboards as decision value without explicit
+  actions, utility or loss, constraints, information cost, and a
+  post-information decision.
+- Automatic roadmap adoption of software-landscape recommendations before the
+  evidence-linked proposal and named human review are complete.
+- Upload-required handling of confidential business data in the local Decision
+  Studio or examples containing personal customer or employee information.

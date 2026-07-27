@@ -5,4 +5,6 @@
 - [Metadata](./metadata.json)
 - [Evidence ledger](./evidence.jsonl)
 - [GitHub programme issue](https://github.com/edithatogo/voiage/issues/313)
-
+- Industry/adoption work remains nested under existing child issues #314,
+  #315 and #318--#322; native subissue links and record IDs live in those child
+  track indexes.

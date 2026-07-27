@@ -22,6 +22,13 @@
   in Arrow, JSON, C ABI, and language-native representations.
   - [x] Carry EVPI sample-average variance and Monte Carlo error through the C
     ABI typed result.
+- [ ] Freeze `industry-decision-contract-binding-parity` under
+  [#579](https://github.com/edithatogo/voiage/issues/579): complete portable
+  Decision Problem, source-portfolio, policy, utility/risk/constraint,
+  population/perspective, time/cost/implementation, provenance/units/rights,
+  result, diagnostics and estimator-assurance fields; additive-version,
+  missingness and unsupported-capability behavior; Rust/C ABI/Python/R/Julia/
+  Mojo ownership and round-trip rules.
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
@@ -38,6 +45,10 @@
   - [ ] Expand the typed C ABI and retain panic containment across every new
     entry point.
 - [ ] Complete Python, direct R, Julia Artifacts/JLL, and Mojo packages.
+- [ ] Implement #579 using generated language-native builders and validators,
+  typed/Arrow/JSON interchange, strict identifier and unit preservation,
+  unknown-additive-field round trips, no silent coercion, and thin optional
+  warehouse, BI, notebook, workflow and decision-service adapters.
 - [ ] Generate capabilities, headers, docs, and migration adapters.
 - [ ] Generate deterministic unsupported-method responses and fail CI when a
   binding or document advertises capabilities absent from the registry.
@@ -50,6 +61,9 @@
 ## Phase 3: Installed parity
 
 - [ ] Run clean install/unload/concurrency/error and shared-fixture matrices.
+- [ ] Run #579 golden, randomized, pathological, unknown-field, missingness,
+  unsupported-capability, resource-ownership and cross-version round trips in
+  every advertised language surface.
 - [ ] Run Miri, sanitizers, fuzzing, semver, ABI, docs, and full quality gates.
 - [ ] Reconcile packaging and external registry readiness.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
