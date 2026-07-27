@@ -41,11 +41,12 @@
   subfeatures, options/defaults, diagnostics, errors, plots, reports, examples,
   tests, interoperability, dependencies, performance, license, and maintenance.
   (`e484829`, `7edbce0`)
-- [~] Under [#568](https://github.com/edithatogo/voiage/issues/568), complete
+- [x] Under [#568](https://github.com/edithatogo/voiage/issues/568), complete
   `landscape-commercial-hosted-inventory` using only observable evidence,
   with evidence strength, extraction limitations, closest VOIAGE workflow,
   user impact, and review due.
-- [ ] Reconcile forks, renamed packages, inactive tools, unavailable
+  (`885b4d9`)
+- [~] Reconcile forks, renamed packages, inactive tools, unavailable
   supplements, commercial products, spreadsheet tools, hosted services, and
   adjacent systems without treating the list as universally exhaustive.
 - [ ] Preserve the existing source/test/docs/example inventory, independent
