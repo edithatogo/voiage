@@ -18,9 +18,7 @@ ENVELOPE_SCHEMA_PATH = Path(
     "specs/v1/schemas/statistical-assurance-envelope.schema.json"
 )
 ESTIMATOR_PATH = Path("specs/v1/stable-estimator-assurance.json")
-EXAMPLE_PATH = Path(
-    "specs/core-api/examples/v1/statistical-assurance.example.json"
-)
+EXAMPLE_PATH = Path("specs/core-api/examples/v1/statistical-assurance.example.json")
 
 
 def _load(path: Path) -> dict[str, object]:
