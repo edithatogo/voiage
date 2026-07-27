@@ -1,0 +1,55 @@
+# Implementation Plan
+
+## Phase 1 — Contract and legacy reconciliation
+
+- [ ] **S1:** Freeze common study-design, cost, population, time-horizon,
+  feasibility and reproducibility semantics. (AC-01)
+- [ ] **S2:** Freeze COSS curve, optimum, deterministic tie, boundary and
+  uncertainty result contracts. (AC-02)
+- [ ] **S3:** Freeze EVSI/EVPI units, scaling, zero-denominator, tolerance and
+  bounds behavior. (AC-03)
+- [ ] **S4:** Audit the existing plot and clinical optimizer, including the
+  misnamed value/cost `voi_efficiency` field, and record compatibility or
+  deprecation decisions. (AC-04)
+- [ ] **S5:** Run automated contract review and full Conductor validation.
+  (AC-01–AC-04, AC-08)
+
+## Phase 2 — Reference evidence before implementation
+
+- [ ] **S6:** Add failing analytical/enumerable COSS and signed-ENBS reference
+  tests with independent argmax calculations. (AC-02, AC-05)
+- [ ] **S7:** Add failing tests for interior, boundary, tied, infeasible and
+  non-monotone design curves. (AC-02, AC-05)
+- [ ] **S8:** Add failing EVSI/EVPI tests for common scaling, zero EVPI,
+  theoretical limits, Monte Carlo tolerance and invalid inputs. (AC-03,
+  AC-05)
+- [ ] **S9:** Review reference independence, cost provenance and estimator
+  uncertainty requirements. (AC-05)
+
+## Phase 3 — Runtime and optimizer
+
+- [ ] **S10:** Implement versioned Rust result envelopes and accepted numerical
+  kernels for COSS and EVSI/EVPI, or record a reviewed exclusion. (AC-02,
+  AC-03, AC-06)
+- [ ] **S11:** Implement the thin Python orchestration façade and deterministic
+  design optimizer without numerical fallback. (AC-01, AC-02, AC-06)
+- [ ] **S12:** Reconcile or deprecate legacy optimizer behavior and preserve
+  stable API compatibility. (AC-04)
+- [ ] **S13:** Add property, differential, serialization, uncertainty,
+  optimizer and benchmark assurance. (AC-05, AC-09)
+- [ ] **S14:** Run automated implementation review, focused tests and the
+  repository harness. (AC-05, AC-09)
+
+## Phase 4 — Portfolio, user and binding surfaces
+
+- [ ] **S15:** Integrate single-study COSS and efficiency outputs with #571's
+  experiment-portfolio allocation and constraint contract. (AC-01, AC-06)
+- [ ] **S16:** Add CLI, reporting, provenance and accessible plotting/examples
+  that consume the versioned result contract. (AC-06)
+- [ ] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
+  and shared-fixture evidence or explicit unsupported failures. (AC-07)
+- [ ] **S18:** Reconcile roadmap, registry, documentation, GitHub, Project 28,
+  Conductor and hosted evidence. (AC-06–AC-09)
+- [ ] **S19:** Run final automated review, full local validation and hosted
+  required checks; retain merge, release and issue closure as separate gates.
+  (AC-09)

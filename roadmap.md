@@ -114,6 +114,26 @@ SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
 ML, engineering/operations, and business reference cases. Neither follow-on
 creates a second preparation path or domain-specific numerical kernel.
 
+Two additive frontier plans now cover the specialized gaps identified on
+27 July 2026 without changing the released stable core:
+
+*   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
+    estimation-focused `EVPPI_var` and `EVSI_var` for scalar target-output
+    variance reduction, explicitly separate from decision-focused EVPPI/EVSI,
+    sensitivity indices, and estimator uncertainty.
+*   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
+    governed Curve of Optimal Sample Size over signed ENBS and the dimensionless
+    EVSI/EVPI study-efficiency diagnostic. They must reconcile the existing
+    plotting and legacy clinical-optimizer helpers rather than treating adjacent
+    or misnamed behavior as implementation evidence.
+
+Both issues are native sub-issues of frontier parent #318 under programme #313
+and are Todo items in Project 28. Risk-sensitive/constrained VOI (#570),
+utility-equivalent information prices including clairvoyant-policy comparisons
+(#595), and outcome-conditional/risk-of-low sample information (#600) remain
+the existing plans for the risk and utility family; no duplicate tracks were
+created.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

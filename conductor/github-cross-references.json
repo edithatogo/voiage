@@ -1,10 +1,40 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-24T00:00:00Z",
+  "generated_at": "2026-07-27T07:59:23Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
   "tracks": [
+    {
+      "track_id": "estimation_focused_variance_voi_20260727",
+      "metadata_track_id": "estimation_focused_variance_voi_20260727",
+      "path": "conductor/tracks/estimation_focused_variance_voi_20260727",
+      "lifecycle": "active",
+      "issue": {
+        "number": 619,
+        "url": "https://github.com/edithatogo/voiage/issues/619",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_yet"
+    },
+    {
+      "track_id": "study_design_efficiency_20260727",
+      "metadata_track_id": "study_design_efficiency_20260727",
+      "path": "conductor/tracks/study_design_efficiency_20260727",
+      "lifecycle": "active",
+      "issue": {
+        "number": 571,
+        "url": "https://github.com/edithatogo/voiage/issues/571",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_yet"
+    },
     {
       "track_id": "abstraction-excellence_20260719",
       "metadata_track_id": "abstraction-excellence_20260719",
