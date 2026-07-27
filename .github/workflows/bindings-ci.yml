@@ -257,4 +257,4 @@ jobs:
           julia=json.loads(pathlib.Path('bindings/julia/test/fixtures/evpi-cases.json').read_text());
           assert canonical == julia"
       - name: Exercise Python reference corpus
-        run: uv run pytest tests/test_numerical_reference_cases.py --no-cov -q
+        run: uv run --extra ci pytest tests/test_numerical_reference_cases.py --no-cov -q
