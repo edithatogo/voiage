@@ -3,6 +3,7 @@ voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_capabilities_json
 voiage_v1_decision_problem_json
+voiage_v1_decision_problem_json_i32_r
 voiage_v1_ceaf_result
 voiage_v1_ceaf_result_json
 voiage_v1_evpi
@@ -27,3 +28,4 @@ voiage_v1_handle_free
 voiage_v1_structural_evpi_result
 voiage_v1_structural_evppi_result
 voiage_v1_statistical_assurance_json
+voiage_v1_statistical_assurance_json_i32_r

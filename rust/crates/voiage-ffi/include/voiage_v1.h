@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(14)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(15)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -177,6 +177,14 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_decision_problem_json(
     char *buffer,
     uint64_t capacity,
     uint64_t *required_size);
+/* R .C adapter: signed scalar lengths and status written through a pointer. */
+VOIAGE_V1_API void voiage_v1_decision_problem_json_i32_r(
+    const uint8_t *input,
+    const int32_t *input_length,
+    uint8_t *buffer,
+    const int32_t *capacity,
+    int32_t *required_size,
+    int32_t *out_status);
 /* Validate the canonical EVPI v1 result envelope and return compact UTF-8 JSON
  * plus trailing NUL through the same query/copy ownership contract. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_result_json(
@@ -227,6 +235,13 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_statistical_assurance_json(
     char *buffer,
     uint64_t capacity,
     uint64_t *required_size);
+VOIAGE_V1_API void voiage_v1_statistical_assurance_json_i32_r(
+    const uint8_t *input,
+    const int32_t *input_length,
+    uint8_t *buffer,
+    const int32_t *capacity,
+    int32_t *required_size,
+    int32_t *out_status);
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi(
     const double *values,
     uint64_t rows,

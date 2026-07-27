@@ -20,6 +20,9 @@ test_that("the Rd surface matches the exported package API", {
       "evsi",
       "init_voiage",
       "is_voiage_available",
+      "normalize_decision_problem",
+      "normalize_statistical_assurance",
+      "read_voiage_arrow",
       "set_voiage_env",
       "voiageR"
     )

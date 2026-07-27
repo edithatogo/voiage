@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `14`
+- ABI major: `1`; ABI minor: `15`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -44,6 +44,7 @@ voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_capabilities_json
 voiage_v1_decision_problem_json
+voiage_v1_decision_problem_json_i32_r
 voiage_v1_ceaf_result
 voiage_v1_ceaf_result_json
 voiage_v1_evpi
@@ -68,6 +69,7 @@ voiage_v1_handle_free
 voiage_v1_structural_evpi_result
 voiage_v1_structural_evppi_result
 voiage_v1_statistical_assurance_json
+voiage_v1_statistical_assurance_json_i32_r
 ```
 
 The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
@@ -162,6 +164,12 @@ inapplicable evidence; they are not promoted to successful assurance. The Rust
 DTO rejects unknown fields, non-finite or invalid non-negative quantities,
 reversed confidence intervals, blank provenance labels, zero replications,
 and convergence claims based on fewer than two replications.
+
+`voiage_v1_decision_problem_json_i32_r` and
+`voiage_v1_statistical_assurance_json_i32_r` preserve those transports while
+using signed 32-bit length pointers and an output-status pointer compatible
+with base R's `.C` interface. Negative or unrepresentable lengths fail closed;
+the Rust serializers and caller-owned buffer policy remain authoritative.
 
 ## Status and error transport
 

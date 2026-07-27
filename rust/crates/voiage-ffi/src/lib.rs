@@ -48,6 +48,10 @@ mod evsi_approximation_result;
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
 mod lifecycle;
+// SAFETY: R adapters validate signed scalar pointers before delegating to the
+// checked, panic-contained JSON transports.
+#[allow(unsafe_code)]
+mod r_json_adapter;
 // SAFETY: scalar JSON wrappers delegate to the shared checked transport and
 // contain panics.
 #[allow(unsafe_code)]
@@ -88,6 +92,9 @@ pub use evsi_approximation_result::{
 };
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
+pub use r_json_adapter::{
+    voiage_v1_decision_problem_json_i32_r, voiage_v1_statistical_assurance_json_i32_r,
+};
 pub use scalar_result_json::{
     voiage_v1_enbs_result_json, voiage_v1_evppi_result_json, voiage_v1_evsi_result_json,
 };
@@ -109,7 +116,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 14;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 15;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;

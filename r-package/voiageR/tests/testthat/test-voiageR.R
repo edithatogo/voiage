@@ -11,9 +11,32 @@ test_that("voiageR package loads and exports the expected surface", {
       "evsi",
       "init_voiage",
       "is_voiage_available",
+      "normalize_decision_problem",
+      "normalize_statistical_assurance",
+      "read_voiage_arrow",
       "set_voiage_env"
     )
   )
+})
+
+test_that("Rust normalizes the canonical Decision Problem without Python", {
+  skip_if(Sys.getenv("VOIAGE_FFI_LIBRARY") == "", "Rust C ABI library is not configured")
+  problem <- list(
+    decision_problem_id = "screening-program-001",
+    title = "Screening program choice",
+    analysis_type = "net-benefit-first",
+    currency = "AUD",
+    willingness_to_pay = 50000,
+    outcome_names = c("cost", "effect", "net_benefit"),
+    interventions = list(
+      list(intervention_id = "usual-care", name = "Usual care", is_reference = TRUE),
+      list(intervention_id = "screening", name = "Targeted screening")
+    )
+  )
+
+  normalized <- normalize_decision_problem(problem)
+  expect_identical(normalized$decision_problem_id, "screening-program-001")
+  expect_length(normalized$interventions, 2L)
 })
 
 voiage_namespace <- function() {

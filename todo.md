@@ -103,8 +103,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
             into positive assurance.
         *   Canonical v1 Decision Problem and statistical-assurance envelopes
             now have Rust-validated, fingerprinted Arrow tables and
-            deterministic IPC/Parquet round trips. Direct R and Julia adapters
-            over these schemas remain open.
+            deterministic IPC/Parquet round trips. Direct Python-free R and
+            Julia adapters now validate both contracts through ABI v1.15 and
+            consume the canonical Arrow table shape. Julia JLL/Artifacts
+            distribution, the remaining stable method surfaces, and broader
+            language parity remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

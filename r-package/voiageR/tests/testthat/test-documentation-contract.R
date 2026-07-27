@@ -7,6 +7,9 @@ test_that("the R package documentation surface includes the package help topic",
     "evsi.Rd",
     "init_voiage.Rd",
     "is_voiage_available.Rd",
+    "normalize_decision_problem.Rd",
+    "normalize_statistical_assurance.Rd",
+    "read_voiage_arrow.Rd",
     "set_voiage_env.Rd"
   )
 

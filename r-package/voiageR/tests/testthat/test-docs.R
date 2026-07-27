@@ -15,6 +15,9 @@ test_that("the package-level documentation topic is present", {
       "evsi",
       "init_voiage",
       "is_voiage_available",
+      "normalize_decision_problem",
+      "normalize_statistical_assurance",
+      "read_voiage_arrow",
       "set_voiage_env"
     )
   )

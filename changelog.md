@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added Python-free R and Julia adapters for Rust-normalized v1 Decision
+  Problem and statistical-assurance contracts. R now resolves the dynamically
+  loaded C ABI correctly and reads canonical Arrow IPC/Feather/Parquet tables;
+  Julia reads canonical Arrow IPC through Tables.jl. ABI v1.15 adds signed
+  length/status adapters for base R while Julia continues to call the portable
+  caller-owned JSON transport directly.
 - Added Rust-owned runtime statistical assurance for expected opportunity
   loss, including sample variance, Monte Carlo standard error, a disclosed
   confidence interval, computational budget, numerical-error policy, a typed

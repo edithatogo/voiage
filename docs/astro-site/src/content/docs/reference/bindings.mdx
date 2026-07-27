@@ -18,3 +18,21 @@ The matrix is normative at
 [`specs/v1/binding-matrix.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/binding-matrix.json).
 Registry publication and indexing are external gates; repository readiness does
 not imply that an artifact is live.
+
+## Canonical contract interchange
+
+R and Julia can validate v1 Decision Problem and statistical-assurance
+documents directly through the Rust C ABI; these paths do not initialize
+Python. Both surfaces also preserve the lossless `payload_json` column in the
+pinned Arrow table contract:
+
+- R exposes `normalize_decision_problem()`,
+  `normalize_statistical_assurance()`, and `read_voiage_arrow()` for Arrow IPC,
+  Feather, and Parquet files.
+- Julia exposes `normalize_decision_problem()`,
+  `normalize_statistical_assurance()`, and `read_voiage_arrow()` for Arrow IPC
+  through Tables.jl.
+
+The source adapters and conformance tests are repository-ready. Julia
+Artifacts/JLL assembly and registry publication, and R registry review, remain
+external packaging gates.
