@@ -216,14 +216,14 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 10 — Reconcile Conductor and GitHub (#325)
 
-- [~] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
+- [x] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
   #467, and #468,
   native parent/sub-issue links, Project 28 status/fields, pull requests, and
-  evidence ledger entries.
-- [~] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
-  by repository and hosted evidence or remains explicitly blocked.
-- [~] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
-  this track's state from pre-existing legacy archive-validation debt.
+  evidence ledger entries. (`7549b66e`)
+- [x] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
+  by repository and hosted evidence or remains explicitly blocked. (`7549b66e`)
+- [x] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
+  this track's state from pre-existing legacy archive-validation debt. (`7549b66e`)
 - [~] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
