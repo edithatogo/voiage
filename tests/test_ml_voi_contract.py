@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = (
@@ -26,3 +27,22 @@ def test_eig_fixture_keeps_information_and_decision_values_distinct() -> None:
     assert "utility" in payload["interpretation"]
     assert "cost" in payload["interpretation"]
     assert payload["expected_decision_voi"] != payload["expected_information_gain_nats"]
+
+
+def test_ml_contract_requires_offline_cpu_and_optional_backends() -> None:
+    """ML/LLM methods must not require providers or private-data transport."""
+    spec = (ROOT / "conductor/tracks/ml_llm_agent_voi_20260723/spec.md").read_text(
+        encoding="utf-8"
+    )
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    base = "\n".join(metadata["project"]["dependencies"]).lower()
+
+    spec = spec.lower()
+    assert "offline tables" in spec
+    assert "cpu deterministic" in spec
+    assert "no network or" in spec
+    assert "private-data transmission" in spec
+    assert "pyro" in spec
+    assert "botorch" in spec
+    assert "pyro" not in base
+    assert "botorch" not in base
