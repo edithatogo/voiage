@@ -24,6 +24,7 @@ from voiage.contracts import (
 )
 from voiage.ingestion import (
     IngestionError,
+    IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
     default_registry,
@@ -590,6 +591,27 @@ def test_registry_supports_a_fake_provider_with_injected_source_policy(
 
     assert bundle.manifest.dataset_id == "fake"
     assert observed == [supplied_policy]
+
+
+def test_public_provider_protocol_supports_consumer_runtime_validation() -> None:
+    class ConsumerProvider:
+        provider_id = "consumer"
+        capabilities = ProviderCapabilities(
+            provider_id="consumer",
+            format_versions=("1",),
+            media_types=("application/json",),
+        )
+
+        def can_handle(self, descriptor: dict[str, object]) -> bool:
+            return bool(descriptor)
+
+        def ingest(
+            self, descriptor_path, *, policy: SourceAccessPolicy
+        ) -> NormalizedInputBundle:
+            raise AssertionError("not called")
+
+    assert isinstance(ConsumerProvider(), IngestionProvider)
+    assert not isinstance(object(), IngestionProvider)
 
 
 def test_base_import_does_not_load_builtin_provider_modules() -> None:
