@@ -2,6 +2,8 @@
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
+- [MoSCoW Requirements](./requirements.md)
+- [Mermaid Design](./design.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #571](https://github.com/edithatogo/voiage/issues/571)

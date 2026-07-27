@@ -7,6 +7,8 @@ efficiency outputs: a Curve of Optimal Sample Size (COSS) based on signed ENBS
 and a dimensionless EVSI/EVPI diagnostic. Reconcile the existing plotting and
 legacy clinical-optimizer helpers without promoting their adjacent behavior as
 the requested scientific contracts.
+The planned contract version is v1.2.0 and its MoSCoW source is
+`requirements.md`, tracing to canonical requirements M15 and M17.
 
 GitHub issue
 [#571](https://github.com/edithatogo/voiage/issues/571) is the native
@@ -95,6 +97,8 @@ sub-issue of frontier programme issue
   and the central cross-reference manifest remain bidirectionally linked.
 - **AC-09:** Automated review, full local validation, the repository harness
   and hosted required checks pass before repository completion.
+- **AC-10:** The v1.2.0 MoSCoW requirements, Mermaid design, canonical C16
+  projection, GitHub hierarchy and Project 28 fields remain synchronized.
 
 ## Non-functional constraints
 
@@ -134,3 +138,5 @@ sub-issue of frontier programme issue
   repository baseline `ceefb515`.
 - `conductor/product.md`, `conductor/product-guidelines.md`,
   `conductor/tech-stack.md` and `conductor/workflow.md`.
+- `conductor/requirements.md`, `conductor/design.md`, this track's
+  `requirements.md` and `design.md`, and canonical cross-repository C16.

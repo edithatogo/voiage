@@ -114,8 +114,10 @@ SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
 ML, engineering/operations, and business reference cases. Neither follow-on
 creates a second preparation path or domain-specific numerical kernel.
 
-Two additive frontier plans now cover the specialized gaps identified on
-27 July 2026 without changing the released stable core:
+Two additive frontier plans target the governed v1.2.0 contract and cover the
+specialized gaps identified on 27 July 2026 without changing the released
+stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
+C16 own the shared projection:
 
 *   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
     estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector

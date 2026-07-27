@@ -29,6 +29,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.
     *   GitHub issue: #619, native sub-issue of #318 under programme #313.
     *   Define scalar/vector-target `EVPPI_var` and `EVSI_var`, component
         units, variance or covariance functional, conditioning and sampling
@@ -40,6 +41,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M15/M17.
     *   GitHub issue: #571, native sub-issue of #318 under programme #313.
     *   Add COSS over signed ENBS with evaluated design records, feasible
         range/set, deterministic optimum/tie/boundary behavior, uncertainty
@@ -50,6 +52,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         before any maturity promotion.
     *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
         presentation; do not create a duplicate numerical method.
+    *   VoC classification is planned for v1.2.0 under canonical M16/M17 and
+        `supported_frontier_method_completion_20260723`.
 
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.

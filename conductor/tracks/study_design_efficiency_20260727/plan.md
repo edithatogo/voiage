@@ -49,8 +49,9 @@
   that consume the versioned result contract. (AC-06)
 - [ ] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
   and shared-fixture evidence or explicit unsupported failures. (AC-07)
-- [ ] **S18:** Reconcile roadmap, registry, documentation, GitHub, Project 28,
-  Conductor and hosted evidence. (AC-06–AC-09)
+- [ ] **S18:** Reconcile roadmap, registry, documentation, v1.2.0 MoSCoW
+  requirements, Mermaid design, canonical C16, GitHub, Project 28, Conductor
+  and hosted evidence. (AC-06–AC-10)
 - [ ] **S19:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-09)

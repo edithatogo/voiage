@@ -45,7 +45,8 @@
 - [ ] **E14:** Record Rust, Python, R, Julia and Mojo capability dispositions
   and shared-fixture evidence or explicit unsupported failures. (AC-06)
 - [ ] **E15:** Reconcile the roadmap, method registry, documentation, bindings,
-  GitHub issues, Project 28 and Conductor evidence. (AC-06, AC-07)
+  v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, GitHub issues,
+  Project 28 and Conductor evidence. (AC-06, AC-07, AC-09)
 - [ ] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)

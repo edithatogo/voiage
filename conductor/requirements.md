@@ -26,6 +26,20 @@ programme. The canonical cross-repository requirements are maintained in
 - Strict Pydantic v2 contracts give concerns, parameters, numerical policies,
   kernels, backend capabilities, run contexts and results stable typed
   identities with deterministic schemas and compatibility adapters.
+- **M14 / planned v1.2.0:** estimation-focused `EVPPI_var` and `EVSI_var`
+  declare scalar/vector target shape, component units, variance or covariance
+  functional, conditioning and sampling models, estimator assurance and
+  provenance.
+- **M15 / planned v1.2.0:** COSS returns evaluated designs, feasible range/set,
+  signed ENBS curve, deterministic tie policy, optimum, uncertainty and
+  plotting inputs; EVSI/EVPI has common-unit, zero-EVPI and bounds behavior.
+- **M16 / planned v1.2.0:** VoC is #595's expected-utility value of a
+  clairvoyant-policy presentation, not a duplicate kernel or unconditional
+  monetary-EVPI alias.
+- **M17 / planned v1.2.0:** the canonical C16 public projection keeps managed
+  issue/subissue and Project 28 fields synchronized across every explicitly
+  registered consumer repository, preserving human content and failing closed
+  on conflicts or missing credentials.
 
 ### Should have
 
@@ -39,6 +53,8 @@ programme. The canonical cross-repository requirements are maintained in
   scheduled/manual evidence rather than slowing every pull request.
 - GitHub governance projections use stable markers, bounded managed sections,
   dry-run plans and conflict detection while preserving human-authored content.
+- Specialized v1.2.0 methods should have independent references, accessible
+  plots and explicit Rust/Python/R/Julia/Mojo dispositions before promotion.
 
 ### Could have
 
@@ -46,6 +62,8 @@ programme. The canonical cross-repository requirements are maintained in
 - Automated synchronization of archived tracks and project fields.
 - Signed release attestations for promoted interchange bundles.
 - Deterministic governance traceability tables and Mermaid graphs.
+- Reviewed vector-target covariance functionals beyond the initial declared
+  trace, determinant and weighted-quadratic choices.
 
 ### Won't have now
 
@@ -55,3 +73,14 @@ programme. The canonical cross-repository requirements are maintained in
 - Publication of credentials, private evidence, or local-only agent state.
 - Automated acceptance of risk, irreversible decisions, or human-controlled
   issue closure.
+- Duplicate VoC kernels, silent COSS extrapolation or relabeling
+  `total_voi / total_cost` as EVSI/EVPI.
+
+## Planned-version traceability
+
+| Planned version | MoSCoW | Canonical requirement | VOIAGE track | GitHub |
+|---|---|---|---|---|
+| v1.2.0 | Must | M14 | `estimation_focused_variance_voi_20260727` | #619 under #318 |
+| v1.2.0 | Must | M15 | `study_design_efficiency_20260727` | #571 under #318 |
+| v1.2.0 | Must | M16 | `supported_frontier_method_completion_20260723` | #595 under #318 |
+| v1.2.0 | Must | M17 | canonical C16 plus the three tracks above | #313/#318 and Project 28 |

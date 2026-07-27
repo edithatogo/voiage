@@ -6,6 +6,8 @@ Add governed value-of-information estimands for analyses whose objective is to
 estimate a declared model output accurately rather than choose among actions.
 The track introduces variance-reduction EVPPI and EVSI contracts without
 changing or aliasing VOIAGE's stable decision-focused EVPPI and EVSI methods.
+The planned contract version is v1.2.0 and its MoSCoW source is
+`requirements.md`, tracing to canonical requirements M14 and M17.
 
 GitHub issue
 [#619](https://github.com/edithatogo/voiage/issues/619) is the native
@@ -90,6 +92,8 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   and the central cross-reference manifest remain bidirectionally linked.
 - **AC-08:** Automated review, focused validation, the repository harness and
   hosted required checks are green before repository completion.
+- **AC-09:** The v1.2.0 MoSCoW requirements, Mermaid design, canonical C16
+  projection, GitHub hierarchy and Project 28 fields remain synchronized.
 
 ## Non-functional constraints
 
@@ -133,3 +137,5 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   `ceefb515`, which define the existing decision-focused stable surface.
 - `conductor/product.md`, `conductor/product-guidelines.md`,
   `conductor/tech-stack.md` and `conductor/workflow.md`.
+- `conductor/requirements.md`, `conductor/design.md`, this track's
+  `requirements.md` and `design.md`, and canonical cross-repository C16.

@@ -38,7 +38,8 @@
 ## Phase 4 — Programme and hosted closeout
 
 - [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
-  release targets and remaining external gates. (AC-01, AC-05, AC-06, AC-08)
+  v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, release targets
+  and remaining external gates. (AC-01, AC-05, AC-06, AC-08, AC-09)
 - [ ] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
