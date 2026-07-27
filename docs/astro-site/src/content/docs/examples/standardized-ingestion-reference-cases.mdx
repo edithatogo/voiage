@@ -8,11 +8,11 @@ decision samples and the same explicit net-benefit binding. They demonstrate
 format interoperability, not domain-specific modelling: no field names,
 strategies, units, or transformations are inferred.
 
-| Community | Descriptor or input | Decision interpretation |
+| Community | Decision interpretation | Verified input surfaces |
 | --- | --- | --- |
-| Machine learning | Croissant 1.1 | Compare model-selection net benefits across posterior samples. |
-| Engineering and operations | Frictionless Data Package | Compare design alternatives across simulated operating scenarios. |
-| Business | Arrow DataFrame-interchange SDK | Compare investment strategies across decision scenarios. |
+| Machine learning | Compare model-selection net benefits across posterior samples. | Croissant 1.1, Frictionless Data Package, direct Arrow |
+| Engineering and operations | Compare design alternatives across simulated operating scenarios. | Croissant 1.1, Frictionless Data Package, direct Arrow |
+| Business | Compare investment strategies across decision scenarios. | Croissant 1.1, Frictionless Data Package, direct Arrow, and DataFrame interchange |
 
 The fixture records two strategies, `strategy_a` and `strategy_b`, and binds
 them explicitly as `A` and `B`:
@@ -32,11 +32,11 @@ Run the complete reproducible walkthrough from a source checkout:
 uv run python examples/standardized_ingestion/reference_cases.py
 ```
 
-The output contains identical EVPI values for `ml`, `engineering`, and
-`business`. The business case deliberately enters through
+The output contains a value for every domain and each of the `croissant`,
+`frictionless`, and `direct` surfaces. The business case also enters through
 `from_dataframe(..., allow_copy=False)`, using Arrow's standard DataFrame
 interchange protocol with an explicit zero-copy requirement. The runner fails
-if any format reaches a different value, making the example an executable
+if any surface reaches a different value, making the example an executable
 cross-format regression check as well as a tutorial.
 
 ## Cost/outcome derivation case

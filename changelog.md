@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   forwarding, nullable and timezone-aware schemas, explicit binding validation,
   and canonical preparation; business standardized-ingestion reference cases
   now exercise that public SDK with an explicit zero-copy policy.
+- Expanded each ML, engineering, and business reference-case narrative to run
+  through Croissant, Frictionless, and direct Arrow inputs with asserted EVPI
+  equivalence.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.
