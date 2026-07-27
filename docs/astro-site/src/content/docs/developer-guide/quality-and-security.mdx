@@ -22,6 +22,15 @@ security workflows exist, and repository governance files are present. The
 full tox environment additionally runs linting, type checking, docs, contract
 validation, the supported Python matrix, and the coverage threshold.
 
+Ruff is the single Python lint, formatting, import-ordering, upgrade,
+docstring, and source-security engine. Its selected `S` rules replace the
+former duplicate Bandit invocation. Vulture, `ty`, BasedPyright, CodeQL,
+dependency audits, mutation tests, profiling, Vale, tox, and Nox remain
+separate because they exercise whole-program, independent-engine, dataflow,
+package, behavioral, performance, prose, or environment contracts that Ruff
+does not provide. The machine-readable dispositions are recorded in
+`specs/quality/tool-consolidation.json`.
+
 For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
 --progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.
 

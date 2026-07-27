@@ -210,7 +210,7 @@ The repository applies different forms of evidence to different failure modes:
 | Area | Repository controls |
 | --- | --- |
 | Style and prose | Ruff formatting/linting, Vale, ChkTeX, LaCheck |
-| Static analysis | `ty`, BasedPyright, Bandit, Vulture, Clippy, CodeQL |
+| Static analysis | Ruff security rules, `ty`, BasedPyright, Vulture, Clippy, CodeQL |
 | Unit and contract testing | Pytest and Cargo tests across APIs, schemas, versions, provenance, and registries |
 | Integration and end-to-end testing | CLI, package, clean-install, workflow, FFI, and cross-language paths |
 | Generative testing | Hypothesis, proptest, metamorphic, differential, and parity checks |

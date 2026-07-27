@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the duplicate Bandit dependency and invocations after verifying that
+  the active Python source-security policy is covered by Ruff's selected `S`
+  rules; retained non-overlapping quality and security engines are now
+  dispositioned in a machine-readable registry.
 - Removed the internal acknowledgements placeholder, unused abbreviations, and
   uncited bibliography records from the preprint.
 - Removed internal author-review and automated-submission disclaimers from the

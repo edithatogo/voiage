@@ -43,13 +43,10 @@ def tests(session: nox.Session) -> None:
 
 @nox.session
 def lint(session: nox.Session) -> None:
-    """Run Ruff and Bandit checks."""
+    """Run Ruff lint, format, and source-security checks."""
     _sync_project(session)
     session.run("ruff", "check", "voiage", "tests", "--fix", "--exit-non-zero-on-fix")
     session.run("ruff", "format", "voiage", "tests", "--check")
-    session.run(
-        "bandit", "-r", "voiage", "-s", "B101,B110,B405,B314", "-c", "pyproject.toml"
-    )
 
 
 @nox.session

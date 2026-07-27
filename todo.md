@@ -165,6 +165,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Consolidate duplicate Python security linting into Ruff and record
+    explicit dispositions for the remaining quality, security, typing,
+    dead-code, orchestration, mutation, profiling, and dependency tools.
+
 *   [x] Audit the arXiv manuscript for overclaiming and promotional language.
     *   Removed novelty and distinctiveness claims, qualified intended
         applications, and described the current Rust/Python boundary narrowly.

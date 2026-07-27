@@ -237,14 +237,11 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
 
-    - name: Run Ruff
+    - name: Run Ruff lint and security checks
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 
     - name: Run Ruff format check
       run: uv run ruff format voiage tests --check
-
-    - name: Run Bandit security check
-      run: uv run bandit -r voiage -s B101,B110,B405,B314 -c pyproject.toml
 
     - name: Check for dead code
       run: uv run vulture voiage --min-confidence 80 || true

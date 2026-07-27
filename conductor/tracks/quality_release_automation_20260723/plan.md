@@ -18,6 +18,11 @@
 
 - [ ] Implement cross-platform, Rust, binding, example, ML, provenance, and
   freshness workflows.
+- [x] Consolidate the repository's duplicate Python security linting into
+  Ruff, publish a machine-readable quality-tool disposition registry, and
+  retain non-overlapping dead-code, type, dataflow, dependency, orchestration,
+  mutation, and profiling controls until explicit parity evidence supports
+  further consolidation.
 - [x] Make Renovate the sole version-update bot; validate its configuration,
   dependency dashboard, supported managers, vulnerability bypass, Action
   pinning, stability checks, grouping, concurrency, human-review boundaries,
@@ -98,6 +103,11 @@
   crates.io token with the official commit-pinned OIDC authentication action,
   job-scoped `id-token: write`, and the `crates-io` environment. Registry-side
   trusted-publisher registration remains an external human gate.
+- [x] Consolidated duplicate Bandit source checks into Ruff's selected `S`
+  rules, removed Bandit and its transitive `stevedore` dependency, and added a
+  tested quality-tool registry that records why whole-program dead-code,
+  independent typing, CodeQL dataflow, dependency, orchestration, mutation,
+  profiling, and prose controls remain distinct.
 
 ## Phase 3: Staged release evidence
 

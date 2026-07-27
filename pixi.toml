@@ -13,7 +13,7 @@ test = { cmd = "uv run pytest tests", depends-on = ["sync"] }
 lint = { cmd = "uv run ruff check voiage tests scripts", depends-on = ["sync"] }
 format-check = { cmd = "uv run ruff format --check voiage tests scripts", depends-on = ["sync"] }
 typecheck = { cmd = "uv run ty check voiage && uv run basedpyright voiage", depends-on = ["sync"] }
-security = { cmd = "uv run bandit -r voiage -c pyproject.toml", depends-on = ["sync"] }
+security = { cmd = "uv run ruff check voiage --select=S --ignore=S101", depends-on = ["sync"] }
 build = { cmd = "uv build", depends-on = ["sync"] }
 profile = { cmd = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_results.json profile_scalene.py", depends-on = ["sync"] }
 contracts = { cmd = "uv run nox -s contracts", depends-on = ["sync"] }

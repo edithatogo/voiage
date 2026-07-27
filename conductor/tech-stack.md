@@ -37,6 +37,11 @@
 
 ## Code Quality
 - **Ruff**: >=0.15.22,<1 - Fast Python linter, formatter, and security-rule checker
+- **Quality-tool policy**: Ruff owns Python lint, formatting, import ordering,
+  upgrade, docstring, and source-security rules. Whole-program dead-code,
+  independent type, dataflow, dependency, mutation, profiling, documentation,
+  and orchestration tools remain separate where Ruff has no equivalent
+  repository contract.
 - **ty**: >=0.0.61,<1.0 - Static type checking
 - **BasedPyright**: >=1.39.9,<2 - Strict second-opinion static analysis
 - **tox**: >=4.57,<5 - Test environment automation

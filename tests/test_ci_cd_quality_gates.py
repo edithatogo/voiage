@@ -108,10 +108,8 @@ class TestCICDQualityGatesConfiguration:
             "Ruff lint configuration not found"
         )
 
-        # Check for Bandit security rules
-        assert "bandit" in pyproject_content.lower(), (
-            "Bandit security checker not configured"
-        )
+        # Ruff's S family owns Python source-security linting.
+        assert '"S"' in pyproject_content, "Ruff security rules are not selected"
 
     def test_type_checking_configured(self):
         """Test that type checking is configured."""
@@ -157,10 +155,8 @@ class TestCICDQualityGatesConfiguration:
         with open(PYPROJECT_TOML) as f:
             pyproject_content = f.read()
 
-        # Check for Bandit
-        assert "bandit" in pyproject_content.lower(), (
-            "Bandit security checker not configured"
-        )
+        # Check for Ruff source-security rules
+        assert '"S"' in pyproject_content, "Ruff security rules are not selected"
 
         # Check for CodeQL workflow
         codeql_workflow = GITHUB_WORKFLOWS_DIR / "codeql.yml"
