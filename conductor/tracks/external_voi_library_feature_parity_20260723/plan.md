@@ -60,8 +60,8 @@
 - [x] Automated review and validation checkpoint. (`2c728b9`; complete
   serialized matrix, generated-artifact, semantic inventory, Rust/polyglot,
   and diff checks passed)
-- [ ] Conductor - Analyst Manual Verification 'Phase 2: Comprehensive schema and inventory'
-  (Protocol in workflow.md).
+- [x] Conductor - Analyst Manual Verification 'Phase 2: Comprehensive schema and inventory'
+  (`user approval 2026-07-27`; Protocol in workflow.md).
 
 ## Phase 3: Capability map and reviewed improvement proposal
 
