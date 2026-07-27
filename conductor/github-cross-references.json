@@ -762,6 +762,30 @@
       "pull_request_evidence": "track_delivery"
     },
     {
+      "track_id": "conductor-registry-normalization_20260727",
+      "metadata_track_id": "conductor-registry-normalization_20260727",
+      "path": "conductor/archive/conductor-registry-normalization_20260727",
+      "lifecycle": "active",
+      "issue": {
+        "number": 590,
+        "url": "https://github.com/edithatogo/voiage/issues/590",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 591,
+          "url": "https://github.com/edithatogo/voiage/pull/591",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
       "track_id": "core-api-spec-and-polyglot-contracts_20260510",
       "metadata_track_id": "core-api-spec-and-polyglot-contracts_20260510",
       "path": "conductor/archive/core-api-spec-and-polyglot-contracts_20260510",
