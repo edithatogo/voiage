@@ -225,3 +225,49 @@ def test_ingest_cli_applies_explicit_resource_size_policy(tmp_path) -> None:
 
     assert result.exit_code == 2
     assert "exceeds configured size limit" in result.output
+
+
+def test_ingest_cli_replays_a_declared_resource_from_offline_cache(tmp_path) -> None:
+    """The CLI forwards its cache and offline policy flags to the provider."""
+    source = tmp_path / "samples.csv"
+    source.write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [
+                    {
+                        "contentUrl": "samples.csv",
+                        "sha256": sha256(source.read_bytes()).hexdigest(),
+                    }
+                ],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    cache = tmp_path / "cache"
+    runner = CliRunner()
+
+    cached = runner.invoke(
+        app, ["ingest", "validate", str(descriptor), "--cache-dir", str(cache)]
+    )
+    source.unlink()
+    replayed = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--cache-dir",
+            str(cache),
+            "--offline",
+        ],
+    )
+
+    assert cached.exit_code == 0
+    assert replayed.exit_code == 0
+    assert json.loads(replayed.output)["valid"] is True

@@ -1160,6 +1160,62 @@ def test_croissant_provider_validates_declared_local_sha256(
         )
 
 
+def test_croissant_provider_preserves_non_checksum_ingestion_error(tmp_path) -> None:
+    """Only checksum failures are translated into Croissant integrity diagnostics."""
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [{"contentUrl": "missing.csv", "sha256": "0" * 64}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="declared resource does not exist"):
+        CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+@pytest.mark.parametrize(
+    ("resource_update", "message"),
+    [
+        ({"checksum": "unsupported"}, "integrity declarations"),
+        ({"hash": 42}, "hash must be a SHA-256"),
+        ({"bytes": True}, "bytes must be a non-negative"),
+    ],
+)
+def test_frictionless_provider_rejects_unsupported_integrity_declarations(
+    tmp_path, resource_update, message
+) -> None:
+    """Only SHA-256 hash and integer byte-size declarations are accepted."""
+    _write_csv(tmp_path)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                        **resource_update,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
 def test_dataframe_adapter_rejects_non_dataframe() -> None:
     with pytest.raises(ValueError, match="dataframe interchange"):
         from_dataframe(object(), dataset_id="bad")

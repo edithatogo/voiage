@@ -45,6 +45,31 @@ def test_offline_materialize_replays_a_verified_cache_without_source(tmp_path) -
     assert offline.materialize("source.csv", sha256=digest).read_bytes() == payload
 
 
+def test_materialize_verifies_declared_byte_size_online_and_offline(tmp_path) -> None:
+    """Byte-size declarations constrain both source materialization and replay."""
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    online = SourceAccessPolicy(tmp_path, cache_dir=cache)
+
+    with pytest.raises(IngestionError, match="byte size does not match"):
+        online.materialize("source.csv", sha256=digest, byte_size=len(payload) + 1)
+    online.materialize("source.csv", sha256=digest, byte_size=len(payload))
+    source.unlink()
+
+    with pytest.raises(IngestionError, match="byte size does not match"):
+        SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True).materialize(
+            "source.csv", sha256=digest, byte_size=len(payload) + 1
+        )
+
+
+def test_materialize_rejects_negative_declared_byte_size(tmp_path) -> None:
+    with pytest.raises(IngestionError, match="byte size must be non-negative"):
+        SourceAccessPolicy(tmp_path).materialize("source.csv", byte_size=-1)
+
+
 def test_offline_materialize_requires_a_digest_and_never_refreshes(tmp_path) -> None:
     cache = tmp_path / "cache"
     policy = SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True)
