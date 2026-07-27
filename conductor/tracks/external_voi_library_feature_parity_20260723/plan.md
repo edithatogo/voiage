@@ -36,11 +36,12 @@
   reproducible search queries and capability extraction; map observed software
   to the residual planning register pending additive scientific review.
   (`b86e212`)
-- [~] For each open-source product, inspect version-pinned source, API,
+- [x] For each open-source product, inspect version-pinned source, API,
   schemas, functions/classes/commands, algorithms, estimators, features,
   subfeatures, options/defaults, diagnostics, errors, plots, reports, examples,
   tests, interoperability, dependencies, performance, license, and maintenance.
-- [ ] Under [#568](https://github.com/edithatogo/voiage/issues/568), complete
+  (`e484829`, `7edbce0`)
+- [~] Under [#568](https://github.com/edithatogo/voiage/issues/568), complete
   `landscape-commercial-hosted-inventory` using only observable evidence,
   with evidence strength, extraction limitations, closest VOIAGE workflow,
   user impact, and review due.
