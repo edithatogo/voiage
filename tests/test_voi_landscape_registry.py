@@ -36,6 +36,9 @@ COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.jso
 COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
 CAPABILITY_ADOPTION_MAP = LANDSCAPE / "capability-adoption-map.json"
 CAPABILITY_ADOPTION_MAP_SCHEMA = LANDSCAPE / "capability-adoption-map.schema.json"
+CAPABILITY_ADOPTION_VIEWS = LANDSCAPE / "capability-adoption-views.json"
+GAP_REVIEW_PROPOSAL = LANDSCAPE / "gap-review-roadmap-proposal.json"
+GAP_REVIEW_ROUTING = LANDSCAPE / "gap-review-issue-routing-dry-run.json"
 RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
 RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
 AUDITS = LANDSCAPE / "audits"
@@ -139,6 +142,19 @@ def test_phase_three_capability_adoption_map_is_a_separate_contract() -> None:
         "excluded",
         "not-reproducible",
     ]
+
+
+def test_phase_three_review_artifacts_are_deterministic_and_non_applying() -> None:
+    """Phase 3 may propose work but cannot mutate roadmap or issue state."""
+    views = _read_json(CAPABILITY_ADOPTION_VIEWS)
+    proposal = _read_json(GAP_REVIEW_PROPOSAL)
+    routing = _read_json(GAP_REVIEW_ROUTING)
+    assert views["source_map"] == "capability-adoption-map.json"
+    assert views["record_count"] == 30
+    assert proposal["auto_apply"] is False
+    assert all(item["decision_state"] == "proposed" for item in proposal["items"])
+    assert routing["dry_run"] is True
+    assert all(route["writes_performed"] is False for route in routing["routes"])
 
 
 def test_comprehensive_inventory_has_representative_semantic_records() -> None:
