@@ -32,6 +32,9 @@ def test_reference_cases_use_one_binding_and_one_evpi() -> None:
         "engineering": pytest.approx(5.0),
         "business": pytest.approx(5.0),
     }
+    assert module._business_dataframe().manifest.provenance.provider_id == (
+        "dataframe-interchange"
+    )
 
 
 def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> None:
@@ -54,6 +57,10 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
         "engineering": pytest.approx(20.0 / 3.0),
         "business": pytest.approx(20.0 / 3.0),
     }
+    assert (
+        module._business_cost_outcome_dataframe().manifest.provenance.provider_id
+        == ("dataframe-interchange")
+    )
 
 
 def test_cross_format_reference_descriptors_preserve_identical_schema_order() -> None:

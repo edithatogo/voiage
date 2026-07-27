@@ -8,15 +8,11 @@ from pathlib import Path
 import pyarrow as pa
 
 from voiage.contracts import (
-    DatasetManifest,
-    FieldManifest,
     NormalizedInputBundle,
-    SourceProvenance,
-    TableManifest,
     VOIBinding,
     prepare_analysis_inputs,
 )
-from voiage.ingestion import SourceAccessPolicy, default_registry
+from voiage.ingestion import SourceAccessPolicy, default_registry, from_dataframe
 from voiage.methods.basic import evpi
 
 _ROOT = Path(__file__).parents[2]
@@ -39,30 +35,17 @@ def _bound(bundle: NormalizedInputBundle) -> NormalizedInputBundle:
     )
 
 
-def _direct() -> NormalizedInputBundle:
+def _business_dataframe() -> NormalizedInputBundle:
+    """Model a business user's in-memory decision table through the SDK."""
     table = pa.table(
         {"strategy_a": [10.0, 30.0, 20.0], "strategy_b": [20.0, 10.0, 25.0]}
     )
-    return NormalizedInputBundle(
-        manifest=DatasetManifest(
-            dataset_id="canonical-decision-fixture",
-            tables=(
-                TableManifest(
-                    table_id="samples",
-                    fields=tuple(
-                        FieldManifest(field_id=field.name, dtype=str(field.type))
-                        for field in table.schema
-                    ),
-                ),
-            ),
-            provenance=SourceProvenance(
-                provider_id="direct-reference-case",
-                source_uri="urn:voiage:reference-case:business",
-                descriptor_digest="f" * 64,
-            ),
-            bindings=(_binding(),),
-        ),
-        tables={"samples": table},
+    return from_dataframe(
+        table,
+        dataset_id="canonical-decision-fixture",
+        table_id="samples",
+        bindings=(_binding(),),
+        allow_copy=False,
     )
 
 
@@ -85,7 +68,8 @@ def _cost_outcome_bindings() -> tuple[VOIBinding, VOIBinding]:
     )
 
 
-def _direct_cost_outcome() -> NormalizedInputBundle:
+def _business_cost_outcome_dataframe() -> NormalizedInputBundle:
+    """Use the same SDK path for an explicit cost/outcome decision table."""
     table = pa.table(
         {
             "cost_a": [100.0, 180.0, 130.0],
@@ -94,26 +78,12 @@ def _direct_cost_outcome() -> NormalizedInputBundle:
             "outcome_b": [0.014, 0.012, 0.013],
         }
     )
-    return NormalizedInputBundle(
-        manifest=DatasetManifest(
-            dataset_id="cost-outcome-decision-fixture",
-            tables=(
-                TableManifest(
-                    table_id="samples",
-                    fields=tuple(
-                        FieldManifest(field_id=field.name, dtype=str(field.type))
-                        for field in table.schema
-                    ),
-                ),
-            ),
-            provenance=SourceProvenance(
-                provider_id="direct-reference-case",
-                source_uri="urn:voiage:reference-case:business-cost-outcome",
-                descriptor_digest="e" * 64,
-            ),
-            bindings=_cost_outcome_bindings(),
-        ),
-        tables={"samples": table},
+    return from_dataframe(
+        table,
+        dataset_id="cost-outcome-decision-fixture",
+        table_id="samples",
+        bindings=_cost_outcome_bindings(),
+        allow_copy=False,
     )
 
 
@@ -131,7 +101,7 @@ def run_reference_cases() -> dict[str, object]:
                 _FIXTURES / "canonical-decision.datapackage.json", policy=policy
             )
         ),
-        "business": _direct(),
+        "business": _business_dataframe(),
     }
     values = {
         domain: float(evpi(prepare_analysis_inputs(bundle).net_benefits))
@@ -164,7 +134,7 @@ def run_cost_outcome_reference_cases() -> dict[str, float]:
                 _FIXTURES / "cost-outcome-decision.datapackage.json", policy=policy
             )
         ),
-        "business": _direct_cost_outcome(),
+        "business": _business_cost_outcome_dataframe(),
     }
     values = {
         domain: float(
