@@ -260,7 +260,10 @@ creates a second preparation path or domain-specific numerical kernel.
     *   Publishing targets must be planned with the implementation:
         - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
         - R: GitHub Releases for early source distribution, CRAN when mature, and optional r-universe indexing; the package docs story includes a deterministic vignette and PDF manual built from the same source tree, while external registry approval remains outside the repository.
-        - Julia: Julia General registry with TagBot sync and external registry registration.
+        - Julia: BinaryBuilder/Yggdrasil supplies the Rust C ABI through a JLL;
+          Registrator publishes the `bindings/julia` subpackage to General and
+          subpackage-aware TagBot creates collision-free releases. BinaryBuilder
+          and General acceptance remain external.
         - Rust: GitHub Releases for the internal `publish = false` workspace; a future crates.io facade would require a separate contract.
     *   CI/CD must be language-specific and release-aware for every binding:
         - Build, lint/format, type/static checks, unit tests, docs checks, and shared conformance fixtures.

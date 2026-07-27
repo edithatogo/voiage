@@ -1,6 +1,11 @@
+using Aqua
 using JSON
 using Test
 using Voiage
+
+@testset "Package quality" begin
+    Aqua.test_all(Voiage)
+end
 
 @testset "EVPI" begin
     @test evpi([10.0 1.0; 2.0 8.0]) == 3.0

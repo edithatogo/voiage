@@ -70,7 +70,21 @@ jobs:
 
   julia:
     name: Julia binding
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        julia:
+          - "1.10"
+          - "1.11"
+          - "1.12"
+        os:
+          - runner: ubuntu-latest
+            library: rust/target/release/libvoiage_ffi.so
+          - runner: macos-latest
+            library: rust/target/release/libvoiage_ffi.dylib
+          - runner: windows-latest
+            library: rust/target/release/voiage_ffi.dll
+    runs-on: ${{ matrix.os.runner }}
     defaults:
       run:
         working-directory: bindings/julia
@@ -95,7 +109,7 @@ jobs:
         run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
-          version: "1.11"
+          version: ${{ matrix.julia }}
       - name: Verify packaged EVPI fixture matches the canonical reference
         run: >-
           julia --project=. -e
@@ -121,7 +135,7 @@ jobs:
             Pkg.test()
           '
         env:
-          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/${{ matrix.os.library }}
 
   r:
     name: R binding

@@ -68,6 +68,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         and the external engagement record remain open. The release-bound PDF
         has passed its hosted build and six-page visual review. Conda-forge PR
         #34308 is under external review.
+        Julia publication is tracked in #555. The Rust C ABI BinaryBuilder
+        recipe is submitted in Yggdrasil PR #14292; JLL acceptance must precede
+        the `bindings/julia` Registrator trigger and General merge.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table.
         Replacement `7870358` is an incomplete start-stage draft expiring

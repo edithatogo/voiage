@@ -1197,6 +1197,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
 
+- Submitted the signed v2.0.0 Rust C ABI to BinaryBuilder through Yggdrasil,
+  added the Julia package licence and Aqua checks, removed runtime-only test
+  dependencies and the committed library manifest, expanded Julia CI across
+  Julia 1.10--1.12 on Linux, macOS, and Windows, and made TagBot
+  subpackage-aware with repository-scoped deploy-key authentication for the
+  future General registration.
 - Selected direct JOSS review for the Rust-centred polyglot package, recorded
   the rechecked pending arXiv status, and added a non-author clean-install and
   research-use protocol without treating automated agents as community
