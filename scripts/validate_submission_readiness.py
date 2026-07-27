@@ -18,6 +18,7 @@ TARGET_KINDS = {
     "sustainability",
 }
 PYOPENSCI_STATUSES = {"satisfied", "human_deferred"}
+ROPENSCI_STATUSES = {"satisfied", "repository_blocked", "human_deferred"}
 
 
 def _non_empty(value: Any, label: str) -> str:
@@ -213,6 +214,40 @@ def validate_pyopensci_evidence(path: Path, root: Path) -> dict[str, Any]:
     return {"criterion_count": len(criteria), "deferred": sorted(human_deferred)}
 
 
+def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
+    """Validate that rOpenSci readiness evidence preserves unmet gates."""
+    payload: Any = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict) or payload.get("schema_version") != "1.0":
+        raise ValueError("rOpenSci evidence must use schema_version 1.0")
+    criteria = payload.get("criteria")
+    if not isinstance(criteria, list) or not criteria:
+        raise ValueError("rOpenSci evidence criteria must be a non-empty array")
+    statuses: dict[str, str] = {}
+    for criterion in criteria:
+        identifier = _non_empty(criterion.get("id"), "rOpenSci criterion id")
+        if identifier in statuses:
+            raise ValueError(f"duplicate rOpenSci criterion: {identifier}")
+        status = criterion.get("status")
+        if status not in ROPENSCI_STATUSES:
+            raise ValueError(f"{identifier} has invalid rOpenSci status: {status}")
+        statuses[identifier] = status
+        evidence = criterion.get("evidence")
+        if not isinstance(evidence, list) or not evidence:
+            raise ValueError(f"{identifier} evidence must be a non-empty array")
+        for relative in evidence:
+            relative_path = Path(_non_empty(relative, "rOpenSci evidence path"))
+            if relative_path.is_absolute() or ".." in relative_path.parts:
+                raise ValueError(f"unsafe rOpenSci evidence path: {relative}")
+            if not (root / relative_path).exists():
+                raise ValueError(f"rOpenSci evidence path does not exist: {relative}")
+    if {key for key, value in statuses.items() if value == "repository_blocked"} != {
+        "pkgcheck",
+        "self-contained-installation",
+    }:
+        raise ValueError("rOpenSci repository blockers must remain explicit")
+    return {"criterion_count": len(criteria), "statuses": statuses}
+
+
 def main() -> int:
     """Run validation from the command line."""
     parser = argparse.ArgumentParser()
@@ -229,10 +264,13 @@ def main() -> int:
     pyopensci = validate_pyopensci_evidence(
         root / "specs/submission-readiness/pyopensci-evidence.json", root
     )
+    ropensci = validate_ropensci_evidence(
+        root / "specs/submission-readiness/ropensci-evidence.json", root
+    )
     print(
         "Submission readiness contract: PASS "
         f"({summary['target_count']} targets; {pyopensci['criterion_count']} "
-        "pyOpenSci criteria)"
+        f"pyOpenSci criteria; {ropensci['criterion_count']} rOpenSci criteria)"
     )
     return 0
 

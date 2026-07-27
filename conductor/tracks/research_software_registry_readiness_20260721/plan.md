@@ -175,7 +175,9 @@ remain explicit gates in the target contract.
   evidence. Use the result to determine R Journal eligibility without drafting
   a duplicate manuscript. (`DESCRIPTION` author/maintainer repair; clean
   built-source `R CMD check --no-manual` passed locally; self-contained runtime
-  and `pkgcheck` evidence remain outstanding.)
+  and `pkgcheck` evidence remain outstanding; `ropensci-evidence.json` maps
+  the current bounded R API, documentation, test, numerical-reference,
+  input/error, and seed evidence.)
 - [ ] [Issue #622](https://github.com/edithatogo/voiage/issues/622) — select a
   retained HPC source/native-build strategy, add locally tested Spack and (only
   if distinct) EasyBuild recipes, and document CPU-fallback and numerical-smoke

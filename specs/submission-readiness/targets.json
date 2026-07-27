@@ -110,8 +110,8 @@
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
         {"id": "r-package-baseline", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/vignettes/voiageR-intro.Rmd"]},
-        {"id": "self-contained-installation", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
-        {"id": "statistical-standards-map", "status": "pending", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
+        {"id": "self-contained-installation", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md", "specs/submission-readiness/ropensci-evidence.json"]},
+        {"id": "statistical-standards-map", "status": "pending", "evidence": ["specs/submission-readiness/ropensci-evidence.json", "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
       ],
       "acceptance_evidence": ["rOpenSci pre-submission or review issue", "rOpenSci acceptance and onboarding record"],
       "next_decision": "Reconsider only after self-contained installation, bounded R scope, distribution, and srr standards evidence."
