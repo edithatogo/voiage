@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from datetime import date
 from hashlib import sha256
 import json
@@ -10,6 +11,8 @@ import subprocess
 import sys
 
 from jsonschema import Draft202012Validator, FormatChecker
+
+from scripts.validate_comprehensive_voi_inventory import validate
 
 ROOT = Path(__file__).parents[1]
 LANDSCAPE = ROOT / "specs" / "software-landscape"
@@ -29,9 +32,8 @@ LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
 LICENSE_RIGHTS_SCHEMA = LANDSCAPE / "license-rights.schema.json"
 FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
-COMPREHENSIVE_INVENTORY_SCHEMA = (
-    LANDSCAPE / "comprehensive-inventory.schema.json"
-)
+COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.json"
+COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
 REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
 REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
@@ -105,6 +107,110 @@ def test_comprehensive_inventory_and_review_protocol_are_frozen() -> None:
         "performance",
         "rights-and-provenance",
     } <= required_dimensions
+
+
+def test_comprehensive_inventory_has_representative_semantic_records() -> None:
+    """Representative records must exercise every Phase 2 evidence boundary."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    schema = _read_json(COMPREHENSIVE_INVENTORY_SCHEMA)
+    assert isinstance(inventory, dict)
+    assert isinstance(schema, dict)
+
+    Draft202012Validator(
+        schema,
+        format_checker=FormatChecker(),
+    ).validate(inventory)
+
+    products = {product["id"]: product for product in inventory["products"]}
+    assert {
+        "representative-open-source",
+        "representative-commercial",
+    } <= products.keys()
+
+    open_source = products["representative-open-source"]
+    assert open_source["availability"] == "public-source"
+    version = open_source["versions"][0]
+    assert version["schema_surfaces"]
+    assert version["capabilities"][0]["subfeatures"]
+    assert version["capabilities"][0]["options"]
+    assert version["capabilities"][0]["defaults"]
+    assert any(
+        observation["strength"] == "executable-version-pinned-source-and-tests"
+        for observation in version["evidence_observations"]
+    )
+
+    commercial = products["representative-commercial"]
+    assert commercial["availability"] == "paid-or-private"
+    commercial_evidence = commercial["versions"][0]["evidence_observations"]
+    assert all(
+        observation["strength"]
+        in {"version-pinned-documentation", "vendor-claim", "inaccessible"}
+        for observation in commercial_evidence
+    )
+    assert commercial["rights"]["source_reuse"] == "prohibited"
+
+
+def test_comprehensive_inventory_semantic_validator_passes() -> None:
+    """Cross-record evidence, rights, duplicate, and freshness rules must pass."""
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/validate_comprehensive_voi_inventory.py",
+            "--inventory",
+            str(COMPREHENSIVE_INVENTORY),
+            "--as-of",
+            "2026-07-27",
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+    assert "Comprehensive VOI inventory validation passed" in completed.stdout
+
+
+def test_comprehensive_inventory_semantic_validator_rejects_overclaims() -> None:
+    """Each cross-record boundary must fail closed when independently violated."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    protocol = _read_json(REVIEW_PROTOCOL)
+    assert isinstance(inventory, dict)
+    assert isinstance(protocol, dict)
+
+    def errors_for(candidate: dict[str, object]) -> str:
+        return "\n".join(validate(candidate, protocol, as_of=date(2026, 7, 27)))
+
+    stale = deepcopy(inventory)
+    stale["reviewed_on"] = "2025-01-01"
+    assert "review age" in errors_for(stale)
+
+    unresolved_evidence = deepcopy(inventory)
+    unresolved_evidence["products"][0]["versions"][0]["capabilities"][0][
+        "evidence_ids"
+    ] = ["missing-evidence"]
+    assert "unknown evidence" in errors_for(unresolved_evidence)
+
+    unsafe_rights = deepcopy(inventory)
+    unsafe_rights["products"][0]["rights"]["review_state"] = "unknown"
+    assert "source reuse prohibited" in errors_for(unsafe_rights)
+
+    missing_canonical = deepcopy(inventory)
+    missing_canonical["products"][1]["duplicate_resolution"]["canonical_product_id"] = (
+        "missing-product"
+    )
+    assert "lacks canonical product" in errors_for(missing_canonical)
+
+    incomplete_extraction = deepcopy(inventory)
+    incomplete_extraction["products"][0]["versions"][0]["extraction_coverage"].pop()
+    assert "extraction coverage mismatch" in errors_for(incomplete_extraction)
+
+    commercial_overclaim = deepcopy(inventory)
+    commercial_overclaim["products"][1]["versions"][0]["evidence_observations"][0][
+        "strength"
+    ] = "executable-version-pinned-source-and-tests"
+    commercial_errors = errors_for(commercial_overclaim)
+    assert "commercial evidence exceeds observability ceiling" in commercial_errors
+    assert "evidence strength and observability disagree" in commercial_errors
 
 
 def test_required_ecosystems_and_seed_tools_are_present() -> None:

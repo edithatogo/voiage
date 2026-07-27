@@ -1,0 +1,247 @@
+{
+  "$schema": "./comprehensive-inventory.schema.json",
+  "schema_version": "2.0.0",
+  "protocol_version": "1.0.0",
+  "reviewed_on": "2026-07-27",
+  "review_due": "2026-10-28",
+  "scope": "Representative records that exercise the evidence, observability, rights, duplicate, freshness, and extraction-coverage contracts before the comprehensive census is expanded.",
+  "search_observations": [
+    {
+      "id": "representative-source-search",
+      "channel": "test fixture",
+      "query": "representative open source VOI software",
+      "source_url": "https://voiage.dev/specs/software-landscape/",
+      "searched_at": "2026-07-27T06:20:00Z",
+      "result": "candidates-found",
+      "candidate_product_ids": ["representative-open-source"],
+      "limitations": "Repository-owned synthetic record; not a market-discovery claim."
+    },
+    {
+      "id": "representative-commercial-search",
+      "channel": "test fixture",
+      "query": "representative commercial VOI software",
+      "source_url": "https://voiage.dev/specs/software-landscape/",
+      "searched_at": "2026-07-27T06:20:00Z",
+      "result": "candidates-found",
+      "candidate_product_ids": ["representative-commercial"],
+      "limitations": "Repository-owned synthetic record; no private product behavior is inferred."
+    }
+  ],
+  "products": [
+    {
+      "id": "representative-open-source",
+      "name": "Representative open-source VOI tool",
+      "aliases": ["Synthetic open tool"],
+      "category": "internal-reference",
+      "maintenance": "maintained",
+      "availability": "public-source",
+      "inclusion": {
+        "decision": "include",
+        "reason": "Exercises inspectable source, schema, feature, option, default, and test evidence.",
+        "search_observation_ids": ["representative-source-search"]
+      },
+      "duplicate_resolution": {
+        "relation": "canonical",
+        "canonical_product_id": "representative-open-source",
+        "rationale": "Canonical synthetic fixture."
+      },
+      "rights": {
+        "review_state": "spdx-normalized",
+        "license_expression": "MIT",
+        "source_reuse": "permitted",
+        "reference_fixture_policy": "repository-owned",
+        "evidence_urls": ["https://voiage.dev/specs/software-landscape/"]
+      },
+      "versions": [
+        {
+          "id": "representative-open-v1",
+          "version": "1.0.0",
+          "release_date": "2026-07-27",
+          "reviewed_revision": "24e0f546",
+          "platforms": ["portable"],
+          "languages": ["Python"],
+          "install_and_deployment": ["repository fixture"],
+          "provenance_urls": ["https://voiage.dev/specs/software-landscape/"],
+          "schema_surfaces": [
+            {
+              "id": "decision-input",
+              "kind": "decision",
+              "format": "JSON",
+              "fields": [
+                {"path": "payoffs", "type": "array[number]", "required": true, "default": null}
+              ],
+              "evidence_ids": ["open-source-and-test"]
+            }
+          ],
+          "capabilities": [
+            {
+              "id": "evpi",
+              "label": "Expected value of perfect information",
+              "kind": "estimand",
+              "canonical_ids": ["evpi"],
+              "candidate_mapping": null,
+              "parity_state": "native",
+              "subfeatures": [
+                {
+                  "id": "weighted-scenarios",
+                  "label": "Weighted scenarios",
+                  "evidence_ids": ["open-source-and-test"]
+                }
+              ],
+              "options": [
+                {
+                  "id": "normalize-weights",
+                  "label": "Normalize weights",
+                  "value_type": "boolean",
+                  "allowed_values": [true, false],
+                  "default": true,
+                  "evidence_ids": ["open-source-and-test"]
+                }
+              ],
+              "defaults": [
+                {
+                  "path": "normalize_weights",
+                  "value": true,
+                  "evidence_ids": ["open-source-and-test"]
+                }
+              ],
+              "diagnostics": ["weight sum"],
+              "errors": ["non-finite payoff"],
+              "interfaces": ["library"],
+              "artifacts": ["structured result"],
+              "evidence_ids": ["open-source-and-test"]
+            }
+          ],
+          "adoption_lessons": [
+            {
+              "id": "typed-results",
+              "class": "integration",
+              "lesson": "Stable typed results reduce downstream integration ambiguity.",
+              "user_roles": ["analyst", "developer"],
+              "evidence_ids": ["open-source-and-test"]
+            }
+          ],
+          "evidence_observations": [
+            {
+              "id": "open-source-and-test",
+              "strength": "executable-version-pinned-source-and-tests",
+              "observability": "inspectable",
+              "artifact_type": "test",
+              "source_url": "https://voiage.dev/specs/software-landscape/",
+              "version_pin": "24e0f546",
+              "immutable": true,
+              "reviewed_at": "2026-07-27T06:20:00Z",
+              "rights_record_id": "representative-open-source",
+              "observed_claims": ["Representative nested records validate."],
+              "limitations": ["Synthetic contract fixture, not external product evidence."]
+            }
+          ],
+          "extraction_coverage": [
+            {"dimension": "identity", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "versions", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "schemas", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "features", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "subfeatures", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "options-and-defaults", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "diagnostics-and-errors", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "workflows-and-integrations", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "reporting-and-accessibility", "status": "unknown", "evidence_ids": [], "notes": "Not exercised by this fixture."},
+            {"dimension": "tests-and-examples", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "performance", "status": "unknown", "evidence_ids": [], "notes": "No benchmark claim."},
+            {"dimension": "rights-and-provenance", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""},
+            {"dimension": "maintenance-and-release-history", "status": "observed", "evidence_ids": ["open-source-and-test"], "notes": ""}
+          ],
+          "limitations": ["Synthetic representative record only."]
+        }
+      ]
+    },
+    {
+      "id": "representative-commercial",
+      "name": "Representative commercial VOI tool",
+      "aliases": ["Synthetic commercial tool"],
+      "category": "commercial",
+      "maintenance": "unknown",
+      "availability": "paid-or-private",
+      "inclusion": {
+        "decision": "include",
+        "reason": "Exercises public-documentation claim ceilings and prohibited source reuse.",
+        "search_observation_ids": ["representative-commercial-search"]
+      },
+      "duplicate_resolution": {
+        "relation": "distinct",
+        "canonical_product_id": "representative-open-source",
+        "rationale": "Distinct synthetic commercial fixture linked to a canonical test record."
+      },
+      "rights": {
+        "review_state": "proprietary",
+        "license_expression": null,
+        "source_reuse": "prohibited",
+        "reference_fixture_policy": "independent-only",
+        "evidence_urls": ["https://voiage.dev/specs/software-landscape/"]
+      },
+      "versions": [
+        {
+          "id": "representative-commercial-current",
+          "version": "public documentation current at 2026-07-27",
+          "release_date": null,
+          "reviewed_revision": null,
+          "platforms": [],
+          "languages": [],
+          "install_and_deployment": [],
+          "provenance_urls": ["https://voiage.dev/specs/software-landscape/"],
+          "schema_surfaces": [],
+          "capabilities": [
+            {
+              "id": "documented-evpi",
+              "label": "Documented EVPI workflow",
+              "kind": "workflow",
+              "canonical_ids": ["evpi"],
+              "candidate_mapping": null,
+              "parity_state": "not-reproducible",
+              "subfeatures": [],
+              "options": [],
+              "defaults": [],
+              "diagnostics": [],
+              "errors": [],
+              "interfaces": [],
+              "artifacts": [],
+              "evidence_ids": ["commercial-documentation"]
+            }
+          ],
+          "adoption_lessons": [],
+          "evidence_observations": [
+            {
+              "id": "commercial-documentation",
+              "strength": "version-pinned-documentation",
+              "observability": "documented",
+              "artifact_type": "documentation",
+              "source_url": "https://voiage.dev/specs/software-landscape/",
+              "version_pin": "reviewed-2026-07-27",
+              "immutable": false,
+              "reviewed_at": "2026-07-27T06:20:00Z",
+              "rights_record_id": "representative-commercial",
+              "observed_claims": ["The public fixture documents a VOI workflow."],
+              "limitations": ["No executable or private behavior inspected."]
+            }
+          ],
+          "extraction_coverage": [
+            {"dimension": "identity", "status": "observed", "evidence_ids": ["commercial-documentation"], "notes": ""},
+            {"dimension": "versions", "status": "unknown", "evidence_ids": [], "notes": "No release history in fixture."},
+            {"dimension": "schemas", "status": "inaccessible", "evidence_ids": [], "notes": ""},
+            {"dimension": "features", "status": "observed", "evidence_ids": ["commercial-documentation"], "notes": ""},
+            {"dimension": "subfeatures", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "options-and-defaults", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "diagnostics-and-errors", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "workflows-and-integrations", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "reporting-and-accessibility", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "tests-and-examples", "status": "inaccessible", "evidence_ids": [], "notes": ""},
+            {"dimension": "performance", "status": "unknown", "evidence_ids": [], "notes": ""},
+            {"dimension": "rights-and-provenance", "status": "observed", "evidence_ids": ["commercial-documentation"], "notes": ""},
+            {"dimension": "maintenance-and-release-history", "status": "unknown", "evidence_ids": [], "notes": ""}
+          ],
+          "limitations": ["Synthetic representative record only.", "No private access or purchase."]
+        }
+      ]
+    }
+  ]
+}

@@ -32,9 +32,15 @@ It records observable capabilities rather than marketing parity.
 - `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
   version, schema, capability, subfeature, option, evidence, rights, duplicate,
   extraction-coverage, and adoption-lesson contract.
+- `comprehensive-inventory.json` begins with open and commercial
+  representative records that exercise those semantic boundaries before
+  external-product observations are added.
 - `review-protocol.json` and its schema freeze evidence ordering, claim
   ceilings, discovery, inclusion/exclusion, commercial observability, rights,
   freshness, deterministic generation, and checksum-bound analyst review.
+- `../../scripts/validate_comprehensive_voi_inventory.py` enforces freshness,
+  evidence references, extraction completeness, duplicate resolution, rights,
+  and commercial observability across records.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing
