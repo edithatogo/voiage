@@ -244,10 +244,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   plan tasks and issue acceptance criteria have supporting evidence.
 - Phase 10 reconciliation on 2026-07-27 confirms that #325–#333, #467, and
   #468 are open; #627 is merged, while #629 and #631 remain open pending their
-  refreshed hosted evidence. Project 28 field state cannot be read or changed
-  until the GitHub GraphQL rate limit resets; the REST Projects endpoint does
-  not expose Projects v2. This is an explicit external reconciliation gate,
-  not completion evidence.
+  refreshed hosted evidence. Project 28 was rechecked through GitHub Projects
+  v2 after GraphQL access recovered; every linked item is now `In Progress`,
+  consistent with its still-open issue and this active plan. This is status
+  reconciliation, not completion evidence.
 - Final Conductor review also found that the pre-existing append-only evidence
   ledger fails schema validation at entries 9 and 10: both omit required
   artifact digests, and entry 10 records a non-zero validation command as

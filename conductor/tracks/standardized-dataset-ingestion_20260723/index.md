@@ -5,8 +5,8 @@ Status: in progress. PR #627 is merged with Phase 7 assurance evidence; PR
 PR #631 is dependent Phase 9 evidence and awaits that prerequisite. Issues
 #325–#333, #467, and #468 remain open because the plan's outstanding provider,
 conformance, product, security, SDK, and worked-example criteria remain active.
-The Project 28 reconciliation field state is blocked on GitHub Projects v2
-GraphQL access. Final review additionally found a pre-existing invalid
+Project 28 has been reconciled: all linked items are `In Progress`, consistent
+with their still-open issues. Final review additionally found a pre-existing invalid
 append-only evidence-ledger chain that needs a governed migration before new
 evidence or archival can be recorded. These are increments, not track-closeout
 evidence.

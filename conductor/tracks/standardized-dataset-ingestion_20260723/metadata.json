@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-27T10:31:06Z",
+  "updated_at": "2026-07-27T10:38:00Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -87,13 +87,13 @@
       "id": "phase-10-live-reconciliation",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "Live REST reconciliation on 2026-07-27 confirmed that #325-#333, #467, and #468 remain open; PR #627 merged as 4d55db89902b84a491e4662cf247948a15448aaa; PR #629 was rebased as 71a58357 and needs a fresh hosted matrix; and dependent PR #631 remains open."
+      "evidence": "Live reconciliation on 2026-07-27 confirmed that #325-#333, #467, and #468 remain open; PR #627 merged as 4d55db89902b84a491e4662cf247948a15448aaa; PR #629 was rebased as 71a58357, reopened after an unintended close, and needs a fresh hosted matrix; and dependent PR #631 was rebased on that prerequisite."
     },
     {
       "id": "project-28-field-reconciliation",
       "kind": "external",
-      "status": "blocked",
-      "evidence": "GitHub Projects v2 state is unavailable through REST (404) and the authenticated GraphQL quota is exhausted. Recheck native issue links and Project 28 fields after the GraphQL rate limit resets; do not archive before that evidence is recorded."
+      "status": "satisfied",
+      "evidence": "GitHub Projects v2 was rechecked after GraphQL access recovered on 2026-07-27. Parent #325 and child issues #326-#333, #467, and #468 are all present in Project 28 and set to In Progress; #329 was corrected from Done to In Progress because its issue and acceptance criteria remain open."
     },
     {
       "id": "evidence-ledger-integrity",
