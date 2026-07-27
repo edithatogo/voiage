@@ -1,5 +1,12 @@
 # Project Tracks
 
+## [ ] Track: Conductor Registry Normalization
+*Link: [./tracks/conductor-registry-normalization_20260727/index.md](./tracks/conductor-registry-normalization_20260727/index.md)*
+*Status: pending — normalize the exact 223-error historical baseline without
+changing substantive implementation or external-gate outcomes.*
+
+---
+
 ## [~] Track: Conductor GitHub Cross-Reference Reconciliation
 *Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
 *GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
