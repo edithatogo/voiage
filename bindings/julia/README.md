@@ -53,7 +53,6 @@ Julia package publication is handled through the General registry. The release
 workflow verifies that `Project.toml` matches the release tag, runs `Pkg.test()`,
 and attaches a source archive to the GitHub release. Registry updates should
 use the Julia Registrator flow, and the scheduled TagBot workflow keeps GitHub
-tags and releases aligned after registry merges. The walkthrough here is a
-adapter story keeps Rust as the semantic authority. General-registry and JLL
-publication are external release gates and are not implied by passing source
-tests.
+tags and releases aligned after registry merges. This adapter keeps Rust as the
+semantic authority. General-registry and JLL publication are external release
+gates and are not implied by passing source tests.

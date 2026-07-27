@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Clarified the Julia binding documentation so Rust semantic authority and
+  external General-registry/JLL publication gates are stated unambiguously.
+
 - Added explicit contract-only output artifacts for the frontier ML
   adversarial-scenario and EIG-versus-decision-VOI fixtures, keeping the
   manifest validator strict while preserving their non-promotion status.
