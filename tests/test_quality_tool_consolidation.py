@@ -31,6 +31,41 @@ def test_bandit_is_consolidated_into_selected_ruff_security_rules() -> None:
         assert "bandit" not in content, f"duplicate Bandit control returned in {path}"
 
 
+def test_tomli_backport_is_not_declared_or_imported() -> None:
+    """Python 3.12+ provides the TOML reader used by repository tooling."""
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    declared = [
+        *pyproject["project"]["dependencies"],
+        *[
+            dependency
+            for dependencies in pyproject["project"]["optional-dependencies"].values()
+            for dependency in dependencies
+        ],
+    ]
+
+    assert not any(dependency.lower().startswith("tomli") for dependency in declared)
+    for path in (
+        "final_validation.py",
+        "tests/test_extension_packaging_policy.py",
+        "tests/test_python_rust_bridge.py",
+        "tests/test_rust_workspace_contract.py",
+        "tests/packaging/test_dependency_minimization.py",
+    ):
+        assert "tomli" not in (ROOT / path).read_text(encoding="utf-8")
+
+
+def test_safety_and_pip_tools_do_not_return_to_the_tox_policy() -> None:
+    """Dependency scanning must inspect the canonical locked resolution."""
+    tox = (ROOT / "tox.ini").read_text(encoding="utf-8").lower()
+    dispositions = {
+        entry["tool"]: entry["disposition"] for entry in _registry()["tools"]
+    }
+
+    assert "[testenv:safety]" not in tox
+    assert "pip-tools" not in tox
+    assert dispositions["safety-and-pip-tools"] == "consolidated-into-pip-audit"
+
+
 def test_quality_tool_dispositions_are_unique_and_evidence_backed() -> None:
     """Every retained or consolidated tool has a unique, checked disposition."""
     payload = _registry()

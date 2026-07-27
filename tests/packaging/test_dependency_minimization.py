@@ -6,13 +6,9 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tomllib
 
 import pytest
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
-    import tomli as tomllib
 
 from voiage.core import memory_optimization
 from voiage.exceptions import OptionalDependencyError

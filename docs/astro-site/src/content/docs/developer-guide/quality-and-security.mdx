@@ -31,8 +31,19 @@ package, behavioral, performance, prose, or environment contracts that Ruff
 does not provide. The machine-readable dispositions are recorded in
 `specs/quality/tool-consolidation.json`.
 
-For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
---progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.
+`pip-audit` is the canonical Python dependency-vulnerability scanner: it
+examines the locked installed dependency surface and supplies the SBOM evidence
+lane. The former Safety/pip-tools tox environment was retired because it
+compiled a separate temporary requirements file rather than testing that
+canonical resolution.
+
+For dependency-only changes, also run:
+
+```bash
+uvx --from pip-audit==2.10.1 pip-audit --local --progress-spinner off
+```
+
+Then run `pnpm audit --prod` from `docs/astro-site`.
 
 ## Dependency and experimental-feature policy
 

@@ -13,12 +13,12 @@
       "python": ">=3.12",
       "rust": "1.85",
       "node_package_manager": "pnpm@10.32.1",
-      "pyproject_digest": "48a5ca27cad3a6475fc42268d639052064188aa571ee4093c1e28a4b7139f7b0",
+      "pyproject_digest": "7dae539cb854f6434c2b97d809976f0f32d0d7476cebfa4ce76642cf8cd2eabe",
       "cargo_workspace_digest": "ea65560a6e1af65fb1221ef57d181340ca96e2258dfa4a33b405ef12ebb065ac",
       "docs_package_digest": "2b5fa3dee20d2f84fb81908d2cf9ff7a234591a56b78be3cf10654036704fdc8"
     },
     "lockfiles": {
-      "uv.lock": "6225551cfdf2ca06285b412d65705e4adf9509cd38c353f71f24660ce3b4a7ee",
+      "uv.lock": "10473f0cc0a6e274a349178288597807d1ba15a6ccd29a0d028d51808a3498c3",
       "pixi.lock": "c13f151658948aca0955b0d3df7ca24a77421db3fe9abbc6c1822b5d0acc1c6d",
       "rust/Cargo.lock": "029331cdc099620edbcddd2a1bcacb4c577425a92e9517459757994fea012cd5",
       "rust/fuzz/Cargo.lock": "35a73ee0665168256bc00a9d912b3a16e07a595c8bf56024653e8239bb1072e2",

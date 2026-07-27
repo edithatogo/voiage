@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the obsolete `tomli` backport now that Python 3.12 is the supported
+  minimum, and retired the stale Safety/pip-tools tox lane in favour of the
+  locked pip-audit and SBOM security evidence path.
 - Removed the duplicate Bandit dependency and invocations after verifying that
   the active Python source-security policy is covered by Ruff's selected `S`
   rules; retained non-overlapping quality and security engines are now

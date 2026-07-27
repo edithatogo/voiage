@@ -13,6 +13,24 @@
       ]
     },
     {
+      "tool": "tomli",
+      "disposition": "consolidated-into-stdlib",
+      "contract": "TOML parsing for the supported Python 3.12-3.14 range",
+      "evidence": [
+        "pyproject.toml",
+        "tests/test_quality_tool_consolidation.py"
+      ]
+    },
+    {
+      "tool": "safety-and-pip-tools",
+      "disposition": "consolidated-into-pip-audit",
+      "contract": "Python dependency vulnerability scanning against the locked dependency surface",
+      "evidence": [
+        ".github/workflows/sbom.yml",
+        "docs/astro-site/src/content/docs/developer-guide/quality-and-security.mdx"
+      ]
+    },
+    {
       "tool": "ruff",
       "disposition": "retain-authoritative",
       "contract": "Python linting, formatting, import ordering, upgrade rules, docstring rules, and source-security rules",

@@ -3,12 +3,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import tomllib
 from typing import Any
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
-    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 RUST_ROOT = ROOT / "rust"

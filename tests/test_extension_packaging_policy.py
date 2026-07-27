@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -12,11 +13,6 @@ def test_extension_packaging_manifest_is_complete_and_matches_project_extras() -
     manifest = json.loads(
         (ROOT / "specs/v1/extension-packaging.json").read_text(encoding="utf-8")
     )
-    try:
-        import tomllib
-    except ModuleNotFoundError:  # pragma: no cover - Python 3.11 fallback
-        import tomli as tomllib
-
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     extras = project["project"]["optional-dependencies"]
 
