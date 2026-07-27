@@ -37,7 +37,17 @@ The output contains identical EVPI values for `ml`, `engineering`, and
 `from_dataframe(..., allow_copy=False)`, using Arrow's standard DataFrame
 interchange protocol with an explicit zero-copy requirement. The runner fails
 if any format reaches a different value, making the example an executable
-cross-format regression check as well as a tutorial.
+cross-format regression check as well as a tutorial. Its machine-readable
+output also records the identical normalized Arrow schemas, the matching
+Croissant/Frictionless resource digests, and the content-addressed direct
+DataFrame provenance digest.
+
+To inspect the descriptor-backed forms before calculating, run:
+
+```bash
+voiage ingest validate tests/fixtures/standardized_ingestion/canonical-decision.croissant.json
+voiage ingest inspect tests/fixtures/standardized_ingestion/canonical-decision.datapackage.json
+```
 
 ## Cost/outcome derivation case
 
