@@ -25,6 +25,38 @@ It records observable capabilities rather than marketing parity.
 - `adjacent-method-dispositions.json` records why neighboring concepts are
   mapped to a canonical method, retained as related analyses/applications,
   admitted as a new method, or excluded from the VOI core.
+- `residual-method-candidates.json` and its schema record the #593--#600
+  primary-source-backed planning candidates and reviewed non-gaps. They do not
+  amend the accepted canonical registry or claim runtime/binding support; an
+  additive method-census review and hash-bound approval are required first.
+- `residual-software-mappings.json` and its schema bind exact, reproducible
+  #593--#600 software searches to existing capabilities, conservative adjacent
+  mappings, unincorporated product candidates, or explicit no-direct-product
+  findings without mutating the canonical method registry.
+- `reconciliation.json` records durable fork, interface, hosted-surface,
+  exclusion, deferral, and external-candidate dispositions without presenting
+  the inventory as universally exhaustive.
+- `baseline-preservation.json` binds the established registry, fixture,
+  rights, evidence, and disposition artifacts that the expanded inventory must
+  retain unless a fresh reviewed record explicitly reopens them.
+- `comprehensive-inventory.schema.json` freezes the Phase 2 nested product,
+  version, schema, capability, subfeature, option, evidence, rights, duplicate,
+  extraction-coverage, and adoption-lesson contract.
+- `comprehensive-inventory.json` begins with open and commercial
+  representative records and currently records 27 external products and 19
+  external discovery searches across
+  direct VOI, HTA, OED, active-learning, policy, forecasting, stochastic
+  optimization, POMDP, commercial, hosted, spreadsheet, and adjacent
+  categories. External records remain bounded by their cited observability.
+- `review-protocol.json` and its schema freeze evidence ordering, claim
+  ceilings, discovery, inclusion/exclusion, commercial observability, rights,
+  freshness, deterministic generation, and checksum-bound analyst review.
+- `../../scripts/validate_comprehensive_voi_inventory.py` enforces freshness,
+  evidence references, extraction completeness, duplicate resolution, rights,
+  and commercial observability across records.
+- `audits/` preserves date-stamped, source-pinned deep-inspection reports used
+  to correct inventory revisions and to retain explicit missingness for later
+  capability review, including a vendor-public-only commercial audit.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing

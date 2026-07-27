@@ -97,3 +97,65 @@
 - [x] Apply Ruff formatting to the trusted-publishing workflow assertion after
   the complete repository gate exposed pre-existing formatting drift.
   (`f32573d`)
+
+## Phase 4: Additive industry DecisionProblem contract
+
+- [ ] Under [#566](https://github.com/edithatogo/voiage/issues/566), freeze
+  `industry-decision-problem-contract` as an additive v2 revision or a new
+  version; do not mutate the accepted v2 meaning in place.
+- [ ] Add failing schemas and semantic tests for decision criteria, risk
+  measures, constraints, policies, action eligibility, observation models,
+  privacy, latency, freshness, sequential state/stopping, metrics, guardrails,
+  and versioned artifact references.
+- [ ] Define typed predictive-distribution, CATE/uplift, forecast, optimization,
+  experiment, model-registry, metric, and lineage adapter protocols without
+  making external engines stable dependencies.
+- [ ] Add deterministic JSON and Arrow fixtures, migration cases, invalid and
+  pathological cases, capability requirements, and Rust/Python/R/Julia/Mojo
+  dispositions.
+- [ ] Reconcile the expanded contract with the canonical method registry and
+  the supported-frontier, ML/causal, binding, example, and automation tracks.
+- [ ] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update.
+- [ ] Automated review and validation checkpoint.
+- [ ] Conductor - User Manual Verification 'Phase 4: Additive industry DecisionProblem contract'
+  (Protocol in workflow.md).
+
+## Phase 5: Residual method classification
+
+- [ ] Re-run the recorded literature protocol for #593--#600 and preserve
+  primary definitions, equations, assumptions, aliases, adjacent concepts,
+  software observations, and search limitations.
+- [ ] Classify `implementation-information-decomposition` (#593), including
+  expected value of perfect implementation (EVPIM), expected value of specific
+  implementation (EVSIM), realizable EVPI, implementation-adjusted EVSI,
+  expected value of perfection (EVP), and proposed EVEIm/EVSEIm terminology
+  against `implementation-voi`.
+- [ ] Classify `uncertainty-modelling-value` (#594), including EVIU, EEV, VSS,
+  wait-and-see, EVPI, DVSS, and VMS, without treating modelling uncertainty as
+  information acquisition.
+- [ ] Classify `risk-adjusted-information-pricing` (#595), including EUI, CEI,
+  BPI, SPI and constructed-scale prices, and reconcile the adjacent
+  `buying-price-voi` record.
+- [ ] Classify `event-localized-information-value` (#596), including perfect
+  and imperfect event/tail-event information and information density.
+- [ ] Classify `belief-state-sequential-information-value` (#597) against
+  sequential VOI, real options, monitoring, knowledge gradient, active
+  learning, agent information, POMDP observation value and dual control.
+- [ ] Classify `signed-social-information-value` (#598) against strategic
+  sharing, privacy/federated VOI, rational inattention, Bayesian persuasion,
+  team decisions, information avoidance, overvaluation and harmful
+  information.
+- [ ] Classify `heterogeneity-value-decomposition` (#599) against
+  heterogeneity VOI, individualized care, preference, equity, policy/uplift
+  VOI, descriptive segmentation, and CATE estimation.
+- [ ] Classify `outcome-conditional-sample-information-value` (#600),
+  including delta-EV, VSI, sigma-VSI and rVSI, against EVSI, EVSI estimator
+  uncertainty, risk-sensitive VOI and tail-event information.
+- [ ] Generate an additive, hash-bound review candidate and require named
+  scientific approval before changing canonical registry or maturity claims.
+- [ ] Commit, attach a git note, record the short commit SHA, and commit the
+  plan update.
+- [ ] Final review and validation checkpoint.
+- [ ] Conductor - User Manual Verification 'Phase 5: Residual method classification'
+  (Protocol in workflow.md).

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from datetime import date
 from hashlib import sha256
 import json
@@ -10,6 +11,8 @@ import subprocess
 import sys
 
 from jsonschema import Draft202012Validator, FormatChecker
+
+from scripts.validate_comprehensive_voi_inventory import validate
 
 ROOT = Path(__file__).parents[1]
 LANDSCAPE = ROOT / "specs" / "software-landscape"
@@ -29,6 +32,20 @@ LICENSE_RIGHTS = LANDSCAPE / "license-rights.json"
 LICENSE_RIGHTS_SCHEMA = LANDSCAPE / "license-rights.schema.json"
 FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
+COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.json"
+COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
+CAPABILITY_ADOPTION_MAP = LANDSCAPE / "capability-adoption-map.json"
+CAPABILITY_ADOPTION_MAP_SCHEMA = LANDSCAPE / "capability-adoption-map.schema.json"
+CAPABILITY_ADOPTION_VIEWS = LANDSCAPE / "capability-adoption-views.json"
+GAP_REVIEW_PROPOSAL = LANDSCAPE / "gap-review-roadmap-proposal.json"
+GAP_REVIEW_ROUTING = LANDSCAPE / "gap-review-issue-routing-dry-run.json"
+RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
+RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
+AUDITS = LANDSCAPE / "audits"
+RECONCILIATION = LANDSCAPE / "reconciliation.json"
+BASELINE_PRESERVATION = LANDSCAPE / "baseline-preservation.json"
+REVIEW_PROTOCOL = LANDSCAPE / "review-protocol.json"
+REVIEW_PROTOCOL_SCHEMA = LANDSCAPE / "review-protocol.schema.json"
 FREEZE_CANDIDATE = LANDSCAPE / "v1.1-scientific-freeze-candidate.json"
 FREEZE_CANDIDATE_SCHEMA = LANDSCAPE / "v1.1-scientific-freeze-candidate.schema.json"
 FREEZE_APPROVAL = LANDSCAPE / "v1.1-scientific-freeze-approval.json"
@@ -52,6 +69,424 @@ def test_software_landscape_validates_against_schema() -> None:
 
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema).validate(registry)
+
+
+def test_comprehensive_inventory_and_review_protocol_are_frozen() -> None:
+    """Phase 2 must freeze nested records and review policy before discovery."""
+    inventory_schema = _read_json(COMPREHENSIVE_INVENTORY_SCHEMA)
+    protocol = _read_json(REVIEW_PROTOCOL)
+    protocol_schema = _read_json(REVIEW_PROTOCOL_SCHEMA)
+    assert isinstance(inventory_schema, dict)
+    assert isinstance(protocol, dict)
+    assert isinstance(protocol_schema, dict)
+
+    Draft202012Validator.check_schema(inventory_schema)
+    Draft202012Validator.check_schema(protocol_schema)
+    Draft202012Validator(
+        protocol_schema,
+        format_checker=FormatChecker(),
+    ).validate(protocol)
+
+    assert protocol["inventory_schema_version"] == "2.0.0"
+    assert protocol["evidence_strength_order"] == [
+        "executable-version-pinned-source-and-tests",
+        "version-pinned-source",
+        "version-pinned-documentation",
+        "public-observation",
+        "vendor-claim",
+        "inaccessible",
+    ]
+    assert protocol["freshness"]["maximum_age_days"] == 93
+    assert protocol["deterministic_generation"]["source_records_append_only"] is True
+    assert protocol["deterministic_generation"]["analyst_decisions_separate"] is True
+    assert protocol["commercial_observability"]["infer_hidden_behavior"] is False
+    assert protocol["rights"]["unknown_license_source_reuse"] == "prohibited"
+
+    required_dimensions = set(protocol["extraction"]["required_dimensions"])
+    assert {
+        "identity",
+        "versions",
+        "schemas",
+        "features",
+        "subfeatures",
+        "options-and-defaults",
+        "diagnostics-and-errors",
+        "workflows-and-integrations",
+        "reporting-and-accessibility",
+        "tests-and-examples",
+        "performance",
+        "rights-and-provenance",
+    } <= required_dimensions
+
+
+def test_phase_three_capability_adoption_map_is_a_separate_contract() -> None:
+    """Capability lessons must not mutate the inventory or assert runtime parity."""
+    assert CAPABILITY_ADOPTION_MAP.is_file()
+    assert CAPABILITY_ADOPTION_MAP_SCHEMA.is_file()
+
+    capability_map = _read_json(CAPABILITY_ADOPTION_MAP)
+    schema = _read_json(CAPABILITY_ADOPTION_MAP_SCHEMA)
+    assert isinstance(capability_map, dict)
+    assert isinstance(schema, dict)
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(
+        capability_map
+    )
+
+    assert capability_map["source_inventory"] == "comprehensive-inventory.json"
+    assert capability_map["parity_states"] == [
+        "native",
+        "equivalent",
+        "adapter",
+        "planned",
+        "excluded",
+        "not-reproducible",
+    ]
+
+
+def test_phase_three_review_artifacts_are_deterministic_and_non_applying() -> None:
+    """Phase 3 may propose work but cannot mutate roadmap or issue state."""
+    views = _read_json(CAPABILITY_ADOPTION_VIEWS)
+    proposal = _read_json(GAP_REVIEW_PROPOSAL)
+    routing = _read_json(GAP_REVIEW_ROUTING)
+    assert views["source_map"] == "capability-adoption-map.json"
+    assert views["record_count"] == 30
+    assert proposal["auto_apply"] is False
+    assert all(item["decision_state"] == "proposed" for item in proposal["items"])
+    assert routing["dry_run"] is True
+    assert all(route["writes_performed"] is False for route in routing["routes"])
+
+
+def test_comprehensive_inventory_has_representative_semantic_records() -> None:
+    """Representative records must exercise every Phase 2 evidence boundary."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    schema = _read_json(COMPREHENSIVE_INVENTORY_SCHEMA)
+    assert isinstance(inventory, dict)
+    assert isinstance(schema, dict)
+
+    Draft202012Validator(
+        schema,
+        format_checker=FormatChecker(),
+    ).validate(inventory)
+
+    products = {product["id"]: product for product in inventory["products"]}
+    assert {
+        "representative-open-source",
+        "representative-commercial",
+    } <= products.keys()
+
+    open_source = products["representative-open-source"]
+    assert open_source["availability"] == "public-source"
+    version = open_source["versions"][0]
+    assert version["schema_surfaces"]
+    assert version["capabilities"][0]["subfeatures"]
+    assert version["capabilities"][0]["options"]
+    assert version["capabilities"][0]["defaults"]
+    assert any(
+        observation["strength"] == "executable-version-pinned-source-and-tests"
+        for observation in version["evidence_observations"]
+    )
+
+    commercial = products["representative-commercial"]
+    assert commercial["availability"] == "paid-or-private"
+    commercial_evidence = commercial["versions"][0]["evidence_observations"]
+    assert all(
+        observation["strength"]
+        in {"version-pinned-documentation", "vendor-claim", "inaccessible"}
+        for observation in commercial_evidence
+    )
+    assert commercial["rights"]["source_reuse"] == "prohibited"
+
+
+def test_comprehensive_inventory_preserves_reconciled_discovery_streams() -> None:
+    """The first reconciled census slice must retain every reviewed stream."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    assert isinstance(inventory, dict)
+    product_ids = {product["id"] for product in inventory["products"]}
+    search_ids = {observation["id"] for observation in inventory["search_observations"]}
+
+    assert len(product_ids) == 29
+    assert len(search_ids) == 21
+    assert {
+        "voi",
+        "bcea",
+        "savi",
+        "heemod",
+        "pyro-oed",
+        "botorch",
+        "pyomo-mpi-sppy",
+        "pomdps-jl",
+        "treeage-pro",
+        "treeage-pro-web",
+        "precisiontree",
+        "oracle-crystal-ball",
+    } <= product_ids
+    assert {
+        "cran-voi-search",
+        "oed-primary-search",
+        "operations-primary-search",
+        "policy-signal-primary-search",
+        "treeage-public-documentation-search",
+    } <= search_ids
+
+
+def test_deep_audit_replaces_rolling_revisions_with_verified_pins() -> None:
+    """Versioned external claims must not depend on moving branch heads."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    assert isinstance(inventory, dict)
+    products = {product["id"]: product for product in inventory["products"]}
+
+    assert products["bcea"]["versions"][0]["version"] == "2.4.83"
+    assert products["bcea"]["versions"][0]["reviewed_revision"] == (
+        "e78a922791d649f4e96267474a3344afcc34c26b"
+    )
+    assert products["econml"]["duplicate_resolution"]["canonical_product_id"] == (
+        "econml"
+    )
+    assert products["precisiontree"]["versions"][0]["version"] == (
+        "PrecisionTree v8.3 documentation path"
+    )
+
+    for product_id in (
+        "voi",
+        "bceaweb",
+        "savi",
+        "hesim",
+        "pyro-oed",
+        "botorch",
+        "ax",
+        "trieste",
+        "causalml",
+        "econml",
+        "pyomo-mpi-sppy",
+        "sddp-jl",
+        "pomdps-jl",
+    ):
+        revision = products[product_id]["versions"][0]["reviewed_revision"]
+        assert revision is not None
+        assert "head" not in revision
+
+
+def test_deep_source_audits_are_preserved_for_later_review() -> None:
+    """Detailed source inspection must remain available after handoff cleanup."""
+    hta = _read_json(AUDITS / "2026-07-27-hta.json")
+    ml = _read_json(AUDITS / "2026-07-27-ml.json")
+    operations = _read_json(AUDITS / "2026-07-27-operations.json")
+    commercial = _read_json(AUDITS / "2026-07-27-commercial.json")
+    assert isinstance(hta, dict)
+    assert isinstance(ml, dict)
+    assert isinstance(operations, dict)
+    assert isinstance(commercial, dict)
+
+    assert {record["product_id"] for record in hta["products"]} >= {
+        "voi",
+        "bcea",
+        "savi",
+        "heemod",
+        "hesim",
+    }
+    assert {record["id"] for record in ml["records"]} >= {
+        "pyro-oed",
+        "botorch",
+        "econml",
+    }
+    assert {record.get("record_id") for record in operations["records"]} >= {
+        "pyomo-mpi-sppy",
+        "sddp-jl",
+        "pomdps-jl",
+    }
+    assert {record["product_id"] for record in commercial["products"]} == {
+        "treeage-pro",
+        "treeage-pro-web",
+        "precisiontree",
+        "oracle-crystal-ball",
+    }
+
+
+def test_reconciliation_preserves_noncanonical_and_bounded_records() -> None:
+    """Forks, hosted surfaces, candidates and exclusions need durable decisions."""
+    reconciliation = _read_json(RECONCILIATION)
+    assert isinstance(reconciliation, dict)
+    assert reconciliation["universally_exhaustive"] is False
+    assert reconciliation["automatic_parity_promotion"] is False
+
+    records = {record["id"]: record for record in reconciliation["records"]}
+    assert records["treeage-pro-web"]["disposition"] == "hosted-surface"
+    assert records["precisiontree"]["disposition"] == "deferred-adjacent"
+    assert records["oracle-crystal-ball"]["disposition"] == "excluded-adjacent"
+    assert records["gams-emp"]["disposition"] == "external-candidate"
+    assert records["sbo-aippms"]["disposition"] == "external-candidate"
+    assert records["bceaweb"]["canonical_product_id"] == "bceaweb"
+    assert records["ax"]["canonical_product_id"] == "botorch"
+    assert records["trieste"]["canonical_product_id"] == "botorch"
+
+
+def test_comprehensive_inventory_preserves_baseline_evidence_artifacts() -> None:
+    """Phase 2 must not silently replace the established comparison evidence."""
+    manifest = _read_json(BASELINE_PRESERVATION)
+    assert isinstance(manifest, dict)
+    assert manifest["expanded_schema_invalidates_baseline"] is False
+    assert manifest["reopen_required_before_displacement"] is True
+    paths = {record["path"] for record in manifest["artifacts"]}
+    assert {
+        "registry.json",
+        "parity-fixtures.json",
+        "implementation-evidence.json",
+        "upstream-feature-evidence.json",
+        "license-rights.json",
+        "feature-dispositions.json",
+    } <= paths
+    for path in paths:
+        assert (LANDSCAPE / path).is_file(), path
+
+
+def test_residual_method_searches_and_software_mappings_are_complete() -> None:
+    """Issues 593--600 need exact searches without claiming canonical support."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    residual = _read_json(LANDSCAPE / "residual-method-candidates.json")
+    mappings = _read_json(RESIDUAL_SOFTWARE_MAPPINGS)
+    mapping_schema = _read_json(RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA)
+    assert isinstance(inventory, dict)
+    assert isinstance(residual, dict)
+    assert isinstance(mappings, dict)
+    assert isinstance(mapping_schema, dict)
+
+    Draft202012Validator.check_schema(mapping_schema)
+    Draft202012Validator(
+        mapping_schema,
+        format_checker=FormatChecker(),
+    ).validate(mappings)
+
+    candidates = {candidate["issue"]: candidate for candidate in residual["candidates"]}
+    searches = {
+        observation["id"]: observation
+        for observation in inventory["search_observations"]
+    }
+    products = {product["id"]: product for product in inventory["products"]}
+    versions = {
+        (product["id"], version["id"])
+        for product in inventory["products"]
+        for version in product["versions"]
+    }
+    capabilities = {
+        (product["id"], version["id"], capability["id"])
+        for product in inventory["products"]
+        for version in product["versions"]
+        for capability in version["capabilities"]
+    }
+
+    assert set(candidates) == set(range(593, 601))
+    assert {record["issue"] for record in mappings["records"]} == set(candidates)
+    assert mappings["canonical_registry_mutated"] is False
+    assert mappings["runtime_support_claimed"] is False
+
+    for issue, candidate in candidates.items():
+        search_id = f"residual-{issue}-software-search"
+        assert search_id in searches
+        query = searches[search_id]["query"].casefold()
+        assert candidate["record_id"].replace("-", " ") in query
+        assert all(
+            submethod.casefold() in query for submethod in candidate["submethods"]
+        )
+
+    for record in mappings["records"]:
+        assert record["record_id"] == candidates[record["issue"]]["record_id"]
+        assert record["classification"] in {
+            "estimand",
+            "estimator",
+            "diagnostic",
+            "alias",
+            "application",
+            "adjacent",
+            "no-direct-implementation-found",
+        }
+        if record["product_id"] is not None:
+            assert record["product_id"] in products
+            assert (record["product_id"], record["version_id"]) in versions
+            if record["capability_id"] is not None:
+                assert (
+                    record["product_id"],
+                    record["version_id"],
+                    record["capability_id"],
+                ) in capabilities
+        else:
+            assert record["version_id"] is None
+            if record["external_candidate_id"] is None:
+                assert record["classification"] == "no-direct-implementation-found"
+            else:
+                assert record["classification"] in {"application", "adjacent"}
+        assert record["evidence_urls"]
+        assert record["assessment"]
+
+
+def test_comprehensive_inventory_semantic_validator_passes() -> None:
+    """Cross-record evidence, rights, duplicate, and freshness rules must pass."""
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/validate_comprehensive_voi_inventory.py",
+            "--inventory",
+            str(COMPREHENSIVE_INVENTORY),
+            "--as-of",
+            "2026-07-27",
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+    assert "Comprehensive VOI inventory validation passed" in completed.stdout
+
+
+def test_comprehensive_inventory_semantic_validator_rejects_overclaims() -> None:
+    """Each cross-record boundary must fail closed when independently violated."""
+    inventory = _read_json(COMPREHENSIVE_INVENTORY)
+    protocol = _read_json(REVIEW_PROTOCOL)
+    assert isinstance(inventory, dict)
+    assert isinstance(protocol, dict)
+
+    def errors_for(candidate: dict[str, object]) -> str:
+        return "\n".join(validate(candidate, protocol, as_of=date(2026, 7, 27)))
+
+    def product(candidate: dict[str, object], product_id: str) -> dict[str, object]:
+        return next(item for item in candidate["products"] if item["id"] == product_id)
+
+    stale = deepcopy(inventory)
+    stale["reviewed_on"] = "2025-01-01"
+    assert "review age" in errors_for(stale)
+
+    unresolved_evidence = deepcopy(inventory)
+    product(unresolved_evidence, "representative-open-source")["versions"][0][
+        "capabilities"
+    ][0]["evidence_ids"] = ["missing-evidence"]
+    assert "unknown evidence" in errors_for(unresolved_evidence)
+
+    unsafe_rights = deepcopy(inventory)
+    product(unsafe_rights, "representative-open-source")["rights"]["review_state"] = (
+        "unknown"
+    )
+    assert "source reuse prohibited" in errors_for(unsafe_rights)
+
+    missing_canonical = deepcopy(inventory)
+    product(missing_canonical, "representative-commercial")["duplicate_resolution"][
+        "canonical_product_id"
+    ] = "missing-product"
+    assert "lacks canonical product" in errors_for(missing_canonical)
+
+    incomplete_extraction = deepcopy(inventory)
+    product(incomplete_extraction, "representative-open-source")["versions"][0][
+        "extraction_coverage"
+    ].pop()
+    assert "extraction coverage mismatch" in errors_for(incomplete_extraction)
+
+    commercial_overclaim = deepcopy(inventory)
+    product(commercial_overclaim, "representative-commercial")["versions"][0][
+        "evidence_observations"
+    ][0]["strength"] = "executable-version-pinned-source-and-tests"
+    commercial_errors = errors_for(commercial_overclaim)
+    assert "commercial evidence exceeds observability ceiling" in commercial_errors
+    assert "evidence strength and observability disagree" in commercial_errors
 
 
 def test_required_ecosystems_and_seed_tools_are_present() -> None:

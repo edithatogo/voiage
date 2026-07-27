@@ -16,10 +16,13 @@ freeze.*
 
 ---
 
-## [~] Track: External VOI Library Feature Parity
+## [~] Track: Comprehensive VOI Software Landscape And Improvement Review
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
 *Execution order: 03 of 11.*
-*Status: in progress — open-source feature equivalence and evidence-backed exclusions.*
+*Status: next — inventory open-source, commercial, hosted and embedded VOI
+software at schema/feature/subfeature/option level, map capability and adoption
+gaps, and present improvement proposals for analyst review before any later
+roadmap adoption. Existing 27-tool evidence is a baseline, not completion.*
 
 ---
 
@@ -40,31 +43,38 @@ freeze.*
 ## [ ] Track: Supported Frontier Method Completion
 *Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
 *Execution order: 06 of 11.*
-*Status: new — GitHub #318 owns native method-gap subissues #556--#560 for
-DSA, VDI, qualitative VoI, VoF, and MCDA-VOI; complete, consolidate, demote, or
-gate each family without overstating fixture, mock, or adjacent-method evidence.*
+*Status: new — GitHub #318 owns native method-gap subissues #556--#560,
+#570--#572, #582 and #593--#600. The residual set covers implementation and
+perfection decomposition, uncertainty-modelling value, risk-adjusted prices,
+event/density value, belief-state sequential value, signed social value,
+static/dynamic heterogeneity value, and outcome-conditional sample value.
+Complete, consolidate, demote, or gate each family without overstating
+fixture, mock, score, alias, or adjacent-method evidence.*
 
 ---
 
 ## [ ] Track: ML, LLM, And Agent Value Of Information
 *Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
 *Execution order: 07 of 11.*
-*Status: new — decision-theoretic and information-design methods remain
-experimental until evidence supports promotion.*
+*Status: new — decision-theoretic, policy/uplift and decision-focused
+model-value methods remain experimental until evidence supports promotion.*
 
 ---
 
 ## [ ] Track: Polyglot ABI And Binding Parity
 *Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
 *Execution order: 08 of 11.*
-*Status: new — installed Rust, Python, R, Julia, and Mojo conformance.*
+*Status: new — installed Rust, Python, R, Julia, and Mojo conformance,
+including the complete industry Decision Problem interchange contract.*
 
 ---
 
 ## [ ] Track: Datasets And Executable Worked Examples
 *Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
 *Execution order: 09 of 11.*
-*Status: new — immutable synthetic and rights-cleared public evidence.*
+*Status: new — immutable synthetic and rights-cleared public evidence,
+including churn/retention, broader industry packs, and the domain template and
+adapter registry.*
 
 ---
 
@@ -78,8 +88,10 @@ experimental until evidence supports promotion.*
 ## [~] Track: Quality, Security, Release, And Registry Automation
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
 *Execution order: 11 of 11.*
-*Status: in progress — Renovate migration, alert remediation, staged
-v1.1--v1.3 evidence, and external gates.*
+*Status: in progress — Renovate migration, alert remediation, Decision
+Registry and local Studio contracts, enterprise adapters, industry
+decision-correctness assurance, staged v1.1--v1.3 evidence, and external
+gates.*
 
 ---
 

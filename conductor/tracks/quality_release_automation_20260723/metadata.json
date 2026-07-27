@@ -1,15 +1,21 @@
 {
   "track_id": "quality_release_automation_20260723",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:18:53Z",
-  "updated_at": "2026-07-26T12:45:00Z",
-  "description": "Complete polyglot quality, security, reproducibility, provenance, packaging, and staged-release automation.",
+  "updated_at": "2026-07-27T03:38:01Z",
+  "description": "Complete polyglot quality, security, reproducibility, provenance, adoption, integration, decision-correctness, packaging, and staged-release automation.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
   "github_issue": "https://github.com/edithatogo/voiage/issues/322",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/580",
+    "https://github.com/edithatogo/voiage/issues/581",
+    "https://github.com/edithatogo/voiage/issues/583",
+    "https://github.com/edithatogo/voiage/issues/584"
+  ],
   "github_project": "https://github.com/users/edithatogo/projects/28",
   "release_targets": [
     "v1.1",
@@ -56,6 +62,12 @@
       "kind": "external",
       "status": "pending",
       "evidence": "Registry acceptance is external to repository readiness."
+    },
+    {
+      "id": "decision-registry-human-review",
+      "kind": "human",
+      "status": "pending",
+      "evidence": "Decision-card interpretation, usability and accessibility require named review; automated schema checks cannot approve business decisions."
     }
   ]
 }

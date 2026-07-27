@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-07-27",
+  "expanded_schema_invalidates_baseline": false,
+  "reopen_required_before_displacement": true,
+  "artifacts": [
+    {
+      "path": "registry.json",
+      "role": "source/test/docs/example software census baseline",
+      "preservation": "retained alongside comprehensive-inventory.json"
+    },
+    {
+      "path": "parity-fixtures.json",
+      "role": "independent competitor-free executable fixture boundary",
+      "preservation": "retained; positive parity still requires its named fixture and test"
+    },
+    {
+      "path": "implementation-evidence.json",
+      "role": "repository implementation evidence",
+      "preservation": "retained; regenerated rather than replaced by external observations"
+    },
+    {
+      "path": "upstream-feature-evidence.json",
+      "role": "source/test/docs/example feature extraction",
+      "preservation": "retained; expanded inventory does not overwrite observed upstream evidence"
+    },
+    {
+      "path": "license-rights.json",
+      "role": "machine-readable rights and fixture policy",
+      "preservation": "retained; new candidate rights require separate review"
+    },
+    {
+      "path": "feature-dispositions.json",
+      "role": "excluded and non-reproducible feature decisions",
+      "preservation": "retained; a fresh observed record is required to reopen a disposition"
+    },
+    {
+      "path": "adjacent-method-dispositions.json",
+      "role": "canonical-method and adjacent-analysis boundary",
+      "preservation": "retained; residual mappings do not change canonical taxonomy"
+    }
+  ],
+  "limitations": [
+    "The manifest verifies continued repository presence, not ongoing external accessibility.",
+    "A retained baseline observation does not establish support in a newly discovered product.",
+    "Any record displaced because of a future schema change must be reopened with a dated evidence and review record."
+  ]
+}

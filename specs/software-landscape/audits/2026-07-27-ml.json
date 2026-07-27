@@ -1,0 +1,155 @@
+{
+  "audit": {
+    "scope": "Research-only primary-source audit of nine software-landscape records",
+    "audited_at": "2026-07-27",
+    "source_policy": "Only project-owned repositories, tagged source, release pages, package metadata, project documentation, and project tests/examples. A related algorithm is not treated as decision-analytic VOI evidence.",
+    "current_inventory": "/tmp/voiage-industry-expansion.CqDZl7/specs/software-landscape/comprehensive-inventory.json",
+    "dimension_status_values": ["verified", "partially_verified", "not_verified"],
+    "important_boundary": "Pyro contrib.oed directly estimates information-theoretic EIG. None of the other records establishes conventional decision-analytic EVPI/EVSI or an incremental-utility VOI output. BoTorch/Trieste/Ax optimise acquisition/experiments; CausalML/EconML estimate causal effects; Orbit forecasts; VW/OBP evaluate or learn policies."
+  },
+  "records": [
+    {
+      "id": "pyro-oed",
+      "current_version": "1.9.1",
+      "immutable_revision": "64e71eee1c14dc926d5cbc5e762b6337bb4750a6",
+      "immutable_tag": "1.9.1",
+      "evidence_urls": [
+        "https://github.com/pyro-ppl/pyro/tree/64e71eee1c14dc926d5cbc5e762b6337bb4750a6/pyro/contrib/oed",
+        "https://github.com/pyro-ppl/pyro/blob/64e71eee1c14dc926d5cbc5e762b6337bb4750a6/pyro/contrib/oed/eig.py",
+        "https://github.com/pyro-ppl/pyro/tree/64e71eee1c14dc926d5cbc5e762b6337bb4750a6/tests/contrib/oed",
+        "https://github.com/pyro-ppl/pyro/blob/64e71eee1c14dc926d5cbc5e762b6337bb4750a6/LICENSE.md"
+      ],
+      "verified": {
+        "api_schema": "Python probabilistic-program model plus design tensor; EIG functions receive model, design, observation_labels and estimator-specific sample counts/guide arguments.",
+        "functions_classes_commands": ["nmc_eig", "vi_eig", "laplace_eig", "donsker_varadhan_eig", "posterior_eig", "marginal_eig", "opt_eig_ape_loss"],
+        "algorithms": ["nested Monte Carlo EIG", "variational EIG", "Laplace EIG", "Donsker-Varadhan EIG", "posterior and marginal EIG bounds"],
+        "features_subfeatures": ["differentiable design optimisation", "probabilistic-program model composition", "estimator-specific objectives"],
+        "options_defaults": "Estimator signatures expose N/M sample sizes, guide, optim, num_steps and final_design; exact defaults should be extracted from the pinned signatures rather than retained as empty inventory fields.",
+        "diagnostics_errors": "Source validates incompatible estimator arguments and propagates Pyro/Torch model and shape failures; no standalone structured reporting API verified.",
+        "outputs_reports": "Tensor-valued EIG/loss results; no conventional decision-model, EVPI/EVSI, or report schema.",
+        "examples_tests": "Pinned tests/contrib/oed supplies executable estimator coverage.",
+        "integrations_dependencies": ["Pyro", "PyTorch"],
+        "performance": "Monte-Carlo/sample-count trade-off is intrinsic; no pinned benchmark claim audited.",
+        "license": "Apache-2.0 (pinned LICENSE.md)",
+        "maintenance": "1.9.1 pinned release; do not describe dev-head as the reviewed revision."
+      },
+      "corrections": [
+        "Replace reviewed_revision dev-head and all dev-branch evidence with the immutable 1.9.1 commit above.",
+        "Populate functions, options/defaults, diagnostics and tensor outputs; retain the limitation that information gain is not conventional decision-analytic VOI."
+      ],
+      "missingness": ["No audited release-pinned performance benchmark", "No verified accessibility/report export surface"],
+      "proposed_record_changes": {"reviewed_revision": "64e71eee1c14dc926d5cbc5e762b6337bb4750a6", "evidence_immutable": true, "voi_status": "direct-information-gain-only-not-decision-analytic-voi"}
+    },
+    {
+      "id": "botorch",
+      "current_version": "0.18.1",
+      "immutable_revision": "cd0249c60b2a81af0d91b5e7d462ef6f574fceec",
+      "immutable_tag": "v0.18.1",
+      "evidence_urls": ["https://github.com/pytorch/botorch/tree/cd0249c60b2a81af0d91b5e7d462ef6f574fceec/botorch/acquisition", "https://github.com/pytorch/botorch/tree/cd0249c60b2a81af0d91b5e7d462ef6f574fceec/test/acquisition", "https://github.com/pytorch/botorch/blob/cd0249c60b2a81af0d91b5e7d462ef6f574fceec/LICENSE"],
+      "verified": {
+        "api_schema": "PyTorch tensor-based models, acquisition functions, bounds and candidate tensors.",
+        "functions_classes_commands": ["optimize_acqf", "qKnowledgeGradient", "qExpectedImprovement", "qUpperConfidenceBound", "qNoisyExpectedImprovement", "qExpectedHypervolumeImprovement", "qBALD", "qPredictiveEntropySearch"],
+        "algorithms": ["Bayesian optimisation acquisition", "knowledge gradient", "BALD", "predictive entropy search", "preference and multi-objective acquisition"],
+        "features_subfeatures": ["batch q-acquisition", "constraints", "multi-objective", "multi-fidelity", "fully Bayesian models", "input transforms"],
+        "options_defaults": "Constructor and optimizer defaults are material and should be pinned from the selected 0.18.1 signatures; current empty fields are incomplete.",
+        "diagnostics_errors": "Tensor/device/dimension validation and optimization warnings exist; no general business-facing report surface verified.",
+        "outputs_reports": "Candidate tensors and acquisition values; not EVPI/EVSI or utility reports.",
+        "examples_tests": "Pinned acquisition test tree and project tutorials/examples.",
+        "integrations_dependencies": ["PyTorch", "GPyTorch", "linear_operator"],
+        "performance": "GPU execution follows PyTorch device placement; no audited benchmark number.",
+        "license": "MIT", "maintenance": "0.18.1 pinned release."
+      },
+      "corrections": ["Replace main-head and rolling tutorial evidence with commit-pinned paths.", "Do not label acquisition improvement, BALD, PES or KG as decision-analytic VOI; retain them as adjacent active-learning/optimisation capabilities."],
+      "missingness": ["No release-pinned benchmark extraction", "No CLI/report/accessibility surface verified"],
+      "proposed_record_changes": {"reviewed_revision": "cd0249c60b2a81af0d91b5e7d462ef6f574fceec", "evidence_immutable": true, "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "ax",
+      "current_version": "1.3.1",
+      "immutable_revision": "93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a",
+      "immutable_tag": "1.3.1",
+      "evidence_urls": ["https://github.com/facebook/Ax/tree/93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a/ax/service", "https://github.com/facebook/Ax/tree/93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a/ax/core", "https://github.com/facebook/Ax/blob/93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a/LICENSE"],
+      "verified": {
+        "api_schema": "Experiment, SearchSpace, Parameter, Metric, Objective, Trial and Data objects.",
+        "functions_classes_commands": ["AxClient", "create_experiment", "get_next_trial", "complete_trial", "get_best_parameters", "get_optimization_trace"],
+        "algorithms": ["adaptive experiment orchestration over modular and service APIs"],
+        "features_subfeatures": ["trial lifecycle", "metrics/objectives", "constraints", "multi-objective and generation strategies"],
+        "options_defaults": "Generation strategy and client factory defaults need signature-level extraction; current empty fields are incomplete.",
+        "diagnostics_errors": "Client raises validation/data/optimization errors; optimisation trace is a diagnostic artifact.",
+        "outputs_reports": "Trials, data, best parameters, traces; no EVPI/EVSI report.",
+        "examples_tests": "Core/service package and repository tests are available at the pinned tree.",
+        "integrations_dependencies": ["BoTorch", "PyTorch", "pandas"],
+        "performance": "No audited performance claim.", "license": "MIT", "maintenance": "1.3.1 pinned release."
+      },
+      "corrections": ["Replace main-head with immutable revision.", "Keep as experiment lifecycle; it does not establish direct VOI merely because it uses BoTorch."],
+      "missingness": ["No pinned benchmark", "No verified CLI/accessibility export"],
+      "proposed_record_changes": {"reviewed_revision": "93b6c7d3a9ce5cb24c8b47d2f5aac75b1312a23a", "evidence_immutable": true, "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "trieste",
+      "current_version": "4.6.0",
+      "immutable_revision": "2a38167da037ff019a0eb977e1414a4f7f8f3660",
+      "immutable_tag": "v4.6.0",
+      "evidence_urls": ["https://github.com/secondmind-labs/trieste/tree/2a38167da037ff019a0eb977e1414a4f7f8f3660/trieste", "https://github.com/secondmind-labs/trieste/tree/2a38167da037ff019a0eb977e1414a4f7f8f3660/tests", "https://github.com/secondmind-labs/trieste/blob/2a38167da037ff019a0eb977e1414a4f7f8f3660/LICENSE"],
+      "verified": {"api_schema": "Dataset/query-point observations, SearchSpace and BayesianOptimizer interfaces.", "functions_classes_commands": ["BayesianOptimizer", "OptimizationResult", "AskTellOptimizer", "acquire", "tell"], "algorithms": ["Bayesian optimisation", "active learning", "batch", "asynchronous", "constrained", "multi-fidelity", "multi-objective"], "features_subfeatures": ["ask-tell", "observer-driven workflows", "GPflow models"], "options_defaults": "Need signature-level extraction from pinned constructors.", "diagnostics_errors": "OptimizationResult/history and validation failures are source-level diagnostics; no report API verified.", "outputs_reports": "Optimization result and datasets, not decision-analytic VOI.", "examples_tests": "Pinned tests tree and project examples.", "integrations_dependencies": ["TensorFlow", "TensorFlow Probability", "GPflow"], "performance": "TensorFlow GPU capability is environment-dependent; no audited benchmark.", "license": "Apache-2.0", "maintenance": "4.6.0 pinned release."},
+      "corrections": ["Replace develop-head and rolling README evidence with immutable source/test paths.", "Do not convert active learning/BO into VOI evidence."],
+      "missingness": ["No pinned benchmark", "No CLI/report/accessibility verification"],
+      "proposed_record_changes": {"reviewed_revision": "2a38167da037ff019a0eb977e1414a4f7f8f3660", "evidence_immutable": true, "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "causalml",
+      "current_version": "0.17.0",
+      "immutable_revision": "dff8ec352d590161aeba96c89f620acf89953954",
+      "immutable_tag": "v0.17.0",
+      "evidence_urls": ["https://github.com/uber/causalml/tree/dff8ec352d590161aeba96c89f620acf89953954/causalml", "https://github.com/uber/causalml/tree/dff8ec352d590161aeba96c89f620acf89953954/tests", "https://github.com/uber/causalml/tree/dff8ec352d590161aeba96c89f620acf89953954/examples", "https://github.com/uber/causalml/blob/dff8ec352d590161aeba96c89f620acf89953954/LICENSE"],
+      "verified": {"api_schema": "Feature X, treatment T and outcome Y are core inputs; uplift and meta-learner estimators expose sklearn-like interfaces.", "functions_classes_commands": ["BaseXClassifier", "BaseTClassifier", "BaseSClassifier", "BaseRClassifier", "LRSRegressor", "UpliftRandomForestClassifier"], "algorithms": ["S/T/X/R learners", "uplift trees/forests", "matching", "inverse propensity weighting", "doubly robust estimation"], "features_subfeatures": ["binary/multiple treatment", "CATE/uplift", "treatment-effect visualization/evaluation"], "options_defaults": "Estimator defaults must be extracted from v0.17.0 signatures; current inventory's empty options/defaults are incomplete.", "diagnostics_errors": "Model validation and sklearn-compatible errors; visualizers/evaluation are diagnostics rather than VOI reports.", "outputs_reports": "CATE/uplift predictions and plots, not utility-based VOI.", "examples_tests": "Pinned examples and tests trees.", "integrations_dependencies": ["scikit-learn", "pandas", "numpy", "xgboost/lightgbm optional"], "performance": "Native/compiled optional components exist; no pinned benchmark claim.", "license": "Apache-2.0", "maintenance": "0.17.0 pinned release; API experimental caveat remains relevant."},
+      "corrections": ["Replace master-head/rolling docs with immutable revision.", "The existing X/T/Y schema is appropriate but should cite estimator signatures or examples at the pin.", "Do not promote CATE or cost-sensitive targeting to VOI without an explicit utility/value calculation."],
+      "missingness": ["No direct decision-analytic VOI output", "No audited benchmark/accessibility surface"],
+      "proposed_record_changes": {"reviewed_revision": "dff8ec352d590161aeba96c89f620acf89953954", "evidence_immutable": true, "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "econml",
+      "current_version": "0.16.0",
+      "immutable_revision": "8e80e89a0fef058b219e2754bb4ed551e5df52c7",
+      "immutable_tag": "v0.16.0",
+      "evidence_urls": ["https://github.com/py-why/EconML/tree/8e80e89a0fef058b219e2754bb4ed551e5df52c7/econml", "https://github.com/py-why/EconML/tree/8e80e89a0fef058b219e2754bb4ed551e5df52c7/econml/tests", "https://github.com/py-why/EconML/tree/8e80e89a0fef058b219e2754bb4ed551e5df52c7/notebooks", "https://github.com/py-why/EconML/blob/8e80e89a0fef058b219e2754bb4ed551e5df52c7/LICENSE"],
+      "verified": {"api_schema": "fit(Y, T, X=None, W=None, Z=None, ...) estimator patterns; effect(X), const_marginal_effect(X), inference APIs.", "functions_classes_commands": ["LinearDML", "CausalForestDML", "DRLearner", "XLearner", "DML", "IV", "effect", "effect_interval", "summary"], "algorithms": ["double/debiased ML", "causal forests", "DR/X learners", "instrumental variables", "dynamic treatment effects"], "features_subfeatures": ["heterogeneous treatment effects", "inference/intervals", "interpretability", "DoWhy wrapper"], "options_defaults": "Signature defaults and inference choices need pin-level extraction; current empty fields are incomplete.", "diagnostics_errors": "Inference intervals, summary, validation and fit errors exist; no decision utility report.", "outputs_reports": "Effect estimates, intervals and summaries, not EVPI/EVSI.", "examples_tests": "Pinned package tests and notebooks.", "integrations_dependencies": ["scikit-learn", "numpy", "scipy", "statsmodels", "DoWhy optional"], "performance": "Parallel/model performance depends on estimator/backend; no audited benchmark number.", "license": "MIT", "maintenance": "0.16.0 pinned release."},
+      "corrections": ["Replace main-head evidence with immutable source/test/notebook paths.", "Correct duplicate_resolution canonical_product_id: causalml to an independent canonical product: EconML is not a CausalML variant.", "Do not treat effect estimation or uncertainty intervals as VOI."],
+      "missingness": ["No direct decision-analytic VOI", "No audited benchmark/accessibility surface"],
+      "proposed_record_changes": {"reviewed_revision": "8e80e89a0fef058b219e2754bb4ed551e5df52c7", "evidence_immutable": true, "duplicate_resolution.canonical_product_id": "econml", "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "orbit",
+      "current_version": "1.1.5.1",
+      "immutable_revision": null,
+      "immutable_tag": "v1.1.5.1",
+      "evidence_urls": ["https://github.com/uber/orbit/tree/v1.1.5.1/orbit", "https://github.com/uber/orbit/tree/v1.1.5.1/tests", "https://github.com/uber/orbit/tree/v1.1.5.1/examples", "https://github.com/uber/orbit/blob/v1.1.5.1/LICENSE"],
+      "verified": {"api_schema": "Dataframe time/date column, response column and optional regressors; model fit/predict workflow.", "functions_classes_commands": ["DLT", "ETS", "KTR", "fit", "predict", "plot_predicted_data", "get_regression_coefs"], "algorithms": ["dynamic linear trend", "exponential smoothing", "kernel time regression"], "features_subfeatures": ["seasonality", "regressors", "prediction intervals", "backtesting/diagnostics"], "options_defaults": "Need version-pinned constructor extraction; current empty fields are incomplete.", "diagnostics_errors": "Fit/prediction validation and diagnostic plots; no VOI utility report.", "outputs_reports": "Forecast dataframe/intervals and plots, not incremental forecast value.", "examples_tests": "Tagged project examples/tests paths.", "integrations_dependencies": ["PyStan or Pyro backend depending model/install", "pandas", "numpy"], "performance": "Backend-specific; no audited benchmark.", "license": "Apache-2.0", "maintenance": "Inventory labels maintained, but the audit did not independently resolve the tag to a commit because GitHub's unauthenticated API rate limit was exhausted."},
+      "corrections": ["Replace dev-head with the tag now; resolve its commit SHA in a subsequent authenticated/low-rate request before asserting immutable evidence.", "Retain no-incremental-forecast-value limitation."],
+      "missingness": ["Commit SHA unresolved", "No pinned benchmark/accessibility audit", "No direct VOI"],
+      "proposed_record_changes": {"reviewed_revision": "v1.1.5.1 (tag only; SHA unresolved)", "evidence_immutable": false, "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "vowpal-wabbit",
+      "current_version": "9.11.2",
+      "immutable_revision": null,
+      "immutable_tag": "9.11.2",
+      "evidence_urls": ["https://github.com/VowpalWabbit/vowpal_wabbit/tree/9.11.2/vowpalwabbit", "https://github.com/VowpalWabbit/vowpal_wabbit/tree/9.11.2/test", "https://github.com/VowpalWabbit/vowpal_wabbit/tree/9.11.2/examples", "https://github.com/VowpalWabbit/vowpal_wabbit/blob/9.11.2/LICENSE"],
+      "verified": {"api_schema": "VW line format: optional label/weight/tag and namespace-prefixed sparse features; contextual-bandit labels/actions/cost/probability are reduction-specific.", "functions_classes_commands": ["vw CLI", "--cb_explore", "--cb_adf", "--cb_type", "--epsilon", "--bag", "--cover", "--dr", "Workspace"], "algorithms": ["online learning", "contextual bandits", "IPS", "direct method", "doubly robust", "active learning"], "features_subfeatures": ["reductions", "exploration", "off-policy evaluation", "C++/Python APIs", "model persistence"], "options_defaults": "CLI defaults must be extracted from 9.11.2 help/tests; the inventory is incomplete with empty options/defaults.", "diagnostics_errors": "CLI parse/option errors and prediction/loss metrics; no formal VOI report.", "outputs_reports": "Predictions, learned models and evaluation metrics, not decision-analytic VOI.", "examples_tests": "Tagged test and examples trees.", "integrations_dependencies": ["C++ core", "Python bindings", "optional distributed/platform integrations"], "performance": "Project documents online/bounded-memory operation, but no audit should state a numeric performance result without a pinned benchmark.", "license": "BSD-3-Clause", "maintenance": "9.11.2 tag; SHA unresolved due API rate limit."},
+      "corrections": ["Replace master-head with tag evidence and resolve SHA before calling it immutable.", "Replace the inventory's legal-review limitation with the recorded BSD-3-Clause license only if the rights record is independently reconciled; this audit does not authorize legal reuse decisions.", "Keep contextual-bandit/OPE distinct from VOI."],
+      "missingness": ["Commit SHA unresolved", "Pinned CLI default matrix not extracted", "No direct VOI"],
+      "proposed_record_changes": {"reviewed_revision": "9.11.2 (tag only; SHA unresolved)", "evidence_immutable": false, "license_candidate": "BSD-3-Clause", "voi_status": "no-direct-decision-analytic-voi"}
+    },
+    {
+      "id": "open-bandit-pipeline",
+      "current_version": "0.5.5",
+      "immutable_revision": null,
+      "immutable_tag": "v0.5.5",
+      "evidence_urls": ["https://github.com/st-tech/zr-obp/tree/v0.5.5/obp", "https://github.com/st-tech/zr-obp/tree/v0.5.5/tests", "https://github.com/st-tech/zr-obp/tree/v0.5.5/examples", "https://github.com/st-tech/zr-obp/blob/v0.5.5/LICENSE"],
+      "verified": {"api_schema": "BanditFeedback dictionary plus evaluation_policy_action_dist and estimated_rewards_by_reg_model inputs.", "functions_classes_commands": ["OpenBanditDataset", "SyntheticBanditDataset", "OffPolicyEvaluation", "InverseProbabilityWeighting", "DirectMethod", "DoublyRobust", "OffPolicyLearning"], "algorithms": ["IPS", "self-normalized IPS", "direct method", "doubly robust", "switch DR", "sub-Gaussian IPS", "offline policy learning"], "features_subfeatures": ["real Open Bandit Dataset loader", "synthetic data", "OPE confidence intervals", "policy learning"], "options_defaults": "Estimator/bootstrap defaults require extraction from v0.5.5 signatures; current empty fields are incomplete.", "diagnostics_errors": "OPE estimates, intervals and input validation; no decision-analytic VOI report.", "outputs_reports": "Policy-value estimates/intervals and OPE summary, not EVPI/EVSI.", "examples_tests": "Tagged tests and examples paths.", "integrations_dependencies": ["numpy", "pandas", "scikit-learn", "scipy"], "performance": "No audited benchmark.", "license": "Apache-2.0", "maintenance": "Limited: current pinned release is from 2022; SHA unresolved due API rate limit."},
+      "corrections": ["Replace master-head with v0.5.5 tag evidence; resolve SHA before immutable status.", "Keep OPE separate from VOI: policy-value estimation alone is not a value-of-information calculation."],
+      "missingness": ["Commit SHA unresolved", "Pinned defaults/benchmark not extracted", "No direct VOI"],
+      "proposed_record_changes": {"reviewed_revision": "v0.5.5 (tag only; SHA unresolved)", "evidence_immutable": false, "voi_status": "no-direct-decision-analytic-voi"}
+    }
+  ]
+}

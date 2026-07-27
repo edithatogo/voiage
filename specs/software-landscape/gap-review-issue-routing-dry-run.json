@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0.0",
+  "source_proposal": "gap-review-roadmap-proposal.json",
+  "dry_run": true,
+  "routes": [
+    {
+      "proposal_id": "bcea-bcea-cea",
+      "canonical_key": [
+        "cost-effectiveness-analysis",
+        "probabilistic-sensitivity-analysis",
+        "evppi"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "bceaweb-bceaweb-ui",
+      "canonical_key": [
+        "cost-effectiveness-analysis"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "ce-decision-tree-ce-decision-tree-cea",
+      "canonical_key": [
+        "decision-tree",
+        "cost-effectiveness-analysis"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "dampack-dampack-cea",
+      "canonical_key": [
+        "cost-effectiveness-analysis",
+        "evsi"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "dceasim-r-dceasim-r-dcea",
+      "canonical_key": [
+        "distributional-cea",
+        "inequality-index",
+        "social-welfare"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "decision-support-decision-support-evi",
+      "canonical_key": [
+        "expected-value-of-information"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "heemod-heemod-markov",
+      "canonical_key": [
+        "markov-model",
+        "probabilistic-sensitivity-analysis",
+        "evpi"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "hesim-hesim-models",
+      "canonical_key": [
+        "cohort-markov",
+        "partitioned-survival",
+        "individual-simulation"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "representative-commercial-documented-evpi",
+      "canonical_key": [
+        "evpi"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "savi-savi-voi-workflow",
+      "canonical_key": [
+        "evpi",
+        "evppi",
+        "ceac"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "treeage-pro-evpi",
+      "canonical_key": [
+        "evpi"
+      ],
+      "action": "skip-duplicate",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "treeage-pro-evppi",
+      "canonical_key": [
+        "evppi"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "treeage-pro-web-hosted-model-sharing",
+      "canonical_key": [
+        "hosted-model-sharing"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "twig-twig-grammar-modeling",
+      "canonical_key": [
+        "decision-tree",
+        "markov-model",
+        "probabilistic-analysis"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    },
+    {
+      "proposal_id": "voi-voi-information-measures",
+      "canonical_key": [
+        "evpi",
+        "evppi",
+        "evsi",
+        "enbs"
+      ],
+      "action": "review-existing-or-propose",
+      "writes_performed": false
+    }
+  ]
+}

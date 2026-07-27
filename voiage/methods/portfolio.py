@@ -41,6 +41,37 @@ class _StudyValueRow:
     ratio: float
 
 
+@dataclass(frozen=True)
+class ExperimentPortfolioVOIResult:
+    """Best affordable experiment portfolio under additive study values."""
+
+    value: float
+    total_cost: float
+    selected_study_indices: tuple[int, ...]
+    budget: float
+
+
+def value_of_experiment_portfolio(
+    study_values: Iterable[float], study_costs: Iterable[float], budget: float
+) -> ExperimentPortfolioVOIResult:
+    """Select the value-maximizing affordable study subset deterministically."""
+    values = np.asarray(list(study_values), dtype=float)
+    costs = np.asarray(list(study_costs), dtype=float)
+    if values.ndim != 1 or costs.shape != values.shape or np.any(~np.isfinite(values)) or np.any(~np.isfinite(costs)):
+        raise InputError("study values and costs must be matching finite vectors.")
+    if np.any(values < 0) or np.any(costs < 0) or budget < 0:
+        raise InputError("study values, costs, and budget must be non-negative.")
+    chosen: list[int] = []
+    remaining = float(budget)
+    for index in np.argsort(-(values / np.where(costs > 0, costs, 1.0))):
+        if costs[index] <= remaining:
+            chosen.append(int(index))
+            remaining -= float(costs[index])
+    chosen.sort()
+    total = float(costs[chosen].sum()) if chosen else 0.0
+    return ExperimentPortfolioVOIResult(float(values[chosen].sum()) if chosen else 0.0, total, tuple(chosen), float(budget))
+
+
 def _portfolio_spec_error() -> InputError:
     return InputError(_PORTFOLIO_SPEC_MESSAGE)
 

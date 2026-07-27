@@ -23,6 +23,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a deterministic Phase 3 external-software capability and adoption map
+  derived from the evidence-bounded inventory, preserving capability parity
+  states rather than asserting new runtime parity.
+- Added a residual method-gap programme with native GitHub subissues #593--#600
+  for implementation/information/perfection decomposition;
+  uncertainty-modelling and stochastic-solution value; risk-adjusted
+  information prices; event/tail-event information and information density;
+  belief-state sensing/intervention value; signed agent/social information
+  value; static/dynamic heterogeneity value; and outcome-conditional
+  sample-information value. MoSCoW, Mermaid, Conductor, Project 28 and
+  polyglot-evidence requirements are synchronized, without claiming runtime or
+  binding support.
+- Added a review-gated industry decision-value and adoption programme across
+  MoSCoW requirements, Mermaid architecture, Conductor tracks, native GitHub
+  subissues and Project 28. Planned work covers risk-sensitive/constrained,
+  policy/uplift, model, source-portfolio, experiment-portfolio and
+  forecast/signal VOI; a complete industry Decision Problem; churn and broader
+  business examples; domain templates; Decision Registry/Studio surfaces;
+  enterprise adapters; and decision-correctness assurance. This is planning,
+  not a runtime or binding-support claim.
+- Refined the external-library track into the next comprehensive open-source,
+  commercial, hosted and embedded VOI software landscape. Its schema records
+  methods, schemas, approaches, features, subfeatures, options, evidence,
+  assurance, UX, integrations and operating models, and requires maintainer
+  review of proposed improvements before any later roadmap adoption.
+- Named the accountable software-landscape review role as the analyst while
+  retaining a manual, non-automated approval boundary.
+- Added representative open and commercial comprehensive-inventory records
+  plus semantic validation for evidence references, observability, rights,
+  duplicate resolution, extraction coverage and freshness before expanding
+  the external-software census.
+- Expanded that inventory to 27 evidence-bounded external products and 11
+  dated discovery searches spanning direct VOI/HTA software, Bayesian OED,
+  active learning, causal policy, forecasting, stochastic optimization,
+  POMDPs, and public commercial or hosted comparators.
+- Added eight exact residual-family searches for issues #593--#600 and a
+  schema-validated software mapping that separates direct implementations,
+  adjacent capabilities, external candidates, and no-direct-product findings
+  without changing canonical methods or claiming runtime support.
+- Replaced rolling source-head references with verified immutable revisions for
+  13 audited external products, corrected BCEA to CRAN 2.4.83, and corrected
+  EconML's independent canonical-product relationship.
+- Preserved source-pinned HTA, ML, and operations inspection reports with their
+  explicit API, test, dependency, maintenance, rights, and missingness evidence.
+- Added a public-vendor-only commercial audit for TreeAge Pro/TPWeb,
+  PrecisionTree, and Oracle Crystal Ball; PrecisionTree is now identified as a
+  qualified v8.3 documentation pin rather than a claimed current release.
+- Added a durable reconciliation report for distinct interfaces, hosted
+  surfaces, deferred and excluded adjacent products, and external candidates.
+- Added a preservation manifest that prevents the expanded inventory from
+  silently displacing established fixture, rights, evidence, or disposition
+  records.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is
@@ -241,6 +293,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Restored the documentation, Rust-facade, and ecosystem-drift contracts so
+  the complete local quality matrix can validate the current Rust workspace and
+  Astro documentation authority.
 - Aligned the v1 programme status test with the registry's active
   research-readiness marker.
 - Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve

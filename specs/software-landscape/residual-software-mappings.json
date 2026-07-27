@@ -1,0 +1,216 @@
+{
+  "$schema": "./residual-software-mappings.schema.json",
+  "schema_version": "1.0.0",
+  "status": "planning-evidence-not-canonical",
+  "reviewed_on": "2026-07-27",
+  "source_register": "residual-method-candidates.json",
+  "canonical_registry_mutated": false,
+  "runtime_support_claimed": false,
+  "records": [
+    {
+      "issue": 593,
+      "record_id": "implementation-information-decomposition",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": null,
+      "capability_id": null,
+      "classification": "no-direct-implementation-found",
+      "evidence_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7488812/",
+        "https://github.com/search?q=%28%22expected+value+of+perfect+implementation%22+OR+EVPIM+OR+EVSIM+OR+EVEIm+OR+EVSEIm+OR+%22realizable+EVPI%22+OR+%22implementation-adjusted+EVSI%22+OR+%22expected+value+of+perfection%22%29&type=repositories"
+      ],
+      "assessment": "The literature defines the family, but no maintained public product implementation was verified. Papers alone are not software evidence."
+    },
+    {
+      "issue": 593,
+      "record_id": "implementation-information-decomposition",
+      "product_id": "voi",
+      "version_id": "voi-1-0-3",
+      "external_candidate_id": null,
+      "capability_id": "voi-information-measures",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://cran.r-project.org/package=voi",
+        "https://github.com/chjackson/voi"
+      ],
+      "assessment": "The package implements conventional EVPI and EVSI, not EVPIM, EVSIM, EVEIm, EVSEIm, realizable EVPI, IA-EVSI, or EVP."
+    },
+    {
+      "issue": 594,
+      "record_id": "uncertainty-modelling-value",
+      "product_id": "pyomo-mpi-sppy",
+      "version_id": "pyomo-mpi-sppy-0-14-0",
+      "external_candidate_id": null,
+      "capability_id": "stochastic-programming",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://github.com/Pyomo/pyomo",
+        "https://github.com/Pyomo/mpi-sppy"
+      ],
+      "assessment": "The stack supplies stochastic-programming and recourse primitives from which EEV, VSS, and wait-and-see comparisons can be constructed, but no turnkey residual-family report was verified."
+    },
+    {
+      "issue": 594,
+      "record_id": "uncertainty-modelling-value",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": "gams-emp",
+      "capability_id": "airsp3-stochastic-value-report",
+      "classification": "application",
+      "evidence_urls": [
+        "https://www.gams.com/latest/emplib_ml/libhtml/emplib_airsp3.html"
+      ],
+      "assessment": "The official executable example calculates an expected-value solution evaluation, wait-and-see, EVPI, and VSS. GAMS remains an external candidate pending full product, version, rights, and extraction review; EVIU, DVSS, and VMS were not verified."
+    },
+    {
+      "issue": 595,
+      "record_id": "risk-adjusted-information-pricing",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": null,
+      "capability_id": null,
+      "classification": "no-direct-implementation-found",
+      "evidence_urls": [
+        "https://doi.org/10.1287/deca.2024.0187",
+        "https://github.com/search?q=%28EUI+OR+CEI+OR+BPI+OR+SPI+OR+%22constructed-scale+price%22%29+%22information%22+%22decision+analysis%22&type=repositories"
+      ],
+      "assessment": "No inspected public product exposed information-specific EUI, CEI, BPI, SPI, or constructed-scale prices."
+    },
+    {
+      "issue": 595,
+      "record_id": "risk-adjusted-information-pricing",
+      "product_id": "precisiontree",
+      "version_id": "precisiontree-v8-3-documentation",
+      "external_candidate_id": null,
+      "capability_id": "probabilistic-decision-trees",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://lumivero.com/products/decision-tools/precisiontree/"
+      ],
+      "assessment": "Public material documents risk attitudes and probabilistic decision trees, not the requested information-pricing estimands."
+    },
+    {
+      "issue": 596,
+      "record_id": "event-localized-information-value",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": null,
+      "capability_id": null,
+      "classification": "no-direct-implementation-found",
+      "evidence_urls": [
+        "https://pubsonline.informs.org/doi/full/10.1287/deca.2022.0465",
+        "https://github.com/search?q=%28%22perfect+event+information%22+OR+%22imperfect+event+information%22+OR+%22tail-event+information%22+OR+%22information+density%22%29+%22decision+analysis%22&type=repositories"
+      ],
+      "assessment": "No direct maintained product was verified for perfect or imperfect event information, tail-event information, or information density."
+    },
+    {
+      "issue": 596,
+      "record_id": "event-localized-information-value",
+      "product_id": "voi",
+      "version_id": "voi-1-0-3",
+      "external_candidate_id": null,
+      "capability_id": "voi-information-measures",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://cran.r-project.org/package=voi"
+      ],
+      "assessment": "Conventional EVPI and EVSI do not establish event-localized or information-density output."
+    },
+    {
+      "issue": 597,
+      "record_id": "belief-state-sequential-information-value",
+      "product_id": "pomdps-jl",
+      "version_id": "pomdps-jl-1-0-0-docs",
+      "external_candidate_id": null,
+      "capability_id": "pomdp-model-and-simulation",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://github.com/JuliaPOMDP/POMDPs.jl",
+        "https://juliapomdp.github.io/POMDPs.jl/latest/"
+      ],
+      "assessment": "POMDPs.jl supplies belief-state model, solver, and simulation interfaces, but no named observation-VOI, sensing-value, adaptive-management, or dual-control estimator was verified."
+    },
+    {
+      "issue": 597,
+      "record_id": "belief-state-sequential-information-value",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": "sbo-aippms",
+      "capability_id": null,
+      "classification": "application",
+      "evidence_urls": [
+        "https://github.com/sisl/SBO_AIPPMS"
+      ],
+      "assessment": "This public belief-MDP application implements nonmyopic adaptive informative sensing, but remains outside the inventory pending version, rights, and extraction review and is not a general VOI estimator."
+    },
+    {
+      "issue": 598,
+      "record_id": "signed-social-information-value",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": null,
+      "capability_id": null,
+      "classification": "no-direct-implementation-found",
+      "evidence_urls": [
+        "https://arxiv.org/abs/2106.04984",
+        "https://pubsonline.informs.org/doi/10.1287/mnsc.2023.00320"
+      ],
+      "assessment": "No reviewed product implemented negative or harmful information, information avoidance or overvaluation, private-versus-social value, or team information sharing as a named VOI capability."
+    },
+    {
+      "issue": 599,
+      "record_id": "heterogeneity-value-decomposition",
+      "product_id": "heemod",
+      "version_id": "heemod-1-1-0",
+      "external_candidate_id": null,
+      "capability_id": "heemod-markov",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://pierucci.org/heemod/",
+        "https://github.com/pierucci/heemod"
+      ],
+      "assessment": "Heterogeneity and demographic modelling are relevant inputs, but the static and dynamic value-of-heterogeneity decompositions were not verified."
+    },
+    {
+      "issue": 599,
+      "record_id": "heterogeneity-value-decomposition",
+      "product_id": "voi",
+      "version_id": "voi-1-0-3",
+      "external_candidate_id": null,
+      "capability_id": "voi-information-measures",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://cran.r-project.org/package=voi"
+      ],
+      "assessment": "General EVPI, EVPPI, and EVSI are components for bespoke analysis, not documented static or dynamic value-of-heterogeneity estimators."
+    },
+    {
+      "issue": 600,
+      "record_id": "outcome-conditional-sample-information-value",
+      "product_id": null,
+      "version_id": null,
+      "external_candidate_id": null,
+      "capability_id": null,
+      "classification": "no-direct-implementation-found",
+      "evidence_urls": [
+        "https://arxiv.org/abs/2309.09452",
+        "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html"
+      ],
+      "assessment": "No product-level implementation of delta-EV_x, VSI_x, sigma-VSI, or rVSI_delta was verified."
+    },
+    {
+      "issue": 600,
+      "record_id": "outcome-conditional-sample-information-value",
+      "product_id": "voi",
+      "version_id": "voi-1-0-3",
+      "external_candidate_id": null,
+      "capability_id": "voi-information-measures",
+      "classification": "adjacent",
+      "evidence_urls": [
+        "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html",
+        "https://github.com/chjackson/voi"
+      ],
+      "assessment": "The package implements conventional EVSI estimators, not the outcome-conditional family."
+    }
+  ]
+}

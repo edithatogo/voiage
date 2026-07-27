@@ -8,6 +8,25 @@
 - [ ] Define reproducibility, artifact identity, and registry dry-run policy.
 - [ ] Define numerical error, memory, latency, energy, estimator-assurance, and
   deterministic-parallelism budgets by release tier.
+- [ ] Freeze `decision-registry-cards` under
+  [#580](https://github.com/edithatogo/voiage/issues/580): versioned decision,
+  ownership, alternatives, utility/risk/constraints, uncertainty/information,
+  sources, perspectives, costs/time/implementation, assumptions/provenance/
+  rights, method/capability, result/assurance, limitations, review, audit and
+  deployment/monitoring fields.
+- [ ] Freeze `local-decision-studio-reporting` under
+  [#581](https://github.com/edithatogo/voiage/issues/581): local-first guided
+  modelling, validation, scenario/sensitivity, break-even/policy-switch,
+  portfolio, stakeholder/constraint, report/export, accessibility, redaction
+  and audit behavior over the public API.
+- [ ] Freeze `enterprise-integration-adapters` under
+  [#583](https://github.com/edithatogo/voiage/issues/583): adapter classes,
+  canonical mappings, idempotency, lineage, auth, tenancy, privacy/rights,
+  retry/pagination/rate-limit/offline and capability negotiation.
+- [ ] Freeze `decision-correctness-industry-assurance` under
+  [#584](https://github.com/edithatogo/voiage/issues/584): counterfactual,
+  policy-recovery, regret, invariance, constraint, causal, calibration,
+  optimization, estimator, shift, provenance, snapshot and human-review gates.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -73,6 +92,17 @@
 - [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
   deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
   ecosystem-drift proposals.
+- [ ] Implement #580 as a schema-validated registry with deterministic cards,
+  immutable revisions, explicit draft/review/approved/deployed/retired states,
+  redaction and portable export.
+- [ ] Implement #581 as an optional local application that composes public
+  contracts and estimators, never duplicates numerical engines, and produces
+  accessible machine-readable and human-readable decision reports.
+- [ ] Implement #583 as separately packaged thin adapters with contract tests,
+  recorded lineage and failure behavior, and no default network dependency.
+- [ ] Implement #584 as a generated assurance matrix binding every industry
+  method, template, example, binding, adapter and report claim to executable
+  evidence or an explicit gate.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -102,6 +132,9 @@
 ## Phase 3: Staged release evidence
 
 - [ ] Run local and hosted required gates for v1.1, v1.2, and v1.3 candidates.
+- [ ] Run clean registry/studio/adapters/assurance matrices for #580, #581,
+  #583 and #584, including accessibility and named human-review evidence where
+  required.
 - [ ] Require zero unresolved critical/high dependency or secret findings;
   require each moderate finding to be fixed or carry a time-bounded,
   maintainer-confirmed risk record with compensating controls and review date.

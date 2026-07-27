@@ -90,7 +90,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     )
     assert 'gh release create "$RELEASE_TAG" dist/*' in release_workflow
     assert "--verify-tag" in release_workflow
-    assert "--target \"$TAG_SHA\"" in release_workflow
+    assert '--target "$TAG_SHA"' in release_workflow
     assert "permissions: {}" in release_workflow
     assert "release:\n    types: [published]" in conda_workflow
     assert "workflow_dispatch:" in conda_workflow

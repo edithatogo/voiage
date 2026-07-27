@@ -1,0 +1,226 @@
+{
+  "$schema": "./residual-method-candidates.schema.json",
+  "schema_version": "1.0.0",
+  "status": "planning-candidates-not-canonical",
+  "reviewed_on": "2026-07-27",
+  "track_id": "supported_frontier_method_completion_20260723",
+  "parent_issue": 318,
+  "candidates": [
+    {
+      "issue": 593,
+      "record_id": "implementation-information-decomposition",
+      "moscow": "Must",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "expected value of perfect implementation (EVPIM)",
+        "expected value of specific implementation (EVSIM)",
+        "expected value of expanded implementation (EVEIm; proposed terminology candidate)",
+        "expected value of sample expanded implementation (EVSEIm; proposed terminology candidate)",
+        "realizable EVPI",
+        "implementation-adjusted EVSI (IA-EVSI)",
+        "expected value of perfection (EVP)"
+      ],
+      "existing_mappings": ["implementation-voi", "evpi", "evsi"],
+      "source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7488812/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC9189720/",
+        "https://www.ispor.org/heor-resources/presentations-database/presentation/euro2024-4016/144524"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 594,
+      "record_id": "uncertainty-modelling-value",
+      "moscow": "Must",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "EVIU",
+        "EEV",
+        "VSS",
+        "wait-and-see",
+        "DVSS",
+        "VMS"
+      ],
+      "existing_mappings": ["evpi", "expected-loss"],
+      "source_urls": [
+        "https://www.nationalacademies.org/read/12568/chapter/7",
+        "https://deepblue.lib.umich.edu/bitstream/handle/2027.42/47912/10107_2005_Article_BF01585113.pdf"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 595,
+      "record_id": "risk-adjusted-information-pricing",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": ["EUI", "CEI", "BPI", "SPI", "constructed-scale price"],
+      "existing_mappings": [
+        "buying-price-voi",
+        "constructed-scale-voi",
+        "preference-voi"
+      ],
+      "source_urls": [
+        "https://pubsonline.informs.org/doi/full/10.1287/deca.2024.0187",
+        "https://pubsonline.informs.org/doi/full/10.1287/deca.2022.0465"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 596,
+      "record_id": "event-localized-information-value",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "perfect event information",
+        "imperfect event information",
+        "tail-event information",
+        "information density"
+      ],
+      "existing_mappings": [
+        "evpi",
+        "evsi",
+        "deterministic-sensitivity-analysis"
+      ],
+      "source_urls": [
+        "https://pubsonline.informs.org/doi/full/10.1287/deca.2024.0172",
+        "https://pubsonline.informs.org/doi/full/10.1287/deca.2022.0465"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 597,
+      "record_id": "belief-state-sequential-information-value",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "POMDP observation VOI",
+        "myopic sensing value",
+        "nonmyopic sensing value",
+        "active adaptive management",
+        "dual control"
+      ],
+      "existing_mappings": [
+        "sequential-voi",
+        "real-options-voi",
+        "monitoring-voi",
+        "knowledge-gradient",
+        "agent-information-voi"
+      ],
+      "source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC4204804/",
+        "https://arxiv.org/abs/2604.01434"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 598,
+      "record_id": "signed-social-information-value",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "negative or harmful information",
+        "information avoidance",
+        "information overvaluation",
+        "private versus social value",
+        "team information sharing"
+      ],
+      "existing_mappings": [
+        "strategic-information-sharing",
+        "agent-information-voi",
+        "privacy/federated VOI"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2106.04984",
+        "https://pubsonline.informs.org/doi/10.1287/mnsc.2023.00320"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 599,
+      "record_id": "heterogeneity-value-decomposition",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": [
+        "static value of heterogeneity",
+        "dynamic value of heterogeneity"
+      ],
+      "existing_mappings": [
+        "heterogeneity-voi",
+        "preference-voi",
+        "equity-voi",
+        "policy-uplift-voi"
+      ],
+      "source_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/24944196/"
+      ],
+      "runtime_support_claim": false
+    },
+    {
+      "issue": 600,
+      "record_id": "outcome-conditional-sample-information-value",
+      "moscow": "Should",
+      "classification": "pending-additive-scientific-review",
+      "submethods": ["delta-EV_x", "VSI_x", "sigma-VSI", "rVSI_delta"],
+      "existing_mappings": ["evsi", "risk-sensitive-constrained-voi"],
+      "source_urls": ["https://arxiv.org/abs/2309.09452"],
+      "runtime_support_claim": false
+    }
+  ],
+  "reviewed_non_gaps": [
+    {
+      "term": "EVPaI",
+      "disposition": "alias",
+      "mapped_to": ["evppi"]
+    },
+    {
+      "term": "expected value of individualized care",
+      "disposition": "covered-workstream",
+      "mapped_to": ["heterogeneity-voi", "preference-voi"]
+    },
+    {
+      "term": "value of signals and clairvoyance",
+      "disposition": "alias",
+      "mapped_to": ["evsi", "evpi"]
+    },
+    {
+      "term": "validation-study EVSI",
+      "disposition": "application",
+      "mapped_to": ["validation-voi", "evsi"]
+    },
+    {
+      "term": "importance sampling, moment matching, and regression EVSI",
+      "disposition": "estimator",
+      "mapped_to": ["evsi"]
+    },
+    {
+      "term": "Blackwell informativeness and value of control",
+      "disposition": "adjacent-method",
+      "mapped_to": ["adjacent-method-dispositions.json"]
+    },
+    {
+      "term": "value of forecast freshness and information timeliness",
+      "disposition": "covered-workstream",
+      "mapped_to": ["forecast-signal-information-voi", "#572"]
+    },
+    {
+      "term": "Shapley attribution of dependent information sources",
+      "disposition": "covered-workstream",
+      "mapped_to": ["information-source-portfolio-voi", "#582"]
+    },
+    {
+      "term": "Bayesian OED, EIG, active learning, and knowledge gradient",
+      "disposition": "covered-workstream",
+      "mapped_to": ["ml_llm_agent_voi_20260723", "#319"]
+    },
+    {
+      "term": "policy uplift and decision-focused model value",
+      "disposition": "covered-workstream",
+      "mapped_to": ["#576", "#578"]
+    }
+  ],
+  "search_limitations": [
+    "No literature or software census can prove universal completeness.",
+    "Terminology varies across decision analysis, health economics, operations research, control, machine learning, environmental science, and information economics.",
+    "The comprehensive software-landscape track may identify further candidates; its findings require separate scientific review before roadmap adoption."
+  ]
+}

@@ -28,6 +28,36 @@ class DynamicRealOptionsResult:
     reporting: dict[str, object] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class ValueOfFlexibilityResult:
+    """Value gained by selecting a policy after the scenario is known."""
+
+    value: float
+    constrained_value: float
+    flexible_value: float
+    constrained_strategy_index: int
+    scenario_optimal_strategy_indices: np.ndarray
+
+
+def value_of_flexibility(scenario_net_benefits: np.ndarray) -> ValueOfFlexibilityResult:
+    """Calculate value of flexible policy selection from scenario benefits."""
+    values = np.asarray(scenario_net_benefits, dtype=DEFAULT_DTYPE)
+    if values.ndim != 2 or min(values.shape) < 1 or not np.all(np.isfinite(values)):
+        raise_input_error("scenario_net_benefits must be a finite 2D array.")
+    means = values.mean(axis=0)
+    constrained_index = int(np.argmax(means))
+    constrained = float(means[constrained_index])
+    scenario_indices = np.argmax(values, axis=1)
+    flexible = float(np.mean(np.max(values, axis=1)))
+    return ValueOfFlexibilityResult(
+        value=max(0.0, flexible - constrained),
+        constrained_value=constrained,
+        flexible_value=flexible,
+        constrained_strategy_index=constrained_index,
+        scenario_optimal_strategy_indices=scenario_indices,
+    )
+
+
 def _pareto_strategies(values: np.ndarray, names: Sequence[str]) -> list[str]:
     """Return strategies not weakly dominated across decision stages."""
     keep: list[str] = []

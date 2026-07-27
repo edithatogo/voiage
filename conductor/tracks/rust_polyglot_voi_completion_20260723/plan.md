@@ -26,6 +26,15 @@
 - [x] Incorporate post-census recommendations across MoSCoW requirements,
   architecture, roadmap, child specifications/plans, evidence, and public
   issues without duplicating track ownership. (`154cd044`)
+- [x] Incorporate the industry decision-value, adoption and next comprehensive
+  software-landscape programme across MoSCoW requirements, Mermaid design,
+  existing Conductor tracks, native GitHub subissues, Project 28 metadata and
+  useful views. The landscape improvement packet remains a human-review gate
+  before any later roadmap adoption. (`994cc820`)
+- [x] Incorporate the residual method census across MoSCoW requirements,
+  Mermaid design, roadmap, method-census/supported-frontier/binding tracks,
+  native GitHub #318 subissues #593--#600, Project 28 metadata, validators, and
+  tests without claiming runtime or binding support. (`79400ed0`)
 - [ ] Complete the method and external-library censuses.
 - [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
 - [ ] Freeze the canonical Decision Problem interchange representation and
