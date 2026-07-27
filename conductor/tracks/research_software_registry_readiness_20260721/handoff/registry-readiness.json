@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-27T02:18:11Z",
-  "next_action": "Monitor Yggdrasil PR 14292 and answer BinaryBuilder bot or maintainer feedback. After voiage_ffi_jll is registered, add its generated UUID and compat bound to bindings/julia, replace the local-library default with the JLL product, run clean-depot platform tests, merge the repository PR, and trigger @JuliaRegistrator register subdir=bindings/julia. Monitor conda-forge PR 34308 for external review and merge. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry and SciCrunch/RRID remain separate paths.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-27T04:32:23Z",
+  "next_action": "Use the validated SciCrunch packet to run the portal duplicate check, complete the authenticated accuracy and terms declarations, submit, and preserve confirmation evidence; then answer curator questions and record the assigned RRID without anticipating it. Monitor Yggdrasil PR 14292 and conda-forge PR 34308. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
+  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, and SciCrunch answer-and-evidence packet are complete. The SciCrunch portal's duplicate check, account-bound declarations, final submission, curator decision, and RRID assignment remain human or external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -43,6 +43,34 @@
     "snapshot_url": "https://archive.softwareheritage.org/api/1/snapshot/31f89375852737bb9eb62ebc03fadfbc7ff70c2d/",
     "verification_at": "2026-07-26T11:50:00Z",
     "verification": "Software Heritage reports a full v2 visit and snapshot containing the signed v2.0.0 release."
+  },
+  "scicrunch_rrid_evidence": {
+    "status": "ready_for_account_submission",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/298",
+    "official_form": "https://scicrunch.org/create/resource",
+    "official_guidance": "https://scicrunch.org/scicrunch/about/Curation%20Guidelines",
+    "answer_packet": "docs/release/scicrunch-rrid-registration.json",
+    "human_handoff": "docs/release/scicrunch-rrid-registration.md",
+    "validator": "scripts/validate_scicrunch_rrid.py",
+    "required_answers": [
+      "resource_name",
+      "url",
+      "description"
+    ],
+    "submission_performed": false,
+    "curation_status": "not_started",
+    "rrid": null,
+    "remaining_account_gates": [
+      "run the portal's authoritative duplicate check",
+      "confirm the rendered information is accurate",
+      "accept the current account terms",
+      "perform final submission and retain confirmation evidence"
+    ],
+    "remaining_external_gates": [
+      "SciCrunch curator review or questions",
+      "curator approval and RRID assignment",
+      "public resolver indexing"
+    ]
   },
   "julia_registry_evidence": {
     "status": "jll_recipe_submitted",
@@ -151,8 +179,15 @@
       "command": "review RRID software registration guidance",
       "runner": "official RRID documentation audit",
       "status": "passed",
-      "artifact": "SciCrunch General Resource registration identified",
-      "details": "Software tools not found in the RRID portal are registered through the NIF SciCrunch Registry; assignment and curation remain external."
+      "artifact": "docs/release/scicrunch-rrid-registration.json and docs/release/scicrunch-rrid-registration.md",
+      "details": "Official guidance confirms software tools use the SciCrunch Registry and requires name, URL, and description. The validated packet adds optional metadata and release/archive evidence while preserving account-declaration, submission, curation, and RRID-assignment boundaries."
+    },
+    {
+      "command": "python scripts/validate_scicrunch_rrid.py && pytest tests/test_scicrunch_rrid_readiness.py --no-cov -q",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "validated SciCrunch/RRID registration packet and state-boundary tests",
+      "details": "The validator binds answers to v2.0.0 and its Software Heritage snapshot, rejects missing required answers and invented identifiers, and confirms that registration, curation, and RRID assignment have not yet been claimed."
     },
     {
       "command": "review JOSS paper and submission requirements",

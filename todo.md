@@ -71,6 +71,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         Julia publication is tracked in #555. The Rust C ABI BinaryBuilder
         recipe is submitted in Yggdrasil PR #14292; JLL acceptance must precede
         the `bindings/julia` Registrator trigger and General merge.
+        SciCrunch registration now has a validated, release-bound answer and
+        evidence packet. The portal duplicate check, account-bound declarations,
+        submission, curation, and RRID assignment remain human or external.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table.
         Replacement `7870358` is an incomplete start-stage draft expiring

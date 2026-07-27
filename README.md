@@ -256,7 +256,9 @@ boundaries include:
 - broader native R and Julia API parity;
 - experimental frontier-method validation and promotion;
 - external registry review or indexing where not yet evidenced;
-- SciCrunch/RRID curation and later arXiv/JOSS author-led submissions;
+- SciCrunch registration is prepared and validated; its account declarations,
+  submission, curation, and RRID assignment remain external, alongside later
+  arXiv/JOSS author-led submissions;
 - physical FPGA or fabricated-silicon evidence.
 
 See [`roadmap.md`](roadmap.md), [`todo.md`](todo.md), and the

@@ -11,7 +11,10 @@
   Heritage snapshot verified as
   `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
 - [~] [Issue #298](https://github.com/edithatogo/voiage/issues/298) — SciCrunch
-  registration prepared; RRID assignment and curation remain external.
+  registration has a validated answer-and-evidence packet at
+  `docs/release/scicrunch-rrid-registration.json`. The authenticated accuracy
+  and terms declarations, final submission, curation, and RRID assignment
+  remain human or external.
 - [~] [Issue #299](https://github.com/edithatogo/voiage/issues/299) — JOSS
   adaptation prepared; authenticated submission, editorial review, acceptance,
   and DOI assignment remain human or external gates.
@@ -131,7 +134,11 @@
 - Software Heritage archival: complete with request `2399846`, a full visit,
   and snapshot
   `swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`.
-- RRID route: SciCrunch General Resource registration; assignment and curation external.
+- RRID route: the SciCrunch General Resource registration answers, optional
+  metadata, release/archive evidence, declaration checklist, and fail-closed
+  validator are complete. The portal's authoritative duplicate check,
+  account-bound accuracy and terms declarations, final submission, curation,
+  and assignment remain human or external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
   demonstrated research use, human engagement, author-confirmed AI attestation,

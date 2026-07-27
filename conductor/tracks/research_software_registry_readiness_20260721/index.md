@@ -4,8 +4,9 @@ Status: in progress; signed public v2.0.0 release evidence, Software Heritage
 archival, crates.io publication, and the release-bound JOSS PDF are recorded.
 The prior arXiv submission is absent and replacement submission `7870358`
 remains incomplete. Demonstrated research use, human engagement,
-author-confirmed AI attestation, arXiv announcement, RRID, JOSS, and external
-registry outcomes remain explicitly tracked.
+author-confirmed AI attestation, arXiv announcement, SciCrunch account
+declarations and submission, RRID assignment, JOSS, and external registry
+outcomes remain explicitly tracked.
 
 Parent issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 
@@ -17,6 +18,7 @@ Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Registry readiness handoff](./handoff/registry-readiness.json)
+- [SciCrunch/RRID registration handoff](../../../docs/release/scicrunch-rrid-registration.md)
 
 ## GitHub traceability
 
