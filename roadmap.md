@@ -139,6 +139,11 @@ model-structure probabilities and row-major structure/sample/strategy net
 benefit. The fixed-width result carries dimensions and sample-average
 assurance; selected structural EVPPI indices remain caller-owned.
 
+C ABI v1.8 exposes only the scientifically frozen full-sample linear-regression
+EVPPI estimator. Its fixed-width result carries aligned sample, strategy, and
+parameter counts and explicitly reports incomplete assurance rather than
+inventing bias, variance, or convergence evidence from one deterministic fit.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

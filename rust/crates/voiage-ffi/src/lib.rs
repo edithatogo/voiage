@@ -25,6 +25,10 @@ mod generated_capabilities;
 // capacities, contains panics, and writes only after successful computation.
 #[allow(unsafe_code)]
 mod expected_loss_result;
+// SAFETY: EVPPI transport validates both caller-owned matrices and the result,
+// contains panics, and writes only after successful regression.
+#[allow(unsafe_code)]
+mod evppi_regression_result;
 // SAFETY: lifecycle validates its sole caller-owned output pointer before the
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
@@ -44,6 +48,10 @@ pub use capability_document::voiage_v1_capabilities_json;
 pub use ceaf_result::{voiage_v1_ceaf_result, VoiageCeafResultV1};
 pub use dominance_result::{voiage_v1_dominance_result, VoiageDominanceResultV1};
 pub use error_transport::voiage_v1_error_message;
+pub use evppi_regression_result::{
+    voiage_v1_evppi_regression_result, VoiageEvppiRegressionResultV1,
+    VOIAGE_EVPPI_ASSURANCE_INCOMPLETE,
+};
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use status::VoiageStatusV1;
@@ -59,7 +67,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 7;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 8;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -90,6 +98,9 @@ pub const VOIAGE_ABI_CEAF_RESULT: u64 = 1 << 8;
 
 /// Capability bit for structural and model-form VOI results.
 pub const VOIAGE_ABI_STRUCTURAL_VOI_RESULT: u64 = 1 << 9;
+
+/// Capability bit for the stable full-sample linear-regression EVPPI result.
+pub const VOIAGE_ABI_EVPPI_REGRESSION_RESULT: u64 = 1 << 10;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -174,7 +185,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_ENBS
             | VOIAGE_ABI_DOMINANCE_RESULT
             | VOIAGE_ABI_CEAF_RESULT
-            | VOIAGE_ABI_STRUCTURAL_VOI_RESULT,
+            | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
+            | VOIAGE_ABI_EVPPI_REGRESSION_RESULT,
     }
 }
 

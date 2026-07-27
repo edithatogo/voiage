@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `7`
+- ABI major: `1`; ABI minor: `8`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -17,6 +17,8 @@ the release allowlists.
   Deterministic dominance, frontier, and ICER results are also available.
   CEAF exposes threshold-aligned acceptability and assurance outputs.
   Structural EVPI and EVPPI expose model-form uncertainty and assurance.
+  Stable parameter EVPPI is explicitly limited to the full-sample linear
+  regression estimator.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -31,6 +33,7 @@ voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_dominance_result
 voiage_v1_evpi_result
+voiage_v1_evppi_regression_result
 voiage_v1_expected_loss_result
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
@@ -79,6 +82,14 @@ Structural EVPPI additionally consumes caller-owned selected-structure
 indices. Both return dimensions, the structural value, assurance availability,
 informed-value variance, and Monte Carlo error without writing on failure.
 
+`voiage_v1_evppi_regression_result` consumes aligned row-major
+`[sample][strategy]` net benefit and `[sample][parameter]` predictor matrices
+with independent row counts so dimension mismatches remain diagnosable.
+It reports the stable full-sample linear EVPPI estimate and fit dimensions.
+Its assurance state is explicitly `INCOMPLETE`: one deterministic regression
+fit does not establish estimator bias, sampling variance, or replicate
+convergence.
+
 ## Status and error transport
 
 Status values are fixed-width: `OK`, `INVALID_ARGUMENT`, `DIMENSION_MISMATCH`,
@@ -100,6 +111,7 @@ message is written when the buffer is too small.
 | `VoiageDominanceResultV1` | 48 | 8 | strategy, frontier, dominance, and transition counts |
 | `VoiageCeafResultV1` | 32 | 8 | sample, strategy, and threshold counts |
 | `VoiageStructuralVoiResultV1` | 64 | 8 | value, dimensions, assurance availability, variance, and Monte Carlo error |
+| `VoiageEvppiRegressionResultV1` | 48 | 8 | value, fit dimensions, and explicit incomplete-assurance state |
 | `VoiageHandleV1` | 8 | 8 | opaque token |
 | `voiage_v1_status` | 4 | 4 | fixed-width status |
 

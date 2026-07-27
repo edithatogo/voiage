@@ -115,6 +115,17 @@ int main(void) {
         structural_result.value != 1.5) {
         return 15;
     }
+    const double evppi_net_benefit[] = {5.0, 1.0, 4.0, 2.0,
+                                        1.0, 5.0, 2.0, 4.0};
+    const double evppi_parameters[] = {0.0, 0.0, 0.0, 1.0,
+                                       1.0, 0.0, 1.0, 1.0};
+    VoiageEvppiRegressionResultV1 evppi_result = {0};
+    if (voiage_v1_evppi_regression_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2,
+            &evppi_result) != VOIAGE_V1_STATUS_OK ||
+        evppi_result.assurance_state != VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE) {
+        return 16;
+    }
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;

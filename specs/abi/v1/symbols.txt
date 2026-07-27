@@ -7,6 +7,7 @@ voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_dominance_result
 voiage_v1_evpi_result
+voiage_v1_evppi_regression_result
 voiage_v1_expected_loss_result
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r

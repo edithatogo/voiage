@@ -21,6 +21,8 @@ static_assert(sizeof(VoiageDominanceResultV1) == 48,
 static_assert(sizeof(VoiageCeafResultV1) == 32, "CEAF result layout drift");
 static_assert(sizeof(VoiageStructuralVoiResultV1) == 64,
               "structural VOI result layout drift");
+static_assert(sizeof(VoiageEvppiRegressionResultV1) == 48,
+              "EVPPI regression result layout drift");
 
 static int exercise_contract() {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -108,6 +110,18 @@ static int exercise_contract() {
             &structural_result) != VOIAGE_V1_STATUS_OK ||
         structural_result.value != 1.5) {
         return 12;
+    }
+    const double evppi_net_benefit[] = {5.0, 1.0, 4.0, 2.0,
+                                        1.0, 5.0, 2.0, 4.0};
+    const double evppi_parameters[] = {0.0, 0.0, 0.0, 1.0,
+                                       1.0, 0.0, 1.0, 1.0};
+    VoiageEvppiRegressionResultV1 evppi_result{};
+    if (voiage_v1_evppi_regression_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2,
+            &evppi_result) != VOIAGE_V1_STATUS_OK ||
+        evppi_result.struct_size != sizeof(evppi_result) ||
+        evppi_result.assurance_state != VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE) {
+        return 13;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     std::uint64_t required_size = 0;

@@ -7,11 +7,13 @@ use std::mem::{align_of, offset_of, size_of};
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageCeafResultV1,
-    VoiageDominanceResultV1, VoiageEvpiResultV1, VoiageExpectedLossResultV1, VoiageStatusV1,
-    VoiageStructuralVoiResultV1, VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY,
-    VOIAGE_ABI_CEAF_RESULT, VOIAGE_ABI_DOMINANCE_RESULT, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
-    VOIAGE_ABI_EXPECTED_LOSS_RESULT, VOIAGE_ABI_STRUCTURAL_VOI_RESULT,
-    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
+    VoiageDominanceResultV1, VoiageEvpiResultV1, VoiageEvppiRegressionResultV1,
+    VoiageExpectedLossResultV1, VoiageStatusV1, VoiageStructuralVoiResultV1,
+    VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_CEAF_RESULT,
+    VOIAGE_ABI_DOMINANCE_RESULT, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
+    VOIAGE_ABI_EVPPI_REGRESSION_RESULT, VOIAGE_ABI_EXPECTED_LOSS_RESULT,
+    VOIAGE_ABI_STRUCTURAL_VOI_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
+    VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -46,8 +48,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | VOIAGE_ABI_DOMINANCE_RESULT
             | VOIAGE_ABI_CEAF_RESULT
             | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
+            | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
     );
-    assert_eq!(capabilities.capability_bits & !0b11_1111_1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b111_1111_1111, 0);
 }
 
 #[test]
@@ -190,6 +193,15 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
             "VoiageStructuralVoiResultV1.reserved {}\n",
             "VoiageStructuralVoiResultV1.informed_value_variance {}\n",
             "VoiageStructuralVoiResultV1.monte_carlo_standard_error {}\n",
+            "VoiageEvppiRegressionResultV1 {} {}\n",
+            "VoiageEvppiRegressionResultV1.struct_size {}\n",
+            "VoiageEvppiRegressionResultV1.struct_version {}\n",
+            "VoiageEvppiRegressionResultV1.value {}\n",
+            "VoiageEvppiRegressionResultV1.sample_count {}\n",
+            "VoiageEvppiRegressionResultV1.strategy_count {}\n",
+            "VoiageEvppiRegressionResultV1.parameter_count {}\n",
+            "VoiageEvppiRegressionResultV1.assurance_state {}\n",
+            "VoiageEvppiRegressionResultV1.reserved {}\n",
             "VoiageHandleV1 {} {}\n",
             "voiage_v1_status {} {}",
         ),
@@ -257,6 +269,16 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
         offset_of!(VoiageStructuralVoiResultV1, reserved),
         offset_of!(VoiageStructuralVoiResultV1, informed_value_variance),
         offset_of!(VoiageStructuralVoiResultV1, monte_carlo_standard_error),
+        size_of::<VoiageEvppiRegressionResultV1>(),
+        align_of::<VoiageEvppiRegressionResultV1>(),
+        offset_of!(VoiageEvppiRegressionResultV1, struct_size),
+        offset_of!(VoiageEvppiRegressionResultV1, struct_version),
+        offset_of!(VoiageEvppiRegressionResultV1, value),
+        offset_of!(VoiageEvppiRegressionResultV1, sample_count),
+        offset_of!(VoiageEvppiRegressionResultV1, strategy_count),
+        offset_of!(VoiageEvppiRegressionResultV1, parameter_count),
+        offset_of!(VoiageEvppiRegressionResultV1, assurance_state),
+        offset_of!(VoiageEvppiRegressionResultV1, reserved),
         size_of::<u64>(),
         align_of::<u64>(),
         size_of::<VoiageStatusV1>(),

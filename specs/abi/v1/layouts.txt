@@ -54,5 +54,14 @@ VoiageStructuralVoiResultV1.has_assurance 40
 VoiageStructuralVoiResultV1.reserved 44
 VoiageStructuralVoiResultV1.informed_value_variance 48
 VoiageStructuralVoiResultV1.monte_carlo_standard_error 56
+VoiageEvppiRegressionResultV1 48 8
+VoiageEvppiRegressionResultV1.struct_size 0
+VoiageEvppiRegressionResultV1.struct_version 4
+VoiageEvppiRegressionResultV1.value 8
+VoiageEvppiRegressionResultV1.sample_count 16
+VoiageEvppiRegressionResultV1.strategy_count 24
+VoiageEvppiRegressionResultV1.parameter_count 32
+VoiageEvppiRegressionResultV1.assurance_state 40
+VoiageEvppiRegressionResultV1.reserved 44
 VoiageHandleV1 8 8
 voiage_v1_status 4 4
