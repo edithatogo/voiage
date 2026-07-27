@@ -1,0 +1,372 @@
+{
+  "schema_version": "1.0",
+  "reviewed_at": "2026-07-27",
+  "policy": {
+    "states_are_distinct": ["prepared", "submitted", "under_review", "accepted", "published", "indexed"],
+    "no_external_action_from_contract": true,
+    "refresh_before_action": true,
+    "concurrency_rule": "Do not place the same package or an associated manuscript under simultaneous review where either venue prohibits or discourages it."
+  },
+  "criteria_refresh": {
+    "reviewed_at": "2026-07-27",
+    "evidence": "specs/submission-readiness/criteria-refresh-2026-07-27.md",
+    "target_ids": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"]
+  },
+  "execution_lanes": [
+    {
+      "id": "contract-maintenance",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/614",
+      "targets": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"],
+      "repository_outcome": "Keep criteria, evidence paths, authority boundaries, and evidence refreshes valid for every target."
+    },
+    {
+      "id": "paper-and-author-boundaries",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/299",
+      "targets": ["arxiv", "joss", "scicrunch-rrid"],
+      "repository_outcome": "Maintain the locally validated manuscript and metadata package while leaving author attestations, upload, curation, and editorial decisions external."
+    },
+    {
+      "id": "python-community-review",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/616",
+      "targets": ["pyopensci"],
+      "repository_outcome": "Maintain a current criteria-to-evidence matrix and complete all repository-controlled Python-package expectations before an author decides whether to inquire."
+    },
+    {
+      "id": "r-community-and-journal-readiness",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/615",
+      "targets": ["ropensci", "r-journal"],
+      "repository_outcome": "Deliver self-contained R installation, bounded API, statistical-software evidence, and an R-centred contribution assessment."
+    },
+    {
+      "id": "distinct-publication-and-sustainability-assessment",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/617",
+      "targets": ["journal-of-statistical-software", "numfocus", "zenodo"],
+      "repository_outcome": "Record a non-duplication and eligibility decision before creating any venue-specific manuscript, application, or deposition package."
+    },
+    {
+      "id": "hpc-distribution-readiness",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/622",
+      "targets": ["spack", "easybuild", "hpsf", "e4s"],
+      "repository_outcome": "Create locally validated portable package recipes before any upstream HPC packaging or curation decision."
+    }
+  ],
+  "required_target_ids": [
+    "arxiv", "joss", "pyopensci", "ropensci", "r-journal",
+    "journal-of-statistical-software", "numfocus", "pypi", "testpypi",
+    "conda-forge", "cran", "r-universe", "crates-io", "julia-general",
+    "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid",
+    "spack", "easybuild", "hpsf", "e4s"
+  ],
+  "targets": [
+    {
+      "id": "arxiv",
+      "kind": "archive",
+      "readiness": "blocked",
+      "scope": "Canonical LaTeX research preprint.",
+      "criteria_url": "https://info.arxiv.org/help/submit/index.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "canonical-source", "status": "satisfied", "evidence": ["paper/main.tex", "paper/readiness-manifest.json"]},
+        {"id": "author-category-licence-upload", "status": "pending", "evidence": ["paper/readiness-manifest.json"]}
+      ],
+      "acceptance_evidence": ["Authenticated arXiv submission state", "Permanent announced arXiv identifier"],
+      "next_decision": "Author completes category, licence, source upload, metadata, and submission after final review."
+    },
+    {
+      "id": "joss",
+      "kind": "journal",
+      "readiness": "blocked",
+      "scope": "Rust-centred polyglot research software and short software paper.",
+      "criteria_url": "https://joss.readthedocs.io/en/latest/submitting.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "paper-and-validator", "status": "satisfied", "evidence": ["paper.md", "paper/joss-readiness-manifest.json", "scripts/validate_joss.py"]},
+        {"id": "research-use-human-attestation", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
+      ],
+      "acceptance_evidence": ["JOSS submission identifier", "Public review issue", "Acceptance decision and DOI"],
+      "next_decision": "Direct submission remains after demonstrated use, human engagement evidence, AI affirmation, and author-selected arXiv sequence."
+    },
+    {
+      "id": "pyopensci",
+      "kind": "community_review",
+      "readiness": "conditional",
+      "scope": "Maintained scientific Python package and packaging practice.",
+      "criteria_url": "https://www.pyopensci.org/software-peer-review/how-to/author-guide.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
+        {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
+        {"id": "maintenance-and-ai-affirmation", "status": "pending", "evidence": ["SUPPORT.md", "GOVERNANCE.md", "AI_USAGE.md", "paper.md"]}
+      ],
+      "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
+      "next_decision": "After the JOSS outcome, refresh criteria and decide whether to open a pre-submission inquiry."
+    },
+    {
+      "id": "ropensci",
+      "kind": "community_review",
+      "readiness": "blocked",
+      "scope": "Independently reviewable R statistical-software package.",
+      "criteria_url": "https://devguide.ropensci.org/softwarereview_author.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "r-package-baseline", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/vignettes/voiageR-intro.Rmd"]},
+        {"id": "self-contained-installation", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "statistical-standards-map", "status": "pending", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
+      ],
+      "acceptance_evidence": ["rOpenSci pre-submission or review issue", "rOpenSci acceptance and onboarding record"],
+      "next_decision": "Reconsider only after self-contained installation, bounded R scope, distribution, and srr standards evidence."
+    },
+    {
+      "id": "r-journal",
+      "kind": "journal",
+      "readiness": "consideration",
+      "scope": "A distinct article centred on the mature R package and its R ecosystem contribution.",
+      "criteria_url": "https://rjournal.github.io/submissions.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "distinct-contribution", "status": "pending", "evidence": ["r-package/voiageR/README.md", "paper.md"]},
+        {"id": "mature-r-package", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]}
+      ],
+      "acceptance_evidence": ["R Journal manuscript identifier", "Editorial acceptance and publication record"],
+      "next_decision": "Assess only when the R surface supports a non-duplicative article."
+    },
+    {
+      "id": "journal-of-statistical-software",
+      "kind": "journal",
+      "readiness": "consideration",
+      "scope": "Full statistical-software and methodology article distinct from JOSS.",
+      "criteria_url": "https://www.jstatsoft.org/about/submissions",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "distinct-full-article", "status": "pending", "evidence": ["paper/main.tex", "paper.md"]},
+        {"id": "methodological-evaluation", "status": "pending", "evidence": ["paper/health-example-methods.md"]}
+      ],
+      "acceptance_evidence": ["JSS manuscript identifier", "Editorial acceptance and DOI"],
+      "next_decision": "Consider only if a substantial, non-overlapping statistical contribution remains after JOSS."
+    },
+    {
+      "id": "numfocus",
+      "kind": "sustainability",
+      "readiness": "consideration",
+      "scope": "Future sustainability affiliation rather than software peer review.",
+      "criteria_url": "https://numfocus.org/projects-overview",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "community-and-governance", "status": "pending", "evidence": ["GOVERNANCE.md", "CONTRIBUTING.md"]},
+        {"id": "adoption-and-sustainability", "status": "pending", "evidence": ["docs/astro-site/src/content/docs/developer-guide/community-support.mdx"]}
+      ],
+      "acceptance_evidence": ["NumFOCUS application record", "Formal affiliation decision"],
+      "next_decision": "Reassess after demonstrated adoption and multi-person governance."
+    },
+    {
+      "id": "pypi",
+      "kind": "package_registry",
+      "readiness": "published",
+      "scope": "Primary Python package distribution.",
+      "criteria_url": "https://packaging.python.org/en/latest/tutorials/packaging-projects/",
+      "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
+      "requirements": [
+        {"id": "release-workflow", "status": "satisfied", "evidence": [".github/workflows/release.yml"]},
+        {"id": "published-release", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]}
+      ],
+      "acceptance_evidence": ["PyPI version page", "Trusted-publishing provenance"],
+      "next_decision": "Maintain tag-driven release and provenance contracts."
+    },
+    {
+      "id": "testpypi",
+      "kind": "package_registry",
+      "readiness": "published",
+      "scope": "Pre-release Python package validation.",
+      "criteria_url": "https://packaging.python.org/en/latest/guides/using-testpypi/",
+      "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
+      "requirements": [
+        {"id": "test-release-workflow", "status": "satisfied", "evidence": [".github/workflows/release.yml"]},
+        {"id": "install-smoke", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]}
+      ],
+      "acceptance_evidence": ["TestPyPI version page", "Workflow upload evidence"],
+      "next_decision": "Keep as the release-candidate gate before PyPI."
+    },
+    {
+      "id": "conda-forge",
+      "kind": "package_registry",
+      "readiness": "conditional",
+      "scope": "Compiled Python/Rust distribution through conda-forge.",
+      "criteria_url": "https://github.com/conda-forge/staged-recipes",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "recipe-and-builds", "status": "satisfied", "evidence": ["conda-recipe/meta.yaml", "docs/release/binding-submission-checklist.md"]},
+        {"id": "maintainer-merge-indexing", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["Merged conda-forge feedstock PR", "Installable indexed package"],
+      "next_decision": "Monitor staged-recipes review and record merge and indexing separately."
+    },
+    {
+      "id": "cran",
+      "kind": "package_registry",
+      "readiness": "conditional",
+      "scope": "Canonical R package distribution.",
+      "criteria_url": "https://cran.r-project.org/web/packages/policies.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "source-check", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "docs/release/binding-submission-checklist.md"]},
+        {"id": "upload-confirmation-review", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["CRAN incoming confirmation", "CRAN package index page"],
+      "next_decision": "Author-controlled upload and confirmation remain separate from CRAN review and acceptance."
+    },
+    {
+      "id": "r-universe",
+      "kind": "package_registry",
+      "readiness": "published",
+      "scope": "Hosted R source and binary distribution.",
+      "criteria_url": "https://ropensci.org/r-universe/",
+      "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
+      "requirements": [
+        {"id": "hosted-build", "status": "satisfied", "evidence": ["docs/release/registry_audit_snapshot.json"]},
+        {"id": "package-metadata", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION"]}
+      ],
+      "acceptance_evidence": ["r-universe package page", "Hosted platform build matrix"],
+      "next_decision": "Maintain successful builds while CRAN remains separate."
+    },
+    {
+      "id": "crates-io",
+      "kind": "package_registry",
+      "readiness": "published",
+      "scope": "Binding-independent Rust core crates.",
+      "criteria_url": "https://doc.rust-lang.org/cargo/reference/publishing.html",
+      "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
+      "requirements": [
+        {"id": "publishable-crates", "status": "satisfied", "evidence": ["rust/Cargo.toml", ".github/workflows/rust-crates-release.yml"]},
+        {"id": "published-v2", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]}
+      ],
+      "acceptance_evidence": ["crates.io crate version pages"],
+      "next_decision": "Maintain synchronized versions and dependency order."
+    },
+    {
+      "id": "julia-general",
+      "kind": "package_registry",
+      "readiness": "blocked",
+      "scope": "Julia source package registration.",
+      "criteria_url": "https://pkgdocs.julialang.org/dev/creating-packages/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "package-contract", "status": "satisfied", "evidence": ["bindings/julia/Project.toml", "bindings/julia/test/runtests.jl"]},
+        {"id": "jll-dependency", "status": "external", "evidence": ["docs/release/binding-submission-checklist.md"]}
+      ],
+      "acceptance_evidence": ["Registrator PR", "General registry merge", "TagBot release"],
+      "next_decision": "Wait for the JLL, then run clean-depot tests before Registrator."
+    },
+    {
+      "id": "yggdrasil",
+      "kind": "package_registry",
+      "readiness": "conditional",
+      "scope": "Cross-platform voiage_ffi_jll native-library recipe.",
+      "criteria_url": "https://docs.binarybuilder.org/stable/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "recipe-submitted", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "binarybuilder-acceptance", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["Merged Yggdrasil recipe", "Registered JLL package and artifacts"],
+      "next_decision": "Respond to BinaryBuilder review; JLL acceptance precedes Julia General."
+    },
+    {
+      "id": "software-heritage",
+      "kind": "archive",
+      "readiness": "published",
+      "scope": "Immutable source history and release snapshot.",
+      "criteria_url": "https://docs.softwareheritage.org/user/getting-started/save-code-now.html",
+      "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
+      "requirements": [
+        {"id": "snapshot", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]},
+        {"id": "citation", "status": "satisfied", "evidence": ["CITATION.cff"]}
+      ],
+      "acceptance_evidence": ["Software Heritage snapshot SWHID and completed visit"],
+      "next_decision": "Refresh only for release-bound archival needs."
+    },
+    {
+      "id": "zenodo",
+      "kind": "archive",
+      "readiness": "consideration",
+      "scope": "Optional DOI-bearing release archive where a venue requires it.",
+      "criteria_url": "https://help.zenodo.org/docs/github/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "release-metadata", "status": "satisfied", "evidence": ["CITATION.cff", "codemeta.json"]},
+        {"id": "need-and-deposition", "status": "pending", "evidence": ["docs/release/release-evidence.md"]}
+      ],
+      "acceptance_evidence": ["Zenodo deposition record and DOI"],
+      "next_decision": "Use only when a selected venue requires a DOI-bearing archive not supplied elsewhere."
+    },
+    {
+      "id": "scicrunch-rrid",
+      "kind": "identifier",
+      "readiness": "conditional",
+      "scope": "Research Resource Identifier registration and curation.",
+      "criteria_url": "https://scicrunch.org/resources",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "registration-metadata", "status": "satisfied", "evidence": ["CITATION.cff", "codemeta.json"]},
+        {"id": "curation-assignment", "status": "external", "evidence": ["conductor/tracks/research_software_registry_readiness_20260721/handoff/registry-readiness.json"]}
+      ],
+      "acceptance_evidence": ["SciCrunch resource record", "Assigned RRID"],
+      "next_decision": "Track registration, curation, and RRID assignment separately."
+    },
+    {
+      "id": "spack",
+      "kind": "package_registry",
+      "readiness": "blocked",
+      "scope": "HPC source-build package.",
+      "criteria_url": "https://spack.readthedocs.io/en/latest/package_review_guide.html",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "recipe", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "platform-build-review", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["Spack package PR", "Maintainer approval and merge", "Indexed package"],
+      "next_decision": "Prepare only when the retained distribution design has a tested package recipe."
+    },
+    {
+      "id": "easybuild",
+      "kind": "package_registry",
+      "readiness": "blocked",
+      "scope": "HPC easyconfig distribution.",
+      "criteria_url": "https://docs.easybuild.io/contributing/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "easyconfig", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "upstream-review", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["EasyBuild easyconfigs PR", "Maintainer merge and indexed easyconfig"],
+      "next_decision": "Prepare after a stable HPC installation contract exists."
+    },
+    {
+      "id": "hpsf",
+      "kind": "sustainability",
+      "readiness": "consideration",
+      "scope": "Potential HPC ecosystem curation or project path.",
+      "criteria_url": "https://hpsf.io/projects/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "governance-adoption", "status": "pending", "evidence": ["GOVERNANCE.md", "docs/release/binding-submission-checklist.md"]},
+        {"id": "curation-decision", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["HPSF application or curation record", "Formal project decision"],
+      "next_decision": "Reassess after production HPC adoption and governance evidence."
+    },
+    {
+      "id": "e4s",
+      "kind": "package_registry",
+      "readiness": "consideration",
+      "scope": "Curated HPC software-stack inclusion.",
+      "criteria_url": "https://e4s.io/",
+      "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
+      "requirements": [
+        {"id": "upstream-hpc-package", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "curation", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+      ],
+      "acceptance_evidence": ["E4S curation record", "Release inclusion evidence"],
+      "next_decision": "Reassess after Spack or equivalent upstream packaging and production evidence."
+    }
+  ]
+}
