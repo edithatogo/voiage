@@ -18,6 +18,7 @@ def test_astro_binding_reference_covers_the_normative_matrix() -> None:
     display_names = {"r": "R"}
     adapter_names = {
         "native_rust_workspace": "Native Rust workspace",
+        "public_rust_facade": "Public `voiage` facade crate",
         "c_abi": "C ABI",
         "pyo3": "PyO3",
     }

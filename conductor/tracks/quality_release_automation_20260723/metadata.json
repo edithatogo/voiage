@@ -31,7 +31,7 @@
       "id": "openssf-best-practices-badge",
       "kind": "external",
       "status": "pending",
-      "evidence": "Repository evidence is mapped in docs/security/openssf-best-practices-readiness.md. Maintainer attestations, external submission, and a public awarded badge URL are required before making a badge claim."
+      "evidence": "Repository evidence is mapped in docs/release/openssf-best-practices-readiness.md. Maintainer attestations, external submission, and a public awarded badge URL are required before making a badge claim."
     },
     {
       "id": "renovate-app-activation",

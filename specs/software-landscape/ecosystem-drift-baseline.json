@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "reviewed_on": "2026-07-26",
+  "reviewed_on": "2026-07-27",
   "snapshot": {
     "software-registry": {
       "registry_digest": "1dc09d6d98793c4cefa420ca706d343a49ce9cfa11fb3e81e0c2bd0f33c2384e",
@@ -14,19 +14,19 @@
       "rust": "1.85",
       "node_package_manager": "pnpm@10.32.1",
       "pyproject_digest": "f15c9c6bffe2f3e33b166540a11ad1816e5c14ae3ed9e7d7c4f9e050dbe5ff8a",
-      "cargo_workspace_digest": "66ce670d715cdde859e3597b7b2265d6bebab64a1c9b75c1c96668eb14944a58",
+      "cargo_workspace_digest": "ea65560a6e1af65fb1221ef57d181340ca96e2258dfa4a33b405ef12ebb065ac",
       "docs_package_digest": "2b5fa3dee20d2f84fb81908d2cf9ff7a234591a56b78be3cf10654036704fdc8"
     },
     "lockfiles": {
       "uv.lock": "d0638301e6fafd0661e40be74203faa635e62679bb3f44674dfdf21eed0e8677",
       "pixi.lock": "c13f151658948aca0955b0d3df7ca24a77421db3fe9abbc6c1822b5d0acc1c6d",
-      "rust/Cargo.lock": "7bf349ed1c2513544425242f0ec3dccf66734c36b4e8fb39c814f700b80c6ff7",
+      "rust/Cargo.lock": "029331cdc099620edbcddd2a1bcacb4c577425a92e9517459757994fea012cd5",
       "rust/fuzz/Cargo.lock": "35a73ee0665168256bc00a9d912b3a16e07a595c8bf56024653e8239bb1072e2",
       "docs/astro-site/pnpm-lock.yaml": "6caedd6befee3cc401a1a31ba6db52f232019f701027575f4a16a0ac6f9a6a44"
     },
     "github-actions": {
       "workflow_count": 27,
-      "workflow_digest": "9be2003870abd2548c40a162c3b625d54d07b619eb2021edb266ad8f04d8f0cc",
+      "workflow_digest": "bf276b7fe961e49bb2acc25f19e7290c77e2236d64476e0979e46b5859622c40",
       "action_references": [
         "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b",
         "YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df",
