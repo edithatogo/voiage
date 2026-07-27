@@ -1,0 +1,85 @@
+name: Canonical specialized VOI sync
+
+on:
+  repository_dispatch:
+    types: [canonical-specialized-voi-updated]
+  workflow_dispatch:
+    inputs:
+      canonical_ref:
+        description: Canonical vop_poc_nz ref to validate.
+        required: true
+        default: main
+        type: string
+      propose:
+        description: Open or refresh a draft projection-mirror pull request when it drifts.
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: canonical-specialized-voi-sync
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          repository: edithatogo/vop_poc_nz
+          ref: ${{ github.event.client_payload.canonical_ref || inputs.canonical_ref }}
+          path: .canonical-vop
+          persist-credentials: false
+      - run: >-
+          python scripts/validate_canonical_specialized_voi_projection.py
+          --projection .canonical-vop/conductor/tracks/specialized-voi-v1-2_20260727/projection.json
+
+  propose-mirror-update:
+    needs: validate
+    if: github.event_name == 'repository_dispatch' || inputs.propose == true
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      AUTOMATION_BRANCH: automation/canonical-specialized-voi-v1-2
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          repository: edithatogo/vop_poc_nz
+          ref: ${{ github.event.client_payload.canonical_ref || inputs.canonical_ref }}
+          path: .canonical-vop
+          persist-credentials: false
+      - name: Propose only a bounded projection-mirror update
+        run: |
+          source_path=.canonical-vop/conductor/tracks/specialized-voi-v1-2_20260727/projection.json
+          target_path=conductor/canonical-projections/specialized-voi-v1.2.0.json
+          python scripts/validate_canonical_specialized_voi_projection.py --projection "$source_path"
+          if cmp --silent "$source_path" "$target_path"; then
+            echo "Canonical projection mirror is current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin "$AUTOMATION_BRANCH" >/dev/null; then
+            git fetch origin "$AUTOMATION_BRANCH:refs/remotes/origin/$AUTOMATION_BRANCH"
+          fi
+          git switch -C "$AUTOMATION_BRANCH" "origin/${{ github.event.repository.default_branch }}"
+          cp "$source_path" "$target_path"
+          git add "$target_path"
+          git commit -m "chore(governance): refresh C16 projection mirror"
+          git push --force-with-lease origin "HEAD:refs/heads/$AUTOMATION_BRANCH"
+          existing=$(gh pr list --head "$AUTOMATION_BRANCH" --base "${{ github.event.repository.default_branch }}" --state open --json url --jq '.[0].url')
+          if [ -z "$existing" ]; then
+            gh pr create --draft --base "${{ github.event.repository.default_branch }}" --head "$AUTOMATION_BRANCH" --title "chore(governance): refresh C16 projection mirror" --body "Automated bounded mirror proposal from the canonical C16 projection. No issues, releases, or merges are changed automatically."
+          fi
