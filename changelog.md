@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a deterministic ML contract fixture that keeps expected information
+  gain distinct from decision VOI and records the information action,
+  utility, stopping rule, privacy budget, and offline provenance explicitly.
+
 - Added Python-free R and Julia adapters for Rust-normalized v1 Decision
   Problem and statistical-assurance contracts. R now resolves the dynamically
   loaded C ABI correctly and reads canonical Arrow IPC/Feather/Parquet tables;

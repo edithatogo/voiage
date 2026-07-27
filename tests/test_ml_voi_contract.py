@@ -23,6 +23,17 @@ def test_eig_fixture_keeps_information_and_decision_values_distinct() -> None:
     """Entropy reduction must not be mislabeled as economic VOI."""
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
 
+    assert payload["protocol_version"] == "1.0.0"
+    assert payload["predictive_model"]
+    assert payload["information_action"]
+    assert payload["utility_definition"]
+    assert payload["stopping_rule"]
+    assert payload["privacy_budget"] >= 0
+    assert payload["provenance"] == {
+        "source": "synthetic",
+        "network_required": False,
+        "private_data": False,
+    }
     assert payload["expected_information_gain_nats"] > 0
     assert payload["expected_decision_voi"] == (
         payload["posterior_expected_utility"]
