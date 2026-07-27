@@ -1,11 +1,12 @@
 # Project Tracks
 
-## [~] Track: Conductor Registry Normalization
+## [x] Track: Conductor Registry Normalization [completed: 2026-07-27]
 *Link: [./tracks/conductor-registry-normalization_20260727/index.md](./tracks/conductor-registry-normalization_20260727/index.md)*
 *GitHub: [issue #590](https://github.com/edithatogo/voiage/issues/590), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — normalizing the exact 223-error historical baseline
-without changing substantive implementation or external-gate outcomes.*
+*Status: complete — the authoritative historical baseline is normalized from
+223 errors to zero errors and zero warnings without changing substantive
+implementation or external-gate outcomes.*
 
 ---
 
