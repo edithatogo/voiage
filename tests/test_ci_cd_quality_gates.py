@@ -12,6 +12,7 @@ according to the strict CI/CD quality gates policy, including:
 - Binding language-native gates
 """
 
+import json
 from pathlib import Path
 import re
 
@@ -22,6 +23,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 GITHUB_WORKFLOWS_DIR = PROJECT_ROOT / ".github" / "workflows"
 TOX_INI = PROJECT_ROOT / "tox.ini"
 PYPROJECT_TOML = PROJECT_ROOT / "pyproject.toml"
+RENOVATE_CONFIG = PROJECT_ROOT / "renovate.json"
 DEPENDABOT_CONFIG = PROJECT_ROOT / ".github" / "dependabot.yml"
 RUST_DENY_CONFIG = PROJECT_ROOT / "rust" / "deny.toml"
 
@@ -362,23 +364,12 @@ class TestQualityGatePolicyCompliance:
         )
 
     def test_rust_supply_chain_is_updated_and_fail_closed(self):
-        """Require Cargo updates and all cargo-deny policy families."""
-        dependabot = yaml.safe_load(DEPENDABOT_CONFIG.read_text(encoding="utf-8"))
-        cargo_updates = [
-            update
-            for update in dependabot["updates"]
-            if update["package-ecosystem"] == "cargo"
-        ]
-        assert cargo_updates == [
-            {
-                "package-ecosystem": "cargo",
-                "directory": "/rust",
-                "schedule": {"interval": "weekly"},
-                "cooldown": {"default-days": 7},
-                "open-pull-requests-limit": 10,
-                "labels": ["dependencies", "rust"],
-            }
-        ]
+        """Require Renovate Cargo updates and all cargo-deny policy families."""
+        renovate = json.loads(RENOVATE_CONFIG.read_text(encoding="utf-8"))
+        assert "cargo" in renovate["enabledManagers"]
+        assert "pep621" in renovate["enabledManagers"]
+        assert "github-actions" in renovate["enabledManagers"]
+        assert not DEPENDABOT_CONFIG.exists()
 
         workflow = yaml.safe_load(
             (GITHUB_WORKFLOWS_DIR / "rust-security.yml").read_text(encoding="utf-8")

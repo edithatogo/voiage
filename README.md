@@ -222,9 +222,10 @@ The repository applies different forms of evidence to different failure modes:
 | Platform assurance | Linux, macOS, Windows, UTF-8/LF, Python 3.12–3.14, minimum and maximum dependencies |
 | Documentation and papers | Astro/Starlight builds, link/semantic checks, arXiv source and PDF audits, deterministic readability evidence |
 
-Dependabot manages Python, Cargo, npm, and GitHub Actions updates. Renovate is
-not also enabled because running two update bots over the same manifests would
-create duplicate pull requests. Full commands and control boundaries are in
+Renovate manages Python/uv, Cargo, npm, and GitHub Actions updates. Dependabot
+version-update configuration is intentionally absent so the repository has one
+dependency-update bot and does not create duplicate pull requests. Full commands
+and control boundaries are in
 the [quality and security guide](https://edithatogo.github.io/voiage/developer-guide/quality-and-security/)
 and [SECURITY.md](SECURITY.md).
 

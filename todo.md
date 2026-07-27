@@ -251,7 +251,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     quality controls.
     *   Added the fail-closed workflow/governance harness and tox gate,
         immutable action pins, least-privilege permissions, CodeQL gate repair,
-        dependency review, OpenSSF Scorecard, Zizmor auditing, Dependabot, and
+        dependency review, OpenSSF Scorecard, Zizmor auditing, Renovate, and
         release provenance attestation.
     *   Applied repository merge/signoff settings and the active
         `main-maximal-quality` GitHub ruleset requiring pull requests,
