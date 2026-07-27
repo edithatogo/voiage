@@ -46,15 +46,18 @@
   with evidence strength, extraction limitations, closest VOIAGE workflow,
   user impact, and review due.
   (`885b4d9`)
-- [~] Reconcile forks, renamed packages, inactive tools, unavailable
+- [x] Reconcile forks, renamed packages, inactive tools, unavailable
   supplements, commercial products, spreadsheet tools, hosted services, and
   adjacent systems without treating the list as universally exhaustive.
-- [ ] Preserve the existing source/test/docs/example inventory, independent
+  (`f703551`)
+- [x] Preserve the existing source/test/docs/example inventory, independent
   fixtures, exclusions, license normalizations, and archived-tool records
   unless the expanded schema invalidates them; reopen affected rows explicitly.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
+  (`3f8ead3`)
+- [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
-- [ ] Automated review and validation checkpoint.
+  (`3f8ead3`)
+- [~] Automated review and validation checkpoint.
 - [ ] Conductor - Analyst Manual Verification 'Phase 2: Comprehensive schema and inventory'
   (Protocol in workflow.md).
 
