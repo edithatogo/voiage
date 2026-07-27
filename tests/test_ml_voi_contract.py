@@ -2,9 +2,14 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 from pathlib import Path
 import tomllib
+
+import pytest
+
+from voiage.contracts.concerns import EvidenceReference
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = (
@@ -46,3 +51,24 @@ def test_ml_contract_requires_offline_cpu_and_optional_backends() -> None:
     assert "botorch" in spec
     assert "pyro" not in base
     assert "botorch" not in base
+
+
+def test_ml_contract_keeps_private_locators_and_fallbacks_explicit() -> None:
+    """Private evidence and degraded execution must fail closed or be labelled."""
+    with pytest.raises(ValueError, match="local_private"):
+        EvidenceReference(
+            id="private-fixture",
+            title="private fixture",
+            summary="private fixture",
+            status="verified",
+            evidence_kind="source",
+            locator_kind="local_path",
+            locator="/private/input.json",
+            observed_at=datetime(2026, 7, 28, tzinfo=UTC),
+            visibility="public",
+        )
+
+    kernel = (ROOT / "voiage/contracts/kernel.py").read_text(encoding="utf-8")
+    assert "allow_fallback" in kernel
+    assert 'status="degraded"' in kernel
+    assert 'code="backend_fallback"' in kernel

@@ -7,6 +7,8 @@
     test; protocol, privacy, and fallback tests remain open.
   - [x] Guard offline CPU references, optional provider backends, and the
     no-private-data-transfer boundary.
+  - [x] Guard local-private evidence handling and explicit degraded-backend
+    diagnostics; richer protocol and privacy-budget semantics remain open.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool

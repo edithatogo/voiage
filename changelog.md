@@ -242,6 +242,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   distinct from utility- and cost-based decision VOI.
 - Added contract coverage requiring ML/LLM methods to use offline CPU
   references, keep provider backends optional, and avoid private-data transfer.
+- Added explicit privacy-boundary and degraded-backend diagnostics checks for
+  ML/LLM execution contracts.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.
