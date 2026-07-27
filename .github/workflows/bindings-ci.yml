@@ -112,9 +112,11 @@ jobs:
           version: ${{ matrix.julia }}
       - name: Verify packaged EVPI fixture matches the canonical reference
         run: >-
-          git diff --no-index --exit-code
-          test/fixtures/evpi-cases.json
-          ../../specs/numerical-reference/v1/evpi-cases.json
+          python -c
+          "import json, pathlib;
+          packaged = json.loads(pathlib.Path('test/fixtures/evpi-cases.json').read_text());
+          canonical = json.loads(pathlib.Path('../../specs/numerical-reference/v1/evpi-cases.json').read_text());
+          assert packaged == canonical"
       - name: Test a standalone Julia package copy
         shell: bash
         run: |
