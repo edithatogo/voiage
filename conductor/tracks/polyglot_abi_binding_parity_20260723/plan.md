@@ -38,6 +38,9 @@
     (`59a3024e`)
   - [x] Consolidate JSON buffer ownership logic and add schema-validated
     EVPPI, EVSI, and ENBS scalar result-envelope transports. (`8840d58e`)
+  - [x] Add schema-validated expected-loss, CEAF, and dominance result-envelope
+    JSON transports, preserving array alignment, probability bounds, and the
+    complete dominance partition. (`dd1f6c72`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
