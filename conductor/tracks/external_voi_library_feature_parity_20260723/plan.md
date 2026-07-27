@@ -57,7 +57,9 @@
 - [x] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
   (`3f8ead3`)
-- [~] Automated review and validation checkpoint.
+- [x] Automated review and validation checkpoint. (`2c728b9`; complete
+  serialized matrix, generated-artifact, semantic inventory, Rust/polyglot,
+  and diff checks passed)
 - [ ] Conductor - Analyst Manual Verification 'Phase 2: Comprehensive schema and inventory'
   (Protocol in workflow.md).
 
