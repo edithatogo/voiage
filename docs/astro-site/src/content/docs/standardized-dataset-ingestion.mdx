@@ -69,6 +69,22 @@ field names. This keeps machine-learning, engineering, and business datasets
 on one preparation path while preserving the existing direct Python and CSV
 APIs.
 
+## Supported-standard matrix
+
+VOIAGE intentionally supports a narrow, auditable profile rather than claiming
+complete implementation of either upstream standard.
+
+| Input family | Supported profile | Explicitly not supported in the built-in provider |
+| --- | --- | --- |
+| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
+| Frictionless Data Package | Data Package v1-style descriptor, one local CSV resource with an explicit field schema | Remote URLs, archives, transformations, multiple resources, implicit schema inference |
+| DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | Inferred decision semantics and nested values that Arrow interchange cannot safely materialize |
+
+All providers default to local-only access. Inputs that fall outside these
+profiles fail with a stable `IngestionError`; they are not partially loaded or
+silently transformed. Compatibility will expand only with new fixtures,
+source-policy evidence, and a documented provider capability change.
+
 ## Worked examples
 
 The same contract supports more than one community-facing example:
