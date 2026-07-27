@@ -161,7 +161,7 @@ remain explicit gates in the target contract.
   every official criterion at the decision point; keep each target's evidence,
   authority, status, and execution-lane assignment valid; reconcile specialised
   JOSS, arXiv, registry, and binding evidence after each release.
-  (`criteria-refresh-2026-07-27`; full tox validation passed)
+  (`23261ce`; `criteria-refresh-2026-07-27`; full tox validation passed)
 - [ ] [Issue #616](https://github.com/edithatogo/voiage/issues/616) — complete
   and test a pyOpenSci criteria-to-evidence matrix for the maintained Python
   API, installation, documentation, support, governance, prior art, methods,
