@@ -218,7 +218,7 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         "reviewed-payload:\n    name: Validate Reviewed Private Draft"
         in release_workflow
     )
-    assert release_workflow.count("name: reviewed-release-payload") == 3
+    assert release_workflow.count("name: reviewed-release-payload") == 4
     assert (
         'gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft'
         in release_workflow

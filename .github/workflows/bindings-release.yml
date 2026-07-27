@@ -10,8 +10,28 @@ on:
 permissions: {}
 
 jobs:
+  verify-base-release:
+    name: Verify shared immutable release manifest
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Download shared release identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#*-v}"
+          gh release download "v${version}" --repo "$GITHUB_REPOSITORY" \
+            --pattern release-manifest.json --pattern polyglot.sbom.cdx.json
+          jq -e --arg version "$version" \
+            '.schema_version == "1.0.0" and
+             any(.artifacts[]; .name | contains($version))' \
+            release-manifest.json
+
   julia:
     name: Release Julia package
+    needs: verify-base-release
     if: startsWith(github.ref_name, 'julia-v')
     runs-on: ubuntu-latest
     permissions:
@@ -37,6 +57,7 @@ jobs:
 
   r:
     name: Release R package
+    needs: verify-base-release
     if: startsWith(github.ref_name, 'r-v')
     runs-on: ubuntu-latest
     permissions:
