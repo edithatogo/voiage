@@ -47,6 +47,7 @@
   "julia_registry_evidence": {
     "status": "jll_recipe_submitted",
     "github_issue": "https://github.com/edithatogo/voiage/issues/555",
+    "repository_pull_request": "https://github.com/edithatogo/voiage/pull/561",
     "yggdrasil_pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
     "source_revision": "e849e89152c306e79c96d0a8a9815ee5faca0529",
     "binary_product": "libvoiage_ffi",
