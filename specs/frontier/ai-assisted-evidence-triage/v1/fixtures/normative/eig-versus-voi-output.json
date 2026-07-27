@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "status": "contract-only",
+  "source_fixture": "eig-versus-voi.json",
+  "promotion_allowed": false,
+  "note": "Synthetic values distinguish information gain from decision VOI."
+}

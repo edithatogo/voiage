@@ -14,7 +14,7 @@
       "name": "adversarial information and escalation scenarios",
       "method_family": "value_of_ai_assisted_evidence_triage",
       "input_artifact": "normative/adversarial-scenarios.json",
-      "expected_output_artifact": null,
+      "expected_output_artifact": "normative/adversarial-scenarios-output.json",
       "tolerance_policy": "contract"
     },
     {
@@ -22,7 +22,7 @@
       "method_family": "value_of_ai_assisted_evidence_triage",
       "input_artifact": "normative/eig-versus-voi.json",
       "schema_artifact": "../schemas/eig-versus-decision-voi.schema.json",
-      "expected_output_artifact": null,
+      "expected_output_artifact": "normative/eig-versus-voi-output.json",
       "tolerance_policy": "contract"
     }
   ],
