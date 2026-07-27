@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import tomllib
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, ValidationError
 import pytest
 
 from voiage.contracts.concerns import EvidenceReference
@@ -72,6 +72,15 @@ def test_eig_fixture_manifest_links_schema_and_input() -> None:
     fixture_root = MANIFEST.parent
     assert (fixture_root / entry["input_artifact"]).is_file()
     assert (fixture_root / entry["schema_artifact"]).resolve().is_file()
+
+
+def test_eig_schema_rejects_network_or_private_data_claims() -> None:
+    """Offline reference fixtures cannot silently acquire sensitive inputs."""
+    schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    payload["provenance"]["network_required"] = True
+    with pytest.raises(ValidationError):
+        Draft202012Validator(schema).validate(payload)
 
 
 def test_ml_contract_requires_offline_cpu_and_optional_backends() -> None:
