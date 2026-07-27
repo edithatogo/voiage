@@ -1,0 +1,1 @@
+Task: Begin Issue #615 repository-owned rOpenSci readiness work. Corrected voiageR DESCRIPTION author and maintainer metadata. Validation: clean temporary R CMD build followed by R CMD check --no-manual passed. Self-contained FFI installation and local rOpenSci pkgcheck evidence remain unresolved; no inquiry or submission was made.
