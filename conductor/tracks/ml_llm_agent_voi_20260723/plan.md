@@ -4,11 +4,13 @@
 
 - [~] Add utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
   - [x] Add a deterministic EIG-versus-decision-VOI fixture and regression
-    test; protocol, privacy, and fallback tests remain open.
+    test with explicit protocol, utility, stopping, provenance, and privacy
+    fields; full estimator and runtime protocol coverage remains open.
   - [x] Guard offline CPU references, optional provider backends, and the
     no-private-data-transfer boundary.
   - [x] Guard local-private evidence handling and explicit degraded-backend
-    diagnostics; richer protocol and privacy-budget semantics remain open.
+    diagnostics; richer runtime protocol and privacy-budget semantics remain
+    open.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool
