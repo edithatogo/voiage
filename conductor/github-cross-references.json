@@ -741,7 +741,7 @@
     {
       "track_id": "conductor-github-cross-reference-reconciliation_20260724",
       "path": "conductor/tracks/conductor-github-cross-reference-reconciliation_20260724",
-      "lifecycle": "completed",
+      "lifecycle": "active",
       "issue": {
         "number": 462,
         "url": "https://github.com/edithatogo/voiage/issues/462",
@@ -765,11 +765,11 @@
       "track_id": "conductor-registry-normalization_20260727",
       "metadata_track_id": "conductor-registry-normalization_20260727",
       "path": "conductor/archive/conductor-registry-normalization_20260727",
-      "lifecycle": "active",
+      "lifecycle": "completed",
       "issue": {
         "number": 590,
         "url": "https://github.com/edithatogo/voiage/issues/590",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
       "subissues": [],
