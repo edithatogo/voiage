@@ -1,8 +1,9 @@
 # Standardized Dataset Ingestion
 
-Status: in progress. PR #627 is merged with Phase 7 assurance evidence; PR
-#629 has been rebased on current `main` and awaits its refreshed hosted matrix;
-PR #631 is dependent Phase 9 evidence and awaits that prerequisite. Issues
+Status: in progress. PR #627 is merged with Phase 7 assurance evidence; the
+Phase 8 SDK and Phase 9 reference-case changes are now on `main` as `24e12977`
+and `c4106739`; PR #634 carries the remaining Phase 10 reconciliation evidence.
+Issues
 #325–#333, #467, and #468 remain open because the plan's outstanding provider,
 conformance, product, security, SDK, and worked-example criteria remain active.
 Project 28 has been reconciled: all linked items are `In Progress`, consistent

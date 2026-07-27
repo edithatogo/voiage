@@ -243,8 +243,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Project 28 items remain active. Archive is prohibited until the unchecked
   plan tasks and issue acceptance criteria have supporting evidence.
 - Phase 10 reconciliation on 2026-07-27 confirms that #325–#333, #467, and
-  #468 are open; #627 is merged, while #629 and #631 remain open pending their
-  refreshed hosted evidence. Project 28 was rechecked through GitHub Projects
+  #468 are open; #627 is merged; the Phase 8 SDK and Phase 9 reference-case
+  changes landed separately on `main` as `24e12977` and `c4106739`; and #634
+  carries the remaining Phase 10 evidence migration. Project 28 was rechecked through GitHub Projects
   v2 after GraphQL access recovered; every linked item is now `In Progress`,
   consistent with its still-open issue and this active plan. This is status
   reconciliation, not completion evidence.
