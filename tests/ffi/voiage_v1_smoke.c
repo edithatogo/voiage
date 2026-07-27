@@ -49,6 +49,20 @@ static int exercise_contract(void) {
         decision_problem_size <= 1) {
         return 16;
     }
+    const char evpi_envelope[] =
+        "{\"analysis_id\":\"evpi-screening-001\","
+        "\"decision_problem_id\":\"screening-program-001\","
+        "\"analysis_type\":\"evpi\",\"willingness_to_pay\":50000,"
+        "\"expected_current_value\":1505.0,"
+        "\"expected_perfect_information\":1630.0,\"evpi\":125.0}";
+    uint64_t evpi_envelope_size = 0;
+    if (voiage_v1_evpi_result_json(
+            (const uint8_t *)evpi_envelope,
+            (uint64_t)(sizeof(evpi_envelope) - 1), NULL, 0,
+            &evpi_envelope_size) != VOIAGE_V1_STATUS_OK ||
+        evpi_envelope_size <= 1) {
+        return 17;
+    }
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 evpi_result = {0};
     if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=

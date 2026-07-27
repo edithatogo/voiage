@@ -89,6 +89,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         *   C ABI v1.10 now validates Decision Problem JSON through the stable
             Rust domain contract and returns normalized caller-owned UTF-8
             without partial writes.
+        *   C ABI v1.11 now validates and transports the canonical EVPI v1
+            result envelope, including paired optional strategy-array
+            invariants.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

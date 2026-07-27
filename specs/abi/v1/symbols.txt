@@ -8,6 +8,7 @@ voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_dominance_result
 voiage_v1_evpi_result
+voiage_v1_evpi_result_json
 voiage_v1_evppi_regression_result
 voiage_v1_evsi_moment_matching_result
 voiage_v1_evsi_regression_result

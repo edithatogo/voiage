@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `10`
+- ABI major: `1`; ABI minor: `11`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -24,6 +24,8 @@ the release allowlists.
   two-loop compatibility path as Rust-native.
   Decision Problem JSON transport validates through the stable Rust domain
   type before returning compact caller-owned UTF-8.
+  EVPI result-envelope JSON transport validates the canonical v1 discriminator,
+  scalars, and optional per-strategy arrays.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -39,6 +41,7 @@ voiage_v1_evpi
 voiage_v1_enbs
 voiage_v1_dominance_result
 voiage_v1_evpi_result
+voiage_v1_evpi_result_json
 voiage_v1_evppi_regression_result
 voiage_v1_evsi_moment_matching_result
 voiage_v1_evsi_regression_result
@@ -114,6 +117,12 @@ normalized compact JSON with a trailing NUL. Query the required size with a
 null buffer and zero capacity. Invalid input writes neither the required size
 nor the output; a short buffer updates only the required size. This transport
 does not claim RFC 8785 digest canonicalization.
+
+`voiage_v1_evpi_result_json` applies the same ownership and failure contract to
+the canonical EVPI v1 result envelope. It rejects unknown fields, a wrong
+analysis discriminator, non-finite or invalid scalars, negative EVPI, blank
+identifiers, and optional strategy arrays that are missing their paired array
+or differ in length. Other result families remain separate capability work.
 
 ## Status and error transport
 

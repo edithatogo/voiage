@@ -33,6 +33,10 @@ mod expected_loss_result;
 // contains panics, and writes only after successful regression.
 #[allow(unsafe_code)]
 mod evppi_regression_result;
+// SAFETY: EVPI JSON transport validates caller-owned input/output regions,
+// contains panics, and performs no partial document writes.
+#[allow(unsafe_code)]
+mod evpi_result_json;
 // SAFETY: EVSI transport validates both caller-owned matrices and the result,
 // contains panics, and writes only after successful estimator execution.
 #[allow(unsafe_code)]
@@ -57,6 +61,7 @@ pub use ceaf_result::{voiage_v1_ceaf_result, VoiageCeafResultV1};
 pub use decision_problem_json::voiage_v1_decision_problem_json;
 pub use dominance_result::{voiage_v1_dominance_result, VoiageDominanceResultV1};
 pub use error_transport::voiage_v1_error_message;
+pub use evpi_result_json::voiage_v1_evpi_result_json;
 pub use evppi_regression_result::{
     voiage_v1_evppi_regression_result, VoiageEvppiRegressionResultV1,
     VOIAGE_EVPPI_ASSURANCE_INCOMPLETE,
@@ -81,7 +86,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 10;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 11;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -121,6 +126,9 @@ pub const VOIAGE_ABI_EVSI_APPROXIMATION_RESULT: u64 = 1 << 11;
 
 /// Capability bit for validated Decision Problem JSON transport.
 pub const VOIAGE_ABI_DECISION_PROBLEM_JSON: u64 = 1 << 12;
+
+/// Capability bit for schema-validated EVPI result JSON transport.
+pub const VOIAGE_ABI_EVPI_RESULT_JSON: u64 = 1 << 13;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -208,7 +216,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
             | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
             | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT
-            | VOIAGE_ABI_DECISION_PROBLEM_JSON,
+            | VOIAGE_ABI_DECISION_PROBLEM_JSON
+            | VOIAGE_ABI_EVPI_RESULT_JSON,
     }
 }
 

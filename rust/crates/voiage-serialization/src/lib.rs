@@ -28,6 +28,19 @@ pub fn normalize_decision_problem_json(input: &[u8]) -> serde_json::Result<Vec<u
     serde_json::to_vec(&decision_problem)
 }
 
+/// Validates an EVPI v1 result envelope and returns compact JSON.
+///
+/// The stable discriminator, scalar invariants, and paired optional strategy
+/// arrays are enforced by the versioned serialization DTO.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evpi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvpiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ValidationError(&'static str);

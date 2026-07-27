@@ -112,6 +112,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.10 fail-closed Decision Problem JSON validation and normalized
   caller-owned query/copy transport, including no-partial-write behavior for
   invalid documents and undersized buffers.
+- Added ABI v1.11 schema-validated EVPI result-envelope JSON query/copy
+  transport, including discriminator, scalar, unknown-field, and paired
+  optional strategy-array validation.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

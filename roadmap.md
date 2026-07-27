@@ -157,6 +157,12 @@ by query-then-copy normalized UTF-8 transport. Invalid documents and short
 buffers cannot produce partial output. Result-envelope JSON, Arrow
 representations, and language-native adapters remain separate open work.
 
+C ABI v1.11 extends the caller-owned JSON buffer contract to the canonical
+EVPI v1 result envelope. Rust serialization validates its discriminator,
+scalar invariants, optional paired strategy arrays, and unknown-field policy
+before normalized output. Other result envelopes, estimator-assurance JSON,
+and Arrow remain open.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,
