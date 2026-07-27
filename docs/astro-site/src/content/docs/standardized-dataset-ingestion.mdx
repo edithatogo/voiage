@@ -20,6 +20,17 @@ voiage ingest inspect croissant.json
 voiage ingest normalize datapackage.json --output normalized.arrow
 ```
 
+Every ingestion command accepts the same local source-policy controls. They
+never enable network access: use `--max-resource-bytes` to set a stricter
+resource cap, `--cache-dir` to select a verified materialization cache, and
+`--offline` to require replay rather than reading a source path. For example:
+
+```bash
+voiage ingest validate datapackage.json \
+  --max-resource-bytes 10485760 \
+  --cache-dir .voiage-cache
+```
+
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
 `validate` resolves the descriptor and every declared local resource through
