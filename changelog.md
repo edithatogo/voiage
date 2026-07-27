@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded the compiled conda-forge recipe from a Python 3.12-only build to
   the supported Python 3.12+ build matrix and added installed-package checks
   for native Rust-core loading, version agreement, and a known EVPI result.
+  The revised staged-recipes submission passes lint and Linux, macOS, and
+  Windows builds for conda-forge's current Python 3.12 and 3.13 variants.
 - Reconciled registry-readiness records with the green conda-forge
   cross-platform build, the reviewed release-bound JOSS PDF, and the
   authenticated incomplete replacement arXiv submission.
