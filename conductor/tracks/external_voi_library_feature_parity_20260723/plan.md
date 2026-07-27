@@ -12,12 +12,13 @@
   plan update. (`2630e39`)
 - [x] Automated review and validation checkpoint. (`c4c4fab`; registry,
   governance, Ruff, and live GitHub reconciliation passed)
-- [ ] Conductor - Analyst Manual Verification 'Phase 1: Existing reproducible baseline'
+- [x] Conductor - Analyst Manual Verification 'Phase 1: Existing reproducible baseline'
+  (`87a7148`; analyst approved 2026-07-27)
   (Protocol in workflow.md).
 
 ## Phase 2: Comprehensive schema and inventory
 
-- [ ] Under [#569](https://github.com/edithatogo/voiage/issues/569), freeze
+- [~] Under [#569](https://github.com/edithatogo/voiage/issues/569), freeze
   `landscape-schema-review-protocol`: nested product/version/schema/feature/
   subfeature/option records, evidence strength, rights, duplicate resolution,
   inclusion/exclusion, freshness, review, and deterministic generation.
