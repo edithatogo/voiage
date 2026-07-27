@@ -14,7 +14,8 @@
 - [x] Define a versioned machine-readable decision-VOI fixture schema covering
   prediction, information action, utility, provenance, stopping, and privacy
   fields and link it from the canonical fixture manifest; runtime protocol
-  enforcement remains open.
+  enforcement remains open. Draft 2020-12 validation is now executable in the
+  regression suite.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool
