@@ -1,0 +1,5 @@
+Task: Guard architecture and deprecation cross-references
+
+Summary: Added regression coverage requiring the core architecture decision, normative compatibility/deprecation policy, and versioning documentation to remain linked and structurally present.
+
+Validation: focused quality suite, Ruff check, Ruff format check, and diff check passed.
