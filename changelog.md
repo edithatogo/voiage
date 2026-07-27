@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ingestion conformance corpus.
 - Reject non-object Croissant and Frictionless descriptor roots through the
   stable ingestion error boundary before provider-specific parsing.
+- Make the public Croissant and Frictionless provider exports lazy, keeping
+  ordinary `voiage.ingestion` imports free of source-format adapter imports.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.

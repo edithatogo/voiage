@@ -725,6 +725,47 @@ def test_base_import_does_not_load_builtin_provider_modules() -> None:
     assert result.returncode == 0, result.stderr
 
 
+def test_ingestion_package_import_does_not_load_builtin_provider_modules() -> None:
+    """Public ingestion helpers stay usable without loading source adapters."""
+    script = "; ".join(
+        (
+            "import sys",
+            "import voiage.ingestion",
+            "assert 'voiage.ingestion.croissant' not in sys.modules",
+            "assert 'voiage.ingestion.frictionless' not in sys.modules",
+        )
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+
+
+def test_public_provider_exports_load_the_requested_adapter_on_demand() -> None:
+    """Lazy exports retain the public provider-class import contract."""
+    script = "; ".join(
+        (
+            "import sys",
+            "from voiage.ingestion import CroissantProvider",
+            "assert CroissantProvider.provider_id == 'croissant'",
+            "assert 'voiage.ingestion.croissant' in sys.modules",
+            "assert 'voiage.ingestion.frictionless' not in sys.modules",
+        )
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+
+
 def test_entry_point_discovery_is_opt_in_and_allow_listed() -> None:
     loaded: list[str] = []
 
