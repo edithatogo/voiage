@@ -1,0 +1,16 @@
+{
+  "arrow_schema_version": "1.0.0",
+  "contract": "statistical-assurance",
+  "contract_schema_version": "1.0.0",
+  "logical_schema_fingerprint": "67e9002327385cde89df640a6cce7ea76fb6701ab2482bb3c6a1fe09a8ef9b60",
+  "fields": [
+    {"name": "reporting_class", "arrow_type": "string", "nullable": false},
+    {"name": "replications", "arrow_type": "uint64", "nullable": false},
+    {"name": "stopping_reason", "arrow_type": "string", "nullable": false},
+    {"name": "has_confidence_interval", "arrow_type": "bool", "nullable": false},
+    {"name": "has_convergence_evidence", "arrow_type": "bool", "nullable": false},
+    {"name": "has_rng_identity", "arrow_type": "bool", "nullable": false},
+    {"name": "payload_json", "arrow_type": "large_string", "nullable": false}
+  ],
+  "payload_policy": "payload_json retains the complete Rust-normalized v1 envelope; absence flags remain false and never imply positive assurance."
+}

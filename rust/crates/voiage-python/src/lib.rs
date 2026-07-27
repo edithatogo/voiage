@@ -25,6 +25,8 @@ use voiage_numerics::{
     DominanceStatus as KernelDominanceStatus, StructuralVoiKernelResult, WtpMode,
 };
 use voiage_serialization::{
+    normalize_decision_problem_json as normalize_decision_problem_json_bytes,
+    normalize_statistical_assurance_json as normalize_statistical_assurance_json_bytes,
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
     ExpectedLossResultV1, ExpectedLossResultV1Input,
 };
@@ -387,6 +389,26 @@ fn validate_dominance_alignment(
 
 fn serialization_error(error: impl std::fmt::Display) -> PyErr {
     SerializationError::new_err(("serialization_failure", error.to_string()))
+}
+
+fn normalize_json(
+    payload: &str,
+    normalize: fn(&[u8]) -> serde_json::Result<Vec<u8>>,
+) -> PyResult<String> {
+    let normalized = normalize(payload.as_bytes()).map_err(serialization_error)?;
+    String::from_utf8(normalized).map_err(serialization_error)
+}
+
+/// Validate and normalize a canonical v1 Decision Problem as compact JSON.
+#[pyfunction]
+fn normalize_decision_problem_json(payload: &str) -> PyResult<String> {
+    normalize_json(payload, normalize_decision_problem_json_bytes)
+}
+
+/// Validate and normalize a canonical v1 statistical-assurance envelope.
+#[pyfunction]
+fn normalize_statistical_assurance_json(payload: &str) -> PyResult<String> {
+    normalize_json(payload, normalize_statistical_assurance_json_bytes)
 }
 
 fn reporting_from_python(
@@ -1566,6 +1588,11 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_expected_loss_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
+    module.add_function(wrap_pyfunction!(normalize_decision_problem_json, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        normalize_statistical_assurance_json,
+        module
+    )?)?;
     Ok(())
 }
 

@@ -1,0 +1,17 @@
+{
+  "arrow_schema_version": "1.0.0",
+  "contract": "decision-problem",
+  "contract_schema_version": "1.0.0",
+  "logical_schema_fingerprint": "a7d70c5fbcd74444080c46593bffa3d5ad2f9bf836739c857ad75e2fa71fcb85",
+  "fields": [
+    {"name": "decision_problem_id", "arrow_type": "string", "nullable": false},
+    {"name": "title", "arrow_type": "string", "nullable": false},
+    {"name": "analysis_type", "arrow_type": "string", "nullable": false},
+    {"name": "currency", "arrow_type": "string", "nullable": false},
+    {"name": "willingness_to_pay", "arrow_type": "double", "nullable": false},
+    {"name": "outcome_names", "arrow_type": "list<item: string>", "nullable": true},
+    {"name": "intervention_count", "arrow_type": "uint64", "nullable": false},
+    {"name": "payload_json", "arrow_type": "large_string", "nullable": false}
+  ],
+  "payload_policy": "payload_json retains the complete Rust-normalized v1 contract; projected columns are indexing aids and never replace it."
+}

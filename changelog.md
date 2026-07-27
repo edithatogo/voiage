@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Added Rust-validated canonical Arrow, IPC, and Parquet representations for
+  v1 Decision Problem and statistical-assurance envelopes, with pinned
+  language-neutral schemas for direct R and Julia adapters.
+
 ### Removed
 
 - Removed the internal acknowledgements placeholder, unused abbreviations, and

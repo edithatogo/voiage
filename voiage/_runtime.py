@@ -50,6 +50,33 @@ def _raise_native_error(error: Exception) -> NoReturn:
     raise error
 
 
+def _normalize_json(payload: object, operation: str) -> dict[str, object]:
+    """Validate a mapping through a Rust-owned canonical JSON contract."""
+    import json
+
+    try:
+        encoded = json.dumps(
+            payload,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        normalized = getattr(_native(), operation)(encoded)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(json.loads(normalized))
+
+
+def normalize_decision_problem_json(payload: object) -> dict[str, object]:
+    """Return a Rust-validated canonical Decision Problem mapping."""
+    return _normalize_json(payload, "normalize_decision_problem_json")
+
+
+def normalize_statistical_assurance_json(payload: object) -> dict[str, object]:
+    """Return a Rust-validated canonical statistical-assurance mapping."""
+    return _normalize_json(payload, "normalize_statistical_assurance_json")
+
+
 def serialize_ceaf_result(**payload: object) -> dict[str, object]:
     """Return the Rust-owned canonical CEAF result payload."""
     try:

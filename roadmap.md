@@ -34,6 +34,12 @@ contracted separately because they exercise different execution boundaries;
 no cross-language speedup claim is permitted without a matched hosted
 benchmark.
 
+Decision Problem and statistical-assurance envelopes now have pinned,
+Rust-validated Arrow schemas with deterministic IPC and Parquet round trips.
+Their complete normalized JSON remains embedded alongside typed indexing
+columns, providing the stable interchange boundary needed by direct R and
+Julia adapters without duplicating contract validation in those languages.
+
 The stable scalability contract now records fixed sequential reduction,
 indexed EVSI random streams, materialized-input boundaries, method-specific
 memory models, latency evidence, and the absence of an energy claim. Parallel
