@@ -75,7 +75,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   field-source, and malformed collection-entry corpus coverage. Focused corpus
   and provider validation pass; full tox remains blocked by the pre-existing
   missing source-provenance and JOSS contract files in this clean worktree.
-  (`333ee68f`, `d745d2d6`, partial)
+  Non-object descriptor-root handling is covered by the shared provider guard
+  (`333ee68f`, `d745d2d6`, `1e4e6bd7`, partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
@@ -95,7 +96,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   values, keys, integrity, governance metadata, supported tabular formats, and
   ambiguous resources. File-backed baseline and fail-closed format/integrity
   coverage added (`d0c1b238`); malformed-resource coverage is also file-backed.
-  (`6c57a7a8`, partial). Remaining acceptance evidence is tracked below.
+  Non-object descriptor-root handling is covered by the shared provider guard
+  (`0c19fe1b`, `1e4e6bd7`, partial). Remaining acceptance evidence is tracked
+  below.
 - [ ] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile.
 - [ ] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
