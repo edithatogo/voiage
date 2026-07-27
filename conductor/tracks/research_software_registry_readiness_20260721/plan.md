@@ -177,15 +177,17 @@ remain explicit gates in the target contract.
   built-source `R CMD check --no-manual` passed locally; self-contained runtime
   and `pkgcheck` evidence remain outstanding; `ropensci-evidence.json` maps
   the current bounded R API, documentation, test, numerical-reference,
-  input/error, and seed evidence.)
+  input/error, and seed evidence; `validate_r_ffi_install.sh` now proves the
+  build/install/native-EVPI path in a temporary R library.)
 - [~] [Issue #622](https://github.com/edithatogo/voiage/issues/622) — select a
   retained HPC source/native-build strategy, add locally tested Spack and (only
   if distinct) EasyBuild recipes, and document CPU-fallback and numerical-smoke
   evidence. Keep HPSF/E4S curation conditional on adoption and governance.
   Source-native v2.0.0 recipes now use immutable commit
   `5e92151fc87afefbb411c992fb9f82fc4b8c049f`; Spack syntax validates, while
-  the local Spack repository and EasyBuild Lmod environment need repair before
-  full local recipe tests can run.
+  `validate_hpc_recipes.sh` isolates Spack from the broken user repository;
+  EasyBuild still needs an Environment Modules or Lmod installation before its
+  full local style check can run.
 - [x] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
   venue-by-venue non-duplication decision for JSS, NumFOCUS, and Zenodo before
   creating any new manuscript, affiliation, or deposition material.
