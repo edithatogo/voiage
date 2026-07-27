@@ -115,6 +115,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.11 schema-validated EVPI result-envelope JSON query/copy
   transport, including discriminator, scalar, unknown-field, and paired
   optional strategy-array validation.
+- Added ABI v1.12 EVPPI, EVSI, and ENBS result-envelope JSON transports and
+  consolidated all JSON query/copy entry points on one checked ownership
+  implementation.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

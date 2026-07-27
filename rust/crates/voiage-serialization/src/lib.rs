@@ -41,6 +41,36 @@ pub fn normalize_evpi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
     serde_json::to_vec(&result)
 }
 
+/// Validates an EVPPI v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evppi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvppiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an EVSI v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evsi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvsiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an ENBS v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_enbs_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EnbsResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ValidationError(&'static str);

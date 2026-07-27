@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(11)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(12)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -40,6 +40,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_EVSI_APPROXIMATION_RESULT (UINT64_C(1) << 11)
 #define VOIAGE_V1_CAPABILITY_DECISION_PROBLEM_JSON (UINT64_C(1) << 12)
 #define VOIAGE_V1_CAPABILITY_EVPI_RESULT_JSON (UINT64_C(1) << 13)
+#define VOIAGE_V1_CAPABILITY_SCALAR_RESULT_JSON (UINT64_C(1) << 14)
 #define VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE UINT32_C(0)
 #define VOIAGE_V1_EVSI_ASSURANCE_INCOMPLETE UINT32_C(0)
 #define VOIAGE_V1_EVSI_ESTIMATOR_REGRESSION UINT32_C(1)
@@ -177,6 +178,24 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_decision_problem_json(
 /* Validate the canonical EVPI v1 result envelope and return compact UTF-8 JSON
  * plus trailing NUL through the same query/copy ownership contract. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_result_json(
+    const uint8_t *input,
+    uint64_t input_length,
+    char *buffer,
+    uint64_t capacity,
+    uint64_t *required_size);
+VOIAGE_V1_API voiage_v1_status voiage_v1_evppi_result_json(
+    const uint8_t *input,
+    uint64_t input_length,
+    char *buffer,
+    uint64_t capacity,
+    uint64_t *required_size);
+VOIAGE_V1_API voiage_v1_status voiage_v1_evsi_result_json(
+    const uint8_t *input,
+    uint64_t input_length,
+    char *buffer,
+    uint64_t capacity,
+    uint64_t *required_size);
+VOIAGE_V1_API voiage_v1_status voiage_v1_enbs_result_json(
     const uint8_t *input,
     uint64_t input_length,
     char *buffer,

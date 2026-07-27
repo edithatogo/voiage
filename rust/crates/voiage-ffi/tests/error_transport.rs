@@ -10,7 +10,7 @@ use voiage_ffi::{voiage_v1_abi_version, voiage_v1_error_message, VoiageStatusV1}
 fn exports_a_stable_namespaced_version() {
     let version = voiage_v1_abi_version();
     assert_eq!(version.abi_major, 1);
-    assert_eq!(version.abi_minor, 11);
+    assert_eq!(version.abi_minor, 12);
 }
 
 #[test]

@@ -25,6 +25,9 @@ mod dominance_result;
 #[allow(unsafe_code)]
 mod decision_problem_json;
 mod generated_capabilities;
+// SAFETY: shared JSON transport owns the checked raw-pointer copy boundary.
+#[allow(unsafe_code)]
+mod json_transport;
 // SAFETY: expected-loss transport validates all caller-owned pointers and
 // capacities, contains panics, and writes only after successful computation.
 #[allow(unsafe_code)]
@@ -45,6 +48,10 @@ mod evsi_approximation_result;
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
 mod lifecycle;
+// SAFETY: scalar JSON wrappers delegate to the shared checked transport and
+// contain panics.
+#[allow(unsafe_code)]
+mod scalar_result_json;
 mod status;
 // SAFETY: structural VOI transport validates caller-owned cube, probability,
 // index, and result pointers, contains panics, and writes only after success.
@@ -73,6 +80,9 @@ pub use evsi_approximation_result::{
 };
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
+pub use scalar_result_json::{
+    voiage_v1_enbs_result_json, voiage_v1_evppi_result_json, voiage_v1_evsi_result_json,
+};
 pub use status::VoiageStatusV1;
 pub use structural_result::{
     voiage_v1_structural_evpi_result, voiage_v1_structural_evppi_result,
@@ -86,7 +96,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 11;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 12;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -129,6 +139,9 @@ pub const VOIAGE_ABI_DECISION_PROBLEM_JSON: u64 = 1 << 12;
 
 /// Capability bit for schema-validated EVPI result JSON transport.
 pub const VOIAGE_ABI_EVPI_RESULT_JSON: u64 = 1 << 13;
+
+/// Capability bit for EVPPI, EVSI, and ENBS result JSON transport.
+pub const VOIAGE_ABI_SCALAR_RESULT_JSON: u64 = 1 << 14;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -217,7 +230,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
             | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT
             | VOIAGE_ABI_DECISION_PROBLEM_JSON
-            | VOIAGE_ABI_EVPI_RESULT_JSON,
+            | VOIAGE_ABI_EVPI_RESULT_JSON
+            | VOIAGE_ABI_SCALAR_RESULT_JSON,
     }
 }
 

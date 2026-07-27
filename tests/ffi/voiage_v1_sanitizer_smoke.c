@@ -70,6 +70,17 @@ int main(void) {
         evpi_envelope_size <= 1) {
         return 20;
     }
+    const char evsi_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"evsi\",\"trial_design_id\":\"trial\","
+        "\"sample_size\":10,\"evsi\":1.0}";
+    uint64_t scalar_size = 0;
+    if (voiage_v1_evsi_result_json(
+            (const uint8_t *)evsi_envelope, sizeof(evsi_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK ||
+        scalar_size <= 1) {
+        return 21;
+    }
 
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 result = {0};

@@ -63,6 +63,30 @@ static int exercise_contract(void) {
         evpi_envelope_size <= 1) {
         return 17;
     }
+    const char evppi_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"evppi\",\"parameter_names\":[\"theta\"],"
+        "\"evppi\":1.0}";
+    const char evsi_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"evsi\",\"trial_design_id\":\"trial\","
+        "\"sample_size\":10,\"evsi\":1.0}";
+    const char enbs_envelope[] =
+        "{\"analysis_id\":\"a\",\"decision_problem_id\":\"d\","
+        "\"analysis_type\":\"enbs\",\"trial_design_id\":\"trial\","
+        "\"sample_size\":10,\"design_cost\":2.0,\"enbs\":-1.0}";
+    uint64_t scalar_size = 0;
+    if (voiage_v1_evppi_result_json(
+            (const uint8_t *)evppi_envelope, sizeof(evppi_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK ||
+        voiage_v1_evsi_result_json(
+            (const uint8_t *)evsi_envelope, sizeof(evsi_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK ||
+        voiage_v1_enbs_result_json(
+            (const uint8_t *)enbs_envelope, sizeof(enbs_envelope) - 1,
+            NULL, 0, &scalar_size) != VOIAGE_V1_STATUS_OK) {
+        return 19;
+    }
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 evpi_result = {0};
     if (voiage_v1_evpi_result(values, 2, 2, &evpi_result) !=

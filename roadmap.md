@@ -163,6 +163,12 @@ scalar invariants, optional paired strategy arrays, and unknown-field policy
 before normalized output. Other result envelopes, estimator-assurance JSON,
 and Arrow remain open.
 
+C ABI v1.12 consolidates all JSON entry points on one checked ownership/copy
+implementation and adds canonical v1 EVPPI, EVSI, and ENBS result-envelope
+validation. Each retains its own discriminator and method-specific invariants;
+ENBS correctly permits negative net research value. Expected-loss, CEAF,
+dominance, estimator-assurance JSON, and Arrow remain open.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `11`
+- ABI major: `1`; ABI minor: `12`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -26,6 +26,8 @@ the release allowlists.
   type before returning compact caller-owned UTF-8.
   EVPI result-envelope JSON transport validates the canonical v1 discriminator,
   scalars, and optional per-strategy arrays.
+  EVPPI, EVSI, and ENBS result envelopes use the same shared checked transport
+  and their distinct versioned Rust DTOs.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -39,12 +41,15 @@ voiage_v1_decision_problem_json
 voiage_v1_ceaf_result
 voiage_v1_evpi
 voiage_v1_enbs
+voiage_v1_enbs_result_json
 voiage_v1_dominance_result
 voiage_v1_evpi_result
 voiage_v1_evpi_result_json
 voiage_v1_evppi_regression_result
+voiage_v1_evppi_result_json
 voiage_v1_evsi_moment_matching_result
 voiage_v1_evsi_regression_result
+voiage_v1_evsi_result_json
 voiage_v1_expected_loss_result
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
@@ -123,6 +128,15 @@ the canonical EVPI v1 result envelope. It rejects unknown fields, a wrong
 analysis discriminator, non-finite or invalid scalars, negative EVPI, blank
 identifiers, and optional strategy arrays that are missing their paired array
 or differ in length. Other result families remain separate capability work.
+
+`voiage_v1_evppi_result_json`, `voiage_v1_evsi_result_json`, and
+`voiage_v1_enbs_result_json` validate their distinct v1 discriminators and
+method-specific invariants. EVPPI requires non-empty parameter names and a
+non-negative value. EVSI requires a trial design, positive sample size, and
+non-negative value. ENBS requires a trial design, positive sample size,
+non-negative design cost, and permits scientifically valid negative net
+research value. All JSON entry points share one checked ownership and copy
+implementation.
 
 ## Status and error transport
 
