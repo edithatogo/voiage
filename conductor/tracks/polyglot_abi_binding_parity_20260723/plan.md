@@ -15,6 +15,9 @@
     caller-owned classification, index, and transition arrays. (`6928b47b`)
   - [x] Add threshold-aligned CEAF probabilities, intervals, expected net
     benefit, and assurance through caller-owned arrays. (`f2d0d5b6`)
+  - [x] Add typed structural EVPI and structural EVPPI results with explicit
+    model probabilities, selected-structure indices, and sampling assurance.
+    (`feeb342c`)
 - [ ] Freeze additive ABI v1 types and code-generation inputs.
   - [x] Add the fixed-width v1.1 typed EVPI assurance result and retain all
     scalar v1.0 entry points.
