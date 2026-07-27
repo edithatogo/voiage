@@ -6,6 +6,8 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
+from hypothesis import given, settings
+from hypothesis import strategies as st
 import numpy as np
 import polars as pl
 import pyarrow as pa
@@ -131,3 +133,55 @@ def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> No
     assert {bundle.schema_fingerprint for bundle in bundles} == {
         direct.schema_fingerprint
     }
+
+
+@settings(max_examples=30, deadline=None)
+@given(
+    rows=st.lists(
+        st.tuples(
+            st.floats(
+                min_value=-1_000_000,
+                max_value=1_000_000,
+                allow_nan=False,
+                allow_infinity=False,
+            ),
+            st.floats(
+                min_value=-1_000_000,
+                max_value=1_000_000,
+                allow_nan=False,
+                allow_infinity=False,
+            ),
+        ),
+        min_size=1,
+        max_size=20,
+    ),
+    column_order=st.permutations(("strategy_a", "strategy_b")),
+)
+def test_dataframe_and_direct_input_preserve_explicit_binding_under_column_order(
+    rows: list[tuple[float, float]], column_order: list[str]
+) -> None:
+    """Explicit bindings, not producer column order, define decision semantics."""
+    values = {
+        "strategy_a": [row[0] for row in rows],
+        "strategy_b": [row[1] for row in rows],
+    }
+    ordered_values = {field: values[field] for field in column_order}
+    direct = _direct_bundle(pa.table(ordered_values))
+    dataframe = from_dataframe(
+        pl.DataFrame(ordered_values),
+        dataset_id="property-fixture",
+        table_id="samples",
+        bindings=(_binding(),),
+    )
+
+    direct_prepared = prepare_analysis_inputs(direct)
+    dataframe_prepared = prepare_analysis_inputs(dataframe)
+    expected = np.asarray(
+        list(zip(values["strategy_a"], values["strategy_b"], strict=True))
+    )
+
+    assert direct_prepared.net_benefits.numpy_values.tolist() == expected.tolist()
+    assert dataframe_prepared.net_benefits.numpy_values.tolist() == expected.tolist()
+    assert evpi(direct_prepared.net_benefits.numpy_values) == pytest.approx(
+        evpi(dataframe_prepared.net_benefits.numpy_values)
+    )

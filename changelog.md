@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.
+- Added property-based cross-format conformance coverage proving that explicit
+  VOI bindings preserve normalized strategy order and EVPI when DataFrame and
+  direct producers emit decision columns in either order.
 - Added explicit offline, verified-cache, and resource-size policy flags to
   every standardized-ingestion CLI command while retaining local-only access.
 - Added a validated SciCrunch registration answer-and-evidence packet with
