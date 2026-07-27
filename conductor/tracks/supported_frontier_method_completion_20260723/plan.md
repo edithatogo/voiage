@@ -8,6 +8,9 @@
   without converting issue status into implementation evidence. (AC-01, AC-02)
 - [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
+- [ ] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
+  alias or presentation, including affine-utility reduction conditions, and
+  prohibit a duplicate numerical kernel. (AC-02, AC-08)
 - [ ] **G4:** Run automated contract review and full Conductor validation.
   (AC-01, AC-07)
 
@@ -35,7 +38,7 @@
 ## Phase 4 — Programme and hosted closeout
 
 - [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
-  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+  release targets and remaining external gates. (AC-01, AC-05, AC-06, AC-08)
 - [ ] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,

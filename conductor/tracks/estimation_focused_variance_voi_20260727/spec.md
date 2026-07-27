@@ -28,9 +28,10 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   EVSI_{var}(d)
   = Var(g(\theta)) - E_Y[Var(g(\theta)\mid Y,d)].
   \]
-- Declare the target \(g(\theta)\), units, prior, parameter subset or study
-  design, likelihood, conditioning convention, estimator, seed and numerical
-  tolerances.
+- Declare whether \(g(\theta)\) is scalar or vector, its component units, the
+  prior, parameter subset or study design, sampling model/likelihood,
+  conditioning sigma-field and averaging convention, estimator, seed and
+  numerical tolerances.
 - Keep these estimands distinct from decision-focused EVPPI/EVSI, global
   sensitivity indices, posterior estimator variance and EVSI estimator error.
 
@@ -42,9 +43,11 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   method settings, provenance and deterministic serialization.
 - Define behavior for zero prior variance, zero information, perfect
   information, non-finite inputs and finite-sample negative estimates.
-- Treat scalar targets as the first supported contract. Vector targets require
-  a separately reviewed scalarization such as trace, determinant or a declared
-  weighted covariance functional.
+- Treat scalar-target variance as the first supported functional. Vector
+  targets must return the declared prior and expected posterior covariance
+  objects and require a separately reviewed covariance functional—such as
+  trace, determinant or a declared weighted quadratic form—to produce a scalar
+  reduction. Never select or silently change that functional from data shape.
 
 ### R3 — Runtime and surfaces
 
@@ -72,8 +75,9 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
 - **AC-01:** The method registry and documentation distinguish
   `EVPPI_var`/`EVSI_var` from decision-focused EVPPI/EVSI and adjacent
   sensitivity or estimator-error concepts.
-- **AC-02:** Versioned scalar-target input and result schemas define units,
-  conditioning, variance conventions, diagnostics and provenance.
+- **AC-02:** Versioned input and result schemas declare scalar/vector target
+  shape, component units, variance or covariance functional, conditioning and
+  sampling models, diagnostics and provenance.
 - **AC-03:** Analytical and brute-force fixtures verify the estimands and
   law-of-total-variance identities.
 - **AC-04:** Property, edge, error and convergence tests cover the declared

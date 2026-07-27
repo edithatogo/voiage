@@ -13,6 +13,11 @@ Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/pr
 2. Govern implementation/perfection, uncertainty-modelling, risk-adjusted pricing, event-localized, belief-state, signed/social, heterogeneity and outcome-conditional sample-value families.
 3. Own the child relationship to estimation-focused variance VOI #619 while retaining its dedicated detailed track and issue.
 4. Require estimand-specific schemas, independent references, invariants, pathological cases, serialization, assurance, documentation and Rust/Python/R/Julia/Mojo dispositions.
+5. Classify Expected Value of Clairvoyance (VoC) as an alias or presentation
+   label for #595's expected-utility value of a clairvoyant policy under the
+   declared utility, wealth/reference state and information structure. VoC
+   does not create a duplicate numerical method, and raw monetary EVPI is not
+   risk-adjusted VoC unless affine-utility reduction conditions hold.
 
 ## Owned issue records
 
@@ -36,6 +41,9 @@ separate Conductor tracks unless they have an independently approved contract.
 - **AC-06:** Every child issue has an estimand-specific implementation or reviewed exclusion; planning, aliases, plots, scores and mock-only evidence cannot close the track.
 - **AC-07:** Automated review, full Conductor validation, repository checks and
   hosted required checks pass before repository completion.
+- **AC-08:** The method registry, #595 contract and documentation resolve VoC
+  to the expected-utility/clairvoyant-policy presentation without a duplicate
+  kernel or an unconditional EVPI alias.
 
 ## Non-functional constraints
 

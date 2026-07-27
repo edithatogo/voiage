@@ -31,8 +31,10 @@ sub-issue of frontier programme issue
 
 - Evaluate EVSI, research cost and signed ENBS over a declared finite or
   discretized feasible design set.
-- Return the full curve, feasible/infeasible flags, selected optimum, maximum
-  ENBS, boundary-optimum diagnostics and a deterministic tie policy.
+- Return one record per evaluated design, the declared feasible range or
+  enumerated feasible set, the complete EVSI/cost/ENBS curve,
+  feasible/infeasible flags, selected optimum, maximum ENBS,
+  boundary-optimum diagnostics and a deterministic tie policy.
 - Support non-monotone estimated curves and report estimator uncertainty around
   both ENBS and the selected design.
 - Provide an accessible visualization while keeping the result contract
@@ -75,8 +77,10 @@ sub-issue of frontier programme issue
 
 - **AC-01:** A versioned design and cost contract makes EVPI, EVSI, ENBS and
   feasibility inputs commensurate.
-- **AC-02:** COSS returns evaluated curves, deterministic optimum selection,
-  tie/boundary diagnostics and uncertainty rather than only drawing a plot.
+- **AC-02:** COSS returns evaluated design records, feasible range/set, the
+  signed ENBS curve, deterministic optimum and tie selection, boundary
+  diagnostics, uncertainty around the optimum and plotting inputs rather than
+  only drawing a plot.
 - **AC-03:** EVSI/EVPI has explicit zero-denominator, units, scaling,
   tolerance and bounds behavior and cannot be confused with value/cost.
 - **AC-04:** Existing plotting and clinical-optimizer behavior is classified,
