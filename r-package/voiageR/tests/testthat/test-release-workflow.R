@@ -49,3 +49,10 @@ test_that("the CRAN submission bundle records strict check evidence", {
   expect_true(any(grepl("New submission", comments, fixed = TRUE)))
   expect_true(any(grepl("unable to verify current time", comments, fixed = TRUE)))
 })
+
+test_that("the CRAN maintainer address can receive confirmation", {
+  maintainer <- packageDescription("voiageR", fields = "Maintainer")
+
+  expect_match(maintainer, "@")
+  expect_false(grepl("noreply", maintainer, ignore.case = TRUE))
+})

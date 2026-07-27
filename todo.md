@@ -72,9 +72,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         recipe is submitted in Yggdrasil PR #14292; JLL acceptance must precede
         the `bindings/julia` Registrator trigger and General merge.
         r-universe publishes `voiageR` 2.0.0 with a green hosted source and
-        cross-platform matrix. The CRAN source bundle passes strict checks;
-        upload awaits a confirmable maintainer email, followed by separate
-        confirmation, review, and acceptance evidence.
+        cross-platform matrix. The CRAN source bundle passes strict checks and
+        has a confirmable maintainer email; upload, confirmation, review, and
+        acceptance remain separately evidenced states.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table.
         Replacement `7870358` is an incomplete start-stage draft expiring

@@ -3,7 +3,7 @@ Type: Package
 Title: Value of Information Analysis in R
 Version: 2.0.0
 Authors@R: person("Dylan", "Mordaunt",
-    email = "voiage@users.noreply.github.com",
+    email = "dylan.mordaunt@vuw.ac.nz",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-9775-0603"))
 Description: An R interface to the Rust-backed voiage core for Value of Information analysis,
