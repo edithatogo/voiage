@@ -1,0 +1,1 @@
+Julia now exposes the Rust ENBS scalar ABI with contract coverage.
