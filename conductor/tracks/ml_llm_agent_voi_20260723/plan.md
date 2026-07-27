@@ -15,7 +15,7 @@
   prediction, information action, utility, provenance, stopping, and privacy
   fields and link it from the canonical fixture manifest; runtime protocol
   enforcement remains open. Draft 2020-12 validation is now executable in the
-  regression suite.
+  regression suite, including rejection of network/private provenance claims.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
 - [ ] Threat-model prompt injection, data/retrieval poisoning, tool
