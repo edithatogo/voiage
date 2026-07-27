@@ -83,6 +83,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         *   C ABI v1.8 now exposes the stable full-sample linear-regression
             EVPPI result with fit dimensions and an explicit incomplete-
             assurance state.
+        *   C ABI v1.9 now exposes promoted Rust-native linear-regression and
+            centered moment-matching EVSI results without relabelling the
+            distinct Python two-loop compatibility path as Rust-native.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
     *   Freeze a canonical Decision Problem interchange model and

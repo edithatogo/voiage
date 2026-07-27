@@ -22,6 +22,8 @@ _Static_assert(sizeof(VoiageStructuralVoiResultV1) == 64,
                "structural VOI result layout drift");
 _Static_assert(sizeof(VoiageEvppiRegressionResultV1) == 48,
                "EVPPI regression result layout drift");
+_Static_assert(sizeof(VoiageEvsiApproximationResultV1) == 88,
+               "EVSI approximation result layout drift");
 
 static int exercise_contract(void) {
     VoiageAbiVersionV1 version = voiage_v1_abi_version();
@@ -121,6 +123,22 @@ static int exercise_contract(void) {
         evppi_result.struct_size != sizeof(evppi_result) ||
         evppi_result.assurance_state != VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE) {
         return 13;
+    }
+    VoiageEvsiApproximationResultV1 evsi_result = {0};
+    if (voiage_v1_evsi_regression_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2, 3,
+            &evsi_result) != VOIAGE_V1_STATUS_OK ||
+        evsi_result.struct_size != sizeof(evsi_result) ||
+        evsi_result.estimator_kind != VOIAGE_V1_EVSI_ESTIMATOR_REGRESSION ||
+        evsi_result.assurance_state != VOIAGE_V1_EVSI_ASSURANCE_INCOMPLETE) {
+        return 14;
+    }
+    if (voiage_v1_evsi_moment_matching_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2, 3,
+            &evsi_result) != VOIAGE_V1_STATUS_OK ||
+        evsi_result.estimator_kind !=
+            VOIAGE_V1_EVSI_ESTIMATOR_MOMENT_MATCHING) {
+        return 15;
     }
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     uint64_t required_size = 0;

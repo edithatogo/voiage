@@ -126,6 +126,21 @@ int main(void) {
         evppi_result.assurance_state != VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE) {
         return 16;
     }
+    VoiageEvsiApproximationResultV1 evsi_result = {0};
+    if (voiage_v1_evsi_regression_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2, 3,
+            &evsi_result) != VOIAGE_V1_STATUS_OK ||
+        evsi_result.estimator_kind != VOIAGE_V1_EVSI_ESTIMATOR_REGRESSION ||
+        evsi_result.assurance_state != VOIAGE_V1_EVSI_ASSURANCE_INCOMPLETE) {
+        return 17;
+    }
+    if (voiage_v1_evsi_moment_matching_result(
+            evppi_net_benefit, 4, 2, evppi_parameters, 4, 2, 3,
+            &evsi_result) != VOIAGE_V1_STATUS_OK ||
+        evsi_result.estimator_kind !=
+            VOIAGE_V1_EVSI_ESTIMATOR_MOMENT_MATCHING) {
+        return 18;
+    }
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;

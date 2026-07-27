@@ -29,6 +29,10 @@ mod expected_loss_result;
 // contains panics, and writes only after successful regression.
 #[allow(unsafe_code)]
 mod evppi_regression_result;
+// SAFETY: EVSI transport validates both caller-owned matrices and the result,
+// contains panics, and writes only after successful estimator execution.
+#[allow(unsafe_code)]
+mod evsi_approximation_result;
 // SAFETY: lifecycle validates its sole caller-owned output pointer before the
 // one documented write. Export wrappers contain panics before returning to C.
 #[allow(unsafe_code)]
@@ -52,6 +56,11 @@ pub use evppi_regression_result::{
     voiage_v1_evppi_regression_result, VoiageEvppiRegressionResultV1,
     VOIAGE_EVPPI_ASSURANCE_INCOMPLETE,
 };
+pub use evsi_approximation_result::{
+    voiage_v1_evsi_moment_matching_result, voiage_v1_evsi_regression_result,
+    VoiageEvsiApproximationResultV1, VOIAGE_EVSI_ASSURANCE_INCOMPLETE,
+    VOIAGE_EVSI_ESTIMATOR_MOMENT_MATCHING, VOIAGE_EVSI_ESTIMATOR_REGRESSION,
+};
 pub use expected_loss_result::{voiage_v1_expected_loss_result, VoiageExpectedLossResultV1};
 pub use lifecycle::{voiage_v1_handle_create, voiage_v1_handle_free};
 pub use status::VoiageStatusV1;
@@ -67,7 +76,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 8;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 9;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -101,6 +110,9 @@ pub const VOIAGE_ABI_STRUCTURAL_VOI_RESULT: u64 = 1 << 9;
 
 /// Capability bit for the stable full-sample linear-regression EVPPI result.
 pub const VOIAGE_ABI_EVPPI_REGRESSION_RESULT: u64 = 1 << 10;
+
+/// Capability bit for promoted Rust-native EVSI approximation results.
+pub const VOIAGE_ABI_EVSI_APPROXIMATION_RESULT: u64 = 1 << 11;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -186,7 +198,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_DOMINANCE_RESULT
             | VOIAGE_ABI_CEAF_RESULT
             | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
-            | VOIAGE_ABI_EVPPI_REGRESSION_RESULT,
+            | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
+            | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT,
     }
 }
 

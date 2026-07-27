@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(8)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(9)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -37,7 +37,11 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_CEAF_RESULT (UINT64_C(1) << 8)
 #define VOIAGE_V1_CAPABILITY_STRUCTURAL_VOI_RESULT (UINT64_C(1) << 9)
 #define VOIAGE_V1_CAPABILITY_EVPPI_REGRESSION_RESULT (UINT64_C(1) << 10)
+#define VOIAGE_V1_CAPABILITY_EVSI_APPROXIMATION_RESULT (UINT64_C(1) << 11)
 #define VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE UINT32_C(0)
+#define VOIAGE_V1_EVSI_ASSURANCE_INCOMPLETE UINT32_C(0)
+#define VOIAGE_V1_EVSI_ESTIMATOR_REGRESSION UINT32_C(1)
+#define VOIAGE_V1_EVSI_ESTIMATOR_MOMENT_MATCHING UINT32_C(2)
 #define VOIAGE_V1_NULL_HANDLE UINT64_C(0)
 
 typedef int32_t voiage_v1_status;
@@ -132,6 +136,22 @@ typedef struct VoiageEvppiRegressionResultV1 {
     uint32_t reserved;
 } VoiageEvppiRegressionResultV1;
 
+typedef struct VoiageEvsiApproximationResultV1 {
+    uint32_t struct_size;
+    uint32_t struct_version;
+    double evsi;
+    double expected_current_value;
+    double expected_sample_value;
+    double expected_perfect_information;
+    double information_fraction;
+    uint64_t sample_count;
+    uint64_t strategy_count;
+    uint64_t parameter_count;
+    uint64_t trial_sample_size;
+    uint32_t estimator_kind;
+    uint32_t assurance_state;
+} VoiageEvsiApproximationResultV1;
+
 /* A handle is an opaque process-local token, never an address. Zero is null. */
 typedef uint64_t VoiageHandleV1;
 
@@ -222,6 +242,26 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_evppi_regression_result(
     uint64_t parameter_sample_count,
     uint64_t parameter_count,
     VoiageEvppiRegressionResultV1 *out_result);
+/* Promoted Rust-native deterministic approximations. A single call does not
+ * establish replicate assurance. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_evsi_regression_result(
+    const double *net_benefit,
+    uint64_t sample_count,
+    uint64_t strategy_count,
+    const double *parameter_samples,
+    uint64_t parameter_sample_count,
+    uint64_t parameter_count,
+    uint64_t trial_sample_size,
+    VoiageEvsiApproximationResultV1 *out_result);
+VOIAGE_V1_API voiage_v1_status voiage_v1_evsi_moment_matching_result(
+    const double *net_benefit,
+    uint64_t sample_count,
+    uint64_t strategy_count,
+    const double *parameter_samples,
+    uint64_t parameter_sample_count,
+    uint64_t parameter_count,
+    uint64_t trial_sample_size,
+    VoiageEvsiApproximationResultV1 *out_result);
 /* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
     const double *values,

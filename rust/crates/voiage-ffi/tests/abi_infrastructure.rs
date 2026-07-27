@@ -8,12 +8,12 @@ use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     voiage_v1_evpi_result, VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageCeafResultV1,
     VoiageDominanceResultV1, VoiageEvpiResultV1, VoiageEvppiRegressionResultV1,
-    VoiageExpectedLossResultV1, VoiageStatusV1, VoiageStructuralVoiResultV1,
-    VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY, VOIAGE_ABI_CEAF_RESULT,
-    VOIAGE_ABI_DOMINANCE_RESULT, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
-    VOIAGE_ABI_EVPPI_REGRESSION_RESULT, VOIAGE_ABI_EXPECTED_LOSS_RESULT,
-    VOIAGE_ABI_STRUCTURAL_VOI_RESULT, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
-    VOIAGE_V1_ABI_MINOR,
+    VoiageEvsiApproximationResultV1, VoiageExpectedLossResultV1, VoiageStatusV1,
+    VoiageStructuralVoiResultV1, VOIAGE_ABI_CAPABILITY_DOCUMENT, VOIAGE_ABI_CAPABILITY_QUERY,
+    VOIAGE_ABI_CEAF_RESULT, VOIAGE_ABI_DOMINANCE_RESULT, VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI_RESULT,
+    VOIAGE_ABI_EVPPI_REGRESSION_RESULT, VOIAGE_ABI_EVSI_APPROXIMATION_RESULT,
+    VOIAGE_ABI_EXPECTED_LOSS_RESULT, VOIAGE_ABI_STRUCTURAL_VOI_RESULT,
+    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -49,8 +49,9 @@ fn capability_query_advertises_typed_evpi_results() {
             | VOIAGE_ABI_CEAF_RESULT
             | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
             | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
+            | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT
     );
-    assert_eq!(capabilities.capability_bits & !0b111_1111_1111, 0);
+    assert_eq!(capabilities.capability_bits & !0b1111_1111_1111, 0);
 }
 
 #[test]
@@ -202,6 +203,20 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
             "VoiageEvppiRegressionResultV1.parameter_count {}\n",
             "VoiageEvppiRegressionResultV1.assurance_state {}\n",
             "VoiageEvppiRegressionResultV1.reserved {}\n",
+            "VoiageEvsiApproximationResultV1 {} {}\n",
+            "VoiageEvsiApproximationResultV1.struct_size {}\n",
+            "VoiageEvsiApproximationResultV1.struct_version {}\n",
+            "VoiageEvsiApproximationResultV1.evsi {}\n",
+            "VoiageEvsiApproximationResultV1.expected_current_value {}\n",
+            "VoiageEvsiApproximationResultV1.expected_sample_value {}\n",
+            "VoiageEvsiApproximationResultV1.expected_perfect_information {}\n",
+            "VoiageEvsiApproximationResultV1.information_fraction {}\n",
+            "VoiageEvsiApproximationResultV1.sample_count {}\n",
+            "VoiageEvsiApproximationResultV1.strategy_count {}\n",
+            "VoiageEvsiApproximationResultV1.parameter_count {}\n",
+            "VoiageEvsiApproximationResultV1.trial_sample_size {}\n",
+            "VoiageEvsiApproximationResultV1.estimator_kind {}\n",
+            "VoiageEvsiApproximationResultV1.assurance_state {}\n",
             "VoiageHandleV1 {} {}\n",
             "voiage_v1_status {} {}",
         ),
@@ -279,6 +294,24 @@ fn committed_layout_baseline_matches_rust_types_exactly() {
         offset_of!(VoiageEvppiRegressionResultV1, parameter_count),
         offset_of!(VoiageEvppiRegressionResultV1, assurance_state),
         offset_of!(VoiageEvppiRegressionResultV1, reserved),
+        size_of::<VoiageEvsiApproximationResultV1>(),
+        align_of::<VoiageEvsiApproximationResultV1>(),
+        offset_of!(VoiageEvsiApproximationResultV1, struct_size),
+        offset_of!(VoiageEvsiApproximationResultV1, struct_version),
+        offset_of!(VoiageEvsiApproximationResultV1, evsi),
+        offset_of!(VoiageEvsiApproximationResultV1, expected_current_value),
+        offset_of!(VoiageEvsiApproximationResultV1, expected_sample_value),
+        offset_of!(
+            VoiageEvsiApproximationResultV1,
+            expected_perfect_information
+        ),
+        offset_of!(VoiageEvsiApproximationResultV1, information_fraction),
+        offset_of!(VoiageEvsiApproximationResultV1, sample_count),
+        offset_of!(VoiageEvsiApproximationResultV1, strategy_count),
+        offset_of!(VoiageEvsiApproximationResultV1, parameter_count),
+        offset_of!(VoiageEvsiApproximationResultV1, trial_sample_size),
+        offset_of!(VoiageEvsiApproximationResultV1, estimator_kind),
+        offset_of!(VoiageEvsiApproximationResultV1, assurance_state),
         size_of::<u64>(),
         align_of::<u64>(),
         size_of::<VoiageStatusV1>(),

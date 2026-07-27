@@ -144,6 +144,13 @@ EVPPI estimator. Its fixed-width result carries aligned sample, strategy, and
 parameter counts and explicitly reports incomplete assurance rather than
 inventing bias, variance, or convergence evidence from one deterministic fit.
 
+C ABI v1.9 exposes the promoted Rust-native linear-regression and centered
+moment-matching EVSI approximations through an estimator-labelled fixed-width
+result. It carries the current, sample and perfect-information values,
+information fraction, dimensions and trial size, while keeping single-fit
+replicate assurance explicitly incomplete. The separate Python joint-normal
+two-loop compatibility path is not advertised as Rust-native.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

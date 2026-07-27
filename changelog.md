@@ -106,6 +106,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.8 for the stable full-sample linear-regression EVPPI estimator,
   including fit dimensions, diagnostic status mapping, panic containment,
   no-write failures, and an explicit incomplete-assurance state.
+- Added ABI v1.9 typed results for the promoted Rust-native linear-regression
+  and centered moment-matching EVSI estimators, with estimator identity, value
+  decomposition, dimensions, trial size, and explicit single-fit assurance.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the
