@@ -23,6 +23,9 @@
   retain non-overlapping dead-code, type, dataflow, dependency, orchestration,
   mutation, and profiling controls until explicit parity evidence supports
   further consolidation.
+- [x] Remove the redundant `tomli` backport now that Python 3.12 is the
+  supported floor, update stale local validation references, and record the
+  retained dependency-audit boundary. (`74e4be05`)
 - [x] Make Renovate the sole version-update bot; validate its configuration,
   dependency dashboard, supported managers, vulnerability bypass, Action
   pinning, stability checks, grouping, concurrency, human-review boundaries,
@@ -108,6 +111,10 @@
   tested quality-tool registry that records why whole-program dead-code,
   independent typing, CodeQL dataflow, dependency, orchestration, mutation,
   profiling, and prose controls remain distinct.
+- [x] Commit `74e4be05` removes the obsolete `tomli` backport, retires the
+  Safety/pip-tools temporary-resolution lane in favour of the pinned
+  pip-audit/SBOM path, and updates the supplementary local validator to the
+  active toolchain. The complete tox matrix passed with 91.07% coverage.
 
 ## Phase 3: Staged release evidence
 
