@@ -71,10 +71,12 @@
   Linux, macOS, and Windows build evidence. ([conda-forge PR
   #34308](https://github.com/conda-forge/staged-recipes/pull/34308);
   maintainer review and merge remain external)
-- [~] Expand the compiled conda recipe from its initial Python 3.12-only
+- [x] Expand the compiled conda recipe from its initial Python 3.12-only
   artifacts to the supported Python 3.12+ build matrix, add installed
   Rust-core and numerical smoke evidence, and verify the revised hosted
-  matrix before requesting conda-forge review.
+  matrix before requesting conda-forge review. (`581fcafb`; staged-recipes
+  build `1558265` passes lint and current Python 3.12/3.13 variants on Linux,
+  macOS, and Windows; external review requested)
 
 ## Phase 2B: Independent simulated JOSS editorial review
 

@@ -62,7 +62,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         clean-install, and Software Heritage evidence is complete.
         The conda-forge recipe now requests the full supported Python 3.12+
         compiled matrix and tests the installed Rust core and a known EVPI
-        result; hosted review and merge evidence remain external.
+        result. Conda-forge's current Python 3.12 and 3.13 variants pass on
+        Linux, macOS, and Windows; review and merge remain external.
         Author-confirmed AI attestation, final human source verification,
         and the external engagement record remain open. The release-bound PDF
         has passed its hosted build and six-page visual review. Conda-forge PR
