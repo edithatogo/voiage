@@ -13,6 +13,7 @@ import polars as pl
 import pyarrow as pa
 import pytest
 
+from voiage import ingestion
 from voiage.contracts import (
     DatasetManifest,
     FieldManifest,
@@ -764,6 +765,15 @@ def test_public_provider_exports_load_the_requested_adapter_on_demand() -> None:
     )
 
     assert result.returncode == 0, result.stderr
+
+
+def test_public_provider_exports_cover_lazy_lookup_branches() -> None:
+    """Public names resolve through the lazy module lookup under coverage."""
+    assert ingestion.CroissantProvider is CroissantProvider
+    assert ingestion.FrictionlessProvider is FrictionlessProvider
+
+    with pytest.raises(AttributeError, match="has no attribute 'UnknownProvider'"):
+        _ = ingestion.UnknownProvider
 
 
 def test_entry_point_discovery_is_opt_in_and_allow_listed() -> None:
