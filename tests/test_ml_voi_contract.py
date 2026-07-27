@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tomllib
 
+from jsonschema import Draft202012Validator
 import pytest
 
 from voiage.contracts.concerns import EvidenceReference
@@ -52,6 +53,8 @@ def test_eig_fixture_schema_declares_formal_decision_contract() -> None:
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     required = set(schema["required"])
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(payload)
     assert required <= payload.keys()
     assert schema["properties"]["provenance"]["properties"]["network_required"] == {
         "const": False
