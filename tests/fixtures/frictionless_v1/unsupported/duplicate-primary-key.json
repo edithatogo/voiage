@@ -1,0 +1,7 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "unsupported/duplicate-primary-key.csv",
+    "schema": {"primaryKey": "scenario_id", "fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}
+  }]
+}

@@ -1,0 +1,7 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "valid/data.csv",
+    "schema": {"fields": [{"name": "scenario_id", "type": "date"}, {"name": "net_benefit"}]}
+  }]
+}

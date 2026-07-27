@@ -85,10 +85,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 - [x] **P4-T6 / AC-05:** Review and record the Frictionless dependency and
   supported-profile decision through the same dependency-frontier evidence. (`frictionless==5.19.0` decision)
-- [ ] **P4-T7 / AC-05:** Write failing offline fixtures/tests for package and
+- [~] **P4-T7 / AC-05:** Write failing offline fixtures/tests for package and
   data validation, resources, schemas, dialects, types, constraints, missing
   values, keys, integrity, governance metadata, supported tabular formats, and
-  ambiguous resources.
+  ambiguous resources. File-backed baseline and fail-closed format/integrity
+  coverage added (`d0c1b238`); remaining acceptance evidence is tracked below.
 - [ ] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile.
 - [ ] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,

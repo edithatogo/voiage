@@ -77,6 +77,13 @@ class FrictionlessProvider:
         if not isinstance(fields, list):
             raise IngestionError("Data Package schema requires fields")
         fields = cast("list[object]", fields)
+        resource_format = resource.get("format")
+        if resource_format not in (None, "csv"):
+            raise IngestionError("supported Data Package profile requires CSV format")
+        if any(key in resource for key in ("hash", "bytes", "checksum")):
+            raise IngestionError(
+                "supported Data Package profile does not support integrity declarations"
+            )
         dialect = resource.get("dialect")
         if dialect not in (None, {"delimiter": ","}):
             raise IngestionError(

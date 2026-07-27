@@ -1,0 +1,8 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "valid/data.csv",
+    "hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": {"fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}
+  }]
+}
