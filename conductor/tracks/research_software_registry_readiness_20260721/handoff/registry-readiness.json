@@ -214,7 +214,7 @@
       "command": "r-universe workflow 30229840760; R CMD build --compact-vignettes=gs+qpdf; R CMD check --as-cran --run-donttest --timings",
       "runner": "r-universe hosted matrix and local R 4.3.0 on arm64 macOS",
       "status": "published_and_cran_ready_pending_email",
-      "artifact": "https://edithatogo.r-universe.dev/voiageR; voiageR_2.0.0.tar.gz sha256 35e3171eeadc588d1729e47883648b64bf79fc15545e30533f17bfcf5231b2aa",
+      "artifact": "https://edithatogo.r-universe.dev/voiageR; voiageR_2.0.0.tar.gz sha256 3bc265698e6eff33403a83dc441a6d013c5252f545c46987969bd164950ad42c",
       "details": "r-universe publishes voiageR 2.0.0 and its source, Linux, macOS, Windows, and WebAssembly jobs pass. The fresh CRAN source bundle passes with 0 errors, 0 warnings, and two expected notes for a new submission and local clock verification. The author supplied a valid CRAN confirmation address."
     }
   ]
