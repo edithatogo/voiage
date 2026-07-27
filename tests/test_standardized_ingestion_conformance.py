@@ -5,6 +5,8 @@ from __future__ import annotations
 from hashlib import sha256
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
@@ -164,6 +166,47 @@ def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() 
     ] == [
         receipt.model_dump(mode="json") for receipt in frictionless.manifest.resources
     ]
+
+
+def test_arrow_round_trips_are_equivalent_in_a_fresh_python_process(tmp_path) -> None:
+    """IPC and Parquet must preserve the normalized table outside this process."""
+    direct = _direct_bundle(
+        pa.table(
+            {
+                "strategy_a": [10.0, 30.0, 20.0],
+                "strategy_b": [20.0, 10.0, 25.0],
+            }
+        )
+    )
+    ipc_path = tmp_path / "canonical.arrow"
+    parquet_path = tmp_path / "canonical.parquet"
+    direct.write_ipc(ipc_path)
+    direct.write_parquet(parquet_path)
+    script = "\n".join(
+        (
+            "import json",
+            "import polars as pl",
+            "import sys",
+            "from voiage.contracts import NormalizedInputBundle",
+            "reader = getattr(NormalizedInputBundle, sys.argv[1])",
+            "bundle = reader(sys.argv[2])",
+            "table = bundle.table('samples')",
+            "frame = pl.from_arrow(table)",
+            "print(json.dumps({'schema': str(table.schema), 'rows': frame.to_dicts()}))",
+        )
+    )
+
+    outputs = [
+        subprocess.run(
+            [sys.executable, "-c", script, reader, str(path)],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+        for reader, path in (("read_ipc", ipc_path), ("read_parquet", parquet_path))
+    ]
+
+    assert json.loads(outputs[0]) == json.loads(outputs[1])
 
 
 @settings(max_examples=30, deadline=None)
