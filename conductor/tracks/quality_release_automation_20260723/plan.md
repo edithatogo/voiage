@@ -92,7 +92,8 @@
   ecosystem-drift proposals.
   - [x] Protect the existing landscape freshness projections for method,
     implementation, upstream-feature, and feature-matrix claims.
-  - [x] Protect the versioned compatibility/deprecation policy contract.
+  - [x] Protect the versioned compatibility/deprecation policy contract and
+    its architecture/versioning documentation cross-references.
   - [ ] Add explicit ADR/deprecation-ledger cross-reference validation and
     adversarial ML/agent fixture coverage.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
@@ -142,6 +143,8 @@
 - [x] Added regression coverage for the landscape freshness workflow's four
   registry-to-public-claim projections; ADR/deprecation-ledger cross-links and
   adversarial ML/agent fixtures remain open subitems.
+- [x] Added explicit checks linking the core architecture decision, normative
+  compatibility/deprecation policy, and versioning documentation.
 
 ## Phase 3: Staged release evidence
 
