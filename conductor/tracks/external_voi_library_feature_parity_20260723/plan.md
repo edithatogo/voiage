@@ -18,11 +18,12 @@
 
 ## Phase 2: Comprehensive schema and inventory
 
-- [~] Under [#569](https://github.com/edithatogo/voiage/issues/569), freeze
+- [x] Under [#569](https://github.com/edithatogo/voiage/issues/569), freeze
   `landscape-schema-review-protocol`: nested product/version/schema/feature/
   subfeature/option records, evidence strength, rights, duplicate resolution,
   inclusion/exclusion, freshness, review, and deterministic generation.
-- [ ] Add failing schema, representative-record, evidence-ordering,
+  (`24e0f54`)
+- [~] Add failing schema, representative-record, evidence-ordering,
   observability, duplicate, rights, and freshness tests before expanding the
   current baseline.
 - [ ] Under [#565](https://github.com/edithatogo/voiage/issues/565), complete
