@@ -116,9 +116,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ### Phase checkpoint
 
-- [ ] **P4-T10 / AC-03–AC-05, AC-11:** Verify base-import isolation and clean installs
+- [~] **P4-T10 / AC-03–AC-05, AC-11:** Verify base-import isolation and clean installs
   for each extra; run automated review, focused tests, dependency/security
-  audits, and the phase checkpoint protocol.
+  audits, and the phase checkpoint protocol. A wheel built from `46ef7873`
+  installed and passed import-isolation/registry checks in fresh Python 3.14
+  environments for base, `croissant`, `frictionless`, and `ingestion` extras
+  (partial); the full phase checkpoint remains pending.
 
 ## Phase 5 — Prove cross-format conformance (#331)
 
