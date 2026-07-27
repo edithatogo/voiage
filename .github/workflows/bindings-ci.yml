@@ -95,6 +95,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Assert and record exact source head
+        shell: bash
         env:
           EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
