@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added explicit contract-only output artifacts for the frontier ML
+  adversarial-scenario and EIG-versus-decision-VOI fixtures, keeping the
+  manifest validator strict while preserving their non-promotion status.
+
 - Added a deterministic ML contract fixture that keeps expected information
   gain distinct from decision VOI and records the information action,
   utility, stopping rule, privacy budget, and offline provenance explicitly.
