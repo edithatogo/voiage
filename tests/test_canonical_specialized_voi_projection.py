@@ -23,9 +23,9 @@ def test_c16_projection_matches_voiage_tracks() -> None:
 
 def test_c16_projection_rejects_missing_consumer_registration(tmp_path: Path) -> None:
     projection = json.loads(
-        (ROOT / "conductor/canonical-projections/specialized-voi-v1.2.0.json").read_text(
-            encoding="utf-8"
-        )
+        (
+            ROOT / "conductor/canonical-projections/specialized-voi-v1.2.0.json"
+        ).read_text(encoding="utf-8")
     )
     projection["registered_repositories"] = []
     path = tmp_path / "projection.json"
