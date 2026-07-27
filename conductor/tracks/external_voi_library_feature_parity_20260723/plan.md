@@ -23,10 +23,11 @@
   subfeature/option records, evidence strength, rights, duplicate resolution,
   inclusion/exclusion, freshness, review, and deterministic generation.
   (`24e0f54`)
-- [~] Add failing schema, representative-record, evidence-ordering,
+- [x] Add failing schema, representative-record, evidence-ordering,
   observability, duplicate, rights, and freshness tests before expanding the
   current baseline.
-- [ ] Under [#565](https://github.com/edithatogo/voiage/issues/565), complete
+  (`6d4deda`)
+- [~] Under [#565](https://github.com/edithatogo/voiage/issues/565), complete
   `landscape-open-source-inventory` across registries, source hosts, archives,
   papers, supplements, HTA, decision analysis, Bayesian OED, active learning,
   causal policy, forecasting, optimization, and information economics.
