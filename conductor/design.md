@@ -39,6 +39,42 @@ sequenceDiagram
     T-->>V: Pass or fail closed
 ```
 
+## Specialized VOI v1.2.0
+
+```mermaid
+flowchart LR
+    Target["Scalar/vector target + component units"] --> Functional["Variance/covariance functional"]
+    Conditioning["Prior + conditioning convention"] --> Estimation["EVPPI_var / EVSI_var"]
+    Sampling["Sampling model + design"] --> Estimation
+    Functional --> Estimation
+    Estimation --> Assurance["Estimator uncertainty + diagnostics"]
+
+    Designs["Evaluated feasible designs"] --> EVSI["Decision EVSI"]
+    EVSI --> ENBS["Signed ENBS curve"]
+    Costs["Study + opportunity costs"] --> ENBS
+    ENBS --> COSS["Optimum + tie/boundary state + uncertainty"]
+    COSS --> Plot["Accessible plotting inputs"]
+    EVSI --> Ratio["EVSI / EVPI"]
+    EVPI["Commensurate EVPI"] --> Ratio
+
+    Utility["Utility + wealth/reference state"] --> Clairvoyant["Clairvoyant policy"]
+    Clairvoyant --> VoC["VoC presentation governed by #595"]
+```
+
+```mermaid
+flowchart TD
+    C16["Canonical C16 / v1.2.0"] --> Projection["Versioned public projection"]
+    Projection --> Planner["Three-way conflict-safe planner"]
+    Planner --> Issues["#313 > #318 > #571/#595/#619"]
+    Planner --> Consumers["Other registered repositories"]
+    Issues --> Project["Project 28"]
+    Consumers --> Project
+    Project --> Fields["MoSCoW + Contract Version + Track ID + Record ID + Sync State"]
+    Planner --> Guard{"Conflict, private data, or missing credential?"}
+    Guard -->|yes| Stop["Fail closed"]
+    Guard -->|no and authorized| Managed["Update managed fields only"]
+```
+
 The archived Conductor registry documents historical implementation. GitHub
 issues and the shared project provide the public ledger; local specifications,
 fixtures, and CI evidence remain authoritative for technical completion.

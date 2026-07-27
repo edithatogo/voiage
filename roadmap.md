@@ -114,6 +114,63 @@ SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
 ML, engineering/operations, and business reference cases. Neither follow-on
 creates a second preparation path or domain-specific numerical kernel.
 
+Two additive frontier plans target the governed v1.2.0 contract and cover the
+specialized gaps identified on 27 July 2026 without changing the released
+stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
+C16 own the shared projection:
+
+*   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
+    estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector
+    target shape, component units, variance or covariance functional,
+    conditioning and sampling models, and estimator assurance. They remain
+    explicitly separate from decision-focused EVPPI/EVSI, sensitivity indices,
+    and estimator uncertainty.
+*   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
+    governed Curve of Optimal Sample Size result containing evaluated designs,
+    feasible range/set, the signed ENBS curve, deterministic tie policy,
+    optimum, uncertainty around the optimum and plotting inputs, plus the
+    dimensionless EVSI/EVPI study-efficiency diagnostic with zero-EVPI and
+    bounds behavior. They must reconcile the existing plotting and legacy
+    clinical-optimizer helpers rather than treating adjacent or misnamed
+    behavior as implementation evidence.
+
+Both issues are native sub-issues of frontier parent #318 under programme #313
+and are Todo items in Project 28. Risk-sensitive/constrained VOI (#570),
+utility-equivalent information prices including clairvoyant-policy comparisons
+(#595), and outcome-conditional/risk-of-low sample information (#600) remain
+the existing plans for the risk and utility family. Expected Value of
+Clairvoyance (VoC) is an alias or presentation of #595's expected-utility value
+of a clairvoyant policy under its declared utility contract, not a duplicate
+numerical method or an unconditional alias for monetary EVPI. No duplicate
+tracks were created.
+
+The complete Rust-first polyglot programme issue hierarchy is now materialized
+in Conductor rather than existing only in GitHub and Project 28:
+
+| Issue | Conductor track | Governed scope |
+|---|---|---|
+| #313 | `rust_polyglot_voi_completion_20260723` | Root v1.1–v1.3 programme and workstream dependencies |
+| #314 | `voi_method_census_contract_reconciliation_20260723` | Method census, classifications and portable Decision Problem |
+| #315 | `external_voi_library_feature_parity_20260723` | Reproducible software landscape, parity and improvement review |
+| #316 | `stable_voi_rust_core_completion_20260723` | Complete stable Rust numerical authority and compatibility |
+| #317 | `value_of_perspective_completion_20260723` | Complete perspective-information family |
+| #318 | `supported_frontier_method_completion_20260723` | Frontier implementation or reviewed exclusion, including risk/utility |
+| #319 | `ml_llm_agent_voi_20260723` | Decision-focused ML, LLM, policy and agent VOI |
+| #320 | `polyglot_abi_binding_parity_20260723` | Rust/C ABI/Python/R/Julia/Mojo capability parity |
+| #321 | `datasets_worked_examples_20260723` | Rights-governed datasets, examples and domain templates |
+| #322 | `quality_release_automation_20260723` | Decision assurance, adoption surfaces, release and registry automation |
+| #323 | `research_contribution_ai_transparency_20260723` | CRediT and accountable AI-assistance provenance |
+
+The workstream tracks own their native child issues: #314 owns #566; #315 owns
+#565 and #567–#569 plus #573; #318 owns #556–#560, #570–#572, #582,
+#593–#600 and #619; #319 owns #576 and #578; #320 owns #579; #321 owns
+#574–#575 and #577; and #322 owns #462, #580–#581 and #583–#584. Child
+issue or Project status is not implementation evidence: every new Conductor
+plan starts pending until its contracts, tests/review protocol, runtime or
+reviewed exclusion, bindings, documentation and hosted evidence are
+reconciled. Completed native child #416 remains historical v1.0 programme
+evidence and is not reopened by this queue.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

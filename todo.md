@@ -4,6 +4,57 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
+    promoting issue or Project status into implementation evidence.
+    *   Root Conductor track: `rust_polyglot_voi_completion_20260723`.
+    *   GitHub programme: #313; native workstreams: #314--#323.
+    *   Materialized workstream tracks cover method census, landscape review,
+        stable Rust completion, Value of Perspective, supported frontier
+        methods, ML/LLM/agent VOI, binding parity, datasets/examples,
+        quality/release automation, and contribution transparency.
+    *   Workstream Conductor tracks:
+        `voi_method_census_contract_reconciliation_20260723`,
+        `external_voi_library_feature_parity_20260723`,
+        `stable_voi_rust_core_completion_20260723`,
+        `value_of_perspective_completion_20260723`,
+        `supported_frontier_method_completion_20260723`,
+        `ml_llm_agent_voi_20260723`,
+        `polyglot_abi_binding_parity_20260723`,
+        `datasets_worked_examples_20260723`,
+        `quality_release_automation_20260723`, and
+        `research_contribution_ai_transparency_20260723`.
+    *   Execute each workstream's `plan.md` in dependency order; retain
+        scientific review, rights, hosted CI, merge, release, publication,
+        registry and human confirmation as separate gates.
+
+*   [ ] Implement estimation-focused variance-reduction VOI.
+    *   Conductor track: `estimation_focused_variance_voi_20260727`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.
+    *   GitHub issue: #619, native sub-issue of #318 under programme #313.
+    *   Define scalar/vector-target `EVPPI_var` and `EVSI_var`, component
+        units, variance or covariance functional, conditioning and sampling
+        models, versioned result contracts, analytical/enumerable references,
+        convergence assurance, CLI/reporting surfaces, and explicit language
+        dispositions.
+    *   Keep these estimands separate from decision-focused EVPPI/EVSI,
+        sensitivity indices and estimator uncertainty.
+
+*   [ ] Implement governed study-design efficiency and experiment portfolios.
+    *   Conductor track: `study_design_efficiency_20260727`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M15/M17.
+    *   GitHub issue: #571, native sub-issue of #318 under programme #313.
+    *   Add COSS over signed ENBS with evaluated design records, feasible
+        range/set, deterministic optimum/tie/boundary behavior, uncertainty
+        around the optimum and plotting inputs.
+    *   Add EVSI/EVPI with common-unit/scaling checks, zero-EVPI behavior and a
+        strict distinction from `total_voi / total_cost`.
+    *   Reconcile existing plotting and legacy clinical-optimizer helpers
+        before any maturity promotion.
+    *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
+        presentation; do not create a duplicate numerical method.
+    *   VoC classification is planned for v1.2.0 under canonical M16/M17 and
+        `supported_frontier_method_completion_20260723`.
+
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.
     *   Conductor track: `standardized-dataset-ingestion_20260723`.

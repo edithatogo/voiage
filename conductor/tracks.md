@@ -1,5 +1,125 @@
 # Project Tracks
 
+## [ ] Track: Rust-First Polyglot VOIAGE Completion Programme
+*Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
+*GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: VOI and VOP Method Census and Contract Reconciliation
+*Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
+*GitHub: [issue #314](https://github.com/edithatogo/voiage/issues/314), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: External VOI Library Landscape and Feature-Parity Review
+*Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
+*GitHub: [issue #315](https://github.com/edithatogo/voiage/issues/315), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Stable Rust VOI Core Completion
+*Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
+*GitHub: [issue #316](https://github.com/edithatogo/voiage/issues/316), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Value of Perspective Method Completion
+*Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
+*GitHub: [issue #317](https://github.com/edithatogo/voiage/issues/317), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Supported Frontier Method Completion
+*Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
+*GitHub: [issue #318](https://github.com/edithatogo/voiage/issues/318), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: ML, LLM and Agent Value of Information
+*Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
+*GitHub: [issue #319](https://github.com/edithatogo/voiage/issues/319), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Polyglot ABI and Binding Parity
+*Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
+*GitHub: [issue #320](https://github.com/edithatogo/voiage/issues/320), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Datasets and Executable Worked Examples
+*Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
+*GitHub: [issue #321](https://github.com/edithatogo/voiage/issues/321), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Quality, Security, Release and Registry Automation
+*Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
+*GitHub: [issue #322](https://github.com/edithatogo/voiage/issues/322), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Contributor and AI Contribution Transparency
+*Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
+*GitHub: [issue #323](https://github.com/edithatogo/voiage/issues/323), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [ ] Track: Estimation-Focused Variance-Reduction VOI
+*Link: [./tracks/estimation_focused_variance_voi_20260727/index.md](./tracks/estimation_focused_variance_voi_20260727/index.md)*
+*GitHub: [issue #619](https://github.com/edithatogo/voiage/issues/619),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — specification and plan approved; implementation has not begun.*
+
+---
+
+## [ ] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
+*Link: [./tracks/study_design_efficiency_20260727/index.md](./tracks/study_design_efficiency_20260727/index.md)*
+*GitHub: [issue #571](https://github.com/edithatogo/voiage/issues/571),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: new — COSS and EVSI/EVPI efficiency are now explicit in the approved
+specification and plan; implementation has not begun.*
+
+---
+
 ## [x] Track: Conductor Registry Normalization [completed: 2026-07-27]
 *Link: [./archive/conductor-registry-normalization_20260727/index.md](./archive/conductor-registry-normalization_20260727/index.md)*
 *GitHub: [issue #590](https://github.com/edithatogo/voiage/issues/590), in
