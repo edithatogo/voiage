@@ -50,6 +50,8 @@ class FrictionlessProvider:
     ) -> NormalizedInputBundle:
         """Materialize the supported explicit-schema Data Package profile."""
         raw = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        if not isinstance(raw, dict):
+            raise IngestionError("descriptor root must be a JSON object")
         descriptor = cast("dict[str, object]", raw)
         resources = descriptor.get("resources")
         if not isinstance(resources, list) or not resources:
