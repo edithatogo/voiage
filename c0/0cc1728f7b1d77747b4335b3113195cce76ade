@@ -1,0 +1,5 @@
+Task: Record landscape claim projection guard
+
+Summary: Recorded the registry-to-claim regression guard and preserved the remaining ADR/deprecation-ledger and adversarial ML/agent subitems as open.
+
+Validation: focused quality suite, Ruff, formatting, metadata and evidence validation passed.
