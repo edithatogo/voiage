@@ -7,9 +7,9 @@ PR #631 is dependent Phase 9 evidence and awaits that prerequisite. Issues
 conformance, product, security, SDK, and worked-example criteria remain active.
 Project 28 has been reconciled: all linked items are `In Progress`, consistent
 with their still-open issues. Final review additionally found a pre-existing invalid
-append-only evidence-ledger chain that needs a governed migration before new
-evidence or archival can be recorded. These are increments, not track-closeout
-evidence.
+append-only evidence-ledger chain. Its immutable legacy copy and a new valid
+ledger chain are bound by [the migration record](./evidence-migration.md).
+These are increments, not track-closeout evidence.
 
 Local evidence on the `codex/sdk-dataframe-worked-examples` branch extends the
 Phase 8–9 DataFrame SDK consumer contracts and routes both business reference
@@ -27,3 +27,5 @@ GitHub Project:
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Legacy Evidence](./evidence.legacy.jsonl)
+- [Evidence Migration](./evidence-migration.md)

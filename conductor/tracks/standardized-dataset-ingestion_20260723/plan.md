@@ -248,11 +248,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   v2 after GraphQL access recovered; every linked item is now `In Progress`,
   consistent with its still-open issue and this active plan. This is status
   reconciliation, not completion evidence.
-- Final Conductor review also found that the pre-existing append-only evidence
+- Final Conductor review found that the pre-existing append-only evidence
   ledger fails schema validation at entries 9 and 10: both omit required
   artifact digests, and entry 10 records a non-zero validation command as
-  `passed`. The historical chain cannot be rewritten without invalidating its
-  hashes. Repair requires a governed ledger-migration decision; until then,
-  new ledger evidence and archival are blocked.
+  `passed`. The immutable legacy ledger is preserved under its original SHA-256
+  and a new valid ledger chain begins with a migration receipt; future evidence
+  is now appendable without rewriting historical claims.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.

@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-27T10:38:00Z",
+  "updated_at": "2026-07-27T10:40:00Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -98,8 +98,8 @@
     {
       "id": "evidence-ledger-integrity",
       "kind": "repository",
-      "status": "blocked",
-      "evidence": "Final review found pre-existing ledger entries 9 and 10 without required artifact SHA-256 values; entry 10 also records exit code 1 with status passed. The append-only hash chain prevents an ungoverned rewrite, so new ledger evidence and archival are prohibited pending a reviewed ledger-migration repair."
+      "status": "satisfied",
+      "evidence": "The invalid historical ledger is preserved unchanged as evidence.legacy.jsonl (SHA-256 3f53b195f672333b1ac8c659a7a2dceeaba83c400dd1d467387e55edccce9656). A new evidence.jsonl chain starts with a migration receipt and never rewrites historical claims."
     }
   ]
 }
