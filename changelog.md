@@ -46,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Published executable ML, engineering/operations, and business reference-case
   evidence across Croissant, Frictionless, and direct DataFrame inputs, with
   normalized-schema, pinned-resource, provenance-digest, and EVPI equivalence.
+- Preserved scalar Croissant field `dataType` declarations as descriptive
+  normalized metadata, while rejecting structured declarations that could
+  introduce unsupported semantics.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.

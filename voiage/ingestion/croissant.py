@@ -100,7 +100,11 @@ class CroissantProvider:
                 ) from error
             raise
         manifest_fields = tuple(
-            FieldManifest(field_id=name, dtype=str(table.schema.field(name).type))
+            FieldManifest(
+                field_id=name,
+                dtype=str(table.schema.field(name).type),
+                semantic_type=_declared_data_type(cast("dict[str, object]", item)),
+            )
             for item in fields
             if isinstance(item, dict)
             for name in [item.get("name")]
@@ -183,6 +187,14 @@ class CroissantProvider:
 def _scalar_metadata(value: object) -> str | None:
     """Expose scalar metadata in provenance without coercing structured values."""
     return value if isinstance(value, str) else None
+
+
+def _declared_data_type(field: dict[str, object]) -> str | None:
+    """Retain a declared Croissant data type without giving it VOI meaning."""
+    value = field.get("dataType")
+    if value is None or isinstance(value, str):
+        return value
+    raise IngestionError("Croissant field dataType must be a string")
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
