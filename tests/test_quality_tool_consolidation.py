@@ -74,6 +74,17 @@ def test_vulture_dead_code_check_is_blocking() -> None:
     assert "vulture voiage --min-confidence 80 || true" not in workflow
 
 
+def test_supply_chain_workflow_has_clean_reproducible_artifact_gate() -> None:
+    """Generated artifacts must be rebuilt and installed into an isolated env."""
+    workflow = (ROOT / ".github/workflows/sbom.yml").read_text(encoding="utf-8")
+
+    assert "uv sync --frozen --extra dev" in workflow
+    assert "scripts/reproducible_build.py" in workflow
+    assert "uv venv .assurance/sbom-env --python 3.14" in workflow
+    assert "uv pip install --python .assurance/sbom-env/bin/python" in workflow
+    assert "if-no-files-found: error" in workflow
+
+
 def test_quality_tool_dispositions_are_unique_and_evidence_backed() -> None:
     """Every retained or consolidated tool has a unique, checked disposition."""
     payload = _registry()

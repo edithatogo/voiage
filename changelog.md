@@ -229,6 +229,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   or an explicit manual request.
 - Made the high-confidence Vulture whole-program dead-code check blocking
   after resolving its current findings without changing public call contracts.
+- Added a regression guard for the supply-chain workflow's frozen rebuild,
+  isolated SBOM environment, and fail-closed artifact retention.
 - Added Rust-validated canonical Arrow, IPC, and Parquet representations for
   v1 Decision Problem and statistical-assurance envelopes, with pinned
   language-neutral schemas for direct R and Julia adapters.
