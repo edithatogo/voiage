@@ -1,5 +1,9 @@
 # Distributed Scheduler Backend Implementation
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 Status: in progress
 
 This track implements the scheduler-facing distributed execution layer for

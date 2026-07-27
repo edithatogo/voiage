@@ -1,5 +1,7 @@
 # Domain Abstraction Excellence
 
+- [Implementation Plan](./plan.md)
+
 - [Specification](./spec.md)
 - [Implementation plan](./plan.md)
 - [Metadata](./metadata.json)

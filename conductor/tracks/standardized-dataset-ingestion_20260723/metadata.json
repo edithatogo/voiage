@@ -55,8 +55,9 @@
     {
       "id": "functional-implementation",
       "kind": "repository",
-      "status": "in_progress",
-      "evidence": "Merged PRs #334, #477, #479, #481, #482, #484, #486, #487, #488, #490, #492, #494, #495, #519, #523, #525, #526, and #527 establish the tested baseline contract, preparation boundary, runtime provenance, data-quality reporting, EVPI capability declaration, direct-versus-normalized equivalence evidence, provider capability declarations, opt-in allow-listed discovery, provider-boundary test coverage, the third-party extension contract, explicit Croissant 1.1 and unsupported archive/transformation rejection, missing-extra error coverage, deterministic normalized Parquet interchange, the completed Phase 1 checkpoint, wide/long and cost/outcome normalized preparation, and strict Frictionless CSV schema validation. Commits e41591e and 0d782b58 record the Croissant and Frictionless parser-dependency decisions without adding parser dependencies. The full acceptance plan remains active: its remaining conformance, security, SDK, and cross-domain case criteria cannot be represented as complete."
+      "status": "pending",
+      "evidence": "Merged PRs #334, #477, #479, #481, #482, #484, #486, #487, #488, #490, #492, #494, #495, #519, #523, #525, #526, and #527 establish the tested baseline contract, preparation boundary, runtime provenance, data-quality reporting, EVPI capability declaration, direct-versus-normalized equivalence evidence, provider capability declarations, opt-in allow-listed discovery, provider-boundary test coverage, the third-party extension contract, explicit Croissant 1.1 and unsupported archive/transformation rejection, missing-extra error coverage, deterministic normalized Parquet interchange, the completed Phase 1 checkpoint, wide/long and cost/outcome normalized preparation, and strict Frictionless CSV schema validation. Commits e41591e and 0d782b58 record the Croissant and Frictionless parser-dependency decisions without adding parser dependencies. The full acceptance plan remains active: its remaining conformance, security, SDK, and cross-domain case criteria cannot be represented as complete.",
+      "legacy_status": "in_progress"
     },
     {
       "id": "cross-reference-integration-order",

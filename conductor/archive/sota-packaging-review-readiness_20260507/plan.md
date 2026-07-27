@@ -9,3 +9,7 @@
 ## Outcome
 
 This track can be marked complete as a strategy finding. No repository changes are required from this phase alone.
+
+## Legacy normalization record
+
+- [x] Preserve the historical plan and registry disposition under the current Conductor schema.

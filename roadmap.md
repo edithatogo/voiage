@@ -44,6 +44,11 @@ track now has an individual issue, native parent, Project 28 item, and
 evidence-based PR links (or an explicit no-PR-evidence boundary); repository
 validation and PR handoff remain in progress.
 
+Historical Conductor schema normalization is tracked in
+`conductor-registry-normalization_20260727`. It repairs the exact 223-error
+legacy validator baseline mechanically while preserving superseded and external
+follow-ups as non-acceptance history rather than completed work.
+
 The preprint is now authored in canonical semantic LaTeX using the hardened
 `arxiv-paper-template` architecture. Repository automation provides
 deterministic source packaging, TeX Live 2023/2025 compatibility, LaTeX and PDF

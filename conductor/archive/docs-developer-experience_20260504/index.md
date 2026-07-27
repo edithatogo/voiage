@@ -1,5 +1,9 @@
 # Track: Documentation, Validation and Developer Experience
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 With all methods implemented, CLI complete, and infrastructure solid, this track ensures voiage has excellent developer experience: complete documentation, tutorial notebooks, validation against published results, polished docstrings, and professional project presentation.
 

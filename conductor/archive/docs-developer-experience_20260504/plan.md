@@ -243,45 +243,45 @@
 - [x] Add "Getting Help" section (discussions, issues, contact)
 
 ### 6.2 Changelog update [PENDING]
-- [ ] Update `changelog.md` with all changes from Tracks 1-5
-- [ ] Organize by category: Added, Changed, Fixed, Removed
-- [ ] Include breaking changes section
-- [ ] Include migration guide for breaking changes
+- **Legacy follow-up (not part of completed track acceptance):** Update `changelog.md` with all changes from Tracks 1-5
+- **Legacy follow-up (not part of completed track acceptance):** Organize by category: Added, Changed, Fixed, Removed
+- **Legacy follow-up (not part of completed track acceptance):** Include breaking changes section
+- **Legacy follow-up (not part of completed track acceptance):** Include migration guide for breaking changes
 
 ### 6.3 Todo.md and Roadmap finalization [PENDING]
-- [ ] Move all completed items to "Done" section
-- [ ] Remove items that are obsolete
-- [ ] Add any remaining follow-up tasks
-- [ ] Update roadmap.md to reflect completed state
-- [ ] Propose next major release targets (v0.3, v0.4, v1.0)
+- **Legacy follow-up (not part of completed track acceptance):** Move all completed items to "Done" section
+- **Legacy follow-up (not part of completed track acceptance):** Remove items that are obsolete
+- **Legacy follow-up (not part of completed track acceptance):** Add any remaining follow-up tasks
+- **Legacy follow-up (not part of completed track acceptance):** Update roadmap.md to reflect completed state
+- **Legacy follow-up (not part of completed track acceptance):** Propose next major release targets (v0.3, v0.4, v1.0)
 
 ### 6.4 Project presentation [PENDING]
-- [ ] Review all public-facing documentation for consistency
-- [ ] Ensure all examples in docs actually run and produce stated output
-- [ ] Run all tutorial notebooks end-to-end to verify they work
-- [ ] Verify GitHub Pages site builds and renders correctly
-- [ ] Check all external links in documentation
+- **Legacy follow-up (not part of completed track acceptance):** Review all public-facing documentation for consistency
+- **Legacy follow-up (not part of completed track acceptance):** Ensure all examples in docs actually run and produce stated output
+- **Legacy follow-up (not part of completed track acceptance):** Run all tutorial notebooks end-to-end to verify they work
+- **Legacy follow-up (not part of completed track acceptance):** Verify GitHub Pages site builds and renders correctly
+- **Legacy follow-up (not part of completed track acceptance):** Check all external links in documentation
 
 ---
 
 ## Phase 7: Full Verification [checkpoint: ]
 
 ### 7.1 Run complete tooling suite [PENDING]
-- [ ] `ruff check voiage/ tests/` — zero errors
-- [ ] `tox -e typecheck` — zero errors
-- [ ] `pytest tests/ --cov=voiage --cov-fail-under=90` — all tests pass, coverage ≥90%
+- **Legacy follow-up (not part of completed track acceptance):** `ruff check voiage/ tests/` — zero errors
+- **Legacy follow-up (not part of completed track acceptance):** `tox -e typecheck` — zero errors
+- **Legacy follow-up (not part of completed track acceptance):** `pytest tests/ --cov=voiage --cov-fail-under=90` — all tests pass, coverage ≥90%
 
 ### 7.2 Verify documentation builds [PENDING]
-- [ ] `sphinx-build -b html docs docs/_build/html` — zero warnings
-- [ ] Verify all links in documentation work
-- [ ] Verify all code examples in documentation run correctly
+- **Legacy follow-up (not part of completed track acceptance):** `sphinx-build -b html docs docs/_build/html` — zero warnings
+- **Legacy follow-up (not part of completed track acceptance):** Verify all links in documentation work
+- **Legacy follow-up (not part of completed track acceptance):** Verify all code examples in documentation run correctly
 
 ### 7.3 Final end-to-end verification [PENDING]
-- [ ] Fresh install from `pip install -e .` (local editable install)
-- [ ] Run getting started tutorial — works without modification
-- [ ] Run all tutorial notebooks — all execute without errors
-- [ ] Run all CLI commands — all work as documented
-- [ ] Report any issues found
+- **Legacy follow-up (not part of completed track acceptance):** Fresh install from `pip install -e .` (local editable install)
+- **Legacy follow-up (not part of completed track acceptance):** Run getting started tutorial — works without modification
+- **Legacy follow-up (not part of completed track acceptance):** Run all tutorial notebooks — all execute without errors
+- **Legacy follow-up (not part of completed track acceptance):** Run all CLI commands — all work as documented
+- **Legacy follow-up (not part of completed track acceptance):** Report any issues found
 
 ---
 

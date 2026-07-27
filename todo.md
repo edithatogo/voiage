@@ -28,6 +28,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## In Progress
 
+*   [ ] Normalize the historical Conductor registry and archived track records.
+    *   Conductor track: `conductor-registry-normalization_20260727`.
+    *   The authoritative baseline is 223 full-validator errors and zero
+        warnings.
+    *   Preserve external and superseded follow-ups without representing them
+        as completed outcomes.
+
 *   [ ] Reconcile every Conductor track with GitHub issues, native subissues,
     Project 28, and evidenced completed-track pull requests.
     *   Conductor track:

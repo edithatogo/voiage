@@ -1,0 +1,1198 @@
+{
+  "schema_version": "1.0.0",
+  "track_id": "conductor-registry-normalization_20260727",
+  "baseline_revision": "d514c3b98ccf6187e5360519e73656fcb5fed39c",
+  "validator": {
+    "source": "bundled conductor skill validator",
+    "mode": "full"
+  },
+  "baseline": {
+    "error_count": 223,
+    "warning_count": 0,
+    "report_sha256": "5d22d4ee4a5333f5fe0a667204a47c10e869b40433e8c55c0b40e09ad92a0b5b",
+    "categories": {
+      "Completed track still has pending or in-progress tasks": 48,
+      "Invalid UTC timestamp 'created_at' for Assurance Frontier [completed": 1,
+      "Invalid UTC timestamp 'created_at' for Distributed Scheduler Backend Implementation [completed": 1,
+      "Invalid UTC timestamp 'created_at' for Domain Abstraction Excellence [completed": 1,
+      "Invalid UTC timestamp 'created_at' for Operational Assurance Excellence [completed": 1,
+      "Invalid UTC timestamp 'updated_at' for Assurance Frontier [completed": 1,
+      "Invalid UTC timestamp 'updated_at' for Domain Abstraction Excellence [completed": 1,
+      "Invalid UTC timestamp 'updated_at' for Operational Assurance Excellence [completed": 1,
+      "Invalid metadata status for .NET Release Submission [completed": 1,
+      "Invalid metadata status for Adjacent Frontier Runtime Completion": 1,
+      "Invalid metadata status for Apple Metal Backend Prototype [completed": 1,
+      "Invalid metadata status for Community Engagement And Support** [completed": 1,
+      "Invalid metadata status for Core API Spec And Polyglot Contracts** [completed": 1,
+      "Invalid metadata status for First External Bindings Release Matrix [completed": 1,
+      "Invalid metadata status for Frontier Method Followthrough** [completed": 1,
+      "Invalid metadata status for Go Release Submission [completed": 1,
+      "Invalid metadata status for HEOR Module Naming Brainstorm [completed": 1,
+      "Invalid metadata status for HPC Distribution And Acceleration Strategy [completed": 1,
+      "Invalid metadata status for HPC Distribution Contract [completed": 1,
+      "Invalid metadata status for HPC Native Acceleration Roadmap [completed": 1,
+      "Invalid metadata status for Julia Release Submission [completed": 1,
+      "Invalid metadata status for Model Validation VOI Implementation [completed": 1,
+      "Invalid metadata status for Numerics, Diagnostics and Extension Model [completed": 1,
+      "Invalid metadata status for Perspective VOI Stable Promotion": 1,
+      "Invalid metadata status for Polyglot Repo And Documentation Architecture [completed": 1,
+      "Invalid metadata status for Python Cleanup Against Spec [completed": 1,
+      "Invalid metadata status for Python Release Submission [completed": 1,
+      "Invalid metadata status for R Release Submission [completed": 1,
+      "Invalid metadata status for Release And HPC Registry Program [completed": 1,
+      "Invalid metadata status for Remove CLI Sequential Step Stub** [completed": 1,
+      "Invalid metadata status for Roadmap Completion Program** [completed": 1,
+      "Invalid metadata status for Rust Core ABI And Migration Strategy [completed": 1,
+      "Invalid metadata status for Rust Core Numerics Engine [completed": 1,
+      "Invalid metadata status for Rust Core Performance And Profiling [completed": 1,
+      "Invalid metadata status for Rust EVSI Stochastic Kernel [completed": 1,
+      "Invalid metadata status for Rust Release Submission [completed": 1,
+      "Invalid metadata status for SOTA Packaging Review Readiness [completed": 1,
+      "Invalid metadata status for SOTA Strategy Orchestration And Dependency Matrix [completed": 1,
+      "Invalid metadata status for Starlight Documentation Platform** [completed": 1,
+      "Invalid metadata status for Threshold, Tipping-Point, And Robust VOI Implementation [completed": 1,
+      "Invalid metadata status for TypeScript Release Submission [completed": 1,
+      "Invalid metadata status for Unified Versioning And Release Synchronization** [completed": 1,
+      "Invalid metadata type for SOTA Strategy Orchestration And Dependency Matrix [completed": 1,
+      "Metadata missing 'created_at' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'created_at' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'created_at' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'created_at' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'created_at' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Metadata missing 'description' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'description' for Assurance Frontier [completed": 1,
+      "Metadata missing 'description' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'description' for Distributed Scheduler Backend Implementation [completed": 1,
+      "Metadata missing 'description' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'description' for Domain Abstraction Excellence [completed": 1,
+      "Metadata missing 'description' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'description' for Operational Assurance Excellence [completed": 1,
+      "Metadata missing 'description' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Metadata missing 'status' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'status' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'status' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'status' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'status' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Metadata missing 'track_id' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'track_id' for Assurance Frontier [completed": 1,
+      "Metadata missing 'track_id' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'track_id' for Distributed Scheduler Backend Implementation [completed": 1,
+      "Metadata missing 'track_id' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'track_id' for Domain Abstraction Excellence [completed": 1,
+      "Metadata missing 'track_id' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'track_id' for Operational Assurance Excellence [completed": 1,
+      "Metadata missing 'track_id' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Metadata missing 'type' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'type' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'type' for Distributed Scheduler Backend Implementation [completed": 1,
+      "Metadata missing 'type' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'type' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'type' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Metadata missing 'updated_at' for Activate and Wire Up Public API [completed": 1,
+      "Metadata missing 'updated_at' for CLI Completion and Integration Testing [completed": 1,
+      "Metadata missing 'updated_at' for Distributed Scheduler Backend Implementation [completed": 1,
+      "Metadata missing 'updated_at' for Documentation, Validation and Developer Experience [completed": 1,
+      "Metadata missing 'updated_at' for Fix Infrastructure and Configuration [completed": 1,
+      "Metadata missing 'updated_at' for Replace Placeholders and Implement Missing Methods [completed": 1,
+      "Missing or empty metadata.json for track": 5,
+      "Missing or empty track index": 1,
+      "Registry/metadata status mismatch for .NET Release Submission [completed": 1,
+      "Registry/metadata status mismatch for Adjacent Frontier Extensions [completed": 1,
+      "Registry/metadata status mismatch for Adjacent Frontier Runtime Completion": 1,
+      "Registry/metadata status mismatch for Apple Metal Backend Prototype [completed": 1,
+      "Registry/metadata status mismatch for Community Engagement And Support** [completed": 1,
+      "Registry/metadata status mismatch for Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis) [completed": 1,
+      "Registry/metadata status mismatch for Core API Spec And Polyglot Contracts** [completed": 1,
+      "Registry/metadata status mismatch for Cross-Language Conformance Fixtures": 1,
+      "Registry/metadata status mismatch for Dynamic Real-Options VOI [completed": 1,
+      "Registry/metadata status mismatch for Ecosystem Module Incubation [completed": 1,
+      "Registry/metadata status mismatch for First External Bindings Release Matrix [completed": 1,
+      "Registry/metadata status mismatch for Frontier Method Followthrough** [completed": 1,
+      "Registry/metadata status mismatch for Go Release Submission [completed": 1,
+      "Registry/metadata status mismatch for HEOR Module Naming Brainstorm [completed": 1,
+      "Registry/metadata status mismatch for HPC Distribution And Acceleration Strategy [completed": 1,
+      "Registry/metadata status mismatch for HPC Distribution Contract [completed": 1,
+      "Registry/metadata status mismatch for HPC Native Acceleration Roadmap [completed": 1,
+      "Registry/metadata status mismatch for Julia Release Submission [completed": 1,
+      "Registry/metadata status mismatch for Model Validation VOI Implementation [completed": 1,
+      "Registry/metadata status mismatch for Numerics, Diagnostics and Extension Model [completed": 1,
+      "Registry/metadata status mismatch for Perspective VOI Stable Promotion": 1,
+      "Registry/metadata status mismatch for Polyglot Repo And Documentation Architecture [completed": 1,
+      "Registry/metadata status mismatch for Polyglot Tutorial Surface And Worked Examples [completed": 1,
+      "Registry/metadata status mismatch for Python Cleanup Against Spec [completed": 1,
+      "Registry/metadata status mismatch for Python Release Submission [completed": 1,
+      "Registry/metadata status mismatch for R Package Documentation Manual And Vignette [completed": 1,
+      "Registry/metadata status mismatch for R Release Submission [completed": 1,
+      "Registry/metadata status mismatch for Release And HPC Registry Program [completed": 1,
+      "Registry/metadata status mismatch for Remove CLI Sequential Step Stub** [completed": 1,
+      "Registry/metadata status mismatch for Roadmap Completion Program** [completed": 1,
+      "Registry/metadata status mismatch for Rust Core ABI And Migration Strategy [completed": 1,
+      "Registry/metadata status mismatch for Rust Core Bindings And Release [completed": 1,
+      "Registry/metadata status mismatch for Rust Core Domain Model [completed": 1,
+      "Registry/metadata status mismatch for Rust Core Migration Foundation [completed": 1,
+      "Registry/metadata status mismatch for Rust Core Numerics Engine [completed": 1,
+      "Registry/metadata status mismatch for Rust Core Performance And Profiling [completed": 1,
+      "Registry/metadata status mismatch for Rust EVSI Stochastic Kernel [completed": 1,
+      "Registry/metadata status mismatch for Rust Release Submission [completed": 1,
+      "Registry/metadata status mismatch for SOTA Packaging Review Readiness [completed": 1,
+      "Registry/metadata status mismatch for SOTA Strategy Orchestration And Dependency Matrix [completed": 1,
+      "Registry/metadata status mismatch for SOTA VOI Frontier [completed": 1,
+      "Registry/metadata status mismatch for Starlight Documentation Platform** [completed": 1,
+      "Registry/metadata status mismatch for Threshold, Tipping-Point, And Robust VOI Implementation [completed": 1,
+      "Registry/metadata status mismatch for TypeScript Release Submission [completed": 1,
+      "Registry/metadata status mismatch for Unified Versioning And Release Synchronization** [completed": 1,
+      "Registry/metadata status mismatch for lifecourse Integration Contract [completed": 1,
+      "Track directory/metadata ID mismatch for Adjacent Frontier Extensions [completed": 1,
+      "Track directory/metadata ID mismatch for Cross-Language Conformance Fixtures": 1,
+      "Track directory/metadata ID mismatch for Dynamic Real-Options VOI [completed": 1,
+      "Track directory/metadata ID mismatch for First External Bindings Release Matrix [completed": 1,
+      "Track directory/metadata ID mismatch for Python Cleanup Against Spec [completed": 1,
+      "Track directory/metadata ID mismatch for lifecourse Integration Contract [completed": 1,
+      "Track index missing 'Implementation Plan' link": 10,
+      "Track index missing 'Metadata' link": 7,
+      "Track index missing 'Specification' link": 7,
+      "Track plan has no task checkboxes": 3,
+      "Unregistered archive track directory": 6,
+      "invalid metadata gate status for Standardized Dataset Ingestion": 1,
+      "updated_at precedes created_at for Community Engagement And Support** [completed": 1
+    },
+    "findings": [
+      {
+        "category": "invalid metadata gate status for Standardized Dataset Ingestion",
+        "message": "invalid metadata gate status for Standardized Dataset Ingestion: in_progress"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Domain Abstraction Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Domain Abstraction Excellence [completed",
+        "message": "Metadata missing 'track_id' for Domain Abstraction Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'description' for Domain Abstraction Excellence [completed",
+        "message": "Metadata missing 'description' for Domain Abstraction Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Invalid UTC timestamp 'created_at' for Domain Abstraction Excellence [completed",
+        "message": "Invalid UTC timestamp 'created_at' for Domain Abstraction Excellence [completed: 2026-07-20]: 2026-07-19T00:00:00+10:00"
+      },
+      {
+        "category": "Invalid UTC timestamp 'updated_at' for Domain Abstraction Excellence [completed",
+        "message": "Invalid UTC timestamp 'updated_at' for Domain Abstraction Excellence [completed: 2026-07-20]: 2026-07-20T01:06:00+10:00"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Assurance Frontier [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Assurance Frontier [completed",
+        "message": "Metadata missing 'track_id' for Assurance Frontier [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'description' for Assurance Frontier [completed",
+        "message": "Metadata missing 'description' for Assurance Frontier [completed: 2026-07-20]"
+      },
+      {
+        "category": "Invalid UTC timestamp 'created_at' for Assurance Frontier [completed",
+        "message": "Invalid UTC timestamp 'created_at' for Assurance Frontier [completed: 2026-07-20]: 2026-07-20T01:15:00+10:00"
+      },
+      {
+        "category": "Invalid UTC timestamp 'updated_at' for Assurance Frontier [completed",
+        "message": "Invalid UTC timestamp 'updated_at' for Assurance Frontier [completed: 2026-07-20]: 2026-07-20T03:30:00+10:00"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Operational Assurance Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Operational Assurance Excellence [completed",
+        "message": "Metadata missing 'track_id' for Operational Assurance Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Metadata missing 'description' for Operational Assurance Excellence [completed",
+        "message": "Metadata missing 'description' for Operational Assurance Excellence [completed: 2026-07-20]"
+      },
+      {
+        "category": "Invalid UTC timestamp 'created_at' for Operational Assurance Excellence [completed",
+        "message": "Invalid UTC timestamp 'created_at' for Operational Assurance Excellence [completed: 2026-07-20]: 2026-07-20T03:35:00+10:00"
+      },
+      {
+        "category": "Invalid UTC timestamp 'updated_at' for Operational Assurance Excellence [completed",
+        "message": "Invalid UTC timestamp 'updated_at' for Operational Assurance Excellence [completed: 2026-07-20]: 2026-07-20T06:45:00+10:00"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]"
+      },
+      {
+        "category": "Invalid metadata status for SOTA Strategy Orchestration And Dependency Matrix [completed",
+        "message": "Invalid metadata status for SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]: complete"
+      },
+      {
+        "category": "Invalid metadata type for SOTA Strategy Orchestration And Dependency Matrix [completed",
+        "message": "Invalid metadata type for SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]: docs"
+      },
+      {
+        "category": "Registry/metadata status mismatch for SOTA Strategy Orchestration And Dependency Matrix [completed",
+        "message": "Registry/metadata status mismatch for SOTA Strategy Orchestration And Dependency Matrix [completed: 2026-05-07]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for SOTA Packaging Review Readiness [completed",
+        "message": "Invalid metadata status for SOTA Packaging Review Readiness [completed: 2026-05-07]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for SOTA Packaging Review Readiness [completed",
+        "message": "Registry/metadata status mismatch for SOTA Packaging Review Readiness [completed: 2026-05-07]: completed != complete"
+      },
+      {
+        "category": "Track plan has no task checkboxes",
+        "message": "Track plan has no task checkboxes: SOTA Packaging Review Readiness [completed: 2026-05-07]"
+      },
+      {
+        "category": "Invalid metadata status for HPC Distribution And Acceleration Strategy [completed",
+        "message": "Invalid metadata status for HPC Distribution And Acceleration Strategy [completed: 2026-05-07]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for HPC Distribution And Acceleration Strategy [completed",
+        "message": "Registry/metadata status mismatch for HPC Distribution And Acceleration Strategy [completed: 2026-05-07]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Rust Core ABI And Migration Strategy [completed",
+        "message": "Invalid metadata status for Rust Core ABI And Migration Strategy [completed: 2026-05-07]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core ABI And Migration Strategy [completed",
+        "message": "Registry/metadata status mismatch for Rust Core ABI And Migration Strategy [completed: 2026-05-07]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Polyglot Repo And Documentation Architecture [completed",
+        "message": "Invalid metadata status for Polyglot Repo And Documentation Architecture [completed: 2026-05-07]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Polyglot Repo And Documentation Architecture [completed",
+        "message": "Registry/metadata status mismatch for Polyglot Repo And Documentation Architecture [completed: 2026-05-07]: completed != complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis) [completed",
+        "message": "Registry/metadata status mismatch for Complete Advanced VOI Methods (Structural Uncertainty & Network Meta-Analysis) [completed: 2026-04-11]: completed != new"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Missing or empty metadata.json for track",
+        "message": "Missing or empty metadata.json for track: Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'track_id' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'type' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'type' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'status' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'status' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'created_at' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'created_at' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'updated_at' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'description' for Fix Infrastructure and Configuration [completed",
+        "message": "Metadata missing 'description' for Fix Infrastructure and Configuration [completed: 2026-04-28]"
+      },
+      {
+        "category": "Invalid metadata status for Numerics, Diagnostics and Extension Model [completed",
+        "message": "Invalid metadata status for Numerics, Diagnostics and Extension Model [completed: 2026-05-04]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Numerics, Diagnostics and Extension Model [completed",
+        "message": "Registry/metadata status mismatch for Numerics, Diagnostics and Extension Model [completed: 2026-05-04]: completed != complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core Migration Foundation [completed",
+        "message": "Registry/metadata status mismatch for Rust Core Migration Foundation [completed: 2026-05-05]: completed != new"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core Domain Model [completed",
+        "message": "Registry/metadata status mismatch for Rust Core Domain Model [completed: 2026-05-05]: completed != new"
+      },
+      {
+        "category": "Invalid metadata status for Rust Core Numerics Engine [completed",
+        "message": "Invalid metadata status for Rust Core Numerics Engine [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core Numerics Engine [completed",
+        "message": "Registry/metadata status mismatch for Rust Core Numerics Engine [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Rust Core Performance And Profiling [completed",
+        "message": "Invalid metadata status for Rust Core Performance And Profiling [completed: 2026-05-05]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core Performance And Profiling [completed",
+        "message": "Registry/metadata status mismatch for Rust Core Performance And Profiling [completed: 2026-05-05]: completed != complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Core Bindings And Release [completed",
+        "message": "Registry/metadata status mismatch for Rust Core Bindings And Release [completed: 2026-05-05]: completed != new"
+      },
+      {
+        "category": "Registry/metadata status mismatch for SOTA VOI Frontier [completed",
+        "message": "Registry/metadata status mismatch for SOTA VOI Frontier [completed: 2026-05-05]: completed != new"
+      },
+      {
+        "category": "Registry/metadata status mismatch for R Package Documentation Manual And Vignette [completed",
+        "message": "Registry/metadata status mismatch for R Package Documentation Manual And Vignette [completed: 2026-05-04]: completed != new"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Polyglot Tutorial Surface And Worked Examples [completed",
+        "message": "Registry/metadata status mismatch for Polyglot Tutorial Surface And Worked Examples [completed: 2026-05-04]: completed != new"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Cross-Language Conformance Fixtures",
+        "message": "Registry/metadata status mismatch for Cross-Language Conformance Fixtures: completed != new"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for Cross-Language Conformance Fixtures",
+        "message": "Track directory/metadata ID mismatch for Cross-Language Conformance Fixtures: cross-language-conformance-fixtures_20260416 != cross-language-conformance-fixtures"
+      },
+      {
+        "category": "Track plan has no task checkboxes",
+        "message": "Track plan has no task checkboxes: Cross-Language Conformance Fixtures"
+      },
+      {
+        "category": "Invalid metadata status for Python Cleanup Against Spec [completed",
+        "message": "Invalid metadata status for Python Cleanup Against Spec [completed: 2026-04-25]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Python Cleanup Against Spec [completed",
+        "message": "Registry/metadata status mismatch for Python Cleanup Against Spec [completed: 2026-04-25]: completed != complete"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for Python Cleanup Against Spec [completed",
+        "message": "Track directory/metadata ID mismatch for Python Cleanup Against Spec [completed: 2026-04-25]: python-cleanup-against-spec_20260425 != python-cleanup-against-spec"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Python Cleanup Against Spec [completed: 2026-04-25]"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Missing or empty metadata.json for track",
+        "message": "Missing or empty metadata.json for track: Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'track_id' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'type' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'type' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'status' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'status' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'created_at' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'created_at' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'updated_at' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'description' for Activate and Wire Up Public API [completed",
+        "message": "Metadata missing 'description' for Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Activate and Wire Up Public API [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Missing or empty metadata.json for track",
+        "message": "Missing or empty metadata.json for track: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'track_id' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'type' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'type' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'status' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'status' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'created_at' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'created_at' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'updated_at' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Metadata missing 'description' for Replace Placeholders and Implement Missing Methods [completed",
+        "message": "Metadata missing 'description' for Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Replace Placeholders and Implement Missing Methods [completed: 2026-04-28]"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Missing or empty metadata.json for track",
+        "message": "Missing or empty metadata.json for track: CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'track_id' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'type' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'type' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'status' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'status' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'created_at' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'created_at' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'updated_at' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'description' for CLI Completion and Integration Testing [completed",
+        "message": "Metadata missing 'description' for CLI Completion and Integration Testing [completed: 2026-05-04]"
+      },
+      {
+        "category": "Invalid metadata status for First External Bindings Release Matrix [completed",
+        "message": "Invalid metadata status for First External Bindings Release Matrix [completed: 2026-05-04]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for First External Bindings Release Matrix [completed",
+        "message": "Registry/metadata status mismatch for First External Bindings Release Matrix [completed: 2026-05-04]: completed != complete"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for First External Bindings Release Matrix [completed",
+        "message": "Track directory/metadata ID mismatch for First External Bindings Release Matrix [completed: 2026-05-04]: first-external-bindings_20260504 != first-external-bindings_20260430"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Dynamic Real-Options VOI [completed",
+        "message": "Registry/metadata status mismatch for Dynamic Real-Options VOI [completed: 2026-05-04]: completed != new"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for Dynamic Real-Options VOI [completed",
+        "message": "Track directory/metadata ID mismatch for Dynamic Real-Options VOI [completed: 2026-05-04]: dynamic-real-options-voi_20260504 != dynamic-real-options-voi_20260430"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Adjacent Frontier Extensions [completed",
+        "message": "Registry/metadata status mismatch for Adjacent Frontier Extensions [completed: 2026-05-04]: completed != new"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for Adjacent Frontier Extensions [completed",
+        "message": "Track directory/metadata ID mismatch for Adjacent Frontier Extensions [completed: 2026-05-04]: adjacent-frontier-extensions_20260504 != adjacent-frontier-extensions_20260430"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Missing or empty metadata.json for track",
+        "message": "Missing or empty metadata.json for track: Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'track_id' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'type' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'type' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'status' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'status' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'created_at' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'created_at' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'updated_at' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Metadata missing 'description' for Documentation, Validation and Developer Experience [completed",
+        "message": "Metadata missing 'description' for Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Documentation, Validation and Developer Experience [completed: 2026-05-04]"
+      },
+      {
+        "category": "Registry/metadata status mismatch for lifecourse Integration Contract [completed",
+        "message": "Registry/metadata status mismatch for lifecourse Integration Contract [completed: 2026-05-04]: completed != new"
+      },
+      {
+        "category": "Track directory/metadata ID mismatch for lifecourse Integration Contract [completed",
+        "message": "Track directory/metadata ID mismatch for lifecourse Integration Contract [completed: 2026-05-04]: lifecourse-integration-contract_20260504 != lifecourse-integration-contract_20260429"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Ecosystem Module Incubation [completed",
+        "message": "Registry/metadata status mismatch for Ecosystem Module Incubation [completed: 2026-04-29]: completed != new"
+      },
+      {
+        "category": "Invalid metadata status for HEOR Module Naming Brainstorm [completed",
+        "message": "Invalid metadata status for HEOR Module Naming Brainstorm [completed: 2026-05-04]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for HEOR Module Naming Brainstorm [completed",
+        "message": "Registry/metadata status mismatch for HEOR Module Naming Brainstorm [completed: 2026-05-04]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Rust EVSI Stochastic Kernel [completed",
+        "message": "Invalid metadata status for Rust EVSI Stochastic Kernel [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust EVSI Stochastic Kernel [completed",
+        "message": "Registry/metadata status mismatch for Rust EVSI Stochastic Kernel [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Model Validation VOI Implementation [completed",
+        "message": "Invalid metadata status for Model Validation VOI Implementation [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Model Validation VOI Implementation [completed",
+        "message": "Registry/metadata status mismatch for Model Validation VOI Implementation [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Threshold, Tipping-Point, And Robust VOI Implementation [completed",
+        "message": "Invalid metadata status for Threshold, Tipping-Point, And Robust VOI Implementation [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Threshold, Tipping-Point, And Robust VOI Implementation [completed",
+        "message": "Registry/metadata status mismatch for Threshold, Tipping-Point, And Robust VOI Implementation [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Starlight Documentation Platform** [completed",
+        "message": "Invalid metadata status for Starlight Documentation Platform** [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Starlight Documentation Platform** [completed",
+        "message": "Registry/metadata status mismatch for Starlight Documentation Platform** [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Unified Versioning And Release Synchronization** [completed",
+        "message": "Invalid metadata status for Unified Versioning And Release Synchronization** [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Unified Versioning And Release Synchronization** [completed",
+        "message": "Registry/metadata status mismatch for Unified Versioning And Release Synchronization** [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Community Engagement And Support** [completed",
+        "message": "Invalid metadata status for Community Engagement And Support** [completed: 2026-05-06]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Community Engagement And Support** [completed",
+        "message": "Registry/metadata status mismatch for Community Engagement And Support** [completed: 2026-05-06]: completed != complete"
+      },
+      {
+        "category": "updated_at precedes created_at for Community Engagement And Support** [completed",
+        "message": "updated_at precedes created_at for Community Engagement And Support** [completed: 2026-05-06]"
+      },
+      {
+        "category": "Invalid metadata status for Roadmap Completion Program** [completed",
+        "message": "Invalid metadata status for Roadmap Completion Program** [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Roadmap Completion Program** [completed",
+        "message": "Registry/metadata status mismatch for Roadmap Completion Program** [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Core API Spec And Polyglot Contracts** [completed",
+        "message": "Invalid metadata status for Core API Spec And Polyglot Contracts** [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Core API Spec And Polyglot Contracts** [completed",
+        "message": "Registry/metadata status mismatch for Core API Spec And Polyglot Contracts** [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Frontier Method Followthrough** [completed",
+        "message": "Invalid metadata status for Frontier Method Followthrough** [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Frontier Method Followthrough** [completed",
+        "message": "Registry/metadata status mismatch for Frontier Method Followthrough** [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Remove CLI Sequential Step Stub** [completed",
+        "message": "Invalid metadata status for Remove CLI Sequential Step Stub** [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Remove CLI Sequential Step Stub** [completed",
+        "message": "Registry/metadata status mismatch for Remove CLI Sequential Step Stub** [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Release And HPC Registry Program [completed",
+        "message": "Invalid metadata status for Release And HPC Registry Program [completed: 2026-05-11]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Release And HPC Registry Program [completed",
+        "message": "Registry/metadata status mismatch for Release And HPC Registry Program [completed: 2026-05-11]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for HPC Distribution Contract [completed",
+        "message": "Invalid metadata status for HPC Distribution Contract [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for HPC Distribution Contract [completed",
+        "message": "Registry/metadata status mismatch for HPC Distribution Contract [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Python Release Submission [completed",
+        "message": "Invalid metadata status for Python Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Python Release Submission [completed",
+        "message": "Registry/metadata status mismatch for Python Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for R Release Submission [completed",
+        "message": "Invalid metadata status for R Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for R Release Submission [completed",
+        "message": "Registry/metadata status mismatch for R Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Julia Release Submission [completed",
+        "message": "Invalid metadata status for Julia Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Julia Release Submission [completed",
+        "message": "Registry/metadata status mismatch for Julia Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for TypeScript Release Submission [completed",
+        "message": "Invalid metadata status for TypeScript Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for TypeScript Release Submission [completed",
+        "message": "Registry/metadata status mismatch for TypeScript Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Go Release Submission [completed",
+        "message": "Invalid metadata status for Go Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Go Release Submission [completed",
+        "message": "Registry/metadata status mismatch for Go Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Rust Release Submission [completed",
+        "message": "Invalid metadata status for Rust Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Rust Release Submission [completed",
+        "message": "Registry/metadata status mismatch for Rust Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for .NET Release Submission [completed",
+        "message": "Invalid metadata status for .NET Release Submission [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for .NET Release Submission [completed",
+        "message": "Registry/metadata status mismatch for .NET Release Submission [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Track index missing 'Specification' link",
+        "message": "Track index missing 'Specification' link: Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Track index missing 'Implementation Plan' link",
+        "message": "Track index missing 'Implementation Plan' link: Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Track index missing 'Metadata' link",
+        "message": "Track index missing 'Metadata' link: Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Metadata missing 'track_id' for Distributed Scheduler Backend Implementation [completed",
+        "message": "Metadata missing 'track_id' for Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Metadata missing 'type' for Distributed Scheduler Backend Implementation [completed",
+        "message": "Metadata missing 'type' for Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Metadata missing 'updated_at' for Distributed Scheduler Backend Implementation [completed",
+        "message": "Metadata missing 'updated_at' for Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Metadata missing 'description' for Distributed Scheduler Backend Implementation [completed",
+        "message": "Metadata missing 'description' for Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Invalid UTC timestamp 'created_at' for Distributed Scheduler Backend Implementation [completed",
+        "message": "Invalid UTC timestamp 'created_at' for Distributed Scheduler Backend Implementation [completed: 2026-05-11]: 2026-05-11"
+      },
+      {
+        "category": "Track plan has no task checkboxes",
+        "message": "Track plan has no task checkboxes: Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Apple Metal Implementation [completed: 2026-05-11]"
+      },
+      {
+        "category": "Invalid metadata status for HPC Native Acceleration Roadmap [completed",
+        "message": "Invalid metadata status for HPC Native Acceleration Roadmap [completed: 2026-05-10]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for HPC Native Acceleration Roadmap [completed",
+        "message": "Registry/metadata status mismatch for HPC Native Acceleration Roadmap [completed: 2026-05-10]: completed != complete"
+      },
+      {
+        "category": "Invalid metadata status for Apple Metal Backend Prototype [completed",
+        "message": "Invalid metadata status for Apple Metal Backend Prototype [completed: 2026-05-11]: complete"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Apple Metal Backend Prototype [completed",
+        "message": "Registry/metadata status mismatch for Apple Metal Backend Prototype [completed: 2026-05-11]: completed != complete"
+      },
+      {
+        "category": "Missing or empty track index",
+        "message": "Missing or empty track index: Starlight Documentation Migration [completed: 2026-05-17] -> ./archive/starlight_migration_20260513/"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Bayesian Experimental Design And Amortized VOI [completed: 2026-07-16]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Preference VOI Stable Promotion [completed: 2026-07-16]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Validation And Threshold VOI Stable Promotion [completed: 2026-07-16]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Distributional And Implementation VOI Stable Promotion [completed: 2026-07-16]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Perspective Uncertainty VOI Mature Stable Path [completed: 2026-07-16]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Dynamic Real Options VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Causal Identification Transportability And External Validity VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Data Quality Measurement Privacy And Linkage VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Computational VOI And Model Refinement Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Expert Elicitation And Evidence Synthesis Design VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Monitoring And Surveillance VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Implementation Strategy Comparison VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Ambiguity And Distribution Shift VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Adaptive Learning And Bandit VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Capacity And Budget-Constrained VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Federated And Privacy-Preserving VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: AI-Assisted Evidence Triage VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Explainability And Transparency VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Interoperability And Standardization VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Regulatory And Market-Access VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Replication And Reproducibility VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Evidence Obsolescence And Refresh VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Strategic Behavior And Game-Theoretic VOI Mature Stable Path [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Accelerator Evidence Automation [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: HPC Production Speedup Evidence Program [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: CPU Cluster Production Benchmark Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Apple Metal Production Speedup Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Discrete GPU Production Speedup Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: TPU Production-Scale Colab Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: External Registry Publication Program [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Conda-Forge Feedstock Publication [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: R CRAN And R-Universe Publication [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Julia General Registry Publication [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Spack Package Merge Follow-Through [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: EasyBuild Easyconfig Merge Follow-Through [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: E4S Inclusion Follow-Through [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: HPSF Curation Submission Follow-Through [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: FPGA Physical Board Runtime Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: ASIC MPW Shuttle And Silicon Evidence [completed: 2026-07-17]"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Custom-Circuit Production Acceleration Review [completed: 2026-07-17]"
+      },
+      {
+        "category": "Invalid metadata status for Adjacent Frontier Runtime Completion",
+        "message": "Invalid metadata status for Adjacent Frontier Runtime Completion: superseded"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Adjacent Frontier Runtime Completion",
+        "message": "Registry/metadata status mismatch for Adjacent Frontier Runtime Completion: completed != superseded"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Adjacent Frontier Runtime Completion"
+      },
+      {
+        "category": "Invalid metadata status for Perspective VOI Stable Promotion",
+        "message": "Invalid metadata status for Perspective VOI Stable Promotion: superseded"
+      },
+      {
+        "category": "Registry/metadata status mismatch for Perspective VOI Stable Promotion",
+        "message": "Registry/metadata status mismatch for Perspective VOI Stable Promotion: completed != superseded"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Perspective VOI Stable Promotion"
+      },
+      {
+        "category": "Completed track still has pending or in-progress tasks",
+        "message": "Completed track still has pending or in-progress tasks: Mature Hardened v1.0 Architecture And Release Programme [completed: 2026-07-22]"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: rust-frontier-numerics-migration-completion_20260625"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: cross-language-conformance-fixtures"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: conductor-commit-note-checkpoint-hardening_20260625"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: dataset-registry-and-example-corpus_20260625"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: voi-frontier-architecture-dependency-governance_20260625"
+      },
+      {
+        "category": "Unregistered archive track directory",
+        "message": "Unregistered archive track directory: python-cleanup-against-spec"
+      }
+    ]
+  },
+  "policy": {
+    "unchecked_completed_track_items": "preserved_as_non_acceptance_follow_up_prose",
+    "superseded_status": "metadata_completed_with_legacy_outcome_preserved",
+    "external_outcomes": "never_promoted_by_normalization",
+    "orphan_archives": "registered_without_deletion_or_merge",
+    "missing_historical_contracts": "compatibility_stub_without_scope_expansion"
+  },
+  "changes": {
+    "file_count": 126,
+    "paths": [
+      "conductor/archive/abstraction-excellence_20260719/index.md",
+      "conductor/archive/abstraction-excellence_20260719/metadata.json",
+      "conductor/archive/accelerator-evidence-automation_20260625/plan.md",
+      "conductor/archive/activate-public-api_20260428/index.md",
+      "conductor/archive/activate-public-api_20260428/metadata.json",
+      "conductor/archive/activate-public-api_20260428/plan.md",
+      "conductor/archive/adaptive-learning-bandit-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/adjacent-frontier-extensions_20260504/metadata.json",
+      "conductor/archive/adjacent-frontier-runtime-completion_20260625/metadata.json",
+      "conductor/archive/adjacent-frontier-runtime-completion_20260625/plan.md",
+      "conductor/archive/advanced_voi_methods_20260411/metadata.json",
+      "conductor/archive/ai-assisted-evidence-triage-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/ambiguity-distribution-shift-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/apple-metal-backend-prototype_20260510/metadata.json",
+      "conductor/archive/apple-metal-implementation_20260511/plan.md",
+      "conductor/archive/apple-metal-production-speedup-evidence_20260625/plan.md",
+      "conductor/archive/asic-mpw-shuttle-and-silicon-evidence_20260625/plan.md",
+      "conductor/archive/assurance-frontier_20260720/index.md",
+      "conductor/archive/assurance-frontier_20260720/metadata.json",
+      "conductor/archive/bayesian-experimental-design-and-amortized-voi_20260625/plan.md",
+      "conductor/archive/capacity-budget-constrained-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/causal-identification-transportability-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/cli-integration-testing_20260504/index.md",
+      "conductor/archive/cli-integration-testing_20260504/metadata.json",
+      "conductor/archive/community-engagement-support_20260507/metadata.json",
+      "conductor/archive/computational-model-refinement-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/conda-forge-feedstock-publication_20260625/plan.md",
+      "conductor/archive/conductor-commit-note-checkpoint-hardening_20260625/metadata.json",
+      "conductor/archive/core-api-spec-and-polyglot-contracts_20260510/metadata.json",
+      "conductor/archive/cpu-cluster-production-benchmark-evidence_20260625/plan.md",
+      "conductor/archive/cross-language-conformance-fixtures/metadata.json",
+      "conductor/archive/cross-language-conformance-fixtures_20260416/metadata.json",
+      "conductor/archive/cross-language-conformance-fixtures_20260416/plan.md",
+      "conductor/archive/custom-circuit-production-acceleration-review_20260625/plan.md",
+      "conductor/archive/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/dataset-registry-and-example-corpus_20260625/metadata.json",
+      "conductor/archive/discrete-gpu-production-speedup-evidence_20260625/plan.md",
+      "conductor/archive/distributed-scheduler-backend-implementation_20260511/index.md",
+      "conductor/archive/distributed-scheduler-backend-implementation_20260511/metadata.json",
+      "conductor/archive/distributed-scheduler-backend-implementation_20260511/plan.md",
+      "conductor/archive/distributional-implementation-voi-stable-promotion_20260625/plan.md",
+      "conductor/archive/docs-developer-experience_20260504/index.md",
+      "conductor/archive/docs-developer-experience_20260504/metadata.json",
+      "conductor/archive/docs-developer-experience_20260504/plan.md",
+      "conductor/archive/dotnet-release-submission_20260511/metadata.json",
+      "conductor/archive/dynamic-real-options-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/dynamic-real-options-voi_20260504/metadata.json",
+      "conductor/archive/e4s-inclusion-followthrough_20260625/plan.md",
+      "conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/plan.md",
+      "conductor/archive/ecosystem-module-incubation_20260429/metadata.json",
+      "conductor/archive/evidence-obsolescence-refresh-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/explainability-transparency-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/external-registry-publication-program_20260625/plan.md",
+      "conductor/archive/federated-privacy-preserving-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/first-external-bindings_20260504/metadata.json",
+      "conductor/archive/fix-infrastructure_20260428/index.md",
+      "conductor/archive/fix-infrastructure_20260428/metadata.json",
+      "conductor/archive/fpga-physical-board-runtime-evidence_20260625/plan.md",
+      "conductor/archive/frontier-method-followthrough_20260510/metadata.json",
+      "conductor/archive/go-release-submission_20260511/metadata.json",
+      "conductor/archive/heor_module_naming_brainstorm_20260429/metadata.json",
+      "conductor/archive/hpc-distribution-acceleration-strategy_20260507/metadata.json",
+      "conductor/archive/hpc-distribution-contract_20260511/metadata.json",
+      "conductor/archive/hpc-native-acceleration-roadmap_20260511/metadata.json",
+      "conductor/archive/hpc-production-speedup-evidence-program_20260625/plan.md",
+      "conductor/archive/hpsf-curation-submission-followthrough_20260625/plan.md",
+      "conductor/archive/implement-missing-methods_20260428/index.md",
+      "conductor/archive/implement-missing-methods_20260428/metadata.json",
+      "conductor/archive/implement-missing-methods_20260428/plan.md",
+      "conductor/archive/implementation-strategy-comparison-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/interoperability-standardization-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/julia-general-registry-publication_20260625/plan.md",
+      "conductor/archive/julia-release-submission_20260511/metadata.json",
+      "conductor/archive/lifecourse-integration-contract_20260504/metadata.json",
+      "conductor/archive/mature-hardened-v1-release-programme_20260719/plan.md",
+      "conductor/archive/model-validation-voi_20260506/metadata.json",
+      "conductor/archive/monitoring-surveillance-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/numerics-diagnostics-extension-model/metadata.json",
+      "conductor/archive/operational-assurance-excellence_20260720/index.md",
+      "conductor/archive/operational-assurance-excellence_20260720/metadata.json",
+      "conductor/archive/perspective-uncertainty-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/perspective-voi-stable-promotion_20260625/metadata.json",
+      "conductor/archive/perspective-voi-stable-promotion_20260625/plan.md",
+      "conductor/archive/polyglot-repo-docs-architecture_20260507/metadata.json",
+      "conductor/archive/polyglot-tutorial-surface_20260504/metadata.json",
+      "conductor/archive/preference-voi-stable-promotion_20260625/plan.md",
+      "conductor/archive/python-cleanup-against-spec/metadata.json",
+      "conductor/archive/python-cleanup-against-spec_20260425/metadata.json",
+      "conductor/archive/python-cleanup-against-spec_20260425/plan.md",
+      "conductor/archive/python-release-submission_20260511/metadata.json",
+      "conductor/archive/r-cran-runiverse-publication_20260625/plan.md",
+      "conductor/archive/r-package-doc-manual_20260504/metadata.json",
+      "conductor/archive/r-release-submission_20260511/metadata.json",
+      "conductor/archive/regulatory-market-access-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/release-and-hpc-registry-program_20260511/metadata.json",
+      "conductor/archive/remove-cli-sequential-step-stub_20260510/metadata.json",
+      "conductor/archive/replication-reproducibility-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/roadmap-completion-program_20260510/metadata.json",
+      "conductor/archive/rust-core-abi-migration-strategy_20260507/metadata.json",
+      "conductor/archive/rust-core-bindings-and-release_20260504/metadata.json",
+      "conductor/archive/rust-core-domain-model_20260504/metadata.json",
+      "conductor/archive/rust-core-migration-foundation_20260504/metadata.json",
+      "conductor/archive/rust-core-numerics-engine_20260504/metadata.json",
+      "conductor/archive/rust-core-performance-and-profiling_20260504/metadata.json",
+      "conductor/archive/rust-evsi-stochastic-kernel_20260506/metadata.json",
+      "conductor/archive/rust-frontier-numerics-migration-completion_20260625/metadata.json",
+      "conductor/archive/rust-frontier-numerics-migration-completion_20260625/plan.md",
+      "conductor/archive/rust-release-submission_20260511/metadata.json",
+      "conductor/archive/sota-packaging-review-readiness_20260507/metadata.json",
+      "conductor/archive/sota-packaging-review-readiness_20260507/plan.md",
+      "conductor/archive/sota-voi-frontier_20260429/metadata.json",
+      "conductor/archive/spack-package-merge-followthrough_20260625/plan.md",
+      "conductor/archive/starlight-docs-platform_20260506/metadata.json",
+      "conductor/archive/starlight_migration_20260513/index.md",
+      "conductor/archive/starlight_migration_20260513/metadata.json",
+      "conductor/archive/strategic-behavior-game-theoretic-voi-mature-stable_20260625/plan.md",
+      "conductor/archive/strategy-orchestration_20260507/index.md",
+      "conductor/archive/strategy-orchestration_20260507/metadata.json",
+      "conductor/archive/threshold-robust-voi_20260506/metadata.json",
+      "conductor/archive/tpu-production-scale-colab-evidence_20260625/plan.md",
+      "conductor/archive/typescript-release-submission_20260511/metadata.json",
+      "conductor/archive/unified-versioning-policy_20260507/metadata.json",
+      "conductor/archive/validation-threshold-voi-stable-promotion_20260625/plan.md",
+      "conductor/tracks.md",
+      "conductor/tracks/standardized-dataset-ingestion_20260723/metadata.json"
+    ]
+  },
+  "result": {
+    "error_count": 0,
+    "warning_count": 0,
+    "ambiguous_track_count": 0,
+    "report_sha256": "10cc03fda64b0d1580a225308c5452bfff6c5df3ae2a3331162bd6296f649c5f"
+  }
+}

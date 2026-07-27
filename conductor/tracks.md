@@ -755,3 +755,39 @@ and hardware gates without reopening completed repository-owned slices.
 *Status: repository-owned v1.0 delivery is complete; signed public v1.0.0, Rust-core runtime, legacy-core retirement, Astro documentation, release-quality evidence, and hosted gates are complete. Registry review/indexing and external archival outcomes continue in the research-software registry track.*
 
 ---
+
+---
+
+## [x] Track: Legacy Archive Record — Conductor Commit Note Checkpoint Hardening 20260625
+*Link: [./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md](./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Cross Language Conformance Fixtures
+*Link: [./archive/cross-language-conformance-fixtures/index.md](./archive/cross-language-conformance-fixtures/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Dataset Registry And Example Corpus 20260625
+*Link: [./archive/dataset-registry-and-example-corpus_20260625/index.md](./archive/dataset-registry-and-example-corpus_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Python Cleanup Against Spec
+*Link: [./archive/python-cleanup-against-spec/index.md](./archive/python-cleanup-against-spec/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Rust Frontier Numerics Migration Completion 20260625
+*Link: [./archive/rust-frontier-numerics-migration-completion_20260625/index.md](./archive/rust-frontier-numerics-migration-completion_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Voi Frontier Architecture Dependency Governance 20260625
+*Link: [./archive/voi-frontier-architecture-dependency-governance_20260625/index.md](./archive/voi-frontier-architecture-dependency-governance_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*

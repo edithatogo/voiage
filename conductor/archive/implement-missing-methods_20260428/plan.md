@@ -193,7 +193,7 @@
 - [x] CEAF: unit coverage verifies CEAF equals the acceptability probability of the expected-optimal strategy
 - [x] Extended dominance: unit coverage verifies strong dominance, extended dominance, frontier extraction, and ICER helper behavior on known synthetic tables
 - [x] Value of Heterogeneity: unit coverage verifies subgroup-specific decisions improve over one-size-fits-all decisions
-- [ ] External package/literature replication remains deferred until BCEA/R and published benchmark fixture data are available in the validation environment
+- **Legacy follow-up (not part of completed track acceptance):** External package/literature replication remains deferred until BCEA/R and published benchmark fixture data are available in the validation environment
 
 ### 7.3 Integration tests for new methods [x]
 - [x] Test all new methods through `DecisionAnalysis` class

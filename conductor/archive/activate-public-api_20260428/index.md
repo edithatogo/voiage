@@ -1,5 +1,9 @@
 # Track: Activate and Wire Up Public API
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 The voiage codebase has feature-complete implementations across all VOI methods but the public API is entirely disabled. `voiage/__init__.py` is empty, `voiage/methods/__init__.py` has all imports commented out, and `voiage/plot/__init__.py` has all imports commented out. Users cannot do `from voiage import evpi` or `from voiage.methods import structural_evpi`. This track wires everything up.
 

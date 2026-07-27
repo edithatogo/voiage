@@ -10,6 +10,7 @@ import sys
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
+    "conductor-registry-normalization_20260727",
     "conductor-github-cross-reference-reconciliation_20260724",
     "research_software_registry_readiness_20260721",
     "standardized-dataset-ingestion_20260723",
@@ -53,6 +54,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
         ],
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
+            "conductor-registry-normalization_20260727",
             "conductor-github-cross-reference-reconciliation_20260724",
             "research_software_registry_readiness_20260721",
             "standardized-dataset-ingestion_20260723",

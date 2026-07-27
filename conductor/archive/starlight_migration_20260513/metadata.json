@@ -2,8 +2,8 @@
   "track_id": "starlight_migration_20260513",
   "type": "chore",
   "status": "completed",
-  "created_at": "2026-05-13",
-  "updated_at": "2026-05-17",
+  "created_at": "2026-05-13T00:00:00Z",
+  "updated_at": "2026-05-17T00:00:00Z",
   "description": "Migrated documentation from Sphinx to Starlight with polyglot, versions, links-validator, llms-txt. 51 MDX pages, all RST converted, GitHub Pages deployed.",
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/450",
