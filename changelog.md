@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   now exercise that public SDK with an explicit zero-copy policy.
 - Added validated multi-resource Frictionless CSV ingestion with preserved
   intra-package foreign-key references.
+- Added Phase 7 standardized-ingestion assurance coverage for rejected remote
+  URI schemes and secret-safe errors, plus comparable Croissant and
+  Frictionless parse-to-Arrow, normalization, EVPI, and peak-memory benchmarks.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.

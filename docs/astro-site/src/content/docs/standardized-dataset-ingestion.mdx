@@ -9,8 +9,8 @@ Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
 and an explicit VOI binding; it never depends on Croissant or Frictionless
 metadata.
 
-The built-in profiles are deliberately conservative: one declared CSV resource
-and one explicit table schema. Remote URLs, archive extraction, implicit
+The built-in profiles are deliberately conservative: explicit local CSV resources
+and explicit table schemas. Remote URLs, archive extraction, implicit
 column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
@@ -81,6 +81,29 @@ resource = replay.materialize("samples.csv", sha256="<same-sha256>")
 Use a stable, explicit `cache_namespace` when multiple trusted source-policy
 contexts share a cache directory. Cache entries are digest-checked on write and
 replay and are kept separate by that namespace.
+
+## Transport and performance assurance
+
+Built-in providers do not contain a network transport. Every URI-style resource
+reference (including HTTP(S), FTP, `file:`, and SSH forms) is rejected before
+DNS lookup, redirect handling, download, cache refresh, or error rendering.
+Archive and transformation declarations are rejected before materialization.
+Consequently, DNS-rebinding, redirect, decompression, and mutable-remote-data
+risks are not supported behaviours; a future remote provider must introduce
+those capabilities behind a separately reviewed policy and receipt contract.
+
+Run the repeatable local benchmark with:
+
+```bash
+uv run python scripts/benchmark_standardized_ingestion.py
+```
+
+It reports separate parse-to-Arrow, normalization, EVPI, and peak-memory
+measurements for the canonical Croissant and Frictionless fixtures. Results are
+release-review evidence rather than hard CI time budgets because hosted runners
+are intentionally not treated as a stable performance reference. A 64 MiB
+peak-memory ceiling for each small canonical fixture is enforced to catch
+materialization regressions without making runner-specific timing claims.
 
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from

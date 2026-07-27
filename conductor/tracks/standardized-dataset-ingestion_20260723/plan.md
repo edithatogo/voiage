@@ -142,26 +142,26 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 7 — Security, performance, compatibility, and release (#333)
 
-- [ ] **P7-T1 / AC-08:** Write failing traversal, archive-bomb, SSRF,
+- [~] **P7-T1 / AC-08:** Write failing traversal, archive-bomb, SSRF,
   unauthorized-network, secret-leakage, unsafe-transform, and resource-limit
   tests.
-- [ ] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
+- [~] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests.
-- [ ] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
+- [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
   offline replay, and streaming or bounded-batch behavior.
-- [ ] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
+- [~] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
   memory use, and calculation separately; define representative
   non-regression thresholds.
-- [ ] **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
+- [~] **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
   CPU fallback, numerical equivalence, Arrow round trips, base/extra wheels,
   license inventory, and SBOM changes.
-- [ ] **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
+- [~] **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
   dependency audits, repository harness, full `tox`, and all hosted checks.
-- [ ] **P7-T7 / AC-08:** Publish supported-standard compatibility and
+- [~] **P7-T7 / AC-08:** Publish supported-standard compatibility and
   deprecation policy without claiming unsupported upstream coverage.
-- [ ] **P7-T8 / AC-08:** Run automated review, resolve high-confidence
+- [~] **P7-T8 / AC-08:** Run automated review, resolve high-confidence
   findings, and complete the final implementation checkpoint.
 
 ## Planning review enhancements (2026-07-24)
