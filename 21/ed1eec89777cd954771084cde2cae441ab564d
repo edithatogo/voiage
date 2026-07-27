@@ -1,0 +1,1 @@
+P4-T2 partial fixture-conformance increment: added deterministic offline Croissant 1.1 descriptors and fail-closed regression coverage for unsupported contentChecksum integrity declarations, non-CSV encoding formats, and field source mappings. Red phase demonstrated the missing corpus files; green validation passed 95 Croissant fixture/provider tests plus Ruff.
