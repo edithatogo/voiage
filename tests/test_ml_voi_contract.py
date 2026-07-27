@@ -43,6 +43,10 @@ def test_eig_fixture_keeps_information_and_decision_values_distinct() -> None:
         - payload["current_expected_utility"]
         - payload["information_cost"]
     )
+    assert sum(payload["state_probabilities"]) == pytest.approx(1.0)
+    assert payload["current_decision"] in payload["decision_alternatives"]
+    assert set(payload["posterior_decisions"]) <= set(payload["decision_alternatives"])
+    assert len(payload["state_probabilities"]) == len(payload["decision_alternatives"])
     assert "utility" in payload["interpretation"]
     assert "cost" in payload["interpretation"]
     assert payload["expected_decision_voi"] != payload["expected_information_gain_nats"]
