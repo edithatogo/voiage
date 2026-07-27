@@ -2,16 +2,19 @@
 
 Checked: 27 July 2026
 
-Status: **ready for account-bound submission; not submitted; no RRID assigned**
+Status: **submitted; SciCrunch curation pending; no RRID assigned**
 
 SciCrunch accepts software tools in its Registry. Its current curation guidance
 requires a resource name, URL, and description. Other fields may help curation
 but are not mandatory. A submitted suggestion does not receive an RRID until a
 SciCrunch curator approves it.
 
-Before entering a new record, use the form's first step to check for an existing
-`voiage` record. The public searches checked during preparation returned no
-matching record, but the form performs the authoritative duplicate check.
+The authenticated portal duplicate check for `voiage` returned “There was no
+resource similar in our system.” The full Resource Submission form was
+submitted at 2026-07-27T06:07:06Z after the account holder confirmed the
+rendered answers and current terms. SciCrunch displayed “Thank you for your
+submission!” at `https://scicrunch.org/scicrunch/about/thanks`. The portal did
+not provide a submission number or RRID on that confirmation page.
 
 ## Required answers
 
@@ -54,20 +57,15 @@ matching record, but the form performs the authoritative duplicate check.
 The complete copyable answer set and evidence ledger are in
 `scicrunch-rrid-registration.json`.
 
-## Account-holder checkpoint
+## Submission evidence
 
-The authenticated account holder should:
-
-1. Open `https://scicrunch.org/create/resource`.
-2. Run the portal's duplicate check for `voiage`.
-3. Enter the prepared answers and inspect the rendered record.
-4. Confirm that the information is accurate and accept the current portal
-   terms.
-5. Submit and retain the confirmation email, identifier, URL, and timestamp.
-
-After submission, update the machine-readable state to `submitted`, set
-`submission.performed` to `true`, and record authoritative confirmation
-evidence. Keep `curation.rrid` null until SciCrunch assigns an identifier.
+- Duplicate check: completed; no similar resource found.
+- Account-bound accuracy and terms confirmation: completed.
+- Submission: completed at 2026-07-27T06:07:06Z.
+- Confirmation message: “Thank you for your submission!”
+- Confirmation URL: `https://scicrunch.org/scicrunch/about/thanks`.
+- Confirmation identifier: none displayed.
+- RRID: not assigned; SciCrunch curation remains pending.
 
 ## Curator-response protocol
 
@@ -90,9 +88,9 @@ python scripts/validate_scicrunch_rrid.py
 pytest tests/test_scicrunch_rrid_readiness.py --no-cov -q
 ```
 
-The validator fails if local preparation is represented as submission or
-curation, if an RRID is invented, if required answers are absent, or if the
-release and Software Heritage evidence is malformed.
+The validator distinguishes prepared and submitted states, requires
+account-bound declarations and confirmation evidence for a submitted record,
+and fails if curation or an RRID is invented.
 
 ## Authoritative guidance
 

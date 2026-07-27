@@ -75,6 +75,34 @@ def validate_registration(path: Path) -> dict[str, str | int]:
             errors.append("curation must remain not_started before submission")
         if curation.get("rrid") is not None:
             errors.append("RRID must be null until assigned by SciCrunch")
+    elif state == "submitted_pending_curation":
+        if submission.get("performed") is not True:
+            errors.append("submitted state must record performed=true")
+        submitted_at = submission.get("submitted_at")
+        if not isinstance(submitted_at, str) or not submitted_at.endswith("Z"):
+            errors.append("submitted state must contain a UTC submitted_at")
+        if (
+            submission.get("confirmation_url")
+            != "https://scicrunch.org/scicrunch/about/thanks"
+        ):
+            errors.append("submitted state must contain the observed confirmation URL")
+        if submission.get("confirmation_message") != "Thank you for your submission!":
+            errors.append(
+                "submitted state must contain the observed confirmation message"
+            )
+        duplicate_check = packet.get("duplicate_check", {})
+        if duplicate_check.get("performed") is not True:
+            errors.append("submitted state must record the portal duplicate check")
+        if duplicate_check.get("result") != "no_similar_resource":
+            errors.append("duplicate check must preserve the observed no-match result")
+        if curation.get("status") != "pending":
+            errors.append("curation must remain pending after submission")
+        if curation.get("rrid") is not None:
+            errors.append("RRID must be null until assigned by SciCrunch")
+    else:
+        errors.append(
+            "state must be ready_for_account_submission or submitted_pending_curation"
+        )
     rrid = curation.get("rrid")
     if rrid is not None and not RRID_PATTERN.fullmatch(str(rrid)):
         errors.append("assigned RRID must use the RRID:SCR_###### form")
@@ -84,10 +112,17 @@ def validate_registration(path: Path) -> dict[str, str | int]:
         declaration = declarations.get(name)
         if not isinstance(declaration, dict) or "answer" not in declaration:
             errors.append(f"declarations.{name}.answer is required")
-    if declarations.get("information_accurate", {}).get("answer") is not None:
-        errors.append("account holder must make the accuracy declaration")
-    if declarations.get("account_terms_accepted", {}).get("answer") is not None:
-        errors.append("account holder must accept the current portal terms")
+    declaration_answer = None if state == "ready_for_account_submission" else True
+    if (
+        declarations.get("information_accurate", {}).get("answer")
+        is not declaration_answer
+    ):
+        errors.append("accuracy declaration does not match submission state")
+    if (
+        declarations.get("account_terms_accepted", {}).get("answer")
+        is not declaration_answer
+    ):
+        errors.append("terms declaration does not match submission state")
 
     if errors:
         raise ValueError("; ".join(errors))

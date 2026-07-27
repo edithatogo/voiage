@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "checked_at": "2026-07-27T04:32:23Z",
+  "checked_at": "2026-07-27T06:07:06Z",
   "official_route": "SciCrunch Registry: suggest a resource",
   "official_form": "https://scicrunch.org/create/resource",
-  "state": "ready_for_account_submission",
+  "state": "submitted_pending_curation",
   "answers": {
     "resource_name": "voiage",
     "url": "https://github.com/edithatogo/voiage",
@@ -60,25 +60,33 @@
       "basis": "The submitter is the repository owner and named software creator."
     },
     "information_accurate": {
-      "answer": null,
+      "answer": true,
       "required_actor": "authenticated account holder",
-      "reason": "This declaration must be made against the final rendered form."
+      "reason": "The repository owner confirmed the final rendered form before submission on 27 July 2026."
     },
     "account_terms_accepted": {
-      "answer": null,
+      "answer": true,
       "required_actor": "authenticated account holder",
-      "reason": "Acceptance is account-bound and may change independently of this repository."
+      "reason": "The authenticated account holder explicitly approved submission under the portal's current terms."
     }
   },
+  "duplicate_check": {
+    "performed": true,
+    "checked_at": "2026-07-27T06:03:50Z",
+    "query": "voiage",
+    "result": "no_similar_resource",
+    "portal_message": "There was no resource similar in our system."
+  },
   "submission": {
-    "performed": false,
-    "submitted_at": null,
-    "submitter_account": null,
+    "performed": true,
+    "submitted_at": "2026-07-27T06:07:06Z",
+    "submitter_account": "authenticated SciCrunch account holder",
     "confirmation_id": null,
-    "confirmation_url": null
+    "confirmation_url": "https://scicrunch.org/scicrunch/about/thanks",
+    "confirmation_message": "Thank you for your submission!"
   },
   "curation": {
-    "status": "not_started",
+    "status": "pending",
     "rrid": null,
     "assigned_at": null,
     "curator_correspondence": []
