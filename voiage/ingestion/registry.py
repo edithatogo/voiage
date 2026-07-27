@@ -26,11 +26,13 @@ _ENTRY_POINT_GROUP = "voiage.ingestion.providers"
 
 def _validate_provider(provider: object) -> IngestionProvider:
     """Validate an explicitly loaded provider without importing its package."""
+    capabilities = getattr(provider, "capabilities", None)
     if not (
         isinstance(getattr(provider, "provider_id", None), str)
         and callable(getattr(provider, "can_handle", None))
         and callable(getattr(provider, "ingest", None))
-        and getattr(provider, "capabilities", None) is not None
+        and isinstance(capabilities, ProviderCapabilities)
+        and capabilities.provider_id == provider.provider_id
     ):
         raise IngestionError(
             "entry-point provider does not satisfy the provider contract"
@@ -74,7 +76,7 @@ class ProviderRegistry:
     """A deterministic registry populated only by the application caller."""
 
     def __init__(self, providers: tuple[IngestionProvider, ...] = ()) -> None:
-        self._providers = providers
+        self._providers = tuple(_validate_provider(provider) for provider in providers)
 
     def ingest(
         self, descriptor_path: Path, *, policy: SourceAccessPolicy | None = None
