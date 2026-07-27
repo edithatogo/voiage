@@ -79,6 +79,11 @@ The same contract supports more than one community-facing example:
 - Business: a Polars or pandas-compatible DataFrame passed through the
   dataframe-interchange adapter for competing investment strategies.
 
+The adapter deliberately keeps the exchange boundary visible. Use
+`from_dataframe(frame, dataset_id="business", allow_copy=False)` when the
+caller requires Arrow to reject a conversion that would copy the source data;
+the resulting bundle always follows the same normalized preparation path.
+
 Each example must declare its binding rather than relying on a domain-specific
 calculation path, so their resulting net-benefit matrices are directly
 comparable with the existing VOI APIs.
