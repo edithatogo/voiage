@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stable ingestion error boundary before provider-specific parsing.
 - Make the public Croissant and Frictionless provider exports lazy, keeping
   ordinary `voiage.ingestion` imports free of source-format adapter imports.
+- Added a fail-closed, opt-in authoritative-provider probe helper that verifies
+  separately staged descriptor and materialization digests without network I/O.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.
