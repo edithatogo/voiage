@@ -117,6 +117,7 @@ def test_shared_numerical_corpus_crosses_every_runtime_boundary() -> None:
         "C ABI",
         "R installed package",
         "Julia installed package",
+        "uv run --extra ci pytest tests/test_numerical_reference_cases.py",
     ):
         assert marker in workflow
 
