@@ -9,3 +9,7 @@ Both recipes retain a CPU-compatible path and validate the installed command
 with `voiage --help`. They are local recipe evidence only: an upstream Spack or
 EasyBuild pull request, review, merge, and any HPSF/E4S curation remain
 external decisions.
+
+Run `scripts/validate_hpc_recipes.sh` to solve the Spack recipe in an isolated
+configuration. It runs the EasyBuild style check only when a modules tool is
+available, so a workstation configuration cannot be mistaken for recipe proof.

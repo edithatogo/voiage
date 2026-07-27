@@ -1,4 +1,5 @@
-from spack.package import PythonPackage
+from spack_repo.builtin.build_systems.python import PythonPackage
+from spack.package import depends_on, version
 
 
 class PyVoiage(PythonPackage):
