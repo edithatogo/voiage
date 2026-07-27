@@ -138,7 +138,7 @@
       "criteria_url": "https://www.jstatsoft.org/about/submissions",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "distinct-full-article", "status": "pending", "evidence": ["paper/main.tex", "paper.md"]},
+        {"id": "distinct-full-article", "status": "pending", "evidence": ["paper/main.tex", "paper.md", "docs/release/venue-nonduplication-decision.md"]},
         {"id": "methodological-evaluation", "status": "pending", "evidence": ["paper/health-example-methods.md"]}
       ],
       "acceptance_evidence": ["JSS manuscript identifier", "Editorial acceptance and DOI"],
@@ -152,7 +152,7 @@
       "criteria_url": "https://numfocus.org/projects-overview",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "community-and-governance", "status": "pending", "evidence": ["GOVERNANCE.md", "CONTRIBUTING.md"]},
+        {"id": "community-and-governance", "status": "pending", "evidence": ["GOVERNANCE.md", "CONTRIBUTING.md", "docs/release/venue-nonduplication-decision.md"]},
         {"id": "adoption-and-sustainability", "status": "pending", "evidence": ["docs/astro-site/src/content/docs/developer-guide/community-support.mdx"]}
       ],
       "acceptance_evidence": ["NumFOCUS application record", "Formal affiliation decision"],
@@ -293,7 +293,7 @@
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
         {"id": "release-metadata", "status": "satisfied", "evidence": ["CITATION.cff", "codemeta.json"]},
-        {"id": "need-and-deposition", "status": "pending", "evidence": ["docs/release/release-evidence.md"]}
+        {"id": "need-and-deposition", "status": "pending", "evidence": ["docs/release/release-evidence.md", "docs/release/venue-nonduplication-decision.md"]}
       ],
       "acceptance_evidence": ["Zenodo deposition record and DOI"],
       "next_decision": "Use only when a selected venue requires a DOI-bearing archive not supplied elsewhere."

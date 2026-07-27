@@ -186,9 +186,10 @@ remain explicit gates in the target contract.
   `5e92151fc87afefbb411c992fb9f82fc4b8c049f`; Spack syntax validates, while
   the local Spack repository and EasyBuild Lmod environment need repair before
   full local recipe tests can run.
-- [ ] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
+- [x] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
   venue-by-venue non-duplication decision for JSS, NumFOCUS, and Zenodo before
   creating any new manuscript, affiliation, or deposition material.
+  (`venue-nonduplication-decision.md`; no external action authorized.)
 - [ ] [Issues #299](https://github.com/edithatogo/voiage/issues/299),
   [#312](https://github.com/edithatogo/voiage/issues/312), and
   [#471](https://github.com/edithatogo/voiage/issues/471) — maintain the
