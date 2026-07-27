@@ -80,6 +80,7 @@ def test_each_retained_language_has_native_assurance() -> None:
         "bash scripts/run_ffi_sanitizers.sh",
         "R CMD check --as-cran",
         "rcmdcheck::rcmdcheck",
+        "RETICULATE_PYTHON",
         "Aqua.test_all",
         "julia --project=.",
         "pnpm run check",
