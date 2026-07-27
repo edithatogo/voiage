@@ -87,9 +87,14 @@
   workflow rebuilds distributions from a frozen checkout, installs the wheel
   into an isolated environment, retains reproducible evidence, and fails on
   missing artifacts; regression coverage protects the contract.
-- [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
+- [~] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
   deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
   ecosystem-drift proposals.
+  - [x] Protect the existing landscape freshness projections for method,
+    implementation, upstream-feature, and feature-matrix claims.
+  - [x] Protect the versioned compatibility/deprecation policy contract.
+  - [ ] Add explicit ADR/deprecation-ledger cross-reference validation and
+    adversarial ML/agent fixture coverage.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -134,6 +139,9 @@
   repository harness, and coverage.
 - [x] Added regression coverage for the existing frozen reproducible-build,
   isolated SBOM clean-install, and fail-closed artifact-retention workflow.
+- [x] Added regression coverage for the landscape freshness workflow's four
+  registry-to-public-claim projections; ADR/deprecation-ledger cross-links and
+  adversarial ML/agent fixtures remain open subitems.
 
 ## Phase 3: Staged release evidence
 
