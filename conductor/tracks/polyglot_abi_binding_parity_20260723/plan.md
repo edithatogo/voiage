@@ -36,6 +36,8 @@
   - [x] Add schema-validated EVPI result-envelope JSON query/copy transport,
     preserving the canonical v1 discriminator and optional-array invariants.
     (`59a3024e`)
+  - [x] Consolidate JSON buffer ownership logic and add schema-validated
+    EVPPI, EVSI, and ENBS scalar result-envelope transports. (`8840d58e`)
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
