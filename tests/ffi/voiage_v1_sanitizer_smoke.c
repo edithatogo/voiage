@@ -41,6 +41,21 @@ int main(void) {
         capability_document_size <= 1) {
         return 9;
     }
+    const char decision_problem[] =
+        "{\"decision_problem_id\":\"screening-001\","
+        "\"title\":\"Screening programme\","
+        "\"analysis_type\":\"net-benefit-first\",\"currency\":\"AUD\","
+        "\"willingness_to_pay\":50000.0,"
+        "\"interventions\":[{\"intervention_id\":\"usual-care\","
+        "\"name\":\"Usual care\",\"is_reference\":true}]}";
+    uint64_t decision_problem_size = 0;
+    if (voiage_v1_decision_problem_json(
+            (const uint8_t *)decision_problem,
+            (uint64_t)(sizeof(decision_problem) - 1), NULL, 0,
+            &decision_problem_size) != VOIAGE_V1_STATUS_OK ||
+        decision_problem_size <= 1) {
+        return 19;
+    }
 
     const double values[] = {10.0, 1.0, 2.0, 8.0};
     VoiageEvpiResultV1 result = {0};

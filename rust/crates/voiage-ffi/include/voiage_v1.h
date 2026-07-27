@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #define VOIAGE_V1_ABI_MAJOR UINT32_C(1)
-#define VOIAGE_V1_ABI_MINOR UINT32_C(9)
+#define VOIAGE_V1_ABI_MINOR UINT32_C(10)
 #define VOIAGE_V1_CAPABILITIES_STRUCT_VERSION UINT32_C(1)
 #define VOIAGE_V1_CAPABILITY_VERSION_NEGOTIATION (UINT64_C(1) << 0)
 #define VOIAGE_V1_CAPABILITY_QUERY (UINT64_C(1) << 1)
@@ -38,6 +38,7 @@ extern "C" {
 #define VOIAGE_V1_CAPABILITY_STRUCTURAL_VOI_RESULT (UINT64_C(1) << 9)
 #define VOIAGE_V1_CAPABILITY_EVPPI_REGRESSION_RESULT (UINT64_C(1) << 10)
 #define VOIAGE_V1_CAPABILITY_EVSI_APPROXIMATION_RESULT (UINT64_C(1) << 11)
+#define VOIAGE_V1_CAPABILITY_DECISION_PROBLEM_JSON (UINT64_C(1) << 12)
 #define VOIAGE_V1_EVPPI_ASSURANCE_INCOMPLETE UINT32_C(0)
 #define VOIAGE_V1_EVSI_ASSURANCE_INCOMPLETE UINT32_C(0)
 #define VOIAGE_V1_EVSI_ESTIMATOR_REGRESSION UINT32_C(1)
@@ -160,6 +161,15 @@ VOIAGE_V1_API VoiageAbiCapabilitiesV1 voiage_v1_capabilities(void);
 /* Canonical UTF-8 JSON plus trailing NUL. Query with a null, zero-capacity
  * buffer. required_size is mandatory; no partial document is written. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_capabilities_json(
+    char *buffer,
+    uint64_t capacity,
+    uint64_t *required_size);
+/* Validate through the stable Rust Decision Problem contract and return
+ * compact UTF-8 JSON plus trailing NUL. Query with null buffer and zero
+ * capacity. Invalid input writes neither required_size nor buffer. */
+VOIAGE_V1_API voiage_v1_status voiage_v1_decision_problem_json(
+    const uint8_t *input,
+    uint64_t input_length,
     char *buffer,
     uint64_t capacity,
     uint64_t *required_size);

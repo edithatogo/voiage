@@ -109,6 +109,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABI v1.9 typed results for the promoted Rust-native linear-regression
   and centered moment-matching EVSI estimators, with estimator identity, value
   decomposition, dimensions, trial size, and explicit single-fit assurance.
+- Added ABI v1.10 fail-closed Decision Problem JSON validation and normalized
+  caller-owned query/copy transport, including no-partial-write behavior for
+  invalid documents and undersized buffers.
 - Removed `contents: write` from pre-publication release staging. Reviewed
   SHA-256 inputs now bind an immutable same-run Actions artifact, while the
   sole write-capable job creates the public GitHub Release only after the

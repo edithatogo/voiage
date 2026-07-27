@@ -151,6 +151,12 @@ information fraction, dimensions and trial size, while keeping single-fit
 replicate assurance explicitly incomplete. The separate Python joint-normal
 two-loop compatibility path is not advertised as Rust-native.
 
+C ABI v1.10 adds the first versioned serialization buffer: fail-closed
+Decision Problem JSON validation through the stable Rust domain type followed
+by query-then-copy normalized UTF-8 transport. Invalid documents and short
+buffers cannot produce partial output. Result-envelope JSON, Arrow
+representations, and language-native adapters remain separate open work.
+
 The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
 software, broader decision-modeling packages, public web tools, commercial
 documentation, Bayesian experimental-design and active-learning libraries,

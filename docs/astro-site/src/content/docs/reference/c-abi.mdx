@@ -9,7 +9,7 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `9`
+- ABI major: `1`; ABI minor: `10`
 - Capability-struct version: `1`
 - Capability bits include version negotiation, capability query, scalar EVPI,
   the typed EVPI result envelope, and the registry-generated capability
@@ -22,6 +22,8 @@ the release allowlists.
   EVSI exposes the promoted Rust-native linear-regression and centered
   moment-matching approximations; it does not advertise the distinct Python
   two-loop compatibility path as Rust-native.
+  Decision Problem JSON transport validates through the stable Rust domain
+  type before returning compact caller-owned UTF-8.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -31,6 +33,7 @@ the release allowlists.
 voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_capabilities_json
+voiage_v1_decision_problem_json
 voiage_v1_ceaf_result
 voiage_v1_evpi
 voiage_v1_enbs
@@ -103,6 +106,14 @@ perfect-information values, the information fraction, input dimensions and
 trial sample size, and marks single-fit assurance `INCOMPLETE`. Independent
 replicate evidence is a separate assurance workflow. The Python joint-normal
 two-loop estimator is not represented by either symbol.
+
+`voiage_v1_decision_problem_json` accepts an exact-length UTF-8 JSON input,
+validates syntax, unknown fields, identifiers, currency, thresholds and
+intervention invariants through the stable Rust `DecisionProblem`, and returns
+normalized compact JSON with a trailing NUL. Query the required size with a
+null buffer and zero capacity. Invalid input writes neither the required size
+nor the output; a short buffer updates only the required size. This transport
+does not claim RFC 8785 digest canonicalization.
 
 ## Status and error transport
 

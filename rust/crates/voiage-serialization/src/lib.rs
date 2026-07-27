@@ -6,11 +6,27 @@ use core::{cmp::Ordering, fmt};
 use serde::{de, Deserialize, Deserializer, Serialize};
 use serde_json::{Map, Value};
 use std::collections::HashSet;
+use voiage_domain::DecisionProblem;
 
 mod error_mapping;
 
 /// Identifies this crate.
 pub const CRATE_NAME: &str = "voiage-serialization";
+
+/// Validates a Decision Problem through the stable Rust domain contract and
+/// returns its compact JSON representation.
+///
+/// Object field order follows the versioned Rust DTO and declared collection
+/// order is preserved. This is normalized transport JSON, not an RFC 8785
+/// digest representation.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or domain invariants fail.
+pub fn normalize_decision_problem_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let decision_problem: DecisionProblem = serde_json::from_slice(input)?;
+    serde_json::to_vec(&decision_problem)
+}
 
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]

@@ -20,6 +20,10 @@ mod ceaf_result;
 // and addressable lengths, contains panics, and writes only after computation.
 #[allow(unsafe_code)]
 mod dominance_result;
+// SAFETY: JSON transport validates caller-owned input/output regions, contains
+// panics, and performs no partial document writes.
+#[allow(unsafe_code)]
+mod decision_problem_json;
 mod generated_capabilities;
 // SAFETY: expected-loss transport validates all caller-owned pointers and
 // capacities, contains panics, and writes only after successful computation.
@@ -50,6 +54,7 @@ use voiage_numerics::{enbs, evpi, evpi_with_assurance, EvpiKernelResult};
 
 pub use capability_document::voiage_v1_capabilities_json;
 pub use ceaf_result::{voiage_v1_ceaf_result, VoiageCeafResultV1};
+pub use decision_problem_json::voiage_v1_decision_problem_json;
 pub use dominance_result::{voiage_v1_dominance_result, VoiageDominanceResultV1};
 pub use error_transport::voiage_v1_error_message;
 pub use evppi_regression_result::{
@@ -76,7 +81,7 @@ pub const CRATE_NAME: &str = "voiage-ffi";
 pub const VOIAGE_V1_ABI_MAJOR: u32 = 1;
 
 /// Backwards-compatible ABI minor version implemented by this library.
-pub const VOIAGE_V1_ABI_MINOR: u32 = 9;
+pub const VOIAGE_V1_ABI_MINOR: u32 = 10;
 
 /// Capability bit for ABI version negotiation.
 pub const VOIAGE_ABI_VERSION_NEGOTIATION: u64 = 1 << 0;
@@ -113,6 +118,9 @@ pub const VOIAGE_ABI_EVPPI_REGRESSION_RESULT: u64 = 1 << 10;
 
 /// Capability bit for promoted Rust-native EVSI approximation results.
 pub const VOIAGE_ABI_EVSI_APPROXIMATION_RESULT: u64 = 1 << 11;
+
+/// Capability bit for validated Decision Problem JSON transport.
+pub const VOIAGE_ABI_DECISION_PROBLEM_JSON: u64 = 1 << 12;
 
 const ABI_VERSION_STRUCT_SIZE: u32 = 12;
 const ABI_CAPABILITIES_STRUCT_SIZE: u32 = 16;
@@ -199,7 +207,8 @@ pub extern "C" fn voiage_v1_capabilities() -> VoiageAbiCapabilitiesV1 {
             | VOIAGE_ABI_CEAF_RESULT
             | VOIAGE_ABI_STRUCTURAL_VOI_RESULT
             | VOIAGE_ABI_EVPPI_REGRESSION_RESULT
-            | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT,
+            | VOIAGE_ABI_EVSI_APPROXIMATION_RESULT
+            | VOIAGE_ABI_DECISION_PROBLEM_JSON,
     }
 }
 
