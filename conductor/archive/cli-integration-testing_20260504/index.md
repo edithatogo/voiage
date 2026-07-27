@@ -1,5 +1,9 @@
 # Track: CLI Completion and Integration Testing
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 The CLI has only 5 of ~12 needed commands. EVSI, ENBS, adaptive, portfolio, structural EVPPI, and all plotting commands are missing. Meanwhile, ~100 test files are excluded from the test suite. This track completes the CLI surface and brings all integration tests online.
 

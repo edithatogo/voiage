@@ -105,6 +105,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Normalize and archive the historical Conductor registry.
+    *   Archived track:
+        `conductor/archive/conductor-registry-normalization_20260727/`.
+    *   Reduced the authoritative full-validator baseline from 223 errors to
+        zero errors and zero warnings.
+    *   Preserved external and superseded follow-ups without representing them
+        as completed outcomes.
+
 *   [x] Harden the repository-owned JOSS submission package.
     *   Added current JOSS paper sections, field comparisons, design
         trade-offs, reproducible near-term-significance evidence, archive

@@ -1,5 +1,9 @@
 # Track: Fix Infrastructure and Configuration
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 The project has severe configuration issues that prevent reliable testing, linting, and development. `pyproject.toml` excludes all Python files from ruff linting, ignores ~100 test files from pytest, has inconsistent Python version targets, and contains placeholder author/URL metadata. These must be fixed before any other track can produce reliable results.
 

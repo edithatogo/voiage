@@ -46,7 +46,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 126
+    assert conductor["archived_track_count"] == 127
     assert conductor["classifications"] == {
         "v1_required": [
             "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"

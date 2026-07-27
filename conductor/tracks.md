@@ -1,5 +1,15 @@
 # Project Tracks
 
+## [x] Track: Conductor Registry Normalization [completed: 2026-07-27]
+*Link: [./archive/conductor-registry-normalization_20260727/index.md](./archive/conductor-registry-normalization_20260727/index.md)*
+*GitHub: [issue #590](https://github.com/edithatogo/voiage/issues/590), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: complete — the authoritative historical baseline is normalized from
+223 errors to zero errors and zero warnings without changing substantive
+implementation or external-gate outcomes.*
+
+---
+
 ## [~] Track: Conductor GitHub Cross-Reference Reconciliation
 *Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
 *GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
@@ -748,3 +758,39 @@ and hardware gates without reopening completed repository-owned slices.
 *Status: repository-owned v1.0 delivery is complete; signed public v1.0.0, Rust-core runtime, legacy-core retirement, Astro documentation, release-quality evidence, and hosted gates are complete. Registry review/indexing and external archival outcomes continue in the research-software registry track.*
 
 ---
+
+---
+
+## [x] Track: Legacy Archive Record — Conductor Commit Note Checkpoint Hardening 20260625
+*Link: [./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md](./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Cross Language Conformance Fixtures
+*Link: [./archive/cross-language-conformance-fixtures/index.md](./archive/cross-language-conformance-fixtures/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Dataset Registry And Example Corpus 20260625
+*Link: [./archive/dataset-registry-and-example-corpus_20260625/index.md](./archive/dataset-registry-and-example-corpus_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Python Cleanup Against Spec
+*Link: [./archive/python-cleanup-against-spec/index.md](./archive/python-cleanup-against-spec/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Rust Frontier Numerics Migration Completion 20260625
+*Link: [./archive/rust-frontier-numerics-migration-completion_20260625/index.md](./archive/rust-frontier-numerics-migration-completion_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Voi Frontier Architecture Dependency Governance 20260625
+*Link: [./archive/voi-frontier-architecture-dependency-governance_20260625/index.md](./archive/voi-frontier-architecture-dependency-governance_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*

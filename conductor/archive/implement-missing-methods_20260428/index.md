@@ -1,5 +1,9 @@
 # Track: Replace Placeholders and Implement Missing Methods
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 Several "complete" methods in the codebase are actually placeholders or degrade to fallbacks. Additionally, several SOTA VOI methods expected in modern libraries are entirely missing. This track replaces placeholder code with real implementations and adds the missing SOTA methods.
 

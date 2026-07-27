@@ -1,5 +1,9 @@
 # Strategy Orchestration And Dependency Matrix
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 - Spec: [spec.md](./spec.md)
 - Plan: [plan.md](./plan.md)
 - Metadata: [metadata.json](./metadata.json)

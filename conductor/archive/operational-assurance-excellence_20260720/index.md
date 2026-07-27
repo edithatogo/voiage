@@ -1,5 +1,7 @@
 # Operational Assurance Excellence
 
+- [Implementation Plan](./plan.md)
+
 - [Specification](./spec.md)
 - [MoSCoW requirements](./requirements.md)
 - [Mermaid design](./design.md)

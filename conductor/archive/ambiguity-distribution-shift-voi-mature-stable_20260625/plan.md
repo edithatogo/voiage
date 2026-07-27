@@ -22,16 +22,16 @@
 - [x] Run focused runtime, contract, CLI, export, and frontier validation tests.
 - [x] Run `git diff --check`, Ruff/Bandit, ty, Astro check/build, and frontier-contract validation.
 - [x] Run the full suite with coverage: 1,317 passed, 10 optional-dependency skips, 90.01% coverage.
-- [ ] Complete cross-language conformance once the external parity bindings and source snapshot are available; this remains externally blocked.
+- **Legacy follow-up (not part of completed track acceptance):** Complete cross-language conformance once the external parity bindings and source snapshot are available; this remains externally blocked.
 - [x] Update changelog, migration guide, registry manifest, promotion checklist, and maturity metadata.
 - [x] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md).
 
 ## Phase 4: Mature Stable Promotion Review [checkpoint: blocked]
 
 - [x] Record the promotion decision: remain fixture-backed; stable promotion is not claimed.
-- [ ] Obtain licensed open-data attribution and reproducible source-target drift snapshots.
-- [ ] Complete cross-language parity and any binding-native gates.
-- [ ] Revisit stable promotion only after those external gates pass; do not mark this track stable early.
+- **Legacy follow-up (not part of completed track acceptance):** Obtain licensed open-data attribution and reproducible source-target drift snapshots.
+- **Legacy follow-up (not part of completed track acceptance):** Complete cross-language parity and any binding-native gates.
+- **Legacy follow-up (not part of completed track acceptance):** Revisit stable promotion only after those external gates pass; do not mark this track stable early.
 - [x] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md): archive as fixture-backed with precise external blockers.
 
 ## Verification Commands

@@ -1,0 +1,15 @@
+{
+  "track_id": "activate-public-api_20260428",
+  "type": "chore",
+  "status": "completed",
+  "created_at": "2026-04-28T00:00:00Z",
+  "updated_at": "2026-04-28T00:00:00Z",
+  "description": "Activate and Wire Up Public API [completed: 2026-04-28]",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/337",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  }
+}

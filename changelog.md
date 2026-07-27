@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   direct producers emit decision columns in either order.
 - Added explicit offline, verified-cache, and resource-size policy flags to
   every standardized-ingestion CLI command while retaining local-only access.
+- Added an idempotent historical Conductor normalizer, a complete 223-finding
+  baseline audit, and regression contracts for current metadata, registry,
+  archive, and external-gate boundaries.
 - Added a validated SciCrunch registration answer-and-evidence packet with
   explicit account-declaration, submission, curation, and RRID-assignment
   boundaries.
