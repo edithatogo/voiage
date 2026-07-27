@@ -29,6 +29,9 @@
 - [x] Make `ty` the fast routine typing gate and move BasedPyright to explicit
   scheduled/manual strict-assurance lanes, with a documented release-review
   boundary. (`8f03ed09`)
+- [x] Clear high-confidence Vulture findings and make the whole-program
+  dead-code check blocking, while preserving public parameter names and
+  recording the reviewed ecosystem-drift baseline. (`59c61fe9`)
 - [x] Make Renovate the sole version-update bot; validate its configuration,
   dependency dashboard, supported managers, vulnerability bypass, Action
   pinning, stability checks, grouping, concurrency, human-review boundaries,
@@ -121,6 +124,11 @@
 - [x] Commit `8f03ed09` makes `ty` the fast local and pull-request typing
   gate, with BasedPyright retained as an explicit scheduled/manual strict
   assurance lane and release-review input.
+- [x] Commit `59c61fe9` clears all high-confidence Vulture findings, makes the
+  CI dead-code check blocking, adds a regression guard, and refreshes the
+  reviewed workflow-drift baseline. The full tox matrix passed with Python
+  3.12--3.14, minimum and maximum dependency lanes, Astro/polyglot docs,
+  repository harness, and coverage.
 
 ## Phase 3: Staged release evidence
 

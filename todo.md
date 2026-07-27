@@ -177,6 +177,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
     explicit dispositions for the remaining quality, security, typing,
     dead-code, orchestration, mutation, profiling, and dependency tools.
 
+*   [x] Clear high-confidence Vulture findings and make the whole-program
+    dead-code check blocking with a regression guard. (`59c61fe9`)
+
 *   [x] Audit the arXiv manuscript for overclaiming and promotional language.
     *   Removed novelty and distinctiveness claims, qualified intended
         applications, and described the current Rust/Python boundary narrowly.
