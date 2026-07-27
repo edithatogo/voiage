@@ -601,13 +601,18 @@ def validate_local(repo: Path) -> list[str]:
             "git note",
             "short commit SHA",
             "plan update",
-            "Conductor - User Manual Verification",
         )
         errors.extend(
             f"{track_id}: plan missing {token}"
             for token in required_plan_tokens
             if token not in plan
         )
+        manual_verification_tokens = (
+            "Conductor - User Manual Verification",
+            "Conductor - Analyst Manual Verification",
+        )
+        if not any(token in plan for token in manual_verification_tokens):
+            errors.append(f"{track_id}: plan missing manual verification checkpoint")
         index_files = ("spec.md", "plan.md", "metadata.json", "evidence.jsonl")
         errors.extend(
             f"{track_id}: index missing {filename}"

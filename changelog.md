@@ -45,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   methods, schemas, approaches, features, subfeatures, options, evidence,
   assurance, UX, integrations and operating models, and requires maintainer
   review of proposed improvements before any later roadmap adoption.
+- Named the accountable software-landscape review role as the analyst while
+  retaining a manual, non-automated approval boundary.
 - Added native GitHub subissues #556--#560 and decision-complete Conductor
   workstreams for deterministic sensitivity analysis, Value of Distributional
   Information, qualitative VoI, Value of Flexibility, and MCDA-VOI. This is

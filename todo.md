@@ -14,7 +14,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
             commercial, hosted and embedded products; #569 freezes the
             schema/evidence/review protocol; #573 maps capability, workflow,
             integration, assurance, UX and adoption patterns; #567 packages
-            VOIAGE gaps and proposed improvements for named human review.
+            VOIAGE gaps and proposed improvements for named analyst review.
         *   Record methods, schemas, approaches, features, subfeatures,
             options, estimators, evidence, maturity, integrations, workflows,
             governance and commercial operating models. Treat the existing

@@ -12,7 +12,7 @@
   plan update. (`2630e39`)
 - [x] Automated review and validation checkpoint. (`c4c4fab`; registry,
   governance, Ruff, and live GitHub reconciliation passed)
-- [ ] Conductor - User Manual Verification 'Phase 1: Existing reproducible baseline'
+- [ ] Conductor - Analyst Manual Verification 'Phase 1: Existing reproducible baseline'
   (Protocol in workflow.md).
 
 ## Phase 2: Comprehensive schema and inventory
@@ -48,7 +48,7 @@
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Comprehensive schema and inventory'
+- [ ] Conductor - Analyst Manual Verification 'Phase 2: Comprehensive schema and inventory'
   (Protocol in workflow.md).
 
 ## Phase 3: Capability map and reviewed improvement proposal
@@ -74,7 +74,7 @@
   close, or reparent implementation issues from the review generator.
 - [ ] Run license, provenance, schemas, generated-artifact, docs, complete
   quality, competitor-absent, live hierarchy, and Project 28 gates.
-- [ ] Present the checksum-bound proposal for named maintainer review. Preserve
+- [ ] Present the checksum-bound proposal for named analyst review. Preserve
   approved, rejected, revised, and deferred decisions individually.
 - [ ] After review, prepare a separate proposed roadmap change containing only
   approved recommendations; do not apply it in this track without renewed
@@ -82,7 +82,7 @@
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Capability map and reviewed improvement proposal'
+- [ ] Conductor - Analyst Manual Verification 'Phase 3: Capability map and reviewed improvement proposal'
   (Protocol in workflow.md).
 
 ## Preserved completed evidence

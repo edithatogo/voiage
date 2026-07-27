@@ -6,7 +6,7 @@ Create the next review-first programme: identify discoverable open-source,
 commercial, hosted, archived, and adjacent Value of Information software; map
 each product at schema, feature, subfeature, option, workflow, and adoption
 levels; compare it with VOIAGE; and present evidence-linked improvements for
-human review before any later roadmap incorporation.
+analyst review before any later roadmap incorporation.
 
 This refines the existing external-library parity track rather than creating a
 duplicate census. The current 27-tool snapshot is a reusable baseline, not a
@@ -71,7 +71,7 @@ claim that the expanded review is complete.
    novelty, evidence, dependencies, design, license risk, MoSCoW, priority,
    effort, maturity, owning track, proposed subissue, alternatives, and
    approved/rejected/deferred state.
-7. The source census, generated comparison, gap analysis, and human decision
+7. The source census, generated comparison, gap analysis, and analyst decision
    ledger remain separate artifacts. Discovery cannot silently promote a
    method, overwrite scientific notes, or change the roadmap.
 8. Every positive parity claim names independent, competitor-free fixtures and
@@ -154,7 +154,7 @@ competitor-independent, bounded by recorded search dates, and refreshable
 within 93 days and before a minor release. Network discovery is never required
 for deterministic tests.
 
-## External and human gates
+## External and analyst gates
 
 - Public observability limits commercial and hosted claims.
 - Source availability, archival access, licensing, and paid-product access are

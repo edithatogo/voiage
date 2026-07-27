@@ -15,10 +15,10 @@ flowchart TD
     Parity --> Matrix["Deterministic comparison views"]
     Parity --> Gaps["Evidence-linked gap records"]
     Gaps --> Proposal["MoSCoW improvement proposal"]
-    Proposal --> Human{"Named maintainer review"}
-    Human -- Approve --> Route["Later roadmap and owning-track proposal"]
-    Human -- Reject or defer --> Decision["Preserved decision ledger"]
-    Human -- Revise --> Gaps
+    Proposal --> Analyst{"Named analyst review"}
+    Analyst -- Approve --> Route["Later roadmap and owning-track proposal"]
+    Analyst -- Reject or defer --> Decision["Preserved decision ledger"]
+    Analyst -- Revise --> Gaps
 ```
 
 ```mermaid
@@ -38,5 +38,5 @@ erDiagram
 ```
 
 The source observations are append-only evidence. Generated matrices and
-proposals may be regenerated; human scientific notes and review decisions are
+proposals may be regenerated; analyst scientific notes and review decisions are
 preserved separately and cannot be overwritten by refresh automation.

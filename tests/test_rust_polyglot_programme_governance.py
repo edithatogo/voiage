@@ -232,6 +232,24 @@ def test_project_views_cover_delivery_priority_risk_and_review_workflows() -> No
     }
 
 
+def test_software_landscape_uses_analyst_review_language() -> None:
+    track = (
+        REPO_ROOT
+        / "conductor"
+        / "tracks"
+        / "external_voi_library_feature_parity_20260723"
+    )
+    for path in (
+        track / "spec.md",
+        track / "design.md",
+        track / "plan.md",
+        REPO_ROOT / "conductor" / "tracks.md",
+        REPO_ROOT / "todo.md",
+    ):
+        text = path.read_text(encoding="utf-8").casefold()
+        assert "analyst review" in text or "analyst manual verification" in text
+
+
 def test_programme_covers_every_approved_workstream() -> None:
     required = {
         "voi_method_census_contract_reconciliation_20260723",

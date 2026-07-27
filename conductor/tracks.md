@@ -21,7 +21,7 @@ freeze.*
 *Execution order: 03 of 11.*
 *Status: next — inventory open-source, commercial, hosted and embedded VOI
 software at schema/feature/subfeature/option level, map capability and adoption
-gaps, and present improvement proposals for human review before any later
+gaps, and present improvement proposals for analyst review before any later
 roadmap adoption. Existing 27-tool evidence is a baseline, not completion.*
 
 ---
