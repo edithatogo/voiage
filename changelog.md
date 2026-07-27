@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Clarified the R package documentation and regression tests to identify the
+  Rust-backed core as authoritative while keeping Python-only compatibility
+  methods explicitly optional.
+
 - Clarified the Julia binding documentation so Rust semantic authority and
   external General-registry/JLL publication gates are stated unambiguously.
 
