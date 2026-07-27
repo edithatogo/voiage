@@ -1,0 +1,1 @@
+Conductor evidence: ABI v1.14 statistical-assurance JSON transport passed bounded Rust, schema, FFI, documentation, harness, and full tox validation. Full tox completed in 1050.83 seconds using a bounded PortableSSD TMPDIR because the system temporary volume was full; the generated directory was removed afterward. Live GitHub programme reconciliation passed.
