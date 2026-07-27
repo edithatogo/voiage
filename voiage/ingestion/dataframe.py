@@ -37,9 +37,7 @@ def from_dataframe(
             "input does not satisfy the dataframe interchange protocol "
             "with the requested copy policy"
         ) from error
-    descriptor_digest = hashlib.sha256(
-        f"dataframe-interchange:{dataset_id}:{table_id}".encode()
-    ).hexdigest()
+    descriptor_digest = _table_digest(table, dataset_id=dataset_id, table_id=table_id)
     return NormalizedInputBundle(
         manifest=DatasetManifest(
             dataset_id=dataset_id,
@@ -61,3 +59,18 @@ def from_dataframe(
         ),
         tables={table_id: table},
     )
+
+
+def _table_digest(table: pa.Table, *, dataset_id: str, table_id: str) -> str:
+    """Hash canonical Arrow IPC content for direct-input provenance."""
+    sink = pa.BufferOutputStream()
+    with pa.ipc.new_stream(sink, table.schema) as writer:
+        writer.write_table(table)
+    hasher = hashlib.sha256()
+    hasher.update(b"voiage:dataframe-interchange:v1\0")
+    hasher.update(dataset_id.encode("utf-8"))
+    hasher.update(b"\0")
+    hasher.update(table_id.encode("utf-8"))
+    hasher.update(b"\0")
+    hasher.update(sink.getvalue().to_pybytes())
+    return hasher.hexdigest()

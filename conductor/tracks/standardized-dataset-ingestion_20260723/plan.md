@@ -193,16 +193,16 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 9 — Ship cross-domain reference cases (#468)
 
-- [ ] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
+- [~] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
   engineering/operations, and business decision cases with explicit method
   applicability.
-- [ ] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
+- [~] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
   direct inputs using the same binding profile and pinned artifact digests.
-- [ ] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
+- [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence.
-- [ ] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
+- [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
   without adding domain-specific kernels or semantic inference.
-- [ ] **P9-T5 / AC-13:** Publish the support matrix and run fixture
+- [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
 
 ## Follow-on recommendation incorporation (2026-07-24)
