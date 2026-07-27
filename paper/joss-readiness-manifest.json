@@ -37,7 +37,7 @@
     "citation_and_source_audit": "pass_with_human_confirmation_pending",
     "authentext_review": "pass",
     "independent_panel_review": "complete_internal_review",
-    "official_pdf_build_and_visual_review": "pass"
+    "official_pdf_build_and_visual_review": "superseded_pending_exact_source_rebuild"
   },
   "hosted_manuscript_evidence": {
     "workflow_run": 30182384336,

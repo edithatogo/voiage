@@ -8,7 +8,7 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "589c3c8a23513bab1b12e4a399f36e5df8e4db8f9442b1c76eabf0d3d7f50e4d",
+      "source_sha256": "a6f3898019ce0d13785e3e4f36eade6c392dc0a15d248af66cb8e8408b070d50",
       "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
       "citation_occurrences": 18,
       "citation_matches": 18,
@@ -26,7 +26,7 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "589c3c8a23513bab1b12e4a399f36e5df8e4db8f9442b1c76eabf0d3d7f50e4d",
+      "source_sha256": "a6f3898019ce0d13785e3e4f36eade6c392dc0a15d248af66cb8e8408b070d50",
       "finding_count": 0
     },
     "textstat": {
@@ -62,7 +62,8 @@
     "docs/reviews/joss-panel/round-7/editorial-delta-review.md",
     "docs/reviews/joss-panel/round-8/criteria-reconciliation.md",
     "docs/reviews/joss-panel/round-9/evidence-led-refinement.md",
-    "docs/reviews/joss-panel/round-10/synthesis.md"
+    "docs/reviews/joss-panel/round-10/synthesis.md",
+    "docs/reviews/joss-panel/round-11/synthesis.md"
   ],
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
@@ -71,14 +72,14 @@
     "joss_submission_conversation": "human_only"
   },
   "official_pdf_review": {
-    "status": "pass",
-    "workflow_run": 30182384336,
-    "commit": "766797398654fc7637e19767993535e416bb00c9",
-    "artifact_id": 8625969915,
-    "artifact_sha256": "5098c43bea9b0f4bd6e94179d9f705387922419d9ad05ccb15a02a07e6c0995e",
-    "pdf_sha256": "43759919dbb9dccf2ecb3356da6a7a65ed67a5bf8043c2a776fa69b278156d22",
+    "status": "superseded_pending_exact_source_render",
+    "workflow_run": 30252163688,
+    "commit": "6b16897bcf51d2d78233accc190e47f4aaef4d0e",
+    "artifact_id": 8647460527,
+    "artifact_sha256": "6f20282bcb7f99652ae3334e4fc2417a566081f002818ac2b4d3c5f80f499a7d",
+    "pdf_sha256": "f3963832dbc32c540ac16dae93741acf96044d1154c880fb0445f428e6f32cb2",
     "pages": 6,
-    "visual_review": "All six pages of the release-bound Open Journals PDF were inspected at 120 dpi; headings, citations, links, figure, caption, author metadata, references, and page furniture render without clipping, overlap, or missing content.",
+    "visual_review": "The prior hosted Open Journals PDF was visually inspected at 140 dpi. A new exact-source render is required after the Round-11 manuscript corrections.",
     "submission_performed": false
   }
 }

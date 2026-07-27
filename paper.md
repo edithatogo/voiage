@@ -34,22 +34,24 @@ repository: https://github.com/edithatogo/voiage
 
 # Summary
 
-Decision-makers in research and policy settings weigh acting on current
-evidence against commissioning a study. Value-of-information (VOI) analysis
-estimates how much better a decision could become if uncertainty were reduced.
-Expected value of perfect information (EVPI) concerns all modelled uncertainty,
-expected value of partial perfect information (EVPPI) concerns selected inputs,
-and expected value of sample information (EVSI) concerns a proposed study.
-Expected net benefit of sampling (ENBS) compares population EVSI with research
-cost [@rothery2020voi].
+Decision-makers weigh acting on current evidence against commissioning a study.
+Value-of-information (VOI) analysis
+estimates the expected improvement in a decision from better information.
+Expected value of perfect information (EVPI) measures the value of resolving
+all modelled uncertainty; expected value of partial perfect information (EVPPI)
+measures the value of resolving selected inputs; and expected value of sample
+information (EVSI) measures the value of a proposed study. Expected net benefit
+of sampling (ENBS) compares population EVSI with research cost
+[@rothery2020voi].
 
 `voiage` calculates EVPI and EVPPI from simulated net-benefit samples, estimates
 EVSI from a declared study model, and combines study value and cost for ENBS. A
 versioned record preserves option names, units, uncertain inputs, and data
 sources with each result. Python, R, and Julia share the EVPI calculation. In
-the fixed-seed health example, EVPI was estimated at 644 value units—an
-intentionally generic decision scale—for each eligible future person. It
-supports practical comparisons of further-research choices.
+the fixed-seed health example, EVPI was estimated at 644 value units—a generic
+scale—for each person affected by later decisions during the horizon. It supports
+comparisons of
+further-research choices.
 
 # Statement of need
 
@@ -96,13 +98,13 @@ uncertain option in a simplified binary decision
 [@adamczewski2022valueofinformation]. The author's
 `trd-cea-toolkit` places VOI within a disease-specific health-economic workflow
 [@mordaunt2025trdcea]. `voiage` does not replace these tools or claim broader
-method coverage. Its distinct contribution is a language-neutral EVPI
-implementation and versioned record usable from Python, R, and Julia without
-requiring users to adopt one specialist package's runtime or data model.
-Building the interoperability layer around an environment-specific package
-would either introduce that environment as a dependency or require an
-additional compatibility layer. A separate core provides a narrower shared
-boundary while specialist tools retain their broader methods and reporting.
+method coverage. Its distinct contribution is one EVPI calculation and a
+versioned decision record usable from Python, R, and Julia. Building that link
+around one environment-specific package would either make that environment a
+dependency or require another compatibility layer. The separate core lets
+analysts keep their preferred modelling tools while sharing one calculation and
+one description of the decision; specialist tools retain their broader methods
+and reporting.
 
 # Software design
 
@@ -172,8 +174,9 @@ and realisation are assumptions, not predictions of study conduct or practice
 change.
 
 The [sensitivity table](paper/data/synthetic_health_example_sensitivity.csv)
-varies outcome variability, population, study cost, delay, and value
-realisation. Figure \autoref{fig:health-example} summarises the results. Panel C
+varies assumed individual study-outcome standard deviation, population, study
+cost, delay, and value realisation. \autoref{fig:health-example} summarises the
+results. Panel C
 shows conditional scenarios, not uncertainty intervals.
 
 ![Three-panel synthetic health example. Panel A shows how the probability of

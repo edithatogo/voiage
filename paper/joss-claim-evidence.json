@@ -69,7 +69,7 @@
     {
       "id": "build-versus-contribute",
       "section": "State of the field",
-      "statement": "A separate core provides a narrower shared boundary while specialist tools retain their broader methods and reporting.",
+      "statement": "The separate core lets analysts keep their preferred modelling tools while sharing one calculation and one description of the decision; specialist tools retain their broader methods and reporting.",
       "status": "bounded",
       "evidence": [
         {
