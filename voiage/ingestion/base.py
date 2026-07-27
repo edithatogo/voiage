@@ -17,6 +17,10 @@ class IngestionError(ValueError):
     """Stable, safe error raised when an external source cannot be ingested."""
 
 
+INGESTION_PROVIDER_SDK_VERSION = "1"
+"""Major version of the frozen public provider-SDK contract."""
+
+
 @dataclass(frozen=True)
 class ProviderCapabilities:
     """Conservative, source-neutral statement of a provider's support surface."""

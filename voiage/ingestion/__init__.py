@@ -1,6 +1,7 @@
 """Optional source-format adapters for the normalized VOI input contract."""
 
 from .base import (
+    INGESTION_PROVIDER_SDK_VERSION,
     IngestionError,
     IngestionProvider,
     ProviderCapabilities,
@@ -12,6 +13,7 @@ from .frictionless import FrictionlessProvider
 from .registry import ProviderRegistry, default_registry, discover_entry_point_providers
 
 __all__ = [
+    "INGESTION_PROVIDER_SDK_VERSION",
     "CroissantProvider",
     "FrictionlessProvider",
     "IngestionError",

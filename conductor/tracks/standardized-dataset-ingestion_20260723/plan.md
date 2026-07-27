@@ -175,20 +175,20 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 8 — Publish the provider SDK and DataFrame adapter (#467)
 
-- [ ] **P8-T1 / AC-12:** Freeze the supported provider-SDK surface only after
+- [~] **P8-T1 / AC-12:** Freeze the supported provider-SDK surface only after
   phases 1–5 establish stable core contracts and conformance evidence.
-- [ ] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
+- [~] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
   reusable contract tests, capability manifests, compatibility rules, and an
   opt-in entry-point publication checklist.
-- [ ] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
+- [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments.
-- [ ] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
+- [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
   path.
-- [ ] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
+- [~] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
   create registry-specific providers only for documented, tested gaps.
-- [ ] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
+- [~] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
   equivalence, import isolation, security review, full tox, and hosted checks.
 
 ## Phase 9 — Ship cross-domain reference cases (#468)

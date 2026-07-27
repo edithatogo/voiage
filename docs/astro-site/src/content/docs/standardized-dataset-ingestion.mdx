@@ -160,6 +160,11 @@ not resolve resources, access the network, or import optional parser stacks.
 `ingest` must return a `NormalizedInputBundle` and must resolve every declared
 resource through the supplied `SourceAccessPolicy`.
 
+The frozen v1 SDK additionally requires `capabilities.provider_id` to equal the
+provider's `provider_id`; registration rejects mismatches. Its versioned
+compatibility and publication rules live in
+`specs/core-api/ingestion-provider-sdk-v1.md`.
+
 Publish an initialized provider instance under the
 `voiage.ingestion.providers` entry-point group. The entry-point name is the
 deployment identifier that applications add to their allow-list; it need not
