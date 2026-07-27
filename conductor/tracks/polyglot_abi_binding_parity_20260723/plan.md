@@ -29,6 +29,11 @@
   result, diagnostics and estimator-assurance fields; additive-version,
   missingness and unsupported-capability behavior; Rust/C ABI/Python/R/Julia/
   Mojo ownership and round-trip rules.
+- [ ] Consume the reviewed #593--#600 canonical dispositions and freeze typed
+  ABI/result requirements for implementation/perfection decomposition,
+  uncertainty-modelling value, risk-adjusted prices, event/density value,
+  belief-state sequential value, signed social value, heterogeneity
+  decomposition, and outcome-conditional sample value.
 - [ ] Define per-language public and packaging contracts.
   - [x] Freeze and validate the public Rust facade/package contract.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
@@ -52,6 +57,10 @@
 - [ ] Generate capabilities, headers, docs, and migration adapters.
 - [ ] Generate deterministic unsupported-method responses and fail CI when a
   binding or document advertises capabilities absent from the registry.
+- [ ] Implement every accepted quantitative #593--#600 method through the
+  public Rust facade and generated C ABI, then expose thin Python/R/Julia
+  adapters and an explicit Mojo disposition. Preserve planned/excluded states
+  rather than generating stubs that appear executable.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -64,6 +73,9 @@
 - [ ] Run #579 golden, randomized, pathological, unknown-field, missingness,
   unsupported-capability, resource-ownership and cross-version round trips in
   every advertised language surface.
+- [ ] Run #593--#600 cross-language fixtures for signs, decompositions,
+  policies, thresholds, densities, subgroup weights, outcome distributions,
+  errors, unsupported states, and estimator/solver assurance.
 - [ ] Run Miri, sanitizers, fuzzing, semver, ABI, docs, and full quality gates.
 - [ ] Reconcile packaging and external registry readiness.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the

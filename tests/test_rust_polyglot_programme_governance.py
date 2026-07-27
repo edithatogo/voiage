@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
+
+from jsonschema import Draft202012Validator, FormatChecker
 
 from scripts.validate_rust_polyglot_programme import (
     EXPECTED_PROJECT_VIEWS,
@@ -21,6 +24,12 @@ from scripts.validate_rust_polyglot_programme import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_json(path: Path) -> dict[str, object]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    assert isinstance(value, dict)
+    return value
 
 
 def test_programme_has_parent_and_ten_child_tracks() -> None:
@@ -46,6 +55,7 @@ def test_frontier_track_has_governed_native_method_gap_subissues() -> None:
     assert TRACK_ISSUES[FRONTIER_TRACK] == FRONTIER_PARENT_ISSUE == 318
     assert set(range(556, 561)) < set(FRONTIER_SUBISSUES)
     assert {570, 571, 572, 582} <= set(FRONTIER_SUBISSUES)
+    assert set(range(593, 601)) <= set(FRONTIER_SUBISSUES)
     assert {fields["record id"] for fields in FRONTIER_SUBISSUES.values()} >= {
         "deterministic-sensitivity-analysis",
         "value-of-distributional-information",
@@ -56,6 +66,14 @@ def test_frontier_track_has_governed_native_method_gap_subissues() -> None:
         "information-source-portfolio-voi",
         "experiment-portfolio-voi",
         "forecast-signal-information-voi",
+        "implementation-information-decomposition",
+        "uncertainty-modelling-value",
+        "risk-adjusted-information-pricing",
+        "event-localized-information-value",
+        "belief-state-sequential-information-value",
+        "signed-social-information-value",
+        "heterogeneity-value-decomposition",
+        "outcome-conditional-sample-information-value",
     }
     assert missing_frontier_subissues(set(FRONTIER_SUBISSUES)) == set()
     assert missing_frontier_subissues(set(FRONTIER_SUBISSUES) - {557}) == {557}
@@ -107,6 +125,14 @@ def test_industry_subissues_have_one_existing_track_parent() -> None:
             571,
             572,
             582,
+            593,
+            594,
+            595,
+            596,
+            597,
+            598,
+            599,
+            600,
         },
         "ml_llm_agent_voi_20260723": {576, 578},
         "polyglot_abi_binding_parity_20260723": {579},
@@ -133,6 +159,14 @@ def test_moscow_and_mermaid_contracts_cover_industry_decision_value() -> None:
         "information-source portfolio",
         "experiment-portfolio VOI",
         "forecast and signal information",
+        "implementation and perfection",
+        "uncertainty modelling",
+        "risk-adjusted information",
+        "event-localized information",
+        "belief-state",
+        "signed social",
+        "dynamic value of heterogeneity",
+        "risk-of-low sample information",
         "Decision Registry",
         "customer churn",
         "commercial and open-source software",
@@ -143,8 +177,30 @@ def test_moscow_and_mermaid_contracts_cover_industry_decision_value() -> None:
         "Customer churn and retention",
         "Software landscape review",
         "Decision Registry and Decision Studio",
+        "Residual information-value taxonomy",
     ):
         assert token.casefold() in design.casefold()
+
+
+def test_residual_method_candidates_are_planning_records_not_support_claims() -> None:
+    root = REPO_ROOT / "specs" / "software-landscape"
+    schema = _load_json(root / "residual-method-candidates.schema.json")
+    register = _load_json(root / "residual-method-candidates.json")
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(
+        schema,
+        format_checker=FormatChecker(),
+    ).validate(register)
+
+    candidates = register["candidates"]
+    assert isinstance(candidates, list)
+    assert {candidate["issue"] for candidate in candidates} == set(range(593, 601))
+    assert all(candidate["runtime_support_claim"] is False for candidate in candidates)
+    assert {candidate["record_id"] for candidate in candidates} == {
+        fields["record id"]
+        for issue, fields in FRONTIER_SUBISSUES.items()
+        if 593 <= issue <= 600
+    }
 
 
 def test_project_views_cover_delivery_priority_risk_and_review_workflows() -> None:

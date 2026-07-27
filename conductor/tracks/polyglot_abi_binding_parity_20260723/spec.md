@@ -35,6 +35,19 @@ and Mojo.
     outside the numerical core. Round trips must preserve unknown additive
     fields, declared unsupported capabilities, categorical identifiers and
     units without silently coercing them.
+11. For residual method issues #593--#600, expose only the reviewed canonical
+    disposition from the supported-frontier and method-census tracks.
+    Quantitative methods accepted for implementation require Rust-authoritative
+    typed results and conformance through Rust, Python, R, Julia, and Mojo;
+    schema or qualitative components may be contract-only when scientifically
+    appropriate. Planned records must remain unavailable in capability
+    discovery.
+12. Shared fixtures cover implementation/perfection decompositions,
+    EVIU/VSS, utility-equivalent prices, event/density integrals, belief-state
+    policies, signed agent/social ledgers, static/dynamic subgroup value, and
+    outcome-conditional VSI distributions. Each binding preserves policies,
+    units, signs, thresholds, decompositions, diagnostics, and unsupported
+    states.
 
 ## Compatibility and failure policy
 
@@ -48,4 +61,5 @@ Clean installed packages call every advertised method and pass golden and
 randomized differential fixtures on supported platforms. Issue #579 passes
 cross-language Decision Problem, result, diagnostics and assurance round trips,
 including pathological and unsupported cases. Unsupported methods fail
-explicitly.
+explicitly. Issues #593--#600 have matching installed, adapter, contract-only,
+unsupported, or upstream-blocked dispositions across all capability surfaces.

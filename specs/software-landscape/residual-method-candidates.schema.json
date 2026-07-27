@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/residual-method-candidates.schema.json",
+  "title": "VOIAGE residual method candidate register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "reviewed_on",
+    "track_id",
+    "parent_issue",
+    "candidates",
+    "reviewed_non_gaps",
+    "search_limitations"
+  ],
+  "properties": {
+    "$schema": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "1.0.0"},
+    "status": {"const": "planning-candidates-not-canonical"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "track_id": {"type": "string", "minLength": 1},
+    "parent_issue": {"type": "integer", "const": 318},
+    "candidates": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "reviewed_non_gaps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/nonGap"}
+    },
+    "search_limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issue",
+        "record_id",
+        "moscow",
+        "classification",
+        "submethods",
+        "existing_mappings",
+        "source_urls",
+        "runtime_support_claim"
+      ],
+      "properties": {
+        "issue": {"type": "integer", "minimum": 1},
+        "record_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "moscow": {"enum": ["Must", "Should", "Could", "Won't"]},
+        "classification": {
+          "const": "pending-additive-scientific-review"
+        },
+        "submethods": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "existing_mappings": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "source_urls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "format": "uri"}
+        },
+        "runtime_support_claim": {"const": false}
+      }
+    },
+    "nonGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["term", "disposition", "mapped_to"],
+      "properties": {
+        "term": {"type": "string", "minLength": 1},
+        "disposition": {
+          "enum": [
+            "alias",
+            "application",
+            "estimator",
+            "diagnostic",
+            "covered-workstream",
+            "adjacent-method"
+          ]
+        },
+        "mapped_to": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

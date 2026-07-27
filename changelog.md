@@ -23,6 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a residual method-gap programme with native GitHub subissues #593--#600
+  for implementation/information/perfection decomposition;
+  uncertainty-modelling and stochastic-solution value; risk-adjusted
+  information prices; event/tail-event information and information density;
+  belief-state sensing/intervention value; signed agent/social information
+  value; static/dynamic heterogeneity value; and outcome-conditional
+  sample-information value. MoSCoW, Mermaid, Conductor, Project 28 and
+  polyglot-evidence requirements are synchronized, without claiming runtime or
+  binding support.
 - Added a review-gated industry decision-value and adoption programme across
   MoSCoW requirements, Mermaid architecture, Conductor tracks, native GitHub
   subissues and Project 28. Planned work covers risk-sensitive/constrained,

@@ -1,11 +1,11 @@
 {
   "track_id": "rust_polyglot_voi_completion_20260723",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:18:53Z",
-  "updated_at": "2026-07-27T03:38:01Z",
-  "description": "Coordinate comprehensive Rust-first, polyglot, literature, software-landscape, industry decision-value, adoption, perspective, ML/LLM, evidence, and contribution-transparency completion.",
+  "updated_at": "2026-07-27T05:29:25Z",
+  "description": "Coordinate comprehensive Rust-first, polyglot, literature, software-landscape, residual-method, industry decision-value, adoption, perspective, ML/LLM, evidence, and contribution-transparency completion.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
   "github_issue": "https://github.com/edithatogo/voiage/issues/313",
@@ -33,6 +33,12 @@
       "kind": "repository",
       "status": "pending",
       "evidence": "All child tracks must satisfy their repository-owned acceptance criteria."
+    },
+    {
+      "id": "residual-method-programme",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Issues #593--#600 require classification, implementation or reviewed exclusion, and cross-language evidence through the owning child tracks."
     },
     {
       "id": "external-release-publication",

@@ -7,3 +7,7 @@
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/314)
 - Native subissue:
   [#566 industry DecisionProblem contract](https://github.com/edithatogo/voiage/issues/566).
+- Residual method candidates remain native to supported-frontier parent #318:
+  [#593--#600](https://github.com/edithatogo/voiage/issues/593). This track owns
+  their additive canonical classification and scientific-review boundary, not
+  their implementation.

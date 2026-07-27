@@ -112,6 +112,15 @@ programme. The canonical cross-repository requirements are maintained in
   experiment-portfolio VOI, forecast and signal information, and
   decision-focused model value each have a distinct contract, evidence plan,
   maturity, and native GitHub subissue.
+- Implementation and perfection value has an explicit decomposition covering
+  expected value of perfect implementation (EVPIM), expected value of specific
+  implementation (EVSIM), realizable EVPI, implementation-adjusted EVSI, and
+  expected value of perfection (EVP). Proposed EVEIm/EVSEIm terminology is
+  retained as a review candidate, not silently promoted as a new estimand. The
+  existing implementation-loss helper cannot establish this support.
+- Uncertainty modelling value explicitly distinguishes EVIU and
+  stochastic-solution measures such as EEV, VSS, wait-and-see, DVSS, and VMS
+  from information acquisition, uncertainty propagation, and ordinary EVPI.
 - Customer churn and retention is a decision-grade flagship example with a
   known-counterfactual synthetic trial, a rights-reviewed randomized uplift
   analogue, and a prediction-only cautionary example. It evaluates policies,
@@ -182,6 +191,24 @@ programme. The canonical cross-repository requirements are maintained in
   counterfactual consistency, policy regret, calibration, constraints,
   source dependence, delayed outcomes, fairness, invalid artifacts,
   deterministic parallelism, streaming, and large industry fixtures.
+- Risk-adjusted information pricing should cover EUI, CEI, buying and selling
+  prices, and cross-decision comparability without assuming that expected
+  monetary value is a certainty equivalent.
+- Event-localized information value should cover perfect and imperfect
+  event/tail-event information plus information density, with integral,
+  complement, accuracy, tie, and direction-of-concern assurance.
+- Belief-state sequential information value should reconcile myopic and
+  nonmyopic POMDP observation value, active adaptive management, sensing,
+  intervention, dual-control, stopping, and policy evidence.
+- Signed social information value should preserve negative and harmful
+  information, avoidance and overvaluation, public/private/team value,
+  externalities, and agent versus social welfare instead of clipping at zero.
+- Static and dynamic value of heterogeneity should separate acting on known
+  subgroup structure from resolving subgroup uncertainty, including
+  population-weighted policy and selection assurance.
+- Outcome-conditional and risk-of-low sample information should report
+  delta-EV by outcome, VSI, sigma-VSI, rVSI at declared thresholds, and the
+  reconciliation between the VSI distribution and EVSI.
 - Project 28 should expose purpose-specific views for current delivery, the
   next software-landscape review, industry and adoption work, MoSCoW and
   priority, gates and risk, and evidence and review dates.
@@ -234,6 +261,9 @@ programme. The canonical cross-repository requirements are maintained in
   calculations, or model leaderboards as decision value without explicit
   actions, utility or loss, constraints, information cost, and a
   post-information decision.
+- Treating EVIU/VSS as information acquisition, EVPIM as EVPI, information
+  density as DSA, EVSI uncertainty as rVSI, or an acquisition score as
+  nonmyopic belief-state VOI.
 - Automatic roadmap adoption of software-landscape recommendations before the
   evidence-linked proposal and named human review are complete.
 - Upload-required handling of confidential business data in the local Decision

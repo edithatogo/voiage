@@ -300,6 +300,37 @@ VOIAGE consumes versioned artifacts and owns accepted generic decision-value
 kernels, preventing adapters or examples from becoming duplicate numerical
 authorities.
 
+## Residual information-value taxonomy
+
+```mermaid
+flowchart TD
+    Problem["Versioned DecisionProblem and policy baseline"]
+    Problem --> Implementation["#593 implementation, information, perfection"]
+    Problem --> Modelling["#594 uncertainty modelling and stochastic solution"]
+    Problem --> Pricing["#595 EUI, CEI, buying and selling prices"]
+    Problem --> Events["#596 event and tail-event value, information density"]
+    Problem --> Beliefs["#597 belief-state sensing and intervention"]
+    Problem --> Social["#598 signed agent and social information value"]
+    Problem --> Heterogeneity["#599 static and dynamic heterogeneity value"]
+    Problem --> SampleRisk["#600 outcome-conditional VSI and low-value risk"]
+    Implementation --> Results["Typed values, decompositions, policies, assurance"]
+    Modelling --> Results
+    Pricing --> Results
+    Events --> Results
+    Beliefs --> Results
+    Social --> Results
+    Heterogeneity --> Results
+    SampleRisk --> Results
+    Results --> Registry["Canonical classification and maturity"]
+    Results --> Bindings["Rust, Python, R, Julia, and Mojo dispositions"]
+```
+
+Each branch is a distinct estimand or decomposition, not an estimator alias.
+The method census decides canonical identifiers and relationships; the
+supported-frontier track owns implementation or reviewed exclusion; and the
+binding track prevents a planned contract from being advertised as installed
+execution.
+
 ## Customer churn and retention
 
 ```mermaid

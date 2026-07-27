@@ -76,6 +76,14 @@ claim that the expanded review is complete.
    method, overwrite scientific notes, or change the roadmap.
 8. Every positive parity claim names independent, competitor-free fixtures and
    executable tests. VOIAGE remains usable with competitor packages absent.
+9. The inventory explicitly searches for the residual #593--#600 families and
+   submethods: EVPIM, EVSIM (specific implementation), EVP, EVEIm/EVSEIm
+   terminology and implementation-adjusted EVSI; EVIU,
+   EEV/VSS/wait-and-see/DVSS/VMS; EUI/CEI/buying/selling prices; event and
+   tail-event information plus information density; POMDP observation value,
+   adaptive management and dual control; negative/social/team information
+   value; static/dynamic heterogeneity; and delta-EV/VSI/sigma-VSI/rVSI.
+   Observations map to the planning register until additive scientific review.
 
 ### Should have
 
@@ -131,9 +139,12 @@ higher parity claim.
    report, and improvement proposal regenerate deterministically.
 4. Every proposed improvement routes to an existing track or a reviewed new
    owner without creating duplicate issues.
-5. The maintainer can approve, reject, revise, or defer proposals individually;
+5. Every observed #593--#600 capability maps to its candidate record or a
+   reviewed alias/application/adjacent disposition without promoting the
+   candidate register to canonical status.
+6. The maintainer can approve, reject, revise, or defer proposals individually;
    the source inventory remains unchanged.
-6. No roadmap change is represented as approved until the named review is
+7. No roadmap change is represented as approved until the named review is
    recorded in a later, checksum-bound change.
 
 ## Non-functional constraints

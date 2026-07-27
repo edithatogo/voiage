@@ -25,6 +25,10 @@ It records observable capabilities rather than marketing parity.
 - `adjacent-method-dispositions.json` records why neighboring concepts are
   mapped to a canonical method, retained as related analyses/applications,
   admitted as a new method, or excluded from the VOI core.
+- `residual-method-candidates.json` and its schema record the #593--#600
+  primary-source-backed planning candidates and reviewed non-gaps. They do not
+  amend the accepted canonical registry or claim runtime/binding support; an
+  additive method-census review and hash-bound approval are required first.
 - `schema.json` is the public software-registry contract.
 - `gap-report.json` is generated from the registries and routes every
   non-equivalent feature or unresolved method-assurance gap to an existing

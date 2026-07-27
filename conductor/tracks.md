@@ -44,11 +44,12 @@ roadmap adoption. Existing 27-tool evidence is a baseline, not completion.*
 *Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
 *Execution order: 06 of 11.*
 *Status: new — GitHub #318 owns native method-gap subissues #556--#560,
-#570--#572 and #582 for DSA, VDI, qualitative VoI, VoF, MCDA-VOI,
-risk-sensitive/constrained VOI, experiment portfolios, forecast/signal value,
-and dependent information-source portfolios; complete, consolidate, demote, or
-gate each family without overstating fixture, mock, score, or adjacent-method
-evidence.*
+#570--#572, #582 and #593--#600. The residual set covers implementation and
+perfection decomposition, uncertainty-modelling value, risk-adjusted prices,
+event/density value, belief-state sequential value, signed social value,
+static/dynamic heterogeneity value, and outcome-conditional sample value.
+Complete, consolidate, demote, or gate each family without overstating
+fixture, mock, score, alias, or adjacent-method evidence.*
 
 ---
 

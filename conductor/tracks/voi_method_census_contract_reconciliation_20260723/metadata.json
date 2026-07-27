@@ -1,11 +1,11 @@
 {
   "track_id": "voi_method_census_contract_reconciliation_20260723",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:18:53Z",
-  "updated_at": "2026-07-27T03:38:01Z",
-  "description": "Maintain the canonical VOI/VOP method registry and extend the DecisionProblem contract for governed industry decision value.",
+  "updated_at": "2026-07-27T05:29:25Z",
+  "description": "Maintain the canonical VOI/VOP registry, classify residual method candidates, and extend the DecisionProblem contract for governed industry decision value.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
   "github_issue": "https://github.com/edithatogo/voiage/issues/314",
@@ -33,6 +33,12 @@
       "kind": "human",
       "status": "pending",
       "evidence": "Issue #566 requires renewed schema and semantic review before the additive contract is frozen."
+    },
+    {
+      "id": "residual-method-scientific-review",
+      "kind": "human",
+      "status": "pending",
+      "evidence": "Issues #593--#600 require a new additive hash-bound candidate and named scientific approval; the accepted v1.1 registry does not cover them."
     }
   ]
 }

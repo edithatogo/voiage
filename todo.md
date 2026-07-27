@@ -32,7 +32,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
         *   The supported-frontier parent #318 and Conductor track
             `supported_frontier_method_completion_20260723` now own native
-            subissues #556--#560, #570--#572 and #582. Complete or
+            subissues #556--#560, #570--#572, #582 and #593--#600. Complete or
             scientifically exclude:
             deterministic sensitivity analysis (DSA, #556); Value of
             Distributional Information over distribution-family uncertainty
@@ -42,7 +42,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
             decision/information-value execution without mock fallbacks
             (MCDA-VOI, #560); risk-sensitive/constrained VOI (#570);
             experiment-portfolio VOI (#571); forecast/signal information value
-            (#572); and dependent information-source portfolio VOI (#582).
+            (#572); dependent information-source portfolio VOI (#582);
+            implementation/information/perfection decomposition (#593);
+            uncertainty-modelling value including EVIU and stochastic-solution
+            measures (#594); risk-adjusted information pricing (#595);
+            event/tail-event value and information density (#596); belief-state
+            sequential sensing and intervention value (#597); signed
+            agent/social information value (#598); static/dynamic value of
+            heterogeneity (#599); and outcome-conditional VSI, sigma-VSI and
+            risk-of-low sample information (#600).
         *   For every accepted gap, synchronize the estimand/schema, Rust core
             where numerical, Python/R/Julia adapters, Mojo disposition,
             diagnostics, serialization, registry/capabilities, independent
@@ -51,6 +59,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
             additionally requires human usability/accessibility and audit review.
             A citation, mock, schema-only scaffold, or adjacent method cannot
             close a subissue.
+        *   The method-census track must first classify #593--#600 against the
+            accepted v1.1 registry. EVPIM, EVSIM (specific implementation),
+            EVP, proposed EVEIm/EVSEIm terminology, EVIU/VSS, EUI/CEI/BPI/SPI,
+            event information, information density, POMDP observation value,
+            signed/social value, dynamic heterogeneity, and VSI-distribution
+            metrics must not be collapsed into similarly named existing
+            helpers or advertised before executable evidence exists.
         *   Net-benefit construction is now Rust-authoritative and covered by
             cross-language normal/edge/invalid fixtures, properties,
             diagnostics, a CI-gated benchmark, and a bounded critical mutation

@@ -36,6 +36,18 @@ and related methods before the v1.1 contract freeze.
      versioned model, dataset, experiment, and optimizer artifact references;
    - typed predictive-distribution, CATE/uplift, forecast, optimization, and
      experiment-platform adapter protocols.
+9. Reopen the additive census for the residual method candidates governed by
+   #593--#600. Classify implementation/information/perfection decomposition,
+   uncertainty-modelling/stochastic-solution value, risk-adjusted information
+   prices, event information and information density, belief-state sequential
+   value, signed social value, static/dynamic heterogeneity value, and
+   outcome-conditional sample-information value as estimands,
+   decompositions, diagnostics, related analyses, applications, aliases, or
+   reviewed exclusions.
+10. Preserve the accepted v1.1 registry revision until the additive candidate
+    has primary evidence, equations, assumptions, compatibility mappings,
+    independent review, and a new hash-bound approval. Planning and a GitHub
+    issue do not mutate the approved registry.
 
 ## Compatibility, risk, and gates
 
@@ -50,7 +62,9 @@ Every current method has an evidence-backed disposition; stable methods have
 formal definitions and validation; generated surfaces are deterministic; no
 narrative/runtime maturity conflict remains. Issue #566 has a reviewed schema,
 migration, error, fixture, interchange, and binding disposition before the
-industry decision methods freeze.
+industry decision methods freeze. Issues #593--#600 have reviewed canonical
+classifications and relationships to existing records before implementation or
+exclusion claims enter generated capability surfaces.
 
 ## Out of scope
 

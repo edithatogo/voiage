@@ -35,6 +35,14 @@ track. They are not separate Conductor tracks:
 | [#582](https://github.com/edithatogo/voiage/issues/582) | `information-source-portfolio-voi` | Information-source and data-procurement portfolio VOI | Optimize dependent, complementary, redundant, ordered, rights- and privacy-bounded information sources rather than adding independent EVSI values. |
 | [#571](https://github.com/edithatogo/voiage/issues/571) | `experiment-portfolio-voi` | Experiment-portfolio VOI | Allocate shared traffic, sample, time, capacity, and guardrails across A/B tests, geo experiments, pilots, and validation studies using net decision value. |
 | [#572](https://github.com/edithatogo/voiage/issues/572) | `forecast-signal-information-voi` | Forecast and signal information value | Value forecast accuracy, freshness, latency, horizon, or an additional signal through the downstream inventory, pricing, capacity, hedging, maintenance, or cash-flow decision. |
+| [#593](https://github.com/edithatogo/voiage/issues/593) | `implementation-information-decomposition` | Implementation, information, and perfection value | Reconcile expected value of perfect implementation (EVPIM), expected value of specific implementation (EVSIM), realizable EVPI, implementation-adjusted EVSI, expected value of perfection (EVP), and proposed EVEIm/EVSEIm terminology with the existing implementation runtime without assuming independence or double counting. |
+| [#594](https://github.com/edithatogo/voiage/issues/594) | `uncertainty-modelling-value` | Value of uncertainty modelling and stochastic solutions | Implement EVIU and the EEV/VSS/recourse/wait-and-see family, including reviewed multistage extensions, while keeping modelling value distinct from information acquisition. |
+| [#595](https://github.com/edithatogo/voiage/issues/595) | `risk-adjusted-information-pricing` | Risk-adjusted information prices | Implement EUI, CEI, buying and selling prices, supported constructed-scale prices, and cross-decision comparability conditions. |
+| [#596](https://github.com/edithatogo/voiage/issues/596) | `event-localized-information-value` | Event information and information density | Implement perfect/imperfect event and tail-event value plus univariate/multivariate information density with integral and direction-of-concern assurance. |
+| [#597](https://github.com/edithatogo/voiage/issues/597) | `belief-state-sequential-information-value` | Belief-state sensing and intervention value | Reconcile myopic/nonmyopic POMDP observation value, active adaptive management, sensing, intervention, dual control, stopping, and policy evidence. |
+| [#598](https://github.com/edithatogo/voiage/issues/598) | `signed-social-information-value` | Signed agent and social information value | Preserve negative/harmful information, avoidance/overvaluation, public/private/team value, externalities, and agent versus social welfare. |
+| [#599](https://github.com/edithatogo/voiage/issues/599) | `heterogeneity-value-decomposition` | Static and dynamic value of heterogeneity | Separate value from acting on known subgroup structure from value of resolving subgroup uncertainty, with population and selection assurance. |
+| [#600](https://github.com/edithatogo/voiage/issues/600) | `outcome-conditional-sample-information-value` | Outcome-conditional sample-information value | Implement delta-EV by outcome, VSI, sigma-VSI, and risk-of-low-value rVSI while reconciling the VSI distribution with EVSI. |
 
 ### DSA contract boundary
 
@@ -135,6 +143,99 @@ constraints, and cost. Results report value by signal, horizon, or freshness,
 policy changes, regret avoided, maximum acquisition price, and calibration or
 coverage diagnostics. Forecast accuracy alone is not information value.
 
+### Implementation, information, and perfection boundary
+
+Issue #593, `implementation-information-decomposition`, declares current and
+counterfactual uptake or adherence, implementation interventions, information
+actions, population, time, costs, chronology, and the dependence between
+evidence and uptake. Results provide the current/perfect-information/perfect-
+implementation value matrix; expected value of perfect implementation (EVPIM),
+expected value of specific implementation (EVSIM), realizable EVPI,
+implementation-adjusted EVSI, expected value of perfection (EVP), interaction
+terms, policies, switches, and assurance. Proposed EVEIm/EVSEIm labels remain
+terminology candidates until additive review establishes whether they are
+aliases or distinct parameterizations. The existing implementation-loss
+multiplier cannot establish these estimands. Independence is never assumed
+silently, and population/time scaling must not double count.
+
+### Uncertainty-modelling and stochastic-solution boundary
+
+Issue #594, `uncertainty-modelling-value`, declares objective direction, the
+point-estimate functional, scenario process, stage chronology,
+nonanticipativity, recourse, policy class, feasibility, risk criterion, and
+solver evidence. Results provide deterministic/expected-value, stochastic or
+recourse, and wait-and-see policies and values; EVIU, EEV, VSS and EVPI;
+reviewed DVSS/VMS variants; bounds; infeasibility; and solver assurance. EVIU
+and VSS value representing uncertainty during analysis; they are not values of
+observing new information.
+
+### Risk-adjusted information-pricing boundary
+
+Issue #595, `risk-adjusted-information-pricing`, declares the utility function,
+wealth or reference state, risk attitude, information structure, cost
+placement, policies, and stakeholder scope. Results retain EUI, CEI, buying
+price, selling price, supported probability/constructed-scale prices,
+willingness-to-pay roots, switches, numerical diagnostics, and explicit
+cross-decision comparability conditions. It reconciles the adjacent
+`buying-price-voi` record. Expected monetary benefit, CVaR, or a maximum
+acquisition price alone does not establish this family.
+
+### Event-localized information boundary
+
+Issue #596, `event-localized-information-value`, declares events or thresholds,
+tail direction, variables, base/reference values, signal accuracy, utilities,
+information costs, and tie/non-uniqueness policy. Results report event
+probabilities, conditional policies and values, gross/net perfect or imperfect
+event VOI, density grids/evaluators, integral error, modes and directions of
+concern, accuracy curves, and diagnostics. Information-density integrals must
+reconcile to the declared value. Event information is distinct from ordinary
+DSA, parameter information, tail-risk measures, and forecast accuracy.
+
+### Belief-state sequential information boundary
+
+Issue #597, `belief-state-sequential-information-value`, declares latent and
+belief states, transition and observation models, sensing and control actions,
+costs, horizon/discounting, stopping, constraints, policy class, and whether
+actions affect both outcomes and future information. Results retain belief and
+policy trajectories, sensing/control decisions, myopic and nonmyopic values,
+gross/net VOI, regret, horizon effects, stopping, approximation bounds, and
+solver/estimator assurance. Generic POMDP execution, one-step acquisition
+scores, or existing sequential labels are insufficient.
+
+### Signed agent and social information boundary
+
+Issue #598, `signed-social-information-value`, declares decision maker,
+recipient, controller/discloser, stakeholder utilities, welfare aggregation,
+constraints, incentives, privacy/rights, public/private/team signals,
+communication topology, and the baseline information allocation. Results
+retain signed realized and ex-ante recipient, agent and social values; winners,
+losers, transfers, externalities, sharing policies, and assumption-specific
+nonnegativity diagnostics. Negative/harmful information, avoidance and
+overvaluation must not be clipped to zero.
+
+### Heterogeneity-value decomposition boundary
+
+Issue #599, `heterogeneity-value-decomposition`, declares candidate subgroup
+specifications, covariates, eligibility, prevalence/weights, costs,
+uncertainty, selection/multiplicity policy, fairness/privacy constraints, and
+research actions. Results report average and subgroup policies, static and
+dynamic heterogeneity value, subgroup EVPI/EVSI when identified, marginal
+segmentation value, switches, and selection assurance. It reconciles
+`heterogeneity-voi`, individualized care, and policy/uplift VOI; descriptive
+segmentation or CATE estimates alone are insufficient.
+
+### Outcome-conditional sample-information boundary
+
+Issue #600, `outcome-conditional-sample-information-value`, declares the
+measurement-outcome space and probabilities, current and posterior policies,
+utility or loss, value threshold, information cost, and
+prospective/retrospective scope. Results retain outcome-weighted delta-EV and
+VSI, sigma-VSI, rVSI at declared thresholds, quantiles/tails, policy changes,
+and calibration/estimator diagnostics. Under classical assumptions,
+`E[VSI] = EVSI` and VSI is nonnegative even when delta-EV is negative. This
+distribution of realized information value is distinct from an EVSI standard
+error and from risk in the underlying system outcome.
+
 ### Cross-cutting implementation and parity
 
 Numerical kernels belong in the Rust core when the estimand is accepted for
@@ -149,15 +250,18 @@ Each accepted method requires analytical or enumerable examples, an independent
 reference, invariants and metamorphic properties, invalid/pathological
 fixtures, estimator or audit assurance, deterministic serialization, registry
 and capability synchronization, executable documentation, and an explicit
-maturity decision. Public or external data are promotion evidence only when
-rights, provenance, hashes, and coverage are recorded.
+maturity decision. Issues #593--#600 also require decomposition or reduction
+identities and explicit reconciliation with similarly named existing methods.
+Public or external data are promotion evidence only when rights, provenance,
+hashes, and coverage are recorded.
 
 ## Acceptance criteria
 
 Every frontier module is implemented, consolidated, scaffold-only, or excluded
-with evidence; #556--#560, #570--#572, and #582 have reviewed dispositions and
-their acceptance evidence is linked from this track; no unsupported stable
-claim remains; public data is required before supported/stable promotion.
+with evidence; #556--#560, #570--#572, #582, and #593--#600 have reviewed
+dispositions and their acceptance evidence is linked from this track; no
+unsupported stable claim remains; public data is required before
+supported/stable promotion.
 
 ## Out of scope
 

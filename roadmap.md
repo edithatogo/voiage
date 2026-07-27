@@ -31,7 +31,13 @@ without treating planning as implementation:
 - GitHub #318 owns DSA, VDI, qualitative VoI, VoF and MCDA-VOI in #556--#560,
   plus risk-sensitive/constrained VOI (#570), experiment-portfolio VOI (#571),
   forecast/signal information value (#572), and dependent information-source
-  portfolio VOI (#582).
+  portfolio VOI (#582). Its residual-method census adds the implementation,
+  information and perfection decomposition (#593); uncertainty-modelling value
+  and stochastic-solution measures (#594); risk-adjusted information pricing
+  (#595); event/tail-event value and information density (#596); belief-state
+  sensing and intervention value (#597); signed agent/social information value
+  (#598); static/dynamic heterogeneity value (#599); and outcome-conditional
+  sample-information value and low-value risk (#600).
 - GitHub #319 owns policy/uplift VOI (#578) and decision-focused model value
   (#576), preserving the difference between prediction, causal policy value,
   information value and implementation value.
@@ -578,7 +584,7 @@ VOI tooling.
     *   **Status: `📋 Planned / implementation and parity open`**
     *   The supported-frontier track
         `supported_frontier_method_completion_20260723` and GitHub parent #318
-        now own five native subissues:
+        own the original method-gap subissues:
         [DSA #556](https://github.com/edithatogo/voiage/issues/556),
         [VDI #557](https://github.com/edithatogo/voiage/issues/557),
         [qualitative VoI #558](https://github.com/edithatogo/voiage/issues/558),
@@ -598,6 +604,32 @@ VOI tooling.
         policy, diagnostics, fixtures, independent evidence, maturity, and
         Rust/Python/R/Julia/Mojo disposition. A reviewed exclusion is valid;
         silent omission or an adjacent implementation is not.
+    *   A second, primary-source-backed residual census now adds:
+        [implementation/information/perfection #593](https://github.com/edithatogo/voiage/issues/593),
+        [uncertainty-modelling value #594](https://github.com/edithatogo/voiage/issues/594),
+        [risk-adjusted information pricing #595](https://github.com/edithatogo/voiage/issues/595),
+        [event-localized value and information density #596](https://github.com/edithatogo/voiage/issues/596),
+        [belief-state sequential value #597](https://github.com/edithatogo/voiage/issues/597),
+        [signed social information value #598](https://github.com/edithatogo/voiage/issues/598),
+        [static/dynamic heterogeneity value #599](https://github.com/edithatogo/voiage/issues/599),
+        and [outcome-conditional sample-information value #600](https://github.com/edithatogo/voiage/issues/600).
+    *   The #593 decomposition includes expected value of perfect
+        implementation (EVPIM), expected value of specific implementation
+        (EVSIM), realizable EVPI, implementation-adjusted EVSI, expected value
+        of perfection (EVP), and review-candidate EVEIm/EVSEIm terminology.
+        Issue #594 includes EVIU and EEV/VSS/wait-and-see plus reviewed
+        multistage extensions. Issue #595 covers EUI, CEI, buying and selling
+        prices; #596 covers perfect and imperfect event/tail-event information
+        and information density.
+    *   Issue #597 covers myopic/nonmyopic POMDP observation value, active
+        adaptive management and dual-control boundaries. Issue #598 preserves
+        negative/harmful information and agent/social welfare; #599 separates
+        static from dynamic subgroup value; and #600 reports the
+        outcome-conditional VSI distribution, sigma-VSI, and rVSI thresholds.
+    *   These are planned contracts. The approved v1.1 canonical registry is
+        not silently mutated: the method-census track must classify each as an
+        estimand, decomposition, diagnostic, related analysis, application, or
+        alias before registry inclusion and maturity review.
 6.  **Documentation and Evidence:**
     *   **Status: `✅ Fixture-backed documentation baseline complete / stable-method promotion gated`**
     *   Maintain the frontier-method rationale in the Astro route `sota-voi-frontier/`.

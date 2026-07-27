@@ -28,6 +28,9 @@
   `landscape-open-source-inventory` across registries, source hosts, archives,
   papers, supplements, HTA, decision analysis, Bayesian OED, active learning,
   causal policy, forecasting, optimization, and information economics.
+- [ ] Include the exact #593--#600 families and their named submethods in
+  reproducible search queries and capability extraction; map observed software
+  to the residual planning register pending additive scientific review.
 - [ ] For each open-source product, inspect version-pinned source, API,
   schemas, functions/classes/commands, algorithms, estimators, features,
   subfeatures, options/defaults, diagnostics, errors, plots, reports, examples,
@@ -57,6 +60,9 @@
 - [ ] Map every capability to a canonical ID and `native`, `equivalent`,
   `adapter`, `planned`, `excluded`, or `not-reproducible`; require independent
   fixtures/tests for every positive parity claim.
+- [ ] Keep residual candidate mappings separate from canonical parity rows and
+  report whether products implement their estimand, an estimator, a diagnostic,
+  an alias, an application, or an adjacent analysis.
 - [ ] Generate deterministic views and summaries by product, ecosystem,
   capability, method, domain, parity, evidence, maintenance, license, adoption
   lesson, gap, MoSCoW, priority, risk, and review date.

@@ -60,8 +60,42 @@
   horizon, freshness, latency, temporal dependence, decision lead time,
   constraints, downstream policy, value by signal/horizon/freshness, and
   maximum acquisition price.
+- [ ] Freeze #593, `implementation-information-decomposition`: expected value
+  of perfect implementation (EVPIM), expected value of specific implementation
+  (EVSIM), realizable EVPI, implementation-adjusted EVSI, expected value of
+  perfection (EVP), proposed EVEIm/EVSEIm terminology, joint dependence,
+  current/perfect information and implementation states, interaction,
+  population/time scaling, cost, and chronology.
+- [ ] Freeze #594, `uncertainty-modelling-value`: EVIU, expected-value problem
+  and policy, EEV, recourse/stochastic policy, VSS, wait-and-see, EVPI,
+  reviewed DVSS/VMS variants, nonanticipativity, feasibility, bounds, and
+  solver assurance.
+- [ ] Freeze #595, `risk-adjusted-information-pricing`: EUI, CEI, buying and
+  selling prices, supported probability/constructed-scale prices, utility and
+  wealth/reference state, cost placement, numerical roots, ordinal rankings,
+  and cross-decision comparability.
+- [ ] Freeze #596, `event-localized-information-value`: perfect/imperfect event
+  and tail-event information, information density, thresholds, accuracy,
+  base/reference state, tie policy, integral reconciliation, modes, and
+  direction of concern.
+- [ ] Freeze #597, `belief-state-sequential-information-value`: latent/belief
+  state, transition/observation models, sensing/control actions, myopic and
+  nonmyopic value, active adaptive management, intervention/dual-control
+  semantics, stopping, policy trajectories, bounds, and assurance.
+- [ ] Freeze #598, `signed-social-information-value`: recipient, controller,
+  agents, stakeholder utilities, welfare aggregation, public/private/team
+  signals, incentives, constraints, sharing, externalities, signed value,
+  avoidance/overvaluation, and no unconditional zero clipping.
+- [ ] Freeze #599, `heterogeneity-value-decomposition`: candidate subgroup
+  specifications, prevalence, eligibility, current and research uncertainty,
+  static/dynamic value, average/subgroup policies, segmentation increments,
+  selection/multiplicity, fairness/privacy, and assurance.
+- [ ] Freeze #600, `outcome-conditional-sample-information-value`: delta-EV by
+  sample outcome, VSI, sigma-VSI, rVSI thresholds, predictive outcome
+  probabilities, posterior policies, quantiles/tails, calibration, and
+  reconciliation to EVSI.
 - [ ] Record a Rust/Python/R/Julia/Mojo disposition for #556--#560, #570--#572,
-  and #582 using only
+  #582, and #593--#600 using only
   `implemented`, `adapter`, `contract-only`, `unsupported`, or
   `upstream-blocked`; fail governance when capability claims exceed installed
   execution.
@@ -109,6 +143,32 @@
 - [ ] Implement #572 through the downstream business decision rather than a
   forecast-accuracy proxy, with calibration, coverage, temporal and policy
   diagnostics.
+- [ ] Implement #593 as one auditable value matrix and decomposition, reconcile
+  the existing implementation runtime, model implementation/information
+  dependence, and test zero-uptake, perfect-uptake, scaling, interaction, and
+  double-counting cases.
+- [ ] Implement #594 with deterministic/stochastic/wait-and-see policies,
+  EVIU/VSS/EVPI identities, min/max sign conventions, two- and multistage
+  references, infeasible recourse evidence, and verified optimizer results.
+- [ ] Implement #595 with utility-equivalent prices and robust numerical roots;
+  test affine-utility reductions, nonlinear counterexamples, buy/sell
+  asymmetry, incomparable decision scales, and stakeholder rankings.
+- [ ] Implement #596 with event conditioning, imperfect-signal accuracy, and
+  density integration; test complements, accuracy symmetries, threshold/tie
+  boundaries, continuous quadrature error, and multivariate direction.
+- [ ] Implement #597 with exact finite-state references and disclosed
+  approximations; test no-information/no-control reductions,
+  myopic/nonmyopic counterexamples, intervention learning, chronology,
+  stopping, and policy regret.
+- [ ] Implement #598 with signed agent and welfare ledgers; test aligned-agent
+  nonnegative reductions, negative/harmful information, constraints,
+  incentives, transfers, public/private/team sharing, and externalities.
+- [ ] Implement #599 with population-weighted subgroup policies and selection
+  assurance; test zero, opposing and diminishing static/dynamic values,
+  sparse subgroups, multiplicity, and fairness/privacy constraints.
+- [ ] Implement #600 with an outcome-weighted value distribution; test
+  `E[VSI] = EVSI`, classical VSI nonnegativity, negative delta-EV, threshold
+  monotonicity, discrete/continuous outcomes, quantiles, and calibration.
 - [ ] Consolidate duplicates and remove placeholders with compatibility aliases.
 - [ ] Add Rust-owned numerical kernels for accepted quantitative estimands,
   thin Python/R/Julia adapters, an explicit Mojo upstream disposition, and
@@ -128,10 +188,10 @@
 ## Phase 3: Maturity review
 
 - [ ] Run per-family, Rust, binding, frontier, docs, and full quality gates.
-- [ ] Verify the native GitHub #318 subissue set contains #556--#560, each issue
-  plus #570--#572 and #582; each issue points back to this track, Project 28
-  metadata is complete, and local metadata/index/plan references match live
-  state.
+- [ ] Verify the native GitHub #318 subissue set contains #556--#560,
+  #570--#572, #582, and #593--#600; each issue points back to this track,
+  Project 28 metadata is complete, and local metadata/index/plan references
+  match live state.
 - [ ] Verify each accepted quantitative workstream through the public Rust
   facade and every advertised language binding; record explicit
   unsupported/upstream-blocked evidence rather than treating omission as parity.
@@ -140,9 +200,10 @@
   judgements.
 - [ ] Reconcile every maturity claim and external public-data gate.
 - [ ] Record separate v1.2/v1.3 implementation, scaffold, exclusion, and
-  maturity decisions for #556--#560, #570--#572, and #582. Issue closure
-  requires estimand-specific executable evidence or a reviewed exclusion; a
-  citation, mock, schema-only scaffold, or adjacent method is insufficient.
+  maturity decisions for #556--#560, #570--#572, #582, and #593--#600. Issue
+  closure requires estimand-specific executable evidence or a reviewed
+  exclusion; a citation, mock, schema-only scaffold, or adjacent method is
+  insufficient.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Final review and validation checkpoint.
