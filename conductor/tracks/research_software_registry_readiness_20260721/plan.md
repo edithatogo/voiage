@@ -120,6 +120,73 @@
   than artificial acceptance thresholds; report external JOSS screening gates
   separately.
 
+## Phase 2C: Optional community software-review routes
+
+- [x] Add the authoritative cross-venue contract, fail-closed validator,
+  focused tests, tox/task entry points, hosted CI gate, governance baseline,
+  pull-request reminder, and developer documentation. ([Issue
+  #614](https://github.com/edithatogo/voiage/issues/614))
+- [x] Create native subissues under #296 and add them to Project 28 for the
+  pyOpenSci, rOpenSci, and distinct post-JOSS decision lanes. ([Issues
+  #615](https://github.com/edithatogo/voiage/issues/615),
+  [#616](https://github.com/edithatogo/voiage/issues/616), and
+  [#617](https://github.com/edithatogo/voiage/issues/617))
+- [ ] After the direct JOSS outcome, refresh the official pyOpenSci criteria
+  and decide whether to open a Python-package pre-submission inquiry. Maintain
+  the criteria-to-evidence matrix locally first; an inquiry or submission
+  requires a separate explicit author decision. ([Issue
+  #616](https://github.com/edithatogo/voiage/issues/616))
+- [ ] Reconsider rOpenSci only after `voiageR` has a self-contained,
+  reviewer-reproducible installation path, a deliberately bounded R API,
+  confirmed distribution evidence, and a documented mapping to the applicable
+  rOpenSci statistical-software standards. Do not run this review concurrently
+  with an associated manuscript review. ([Issue
+  #615](https://github.com/edithatogo/voiage/issues/615))
+- [ ] At the same decision point, assess whether the R Journal, Journal of
+  Statistical Software, or a sustainability affiliation such as NumFOCUS would
+  add a distinct community or scholarly outcome rather than duplicate JOSS.
+  Treat RRID, Software Heritage, Zenodo, and research-software directories as
+  discoverability or archival routes, not peer-review substitutes. ([Issue
+  #617](https://github.com/edithatogo/voiage/issues/617))
+
+## Phase 2D: Repository-controlled cross-venue closure plan
+
+The following ordered work closes every currently identifiable
+repository-controlled submission requirement. Each item remains open until its
+issue records the named evidence. Author, participant, maintainer, editor,
+curator, reviewer, and registry decisions are excluded from completion and
+remain explicit gates in the target contract.
+
+- [x] [Issue #614](https://github.com/edithatogo/voiage/issues/614) — refresh
+  every official criterion at the decision point; keep each target's evidence,
+  authority, status, and execution-lane assignment valid; reconcile specialised
+  JOSS, arXiv, registry, and binding evidence after each release.
+  (`criteria-refresh-2026-07-27`; full tox validation passed)
+- [ ] [Issue #616](https://github.com/edithatogo/voiage/issues/616) — complete
+  and test a pyOpenSci criteria-to-evidence matrix for the maintained Python
+  API, installation, documentation, support, governance, prior art, methods,
+  release provenance, and AI-use disclosure. Then leave maintenance commitment
+  and any inquiry to the author after the JOSS decision point.
+- [ ] [Issue #615](https://github.com/edithatogo/voiage/issues/615) — make
+  `voiageR` self-contained to install and test, define its bounded public API,
+  and add a claim-by-claim rOpenSci statistical-software standards matrix with
+  reproducibility, non-finite-input, error-condition, and reference-comparison
+  evidence. Use the result to determine R Journal eligibility without drafting
+  a duplicate manuscript.
+- [ ] [Issue #622](https://github.com/edithatogo/voiage/issues/622) — select a
+  retained HPC source/native-build strategy, add locally tested Spack and (only
+  if distinct) EasyBuild recipes, and document CPU-fallback and numerical-smoke
+  evidence. Keep HPSF/E4S curation conditional on adoption and governance.
+- [ ] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
+  venue-by-venue non-duplication decision for JSS, NumFOCUS, and Zenodo before
+  creating any new manuscript, affiliation, or deposition material.
+- [ ] [Issues #299](https://github.com/edithatogo/voiage/issues/299),
+  [#312](https://github.com/edithatogo/voiage/issues/312), and
+  [#471](https://github.com/edithatogo/voiage/issues/471) — maintain the
+  repository-validated manuscript and metadata package only. Author
+  attestations, human research-use/community evidence, category/licence choice,
+  upload, submission, and editorial outcomes are not repository tasks.
+
 ## Phase 3: Reconciliation and closeout
 
 - [x] Reconcile Conductor status, release evidence, and external-gate boundaries.
@@ -147,6 +214,15 @@
   metadata on 24 July 2026.
 - Signed v2.0 release and matching archive: complete; remaining identifier,
   submission, review, adoption, and indexing gates remain external.
+- Cross-venue contract: `specs/submission-readiness/targets.json` covers 22
+  current and potential destinations and is enforced locally and in hosted CI.
+  It records readiness and evidence boundaries but authorizes no external
+  action.
+- Execution lanes: every retained target is linked to a repository-controlled
+  issue in `targets.json`; #614 is the universal contract lane, #615 the R
+  lane, #616 the Python community-review lane, #617 the distinct-outcome lane,
+  and #622 the HPC packaging lane. Their completion cannot establish any
+  external registry, review, curation, or acceptance state.
 - R publication: r-universe publishes `voiageR` 2.0.0 with green hosted
   builds. The CRAN-quality bundle passes strict local checks and has an
   author-controlled maintainer email; upload, confirmation, review, and

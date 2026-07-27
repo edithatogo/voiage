@@ -22,6 +22,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Completed public documentation
 
+*   [x] Modernize the repository-owned polyglot CI/CD contract across Python,
+    Rust, C ABI, R, Julia, and Astro/TypeScript.
+    *   Added merge-queue triggers, TestPyPI attested exact-byte promotion,
+        release-bound provenance/SBOM subjects, shared numerical fixtures,
+        dependency submission, ARM64 observation, Renovate-only dependency
+        automation, and explicit tool-consolidation policy.
+    *   Hosted settings, registry publication, release, push, PR, and merge
+        remain external and were not performed by this local implementation.
+
 *   [x] Reconcile the public README and GitHub repository profile with the
     released v1.0 architecture, bindings, quality evidence, registries, paper
     status, and remaining external boundaries.
@@ -75,6 +84,24 @@ This document lists the actionable tasks for `voiage` development. Agents should
         cross-platform matrix. The CRAN source bundle passes strict checks and
         has a confirmable maintainer email; upload, confirmation, review, and
         acceptance remain separately evidenced states.
+    *   After the direct JOSS outcome, reconsider a pyOpenSci pre-submission
+        inquiry for the Python package. Reconsider rOpenSci only after the R
+        package is independently installable and mapped to its statistical
+        software standards; also assess whether the R Journal, Journal of
+        Statistical Software, or NumFOCUS would provide a distinct outcome.
+        These are planning items only and do not authorize an inquiry or
+        submission.
+    *   Cross-venue readiness is governed by
+        `specs/submission-readiness/targets.json`, its fail-closed validator,
+        and native subissues #614--#617 under #296. The contract covers current
+        and future registries, archives, identifiers, journals, community
+        reviews, and sustainability affiliations while preserving external
+        action and acceptance gates.
+    *   Repository-controlled closure is sequenced in the same Conductor track:
+        #614 for all-target contract upkeep, #616 for pyOpenSci evidence, #615
+        for rOpenSci/R Journal prerequisites, #622 for Spack/EasyBuild HPC
+        recipes, and #617 for non-duplicative future-route decisions. Human and
+        external gates are intentionally not counted as repository completion.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table.
         Replacement `7870358` is an incomplete start-stage draft expiring

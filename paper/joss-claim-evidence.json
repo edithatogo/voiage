@@ -5,7 +5,7 @@
     {
       "id": "summary-input-output",
       "section": "Summary",
-      "statement": "`voiage` calculates these quantities from simulated results or a declared study model.",
+      "statement": "`voiage` calculates EVPI and EVPPI from simulated net-benefit samples, estimates EVSI from a declared study model, and combines study value and cost for ENBS.",
       "status": "verified",
       "evidence": [
         {
@@ -25,7 +25,7 @@
     {
       "id": "summary-language-boundary",
       "section": "Summary",
-      "statement": "The same EVPI calculation is available from Python, R, and Julia.",
+      "statement": "Python, R, and Julia share the EVPI calculation.",
       "status": "verified",
       "evidence": [
         {
@@ -45,7 +45,7 @@
     {
       "id": "implemented-contribution",
       "section": "Statement of need",
-      "statement": "`voiage` instead provides a shared EVPI calculation and structured reference for exchanging richer analysis records across languages.",
+      "statement": "`voiage` makes a narrower contribution: a shared EVPI calculation and versioned record for exchanging decision context across languages.",
       "status": "verified",
       "evidence": [
         {
@@ -69,7 +69,7 @@
     {
       "id": "build-versus-contribute",
       "section": "State of the field",
-      "statement": "Keeping this shared function in a separate core allows existing specialist packages to remain independent.",
+      "statement": "A separate core provides a narrower interoperability boundary while specialist tools retain their methods and reporting.",
       "status": "bounded",
       "evidence": [
         {
@@ -124,7 +124,7 @@
     {
       "id": "stable-promotion-boundary",
       "section": "Software design",
-      "statement": "Method tests compare specified inputs and outputs with equations implemented independently, and check repeatability and invalid inputs. Before a method enters a stable release, it also needs agreement across the Rust implementation and language interfaces, documentation, release records, and evidence of platform compatibility.",
+      "statement": "Method tests compare specified inputs and outputs with separately implemented reference equations, and check repeatability and invalid inputs. Before a method enters a stable release, it also needs agreement across the Rust implementation and every language interface that exposes it, documentation, release records, and evidence of platform compatibility.",
       "status": "verified",
       "evidence": [
         {
@@ -155,7 +155,7 @@
     {
       "id": "rust-evpi-boundary",
       "section": "Software design",
-      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, reducing differences caused by separate language implementations.",
+      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, avoiding three separately maintained implementations of that calculation.",
       "status": "verified",
       "evidence": [
         {
@@ -243,7 +243,7 @@
     {
       "id": "worked-example-evpi-evppi",
       "section": "Worked example",
-      "statement": "Estimated EVPI is 644 units for each eligible future person (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
+      "statement": "Estimated EVPI is 644 units for each eligible future person. Ordinary-least-squares EVPPI is 590 for health gain and 250 for programme cost.",
       "status": "verified",
       "evidence": [
         {
@@ -291,7 +291,7 @@
     {
       "id": "worked-example-enbs",
       "section": "Worked example",
-      "statement": "If findings were available immediately and fully adopted, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% of potential benefit reaching practice, it is negative at 800 and positive at 1,200.",
+      "statement": "If findings were available immediately and fully adopted, ENBS changes from negative at 100 participants to positive at 200 among the evaluated sizes. With a two-year delay and 60% of potential benefit reaching practice, it changes from negative at 800 to positive at 1,200.",
       "status": "verified",
       "evidence": [
         {
@@ -373,7 +373,7 @@
     {
       "id": "reviewed-release-pending",
       "section": "Software and data availability",
-      "statement": "The release-evidence manifest binds the reviewed commit, package assets, checksums, provenance, mixed-language software bill of materials, and archive identifier.",
+      "statement": "The release-evidence manifest binds release commit `e849e89152c306e79c96d0a8a9815ee5faca0529` to the package assets and their checksums and provenance, and references the mixed-language software bill of materials and archive identifier.",
       "status": "verified",
       "evidence": [
         {
@@ -385,7 +385,7 @@
     {
       "id": "result-context-fields",
       "section": "Summary",
-      "statement": "A versioned analysis record can keep option names, units, uncertain inputs, and data sources with each result.",
+      "statement": "A versioned record preserves option names, units, uncertain inputs, and data sources with each result.",
       "status": "verified",
       "evidence": [
         {
@@ -405,7 +405,7 @@
     {
       "id": "target-domain-boundary",
       "section": "Statement of need",
-      "statement": "It is designed for researchers and analysts using simulation models to decide whether further evidence is worth collecting in healthcare, public policy, economics, business, and related fields.",
+      "statement": "It is designed for researchers and analysts using simulation models to decide whether further evidence is worth collecting. Analysts choose the outcomes and value units, so the structure can represent decisions in healthcare and other policy or economic settings; the present worked example and methodological validation are health-economic.",
       "status": "bounded",
       "evidence": [
         {
@@ -482,7 +482,7 @@
     {
       "id": "cross-platform-installation",
       "section": "Software design",
-      "statement": "Continuous integration tests Python wheels and native R installation on Linux, macOS, and Windows; Julia is currently tested on Ubuntu.",
+      "statement": "Continuous integration tests Python wheels and the native R and Julia interfaces on Linux, macOS, and Windows.",
       "status": "verified",
       "evidence": [
         {
@@ -498,7 +498,7 @@
     {
       "id": "preference-bootstrap",
       "section": "Worked example",
-      "statement": "The programme is preferred in 49.2% of simulations. Resampling gives a 95% range of 48.2% to 50.2%, which measures simulation error rather than model uncertainty.",
+      "statement": "Paired bootstrap resampling gives 95% Monte Carlo intervals of 48.2% to 50.2% for programme preference, 624 to 658 for EVPI, 569 to 603 for health-gain EVPPI, and 229 to 265 for programme-cost EVPPI.",
       "status": "verified",
       "evidence": [
         {
@@ -546,7 +546,7 @@
     {
       "id": "ai-human-attestation",
       "section": "AI usage disclosure",
-      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, thoroughly reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
+      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
       "status": "bounded",
       "evidence": [
         {

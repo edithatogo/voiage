@@ -18,7 +18,7 @@ def test_registry_handoff_preserves_release_and_external_gates() -> None:
         "track_id": "research_software_registry_readiness_20260721",
         "channel": "research-software-registries",
         "status": "blocked",
-        "command_count": 11,
+        "command_count": 12,
         "evidence_count": 8,
     }
 
@@ -33,12 +33,22 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
 
     arxiv_issue = "https://github.com/edithatogo/voiage/issues/312"
     independent_validation_issue = "https://github.com/edithatogo/voiage/issues/471"
+    submission_contract_issues = {
+        f"https://github.com/edithatogo/voiage/issues/{number}"
+        for number in range(614, 618)
+    }
+    hpc_packaging_issue = "https://github.com/edithatogo/voiage/issues/622"
     assert arxiv_issue in metadata["github_subissues"]
     assert independent_validation_issue in metadata["github_subissues"]
+    assert submission_contract_issues <= set(metadata["github_subissues"])
+    assert hpc_packaging_issue in metadata["github_subissues"]
     assert arxiv_issue in plan
     assert independent_validation_issue in plan
     assert arxiv_issue in specification
     assert independent_validation_issue in specification
+    assert all(issue in specification for issue in submission_contract_issues)
+    assert hpc_packaging_issue in plan
+    assert hpc_packaging_issue in specification
     assert handoff["arxiv_preprint_evidence"]["review_pr"].endswith("/pull/311")
     assert handoff["arxiv_preprint_evidence"]["prior_submission_id"] == "7861466"
     assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7870358"

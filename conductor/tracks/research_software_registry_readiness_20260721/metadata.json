@@ -4,8 +4,8 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-07-27T03:55:09Z",
-  "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
+  "updated_at": "2026-07-27T09:00:00Z",
+  "description": "Track archival, identifier, language-registry, arXiv, evidence-gated JOSS readiness, and an issue-backed plan to close all repository-controlled cross-venue requirements while preserving human and external decisions.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
   "github_subissues": [
@@ -14,7 +14,12 @@
     "https://github.com/edithatogo/voiage/issues/299",
     "https://github.com/edithatogo/voiage/issues/312",
     "https://github.com/edithatogo/voiage/issues/471",
-    "https://github.com/edithatogo/voiage/issues/555"
+    "https://github.com/edithatogo/voiage/issues/555",
+    "https://github.com/edithatogo/voiage/issues/614",
+    "https://github.com/edithatogo/voiage/issues/615",
+    "https://github.com/edithatogo/voiage/issues/616",
+    "https://github.com/edithatogo/voiage/issues/617",
+    "https://github.com/edithatogo/voiage/issues/622"
   ],
   "external_evidence_required": true,
   "gates": [

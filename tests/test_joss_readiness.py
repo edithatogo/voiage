@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import shutil
 
-from scripts.audit_joss_sources import _sourceright_manuscript
+from scripts.audit_joss_sources import _reported_output_path, _sourceright_manuscript
 from scripts.validate_joss import (
     _normalise_prose,
     _submodule_commit,
@@ -50,6 +50,18 @@ def test_joss_tool_revisions_come_from_pinned_gitlinks() -> None:
         _submodule_commit(ROOT, ".repo-tools/authentext")
         == "7f70dad5b6deab1af92faf037ef2638e7f3aea05"
     )
+
+
+def test_joss_source_audit_reports_temporary_outputs_portably(
+    tmp_path: Path,
+) -> None:
+    """Independent read-only audits may retain evidence outside the checkout."""
+    output_directory = tmp_path / "sourceright"
+    output_directory.mkdir()
+    report = output_directory / "citations.md"
+    report.touch()
+
+    assert _reported_output_path(report, output_directory) == "citations.md"
 
 
 def test_joss_independent_validation_protocol_is_bounded() -> None:

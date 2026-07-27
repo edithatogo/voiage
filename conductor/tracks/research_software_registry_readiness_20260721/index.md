@@ -13,10 +13,18 @@ Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
 [#312](https://github.com/edithatogo/voiage/issues/312) and
 [#471](https://github.com/edithatogo/voiage/issues/471)
 
+Submission-contract hierarchy:
+[#614](https://github.com/edithatogo/voiage/issues/614),
+[#615](https://github.com/edithatogo/voiage/issues/615),
+[#616](https://github.com/edithatogo/voiage/issues/616), and
+[#617](https://github.com/edithatogo/voiage/issues/617), with HPC packaging
+subissue [#622](https://github.com/edithatogo/voiage/issues/622) under #614.
+
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Registry readiness handoff](./handoff/registry-readiness.json)
+- [Cross-venue submission contract](../../../specs/submission-readiness/README.md)
 
 ## GitHub traceability
 
