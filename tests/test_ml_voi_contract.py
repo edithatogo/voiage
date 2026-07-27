@@ -74,11 +74,12 @@ def test_eig_fixture_manifest_links_schema_and_input() -> None:
     assert (fixture_root / entry["schema_artifact"]).resolve().is_file()
 
 
-def test_eig_schema_rejects_network_or_private_data_claims() -> None:
+@pytest.mark.parametrize("field", ["network_required", "private_data"])
+def test_eig_schema_rejects_network_or_private_data_claims(field: str) -> None:
     """Offline reference fixtures cannot silently acquire sensitive inputs."""
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
-    payload["provenance"]["network_required"] = True
+    payload["provenance"][field] = True
     with pytest.raises(ValidationError):
         Draft202012Validator(schema).validate(payload)
 
