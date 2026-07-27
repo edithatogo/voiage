@@ -187,7 +187,9 @@ remain explicit gates in the target contract.
   `5e92151fc87afefbb411c992fb9f82fc4b8c049f`; Spack syntax validates, while
   `validate_hpc_recipes.sh` isolates Spack from the broken user repository;
   EasyBuild still needs an Environment Modules or Lmod installation before its
-  full local style check can run.
+  full local style check can run. Environment Modules 5.6 is now installed on
+  the local macOS host, but the available EasyBuild adapter cannot parse its
+  version interface, so the recipe remains unverified rather than overstated.
 - [x] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
   venue-by-venue non-duplication decision for JSS, NumFOCUS, and Zenodo before
   creating any new manuscript, affiliation, or deposition material.

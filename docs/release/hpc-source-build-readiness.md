@@ -13,3 +13,7 @@ external decisions.
 Run `scripts/validate_hpc_recipes.sh` to solve the Spack recipe in an isolated
 configuration. It runs the EasyBuild style check only when a modules tool is
 available, so a workstation configuration cannot be mistaken for recipe proof.
+On this macOS host, Environment Modules 5.6 is installed locally, but the
+available EasyBuild module adapter cannot parse its version interface. Treat a
+successful EasyBuild run as pending until an adapter-compatible environment is
+available.
