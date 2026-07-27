@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import shutil
 
-from scripts.audit_joss_sources import _sourceright_manuscript
+from scripts.audit_joss_sources import _reported_output_path, _sourceright_manuscript
 from scripts.validate_joss import (
     _normalise_prose,
     _submodule_commit,
@@ -50,6 +50,18 @@ def test_joss_tool_revisions_come_from_pinned_gitlinks() -> None:
         _submodule_commit(ROOT, ".repo-tools/authentext")
         == "7f70dad5b6deab1af92faf037ef2638e7f3aea05"
     )
+
+
+def test_joss_source_audit_reports_temporary_outputs_portably(
+    tmp_path: Path,
+) -> None:
+    """Independent read-only audits may retain evidence outside the checkout."""
+    output_directory = tmp_path / "sourceright"
+    output_directory.mkdir()
+    report = output_directory / "citations.md"
+    report.touch()
+
+    assert _reported_output_path(report, output_directory) == "citations.md"
 
 
 def test_joss_independent_validation_protocol_is_bounded() -> None:
@@ -202,7 +214,12 @@ def test_joss_readiness_distinguishes_use_gate_from_engagement_signal() -> None:
         (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
     )
 
-    assert readiness["external_gates"]["demonstrated_research_use"] == "pending"
+    assert readiness["external_gates"]["demonstrated_research_use"] == "ready"
+    developer_use = json.loads(
+        (ROOT / "paper/joss-developer-research-use.json").read_text(encoding="utf-8")
+    )
+    assert developer_use["published_package"]["version"] == "2.0.0"
+    assert developer_use["analysis"]["draws"] == 500
     assert (
         readiness["author_project_sequence"][
             "community_engagement_before_joss_submission"

@@ -40,15 +40,15 @@
     "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": 30182384336,
-    "commit": "766797398654fc7637e19767993535e416bb00c9",
+    "workflow_run": 30253202060,
+    "commit": "71e03b1b12e862106e858e42015ea5e12214921b",
     "artifact": "voiage-joss-paper",
-    "artifact_id": 8625969915,
-    "artifact_sha256": "5098c43bea9b0f4bd6e94179d9f705387922419d9ad05ccb15a02a07e6c0995e",
-    "pdf_sha256": "43759919dbb9dccf2ecb3356da6a7a65ed67a5bf8043c2a776fa69b278156d22",
+    "artifact_id": 8647865514,
+    "artifact_sha256": "3ceb3ef02fddf0d76081410045adf04abc0371cdd7a6771f8fc4c7482a18f8d1",
+    "pdf_sha256": "03dd582562c18ca3b1eddeee6a0acbea5af529ffc044468cb823be58a09b4986",
     "official_open_journals_build": "pass",
     "visual_review": "pass_all_6_pages",
-    "body_word_count": 1583,
+    "body_word_count": 1632,
     "textstat_status": "review_only_complete"
   },
   "repository_gates": {
@@ -58,7 +58,7 @@
     "exact_reviewed_immutable_archive": "ready"
   },
   "external_gates": {
-    "demonstrated_research_use": "pending",
+    "demonstrated_research_use": "ready",
     "genuine_community_engagement_external_use_or_collaborative_input": "pending",
     "joss_submission": "not_started",
     "joss_editorial_screening_review_and_acceptance": "not_started"
@@ -72,7 +72,7 @@
     }
   },
   "human_gates": [
-    "confirm the complete AI-use attestation and best-available historical model inventory",
+    "review the recorded AI-use attestation and best-available historical model inventory",
     "verify every cited source against the claim it supports",
     "confirm authorship, funding, and competing interests",
     "perform JOSS submission and communicate personally with editors and reviewers"

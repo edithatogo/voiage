@@ -5,7 +5,7 @@
     {
       "id": "summary-input-output",
       "section": "Summary",
-      "statement": "`voiage` calculates these quantities from simulated results or a declared study model.",
+      "statement": "`voiage` calculates EVPI and EVPPI from simulated net-benefit samples, estimates EVSI from a declared study model, and combines study value and cost for ENBS.",
       "status": "verified",
       "evidence": [
         {
@@ -25,7 +25,7 @@
     {
       "id": "summary-language-boundary",
       "section": "Summary",
-      "statement": "The same EVPI calculation is available from Python, R, and Julia.",
+      "statement": "Python, R, and Julia share the EVPI calculation.",
       "status": "verified",
       "evidence": [
         {
@@ -45,7 +45,7 @@
     {
       "id": "implemented-contribution",
       "section": "Statement of need",
-      "statement": "`voiage` instead provides a shared EVPI calculation and structured reference for exchanging richer analysis records across languages.",
+      "statement": "`voiage` therefore contributes a shared EVPI calculation and a portable record of decision context, rather than the broader method and reporting coverage of established specialist tools.",
       "status": "verified",
       "evidence": [
         {
@@ -69,7 +69,7 @@
     {
       "id": "build-versus-contribute",
       "section": "State of the field",
-      "statement": "Keeping this shared function in a separate core allows existing specialist packages to remain independent.",
+      "statement": "The separate core lets analysts keep their preferred modelling tools while sharing one calculation and one description of the decision; specialist tools retain their broader methods and reporting.",
       "status": "bounded",
       "evidence": [
         {
@@ -104,7 +104,7 @@
     {
       "id": "architecture-tradeoffs",
       "section": "Software design",
-      "statement": "Each EVPI interface calls Rust directly, so R and Julia users do not need Python. This choice requires a compiled library for each operating system.",
+      "statement": "R and Julia users do not need Python. The trade-off is installation: each operating system needs a compatible compiled library.",
       "status": "bounded",
       "evidence": [
         {
@@ -124,7 +124,7 @@
     {
       "id": "stable-promotion-boundary",
       "section": "Software design",
-      "statement": "Method tests compare specified inputs and outputs with equations implemented independently, and check repeatability and invalid inputs. Before a method enters a stable release, it also needs agreement across the Rust implementation and language interfaces, documentation, release records, and evidence of platform compatibility.",
+      "statement": "Method tests compare specified inputs and outputs with separately implemented reference equations, and check repeatability and invalid inputs. A method is labelled stable only after its implementation, exposed language interfaces, documentation, release record, and supported platforms agree.",
       "status": "verified",
       "evidence": [
         {
@@ -155,7 +155,7 @@
     {
       "id": "rust-evpi-boundary",
       "section": "Software design",
-      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, reducing differences caused by separate language implementations.",
+      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, reducing the risk that separately maintained versions produce different answers.",
       "status": "verified",
       "evidence": [
         {
@@ -179,7 +179,7 @@
     {
       "id": "stable-evsi-model",
       "section": "Software design",
-      "statement": "The worked example uses a conjugate normal--normal EVSI calculation derived from the sampling model in the reproduction notes. It assumes equal allocation, known outcome variability, and a linear relationship between health gain and net benefit.",
+      "statement": "The worked example uses a normal model in which an equally allocated two-group study updates uncertainty about average health gain.",
       "status": "verified",
       "citation_keys": [
         "ades2004evsi",
@@ -223,7 +223,7 @@
     {
       "id": "worked-example-generating-versus-sample-mean",
       "section": "Worked example",
-      "statement": "At 50,000 units per QALY, generating expected incremental net benefit is zero; the fixed sample mean is -15.9 because of simulation error.",
+      "statement": "At 50,000 units per QALY, the generating distribution has an expected incremental net benefit of zero. The fixed sample mean is -15.9 units because a finite random sample does not reproduce that expectation exactly.",
       "status": "verified",
       "evidence": [
         {
@@ -243,7 +243,7 @@
     {
       "id": "worked-example-evpi-evppi",
       "section": "Worked example",
-      "statement": "Estimated EVPI is 644 units for each eligible future person (624 to 658). Regression-estimated EVPPI is 590 for health gain (569 to 603) and 250 for programme cost (229 to 265).",
+      "statement": "Estimated EVPI is 644 units; EVPPI is 590 for health gain and 250 for programme cost.",
       "status": "verified",
       "evidence": [
         {
@@ -291,7 +291,7 @@
     {
       "id": "worked-example-enbs",
       "section": "Worked example",
-      "statement": "If findings were available immediately and fully adopted, ENBS is negative at 100 participants and positive at 200. With a two-year delay and 60% of potential benefit reaching practice, it is negative at 800 and positive at 1,200.",
+      "statement": "Immediate, complete use changes ENBS from negative at 100 participants to positive at 200. With a two-year delay and 60% realisation, it changes from negative at 800 to positive at 1,200.",
       "status": "verified",
       "evidence": [
         {
@@ -311,7 +311,7 @@
     {
       "id": "impact-boundary",
       "section": "Research impact statement",
-      "statement": "This provides a concrete exchange test case, but not evidence of independent adoption or completed research use.",
+      "statement": "This is completed developer research use, not independent adoption or a policy estimate.",
       "status": "bounded",
       "citation_keys": [
         "vop_poc_nz2026"
@@ -330,7 +330,7 @@
     {
       "id": "public-development-boundary",
       "section": "Research impact statement",
-      "statement": "The package has been developed publicly since July 2025. No completed research-workflow use or engagement by non-authors has yet been documented.",
+      "statement": "Development has been public since July 2025; engagement by non-authors has not yet been documented.",
       "status": "bounded",
       "evidence": [
         {
@@ -358,7 +358,7 @@
     {
       "id": "archive-scope",
       "section": "Software and data availability",
-      "statement": "The signed v2.0.0 tag is included in the Software Heritage snapshot `swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`.",
+      "statement": "The Software Heritage snapshot includes the signed release.",
       "status": "verified",
       "citation_keys": [
         "voiage_software_heritage"
@@ -373,7 +373,7 @@
     {
       "id": "reviewed-release-pending",
       "section": "Software and data availability",
-      "statement": "The release-evidence manifest binds the reviewed commit, package assets, checksums, provenance, mixed-language software bill of materials, and archive identifier.",
+      "statement": "Repository manifests record release checksums and provenance, the software bill of materials, fixed random seeds, input and output hashes, and the command used to verify the worked example.",
       "status": "verified",
       "evidence": [
         {
@@ -385,7 +385,7 @@
     {
       "id": "result-context-fields",
       "section": "Summary",
-      "statement": "A versioned analysis record can keep option names, units, uncertain inputs, and data sources with each result.",
+      "statement": "A versioned record preserves option names, units, uncertain inputs, and data sources with each result.",
       "status": "verified",
       "evidence": [
         {
@@ -405,7 +405,7 @@
     {
       "id": "target-domain-boundary",
       "section": "Statement of need",
-      "statement": "It is designed for researchers and analysts using simulation models to decide whether further evidence is worth collecting in healthcare, public policy, economics, business, and related fields.",
+      "statement": "The worked example and current methodological validation are health-economic.",
       "status": "bounded",
       "evidence": [
         {
@@ -482,7 +482,7 @@
     {
       "id": "cross-platform-installation",
       "section": "Software design",
-      "statement": "Continuous integration tests Python wheels and native R installation on Linux, macOS, and Windows; Julia is currently tested on Ubuntu.",
+      "statement": "Continuous-integration workflows are configured to test Python wheels and the native R and Julia interfaces on Linux, macOS, and Windows.",
       "status": "verified",
       "evidence": [
         {
@@ -498,7 +498,7 @@
     {
       "id": "preference-bootstrap",
       "section": "Worked example",
-      "statement": "The programme is preferred in 49.2% of simulations. Resampling gives a 95% range of 48.2% to 50.2%, which measures simulation error rather than model uncertainty.",
+      "statement": "Repeatedly resampling the 10,000 paired simulations gives 95% Monte Carlo intervals of 48.2% to 50.2% for programme preference, 624 to 658 for EVPI, 569 to 603 for health-gain EVPPI, and 229 to 265 for programme-cost EVPPI.",
       "status": "verified",
       "evidence": [
         {
@@ -530,7 +530,7 @@
     {
       "id": "clean-regeneration",
       "section": "Research impact statement",
-      "statement": "The fixed-seed example, supporting equations, sensitivity data, and regeneration instructions allow readers to inspect the calculations.",
+      "statement": "The fixed-seed example, equations, sensitivity data, and regeneration command give another researcher material to check the calculations and assess the exchange format for a real analysis.",
       "status": "verified",
       "evidence": [
         {
@@ -546,7 +546,7 @@
     {
       "id": "ai-human-attestation",
       "section": "AI usage disclosure",
-      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, thoroughly reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
+      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
       "status": "bounded",
       "evidence": [
         {
@@ -558,7 +558,7 @@
     {
       "id": "reproduction-manifest-contents",
       "section": "Software and data availability",
-      "statement": "The reproduction manifest records the inputs, fixed seeds, lockfile digest, output hashes, and verification command.",
+      "statement": "The manifests also identify execution environment details.",
       "status": "verified",
       "evidence": [
         {

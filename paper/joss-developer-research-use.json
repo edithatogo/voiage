@@ -1,0 +1,27 @@
+{
+  "schema_version": "voiage.joss-developer-research-use.v1",
+  "completed_on": "2026-07-27",
+  "workflow": "vop_hpv_vaccination_same_author_research_use_v1",
+  "source_repository": "https://github.com/edithatogo/vop_poc_nz",
+  "source_revision": "2c46db2fe5f907d894bb07f1127c008f10ee462e",
+  "source_parameter_path": "src/vop_poc_nz/parameters.yaml",
+  "source_parameter_sha256": "f1a5c0c6463aca131ac94fcc3f5a8fda1e97752dd2ebb60b0b2c4047d7657608",
+  "published_package": {
+    "name": "voiage",
+    "version": "2.0.0",
+    "installation_boundary": "isolated VOP virtual environment; imported from site-packages, not the voiage checkout"
+  },
+  "analysis": {
+    "scenario": "health-system HPV-vaccination Markov scenario",
+    "draws": 500,
+    "seed": 20260727,
+    "willingness_to_pay_nzd_per_qaly": 50000.0,
+    "net_benefit_csv_sha256": "509411114afe90617f0f60a7743ad11f1160fb1288bb4ef144b572e5294050d9",
+    "evpi_nzd_per_cohort": 0.0
+  },
+  "reproduction": {
+    "script": "scripts/run_vop_research_use.py",
+    "command": "cd /tmp && /path/to/vop/.venv/bin/python -c \"from pathlib import Path; exec(compile(Path('/path/to/voiage/scripts/run_vop_research_use.py').read_text(), 'run_vop_research_use.py', 'exec'))\" --vop-root /path/to/vop --output /tmp/voiage-vop-research-use-pypi",
+    "result_scope": "Developer/same-author research use. The zero EVPI is a result for this bounded model and its explicitly declared uncertainty perturbations, not clinical advice, a policy estimate, or independent adoption."
+  }
+}

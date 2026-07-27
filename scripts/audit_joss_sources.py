@@ -63,6 +63,14 @@ def _json_object(path: Path) -> dict[str, Any]:
     return loaded
 
 
+def _reported_output_path(path: Path, output_directory: Path) -> str:
+    """Return a portable report path for repository or temporary audit output."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path.relative_to(output_directory))
+
+
 def audit(output_directory: Path) -> dict[str, Any]:
     """Run the pinned read-only SourceRight workflow and retain its evidence."""
     for tool in ("cargo", "pandoc"):
@@ -182,7 +190,7 @@ def audit(output_directory: Path) -> dict[str, Any]:
             "paper.bib": _source_hash(ROOT / "paper.bib"),
         },
         "outputs": sorted(
-            str(path.relative_to(ROOT))
+            _reported_output_path(path, output_directory)
             for path in output_directory.iterdir()
             if path.is_file()
         ),
