@@ -83,7 +83,10 @@
   application protocol without claiming submission or award.
   (`82af3f7b`; maintainer attestations, external submission, and the public
   badge URL remain an external gate)
-- [ ] Add deterministic generated-artifact and clean-install gates.
+- [x] Add deterministic generated-artifact and clean-install gates. The SBOM
+  workflow rebuilds distributions from a frozen checkout, installs the wheel
+  into an isolated environment, retains reproducible evidence, and fails on
+  missing artifacts; regression coverage protects the contract.
 - [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
   deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
   ecosystem-drift proposals.
@@ -129,6 +132,8 @@
   reviewed workflow-drift baseline. The full tox matrix passed with Python
   3.12--3.14, minimum and maximum dependency lanes, Astro/polyglot docs,
   repository harness, and coverage.
+- [x] Added regression coverage for the existing frozen reproducible-build,
+  isolated SBOM clean-install, and fail-closed artifact-retention workflow.
 
 ## Phase 3: Staged release evidence
 
