@@ -26,11 +26,11 @@
 - [x] Incorporate post-census recommendations across MoSCoW requirements,
   architecture, roadmap, child specifications/plans, evidence, and public
   issues without duplicating track ownership. (`154cd044`)
-- [~] Incorporate the industry decision-value, adoption and next comprehensive
+- [x] Incorporate the industry decision-value, adoption and next comprehensive
   software-landscape programme across MoSCoW requirements, Mermaid design,
   existing Conductor tracks, native GitHub subissues, Project 28 metadata and
   useful views. The landscape improvement packet remains a human-review gate
-  before any later roadmap adoption.
+  before any later roadmap adoption. (`994cc820`)
 - [ ] Complete the method and external-library censuses.
 - [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
 - [ ] Freeze the canonical Decision Problem interchange representation and
