@@ -134,6 +134,33 @@ utility-equivalent information prices including clairvoyant-policy comparisons
 the existing plans for the risk and utility family; no duplicate tracks were
 created.
 
+The complete Rust-first polyglot programme issue hierarchy is now materialized
+in Conductor rather than existing only in GitHub and Project 28:
+
+| Issue | Conductor track | Governed scope |
+|---|---|---|
+| #313 | `rust_polyglot_voi_completion_20260723` | Root v1.1–v1.3 programme and workstream dependencies |
+| #314 | `voi_method_census_contract_reconciliation_20260723` | Method census, classifications and portable Decision Problem |
+| #315 | `external_voi_library_feature_parity_20260723` | Reproducible software landscape, parity and improvement review |
+| #316 | `stable_voi_rust_core_completion_20260723` | Complete stable Rust numerical authority and compatibility |
+| #317 | `value_of_perspective_completion_20260723` | Complete perspective-information family |
+| #318 | `supported_frontier_method_completion_20260723` | Frontier implementation or reviewed exclusion, including risk/utility |
+| #319 | `ml_llm_agent_voi_20260723` | Decision-focused ML, LLM, policy and agent VOI |
+| #320 | `polyglot_abi_binding_parity_20260723` | Rust/C ABI/Python/R/Julia/Mojo capability parity |
+| #321 | `datasets_worked_examples_20260723` | Rights-governed datasets, examples and domain templates |
+| #322 | `quality_release_automation_20260723` | Decision assurance, adoption surfaces, release and registry automation |
+| #323 | `research_contribution_ai_transparency_20260723` | CRediT and accountable AI-assistance provenance |
+
+The workstream tracks own their native child issues: #314 owns #566; #315 owns
+#565 and #567–#569 plus #573; #318 owns #556–#560, #570–#572, #582,
+#593–#600 and #619; #319 owns #576 and #578; #320 owns #579; #321 owns
+#574–#575 and #577; and #322 owns #462, #580–#581 and #583–#584. Child
+issue or Project status is not implementation evidence: every new Conductor
+plan starts pending until its contracts, tests/review protocol, runtime or
+reviewed exclusion, bindings, documentation and hosted evidence are
+reconciled. Completed native child #416 remains historical v1.0 programme
+evidence and is not reopened by this queue.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**

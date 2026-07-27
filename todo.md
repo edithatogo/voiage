@@ -4,6 +4,29 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
+    promoting issue or Project status into implementation evidence.
+    *   Root Conductor track: `rust_polyglot_voi_completion_20260723`.
+    *   GitHub programme: #313; native workstreams: #314--#323.
+    *   Materialized workstream tracks cover method census, landscape review,
+        stable Rust completion, Value of Perspective, supported frontier
+        methods, ML/LLM/agent VOI, binding parity, datasets/examples,
+        quality/release automation, and contribution transparency.
+    *   Workstream Conductor tracks:
+        `voi_method_census_contract_reconciliation_20260723`,
+        `external_voi_library_feature_parity_20260723`,
+        `stable_voi_rust_core_completion_20260723`,
+        `value_of_perspective_completion_20260723`,
+        `supported_frontier_method_completion_20260723`,
+        `ml_llm_agent_voi_20260723`,
+        `polyglot_abi_binding_parity_20260723`,
+        `datasets_worked_examples_20260723`,
+        `quality_release_automation_20260723`, and
+        `research_contribution_ai_transparency_20260723`.
+    *   Execute each workstream's `plan.md` in dependency order; retain
+        scientific review, rights, hosted CI, merge, release, publication,
+        registry and human confirmation as separate gates.
+
 *   [ ] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   GitHub issue: #619, native sub-issue of #318 under programme #313.
