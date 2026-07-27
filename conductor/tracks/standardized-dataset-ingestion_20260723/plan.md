@@ -72,9 +72,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   identities, resources, record sets, fields, keys, references, splits,
   supported transformations, integrity failures, archives, nesting, and
   ambiguous semantics. Expanded integrity-declaration, non-CSV-media-type,
-  and field-source corpus coverage. (`333ee68f`, partial). Focused corpus and
-  provider validation pass; full tox remains blocked by the pre-existing
+  field-source, and malformed collection-entry corpus coverage. Focused corpus
+  and provider validation pass; full tox remains blocked by the pre-existing
   missing source-provenance and JOSS contract files in this clean worktree.
+  (`333ee68f`, `d745d2d6`, partial)
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added

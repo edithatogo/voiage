@@ -56,6 +56,14 @@ class CroissantProvider:
             raise IngestionError(
                 "supported Croissant profile requires exactly one distribution"
             )
+        if not isinstance(record_sets[0], dict):
+            raise IngestionError(
+                "supported Croissant profile requires a recordSet object"
+            )
+        if not isinstance(distributions[0], dict):
+            raise IngestionError(
+                "supported Croissant profile requires a distribution object"
+            )
         record_set = cast("dict[str, object]", record_sets[0])
         distribution = cast("dict[str, object]", distributions[0])
         self._reject_unsupported_semantics(descriptor, distribution, record_set)
