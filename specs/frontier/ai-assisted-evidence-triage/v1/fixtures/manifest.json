@@ -21,6 +21,7 @@
       "name": "expected information gain versus decision VOI",
       "method_family": "value_of_ai_assisted_evidence_triage",
       "input_artifact": "normative/eig-versus-voi.json",
+      "schema_artifact": "../schemas/eig-versus-decision-voi.schema.json",
       "expected_output_artifact": null,
       "tolerance_policy": "contract"
     }

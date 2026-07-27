@@ -12,6 +12,7 @@ import pytest
 from voiage.contracts.concerns import EvidenceReference
 
 ROOT = Path(__file__).resolve().parents[1]
+MANIFEST = ROOT / "specs/frontier/ai-assisted-evidence-triage/v1/fixtures/manifest.json"
 FIXTURE = (
     ROOT
     / "specs/frontier/ai-assisted-evidence-triage/v1/fixtures/normative"
@@ -55,6 +56,19 @@ def test_eig_fixture_schema_declares_formal_decision_contract() -> None:
     assert schema["properties"]["provenance"]["properties"]["network_required"] == {
         "const": False
     }
+
+
+def test_eig_fixture_manifest_links_schema_and_input() -> None:
+    """The normative fixture remains discoverable from the canonical manifest."""
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    entry = next(
+        item
+        for item in manifest["normative"]
+        if item["name"].startswith("expected information")
+    )
+    fixture_root = MANIFEST.parent
+    assert (fixture_root / entry["input_artifact"]).is_file()
+    assert (fixture_root / entry["schema_artifact"]).resolve().is_file()
 
 
 def test_ml_contract_requires_offline_cpu_and_optional_backends() -> None:
