@@ -229,7 +229,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - uses: astral-sh/setup-uv@b75a909f75acd358c2191d546b4d3f95b5b76e30
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
       - name: Document retained runtime boundaries
         run: |
           printf '%s\n' \
