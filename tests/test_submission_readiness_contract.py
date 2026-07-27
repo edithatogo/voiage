@@ -78,13 +78,14 @@ def test_pyopensci_matrix_closes_repository_criteria_only() -> None:
     assert summary["deferred"] == ["external-inquiry", "maintainer-commitment"]
 
 
-def test_ropensci_matrix_keeps_repository_blockers_explicit() -> None:
+def test_ropensci_matrix_closes_local_quality_criteria_only() -> None:
     summary = validate_ropensci_evidence(
         ROOT / "specs" / "submission-readiness" / "ropensci-evidence.json", ROOT
     )
 
     assert summary["criterion_count"] >= 10
     assert summary["statuses"]["self-contained-installation"] == "repository_blocked"
+    assert summary["statuses"]["pkgcheck"] == "satisfied"
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(

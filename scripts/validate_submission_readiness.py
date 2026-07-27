@@ -240,11 +240,23 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
                 raise ValueError(f"unsafe rOpenSci evidence path: {relative}")
             if not (root / relative_path).exists():
                 raise ValueError(f"rOpenSci evidence path does not exist: {relative}")
-    if {key for key, value in statuses.items() if value == "repository_blocked"} != {
-        "pkgcheck",
-        "self-contained-installation",
-    }:
-        raise ValueError("rOpenSci repository blockers must remain explicit")
+    required = payload.get("repository_controlled_criteria")
+    if not isinstance(required, list) or not required:
+        raise ValueError(
+            "rOpenSci repository_controlled_criteria must be a non-empty array"
+        )
+    if len(required) != len(set(required)) or not set(required) <= set(statuses):
+        raise ValueError("rOpenSci repository_controlled_criteria must resolve to criteria")
+    unresolved_repository = {
+        identifier for identifier in required if statuses[identifier] != "satisfied"
+    }
+    if unresolved_repository:
+        raise ValueError(
+            "repository-controlled rOpenSci criteria remain unresolved: "
+            + ", ".join(sorted(unresolved_repository))
+        )
+    if statuses.get("self-contained-installation") != "repository_blocked":
+        raise ValueError("rOpenSci self-contained installation gate must remain explicit")
     return {"criterion_count": len(criteria), "statuses": statuses}
 
 

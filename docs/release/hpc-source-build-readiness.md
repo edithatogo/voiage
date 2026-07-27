@@ -11,9 +11,13 @@ EasyBuild pull request, review, merge, and any HPSF/E4S curation remain
 external decisions.
 
 Run `scripts/validate_hpc_recipes.sh` to solve the Spack recipe in an isolated
-configuration. It runs the EasyBuild style check only when a modules tool is
-available, so a workstation configuration cannot be mistaken for recipe proof.
-On this macOS host, Environment Modules 5.6 is installed locally, but the
-available EasyBuild module adapter cannot parse its version interface. Treat a
-successful EasyBuild run as pending until an adapter-compatible environment is
-available.
+configuration and perform the EasyBuild style check. The script prefers Lmod
+when it is installed, and uses ephemeral EasyBuild framework, easyblocks, and
+style-check dependencies, so Homebrew's Environment Modules version interface
+cannot be mistaken for an EasyBuild-compatible validation environment.
+
+On this macOS host, the Lmod-backed EasyBuild 5.3.1 style check passed for the
+retained recipe. The warnings about an unavailable `foss/2023a` hierarchy are
+expected for a standalone syntax check without the upstream easyconfig tree;
+they do not establish a build. A complete toolchain build, upstream pull
+request, review, merge, and any HPSF/E4S curation remain external decisions.
