@@ -90,13 +90,16 @@
 - [x] Present the checksum-bound proposal for named analyst review. Preserve
   approved, rejected, revised, and deferred decisions individually.
   (`16e5ecf`)
-- [ ] After review, prepare a separate proposed roadmap change containing only
+- [x] After review, prepare a separate proposed roadmap change containing only
   approved recommendations; do not apply it in this track without renewed
   authorization.
+  (`761c98c`)
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - Analyst Manual Verification 'Phase 3: Capability map and reviewed improvement proposal'
+- [x] Final review and validation checkpoint. (`761c98c`; Phase 3 generators,
+  diff check, and Python 3.12 landscape suite passed)
+- [x] Conductor - Analyst Manual Verification 'Phase 3: Capability map and reviewed improvement proposal'
+  (`user approval 2026-07-27`; roadmap-planning adoption authorized)
   (Protocol in workflow.md).
 
 ## Preserved completed evidence
