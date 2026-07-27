@@ -191,3 +191,37 @@ def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
         ).exit_code
         == 2
     )
+
+
+def test_ingest_cli_applies_explicit_resource_size_policy(tmp_path) -> None:
+    """CLI policy flags constrain provider materialization without network opt-in."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--max-resource-bytes",
+            "1",
+        ],
+    )
+
+    assert result.exit_code == 2
+    assert "exceeds configured size limit" in result.output

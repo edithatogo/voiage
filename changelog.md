@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added explicit offline, verified-cache, and resource-size policy flags to
+  every standardized-ingestion CLI command while retaining local-only access.
 - Added a validated SciCrunch registration answer-and-evidence packet with
   explicit account-declaration, submission, curation, and RRID-assignment
   boundaries.

@@ -16,7 +16,7 @@ from voiage.contracts.normalized_input import (
     VOIBinding,
 )
 from voiage.contracts.preparation import prepare_analysis_inputs
-from voiage.ingestion.base import IngestionError
+from voiage.ingestion.base import IngestionError, SourceAccessPolicy
 from voiage.ingestion.registry import default_registry
 from voiage.methods.basic import evpi
 
@@ -68,12 +68,31 @@ def _inspection_binding(
     )
 
 
+def _source_policy(
+    descriptor: Path,
+    *,
+    offline: bool,
+    cache_dir: Path | None,
+    max_resource_bytes: int,
+) -> SourceAccessPolicy:
+    """Build an explicit, local-only policy for one CLI invocation."""
+    return SourceAccessPolicy(
+        descriptor.parent,
+        offline=offline,
+        cache_dir=cache_dir,
+        max_resource_bytes=max_resource_bytes,
+    )
+
+
 def _bundle_summary(
-    descriptor: Path, *, binding: VOIBinding | None = None
+    descriptor: Path,
+    *,
+    binding: VOIBinding | None = None,
+    policy: SourceAccessPolicy | None = None,
 ) -> dict[str, object]:
     """Return stable, non-secret metadata for a descriptor."""
     registry = default_registry()
-    bundle = registry.ingest(descriptor)
+    bundle = registry.ingest(descriptor, policy=policy)
     capabilities = registry.capabilities_for(bundle.manifest.provenance.provider_id)
     summary: dict[str, object] = {
         "capabilities": {
@@ -124,11 +143,35 @@ def _bundle_summary(
 @app.command("validate")
 def validate(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
+    offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
+    cache_dir: Path | None = typer.Option(
+        None, "--cache-dir", help="Verified materialization cache directory."
+    ),
+    max_resource_bytes: int = typer.Option(
+        512 * 1024 * 1024,
+        "--max-resource-bytes",
+        min=1,
+        help="Maximum accepted local resource size.",
+    ),
 ) -> None:
     """Validate a supported descriptor and its declared local resources."""
     try:
         typer.echo(
-            json.dumps({"valid": True, **_bundle_summary(descriptor)}, sort_keys=True)
+            json.dumps(
+                {
+                    "valid": True,
+                    **_bundle_summary(
+                        descriptor,
+                        policy=_source_policy(
+                            descriptor,
+                            offline=offline,
+                            cache_dir=cache_dir,
+                            max_resource_bytes=max_resource_bytes,
+                        ),
+                    ),
+                },
+                sort_keys=True,
+            )
         )
     except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
@@ -147,12 +190,31 @@ def inspect(
     strategy: list[str] = typer.Option(
         [], "--strategy", help="Optional strategy name; repeat in field order."
     ),
+    offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
+    cache_dir: Path | None = typer.Option(
+        None, "--cache-dir", help="Verified materialization cache directory."
+    ),
+    max_resource_bytes: int = typer.Option(
+        512 * 1024 * 1024, "--max-resource-bytes", min=1
+    ),
 ) -> None:
     """Inspect identity and optionally resolve one explicit EVPI binding."""
     try:
         binding = _inspection_binding(table, field, strategy)
         typer.echo(
-            json.dumps(_bundle_summary(descriptor, binding=binding), sort_keys=True)
+            json.dumps(
+                _bundle_summary(
+                    descriptor,
+                    binding=binding,
+                    policy=_source_policy(
+                        descriptor,
+                        offline=offline,
+                        cache_dir=cache_dir,
+                        max_resource_bytes=max_resource_bytes,
+                    ),
+                ),
+                sort_keys=True,
+            )
         )
     except (IngestionError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
@@ -163,12 +225,27 @@ def inspect(
 def normalize(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
     output: Path = typer.Option(..., "--output", "-o"),
+    offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
+    cache_dir: Path | None = typer.Option(
+        None, "--cache-dir", help="Verified materialization cache directory."
+    ),
+    max_resource_bytes: int = typer.Option(
+        512 * 1024 * 1024, "--max-resource-bytes", min=1
+    ),
 ) -> None:
     """Normalize a descriptor into a deterministic Arrow IPC file."""
     try:
-        bundle = default_registry().ingest(descriptor)
+        policy = _source_policy(
+            descriptor,
+            offline=offline,
+            cache_dir=cache_dir,
+            max_resource_bytes=max_resource_bytes,
+        )
+        bundle = default_registry().ingest(descriptor, policy=policy)
         bundle.write_ipc(output)
-        typer.echo(json.dumps(_bundle_summary(descriptor), sort_keys=True))
+        typer.echo(
+            json.dumps(_bundle_summary(descriptor, policy=policy), sort_keys=True)
+        )
     except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(2) from error
@@ -184,10 +261,25 @@ def calculate_from_dataset(
     strategy: list[str] = typer.Option(
         [], "--strategy", help="Optional strategy name; repeat in field order."
     ),
+    offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
+    cache_dir: Path | None = typer.Option(
+        None, "--cache-dir", help="Verified materialization cache directory."
+    ),
+    max_resource_bytes: int = typer.Option(
+        512 * 1024 * 1024, "--max-resource-bytes", min=1
+    ),
 ) -> None:
     """Calculate EVPI from explicitly selected normalized net-benefit fields."""
     try:
-        bundle = default_registry().ingest(descriptor)
+        bundle = default_registry().ingest(
+            descriptor,
+            policy=_source_policy(
+                descriptor,
+                offline=offline,
+                cache_dir=cache_dir,
+                max_resource_bytes=max_resource_bytes,
+            ),
+        )
         binding = VOIBinding(
             role="net_benefit",
             table_id=table,
