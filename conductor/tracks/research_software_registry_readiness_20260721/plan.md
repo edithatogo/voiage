@@ -174,22 +174,22 @@ remain explicit gates in the target contract.
   reproducibility, non-finite-input, error-condition, and reference-comparison
   evidence. Use the result to determine R Journal eligibility without drafting
   a duplicate manuscript. (`DESCRIPTION` author/maintainer repair; clean
-  built-source `R CMD check --no-manual` passed locally; self-contained runtime
-  and `pkgcheck` evidence remain outstanding; `ropensci-evidence.json` maps
+  built-source `R CMD check --no-manual` and isolated rOpenSci `pkgcheck` passed
+  locally; the self-contained runtime remains outstanding because the package
+  still requires an externally supplied `voiage-ffi` shared library;
+  `ropensci-evidence.json` maps
   the current bounded R API, documentation, test, numerical-reference,
-  input/error, and seed evidence; `validate_r_ffi_install.sh` now proves the
+  input/error, and seed evidence; `validate_r_ffi_install.sh` proves the
   build/install/native-EVPI path in a temporary R library.)
 - [~] [Issue #622](https://github.com/edithatogo/voiage/issues/622) — select a
   retained HPC source/native-build strategy, add locally tested Spack and (only
   if distinct) EasyBuild recipes, and document CPU-fallback and numerical-smoke
   evidence. Keep HPSF/E4S curation conditional on adoption and governance.
   Source-native v2.0.0 recipes now use immutable commit
-  `5e92151fc87afefbb411c992fb9f82fc4b8c049f`; Spack syntax validates, while
-  `validate_hpc_recipes.sh` isolates Spack from the broken user repository;
-  EasyBuild still needs an Environment Modules or Lmod installation before its
-  full local style check can run. Environment Modules 5.6 is now installed on
-  the local macOS host, but the available EasyBuild adapter cannot parse its
-  version interface, so the recipe remains unverified rather than overstated.
+  `5e92151fc87afefbb411c992fb9f82fc4b8c049f`; `validate_hpc_recipes.sh` now
+  completes an isolated Spack solve and a Lmod-backed EasyBuild style check.
+  It establishes recipe validity only; toolchain builds and upstream curation
+  remain external gates.
 - [x] [Issue #617](https://github.com/edithatogo/voiage/issues/617) — record a
   venue-by-venue non-duplication decision for JSS, NumFOCUS, and Zenodo before
   creating any new manuscript, affiliation, or deposition material.
