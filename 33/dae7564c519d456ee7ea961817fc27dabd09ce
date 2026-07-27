@@ -1,0 +1,1 @@
+Reconcile live PR state after the Phase 8 and Phase 9 changes landed separately on main: #629 and #631 are closed/superseded, while focused PR #634 now carries only the remaining Phase 10 Conductor evidence. Full Conductor validation, cross-reference validation, focused test, and new-ledger validation pass.
