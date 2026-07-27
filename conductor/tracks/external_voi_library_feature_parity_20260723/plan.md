@@ -27,14 +27,16 @@
   observability, duplicate, rights, and freshness tests before expanding the
   current baseline.
   (`6d4deda`)
-- [~] Under [#565](https://github.com/edithatogo/voiage/issues/565), complete
+- [x] Under [#565](https://github.com/edithatogo/voiage/issues/565), complete
   `landscape-open-source-inventory` across registries, source hosts, archives,
   papers, supplements, HTA, decision analysis, Bayesian OED, active learning,
   causal policy, forecasting, optimization, and information economics.
-- [ ] Include the exact #593--#600 families and their named submethods in
+  (`30ffda6`)
+- [x] Include the exact #593--#600 families and their named submethods in
   reproducible search queries and capability extraction; map observed software
   to the residual planning register pending additive scientific review.
-- [ ] For each open-source product, inspect version-pinned source, API,
+  (`b86e212`)
+- [~] For each open-source product, inspect version-pinned source, API,
   schemas, functions/classes/commands, algorithms, estimators, features,
   subfeatures, options/defaults, diagnostics, errors, plots, reports, examples,
   tests, interoperability, dependencies, performance, license, and maintenance.
