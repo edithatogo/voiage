@@ -121,7 +121,8 @@ jobs:
       - name: Test a standalone Julia package copy
         shell: bash
         run: |
-          standalone_dir="${RUNNER_TEMP}/voiage-julia-standalone"
+          runner_temp="${RUNNER_TEMP//\\//}"
+          standalone_dir="${runner_temp}/voiage-julia-standalone"
           mkdir -p "${standalone_dir}"
           git -C ../.. archive HEAD:bindings/julia | tar -x -C "${standalone_dir}"
           cd "${standalone_dir}"
