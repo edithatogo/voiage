@@ -17,8 +17,17 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "none_yet"
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
     },
     {
       "track_id": "study_design_efficiency_20260727",
@@ -32,8 +41,17 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "none_yet"
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
     },
     {
       "track_id": "abstraction-excellence_20260719",
