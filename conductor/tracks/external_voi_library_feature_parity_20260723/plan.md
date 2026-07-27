@@ -87,8 +87,9 @@
   close, or reparent implementation issues from the review generator.
 - [ ] Run license, provenance, schemas, generated-artifact, docs, complete
   quality, competitor-absent, live hierarchy, and Project 28 gates.
-- [ ] Present the checksum-bound proposal for named analyst review. Preserve
+- [x] Present the checksum-bound proposal for named analyst review. Preserve
   approved, rejected, revised, and deferred decisions individually.
+  (`16e5ecf`)
 - [ ] After review, prepare a separate proposed roadmap change containing only
   approved recommendations; do not apply it in this track without renewed
   authorization.
