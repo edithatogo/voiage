@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/capability-adoption-map.schema.json",
+  "title": "VOIAGE external software capability and adoption map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_inventory", "reviewed_on", "parity_states", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_inventory": {"const": "comprehensive-inventory.json"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "parity_states": {"const": ["native", "equivalent", "adapter", "planned", "excluded", "not-reproducible"]},
+    "records": {"type": "array", "items": {"$ref": "#/$defs/record"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object", "additionalProperties": false,
+      "required": ["product_id", "version_id", "capability_id", "capability_kind", "canonical_ids", "parity_state", "evidence_ids", "adoption_lessons"],
+      "properties": {
+        "product_id": {"type": "string", "minLength": 1},
+        "version_id": {"type": "string", "minLength": 1},
+        "capability_id": {"type": "string", "minLength": 1},
+        "capability_kind": {"type": "string", "minLength": 1},
+        "canonical_ids": {"type": "array", "items": {"type": "string"}},
+        "parity_state": {"enum": ["native", "equivalent", "adapter", "planned", "excluded", "not-reproducible"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "adoption_lessons": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

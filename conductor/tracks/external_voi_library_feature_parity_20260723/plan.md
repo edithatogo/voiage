@@ -65,7 +65,7 @@
 
 ## Phase 3: Capability map and reviewed improvement proposal
 
-- [ ] Under [#573](https://github.com/edithatogo/voiage/issues/573), generate
+- [~] Under [#573](https://github.com/edithatogo/voiage/issues/573), generate
   `landscape-capability-adoption-map` for methods, schemas, options, workflows,
   UX, reporting, collaboration, governance, integrations, deployment,
   accessibility, and industry templates.

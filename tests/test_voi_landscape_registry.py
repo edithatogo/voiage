@@ -34,6 +34,8 @@ FEATURE_DISPOSITIONS = LANDSCAPE / "feature-dispositions.json"
 FEATURE_DISPOSITIONS_SCHEMA = LANDSCAPE / "feature-dispositions.schema.json"
 COMPREHENSIVE_INVENTORY_SCHEMA = LANDSCAPE / "comprehensive-inventory.schema.json"
 COMPREHENSIVE_INVENTORY = LANDSCAPE / "comprehensive-inventory.json"
+CAPABILITY_ADOPTION_MAP = LANDSCAPE / "capability-adoption-map.json"
+CAPABILITY_ADOPTION_MAP_SCHEMA = LANDSCAPE / "capability-adoption-map.schema.json"
 RESIDUAL_SOFTWARE_MAPPINGS = LANDSCAPE / "residual-software-mappings.json"
 RESIDUAL_SOFTWARE_MAPPINGS_SCHEMA = LANDSCAPE / "residual-software-mappings.schema.json"
 AUDITS = LANDSCAPE / "audits"
@@ -112,6 +114,31 @@ def test_comprehensive_inventory_and_review_protocol_are_frozen() -> None:
         "performance",
         "rights-and-provenance",
     } <= required_dimensions
+
+
+def test_phase_three_capability_adoption_map_is_a_separate_contract() -> None:
+    """Capability lessons must not mutate the inventory or assert runtime parity."""
+    assert CAPABILITY_ADOPTION_MAP.is_file()
+    assert CAPABILITY_ADOPTION_MAP_SCHEMA.is_file()
+
+    capability_map = _read_json(CAPABILITY_ADOPTION_MAP)
+    schema = _read_json(CAPABILITY_ADOPTION_MAP_SCHEMA)
+    assert isinstance(capability_map, dict)
+    assert isinstance(schema, dict)
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(
+        capability_map
+    )
+
+    assert capability_map["source_inventory"] == "comprehensive-inventory.json"
+    assert capability_map["parity_states"] == [
+        "native",
+        "equivalent",
+        "adapter",
+        "planned",
+        "excluded",
+        "not-reproducible",
+    ]
 
 
 def test_comprehensive_inventory_has_representative_semantic_records() -> None:

@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a deterministic Phase 3 external-software capability and adoption map
+  derived from the evidence-bounded inventory, preserving capability parity
+  states rather than asserting new runtime parity.
 - Added a residual method-gap programme with native GitHub subissues #593--#600
   for implementation/information/perfection decomposition;
   uncertainty-modelling and stochastic-solution value; risk-adjusted

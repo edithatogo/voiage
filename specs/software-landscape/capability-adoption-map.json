@@ -1,0 +1,513 @@
+{
+  "schema_version": "1.0.0",
+  "source_inventory": "comprehensive-inventory.json",
+  "reviewed_on": "2026-07-27",
+  "parity_states": [
+    "native",
+    "equivalent",
+    "adapter",
+    "planned",
+    "excluded",
+    "not-reproducible"
+  ],
+  "records": [
+    {
+      "product_id": "ax",
+      "version_id": "ax-1-3-1",
+      "capability_id": "experiment-lifecycle",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "adaptive-experimentation"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "ax-repository"
+      ],
+      "adoption_lessons": [
+        "ax-service-api"
+      ]
+    },
+    {
+      "product_id": "bcea",
+      "version_id": "bcea-2-4-83",
+      "capability_id": "bcea-cea",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "cost-effectiveness-analysis",
+        "probabilistic-sensitivity-analysis",
+        "evppi"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "bcea-function-doc",
+        "bcea-site"
+      ],
+      "adoption_lessons": [
+        "bcea-standardised-postprocessing"
+      ]
+    },
+    {
+      "product_id": "bceaweb",
+      "version_id": "bceaweb-unpinned",
+      "capability_id": "bceaweb-ui",
+      "capability_kind": "application",
+      "canonical_ids": [
+        "cost-effectiveness-analysis"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "bceaweb-pdf"
+      ],
+      "adoption_lessons": [
+        "bceaweb-accessible-ui"
+      ]
+    },
+    {
+      "product_id": "botorch",
+      "version_id": "botorch-0-18-1",
+      "capability_id": "knowledge-gradient",
+      "capability_kind": "algorithm",
+      "canonical_ids": [
+        "knowledge-gradient"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "botorch-docs"
+      ],
+      "adoption_lessons": [
+        "botorch-model-acquisition-separation"
+      ]
+    },
+    {
+      "product_id": "causalml",
+      "version_id": "causalml-0-17-0",
+      "capability_id": "uplift-and-cate",
+      "capability_kind": "estimator",
+      "canonical_ids": [
+        "uplift",
+        "conditional-average-treatment-effect"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "causalml-repository"
+      ],
+      "adoption_lessons": [
+        "causalml-standard-interface"
+      ]
+    },
+    {
+      "product_id": "ce-decision-tree",
+      "version_id": "ce-decision-tree-0-1-0",
+      "capability_id": "ce-decision-tree-cea",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "decision-tree",
+        "cost-effectiveness-analysis"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "ce-decision-tree-site"
+      ],
+      "adoption_lessons": []
+    },
+    {
+      "product_id": "dampack",
+      "version_id": "dampack-1-0-2-1000",
+      "capability_id": "dampack-cea",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "cost-effectiveness-analysis",
+        "evsi"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "dampack-pdf",
+        "dampack-site"
+      ],
+      "adoption_lessons": []
+    },
+    {
+      "product_id": "dceasim-r",
+      "version_id": "dceasim-r-unpinned",
+      "capability_id": "dceasim-r-dcea",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "distributional-cea",
+        "inequality-index",
+        "social-welfare"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "dceasim-r-site"
+      ],
+      "adoption_lessons": [
+        "dceasim-r-submission-export"
+      ]
+    },
+    {
+      "product_id": "decision-support",
+      "version_id": "decision-support-1-115",
+      "capability_id": "decision-support-evi",
+      "capability_kind": "estimand",
+      "canonical_ids": [
+        "expected-value-of-information"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "decision-support-evi-doc"
+      ],
+      "adoption_lessons": []
+    },
+    {
+      "product_id": "econml",
+      "version_id": "econml-0-16-0",
+      "capability_id": "orthogonal-causal-learning",
+      "capability_kind": "estimator",
+      "canonical_ids": [
+        "double-machine-learning",
+        "causal-effect"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "econml-repository"
+      ],
+      "adoption_lessons": [
+        "econml-econometrics-ml"
+      ]
+    },
+    {
+      "product_id": "heemod",
+      "version_id": "heemod-1-1-0",
+      "capability_id": "heemod-markov",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "markov-model",
+        "probabilistic-sensitivity-analysis",
+        "evpi"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "heemod-site"
+      ],
+      "adoption_lessons": [
+        "heemod-model-composition"
+      ]
+    },
+    {
+      "product_id": "hesim",
+      "version_id": "hesim-0-5-8",
+      "capability_id": "hesim-models",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "cohort-markov",
+        "partitioned-survival",
+        "individual-simulation"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "hesim-intro",
+        "hesim-model-doc"
+      ],
+      "adoption_lessons": [
+        "hesim-r6-models"
+      ]
+    },
+    {
+      "product_id": "open-bandit-pipeline",
+      "version_id": "open-bandit-pipeline-0-5-5",
+      "capability_id": "offline-policy-evaluation",
+      "capability_kind": "estimator",
+      "canonical_ids": [
+        "off-policy-evaluation",
+        "contextual-bandit"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "obp-repository"
+      ],
+      "adoption_lessons": [
+        "obp-reproducible-benchmark"
+      ]
+    },
+    {
+      "product_id": "oracle-crystal-ball",
+      "version_id": "oracle-crystal-ball-guide-11124850",
+      "capability_id": "decision-table-analysis",
+      "capability_kind": "related-analysis",
+      "canonical_ids": [],
+      "parity_state": "excluded",
+      "evidence_ids": [
+        "oracle-crystal-ball-guide"
+      ],
+      "adoption_lessons": []
+    },
+    {
+      "product_id": "orbit",
+      "version_id": "orbit-1-1-5-1",
+      "capability_id": "bayesian-forecasting",
+      "capability_kind": "related-analysis",
+      "canonical_ids": [
+        "forecasting",
+        "signal-value"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "orbit-repository"
+      ],
+      "adoption_lessons": [
+        "orbit-object-oriented-models"
+      ]
+    },
+    {
+      "product_id": "pomdps-jl",
+      "version_id": "pomdps-jl-1-0-0-docs",
+      "capability_id": "pomdp-model-and-simulation",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "pomdp",
+        "dual-control"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "pomdps-repository"
+      ],
+      "adoption_lessons": [
+        "pomdps-solver-separation"
+      ]
+    },
+    {
+      "product_id": "precisiontree",
+      "version_id": "precisiontree-v8-3-documentation",
+      "capability_id": "probabilistic-decision-trees",
+      "capability_kind": "related-analysis",
+      "canonical_ids": [],
+      "parity_state": "excluded",
+      "evidence_ids": [
+        "precisiontree-product-page"
+      ],
+      "adoption_lessons": [
+        "spreadsheet-native-policy-report"
+      ]
+    },
+    {
+      "product_id": "pyomo-mpi-sppy",
+      "version_id": "pyomo-mpi-sppy-0-14-0",
+      "capability_id": "stochastic-programming",
+      "capability_kind": "algorithm",
+      "canonical_ids": [
+        "stochastic-programming",
+        "value-of-stochastic-solution"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "mpi-sppy-repository"
+      ],
+      "adoption_lessons": [
+        "mpi-sppy-scenario-creator"
+      ]
+    },
+    {
+      "product_id": "pyro-oed",
+      "version_id": "pyro-oed-1-9-1",
+      "capability_id": "expected-information-gain",
+      "capability_kind": "estimator",
+      "canonical_ids": [
+        "expected-information-gain"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "pyro-oed-source"
+      ],
+      "adoption_lessons": [
+        "pyro-oed-composable-models"
+      ]
+    },
+    {
+      "product_id": "representative-commercial",
+      "version_id": "representative-commercial-current",
+      "capability_id": "documented-evpi",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "evpi"
+      ],
+      "parity_state": "not-reproducible",
+      "evidence_ids": [
+        "commercial-documentation"
+      ],
+      "adoption_lessons": []
+    },
+    {
+      "product_id": "representative-open-source",
+      "version_id": "representative-open-v1",
+      "capability_id": "evpi",
+      "capability_kind": "estimand",
+      "canonical_ids": [
+        "evpi"
+      ],
+      "parity_state": "native",
+      "evidence_ids": [
+        "open-source-and-test"
+      ],
+      "adoption_lessons": [
+        "typed-results"
+      ]
+    },
+    {
+      "product_id": "savi",
+      "version_id": "savi-2-2-1",
+      "capability_id": "savi-voi-workflow",
+      "capability_kind": "application",
+      "canonical_ids": [
+        "evpi",
+        "evppi",
+        "ceac"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "savi-app"
+      ],
+      "adoption_lessons": [
+        "savi-low-friction-voi"
+      ]
+    },
+    {
+      "product_id": "sddp-jl",
+      "version_id": "sddp-jl-1-13-3",
+      "capability_id": "stochastic-dual-dynamic-programming",
+      "capability_kind": "algorithm",
+      "canonical_ids": [
+        "stochastic-dual-dynamic-programming"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "sddp-repository"
+      ],
+      "adoption_lessons": [
+        "sddp-jump-extension"
+      ]
+    },
+    {
+      "product_id": "treeage-pro",
+      "version_id": "treeage-pro-2026-r2",
+      "capability_id": "evpi",
+      "capability_kind": "estimand",
+      "canonical_ids": [
+        "evpi"
+      ],
+      "parity_state": "not-reproducible",
+      "evidence_ids": [
+        "treeage-decision-tree-evpi",
+        "treeage-evpi-evppi"
+      ],
+      "adoption_lessons": [
+        "explicit-voi-loop-provenance",
+        "visual-review-and-export"
+      ]
+    },
+    {
+      "product_id": "treeage-pro",
+      "version_id": "treeage-pro-2026-r2",
+      "capability_id": "evppi",
+      "capability_kind": "estimator",
+      "canonical_ids": [
+        "evppi"
+      ],
+      "parity_state": "not-reproducible",
+      "evidence_ids": [
+        "treeage-evpi-evppi"
+      ],
+      "adoption_lessons": [
+        "explicit-voi-loop-provenance",
+        "visual-review-and-export"
+      ]
+    },
+    {
+      "product_id": "treeage-pro-web",
+      "version_id": "treeage-pro-web-public-documentation",
+      "capability_id": "hosted-model-sharing",
+      "capability_kind": "workflow",
+      "canonical_ids": [],
+      "parity_state": "not-reproducible",
+      "evidence_ids": [
+        "tpweb-2025-release",
+        "tpweb-public-manual"
+      ],
+      "adoption_lessons": [
+        "reviewer-no-install"
+      ]
+    },
+    {
+      "product_id": "trieste",
+      "version_id": "trieste-4-6-0",
+      "capability_id": "active-learning-and-bo",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "active-learning",
+        "bayesian-optimization"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "trieste-readme"
+      ],
+      "adoption_lessons": [
+        "trieste-ask-tell"
+      ]
+    },
+    {
+      "product_id": "twig",
+      "version_id": "twig-1-0-0-0",
+      "capability_id": "twig-grammar-modeling",
+      "capability_kind": "workflow",
+      "canonical_ids": [
+        "decision-tree",
+        "markov-model",
+        "probabilistic-analysis"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "twig-cran",
+        "twig-ui"
+      ],
+      "adoption_lessons": [
+        "twig-dual-interface"
+      ]
+    },
+    {
+      "product_id": "voi",
+      "version_id": "voi-1-0-3",
+      "capability_id": "voi-information-measures",
+      "capability_kind": "estimand",
+      "canonical_ids": [
+        "evpi",
+        "evppi",
+        "evsi",
+        "enbs"
+      ],
+      "parity_state": "planned",
+      "evidence_ids": [
+        "voi-evsi-doc"
+      ],
+      "adoption_lessons": [
+        "voi-pluggable-study"
+      ]
+    },
+    {
+      "product_id": "vowpal-wabbit",
+      "version_id": "vowpal-wabbit-9-11-2",
+      "capability_id": "contextual-bandits",
+      "capability_kind": "algorithm",
+      "canonical_ids": [
+        "contextual-bandit",
+        "active-learning",
+        "off-policy-evaluation"
+      ],
+      "parity_state": "adapter",
+      "evidence_ids": [
+        "vw-repository"
+      ],
+      "adoption_lessons": [
+        "vw-bounded-memory"
+      ]
+    }
+  ]
+}
