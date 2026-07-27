@@ -168,12 +168,14 @@ remain explicit gates in the target contract.
   release provenance, and AI-use disclosure. Then leave maintenance commitment
   and any inquiry to the author after the JOSS decision point.
   (`46ba8fe1`; `pyopensci-evidence.json`; full tox validation passed)
-- [ ] [Issue #615](https://github.com/edithatogo/voiage/issues/615) — make
+- [~] [Issue #615](https://github.com/edithatogo/voiage/issues/615) — make
   `voiageR` self-contained to install and test, define its bounded public API,
   and add a claim-by-claim rOpenSci statistical-software standards matrix with
   reproducibility, non-finite-input, error-condition, and reference-comparison
   evidence. Use the result to determine R Journal eligibility without drafting
-  a duplicate manuscript.
+  a duplicate manuscript. (`DESCRIPTION` author/maintainer repair; clean
+  built-source `R CMD check --no-manual` passed locally; self-contained runtime
+  and `pkgcheck` evidence remain outstanding.)
 - [ ] [Issue #622](https://github.com/edithatogo/voiage/issues/622) — select a
   retained HPC source/native-build strategy, add locally tested Spack and (only
   if distinct) EasyBuild recipes, and document CPU-fallback and numerical-smoke

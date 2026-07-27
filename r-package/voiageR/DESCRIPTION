@@ -2,10 +2,14 @@ Package: voiageR
 Type: Package
 Title: Value of Information Analysis in R
 Version: 2.0.0
-Authors@R: person("Dylan", "Mordaunt",
-    email = "dylan.mordaunt@vuw.ac.nz",
-    role = c("aut", "cre"),
-    comment = c(ORCID = "0000-0002-9775-0603"))
+Authors@R: c(
+    person("Dylan", "Mordaunt",
+      email = "dylan.mordaunt@vuw.ac.nz",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-9775-0603"))
+    )
+Author: Dylan Mordaunt [aut, cre] (ORCID: <https://orcid.org/0000-0002-9775-0603>)
+Maintainer: Dylan Mordaunt <dylan.mordaunt@vuw.ac.nz>
 Description: An R interface to the Rust-backed voiage core for Value of Information analysis,
     with a direct Rust C ABI EVPI path and helper functions for Python environment management
     where advanced methods still use reticulate. Provides functions for calculating Expected Value of Perfect Information
