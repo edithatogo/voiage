@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-27T10:31:06Z",
+  "updated_at": "2026-07-27T10:45:00Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -31,7 +31,7 @@
   "github_project": "https://github.com/users/edithatogo/projects/28",
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/325",
-    "pull_request": "https://github.com/edithatogo/voiage/pull/631"
+    "pull_request": "https://github.com/edithatogo/voiage/pull/634"
   },
   "gates": [
     {
@@ -87,19 +87,19 @@
       "id": "phase-10-live-reconciliation",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "Live REST reconciliation on 2026-07-27 confirmed that #325-#333, #467, and #468 remain open; PR #627 merged as 4d55db89902b84a491e4662cf247948a15448aaa; PR #629 was rebased as 71a58357 and needs a fresh hosted matrix; and dependent PR #631 remains open."
+      "evidence": "Live reconciliation on 2026-07-27 confirmed that #325-#333, #467, and #468 remain open; PR #627 merged as 4d55db89902b84a491e4662cf247948a15448aaa; the Phase 8 SDK change landed separately as main commit 24e12977 and duplicate PR #629 is closed; the Phase 9 feature landed separately as main commit c4106739 and superseded PR #631 is closed; PR #634 now carries the remaining Phase 10 evidence migration and reconciliation."
     },
     {
       "id": "project-28-field-reconciliation",
       "kind": "external",
-      "status": "blocked",
-      "evidence": "GitHub Projects v2 state is unavailable through REST (404) and the authenticated GraphQL quota is exhausted. Recheck native issue links and Project 28 fields after the GraphQL rate limit resets; do not archive before that evidence is recorded."
+      "status": "satisfied",
+      "evidence": "GitHub Projects v2 was rechecked after GraphQL access recovered on 2026-07-27. Parent #325 and child issues #326-#333, #467, and #468 are all present in Project 28 and set to In Progress; #329 was corrected from Done to In Progress because its issue and acceptance criteria remain open."
     },
     {
       "id": "evidence-ledger-integrity",
       "kind": "repository",
-      "status": "blocked",
-      "evidence": "Final review found pre-existing ledger entries 9 and 10 without required artifact SHA-256 values; entry 10 also records exit code 1 with status passed. The append-only hash chain prevents an ungoverned rewrite, so new ledger evidence and archival are prohibited pending a reviewed ledger-migration repair."
+      "status": "satisfied",
+      "evidence": "The invalid historical ledger is preserved unchanged as evidence.legacy.jsonl (SHA-256 3f53b195f672333b1ac8c659a7a2dceeaba83c400dd1d467387e55edccce9656). A new evidence.jsonl chain starts with a migration receipt and never rewrites historical claims."
     }
   ]
 }

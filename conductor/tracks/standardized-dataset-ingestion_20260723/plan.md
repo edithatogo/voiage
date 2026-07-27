@@ -216,14 +216,14 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 10 — Reconcile Conductor and GitHub (#325)
 
-- [~] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
+- [x] **P10-T1 / AC-09:** Reconcile every plan task with issues #326–#333,
   #467, and #468,
   native parent/sub-issue links, Project 28 status/fields, pull requests, and
-  evidence ledger entries.
-- [~] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
-  by repository and hosted evidence or remains explicitly blocked.
-- [~] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
-  this track's state from pre-existing legacy archive-validation debt.
+  evidence ledger entries. (`7549b66e`)
+- [x] **P10-T2 / AC-09:** Confirm every issue acceptance criterion is supported
+  by repository and hosted evidence or remains explicitly blocked. (`7549b66e`)
+- [x] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
+  this track's state from pre-existing legacy archive-validation debt. (`7549b66e`)
 - [~] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
@@ -243,16 +243,17 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Project 28 items remain active. Archive is prohibited until the unchecked
   plan tasks and issue acceptance criteria have supporting evidence.
 - Phase 10 reconciliation on 2026-07-27 confirms that #325–#333, #467, and
-  #468 are open; #627 is merged, while #629 and #631 remain open pending their
-  refreshed hosted evidence. Project 28 field state cannot be read or changed
-  until the GitHub GraphQL rate limit resets; the REST Projects endpoint does
-  not expose Projects v2. This is an explicit external reconciliation gate,
-  not completion evidence.
-- Final Conductor review also found that the pre-existing append-only evidence
+  #468 are open; #627 is merged; the Phase 8 SDK and Phase 9 reference-case
+  changes landed separately on `main` as `24e12977` and `c4106739`; and #634
+  carries the remaining Phase 10 evidence migration. Project 28 was rechecked through GitHub Projects
+  v2 after GraphQL access recovered; every linked item is now `In Progress`,
+  consistent with its still-open issue and this active plan. This is status
+  reconciliation, not completion evidence.
+- Final Conductor review found that the pre-existing append-only evidence
   ledger fails schema validation at entries 9 and 10: both omit required
   artifact digests, and entry 10 records a non-zero validation command as
-  `passed`. The historical chain cannot be rewritten without invalidating its
-  hashes. Repair requires a governed ledger-migration decision; until then,
-  new ledger evidence and archival are blocked.
+  `passed`. The immutable legacy ledger is preserved under its original SHA-256
+  and a new valid ledger chain begins with a migration receipt; future evidence
+  is now appendable without rewriting historical claims.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.

@@ -1,15 +1,16 @@
 # Standardized Dataset Ingestion
 
-Status: in progress. PR #627 is merged with Phase 7 assurance evidence; PR
-#629 has been rebased on current `main` and awaits its refreshed hosted matrix;
-PR #631 is dependent Phase 9 evidence and awaits that prerequisite. Issues
+Status: in progress. PR #627 is merged with Phase 7 assurance evidence; the
+Phase 8 SDK and Phase 9 reference-case changes are now on `main` as `24e12977`
+and `c4106739`; PR #634 carries the remaining Phase 10 reconciliation evidence.
+Issues
 #325–#333, #467, and #468 remain open because the plan's outstanding provider,
 conformance, product, security, SDK, and worked-example criteria remain active.
-The Project 28 reconciliation field state is blocked on GitHub Projects v2
-GraphQL access. Final review additionally found a pre-existing invalid
-append-only evidence-ledger chain that needs a governed migration before new
-evidence or archival can be recorded. These are increments, not track-closeout
-evidence.
+Project 28 has been reconciled: all linked items are `In Progress`, consistent
+with their still-open issues. Final review additionally found a pre-existing invalid
+append-only evidence-ledger chain. Its immutable legacy copy and a new valid
+ledger chain are bound by [the migration record](./evidence-migration.md).
+These are increments, not track-closeout evidence.
 
 Local evidence on the `codex/sdk-dataframe-worked-examples` branch extends the
 Phase 8–9 DataFrame SDK consumer contracts and routes both business reference
@@ -27,3 +28,5 @@ GitHub Project:
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Legacy Evidence](./evidence.legacy.jsonl)
+- [Evidence Migration](./evidence-migration.md)
