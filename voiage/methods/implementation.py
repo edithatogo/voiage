@@ -35,6 +35,33 @@ class ImplementationAdjustedResult:
     reporting: dict[str, object]
 
 
+@dataclass(frozen=True)
+class ExpectedValueOfPerfectImplementationResult:
+    """Value of removing implementation loss while retaining uncertainty."""
+
+    value: float
+    current_implementation_value: float
+    perfect_implementation_value: float
+    current_strategy_index: int
+
+
+def expected_value_of_perfect_implementation(
+    net_benefits: np.ndarray, implementation_multiplier: float = 1.0
+) -> ExpectedValueOfPerfectImplementationResult:
+    """Calculate the value of perfect implementation (EVPIM-style)."""
+    values = np.asarray(net_benefits, dtype=DEFAULT_DTYPE)
+    multiplier = float(implementation_multiplier)
+    if values.ndim != 2 or min(values.shape) < 1 or not np.all(np.isfinite(values)):
+        raise_input_error("net_benefits must be a finite 2D array.")
+    if not np.isfinite(multiplier) or not 0.0 <= multiplier <= 1.0:
+        raise_input_error("implementation_multiplier must be between 0 and 1.")
+    current_means = values.mean(axis=0) * multiplier
+    current_index = int(np.argmax(current_means))
+    current = float(current_means[current_index])
+    perfect = float(np.mean(np.max(values, axis=1)))
+    return ExpectedValueOfPerfectImplementationResult(max(0.0, perfect - current), current, perfect, current_index)
+
+
 def _coerce_value_array(value_array: ValueArray) -> np.ndarray:
     """Validate and coerce the net-benefit matrix."""
     if not isinstance(value_array, ValueArray):
