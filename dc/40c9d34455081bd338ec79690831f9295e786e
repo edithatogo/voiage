@@ -1,0 +1,1 @@
+Task: Add Issue #615 claim-by-claim rOpenSci readiness evidence matrix. Validation: ruff checks, submission-readiness validator, and focused pytest passed. The matrix preserves self-contained FFI installation and pkgcheck as repository blockers; maintainer lifecycle/scope and inquiry remain human gates. No external contact or submission was made.
