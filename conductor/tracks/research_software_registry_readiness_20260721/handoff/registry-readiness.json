@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-27T04:32:23Z",
-  "next_action": "Use the validated SciCrunch packet to run the portal duplicate check, complete the authenticated accuracy and terms declarations, submit, and preserve confirmation evidence; then answer curator questions and record the assigned RRID without anticipating it. Monitor Yggdrasil PR 14292 and conda-forge PR 34308. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, and SciCrunch answer-and-evidence packet are complete. The SciCrunch portal's duplicate check, account-bound declarations, final submission, curator decision, and RRID assignment remain human or external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-27T06:07:06Z",
+  "next_action": "Monitor SciCrunch curator questions and record the assigned RRID without anticipating it. Monitor Yggdrasil PR 14292 and conda-forge PR 34308. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
+  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, and SciCrunch submission are complete. SciCrunch curation, RRID assignment, and resolver indexing remain external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -45,7 +45,7 @@
     "verification": "Software Heritage reports a full v2 visit and snapshot containing the signed v2.0.0 release."
   },
   "scicrunch_rrid_evidence": {
-    "status": "ready_for_account_submission",
+    "status": "submitted_pending_curation",
     "github_issue": "https://github.com/edithatogo/voiage/issues/298",
     "official_form": "https://scicrunch.org/create/resource",
     "official_guidance": "https://scicrunch.org/scicrunch/about/Curation%20Guidelines",
@@ -57,15 +57,18 @@
       "url",
       "description"
     ],
-    "submission_performed": false,
-    "curation_status": "not_started",
+    "duplicate_check": {
+      "checked_at": "2026-07-27T06:03:50Z",
+      "result": "no_similar_resource",
+      "portal_message": "There was no resource similar in our system."
+    },
+    "submission_performed": true,
+    "submitted_at": "2026-07-27T06:07:06Z",
+    "confirmation_url": "https://scicrunch.org/scicrunch/about/thanks",
+    "confirmation_message": "Thank you for your submission!",
+    "curation_status": "pending",
     "rrid": null,
-    "remaining_account_gates": [
-      "run the portal's authoritative duplicate check",
-      "confirm the rendered information is accurate",
-      "accept the current account terms",
-      "perform final submission and retain confirmation evidence"
-    ],
+    "remaining_account_gates": [],
     "remaining_external_gates": [
       "SciCrunch curator review or questions",
       "curator approval and RRID assignment",
