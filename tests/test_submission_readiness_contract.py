@@ -84,7 +84,7 @@ def test_ropensci_matrix_closes_local_quality_criteria_only() -> None:
     )
 
     assert summary["criterion_count"] >= 10
-    assert summary["statuses"]["self-contained-installation"] == "repository_blocked"
+    assert summary["statuses"]["self-contained-installation"] == "external"
     assert summary["statuses"]["pkgcheck"] == "satisfied"
 
 

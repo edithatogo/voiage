@@ -14,5 +14,6 @@ Run `scripts/validate_r_ffi_install.sh` to build the Rust FFI, install
 `voiageR` into a temporary R library, and call installed-package `evpi()`.
 This makes the current native prerequisite reproducible without pretending it
 is a distributed R-package artifact. In particular, `voiageR` still declares
-the shared library as a system requirement, so this is not reviewer-reproducible
-self-contained distribution evidence.
+the shared library as a system requirement. The corresponding rOpenSci
+container/distribution decision is tracked separately in
+`ropensci-system-dependency-gate.md`; it is not a repository validation task.

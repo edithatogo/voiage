@@ -9,7 +9,7 @@
     {"id": "tests-and-ci", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-voiageR.R", ".github/workflows/bindings-ci.yml"]},
     {"id": "reference-comparisons", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R", "specs/numerical-reference/v1/evpi-cases.json"]},
     {"id": "input-error-and-seed-contract", "status": "satisfied", "evidence": ["r-package/voiageR/R/voiageR.R", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
-    {"id": "self-contained-installation", "status": "repository_blocked", "evidence": ["r-package/voiageR/DESCRIPTION", "scripts/validate_r_ffi_install.sh", "docs/release/ropensci-local-validation.md"]},
+    {"id": "self-contained-installation", "status": "external", "evidence": ["r-package/voiageR/DESCRIPTION", "scripts/validate_r_ffi_install.sh", "docs/release/ropensci-local-validation.md", "docs/release/ropensci-system-dependency-gate.md"]},
     {"id": "pkgcheck", "status": "satisfied", "evidence": ["scripts/run_ropensci_pkgcheck.sh", "docs/release/ropensci-local-validation.md"]},
     {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]},
     {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]}

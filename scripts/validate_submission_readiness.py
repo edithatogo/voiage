@@ -18,7 +18,12 @@ TARGET_KINDS = {
     "sustainability",
 }
 PYOPENSCI_STATUSES = {"satisfied", "human_deferred"}
-ROPENSCI_STATUSES = {"satisfied", "repository_blocked", "human_deferred"}
+ROPENSCI_STATUSES = {
+    "satisfied",
+    "repository_blocked",
+    "human_deferred",
+    "external",
+}
 
 
 def _non_empty(value: Any, label: str) -> str:
@@ -255,8 +260,8 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
             "repository-controlled rOpenSci criteria remain unresolved: "
             + ", ".join(sorted(unresolved_repository))
         )
-    if statuses.get("self-contained-installation") != "repository_blocked":
-        raise ValueError("rOpenSci self-contained installation gate must remain explicit")
+    if statuses.get("self-contained-installation") != "external":
+        raise ValueError("rOpenSci self-contained installation gate must remain external")
     return {"criterion_count": len(criteria), "statuses": statuses}
 
 
