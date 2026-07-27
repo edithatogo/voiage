@@ -326,3 +326,71 @@ def test_croissant_inspection_exposes_governance_and_receipt_identity(tmp_path) 
             "uri": source.resolve().as_uri(),
         }
     ]
+
+
+def test_frictionless_inspection_exposes_governance_and_receipt_identity(
+    tmp_path,
+) -> None:
+    """Frictionless inspection preserves explicit package governance metadata."""
+    source = tmp_path / "samples.csv"
+    source.write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "name": "governed-operations-fixture",
+                "title": "Governed operations fixture",
+                "description": "Synthetic, rights-cleared test data.",
+                "profile": "tabular-data-package",
+                "version": "1.0.0",
+                "citation": "Example et al. (2026)",
+                "licenses": [
+                    {"name": "CC-BY-4.0", "path": "https://example.invalid/license"}
+                ],
+                "sources": [{"title": "Synthetic source", "path": "source.md"}],
+                "contributors": [{"title": "Maintainer", "role": "author"}],
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "hash": sha256(source.read_bytes()).hexdigest(),
+                        "bytes": source.stat().st_size,
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+
+    assert result.exit_code == 0
+    inspection = json.loads(result.output)
+    assert inspection["provider"] == "frictionless"
+    assert inspection["provenance"]["license"] == "CC-BY-4.0"
+    assert inspection["provenance"]["citation"] == "Example et al. (2026)"
+    assert inspection["governance"] == {
+        "frictionlessdata.org:contributors": [
+            {"role": "author", "title": "Maintainer"}
+        ],
+        "frictionlessdata.org:description": "Synthetic, rights-cleared test data.",
+        "frictionlessdata.org:licenses": [
+            {"name": "CC-BY-4.0", "path": "https://example.invalid/license"}
+        ],
+        "frictionlessdata.org:profile": "tabular-data-package",
+        "frictionlessdata.org:sources": [
+            {"path": "source.md", "title": "Synthetic source"}
+        ],
+        "frictionlessdata.org:title": "Governed operations fixture",
+        "frictionlessdata.org:version": "1.0.0",
+    }
+    assert inspection["resources"] == [
+        {
+            "byte_size": source.stat().st_size,
+            "media_type": "text/csv",
+            "resource_id": "samples",
+            "sha256": sha256(source.read_bytes()).hexdigest(),
+            "uri": source.resolve().as_uri(),
+        }
+    ]
