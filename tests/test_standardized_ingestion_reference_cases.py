@@ -31,9 +31,13 @@ def test_reference_cases_use_one_binding_and_one_evpi() -> None:
     assert result["binding"]["role"] == "net_benefit"
     assert result["binding"]["field_ids"] == ["strategy_a", "strategy_b"]
     assert result["evpi"] == {
-        "ml": pytest.approx(5.0),
-        "engineering": pytest.approx(5.0),
-        "business": pytest.approx(5.0),
+        domain: {
+            "croissant": pytest.approx(5.0),
+            "frictionless": pytest.approx(5.0),
+            "direct": pytest.approx(5.0),
+            "dataframe": pytest.approx(5.0),
+        }
+        for domain in ("ml", "engineering", "business")
     }
     assert len(set(result["schema"].values())) == 1
     assert result["resource_digests"]["ml"] == result["resource_digests"]["engineering"]
@@ -59,9 +63,13 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
     result = module.run_cost_outcome_reference_cases()
 
     assert result == {
-        "ml": pytest.approx(20.0 / 3.0),
-        "engineering": pytest.approx(20.0 / 3.0),
-        "business": pytest.approx(20.0 / 3.0),
+        domain: {
+            "croissant": pytest.approx(20.0 / 3.0),
+            "frictionless": pytest.approx(20.0 / 3.0),
+            "direct": pytest.approx(20.0 / 3.0),
+            "dataframe": pytest.approx(20.0 / 3.0),
+        }
+        for domain in ("ml", "engineering", "business")
     }
     assert (
         module._business_cost_outcome_dataframe().manifest.provenance.provider_id
