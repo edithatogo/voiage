@@ -17,6 +17,7 @@ FIXTURE = (
     / "specs/frontier/ai-assisted-evidence-triage/v1/fixtures/normative"
     / "eig-versus-voi.json"
 )
+SCHEMA = FIXTURE.parents[2] / "schemas" / "eig-versus-decision-voi.schema.json"
 
 
 def test_eig_fixture_keeps_information_and_decision_values_distinct() -> None:
@@ -43,6 +44,17 @@ def test_eig_fixture_keeps_information_and_decision_values_distinct() -> None:
     assert "utility" in payload["interpretation"]
     assert "cost" in payload["interpretation"]
     assert payload["expected_decision_voi"] != payload["expected_information_gain_nats"]
+
+
+def test_eig_fixture_schema_declares_formal_decision_contract() -> None:
+    """The fixture's required fields remain machine-readable and versioned."""
+    schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+    required = set(schema["required"])
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    assert required <= payload.keys()
+    assert schema["properties"]["provenance"]["properties"]["network_required"] == {
+        "const": False
+    }
 
 
 def test_ml_contract_requires_offline_cpu_and_optional_backends() -> None:
