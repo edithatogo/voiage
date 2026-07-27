@@ -77,3 +77,40 @@ source-policy-preserving integration tests, capability declarations,
 receipt/provenance handling, and base-install isolation evidence. Only then may
 a later task add a version-bounded `frictionless` dependency and publish a
 separate enhanced-parser profile.
+
+## P8-T5 — Registry-specific provider assessment (2026-07-27)
+
+### Decision
+
+Do not add Hugging Face or OpenML registry-specific providers in this track.
+The built-in Croissant provider remains an offline, descriptor-relative CSV
+adapter and the default source policy remains fail-closed for every network
+scheme. A registry adapter would be a distinct network/materialization product
+surface, not a thin alias for the current provider.
+
+### Evidence considered
+
+- Hugging Face's read-only Dataset Viewer returned a concrete Parquet-shard
+  inventory for `stanfordnlp/imdb` at
+  `https://datasets-server.huggingface.co/parquet?dataset=stanfordnlp%2Fimdb`.
+  The corresponding documented Croissant endpoint returned HTTP 404 at the
+  same assessment time. The resulting registry surface is therefore not a
+  stable Croissant descriptor source that the current provider can claim to
+  support.
+- The OpenML metadata endpoint
+  `https://www.openml.org/api/v1/json/data/61` returned HTTP 504 during the
+  assessment. No OpenML Croissant contract or authoritative interoperability
+  fixture was available to prove a safe, reproducible implementation.
+- Both registry paths would require authenticated access handling, redirects,
+  mutable live data, and remote artifact materialization. Those operations
+  need checksum-pinned receipts, cache policy, and replay tests before they
+  can cross the provider boundary.
+
+### Follow-on criteria
+
+Open a registry-specific provider only when an authoritative, versioned
+descriptor contract and rights-cleared fixture exist, the source path is routed
+through `SourceAccessPolicy`, every redirect and downloaded artifact is
+receipt-bound and content-addressed, and an opt-in live interoperability test
+can run without weakening offline defaults. Until then, users may download and
+pin a supported local Croissant CSV descriptor before invoking VOIAGE.

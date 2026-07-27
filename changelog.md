@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added policy-scoped, content-addressed local materialization caches with
   SHA-256 verification and explicit offline replay for standardized-dataset
   resources.
+- Recorded a fail-closed assessment of Hugging Face and OpenML registry
+  integrations; no registry-specific provider is enabled without pinned,
+  receipt-bound remote-materialization evidence.
 
 ### Changed
 
