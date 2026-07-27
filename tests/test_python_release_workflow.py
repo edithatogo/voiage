@@ -120,9 +120,15 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in Path("conda-recipe/bld.bat").read_text(
         encoding="utf-8"
     )
-    assert "    - python {{ python_min }}" in recipe
+    assert "{% set python_min" not in recipe
+    assert "  skip: true  # [py<312]" in recipe
+    assert "  host:\n    - python\n" in recipe
     assert "  run:\n    - python\n" in recipe
     assert "python >= {{ python_min }}" not in recipe
+    assert "    - voiage._core" in recipe
+    assert "core.runtime_info()['core_version'] == voiage.__version__" in recipe
+    assert "voiage.evpi(np.array(" in recipe
+    assert "  requires:\n    - python\n    - pip" in recipe
     assert (
         "sha256: 82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de"
         in recipe

@@ -60,11 +60,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
         visual review in PR #529.
         The signed v2.0.0 GitHub, PyPI, TestPyPI, crates.io, provenance, SBOM,
         clean-install, and Software Heritage evidence is complete.
+        The conda-forge recipe now requests the full supported Python 3.12+
+        compiled matrix and tests the installed Rust core and a known EVPI
+        result; hosted review and merge evidence remain external.
         Author-confirmed AI attestation, final human source verification,
         and the external engagement record remain open. The release-bound PDF
         has passed its hosted build and six-page visual review. Conda-forge PR
-        #34308 has green lint and cross-platform builds and is under external
-        review.
+        #34308 is under external review.
     *   The authenticated arXiv account was rechecked on 26 July 2026:
         submission `7861466` is absent from the active-submission table.
         Replacement `7870358` is an incomplete start-stage draft expiring

@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-26T12:49:21Z",
-  "next_action": "Obtain the author's complete AI-policy attestation, document completed research-workflow use, and obtain genuine human engagement through issue #471 or another attributable route. Complete replacement arXiv submission 7870358 through the author-controlled category and licence choices, then record its permanent identifier before direct JOSS submission. Monitor conda-forge PR 34308 for external review and merge. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 has green lint and Linux, macOS, and Windows builds but awaits external review and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft expiring 9 August 2026 and is not completed submission evidence. Demonstrated research use is a JOSS pre-review gate. Human community engagement is a detailed-review criterion, strong positive pre-review signal, and author-selected prerequisite. Author AI attestation, arXiv completion and announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-07-26T23:38:33Z",
+  "next_action": "Verify the corrected Python 3.12+ compiled matrix and installed Rust-core smoke checks on conda-forge PR 34308, then request external review and monitor merge/feedstock creation. Obtain the author's complete AI-policy attestation, document completed research-workflow use, and obtain genuine human engagement through issue #471 or another attributable route. Complete replacement arXiv submission 7870358 through the author-controlled category and licence choices, then record its permanent identifier before direct JOSS submission. Julia General, R registry, and SciCrunch/RRID remain separate paths.",
+  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, and release-bound JOSS PDF review are complete. Conda-forge PR 34308 passed its initial lint and Linux, macOS, and Windows builds, but every initial artifact was Python 3.12-only; the corrected Python 3.12+ build matrix and installed Rust-core smoke checks require hosted verification before external review and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft expiring 9 August 2026 and is not completed submission evidence. Demonstrated research use is a JOSS pre-review gate. Human community engagement is a detailed-review criterion, strong positive pre-review signal, and author-selected prerequisite. Author AI attestation, arXiv completion and announcement, Julia General, CRAN/r-universe, SciCrunch curation, RRID assignment, direct JOSS submission, and JOSS editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -186,7 +186,7 @@
       "runner": "GitHub Actions and conda-forge staged-recipes",
       "status": "submitted_external_review",
       "artifact": "https://github.com/conda-forge/staged-recipes/pull/34308",
-      "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe; conda-forge lint and Linux, macOS, and Windows builds pass. Maintainer review, merge, feedstock creation, and channel indexing remain external."
+      "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe; initial conda-forge lint and Linux, macOS, and Windows builds passed, but every artifact was Python 3.12-only. A corrected Python 3.12+ variant matrix plus installed Rust-core and known-result smoke checks are being verified before maintainer review, merge, feedstock creation, and channel indexing."
     }
   ]
 }
