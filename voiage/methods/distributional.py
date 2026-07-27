@@ -1,9 +1,12 @@
 """Distributional and equity-weighted VOI calculations."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
@@ -31,6 +34,48 @@ class DistributionalEquityResult:
     method_maturity: str
     diagnostics: dict[str, object]
     reporting: dict[str, object]
+
+
+@dataclass(frozen=True)
+class DistributionalInformationResult:
+    """Value of resolving uncertainty about the distribution family."""
+
+    value: float
+    family_optimal_values: dict[str, float]
+    family_optimal_strategy_indices: dict[str, int]
+    baseline_optimal_value: float
+    baseline_optimal_strategy_index: int
+
+
+def value_of_distributional_information(
+    distribution_families: "Mapping[str, np.ndarray]",
+    family_weights: "Mapping[str, float] | None" = None,
+) -> DistributionalInformationResult:
+    """Calculate VDI across alternative distribution-family net-benefit draws."""
+    if not distribution_families:
+        raise_input_error("At least one distribution family is required.")
+    names = sorted(distribution_families)
+    arrays = {name: np.asarray(distribution_families[name], dtype=DEFAULT_DTYPE) for name in names}
+    if any(array.ndim != 2 or array.shape[1] == 0 for array in arrays.values()):
+        raise_input_error("Each distribution family must be a non-empty 2D array.")
+    strategy_count = next(iter(arrays.values())).shape[1]
+    if any(array.shape[1] != strategy_count or not np.all(np.isfinite(array)) for array in arrays.values()):
+        raise_input_error("Distribution families must have matching finite strategies.")
+    weights = np.asarray([float((family_weights or {}).get(name, 1.0)) for name in names])
+    if np.any(weights < 0) or float(weights.sum()) <= 0:
+        raise_input_error("Family weights must be non-negative and sum positively.")
+    weights /= weights.sum()
+    means = np.asarray([arrays[name].mean(axis=0) for name in names])
+    baseline_means = np.average(means, axis=0, weights=weights)
+    family_values = means.max(axis=1)
+    value = max(0.0, float(np.dot(weights, family_values) - baseline_means.max()))
+    return DistributionalInformationResult(
+        value=value,
+        family_optimal_values={name: float(family_values[i]) for i, name in enumerate(names)},
+        family_optimal_strategy_indices={name: int(np.argmax(means[i])) for i, name in enumerate(names)},
+        baseline_optimal_value=float(baseline_means.max()),
+        baseline_optimal_strategy_index=int(np.argmax(baseline_means)),
+    )
 
 
 def _validate_distributional_inputs(
