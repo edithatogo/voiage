@@ -10,6 +10,7 @@ import pytest
 from scripts.validate_submission_readiness import (
     validate_contract,
     validate_pyopensci_evidence,
+    validate_ropensci_evidence,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -75,6 +76,15 @@ def test_pyopensci_matrix_closes_repository_criteria_only() -> None:
 
     assert summary["criterion_count"] >= 10
     assert summary["deferred"] == ["external-inquiry", "maintainer-commitment"]
+
+
+def test_ropensci_matrix_keeps_repository_blockers_explicit() -> None:
+    summary = validate_ropensci_evidence(
+        ROOT / "specs" / "submission-readiness" / "ropensci-evidence.json", ROOT
+    )
+
+    assert summary["criterion_count"] >= 10
+    assert summary["statuses"]["self-contained-installation"] == "repository_blocked"
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(
