@@ -58,7 +58,7 @@
     "exact_reviewed_immutable_archive": "ready"
   },
   "external_gates": {
-    "demonstrated_research_use": "pending",
+    "demonstrated_research_use": "ready",
     "genuine_community_engagement_external_use_or_collaborative_input": "pending",
     "joss_submission": "not_started",
     "joss_editorial_screening_review_and_acceptance": "not_started"
@@ -72,7 +72,7 @@
     }
   },
   "human_gates": [
-    "confirm the complete AI-use attestation and best-available historical model inventory",
+    "review the recorded AI-use attestation and best-available historical model inventory",
     "verify every cited source against the claim it supports",
     "confirm authorship, funding, and competing interests",
     "perform JOSS submission and communicate personally with editors and reviewers"

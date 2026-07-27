@@ -194,13 +194,13 @@ analytical. All inputs and results are synthetic.](paper/figures/synthetic_healt
 
 A related health-economic project by the same author publishes versioned input
 and expected-result formats designed to work with `voiage`
-[@vop_poc_nz2026]. This is a concrete exchange and verification case, but not
-independent adoption or completed research use. The fixed-seed example,
-equations, sensitivity data, and regeneration command provide material with
-which another researcher can check the calculations and evaluate whether the
-exchange format suits a real analysis. Development has been public since July
-2025. Completed research-workflow use and engagement by non-authors have not
-yet been documented.
+[@vop_poc_nz2026]. A released-package run calculated EVPI for its
+HPV-vaccination model. This is completed
+developer research use, not independent adoption or a policy estimate. The
+fixed-seed example, equations, sensitivity data, and regeneration command give
+another researcher material to check the calculations and assess the exchange
+format for a real analysis. Development has been public since July 2025;
+engagement by non-authors has not yet been documented.
 
 # AI usage disclosure
 

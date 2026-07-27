@@ -311,7 +311,7 @@
     {
       "id": "impact-boundary",
       "section": "Research impact statement",
-      "statement": "This is a concrete exchange and verification case, but not independent adoption or completed research use.",
+      "statement": "This is completed developer research use, not independent adoption or a policy estimate.",
       "status": "bounded",
       "citation_keys": [
         "vop_poc_nz2026"
@@ -330,7 +330,7 @@
     {
       "id": "public-development-boundary",
       "section": "Research impact statement",
-      "statement": "Development has been public since July 2025. Completed research-workflow use and engagement by non-authors have not yet been documented.",
+      "statement": "Development has been public since July 2025; engagement by non-authors has not yet been documented.",
       "status": "bounded",
       "evidence": [
         {
@@ -530,7 +530,7 @@
     {
       "id": "clean-regeneration",
       "section": "Research impact statement",
-      "statement": "The fixed-seed example, equations, sensitivity data, and regeneration command provide material with which another researcher can check the calculations and evaluate whether the exchange format suits a real analysis.",
+      "statement": "The fixed-seed example, equations, sensitivity data, and regeneration command give another researcher material to check the calculations and assess the exchange format for a real analysis.",
       "status": "verified",
       "evidence": [
         {

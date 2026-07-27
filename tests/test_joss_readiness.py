@@ -214,7 +214,12 @@ def test_joss_readiness_distinguishes_use_gate_from_engagement_signal() -> None:
         (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
     )
 
-    assert readiness["external_gates"]["demonstrated_research_use"] == "pending"
+    assert readiness["external_gates"]["demonstrated_research_use"] == "ready"
+    developer_use = json.loads(
+        (ROOT / "paper/joss-developer-research-use.json").read_text(encoding="utf-8")
+    )
+    assert developer_use["published_package"]["version"] == "2.0.0"
+    assert developer_use["analysis"]["draws"] == 500
     assert (
         readiness["author_project_sequence"][
             "community_engagement_before_joss_submission"

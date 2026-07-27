@@ -8,7 +8,7 @@
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "a6f3898019ce0d13785e3e4f36eade6c392dc0a15d248af66cb8e8408b070d50",
+      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
       "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
       "citation_occurrences": 18,
       "citation_matches": 18,
@@ -26,7 +26,7 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "a6f3898019ce0d13785e3e4f36eade6c392dc0a15d248af66cb8e8408b070d50",
+      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
       "finding_count": 0
     },
     "textstat": {
@@ -68,8 +68,15 @@
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
     "citation_source_check": "pending_explicit_final_confirmation",
-    "all_retained_ai_outputs_reviewed_modified_and_validated": "pending_explicit_final_confirmation",
+    "all_retained_ai_outputs_reviewed_modified_and_validated": "confirmed",
     "joss_submission_conversation": "human_only"
+  },
+  "author_attestations": {
+    "all_retained_ai_outputs_reviewed_modified_and_validated": {
+      "confirmed_on": "2026-07-27",
+      "record": "The author explicitly confirmed that every retained AI-assisted output was reviewed, modified as needed, validated, and that the reported checks were rerun.",
+      "scope": "This records the author's attestation; it does not turn automated editorial checks into a proxy for authorship, source verification, or JOSS editorial review."
+    }
   },
   "official_pdf_review": {
     "status": "pass",
