@@ -85,6 +85,21 @@ def test_supply_chain_workflow_has_clean_reproducible_artifact_gate() -> None:
     assert "if-no-files-found: error" in workflow
 
 
+def test_landscape_freshness_workflow_enforces_claim_projections() -> None:
+    """Registry claims must stay synchronized with code and public evidence."""
+    workflow = (ROOT / ".github/workflows/voi-landscape-freshness.yml").read_text(
+        encoding="utf-8"
+    )
+
+    for command in (
+        "generate_method_evidence_registry.py --check",
+        "generate_method_implementation_evidence.py --check",
+        "generate_upstream_feature_evidence.py --check",
+        "generate_voi_feature_matrix.py --check",
+    ):
+        assert command in workflow
+
+
 def test_quality_tool_dispositions_are_unique_and_evidence_backed() -> None:
     """Every retained or consolidated tool has a unique, checked disposition."""
     payload = _registry()
