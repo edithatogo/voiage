@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.
+- Update the pinned OpenSSF Scorecard action to v2.4.4 so its v5.5 scanner
+  applies the repository's documented OSV exceptions.
 - Wired built-in Croissant and Frictionless providers through verified,
   content-addressed materialization so declared SHA-256 resources can replay
   offline; Frictionless now verifies supported `hash` and `bytes` declarations.
