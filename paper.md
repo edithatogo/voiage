@@ -170,7 +170,7 @@ model of how practice changes, and the example does not recommend a real study.
 
 The [sensitivity table](paper/data/synthetic_health_example_sensitivity.csv)
 varies outcome variability, population, study cost, delay, and value
-realisation. Figure \autoref{fig:health-example} summarises the results. Panel C
+realisation. \autoref{fig:health-example} summarises the results. Panel C
 shows conditional scenarios, not uncertainty intervals.
 
 ![Worked health example. In panel A, the vertical line marks 50,000 value units

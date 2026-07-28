@@ -12,10 +12,10 @@ are working correctly, including:
 - CLI functionality
 """
 
-import subprocess
-import sys
 import os
 from pathlib import Path
+import subprocess
+import sys
 
 
 def run_command(cmd, description="", check=True):
@@ -23,9 +23,9 @@ def run_command(cmd, description="", check=True):
     print(f"Running: {description or cmd}")
     try:
         result = subprocess.run(
-            cmd, 
-            shell=True, 
-            capture_output=True, 
+            cmd,
+            shell=True,
+            capture_output=True,
             text=True,
             cwd=os.getcwd()
         )
@@ -47,12 +47,12 @@ def run_command(cmd, description="", check=True):
 def main():
     """Run all validation checks."""
     print("=== voiage Enhancement Validation ===\n")
-    
+
     # Change to the project directory
     project_dir = str(Path(__file__).resolve().parent)
     os.chdir(project_dir)
     print(f"Working in: {project_dir}\n")
-    
+
     # 1. Test package imports
     print("1. Testing package imports...")
     if not run_command(
@@ -60,7 +60,7 @@ def main():
         "Package import validation"
     ):
         return 1
-    
+
     # 2. Test CLI functionality
     print("\n2. Testing CLI functionality...")
     if not run_command(
@@ -68,7 +68,7 @@ def main():
         "CLI help command"
     ):
         return 1
-    
+
     # 3. Test that security tools are available
     print("\n3. Testing security tools...")
     if not run_command(
@@ -76,7 +76,7 @@ def main():
         "Safety import validation"
     ):
         return 1
-    
+
     # 4. Test that ruff is available
     print("\n4. Testing code quality tools...")
     if not run_command(
@@ -84,21 +84,21 @@ def main():
         "Ruff version check"
     ):
         return 1
-    
+
     # 5. Test that mypy is available
     if not run_command(
         "mypy --version",
         "MyPy version check"
     ):
         return 1
-    
+
     # 6. Test that bandit is available
     if not run_command(
         "bandit --version",
         "Bandit version check"
     ):
         return 1
-    
+
     # 7. Test tox environments
     print("\n5. Testing tox environments...")
     if not run_command(
@@ -106,7 +106,7 @@ def main():
         "Tox safety environment configuration"
     ):
         return 1
-    
+
     # 8. Test security scanning
     print("\n6. Testing security scanning...")
     if not run_command(
@@ -114,21 +114,21 @@ def main():
         "Tox security environment configuration"
     ):
         return 1
-    
+
     # 9. Test linting
     if not run_command(
         "tox -e lint --showconfig",
         "Tox lint environment configuration"
     ):
         return 1
-    
+
     # 10. Test type checking
     if not run_command(
         "tox -e typecheck --showconfig",
         "Tox typecheck environment configuration"
     ):
         return 1
-    
+
     # 11. Test that configuration files are valid
     print("\n7. Testing configuration file validity...")
     if not run_command(
@@ -136,14 +136,14 @@ def main():
         "GitHub Actions workflow validation"
     ):
         return 1
-    
+
     # 12. Test that pyproject.toml is valid
     if not run_command(
         "python -c 'import tomli; tomli.load(open(\"pyproject.toml\", \"rb\")); print(\"pyproject.toml is valid TOML\")'",
         "pyproject.toml validation"
     ):
         return 1
-    
+
     # 13. Test that the package can be built
     print("\n8. Testing package build...")
     if not run_command(
@@ -152,7 +152,7 @@ def main():
         check=False  # Allow this to fail if build tools aren't installed
     ):
         print("⚠️  Package build test skipped (build tools not available)")
-    
+
     # 14. Test bibliography validation
     print("\n9. Testing bibliography validation...")
     if not run_command(
@@ -160,7 +160,7 @@ def main():
         "Bibliography validation and enrichment"
     ):
         return 1
-    
+
     print("\n🎉 All validation checks passed!")
     print("The voiage repository enhancements are working correctly.")
     return 0
