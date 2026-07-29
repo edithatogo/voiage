@@ -14,6 +14,25 @@ and explicit table schemas. Remote URLs, archive extraction, implicit
 column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
+## Support matrix
+
+| Input surface | Supported profile | Explicit boundary |
+| --- | --- | --- |
+| Croissant ML | Croissant 1.1, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, and non-CSV media types are rejected. |
+| Frictionless Data Package | One or more explicitly schematized comma-delimited CSV resources, declared primitive types, keys, and supported foreign keys | Remote/live resources, archives, custom dialects, unsupported formats, transforms, and undeclared or ambiguous resources are rejected. |
+| Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
+| Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
+
+The built-in providers use only the base Arrow/JSON runtime. The named
+`croissant`, `frictionless`, and `ingestion` extras are stable installation
+surfaces for optional future validators; installing any of them does not add a
+new calculation engine or cause a provider to be imported eagerly.
+
+Authoritative live interoperability probes are deliberately opt-in and are not
+claimed by this local-profile matrix. A successful offline descriptor test is
+evidence for the documented profile only, not for every upstream feature or
+registry deployment.
+
 ```bash
 voiage ingest validate datapackage.json
 voiage ingest inspect croissant.json
