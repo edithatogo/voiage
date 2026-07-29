@@ -160,8 +160,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 6 — Ship the user-facing product surface (#332)
 
-- [ ] **P6-T1 / AC-07:** Write failing Python API, CLI help, exit-code,
-  diagnostic-redaction, and clean-install tests.
+- [~] **P6-T1 / AC-07:** Write failing Python API, CLI help, exit-code,
+  diagnostic-redaction, and clean-install tests. The CLI now explicitly proves
+  that a rejected credential-bearing descriptor URI is redacted at the
+  user-facing boundary (partial: complete Phase 6 acceptance reconciliation
+  remains active).
 - [ ] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
   `ingestion` extras.
 - [ ] **P6-T3 / AC-07:** Implement `ingest validate`, `ingest inspect`,

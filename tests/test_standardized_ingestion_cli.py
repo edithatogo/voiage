@@ -165,6 +165,32 @@ def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> 
     assert "exactly one" in validated.output
 
 
+def test_ingest_cli_redacts_credentials_from_rejected_resource_uris(tmp_path) -> None:
+    """User-facing diagnostics must not disclose credentials in a descriptor."""
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [
+                    {"contentUrl": "ssh://user:super-secret@example.invalid/data.csv"}
+                ],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
+
+    assert result.exit_code == 2
+    assert "network resource access is disabled" in result.output
+    assert "super-secret" not in result.output
+    assert "example.invalid" not in result.output
+
+
 def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
     descriptor = tmp_path / "unknown.json"
     descriptor.write_text("{}", encoding="utf-8")

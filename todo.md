@@ -75,6 +75,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         active under Phase 5.
     *   Canonical cross-format preparation now asserts identical NumPy and
         xarray compute-facing views without introducing a second runtime path.
+    *   CLI validation now has a credential-redaction regression contract for
+        rejected descriptor resource URIs.
 
 ## Completed public documentation
 
