@@ -246,6 +246,13 @@ def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
         model.fit(x, y)
         y_pred = model.predict(x)
         assert y_pred.shape == (100,)  # GP model outputs shape
+
+        r2 = model.score(x, y)
+        assert isinstance(r2, float)
+
+        rmse = model.rmse(x, y)
+        assert isinstance(rmse, float)
+        assert rmse >= 0
     except ImportError:
         # This is expected if dependencies are missing
         pass
@@ -332,7 +339,25 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
     # Test with FlaxMetamodel if available
     try:
         model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
+
+        # Test error conditions before fitting
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.score(x, y)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.rmse(x, y)
+
         model.fit(x, y)
+
+        # Test score and rmse methods
+        score = model.score(x, y)
+        assert isinstance(score, float)
+        assert score <= 1.0
+
+        rmse = model.rmse(x, y)
+        assert isinstance(rmse, float)
+        assert rmse >= 0.0
+
         # This should work even if FlaxMetamodel doesn't implement score/rmse
         # because calculate_diagnostics will compute them manually
         diagnostics = calculate_diagnostics(model, x, y)

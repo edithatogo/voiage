@@ -21,4 +21,3 @@ reference pages.
    ceaf
    dominance
    heterogeneity
-

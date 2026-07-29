@@ -105,4 +105,3 @@ If a method is not yet part of the stable core surface, keep the contract
 explicit and documented as experimental in the user-facing guide. This page is
 reserved for the stable methods that contributors can extend without changing
 their public contract shape.
-

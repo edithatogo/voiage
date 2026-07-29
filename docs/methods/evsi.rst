@@ -11,4 +11,3 @@ See also:
 
 - `docs/user_guide/features/advanced_voi.md`
 - `docs/api_reference/voiage.methods.rst`
-

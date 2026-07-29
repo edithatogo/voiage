@@ -4,7 +4,6 @@ The repository still uses tox as the CI source of truth, but Nox provides a
 uv-backed local runner with the same core sessions.
 """
 
-from __future__ import annotations
 
 import nox
 
@@ -49,7 +48,9 @@ def lint(session: nox.Session) -> None:
     _sync_project(session)
     session.run("ruff", "check", "voiage", "tests", "--fix", "--exit-non-zero-on-fix")
     session.run("ruff", "format", "voiage", "tests", "--check")
-    session.run("bandit", "-r", "voiage", "-s", "B101,B110,B405,B314", "-c", "pyproject.toml")
+    session.run(
+        "bandit", "-r", "voiage", "-s", "B101,B110,B405,B314", "-c", "pyproject.toml"
+    )
 
 
 @nox.session
@@ -95,7 +96,9 @@ def typecheck(session: nox.Session) -> None:
 def docs(session: nox.Session) -> None:
     """Build the Sphinx documentation."""
     _sync_project(session)
-    session.run("sphinx-build", "-W", "-b", "html", "docs", "docs/_build/html", *session.posargs)
+    session.run(
+        "sphinx-build", "-W", "-b", "html", "docs", "docs/_build/html", *session.posargs
+    )
 
 
 @nox.session

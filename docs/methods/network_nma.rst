@@ -8,4 +8,3 @@ See also:
 
 - `docs/user_guide/features/network_nma.md`
 - `docs/sota_voi_frontier.md`
-

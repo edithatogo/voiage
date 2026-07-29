@@ -108,7 +108,7 @@ The main user and developer references are:
 
 The academic paper describing the `voiage` library is maintained in the `paper` branch of this repository. For detailed methodological information, mathematical foundations, and comprehensive validation, please refer to:
 
-- Paper source files in the `paper` branch 
+- Paper source files in the `paper` branch
 - Published version in the Journal of Statistical Software (forthcoming)
 
 ## Installation

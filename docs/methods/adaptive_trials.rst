@@ -8,4 +8,3 @@ See also:
 
 - `docs/sota_voi_frontier.md`
 - `docs/user_guide/features/advanced_voi.md`
-

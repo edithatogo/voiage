@@ -42,7 +42,7 @@
 
 ## Documentation (Current)
 - **Starlight**: >=0.32.0 — Primary documentation framework (Astro-based, MDX)
-- **@astrojs/starlight**: Docs framework with built-in search (Pagefind), 
+- **@astrojs/starlight**: Docs framework with built-in search (Pagefind),
   i18n, and MDX support — **replaces Sphinx**
 - **starlight-versions**: >=0.4.0 — Versioned documentation navigation
 - **starlight-links-validator**: >=0.14.0 — Broken-link validation in CI

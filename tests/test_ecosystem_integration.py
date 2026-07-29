@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -100,6 +101,16 @@ def test_treeage_export_writes_treatment_nodes(tmp_path: Path) -> None:
     assert "Drug A" in xml_text
     assert "Standard Care" in xml_text
     assert "<node" in xml_text
+
+
+def test_treeage_export_exception(tmp_path: Path) -> None:
+    """TreeAge export should warn on failure."""
+    connector = TreeAgeConnector()
+    output_path = tmp_path / "treeage_out.xml"
+
+    with patch("pathlib.Path.write_text", side_effect=Exception("Disk full")):
+        with pytest.warns(UserWarning, match="Error exporting to TreeAge: Disk full"):
+            connector.export_to_treeage(_build_analysis(), str(output_path))
 
 
 def test_rpackage_import_helpers_round_trip_json(tmp_path: Path) -> None:

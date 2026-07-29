@@ -73,7 +73,7 @@ def custom_value_calculator(study):
     return study.value * 1.2  # Example adjustment
 
 optimal_portfolio = portfolio_voi(
-    portfolio_spec, 
+    portfolio_spec,
     study_value_calculator=custom_value_calculator
 )
 ```

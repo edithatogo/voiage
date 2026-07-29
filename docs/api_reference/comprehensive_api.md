@@ -35,45 +35,45 @@ class DecisionAnalysis:
     def __init__(self, nb_array: ValueArray, parameter_samples: ParameterSet):
         """
         Initialize a DecisionAnalysis object.
-        
+
         Args:
             nb_array: ValueArray containing net benefits for each strategy and sample
             parameter_samples: ParameterSet containing parameter samples for PSA
         """
         pass
-    
+
     def evpi(self) -> float:
         """
         Calculate Expected Value of Perfect Information (EVPI).
-        
+
         Returns:
             float: EVPI value
         """
         pass
-    
+
     def evppi(self, parameter_names: Optional[Union[str, List[str]]] = None) -> float:
         """
         Calculate Expected Value of Partial Perfect Information (EVPPI).
-        
+
         Args:
             parameter_names: Name or list of parameter names for which to calculate EVPPI.
                            If None, calculates EVPPI for all parameters.
-        
+
         Returns:
             float: EVPPI value
         """
         pass
-    
-    def evsi(self, parameter_names: Union[str, List[str]], 
+
+    def evsi(self, parameter_names: Union[str, List[str]],
              sample_size: int, n_inner_loops: int = 100) -> float:
         """
         Calculate Expected Value of Sample Information (EVSI).
-        
+
         Args:
             parameter_names: Name or list of parameter names for which to calculate EVSI
             sample_size: Sample size for the proposed study
             n_inner_loops: Number of inner loops for Monte Carlo simulation
-        
+
         Returns:
             float: EVSI value
         """
@@ -91,21 +91,21 @@ class ValueArray:
     def __init__(self, dataset: xr.Dataset):
         """
         Initialize a ValueArray object.
-        
+
         Args:
             dataset: xarray Dataset containing net benefit values
         """
         pass
-    
+
     @classmethod
     def from_numpy(cls, values: np.ndarray, strategy_names: List[str]) -> 'ValueArray':
         """
         Create a ValueArray from numpy array.
-        
+
         Args:
             values: 2D numpy array of shape (n_samples, n_strategies)
             strategy_names: List of strategy names
-        
+
         Returns:
             ValueArray: New ValueArray object
         """
@@ -119,20 +119,20 @@ class ParameterSet:
     def __init__(self, parameters: Dict[str, np.ndarray]):
         """
         Initialize a ParameterSet object.
-        
+
         Args:
             parameters: Dictionary mapping parameter names to numpy arrays of samples
         """
         pass
-    
+
     @classmethod
     def from_numpy_or_dict(cls, data: Union[Dict[str, np.ndarray], np.ndarray]) -> 'ParameterSet':
         """
         Create a ParameterSet from numpy array or dictionary.
-        
+
         Args:
             data: Dictionary of parameter arrays or numpy array
-        
+
         Returns:
             ParameterSet: New ParameterSet object
         """
@@ -168,10 +168,10 @@ Basic VOI calculation methods.
 def evpi(nb_array: ValueArray) -> float:
     """
     Calculate Expected Value of Perfect Information (EVPI).
-    
+
     Args:
         nb_array: ValueArray containing net benefits for each strategy and sample
-    
+
     Returns:
         float: EVPI value
     """
@@ -181,17 +181,17 @@ def evpi(nb_array: ValueArray) -> float:
 #### evppi
 
 ```python
-def evppi(nb_array: ValueArray, parameter_samples: ParameterSet, 
+def evppi(nb_array: ValueArray, parameter_samples: ParameterSet,
           parameter_names: Optional[Union[str, List[str]]] = None) -> float:
     """
     Calculate Expected Value of Partial Perfect Information (EVPPI).
-    
+
     Args:
         nb_array: ValueArray containing net benefits for each strategy and sample
         parameter_samples: ParameterSet containing parameter samples for PSA
         parameter_names: Name or list of parameter names for which to calculate EVPPI.
                         If None, calculates EVPPI for all parameters.
-    
+
     Returns:
         float: EVPPI value
     """
@@ -215,7 +215,7 @@ def evsi_regression(
 ) -> float:
     """
     Calculate Expected Value of Sample Information (EVSI) using regression-based method.
-    
+
     Args:
         nb_array: ValueArray containing net benefits for each strategy and sample
         parameter_samples: ParameterSet containing parameter samples for PSA
@@ -223,7 +223,7 @@ def evsi_regression(
         sample_size: Sample size for the proposed study
         n_inner_loops: Number of inner loops for Monte Carlo simulation
         **kwargs: Additional arguments
-    
+
     Returns:
         float: EVSI value
     """
@@ -244,7 +244,7 @@ def evsi_two_loop(
 ) -> float:
     """
     Calculate Expected Value of Sample Information (EVSI) using two-loop Monte Carlo method.
-    
+
     Args:
         nb_array: ValueArray containing net benefits for each strategy and sample
         parameter_samples: ParameterSet containing parameter samples for PSA
@@ -253,7 +253,7 @@ def evsi_two_loop(
         n_outer_loops: Number of outer loops for Monte Carlo simulation
         n_inner_loops: Number of inner loops for Monte Carlo simulation
         **kwargs: Additional arguments
-    
+
     Returns:
         float: EVSI value
     """
@@ -280,7 +280,7 @@ def evsi_nma(
 ) -> float:
     """
     Calculate the Expected Value of Sample Information for a new study in the context of a Network Meta-Analysis (EVSI-NMA).
-    
+
     Args:
         nma_model_evaluator: A complex callable that encapsulates the NMA and subsequent economic evaluation
         psa_prior_nma: PSA samples representing current (prior) uncertainty about all relevant parameters
@@ -291,7 +291,7 @@ def evsi_nma(
         n_outer_loops: Number of outer loops for Monte Carlo simulation
         n_inner_loops: Number of inner loops for Monte Carlo simulation
         **kwargs: Additional arguments for the NMA simulation or EVSI calculation method
-    
+
     Returns:
         float: The calculated EVSI-NMA value
     """
@@ -319,7 +319,7 @@ def adaptive_evsi(
 ) -> float:
     """
     Calculate the Expected Value of Sample Information for an adaptive trial design.
-    
+
     Args:
         adaptive_trial_simulator: A function that simulates an adaptive trial and evaluates outcomes
         psa_prior: PSA samples representing current (prior) uncertainty
@@ -331,7 +331,7 @@ def adaptive_evsi(
         n_outer_loops: Number of outer loops for Monte Carlo simulation
         n_inner_loops: Number of inner loops for Monte Carlo simulation
         **kwargs: Additional arguments
-    
+
     Returns:
         float: The calculated adaptive EVSI value
     """
@@ -358,7 +358,7 @@ def voi_calibration(
 ) -> float:
     """
     Calculate the Value of Information for data collected for Model Calibration.
-    
+
     Args:
         cal_study_modeler: A function that simulates the calibration data collection
         psa_prior: PSA samples representing current (prior) uncertainty
@@ -369,7 +369,7 @@ def voi_calibration(
         time_horizon: Time horizon for scaling
         n_outer_loops: Number of outer loops for Monte Carlo simulation
         **kwargs: Additional arguments
-    
+
     Returns:
         float: The calculated VOI for the calibration study
     """
@@ -396,7 +396,7 @@ def voi_observational(
 ) -> float:
     """
     Calculate the Value of Information for collecting Observational Data (VOI-OS).
-    
+
     Args:
         obs_study_modeler: A function that simulates the collection of observational data
         psa_prior: PSA samples representing current (prior) uncertainty
@@ -407,7 +407,7 @@ def voi_observational(
         time_horizon: Time horizon for scaling
         n_outer_loops: Number of outer loops for Monte Carlo simulation
         **kwargs: Additional arguments
-    
+
     Returns:
         float: The calculated VOI for the observational study
     """
@@ -429,13 +429,13 @@ def portfolio_optimization(
 ) -> Dict[str, Any]:
     """
     Perform portfolio optimization.
-    
+
     Args:
         returns: Array of returns for different assets
         constraints: Optimization constraints
         risk_tolerance: Risk tolerance parameter
         method: Optimization method to use
-    
+
     Returns:
         Dict[str, Any]: Optimization results
     """
@@ -457,13 +457,13 @@ def sequential_voi(
 ) -> Dict[str, Any]:
     """
     Calculate sequential VOI over a decision horizon.
-    
+
     Args:
         decision_model: Function that evaluates decisions over time
         parameter_samples: ParameterSet containing parameter samples
         decision_horizon: Number of decision periods
         discount_rate: Discount rate for future values
-    
+
     Returns:
         Dict[str, Any]: Sequential VOI results
     """
@@ -484,12 +484,12 @@ def structural_voi(
 ) -> float:
     """
     Calculate structural VOI for model uncertainty.
-    
+
     Args:
         model_family: List of alternative model structures
         parameter_samples: ParameterSet containing parameter samples
         model_weights: Weights for different models
-    
+
     Returns:
         float: Structural VOI value
     """
@@ -508,11 +508,11 @@ Plotting functions for VOI analysis.
 def ceac(nb_array: ValueArray, wtp_range: Optional[np.ndarray] = None) -> plt.Figure:
     """
     Plot Cost-Effectiveness Acceptability Curve (CEAC).
-    
+
     Args:
         nb_array: ValueArray containing net benefits
         wtp_range: Range of willingness-to-pay values
-    
+
     Returns:
         plt.Figure: CEAC plot
     """
@@ -525,11 +525,11 @@ def ceac(nb_array: ValueArray, wtp_range: Optional[np.ndarray] = None) -> plt.Fi
 def voi_curves(sample_sizes: np.ndarray, voi_values: np.ndarray) -> plt.Figure:
     """
     Plot VOI curves showing value as a function of sample size.
-    
+
     Args:
         sample_sizes: Array of sample sizes
         voi_values: Array of corresponding VOI values
-    
+
     Returns:
         plt.Figure: VOI curves plot
     """
@@ -551,13 +551,13 @@ def fit_metamodel(
 ) -> Any:
     """
     Fit a metamodel to approximate complex simulation models.
-    
+
     Args:
         parameter_samples: ParameterSet containing input parameter samples
         output_values: Array of output values from simulation model
         method: Metamodeling method to use
         **kwargs: Additional arguments for the metamodeling method
-    
+
     Returns:
         Any: Fitted metamodel
     """

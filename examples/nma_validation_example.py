@@ -24,24 +24,24 @@ from voiage.schema import ParameterSet, TrialDesign, DecisionOption
 def generate_nma_data(n_samples=1000):
     """
     Generate synthetic NMA data for a network of treatments.
-    
+
     Parameters:
     n_samples (int): Number of Monte Carlo samples
-    
+
     Returns:
     ParameterSet: Parameter samples for NMA
     """
     np.random.seed(42)
-    
+
     # Generate uncertain parameters for a network with 3 treatments
     # Treatment effects relative to reference treatment (Treatment A)
     te_treatment_b = np.random.normal(loc=0.15, scale=0.05, size=n_samples)  # Treatment B vs A
     te_treatment_c = np.random.normal(loc=0.25, scale=0.05, size=n_samples)  # Treatment C vs A
-    
+
     # Baseline parameters
     baseline_cost = np.random.normal(loc=1000, scale=100, size=n_samples)  # Baseline cost
     effectiveness_slope = np.random.normal(loc=0.8, scale=0.1, size=n_samples)  # Effectiveness slope
-    
+
     # Create parameter dictionary
     parameters = {
         "te_treatment_b": te_treatment_b,
@@ -49,7 +49,7 @@ def generate_nma_data(n_samples=1000):
         "baseline_cost": baseline_cost,
         "effectiveness_slope": effectiveness_slope
     }
-    
+
     return ParameterSet.from_numpy_or_dict(parameters)
 
 
@@ -61,10 +61,10 @@ def nma_voi_analysis():
     print("=" * 50)
     print("EVSI-NMA Validation Analysis")
     print()
-    
+
     # Generate data
     parameter_set = generate_nma_data(n_samples=1000)
-    
+
     # Define trial design for new study
     trial_arms = [
         DecisionOption(name="Treatment A", sample_size=100),
@@ -72,7 +72,7 @@ def nma_voi_analysis():
         DecisionOption(name="Treatment C", sample_size=100)
     ]
     trial_design = TrialDesign(arms=trial_arms)
-    
+
     # Calculate EVSI-NMA using the sophisticated NMA model evaluator
     evsi_value = evsi_nma(
         nma_model_evaluator=sophisticated_nma_model_evaluator,
@@ -81,12 +81,12 @@ def nma_voi_analysis():
         n_outer_loops=20,
         n_inner_loops=50
     )
-    
+
     print(f"Expected Value of Sample Information for NMA (EVSI-NMA): ${evsi_value:,.0f}")
     print("  This is the maximum amount that should be willing to pay for the")
     print("  proposed new study to inform the network meta-analysis.")
     print()
-    
+
     # Show parameter statistics
     print("Parameter Uncertainty Summary:")
     print(f"  Treatment B effect vs A: {np.mean(parameter_set.parameters['te_treatment_b']):.3f} ± {np.std(parameter_set.parameters['te_treatment_b']):.3f}")
@@ -94,7 +94,7 @@ def nma_voi_analysis():
     print(f"  Baseline cost: ${np.mean(parameter_set.parameters['baseline_cost']):,.0f} ± ${np.std(parameter_set.parameters['baseline_cost']):,.0f}")
     print(f"  Effectiveness slope: {np.mean(parameter_set.parameters['effectiveness_slope']):.2f} ± {np.std(parameter_set.parameters['effectiveness_slope']):.2f}")
     print()
-    
+
     # Validation comparison with established methods
     print("Validation Against Established Methods:")
     print("  This implementation follows the methodological framework described in:")
@@ -109,7 +109,7 @@ def nma_voi_analysis():
     print("  - Heterogeneity modeling through random effects")
     print("  - Consistency checking between direct and indirect evidence")
     print()
-    
+
     return evsi_value
 
 

@@ -23,4 +23,3 @@
   use the dependency graph directly.
 - [x] Task: Conductor - Automated Review And Checkpoint 'Phase 3: Record The
   Shared Gates' (Protocol in workflow.md)
-

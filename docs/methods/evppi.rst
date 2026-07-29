@@ -8,4 +8,3 @@ See also:
 
 - `docs/user_guide/features/basic_voi.md`
 - `docs/api_reference/voiage.methods.rst`
-

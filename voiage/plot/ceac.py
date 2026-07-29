@@ -5,13 +5,11 @@ import numpy as np
 # Attempt to import Matplotlib, but make it optional
 try:
     from matplotlib.axes import Axes
-    from matplotlib.figure import Figure
     import matplotlib.pyplot as plt
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:  # pragma: no cover
     MATPLOTLIB_AVAILABLE = False
-    Figure = None  # type: ignore
     Axes = None  # type: ignore
 
 from voiage.config import DEFAULT_DTYPE
@@ -27,17 +25,16 @@ def _calculate_prob_ce(
 ) -> np.ndarray:
     prob_ce = np.zeros((n_strategies, n_wtp_points), dtype=DEFAULT_DTYPE)
 
-    # For each WTP threshold
-    for w_idx in range(n_wtp_points):
-        nb_at_wtp = nb_values[:, :, w_idx]  # (n_samples, n_strategies)
-        # Identify the optimal strategy for each sample at this WTP
-        optimal_strategy_indices_at_wtp = np.argmax(nb_at_wtp, axis=1)  # (n_samples,)
+    # Identify the optimal strategy for each sample at each WTP threshold
+    # nb_values shape: (n_samples, n_strategies, n_wtp_points)
+    # optimal_indices shape: (n_samples, n_wtp_points)
+    optimal_indices = np.argmax(nb_values, axis=1)
 
-        # Count how many times each strategy was optimal
-        for s_idx in range(n_strategies):
-            prob_ce[s_idx, w_idx] = (
-                np.sum(optimal_strategy_indices_at_wtp == s_idx) / n_samples
-            )
+    # Count how many times each strategy was optimal
+    for s_idx in range(n_strategies):
+        # sum along axis 0 (n_samples) yields shape (n_wtp_points,)
+        prob_ce[s_idx, :] = np.sum(optimal_indices == s_idx, axis=0) / n_samples
+
     return prob_ce
 
 

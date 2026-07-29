@@ -18,7 +18,9 @@ def profile_evpi():
     n_simulations = 10_000
     n_strategies = 5
 
-    print(f"Profiling EVPI with {n_simulations} simulations, {n_strategies} strategies...")
+    print(
+        f"Profiling EVPI with {n_simulations} simulations, {n_strategies} strategies..."
+    )
     values = ValueArray.from_numpy(
         np.random.rand(n_simulations, n_strategies) * 1000,
         [f"Strategy {i}" for i in range(n_strategies)],
@@ -34,7 +36,9 @@ def profile_evppi():
     n_simulations = 10_000
     n_parameters = 10
 
-    print(f"Profiling EVPPI with {n_simulations} simulations, {n_parameters} parameters...")
+    print(
+        f"Profiling EVPPI with {n_simulations} simulations, {n_parameters} parameters..."
+    )
     parameters = ParameterSet.from_numpy_or_dict(
         {f"param_{i}": np.random.rand(n_simulations) for i in range(n_parameters)}
     )

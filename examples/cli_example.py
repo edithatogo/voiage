@@ -94,10 +94,10 @@ def run_with_output_example():
 if __name__ == "__main__":
     print("voiage CLI Usage Examples")
     print("========================")
-    
+
     # Run examples
     run_evpi_example()
     run_evppi_example()
     run_with_output_example()
-    
+
     print("\nExamples completed!")

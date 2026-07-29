@@ -134,14 +134,18 @@ def _validate_scalar(value: Any, schema: dict[str, Any], path: str) -> None:
 
     if schema.get("minimum") is not None and value < schema["minimum"]:
         raise ValidationError(f"{path}: value is below minimum")
-    if schema.get("exclusiveMinimum") is not None and value <= schema["exclusiveMinimum"]:
+    if (
+        schema.get("exclusiveMinimum") is not None
+        and value <= schema["exclusiveMinimum"]
+    ):
         raise ValidationError(f"{path}: value is not above exclusiveMinimum")
     if schema.get("maximum") is not None and value > schema["maximum"]:
         raise ValidationError(f"{path}: value is above maximum")
-    if schema.get("exclusiveMaximum") is not None and value >= schema["exclusiveMaximum"]:
-        raise ValidationError(
-            f"{path}: value is not below exclusiveMaximum"
-        )
+    if (
+        schema.get("exclusiveMaximum") is not None
+        and value >= schema["exclusiveMaximum"]
+    ):
+        raise ValidationError(f"{path}: value is not below exclusiveMaximum")
     if "enum" in schema and value not in schema["enum"]:
         raise ValidationError(f"{path}: value is not one of the allowed enum values")
 
@@ -352,21 +356,54 @@ def main() -> int:
         )
 
     checks = [
-        (SCHEMA_ROOT / "decision-problem.schema.json", EXAMPLE_ROOT / "decision-problem.example.json"),
-        (SCHEMA_ROOT / "intervention.schema.json", EXAMPLE_ROOT / "intervention.example.json"),
-        (SCHEMA_ROOT / "trial-design.schema.json", EXAMPLE_ROOT / "trial-design.example.json"),
-        (SCHEMA_ROOT / "parameter-set.schema.json", EXAMPLE_ROOT / "parameter-set.example.json"),
-        (SCHEMA_ROOT / "value-array.schema.json", EXAMPLE_ROOT / "value-array.example.json"),
-        (SCHEMA_ROOT / "diagnostics.schema.json", EXAMPLE_ROOT / "diagnostics.example.json"),
+        (
+            SCHEMA_ROOT / "decision-problem.schema.json",
+            EXAMPLE_ROOT / "decision-problem.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "intervention.schema.json",
+            EXAMPLE_ROOT / "intervention.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "trial-design.schema.json",
+            EXAMPLE_ROOT / "trial-design.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "parameter-set.schema.json",
+            EXAMPLE_ROOT / "parameter-set.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "value-array.schema.json",
+            EXAMPLE_ROOT / "value-array.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "diagnostics.schema.json",
+            EXAMPLE_ROOT / "diagnostics.example.json",
+        ),
         (
             SCHEMA_ROOT / "method-metadata.schema.json",
             EXAMPLE_ROOT / "method-metadata.example.json",
         ),
-        (SCHEMA_ROOT / "results" / "evpi.schema.json", EXAMPLE_ROOT / "evpi.example.json"),
-        (SCHEMA_ROOT / "results" / "evppi.schema.json", EXAMPLE_ROOT / "evppi.example.json"),
-        (SCHEMA_ROOT / "results" / "evsi.schema.json", EXAMPLE_ROOT / "evsi.example.json"),
-        (SCHEMA_ROOT / "results" / "enbs.schema.json", EXAMPLE_ROOT / "enbs.example.json"),
-        (SCHEMA_ROOT / "results" / "ceac.schema.json", EXAMPLE_ROOT / "ceac.example.json"),
+        (
+            SCHEMA_ROOT / "results" / "evpi.schema.json",
+            EXAMPLE_ROOT / "evpi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "evppi.schema.json",
+            EXAMPLE_ROOT / "evppi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "evsi.schema.json",
+            EXAMPLE_ROOT / "evsi.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "enbs.schema.json",
+            EXAMPLE_ROOT / "enbs.example.json",
+        ),
+        (
+            SCHEMA_ROOT / "results" / "ceac.schema.json",
+            EXAMPLE_ROOT / "ceac.example.json",
+        ),
     ]
 
     for schema_path, example_path in checks:

@@ -65,7 +65,7 @@ init_voiage <- function() {
 #' \dontrun{
 #' # Create sample net benefit data
 #' net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
-#' 
+#'
 #' # Calculate EVPI
 #' evpi_value <- evpi(net_benefits)
 #' print(evpi_value)
@@ -103,13 +103,13 @@ evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_
 #' \dontrun{
 #' # Create sample net benefit data
 #' net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
-#' 
+#'
 #' # Create parameter samples
 #' param_samples <- list(
 #'   param1 = rnorm(1000),
 #'   param2 = rnorm(1000)
 #' )
-#' 
+#'
 #' # Calculate EVPPI
 #' evppi_value <- evppi(net_benefits, param_samples)
 #' print(evppi_value)
@@ -176,19 +176,19 @@ evppi <- function(
 #'   nb_strategy2 <- params$param2
 #'   return(cbind(nb_strategy1, nb_strategy2))
 #' }
-#' 
+#'
 #' # Create prior samples
 #' prior_samples <- list(
 #'   param1 = rnorm(1000),
 #'   param2 = rnorm(1000)
 #' )
-#' 
+#'
 #' # Define trial design
 #' trial_design <- list(
 #'   treatment = list(name = "Treatment", sample_size = 50),
 #'   control = list(name = "Control", sample_size = 50)
 #' )
-#' 
+#'
 #' # Calculate EVSI
 #' evsi_value <- evsi(model_func, prior_samples, trial_design)
 #' print(evsi_value)
@@ -276,7 +276,7 @@ is_voiage_available <- function() {
 #' \dontrun{
 #' # Use a virtual environment
 #' set_voiage_env("myenv", type = "virtualenv")
-#' 
+#'
 #' # Use a conda environment
 #' set_voiage_env("myenv", type = "conda")
 #' }
