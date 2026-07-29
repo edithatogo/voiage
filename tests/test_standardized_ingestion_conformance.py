@@ -159,7 +159,9 @@ def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() 
         frictionless_prepared.binding_profile_digest
     )
     assert croissant_prepared.quality_report == frictionless_prepared.quality_report
-    assert [receipt.model_dump(mode="json") for receipt in croissant.manifest.resources] == [
+    assert [
+        receipt.model_dump(mode="json") for receipt in croissant.manifest.resources
+    ] == [
         receipt.model_dump(mode="json") for receipt in frictionless.manifest.resources
     ]
 
