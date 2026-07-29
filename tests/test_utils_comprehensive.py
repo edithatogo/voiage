@@ -252,12 +252,73 @@ class TestUtilsComplete:
         effects = np.array([[0.5, 0.6], [0.45, 0.55]])  # (2, 2)
         wtp = np.array([[15000.0, 20000.0], [16000.0, 18000.0]])  # (2, 2)
 
-        result = calculate_net_benefit(costs, effects, wtp)
+        with pytest.warns(DeprecationWarning, match="wtp_axis"):
+            result = calculate_net_benefit(costs, effects, wtp)
 
         assert isinstance(result, np.ndarray)
         assert result.shape == costs.shape  # Same shape as inputs due to broadcasting
         expected = (effects * wtp) - costs  # Element-wise multiplication
         np.testing.assert_array_almost_equal(result, expected)
+
+    def test_calculate_net_benefit_with_sample_specific_thresholds(self) -> None:
+        """A sample-by-threshold WTP matrix creates an explicit final axis."""
+        costs = np.array([[100.0, 150.0], [90.0, 140.0]])
+        effects = np.array([[0.5, 0.6], [0.45, 0.55]])
+        wtp = np.array([[10_000.0, 20_000.0, 30_000.0], [15_000.0, 25_000.0, 35_000.0]])
+
+        result = calculate_net_benefit(costs, effects, wtp)
+
+        assert result.shape == (2, 2, 3)
+        for sample in range(2):
+            for strategy in range(2):
+                expected = (
+                    effects[sample, strategy] * wtp[sample] - costs[sample, strategy]
+                )
+                np.testing.assert_allclose(result[sample, strategy], expected)
+
+    def test_calculate_net_benefit_disambiguates_square_threshold_matrix(self) -> None:
+        """Callers can override the v1 elementwise interpretation explicitly."""
+        costs = np.array([[100.0, 150.0], [90.0, 140.0]])
+        effects = np.array([[0.5, 0.6], [0.45, 0.55]])
+        wtp = np.array([[10_000.0, 20_000.0], [15_000.0, 25_000.0]])
+
+        result = calculate_net_benefit(
+            costs,
+            effects,
+            wtp,
+            wtp_axis="thresholds",
+        )
+
+        assert result.shape == (2, 2, 2)
+        np.testing.assert_allclose(
+            result[1, 0],
+            effects[1, 0] * wtp[1] - costs[1, 0],
+        )
+
+    def test_calculate_net_benefit_rejects_invalid_axis_policy(self) -> None:
+        """The 2-D WTP policy is a closed, typed public contract."""
+        with pytest.raises(InputError, match="wtp_axis"):
+            calculate_net_benefit(
+                np.array([100.0]),
+                np.array([0.5]),
+                20_000.0,
+                wtp_axis="invalid",  # ty: ignore[invalid-argument-type]
+            )
+
+    def test_calculate_net_benefit_rejects_non_finite_values(self) -> None:
+        """The Rust kernel fails closed on non-finite inputs and results."""
+        with pytest.raises(InputError, match="must be finite"):
+            calculate_net_benefit(
+                np.array([np.inf]),
+                np.array([1.0]),
+                20_000.0,
+            )
+        with pytest.raises(InputError, match="not finite"):
+            calculate_net_benefit(
+                np.array([0.0]),
+                np.array([np.finfo(np.float64).max]),
+                2.0,
+            )
 
     def test_calculate_net_benefit_with_2d_wtp_and_1d_inputs(self) -> None:
         """Test the fallback broadcast branch for 2D WTP against 1D arrays."""
@@ -265,7 +326,12 @@ class TestUtilsComplete:
         effects = np.array([0.5, 0.6])  # (2,)
         wtp = np.array([[15000.0, 20000.0]])  # (1, 2)
 
-        result = calculate_net_benefit(costs, effects, wtp)
+        result = calculate_net_benefit(
+            costs,
+            effects,
+            wtp,
+            wtp_axis="elementwise",
+        )
 
         assert isinstance(result, np.ndarray)
         assert result.shape == (1, 2)

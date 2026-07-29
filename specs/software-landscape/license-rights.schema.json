@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/software-landscape/license-rights.schema.json",
+  "title": "VOIAGE external-software license and reference-fixture rights",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "reviewed_on", "review_due", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "review_due": {"type": "string", "format": "date"},
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/record"}
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_id",
+        "license_expression",
+        "review_state",
+        "license_scope",
+        "source_reuse",
+        "reference_fixture_policy",
+        "evidence"
+      ],
+      "properties": {
+        "tool_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "license_expression": {
+          "oneOf": [
+            {"type": "string", "minLength": 2},
+            {"type": "null"}
+          ]
+        },
+        "review_state": {
+          "enum": [
+            "spdx-normalized",
+            "manual-review",
+            "unknown",
+            "proprietary",
+            "no-license"
+          ]
+        },
+        "license_scope": {
+          "enum": ["source-and-package", "source-only", "service-only", "internal"]
+        },
+        "source_reuse": {
+          "enum": ["permitted-by-recorded-license", "terms-review-required", "prohibited"]
+        },
+        "reference_fixture_policy": {
+          "enum": ["independent-only", "repository-owned"]
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^https://"}
+        },
+        "notes": {"type": "string", "minLength": 3}
+      }
+    }
+  }
+}

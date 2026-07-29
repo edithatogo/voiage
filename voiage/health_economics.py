@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from jax import random, vmap
 import jax.numpy as jnp
 
+from voiage import _runtime
 from voiage.analysis import DecisionAnalysis
 
 
@@ -524,7 +525,12 @@ def calculate_net_monetary_benefit_simple(
     effect: float, cost: float, wtp: float
 ) -> float:
     """Calculate the simple net monetary benefit."""
-    return (effect * wtp) - cost
+    return _runtime.compute_net_benefit(
+        [cost],
+        [effect],
+        [wtp],
+        mode="scalar",
+    )[0]
 
 
 def qaly_calculator(

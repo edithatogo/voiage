@@ -52,7 +52,10 @@ def test_governance_docs_match_the_rust_execution_authority() -> None:
     assert "NumPy, JAX" not in product_guidelines
     assert "**Rust**: crates.io core crates plus GitHub Releases" in tech_stack
     assert "starlight-versions" not in tech_stack
-    assert "starlight-links-validator" not in tech_stack
+    assert "**Astro**: 7.1.3" in tech_stack
+    assert "**@astrojs/starlight**: 0.41.4" in tech_stack
+    assert "**starlight-links-validator**: 0.25.2" in tech_stack
+    assert "**astro-polyglot**: source-pinned 0.1.0" in tech_stack
     assert "starlight-polyglot" not in tech_stack
 
     astro_architecture = (

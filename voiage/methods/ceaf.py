@@ -1,6 +1,7 @@
 """Cost-effectiveness acceptability frontier calculations."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import cast
 
 import numpy as np
 
@@ -9,6 +10,7 @@ from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_dimension_mismatch_error, raise_input_error
 from voiage.reporting import build_cheers_reporting
 from voiage.schema import ValueArray
+from voiage.statistical_assurance import StatisticalAssurance
 
 
 @dataclass(frozen=True)
@@ -31,6 +33,9 @@ class CEAFResult:
         Upper uncertainty band for the acceptability probability.
     expected_net_benefit : numpy.ndarray
         Expected net benefit of the selected strategy at each threshold.
+    assurance_by_threshold : list of StatisticalAssurance
+        Sampling-error and computational evidence aligned one-to-one with the
+        willingness-to-pay thresholds.
     """
 
     wtp_thresholds: np.ndarray
@@ -41,6 +46,7 @@ class CEAFResult:
     probability_upper: np.ndarray
     expected_net_benefit: np.ndarray
     reporting: dict[str, object]
+    assurance_by_threshold: list[StatisticalAssurance] = field(default_factory=list)
 
     def to_dict(
         self,
@@ -214,6 +220,30 @@ def calculate_ceaf(
     expected_net_benefit = np.asarray(
         native["expected_net_benefit"], dtype=DEFAULT_DTYPE
     )
+    assurance_by_threshold = [
+        StatisticalAssurance.from_mapping(dict(payload))
+        for payload in cast(
+            "list[dict[str, object]]",
+            native["statistical_assurance_by_threshold"],
+        )
+    ]
+    if len(assurance_by_threshold) != len(wtp_arr):
+        raise_input_error(
+            "Native CEAF assurance must contain one envelope per threshold."
+        )
+    reporting = build_cheers_reporting(
+        analysis_type="calculate_ceaf",
+        method_family="cost_effectiveness_acceptability_frontier",
+        method_maturity="stable",
+        estimator="frontier_probability",
+        diagnostics={
+            "n_samples": int(nb_values.shape[0]),
+            "n_thresholds": len(wtp_arr),
+        },
+    )
+    reporting["statistical_assurance_by_threshold"] = [
+        assurance.to_dict() for assurance in assurance_by_threshold
+    ]
 
     return CEAFResult(
         wtp_thresholds=wtp_arr,
@@ -225,14 +255,6 @@ def calculate_ceaf(
         probability_lower=probability_lower,
         probability_upper=probability_upper,
         expected_net_benefit=expected_net_benefit,
-        reporting=build_cheers_reporting(
-            analysis_type="calculate_ceaf",
-            method_family="cost_effectiveness_acceptability_frontier",
-            method_maturity="stable",
-            estimator="frontier_probability",
-            diagnostics={
-                "n_samples": int(nb_values.shape[0]),
-                "n_thresholds": len(wtp_arr),
-            },
-        ),
+        assurance_by_threshold=assurance_by_threshold,
+        reporting=reporting,
     )

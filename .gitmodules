@@ -4,3 +4,6 @@
 [submodule ".repo-tools/authentext"]
 	path = .repo-tools/authentext
 	url = https://github.com/edithatogo/authentext.git
+[submodule ".repo-tools/astro-polyglot"]
+	path = .repo-tools/astro-polyglot
+	url = https://github.com/edithatogo/astro-polyglot.git

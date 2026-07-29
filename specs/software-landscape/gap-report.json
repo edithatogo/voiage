@@ -1,0 +1,1274 @@
+{
+  "schema_version": "1.0.0",
+  "generated_from": {
+    "software_registry_schema_version": "1.0.0",
+    "method_registry_schema_version": "1.0.0",
+    "searched_on": "2026-07-24",
+    "review_due": "2026-10-23",
+    "license_rights_schema_version": "1.0.0",
+    "license_rights_review_due": "2026-10-23",
+    "feature_dispositions_schema_version": "1.0.0"
+  },
+  "summary": {
+    "external_tools": 27,
+    "canonical_methods": 61,
+    "external_feature_states": {
+      "equivalent": 1,
+      "excluded": 1,
+      "native": 2,
+      "not-reproducible": 5,
+      "planned": 31
+    },
+    "open_feature_gaps": 37,
+    "open_method_or_assurance_gaps": 43
+  },
+  "feature_gaps": [
+    {
+      "tool_id": "analytica",
+      "feature_id": "analytica-voi",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "expected-loss"
+      ],
+      "evidence": [
+        "https://docs.analytica.com/"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Core estimands exist, but proprietary workflow and numerical details are not reproducible.",
+      "reviewed_disposition": {
+        "tool_id": "analytica",
+        "feature_id": "analytica-voi",
+        "parity_state": "not-reproducible",
+        "reason_category": "proprietary-unobservable",
+        "exact_reason": "Public documentation does not expose a version-pinned implementation, complete numerical algorithms, executable tests, or redistributable reference fixtures.",
+        "closest_supported_workflow": "Export decision-model draws or rebuild the decision in DecisionProblemV2, then use VOIAGE EVPI, EVPPI, and expected-loss calculations.",
+        "user_impact": "Core estimands remain available without Analytica, but proprietary model editing and undocumented numerical behavior are not replicated.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://docs.analytica.com/"
+        ]
+      }
+    },
+    {
+      "tool_id": "bayescal-voi",
+      "feature_id": "bayescal-gaussian-process-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "calibration-voi",
+        "bayesian-oed"
+      ],
+      "evidence": [
+        "https://github.com/mal84emma/BayesCal-VOI",
+        "https://doi.org/10.1016/j.jval.2024.10.788"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOIAGE has an experimental calibration-study estimand, but not an independently reproduced Gaussian-process calibration estimator or reference fixture.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "bceaweb",
+      "feature_id": "bceaweb-surface",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "ceac",
+        "ceaf"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Only literature-described behavior is recorded.",
+      "reviewed_disposition": {
+        "tool_id": "bceaweb",
+        "feature_id": "bceaweb-surface",
+        "parity_state": "not-reproducible",
+        "reason_category": "behavior-unobservable",
+        "exact_reason": "Only literature-described behavior was observable; a current versioned service, source implementation, tests, and numerical fixtures were not independently available.",
+        "closest_supported_workflow": "Use VOIAGE EVPI, EVPPI, CEAC, and CEAF APIs with committed offline inputs and versioned result contracts.",
+        "user_impact": "The documented analysis family is supported, but no claim is made that the hosted interaction or undocumented numerical behavior is reproduced.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+        ]
+      }
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-bald",
+      "parity_state": "planned",
+      "method_ids": [
+        "active-learning",
+        "expected-information-gain"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "No stable BALD estimator yet; BoTorch remains optional.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-kg",
+      "parity_state": "planned",
+      "method_ids": [
+        "knowledge-gradient"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Backend-neutral value-of-computation/acquisition contract remains planned.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-pes",
+      "parity_state": "planned",
+      "method_ids": [
+        "entropy-search",
+        "preference-acquisition"
+      ],
+      "evidence": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Contracts and deterministic fixtures remain planned.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "emukit",
+      "feature_id": "emukit-design",
+      "parity_state": "planned",
+      "method_ids": [
+        "bayesian-oed",
+        "multi-fidelity-acquisition",
+        "entropy-search"
+      ],
+      "evidence": [
+        "https://emukit.github.io/"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Decision-value contracts are planned; generic model fitting remains delegated.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "gaussian-voi-supplement",
+      "feature_id": "gaussian-approximation-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evppi-regression",
+        "evsi-regression"
+      ],
+      "evidence": [
+        "https://github.com/feralaes/VOI-Gaussian-Approximation",
+        "https://doi.org/10.1177/0272989X17715627"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Regression estimators exist, but the published Gaussian-approximation algorithm and independent reference fixture have not been reproduced.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "kirstine",
+      "feature_id": "kirstine-design",
+      "parity_state": "planned",
+      "method_ids": [
+        "bayesian-oed",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://github.com/lsandig/Kirstine.jl"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "General design optimization is adjacent; VOIAGE needs decision-utility linkage and Julia conformance.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "metavoi",
+      "feature_id": "metavoi-meta-analysis",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi",
+        "optimal-study-design",
+        "heterogeneity-voi",
+        "nma-voi"
+      ],
+      "evidence": [
+        "https://github.com/mahmood726-cyber/metavoi"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "The component methods exist or are planned, but the tool's posterior, heterogeneity, optimal-sample and certainty-mapping behavior lacks independent reproduction.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "nrel-geothermal-voi",
+      "feature_id": "geothermal-imperfect-information",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://github.com/NatLabRockies/Value_of_Information_App"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Generic EVPI and EVSI are available, but the imperfect geophysical-signal likelihood workflow and public domain fixture are not yet reproduced.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "pyro-oed",
+      "feature_id": "pyro-eig",
+      "parity_state": "planned",
+      "method_ids": [
+        "expected-information-gain",
+        "bayesian-oed"
+      ],
+      "evidence": [
+        "https://docs.pyro.ai/en/stable/contrib.oed.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-economic-evaluation",
+      "parity_state": "planned",
+      "method_ids": [
+        "net-benefit",
+        "expected-loss",
+        "ceac",
+        "ceaf"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Rust-authoritative expected loss, net benefit, CEAC and CEAF exist; BCEA-wide reporting and shared workflow conformance remain gaps.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-interactive-plots",
+      "parity_state": "planned",
+      "method_ids": [
+        "cea-plane",
+        "ceac",
+        "ceaf",
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Static Python plots exist; interactive reporting is not yet equivalent.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-psa",
+      "parity_state": "planned",
+      "method_ids": [
+        "ceac",
+        "ceaf",
+        "dominance",
+        "variance-sensitivity"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/dampack.pdf"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "CEAC, CEAF and dominance exist; full sensitivity workflow remains incomplete.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/vignettes/voi.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Estimands exist; dampack Gaussian-approximation equivalence needs fixtures.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-decisionsupport",
+      "feature_id": "decisionsupport-evpi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/decisionSupport/html/00Index.html"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "EVPI/EVPPI exist; welfare-decision input and plotting parity require fixtures.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-evpi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi"
+      ],
+      "evidence": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Independent EVPI exists, but no tested heemod migration adapter or independently constructed heemod-shaped fixture is present.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-modeling",
+      "parity_state": "excluded",
+      "method_ids": [
+        "heterogeneity-voi",
+        "implementation-voi"
+      ],
+      "evidence": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "General model construction is delegated; posterior/model outputs remain accepted inputs.",
+      "reviewed_disposition": {
+        "tool_id": "r-heemod",
+        "feature_id": "heemod-modeling",
+        "parity_state": "excluded",
+        "reason_category": "delegated-general-engine",
+        "exact_reason": "State-transition model authoring and budget-impact simulation are general model-engine capabilities rather than VOI estimands or estimators.",
+        "closest_supported_workflow": "Supply heemod-derived posterior or net-benefit draws through DecisionProblemV2, then run VOIAGE heterogeneity or implementation analyses.",
+        "user_impact": "Users retain heemod for model construction but can perform VOI calculations independently in VOIAGE after exporting model draws.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://aphp.github.io/heemod/"
+        ]
+      }
+    },
+    {
+      "tool_id": "r-hesim",
+      "feature_id": "hesim-cea",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "ceaf",
+        "net-benefit",
+        "icer",
+        "cea-plane",
+        "heterogeneity-voi"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/hesim/html/cea.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Individual calculations exist; integrated subgroup result parity is not yet demonstrated.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-metanb",
+      "feature_id": "metanb-cluster-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "heterogeneity-voi",
+        "validation-voi",
+        "nma-voi"
+      ],
+      "evidence": [
+        "https://github.com/zhipeiwang/MetaNB",
+        "https://arxiv.org/abs/2607.02321"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOIAGE has component estimands, but it lacks the global-versus-local cluster contract, prevalence EVPPI and trivariate meta-analytic fixture.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-predtools",
+      "feature_id": "predtools-validation-evpi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "validation-voi"
+      ],
+      "evidence": [
+        "https://cran.r-project.org/package=predtools",
+        "https://doi.org/10.1177/0272989X231178317"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Validation VOI exists experimentally, but the bivariate-normal moment estimator and an independent prediction-model fixture remain unimplemented.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-optimization",
+      "parity_state": "planned",
+      "method_ids": [
+        "optimal-study-design",
+        "portfolio-voi"
+      ],
+      "evidence": [
+        "https://prioritizr.github.io/surveyvoi/"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Portfolio VOI exists experimentally, but spatial survey design, detection models and exact-versus-heuristic conformance remain unimplemented.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-survey-value",
+      "parity_state": "planned",
+      "method_ids": [
+        "evsi",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://prioritizr.github.io/surveyvoi/",
+        "https://doi.org/10.1111/1365-2664.14309"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "The generic DecisionProblemV2 can represent surveys, detection error and acquisition cost, but no conservation-survey estimator or fixture is implemented.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evppi-estimators",
+      "parity_state": "planned",
+      "method_ids": [
+        "evppi-regression"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "GAM/random-forest/BART-style metamodel surfaces exist, but estimator-by-estimator equivalence is not yet demonstrated.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evsi-estimators",
+      "parity_state": "planned",
+      "method_ids": [
+        "evsi-regression",
+        "evsi-moment-matching",
+        "evsi-importance-sampling"
+      ],
+      "evidence": [
+        "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Regression and moment-based estimators exist; importance-sampling equivalence remains planned.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-tidy-plots",
+      "parity_state": "planned",
+      "method_ids": [
+        "voi-curve",
+        "expected-loss-curve"
+      ],
+      "evidence": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOI curves exist; tidy result and expected-loss projection require conformance evidence.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "rane",
+      "feature_id": "rane-minimal-model",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evsi",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Literature triage only; current service behavior was not verified.",
+      "reviewed_disposition": {
+        "tool_id": "rane",
+        "feature_id": "rane-minimal-model",
+        "parity_state": "not-reproducible",
+        "reason_category": "behavior-unobservable",
+        "exact_reason": "The current service behavior, version, implementation, tests, and stable input/output contract could not be independently verified.",
+        "closest_supported_workflow": "Represent the rapid research-need decision in DecisionProblemV2 and use VOIAGE EVPI, EVSI, and study-design methods as they mature.",
+        "user_impact": "Users can model the underlying decision but do not receive a compatibility guarantee for the historical web workflow.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+        ]
+      }
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-analysis",
+      "parity_state": "planned",
+      "method_ids": [
+        "cea-plane",
+        "ceac",
+        "population-evpi",
+        "evppi"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Core analysis exists; population scaling, CSV migration and grouped regression fixtures are incomplete.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-burdens",
+      "parity_state": "planned",
+      "method_ids": [
+        "payer-burden"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "No named payer-burden result contract yet.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-reports",
+      "parity_state": "planned",
+      "method_ids": [
+        "voi-curve"
+      ],
+      "evidence": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "upstream_extraction_state": "source-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Reporting exists but not equivalent multi-format output.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "scikit-activeml",
+      "feature_id": "skactiveml-query",
+      "parity_state": "planned",
+      "method_ids": [
+        "active-learning",
+        "data-valuation"
+      ],
+      "evidence": [
+        "https://scikit-activeml.github.io/latest/"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOIAGE will value information actions, not duplicate a general active-learning toolkit.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-economic-evaluation",
+      "parity_state": "planned",
+      "method_ids": [
+        "net-benefit",
+        "icer",
+        "equity-voi",
+        "heterogeneity-voi",
+        "implementation-voi"
+      ],
+      "evidence": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOIAGE covers the decision-value components but does not claim parity with general model authoring, budget impact, or MCDA without fixtures.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-voi",
+      "parity_state": "planned",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "evsi"
+      ],
+      "evidence": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Canonical estimands exist, but this package's estimator behavior has not yet been independently reproduced.",
+      "reviewed_disposition": null
+    },
+    {
+      "tool_id": "treeage-pro",
+      "feature_id": "treeage-decision-modeling",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evpi",
+        "evppi",
+        "ceac",
+        "icer"
+      ],
+      "evidence": [
+        "https://www.treeage.com/"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "VOIAGE consumes decision outputs and does not imitate the proprietary model editor.",
+      "reviewed_disposition": {
+        "tool_id": "treeage-pro",
+        "feature_id": "treeage-decision-modeling",
+        "parity_state": "not-reproducible",
+        "reason_category": "proprietary-unobservable",
+        "exact_reason": "The proprietary model editor and its undocumented numerical implementation cannot be independently reproduced from public, versioned executable evidence.",
+        "closest_supported_workflow": "Export PSA, cost, effect, or net-benefit draws and run VOIAGE EVPI, EVPPI, CEAC, and ICER analyses independently.",
+        "user_impact": "VOI calculations can consume exported results, while TreeAge model authoring and interface compatibility remain outside VOIAGE.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://www.treeage.com/"
+        ]
+      }
+    },
+    {
+      "tool_id": "victor",
+      "feature_id": "victor-trial",
+      "parity_state": "not-reproducible",
+      "method_ids": [
+        "evsi",
+        "enbs",
+        "optimal-study-design"
+      ],
+      "evidence": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "upstream_extraction_state": "documentation-only",
+      "upstream_limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Literature triage only; current service behavior was not verified.",
+      "reviewed_disposition": {
+        "tool_id": "victor",
+        "feature_id": "victor-trial",
+        "parity_state": "not-reproducible",
+        "reason_category": "behavior-unobservable",
+        "exact_reason": "Only the published description was available; current software behavior, estimator details, source, tests, and fixtures were not independently verifiable.",
+        "closest_supported_workflow": "Use VOIAGE EVSI and ENBS with an explicit trial design, acquisition cost, population, horizon, and stopping policy.",
+        "user_impact": "The decision can be reconstructed from explicit inputs, but VOIAGE does not claim compatibility with the unavailable trial tool.",
+        "review_date": "2026-07-24",
+        "review_due": "2026-10-23",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+        ]
+      }
+    },
+    {
+      "tool_id": "vop-poc-nz",
+      "feature_id": "vop-directional",
+      "parity_state": "planned",
+      "method_ids": [
+        "directional-evop",
+        "pairwise-evop",
+        "perspective-optima",
+        "perspective-switching",
+        "equity-voi"
+      ],
+      "evidence": [
+        "https://pypi.org/project/vop-poc-nz/"
+      ],
+      "upstream_extraction_state": "source-tests-and-docs-reviewed",
+      "upstream_limitations": "No independently verified upstream schemas artifact was identified in this snapshot.",
+      "voiage_evidence": "Current perspective module covers a subset; C01/C02 conformance remains the controlling contract.",
+      "reviewed_disposition": null
+    }
+  ],
+  "method_gaps": [
+    {
+      "method_id": "active-learning",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "botorch",
+        "scikit-activeml"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "agent-information-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "bayesian-oed",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "bayescal-voi",
+        "emukit",
+        "kirstine",
+        "pyro-oed"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "calibration-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "bayescal-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "causal-transportability-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "data-quality-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "data-valuation",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "scikit-activeml"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "directional-evop",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "entropy-search",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "botorch",
+        "emukit"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "equity-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "trd-cea-toolkit",
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "evppi-nested-mc",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "evsi-importance-sampling",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "expected-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "botorch",
+        "pyro-oed"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "expected-loss-curve",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "r-voi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "heterogeneity-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "metavoi",
+        "r-heemod",
+        "r-hesim",
+        "r-metanb",
+        "trd-cea-toolkit"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "implementation-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "r-heemod",
+        "trd-cea-toolkit"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "joint-parameter-perspective",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "knowledge-gradient",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "botorch"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "llm-routing-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "monitoring-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "multi-fidelity-acquisition",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "emukit"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "optimal-study-design",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "kirstine",
+        "metavoi",
+        "r-surveyvoi",
+        "rane",
+        "victor"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "pairwise-evop",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "payer-burden",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "savi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-frontier",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-optima",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-perfect-information",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-sample-information",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "perspective-switching",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "vop-poc-nz"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "population-evpi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "savi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "portfolio-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "r-surveyvoi"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "predictive-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "preference-acquisition",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "botorch"
+      ],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "preference-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "rag-acquisition-voi",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "real-options-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "robust-expected-information-gain",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "robust-perspective-decisions",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "external-scientific-review",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "selective-prediction",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [],
+      "owner_track": "ml_llm_agent_voi_20260723"
+    },
+    {
+      "method_id": "sequential-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "contract-verified",
+      "promotion_gate": "method-contract-and-fixtures",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "validation-voi",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [
+        "r-metanb",
+        "r-predtools"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "value-of-computation",
+      "maturity": "experimental",
+      "voiage_state": "native",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "python-experimental",
+      "remaining_implementation_gate": "experimental-promotion",
+      "affected_tool_ids": [],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    },
+    {
+      "method_id": "variance-sensitivity",
+      "maturity": "planned",
+      "voiage_state": "planned",
+      "review_state": "primary-verified",
+      "promotion_gate": "independent-replication",
+      "authority_state": "not-implemented",
+      "remaining_implementation_gate": "implementation",
+      "affected_tool_ids": [
+        "r-dampack"
+      ],
+      "owner_track": "supported_frontier_method_completion_20260723"
+    }
+  ]
+}

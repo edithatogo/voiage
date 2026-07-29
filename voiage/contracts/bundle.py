@@ -2,19 +2,22 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterator, Mapping, Sequence
+from collections.abc import Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from hashlib import sha256
 import json
 from pathlib import Path, PurePosixPath
 import re
-from typing import Protocol, Self, cast
+from typing import TYPE_CHECKING, Protocol, Self, cast
 
 import pyarrow as pa
 from pyarrow import ipc
 import pyarrow.parquet as pq
 
 from voiage.assurance_policy import require_schema_fingerprint
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class _ArrowField(Protocol):
@@ -46,9 +49,9 @@ class _ArrowReaderContext(Protocol):
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
-        exc_value: BaseException | None,
-        traceback: object,
+        _exc_type: type[BaseException] | None,
+        _exc_value: BaseException | None,
+        _traceback: object,
     ) -> bool | None: ...
 
 

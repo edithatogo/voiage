@@ -3,18 +3,15 @@
 from __future__ import annotations
 
 from pathlib import Path
+import tomllib
 from typing import Any
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
-    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 RUST_ROOT = ROOT / "rust"
 WORKSPACE_MANIFEST = RUST_ROOT / "Cargo.toml"
 
 EXPECTED_MEMBERS = {
+    "crates/voiage",
     "crates/voiage-diagnostics",
     "crates/voiage-domain",
     "crates/voiage-ffi",
@@ -31,6 +28,7 @@ CORE_CRATES = {
 }
 ADAPTER_CRATES = {"voiage-ffi", "voiage-python"}
 ALLOWED_INTERNAL_DEPENDENCIES = {
+    "voiage": CORE_CRATES,
     "voiage-domain": set(),
     "voiage-diagnostics": {"voiage-domain"},
     "voiage-numerics": {"voiage-diagnostics", "voiage-domain"},

@@ -430,16 +430,16 @@ class DataFormatConnector(EcosystemConnector):
             raise_value_error(f"Unsupported file format: {path_obj.suffix}")
 
         try:
+            if suffix == ".json":
+                with open(path_obj) as f:
+                    data = json.load(f)
+                return self._convert_json_to_dataframe(data)
             if suffix == ".csv":
                 df = pd.read_csv(path_obj)
             elif suffix in {".xlsx", ".xls"}:
                 df = pd.read_excel(path_obj)
-            elif suffix == ".parquet":
+            else:
                 df = pd.read_parquet(path_obj)
-            elif suffix == ".json":
-                with open(path_obj) as f:
-                    data = json.load(f)
-                return self._convert_json_to_dataframe(data)
 
             return self._process_dataframe(df, data_type)
 

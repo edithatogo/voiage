@@ -16,6 +16,7 @@ def test_native_benchmark_baseline_is_complete_and_versioned() -> None:
     assert required == {
         "evpi",
         "enbs",
+        "expected_loss",
         "evppi",
         "evsi",
         "evsi_efficient_linear",

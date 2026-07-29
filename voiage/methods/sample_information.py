@@ -17,12 +17,33 @@ from voiage.exceptions import (
     raise_input_error,
 )
 from voiage.schema import ParameterSet, TrialDesign, ValueArray
+from voiage.statistical_assurance import ReportingClass, StatisticalAssurance
 from voiage.stats import normal_normal_update
 
 SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
 
 EconomicModelFunctionType = Callable[[ParameterSet], ValueArray]
 MetamodelName = str
+
+
+def _validate_native_assurance(
+    result: dict[str, object],
+    expected_class: ReportingClass,
+) -> StatisticalAssurance:
+    """Validate an estimator's native statistical-assurance envelope."""
+    assurance = StatisticalAssurance.from_mapping(
+        dict(result["statistical_assurance"])  # type: ignore[arg-type]
+    )
+    if (
+        assurance.reporting_class != expected_class
+        or assurance.replications != 1
+        or assurance.budget.draws < 1
+        or assurance.budget.evaluations < 1
+        or assurance.budget.elapsed_seconds < 0.0
+        or assurance.stopping_reason != "fixed-budget"
+    ):
+        raise ValueError("native statistical assurance metadata mismatch")
+    return assurance
 
 
 def _parameter_matrix(psa_prior: ParameterSet) -> np.ndarray[Any, np.dtype[np.float64]]:
@@ -195,6 +216,7 @@ def _evsi_efficient_regression(
                 raise ValueError(  # noqa: TRY301
                     "native efficient-linear sample value is out of bounds"
                 )
+            _validate_native_assurance(result, "regression-or-metamodel")
         except (KeyError, TypeError, ValueError) as error:
             raise_input_error(
                 "Native efficient-linear EVSI returned an invalid result envelope."
@@ -282,6 +304,7 @@ def _evsi_moment_based(
             raise ValueError(  # noqa: TRY301
                 "native moment-based sample value is out of bounds"
             )
+        _validate_native_assurance(result, "moment-matching")
     except (KeyError, TypeError, ValueError) as error:
         raise_input_error(
             "Native moment-based EVSI returned an invalid result envelope."
@@ -479,6 +502,7 @@ def _evsi_regression(
         expected_sample_value = float(result["expected_sample_value"])
         if not np.isfinite(expected_sample_value):
             raise ValueError("native regression result is non-finite")  # noqa: TRY301
+        _validate_native_assurance(result, "regression-or-metamodel")
     except (KeyError, TypeError, ValueError) as error:
         raise_input_error("Native regression EVSI returned an invalid result envelope.")
         raise AssertionError("unreachable") from error

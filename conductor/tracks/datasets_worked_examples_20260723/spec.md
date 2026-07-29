@@ -17,6 +17,9 @@ examples for every stable and supported method.
 3. Execute stable/supported examples in all supported languages.
 4. Give experimental methods synthetic evidence immediately and public data
    before promotion.
+5. Give every example a reproducibility card, assumptions, estimator
+   uncertainty, sensitivity analysis, failure cases, accessible output, and
+   deterministic offline instructions.
 
 ## Rights, privacy, and failure policy
 
@@ -29,4 +32,3 @@ unless explicitly blocked.
 
 Every stable/supported method has executable synthetic, edge, public, and
 cross-language expected evidence from a clean offline installation.
-

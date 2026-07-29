@@ -11,7 +11,7 @@ use voiage_diagnostics::{ErrorCategory, ErrorCode};
 use voiage_domain::{
     Identifier, Probability, SampleCube, SampleMatrix, SampleVector, StrategyCollection,
 };
-use voiage_numerics::{ceaf, dominance, enbs, evpi, evppi, DominanceStatus};
+use voiage_numerics::{ceaf, dominance, enbs, evpi, evppi, net_benefit, DominanceStatus, WtpMode};
 use voiage_serialization::{
     CeafResultV1, DominanceResultV1, EnbsResultV1, EvpiResultV1, EvppiResultV1, EvsiResultV1,
 };
@@ -21,6 +21,8 @@ use crate::LoadedCompatibilityCase;
 /// Stable method names covered by the compatibility catalog.
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub enum CompatibilityMethod {
+    /// Net monetary benefit construction.
+    NetBenefit,
     /// Expected value of perfect information.
     Evpi,
     /// Expected value of partial perfect information.
@@ -38,6 +40,7 @@ pub enum CompatibilityMethod {
 impl CompatibilityMethod {
     fn parse(value: &str) -> Result<Self, ContractParityError> {
         match value {
+            "net_benefit" => Ok(Self::NetBenefit),
             "evpi" => Ok(Self::Evpi),
             "evppi" => Ok(Self::Evppi),
             "evsi" => Ok(Self::Evsi),
@@ -52,6 +55,7 @@ impl CompatibilityMethod {
 
     const fn as_str(self) -> &'static str {
         match self {
+            Self::NetBenefit => "net_benefit",
             Self::Evpi => "evpi",
             Self::Evppi => "evppi",
             Self::Evsi => "evsi",
@@ -212,7 +216,7 @@ pub fn execute_deterministic_compatibility_contracts(
         .filter(|case| {
             matches!(
                 case.case.method.as_str(),
-                "evpi" | "evppi" | "enbs" | "ceaf" | "dominance"
+                "net_benefit" | "evpi" | "evppi" | "enbs" | "ceaf" | "dominance"
             )
         })
         .map(|case| {
@@ -232,6 +236,7 @@ fn execute_deterministic_case(
     method: CompatibilityMethod,
 ) -> Result<(), ContractParityError> {
     match method {
+        CompatibilityMethod::NetBenefit => execute_net_benefit_case(case),
         CompatibilityMethod::Evpi | CompatibilityMethod::Enbs => {
             execute_foundational_case(case, method)
         }
@@ -410,6 +415,97 @@ fn execute_deterministic_case(
         }
         CompatibilityMethod::Evsi => Err(case_error(case, "not a deterministic kernel fixture")),
     }
+}
+
+fn execute_net_benefit_case(case: &LoadedCompatibilityCase) -> Result<(), ContractParityError> {
+    let input = object(&case.input, "input").map_err(|error| case_error(case, error))?;
+    let costs = finite_number_array(
+        field(input, "costs").map_err(|error| case_error(case, error))?,
+        "costs",
+    )
+    .map_err(|error| case_error(case, error))?;
+    let effects = finite_number_array(
+        field(input, "effects").map_err(|error| case_error(case, error))?,
+        "effects",
+    )
+    .map_err(|error| case_error(case, error))?;
+    let wtp_value = field(input, "willingness_to_pay").map_err(|error| case_error(case, error))?;
+    let (thresholds, mode) = if let Some(value) = wtp_value.as_f64() {
+        (vec![value], WtpMode::Scalar)
+    } else {
+        (
+            finite_number_array(wtp_value, "willingness_to_pay")
+                .map_err(|error| case_error(case, error))?,
+            WtpMode::Thresholds,
+        )
+    };
+    let actual = net_benefit(&costs, &effects, &thresholds, mode)
+        .map_err(|error| case_error(case, error))?;
+    let expected_root =
+        object(&case.expected, "expected").map_err(|error| case_error(case, error))?;
+    let expected = finite_number_array(
+        field(expected_root, "result").map_err(|error| case_error(case, error))?,
+        "result",
+    )
+    .map_err(|error| case_error(case, error))?;
+    assert_float_values(case, expected_root, &expected, &actual.values)
+}
+
+fn finite_number_array(value: &Value, label: &str) -> Result<Vec<f64>, String> {
+    fn visit(value: &Value, values: &mut Vec<f64>) -> Result<(), ()> {
+        match value {
+            Value::Number(number) => number
+                .as_f64()
+                .filter(|value| value.is_finite())
+                .map(|value| values.push(value))
+                .ok_or(()),
+            Value::Array(items) if !items.is_empty() => {
+                for item in items {
+                    visit(item, values)?;
+                }
+                Ok(())
+            }
+            _ => Err(()),
+        }
+    }
+
+    let mut values = Vec::new();
+    visit(value, &mut values).map_err(|()| format!("{label} must be a non-empty finite array"))?;
+    Ok(values)
+}
+
+fn assert_float_values(
+    case: &LoadedCompatibilityCase,
+    expected_root: &Map<String, Value>,
+    expected: &[f64],
+    actual: &[f64],
+) -> Result<(), ContractParityError> {
+    if actual.len() != expected.len() {
+        return Err(case_error(
+            case,
+            "net-benefit output length disagrees with fixture",
+        ));
+    }
+    let absolute_tolerance = parse::<f64>(
+        field(expected_root, "absolute_tolerance").map_err(|error| case_error(case, error))?,
+        "absolute tolerance",
+    )
+    .map_err(|error| case_error(case, error))?;
+    let relative_tolerance = parse::<f64>(
+        field(expected_root, "relative_tolerance").map_err(|error| case_error(case, error))?,
+        "relative tolerance",
+    )
+    .map_err(|error| case_error(case, error))?;
+    for (actual, expected) in actual.iter().zip(expected) {
+        let allowed = absolute_tolerance.max(relative_tolerance * expected.abs());
+        if (actual - expected).abs() > allowed {
+            return Err(case_error(
+                case,
+                format!("net-benefit output {actual} disagrees with expected {expected}"),
+            ));
+        }
+    }
+    Ok(())
 }
 
 fn assert_exact_array<T: serde::de::DeserializeOwned + PartialEq + fmt::Debug>(
@@ -700,6 +796,7 @@ fn validate_input(method: CompatibilityMethod, value: &Value) -> Result<(), Inpu
         InputContractFailure::new("invalid_input", ErrorCode::InvalidInput, message)
     })?;
     let validation = match method {
+        CompatibilityMethod::NetBenefit => validate_net_benefit_input(input),
         CompatibilityMethod::Evpi => field(input, "net_benefit")
             .and_then(|value| parse::<SampleMatrix>(value, "net_benefit"))
             .map(|_| ())
@@ -738,7 +835,9 @@ fn map_input_failure(
     error: InputValidationError,
 ) -> InputContractFailure {
     let (fixture_code, stable_code) = match (method, error.kind) {
-        (CompatibilityMethod::Evpi, _) => ("shape_mismatch", ErrorCode::DimensionMismatch),
+        (CompatibilityMethod::NetBenefit | CompatibilityMethod::Evpi, _) => {
+            ("shape_mismatch", ErrorCode::DimensionMismatch)
+        }
         (CompatibilityMethod::Evppi, InputFailureKind::UnknownParameter) => {
             ("unknown_parameter", ErrorCode::InvalidInput)
         }
@@ -757,6 +856,39 @@ fn map_input_failure(
         _ => ("invalid_input", ErrorCode::InvalidInput),
     };
     InputContractFailure::new(fixture_code, stable_code, error.message)
+}
+
+fn validate_net_benefit_input(input: &Map<String, Value>) -> Result<(), InputValidationError> {
+    let costs_value = field(input, "costs").map_err(InputValidationError::invalid)?;
+    let effects_value = field(input, "effects").map_err(InputValidationError::invalid)?;
+    let costs = finite_number_array(costs_value, "costs").map_err(InputValidationError::invalid)?;
+    let effects =
+        finite_number_array(effects_value, "effects").map_err(InputValidationError::invalid)?;
+    if costs.len() != effects.len() || array_shape(costs_value) != array_shape(effects_value) {
+        return Err(InputValidationError::invalid(
+            "costs and effects must have the same shape",
+        ));
+    }
+    let wtp = field(input, "willingness_to_pay").map_err(InputValidationError::invalid)?;
+    if wtp.as_f64().is_none() {
+        finite_number_array(wtp, "willingness_to_pay").map_err(InputValidationError::invalid)?;
+    }
+    Ok(())
+}
+
+fn array_shape(value: &Value) -> Option<Vec<usize>> {
+    let items = value.as_array()?;
+    let mut shape = vec![items.len()];
+    if let Some(first) = items.first().and_then(Value::as_array) {
+        if items
+            .iter()
+            .any(|item| item.as_array().map(Vec::len) != Some(first.len()))
+        {
+            return None;
+        }
+        shape.push(first.len());
+    }
+    Some(shape)
 }
 
 fn validate_enbs_input(input: &Map<String, Value>) -> Result<(), InputValidationError> {
@@ -980,8 +1112,15 @@ fn validate_expected_result(
         }
     }
     let result = field(root, "result")?;
+    if method == CompatibilityMethod::NetBenefit {
+        finite_number_array(result, "net-benefit result")?;
+        return Ok(());
+    }
     let wire = canonical_result_wire(method, input, result)?;
     match method {
+        CompatibilityMethod::NetBenefit => {
+            return Err("net benefit uses its language-neutral array result directly".into());
+        }
         CompatibilityMethod::Evpi => drop(parse::<EvpiResultV1>(&wire, "EVPI result")?),
         CompatibilityMethod::Evppi => drop(parse::<EvppiResultV1>(&wire, "EVPPI result")?),
         CompatibilityMethod::Evsi => drop(parse::<EvsiResultV1>(&wire, "EVSI result")?),
@@ -1001,6 +1140,9 @@ fn canonical_result_wire(
 ) -> Result<Value, String> {
     let base = ("analysis-fixture", "decision-problem-fixture");
     match method {
+        CompatibilityMethod::NetBenefit => {
+            Err("net benefit has no result-envelope serialization DTO".into())
+        }
         CompatibilityMethod::Evpi => Ok(json!({
             "analysis_id": base.0, "decision_problem_id": base.1, "analysis_type": "evpi",
             "willingness_to_pay": 1.0, "expected_current_value": 0.0,

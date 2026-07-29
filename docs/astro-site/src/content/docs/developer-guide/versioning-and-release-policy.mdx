@@ -79,6 +79,6 @@ uv run python scripts/validate_version_sync.py
 1. Update the Cargo workspace version and synchronized binding manifests
 2. Run the version-sync validator and fail-closed release-tag validation
 3. Cut the matching `v<version>` tag
-4. Let the tag workflow build and attest a private draft
+4. Let the tag workflow build, attest, and retain a private Actions artifact
 5. Review exact artifact digests, then dispatch TestPyPI publication
 6. Permit PyPI and the public GitHub Release only after the TestPyPI smoke gate

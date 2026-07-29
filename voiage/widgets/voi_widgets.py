@@ -175,7 +175,7 @@ class VOIAnalysisWidget:
         )
         self.upload_parameters_button.observe(self._on_parameters_upload, names="value")
 
-    def _on_calculate_clicked(self, button):
+    def _on_calculate_clicked(self, _button):
         """Handle calculate button click."""
         with self.output_area:
             try:
@@ -246,7 +246,7 @@ class VOIAnalysisWidget:
                     self.result_area.clear_output()
                     print(f"Error: {e!s}")
 
-    def _on_clear_clicked(self, button):
+    def _on_clear_clicked(self, _button):
         """Handle clear button click."""
         # Clear data
         self.net_benefits = None

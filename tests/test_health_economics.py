@@ -10,6 +10,7 @@ from voiage.health_economics import (
     HealthState,
     Treatment,
     calculate_icer_simple,
+    calculate_net_monetary_benefit_simple,
 )
 
 
@@ -18,6 +19,40 @@ def _build_analysis() -> HealthEconomicsAnalysis:
         willingness_to_pay=50_000.0,
         currency="AUD",
     )
+
+
+def test_simple_net_monetary_benefit_uses_rust_runtime(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The scalar helper must not retain a Python-only numerical path."""
+    observed: dict[str, object] = {}
+
+    def fake_compute(
+        costs: list[float],
+        effects: list[float],
+        willingness_to_pay: list[float],
+        *,
+        mode: str,
+    ) -> list[float]:
+        observed.update(
+            costs=costs,
+            effects=effects,
+            willingness_to_pay=willingness_to_pay,
+            mode=mode,
+        )
+        return [123.0]
+
+    monkeypatch.setattr(
+        health_economics_module._runtime, "compute_net_benefit", fake_compute
+    )
+
+    assert calculate_net_monetary_benefit_simple(0.5, 100.0, 20_000.0) == 123.0
+    assert observed == {
+        "costs": [100.0],
+        "effects": [0.5],
+        "willingness_to_pay": [20_000.0],
+        "mode": "scalar",
+    }
 
 
 def test_calculate_qaly_uses_default_duration_without_discounting() -> None:

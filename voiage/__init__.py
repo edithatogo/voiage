@@ -20,7 +20,7 @@ from . import (
     schema,
 )
 from .analysis import DecisionAnalysis
-from .methods.basic import evpi, evppi
+from .methods.basic import ExpectedLossResult, evpi, evppi, expected_loss
 from .methods.ceaf import CEAFResult
 from .methods.ceaf import calculate_ceaf as ceaf
 from .methods.dominance import DominanceResult
@@ -312,6 +312,7 @@ __all__ = [  # noqa: RUF022 - stable symbols precede provisional namespaces
     "DecisionAnalysis",
     "DecisionOption",
     "DominanceResult",
+    "ExpectedLossResult",
     "ParameterSet",
     "PortfolioSpec",
     "PortfolioStudy",
@@ -320,6 +321,7 @@ __all__ = [  # noqa: RUF022 - stable symbols precede provisional namespaces
     "ceaf",
     "dominance",
     "enbs",
+    "expected_loss",
     "evpi",
     "evppi",
     "evsi",

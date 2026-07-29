@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_at": "2026-07-27",
+  "policy": "Consolidate only when the retained tool covers the repository's active contract and a regression test prevents the removed control from returning.",
+  "tools": [
+    {
+      "tool": "bandit",
+      "disposition": "consolidated-into-ruff",
+      "contract": "Python source-security linting",
+      "evidence": [
+        "Ruff S rules are selected in pyproject.toml",
+        "The former Bandit B101, B110, B405, and B314 exclusions map to Ruff S101, S110, S405, and S314 policy"
+      ]
+    },
+    {
+      "tool": "tomli",
+      "disposition": "consolidated-into-stdlib",
+      "contract": "TOML parsing for the supported Python 3.12-3.14 range",
+      "evidence": [
+        "pyproject.toml",
+        "tests/test_quality_tool_consolidation.py"
+      ]
+    },
+    {
+      "tool": "safety-and-pip-tools",
+      "disposition": "consolidated-into-pip-audit",
+      "contract": "Python dependency vulnerability scanning against the locked dependency surface",
+      "evidence": [
+        ".github/workflows/sbom.yml",
+        "docs/astro-site/src/content/docs/developer-guide/quality-and-security.mdx"
+      ]
+    },
+    {
+      "tool": "ruff",
+      "disposition": "retain-authoritative",
+      "contract": "Python linting, formatting, import ordering, upgrade rules, docstring rules, and source-security rules",
+      "evidence": [
+        "pyproject.toml",
+        "tox.ini",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "tool": "vulture",
+      "disposition": "retain-distinct",
+      "contract": "Whole-program dead-code discovery beyond Ruff's unused import, variable, and argument rules",
+      "evidence": [
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "tool": "ty",
+      "disposition": "retain-authoritative",
+      "contract": "Primary maintained-package static type analysis",
+      "evidence": [
+        "tox.ini",
+        "noxfile.py"
+      ]
+    },
+    {
+      "tool": "basedpyright",
+      "disposition": "retain-independent",
+      "contract": "Independent strict type analysis for progressively ratcheted production contracts",
+      "evidence": [
+        "noxfile.py",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "tool": "codeql",
+      "disposition": "retain-distinct",
+      "contract": "Cross-file security-and-quality dataflow analysis",
+      "evidence": [
+        ".github/workflows/codeql.yml"
+      ]
+    },
+    {
+      "tool": "pip-audit",
+      "disposition": "retain-distinct",
+      "contract": "Resolved Python dependency vulnerability scanning and SBOM evidence",
+      "evidence": [
+        ".github/workflows/sbom.yml"
+      ]
+    },
+    {
+      "tool": "tox",
+      "disposition": "retain-authoritative",
+      "contract": "Clean-environment CI parity and supported Python matrix orchestration",
+      "evidence": [
+        "tox.ini"
+      ]
+    },
+    {
+      "tool": "nox",
+      "disposition": "retain-specialized",
+      "contract": "Uv-backed local and specialized contract, mutation, and profiling sessions",
+      "evidence": [
+        "noxfile.py"
+      ]
+    },
+    {
+      "tool": "pixi",
+      "disposition": "retain-frontend",
+      "contract": "Portable environment and task entrypoints delegating to the canonical uv lock",
+      "evidence": [
+        "pixi.toml"
+      ]
+    },
+    {
+      "tool": "pre-commit",
+      "disposition": "retain-frontend",
+      "contract": "Fast local commit-time execution of authoritative checks",
+      "evidence": [
+        ".pre-commit-config.yaml"
+      ]
+    },
+    {
+      "tool": "mutmut",
+      "disposition": "retain-distinct",
+      "contract": "Behavioral mutation assurance",
+      "evidence": [
+        "noxfile.py"
+      ]
+    },
+    {
+      "tool": "scalene",
+      "disposition": "retain-distinct",
+      "contract": "CPU and memory profiling evidence",
+      "evidence": [
+        "noxfile.py"
+      ]
+    },
+    {
+      "tool": "vale",
+      "disposition": "retain-distinct",
+      "contract": "Documentation prose and terminology linting",
+      "evidence": [
+        "tox.ini",
+        "scripts/vale_prose.sh"
+      ]
+    }
+  ]
+}

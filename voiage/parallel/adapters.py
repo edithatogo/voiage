@@ -80,12 +80,13 @@ class _DaskExecutor:
         return self._client.submit(fn, *args, **kwargs)
 
     def shutdown(self, wait: bool = True) -> None:
+        del wait
         self._client.close()
 
     def __enter__(self) -> Self:
         return self
 
-    def __exit__(self, exc_type, exc, tb) -> None:
+    def __exit__(self, _exc_type, _exc, _tb) -> None:
         self.shutdown()
 
 
@@ -138,13 +139,14 @@ class _RayExecutor:
         return future
 
     def shutdown(self, wait: bool = True) -> None:
+        del wait
         if hasattr(self._ray, "shutdown"):
             self._ray.shutdown()
 
     def __enter__(self) -> Self:
         return self
 
-    def __exit__(self, exc_type, exc, tb) -> None:
+    def __exit__(self, _exc_type, _exc, _tb) -> None:
         self.shutdown()
 
 

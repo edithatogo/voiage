@@ -1,0 +1,168 @@
+{
+  "aggregate": {
+    "human_gates": [
+      "phase-1-manual-verification",
+      "phase-2-manual-verification",
+      "phase-3-manual-verification",
+      "phase-4-manual-verification"
+    ],
+    "open_method_gates": [
+      "expected-loss",
+      "evpi",
+      "evppi-regression",
+      "evsi-nested-mc",
+      "enbs",
+      "ceaf",
+      "structural-voi"
+    ],
+    "open_repository_gates": [
+      "replication-and-convergence-assurance",
+      "matched-cross-language-performance"
+    ],
+    "v1_1_release_ready": false
+  },
+  "contract_version": "1.0.0",
+  "generated_from": [
+    "specs/v1/stable-estimator-assurance.json",
+    "specs/v1/stable-estimator-statistical-assurance.json",
+    "specs/v1/stable-core-validation-evidence.json"
+  ],
+  "methods": [
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "net-benefit",
+      "open_gates": [],
+      "reporting_class": "deterministic",
+      "runtime_assurance_state": "not-applicable-deterministic",
+      "v1_1_assurance_state": "eligible",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "expected-loss",
+      "open_gates": [
+        "replication-and-convergence-assurance"
+      ],
+      "reporting_class": "sample-average",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "evpi",
+      "open_gates": [
+        "replication-and-convergence-assurance"
+      ],
+      "reporting_class": "sample-average",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "evppi-regression",
+      "open_gates": [
+        "replication-and-convergence-assurance"
+      ],
+      "reporting_class": "regression-or-metamodel",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "python-compatibility-path",
+      "implementation_state": "requires-assurance-evidence",
+      "method_id": "evsi-nested-mc",
+      "open_gates": [
+        "estimator-assurance-evidence"
+      ],
+      "reporting_class": "nested-monte-carlo",
+      "runtime_assurance_state": "integrated-replication-capable",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "evsi-regression",
+      "open_gates": [],
+      "reporting_class": "regression-or-metamodel",
+      "runtime_assurance_state": "integrated-replication-capable",
+      "v1_1_assurance_state": "eligible",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "evsi-moment-matching",
+      "open_gates": [],
+      "reporting_class": "moment-matching",
+      "runtime_assurance_state": "integrated-replication-capable",
+      "v1_1_assurance_state": "eligible",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "enbs",
+      "open_gates": [
+        "upstream-evsi-assurance"
+      ],
+      "reporting_class": "deterministic",
+      "runtime_assurance_state": "inherits-open-evsi-gate",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "ceaf",
+      "open_gates": [
+        "replication-and-convergence-assurance"
+      ],
+      "reporting_class": "sample-average",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "dominance",
+      "open_gates": [],
+      "reporting_class": "deterministic",
+      "runtime_assurance_state": "not-applicable-deterministic",
+      "v1_1_assurance_state": "eligible",
+      "validation_state": "analytical-independent-metamorphic"
+    },
+    {
+      "api_maturity": "stable",
+      "authority_boundary": "rust-kernel",
+      "implementation_state": "conformant",
+      "method_id": "structural-voi",
+      "open_gates": [
+        "replication-and-convergence-assurance"
+      ],
+      "reporting_class": "sample-average",
+      "runtime_assurance_state": "integrated-incomplete-assurance",
+      "v1_1_assurance_state": "open",
+      "validation_state": "analytical-independent-metamorphic"
+    }
+  ],
+  "status": "generated-evidence"
+}

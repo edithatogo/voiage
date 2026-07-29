@@ -1,0 +1,181 @@
+{
+  "contract_version": "1.1.0",
+  "status": "normative",
+  "schema": "specs/v1/stable-estimator-assurance.schema.json",
+  "scientific_freeze": {
+    "candidate_digest": "9f437ea0b0521297b81f66adfac980e537db3c0ebf63823445f3bff2d285c3f9",
+    "approval_path": "specs/software-landscape/v1.1-scientific-freeze-approval.json",
+    "scope": "scientific-contract-only",
+    "implementation_gate_waived": false
+  },
+  "scope": {
+    "included": "stable numerical estimands, estimators, and related calculations with an executable implementation",
+    "delegated": {
+      "cea-plane": "visualization contract; numerical inputs are governed by net-benefit",
+      "ceac": "visualization contract; probability calculation is governed by the shared result contract",
+      "evppi": "estimand governed through evppi-regression in v1.1",
+      "evsi": "estimand governed through evsi-nested-mc, evsi-regression, and evsi-moment-matching",
+      "icer": "derived output governed by the dominance calculation",
+      "nma-voi": "application workflow governed by its Rust-backed component estimands",
+      "voi-curve": "visualization contract; numerical points are governed by their component estimands"
+    }
+  },
+  "global_policy": {
+    "float_type": "binary64",
+    "absolute_tolerance": 1e-10,
+    "relative_tolerance": 1e-8,
+    "non_finite_input": "reject",
+    "non_finite_output": "reject",
+    "overflow": "fail-closed",
+    "fallback_default": "disabled",
+    "fallback_visibility": "degraded-diagnostic-required",
+    "unsupported_capability": "typed-error",
+    "cross_platform_comparison": "within-declared-tolerance",
+    "same_seed_same_platform": "bitwise-where-versioned-rng-applies"
+  },
+  "profiles": [
+    {
+      "method_id": "net-benefit",
+      "estimator_id": "deterministic-net-benefit-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/net_benefit.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "not-applicable",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "none",
+      "failure_policy": "reject-empty-mismatched-non-finite-or-overflowing-inputs",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    },
+    {
+      "method_id": "expected-loss",
+      "estimator_id": "deterministic-expected-opportunity-loss-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/expected_loss.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "lowest-original-strategy-index",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "opportunity-loss-lower-bound-zero",
+      "failure_policy": "reject-empty-non-finite-or-overflowing-inputs",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    },
+    {
+      "method_id": "evpi",
+      "estimator_id": "sample-mean-evpi-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/evpi.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "roundoff-only-lower-bound-zero",
+      "failure_policy": "reject-empty-ragged-non-finite-or-overflowing-inputs",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    },
+    {
+      "method_id": "evppi-regression",
+      "estimator_id": "full-sample-linear-evppi-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/evppi.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "roundoff-only-lower-bound-zero",
+      "failure_policy": "reject-shape-mismatch-non-finite-rank-failure-or-overflow",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch", "numerical_failure"]
+    },
+    {
+      "method_id": "evsi-nested-mc",
+      "estimator_id": "joint-normal-two-loop-v1",
+      "maturity": "stable",
+      "implementation_state": "requires-assurance-evidence",
+      "implementation": "voiage/methods/sample_information.py",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "evsi-bounded-to-zero-and-perfect-information",
+      "failure_policy": "reject-invalid-design-non-finite-non-convergent-or-overflowing-runs",
+      "required_diagnostics": ["invalid_input", "numerical_failure"]
+    },
+    {
+      "method_id": "evsi-regression",
+      "estimator_id": "linear-regression-evsi-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/evsi_regression.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "evsi-bounded-to-zero-and-perfect-information",
+      "failure_policy": "reject-shape-mismatch-non-finite-rank-failure-or-overflow",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch", "numerical_failure"]
+    },
+    {
+      "method_id": "evsi-moment-matching",
+      "estimator_id": "centered-moment-matching-evsi-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/evsi_moment.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "evsi-bounded-to-zero-and-perfect-information",
+      "failure_policy": "reject-shape-mismatch-non-finite-rank-failure-or-overflow",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch", "numerical_failure"]
+    },
+    {
+      "method_id": "enbs",
+      "estimator_id": "deterministic-enbs-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/enbs.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "not-applicable",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "none;negative-net-value-is-preserved",
+      "failure_policy": "reject-negative-research-cost-non-finite-input-or-overflow",
+      "required_diagnostics": ["invalid_input"]
+    },
+    {
+      "method_id": "ceaf",
+      "estimator_id": "frontier-probability-ceaf-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/ceaf.rs",
+      "comparison_policy": "exact-structure-and-declared-numeric-tolerance",
+      "tie_policy": "lowest-original-strategy-index",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "probabilities-bounded-to-unit-interval",
+      "failure_policy": "reject-threshold-mismatch-invalid-confidence-non-finite-or-overflow",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    },
+    {
+      "method_id": "dominance",
+      "estimator_id": "deterministic-frontier-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/dominance.rs",
+      "comparison_policy": "exact-structure-and-declared-numeric-tolerance",
+      "tie_policy": "preserve-lowest-original-index-for-duplicate-strategies",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "none",
+      "failure_policy": "reject-fewer-than-two-mismatched-non-finite-or-overflowing-inputs",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    },
+    {
+      "method_id": "structural-voi",
+      "estimator_id": "weighted-structural-aggregation-v1",
+      "maturity": "stable",
+      "implementation_state": "conformant",
+      "implementation": "rust/crates/voiage-numerics/src/structural.rs",
+      "comparison_policy": "declared-numeric-tolerance",
+      "tie_policy": "tie-invariant-value;lowest-index-when-strategy-is-reported",
+      "fallback_policy": "fail-closed",
+      "clipping_policy": "roundoff-only-lower-bound-zero",
+      "failure_policy": "reject-invalid-probabilities-shape-mismatch-non-finite-or-overflow",
+      "required_diagnostics": ["invalid_input", "dimension_mismatch"]
+    }
+  ]
+}

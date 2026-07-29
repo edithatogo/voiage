@@ -8,17 +8,27 @@ This note records the Astro/Starlight docs-platform strategy for `voiage`.
 ## Baseline decision
 
 - Starlight is the authoritative docs-site platform
-- The platform plan should pin a specific Starlight version family and record upgrade steps explicitly
+- Astro 7.1.3 and Starlight 0.41.4 are pinned exactly for reproducible builds
 - The default search path should stay on Pagefind unless a later decision justifies a different provider
 
-## Required plugins
+## Active plugins
 
-- **`starlight-versions`** — versioned docs pages and release-aligned navigation
-- **`starlight-links-validator`** — broken-link validation in the docs site
+- **`astro-polyglot`** — commit-pinned, language-native API extraction. The
+  initial production lane generates Python API pages with Griffe. Rust, R,
+  Julia, and Mojo extraction remain gated by their native toolchain and
+  conformance evidence.
+- **`starlight-links-validator`** — broken-link validation during the site build
+- **`starlight-llms-txt`** — deterministic `llms.txt` generation
 
-## Conditional plugins
+`astro-polyglot` is consumed from the pinned
+`.repo-tools/astro-polyglot` submodule until a reviewed npm release with
+provenance exists. The documentation workflows build that exact source before
+running Astro.
+
+## Candidate plugins
 
 These are useful if the eventual Starlight site needs the corresponding UX:
+- `starlight-versions`
 - `starlight-image-zoom`
 - `starlight-heading-badges`
 - `starlight-sidebar-topics`

@@ -1,5 +1,9 @@
 # Changelog
 
+- Upgrade the documentation site to Astro 7.1.3 and Starlight 0.41.4, integrate
+  the commit-pinned `astro-polyglot` plugin for generated Python API pages, and
+  add build-time link validation with reproducible native-tool setup.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -9,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed the obsolete `tomli` backport now that Python 3.12 is the supported
+  minimum, and retired the stale Safety/pip-tools tox lane in favour of the
+  locked pip-audit and SBOM security evidence path.
+- Removed the duplicate Bandit dependency and invocations after verifying that
+  the active Python source-security policy is covered by Ruff's selected `S`
+  rules; retained non-overlapping quality and security engines are now
+  dispositioned in a machine-readable registry.
 - Removed the internal acknowledgements placeholder, unused abbreviations, and
   uncited bibliography records from the preprint.
 - Removed internal author-review and automated-submission disclaimers from the
@@ -19,6 +30,193 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Clarified the R package documentation and regression tests to identify the
+  Rust-backed core as authoritative while keeping Python-only compatibility
+  methods explicitly optional.
+
+- Clarified the Julia binding documentation so Rust semantic authority and
+  external General-registry/JLL publication gates are stated unambiguously.
+
+- Added explicit contract-only output artifacts for the frontier ML
+  adversarial-scenario and EIG-versus-decision-VOI fixtures, keeping the
+  manifest validator strict while preserving their non-promotion status.
+
+- Added a deterministic ML contract fixture that keeps expected information
+  gain distinct from decision VOI and records the information action,
+  utility, stopping rule, privacy budget, and offline provenance explicitly.
+
+- Added Python-free R and Julia adapters for Rust-normalized v1 Decision
+  Problem and statistical-assurance contracts. R now resolves the dynamically
+  loaded C ABI correctly and reads canonical Arrow IPC/Feather/Parquet tables;
+  Julia reads canonical Arrow IPC through Tables.jl. ABI v1.15 adds signed
+  length/status adapters for base R while Julia continues to call the portable
+  caller-owned JSON transport directly.
+- Added Rust-owned runtime statistical assurance for expected opportunity
+  loss, including sample variance, Monte Carlo standard error, a disclosed
+  confidence interval, computational budget, numerical-error policy, a typed
+  Python envelope, and canonical serialized reporting.
+- Added fail-closed runtime assurance envelopes to the Rust-owned linear and
+  callback regression EVSI boundaries and the moment-based EVSI boundary.
+  Single-fit execution reports its estimator class, observed budget, stopping
+  rule, and numerical policy while leaving unavailable variance, convergence,
+  effective-sample-size, and RNG evidence explicitly null.
+- Added seeded-bootstrap EVSI assurance with Rust-owned resample variance,
+  Monte Carlo standard error, a disclosed interval, indexed RNG identity, and
+  observed draw/evaluation budgets. Replicate convergence and application-level
+  bootstrap bias remain explicit promotion gates.
+- Added additive Rust assurance results for EVPI, linear EVPPI, and structural
+  EVPI/EVPPI while preserving their scalar APIs. CEAF now reports a separate
+  typed assurance envelope for each threshold, avoiding an ambiguous scalar
+  summary for its vector-valued frontier.
+- Added a Rust-owned independent-replication summary for EVSI estimators with
+  unique seed enforcement, between-run variance and Monte Carlo error,
+  split-half convergence, typed Python results, and fail-closed validation.
+- Promoted the Rust-native linear-regression and moment-matching EVSI
+  estimators to assurance-conformant after joining their analytical,
+  independent-reference, metamorphic, runtime-envelope, and replicated
+  convergence evidence. The Python joint-normal two-loop estimator remains
+  explicitly assurance-gated.
+- Made dependency-frontier verification lock-aware: upgraded resolutions must
+  match the newest stable releases admitted by declared compatibility ranges,
+  while newer incompatible releases are reported for review. The refreshed
+  lock, local Python and documentation audits, and GitHub's zero-open-alert
+  Dependabot state provide the current remediation evidence.
+- Added a generated stable-core status registry that reconciles stable API
+  maturity, numerical authority, validation evidence, runtime statistical
+  assurance, method eligibility, and aggregate v1.1 release gates without
+  treating stable symbols or green CI as promotion evidence.
+- Added hash-bound v1.1 stable-core promotion evidence that records the
+  approved scientific-freeze scope while separating open repository, human,
+  and external Python/R/Julia/Mojo/Rust distribution gates.
+- Added a schema-validated v1.1 estimator-assurance registry that binds every
+  approved stable method to an executable numerical profile or an explicit
+  delegated contract, and freezes tolerance, tie, clipping, failure,
+  diagnostic, and fallback policy without waiving implementation evidence.
+- Added estimator-family statistical-assurance policy and a portable runtime
+  evidence schema covering bias, variance, Monte Carlo error, confidence
+  intervals, convergence, effective sample size, RNG identity, replication,
+  computational budget, stopping, and numerical error.
+- Added a stable-core performance contract that binds the existing Rust and
+  Python regression budgets to their executable baseline files, documents
+  their different execution boundaries, and prohibits cross-language speedup
+  claims until matched hosted evidence exists.
+- Bound the matched cross-language benchmark gate to the publishable public
+  Rust facade in the binding-parity track, preventing internal-kernel timings
+  from being mislabeled as direct-facade performance evidence.
+- Added the publishable `voiage` Rust facade crate, its versioned package
+  contract, release ordering, and conformance tests. The matched facade
+  benchmark is now ready for hosted measurement, while crates.io trusted
+  publisher registration and publication remain explicit external gates.
+- Extended ABI v1 additively with `VoiageEvpiResultV1` and
+  `voiage_v1_evpi_result`, preserving the scalar EVPI symbols while exposing
+  fixed-width dimensions, variance availability, variance, and Monte Carlo
+  standard error.
+- Added ABI v1.2 caller-owned capability discovery. The canonical JSON document
+  is generated from stable-core status, retains method maturity, authority,
+  assurance, and open-gate truth, and fails CI when the checked-in Rust
+  artifact drifts.
+- Added ABI v1.3 typed expected loss with caller-owned expected-benefit and
+  opportunity-loss arrays, a fixed-width assurance summary, and no-partial-
+  write capacity failures. All matrix-taking ABI functions now reject
+  misaligned or address-space-oversized input slices before dereferencing.
+- Added ABI v1.4 Rust-authoritative ENBS with finite-input and non-negative
+  research-cost validation, contained panics, no-write failures, and
+  preservation of negative net research value.
+- Added ABI v1.5 deterministic dominance with caller-owned strategy
+  classifications, frontier indices, incremental costs/effects, ICERs,
+  fixed-width counts, and no-partial-write capacity validation.
+- Added ABI v1.6 CEAF with threshold-aligned optimum indices, acceptability
+  probabilities and intervals, expected net benefit, assurance availability,
+  variance, and Monte Carlo error through bounded caller-owned arrays.
+- Added ABI v1.7 structural EVPI and EVPPI with explicit model probabilities,
+  caller-owned selected-structure indices, fixed-width dimensions, sampling
+  variance, Monte Carlo error, panic containment, and no-write failures.
+- Added ABI v1.8 for the stable full-sample linear-regression EVPPI estimator,
+  including fit dimensions, diagnostic status mapping, panic containment,
+  no-write failures, and an explicit incomplete-assurance state.
+- Added ABI v1.9 typed results for the promoted Rust-native linear-regression
+  and centered moment-matching EVSI estimators, with estimator identity, value
+  decomposition, dimensions, trial size, and explicit single-fit assurance.
+- Added ABI v1.10 fail-closed Decision Problem JSON validation and normalized
+  caller-owned query/copy transport, including no-partial-write behavior for
+  invalid documents and undersized buffers.
+- Added ABI v1.11 schema-validated EVPI result-envelope JSON query/copy
+  transport, including discriminator, scalar, unknown-field, and paired
+  optional strategy-array validation.
+- Added ABI v1.12 EVPPI, EVSI, and ENBS result-envelope JSON transports and
+  consolidated all JSON query/copy entry points on one checked ownership
+  implementation.
+- Added ABI v1.13 expected-loss, CEAF, and dominance result-envelope JSON
+  transports with Rust validation of array alignment, probability bounds,
+  selected-loss consistency, and the complete dominance partition.
+- Added ABI v1.14 canonical statistical-assurance envelope JSON transport,
+  including explicit null evidence, interval ordering, replication-aware
+  convergence validation, and fail-closed caller-owned output.
+- Removed `contents: write` from pre-publication release staging. Reviewed
+  SHA-256 inputs now bind an immutable same-run Actions artifact, while the
+  sole write-capable job creates the public GitHub Release only after the
+  TestPyPI and PyPI gates succeed.
+- Added a fail-closed OpenSSF Best Practices badge readiness map that separates
+  repository evidence from maintainer attestations, external submission, and
+  badge award.
+- Added a stable-core scalability contract defining sequential reduction
+  order, indexed EVSI RNG streams, materialized-input and out-of-core
+  boundaries, estimator memory models, latency evidence, and the absence of
+  energy claims pending measurements.
+- Added a stable-core validation-evidence contract mapping every approved
+  estimator profile to analytical, independently derived, and metamorphic
+  tests. Differential fixtures remain supplementary, and the aggregate EVSI
+  contract now discloses its remaining Python two-loop compatibility path.
+- Added Rust-authoritative net-benefit construction with scalar, threshold,
+  sample-specific threshold, and explicit v1 elementwise compatibility modes;
+  both public Python helpers now use the native kernel and reject non-finite
+  inputs or results. The shared compatibility catalog now exercises normal,
+  edge, and invalid cases through both Python and Rust, and a bounded mutation
+  audit verifies the critical formula, finiteness, scalar-threshold, and
+  sample-ownership semantics.
+- Recorded the repository maintainer's hash-bound scientific-contract approval
+  for the v1.1 method freeze while retaining every implementation, numerical,
+  binding, release, publication, and external gate.
+- Added a fail-closed, append-only scientific-freeze approval recorder that
+  binds an accountable human decision to the exact candidate artifact and
+  requested decisions, rejects stale digests and incomplete evidence, and
+  leaves implementation, validation, binding, release, publication, and
+  external gates open.
+- Added a Rust-authoritative expected opportunity-loss kernel, typed Python
+  result, canonical serialization schema, analytical/property tests, and a
+  public `expected_loss` API whose selected loss agrees with EVPI.
+- Added immutable, commit-pinned upstream source, test, documentation, example,
+  schema-availability, and limitation evidence for every observed external
+  software feature in the VOI landscape.
+- Added generated implementation evidence for every method claimed as native,
+  linking each claim to its implementation, executable tests, numerical
+  authority, maturity, and remaining promotion gate.
+- Added verified landscape records for ecological survey design, external
+  prediction-model validation, heterogeneous meta-analysis, Gaussian
+  approximation, Bayesian calibration, meta-analysis study design, and
+  geothermal imperfect information after the refreshed registry and repository
+  search found these previously omitted capabilities.
+- Added calibration VOI to the canonical method and implementation-evidence
+  registries after reconciling the existing experimental runtime and primary
+  calibration-target literature.
+- Added method-level scientific dispositions for all 60 canonical methods,
+  explicit classifications for 15 adjacent VOI concepts, a backend-neutral
+  DecisionProblemV2 interchange schema, competitor-free positive-parity
+  fixtures, a routed gap report, and scheduled landscape-freshness checks.
+- Added the verified TRD CEA Toolkit software candidate and a duplicate-aware
+  contribution template for missed libraries and methods.
+- Added a Renovate-first dependency and GitHub security programme covering all
+  retained package managers, vulnerability-driven updates, stability and
+  protected-check policy, live posture reconciliation, SBOM/provenance, and
+  fail-closed alert release criteria.
+- Added cross-cutting programme requirements for a canonical Decision Problem
+  interchange model, estimator-assurance envelopes, adjacent decision-theory
+  triage, registry-derived claim conformance, deterministic scalability,
+  adversarial ML/agent evaluation, architecture decisions, ecosystem-drift
+  review, and reproducibility cards.
+- Added a versioned, evidence-linked census of VOI, Value of Perspective,
+  experimental-design, active-learning, web, and commercial software, plus a
+  generated feature and method matrix with explicit parity dispositions.
 - Added the comprehensive Rust-first polyglot VOIAGE programme, eleven
   cross-linked Conductor tracks, a native GitHub parent/subissue hierarchy,
   Project 28 metadata, and reusable local/live governance validation.
@@ -41,6 +239,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Made `ty` the routine local and pull-request type gate. BasedPyright now
+  provides a separately runnable strict assurance lane on the weekly schedule
+  or an explicit manual request.
+- Made the high-confidence Vulture whole-program dead-code check blocking
+  after resolving its current findings without changing public call contracts.
+- Added a regression guard for the supply-chain workflow's frozen rebuild,
+  isolated SBOM environment, and fail-closed artifact retention.
+- Added a regression guard ensuring landscape freshness checks cover method,
+  implementation, upstream-feature, and feature-matrix claim projections.
+- Added a regression guard linking the core architecture decision, normative
+  compatibility/deprecation policy, and versioning documentation.
+- Added a deterministic offline adversarial ML/agent fixture covering prompt
+  injection, retrieval poisoning, correlated judge failure, provider drift,
+  and human escalation without claiming model-validation evidence.
+- Added a normative fixture and test that keep expected information gain
+  distinct from utility- and cost-based decision VOI.
+- Added contract coverage requiring ML/LLM methods to use offline CPU
+  references, keep provider backends optional, and avoid private-data transfer.
+- Added explicit privacy-boundary and degraded-backend diagnostics checks for
+  ML/LLM execution contracts.
+- Added Rust-validated canonical Arrow, IPC, and Parquet representations for
+  v1 Decision Problem and statistical-assurance envelopes, with pinned
+  language-neutral schemas for direct R and Julia adapters.
+- Separated external workflow-parity gaps from method implementation and
+  assurance gaps so a fully evidenced native method is not reported as
+  incomplete merely because a broader competitor workflow remains open.
+- Corrected the method registry so nested-Monte-Carlo EVPPI remains planned
+  rather than being presented as a native stable capability.
+- Replaced Dependabot version-update configuration with Renovate, retained
+  GitHub advisory alerts, raised dependency-review blocking to moderate
+  severity, and constrained JupyterLab to the first release that fixes alerts
+  #64--#68.
 - Allowed the frozen v1 programme validator to coexist with separately
   governed post-v1 tracks while continuing to reject missing v1 records.
 - Consolidated the preprint around the decision problem, information measures,

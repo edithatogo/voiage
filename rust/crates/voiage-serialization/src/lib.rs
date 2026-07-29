@@ -2,15 +2,115 @@
 
 #![forbid(unsafe_code)]
 
-use core::fmt;
+use core::{cmp::Ordering, fmt};
 use serde::{de, Deserialize, Deserializer, Serialize};
 use serde_json::{Map, Value};
 use std::collections::HashSet;
+use voiage_domain::DecisionProblem;
 
 mod error_mapping;
 
 /// Identifies this crate.
 pub const CRATE_NAME: &str = "voiage-serialization";
+
+/// Validates a Decision Problem through the stable Rust domain contract and
+/// returns its compact JSON representation.
+///
+/// Object field order follows the versioned Rust DTO and declared collection
+/// order is preserved. This is normalized transport JSON, not an RFC 8785
+/// digest representation.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or domain invariants fail.
+pub fn normalize_decision_problem_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let decision_problem: DecisionProblem = serde_json::from_slice(input)?;
+    serde_json::to_vec(&decision_problem)
+}
+
+/// Validates an EVPI v1 result envelope and returns compact JSON.
+///
+/// The stable discriminator, scalar invariants, and paired optional strategy
+/// arrays are enforced by the versioned serialization DTO.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evpi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvpiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an EVPPI v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evppi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvppiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an EVSI v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_evsi_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EvsiResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an ENBS v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_enbs_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: EnbsResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates an expected-loss v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_expected_loss_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: ExpectedLossResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates a CEAF v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_ceaf_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: CeafResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates a dominance v1 result envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or result invariants fail.
+pub fn normalize_dominance_result_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let result: DominanceResultV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&result)
+}
+
+/// Validates a statistical-assurance v1 envelope and returns compact JSON.
+///
+/// # Errors
+///
+/// Returns a JSON error when syntax, unknown fields, or assurance invariants
+/// fail.
+pub fn normalize_statistical_assurance_json(input: &[u8]) -> serde_json::Result<Vec<u8>> {
+    let assurance: StatisticalAssuranceEnvelopeV1 = serde_json::from_slice(input)?;
+    serde_json::to_vec(&assurance)
+}
 
 /// A validation failure in a stable result payload.
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -87,6 +187,173 @@ macro_rules! deserialize_validated {
             }
         }
     };
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+enum AssuranceReportingClass {
+    Deterministic,
+    SampleAverage,
+    RegressionOrMetamodel,
+    NestedMonteCarlo,
+    MomentMatching,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+enum AssuranceStoppingReason {
+    DeterministicComplete,
+    FixedBudget,
+    ToleranceMet,
+    BudgetExhausted,
+    Failed,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceConfidenceInterval {
+    level: f64,
+    lower: f64,
+    upper: f64,
+    method: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceConvergence {
+    converged: bool,
+    criterion: String,
+    observed: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceRng {
+    algorithm: String,
+    version: String,
+    seed: u64,
+    stream: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceBudget {
+    draws: u64,
+    evaluations: u64,
+    elapsed_seconds: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AssuranceNumericalError {
+    absolute_bound: Option<f64>,
+    relative_bound: Option<f64>,
+    source: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize)]
+struct StatisticalAssuranceEnvelopeV1 {
+    reporting_class: AssuranceReportingClass,
+    bias_assessment: Option<String>,
+    variance_estimate: Option<f64>,
+    monte_carlo_standard_error: Option<f64>,
+    confidence_interval: Option<AssuranceConfidenceInterval>,
+    convergence: Option<AssuranceConvergence>,
+    effective_sample_size: Option<f64>,
+    rng: Option<AssuranceRng>,
+    replications: u64,
+    budget: AssuranceBudget,
+    stopping_reason: AssuranceStoppingReason,
+    numerical_error: AssuranceNumericalError,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StatisticalAssuranceRaw {
+    reporting_class: AssuranceReportingClass,
+    bias_assessment: Option<String>,
+    variance_estimate: Option<f64>,
+    monte_carlo_standard_error: Option<f64>,
+    confidence_interval: Option<AssuranceConfidenceInterval>,
+    convergence: Option<AssuranceConvergence>,
+    effective_sample_size: Option<f64>,
+    rng: Option<AssuranceRng>,
+    replications: u64,
+    budget: AssuranceBudget,
+    stopping_reason: AssuranceStoppingReason,
+    numerical_error: AssuranceNumericalError,
+}
+
+deserialize_validated!(StatisticalAssuranceEnvelopeV1, StatisticalAssuranceRaw);
+
+impl TryFrom<StatisticalAssuranceRaw> for StatisticalAssuranceEnvelopeV1 {
+    type Error = ValidationError;
+
+    fn try_from(raw: StatisticalAssuranceRaw) -> Result<Self, Self::Error> {
+        if let Some(value) = &raw.bias_assessment {
+            text(value)?;
+        }
+        for value in [
+            raw.variance_estimate,
+            raw.monte_carlo_standard_error,
+            raw.numerical_error.absolute_bound,
+            raw.numerical_error.relative_bound,
+        ]
+        .into_iter()
+        .flatten()
+        {
+            nonnegative(value)?;
+        }
+        if let Some(interval) = &raw.confidence_interval {
+            finite(interval.level)?;
+            finite(interval.lower)?;
+            finite(interval.upper)?;
+            text(&interval.method)?;
+            if interval.level <= 0.0 || interval.level >= 1.0 || interval.lower > interval.upper {
+                return Err(ValidationError("confidence interval is invalid"));
+            }
+        }
+        if let Some(convergence) = &raw.convergence {
+            text(&convergence.criterion)?;
+            finite(convergence.observed)?;
+            if raw.replications < 2 {
+                return Err(ValidationError(
+                    "convergence evidence requires at least two replications",
+                ));
+            }
+        }
+        if let Some(effective_sample_size) = raw.effective_sample_size {
+            finite(effective_sample_size)?;
+            if effective_sample_size <= 0.0 {
+                return Err(ValidationError("effective sample size must be positive"));
+            }
+        }
+        if let Some(rng) = &raw.rng {
+            text(&rng.algorithm)?;
+            text(&rng.version)?;
+            text(&rng.stream)?;
+        }
+        if raw.replications == 0 {
+            return Err(ValidationError("replications must be positive"));
+        }
+        nonnegative(raw.budget.elapsed_seconds)?;
+        text(&raw.numerical_error.source)?;
+
+        Ok(Self {
+            reporting_class: raw.reporting_class,
+            bias_assessment: raw.bias_assessment,
+            variance_estimate: raw.variance_estimate,
+            monte_carlo_standard_error: raw.monte_carlo_standard_error,
+            confidence_interval: raw.confidence_interval,
+            convergence: raw.convergence,
+            effective_sample_size: raw.effective_sample_size,
+            rng: raw.rng,
+            replications: raw.replications,
+            budget: raw.budget,
+            stopping_reason: raw.stopping_reason,
+            numerical_error: raw.numerical_error,
+        })
+    }
 }
 
 /// Flat EVPI v1 result.
@@ -486,6 +753,164 @@ impl TryFrom<EnbsResultV1Input> for EnbsResultV1 {
             expected_perfect_information: input.expected_perfect_information,
             method: input.method,
             diagnostics: input.diagnostics,
+        })
+    }
+}
+
+/// Flat expected opportunity-loss v1 result.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct ExpectedLossResultV1 {
+    analysis_id: String,
+    decision_problem_id: String,
+    analysis_type: ExpectedLossType,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    method: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    reporting: Option<Map<String, Value>>,
+}
+
+/// Validated construction input for an expected-loss result.
+#[derive(Clone, Debug, PartialEq)]
+pub struct ExpectedLossResultV1Input {
+    /// Stable analysis identifier.
+    pub analysis_id: String,
+    /// Stable decision-problem identifier.
+    pub decision_problem_id: String,
+    /// Ordered strategy names.
+    pub strategy_names: Vec<String>,
+    /// Mean net or generalized benefit aligned with strategy names.
+    pub expected_net_benefit_by_strategy: Vec<f64>,
+    /// Mean opportunity loss aligned with strategy names.
+    pub expected_opportunity_loss_by_strategy: Vec<f64>,
+    /// Lowest-index strategy with greatest expected benefit.
+    pub optimal_strategy_index: u64,
+    /// Expected opportunity loss of the selected strategy.
+    pub minimum_expected_opportunity_loss: f64,
+    /// Number of uncertainty samples.
+    pub sample_count: u64,
+    /// Optional estimator or method label.
+    pub method: Option<String>,
+    /// Optional reporting extensions.
+    pub reporting: Option<Map<String, Value>>,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+enum ExpectedLossType {
+    ExpectedLoss,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ExpectedLossRaw {
+    analysis_id: String,
+    decision_problem_id: String,
+    analysis_type: ExpectedLossType,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    method: Option<String>,
+    reporting: Option<Map<String, Value>>,
+}
+
+deserialize_validated!(ExpectedLossResultV1, ExpectedLossRaw);
+
+impl TryFrom<ExpectedLossRaw> for ExpectedLossResultV1 {
+    type Error = ValidationError;
+
+    fn try_from(raw: ExpectedLossRaw) -> Result<Self, Self::Error> {
+        ids(&raw.analysis_id, &raw.decision_problem_id)?;
+        texts(&raw.strategy_names)?;
+        finite_values(&raw.expected_net_benefit_by_strategy)?;
+        finite_values(&raw.expected_opportunity_loss_by_strategy)?;
+        if raw.strategy_names.len() != raw.expected_net_benefit_by_strategy.len()
+            || raw.strategy_names.len() != raw.expected_opportunity_loss_by_strategy.len()
+        {
+            return Err(ValidationError(
+                "expected-loss strategy arrays must be aligned",
+            ));
+        }
+        for &loss in &raw.expected_opportunity_loss_by_strategy {
+            nonnegative(loss)?;
+        }
+        nonnegative(raw.minimum_expected_opportunity_loss)?;
+        let optimal_index = usize::try_from(raw.optimal_strategy_index)
+            .map_err(|_| ValidationError("optimal strategy index is out of range"))?;
+        if optimal_index >= raw.strategy_names.len() {
+            return Err(ValidationError("optimal strategy index is out of range"));
+        }
+        let expected_optimal = raw
+            .expected_net_benefit_by_strategy
+            .iter()
+            .enumerate()
+            .fold(0, |best, (index, value)| {
+                if *value > raw.expected_net_benefit_by_strategy[best] {
+                    index
+                } else {
+                    best
+                }
+            });
+        if optimal_index != expected_optimal {
+            return Err(ValidationError(
+                "optimal strategy index must select the first greatest expected benefit",
+            ));
+        }
+        if raw
+            .minimum_expected_opportunity_loss
+            .partial_cmp(&raw.expected_opportunity_loss_by_strategy[optimal_index])
+            != Some(Ordering::Equal)
+        {
+            return Err(ValidationError(
+                "minimum expected opportunity loss must match the selected strategy",
+            ));
+        }
+        if raw.sample_count == 0 {
+            return Err(ValidationError("sample_count must be positive"));
+        }
+        if let Some(method) = &raw.method {
+            text(method)?;
+        }
+        Ok(Self {
+            analysis_id: raw.analysis_id,
+            decision_problem_id: raw.decision_problem_id,
+            analysis_type: raw.analysis_type,
+            strategy_names: raw.strategy_names,
+            expected_net_benefit_by_strategy: raw.expected_net_benefit_by_strategy,
+            expected_opportunity_loss_by_strategy: raw.expected_opportunity_loss_by_strategy,
+            optimal_strategy_index: raw.optimal_strategy_index,
+            minimum_expected_opportunity_loss: raw.minimum_expected_opportunity_loss,
+            sample_count: raw.sample_count,
+            method: raw.method,
+            reporting: raw.reporting,
+        })
+    }
+}
+
+impl TryFrom<ExpectedLossResultV1Input> for ExpectedLossResultV1 {
+    type Error = ValidationError;
+
+    fn try_from(input: ExpectedLossResultV1Input) -> Result<Self, Self::Error> {
+        Self::try_from(ExpectedLossRaw {
+            analysis_id: input.analysis_id,
+            decision_problem_id: input.decision_problem_id,
+            analysis_type: ExpectedLossType::ExpectedLoss,
+            strategy_names: input.strategy_names,
+            expected_net_benefit_by_strategy: input.expected_net_benefit_by_strategy,
+            expected_opportunity_loss_by_strategy: input.expected_opportunity_loss_by_strategy,
+            optimal_strategy_index: input.optimal_strategy_index,
+            minimum_expected_opportunity_loss: input.minimum_expected_opportunity_loss,
+            sample_count: input.sample_count,
+            method: input.method,
+            reporting: input.reporting,
         })
     }
 }

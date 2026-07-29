@@ -8,7 +8,9 @@ import pytest
 # Import the actual classes that exist
 from voiage.metamodels import (
     BARTMetamodel,
+    FlaxMetamodel,
     GAMMetamodel,
+    Metamodel,
     RandomForestMetamodel,
     _safe_r2_score,
     _safe_rmse,
@@ -19,20 +21,19 @@ from voiage.schema import ParameterSet
 
 # Try to import LinearRegression from sklearn if available
 try:
-    from sklearn.linear_model import LinearRegression
+    from sklearn.linear_model import LinearRegression as SklearnLinearRegression
 
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    LinearRegression = None
 
 
 # Create a simple LinearMetamodel wrapper if sklearn is available
 if SKLEARN_AVAILABLE:
 
-    class LinearMetamodel:
+    class LinearMetamodel(Metamodel):
         def __init__(self) -> None:
-            self.model = LinearRegression()
+            self.model = SklearnLinearRegression()
 
         def fit(self, x, y) -> None:
             x_np = np.array(list(x.parameters.values())).T
@@ -55,7 +56,7 @@ if SKLEARN_AVAILABLE:
             return np.sqrt(np.mean((y - y_pred) ** 2))
 else:
     # If sklearn is not available, skip LinearMetamodel tests
-    LinearMetamodel = None
+    LinearMetamodel: type[Metamodel] | None = None
 
 
 @pytest.fixture
@@ -85,6 +86,7 @@ def test_linear_metamodel(sample_data) -> None:
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
         pytest.skip("sklearn not available")
+    assert LinearMetamodel is not None
 
     x, y = sample_data
 
@@ -113,6 +115,7 @@ def test_random_forest_metamodel(sample_data) -> None:
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
         pytest.skip("sklearn not available")
+    assert LinearMetamodel is not None
 
     x, y = sample_data
 
@@ -233,6 +236,7 @@ def test_calculate_diagnostics(sample_data) -> None:
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
         pytest.skip("sklearn not available")
+    assert LinearMetamodel is not None
 
     x, y = sample_data
 
@@ -265,6 +269,7 @@ def test_cross_validate(sample_data) -> None:
     # Skip if sklearn is not available
     if not SKLEARN_AVAILABLE:
         pytest.skip("sklearn not available")
+    assert LinearMetamodel is not None
 
     x, y = sample_data
 
@@ -300,11 +305,6 @@ def test_cross_validate(sample_data) -> None:
 
 def test_flax_metamodel(sample_data) -> None:
     """Test the FlaxMetamodel."""
-    try:
-        from voiage.metamodels import FlaxMetamodel
-    except ImportError:
-        pytest.skip("FlaxMetamodel not available")
-
     x, y = sample_data
 
     # Try to create the model

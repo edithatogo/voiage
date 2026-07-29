@@ -1,0 +1,36 @@
+{
+  "reporting_class": "nested-monte-carlo",
+  "bias_assessment": "Inner-loop and maximization bias require separate sensitivity evidence.",
+  "variance_estimate": 0.00666666666666667,
+  "monte_carlo_standard_error": 0.0408248290463863,
+  "confidence_interval": {
+    "level": 0.95,
+    "lower": 0.919984538801774,
+    "upper": 1.080015461198226,
+    "method": "between-replication-normal-approximation"
+  },
+  "convergence": {
+    "converged": true,
+    "criterion": "split-half-relative-mean-difference",
+    "observed": 0.0
+  },
+  "effective_sample_size": null,
+  "rng": {
+    "algorithm": "independent-explicit-seeds",
+    "version": "1",
+    "seed": 11,
+    "stream": "replication-seed-vector"
+  },
+  "replications": 4,
+  "budget": {
+    "draws": 4,
+    "evaluations": 4,
+    "elapsed_seconds": 0.0
+  },
+  "stopping_reason": "tolerance-met",
+  "numerical_error": {
+    "absolute_bound": 1e-10,
+    "relative_bound": 1e-8,
+    "source": "stable-estimator-assurance-v1.1-binary64-policy"
+  }
+}

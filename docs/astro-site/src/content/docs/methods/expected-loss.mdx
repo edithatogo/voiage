@@ -1,0 +1,32 @@
+---
+title: Expected loss
+description: Expected opportunity loss for each decision strategy
+---
+
+`expected_loss` evaluates the regret from selecting each strategy before
+uncertainty is resolved. For every sample, it subtracts a strategy's net or
+generalized benefit from the best benefit available in that sample, then
+averages those losses.
+
+```python
+import numpy as np
+from voiage import expected_loss
+
+net_benefit = np.array([
+    [10.0, 12.0],
+    [11.0, 9.0],
+    [13.0, 14.0],
+])
+
+result = expected_loss(net_benefit)
+print(result.expected_opportunity_loss_by_strategy)
+print(result.optimal_strategy_index)
+```
+
+The selected strategy is the first strategy with the greatest expected net
+benefit. Its expected opportunity loss equals EVPI for the same sample matrix,
+up to floating-point rounding. The calculation and result validation are owned
+by the Rust core; Python supplies the typed façade.
+
+Use `result.to_dict(analysis_id=..., decision_problem_id=...)` for the
+language-neutral, closed JSON result contract.

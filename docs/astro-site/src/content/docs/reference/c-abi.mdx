@@ -9,9 +9,31 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `0`
+- ABI major: `1`; ABI minor: `15`
 - Capability-struct version: `1`
-- Capability bits include version negotiation, capability query, and EVPI.
+- Capability bits include version negotiation, capability query, scalar EVPI,
+  the typed EVPI result envelope, and the registry-generated capability
+  document, typed expected loss with caller-owned arrays, and ENBS.
+  Deterministic dominance, frontier, and ICER results are also available.
+  CEAF exposes threshold-aligned acceptability and assurance outputs.
+  Structural EVPI and EVPPI expose model-form uncertainty and assurance.
+  Stable parameter EVPPI is explicitly limited to the full-sample linear
+  regression estimator.
+  EVSI exposes the promoted Rust-native linear-regression and centered
+  moment-matching approximations; it does not advertise the distinct Python
+  two-loop compatibility path as Rust-native.
+  Decision Problem JSON transport validates through the stable Rust domain
+  type before returning compact caller-owned UTF-8.
+  EVPI result-envelope JSON transport validates the canonical v1 discriminator,
+  scalars, and optional per-strategy arrays.
+  EVPPI, EVSI, and ENBS result envelopes use the same shared checked transport
+  and their distinct versioned Rust DTOs.
+  Expected-loss, CEAF, and dominance result envelopes extend that transport
+  while preserving aligned arrays, ordered probability bounds, and the
+  complete dominance partition.
+  The standalone statistical-assurance envelope preserves explicit absent
+  evidence and validates confidence, replication, convergence, budget, RNG,
+  stopping, and numerical-error fields.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -20,17 +42,134 @@ the release allowlists.
 ```text
 voiage_v1_abi_version
 voiage_v1_capabilities
+voiage_v1_capabilities_json
+voiage_v1_decision_problem_json
+voiage_v1_decision_problem_json_i32_r
+voiage_v1_ceaf_result
+voiage_v1_ceaf_result_json
 voiage_v1_evpi
+voiage_v1_enbs
+voiage_v1_enbs_result_json
+voiage_v1_dominance_result
+voiage_v1_dominance_result_json
+voiage_v1_evpi_result
+voiage_v1_evpi_result_json
+voiage_v1_evppi_regression_result
+voiage_v1_evppi_result_json
+voiage_v1_evsi_moment_matching_result
+voiage_v1_evsi_regression_result
+voiage_v1_evsi_result_json
+voiage_v1_expected_loss_result
+voiage_v1_expected_loss_result_json
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
 voiage_v1_error_message
 voiage_v1_handle_create
 voiage_v1_handle_free
+voiage_v1_structural_evpi_result
+voiage_v1_structural_evppi_result
+voiage_v1_statistical_assurance_json
+voiage_v1_statistical_assurance_json_i32_r
 ```
 
 The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
 forms exist for runtimes whose foreign-function conventions use signed 32-bit
 dimensions; they do not define a separate numerical policy.
+`voiage_v1_evpi_result` preserves the scalar value and adds sample and strategy
+counts plus explicit variance and Monte Carlo standard-error availability.
+
+`voiage_v1_capabilities_json` returns canonical UTF-8 JSON generated from the
+stable-core status registry. A null, zero-capacity buffer queries its required
+size, including the trailing NUL. The caller owns all output storage, and an
+undersized buffer is left untouched.
+
+`voiage_v1_expected_loss_result` writes expected net benefit and expected
+opportunity loss into two caller-owned arrays, plus a fixed-width summary with
+the optimum strategy, dimensions, minimum expected loss, variance, and Monte
+Carlo error. Capacity, nullness, and alignment are validated before any output
+is written.
+
+`voiage_v1_enbs` delegates to the Rust ENBS kernel and returns raw
+`EVSI - research cost`; negative net value is valid and is not clipped.
+
+`voiage_v1_dominance_result` writes one classification per strategy, ordered
+frontier indices, and transition-aligned incremental costs, effects, and ICERs.
+Classification codes are `0` frontier, `1` strongly dominated, and `2`
+extended dominated. Both worst-case capacities are validated before any
+output is written.
+
+`voiage_v1_ceaf_result` consumes row-major
+`[sample][strategy][threshold]` net benefit and writes threshold-aligned
+optimum indices, acceptability probabilities and intervals, selected expected
+net benefit, assurance availability, variance, and Monte Carlo error.
+
+`voiage_v1_structural_evpi_result` and
+`voiage_v1_structural_evppi_result` consume row-major
+`[structure][sample][strategy]` net benefit and explicit model probabilities.
+Structural EVPPI additionally consumes caller-owned selected-structure
+indices. Both return dimensions, the structural value, assurance availability,
+informed-value variance, and Monte Carlo error without writing on failure.
+
+`voiage_v1_evppi_regression_result` consumes aligned row-major
+`[sample][strategy]` net benefit and `[sample][parameter]` predictor matrices
+with independent row counts so dimension mismatches remain diagnosable.
+It reports the stable full-sample linear EVPPI estimate and fit dimensions.
+Its assurance state is explicitly `INCOMPLETE`: one deterministic regression
+fit does not establish estimator bias, sampling variance, or replicate
+convergence.
+
+`voiage_v1_evsi_regression_result` and
+`voiage_v1_evsi_moment_matching_result` consume aligned row-major
+`[sample][strategy]` net benefit and `[sample][parameter]` parameter matrices.
+The shared result identifies the estimator, records current, sample and
+perfect-information values, the information fraction, input dimensions and
+trial sample size, and marks single-fit assurance `INCOMPLETE`. Independent
+replicate evidence is a separate assurance workflow. The Python joint-normal
+two-loop estimator is not represented by either symbol.
+
+`voiage_v1_decision_problem_json` accepts an exact-length UTF-8 JSON input,
+validates syntax, unknown fields, identifiers, currency, thresholds and
+intervention invariants through the stable Rust `DecisionProblem`, and returns
+normalized compact JSON with a trailing NUL. Query the required size with a
+null buffer and zero capacity. Invalid input writes neither the required size
+nor the output; a short buffer updates only the required size. This transport
+does not claim RFC 8785 digest canonicalization.
+
+`voiage_v1_evpi_result_json` applies the same ownership and failure contract to
+the canonical EVPI v1 result envelope. It rejects unknown fields, a wrong
+analysis discriminator, non-finite or invalid scalars, negative EVPI, blank
+identifiers, and optional strategy arrays that are missing their paired array
+or differ in length.
+
+`voiage_v1_evppi_result_json`, `voiage_v1_evsi_result_json`, and
+`voiage_v1_enbs_result_json` validate their distinct v1 discriminators and
+method-specific invariants. EVPPI requires non-empty parameter names and a
+non-negative value. EVSI requires a trial design, positive sample size, and
+non-negative value. ENBS requires a trial design, positive sample size,
+non-negative design cost, and permits scientifically valid negative net
+research value. All JSON entry points share one checked ownership and copy
+implementation.
+
+`voiage_v1_expected_loss_result_json`, `voiage_v1_ceaf_result_json`, and
+`voiage_v1_dominance_result_json` validate the structured stable envelopes.
+Expected loss requires aligned strategy arrays, the first greatest expected
+benefit as optimum, and the selected strategy's loss as the reported minimum.
+CEAF requires threshold-aligned arrays and ordered probability bounds within
+zero and one. Dominance requires aligned strategy arrays, transition arrays
+matching the frontier, and a unique complete status/index partition.
+
+`voiage_v1_statistical_assurance_json` validates the normative v1 runtime
+evidence envelope. Required null fields remain present and mean unavailable or
+inapplicable evidence; they are not promoted to successful assurance. The Rust
+DTO rejects unknown fields, non-finite or invalid non-negative quantities,
+reversed confidence intervals, blank provenance labels, zero replications,
+and convergence claims based on fewer than two replications.
+
+`voiage_v1_decision_problem_json_i32_r` and
+`voiage_v1_statistical_assurance_json_i32_r` preserve those transports while
+using signed 32-bit length pointers and an output-status pointer compatible
+with base R's `.C` interface. Negative or unrepresentable lengths fail closed;
+the Rust serializers and caller-owned buffer policy remain authoritative.
 
 ## Status and error transport
 
@@ -48,6 +187,13 @@ message is written when the buffer is too small.
 | --- | ---: | ---: | --- |
 | `VoiageAbiVersionV1` | 12 | 4 | `struct_size@0`, `abi_major@4`, `abi_minor@8` |
 | `VoiageAbiCapabilitiesV1` | 16 | 8 | `struct_size@0`, `struct_version@4`, `capability_bits@8` |
+| `VoiageEvpiResultV1` | 56 | 8 | versioned value, dimensions, assurance availability, variance, and Monte Carlo error |
+| `VoiageExpectedLossResultV1` | 64 | 8 | optimum strategy, dimensions, minimum loss, assurance availability, variance, and Monte Carlo error |
+| `VoiageDominanceResultV1` | 48 | 8 | strategy, frontier, dominance, and transition counts |
+| `VoiageCeafResultV1` | 32 | 8 | sample, strategy, and threshold counts |
+| `VoiageStructuralVoiResultV1` | 64 | 8 | value, dimensions, assurance availability, variance, and Monte Carlo error |
+| `VoiageEvppiRegressionResultV1` | 48 | 8 | value, fit dimensions, and explicit incomplete-assurance state |
+| `VoiageEvsiApproximationResultV1` | 88 | 8 | EVSI value decomposition, estimator identity, dimensions, trial size, and explicit single-fit assurance state |
 | `VoiageHandleV1` | 8 | 8 | opaque token |
 | `voiage_v1_status` | 4 | 4 | fixed-width status |
 

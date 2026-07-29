@@ -40,21 +40,131 @@ NULL
     }
   )
   on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
+  operation <- getNativeSymbolInfo("voiage_v1_evpi_i32_r", PACKAGE = loaded)
 
   values <- as.double(t(net_benefits))
   result <- .C(
-    "voiage_v1_evpi_i32_r",
+    operation,
     values = values,
     rows = as.integer(nrow(net_benefits)),
     columns = as.integer(ncol(net_benefits)),
     out_value = double(1),
-    out_status = integer(1),
-    PACKAGE = "voiageR"
+    out_status = integer(1)
   )
   if (!identical(as.integer(result$out_status), 0L)) {
     stop("voiage Rust EVPI ABI failed", call. = FALSE)
   }
   as.numeric(result$out_value)
+}
+
+.normalize_json_native <- function(value, symbol) {
+  payload <- if (is.character(value) && length(value) == 1L) {
+    value
+  } else {
+    jsonlite::toJSON(value, auto_unbox = TRUE, null = "null", digits = NA)
+  }
+  input <- charToRaw(enc2utf8(payload))
+  if (length(input) > .Machine$integer.max) {
+    stop("JSON input exceeds the R C ABI length limit", call. = FALSE)
+  }
+
+  library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
+  loaded <- tryCatch(
+    dyn.load(library_path),
+    error = function(error) {
+      stop("The voiage Rust C ABI library is unavailable: ", error$message, call. = FALSE)
+    }
+  )
+  on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
+  operation <- getNativeSymbolInfo(symbol, PACKAGE = loaded)
+
+  query <- .C(
+    operation,
+    input = input,
+    input_length = as.integer(length(input)),
+    buffer = raw(1),
+    capacity = 0L,
+    required_size = 0L,
+    out_status = 0L
+  )
+  if (!identical(as.integer(query$out_status), 0L) || query$required_size < 2L) {
+    stop("voiage Rust JSON ABI rejected the input", call. = FALSE)
+  }
+
+  output <- .C(
+    operation,
+    input = input,
+    input_length = as.integer(length(input)),
+    buffer = raw(query$required_size),
+    capacity = as.integer(query$required_size),
+    required_size = 0L,
+    out_status = 0L
+  )
+  if (!identical(as.integer(output$out_status), 0L)) {
+    stop("voiage Rust JSON ABI failed to copy the normalized result", call. = FALSE)
+  }
+  jsonlite::fromJSON(
+    rawToChar(output$buffer[seq_len(output$required_size - 1L)]),
+    simplifyVector = FALSE
+  )
+}
+
+#' Validate and normalize a Decision Problem with the Rust core
+#'
+#' @param problem An R list or scalar JSON string matching the canonical v1
+#'   Decision Problem contract.
+#' @return A normalized R list produced by the Rust-authoritative serializer.
+#' @export
+normalize_decision_problem <- function(problem) {
+  .normalize_json_native(problem, "voiage_v1_decision_problem_json_i32_r")
+}
+
+#' Validate and normalize a statistical-assurance envelope with the Rust core
+#'
+#' @param assurance An R list or scalar JSON string matching the canonical v1
+#'   statistical-assurance contract.
+#' @return A normalized R list produced by the Rust-authoritative serializer.
+#' @export
+normalize_statistical_assurance <- function(assurance) {
+  .normalize_json_native(
+    assurance,
+    "voiage_v1_statistical_assurance_json_i32_r"
+  )
+}
+
+#' Read a canonical voiage Arrow table
+#'
+#' @param path Path to an Arrow IPC/Feather or Parquet file.
+#' @return A data frame retaining the canonical \code{payload_json} column.
+#' @export
+read_voiage_arrow <- function(path) {
+  if (!requireNamespace("arrow", quietly = TRUE)) {
+    stop("Reading Arrow tables requires the optional R package 'arrow'", call. = FALSE)
+  }
+  extension <- tolower(tools::file_ext(path))
+  table <- switch(
+    extension,
+    parquet = arrow::read_parquet(path),
+    arrow = arrow::read_ipc_file(path),
+    feather = arrow::read_feather(path),
+    ipc = arrow::read_ipc_file(path),
+    stop("Unsupported voiage table extension: ", extension, call. = FALSE)
+  )
+  result <- as.data.frame(table)
+  decision_fields <- c(
+    "decision_problem_id", "title", "analysis_type", "currency",
+    "willingness_to_pay", "outcome_names", "intervention_count", "payload_json"
+  )
+  assurance_fields <- c(
+    "reporting_class", "replications", "stopping_reason",
+    "has_confidence_interval", "has_convergence_evidence",
+    "has_rng_identity", "payload_json"
+  )
+  if (!identical(names(result), decision_fields) &&
+      !identical(names(result), assurance_fields)) {
+    stop("The Arrow table does not match a pinned voiage v1 schema", call. = FALSE)
+  }
+  result
 }
 
 .scale_evpi <- function(value, population, time_horizon, discount_rate) {

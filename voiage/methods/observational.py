@@ -386,7 +386,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     # Simple observational study modeler for testing
     def simple_obs_modeler(
-        psa: PSASample, design: dict[str, object], biases: dict[str, object]
+        psa: PSASample, design: dict[str, object], _biases: dict[str, object]
     ) -> NetBenefitArray:
         """Run simple observational study modeler for testing."""
         n_samples = psa.n_samples

@@ -57,6 +57,10 @@ CORE_API_CONTRACT_PAIRS: tuple[tuple[Path, Path], ...] = (
         Path("specs/core-api/examples/v1/enbs.example.json"),
     ),
     (
+        Path("specs/core-api/schemas/v1/results/expected-loss.schema.json"),
+        Path("specs/core-api/examples/v1/expected-loss.example.json"),
+    ),
+    (
         Path("specs/core-api/schemas/v1/results/ceac.schema.json"),
         Path("specs/core-api/examples/v1/ceac.example.json"),
     ),

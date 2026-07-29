@@ -18,6 +18,12 @@ and related methods before the v1.1 contract freeze.
 4. Reconcile `roadmap.md`, documentation, exports, schemas, runtime, and
    frontier-governance claims.
 5. Generate capabilities and public comparison material from the registry.
+6. Disposition adjacent information-ordering, strategic-information,
+   measurement-value, causal-discovery, model-discrimination, control, and
+   flexibility methods without assuming that each is a new VOI estimand.
+7. Define a portable Decision Problem contract covering alternatives, states,
+   information actions, utility/loss, perspective, population, horizon, units,
+   provenance, and model draws.
 
 ## Compatibility, risk, and gates
 
@@ -35,4 +41,3 @@ narrative/runtime maturity conflict remains.
 ## Out of scope
 
 Automatic acceptance of a literature claim or automatic maturity promotion.
-

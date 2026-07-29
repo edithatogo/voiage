@@ -30,6 +30,16 @@
   },
   "kernels": [
     {
+      "kernel_id": "net_benefit",
+      "python_owner": "voiage.core.utils",
+      "rust_status": "complete",
+      "python_wrapper_status": "native",
+      "parity_status": "verified",
+      "benchmark_status": "ci_gated",
+      "migration_priority": "high",
+      "notes": "Rust owns finite scalar, threshold-vector, sample-specific threshold, and explicit legacy-elementwise construction. Both Python public helpers route through PyO3; automatic elementwise shape inference is deprecated and visibly warned."
+    },
+    {
       "kernel_id": "evpi",
       "python_owner": "voiage.methods.basic",
       "rust_status": "complete",

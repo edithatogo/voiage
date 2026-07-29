@@ -9,6 +9,19 @@ import numpy as np
 import pytest
 import xarray as xr
 
+from voiage.metamodels import (
+    FLAX_AVAILABLE,
+    TINYGP_AVAILABLE,
+    BARTMetamodel,
+    FlaxMetamodel,
+    GAMMetamodel,
+    Metamodel,
+    RandomForestMetamodel,
+    TinyGPMetamodel,
+    calculate_diagnostics,
+    compare_metamodels,
+    cross_validate,
+)
 from voiage.schema import ParameterSet
 
 
@@ -40,11 +53,6 @@ def small_sample_data():
 
 def test_random_forest_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for RandomForestMetamodel implementation."""
-    try:
-        from voiage.metamodels import RandomForestMetamodel
-    except ImportError as e:
-        pytest.skip(f"Skipping RandomForest test: {e}")
-
     x, y = sample_data
 
     # Test basic functionality
@@ -99,11 +107,6 @@ def test_random_forest_metamodel_comprehensive(sample_data) -> None:
 
 def test_gam_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for GAMMetamodel implementation."""
-    try:
-        from voiage.metamodels import GAMMetamodel
-    except ImportError as e:
-        pytest.skip(f"Skipping GAM test: {e}")
-
     x, y = sample_data
 
     # Test basic functionality
@@ -162,11 +165,6 @@ def test_gam_metamodel_comprehensive(sample_data) -> None:
 
 def test_bart_metamodel_comprehensive(sample_data) -> None:
     """Comprehensive test for BARTMetamodel implementation."""
-    try:
-        from voiage.metamodels import BARTMetamodel
-    except ImportError as e:
-        pytest.skip(f"Skipping BART test: {e}")
-
     x, y = sample_data
 
     # Use a smaller sample for BART to keep tests reasonably fast
@@ -211,11 +209,6 @@ def test_bart_metamodel_comprehensive(sample_data) -> None:
 
 def test_flax_metamodel_dependency_handling(sample_data) -> None:
     """Test that FlaxMetamodel properly handles missing dependencies."""
-    try:
-        from voiage.metamodels import FlaxMetamodel
-    except ImportError:
-        pytest.skip("FlaxMetamodel not available")
-
     x, y = sample_data
 
     # Try to create the model - should raise ImportError if dependencies are missing
@@ -227,16 +220,11 @@ def test_flax_metamodel_dependency_handling(sample_data) -> None:
         assert y_pred.shape == (100, 1)  # Flax model outputs shape
     except ImportError:
         # This is expected if dependencies are missing
-        pass
+        return
 
 
 def test_flax_metamodel_rmse(sample_data) -> None:
     """Test the rmse method of FlaxMetamodel."""
-    try:
-        from voiage.metamodels import FlaxMetamodel
-    except ImportError:
-        pytest.skip("FlaxMetamodel not available")
-
     x, y = sample_data
 
     try:
@@ -253,16 +241,11 @@ def test_flax_metamodel_rmse(sample_data) -> None:
         assert isinstance(rmse_val, float)
         assert rmse_val >= 0
     except ImportError:
-        pass
+        pytest.skip("FlaxMetamodel dependencies are not available")
 
 
 def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
     """Test that TinyGPMetamodel properly handles missing dependencies."""
-    try:
-        from voiage.metamodels import TinyGPMetamodel
-    except ImportError:
-        pytest.skip("TinyGPMetamodel not available")
-
     x, y = sample_data
 
     # Try to create the model - should raise ImportError if dependencies are missing
@@ -281,53 +264,18 @@ def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
         assert rmse >= 0
     except ImportError:
         # This is expected if dependencies are missing
-        pass
+        return
 
 
 def test_metamodel_protocol_compliance() -> None:
     """Test that all available metamodels comply with the Metamodel protocol."""
-    from importlib.util import find_spec
-
-    if find_spec("voiage.metamodels") is None:
-        pytest.skip("Metamodel protocol not available")
-
-    # Get all available metamodel classes
-    available_metamodels = []
-
-    try:
-        from voiage.metamodels import RandomForestMetamodel
-
-        available_metamodels.append(("RandomForestMetamodel", RandomForestMetamodel))
-    except ImportError:
-        pass
-
-    try:
-        from voiage.metamodels import GAMMetamodel
-
-        available_metamodels.append(("GAMMetamodel", GAMMetamodel))
-    except ImportError:
-        pass
-
-    try:
-        from voiage.metamodels import BARTMetamodel
-
-        available_metamodels.append(("BARTMetamodel", BARTMetamodel))
-    except ImportError:
-        pass
-
-    try:
-        from voiage.metamodels import FlaxMetamodel
-
-        available_metamodels.append(("FlaxMetamodel", FlaxMetamodel))
-    except ImportError:
-        pass
-
-    try:
-        from voiage.metamodels import TinyGPMetamodel
-
-        available_metamodels.append(("TinyGPMetamodel", TinyGPMetamodel))
-    except ImportError:
-        pass
+    available_metamodels = [
+        ("RandomForestMetamodel", RandomForestMetamodel),
+        ("GAMMetamodel", GAMMetamodel),
+        ("BARTMetamodel", BARTMetamodel),
+        ("FlaxMetamodel", FlaxMetamodel),
+        ("TinyGPMetamodel", TinyGPMetamodel),
+    ]
 
     # Test that each metamodel has the required methods
     # Note: Some metamodels may not implement all methods, which is acceptable
@@ -351,15 +299,6 @@ def test_metamodel_protocol_compliance() -> None:
 
 def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> None:
     """Test that calculate_diagnostics works with metamodels that don't implement score/rmse."""
-    try:
-        from voiage.metamodels import (
-            FlaxMetamodel,
-            TinyGPMetamodel,
-            calculate_diagnostics,
-        )
-    except ImportError:
-        pytest.skip("Required metamodels not available")
-
     x, y = sample_data
 
     # Test with FlaxMetamodel if available
@@ -390,8 +329,7 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
         assert "r2" in diagnostics
         assert "rmse" in diagnostics
     except ImportError:
-        # Dependencies not available, skip
-        pass
+        assert not FLAX_AVAILABLE
 
     # Test with TinyGPMetamodel if available
     try:
@@ -403,17 +341,11 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
         assert "r2" in diagnostics
         assert "rmse" in diagnostics
     except ImportError:
-        # Dependencies not available, skip
-        pass
+        assert not TINYGP_AVAILABLE
 
 
 def test_calculate_diagnostics_comprehensive(sample_data) -> None:
     """Comprehensive test for the calculate_diagnostics function."""
-    try:
-        from voiage.metamodels import RandomForestMetamodel, calculate_diagnostics
-    except ImportError as e:
-        pytest.skip(f"Skipping diagnostics test: {e}")
-
     x, y = sample_data
     model = RandomForestMetamodel(n_estimators=10, random_state=42)
     model.fit(x, y)
@@ -455,11 +387,6 @@ def test_calculate_diagnostics_comprehensive(sample_data) -> None:
 
 def test_cross_validate_comprehensive(sample_data) -> None:
     """Comprehensive test for the cross_validate function."""
-    try:
-        from voiage.metamodels import RandomForestMetamodel, cross_validate
-    except ImportError as e:
-        pytest.skip(f"Skipping cross-validation test: {e}")
-
     x, y = sample_data
 
     # Test cross-validation with RandomForest
@@ -506,30 +433,24 @@ def test_cross_validate_comprehensive(sample_data) -> None:
     # Test with 2 folds
     cv_results_2 = cross_validate(RandomForestMetamodel, x, y, cv_folds=2)
     assert cv_results_2["n_folds"] == 2
-    assert len(cv_results_2["fold_scores"]) == 2
+    fold_scores_2 = cv_results_2["fold_scores"]
+    assert isinstance(fold_scores_2, list)
+    assert len(fold_scores_2) == 2
 
     # Test with more folds than samples (should be capped)
     # This should work without error
-    try:
-        cv_results_many = cross_validate(RandomForestMetamodel, x, y, cv_folds=150)
-        # Should be capped to number of samples
-        assert cv_results_many["n_folds"] <= len(y)
-    except Exception:
-        # Some implementations might handle this differently
-        pass
+    cv_results_many = cross_validate(RandomForestMetamodel, x, y, cv_folds=150)
+    n_folds_many = cv_results_many["n_folds"]
+    assert isinstance(n_folds_many, int)
+    assert n_folds_many <= len(y)
 
 
 def test_compare_metamodels_comprehensive(sample_data) -> None:
     """Comprehensive test for the compare_metamodels function."""
-    try:
-        from voiage.metamodels import RandomForestMetamodel, compare_metamodels
-    except ImportError as e:
-        pytest.skip(f"Skipping model comparison test: {e}")
-
     x, y = sample_data
 
     # Test comparison with RandomForest
-    models = [RandomForestMetamodel]
+    models: list[type[Metamodel]] = [RandomForestMetamodel]
     comparison_results = compare_metamodels(models, x, y, cv_folds=2)
 
     # Check that results are returned for the model
@@ -553,21 +474,9 @@ def test_compare_metamodels_comprehensive(sample_data) -> None:
             assert key in model_results
 
     # Test with multiple models (if available)
-    models_to_test = [RandomForestMetamodel]
+    models_to_test: list[type[Metamodel]] = [RandomForestMetamodel]
 
-    try:
-        from voiage.metamodels import GAMMetamodel
-
-        models_to_test.append(GAMMetamodel)
-    except ImportError:
-        pass
-
-    try:
-        from voiage.metamodels import BARTMetamodel
-
-        models_to_test.append(BARTMetamodel)
-    except ImportError:
-        pass
+    models_to_test.extend([GAMMetamodel, BARTMetamodel])
 
     if len(models_to_test) > 1:
         comparison_multi = compare_metamodels(models_to_test, x, y, cv_folds=2)
@@ -580,15 +489,6 @@ def test_compare_metamodels_comprehensive(sample_data) -> None:
 
 def test_edge_cases_and_error_conditions(sample_data) -> None:
     """Test edge cases and error conditions for metamodeling functions."""
-    try:
-        from voiage.metamodels import (
-            RandomForestMetamodel,
-            compare_metamodels,
-            cross_validate,
-        )
-    except ImportError as e:
-        pytest.skip(f"Skipping edge case tests: {e}")
-
     x, y = sample_data
 
     # Test with empty data (should raise appropriate errors)
@@ -610,19 +510,11 @@ def test_edge_cases_and_error_conditions(sample_data) -> None:
     with pytest.raises(Exception):
         model.fit(x, y_mismatched)
 
-    # Test cross_validate with invalid parameters
-    # Note: These may not raise exceptions in all implementations
-    try:
+    # Test cross_validate with invalid parameters.
+    with pytest.raises(ValueError, match="positive integer"):
         cross_validate(RandomForestMetamodel, x, y, cv_folds=0)  # Invalid fold count
-    except Exception:
-        # Expected to raise an exception
-        pass
-
-    try:
+    with pytest.raises(ValueError, match="positive integer"):
         cross_validate(RandomForestMetamodel, x, y, cv_folds=-1)  # Negative fold count
-    except Exception:
-        # Expected to raise an exception
-        pass
 
     # Test compare_metamodels with empty model list
     empty_comparison = compare_metamodels([], x, y)
@@ -632,14 +524,9 @@ def test_edge_cases_and_error_conditions(sample_data) -> None:
 # Property-based tests (if hypothesis is available)
 def test_metamodel_properties(sample_data) -> None:
     """Test mathematical properties of metamodels."""
-    try:
-        from importlib.util import find_spec
+    from importlib.util import find_spec
 
-        if find_spec("hypothesis") is None:
-            pytest.skip("Skipping property-based tests: hypothesis not available")
-
-        from voiage.metamodels import RandomForestMetamodel
-    except ImportError:
+    if find_spec("hypothesis") is None:
         pytest.skip("Skipping property-based tests: hypothesis not available")
 
     x, y = sample_data

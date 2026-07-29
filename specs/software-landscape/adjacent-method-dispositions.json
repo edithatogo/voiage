@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-07-24",
+  "review_due": "2026-10-23",
+  "records": [
+    {
+      "id": "buying-price-voi",
+      "label": "Buying-price value of information",
+      "classification": "adjacent-decision-value",
+      "disposition": "retain-as-related-analysis",
+      "canonical_method_ids": ["evpi", "expected-loss"],
+      "source_urls": ["https://doi.org/10.1287/deca.1080.0116"],
+      "rationale": "It changes the preference-elicitation and valuation frame rather than replacing expected-utility EVPI; retain it as an explicit related analysis."
+    },
+    {
+      "id": "constructed-scale-voi",
+      "label": "Value of information on a constructed scale",
+      "classification": "adjacent-decision-value",
+      "disposition": "retain-as-related-analysis",
+      "canonical_method_ids": ["evpi", "expected-loss"],
+      "source_urls": ["https://doi.org/10.1287/deca.2023.0474"],
+      "rationale": "The constructed-scale formulation broadens value measurement when a natural utility scale is unavailable, but does not create a replacement for canonical EVPI."
+    },
+    {
+      "id": "robust-expected-information-gain",
+      "label": "Robust expected information gain",
+      "classification": "information-theoretic-estimand",
+      "disposition": "add-to-canonical-registry",
+      "canonical_method_ids": ["robust-expected-information-gain", "expected-information-gain", "bayesian-oed"],
+      "source_urls": ["https://proceedings.mlr.press/v180/go22a.html"],
+      "rationale": "REIG is a distinct robust information-design objective over ambiguity sets; it remains information-theoretic until a downstream decision utility is supplied."
+    },
+    {
+      "id": "validation-study-evsi",
+      "label": "Validation-study expected value of sample information",
+      "classification": "application",
+      "disposition": "map-to-canonical",
+      "canonical_method_ids": ["validation-voi", "evsi"],
+      "source_urls": ["https://doi.org/10.1177/0272989X251314010"],
+      "rationale": "Validation EVSI is an application of EVSI to prediction-model validation and is represented by the validation VOI application contract, not a new estimand."
+    },
+    {
+      "id": "blackwell-informativeness",
+      "label": "Blackwell ordering of experiments",
+      "classification": "information-order",
+      "disposition": "retain-as-related-analysis",
+      "canonical_method_ids": ["bayesian-oed", "expected-information-gain"],
+      "source_urls": ["https://doi.org/10.1214/aoms/1177729032"],
+      "rationale": "Blackwell informativeness is an ordering over experiments across decision problems, not a scalar VOI estimand; it is valuable as a dominance diagnostic."
+    },
+    {
+      "id": "value-of-signals",
+      "label": "Value of signals",
+      "classification": "alias",
+      "disposition": "map-to-canonical",
+      "canonical_method_ids": ["evsi"],
+      "source_urls": ["https://doi.org/10.1146/annurev-statistics-040120-010730"],
+      "rationale": "For a specified signal experiment, its expected decision value is sample information; strategic sender-receiver signal design is classified separately."
+    },
+    {
+      "id": "value-of-clairvoyance",
+      "label": "Value of clairvoyance",
+      "classification": "alias",
+      "disposition": "map-to-canonical",
+      "canonical_method_ids": ["evpi"],
+      "source_urls": ["https://doi.org/10.1016/j.jval.2020.01.004"],
+      "rationale": "Clairvoyance denotes learning the payoff-relevant state before acting and maps to perfect-information value under the declared decision problem."
+    },
+    {
+      "id": "value-of-control",
+      "label": "Value of control",
+      "classification": "adjacent-decision-value",
+      "disposition": "exclude-from-voi-core",
+      "canonical_method_ids": [],
+      "source_urls": ["https://apps.dtic.mil/sti/citations/ADA016836"],
+      "rationale": "Control changes feasible states or outcomes rather than beliefs; it must not be reported as information value, although a combined control-and-information model may be built."
+    },
+    {
+      "id": "value-of-flexibility",
+      "label": "Value of flexibility",
+      "classification": "adjacent-decision-value",
+      "disposition": "map-to-canonical",
+      "canonical_method_ids": ["real-options-voi", "sequential-voi"],
+      "source_urls": ["https://doi.org/10.1016/j.jbef.2016.08.002"],
+      "rationale": "Flexibility is option value from retaining future actions; VOIAGE represents it through sequential and real-options contracts and separates it from information value."
+    },
+    {
+      "id": "rational-inattention",
+      "label": "Rational inattention",
+      "classification": "adjacent-decision-value",
+      "disposition": "retain-as-related-analysis",
+      "canonical_method_ids": ["value-of-computation", "expected-information-gain"],
+      "source_urls": ["https://doi.org/10.1162/00335530360535135"],
+      "rationale": "Rational inattention endogenizes information-processing cost and capacity; it is a related framework that can instantiate net VOI but is not an alias for EVSI."
+    },
+    {
+      "id": "bayesian-persuasion",
+      "label": "Bayesian persuasion and information design",
+      "classification": "strategic-information",
+      "disposition": "exclude-from-voi-core",
+      "canonical_method_ids": [],
+      "source_urls": ["https://doi.org/10.1257/aer.101.6.2590"],
+      "rationale": "Persuasion optimizes a sender-controlled signal under different sender and receiver utilities; it requires an explicit strategic extension and is outside the single-decision-maker core."
+    },
+    {
+      "id": "strategic-information-sharing",
+      "label": "Strategic and multi-agent information sharing",
+      "classification": "strategic-information",
+      "disposition": "retain-as-application",
+      "canonical_method_ids": ["agent-information-voi"],
+      "source_urls": ["https://doi.org/10.1257/aer.101.6.2590"],
+      "rationale": "Multi-agent information sharing is retained as an application only when incentives, private information, utilities, and communication actions are explicit."
+    },
+    {
+      "id": "causal-discovery-design",
+      "label": "Causal discovery and identification design",
+      "classification": "application",
+      "disposition": "retain-as-application",
+      "canonical_method_ids": ["causal-transportability-voi", "bayesian-oed"],
+      "source_urls": ["https://doi.org/10.1214/14-STS486"],
+      "rationale": "Causal discovery or identification becomes VOI when the learned causal feature changes a downstream decision; discovery scores alone remain related analyses."
+    },
+    {
+      "id": "model-discrimination-design",
+      "label": "Experimental design for model discrimination",
+      "classification": "application",
+      "disposition": "retain-as-application",
+      "canonical_method_ids": ["structural-voi", "bayesian-oed"],
+      "source_urls": ["https://doi.org/10.1037/a0016104"],
+      "rationale": "Model discrimination is a design objective and maps to structural uncertainty or Bayesian design depending on whether utility is decision- or information-based."
+    },
+    {
+      "id": "measurement-test-accuracy-voi",
+      "label": "Value of measurement and test accuracy",
+      "classification": "application",
+      "disposition": "map-to-canonical",
+      "canonical_method_ids": ["data-quality-voi", "evsi"],
+      "source_urls": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC2614687/"],
+      "rationale": "A measurement or diagnostic test is an information action with accuracy, cost, and consequences; its value maps to EVSI and data-quality VOI."
+    }
+  ]
+}

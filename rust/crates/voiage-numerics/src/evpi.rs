@@ -1,6 +1,21 @@
 use voiage_domain::SampleMatrix;
 
-use crate::NumericalInputError;
+use crate::{expected_loss, NumericalInputError};
+
+/// EVPI estimate with sample-average uncertainty metadata.
+#[derive(Clone, Debug, PartialEq)]
+pub struct EvpiKernelResult {
+    /// Non-negative expected value of perfect information.
+    pub value: f64,
+    /// Number of uncertainty samples.
+    pub sample_count: usize,
+    /// Number of strategies.
+    pub strategy_count: usize,
+    /// Unbiased variance of selected-strategy opportunity loss.
+    pub opportunity_loss_variance: Option<f64>,
+    /// Monte Carlo standard error of EVPI.
+    pub monte_carlo_standard_error: Option<f64>,
+}
 
 /// Computes expected value of perfect information from `[sample][strategy]`
 /// net-benefit values.
@@ -10,30 +25,24 @@ use crate::NumericalInputError;
 /// The matrix is validated by [`SampleMatrix`]. This result-bearing signature
 /// preserves a uniform numerical-kernel boundary for future checked failures.
 pub fn evpi(net_benefit: &SampleMatrix) -> Result<f64, NumericalInputError> {
-    let [sample_count, strategy_count] = net_benefit.shape();
-    let mut strategy_totals = vec![0.0; strategy_count];
-    let mut perfect_information_total = 0.0;
+    evpi_with_assurance(net_benefit).map(|result| result.value)
+}
 
-    for row in net_benefit.rows() {
-        let mut row_maximum = f64::NEG_INFINITY;
-        for (strategy_index, value) in row.iter().copied().enumerate() {
-            strategy_totals[strategy_index] += value;
-            row_maximum = row_maximum.max(value);
-        }
-        perfect_information_total += row_maximum;
-    }
-
-    let divisor = f64::from(u32::try_from(sample_count).map_err(|_| {
-        NumericalInputError::invalid(
-            "net_benefit",
-            "sample count exceeds the supported numerical range",
-        )
-    })?);
-    let perfect_information_mean = perfect_information_total / divisor;
-    let current_information_mean = strategy_totals
-        .into_iter()
-        .map(|total| total / divisor)
-        .fold(f64::NEG_INFINITY, f64::max);
-
-    Ok((perfect_information_mean - current_information_mean).max(0.0))
+/// Computes EVPI together with sample-average uncertainty metadata.
+///
+/// # Errors
+///
+/// Returns an input error when the shared expected-loss kernel cannot produce
+/// a finite result.
+pub fn evpi_with_assurance(
+    net_benefit: &SampleMatrix,
+) -> Result<EvpiKernelResult, NumericalInputError> {
+    let result = expected_loss(net_benefit)?;
+    Ok(EvpiKernelResult {
+        value: result.minimum_expected_opportunity_loss,
+        sample_count: result.sample_count,
+        strategy_count: result.strategy_count,
+        opportunity_loss_variance: result.opportunity_loss_variance,
+        monte_carlo_standard_error: result.monte_carlo_standard_error,
+    })
 }

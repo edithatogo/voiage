@@ -1,0 +1,32 @@
+{
+  "contract_version": "1.0.0",
+  "status": "normative",
+  "schema": "specs/v1/rust-facade.schema.json",
+  "package": {
+    "name": "voiage",
+    "manifest": "rust/crates/voiage/Cargo.toml",
+    "version_source": "workspace",
+    "minimum_rust": "1.85"
+  },
+  "authority": {
+    "stable_calculations": "rust",
+    "capability_source": "specs/v1/stable-core-status.json",
+    "ffi_boundary": "separate-voiage-ffi-crate"
+  },
+  "public_namespaces": [
+    "diagnostics",
+    "domain",
+    "numerics",
+    "serialization"
+  ],
+  "forbidden_dependencies": [
+    "pyo3",
+    "voiage-ffi",
+    "voiage-python"
+  ],
+  "publication": {
+    "publish_order": "after-workspace-dependencies",
+    "repository_ready": true,
+    "external_gate": "crates.io-trusted-publisher-registration-and-authorized-release"
+  }
+}

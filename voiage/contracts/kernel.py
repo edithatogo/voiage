@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence  # noqa: TC003 - public dispatcher signature
 from importlib.metadata import PackageNotFoundError, version
-import logging
+import logging as stdlib_logging
 import platform
 from typing import Literal, Protocol, TypeVar
 from uuid import uuid4
@@ -36,7 +36,7 @@ from voiage.contracts.digests import array_digest
 from voiage.logging import analysis_log_context, analysis_log_context_from_result
 from voiage.main_backends import get_backend
 
-_LOGGER = logging.getLogger("voiage.contracts.kernel")
+_LOGGER = stdlib_logging.getLogger("voiage.contracts.kernel")
 
 SpecT_contra = TypeVar("SpecT_contra", contravariant=True)
 InputT_contra = TypeVar("InputT_contra", contravariant=True)

@@ -15,6 +15,9 @@ The normative `manifest.json` is validated by
 `compatibility-manifest.json` is validated and run by
 `scripts/validate_core_api_fixtures.py`; external fixture roots may retain
 layout-only support when they do not provide that executable manifest.
+The catalog includes net-benefit construction and the stable decision-VOI
+methods, with normal, edge, and invalid outcomes checked by the Python
+reference surface and the deterministic Rust contract runner.
 The runner contract and CI strategy are documented in `runner.md`.
 
 Normative entries must already carry stable provenance metadata, deterministic execution mode,

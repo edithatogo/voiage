@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_version": "1.0.0",
+  "decision_alternatives": ["deploy", "defer"],
+  "predictive_model": "offline-binary-outcome-reference",
+  "information_action": "independent-evaluation",
+  "utility_definition": "expected downstream deployment utility",
+  "stopping_rule": "stop after one evaluation",
+  "state_probabilities": [0.5, 0.5],
+  "prior_entropy_nats": 0.6931471805599453,
+  "posterior_entropy_nats": 0.34657359027997265,
+  "expected_information_gain_nats": 0.34657359027997265,
+  "current_decision": "defer",
+  "posterior_decisions": ["deploy", "defer"],
+  "current_expected_utility": 1.0,
+  "posterior_expected_utility": 2.5,
+  "information_cost": 0.25,
+  "privacy_budget": 0.0,
+  "provenance": {
+    "source": "synthetic",
+    "network_required": false,
+    "private_data": false
+  },
+  "expected_decision_voi": 1.25,
+  "interpretation": "EIG is an information measure; decision VOI uses utility and cost."
+}

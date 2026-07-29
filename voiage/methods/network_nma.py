@@ -255,6 +255,11 @@ def _perform_network_meta_analysis(
     tuple of numpy.ndarray
         Adjusted treatment effects and adjusted variances.
     """
+    # This simplified estimator pools contrasts without re-anchoring them.
+    # Keep the public keyword for forward-compatible callers while making the
+    # intentionally deferred reference-arm policy explicit.
+    del reference_treatment
+
     # Convert standard errors to precisions (1/variance)
     precisions = 1.0 / (se_effects**2)
 

@@ -200,6 +200,7 @@ def sophisticated_calibration_modeler(
     The built-in modeler is a testing-oriented approximation that simulates the
     effect of calibration by shrinking uncertainty toward target values.
     """
+    del study_design
     import xarray as xr
 
     from voiage.schema import ValueArray

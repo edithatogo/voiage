@@ -6,6 +6,9 @@
   dependency-boundary tests.
 - [ ] Map every module and contract to the canonical method registry.
 - [ ] Record duplicates, scientific gaps, and promotion requirements.
+- [ ] Disposition adjacent information-ordering, strategic-information,
+  measurement-value, causal-discovery, model-discrimination, value-of-control,
+  and value-of-flexibility families without conflating them with decision VOI.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -33,4 +36,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Maturity review'
   (Protocol in workflow.md).
-

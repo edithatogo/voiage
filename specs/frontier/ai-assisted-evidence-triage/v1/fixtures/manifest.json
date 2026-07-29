@@ -9,6 +9,21 @@
       "input_artifact": "normative/ai-assisted-evidence-triage-input.json",
       "expected_output_artifact": "normative/value-of-ai-assisted-evidence-triage.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "adversarial information and escalation scenarios",
+      "method_family": "value_of_ai_assisted_evidence_triage",
+      "input_artifact": "normative/adversarial-scenarios.json",
+      "expected_output_artifact": "normative/adversarial-scenarios-output.json",
+      "tolerance_policy": "contract"
+    },
+    {
+      "name": "expected information gain versus decision VOI",
+      "method_family": "value_of_ai_assisted_evidence_triage",
+      "input_artifact": "normative/eig-versus-voi.json",
+      "schema_artifact": "../schemas/eig-versus-decision-voi.schema.json",
+      "expected_output_artifact": "normative/eig-versus-voi-output.json",
+      "tolerance_policy": "contract"
     }
   ],
   "promotion_boundary": {

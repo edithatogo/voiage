@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/statistical-assurance-envelope.schema.json",
+  "title": "VOIAGE statistical assurance result envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reporting_class",
+    "bias_assessment",
+    "variance_estimate",
+    "monte_carlo_standard_error",
+    "confidence_interval",
+    "convergence",
+    "effective_sample_size",
+    "rng",
+    "replications",
+    "budget",
+    "stopping_reason",
+    "numerical_error"
+  ],
+  "properties": {
+    "reporting_class": {
+      "enum": [
+        "deterministic",
+        "sample-average",
+        "regression-or-metamodel",
+        "nested-monte-carlo",
+        "moment-matching"
+      ]
+    },
+    "bias_assessment": {"type": ["string", "null"]},
+    "variance_estimate": {"type": ["number", "null"], "minimum": 0},
+    "monte_carlo_standard_error": {"type": ["number", "null"], "minimum": 0},
+    "confidence_interval": {
+      "type": ["object", "null"],
+      "required": ["level", "lower", "upper", "method"],
+      "additionalProperties": false,
+      "properties": {
+        "level": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "lower": {"type": "number"},
+        "upper": {"type": "number"},
+        "method": {"type": "string", "minLength": 1}
+      }
+    },
+    "convergence": {
+      "type": ["object", "null"],
+      "required": ["converged", "criterion", "observed"],
+      "additionalProperties": false,
+      "properties": {
+        "converged": {"type": "boolean"},
+        "criterion": {"type": "string", "minLength": 1},
+        "observed": {"type": "number"}
+      }
+    },
+    "effective_sample_size": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "rng": {
+      "type": ["object", "null"],
+      "required": ["algorithm", "version", "seed", "stream"],
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "seed": {"type": "integer", "minimum": 0},
+        "stream": {"type": "string", "minLength": 1}
+      }
+    },
+    "replications": {"type": "integer", "minimum": 1},
+    "budget": {
+      "type": "object",
+      "required": ["draws", "evaluations", "elapsed_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "draws": {"type": "integer", "minimum": 0},
+        "evaluations": {"type": "integer", "minimum": 0},
+        "elapsed_seconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "stopping_reason": {
+      "enum": ["deterministic-complete", "fixed-budget", "tolerance-met", "budget-exhausted", "failed"]
+    },
+    "numerical_error": {
+      "type": "object",
+      "required": ["absolute_bound", "relative_bound", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "absolute_bound": {"type": ["number", "null"], "minimum": 0},
+        "relative_bound": {"type": ["number", "null"], "minimum": 0},
+        "source": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["convergence"],
+        "properties": {"convergence": {"type": "object"}}
+      },
+      "then": {"properties": {"replications": {"minimum": 2}}}
+    }
+  ]
+}

@@ -256,7 +256,7 @@ mod tests {
         assert_eq!(manifest.provenance.reference_implementation, "python");
         assert_eq!(manifest.provenance.execution_mode, "deterministic");
         assert_eq!(manifest.provenance.catalog, "v1-python-reference");
-        assert_eq!(manifest.cases.len(), 25);
+        assert_eq!(manifest.cases.len(), 28);
 
         let ids: HashSet<_> = manifest.cases.iter().map(|case| &case.case_id).collect();
         assert_eq!(ids.len(), manifest.cases.len());
@@ -269,10 +269,13 @@ mod tests {
     #[test]
     fn loads_every_input_and_expected_artifact_in_manifest_order() {
         let cases = load_compatibility_cases().expect("canonical cases must load");
-        assert_eq!(cases.len(), 25);
-        assert_eq!(cases[0].case.case_id, "evpi-normal-001");
-        assert_eq!(cases[0].input["net_benefit"][0][0], 10.0);
-        assert_eq!(cases[0].expected["result"], 0.666_666_666_666_666_7);
+        assert_eq!(cases.len(), 28);
+        let evpi = cases
+            .iter()
+            .find(|case| case.case.case_id == "evpi-normal-001")
+            .expect("EVPI fixture");
+        assert_eq!(evpi.input["net_benefit"][0][0], 10.0);
+        assert_eq!(evpi.expected["result"], 0.666_666_666_666_666_7);
     }
 
     #[test]

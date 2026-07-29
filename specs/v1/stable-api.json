@@ -1,6 +1,13 @@
 {
   "contract_version": "1.0.0",
   "status": "normative",
+  "estimator_assurance_contract": "specs/v1/stable-estimator-assurance.json",
+  "statistical_assurance_contract": "specs/v1/stable-estimator-statistical-assurance.json",
+  "performance_contract": "specs/v1/stable-core-performance.json",
+  "promotion_evidence_contract": "specs/v1/stable-core-promotion-evidence.json",
+  "scalability_contract": "specs/v1/stable-core-scalability.json",
+  "status_contract": "specs/v1/stable-core-status.json",
+  "validation_evidence_contract": "specs/v1/stable-core-validation-evidence.json",
   "python": {
     "versions": [
       "3.12",
@@ -105,6 +112,23 @@
     "removed": []
   },
   "methods": {
+    "net_benefit": {
+      "status": "stable",
+      "implementation": "rust",
+      "input_shape": "cost[value]+effect[value]+wtp[scalar|threshold|sample,threshold]",
+      "output": "finite-array; threshold axes append after value axes",
+      "wtp_axis_policy": {
+        "scalar": "preserve-input-shape",
+        "thresholds": "append-threshold-axis",
+        "elementwise": "explicit-v1-compatibility",
+        "auto": "deprecated-elementwise-inference-for-shape-match"
+      },
+      "missing_values": "reject",
+      "errors": [
+        "InputError",
+        "DimensionMismatchError"
+      ]
+    },
     "evpi": {
       "status": "stable",
       "implementation": "rust",
@@ -130,7 +154,7 @@
     },
     "evsi": {
       "status": "stable",
-      "implementation": "rust",
+      "implementation": "rust-with-explicit-python-compatibility-path",
       "input_shape": "net_benefit[sample,strategy]+prior[sample,parameter]+trial-design",
       "output": "finite-float>=0",
       "missing_values": "reject",

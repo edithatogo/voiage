@@ -45,9 +45,15 @@ from .capabilities import (
 from .concerns import ConcernSpec, EvidenceReference
 from .interchange import (
     analysis_result_table,
+    decision_problem_table,
     schema_fingerprint,
+    statistical_assurance_table,
     write_analysis_result_ipc,
     write_analysis_result_parquet,
+    write_decision_problem_ipc,
+    write_decision_problem_parquet,
+    write_statistical_assurance_ipc,
+    write_statistical_assurance_parquet,
 )
 from .kernel import CalculationKernel, EvpiKernel, dispatch_calculation, run_evpi
 from .perspective import PerspectivePayload, adapt_perspective_result, run_perspective
@@ -87,15 +93,21 @@ __all__ = [
     "analysis_result_table",
     "analysis_spec_from_inputs",
     "canonical_bundle_digest",
+    "decision_problem_table",
     "dispatch_calculation",
     "evaluate_backend",
     "run_evpi",
     "run_perspective",
     "schema_fingerprint",
     "select_backend",
+    "statistical_assurance_table",
     "validate_schema_evolution",
     "verify_contract_bundle",
     "verify_pinned_contract_bundle",
     "write_analysis_result_ipc",
     "write_analysis_result_parquet",
+    "write_decision_problem_ipc",
+    "write_decision_problem_parquet",
+    "write_statistical_assurance_ipc",
+    "write_statistical_assurance_parquet",
 ]

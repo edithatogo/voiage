@@ -19,6 +19,226 @@ Feature parity means independently implemented equivalent capability or a
 reviewed exclusion, not an imitation of another package API. Literature,
 software, data, model, and maturity claims remain evidence-gated.
 
+The v1.1 core now has Rust authority for net-benefit construction, including
+explicit threshold-axis semantics and shared Python/Rust fixtures. Its
+schema-validated estimator-assurance registry now freezes numerical
+comparisons, ties, clipping, failures, diagnostics, and fallbacks for every
+approved stable method through an executable profile or explicit delegation.
+The companion statistical-assurance policy freezes estimator-family bias,
+variance, Monte Carlo error, convergence, effective sample size, RNG,
+replication, budget, stopping, and numerical-error reporting. Completion of
+v1.1 still requires implementing these runtime envelopes and recording
+resource, matched-performance, and promotion evidence defined by the
+stable-core track. Existing Python and Rust regression budgets are now
+contracted separately because they exercise different execution boundaries;
+no cross-language speedup claim is permitted without a matched hosted
+benchmark.
+
+Decision Problem and statistical-assurance envelopes now have pinned,
+Rust-validated Arrow schemas with deterministic IPC and Parquet round trips.
+Their complete normalized JSON remains embedded alongside typed indexing
+columns, providing the stable interchange boundary needed by direct R and
+Julia adapters without duplicating contract validation in those languages.
+
+The stable scalability contract now records fixed sequential reduction,
+indexed EVSI random streams, materialized-input boundaries, method-specific
+memory models, latency evidence, and the absence of an energy claim. Parallel
+reduction, Rust out-of-core execution, and measured energy profiles remain
+promotion-gated rather than being inferred from Python orchestration helpers.
+
+Stable-core validation evidence now maps every approved estimator profile to
+named analytical, independently derived, and metamorphic tests. Differential
+fixtures remain supplementary. The mapping also corrects the aggregate API
+claim for EVSI: native regression and moment kernels coexist with a visible
+Python two-loop compatibility path, which remains a Rust-authority gap rather
+than being hidden behind a general `rust` label.
+
+A generated stable-core status registry now reconciles those contracts into
+method-level API maturity, numerical authority, validation state, runtime
+assurance, and v1.1 eligibility. It prevents a stable public symbol from being
+mistaken for a completed release gate. The aggregate remains not release-ready
+while estimator-specific replication and convergence assurance, matched
+cross-language performance, and the four manual phase reviews remain open. The
+lock-aware dependency frontier is satisfied without widening declared
+compatibility ranges.
+
+Expected opportunity loss is the first sample-average method with a runtime
+statistical-assurance envelope. Rust now owns its selected-strategy sampling
+variance and Monte Carlo standard error; Python exposes the typed envelope and
+canonical serialization preserves it. Replication, convergence, effective
+sample size, and RNG identity are not inferred from supplied draws, so method
+promotion remains open. Linear and callback regression EVSI and moment-based
+EVSI now also carry fail-closed single-fit envelopes with estimator class,
+observed budget, stopping rule, and numerical policy. They deliberately report
+variance, convergence, effective sample size, and RNG evidence as unavailable
+until replicated estimator-specific assurance is implemented. The
+seeded-bootstrap EVSI kernel now reports resample variance, Monte Carlo standard
+error, a disclosed interval, indexed RNG identity, and observed budgets; its
+replicate-convergence gate remains open. EVPI now reuses Rust-owned
+opportunity-loss sampling error; linear EVPPI exposes its single-fit metadata;
+structural EVPI/EVPPI report aligned sample error; and CEAF reports one
+assurance envelope per threshold. Runtime serialization coverage is therefore
+complete for the stable profiles, while replicated convergence,
+estimator-specific validation, and promotion evidence remain open.
+
+EVSI estimators now have an explicit independent-replication boundary:
+callers provide estimates from unique seeds, and Rust reports between-run
+variance, Monte Carlo error, a confidence interval, and split-half relative
+mean convergence. The committed fixture covers nested Monte Carlo; regression
+and moment estimators have executable replicated fixtures and are
+assurance-conformant when joined with their analytical, independent-reference,
+and metamorphic evidence. The public joint-normal two-loop compatibility path
+retains its separate estimator-assurance and Rust-authority gates.
+
+The dependency frontier now distinguishes compatibility floors from resolved
+versions. Required lock refreshes must resolve every direct dependency to the
+newest stable version admitted by its declared range; newer incompatible
+releases are disclosed for review rather than forcing an unreviewed major
+upgrade. The current strict frontier and local Python and documentation
+security audits pass, and GitHub reports zero open Dependabot alerts.
+
+The publishable `voiage` Rust facade now provides module-qualified domain,
+diagnostic, numerical, and serialization namespaces without depending on the
+C ABI or Python bridge. This removes the repository prerequisite for matched
+Python-versus-Rust performance measurement, but it does not itself provide a
+benchmark result or crates.io publication. The paired hosted benchmark gate is
+open, and no speedup or overhead claim is made from the existing non-equivalent
+baselines.
+
+The additive C ABI v1.1 increment preserves every scalar EVPI entry point and
+adds a self-describing `VoiageEvpiResultV1` envelope. Its fixed-width layout
+carries value, sample and strategy counts, assurance availability, selected-
+strategy opportunity-loss variance, and Monte Carlo standard error. Broader
+method/result types, serialization buffers, and generated registry-derived
+capabilities remain part of the binding-parity track.
+
+C ABI v1.2 adds caller-owned capability discovery generated from the canonical
+stable-core status. The compact JSON preserves every method's maturity,
+execution-authority boundary, implementation state, runtime assurance, and
+open gates instead of relying on manually synchronized wrapper claims.
+Generation drift is test-failing; typed method results and language-native
+adapters remain separate implementation work.
+
+C ABI v1.3 establishes the caller-owned array contract through expected loss:
+two capacity-checked per-strategy arrays accompany a fixed-width optimum,
+dimension, minimum-loss, variance, and Monte Carlo-error summary. All
+matrix-taking entry points reject misaligned pointers and address-space-
+oversized slices before constructing Rust views. The same no-partial-write
+pattern is the basis for broader stable result types and direct bindings.
+
+C ABI v1.4 exposes Rust-authoritative ENBS without clipping negative net
+research value. It validates finite inputs and non-negative research cost,
+contains panics, and leaves caller output untouched on failure.
+
+C ABI v1.5 exposes Rust-authoritative dominance, the cost-effectiveness
+frontier, and ICER transitions through bounded caller-owned arrays. Stable
+classification codes distinguish frontier, strong dominance, and extended
+dominance, while a fixed-width summary records valid output counts.
+
+C ABI v1.6 exposes CEAF as threshold-aligned caller-owned arrays, preserving
+input threshold order and returning optimum indices, acceptability
+probabilities and confidence intervals, selected expected net benefit,
+variance availability, variance, and Monte Carlo error.
+
+C ABI v1.7 exposes structural EVPI and structural EVPPI over explicit
+model-structure probabilities and row-major structure/sample/strategy net
+benefit. The fixed-width result carries dimensions and sample-average
+assurance; selected structural EVPPI indices remain caller-owned.
+
+C ABI v1.8 exposes only the scientifically frozen full-sample linear-regression
+EVPPI estimator. Its fixed-width result carries aligned sample, strategy, and
+parameter counts and explicitly reports incomplete assurance rather than
+inventing bias, variance, or convergence evidence from one deterministic fit.
+
+C ABI v1.9 exposes the promoted Rust-native linear-regression and centered
+moment-matching EVSI approximations through an estimator-labelled fixed-width
+result. It carries the current, sample and perfect-information values,
+information fraction, dimensions and trial size, while keeping single-fit
+replicate assurance explicitly incomplete. The separate Python joint-normal
+two-loop compatibility path is not advertised as Rust-native.
+
+C ABI v1.10 adds the first versioned serialization buffer: fail-closed
+Decision Problem JSON validation through the stable Rust domain type followed
+by query-then-copy normalized UTF-8 transport. Invalid documents and short
+buffers cannot produce partial output. Result-envelope JSON, Arrow
+representations, and language-native adapters remain separate open work.
+
+C ABI v1.11 extends the caller-owned JSON buffer contract to the canonical
+EVPI v1 result envelope. Rust serialization validates its discriminator,
+scalar invariants, optional paired strategy arrays, and unknown-field policy
+before normalized output. Other result envelopes, estimator-assurance JSON,
+and Arrow remain open.
+
+C ABI v1.12 consolidates all JSON entry points on one checked ownership/copy
+implementation and adds canonical v1 EVPPI, EVSI, and ENBS result-envelope
+validation. Each retains its own discriminator and method-specific invariants;
+ENBS correctly permits negative net research value. Expected-loss, CEAF,
+dominance, estimator-assurance JSON, and Arrow remain open.
+
+C ABI v1.13 adds canonical expected-loss, CEAF, and dominance result-envelope
+JSON validation through that shared transport. Rust DTOs enforce aligned
+strategy and threshold arrays, ordered probability bounds, selected-loss
+consistency, and a unique complete dominance partition. Estimator-assurance
+JSON, Arrow representations, and direct language-native adapters remain open.
+
+C ABI v1.14 adds the canonical statistical-assurance envelope as a standalone
+validated JSON transport. The Rust DTO preserves explicit null evidence,
+rejects unknown or incomplete structures, enforces finite non-negative error
+quantities and ordered confidence intervals, and prevents convergence claims
+from a single replication. Arrow representations and direct language-native
+adapters remain open.
+
+The initial reproducible landscape snapshot covers direct R and Python VOI/VOP
+software, broader decision-modeling packages, public web tools, commercial
+documentation, Bayesian experimental-design and active-learning libraries,
+and the current Rust/Julia/Mojo ecosystem boundary. Its generated matrix is
+evidence-linked and deliberately records planned and non-reproducible
+capabilities rather than turning search hits into parity claims. Quarterly and
+pre-minor-release refreshes remain required.
+
+### Cross-cutting programme refinements
+
+The programme also treats the following as release requirements rather than
+optional follow-up:
+
+1. A canonical Decision Problem interchange model carries alternatives,
+   uncertain states, information actions, utility or loss, perspective,
+   population, horizon, units, provenance, and posterior/predictive draws
+   across Rust, Python, R, Julia, and Mojo.
+2. Estimator assurance includes Monte Carlo error or uncertainty, convergence,
+   effective sample size where meaningful, RNG identity, replication,
+   computational budget, stopping reason, and numerical error—not point
+   estimates alone.
+3. The literature census explicitly reviews information ordering and adjacent
+   methods such as Blackwell informativeness, value of signals, control,
+   flexibility, rational inattention, strategic information design, causal
+   discovery, model discrimination, and value of measurement.
+4. Capability matrices, binding manifests, Astro documentation, and release
+   claims are generated or validated against the canonical registries.
+5. Stable scalability claims require deterministic parallelism, recorded RNG
+   streams, streaming/out-of-core behavior, CPU fallback, and bounded memory,
+   latency, and energy evidence.
+6. ML, LLM, retrieval, verifier, and agent VOI accounts for adversarial and
+   dependent failures, evaluation contamination, provider drift, safety and
+   privacy constraints, and human override.
+7. Material method, backend, ABI, exclusion, and deprecation decisions receive
+   versioned architecture decision records; ecosystem drift automation
+   proposes reviewed changes but cannot approve scientific dispositions.
+8. Worked examples include reproducibility cards, assumptions, estimator
+   uncertainty, sensitivity, failure cases, accessibility, and deterministic
+   offline execution.
+9. Renovate owns version updates across Python, Rust, npm, GitHub Actions and
+   submodules; GitHub's dependency graph and Dependabot alerts remain advisory
+   inputs. Security, major, numerical, lockfile and executable-source changes
+   remain human-reviewed.
+10. Release posture reconciles live GitHub settings, required checks, CodeQL,
+    dependency review, Scorecard, workflow audit, secrets, SBOM, provenance and
+    open alerts. Critical/high findings block release; moderate findings need a
+    bounded reviewed disposition.
+
+These refinements remain within the existing ten child workstreams. Creating
+additional tracks would fragment ownership and duplicate acceptance gates.
+
 ## Current Status (As of July 2026)
 
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
@@ -439,6 +659,12 @@ implementation can proceed without reopening the stack decision.
     *   Record the build, link-check, version-navigation, and content-smoke
         gates that a later implementation track must satisfy.
     *   Completed by Conductor track: `starlight-docs-platform_20260506` (archived).
+
+The implemented platform now uses Astro 7.1.3, Starlight 0.41.4, and a
+commit-pinned `edithatogo/astro-polyglot` source integration. Python public API
+pages are generated deterministically during checks and builds. Additional
+Rust, R, Julia, and Mojo extraction lanes remain conformance-gated rather than
+being inferred complete from plugin availability.
 2.  **Two-Loop Kernel Port:**
     *   Port the stochastic EVSI kernel into Rust and validate it against the
         Python reference and deterministic fixtures.

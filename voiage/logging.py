@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 import json
-import logging
+import logging as stdlib_logging
 import os
 import pathlib  # noqa: TC003 - Pydantic resolves this annotation at runtime
 import re
@@ -23,7 +23,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from voiage.assurance_policy import is_sensitive_log_key
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Generator, Iterable
 
     from voiage.contracts.analysis import AnalysisResult, ContractModel
 
@@ -223,7 +223,7 @@ class LoggingSettings(BaseModel):
     def validate_level(cls, value: str) -> str:
         """Normalize and validate a standard-library logging level."""
         normalized = value.upper()
-        if normalized not in logging.getLevelNamesMapping():
+        if normalized not in stdlib_logging.getLevelNamesMapping():
             raise ValueError(f"unknown logging level: {value}")
         return normalized
 
@@ -240,13 +240,13 @@ class LoggingSettings(BaseModel):
 
 
 @final
-class _ContextFilter(logging.Filter):
+class _ContextFilter(stdlib_logging.Filter):
     def __init__(self, settings: LoggingSettings) -> None:
         super().__init__()
         self.settings: LoggingSettings = settings
 
     @override
-    def filter(self, record: logging.LogRecord) -> bool:
+    def filter(self, record: stdlib_logging.LogRecord) -> bool:
         state = _current_context()
         record.service = self.settings.service
         record.run_id = state.run_id or self.settings.run_id
@@ -256,21 +256,21 @@ class _ContextFilter(logging.Filter):
 
 
 @final
-class RedactingFormatter(logging.Formatter):
+class RedactingFormatter(stdlib_logging.Formatter):
     """Apply credential redaction to human-readable log messages."""
 
     @override
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record: stdlib_logging.LogRecord) -> str:
         """Format and scrub one human-readable record."""
         return _redact_text(super().format(record))
 
 
 @final
-class JsonFormatter(logging.Formatter):
+class JsonFormatter(stdlib_logging.Formatter):
     """Emit newline-delimited JSON for CI and observability systems."""
 
     @override
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record: stdlib_logging.LogRecord) -> str:
         """Serialize one log record without relying on global state."""
         payload: dict[str, object] = {
             "timestamp": datetime.fromtimestamp(record.created, UTC).isoformat(),
@@ -351,11 +351,13 @@ def analysis_log_context_from_result[PayloadT: "ContractModel"](
     )
 
 
-def configure_logging(settings: LoggingSettings | None = None) -> logging.Logger:
+def configure_logging(
+    settings: LoggingSettings | None = None,
+) -> stdlib_logging.Logger:
     """Configure VOIAGE-owned handlers without disturbing host applications."""
     settings = settings or LoggingSettings.from_environment()
-    logger = logging.getLogger("voiage")
-    logger.setLevel(logging.DEBUG)
+    logger = stdlib_logging.getLogger("voiage")
+    logger.setLevel(stdlib_logging.DEBUG)
     logger.propagate = False
     for handler in tuple(logger.handlers):
         if getattr(handler, _OWNED_HANDLER, False):
@@ -364,9 +366,11 @@ def configure_logging(settings: LoggingSettings | None = None) -> logging.Logger
 
     context_filter = _ContextFilter(settings)
     human = RedactingFormatter("%(levelname)s:%(name)s:%(message)s [run_id=%(run_id)s]")
-    formatter: logging.Formatter = JsonFormatter() if settings.json_output else human
+    formatter: stdlib_logging.Formatter = (
+        JsonFormatter() if settings.json_output else human
+    )
     if settings.console:
-        console = logging.StreamHandler(sys.stderr)
+        console = stdlib_logging.StreamHandler(sys.stderr)
         console.setLevel(settings.level)
         console.setFormatter(formatter)
         console.addFilter(context_filter)
@@ -374,10 +378,10 @@ def configure_logging(settings: LoggingSettings | None = None) -> logging.Logger
         logger.addHandler(console)
     if settings.log_file is not None:
         settings.log_file.parent.mkdir(parents=True, exist_ok=True)
-        file_handler = logging.FileHandler(
+        file_handler = stdlib_logging.FileHandler(
             settings.log_file, mode="a", encoding="utf-8"
         )
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(stdlib_logging.DEBUG)
         file_handler.setFormatter(JsonFormatter())
         file_handler.addFilter(context_filter)
         setattr(file_handler, _OWNED_HANDLER, True)

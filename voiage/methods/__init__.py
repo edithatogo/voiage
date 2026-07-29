@@ -7,6 +7,8 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from voiage.methods.basic import ExpectedLossResult, expected_loss
+
 _MODULES = (
     "adaptive",
     "adaptive_learning_bandit",
@@ -71,6 +73,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
+    "ExpectedLossResult",
     "EquityInformationResult",
     "EvidenceObsolescenceRefreshResult",
     "ExpertSynthesisResult",
@@ -104,6 +107,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "calculate_strong_dominance",
     "cost_effectiveness_frontier",
     "enbs",
+    "expected_loss",
     "evpi",
     "evppi",
     "evsi",

@@ -1,0 +1,882 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-core",
+      "reviewed_version": "1.0.3",
+      "reviewed_revision": "b43b89593b2c8c8e5e8024a236a77f9a0dda85ed",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evpi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evsi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/enbs.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evpi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evppi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evsi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_enbs.R"
+      ],
+      "documentation_artifacts": [
+        "https://cran.r-project.org/package=voi"
+      ],
+      "example_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/vignettes/voi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evppi-estimators",
+      "reviewed_version": "1.0.3",
+      "reviewed_revision": "b43b89593b2c8c8e5e8024a236a77f9a0dda85ed",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_bart.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_earth.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_gam.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_gp.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_inla.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppi_mc.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evppi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evppi_mc.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/vignettes/voi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-evsi-estimators",
+      "reviewed_version": "1.0.3",
+      "reviewed_revision": "b43b89593b2c8c8e5e8024a236a77f9a0dda85ed",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evsi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evsi_is.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evsi_mm.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evsi.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evsi_is.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evsi_mm.R"
+      ],
+      "documentation_artifacts": [
+        "https://search.r-project.org/CRAN/refmans/voi/html/evsi.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/vignettes/voi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-voi",
+      "feature_id": "voi-tidy-plots",
+      "reviewed_version": "1.0.3",
+      "reviewed_revision": "b43b89593b2c8c8e5e8024a236a77f9a0dda85ed",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evppivar.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/R/evsivar.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evppivar.R",
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/tests/testthat/test_evsivar.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/chjackson/voi/blob/b43b89593b2c8c8e5e8024a236a77f9a0dda85ed/vignettes/voi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-economic-evaluation",
+      "reviewed_version": "2.4.83",
+      "reviewed_revision": "f8fadf5353967d4c7db35d7e9e47238f8157b0ce",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/prepare_ceac_params.R",
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/ceaf.plot.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/tests/testthat/test-ceac_plot_ggplot.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/vignettes/ceac.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-voi",
+      "reviewed_version": "2.4.83",
+      "reviewed_revision": "f8fadf5353967d4c7db35d7e9e47238f8157b0ce",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/evppi.R",
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/evppi.default.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/tests/testthat/test-evppi.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/vignettes/evppi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-bcea",
+      "feature_id": "bcea-interactive-plots",
+      "reviewed_version": "2.4.83",
+      "reviewed_revision": "f8fadf5353967d4c7db35d7e9e47238f8157b0ce",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/ceac_plot_graph.R",
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/evppi_plot_base.R",
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/R/evppi_plot_ggplot.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/tests/testthat/test-ceac_plot_ggplot.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/vignettes/ceac.Rmd",
+        "https://github.com/giabaio/BCEA/blob/f8fadf5353967d4c7db35d7e9e47238f8157b0ce/vignettes/evppi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-voi",
+      "reviewed_version": "1.0.2.1000",
+      "reviewed_revision": "0430fee8b8b3736cdc7dda353bd39ffa8b8480a2",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/evpi.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/evppi.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/evsi.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/exp_loss.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_evpi.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_evppi.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_evsi.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/vignettes/voi.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/vignettes/voi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-dampack",
+      "feature_id": "dampack-psa",
+      "reviewed_version": "1.0.2.1000",
+      "reviewed_revision": "0430fee8b8b3736cdc7dda353bd39ffa8b8480a2",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/ceac.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/icers.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/psa.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/R/run_psa.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_ceac.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_calculate_icers.R",
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/tests/testthat/test_psa.R"
+      ],
+      "documentation_artifacts": [
+        "https://stat.ethz.ch/CRAN/web/packages/dampack/dampack.pdf"
+      ],
+      "example_artifacts": [
+        "https://github.com/DARTH-git/dampack/blob/0430fee8b8b3736cdc7dda353bd39ffa8b8480a2/vignettes/psa_analysis.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-evpi",
+      "reviewed_version": "1.1.0",
+      "reviewed_revision": "98c7da0e78d358f71d866c6a748c596217c5a78b",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pierucci/heemod/blob/98c7da0e78d358f71d866c6a748c596217c5a78b/R/evpi.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-modeling",
+      "reviewed_version": "1.1.0",
+      "reviewed_revision": "98c7da0e78d358f71d866c6a748c596217c5a78b",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pierucci/heemod/blob/98c7da0e78d358f71d866c6a748c596217c5a78b/R/calibration.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/pierucci/heemod/blob/98c7da0e78d358f71d866c6a748c596217c5a78b/tests/testthat/test_calibration.R"
+      ],
+      "documentation_artifacts": [
+        "https://aphp.github.io/heemod/"
+      ],
+      "example_artifacts": [
+        "https://github.com/pierucci/heemod/blob/98c7da0e78d358f71d866c6a748c596217c5a78b/vignettes/k_calibration.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-hesim",
+      "feature_id": "hesim-cea",
+      "reviewed_version": "0.5.8",
+      "reviewed_revision": "676630b6247c8fedec5deed8f23a157e722b392c",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/hesim-dev/hesim/blob/676630b6247c8fedec5deed8f23a157e722b392c/R/cea.R",
+        "https://github.com/hesim-dev/hesim/blob/676630b6247c8fedec5deed8f23a157e722b392c/src/cea.cpp"
+      ],
+      "test_artifacts": [
+        "https://github.com/hesim-dev/hesim/blob/676630b6247c8fedec5deed8f23a157e722b392c/tests/testthat/test-cea.R"
+      ],
+      "documentation_artifacts": [
+        "https://search.r-project.org/CRAN/refmans/hesim/html/cea.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/hesim-dev/hesim/blob/676630b6247c8fedec5deed8f23a157e722b392c/vignettes/cea.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-decisionsupport",
+      "feature_id": "decisionsupport-evpi",
+      "reviewed_version": "1.115",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://search.r-project.org/CRAN/refmans/decisionSupport/html/00Index.html"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-analysis",
+      "reviewed_version": "2.2.1",
+      "reviewed_revision": "4875b0c1fe6e361536875f32182ab99d38aea399",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts.R",
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts_GAMfunctions.R",
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts_GPfunctions.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "example_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/tree/4875b0c1fe6e361536875f32182ab99d38aea399/test_data/",
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/report.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-burdens",
+      "reviewed_version": "2.2.1",
+      "reviewed_revision": "4875b0c1fe6e361536875f32182ab99d38aea399",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts_tables.R",
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts_text.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "example_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/tree/4875b0c1fe6e361536875f32182ab99d38aea399/test_data/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "savi",
+      "feature_id": "savi-reports",
+      "reviewed_version": "2.2.1",
+      "reviewed_revision": "4875b0c1fe6e361536875f32182ab99d38aea399",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/report.Rmd",
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/blob/4875b0c1fe6e361536875f32182ab99d38aea399/scripts_plots.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://savi.sheffield.ac.uk/"
+      ],
+      "example_artifacts": [
+        "https://github.com/Sheffield-Accelerated-VoI/SAVI/tree/4875b0c1fe6e361536875f32182ab99d38aea399/report_files/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "bceaweb",
+      "feature_id": "bceaweb-surface",
+      "reviewed_version": "unverified",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "rane",
+      "feature_id": "rane-minimal-model",
+      "reviewed_version": "unverified",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "victor",
+      "feature_id": "victor-trial",
+      "reviewed_version": "unverified",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "pyro-oed",
+      "feature_id": "pyro-eig",
+      "reviewed_version": "1.9.1",
+      "reviewed_revision": "359dc54bc03631743379b83423ac4a5e00ef17e6",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pyro-ppl/pyro/blob/359dc54bc03631743379b83423ac4a5e00ef17e6/pyro/contrib/oed/eig.py",
+        "https://github.com/pyro-ppl/pyro/blob/359dc54bc03631743379b83423ac4a5e00ef17e6/pyro/contrib/oed/search.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/pyro-ppl/pyro/blob/359dc54bc03631743379b83423ac4a5e00ef17e6/tests/contrib/oed/test_finite_spaces_eig.py",
+        "https://github.com/pyro-ppl/pyro/blob/359dc54bc03631743379b83423ac4a5e00ef17e6/tests/contrib/oed/test_linear_models_eig.py"
+      ],
+      "documentation_artifacts": [
+        "https://docs.pyro.ai/en/stable/contrib.oed.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/pyro-ppl/pyro/tree/359dc54bc03631743379b83423ac4a5e00ef17e6/examples/contrib/oed/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-kg",
+      "reviewed_version": "0.18.1",
+      "reviewed_revision": "db15bbc49e347bdf226a3f47db8c6d3a8506934d",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/botorch/acquisition/knowledge_gradient.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/test/acquisition/test_knowledge_gradient.py"
+      ],
+      "documentation_artifacts": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/docs/acquisition.md"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-bald",
+      "reviewed_version": "0.18.1",
+      "reviewed_revision": "db15bbc49e347bdf226a3f47db8c6d3a8506934d",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/botorch/acquisition/active_learning.py",
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/botorch/acquisition/bayesian_active_learning.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/test/acquisition/test_active_learning.py",
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/test/acquisition/test_bayesian_active_learning.py"
+      ],
+      "documentation_artifacts": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/docs/acquisition.md"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "botorch",
+      "feature_id": "botorch-pes",
+      "reviewed_version": "0.18.1",
+      "reviewed_revision": "db15bbc49e347bdf226a3f47db8c6d3a8506934d",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/botorch/acquisition/predictive_entropy_search.py",
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/botorch/acquisition/preference.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/test/acquisition/test_predictive_entropy_search.py",
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/test/acquisition/test_preference.py"
+      ],
+      "documentation_artifacts": [
+        "https://botorch.readthedocs.io/en/stable/acquisition.html"
+      ],
+      "example_artifacts": [
+        "https://github.com/pytorch/botorch/blob/db15bbc49e347bdf226a3f47db8c6d3a8506934d/docs/acquisition.md"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "scikit-activeml",
+      "feature_id": "skactiveml-query",
+      "reviewed_version": "1.0.0",
+      "reviewed_revision": "18e1ea392418f12187e46ecb0fef1248c66b38f0",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/scikit-activeml/scikit-activeml/blob/18e1ea392418f12187e46ecb0fef1248c66b38f0/skactiveml/pool/_bald.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/scikit-activeml/scikit-activeml/blob/18e1ea392418f12187e46ecb0fef1248c66b38f0/skactiveml/pool/tests/test_bald.py"
+      ],
+      "documentation_artifacts": [
+        "https://scikit-activeml.github.io/latest/"
+      ],
+      "example_artifacts": [
+        "https://github.com/scikit-activeml/scikit-activeml/tree/18e1ea392418f12187e46ecb0fef1248c66b38f0/docs/examples/1-pool-classification/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "emukit",
+      "feature_id": "emukit-design",
+      "reviewed_version": "0.5.1",
+      "reviewed_revision": "fe68d344383db21968bfc965bbbc3084e933436c",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/EmuKit/emukit/tree/fe68d344383db21968bfc965bbbc3084e933436c/emukit/experimental_design/",
+        "https://github.com/EmuKit/emukit/blob/fe68d344383db21968bfc965bbbc3084e933436c/emukit/bayesian_optimization/acquisitions/entropy_search.py",
+        "https://github.com/EmuKit/emukit/tree/fe68d344383db21968bfc965bbbc3084e933436c/emukit/multi_fidelity/"
+      ],
+      "test_artifacts": [
+        "https://github.com/EmuKit/emukit/tree/fe68d344383db21968bfc965bbbc3084e933436c/tests/emukit/experimental_design/",
+        "https://github.com/EmuKit/emukit/blob/fe68d344383db21968bfc965bbbc3084e933436c/tests/emukit/bayesian_optimization/test_entropy_search.py",
+        "https://github.com/EmuKit/emukit/tree/fe68d344383db21968bfc965bbbc3084e933436c/tests/emukit/multi_fidelity/"
+      ],
+      "documentation_artifacts": [
+        "https://emukit.github.io/"
+      ],
+      "example_artifacts": [
+        "https://github.com/EmuKit/emukit/blob/fe68d344383db21968bfc965bbbc3084e933436c/notebooks/Emukit-tutorial-experimental-design-introduction.ipynb"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "vop-poc-nz",
+      "feature_id": "vop-directional",
+      "reviewed_version": "0.1.8",
+      "reviewed_revision": "2c46db2fe5f907d894bb07f1127c008f10ee462e",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/edithatogo/vop_poc_nz/blob/2c46db2fe5f907d894bb07f1127c008f10ee462e/src/vop_poc_nz/perspective.py",
+        "https://github.com/edithatogo/vop_poc_nz/blob/2c46db2fe5f907d894bb07f1127c008f10ee462e/src/vop_poc_nz/value_of_information.py"
+      ],
+      "test_artifacts": [
+        "https://github.com/edithatogo/vop_poc_nz/blob/2c46db2fe5f907d894bb07f1127c008f10ee462e/tests/test_perspective.py",
+        "https://github.com/edithatogo/vop_poc_nz/blob/2c46db2fe5f907d894bb07f1127c008f10ee462e/tests/test_perspective_conformance.py"
+      ],
+      "documentation_artifacts": [
+        "https://pypi.org/project/vop-poc-nz/"
+      ],
+      "example_artifacts": [
+        "https://github.com/edithatogo/vop_poc_nz/blob/2c46db2fe5f907d894bb07f1127c008f10ee462e/examples/perspective_manifest.example.yml"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "decision-security",
+      "feature_id": "security-evpi",
+      "reviewed_version": "0.1.0a7",
+      "reviewed_revision": "1906bcd7797a35e2031f71f442f5a8318c36880e",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/security-decision-science/decision-security/blob/1906bcd7797a35e2031f71f442f5a8318c36880e/src/voi.py"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pypi.org/project/decision-security/"
+      ],
+      "example_artifacts": [
+        "https://github.com/security-decision-science/decision-security/blob/1906bcd7797a35e2031f71f442f5a8318c36880e/README.md"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-survey-value",
+      "reviewed_version": "1.1.1",
+      "reviewed_revision": "b29150bfc7a5599d5fe3ee6960ef3544243e77a4",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/src/rcpp_expected_value_of_decision_given_current_info.cpp",
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/src/rcpp_expected_value_of_decision_given_survey_scheme.cpp"
+      ],
+      "test_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/tests/testthat/test_rcpp_expected_value_of_decision_given_current_info.R",
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/tests/testthat/test_rcpp_expected_value_of_decision_given_survey_scheme.R"
+      ],
+      "documentation_artifacts": [
+        "https://prioritizr.github.io/surveyvoi/",
+        "https://doi.org/10.1111/1365-2664.14309"
+      ],
+      "example_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/vignettes/surveyvoi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-surveyvoi",
+      "feature_id": "surveyvoi-optimization",
+      "reviewed_version": "1.1.1",
+      "reviewed_revision": "b29150bfc7a5599d5fe3ee6960ef3544243e77a4",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/R/optimal_survey_scheme.R",
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/R/approx_optimal_survey_scheme.R",
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/R/approx_near_optimal_survey_scheme.R"
+      ],
+      "test_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/tests/testthat/test_optimal_survey_scheme.R",
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/tests/testthat/test_approx_optimal_survey_scheme.R"
+      ],
+      "documentation_artifacts": [
+        "https://prioritizr.github.io/surveyvoi/"
+      ],
+      "example_artifacts": [
+        "https://github.com/prioritizr/surveyvoi/blob/b29150bfc7a5599d5fe3ee6960ef3544243e77a4/vignettes/surveyvoi.Rmd"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-predtools",
+      "feature_id": "predtools-validation-evpi",
+      "reviewed_version": "0.0.3",
+      "reviewed_revision": "4d90f59c22485177c65cfae3778ec16ec48e950a",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/resplab/predtools/blob/4d90f59c22485177c65cfae3778ec16ec48e950a/R/voipred.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://cran.r-project.org/package=predtools",
+        "https://doi.org/10.1177/0272989X231178317"
+      ],
+      "example_artifacts": [
+        "https://github.com/resplab/predtools/blob/4d90f59c22485177c65cfae3778ec16ec48e950a/docs/reference/evpi_val.html"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "r-metanb",
+      "feature_id": "metanb-cluster-voi",
+      "reviewed_version": "0.0.0.9000+289cccd",
+      "reviewed_revision": "289cccdc54b55e75d561a4477d1fa6177602ee60",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/zhipeiwang/MetaNB/blob/289cccdc54b55e75d561a4477d1fa6177602ee60/R/MA_NB_tri_voi.R"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://github.com/zhipeiwang/MetaNB",
+        "https://arxiv.org/abs/2607.02321"
+      ],
+      "example_artifacts": [
+        "https://github.com/zhipeiwang/MetaNB/tree/289cccdc54b55e75d561a4477d1fa6177602ee60/vignettes/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "gaussian-voi-supplement",
+      "feature_id": "gaussian-approximation-voi",
+      "reviewed_version": "756b15b",
+      "reviewed_revision": "756b15baf180a8f2f968314cc511fcbf6d689ec8",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/feralaes/VOI-Gaussian-Approximation/tree/756b15baf180a8f2f968314cc511fcbf6d689ec8/R/"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://github.com/feralaes/VOI-Gaussian-Approximation",
+        "https://doi.org/10.1177/0272989X17715627"
+      ],
+      "example_artifacts": [
+        "https://github.com/feralaes/VOI-Gaussian-Approximation/blob/756b15baf180a8f2f968314cc511fcbf6d689ec8/README.md"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "bayescal-voi",
+      "feature_id": "bayescal-gaussian-process-voi",
+      "reviewed_version": "0.1.0+d9d3993",
+      "reviewed_revision": "d9d399332aadb468e00e7f074bbd99f72a55fdcc",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/mal84emma/BayesCal-VOI/blob/d9d399332aadb468e00e7f074bbd99f72a55fdcc/src/bin/voi.rs",
+        "https://github.com/mal84emma/BayesCal-VOI/blob/d9d399332aadb468e00e7f074bbd99f72a55fdcc/src/bin/voi_selection.rs"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://github.com/mal84emma/BayesCal-VOI",
+        "https://doi.org/10.1016/j.jval.2024.10.788"
+      ],
+      "example_artifacts": [
+        "https://github.com/mal84emma/BayesCal-VOI/tree/d9d399332aadb468e00e7f074bbd99f72a55fdcc/data/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "metavoi",
+      "feature_id": "metavoi-meta-analysis",
+      "reviewed_version": "95860bb",
+      "reviewed_revision": "95860bb0f4e524650a84003f0737f0da2c2553ed",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/mahmood726-cyber/metavoi/tree/95860bb0f4e524650a84003f0737f0da2c2553ed/src/"
+      ],
+      "test_artifacts": [
+        "https://github.com/mahmood726-cyber/metavoi/blob/95860bb0f4e524650a84003f0737f0da2c2553ed/tests/test_evpi.py",
+        "https://github.com/mahmood726-cyber/metavoi/blob/95860bb0f4e524650a84003f0737f0da2c2553ed/tests/test_evppi.py",
+        "https://github.com/mahmood726-cyber/metavoi/blob/95860bb0f4e524650a84003f0737f0da2c2553ed/tests/test_evsi.py",
+        "https://github.com/mahmood726-cyber/metavoi/blob/95860bb0f4e524650a84003f0737f0da2c2553ed/tests/test_importance_evsi.py"
+      ],
+      "documentation_artifacts": [
+        "https://github.com/mahmood726-cyber/metavoi"
+      ],
+      "example_artifacts": [
+        "https://github.com/mahmood726-cyber/metavoi/tree/95860bb0f4e524650a84003f0737f0da2c2553ed/examples/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "nrel-geothermal-voi",
+      "feature_id": "geothermal-imperfect-information",
+      "reviewed_version": "0549820",
+      "reviewed_revision": "054982097e1c969081880a5e6fe0c194e9d0aa5b",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/NatLabRockies/Value_of_Information_App/blob/054982097e1c969081880a5e6fe0c194e9d0aa5b/app.py"
+      ],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://github.com/NatLabRockies/Value_of_Information_App"
+      ],
+      "example_artifacts": [
+        "https://github.com/NatLabRockies/Value_of_Information_App/blob/054982097e1c969081880a5e6fe0c194e9d0aa5b/sample_jupyternotebook.ipynb"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream tests, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-voi",
+      "reviewed_version": "0.4.0",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "trd-cea-toolkit",
+      "feature_id": "trd-economic-evaluation",
+      "reviewed_version": "0.4.0",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://pypi.org/pypi/trd-cea-toolkit/json"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "kirstine",
+      "feature_id": "kirstine-design",
+      "reviewed_version": "0.9.0",
+      "reviewed_revision": "ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3",
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "source-tests-and-docs-reviewed",
+      "source_artifacts": [
+        "https://github.com/lsandig/Kirstine.jl/blob/ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3/src/designproblem.jl",
+        "https://github.com/lsandig/Kirstine.jl/blob/ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3/src/designmeasure.jl"
+      ],
+      "test_artifacts": [
+        "https://github.com/lsandig/Kirstine.jl/blob/ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3/test/designproblem.jl",
+        "https://github.com/lsandig/Kirstine.jl/blob/ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3/test/designmeasure.jl"
+      ],
+      "documentation_artifacts": [
+        "https://github.com/lsandig/Kirstine.jl"
+      ],
+      "example_artifacts": [
+        "https://github.com/lsandig/Kirstine.jl/tree/ceec8f6f178ae9b241eb72e9f9bd6ea126e95dc3/docs/"
+      ],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "analytica",
+      "feature_id": "analytica-voi",
+      "reviewed_version": "unverified current release",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://docs.analytica.com/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    },
+    {
+      "tool_id": "treeage-pro",
+      "feature_id": "treeage-decision-modeling",
+      "reviewed_version": "unverified current release",
+      "reviewed_revision": null,
+      "reviewed_on": "2026-07-24",
+      "extraction_state": "documentation-only",
+      "source_artifacts": [],
+      "test_artifacts": [],
+      "documentation_artifacts": [
+        "https://www.treeage.com/"
+      ],
+      "example_artifacts": [],
+      "schema_artifacts": [],
+      "limitations": "No independently verified upstream source, tests, examples, schemas artifact was identified in this snapshot."
+    }
+  ]
+}

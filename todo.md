@@ -9,10 +9,119 @@ This document lists the actionable tasks for `voiage` development. Agents should
     `rust_polyglot_voi_completion_20260723`.
     *   Complete the method and external-library censuses before v1.1 contract
         freeze.
+        *   Refreshed 2026-07-24 landscape: 27 external tools, two internal
+            references, 40 observed external features, and 61 canonical method
+            records, with deterministic feature-matrix generation,
+            method-level evidence, adjacent-method dispositions, immutable
+            upstream-artifact evidence, and routed gaps. Feature implementation
+            parity and scientific freeze remain in progress.
     *   Deliver stable Rust authority, complete Value of Perspective, supported
         frontier and ML/LLM/agent methods, and Rust/Python/R/Julia/Mojo parity.
+        *   Net-benefit construction is now Rust-authoritative and covered by
+            cross-language normal/edge/invalid fixtures, properties,
+            diagnostics, a CI-gated benchmark, and a bounded critical mutation
+            audit. The stable estimator policy now has a schema-validated,
+            scientific-freeze-bound registry covering tolerance, ties,
+            clipping, failure diagnostics, and fallbacks. A companion
+            estimator-family policy freezes statistical assurance and its
+            portable runtime envelope. Existing Python and Rust performance
+            budgets are now bound to their distinct execution boundaries
+            without making an invalid speedup comparison. Stable reduction,
+            RNG-stream, streaming/out-of-core, memory, latency, and energy
+            claim boundaries are now explicit. Every stable estimator profile
+            now maps to named analytical, independent-reference, and
+            metamorphic evidence, while the two-loop EVSI Python compatibility
+            path is explicitly retained as an authority gap. Implementation
+            of runtime envelopes plus parallel, matched, and measured resource
+            evidence remains open. A generated stable-core status registry now
+            keeps stable API maturity distinct from v1.1 method eligibility and
+            aggregate release readiness; it fails closed on the remaining
+            method, repository, and human gates.
+        *   Runtime-envelope integration has started with expected opportunity
+            loss: Rust reports selected-strategy variance and Monte Carlo
+            standard error, Python exposes a typed envelope, and serialization
+            preserves it. Linear and callback regression EVSI plus moment-based
+            EVSI now fail closed on typed single-fit assurance envelopes, with
+            unavailable statistical fields explicit. Replication, convergence,
+            Seeded-bootstrap EVSI now reports resample variance, Monte Carlo
+            error, an indexed RNG identity, and budget evidence, but still
+            requires independent replicated convergence evidence. EVPI,
+            linear EVPPI, structural VOI, and threshold-specific CEAF runtime
+            envelopes are integrated; estimator validation, replication, and
+            convergence remain open.
+        *   Independent EVSI replications can now be summarized through a
+            Rust-owned, unique-seed contract with between-run error and
+            split-half convergence. Nested Monte Carlo has executable evidence;
+            regression and moment estimators retain validation gates.
+        *   A publishable public `voiage` Rust facade now exposes the domain,
+            diagnostics, numerics, and serialization crates without FFI or
+            Python dependencies. Matched hosted facade benchmarks, typed C-ABI
+            expansion, remaining language bindings, and crates.io trusted
+            publishing remain open.
+        *   C ABI v1.1 now adds a fixed-width typed EVPI result with dimensions
+            and runtime assurance while retaining scalar compatibility. Typed
+            results for the remaining stable methods, generated capabilities,
+            serialization buffers, and language adapters remain open.
+        *   C ABI v1.2 now exposes a caller-owned, registry-generated capability
+            document and fails on stable-core/generated-artifact drift. Typed
+            results for the remaining stable methods, buffer serialization,
+            and language-native adapters remain open.
+        *   C ABI v1.3 now exposes typed expected loss with two caller-owned
+            per-strategy arrays and a fixed-width assurance summary. The
+            matrix boundary also rejects misalignment and oversized Rust
+            slices before dereference. Remaining stable result envelopes and
+            language-native adapters remain open.
+        *   C ABI v1.4 now exposes Rust-authoritative ENBS, including valid
+            negative net research value and no-write invalid-input behavior.
+        *   C ABI v1.5 now exposes Rust-authoritative dominance, frontier
+            indices, and ICER transitions through bounded caller-owned arrays.
+        *   C ABI v1.6 now exposes threshold-aligned CEAF probabilities,
+            intervals, expected net benefit, and assurance arrays.
+        *   C ABI v1.7 now exposes structural EVPI and EVPPI with explicit
+            model probabilities, selected-structure indices, dimensions, and
+            sample-average assurance.
+        *   C ABI v1.8 now exposes the stable full-sample linear-regression
+            EVPPI result with fit dimensions and an explicit incomplete-
+            assurance state.
+        *   C ABI v1.9 now exposes promoted Rust-native linear-regression and
+            centered moment-matching EVSI results without relabelling the
+            distinct Python two-loop compatibility path as Rust-native.
+        *   C ABI v1.10 now validates Decision Problem JSON through the stable
+            Rust domain contract and returns normalized caller-owned UTF-8
+            without partial writes.
+        *   C ABI v1.11 now validates and transports the canonical EVPI v1
+            result envelope, including paired optional strategy-array
+            invariants.
+        *   C ABI v1.12 now consolidates checked JSON ownership/copy transport
+            and validates EVPPI, EVSI, and ENBS v1 result envelopes.
+        *   C ABI v1.13 now validates expected-loss, CEAF, and dominance v1
+            result envelopes while preserving their aligned-array,
+            probability-bound, selected-loss, and complete-partition
+            invariants.
+        *   C ABI v1.14 now validates the standalone statistical-assurance
+            envelope without converting null or incomplete estimator evidence
+            into positive assurance.
+        *   Canonical v1 Decision Problem and statistical-assurance envelopes
+            now have Rust-validated, fingerprinted Arrow tables and
+            deterministic IPC/Parquet round trips. Direct Python-free R and
+            Julia adapters now validate both contracts through ABI v1.15 and
+            consume the canonical Arrow table shape. Julia JLL/Artifacts
+            distribution, the remaining stable method surfaces, and broader
+            language parity remain open.
     *   Deliver executable datasets/examples, contribution transparency, and
         staged v1.1--v1.3 assurance.
+    *   Freeze a canonical Decision Problem interchange model and
+        estimator-assurance envelopes; validate all capability, binding,
+        documentation, and release claims from the registries.
+    *   Disposition adjacent information-ordering and strategic-information
+        methods, add adversarial ML/agent evaluation, deterministic scalability
+        profiles, architecture decisions, drift proposals, and reproducibility
+        cards within the existing child tracks.
+    *   Complete the Renovate-first dependency and GitHub security workflow:
+        activate and verify the Renovate App and require live posture, SBOM,
+        provenance, workflow and release gates. Duplicate Dependabot version
+        automation is retired, current alerts are remediated, and the strict
+        lock-aware dependency frontier passes without widening compatibility.
 *None at the moment.*
 
 ## Completed public documentation
@@ -55,6 +164,21 @@ This document lists the actionable tasks for `voiage` development. Agents should
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+*   [x] Make `ty` the fast local and pull-request typing gate, and retain
+    BasedPyright as a scheduled/manual strict-assurance and release-review
+    control.
+
+*   [x] Remove the obsolete `tomli` backport and retire the stale
+    Safety/pip-tools temporary-resolution lane in favour of the pinned
+    pip-audit/SBOM dependency-audit path.
+
+*   [x] Consolidate duplicate Python security linting into Ruff and record
+    explicit dispositions for the remaining quality, security, typing,
+    dead-code, orchestration, mutation, profiling, and dependency tools.
+
+*   [x] Clear high-confidence Vulture findings and make the whole-program
+    dead-code check blocking with a regression guard. (`59c61fe9`)
 
 *   [x] Audit the arXiv manuscript for overclaiming and promotional language.
     *   Removed novelty and distinctiveness claims, qualified intended
@@ -178,6 +302,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
         tox matrix including Python 3.12 through 3.14, minimum/maximum
         dependency environments, coverage, docs, type, contract, and harness
         gates.
+
+*   [x] Upgrade the documentation site to the current Astro stack and integrate
+    the maintainer's polyglot documentation plugin.
+    *   Pinned Astro 7.1.3 and Starlight 0.41.4, source-pinned
+        `edithatogo/astro-polyglot`, and generated public Python API pages during
+        fail-closed checks and builds.
+    *   Added recursive-submodule CI, the Griffe docs extra, safe generated-page
+        handling, link validation, and explicit conformance gates for future
+        Rust, R, Julia, and Mojo extractor promotion.
 
 *   [x] Set up maximal repository harness engineering and GitHub security and
     quality controls.

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/stable-core-validation-evidence.schema.json",
+  "title": "VOIAGE stable-core validation evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "status", "schema", "claim_policy", "methods"],
+  "properties": {
+    "contract_version": {"const": "1.1.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/stable-core-validation-evidence.schema.json"},
+    "claim_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["published_parity", "scientific_validation", "differential_role"],
+      "properties": {
+        "published_parity": {"const": "no-external-package-parity-claim-from-this-contract"},
+        "scientific_validation": {"const": "supports-repository-promotion-only-with-human-review"},
+        "differential_role": {"const": "supplementary-not-a-substitute-for-independent-evidence"}
+      }
+    },
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["method_id", "implementation_boundary", "evidence", "limitations"],
+        "properties": {
+          "method_id": {"type": "string", "minLength": 1},
+          "implementation_boundary": {
+            "enum": ["rust-kernel", "python-compatibility-path"]
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "path", "test_id", "reference_boundary"],
+              "properties": {
+                "kind": {
+                  "enum": ["analytical", "independent-reference", "metamorphic", "differential"]
+                },
+                "path": {"type": "string", "minLength": 1},
+                "test_id": {"type": "string", "minLength": 1},
+                "reference_boundary": {
+                  "enum": [
+                    "closed-form-definition",
+                    "hand-derived-fixture",
+                    "separately-implemented-oracle",
+                    "same-runtime-differential",
+                    "transformation-invariant"
+                  ]
+                }
+              }
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

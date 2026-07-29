@@ -1,0 +1,12 @@
+{
+  "analysis_id": "expected-loss-example",
+  "decision_problem_id": "screening-program",
+  "analysis_type": "expected_loss",
+  "strategy_names": ["Current practice", "New programme"],
+  "expected_net_benefit_by_strategy": [11.333333333333334, 11.666666666666666],
+  "expected_opportunity_loss_by_strategy": [1.0, 0.6666666666666666],
+  "optimal_strategy_index": 1,
+  "minimum_expected_opportunity_loss": 0.6666666666666666,
+  "sample_count": 3,
+  "method": "expected-opportunity-loss"
+}

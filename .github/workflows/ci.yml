@@ -237,17 +237,14 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
 
-    - name: Run Ruff
+    - name: Run Ruff lint and security checks
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 
     - name: Run Ruff format check
       run: uv run ruff format voiage tests --check
 
-    - name: Run Bandit security check
-      run: uv run bandit -r voiage -s B101,B110,B405,B314 -c pyproject.toml
-
     - name: Check for dead code
-      run: uv run vulture voiage --min-confidence 80 || true
+      run: uv run vulture voiage --min-confidence 80
 
     - name: Run ty frontier
       run: >-
@@ -260,7 +257,33 @@ jobs:
         --ignore invalid-method-override --ignore unused-type-ignore-comment
         --ignore redundant-cast
 
-    - name: Run BasedPyright on new production contracts
+  strict-typecheck:
+    name: Strict BasedPyright Assurance
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.expensive)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.14'
+
+    - name: Install dependencies
+      run: uv sync --frozen --extra dev
+
+    - name: Strict BasedPyright assurance
       run: uv run basedpyright voiage/logging.py voiage/contracts scripts/export_v2_contracts.py
 
   # Unit tests
@@ -576,6 +599,14 @@ jobs:
       run: >-
         uv run python scripts/run_critical_mutation_lane.py . --threshold 90 --output .benchmarks/mutation-critical.json
 
+    - name: Enforce bounded Rust net-benefit mutation audit
+      id: net-benefit-mutation
+      if: always()
+      continue-on-error: true
+      run: >-
+        uv run python scripts/run_net_benefit_mutation_audit.py .
+        --output .benchmarks/mutation-net-benefit.json
+
     - name: Enforce source and configuration bound mutation cohort
       id: cohort-mutation
       if: always()
@@ -598,13 +629,15 @@ jobs:
         GENERATION_OUTCOME: ${{ steps.broad-generation.outcome }}
         BROAD_OUTCOME: ${{ steps.broad-mutation.outcome }}
         CRITICAL_OUTCOME: ${{ steps.critical-mutation.outcome }}
+        NET_BENEFIT_OUTCOME: ${{ steps.net-benefit-mutation.outcome }}
         COHORT_OUTCOME: ${{ steps.cohort-mutation.outcome }}
       run: |
         echo "broad generation: ${GENERATION_OUTCOME}"
         echo "broad ratchet: ${BROAD_OUTCOME}"
         echo "critical score: ${CRITICAL_OUTCOME}"
+        echo "Rust net-benefit audit: ${NET_BENEFIT_OUTCOME}"
         echo "cohort identity and debt: ${COHORT_OUTCOME}"
-        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
+        if [ "${GENERATION_OUTCOME}" != success ] || [ "${BROAD_OUTCOME}" != success ] || [ "${CRITICAL_OUTCOME}" != success ] || [ "${NET_BENEFIT_OUTCOME}" != success ] || [ "${COHORT_OUTCOME}" != success ]; then
           exit 1
         fi
     - name: Upload mutation evidence
@@ -615,6 +648,7 @@ jobs:
         path: |
           .benchmarks/mutation-score-broad.json
           .benchmarks/mutation-critical.json
+          .benchmarks/mutation-net-benefit.json
           .benchmarks/mutation-cohort.json
           mutants/mutmut-cicd-stats.json
           mutants/mutmut-universe.txt
@@ -681,11 +715,25 @@ jobs:
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
         persist-credentials: false
+        submodules: recursive
 
     - name: Set up Node.js
       uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
       with:
         node-version: '22'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+
+    - name: Install polyglot documentation extractor
+      run: uv sync --locked --extra docs --no-install-project
 
     - name: Install pnpm
       uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320

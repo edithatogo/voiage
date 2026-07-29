@@ -8,22 +8,27 @@
 use pyo3::create_exception;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
-use pyo3::types::{PyDict, PyModule};
+use pyo3::types::{PyDict, PyList, PyModule};
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 #[cfg(test)]
 use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
+use std::time::Instant;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus,
+    ceaf, dominance, enbs, evpi_with_assurance, evppi_with_assurance, evsi_efficient_linear,
+    evsi_moment_based, evsi_regression, evsi_stochastic, expected_loss, heterogeneity, net_benefit,
+    structural_evpi_with_assurance, structural_evppi_with_assurance, summarize_replications,
+    DominanceStatus as KernelDominanceStatus, StructuralVoiKernelResult, WtpMode,
 };
 use voiage_serialization::{
+    normalize_decision_problem_json as normalize_decision_problem_json_bytes,
+    normalize_statistical_assurance_json as normalize_statistical_assurance_json_bytes,
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
+    ExpectedLossResultV1, ExpectedLossResultV1Input,
 };
 
 create_exception!(
@@ -386,6 +391,26 @@ fn serialization_error(error: impl std::fmt::Display) -> PyErr {
     SerializationError::new_err(("serialization_failure", error.to_string()))
 }
 
+fn normalize_json(
+    payload: &str,
+    normalize: fn(&[u8]) -> serde_json::Result<Vec<u8>>,
+) -> PyResult<String> {
+    let normalized = normalize(payload.as_bytes()).map_err(serialization_error)?;
+    String::from_utf8(normalized).map_err(serialization_error)
+}
+
+/// Validate and normalize a canonical v1 Decision Problem as compact JSON.
+#[pyfunction]
+fn normalize_decision_problem_json(payload: &str) -> PyResult<String> {
+    normalize_json(payload, normalize_decision_problem_json_bytes)
+}
+
+/// Validate and normalize a canonical v1 statistical-assurance envelope.
+#[pyfunction]
+fn normalize_statistical_assurance_json(payload: &str) -> PyResult<String> {
+    normalize_json(payload, normalize_statistical_assurance_json_bytes)
+}
+
 fn reporting_from_python(
     reporting: Option<&Bound<'_, PyAny>>,
 ) -> PyResult<Option<Map<String, Value>>> {
@@ -469,14 +494,170 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
 
 /// Compute the stable EVPI kernel for Python callers.
 #[pyfunction]
-fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
+fn compute_evpi<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
-    evpi(&net_benefit).map_err(|error| match error.category() {
+    let result = evpi_with_assurance(&net_benefit).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
             DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
         }
         _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    add_sample_average_assurance(
+        py,
+        &output,
+        result.value,
+        result.opportunity_loss_variance,
+        result.monte_carlo_standard_error,
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        &started,
+        "Finite-sample and input-draw bias remain application-dependent; uncertainty treats supplied opportunity losses as an unweighted sample.",
+    )?;
+    Ok(output)
+}
+
+/// Compute the stable expected opportunity-loss kernel for Python callers.
+#[pyfunction]
+fn compute_expected_loss<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let result = expected_loss(&net_benefit).map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item(
+        "expected_net_benefit_by_strategy",
+        result.expected_net_benefit_by_strategy,
+    )?;
+    output.set_item(
+        "expected_opportunity_loss_by_strategy",
+        result.expected_opportunity_loss_by_strategy,
+    )?;
+    output.set_item("optimal_strategy_index", result.optimal_strategy_index)?;
+    output.set_item(
+        "minimum_expected_opportunity_loss",
+        result.minimum_expected_opportunity_loss,
+    )?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "sample-average")?;
+    assurance.set_item(
+        "bias_assessment",
+        if result.sample_count == 1 {
+            "Sampling uncertainty is unavailable from a single supplied draw."
+        } else {
+            "Finite-sample and input-draw bias remain application-dependent; \
+             the reported variance treats supplied draws as an unweighted sample."
+        },
+    )?;
+    assurance.set_item("variance_estimate", result.opportunity_loss_variance)?;
+    assurance.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    if let Some(standard_error) = result.monte_carlo_standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item(
+            "lower",
+            (result.minimum_expected_opportunity_loss - 1.959_963_984_540_054 * standard_error)
+                .max(0.0),
+        )?;
+        interval.set_item(
+            "upper",
+            result.minimum_expected_opportunity_loss + 1.959_963_984_540_054 * standard_error,
+        )?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", result.sample_count)?;
+    budget.set_item(
+        "evaluations",
+        result.sample_count.saturating_mul(result.strategy_count),
+    )?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
+    Ok(output)
+}
+
+/// Compute Rust-authoritative net benefit from row-major flattened inputs.
+#[pyfunction]
+#[pyo3(signature = (costs, effects, willingness_to_pay, mode, sample_count=None, threshold_count=None))]
+// PyO3 extracts Python sequences into owned vectors at the binding boundary.
+#[allow(clippy::needless_pass_by_value)]
+fn compute_net_benefit(
+    costs: Vec<f64>,
+    effects: Vec<f64>,
+    willingness_to_pay: Vec<f64>,
+    mode: &str,
+    sample_count: Option<usize>,
+    threshold_count: Option<usize>,
+) -> PyResult<Vec<f64>> {
+    let mode = match mode {
+        "scalar" => WtpMode::Scalar,
+        "thresholds" => WtpMode::Thresholds,
+        "legacy-elementwise" => WtpMode::LegacyElementwise,
+        "sample-thresholds" => WtpMode::SampleThresholds {
+            sample_count: sample_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "sample_count is required for sample-thresholds",
+                ))
+            })?,
+            threshold_count: threshold_count.ok_or_else(|| {
+                InputError::new_err((
+                    "invalid_input",
+                    "threshold_count is required for sample-thresholds",
+                ))
+            })?,
+        },
+        _ => {
+            return Err(InputError::new_err((
+                "invalid_input",
+                "unsupported willingness-to-pay mode",
+            )))
+        }
+    };
+    net_benefit(&costs, &effects, &willingness_to_pay, mode)
+        .map(|result| result.values)
+        .map_err(|error| match error.category() {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })
 }
 
 /// Compute the stable ENBS kernel for Python callers.
@@ -529,33 +710,38 @@ fn compute_heterogeneity<'py>(
 
 /// Aggregate structural EVPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evpi(
+fn compute_structural_evpi<'py>(
+    py: Python<'py>,
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit_by_structure = cube_from_python(net_benefit_by_structure, "net_benefit")?;
     let structure_probabilities = SampleVector::try_from(vector_from_python(
         structure_probabilities,
         "structure_probabilities",
     )?)
     .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
-    structural_evpi(&net_benefit_by_structure, &structure_probabilities).map_err(
-        |error| match error.category() {
-            ErrorCategory::DimensionMismatch => {
-                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-            }
-            _ => InputError::new_err(("invalid_input", error.to_string())),
-        },
-    )
+    let result =
+        structural_evpi_with_assurance(&net_benefit_by_structure, &structure_probabilities)
+            .map_err(|error| match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            })?;
+    structural_result_to_python(py, &result, started)
 }
 
 /// Aggregate structural EVPPI after Python model evaluators have run.
 #[pyfunction]
-fn compute_structural_evppi(
+fn compute_structural_evppi<'py>(
+    py: Python<'py>,
     net_benefit_by_structure: &Bound<'_, PyAny>,
     structure_probabilities: &Bound<'_, PyAny>,
     structures_of_interest: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let cube = cube_from_python(net_benefit_by_structure, "net_benefit")?;
     let probabilities = SampleVector::try_from(vector_from_python(
         structure_probabilities,
@@ -573,12 +759,16 @@ fn compute_structural_evppi(
             })
         })
         .collect::<PyResult<Vec<_>>>()?;
-    structural_evppi(&cube, &probabilities, &indices).map_err(|error| match error.category() {
-        ErrorCategory::DimensionMismatch => {
-            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-        }
-        _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    let result =
+        structural_evppi_with_assurance(&cube, &probabilities, &indices).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    structural_result_to_python(py, &result, started)
 }
 
 /// Compute the stable dominance kernel for Python callers.
@@ -637,7 +827,9 @@ fn compute_ceaf<'py>(
     wtp_thresholds: &Bound<'_, PyAny>,
     confidence_level: f64,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = cube_from_python(net_benefit, "net_benefit")?;
+    let [sample_count, strategy_count, threshold_count] = net_benefit.shape();
     let wtp_thresholds =
         SampleVector::try_from(vector_from_python(wtp_thresholds, "wtp_thresholds")?)
             .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
@@ -651,32 +843,70 @@ fn compute_ceaf<'py>(
             }
         })?;
     let output = PyDict::new(py);
-    output.set_item("wtp_thresholds", result.wtp_thresholds)?;
-    output.set_item("optimal_strategy_indices", result.optimal_strategy_indices)?;
+    output.set_item("wtp_thresholds", &result.wtp_thresholds)?;
+    output.set_item("optimal_strategy_indices", &result.optimal_strategy_indices)?;
     output.set_item(
         "acceptability_probabilities",
-        result.acceptability_probabilities,
+        &result.acceptability_probabilities,
     )?;
-    output.set_item("probability_lower", result.probability_lower)?;
-    output.set_item("probability_upper", result.probability_upper)?;
-    output.set_item("expected_net_benefit", result.expected_net_benefit)?;
+    output.set_item("probability_lower", &result.probability_lower)?;
+    output.set_item("probability_upper", &result.probability_upper)?;
+    output.set_item("expected_net_benefit", &result.expected_net_benefit)?;
+    let assurance_by_threshold = PyList::empty(py);
+    for threshold in 0..threshold_count {
+        let assurance = build_sample_average_assurance(
+            py,
+            result.acceptability_probabilities[threshold],
+            result.probability_variance[threshold],
+            result.probability_standard_error[threshold],
+            sample_count,
+            sample_count.saturating_mul(strategy_count),
+            &started,
+            "The Bernoulli indicator variance treats supplied PSA rows as independent, equally weighted samples; frontier-selection and input-model bias remain application-dependent.",
+        )?;
+        assurance_by_threshold.append(assurance)?;
+    }
+    output.set_item("statistical_assurance_by_threshold", assurance_by_threshold)?;
     Ok(output)
 }
 
 /// Compute the stable regression-based EVPPI kernel for Python callers.
 #[pyfunction]
-fn compute_evppi(
+fn compute_evppi<'py>(
+    py: Python<'py>,
     net_benefit: &Bound<'_, PyAny>,
     parameter_samples: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
-    evppi(&net_benefit, &parameter_samples).map_err(|error| match error.category() {
-        ErrorCategory::DimensionMismatch => {
-            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-        }
-        _ => InputError::new_err(("invalid_input", error.to_string())),
-    })
+    let result =
+        evppi_with_assurance(&net_benefit, &parameter_samples).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic EVPPI regression fit does not estimate model bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count)
+            .saturating_mul(result.parameter_count.saturating_add(1)),
+        started,
+    )?;
+    Ok(output)
 }
 
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
@@ -689,6 +919,7 @@ fn compute_evsi<'py>(
     resample_count: usize,
     seed: u64,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let result = evsi_stochastic(&net_benefit, trial_sample_size, resample_count, seed).map_err(
         |error| match error.category() {
@@ -710,6 +941,157 @@ fn compute_evsi<'py>(
     output.set_item("evsi", result.evsi)?;
     output.set_item("draw_count", result.draw_count)?;
     output.set_item("resample_count", result.resample_count)?;
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "nested-monte-carlo")?;
+    assurance.set_item(
+        "bias_assessment",
+        "Bootstrap resampling and finite trial-draw bias remain application-dependent; Monte Carlo error is estimated across indexed resamples.",
+    )?;
+    assurance.set_item("variance_estimate", result.resample_value_variance)?;
+    assurance.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    if let Some(standard_error) = result.monte_carlo_standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item(
+            "lower",
+            (result.evsi - 1.959_963_984_540_054 * standard_error).max(0.0),
+        )?;
+        interval.set_item(
+            "upper",
+            result.evsi + 1.959_963_984_540_054 * standard_error,
+        )?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    let rng = PyDict::new(py);
+    rng.set_item("algorithm", "xorshift64-star")?;
+    rng.set_item("version", "1")?;
+    rng.set_item("seed", seed)?;
+    rng.set_item("stream", "indexed-bootstrap-resample")?;
+    assurance.set_item("rng", rng)?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item(
+        "draws",
+        result.draw_count.saturating_mul(result.resample_count),
+    )?;
+    budget.set_item(
+        "evaluations",
+        result
+            .draw_count
+            .saturating_mul(result.resample_count)
+            .saturating_mul(net_benefit.shape()[1]),
+    )?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
+    Ok(output)
+}
+
+/// Summarize independently replicated EVSI estimates and their convergence.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value)]
+fn summarize_evsi_replications<'py>(
+    py: Python<'py>,
+    estimates: Vec<f64>,
+    seeds: Vec<u64>,
+    reporting_class: &str,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    if estimates.len() != seeds.len() {
+        return Err(DimensionMismatchError::new_err((
+            "dimension_mismatch",
+            "estimates and seeds must have matching lengths",
+        )));
+    }
+    let mut unique_seeds = seeds.clone();
+    unique_seeds.sort_unstable();
+    unique_seeds.dedup();
+    if unique_seeds.len() != seeds.len() {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "independent replication requires unique seeds",
+        )));
+    }
+    if !matches!(
+        reporting_class,
+        "nested-monte-carlo" | "regression-or-metamodel" | "moment-matching"
+    ) {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "unsupported EVSI reporting class",
+        )));
+    }
+    let summary = summarize_replications(&estimates, relative_tolerance)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("estimate", summary.mean)?;
+    output.set_item("replication_seeds", &seeds)?;
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", reporting_class)?;
+    assurance.set_item(
+        "bias_assessment",
+        "Between-run error assumes each supplied estimate was produced by an independently seeded execution of the same estimator and data-generating contract.",
+    )?;
+    assurance.set_item("variance_estimate", summary.variance)?;
+    assurance.set_item("monte_carlo_standard_error", summary.standard_error)?;
+    let interval = PyDict::new(py);
+    interval.set_item("level", 0.95)?;
+    interval.set_item(
+        "lower",
+        (summary.mean - 1.959_963_984_540_054 * summary.standard_error).max(0.0),
+    )?;
+    interval.set_item(
+        "upper",
+        summary.mean + 1.959_963_984_540_054 * summary.standard_error,
+    )?;
+    interval.set_item("method", "between-replication-normal-approximation")?;
+    assurance.set_item("confidence_interval", interval)?;
+    let convergence = PyDict::new(py);
+    convergence.set_item("converged", summary.converged)?;
+    convergence.set_item("criterion", "split-half-relative-mean-difference")?;
+    convergence.set_item("observed", summary.split_mean_relative_difference)?;
+    assurance.set_item("convergence", convergence)?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    let rng = PyDict::new(py);
+    rng.set_item("algorithm", "independent-explicit-seeds")?;
+    rng.set_item("version", "1")?;
+    rng.set_item("seed", seeds[0])?;
+    rng.set_item("stream", "replication-seed-vector")?;
+    assurance.set_item("rng", rng)?;
+    assurance.set_item("replications", summary.replications)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", summary.replications)?;
+    budget.set_item("evaluations", summary.replications)?;
+    budget.set_item("elapsed_seconds", 0.0)?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item(
+        "stopping_reason",
+        if summary.converged {
+            "tolerance-met"
+        } else {
+            "budget-exhausted"
+        },
+    )?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)?;
     Ok(output)
 }
 
@@ -722,6 +1104,7 @@ fn compute_evsi_efficient_linear<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     trial_sample_size: usize,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let result = evsi_efficient_linear(&net_benefit, &parameter_samples, trial_sample_size)
@@ -745,6 +1128,17 @@ fn compute_evsi_efficient_linear<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic metamodel fit does not estimate fit bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        started,
+    )?;
     Ok(output)
 }
 
@@ -757,6 +1151,7 @@ fn compute_evsi_moment_based<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     trial_sample_size: usize,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let result = evsi_moment_based(&net_benefit, &parameter_samples, trial_sample_size).map_err(
@@ -781,6 +1176,17 @@ fn compute_evsi_moment_based<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("strategy_count", result.strategy_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "moment-matching",
+        "A single deterministic moment approximation does not estimate approximation bias, sampling variance, or replicate convergence.",
+        result.sample_count,
+        result
+            .sample_count
+            .saturating_mul(result.strategy_count),
+        started,
+    )?;
     Ok(output)
 }
 
@@ -792,6 +1198,7 @@ fn compute_evsi_regression<'py>(
     parameter_samples: &Bound<'_, PyAny>,
     prediction_samples: &Bound<'_, PyAny>,
 ) -> PyResult<Bound<'py, PyDict>> {
+    let started = Instant::now();
     let targets = matrix_from_python(targets, "targets")?;
     let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
     let prediction_samples = matrix_from_python(prediction_samples, "prediction_samples")?;
@@ -811,6 +1218,147 @@ fn compute_evsi_regression<'py>(
     output.set_item("sample_count", result.sample_count)?;
     output.set_item("prediction_count", result.prediction_count)?;
     output.set_item("parameter_count", result.parameter_count)?;
+    add_incomplete_estimator_assurance(
+        py,
+        &output,
+        "regression-or-metamodel",
+        "A single deterministic regression fit does not estimate model bias, sampling variance, or replicate convergence.",
+        result.sample_count.saturating_add(result.prediction_count),
+        result
+            .sample_count
+            .saturating_add(result.prediction_count)
+            .saturating_mul(result.parameter_count.saturating_add(1)),
+        started,
+    )?;
+    Ok(output)
+}
+
+fn add_incomplete_estimator_assurance(
+    py: Python<'_>,
+    output: &Bound<'_, PyDict>,
+    reporting_class: &str,
+    bias_assessment: &str,
+    draws: usize,
+    evaluations: usize,
+    started: Instant,
+) -> PyResult<()> {
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", reporting_class)?;
+    assurance.set_item("bias_assessment", bias_assessment)?;
+    assurance.set_item("variance_estimate", py.None())?;
+    assurance.set_item("monte_carlo_standard_error", py.None())?;
+    assurance.set_item("confidence_interval", py.None())?;
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", draws)?;
+    budget.set_item("evaluations", evaluations)?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    output.set_item("statistical_assurance", assurance)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_sample_average_assurance<'py>(
+    py: Python<'py>,
+    estimate: f64,
+    variance: Option<f64>,
+    standard_error: Option<f64>,
+    draws: usize,
+    evaluations: usize,
+    started: &Instant,
+    bias_assessment: &str,
+) -> PyResult<Bound<'py, PyDict>> {
+    let assurance = PyDict::new(py);
+    assurance.set_item("reporting_class", "sample-average")?;
+    assurance.set_item("bias_assessment", bias_assessment)?;
+    assurance.set_item("variance_estimate", variance)?;
+    assurance.set_item("monte_carlo_standard_error", standard_error)?;
+    if let Some(error) = standard_error {
+        let interval = PyDict::new(py);
+        interval.set_item("level", 0.95)?;
+        interval.set_item("lower", (estimate - 1.959_963_984_540_054 * error).max(0.0))?;
+        interval.set_item("upper", estimate + 1.959_963_984_540_054 * error)?;
+        interval.set_item("method", "normal-approximation-clipped-at-zero")?;
+        assurance.set_item("confidence_interval", interval)?;
+    } else {
+        assurance.set_item("confidence_interval", py.None())?;
+    }
+    assurance.set_item("convergence", py.None())?;
+    assurance.set_item("effective_sample_size", py.None())?;
+    assurance.set_item("rng", py.None())?;
+    assurance.set_item("replications", 1)?;
+    let budget = PyDict::new(py);
+    budget.set_item("draws", draws)?;
+    budget.set_item("evaluations", evaluations)?;
+    budget.set_item("elapsed_seconds", started.elapsed().as_secs_f64())?;
+    assurance.set_item("budget", budget)?;
+    assurance.set_item("stopping_reason", "fixed-budget")?;
+    let numerical_error = PyDict::new(py);
+    numerical_error.set_item("absolute_bound", 1.0e-10)?;
+    numerical_error.set_item("relative_bound", 1.0e-8)?;
+    numerical_error.set_item("source", "stable-estimator-assurance-v1.1-binary64-policy")?;
+    assurance.set_item("numerical_error", numerical_error)?;
+    Ok(assurance)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn add_sample_average_assurance(
+    py: Python<'_>,
+    output: &Bound<'_, PyDict>,
+    estimate: f64,
+    variance: Option<f64>,
+    standard_error: Option<f64>,
+    draws: usize,
+    evaluations: usize,
+    started: &Instant,
+    bias_assessment: &str,
+) -> PyResult<()> {
+    let assurance = build_sample_average_assurance(
+        py,
+        estimate,
+        variance,
+        standard_error,
+        draws,
+        evaluations,
+        started,
+        bias_assessment,
+    )?;
+    output.set_item("statistical_assurance", assurance)
+}
+
+fn structural_result_to_python<'py>(
+    py: Python<'py>,
+    result: &StructuralVoiKernelResult,
+    started: Instant,
+) -> PyResult<Bound<'py, PyDict>> {
+    let output = PyDict::new(py);
+    output.set_item("value", result.value)?;
+    output.set_item("structure_count", result.structure_count)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    add_sample_average_assurance(
+        py,
+        &output,
+        result.value,
+        result.informed_value_variance,
+        result.monte_carlo_standard_error,
+        result.sample_count,
+        result
+            .structure_count
+            .saturating_mul(result.sample_count)
+            .saturating_mul(result.strategy_count),
+        &started,
+        "Structure probabilities are treated as fixed and supplied rows as aligned, equally weighted samples; model-form and probability-elicitation bias remain application-dependent.",
+    )?;
     Ok(output)
 }
 
@@ -889,6 +1437,40 @@ fn serialize_ceaf_result<'py>(
             Err(error)
         }
     }
+}
+
+/// Construct, validate, and serialize a canonical expected-loss result.
+#[pyfunction]
+#[pyo3(signature = (*, analysis_id, decision_problem_id, strategy_names, expected_net_benefit_by_strategy, expected_opportunity_loss_by_strategy, optimal_strategy_index, minimum_expected_opportunity_loss, sample_count, method=None, reporting=None))]
+#[allow(clippy::too_many_arguments)]
+fn serialize_expected_loss_result<'py>(
+    py: Python<'py>,
+    analysis_id: String,
+    decision_problem_id: String,
+    strategy_names: Vec<String>,
+    expected_net_benefit_by_strategy: Vec<f64>,
+    expected_opportunity_loss_by_strategy: Vec<f64>,
+    optimal_strategy_index: u64,
+    minimum_expected_opportunity_loss: f64,
+    sample_count: u64,
+    method: Option<String>,
+    reporting: Option<&Bound<'_, PyAny>>,
+) -> PyResult<Bound<'py, PyDict>> {
+    validate_identifiers(&analysis_id, &decision_problem_id).map_err(BoundaryError::into_pyerr)?;
+    let result = ExpectedLossResultV1::try_from(ExpectedLossResultV1Input {
+        analysis_id,
+        decision_problem_id,
+        strategy_names,
+        expected_net_benefit_by_strategy,
+        expected_opportunity_loss_by_strategy,
+        optimal_strategy_index,
+        minimum_expected_opportunity_loss,
+        sample_count,
+        method,
+        reporting: reporting_from_python(reporting)?,
+    })
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    result_to_dict(py, &result).map(|(result, _)| result)
 }
 
 /// Construct, validate, and serialize a canonical dominance result without computing it.
@@ -989,6 +1571,8 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_expected_loss, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_net_benefit, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
@@ -997,11 +1581,18 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(summarize_evsi_replications, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
+    module.add_function(wrap_pyfunction!(serialize_expected_loss_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
+    module.add_function(wrap_pyfunction!(normalize_decision_problem_json, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        normalize_statistical_assurance_json,
+        module
+    )?)?;
     Ok(())
 }
 
@@ -1307,9 +1898,16 @@ mod tests {
                     vec![vec![0.0_f64], vec![1.0], vec![2.0], vec![3.0]],
                 ))
                 .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let value = result
+                .get_item("value")
+                .unwrap()
+                .unwrap()
                 .extract::<f64>()
                 .unwrap();
-            assert!((result - 0.05).abs() <= 1.0e-10);
+            assert!((value - 0.05).abs() <= 1.0e-10);
+            assert!(result.get_item("statistical_assurance").unwrap().is_some());
         });
     }
 
@@ -1325,9 +1923,103 @@ mod tests {
             let result = function
                 .call1((vec![vec![0.0_f64, 2.0], vec![1.0, 0.0]],))
                 .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let value = result
+                .get_item("value")
+                .unwrap()
+                .unwrap()
                 .extract::<f64>()
                 .unwrap();
-            assert!((result - 0.5).abs() <= 1.0e-12);
+            assert!((value - 0.5).abs() <= 1.0e-12);
+            assert!(result.get_item("statistical_assurance").unwrap().is_some());
+        });
+    }
+
+    #[test]
+    fn compute_expected_loss_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_expected_loss, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_expected_loss").unwrap();
+            let result = function
+                .call1((vec![
+                    vec![10.0_f64, 12.0],
+                    vec![11.0, 9.0],
+                    vec![13.0, 14.0],
+                ],))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let losses = result
+                .get_item("expected_opportunity_loss_by_strategy")
+                .unwrap()
+                .unwrap()
+                .extract::<Vec<f64>>()
+                .unwrap();
+            let optimal = result
+                .get_item("optimal_strategy_index")
+                .unwrap()
+                .unwrap()
+                .extract::<usize>()
+                .unwrap();
+            assert!((losses[0] - 1.0).abs() <= 1.0e-12);
+            assert!((losses[1] - 2.0 / 3.0).abs() <= 1.0e-12);
+            assert_eq!(optimal, 1);
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("reporting_class")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "sample-average"
+            );
+            assert!(
+                (assurance
+                    .get_item("monte_carlo_standard_error")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    - 2.0 / 3.0)
+                    .abs()
+                    <= 1.0e-12
+            );
+        });
+    }
+
+    #[test]
+    fn compute_net_benefit_executes_the_rust_kernel_for_python_sequences() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_net_benefit, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_net_benefit").unwrap();
+            let result = function
+                .call1((
+                    vec![100.0_f64, 150.0],
+                    vec![0.5_f64, 0.6],
+                    vec![10_000.0_f64, 20_000.0],
+                    "thresholds",
+                    None::<usize>,
+                    None::<usize>,
+                ))
+                .unwrap()
+                .extract::<Vec<f64>>()
+                .unwrap();
+            assert_eq!(result, vec![4_900.0, 9_900.0, 5_850.0, 11_850.0]);
         });
     }
 
@@ -1401,6 +2093,13 @@ mod tests {
                 .extract::<Vec<usize>>()
                 .unwrap();
             assert_eq!(indices, vec![0, 1]);
+            let assurance = result
+                .get_item("statistical_assurance_by_threshold")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyList>()
+                .unwrap();
+            assert_eq!(assurance.len(), 2);
         });
     }
 
@@ -1435,6 +2134,67 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((evsi - 0.75).abs() <= 1.0e-12);
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("reporting_class")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "nested-monte-carlo"
+            );
+            assert!(
+                assurance
+                    .get_item("monte_carlo_standard_error")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    > 0.0
+            );
+        });
+    }
+
+    #[test]
+    fn replicated_evsi_summary_requires_unique_seeds_and_reports_convergence() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(summarize_evsi_replications, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("summarize_evsi_replications").unwrap();
+            let result = function
+                .call1((
+                    vec![1.0_f64, 1.1, 0.9, 1.0],
+                    vec![11_u64, 12, 13, 14],
+                    "nested-monte-carlo",
+                    0.2_f64,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            let assurance = result
+                .get_item("statistical_assurance")
+                .unwrap()
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                assurance
+                    .get_item("replications")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<usize>()
+                    .unwrap(),
+                4
+            );
         });
     }
 

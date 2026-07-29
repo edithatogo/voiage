@@ -50,6 +50,33 @@ def _raise_native_error(error: Exception) -> NoReturn:
     raise error
 
 
+def _normalize_json(payload: object, operation: str) -> dict[str, object]:
+    """Validate a mapping through a Rust-owned canonical JSON contract."""
+    import json
+
+    try:
+        encoded = json.dumps(
+            payload,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        normalized = getattr(_native(), operation)(encoded)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(json.loads(normalized))
+
+
+def normalize_decision_problem_json(payload: object) -> dict[str, object]:
+    """Return a Rust-validated canonical Decision Problem mapping."""
+    return _normalize_json(payload, "normalize_decision_problem_json")
+
+
+def normalize_statistical_assurance_json(payload: object) -> dict[str, object]:
+    """Return a Rust-validated canonical statistical-assurance mapping."""
+    return _normalize_json(payload, "normalize_statistical_assurance_json")
+
+
 def serialize_ceaf_result(**payload: object) -> dict[str, object]:
     """Return the Rust-owned canonical CEAF result payload."""
     try:
@@ -68,13 +95,60 @@ def serialize_dominance_result(**payload: object) -> dict[str, object]:
     return dict(result)
 
 
+def serialize_expected_loss_result(**payload: object) -> dict[str, object]:
+    """Return the Rust-owned canonical expected-loss result payload."""
+    try:
+        result = _native().serialize_expected_loss_result(**payload)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evpi(net_benefit: list[list[float]]) -> float:
     """Compute the stable EVPI kernel in Rust."""
+    return float(compute_evpi_result(net_benefit)["value"])
+
+
+def compute_evpi_result(net_benefit: list[list[float]]) -> dict[str, object]:
+    """Compute EVPI with its native runtime-assurance envelope."""
     try:
         result = _native().compute_evpi(net_benefit)
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
+
+
+def compute_expected_loss(net_benefit: list[list[float]]) -> dict[str, object]:
+    """Compute the stable expected opportunity-loss kernel in Rust."""
+    try:
+        result = _native().compute_expected_loss(net_benefit)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_net_benefit(
+    costs: list[float],
+    effects: list[float],
+    willingness_to_pay: list[float],
+    *,
+    mode: str,
+    sample_count: int | None = None,
+    threshold_count: int | None = None,
+) -> list[float]:
+    """Compute row-major net-benefit values in Rust."""
+    try:
+        result = _native().compute_net_benefit(
+            costs,
+            effects,
+            willingness_to_pay,
+            mode,
+            sample_count,
+            threshold_count,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return [float(value) for value in result]
 
 
 def compute_enbs(evsi_result: float, research_cost: float) -> float:
@@ -102,6 +176,19 @@ def compute_structural_evpi(
     structure_probabilities: list[float],
 ) -> float:
     """Aggregate structural EVPI in the Rust core."""
+    return float(
+        compute_structural_evpi_result(
+            net_benefit_by_structure,
+            structure_probabilities,
+        )["value"]
+    )
+
+
+def compute_structural_evpi_result(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+) -> dict[str, object]:
+    """Aggregate structural EVPI with native runtime assurance."""
     try:
         result = _native().compute_structural_evpi(
             net_benefit_by_structure,
@@ -109,7 +196,7 @@ def compute_structural_evpi(
         )
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_structural_evppi(
@@ -118,6 +205,21 @@ def compute_structural_evppi(
     structures_of_interest: list[int],
 ) -> float:
     """Aggregate structural EVPPI in the Rust core."""
+    return float(
+        compute_structural_evppi_result(
+            net_benefit_by_structure,
+            structure_probabilities,
+            structures_of_interest,
+        )["value"]
+    )
+
+
+def compute_structural_evppi_result(
+    net_benefit_by_structure: list[list[list[float]]],
+    structure_probabilities: list[float],
+    structures_of_interest: list[int],
+) -> dict[str, object]:
+    """Aggregate structural EVPPI with native runtime assurance."""
     try:
         result = _native().compute_structural_evppi(
             net_benefit_by_structure,
@@ -126,7 +228,7 @@ def compute_structural_evppi(
         )
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_dominance(costs: list[float], effects: list[float]) -> dict[str, object]:
@@ -159,11 +261,18 @@ def compute_evppi(
     net_benefit: list[list[float]], parameter_samples: list[list[float]]
 ) -> float:
     """Compute the stable full-sample linear EVPPI kernel in Rust."""
+    return float(compute_evppi_result(net_benefit, parameter_samples)["value"])
+
+
+def compute_evppi_result(
+    net_benefit: list[list[float]], parameter_samples: list[list[float]]
+) -> dict[str, object]:
+    """Compute linear EVPPI with its native runtime-assurance envelope."""
     try:
         result = _native().compute_evppi(net_benefit, parameter_samples)
     except Exception as error:
         _raise_native_error(error)
-    return float(result)
+    return dict(result)
 
 
 def compute_evsi(
@@ -179,6 +288,25 @@ def compute_evsi(
             trial_sample_size,
             resample_count,
             seed,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def summarize_evsi_replications(
+    estimates: list[float],
+    seeds: list[int],
+    reporting_class: str,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize independently seeded EVSI estimator runs in Rust."""
+    try:
+        result = _native().summarize_evsi_replications(
+            estimates,
+            seeds,
+            reporting_class,
+            relative_tolerance,
         )
     except Exception as error:
         _raise_native_error(error)

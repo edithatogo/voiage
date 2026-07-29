@@ -8,15 +8,11 @@ from importlib.machinery import EXTENSION_SUFFIXES
 import json
 from pathlib import Path
 import re
+import tomllib
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
-    import tomli as tomllib
 
 import numpy as np
 import pytest

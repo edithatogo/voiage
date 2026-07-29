@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "tool_id": "r-heemod",
+      "feature_id": "heemod-modeling",
+      "parity_state": "excluded",
+      "reason_category": "delegated-general-engine",
+      "exact_reason": "State-transition model authoring and budget-impact simulation are general model-engine capabilities rather than VOI estimands or estimators.",
+      "closest_supported_workflow": "Supply heemod-derived posterior or net-benefit draws through DecisionProblemV2, then run VOIAGE heterogeneity or implementation analyses.",
+      "user_impact": "Users retain heemod for model construction but can perform VOI calculations independently in VOIAGE after exporting model draws.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://aphp.github.io/heemod/"]
+    },
+    {
+      "tool_id": "bceaweb",
+      "feature_id": "bceaweb-surface",
+      "parity_state": "not-reproducible",
+      "reason_category": "behavior-unobservable",
+      "exact_reason": "Only literature-described behavior was observable; a current versioned service, source implementation, tests, and numerical fixtures were not independently available.",
+      "closest_supported_workflow": "Use VOIAGE EVPI, EVPPI, CEAC, and CEAF APIs with committed offline inputs and versioned result contracts.",
+      "user_impact": "The documented analysis family is supported, but no claim is made that the hosted interaction or undocumented numerical behavior is reproduced.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"]
+    },
+    {
+      "tool_id": "rane",
+      "feature_id": "rane-minimal-model",
+      "parity_state": "not-reproducible",
+      "reason_category": "behavior-unobservable",
+      "exact_reason": "The current service behavior, version, implementation, tests, and stable input/output contract could not be independently verified.",
+      "closest_supported_workflow": "Represent the rapid research-need decision in DecisionProblemV2 and use VOIAGE EVPI, EVSI, and study-design methods as they mature.",
+      "user_impact": "Users can model the underlying decision but do not receive a compatibility guarantee for the historical web workflow.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"]
+    },
+    {
+      "tool_id": "victor",
+      "feature_id": "victor-trial",
+      "parity_state": "not-reproducible",
+      "reason_category": "behavior-unobservable",
+      "exact_reason": "Only the published description was available; current software behavior, estimator details, source, tests, and fixtures were not independently verifiable.",
+      "closest_supported_workflow": "Use VOIAGE EVSI and ENBS with an explicit trial design, acquisition cost, population, horizon, and stopping policy.",
+      "user_impact": "The decision can be reconstructed from explicit inputs, but VOIAGE does not claim compatibility with the unavailable trial tool.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"]
+    },
+    {
+      "tool_id": "analytica",
+      "feature_id": "analytica-voi",
+      "parity_state": "not-reproducible",
+      "reason_category": "proprietary-unobservable",
+      "exact_reason": "Public documentation does not expose a version-pinned implementation, complete numerical algorithms, executable tests, or redistributable reference fixtures.",
+      "closest_supported_workflow": "Export decision-model draws or rebuild the decision in DecisionProblemV2, then use VOIAGE EVPI, EVPPI, and expected-loss calculations.",
+      "user_impact": "Core estimands remain available without Analytica, but proprietary model editing and undocumented numerical behavior are not replicated.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://docs.analytica.com/"]
+    },
+    {
+      "tool_id": "treeage-pro",
+      "feature_id": "treeage-decision-modeling",
+      "parity_state": "not-reproducible",
+      "reason_category": "proprietary-unobservable",
+      "exact_reason": "The proprietary model editor and its undocumented numerical implementation cannot be independently reproduced from public, versioned executable evidence.",
+      "closest_supported_workflow": "Export PSA, cost, effect, or net-benefit draws and run VOIAGE EVPI, EVPPI, CEAC, and ICER analyses independently.",
+      "user_impact": "VOI calculations can consume exported results, while TreeAge model authoring and interface compatibility remain outside VOIAGE.",
+      "review_date": "2026-07-24",
+      "review_due": "2026-10-23",
+      "evidence": ["https://www.treeage.com/"]
+    }
+  ]
+}

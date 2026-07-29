@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "status": "candidate-blocked",
+  "promotion": {
+    "release_target": "v1.1",
+    "decision": "blocked",
+    "repository_promotion_ready": false,
+    "public_release_ready": false
+  },
+  "stable_core_status": {
+    "path": "specs/v1/stable-core-status.json",
+    "sha256": "834e55ffd995e1c0c2722ba24487f45b43ffeb289a732ee410eb21e0b889ccb2"
+  },
+  "scientific_freeze_approval": {
+    "candidate_digest": "9f437ea0b0521297b81f66adfac980e537db3c0ebf63823445f3bff2d285c3f9",
+    "reviewer": "edithatogo",
+    "reviewer_role": "repository-maintainer",
+    "scope": "scientific-contract-only",
+    "waives_implementation_or_release_gates": false
+  },
+  "repository_gates": [
+    {
+      "id": "replication-and-convergence-assurance",
+      "owner": "repository",
+      "status": "open",
+      "evidence_or_next_action": "Complete estimator-specific replication, convergence, and validation evidence beyond the shared EVSI replication contract."
+    },
+    {
+      "id": "matched-cross-language-performance",
+      "owner": "repository",
+      "status": "open",
+      "evidence_or_next_action": "Run identical-digest hosted Python-facade and public-Rust-facade benchmarks before making cross-language performance claims."
+    }
+  ],
+  "human_gates": [
+    {
+      "id": "phase-1-manual-verification",
+      "owner": "repository-maintainer",
+      "status": "open",
+      "evidence_or_next_action": "Perform and record the Phase 1 numerical-contract manual protocol."
+    },
+    {
+      "id": "phase-2-manual-verification",
+      "owner": "repository-maintainer",
+      "status": "open",
+      "evidence_or_next_action": "Perform and record the Phase 2 Rust-implementation manual protocol."
+    },
+    {
+      "id": "phase-3-manual-verification",
+      "owner": "repository-maintainer",
+      "status": "open",
+      "evidence_or_next_action": "Perform and record the Phase 3 stable-core evidence manual protocol."
+    },
+    {
+      "id": "phase-4-manual-verification",
+      "owner": "repository-maintainer",
+      "status": "open",
+      "evidence_or_next_action": "Perform and record the Phase 4 runtime statistical-assurance manual protocol."
+    }
+  ],
+  "external_gates": [
+    {
+      "binding_id": "python",
+      "gate": "conda-forge feedstock review and merge",
+      "status": "not-started",
+      "repository_prerequisite_complete": true,
+      "external_owner": "conda-forge reviewers",
+      "next_action": "After an immutable v1.1 release exists, submit or update the feedstock and retain the review URL.",
+      "claim_policy": "no-distribution-claim-before-evidence"
+    },
+    {
+      "binding_id": "mojo",
+      "gate": "Mojo toolchain and upstream distribution contract; no local mojo executable or binding exists",
+      "status": "blocked",
+      "repository_prerequisite_complete": false,
+      "external_owner": "Mojo toolchain and distribution maintainers",
+      "next_action": "First implement and validate the repository-owned C-ABI wrapper, then seek an approved upstream distribution route.",
+      "claim_policy": "no-distribution-claim-before-evidence"
+    },
+    {
+      "binding_id": "r",
+      "gate": "CRAN maintainer review or approved R registry indexing",
+      "status": "blocked",
+      "repository_prerequisite_complete": false,
+      "external_owner": "CRAN or approved registry reviewers",
+      "next_action": "Complete v1.1 binding conformance and package checks before submitting a release candidate.",
+      "claim_policy": "no-distribution-claim-before-evidence"
+    },
+    {
+      "binding_id": "julia",
+      "gate": "Julia General registry review and merge",
+      "status": "blocked",
+      "repository_prerequisite_complete": false,
+      "external_owner": "Julia General reviewers",
+      "next_action": "Complete v1.1 binding conformance and artifact lifetime evidence before opening a registry pull request.",
+      "claim_policy": "no-distribution-claim-before-evidence"
+    },
+    {
+      "binding_id": "rust",
+      "gate": "crates.io trusted publisher registration and authorized release",
+      "status": "not-started",
+      "repository_prerequisite_complete": true,
+      "external_owner": "crates.io publication boundary",
+      "next_action": "Register the rust-crates-release.yml trusted publisher, then authorize an immutable-tag release after required checks pass.",
+      "claim_policy": "no-distribution-claim-before-evidence"
+    }
+  ],
+  "claim_policy": {
+    "green_ci": "automated-evidence-only",
+    "scientific_freeze": "does-not-waive-implementation-gates",
+    "repository_completion": "does-not-imply-registry-publication",
+    "external_approval": "requires-authoritative-external-evidence"
+  }
+}

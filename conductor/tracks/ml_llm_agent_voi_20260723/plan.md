@@ -2,9 +2,28 @@
 
 ## Phase 1: Decision and backend contracts
 
-- [ ] Add failing utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
+- [~] Add utility, EIG-versus-VOI, protocol, privacy, and fallback tests.
+  - [x] Add a deterministic EIG-versus-decision-VOI fixture and regression
+    test with explicit protocol, utility, stopping, provenance, and privacy
+    fields; full estimator and runtime protocol coverage remains open.
+  - [x] Guard offline CPU references, optional provider backends, and the
+    no-private-data-transfer boundary.
+  - [x] Guard local-private evidence handling and explicit degraded-backend
+    diagnostics; richer runtime protocol and privacy-budget semantics remain
+    open.
+- [x] Define a versioned machine-readable decision-VOI fixture schema covering
+  prediction, information action, utility, provenance, stopping, and privacy
+  fields and link it from the canonical fixture manifest; runtime protocol
+  enforcement remains open. Draft 2020-12 validation is now executable in the
+  regression suite, including rejection of network/private provenance claims.
 - [ ] Define prediction, posterior-update, utility, acquisition, provenance, and
   stopping contracts.
+- [ ] Threat-model prompt injection, data/retrieval poisoning, tool
+  exfiltration, reward hacking, evaluation contamination, adaptive overfitting,
+  correlated judge/verifier failures, provider drift, and human override.
+- [x] Add a deterministic offline adversarial scenario fixture covering
+  prompt injection, retrieval poisoning, correlated judges, provider drift,
+  and human escalation; do not promote it as model-validation evidence.
 - [ ] Register ML/LLM/agent methods at experimental maturity.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
@@ -18,6 +37,8 @@
 - [ ] Implement label, model, retrieval, compute, escalation, drift, tool, and
   delegation decision contexts.
 - [ ] Add calibration, sensitivity, stopping, privacy, and provenance results.
+- [ ] Add adversarial-information, safety-constraint, dependent-evaluator, and
+  escalation/abstention analyses when they change net information value.
 - [ ] Commit, attach a git note, record the short commit SHA, and commit the
   plan update.
 - [ ] Automated review and validation checkpoint.
@@ -34,4 +55,3 @@
 - [ ] Final review and validation checkpoint.
 - [ ] Conductor - User Manual Verification 'Phase 3: Evidence and maturity'
   (Protocol in workflow.md).
-

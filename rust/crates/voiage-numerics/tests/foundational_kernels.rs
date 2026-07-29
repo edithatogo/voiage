@@ -2,7 +2,7 @@
 
 use voiage_diagnostics::{ErrorCategory, ErrorCode};
 use voiage_domain::SampleMatrix;
-use voiage_numerics::{enbs, evpi};
+use voiage_numerics::{enbs, evpi, evpi_with_assurance};
 
 fn matrix(rows: &[&[f64]]) -> SampleMatrix {
     rows.iter()
@@ -19,6 +19,19 @@ fn evpi_matches_the_canonical_fixture() {
     let result = evpi(&samples).expect("EVPI should be computable");
 
     assert!((result - (2.0 / 3.0)).abs() <= 1.0e-12);
+}
+
+#[test]
+fn evpi_assurance_reports_sampling_error_without_changing_the_scalar_api() {
+    let input = matrix(&[&[1.0, 0.0], &[0.0, 1.0], &[2.0, 0.0]]);
+
+    let result = evpi_with_assurance(&input).expect("valid EVPI input");
+
+    assert!((result.value - evpi(&input).expect("scalar EVPI")).abs() <= 1.0e-12);
+    assert_eq!(result.sample_count, 3);
+    assert_eq!(result.strategy_count, 2);
+    assert!(result.opportunity_loss_variance.expect("variance") > 0.0);
+    assert!(result.monte_carlo_standard_error.expect("MCSE") > 0.0);
 }
 
 #[test]

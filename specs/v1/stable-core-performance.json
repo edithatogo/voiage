@@ -1,0 +1,68 @@
+{
+  "contract_version": "1.1.0",
+  "status": "normative",
+  "schema": "specs/v1/stable-core-performance.schema.json",
+  "comparison_policy": {
+    "paired_speedup_claim": "prohibited",
+    "reason": "existing Python and Rust baselines do not measure the same execution boundary",
+    "allowed_claims": [
+      "each baseline remains within its own runner-bound regression budget",
+      "Rust operations satisfy their direct-kernel workload contract",
+      "Python C15 EVPI satisfies its reference-oracle cohort budget"
+    ]
+  },
+  "baselines": [
+    {
+      "baseline_id": "rust-foundational-v1",
+      "language": "rust",
+      "source": "rust/crates/voiage-numerics/benches/foundational-baseline.json",
+      "execution_boundary": "direct-rust-kernel",
+      "runner_scope": "release-mode cargo bench on the executing Rust runner",
+      "measures": "one direct invocation per declared foundational operation after process and compilation setup",
+      "does_not_measure": "Python validation, array conversion, PyO3 dispatch, serialization, repeated-sample uncertainty, energy, or a matched Python workload",
+      "budgets": {
+        "metric": "elapsed_ns",
+        "scope": "native_evsi_only",
+        "enforcement": "fail_if_observed_exceeds_max",
+        "operations": {
+          "evsi": {"reference_elapsed_ns": 139958, "max_elapsed_ns": 30000000},
+          "evsi_efficient_linear": {"reference_elapsed_ns": 222708, "max_elapsed_ns": 30000000},
+          "evsi_moment_based": {"reference_elapsed_ns": 376958, "max_elapsed_ns": 60000000}
+        }
+      },
+      "claim_limit": "contract and regression-budget evidence only; not a cross-language speedup claim"
+    },
+    {
+      "baseline_id": "python-c15-evpi-v1",
+      "language": "python",
+      "source": "benchmarks/c15_performance_baseline.json",
+      "execution_boundary": "numpy-reference-oracle",
+      "runner_scope": "approved CPython 3.14 Linux and Windows hosted-runner cohorts",
+      "measures": "nine repeated forty-iteration NumPy EVPI oracle workloads with deterministic percentile-bootstrap uncertainty",
+      "does_not_measure": "the public Python facade, PyO3 dispatch, a direct Rust kernel, macOS, other Python versions, memory, or energy",
+      "budgets": {
+        "Linux": 0.25,
+        "Windows": 0.25
+      },
+      "claim_limit": "cohort-specific upper-bound regression evidence only; not representative Python-versus-Rust timing"
+    }
+  ],
+  "paired_baseline_gate": {
+    "status": "open",
+    "required_evidence": [
+      "identical versioned workload and result digest",
+      "public Python facade timing including validation and PyO3 conversion",
+      "direct Rust facade timing",
+      "warmup and repeated-sample confidence intervals",
+      "runner identity, compiler, package versions, memory, and energy availability",
+      "Linux, Windows, and macOS evidence before a cross-platform claim"
+    ],
+    "promotion_rule": "a reviewed paired artifact may permit a narrowly scoped overhead or speedup claim; local measurements alone cannot"
+  },
+  "dependency_frontier_gate": {
+    "status": "satisfied",
+    "command": "uv run python scripts/dependency_frontier.py . --strict",
+    "reason": "upgraded-lock-matches-newest-stable-releases-admitted-by-declared-compatibility-ranges",
+    "does_not_invalidate_performance_contract": true
+  }
+}

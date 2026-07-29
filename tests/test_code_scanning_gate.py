@@ -20,6 +20,14 @@ def test_workflows_use_the_repository_owned_retrying_gate() -> None:
         assert "edithatogo/.github/.github/actions/code-scanning-gate" not in content
 
 
+def test_codeql_can_scan_exact_release_candidates_and_merge_groups() -> None:
+    content = (ROOT / ".github" / "workflows" / "codeql.yml").read_text()
+
+    assert "workflow_dispatch:" in content
+    assert "merge_group:" in content
+    assert "branches: [main]" in content
+
+
 def test_blocking_alerts_are_limited_to_current_commit_and_high_severity() -> None:
     alerts = [
         {

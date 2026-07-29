@@ -107,7 +107,7 @@ def test_fixture_smoke_validator_rejects_missing_artifact(
 def test_compatibility_catalog_executes_normal_edge_and_invalid_cases() -> None:
     results = fixture_smoke_validator.execute_compatibility_catalog()
 
-    assert len(results) == 25
+    assert len(results) == 28
     assert {result["status"] for result in results} == {"pass"}
     assert {result["case_id"].split("-", maxsplit=1)[0] for result in results} == {
         "evpi",
@@ -116,6 +116,7 @@ def test_compatibility_catalog_executes_normal_edge_and_invalid_cases() -> None:
         "enbs",
         "ceaf",
         "dominance",
+        "net",
     }
     for result in results:
         assert set(result["provenance"]) == {

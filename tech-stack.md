@@ -32,7 +32,9 @@ sources. This file records the architectural intent, not a duplicate lockfile.
 - **Lint and Formatting**: Ruff.
 - **Type Checking**: ty across the maintained package plus BasedPyright as an
   independent checker for new and progressively ratcheted contracts.
-- **Security Scan**: Ruff security rules and Bandit in the lint gate.
+- **Security Scan**: Ruff security rules for Python source checks, with CodeQL
+  dataflow analysis and dedicated dependency, workflow, secret, and supply-chain
+  gates retained as distinct controls.
 - **Session Orchestration**: tox for CI parity and nox for uv-backed local
   sessions.
 - **Environment Frontends**: `uv.lock` is canonical; Pixi provides portable

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Deterministic adversarial-information scenarios for offline VOI checks.",
+  "scenarios": [
+    {
+      "id": "prompt-injection",
+      "information_action": "retrieve-adversarial-document",
+      "failure_mode": "instruction-following-corruption",
+      "decision_loss_if_missed": 8.0,
+      "review_cost": 1.0
+    },
+    {
+      "id": "retrieval-poisoning",
+      "information_action": "retrieve-corrupted-source",
+      "failure_mode": "evidence-contamination",
+      "decision_loss_if_missed": 7.0,
+      "review_cost": 1.0
+    },
+    {
+      "id": "correlated-judge-failure",
+      "information_action": "request-independent-verifier",
+      "failure_mode": "shared-evaluator-bias",
+      "decision_loss_if_missed": 9.0,
+      "review_cost": 2.0
+    },
+    {
+      "id": "provider-drift",
+      "information_action": "refresh-calibration-snapshot",
+      "failure_mode": "performance-distribution-shift",
+      "decision_loss_if_missed": 6.0,
+      "review_cost": 1.0
+    },
+    {
+      "id": "human-escalation",
+      "information_action": "escalate-high-risk-output",
+      "failure_mode": "unsafe-automatic-decision",
+      "decision_loss_if_missed": 10.0,
+      "review_cost": 3.0
+    }
+  ]
+}

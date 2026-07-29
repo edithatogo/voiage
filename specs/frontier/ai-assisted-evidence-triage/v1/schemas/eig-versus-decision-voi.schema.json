@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "decision_alternatives",
+    "predictive_model",
+    "information_action",
+    "utility_definition",
+    "stopping_rule",
+    "state_probabilities",
+    "expected_information_gain_nats",
+    "current_decision",
+    "posterior_decisions",
+    "current_expected_utility",
+    "posterior_expected_utility",
+    "information_cost",
+    "privacy_budget",
+    "provenance",
+    "expected_decision_voi"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "protocol_version": {"const": "1.0.0"},
+    "decision_alternatives": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "predictive_model": {"type": "string", "minLength": 1},
+    "information_action": {"type": "string", "minLength": 1},
+    "utility_definition": {"type": "string", "minLength": 1},
+    "stopping_rule": {"type": "string", "minLength": 1},
+    "state_probabilities": {"type": "array", "minItems": 2, "items": {"type": "number", "minimum": 0, "maximum": 1}},
+    "expected_information_gain_nats": {"type": "number", "minimum": 0},
+    "current_decision": {"type": "string"},
+    "posterior_decisions": {"type": "array", "items": {"type": "string"}},
+    "current_expected_utility": {"type": "number"},
+    "posterior_expected_utility": {"type": "number"},
+    "information_cost": {"type": "number", "minimum": 0},
+    "privacy_budget": {"type": "number", "minimum": 0},
+    "provenance": {
+      "type": "object",
+      "required": ["source", "network_required", "private_data"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "network_required": {"const": false},
+        "private_data": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "expected_decision_voi": {"type": "number"}
+  },
+  "additionalProperties": true
+}

@@ -51,6 +51,13 @@ def test_calculate_ceaf_identifies_expected_optimal_frontier(
     assert np.all(result.probability_upper <= 1)
     assert result.reporting["reporting_standard"] == "CHEERS-VOI"
     assert result.reporting["analysis_type"] == "calculate_ceaf"
+    assert len(result.assurance_by_threshold) == 3
+    assert all(
+        assurance.reporting_class == "sample-average"
+        for assurance in result.assurance_by_threshold
+    )
+    assert result.assurance_by_threshold[1].monte_carlo_standard_error is not None
+    assert len(result.reporting["statistical_assurance_by_threshold"]) == 3
 
 
 def test_calculate_ceaf_converges_to_one_with_resolved_uncertainty() -> None:

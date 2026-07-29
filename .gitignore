@@ -166,6 +166,9 @@ r-package/**/*.Rcheck/
 !bindings/rust/Cargo.lock
 docs/astro-site/node_modules/
 docs/astro-site/dist/
+docs/astro-site/.astro/
+docs/astro-site/src/content/docs/api-reference/generated/
+.conductor/local/
 package-lock.json
 
 # Conductor tool runtime state

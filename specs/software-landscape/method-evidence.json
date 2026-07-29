@@ -1,0 +1,1451 @@
+{
+  "schema_version": "1.1.0",
+  "reviewed_on": "2026-07-24",
+  "review_due": "2026-10-23",
+  "sources": [
+    {
+      "id": "ispor-voi-task-force",
+      "title": "Value of Information Analytical Methods: Report 2 of the ISPOR Value of Information Analysis Emerging Good Practices Task Force",
+      "kind": "guideline",
+      "url": "https://doi.org/10.1016/j.jval.2020.01.004",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1016/j.jval.2020.01.004"
+    },
+    {
+      "id": "jackson-voi-overview",
+      "title": "Value of Information Analysis in Models to Inform Health Policy",
+      "kind": "review-paper",
+      "url": "https://doi.org/10.1146/annurev-statistics-040120-010730",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1146/annurev-statistics-040120-010730"
+    },
+    {
+      "id": "heath-evppi-review",
+      "title": "A Review of Methods for Analysis of the Expected Value of Information",
+      "kind": "review-paper",
+      "url": "https://doi.org/10.1177/0272989X17697692",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1177/0272989X17697692"
+    },
+    {
+      "id": "kunst-evsi-four-methods",
+      "title": "Computing the Expected Value of Sample Information Efficiently",
+      "kind": "review-paper",
+      "url": "https://doi.org/10.1016/j.jval.2020.02.010",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1016/j.jval.2020.02.010"
+    },
+    {
+      "id": "fang-mlmc-evppi",
+      "title": "Multilevel and Quasi Monte Carlo Methods for EVPPI",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1177/0272989X211026305",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1177/0272989X211026305"
+    },
+    {
+      "id": "basu-individualized-care",
+      "title": "Value of Information on Preference Heterogeneity and Individualized Care",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1177/0272989X06297393",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1177/0272989X06297393"
+    },
+    {
+      "id": "andronis-implementation",
+      "title": "Adjusting Estimates of Expected Value of Information for Implementation",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1177/0272989X15614814",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1177/0272989X15614814"
+    },
+    {
+      "id": "sadatsafavi-validation-evsi",
+      "title": "Expected Value of Sample Information Calculations for Risk Prediction Model Validation",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1177/0272989X251314010",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1177/0272989X251314010"
+    },
+    {
+      "id": "mohammed-calibration-target-voi",
+      "title": "Deriving Decision Uncertainty Associated With Calibration Target Data: A Value of Information Approach",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1016/j.jval.2024.10.788",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1016/j.jval.2024.10.788"
+    },
+    {
+      "id": "zan-bickel-portfolio",
+      "title": "Components of Portfolio Value of Information",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1287/deca.2013.0267",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1287/deca.2013.0267"
+    },
+    {
+      "id": "lindley-experimental-design",
+      "title": "On a Measure of the Information Provided by an Experiment",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1214/aoms/1177728069",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1214/aoms/1177728069"
+    },
+    {
+      "id": "frazier-knowledge-gradient",
+      "title": "A Tutorial on Bayesian Optimization",
+      "kind": "review-paper",
+      "url": "https://doi.org/10.1287/educ.2018.0188",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1287/educ.2018.0188"
+    },
+    {
+      "id": "go-isaac-robust-eig",
+      "title": "Robust Expected Information Gain for Optimal Bayesian Experimental Design",
+      "kind": "primary-paper",
+      "url": "https://proceedings.mlr.press/v180/go22a.html",
+      "verification": "primary-verified",
+      "identifier": "url:pmlr-v180-go22a"
+    },
+    {
+      "id": "r-voi-documentation",
+      "title": "Value of Information Analysis with voi",
+      "kind": "package-documentation",
+      "url": "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html",
+      "verification": "primary-verified",
+      "identifier": "url:r-voi-vignette"
+    },
+    {
+      "id": "bcea-reference",
+      "title": "BCEA package reference manual",
+      "kind": "package-documentation",
+      "url": "https://stat.ethz.ch/CRAN/web/packages/BCEA/refman/BCEA.html",
+      "verification": "primary-verified",
+      "identifier": "url:bcea-reference"
+    },
+    {
+      "id": "voi-web-tools-review",
+      "title": "Web-based tools for value-of-information analysis",
+      "kind": "review-paper",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/",
+      "verification": "primary-verified",
+      "identifier": "url:pmc7613968"
+    },
+    {
+      "id": "real-options-sequential-decisions",
+      "title": "Real Options in the Laboratory: Sequential Investment Decisions",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1016/j.jbef.2016.08.002",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1016/j.jbef.2016.08.002"
+    },
+    {
+      "id": "nist-decision-pathways",
+      "title": "Value of Information and Decision Pathways: Concepts and Case Studies",
+      "kind": "review-paper",
+      "url": "https://doi.org/10.3389/fenvs.2022.805245",
+      "verification": "primary-verified",
+      "identifier": "doi:10.3389/fenvs.2022.805245"
+    },
+    {
+      "id": "pearl-bareinboim-transportability",
+      "title": "External Validity: From Do-Calculus to Transportability Across Populations",
+      "kind": "primary-paper",
+      "url": "https://doi.org/10.1214/14-STS486",
+      "verification": "primary-verified",
+      "identifier": "doi:10.1214/14-STS486"
+    },
+    {
+      "id": "hay-value-computation",
+      "title": "Selecting Computations: Theory and Applications",
+      "kind": "primary-paper",
+      "url": "https://arxiv.org/abs/1207.5879",
+      "verification": "primary-verified",
+      "identifier": "url:arxiv-1207.5879"
+    },
+    {
+      "id": "madras-learning-to-defer",
+      "title": "Predict Responsibly: Improving Fairness and Accuracy by Learning to Defer",
+      "kind": "primary-paper",
+      "url": "https://arxiv.org/abs/1711.06664",
+      "verification": "primary-verified",
+      "identifier": "url:arxiv-1711.06664"
+    },
+    {
+      "id": "pyro-oed",
+      "title": "Pyro Bayesian optimal experimental design documentation",
+      "kind": "package-documentation",
+      "url": "https://docs.pyro.ai/en/stable/contrib.oed.html",
+      "verification": "primary-verified",
+      "identifier": "url:pyro-oed"
+    },
+    {
+      "id": "botorch-acquisition",
+      "title": "BoTorch acquisition function documentation",
+      "kind": "package-documentation",
+      "url": "https://botorch.readthedocs.io/en/stable/acquisition.html",
+      "verification": "primary-verified",
+      "identifier": "url:botorch-acquisition"
+    },
+    {
+      "id": "voiage-method-contracts",
+      "title": "VOIAGE canonical and frontier method contracts",
+      "kind": "repository-contract",
+      "url": "https://github.com/edithatogo/voiage/tree/main/specs",
+      "verification": "repository-verified",
+      "identifier": "repo:edithatogo/voiage@specs"
+    }
+  ],
+  "coverage": [
+    {
+      "method_id": "net-benefit",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "expected-loss",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evpi",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "population-evpi",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evppi",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evsi",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "enbs",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "optimal-study-design",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "ceac",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-visualization",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "ceaf",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "expected-loss-curve",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "bcea-reference"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-visualization",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "voi-curve",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-visualization",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "dominance",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "related-analysis",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "icer",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "related-analysis",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "cea-plane",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "ispor-voi-task-force",
+        "jackson-voi-overview"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-visualization",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "evppi-regression",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "heath-evppi-review"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evppi-nested-mc",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "heath-evppi-review",
+        "fang-mlmc-evppi"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evsi-nested-mc",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "kunst-evsi-four-methods"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evsi-regression",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "kunst-evsi-four-methods"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evsi-moment-matching",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "kunst-evsi-four-methods"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "evsi-importance-sampling",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "kunst-evsi-four-methods"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "variance-sensitivity",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "r-voi-documentation"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "related-analysis",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "payer-burden",
+      "family": "stable-decision-voi-and-economic-evaluation",
+      "source_ids": [
+        "voi-web-tools-review"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "related-analysis",
+      "decision_boundary": "derived-decision-output",
+      "required_decision_fields": [
+        "alternatives",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision output or adjacent analysis retained for library parity; it is not a distinct VOI estimand."
+    },
+    {
+      "method_id": "directional-evop",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "pairwise-evop",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "perspective-optima",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "perspective-frontier",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "perspective-switching",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "perspective-perfect-information",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "perspective-sample-information",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "joint-parameter-perspective",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "robust-perspective-decisions",
+      "family": "value-of-perspective",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "repository-defined-perspective-contract",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "perspectives",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "external-scientific-review",
+      "note": "Repository-defined VOP contract. It is not an alias for preference heterogeneity, equity weighting, subgroup analysis, or ordinary scenario analysis, and requires independent scientific review before stable promotion."
+    },
+    {
+      "method_id": "structural-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "jackson-voi-overview",
+        "voiage-method-contracts"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "nma-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "jackson-voi-overview",
+        "voiage-method-contracts"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "application-contract",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "none",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "calibration-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "mohammed-calibration-target-voi"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "sequential-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "jackson-voi-overview",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "real-options-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "real-options-sequential-decisions"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "portfolio-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "zan-bickel-portfolio"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "heterogeneity-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "basu-individualized-care"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "preference-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "basu-individualized-care"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "equity-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "nist-decision-pathways",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "implementation-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "andronis-implementation"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "validation-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "sadatsafavi-validation-evsi"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "causal-transportability-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "pearl-bareinboim-transportability",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "data-quality-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "nist-decision-pathways",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "monitoring-voi",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "nist-decision-pathways",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "value-of-computation",
+      "family": "broader-decision-and-research-value",
+      "source_ids": [
+        "hay-value-computation"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Decision-theoretic method requiring explicit alternatives, uncertainty, information action, objective, population, horizon, and provenance."
+    },
+    {
+      "method_id": "expected-information-gain",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "lindley-experimental-design",
+        "pyro-oed"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "robust-expected-information-gain",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "go-isaac-robust-eig"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "predictive-information-gain",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "lindley-experimental-design",
+        "pyro-oed"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "bayesian-oed",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "lindley-experimental-design",
+        "pyro-oed"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "active-learning",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "botorch-acquisition"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "knowledge-gradient",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "frazier-knowledge-gradient",
+        "botorch-acquisition"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "entropy-search",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "botorch-acquisition"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "preference-acquisition",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "botorch-acquisition"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "canonical-estimator",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "multi-fidelity-acquisition",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "botorch-acquisition"
+      ],
+      "review_state": "primary-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "independent-replication",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "data-valuation",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "nist-decision-pathways",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "canonical-estimand",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "selective-prediction",
+      "family": "information-theoretic-design-and-machine-learning",
+      "source_ids": [
+        "madras-learning-to-defer",
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "supported-workflow",
+      "decision_boundary": "information-theoretic-only",
+      "required_decision_fields": [
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Information-design or acquisition method. It is economic VOI only when embedded in DecisionProblemV2 with downstream utility or loss and acquisition cost."
+    },
+    {
+      "method_id": "llm-routing-voi",
+      "family": "llm-rag-and-agent-applications",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "application-contract",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Application contract only. A valid analysis must instantiate DecisionProblemV2 and report acquisition cost and net value; the application name does not create a new estimand."
+    },
+    {
+      "method_id": "rag-acquisition-voi",
+      "family": "llm-rag-and-agent-applications",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "application-contract",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Application contract only. A valid analysis must instantiate DecisionProblemV2 and report acquisition cost and net value; the application name does not create a new estimand."
+    },
+    {
+      "method_id": "agent-information-voi",
+      "family": "llm-rag-and-agent-applications",
+      "source_ids": [
+        "voiage-method-contracts"
+      ],
+      "review_state": "contract-verified",
+      "disposition": "application-contract",
+      "decision_boundary": "requires-decision-problem-v2",
+      "required_decision_fields": [
+        "alternatives",
+        "uncertainty",
+        "information_actions",
+        "objective",
+        "population",
+        "time_horizon",
+        "provenance"
+      ],
+      "promotion_gate": "method-contract-and-fixtures",
+      "note": "Application contract only. A valid analysis must instantiate DecisionProblemV2 and report acquisition cost and net value; the application name does not create a new estimand."
+    }
+  ]
+}

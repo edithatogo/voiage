@@ -24,3 +24,52 @@ A migrated kernel requires deterministic Python/Rust fixture parity, identical
 result envelopes, a CI-gated Rust benchmark, and explicit fallback behavior.
 The migration matrix in `specs/rust/migration_matrix.json` records each
 kernel's status and evidence.
+
+The versioned
+[`stable-estimator-assurance.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-estimator-assurance.json)
+contract freezes the v1.1 numerical comparison, tie, clipping, failure, and
+fallback policies. It maps every method in the approved stable scientific
+freeze either to an executable estimator profile or to an explicit delegated
+visualization/application contract. A profile marked
+`requires-assurance-evidence` is not release-conformant until its outstanding
+uncertainty and convergence evidence is recorded.
+
+The companion
+[`stable-estimator-statistical-assurance.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-estimator-statistical-assurance.json)
+policy defines which bias, variance, Monte Carlo error, confidence interval,
+convergence, effective-sample-size, RNG, replication, budget, stopping, and
+numerical-error evidence each estimator family must report. Statistical error
+and floating-point error are recorded separately.
+
+The schema-validated
+[`stable-core-validation-evidence.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-validation-evidence.json)
+contract maps every stable estimator profile to test-level analytical,
+independent-reference, and metamorphic evidence. Differential comparisons are
+supplementary and cannot substitute for an independently derived result. This
+mapping also makes the remaining two-loop EVSI Python compatibility path
+visible; Rust seeded-bootstrap evidence is not presented as authority for that
+different algorithm.
+
+The generated
+[`stable-core-status.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-core-status.json)
+registry joins these normative contracts. Run
+`python scripts/generate_stable_core_status.py --check` to detect drift. The
+registry deliberately separates stable API maturity from v1.1 assurance
+eligibility and aggregate release readiness. Only deterministic net-benefit
+and dominance currently have no estimator-family runtime envelope to
+integrate; ENBS inherits its EVSI input assurance, and the other profiles
+retain explicit runtime-assurance gates.
+
+The Rust-native linear-regression and moment-matching EVSI estimators are
+assurance-conformant: each has analytical, independently derived, metamorphic,
+runtime-envelope, and independently seeded replication evidence. This does not
+promote the distinct public joint-normal two-loop compatibility estimator,
+which remains Python-owned and explicitly assurance-gated.
+
+Expected opportunity loss now provides the first Rust-owned sample-average
+runtime envelope. It reports the selected strategy's unbiased opportunity-loss
+variance, Monte Carlo standard error, a disclosed normal-approximation
+interval, supplied-draw budget, elapsed time, and numerical policy. It does
+not infer independence, RNG identity, convergence, or effective sample size
+from an unlabelled input matrix. Replication and convergence evidence therefore
+remain open before v1.1 assurance promotion.

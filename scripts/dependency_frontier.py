@@ -7,26 +7,34 @@ import argparse
 import json
 from pathlib import Path
 import tomllib
+from typing import Any, cast
 import urllib.request
 
 from packaging.requirements import Requirement
 from packaging.version import Version
 
 
-def declared_requirements(config: dict[str, object]) -> list[tuple[str, Requirement]]:
+def declared_requirements(config: dict[str, Any]) -> list[tuple[str, Requirement]]:
     """Collect core, optional, development, and build dependency declarations."""
     project = config["project"]
     assert isinstance(project, dict)
-    grouped: list[tuple[str, object]] = [("core", project.get("dependencies", []))]
+    grouped: list[tuple[str, list[str]]] = [
+        ("core", cast("list[str]", project.get("dependencies", [])))
+    ]
     grouped.extend(
-        (f"optional:{name}", values)
+        (f"optional:{name}", cast("list[str]", values))
         for name, values in project.get("optional-dependencies", {}).items()
     )
     grouped.extend(
-        (f"group:{name}", values)
+        (f"group:{name}", cast("list[str]", values))
         for name, values in config.get("dependency-groups", {}).items()
     )
-    grouped.append(("build", config.get("build-system", {}).get("requires", [])))
+    grouped.append(
+        (
+            "build",
+            cast("list[str]", config.get("build-system", {}).get("requires", [])),
+        )
+    )
     return [
         (scope, Requirement(item))
         for scope, values in grouped
@@ -35,11 +43,12 @@ def declared_requirements(config: dict[str, object]) -> list[tuple[str, Requirem
     ]
 
 
-def latest_version(name: str) -> str:
-    """Return the current PyPI version using the official JSON API."""
+def pypi_releases(name: str) -> tuple[str, list[str]]:
+    """Return the current version and release set from the official JSON API."""
     url = f"https://pypi.org/pypi/{name}/json"
     with urllib.request.urlopen(url, timeout=20) as response:  # noqa: S310
-        return str(json.load(response)["info"]["version"])
+        payload = json.load(response)
+    return str(payload["info"]["version"]), list(payload["releases"])
 
 
 def minimum_declared(requirement: Requirement) -> str | None:
@@ -52,6 +61,41 @@ def minimum_declared(requirement: Requirement) -> str | None:
     return str(max(candidates)) if candidates else None
 
 
+def latest_compatible(requirement: Requirement, releases: list[str]) -> str | None:
+    """Return the newest stable release admitted by the declared range."""
+    candidates = []
+    for release in releases:
+        try:
+            version = Version(release)
+        except ValueError:
+            continue
+        if (
+            not version.is_prerelease
+            and not version.is_devrelease
+            and requirement.specifier.contains(version, prereleases=False)
+        ):
+            candidates.append(version)
+    return str(max(candidates)) if candidates else None
+
+
+def locked_versions(lock: dict[str, Any]) -> dict[str, str]:
+    """Return the greatest resolved version for every registry package."""
+    resolved: dict[str, Version] = {}
+    for package in lock.get("package", []):
+        if not isinstance(package, dict) or not isinstance(package.get("name"), str):
+            continue
+        version_text = package.get("version")
+        if not isinstance(version_text, str):
+            continue
+        try:
+            version = Version(version_text)
+        except ValueError:
+            continue
+        normalized = package["name"].lower().replace("_", "-")
+        resolved[normalized] = max(version, resolved.get(normalized, version))
+    return {name: str(version) for name, version in resolved.items()}
+
+
 def main() -> int:
     """Run the live dependency audit and write local context artifacts."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -60,20 +104,34 @@ def main() -> int:
     args = parser.parse_args()
     repo = args.repo.resolve()
     config = tomllib.loads((repo / "pyproject.toml").read_text(encoding="utf-8"))
+    lock = tomllib.loads((repo / "uv.lock").read_text(encoding="utf-8"))
+    locked = locked_versions(lock)
     project = config["project"]
     requirements = declared_requirements(config)
     rows = []
     for scope, requirement in requirements:
-        latest = latest_version(requirement.name)
+        latest, releases = pypi_releases(requirement.name)
+        compatible = latest_compatible(requirement, releases)
         declared = minimum_declared(requirement)
-        current = declared is not None and Version(declared) >= Version(latest)
+        normalized = requirement.name.lower().replace("_", "-")
+        resolved = locked.get(normalized)
+        current = (
+            compatible is not None
+            and resolved is not None
+            and Version(resolved) >= Version(compatible)
+        )
         rows.append(
             {
                 "scope": scope,
                 "package": requirement.name,
                 "declared_minimum": declared,
                 "latest": latest,
+                "latest_compatible": compatible,
+                "locked": resolved,
                 "at_frontier": current,
+                "newer_release_outside_range": (
+                    compatible is not None and Version(latest) > Version(compatible)
+                ),
                 "specifier": str(requirement.specifier),
             }
         )
@@ -94,11 +152,11 @@ def main() -> int:
         f"Python: `{report['requires_python']}`",
         f"All direct dependencies current: **{report['all_direct_dependencies_at_frontier']}**",
         "",
-        "| Scope | Package | Declared minimum | PyPI latest | Current |",
-        "|---|---|---:|---:|:---:|",
+        "| Scope | Package | Declared minimum | Locked | Latest compatible | PyPI latest | Current |",
+        "|---|---|---:|---:|---:|---:|:---:|",
     ]
     lines.extend(
-        f"| `{row['scope']}` | `{row['package']}` | `{row['declared_minimum']}` | `{row['latest']}` | {'yes' if row['at_frontier'] else 'no'} |"
+        f"| `{row['scope']}` | `{row['package']}` | `{row['declared_minimum']}` | `{row['locked']}` | `{row['latest_compatible']}` | `{row['latest']}` | {'yes' if row['at_frontier'] else 'no'} |"
         for row in rows
     )
     (output / "dependency_frontier.md").write_text(

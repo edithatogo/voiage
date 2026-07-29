@@ -17,6 +17,10 @@ pub struct CeafKernelResult {
     pub probability_upper: Vec<f64>,
     /// Expected net benefit of the selected strategy at each threshold.
     pub expected_net_benefit: Vec<f64>,
+    /// Unbiased variance of the acceptability indicator at each threshold.
+    pub probability_variance: Vec<Option<f64>>,
+    /// Monte Carlo standard error of each acceptability probability.
+    pub probability_standard_error: Vec<Option<f64>>,
 }
 
 /// Computes a cost-effectiveness acceptability frontier.
@@ -62,6 +66,8 @@ pub fn ceaf(
     let mut probability_lower = Vec::with_capacity(threshold_count);
     let mut probability_upper = Vec::with_capacity(threshold_count);
     let mut expected_net_benefit = Vec::with_capacity(threshold_count);
+    let mut probability_variance = Vec::with_capacity(threshold_count);
+    let mut probability_standard_error = Vec::with_capacity(threshold_count);
 
     for threshold in 0..threshold_count {
         let mut means = vec![0.0; strategy_count];
@@ -85,12 +91,18 @@ pub fn ceaf(
             )
         })?) / sample_divisor;
         let standard_error = (probability * (1.0 - probability) / sample_divisor).sqrt();
+        let variance = (sample_count >= 2)
+            .then(|| probability * (1.0 - probability) * sample_divisor / (sample_divisor - 1.0));
+        let assurance_standard_error =
+            variance.map(|value| (value / sample_divisor).max(0.0).sqrt());
 
         optimal_strategy_indices.push(expected_optimal);
         acceptability_probabilities.push(probability);
         probability_lower.push((probability - z_value * standard_error).clamp(0.0, 1.0));
         probability_upper.push((probability + z_value * standard_error).clamp(0.0, 1.0));
         expected_net_benefit.push(means[expected_optimal]);
+        probability_variance.push(variance);
+        probability_standard_error.push(assurance_standard_error);
     }
 
     Ok(CeafKernelResult {
@@ -100,6 +112,8 @@ pub fn ceaf(
         probability_lower,
         probability_upper,
         expected_net_benefit,
+        probability_variance,
+        probability_standard_error,
     })
 }
 

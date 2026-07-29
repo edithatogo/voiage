@@ -20,6 +20,9 @@ learning, foundation models, LLMs, and agents.
 4. Require explicit alternatives, uncertainty, information action, predictive
    model, utility/loss, current and posterior decisions, cost, net value,
    diagnostics, and stopping rule.
+5. Model prompt injection, poisoning, exfiltration, reward hacking, evaluation
+   contamination, adaptive overfitting, correlated evaluator failures,
+   provider drift, and human override whenever they affect action utility.
 
 ## Architecture, privacy, and compatibility
 
@@ -33,4 +36,3 @@ fail explicitly.
 Every method and example satisfies the formal decision contract, calibration,
 cost/latency/privacy sensitivity, drift, stopping, determinism, and fallback
 tests. Entropy-only scores are never labelled economic VOI.
-

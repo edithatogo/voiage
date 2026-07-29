@@ -4,9 +4,18 @@ description: Versioned Arrow, Parquet, and evidence-manifest policy for VOIAGE.
 ---
 
 VOIAGE uses Apache Arrow as its in-memory interchange contract and compressed
-Parquet or Arrow IPC files at durable boundaries. Perspective-result tables
-carry the method contract version, estimand, and interchange name in schema
-metadata.
+Parquet or Arrow IPC files at durable boundaries. Decision Problem and
+statistical-assurance inputs are validated by the authoritative Rust DTOs
+before Python constructs their Arrow tables. The complete normalized contract
+is retained in `payload_json`; projected typed columns are indexing aids and
+never replace that lossless payload.
+
+The language-neutral v1 field descriptors and pinned logical-schema
+fingerprints are under `specs/core-api/arrow/v1/`. R and Julia adapters should
+consume these descriptors rather than independently inferring column types.
+Missing confidence, convergence, or random-number evidence remains missing:
+the Boolean projection columns report presence only and do not turn absence
+into a positive assurance claim.
 
 The versioned golden artifacts are under
 `specs/frontier/perspective/v1/interchange/`. Regenerate and verify them with:

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/schemas/v1/stable-core-scalability.schema.json",
+  "title": "VOIAGE stable-core scalability contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "schema",
+    "reduction",
+    "rng",
+    "streaming",
+    "resource_profiles"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.1.0"},
+    "status": {"const": "normative"},
+    "schema": {"const": "specs/v1/stable-core-scalability.schema.json"},
+    "reduction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stable_mode",
+        "order",
+        "parallel_mode",
+        "unsupported_error",
+        "promotion_gate"
+      ],
+      "properties": {
+        "stable_mode": {"const": "sequential-fixed-input-order"},
+        "order": {"type": "string", "minLength": 1},
+        "parallel_mode": {"const": "unsupported"},
+        "unsupported_error": {"const": "backend_unavailable"},
+        "promotion_gate": {"type": "string", "minLength": 1}
+      }
+    },
+    "rng": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_id",
+        "algorithm",
+        "stream_identity",
+        "splitting_rule",
+        "zero_seed_rule",
+        "parallel_execution",
+        "implementation",
+        "promotion_gate"
+      ],
+      "properties": {
+        "method_id": {"const": "evsi-nested-mc"},
+        "algorithm": {"const": "xorshift64-star-v1"},
+        "stream_identity": {"type": "string", "minLength": 1},
+        "splitting_rule": {"type": "string", "minLength": 1},
+        "zero_seed_rule": {"type": "string", "minLength": 1},
+        "parallel_execution": {"const": "unsupported"},
+        "implementation": {"type": "string", "minLength": 1},
+        "promotion_gate": {"type": "string", "minLength": 1}
+      }
+    },
+    "streaming": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stable_rust_input",
+        "out_of_core",
+        "python_chunk_hint",
+        "unsupported_error",
+        "promotion_gate"
+      ],
+      "properties": {
+        "stable_rust_input": {"const": "materialized-sample-containers"},
+        "out_of_core": {"const": "unsupported"},
+        "python_chunk_hint": {"type": "string", "minLength": 1},
+        "unsupported_error": {"const": "backend_unavailable"},
+        "promotion_gate": {"type": "string", "minLength": 1}
+      }
+    },
+    "resource_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "method_id",
+          "memory_model",
+          "latency_evidence",
+          "energy_evidence"
+        ],
+        "properties": {
+          "method_id": {"type": "string", "minLength": 1},
+          "memory_model": {"type": "string", "minLength": 1},
+          "latency_evidence": {"type": "string", "minLength": 1},
+          "energy_evidence": {"const": "not-measured-no-claim"}
+        }
+      }
+    }
+  }
+}

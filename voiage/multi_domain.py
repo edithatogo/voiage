@@ -552,6 +552,7 @@ class MultiDomainVOI:
         -------
             Dictionary of EVPI metrics
         """
+        del domain_objective
         if decision_analysis is None:
             # For testing purposes, return mock metrics
             return {
