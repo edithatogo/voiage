@@ -10,6 +10,25 @@ from typer.testing import CliRunner
 from voiage.cli import app
 
 
+def test_ingest_commands_publish_stable_help_surfaces() -> None:
+    """All documented ingestion commands remain discoverable through the CLI."""
+    runner = CliRunner()
+
+    for command, description in (
+        ("validate", "Validate a supported descriptor"),
+        ("inspect", "Inspect identity and optionally resolve"),
+        ("normalize", "Normalize a descriptor into a deterministic Arrow IPC"),
+        (
+            "calculate-from-dataset",
+            "Calculate EVPI from explicitly selected normalized net-benefit fields",
+        ),
+    ):
+        result = runner.invoke(app, ["ingest", command, "--help"])
+
+        assert result.exit_code == 0
+        assert description in result.output
+
+
 def test_ingest_inspect_and_normalize(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "datapackage.json"
