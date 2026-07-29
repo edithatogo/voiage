@@ -73,6 +73,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   The deterministic fixture-manifest validator now pins both checked-in
         source corpora; semantic and parser-differential conformance remains
         active under Phase 5.
+    *   Canonical cross-format preparation now asserts identical NumPy and
+        xarray compute-facing views without introducing a second runtime path.
 
 ## Completed public documentation
 

@@ -125,9 +125,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 ## Phase 5 — Prove cross-format conformance (#331)
 
-- [ ] **P5-T1 / AC-06:** Define the canonical decision fixture and failing
+- [~] **P5-T1 / AC-06:** Define the canonical decision fixture and failing
   parity assertions across Croissant, Frictionless, Arrow IPC, Parquet, and
-  direct NumPy/xarray representations.
+  direct NumPy/xarray representations. The canonical corpus now asserts the
+  same explicit preparation result across all listed source representations,
+  including equal xarray and NumPy runtime views (partial: parser-differential
+  acceptance remains active under P5-T5).
 - [~] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
   descriptor, resource, schema, and content digests. Both checked-in fixture
   corpora are now verified through one deterministic digest-manifest validator
