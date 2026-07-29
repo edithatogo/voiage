@@ -133,9 +133,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [ ] **P5-T3 / AC-06:** Implement deterministic fixture generation and the
   schema, provenance, ordering, meaningful-change, and numerical-equivalence
   conformance matrix.
-- [ ] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
+- [~] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
   governance-metadata, and materialization-receipt parity without requiring
-  source formats to share irrelevant descriptive metadata.
+  source formats to share irrelevant descriptive metadata. Canonical Croissant
+  and Frictionless fixtures now assert explicit binding, binding-profile,
+  data-quality, and receipt parity while leaving format-specific descriptive
+  provenance independent (`e9a22f0c`, partial).
 - [ ] **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
 - [ ] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run

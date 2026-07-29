@@ -135,6 +135,37 @@ def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> No
     }
 
 
+def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() -> None:
+    """Provider metadata may differ, but decision inputs and receipts must agree."""
+    policy = SourceAccessPolicy(_FIXTURE_ROOT)
+    croissant = _bound(
+        default_registry().ingest(
+            _FIXTURE_ROOT / "canonical-decision.croissant.json", policy=policy
+        )
+    )
+    frictionless = _bound(
+        default_registry().ingest(
+            _FIXTURE_ROOT / "canonical-decision.datapackage.json", policy=policy
+        )
+    )
+
+    croissant_prepared = prepare_analysis_inputs(croissant)
+    frictionless_prepared = prepare_analysis_inputs(frictionless)
+
+    assert croissant_prepared.binding.model_dump(mode="json") == (
+        frictionless_prepared.binding.model_dump(mode="json")
+    )
+    assert croissant_prepared.binding_profile_digest == (
+        frictionless_prepared.binding_profile_digest
+    )
+    assert croissant_prepared.quality_report == frictionless_prepared.quality_report
+    assert [
+        receipt.model_dump(mode="json") for receipt in croissant.manifest.resources
+    ] == [
+        receipt.model_dump(mode="json") for receipt in frictionless.manifest.resources
+    ]
+
+
 @settings(max_examples=30, deadline=None)
 @given(
     rows=st.lists(
