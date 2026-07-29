@@ -183,7 +183,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
   dependency audits, repository harness, full `tox`, and all hosted checks.
 - [~] **P7-T7 / AC-08:** Publish supported-standard compatibility and
-  deprecation policy without claiming unsupported upstream coverage.
+  deprecation policy without claiming unsupported upstream coverage. The Astro
+  support matrix now distinguishes conservative supported Croissant,
+  Frictionless, DataFrame, and normalized Arrow profiles from rejected
+  remote/archive/transform and authoritative-live paths (`1dc545a7`, partial).
 - [~] **P7-T8 / AC-08:** Run automated review, resolve high-confidence
   findings, and complete the final implementation checkpoint.
 
