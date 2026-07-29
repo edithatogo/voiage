@@ -128,11 +128,18 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [ ] **P5-T1 / AC-06:** Define the canonical decision fixture and failing
   parity assertions across Croissant, Frictionless, Arrow IPC, Parquet, and
   direct NumPy/xarray representations.
-- [ ] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
-  descriptor, resource, schema, and content digests.
-- [ ] **P5-T3 / AC-06:** Implement deterministic fixture generation and the
+- [~] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
+  descriptor, resource, schema, and content digests. Both checked-in fixture
+  corpora are now verified through one deterministic digest-manifest validator
+  (`scripts/validate_standardized_ingestion_fixtures.py`, partial: descriptor
+  and resource digests are pinned; schema and content semantics remain covered
+  by conformance tests).
+- [~] **P5-T3 / AC-06:** Implement deterministic fixture generation and the
   schema, provenance, ordering, meaningful-change, and numerical-equivalence
-  conformance matrix.
+  conformance matrix. The fixture validator now fails closed on stale artifact
+  digests and supports explicit deterministic ``--write`` regeneration; the
+  existing cross-format/property/reference-case tests provide partial semantic
+  matrix evidence. Full parser-differential coverage remains active.
 - [~] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
   governance-metadata, and materialization-receipt parity without requiring
   source formats to share irrelevant descriptive metadata. Canonical Croissant

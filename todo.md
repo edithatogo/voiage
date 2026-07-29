@@ -70,6 +70,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         boundary, optional CSV profiles, and provenance propagation. The
         unchecked acceptance criteria in the Conductor track remain active;
         issues #325--#333 and #467--#468 must not be closed or archived yet.
+    *   The deterministic fixture-manifest validator now pins both checked-in
+        source corpora; semantic and parser-differential conformance remains
+        active under Phase 5.
 
 ## Completed public documentation
 
