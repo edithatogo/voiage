@@ -40,10 +40,12 @@ A `StudyDesignPointInputV1` is one declared design in caller order and contains:
   guardrail, opportunity-cost or dependency metadata.
 
 The runtime evaluates the supplied finite set only. It never interpolates or
-extrapolates an unevaluated design. A range descriptor is descriptive and must
-agree with the enumerated design set; irregular and non-monotone sets remain
-valid. Duplicate identifiers or sample sizes are rejected because tie and
-boundary semantics would otherwise be ambiguous.
+extrapolates an unevaluated design. A range descriptor includes inclusive
+lower and upper bounds plus an optional positive step and must agree with the
+enumerated design set. Irregular and non-monotone sets remain valid. Duplicate
+identifiers are rejected. Multiple scientifically distinct designs may share
+a sample size; `design_id` preserves identity and boundary semantics use
+distinct feasible sample sizes.
 
 Research cost includes every cost the caller chooses to charge to the study,
 including opportunity cost when applicable. The cost-model identifier and

@@ -37,9 +37,10 @@ independence. Likewise, uncertainty in the selected design requires joint
 replicates or externally supplied selection frequencies. Marginal pointwise
 standard errors cannot be converted into selection probabilities.
 
-Phase 3 assurance will cover direct ENBS intervals, unavailable uncertainty,
-selection probabilities and confidence sets. Uncertainty remains descriptive
-and cannot silently replace the deterministic point-estimate tie policy.
+The red suite covers direct ENBS intervals, unavailable uncertainty, selection
+probabilities and confidence sets before Phase 3 implementation begins.
+Uncertainty remains descriptive and cannot silently replace the deterministic
+point-estimate tie policy.
 
 ## Efficiency reference
 
