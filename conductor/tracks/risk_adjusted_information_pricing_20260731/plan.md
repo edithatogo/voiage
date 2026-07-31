@@ -48,7 +48,7 @@
   currency and price-date semantics; exclude CRRA risk aversion one; and
   validate a complete normative result. — `9e51994`
 
-## Phase 3 — Rust runtime and Python presentation
+## Phase 3 — Rust runtime and Python presentation — checkpoint `79c312f`
 
 - [x] **U10:** Implement the accepted Rust utility, policy, information-value,
   price and bounded root-solving kernels with versioned result envelopes.
