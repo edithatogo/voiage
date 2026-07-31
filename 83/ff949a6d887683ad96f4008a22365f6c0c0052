@@ -1,0 +1,1 @@
+PR #666 coverage repair: use a unique declared schema with a duplicate CSV header to reach the dedicated header rejection guard; focused tests and Ruff pass.
