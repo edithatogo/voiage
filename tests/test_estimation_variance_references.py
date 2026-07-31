@@ -20,6 +20,15 @@ REFERENCE_PATH = (
 def _cases() -> dict[str, dict[str, object]]:
     payload = json.loads(REFERENCE_PATH.read_text(encoding="utf-8"))
     assert payload["schema_version"] == "1.0.0"
+    assert payload["provenance"] == {
+        "authority": "independent analytical and exhaustive-enumeration references",
+        "variance_convention": (
+            "population variance under the declared probability mass"
+        ),
+        "runtime_dependency": False,
+        "absolute_tolerance": 1e-12,
+        "relative_tolerance": 1e-12,
+    }
     return {case["case_id"]: case for case in payload["cases"]}
 
 

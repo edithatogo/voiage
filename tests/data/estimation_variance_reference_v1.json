@@ -1,10 +1,18 @@
 {
   "schema_version": "1.0.0",
+  "provenance": {
+    "authority": "independent analytical and exhaustive-enumeration references",
+    "variance_convention": "population variance under the declared probability mass",
+    "runtime_dependency": false,
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12
+  },
   "cases": [
     {
       "case_id": "evppi-var-discrete-partial",
       "method_id": "evppi_var",
       "reference_kind": "enumerable",
+      "derivation": "law of total variance over two equally weighted conditioning groups",
       "target_samples": [0.0, 2.0, 1.0, 3.0],
       "conditioning_groups": ["a", "a", "b", "b"],
       "prior_variance": 1.25,
@@ -15,6 +23,7 @@
       "case_id": "evsi-var-normal-normal-n6",
       "method_id": "evsi_var",
       "reference_kind": "analytical",
+      "derivation": "normal-normal posterior precision identity",
       "prior_variance": 4.0,
       "sampling_variance": 9.0,
       "sample_size": 6,
@@ -25,6 +34,7 @@
       "case_id": "evsi-var-binary-enumeration",
       "method_id": "evsi_var",
       "reference_kind": "enumerable",
+      "derivation": "Bayes enumeration over binary parameter and binary observation",
       "prior_probability": 0.5,
       "observation_accuracy": 0.75,
       "prior_variance": 0.25,
