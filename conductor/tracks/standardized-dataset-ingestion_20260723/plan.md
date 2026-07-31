@@ -103,8 +103,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   ambiguous resources. File-backed baseline and fail-closed format/integrity
   coverage added (`d0c1b238`); malformed-resource coverage is also file-backed.
   Non-object descriptor-root handling is covered by the shared provider guard
-  (`0c19fe1b`, `1e4e6bd7`, partial). Remaining acceptance evidence is tracked
-  below.
+  (`0c19fe1b`, `1e4e6bd7`); duplicate CSV-header and schema-field ambiguity
+  now rejects through the stable ingestion error boundary (`8f60b184`,
+  partial). Remaining acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).

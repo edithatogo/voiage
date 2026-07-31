@@ -14,10 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   distinct Croissant 1.10 context.
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
-- Added auditable DataFrame-interchange conversion diagnostics for copy policy,
-  index exclusion, and Arrow dtype/nullability/categorical/timezone decisions;
-  copy-permitted conversions explicitly retain an unobservable outcome rather
-  than claiming a copy result that Arrow cannot report.
+- Linked the README to the standardized Croissant and Frictionless ingestion
+  workflow, supported-profile matrix, offline policy, and cross-domain examples.
 - Added a deterministic validator and explicit regeneration path for the
   standardized-ingestion fixture digest manifests, covering both canonical
   Croissant/Frictionless source corpora.
@@ -31,8 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stable ingestion error boundary before provider-specific parsing.
 - Make the public Croissant and Frictionless provider exports lazy, keeping
   ordinary `voiage.ingestion` imports free of source-format adapter imports.
-- Added a fail-closed, opt-in authoritative-provider probe helper that verifies
-  separately staged descriptor and materialization digests without network I/O.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.
@@ -99,6 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   projections and a deterministic aggregate root for dependency-only Python
   SBOM input. RC2 supersedes the unpublished RC1 staging attempt, which failed
   closed before a draft release or registry publication.
+- Frictionless CSV ingestion now rejects duplicate descriptor field names and
+  duplicate CSV headers through the stable ingestion error boundary.
 - Hardened stable and prerelease publishing across Python, Rust, R, and Julia:
   TestPyPI now verifies the complete reviewed distribution set and every
   attestation; prereleases cannot reach production PyPI or become the latest
