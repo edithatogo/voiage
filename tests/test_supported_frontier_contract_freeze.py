@@ -37,9 +37,7 @@ def test_contract_status_partition_is_exact() -> None:
     assert isinstance(contracts, list)
     by_status = {
         status: {
-            row["issue"]
-            for row in contracts
-            if row["classification_status"] == status
+            row["issue"] for row in contracts if row["classification_status"] == status
         }
         for status in {row["classification_status"] for row in contracts}
     }

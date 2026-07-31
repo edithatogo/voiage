@@ -73,7 +73,9 @@ def test_tornado_range_uses_grid_extrema_not_only_endpoints() -> None:
     assert summary.ranking_metric == "evaluated-grid-range"
 
 
-def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention() -> None:
+def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention() -> (
+    None
+):
     def crossing(parameters: Mapping[str, float]) -> Mapping[str, float]:
         x = parameters["x"]
         return {"left": -x, "right": x}
@@ -89,9 +91,10 @@ def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention(
     )
     assert exact.one_way_points["x"][1].optimal_alternatives == ["left", "right"]
     assert exact.one_way_points["x"][1].selected_alternative == "left"
-    assert [(item.status, item.lower_coordinate, item.upper_coordinate) for item in exact.switch_intervals] == [
-        ("exact", 0.0, 0.0)
-    ]
+    assert [
+        (item.status, item.lower_coordinate, item.upper_coordinate)
+        for item in exact.switch_intervals
+    ] == [("exact", 0.0, 0.0)]
 
     bracketed = deterministic_sensitivity(
         crossing,
@@ -102,9 +105,10 @@ def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention(
         output_unit="point",
         direction="maximize",
     )
-    assert [(item.status, item.lower_coordinate, item.upper_coordinate) for item in bracketed.switch_intervals] == [
-        ("bracket", -1.0, 1.0)
-    ]
+    assert [
+        (item.status, item.lower_coordinate, item.upper_coordinate)
+        for item in bracketed.switch_intervals
+    ] == [("bracket", -1.0, 1.0)]
 
 
 def test_direction_reversal_and_permutation_preserve_complete_tie_semantics() -> None:

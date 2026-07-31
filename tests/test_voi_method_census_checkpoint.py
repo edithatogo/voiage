@@ -20,7 +20,17 @@ def test_checkpoint_covers_exact_residual_census_scope() -> None:
     payload = _checkpoint()
     rows = payload["classifications"]
     assert isinstance(rows, list)
-    assert [row["issue"] for row in rows] == [593, 594, 595, 596, 597, 598, 599, 600, 619]
+    assert [row["issue"] for row in rows] == [
+        593,
+        594,
+        595,
+        596,
+        597,
+        598,
+        599,
+        600,
+        619,
+    ]
     assert len({row["canonical_id"] for row in rows}) == 9
 
 
@@ -49,7 +59,11 @@ def test_checkpoint_requires_complete_classification_evidence() -> None:
 def test_only_merged_dedicated_contracts_are_frozen_experimental() -> None:
     rows = _checkpoint()["classifications"]
     assert isinstance(rows, list)
-    frozen = {row["issue"] for row in rows if row["classification_status"] == "frozen-experimental"}
+    frozen = {
+        row["issue"]
+        for row in rows
+        if row["classification_status"] == "frozen-experimental"
+    }
     assert frozen == {595, 619}
     for row in rows:
         if row["issue"] not in frozen:

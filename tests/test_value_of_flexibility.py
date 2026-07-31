@@ -55,9 +55,7 @@ def test_value_of_flexibility_is_invariant_to_strategy_permutation() -> None:
         ["b", "a"],
         {"now": 0.2, "mid": 0.3, "late": 0.5},
     )
-    assert permuted.value_of_flexibility == pytest.approx(
-        original.value_of_flexibility
-    )
+    assert permuted.value_of_flexibility == pytest.approx(original.value_of_flexibility)
     assert permuted.flexible_value == pytest.approx(original.flexible_value)
     assert permuted.constrained_value == pytest.approx(original.constrained_value)
 
@@ -65,9 +63,7 @@ def test_value_of_flexibility_is_invariant_to_strategy_permutation() -> None:
 def test_ties_use_canonical_strategy_names_independent_of_input_order() -> None:
     surface = np.asarray([[[5.0, 5.0], [5.0, 5.0]]])
     original = value_of_flexibility(surface, ["early", "late"], ["z", "a"])
-    permuted = value_of_flexibility(
-        surface[:, ::-1, :], ["early", "late"], ["a", "z"]
-    )
+    permuted = value_of_flexibility(surface[:, ::-1, :], ["early", "late"], ["a", "z"])
     assert original.commitment_baseline == permuted.commitment_baseline == "a"
     assert original.flexible_policy_path == permuted.flexible_policy_path == ["a", "a"]
     assert original.diagnostics["commitment_ties"] == ["a", "z"]
@@ -222,15 +218,11 @@ def test_value_of_flexibility_defends_subset_invariant(
 ) -> None:
     monkeypatch.setattr(np, "dot", lambda *_args: -100.0)
     with pytest.raises(ValueError, match="below its feasible commitment subset"):
-        value_of_flexibility(
-            _surface(), ["now", "mid", "late"], ["a", "b"]
-        )
+        value_of_flexibility(_surface(), ["now", "mid", "late"], ["a", "b"])
 
 
 def test_value_of_flexibility_cli_returns_versioned_json(tmp_path: Path) -> None:
-    fixture = (
-        "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json"
-    )
+    fixture = "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json"
     output = tmp_path / "result.json"
     result = CliRunner().invoke(
         app,
@@ -292,9 +284,7 @@ def test_value_of_flexibility_cli_rejects_invalid_requests(
 ) -> None:
     request = tmp_path / "invalid.json"
     request.write_text(content, encoding="utf-8")
-    result = CliRunner().invoke(
-        app, ["calculate-value-of-flexibility", str(request)]
-    )
+    result = CliRunner().invoke(app, ["calculate-value-of-flexibility", str(request)])
     assert result.exit_code == 1
     assert "Error:" in result.stderr
 
