@@ -41,9 +41,11 @@ Each price root record returns:
   is available;
 - raw utility residual at the estimate;
 - iteration and evaluation counts;
-- complete action tie sets at both bounds;
-- `policy_switched` plus the ordered set of observed representative-policy
-  transitions; and
+- complete lexicographically sorted action tie sets at every evaluation, the
+  estimate, and both final bounds;
+- `policy_switched` plus the ordered set of observed complete tie-set
+  transitions, each retaining the transfer, prior and next tie sets, and
+  representative action IDs; and
 - termination reason and the exact solver settings used.
 
 Convergence is based on
@@ -51,6 +53,10 @@ Convergence is based on
 Utility residual is diagnostic because it changes under utility
 normalization. Expansion is deterministic, bounded by `maximum_price`, and
 cannot step outside the utility domain.
+
+`policy_switched` is derived from the complete tie sets, not only the selected
+representative. It is therefore true when a tied action enters or leaves the
+set even if the first lexicographic action ID is unchanged.
 
 ## Price direction and cost location
 

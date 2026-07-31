@@ -50,7 +50,9 @@ def validate(projection_path: Path, repository_root: Path) -> None:
         raise TypeError("projection issues must be a list")
     actual = {issue.get("number"): issue for issue in issues if isinstance(issue, dict)}
     if set(actual) != set(EXPECTED_ISSUES):
-        raise ValueError("projection must contain exactly the governed specialized issues")
+        raise ValueError(
+            "projection must contain exactly the governed specialized issues"
+        )
 
     for number, (track_id, requirement_ids) in EXPECTED_ISSUES.items():
         issue = actual[number]
@@ -70,7 +72,9 @@ def validate(projection_path: Path, repository_root: Path) -> None:
         raise ValueError("#595 capability contract does not match its delivery track")
 
     for track_id, requirement_ids in EXPECTED_ISSUES.values():
-        metadata = _load(repository_root / "conductor/tracks" / track_id / "metadata.json")
+        metadata = _load(
+            repository_root / "conductor/tracks" / track_id / "metadata.json"
+        )
         if metadata.get("canonical_track") != "C16":
             raise ValueError(f"{track_id} is not linked to C16")
         if metadata.get("planned_version") != "1.2.0":

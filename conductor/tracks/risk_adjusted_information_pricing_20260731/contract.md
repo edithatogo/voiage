@@ -99,13 +99,18 @@ The solver:
 5. requires a sign-changing bracket;
 6. bisects until the bracket-width tolerance is met; and
 7. returns lower/upper bounds, estimate, width, raw utility residual,
-   iterations, evaluations, action tie sets at both bounds, policy-switch
+   iterations, evaluations, action tie sets at every evaluated transfer and
+   both final bounds, ordered complete tie-set transitions, policy-switch
    evidence, convergence and one of `converged`, `zero_boundary`,
    `not_bracketed`, `utility_domain`, `non_monotone`, `max_iterations`, or
    `max_evaluations`.
 
 Unavailable prices use a discriminated status record. The maximum search
 price, a null, or a fabricated zero must not be returned as an estimate.
+`policy_switched` is true when any complete action tie set changes between
+ordered evaluations, even if the lexicographic representative remains the
+same. Every transition records the transfer, prior and next sorted tie sets,
+and their representative action IDs.
 
 ## 6. Comparability
 

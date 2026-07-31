@@ -88,8 +88,9 @@ release v1.2.0, MoSCoW Must, canonical C16 requirements M16 and M17.
 ## Non-functional constraints
 
 - Preserve the released EVPI API and stable v1 wire contracts.
-- Use finite validation, deterministic first-index ties, bounded numerical
-  work, and fail-closed utility domains and root solving.
+- Use finite validation, deterministic lexicographic action-ID ties, bounded
+  numerical work, and fail-closed utility domains and root solving. Return the
+  complete sorted tie set and use its first member only as the representative.
 - Keep the family experimental or fixture-backed until scientific promotion
   and installed cross-language evidence justify a stronger maturity label.
 - Do not introduce an arbitrary callable utility into serialized or polyglot

@@ -4,8 +4,12 @@
 flowchart LR
     Problem["Payoffs + probabilities + units"] --> Current["Optimize current policy"]
     Utility["Named utility + wealth/reference"] --> Current
-    Utility --> Informed["Optimize clairvoyant policy by state"]
+    Utility --> Informed["Optimize informed policy"]
     Problem --> Informed
+    Information{"Information structure"} -->|clairvoyant| States["One signal per state"]
+    Information -->|finite signal| Signals["Joint signal-state probabilities"]
+    States --> Informed
+    Signals --> Informed
     Scope["Stakeholder scope + information structure"] --> Current
     Scope --> Informed
     Current --> EUI["Expected utility increase"]
@@ -18,7 +22,9 @@ flowchart LR
     EUI --> PPI["Anchored probability price"]
     Buy --> Diagnostics["Bracket + residual + iterations + policy switches"]
     Sell --> Diagnostics
-    Informed --> VoC["VoC alias / presentation"]
+    Informed --> Kind{"Clairvoyant result?"}
+    Kind -->|yes| VoC["VoC alias / presentation"]
+    Kind -->|no| SignalValue["Finite-signal utility value"]
     Affine{"Positive-affine utility?"} -->|yes| EVPI["Verified monetary EVPI reduction"]
     Affine -->|no| Distinct["Keep utility and money scales distinct"]
 ```
