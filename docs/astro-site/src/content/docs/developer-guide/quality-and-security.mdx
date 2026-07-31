@@ -38,6 +38,12 @@ round-trip, numerical-equivalence, provenance, and CPU-reference evidence
 before promotion. Python free-threading remains an observation lane rather
 than a release or performance claim.
 
+Standardized-ingestion benchmarks use generated, bounded local fixtures and
+record stages, input dimensions, and memory rather than enforcing elapsed-time
+budgets. They cover only the strict Croissant CSV and Frictionless local
+CSV/JSON/Parquet/Arrow profiles; they are not evidence about network transport,
+remote catalogues, or upstream parser performance.
+
 ## GitHub gates
 
 The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Expand standardized-ingestion benchmark evidence to bounded local Croissant
+  CSV and Frictionless CSV, JSON Table, Parquet, and Arrow IPC profiles;
+  record conversion stages and workload dimensions without adding flaky
+  wall-clock budgets or remote-parser performance claims.
+
 - Harden built-in Croissant and Frictionless source preflight so unsupported
   URI-style, DNS-like, archive, redirect-shaped, and transform declarations
   fail before resolver/materializer callbacks, cache creation, or receipt

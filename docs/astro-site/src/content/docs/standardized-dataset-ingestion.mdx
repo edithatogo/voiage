@@ -161,12 +161,15 @@ Run the repeatable local benchmark with:
 uv run python scripts/benchmark_standardized_ingestion.py
 ```
 
-It reports separate parse-to-Arrow, normalization, EVPI, and peak-memory
-measurements for the canonical Croissant and Frictionless fixtures. Results are
+It reports separate parse-to-Arrow, normalization, EVPI, peak-memory, input
+byte, and row-count measurements for bounded local Croissant CSV and
+Frictionless CSV, JSON Table, Parquet, and Arrow IPC fixtures. Results are
 release-review evidence rather than hard CI time budgets because hosted runners
-are intentionally not treated as a stable performance reference. A 64 MiB
-peak-memory ceiling for each small canonical fixture is enforced to catch
-materialization regressions without making runner-specific timing claims.
+are intentionally not treated as a stable performance reference. The workload
+writer enforces three rows and 64 KiB per resource, while a 64 MiB peak-memory
+ceiling catches materialization regressions without making runner-specific
+timing claims. These records neither benchmark remote transport nor compare
+upstream parser implementations.
 
 For a VOI calculation, supply a `VOIBinding` that states the table, fields,
 strategies, units, and perspective. The library will not guess semantics from
