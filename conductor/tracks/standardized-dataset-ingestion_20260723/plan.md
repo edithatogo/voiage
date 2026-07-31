@@ -234,10 +234,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   opt-in entry-point publication checklist.
 - [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
-  and clean optional environments.
+  and clean optional environments. Partial diagnostics evidence: `fdda14a`.
 - [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
-  path.
+  path. Partial conversion-diagnostics evidence: `fdda14a`.
 - [~] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
   create registry-specific providers only for documented, tested gaps.
 - [~] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
