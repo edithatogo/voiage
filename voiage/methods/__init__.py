@@ -7,6 +7,11 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from .utility_information import (
+    expected_utility_information_value,
+    value_of_clairvoyance,
+)
+
 _MODULES = (
     "adaptive",
     "adaptive_learning_bandit",
@@ -45,6 +50,7 @@ _MODULES = (
     "strategic_behavior",
     "structural",
     "threshold",
+    "utility_information",
     "validation",
 )
 
@@ -109,6 +115,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evppi",
     "evsi",
     "evsi_nma",
+    "expected_utility_information_value",
     "identify_optimal_subgroups",
     "perspective_optimal_strategies",
     "perspective_arrow_schema_fingerprint",
@@ -119,6 +126,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "structural_evpi",
     "structural_evppi",
     "value_of_adaptive_learning_bandit",
+    "value_of_clairvoyance",
     "value_of_ai_assisted_evidence_triage",
     "value_of_ambiguity_distribution_shift",
     "value_of_capacity_budget_constrained",

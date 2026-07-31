@@ -3,6 +3,12 @@
   "status": "registry",
   "families": [
     {
+      "name": "expected_utility_information_pricing",
+      "path": "expected-utility-information-pricing/v1/fixtures/manifest.json",
+      "method_maturity": "experimental",
+      "manifest_kind": "bundled"
+    },
+    {
       "name": "value_of_perspective",
       "path": "perspective/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"

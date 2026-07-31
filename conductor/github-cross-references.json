@@ -41,7 +41,7 @@
         {
           "number": 51,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
           ]
@@ -196,7 +196,7 @@
         {
           "number": 51,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
           ]
@@ -421,7 +421,7 @@
         {
           "number": 51,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
           ]
@@ -444,6 +444,43 @@
         }
       ],
       "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "metadata_track_id": "risk_adjusted_information_pricing_20260731",
+      "path": "conductor/tracks/risk_adjusted_information_pricing_20260731",
+      "lifecycle": "active",
+      "issue": {
+        "number": 595,
+        "url": "https://github.com/edithatogo/voiage/issues/595",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/694",
+        "https://github.com/edithatogo/voiage/issues/695",
+        "https://github.com/edithatogo/voiage/issues/696",
+        "https://github.com/edithatogo/voiage/issues/697"
+      ],
+      "pull_requests": [
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "draft",
+          "evidence": [
+            "track-delivery"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "open",
+          "evidence": [
+            "canonical-planning-sync"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery_and_canonical_planning_sync"
     },
     {
       "track_id": "abstraction-excellence_20260719",

@@ -1,0 +1,59 @@
+---
+title: Expected-utility information example
+description: Accessible, reproducible walkthrough of nonlinear information values and VoC presentation
+---
+
+This synthetic example compares a safe action with a risky action under
+logarithmic utility and clairvoyant information. It demonstrates the
+experimental contract; it is not a real-world recommendation or evidence that
+the method has reached stable maturity.
+
+The decision-maker starts with 10 USD. The risky action pays 5 USD in the
+favourable state and loses 9 USD in the adverse state; the safe action has a
+zero payoff in both states. The favourable and adverse state probabilities are
+0.8 and 0.2. Clairvoyance reveals the state before the action is selected.
+
+| State | Probability | Safe payoff | Risky payoff |
+| --- | ---: | ---: | ---: |
+| Favourable | 0.8 | 0 USD | 5 USD |
+| Adverse | 0.2 | 0 USD | -9 USD |
+
+Run the checked-in example from the repository root:
+
+```sh
+uv run python examples/expected_utility_information.py
+```
+
+It reads the normative request, executes the Rust-backed Python surface, and
+prints labelled JSON. The expected approximate values are:
+
+| Field | Value | Interpretation |
+| --- | ---: | --- |
+| EUI | 0.3244 utility units | Gain on the declared log-utility scale |
+| CEI | 3.8316 USD | Difference in certainty equivalents |
+| BPI | 3.7522 USD | Maximum sure price paid for the information |
+| SPI | 3.4085 USD | Minimum sure compensation for surrendering it |
+| PPI | 0.1235 | Utility gain relative to the declared floor anchor |
+
+The unequal CEI, BPI, and SPI values are expected under nonlinear utility.
+Their labels and units convey different indifference questions; do not treat
+them as interchangeable monetary estimates.
+
+The example also requests the VoC presentation with BPI selected. The returned
+method remains `expected_utility_information`, showing that VoC did not invoke
+a second kernel. It intentionally does not request the `evpi` alias because log
+utility is nonlinear. Only a verified positive-affine clairvoyant request can
+use that alias.
+
+When adapting the example, inspect these result fields rather than reading only
+the selected number:
+
+- `current_policy` and `informed_policies`, including ties and domain
+  exclusions;
+- `bpi_root` or `spi_root`, including convergence status, residual, bracket,
+  evaluation history, and policy transitions;
+- `comparability`, before any ranking or cross-problem comparison; and
+- `input_digest`, `provenance`, `backend`, and `method_maturity` for reporting.
+
+See [Expected-utility information pricing](/methods/expected-utility-information/)
+for the measure definitions and assurance boundary.

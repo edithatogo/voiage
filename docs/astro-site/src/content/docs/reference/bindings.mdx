@@ -18,3 +18,20 @@ The matrix is normative at
 [`specs/v1/binding-matrix.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/binding-matrix.json).
 Registry publication and indexing are external gates; repository readiness does
 not imply that an artifact is live.
+
+## Expected-utility information-pricing capability
+
+This additive experimental method family does not alter the retained v1.0
+binding matrix above.
+
+| Surface | Method status | Evidence boundary |
+| --- | --- | --- |
+| Rust | Executable | `voiage_numerics::expected_utility_information` is the numerical authority |
+| Python | Executable | PyO3-backed `expected_utility_information_value` and VoC presentation helper |
+| R | Unsupported | No method-specific C ABI or R facade is implemented |
+| Julia | Unsupported | No method-specific C ABI or Julia facade is implemented |
+| Mojo | External boundary | No local Mojo binding is claimed |
+
+The machine-readable disposition is
+[`specs/frontier/expected-utility-information-pricing/v1/capabilities.json`](https://github.com/edithatogo/voiage/blob/main/specs/frontier/expected-utility-information-pricing/v1/capabilities.json).
+Unsupported bindings must not be inferred from the wider EVPI surfaces.

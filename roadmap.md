@@ -127,7 +127,7 @@ SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
 ML, engineering/operations, and business reference cases. Neither follow-on
 creates a second preparation path or domain-specific numerical kernel.
 
-Two additive frontier plans target the governed v1.2.0 contract and cover the
+Three additive frontier delivery plans target the governed v1.2.0 contract and cover the
 specialized gaps identified on 27 July 2026 without changing the released
 stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
 C16 own the shared projection:
@@ -149,25 +149,34 @@ C16 own the shared projection:
     dimensionless EVSI/EVPI study-efficiency diagnostic with zero-EVPI and
     bounds behavior. They must reconcile the existing plotting and legacy
     clinical-optimizer helpers rather than treating adjacent or misnamed
-    behavior as implementation evidence. Draft implementation PR #679 now
+    behavior as implementation evidence. Merged implementation PR #679 now
     supplies the Rust-owned kernels, strict Python contracts, exact constrained
     portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
     sub-issues #680–#682 separate runtime, user/portfolio, and
-    binding/governance evidence. These remain experimental and unmerged;
+    binding/governance evidence. These capabilities remain experimental;
     scientific review, hosted exact-head checks and stable promotion are still
     separate gates. Canonical C16 synchronization is proposed by stacked VOP
     draft PR #65, which depends on the open estimation-family sync PR #64.
 
-Both issues are native sub-issues of frontier parent #318 under programme #313
-and are represented in Project 28; #571 and its implementation sub-issues are
-In Progress. Risk-sensitive/constrained VOI (#570),
-utility-equivalent information prices including clairvoyant-policy comparisons
-(#595), and outcome-conditional/risk-of-low sample information (#600) remain
-the existing plans for the risk and utility family. Expected Value of
-Clairvoyance (VoC) is an alias or presentation of #595's expected-utility value
-of a clairvoyant policy under its declared utility contract, not a duplicate
-numerical method or an unconditional alias for monetary EVPI. No duplicate
-tracks were created.
+*   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
+    one experimental expected-utility information-pricing family in Rust and
+    Python spanning EUI, CEI, BPI,
+    SPI and anchored PPI with declared utility, wealth/reference, units,
+    information/cost location, current and informed policies, stakeholder
+    scope, root diagnostics and comparability. VoC is a presentation of its
+    clairvoyant-policy result, not a duplicate kernel; monetary EVPI reduction
+    is valid only for verified positive-affine utility. Native delivery
+    subissues #694–#697 own contracts, runtime, assurance, and user/polyglot
+    surfaces respectively. R and Julia remain explicitly unsupported for this
+    family, while Mojo remains an external boundary.
+
+All three issues are native sub-issues of frontier parent #318 under programme
+#313 and are represented in Project 28. Risk-sensitive/constrained VOI (#570)
+and outcome-conditional/risk-of-low sample information (#600) remain separate
+risk-family plans. The dedicated #595 delivery track is a scoped execution
+record for the existing approved method family; it does not create a duplicate
+VoC method. Repository evidence remains experimental pending scientific review,
+hosted checks and separate stable-promotion approval.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:

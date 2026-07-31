@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/expected-utility-information-pricing/v1/request.schema.json",
+  "title": "Expected utility information pricing request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_problem_id", "stakeholder_scope_id", "action_ids", "state_ids", "payoffs", "state_probabilities", "initial_wealth", "payoff_unit", "currency", "price_date", "information_cost_location", "utility", "information", "solver"],
+  "properties": {
+    "schema_version": {"const": "expected-utility-information-input-v1"},
+    "decision_problem_id": {"type": "string", "minLength": 1},
+    "stakeholder_scope_id": {"type": "string", "minLength": 1},
+    "action_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "payoffs": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 1, "items": {"type": "number"}}},
+    "state_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}},
+    "initial_wealth": {"type": "number"},
+    "payoff_unit": {"type": "string", "minLength": 1},
+    "currency": {"type": "string", "minLength": 3, "maxLength": 3},
+    "price_date": {"type": "string", "format": "date"},
+    "information_cost_location": {"const": "ex_ante_sure_transfer"},
+    "terminal_outcome_floor": {"type": ["number", "null"]},
+    "utility": {"$ref": "#/$defs/utility"},
+    "information": {"$ref": "#/$defs/information"},
+    "solver": {"$ref": "#/$defs/solver"},
+    "presentation_label": {"enum": ["canonical", "voc"], "default": "canonical"}
+  },
+  "$defs": {
+    "utility": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["family", "slope", "intercept"], "properties": {"family": {"const": "affine"}, "slope": {"type": "number", "exclusiveMinimum": 0}, "intercept": {"type": "number"}}},
+        {"type": "object", "additionalProperties": false, "required": ["family", "risk_tolerance", "reference_wealth"], "properties": {"family": {"const": "exponential"}, "risk_tolerance": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number"}}},
+        {"type": "object", "additionalProperties": false, "required": ["family", "reference_wealth"], "properties": {"family": {"const": "log"}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}},
+        {"type": "object", "additionalProperties": false, "required": ["family", "risk_aversion", "reference_wealth"], "properties": {"family": {"const": "power"}, "risk_aversion": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}, "not": {"properties": {"risk_aversion": {"const": 1}}}}
+      ]
+    },
+    "information": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "signal_ids", "signal_state_probabilities"],
+      "properties": {
+        "kind": {"enum": ["clairvoyant", "finite_signal"]},
+        "signal_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "signal_state_probabilities": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}}}
+      }
+    },
+    "solver": {
+      "type": "object", "additionalProperties": false,
+      "required": ["initial_upper", "expansion_factor", "maximum_price", "absolute_price_tolerance", "relative_price_tolerance", "utility_tolerance", "maximum_iterations", "maximum_evaluations"],
+      "properties": {
+        "initial_upper": {"type": "number", "exclusiveMinimum": 0},
+        "expansion_factor": {"type": "number", "exclusiveMinimum": 1},
+        "maximum_price": {"type": "number", "exclusiveMinimum": 0},
+        "absolute_price_tolerance": {"type": "number", "exclusiveMinimum": 0},
+        "relative_price_tolerance": {"type": "number", "exclusiveMinimum": 0},
+        "utility_tolerance": {"type": "number", "exclusiveMinimum": 0},
+        "maximum_iterations": {"type": "integer", "minimum": 1},
+        "maximum_evaluations": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

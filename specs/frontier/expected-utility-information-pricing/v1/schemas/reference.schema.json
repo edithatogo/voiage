@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/expected-utility-information-pricing/v1/reference.schema.json",
+  "title": "Expected utility information pricing reference values v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eui", "cei", "bpi", "spi", "ppi"],
+  "properties": {
+    "eui": {"type": "number"},
+    "cei": {"type": "number"},
+    "bpi": {"type": "number"},
+    "spi": {"type": "number"},
+    "ppi": {"type": "number"},
+    "monetary_measure": {"const": "evpi"},
+    "monetary_value": {"type": "number"},
+    "affine_reduction_status": {"const": "unavailable"}
+  },
+  "oneOf": [
+    {"required": ["monetary_measure", "monetary_value"]},
+    {"required": ["affine_reduction_status"]}
+  ]
+}

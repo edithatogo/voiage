@@ -749,6 +749,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-ceaf",
         "calculate-dominance",
         "calculate-enbs",
+        "calculate-expected-utility-information",
         "calculate-evpi",
         "calculate-evppi",
         "calculate-evsi",

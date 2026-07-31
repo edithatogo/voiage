@@ -16,3 +16,22 @@ part of the minimal stable kernel guarantee.
 
 See the individual method pages for inputs, result envelopes, and maturity
 status.
+
+## Experimental expected-utility information pricing
+
+`voiage.methods.utility_information.expected_utility_information_value(request)`
+executes the Rust-authoritative, versioned EUI/CEI/BPI/SPI/PPI contract.
+`DecisionAnalysis.expected_utility_information(request)` delegates to the same
+surface; it does not reinterpret rows in a probabilistic sensitivity analysis
+array as the decision-maker's state distribution.
+
+`voiage.methods.utility_information.value_of_clairvoyance(request,
+selected_measure=...)` is a presentation helper for clairvoyant requests. It
+does not implement a second method. Selecting `evpi` is permitted only for a
+verified positive-affine utility; nonlinear utilities fail closed.
+
+Both entry points return the complete experimental result envelope, including
+policy choices, domain exclusions, indifference-price root diagnostics,
+pairwise comparability, deterministic provenance, and maturity metadata. See
+[Expected-utility information pricing](/methods/expected-utility-information/)
+before interpreting individual values.
