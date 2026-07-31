@@ -4,6 +4,7 @@
 - [Implementation Plan](./plan.md)
 - [MoSCoW Requirements](./requirements.md)
 - [Mermaid Design](./design.md)
+- [Frozen Runtime Contract](./contract.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #595](https://github.com/edithatogo/voiage/issues/595)

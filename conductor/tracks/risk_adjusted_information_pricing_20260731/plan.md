@@ -2,7 +2,7 @@
 
 ## Phase 1 — Contract and governance reconciliation
 
-- [ ] **U1:** Freeze the expected-utility decision problem, named utility,
+- [~] **U1:** Freeze the expected-utility decision problem, named utility,
   wealth/reference, units, probability, information, scope, cost-location and
   tie contracts. (AC-02)
 - [ ] **U2:** Freeze EUI, CEI, BPI, SPI, PPI, policy re-optimization, signed-value,
