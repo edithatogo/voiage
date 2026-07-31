@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import jsonschema
 import numpy as np
 import pytest
 
 from voiage.analysis import DecisionAnalysis
+from voiage.methods.basic import evpi
 from voiage.methods.utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
@@ -65,3 +67,32 @@ def test_decision_analysis_exposes_explicit_state_contract() -> None:
     analysis = DecisionAnalysis(nb_array=np.array([[0.0, 1.0], [1.0, 0.0]]))
     result = analysis.expected_utility_information(_request("affine-clairvoyant.json"))
     assert result["affine_reduction"]["monetary_measure"] == "evpi"
+
+
+def test_affine_clairvoyance_matches_stable_evpi() -> None:
+    request = _request("affine-clairvoyant.json")
+    result = expected_utility_information_value(request)
+    monetary = evpi(np.asarray(request["payoffs"], dtype=float))
+    assert result["affine_reduction"]["value"] == pytest.approx(monetary)
+
+
+def test_native_result_validates_complete_wire_schema() -> None:
+    root = FIXTURE.parents[1]
+    schema = json.loads((root / "schemas/result.schema.json").read_text())
+    request_schema = json.loads((root / "schemas/request.schema.json").read_text())
+    schema["$defs"]["utility"] = request_schema["$defs"]["utility"]
+    schema["$defs"]["solver"] = request_schema["$defs"]["solver"]
+    schema = json.loads(
+        json.dumps(schema)
+        .replace("request.schema.json#/$defs/utility", "#/$defs/utility")
+        .replace("request.schema.json#/$defs/solver", "#/$defs/solver")
+    )
+    result = expected_utility_information_value(_request("log-buy-sell-asymmetry.json"))
+    jsonschema.Draft202012Validator(schema).validate(result)
+
+
+def test_native_boundary_rejects_unknown_fields() -> None:
+    request = _request("affine-clairvoyant.json")
+    request["unknown"] = "rejected"
+    with pytest.raises(Exception, match="unknown field"):
+        expected_utility_information_value(request)
