@@ -21,9 +21,9 @@
 
 ## Phase 2 — Evidence before positive claims
 
-- [ ] **F559-1:** Add failing analytical, invariant, permutation, chronology,
+- [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
-  #559 Value of Flexibility. (AC-03)
+  #559 Value of Flexibility. (AC-03) `6fd474b1`
 - [ ] **F559-2:** Add the versioned VoF schema, normative fixture, runtime
   fixture-conformance check, provenance and explicit language dispositions.
   (AC-02–AC-06)
