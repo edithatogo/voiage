@@ -11,6 +11,7 @@ from types import SimpleNamespace
 import pandas as pd
 import polars as pl
 import pyarrow as pa
+from pyarrow import parquet as pq
 import pytest
 
 from voiage import ingestion
@@ -380,6 +381,114 @@ def test_frictionless_provider_ingests_explicit_local_json_table(tmp_path) -> No
     ]
     assert bundle.manifest.resources[0].media_type == "application/json"
     assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+def test_frictionless_provider_ingests_strict_local_parquet_resource(tmp_path) -> None:
+    """The Parquet profile keeps Arrow schema and immutable receipt identity."""
+    source = tmp_path / "samples.parquet"
+    table = pa.table({"id": pa.array([1, 2]), "value": pa.array([1.5, 2.5])})
+    pq.write_table(table, source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "parquet",
+                        "hash": digest_file(source),
+                        "bytes": source.stat().st_size,
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").equals(table)
+    receipt = bundle.manifest.resources[0]
+    assert receipt.media_type == "application/vnd.apache.parquet"
+    assert receipt.sha256 == digest_file(source)
+    assert receipt.byte_size == source.stat().st_size
+
+
+def test_frictionless_parquet_profile_enforces_resource_row_limit(tmp_path) -> None:
+    """Parquet row groups cannot bypass the shared materialization policy."""
+    source = tmp_path / "samples.parquet"
+    pq.write_table(pa.table({"id": [1, 2, 3]}), source, row_group_size=3)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "parquet",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="row limit"):
+        FrictionlessProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(tmp_path, max_resource_rows=2),
+        )
+
+
+@pytest.mark.parametrize(
+    ("path", "dialect", "message"),
+    [
+        (
+            "samples.parquet",
+            {"delimiter": ","},
+            "Parquet resources do not support dialect declarations",
+        ),
+        ("samples.csv", None, "Parquet resources require a .parquet path"),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_parquet_declarations(
+    tmp_path, path, dialect, message
+) -> None:
+    """Parquet support must not infer a dialect or filename semantics."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": path,
+                        "format": "parquet",
+                        "dialect": dialect,
+                        "schema": {"fields": [{"name": "id"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
 
 
 @pytest.mark.parametrize(
@@ -933,7 +1042,12 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
     expected_media_types = (
         ("text/csv",)
         if provider.provider_id == "croissant"
-        else ("text/csv", "text/tab-separated-values", "application/json")
+        else (
+            "text/csv",
+            "text/tab-separated-values",
+            "application/json",
+            "application/vnd.apache.parquet",
+        )
     )
     assert capabilities.media_types == expected_media_types
     assert capabilities.supports_projection is False

@@ -8,6 +8,7 @@ from pathlib import Path  # noqa: TC003 - public runtime annotation
 
 import pyarrow as pa
 from pyarrow import csv
+from pyarrow import parquet as pq
 
 from voiage.contracts.normalized_input import ResourceManifest
 from voiage.ingestion.base import IngestionError, SourceAccessPolicy
@@ -108,6 +109,34 @@ def read_json_table(
         raise IngestionError(
             "declared JSON Table resource cannot be converted to Arrow"
         ) from error
+
+
+def read_parquet(
+    reference: str,
+    policy: SourceAccessPolicy,
+    *,
+    sha256: str | None = None,
+    byte_size: int | None = None,
+) -> pa.Table:
+    """Read one declared local Parquet resource through bounded Arrow batches."""
+    if not reference.casefold().endswith(".parquet"):
+        raise IngestionError(
+            "declared resource must use the supported .parquet filename suffix"
+        )
+    path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
+    try:
+        source = pq.ParquetFile(path)
+        batches: list[pa.RecordBatch] = []
+        total_rows = 0
+        for batch in source.iter_batches(batch_size=policy.max_batch_rows):
+            total_rows += batch.num_rows
+            policy.validate_tabular_batch(
+                batch_rows=batch.num_rows, total_rows=total_rows
+            )
+            batches.append(batch)
+        return pa.Table.from_batches(batches, schema=source.schema_arrow)
+    except pa.ArrowException as error:
+        raise IngestionError("declared Parquet resource cannot be parsed") from error
 
 
 def materialization_receipt(

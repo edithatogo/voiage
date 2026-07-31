@@ -121,8 +121,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   explicit `.json`/`format: json` UTF-8 arrays of scalar object rows with a
   declared primitive field schema, verified receipt, and bounded-row policy;
   JSON Lines, envelopes, JSON paths, nested values, parser declarations, and
-  remote/archive resources reject (`dc7d0fff`, partial). Remaining acceptance
-  evidence is tracked below.
+  remote/archive resources reject (`dc7d0fff`, partial). The strict local
+  Parquet profile accepts only `.parquet` resources explicitly declared as
+  `format: parquet` without a dialect, streams bounded PyArrow batches,
+  preserves verified receipts, and validates the same declared primitive fields
+  and keys (partial). Remaining acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
