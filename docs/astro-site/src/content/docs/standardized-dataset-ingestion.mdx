@@ -4,13 +4,13 @@ description: Bring Croissant ML and strict Frictionless CSV, TSV, or JSON Table 
 ---
 
 VOIAGE separates source parsing from calculation. A provider reads a descriptor
-and its explicitly declared local CSV resource, then returns an immutable,
+and its explicitly declared local resource, then returns an immutable,
 Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
 and an explicit VOI binding; it never depends on Croissant or Frictionless
 metadata.
 
-The built-in profiles are deliberately conservative: explicit local CSV resources
-and explicit table schemas. Remote URLs, archive extraction, implicit
+The built-in profiles are deliberately conservative: explicit local tabular
+resources and explicit table schemas. Remote URLs, archive extraction, implicit
 column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
@@ -50,8 +50,8 @@ voiage ingest normalize datapackage.json --output normalized.arrow
 The materializing commands (`validate`, `normalize`, and
 `calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
-resource-size cap, `--max-resource-rows` to reject an oversized delimited-text
-resource before the provider constructs an Arrow table, `--cache-dir` to select
+resource-size cap, `--max-resource-rows` to reject an oversized parsed resource
+before the provider constructs an Arrow table, `--cache-dir` to select
 a verified materialization cache, and `--offline` to require replay rather than
 reading a source path. Providers also enforce a bounded streaming record batch
 before retaining it; this is an implementation guard rather than a source
@@ -113,7 +113,7 @@ missing source file and never performs a network refresh.
 
 The built-in providers use this path directly. A Croissant distribution may
 declare a 64-character `sha256` and a non-negative integer `contentSize` byte
-count; a Frictionless CSV resource may declare a 64-character SHA-256 `hash`
+count; a Frictionless supported resource may declare a 64-character SHA-256 `hash`
 and non-negative `bytes`. With those declarations, ingesting
 once with `cache_dir` creates the verified cache entry, and a later
 `voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
