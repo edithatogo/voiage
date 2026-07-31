@@ -7,6 +7,11 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from .utility_information import (
+    expected_utility_information_value,
+    value_of_clairvoyance,
+)
+
 _MODULES = (
     "adaptive",
     "adaptive_learning_bandit",

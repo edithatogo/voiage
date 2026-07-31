@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from copy import deepcopy
 import json
-from typing import TYPE_CHECKING
 
 from voiage import _runtime
 from voiage.exceptions import raise_input_error
-
-if TYPE_CHECKING:
-    from collections.abc import Mapping
 
 _MEASURES = frozenset({"eui", "cei", "bpi", "spi", "ppi", "evpi"})
 
@@ -37,13 +34,19 @@ def value_of_clairvoyance(
     if selected_measure not in _MEASURES:
         raise_input_error(f"Unsupported VoC selected measure: {selected_measure}.")
     payload = deepcopy(dict(request))
-    information = dict(payload.get("information", {}))
+    raw_information = payload.get("information")
+    if not isinstance(raw_information, Mapping):
+        raise_input_error("VoC presentation requires an information mapping.")
+    information = dict(raw_information)
     if information.get("kind") != "clairvoyant":
         raise_input_error("VoC presentation requires information.kind='clairvoyant'.")
     payload["presentation_label"] = "voc"
     result = expected_utility_information_value(payload)
     if selected_measure == "evpi":
-        reduction = dict(result["affine_reduction"])
+        raw_reduction = result.get("affine_reduction")
+        if not isinstance(raw_reduction, Mapping):
+            raise_input_error("Canonical result omitted affine reduction metadata.")
+        reduction = dict(raw_reduction)
         if (
             reduction.get("status") != "available"
             or reduction.get("monetary_measure") != "evpi"
@@ -52,7 +55,10 @@ def value_of_clairvoyance(
                 "Monetary EVPI presentation requires an affine utility reduction.",
                 diagnostic_code="affine_reduction_required",
             )
-    presentation = dict(result["presentation"])
+    raw_presentation = result.get("presentation")
+    if not isinstance(raw_presentation, Mapping):
+        raise_input_error("Canonical result omitted presentation metadata.")
+    presentation = dict(raw_presentation)
     presentation["selected_measure"] = selected_measure
     result["presentation"] = presentation
     return result
