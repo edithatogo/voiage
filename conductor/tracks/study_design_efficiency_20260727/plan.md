@@ -18,7 +18,7 @@
 
 ## Phase 2 — Reference evidence before implementation
 
-- [ ] **S6:** Add failing analytical/enumerable COSS and signed-ENBS reference
+- [~] **S6:** Add failing analytical/enumerable COSS and signed-ENBS reference
   tests with independent argmax calculations. (AC-02, AC-05)
 - [ ] **S7:** Add failing tests for interior, boundary, tied, infeasible and
   non-monotone design curves. (AC-02, AC-05)
