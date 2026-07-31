@@ -1,0 +1,21 @@
+{
+  "name": "receipted-operations-fixture",
+  "title": "Receipted operations fixture",
+  "citation": "Voiage synthetic fixture (2026)",
+  "licenses": [{"name": "CC-BY-4.0"}],
+  "resources": [{
+    "name": "operations_samples",
+    "path": "valid/receipted-data.csv",
+    "format": "csv",
+    "dialect": {"delimiter": ","},
+    "hash": "2fa13daf9b358e05326d2e3f04c5a9a27bf07097aa63e01f82817f0f1905149d",
+    "bytes": 39,
+    "schema": {
+      "primaryKey": "scenario_id",
+      "fields": [
+        {"name": "scenario_id", "type": "integer", "constraints": {"required": true, "unique": true}},
+        {"name": "net_benefit", "type": "number"}
+      ]
+    }
+  }]
+}
