@@ -19,9 +19,9 @@
 
 - [x] **E5:** Add failing analytical and enumerable reference tests for
   `EVPPI_var` and `EVSI_var`. (AC-03) [9026751f]
-- [ ] **E6:** Add failing property tests for variance decompositions,
+- [x] **E6:** Add failing property tests for variance decompositions,
   zero/perfect-information limits and supported monotonicity cases. (AC-03,
-  AC-04)
+  AC-04) [144e90a0]
 - [ ] **E7:** Add failing error and pathological tests for non-finite,
   degenerate, insufficient-sample and non-convergent inputs. (AC-04)
 - [ ] **E8:** Review reference independence, tolerances and fixture provenance.
