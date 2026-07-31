@@ -16,8 +16,8 @@
 - [x] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
   alias or presentation, including affine-utility reduction conditions, and
   prohibit a duplicate numerical kernel. (AC-02, AC-08) `91770f6a`
-- [ ] **G4:** Run automated contract review and full Conductor validation.
-  (AC-01, AC-07)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07) `57c385bd`
 
 ## Phase 2 — Evidence before positive claims
 
