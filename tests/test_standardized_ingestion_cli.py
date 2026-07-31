@@ -587,6 +587,34 @@ def test_descriptor_schema_summary_reports_croissant_field_boundaries() -> None:
     ]
 
 
+def test_descriptor_schema_summary_continues_after_a_non_list_field_declaration() -> (
+    None
+):
+    """One malformed record set cannot suppress later descriptor diagnostics."""
+    summary = ingestion_cli._croissant_descriptor_schema_summary(
+        {
+            "recordSet": [
+                {"name": "first", "field": "not-a-list"},
+                "not-an-object",
+            ]
+        }
+    )
+
+    assert summary == {
+        "tables": [
+            {
+                "table_id": "first",
+                "field_ids": [],
+                "primary_key": [],
+                "foreign_keys": [],
+            }
+        ],
+        "unsupported_features": [
+            {"code": "record-set-not-object", "path": "recordSet[1]"}
+        ],
+    }
+
+
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
     descriptor = tmp_path / "unknown.json"
     descriptor.write_text("{}", encoding="utf-8")
