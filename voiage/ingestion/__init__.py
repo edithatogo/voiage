@@ -10,7 +10,6 @@ from .base import (
     SourceAccessPolicy,
 )
 from .dataframe import from_dataframe
-from .frictionless import FrictionlessProvider
 from .live_probe import AuthoritativeProbeGateError, run_authoritative_probe
 from .registry import ProviderRegistry, default_registry, discover_entry_point_providers
 
@@ -20,8 +19,8 @@ if TYPE_CHECKING:
 
 __all__ = [
     "INGESTION_PROVIDER_SDK_VERSION",
-    "CroissantProvider",
     "AuthoritativeProbeGateError",
+    "CroissantProvider",
     "FrictionlessProvider",
     "IngestionError",
     "IngestionProvider",
