@@ -133,6 +133,59 @@ def test_invalid_target_functional_contracts_fail_closed(
         _ = EstimationTargetSpec.model_validate(target)
 
 
+@pytest.mark.parametrize(
+    "target",
+    [
+        {
+            "target_id": "bad",
+            "shape": "scalar",
+            "component_units": ("USD",),
+            "covariance_functional": "trace",
+        },
+        {
+            "target_id": "bad",
+            "shape": "scalar",
+            "component_units": ("USD",),
+            "covariance_functional": "variance",
+            "functional_weights": (1.0,),
+        },
+        {
+            "target_id": "bad",
+            "shape": "vector",
+            "component_units": ("USD",),
+            "covariance_functional": "trace",
+        },
+        {
+            "target_id": "bad",
+            "shape": "vector",
+            "component_units": ("USD", "QALY"),
+            "covariance_functional": "weighted_quadratic",
+        },
+        {
+            "target_id": "bad",
+            "shape": "vector",
+            "component_units": ("USD", "QALY"),
+            "covariance_functional": "trace",
+            "functional_weights": (1.0, 1.0),
+        },
+    ],
+)
+def test_remaining_target_shape_and_functional_combinations_fail_closed(
+    target: dict[str, object],
+) -> None:
+    with pytest.raises(ValidationError):
+        _ = EstimationTargetSpec.model_validate(target)
+
+
+def test_conditioning_parameter_ids_must_be_unique() -> None:
+    with pytest.raises(ValidationError, match="must be unique"):
+        _ = ConditioningSpec(
+            parameter_subset=("risk", "risk"),
+            sigma_field="sigma_risk",
+            averaging_convention="prior_predictive",
+        )
+
+
 def test_evsi_variance_requires_sampling_model_and_forbids_conditioning_subset() -> (
     None
 ):
@@ -173,6 +226,62 @@ def test_evsi_variance_requires_sampling_model_and_forbids_conditioning_subset()
         ),
     )
     assert specification.conditioning is None
+
+
+def test_method_specific_information_contracts_reject_opposite_inputs() -> None:
+    target = EstimationTargetSpec(
+        target_id="prevalence",
+        shape="scalar",
+        component_units=("proportion",),
+        covariance_functional="variance",
+    )
+    assurance = EstimatorAssuranceSpec(estimator_id="enumerated", seed=1)
+    sampling = SamplingModelSpec(
+        design_id="binomial-n20",
+        likelihood_id="binomial",
+        conditioning_sigma_field="sigma_y",
+        averaging_convention="prior_predictive",
+    )
+    conditioning = ConditioningSpec(
+        parameter_subset=("prevalence",),
+        sigma_field="sigma_prevalence",
+        averaging_convention="prior_predictive",
+    )
+    with pytest.raises(ValidationError, match="evppi_var requires conditioning"):
+        _ = EstimationVarianceSpec(
+            method_id="evppi_var",
+            target=target,
+            prior_model_id="prior",
+            estimator=assurance,
+        )
+    with pytest.raises(ValidationError, match="does not accept sampling_model"):
+        _ = EstimationVarianceSpec(
+            method_id="evppi_var",
+            target=target,
+            prior_model_id="prior",
+            conditioning=conditioning,
+            sampling_model=sampling,
+            estimator=assurance,
+        )
+    with pytest.raises(ValidationError, match="does not accept conditioning"):
+        _ = EstimationVarianceSpec(
+            method_id="evsi_var",
+            target=target,
+            prior_model_id="prior",
+            conditioning=conditioning,
+            sampling_model=sampling,
+            estimator=assurance,
+        )
+
+
+def test_diagnostics_reject_inverted_confidence_interval() -> None:
+    with pytest.raises(ValidationError, match="lower bound"):
+        _ = EstimationVarianceDiagnostics(
+            prior_sample_count=2,
+            posterior_evaluation_count=1,
+            confidence_interval=(0.2, 0.1),
+            converged=False,
+        )
 
 
 def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_policy() -> (

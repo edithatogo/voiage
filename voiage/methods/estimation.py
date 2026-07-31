@@ -187,7 +187,9 @@ def _result_from_native(
     payload: Mapping[str, object],
 ) -> EstimationVarianceResult:
     relative_value = payload["relative_reduction"]
-    if relative_value is not None and not isinstance(relative_value, (int, float)):
+    if relative_value is not None and (
+        isinstance(relative_value, bool) or not isinstance(relative_value, (int, float))
+    ):
         raise TypeError(
             "native estimation result field 'relative_reduction' is not numeric or null"
         )

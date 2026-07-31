@@ -92,6 +92,42 @@ def test_result_rejects_dimension_mismatch_and_asymmetric_covariance() -> None:
             _ = EstimationVarianceResult.model_validate(case)
 
 
+@pytest.mark.parametrize(
+    ("updates", "message"),
+    [
+        ({"raw_reduction": 0.4}, "raw_reduction must equal"),
+        ({"absolute_reduction": 0.4}, "absolute_reduction must retain"),
+        (
+            {
+                "prior_covariance": ((0.0,),),
+                "expected_posterior_covariance": ((0.0,),),
+                "prior_functional": 0.0,
+                "expected_posterior_functional": 0.0,
+                "raw_reduction": 0.0,
+                "absolute_reduction": 0.0,
+                "relative_reduction": 0.0,
+            },
+            "relative_reduction must be null",
+        ),
+        ({"relative_reduction": None}, "relative_reduction must equal"),
+        ({"relative_reduction": 0.4}, "relative_reduction must equal"),
+    ],
+)
+def test_result_reduction_identities_fail_closed(
+    updates: dict[str, object],
+    message: str,
+) -> None:
+    with pytest.raises(ValidationError, match=message):
+        _ = EstimationVarianceResult.model_validate({**_result_fields(), **updates})
+
+
+def test_expected_posterior_covariance_is_also_dimension_checked() -> None:
+    fields = _result_fields()
+    fields["expected_posterior_covariance"] = ((0.5, 0.0),)
+    with pytest.raises(ValidationError, match="expected_posterior_covariance"):
+        _ = EstimationVarianceResult.model_validate(fields)
+
+
 def test_non_convergence_is_explicit_diagnostic_not_a_silent_success() -> None:
     fields = _result_fields()
     fields["diagnostics"] = EstimationVarianceDiagnostics(

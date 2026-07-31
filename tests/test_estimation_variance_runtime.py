@@ -17,6 +17,7 @@ from voiage.contracts.estimation import (
     SamplingModelSpec,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
+import voiage.methods.estimation as estimation_module
 from voiage.methods.estimation import evppi_var, evsi_var
 
 
@@ -151,3 +152,79 @@ def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
         ValueError, match="bootstrap_replicates must be zero or at least two"
     ):
         _ = _assurance("discrete_conditioning", bootstrap_replicates=1)
+
+
+def test_runtime_rejects_vector_targets_pending_scientific_review() -> None:
+    specification = _evppi_spec().model_copy(
+        update={
+            "target": EstimationTargetSpec(
+                target_id="joint",
+                shape="vector",
+                component_units=("count", "count"),
+                covariance_functional="trace",
+            )
+        }
+    )
+    with pytest.raises(InputError, match="scalar variance targets only"):
+        _ = evppi_var([0.0, 1.0], ["a", "b"], specification=specification)
+
+
+def _native_payload() -> dict[str, object]:
+    return {
+        "prior_variance": 1.0,
+        "expected_posterior_variance": 0.5,
+        "raw_reduction": 0.5,
+        "absolute_reduction": 0.5,
+        "relative_reduction": 0.5,
+        "prior_sample_count": 4,
+        "posterior_evaluation_count": 2,
+        "bootstrap_replicates": 2,
+        "monte_carlo_standard_error": 0.2,
+        "confidence_interval": [0.1, 0.9],
+        "converged": False,
+        "kernel_version": "1.0.0",
+    }
+
+
+@pytest.mark.parametrize(
+    ("updates", "message"),
+    [
+        ({"prior_variance": True}, "prior_variance.*not numeric"),
+        ({"prior_sample_count": True}, "prior_sample_count.*not an integer"),
+        ({"monte_carlo_standard_error": "bad"}, "not numeric or null"),
+        ({"confidence_interval": "bad"}, "not a pair"),
+        ({"confidence_interval": [0.1]}, "not a pair"),
+        ({"confidence_interval": [False, 0.2]}, "not numeric"),
+        ({"relative_reduction": "bad"}, "relative_reduction.*not numeric"),
+        ({"relative_reduction": True}, "relative_reduction.*not numeric"),
+        ({"kernel_version": 1}, "kernel version is not text"),
+        ({"converged": 1}, "convergence field is not boolean"),
+    ],
+)
+def test_native_result_boundary_rejects_malformed_fields(
+    updates: dict[str, object],
+    message: str,
+) -> None:
+    with pytest.raises(TypeError, match=message):
+        _ = estimation_module._result_from_native(
+            _evppi_spec(),
+            {**_native_payload(), **updates},
+        )
+
+
+def test_native_result_boundary_handles_null_interval_and_nonconvergence() -> None:
+    result = estimation_module._result_from_native(
+        _evppi_spec(),
+        {
+            **_native_payload(),
+            "confidence_interval": None,
+            "relative_reduction": None,
+            "prior_variance": 0.0,
+            "expected_posterior_variance": 0.0,
+            "raw_reduction": 0.0,
+            "absolute_reduction": 0.0,
+        },
+    )
+    assert result.relative_reduction is None
+    assert result.diagnostics.confidence_interval is None
+    assert result.diagnostics.diagnostic_codes == ("convergence_threshold_not_met",)

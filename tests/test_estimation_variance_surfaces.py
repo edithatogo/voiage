@@ -19,6 +19,7 @@ from voiage.contracts.estimation import (
     EstimationVarianceResult,
     EstimationVarianceSpec,
     EstimatorAssuranceSpec,
+    SamplingModelSpec,
 )
 from voiage.methods.estimation import evppi_var
 from voiage.plot.estimation_variance import plot_estimation_variance
@@ -73,6 +74,8 @@ def test_estimation_variance_plot_has_direct_labels_and_hatch() -> None:
     assert axes.get_title() == "Estimation uncertainty: net_cases"
     assert [patch.get_height() for patch in axes.patches] == [1.25, 1.0]
     assert axes.patches[1].get_hatch() == "//"
+    same_axes = plot_estimation_variance(_result(), ax=axes)
+    assert same_axes is axes
 
 
 def test_estimation_variance_cli_emits_versioned_result(tmp_path: Path) -> None:
@@ -104,6 +107,83 @@ def test_estimation_variance_cli_emits_versioned_result(tmp_path: Path) -> None:
     assert payload["result"]["schema_version"] == "1.0.0"
     assert payload["result"]["absolute_reduction"] == pytest.approx(0.25)
     assert payload["reporting"]["provenance"]["backend"] == "rust"
+
+
+def test_estimation_variance_cli_evsi_writes_output(tmp_path: Path) -> None:
+    specification = EstimationVarianceSpec(
+        method_id="evsi_var",
+        target=_evppi_spec().target,
+        prior_model_id="study_prior",
+        sampling_model=SamplingModelSpec(
+            design_id="study",
+            likelihood_id="likelihood",
+            conditioning_sigma_field="sigma_y",
+            averaging_convention="prior_predictive",
+        ),
+        estimator=EstimatorAssuranceSpec(
+            estimator_id="posterior_variance_aggregation",
+            seed=17,
+        ),
+    )
+    specification_path = tmp_path / "specification.json"
+    data_path = tmp_path / "data.json"
+    output_path = tmp_path / "result.json"
+    _ = specification_path.write_text(specification.model_dump_json(), encoding="utf-8")
+    _ = data_path.write_text(
+        json.dumps(
+            {
+                "prior_target_samples": [0.0, 1.0, 2.0, 3.0],
+                "posterior_variances": [0.5, 0.5],
+            }
+        ),
+        encoding="utf-8",
+    )
+    invocation = runner.invoke(
+        app,
+        [
+            "calculate-estimation-variance",
+            str(specification_path),
+            str(data_path),
+            "--output",
+            str(output_path),
+        ],
+    )
+    assert invocation.exit_code == 0, invocation.output
+    assert (
+        json.loads(output_path.read_text(encoding="utf-8"))["result"]["method_id"]
+        == "evsi_var"
+    )
+
+
+@pytest.mark.parametrize(
+    ("payload", "message"),
+    [
+        ("[]", "runtime sample JSON must be an object"),
+        ("{}", "target_samples"),
+    ],
+)
+def test_estimation_variance_cli_reports_invalid_runtime_payload(
+    tmp_path: Path,
+    payload: str,
+    message: str,
+) -> None:
+    specification_path = tmp_path / "specification.json"
+    data_path = tmp_path / "data.json"
+    _ = specification_path.write_text(
+        _evppi_spec().model_dump_json(),
+        encoding="utf-8",
+    )
+    _ = data_path.write_text(payload, encoding="utf-8")
+    invocation = runner.invoke(
+        app,
+        [
+            "calculate-estimation-variance",
+            str(specification_path),
+            str(data_path),
+        ],
+    )
+    assert invocation.exit_code == 1
+    assert message in invocation.output
 
 
 def test_estimation_variance_example_is_runnable(
