@@ -39,7 +39,8 @@ voiage ingest inspect croissant.json
 voiage ingest normalize datapackage.json --output normalized.arrow
 ```
 
-Every ingestion command accepts the same local source-policy controls. They
+The materializing commands (`validate`, `normalize`, and
+`calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
 resource cap, `--cache-dir` to select a verified materialization cache, and
 `--offline` to require replay rather than reading a source path. For example:
@@ -53,11 +54,14 @@ voiage ingest validate datapackage.json \
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
 `validate` resolves the descriptor and every declared local resource through
-the source-access policy, then returns a stable JSON confirmation. The
-`inspect` response contains the provider, its declared capability profile, safe
-descriptor provenance, preserved governance metadata, diagnostics, table row
-counts, schema fingerprint, and content digest; neither command echoes resource
-contents or credentials.
+the source-access policy, then returns a stable JSON confirmation with
+provenance, governance metadata, diagnostics, row counts, schema fingerprint,
+and content digest. `inspect` is deliberately metadata-only: it reads only the
+JSON descriptor and reports the recognized provider, its declared capability
+profile, and `binding_resolution: null`. It does not resolve a resource,
+compute a receipt or data-quality report, or resolve a VOI binding. This means
+inspection can safely identify a descriptor even when its resource is not
+available; use a materializing command for validation or calculation.
 
 Local resources are fail-closed: paths cannot escape the configured descriptor
 root, network access is disabled by default, and a resource larger than the
