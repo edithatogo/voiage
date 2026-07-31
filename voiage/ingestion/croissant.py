@@ -93,11 +93,15 @@ class CroissantProvider:
             raise IngestionError(
                 "supported Croissant profile does not support transformations"
             )
-        declared_sha256 = distribution.get("sha256")
-        if declared_sha256 is not None and not isinstance(declared_sha256, str):
-            raise IngestionError("declared Croissant SHA-256 must be a string")
+        declared_sha256 = _sha256(distribution.get("sha256"))
+        declared_byte_size = _content_size(distribution.get("contentSize"))
         try:
-            table = read_csv(reference, policy, sha256=declared_sha256)
+            table = read_csv(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+            )
         except IngestionError as error:
             if declared_sha256 is not None and "checksum" in str(error):
                 raise IngestionError(
@@ -128,7 +132,11 @@ class CroissantProvider:
                 tables=(TableManifest(table_id=table_id, fields=manifest_fields),),
                 resources=(
                     materialization_receipt(
-                        reference, table_id, policy, sha256=declared_sha256
+                        reference,
+                        table_id,
+                        policy,
+                        sha256=declared_sha256,
+                        byte_size=declared_byte_size,
                     ),
                 ),
                 provenance=SourceProvenance(
@@ -192,6 +200,36 @@ class CroissantProvider:
 def _scalar_metadata(value: object) -> str | None:
     """Expose scalar metadata in provenance without coercing structured values."""
     return value if isinstance(value, str) else None
+
+
+def _sha256(value: object) -> str | None:
+    """Accept only an explicit SHA-256 FileObject declaration."""
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise IngestionError("Croissant sha256 must be a SHA-256 string")
+    candidate = value.lower()
+    if len(candidate) != 64 or any(
+        char not in "0123456789abcdef" for char in candidate
+    ):
+        raise IngestionError("Croissant sha256 must be a SHA-256 string")
+    return candidate
+
+
+def _content_size(value: object) -> int | None:
+    """Accept the profile's non-negative integer Croissant contentSize only.
+
+    The generic Croissant field is narrowed to a byte count. Unit-bearing,
+    textual, and structured values are outside this local FileObject profile,
+    so they fail before source materialization rather than being ignored.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise IngestionError(
+            "supported Croissant profile requires contentSize to be a non-negative integer"
+        )
+    return value
 
 
 def _declared_data_type(field: dict[str, object]) -> str | None:

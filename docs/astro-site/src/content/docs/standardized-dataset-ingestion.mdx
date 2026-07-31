@@ -18,7 +18,7 @@ portable, auditable, and suitable for an offline calculation workflow.
 
 | Input surface | Supported profile | Explicit boundary |
 | --- | --- | --- |
-| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, and non-CSV media types are rejected. |
+| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one `recordSet`, one `text/csv` distribution, fields that exactly match the CSV columns, and optional `sha256`/integer-byte `contentSize` integrity declarations | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, non-CSV media types, non-SHA-256 integrity forms, and textual/structured `contentSize` values are rejected. |
 | Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma) or TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
 | Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
 | Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
@@ -104,8 +104,9 @@ policy can replay only that verified digest; it never falls back to a changed or
 missing source file and never performs a network refresh.
 
 The built-in providers use this path directly. A Croissant distribution may
-declare `sha256`; a Frictionless CSV resource may declare a 64-character
-SHA-256 `hash` and non-negative `bytes`. With those declarations, ingesting
+declare a 64-character `sha256` and a non-negative integer `contentSize` byte
+count; a Frictionless CSV resource may declare a 64-character SHA-256 `hash`
+and non-negative `bytes`. With those declarations, ingesting
 once with `cache_dir` creates the verified cache entry, and a later
 `voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
 the original local CSV is no longer present. Other hash algorithms and
@@ -167,7 +168,7 @@ complete implementation of either upstream standard.
 
 | Input family | Supported profile | Consumer contract | Explicitly not supported in the built-in provider |
 | --- | --- | --- | --- |
-| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
+| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 and integer-byte `contentSize` when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference, unverified integrity forms, and non-byte `contentSize` values |
 | Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources (`.csv`, comma) or explicitly declared TSV resources (`.tsv`, `format: tsv`, `dialect: {"delimiter": "\\t"}`), with explicit field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, inferred or custom dialects, other integrity algorithms, implicit schema inference |
 | DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | `from_dataframe` preserves the Arrow schema and honours `allow_copy`; its bundle enters the same preparation path as providers and records conversion decisions. | Inferred decision semantics, unsupported nested values, and conversions that require copying when `allow_copy=False`. |
 
