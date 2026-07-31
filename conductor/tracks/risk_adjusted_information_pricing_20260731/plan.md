@@ -1,66 +1,66 @@
 # Implementation Plan
 
-## Phase 1 — Contract and governance reconciliation — checkpoint `4ec39a3`
+## Phase 1 — Contract and governance reconciliation — checkpoint `50d2d15`
 
 - [x] **U1:** Freeze the expected-utility decision problem, named utility,
   wealth/reference, units, probability, information, scope, cost-location and
-  tie contracts. (AC-02) — `8aa2ee6`
+  tie contracts. (AC-02) — `fa08b4d`
 - [x] **U2:** Freeze EUI, CEI, BPI, SPI, PPI, policy re-optimization, signed-value,
   root-diagnostic and comparability semantics. (AC-03, AC-05)
-  — `0177bcb`
+  — `4df6bc7`
 - [x] **U3:** Freeze VoC as a presentation/delegating alias and audit adjacent
   EVPI, CVaR, risk-sensitive, preference and buying-price surfaces. (AC-04,
-  AC-07) — `67861ed`
+  AC-07) — `54e9fcf`
 - [x] **U4:** Materialize GitHub subissues and synchronize Project 28,
   requirements, Mermaid design, cross-references and canonical C16 planning.
-  (AC-01) — `766149f`
+  (AC-01) — `d09d485`
 - [x] **U5:** Run automated contract review and full Conductor validation.
-  (AC-01–AC-05) — `dbf2021`
+  (AC-01–AC-05) — `bbacbd6`
 
 ### Phase 1 review fixes
 
 - [x] Preserve #694–#697 as nested #595 subissues in the canonical C16
   projection rather than projecting them as independent frontier issues.
-  — `80e0a61`
+  — `99a1514`
 - [x] Reconcile deterministic tie selection, finite-signal design, and complete
   tie-set transition diagnostics across the frozen contract artifacts.
-  — `dbf2021`
+  — `bbacbd6`
 
-## Phase 2 — Reference evidence before implementation — checkpoint `0aa8018`
+## Phase 2 — Reference evidence before implementation — checkpoint `c31608b`
 
 - [x] **U6:** Add failing independent affine, exponential and nonlinear
   reference tests for EUI, CEI, BPI, SPI, PPI and affine EVPI reduction. (AC-03,
-  AC-05) — `5332ae7`
+  AC-05) — `99002f5`
 - [x] **U7:** Add failing property and pathological tests for positive-affine
   invariance, buy/sell asymmetry, ties, nonuniform probabilities, utility
   domains, bracketing/nonconvergence and stakeholder comparability. (AC-05)
-  — `f2c4503`
+  — `aa20b70`
 - [x] **U8:** Add versioned schemas, normative fixtures, deterministic
   serialization and root-diagnostic contracts. (AC-02, AC-03, AC-05)
-  — `8a7b707`
+  — `b1a3922`
 - [x] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
-  AC-08) — `9e51994`
+  AC-08) — `e1d5767`
 
 ### Phase 2 review fixes
 
 - [x] Add PPI, stakeholder-comparability and bounded solver-limit red
   contracts; fully discriminate nested result diagnostics; require cost,
   currency and price-date semantics; exclude CRRA risk aversion one; and
-  validate a complete normative result. — `9e51994`
+  validate a complete normative result. — `e1d5767`
 
-## Phase 3 — Rust runtime and Python presentation — checkpoint `79c312f`
+## Phase 3 — Rust runtime and Python presentation — checkpoint `7a557d0`
 
 - [x] **U10:** Implement the accepted Rust utility, policy, information-value,
   price and bounded root-solving kernels with versioned result envelopes.
-  (AC-02, AC-03, AC-06) — `dbe1871`
+  (AC-02, AC-03, AC-06) — `ebf8757`
 - [x] **U11:** Implement the thin Python facade, deterministic serialization,
   DecisionAnalysis integration and VoC presentation/delegation without a
-  duplicate kernel. (AC-03, AC-04, AC-06) — `c179470`
+  duplicate kernel. (AC-03, AC-04, AC-06) — `9b3f14e`
 - [x] **U12:** Add differential, property, serialization, failure and
   performance assurance for the runtime boundary. (AC-05, AC-08)
-  — `0e17fed`
+  — `47752e4`
 - [x] **U13:** Run automated implementation review, focused validation and the
-  repository harness. (AC-05, AC-08) — `7aeca63`
+  repository harness. (AC-05, AC-08) — `44953ea`
 
 ### Phase 3 review fixes
 
@@ -68,19 +68,19 @@
   policies and explicit domain exclusions; reject discontinuous no-root
   prices; complete validation, provenance, PPI reasons and pairwise
   comparability; and validate affine-only monetary EVPI presentation.
-  — `7aeca63`
+  — `44953ea`
 
 ## Phase 4 — User, binding and governed closeout surfaces
 
 - [x] **U14:** Add CLI/reporting, capability discovery, accessible examples
   and documentation that distinguish utility and monetary scales. (AC-07)
-  — `db3a649`
+  — `d9ba420`
 - [x] **U15:** Record and validate Rust, Python, R, Julia and Mojo capability
   dispositions and shared-fixture evidence or explicit unsupported states.
-  (AC-06) — `2163a89`
+  (AC-06) — `5de9779`
 - [x] **U16:** Reconcile roadmap, todo, changelog, registries, v1.2.0 MoSCoW,
   Mermaid design, GitHub/Project 28, canonical C16 and remaining external
-  gates. (AC-01, AC-07) — `d7b07f6`
+  gates. (AC-01, AC-07) — `439ba07`
 - [~] **U17:** Run final automated review, full local validation and hosted
   required checks; retain merge, stable promotion, release and issue closure
   as separate gates. (AC-08)
