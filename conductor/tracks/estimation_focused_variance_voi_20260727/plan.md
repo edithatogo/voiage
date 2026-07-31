@@ -63,6 +63,10 @@
   export list after hosted CodeQL identified it as an explicit undefined
   export; retain access through the governed estimation module. (AC-06, AC-08)
   [589a91c7]
+- [~] **RF4:** Exercise every changed validation, native-boundary, CLI and plot
+  branch after the hosted changed-line policy exposed incomplete assurance;
+  reject boolean relative reductions consistently with the other numeric
+  fields. (AC-04, AC-06, AC-08)
 - [~] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)
