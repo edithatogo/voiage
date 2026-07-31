@@ -15,6 +15,7 @@ _EXPORTS = {
     "value_of_strategic_behavior": ".methods.strategic_behavior",
     "calculate_coss": ".experimental.study_design",
     "evsi_evpi_efficiency": ".experimental.study_design",
+    "allocate_coss_portfolio": ".experimental.study_portfolio",
 }
 
 __all__ = list(_EXPORTS)

@@ -45,7 +45,7 @@
 
 ## Phase 4 — Portfolio, user and binding surfaces
 
-- [ ] **S15:** Integrate single-study COSS and efficiency outputs with #571's
+- [~] **S15:** Integrate single-study COSS and efficiency outputs with #571's
   experiment-portfolio allocation and constraint contract. (AC-01, AC-06)
 - [ ] **S16:** Add CLI, reporting, provenance and accessible plotting/examples
   that consume the versioned result contract. (AC-06)

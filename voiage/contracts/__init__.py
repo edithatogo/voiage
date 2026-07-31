@@ -82,6 +82,12 @@ from .study_design import (
     StudyDesignContextV1,
     StudyDesignPointInputV1,
 )
+from .study_portfolio import (
+    CossPortfolioCandidateV1,
+    PortfolioCapacityConstraintV1,
+    StudyPortfolioEvaluationV1,
+    StudyPortfolioResultV1,
+)
 
 __all__ = [
     "AnalysisResult",
@@ -98,6 +104,7 @@ __all__ = [
     "ContractPerformanceBudget",
     "CossCurvePointV1",
     "CossPlotDataV1",
+    "CossPortfolioCandidateV1",
     "CossResultV1",
     "DataQualityReport",
     "DatasetManifest",
@@ -119,6 +126,7 @@ __all__ = [
     "NumericalPolicy",
     "ParameterSpec",
     "PerspectivePayload",
+    "PortfolioCapacityConstraintV1",
     "PreparedAnalysisInputs",
     "Provenance",
     "ResourceManifest",
@@ -129,6 +137,8 @@ __all__ = [
     "SourceProvenance",
     "StudyDesignContextV1",
     "StudyDesignPointInputV1",
+    "StudyPortfolioEvaluationV1",
+    "StudyPortfolioResultV1",
     "TableManifest",
     "UnsupportedCapabilityError",
     "VOIBinding",
