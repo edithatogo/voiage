@@ -64,6 +64,7 @@ jobs:
     outputs:
       tag_sha: ${{ steps.tag.outputs.tag_sha }}
       is_prerelease: ${{ steps.tag.outputs.is_prerelease }}
+      python_version: ${{ steps.version.outputs.python_version }}
     steps:
       - name: Check out repository for tag resolution
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -112,7 +113,17 @@ jobs:
       - name: Install locked validation tooling
         run: uv sync --locked --extra ci
       - name: Fail closed on release version
-        run: uv run --no-sync python -m voiage.versioning --release-tag "$RELEASE_TAG"
+        id: version
+        shell: bash
+        run: |
+          uv run --no-sync python -m voiage.versioning --release-tag "$RELEASE_TAG"
+          python_version="$(
+            uv run --no-sync python -m voiage.versioning \
+              --release-tag "$RELEASE_TAG" \
+              --print-python-version
+          )"
+          test -n "$python_version"
+          echo "python_version=$python_version" >> "$GITHUB_OUTPUT"
 
   wheels:
     name: Native wheel (${{ matrix.platform }})
@@ -364,6 +375,7 @@ jobs:
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+      PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
       EXPECTED_NATIVE_ARCHITECTURES: linux-x86_64,macos-arm64,windows-x86_64
     steps:
       - name: Check out immutable release commit
@@ -386,10 +398,8 @@ jobs:
           merge-multiple: true
       - name: Validate complete extensible artifact set
         run: |
-          release_version="${RELEASE_TAG#v}"
-          export RELEASE_VERSION="$release_version"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
+          python -c "import os; from pathlib import Path; version=os.environ['PYTHON_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
+          python -c "import os; from pathlib import Path; version=os.environ['PYTHON_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
       - name: Attest release artifacts
         id: provenance
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373
@@ -399,8 +409,8 @@ jobs:
         shell: bash
         run: |
           test -s "$PROVENANCE_BUNDLE"
-          cp "$PROVENANCE_BUNDLE" "dist/voiage-${RELEASE_TAG#v}.intoto.jsonl"
-          test -s "dist/voiage-${RELEASE_TAG#v}.intoto.jsonl"
+          cp "$PROVENANCE_BUNDLE" "dist/voiage-${PYTHON_VERSION}.intoto.jsonl"
+          test -s "dist/voiage-${PYTHON_VERSION}.intoto.jsonl"
         env:
           PROVENANCE_BUNDLE: ${{ steps.provenance.outputs.bundle-path }}
       - name: Bind polyglot SBOM to release subjects
@@ -595,6 +605,7 @@ jobs:
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+      PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
     steps:
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -621,7 +632,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          release_version="${RELEASE_TAG#v}"
           expected_manifest="$RUNNER_TEMP/reviewed-testpypi-manifest"
           remote_manifest="$RUNNER_TEMP/remote-testpypi-manifest"
           release_json="$RUNNER_TEMP/testpypi-release.json"
@@ -633,7 +643,7 @@ jobs:
           done | LC_ALL=C sort > "$expected_manifest"
           for attempt in 1 2 3 4 5 6; do
             if curl --fail --silent --show-error \
-              "https://test.pypi.org/pypi/voiage/${release_version}/json" \
+              "https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json" \
               > "$release_json"; then
               jq -r '.urls[] | "\(.digests.sha256)  \(.filename)"' \
                 "$release_json" | LC_ALL=C sort > "$remote_manifest"
@@ -651,7 +661,7 @@ jobs:
           mkdir testpypi-dist
           python -m pip download --no-deps --only-binary=:all: \
             --index-url https://test.pypi.org/simple/ \
-            --dest testpypi-dist "voiage==$release_version"
+            --dest testpypi-dist "voiage==$PYTHON_VERSION"
           reviewed="$(find reviewed-dist -maxdepth 1 -name '*manylinux*x86_64.whl' -print -quit)"
           downloaded="$(find testpypi-dist -maxdepth 1 -name '*.whl' -print -quit)"
           test -n "$reviewed"
@@ -662,10 +672,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          release_version="${RELEASE_TAG#v}"
           mapfile -t distribution_urls < <(
             curl --fail --silent --show-error \
-              "https://test.pypi.org/pypi/voiage/${release_version}/json" |
+              "https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json" |
               jq --exit-status --raw-output '.urls[].url'
           )
           test "${#distribution_urls[@]}" -eq 4
@@ -677,12 +686,11 @@ jobs:
       - name: Install TestPyPI artifact with bounded retry
         shell: bash
         run: |
-          release_version="${RELEASE_TAG#v}"
           uv export --locked --extra ci --no-dev --no-emit-project --output-file locked-requirements.txt
           uv venv --python "${{ matrix.python }}" .testpypi-venv
           uv pip install --python .testpypi-venv -r locked-requirements.txt
           for attempt in 1 2 3 4 5 6; do
-            if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$release_version"; then
+            if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$PYTHON_VERSION"; then
               break
             fi
             if [[ "$attempt" == "6" ]]; then

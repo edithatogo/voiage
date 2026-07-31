@@ -86,7 +86,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     )
     assert "id: provenance" in release_workflow
     assert "${{ steps.provenance.outputs.bundle-path }}" in release_workflow
-    assert "dist/voiage-${RELEASE_TAG#v}.intoto.jsonl" in release_workflow
+    assert "dist/voiage-${PYTHON_VERSION}.intoto.jsonl" in release_workflow
     assert "dist/*.intoto.jsonl" in release_workflow
     assert (
         "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b"
@@ -182,6 +182,28 @@ def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
     assert "needs: [resolve-tag, test-pypi-smoke]" in release_workflow
     assert "needs: [resolve-tag, pypi]" in release_workflow
     assert "is_prerelease: ${{ steps.tag.outputs.is_prerelease }}" in release_workflow
+    assert (
+        "python_version: ${{ steps.version.outputs.python_version }}"
+        in release_workflow
+    )
+    assert (
+        "python -m voiage.versioning \\\n"
+        '              --release-tag "$RELEASE_TAG" \\\n'
+        "              --print-python-version" in release_workflow
+    )
+    assert (
+        release_workflow.count(
+            "PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}"
+        )
+        == 2
+    )
+    assert "${RELEASE_TAG#v}.intoto.jsonl" not in release_workflow
+    assert '"dist/voiage-${PYTHON_VERSION}.intoto.jsonl"' in release_workflow
+    assert 'release_version="${RELEASE_TAG#v}"' not in release_workflow
+    assert (
+        '"https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json"' in release_workflow
+    )
+    assert '"voiage==$PYTHON_VERSION"' in release_workflow
     assert (
         release_workflow.count("if: needs.resolve-tag.outputs.is_prerelease != 'true'")
         == 2

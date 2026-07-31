@@ -3,6 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tomllib
@@ -375,6 +376,121 @@ def test_release_composition_rejects_binding_version_drift(
             cargo_workspace=cargo_workspace,
             r_description=r_description,
             julia_project=julia_project,
+        )
+
+
+def test_release_composition_accepts_explicit_retained_r_prerelease_identity(
+    python_sbom: Path,
+    cargo_workspace: Path,
+    r_description: Path,
+    julia_project: Path,
+) -> None:
+    for path in (
+        cargo_workspace / "Cargo.toml",
+        cargo_workspace / "Cargo.lock",
+        julia_project,
+    ):
+        path.write_text(
+            path.read_text(encoding="utf-8").replace("1.2.3", "1.2.3-rc.1"),
+            encoding="utf-8",
+        )
+    r_description.write_text(
+        r_description.read_text(encoding="utf-8").replace(
+            "Version: 1.2.3",
+            "Version: 1.2.2.9001\nConfig/voiage/Release-Version: 1.2.3-rc.1",
+        ),
+        encoding="utf-8",
+    )
+
+    document = compose_sbom(
+        python_sbom=python_sbom,
+        cargo_workspace=cargo_workspace,
+        r_description=r_description,
+        julia_project=julia_project,
+        source_version="1.2.3-rc.1",
+        source_commit=SOURCE_COMMIT,
+        source_tag="v1.2.3-rc.1",
+    )
+
+    r_component = next(
+        component
+        for component in document["components"]
+        if _properties(component).get("voiage:ecosystem") == "r"
+        and component["name"] == "voiageR"
+    )
+    assert r_component["version"] == "1.2.2.9001"
+    assert _properties(r_component)["voiage:release:canonical-version"] == "1.2.3-rc.1"
+
+
+def test_release_composition_rejects_unbound_r_prerelease_version(
+    python_sbom: Path,
+    cargo_workspace: Path,
+    r_description: Path,
+    julia_project: Path,
+) -> None:
+    for path in (
+        cargo_workspace / "Cargo.toml",
+        cargo_workspace / "Cargo.lock",
+        julia_project,
+    ):
+        path.write_text(
+            path.read_text(encoding="utf-8").replace("1.2.3", "1.2.3-rc.1"),
+            encoding="utf-8",
+        )
+    r_description.write_text(
+        r_description.read_text(encoding="utf-8").replace(
+            "Version: 1.2.3",
+            "Version: 1.2.2.9001",
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SbomError, match="voiageR=1.2.2.9001"):
+        compose_sbom(
+            python_sbom=python_sbom,
+            cargo_workspace=cargo_workspace,
+            r_description=r_description,
+            julia_project=julia_project,
+            source_version="1.2.3-rc.1",
+            source_commit=SOURCE_COMMIT,
+            source_tag="v1.2.3-rc.1",
+        )
+
+
+@pytest.mark.parametrize("r_version", ["1.2.3.9001", "1.2.2.9002"])
+def test_release_composition_rejects_invalid_r_prerelease_projection(
+    python_sbom: Path,
+    cargo_workspace: Path,
+    r_description: Path,
+    julia_project: Path,
+    r_version: str,
+) -> None:
+    for path in (
+        cargo_workspace / "Cargo.toml",
+        cargo_workspace / "Cargo.lock",
+        julia_project,
+    ):
+        path.write_text(
+            path.read_text(encoding="utf-8").replace("1.2.3", "1.2.3-rc.1"),
+            encoding="utf-8",
+        )
+    r_description.write_text(
+        r_description.read_text(encoding="utf-8").replace(
+            "Version: 1.2.3",
+            f"Version: {r_version}\nConfig/voiage/Release-Version: 1.2.3-rc.1",
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SbomError, match=rf"voiageR={re.escape(r_version)}"):
+        compose_sbom(
+            python_sbom=python_sbom,
+            cargo_workspace=cargo_workspace,
+            r_description=r_description,
+            julia_project=julia_project,
+            source_version="1.2.3-rc.1",
+            source_commit=SOURCE_COMMIT,
+            source_tag="v1.2.3-rc.1",
         )
 
 
