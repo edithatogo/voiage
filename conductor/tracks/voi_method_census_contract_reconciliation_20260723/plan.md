@@ -7,6 +7,9 @@
 - [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
   `c9571d89`
+- [x] **G2a:** Freeze a hash-bound candidate/frozen classification checkpoint
+  for cross-track issues #593–#600 and #619 without completing #566 or
+  promoting the canonical registry. (AC-02, AC-05, AC-06) `28f7eb5e`
 - [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
 - [ ] **G4:** Run automated contract review and full Conductor validation.
