@@ -12,8 +12,8 @@
   scientific-review gate remains pending)*
 - [x] **E3:** Add versioned input/result schemas and compatibility fixtures.
   (AC-02) [82c72afa]
-- [ ] **E4:** Run an automated contract review and full Conductor validation.
-  (AC-01, AC-02, AC-07)
+- [x] **E4:** Run an automated contract review and full Conductor validation.
+  (AC-01, AC-02, AC-07) [a1a4af31]
 
 ## Phase 2 — Reference evidence before runtime
 
