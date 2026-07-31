@@ -37,8 +37,11 @@ def test_reference_cases_use_one_binding_and_one_evpi() -> None:
         for domain in ("ml", "engineering", "business")
     }
     assert len(set(result["schema"].values())) == 1
-    assert result["resource_digests"]["ml"] == result["resource_digests"]["engineering"]
-    assert len(result["provenance_digests"]["business"]) == 64
+    assert (
+        result["resource_digests"]["croissant"]
+        == result["resource_digests"]["frictionless"]
+    )
+    assert len(result["provenance_digests"]["dataframe"]) == 64
     assert module._business_dataframe().manifest.provenance.provider_id == (
         "dataframe-interchange"
     )
