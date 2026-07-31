@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any, cast
 
+import numpy as np
 import pyarrow as pa
 
 from voiage.contracts import (
@@ -19,6 +20,8 @@ from voiage.contracts import (
 )
 from voiage.ingestion import SourceAccessPolicy, default_registry, from_dataframe
 from voiage.methods.basic import evpi
+from voiage.methods.ceaf import calculate_ceaf
+from voiage.schema import ValueArray
 
 _ROOT = Path(__file__).parents[2]
 _FIXTURES = _ROOT / "tests" / "fixtures" / "standardized_ingestion"
@@ -264,6 +267,93 @@ def run_cost_outcome_reference_cases() -> dict[str, dict[str, float]]:
     if len(set(values.values())) != 1:
         raise RuntimeError("cost/outcome cases must have cross-surface EVPI parity")
     return _repeat_for_domains(values)
+
+
+def run_cost_outcome_ceaf_reference_cases() -> dict[str, dict[str, object]]:
+    """Calculate CEAF only where the deterministic fixture supplies its inputs.
+
+    The engineering cost/outcome rows provide paired PSA samples for two
+    strategies.  Reconstructing net benefit at declared WTP thresholds creates
+    the required samples-by-strategies-by-thresholds surface without inventing
+    a conditional model, sample-information study, or perspective split.
+    """
+    thresholds = np.asarray([10_000.0, 20_000.0, 30_000.0])
+    policy = SourceAccessPolicy(_FIXTURES)
+    results: dict[str, dict[str, object]] = {}
+    for surface, bundle in _cost_outcome_surfaces(
+        policy, _cost_outcome_bindings()
+    ).items():
+        table = bundle.table("samples")
+        costs = np.column_stack(
+            [table[name].to_numpy() for name in ("cost_a", "cost_b")]
+        )
+        outcomes = np.column_stack(
+            [table[name].to_numpy() for name in ("outcome_a", "outcome_b")]
+        )
+        net_benefits = (
+            outcomes[:, :, None] * thresholds[None, None, :] - costs[:, :, None]
+        )
+        result = calculate_ceaf(
+            ValueArray.from_numpy_perspectives(
+                net_benefits,
+                strategy_names=["A", "B"],
+                perspective_names=[str(int(value)) for value in thresholds],
+            ),
+            thresholds,
+        )
+        results[surface] = {
+            "optimal_strategy_names": tuple(result.optimal_strategy_names),
+            "acceptability_probabilities": tuple(
+                float(value) for value in result.acceptability_probabilities
+            ),
+            "expected_net_benefit": tuple(
+                float(value) for value in result.expected_net_benefit
+            ),
+            "normalized_net_benefit_at_20000": tuple(
+                tuple(float(value) for value in row)
+                for row in prepare_analysis_inputs(
+                    bundle, willingness_to_pay=20_000.0
+                ).net_benefits.numpy_values
+            ),
+        }
+    if len({repr(value) for value in results.values()}) != 1:
+        raise RuntimeError("cost/outcome CEAF must have cross-surface parity")
+    return results
+
+
+def method_applicability_matrix() -> dict[str, dict[str, str]]:
+    """State only methods supported by the current deterministic fixtures."""
+    unavailable = (
+        "not applicable: fixture lacks the required conditional or study-design inputs"
+    )
+    return {
+        "ml": {
+            "EVPI": "evaluated: explicit wide net-benefit samples",
+            "CEAF": "not applicable: fixture lacks cost/outcome WTP thresholds",
+            "EVPPI/EVSI/ENBS": unavailable,
+            "wide/long/cost-outcome/perspective": (
+                "wide only; no long, cost/outcome, or perspective split fixture"
+            ),
+        },
+        "engineering": {
+            "EVPI": "evaluated: explicit cost/outcome net benefits at WTP 20,000",
+            "CEAF": (
+                "evaluated: paired cost/outcome PSA rows at WTP 10,000/20,000/30,000"
+            ),
+            "EVPPI/EVSI/ENBS": unavailable,
+            "wide/long/cost-outcome/perspective": (
+                "cost/outcome wide rows; no long or perspective split fixture"
+            ),
+        },
+        "business": {
+            "EVPI": "evaluated: explicit wide net-benefit samples",
+            "CEAF": "not applicable: fixture lacks cost/outcome WTP thresholds",
+            "EVPPI/EVSI/ENBS": unavailable,
+            "wide/long/cost-outcome/perspective": (
+                "wide only; no long, cost/outcome, or perspective split fixture"
+            ),
+        },
+    }
 
 
 def run_cross_format_reference_cases() -> dict[str, dict[str, object]]:
