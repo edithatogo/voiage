@@ -82,7 +82,7 @@ def test_installed_native_provenance_matches_built_artifact() -> None:
     if os.environ.get("WHEEL_VENV") is None:
         return
     info = native.runtime_info()
-    assert info["core_version"] == version("voiage")
+    assert str(info["core_version"]).replace("-rc.", "rc") == version("voiage")
     assert info["source_revision"] == os.environ["EXPECTED_SOURCE_REVISION"]
     assert info["source_tree_git_oid"] == os.environ["EXPECTED_SOURCE_TREE_GIT_OID"]
     assert info["source_dirty"] is False
