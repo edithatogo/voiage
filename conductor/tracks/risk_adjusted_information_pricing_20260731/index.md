@@ -11,4 +11,4 @@
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
-Status: approved plan; implementation has not begun.
+Status: implementation in progress on the isolated issue #595 delivery branch.
