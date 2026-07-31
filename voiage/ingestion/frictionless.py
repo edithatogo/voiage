@@ -117,6 +117,7 @@ class FrictionlessProvider:
         if not isinstance(fields, list):
             raise IngestionError("Data Package schema requires fields")
         fields = cast("list[object]", fields)
+        self._validate_schema_declaration(schema, fields)
         if "checksum" in resource:
             raise IngestionError(
                 "supported Data Package profile does not support integrity declarations"
@@ -277,6 +278,34 @@ class FrictionlessProvider:
             raise IngestionError("Data Package primaryKey contains duplicate values")
 
     @staticmethod
+    def _validate_schema_declaration(
+        schema: dict[str, object], fields: list[object]
+    ) -> None:
+        """Reject schema semantics that the local profile cannot preserve.
+
+        This check runs before materializing the resource.  Otherwise a
+        descriptor could make a meaningful Table Schema claim (for example,
+        application-specific missing-value tokens) which the Arrow CSV reader
+        would silently interpret using different semantics.
+        """
+        if "missingValues" in schema:
+            raise IngestionError(
+                "supported Data Package profile does not support schema missingValues"
+            )
+        for item in fields:
+            if not isinstance(item, dict):
+                continue
+            field = cast("dict[str, object]", item)
+            constraints = field.get("constraints", {})
+            if not isinstance(constraints, dict):
+                raise IngestionError("Data Package field constraints must be an object")
+            unsupported = set(constraints).difference({"required", "unique"})
+            if unsupported:
+                raise IngestionError("unsupported Data Package field constraint")
+            if any(not isinstance(value, bool) for value in constraints.values()):
+                raise IngestionError("Data Package field constraints must be boolean")
+
+    @staticmethod
     def _validate_schema(table: pa.Table, fields: list[object]) -> None:
         """Validate the strict supported field names, types, and basic constraints."""
         declared_names: list[str] = []
@@ -320,9 +349,7 @@ class FrictionlessProvider:
             }
             if field_type is not None and not type_matches[field_type]:
                 raise IngestionError("Data Package field type does not match CSV data")
-            constraints = field.get("constraints", {})
-            if not isinstance(constraints, dict):
-                raise IngestionError("Data Package field constraints must be an object")
+            constraints = cast("dict[str, bool]", field.get("constraints", {}))
             values = column.to_pylist()
             if constraints.get("required") is True and any(
                 value is None for value in values
@@ -417,6 +444,7 @@ def _delimited_text_profile(
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
     """Preserve standard package governance metadata without semantic inference."""
     keys = (
+        "citation",
         "licenses",
         "sources",
         "contributors",
@@ -424,9 +452,20 @@ def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
         "version",
         "title",
         "description",
+        "usage",
+        "usageInfo",
+        "usageRights",
     )
-    return {
+    extensions = {
         f"frictionlessdata.org:{key}": descriptor[key]
         for key in keys
         if key in descriptor
     }
+    extensions.update(
+        {
+            key: value
+            for key, value in descriptor.items()
+            if ":" in key and key not in extensions
+        }
+    )
+    return extensions
