@@ -155,8 +155,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
   A fresh-process IPC/Parquet round-trip now reads normalized bundles and
   converts their Arrow tables through Polars before asserting identical schema
-  and rows (`b16b52df`, partial); adversarial and parser-differential coverage
-  remains active.
+  and rows (`b16b52df`). Generated Croissant/Frictionless CSV mappings now
+  assert identical rows and explicit binding preparation, while malformed
+  parser nodes and mismatched declared resource digests fail through the
+  stable error taxonomy (partial: broader parser-differential coverage remains
+  active; `0c6a2e7a`).
 - [~] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
   automated review, validation, and the phase checkpoint protocol. The explicit
   `ingestion-conformance` tox environment and named hosted job now run the
