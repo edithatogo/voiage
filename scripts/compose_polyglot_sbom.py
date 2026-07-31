@@ -495,8 +495,15 @@ def compose_sbom(
     if not isinstance(metadata, dict):
         raise SbomError("Python input is missing metadata")
     root = metadata.get("component")
-    if not isinstance(root, dict):
-        raise SbomError("Python input is missing metadata.component")
+    synthesized_python_root = not isinstance(root, dict)
+    if synthesized_python_root:
+        root = {
+            "bom-ref": f"voiage-release:{source_version}",
+            "name": "voiage",
+            "type": "application",
+            "version": source_version,
+        }
+        metadata["component"] = root
     root_ref = _component_ref(root, context="metadata")
     root["version"] = source_version
     _set_properties(
@@ -532,6 +539,17 @@ def compose_sbom(
                 "voiage:inventory:resolution": "resolved-installed",
             },
         )
+    if synthesized_python_root:
+        python_component_refs = {
+            _component_ref(component, context="Python inventory")
+            for component in python_components
+        }
+        python_dependencies = [
+            dependency
+            for dependency in python_dependencies
+            if isinstance(dependency, dict)
+            and dependency.get("ref") in python_component_refs
+        ]
 
     cargo_components, cargo_dependencies, workspace_refs = _cargo_inventory(
         cargo_workspace
@@ -575,9 +593,7 @@ def compose_sbom(
         r_version = r_component.get("version")
         r_properties = _property_map(r_component.get("properties"))
         if r_version != source_version:
-            expected_r_identity = r_properties.get(
-                "voiage:release:canonical-version"
-            )
+            expected_r_identity = r_properties.get("voiage:release:canonical-version")
             rc_match = re.fullmatch(
                 r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)"
                 r"-rc\.(?P<rc>\d+)",
@@ -590,10 +606,7 @@ def compose_sbom(
                 else ()
             )
             target_parts = (
-                tuple(
-                    int(rc_match.group(part))
-                    for part in ("major", "minor", "patch")
-                )
+                tuple(int(rc_match.group(part)) for part in ("major", "minor", "patch"))
                 if rc_match is not None
                 else ()
             )
@@ -626,7 +639,15 @@ def compose_sbom(
             raise SbomError(f"duplicate component bom-ref: {reference}")
         component_by_ref[reference] = component
 
-    root_direct = [*workspace_refs, r_root, julia_root]
+    python_root_refs = (
+        [
+            _component_ref(component, context="Python inventory")
+            for component in python_components
+        ]
+        if synthesized_python_root
+        else []
+    )
+    root_direct = [*python_root_refs, *workspace_refs, r_root, julia_root]
     root_dependency = _dependency_entry(root_ref, root_direct)
     document["components"] = [
         component_by_ref[reference] for reference in sorted(component_by_ref)

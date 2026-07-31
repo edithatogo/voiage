@@ -279,6 +279,47 @@ def test_composes_all_ecosystems_with_explicit_resolution_scope(
     assert "pkg:cran/voiageR@1.2.3" in graph["root-component"]
 
 
+def test_composition_synthesizes_root_for_dependency_only_python_inventory(
+    tmp_path: Path,
+    python_sbom: Path,
+    cargo_workspace: Path,
+    r_description: Path,
+    julia_project: Path,
+) -> None:
+    dependency_only = json.loads(python_sbom.read_text(encoding="utf-8"))
+    del dependency_only["metadata"]["component"]
+    dependency_only_path = _write_json(
+        tmp_path / "python-requirements.cdx.json",
+        dependency_only,
+    )
+
+    document = _compose(
+        python_sbom=dependency_only_path,
+        cargo_workspace=cargo_workspace,
+        r_description=r_description,
+        julia_project=julia_project,
+    )
+
+    root = document["metadata"]["component"]
+    assert root == {
+        "bom-ref": "voiage-release:1.2.3",
+        "name": "voiage",
+        "properties": [
+            {"name": "voiage:ecosystem", "value": "python"},
+            {"name": "voiage:inventory:resolution", "value": "resolved-installed"},
+            {"name": "voiage:sbom:aggregate-root", "value": "true"},
+        ],
+        "type": "application",
+        "version": "1.2.3",
+    }
+    root_dependency = next(
+        dependency
+        for dependency in document["dependencies"]
+        if dependency["ref"] == "voiage-release:1.2.3"
+    )
+    assert "pkg:pypi/numpy@2.3.1" in root_dependency["dependsOn"]
+
+
 def test_composition_is_byte_for_byte_deterministic(
     tmp_path: Path,
     python_sbom: Path,
