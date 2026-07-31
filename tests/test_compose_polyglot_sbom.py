@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tomllib
 from typing import Any
+import uuid
 
 import pytest
 
@@ -376,6 +377,49 @@ def test_composition_is_byte_for_byte_deterministic(
         text=True,
     )
     assert "validated" in result.stdout
+
+
+@pytest.mark.parametrize(
+    ("serial_number", "message"),
+    [
+        ("not-a-uuid", "serialNumber must be a UUID URN"),
+        (
+            str(uuid.uuid5(uuid.NAMESPACE_URL, "missing-urn-prefix")),
+            "serialNumber must be a UUID URN",
+        ),
+        (
+            "urn:uuid:123e4567-e89b-42d3-a456-426614174000",
+            "serialNumber must use deterministic UUIDv5",
+        ),
+        (
+            f"urn:uuid:{uuid.uuid5(uuid.NAMESPACE_URL, 'wrong-source')}",
+            "serialNumber does not match the source identity",
+        ),
+    ],
+)
+def test_validator_rejects_invalid_or_unbound_serial_number(
+    python_sbom: Path,
+    cargo_workspace: Path,
+    r_description: Path,
+    julia_project: Path,
+    serial_number: str,
+    message: str,
+) -> None:
+    document = _compose(
+        python_sbom=python_sbom,
+        cargo_workspace=cargo_workspace,
+        r_description=r_description,
+        julia_project=julia_project,
+    )
+    document["serialNumber"] = serial_number
+
+    with pytest.raises(SbomError, match=message):
+        validate_sbom(
+            document,
+            expected_commit=SOURCE_COMMIT,
+            expected_tag="v1.2.3",
+            expected_version="1.2.3",
+        )
 
 
 def test_validator_rejects_dangling_dependency_reference(

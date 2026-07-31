@@ -1,8 +1,8 @@
 Package: voiageR
 Type: Package
 Title: Value of Information Analysis in R
-Version: 2.0.0.9002
-Config/voiage/Release-Version: 2.0.1-rc.2
+Version: 2.0.0.9003
+Config/voiage/Release-Version: 2.0.1-rc.3
 Authors@R: person("Dylan", "Mordaunt",
     email = "voiage@users.noreply.github.com",
     role = c("aut", "cre"),
@@ -19,7 +19,7 @@ Encoding: UTF-8
 NeedsCompilation: no
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
-SystemRequirements: voiage-ffi shared library (version 2.0.1-rc.2 or compatible);
+SystemRequirements: voiage-ffi shared library (version 2.0.1-rc.3 or compatible);
     Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
 Suggests:
     reticulate (>= 1.20),
