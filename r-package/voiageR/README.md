@@ -106,6 +106,13 @@ Custom `trial_simulator` and `posterior_sampler` callbacks remain Python-only.
 The R facade does not convert or execute them and does not claim custom-model
 parity.
 
+## Expected-utility information pricing
+
+The experimental expected-utility information-pricing family, including the
+VoC presentation, is not exposed by `voiageR`. There is no governed C ABI or R
+wrapper for this family. Its machine-readable status remains `unsupported` in
+`specs/frontier/expected-utility-information-pricing/v1/capabilities.json`.
+
 ## Functions
 
 - `evpi()`: Calculate Expected Value of Perfect Information
