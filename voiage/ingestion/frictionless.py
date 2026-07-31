@@ -22,6 +22,7 @@ from voiage.contracts.normalized_input import (
 )
 from voiage.ingestion._tabular import (
     materialization_receipt,
+    read_arrow_ipc,
     read_csv,
     read_json_table,
     read_parquet,
@@ -45,6 +46,7 @@ class FrictionlessProvider:
             "text/tab-separated-values",
             "application/json",
             "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
         ),
     )
 
@@ -154,6 +156,17 @@ class FrictionlessProvider:
                 byte_size=declared_byte_size,
             )
             media_type = "application/json"
+        elif resource_format in {"arrow", "feather"}:
+            suffix = _validate_arrow_ipc_declarations(resource)
+            _validate_arrow_ipc_field_schema(fields)
+            table = read_arrow_ipc(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+                suffix=suffix,
+            )
+            media_type = "application/vnd.apache.arrow.file"
         else:
             delimiter, suffix, media_type = _delimited_text_profile(
                 reference,
@@ -182,7 +195,7 @@ class FrictionlessProvider:
             table.column_names
         ):
             raise IngestionError(
-                "Data Package fields must exactly declare the CSV columns"
+                "Data Package fields must exactly declare resource columns"
             )
         return (
             table_id,
@@ -516,6 +529,53 @@ def _validate_json_table_field_schema(fields: list[object]) -> None:
             raise IngestionError("JSON Table fields require string names")
         if set(raw_field).difference(allowed):
             raise IngestionError("JSON Table fields contain unsupported declarations")
+
+
+def _validate_arrow_ipc_declarations(resource: dict[str, object]) -> str:
+    """Return the explicit Arrow IPC suffix or reject unpreservable semantics.
+
+    Arrow IPC and Feather v2 are file containers, not a general Arrow transport
+    selector. Requiring both an exact format and filename suffix avoids
+    sniffing a stream or treating an arbitrary binary payload as a table.
+    """
+    reference, resource_format = resource.get("path"), resource.get("format")
+    profiles = {"arrow": ".arrow", "feather": ".feather"}
+    suffix = profiles.get(resource_format) if isinstance(resource_format, str) else None
+    if (
+        not isinstance(reference, str)
+        or suffix is None
+        or not reference.casefold().endswith(suffix)
+    ):
+        raise IngestionError(
+            "Arrow IPC resources require matching .arrow/.feather path and format"
+        )
+    unsupported = {
+        "compression",
+        "data",
+        "dialect",
+        "encoding",
+        "jsonPath",
+        "mediatype",
+        "pathType",
+        "transform",
+    }.intersection(resource)
+    if unsupported:
+        raise IngestionError("Arrow IPC resources do not support parser declarations")
+    return suffix
+
+
+def _validate_arrow_ipc_field_schema(fields: list[object]) -> None:
+    """Require only the primitive field declarations this profile enforces."""
+    if not fields:
+        raise IngestionError("Arrow IPC schema requires at least one field")
+    allowed = {"constraints", "description", "name", "title", "type"}
+    for raw_field in fields:
+        if not isinstance(raw_field, dict) or not isinstance(
+            raw_field.get("name"), str
+        ):
+            raise IngestionError("Arrow IPC fields require string names")
+        if set(raw_field).difference(allowed):
+            raise IngestionError("Arrow IPC fields contain unsupported declarations")
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:

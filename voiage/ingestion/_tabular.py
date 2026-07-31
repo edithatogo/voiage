@@ -7,7 +7,7 @@ import json
 from pathlib import Path  # noqa: TC003 - public runtime annotation
 
 import pyarrow as pa
-from pyarrow import csv
+from pyarrow import csv, ipc
 from pyarrow import parquet as pq
 
 from voiage.contracts.normalized_input import ResourceManifest
@@ -137,6 +137,47 @@ def read_parquet(
         return pa.Table.from_batches(batches, schema=source.schema_arrow)
     except pa.ArrowException as error:
         raise IngestionError("declared Parquet resource cannot be parsed") from error
+
+
+def read_arrow_ipc(
+    reference: str,
+    policy: SourceAccessPolicy,
+    *,
+    sha256: str | None = None,
+    byte_size: int | None = None,
+    suffix: str,
+) -> pa.Table:
+    """Read one local Arrow IPC file using bounded record batches.
+
+    The built-in Frictionless profile accepts only Arrow *file* containers.
+    It deliberately does not accept Arrow IPC streams, Flight endpoints,
+    dataset directories, or any transport inferred from a descriptor. Feather
+    v2 uses this same Arrow IPC file container and is distinguished only by its
+    explicit descriptor format and filename suffix.
+    """
+    if suffix not in {".arrow", ".feather"}:
+        raise IngestionError("built-in providers support only Arrow IPC file suffixes")
+    if not reference.casefold().endswith(suffix):
+        raise IngestionError(
+            f"declared Arrow IPC resource must use the supported {suffix} suffix"
+        )
+    path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
+    try:
+        reader = ipc.open_file(path)
+        batches: list[pa.RecordBatch] = []
+        total_rows = 0
+        for index in range(reader.num_record_batches):
+            batch = reader.get_batch(index)
+            total_rows += batch.num_rows
+            policy.validate_tabular_batch(
+                batch_rows=batch.num_rows, total_rows=total_rows
+            )
+            batches.append(batch)
+        return pa.Table.from_batches(batches, schema=reader.schema)
+    except pa.ArrowException as error:
+        raise IngestionError(
+            "declared Arrow IPC resource cannot be parsed as an Arrow file"
+        ) from error
 
 
 def materialization_receipt(

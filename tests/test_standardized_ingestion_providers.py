@@ -36,6 +36,7 @@ from voiage.ingestion import (
 )
 from voiage.ingestion._tabular import (
     digest_file,
+    read_arrow_ipc,
     read_csv,
     read_json_table,
     read_parquet,
@@ -52,6 +53,27 @@ from voiage.ingestion.registry import ProviderRegistry
 
 def _write_csv(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+
+
+def _write_arrow_ipc(path, *, stream: bool = False, nested: bool = False) -> None:
+    """Write a deterministic local Arrow file or deliberately unsupported stream."""
+    table = pa.table(
+        {
+            "id": pa.array([1, 2], type=pa.int64()),
+            "value": pa.array([1.5, 2.5], type=pa.float64()),
+            "label": pa.array(["one", "two"], type=pa.string()),
+        }
+        if not nested
+        else {"id": pa.array([[1], [2]])}
+    )
+    with pa.OSFile(str(path), "wb") as sink:
+        writer = (
+            pa.ipc.new_stream(sink, table.schema)
+            if stream
+            else pa.ipc.new_file(sink, table.schema)
+        )
+        with writer:
+            writer.write_table(table)
 
 
 @pytest.mark.parametrize(
@@ -506,6 +528,261 @@ def test_frictionless_provider_rejects_ambiguous_parquet_declarations(
                         "format": "parquet",
                         "dialect": dialect,
                         "schema": {"fields": [{"name": "id"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("filename", "resource_format"),
+    [("samples.arrow", "arrow"), ("samples.feather", "feather")],
+)
+def test_frictionless_provider_ingests_explicit_local_arrow_ipc_file(
+    tmp_path, filename: str, resource_format: str
+) -> None:
+    """The local profile accepts only an explicit Arrow IPC file container."""
+    source = tmp_path / filename
+    _write_arrow_ipc(source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "arrow-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": filename,
+                        "format": resource_format,
+                        "hash": digest_file(source),
+                        "bytes": source.stat().st_size,
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "constraints": {
+                                        "required": True,
+                                        "unique": True,
+                                    },
+                                },
+                                {"name": "value", "type": "number"},
+                                {"name": "label", "type": "string"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5, "label": "one"},
+        {"id": 2, "value": 2.5, "label": "two"},
+    ]
+    assert bundle.manifest.tables[0].primary_key == ("id",)
+    assert (
+        bundle.manifest.resources[0].media_type == "application/vnd.apache.arrow.file"
+    )
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+def test_frictionless_arrow_ipc_profile_enforces_batch_row_policy(tmp_path) -> None:
+    """An Arrow file batch is rejected before a complete table is retained."""
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "arrow",
+                        "schema": {
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                                {"name": "label", "type": "string"},
+                            ]
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="batch row limit"):
+        FrictionlessProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(tmp_path, max_resource_rows=2, max_batch_rows=1),
+        )
+
+
+def test_arrow_ipc_reader_rejects_invalid_suffix_and_parse_conversion_errors(
+    tmp_path, monkeypatch
+) -> None:
+    """Every low-level Arrow file failure stays inside the ingestion boundary."""
+    policy = SourceAccessPolicy(tmp_path)
+
+    with pytest.raises(IngestionError, match="support only Arrow IPC file suffixes"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".ipc")
+    with pytest.raises(IngestionError, match="supported .feather suffix"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".feather")
+
+    (tmp_path / "invalid.arrow").write_bytes(b"not-an-arrow-file")
+    with pytest.raises(IngestionError, match="cannot be parsed as an Arrow file"):
+        read_arrow_ipc("invalid.arrow", policy, suffix=".arrow")
+
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source)
+
+    def fail_from_batches(*_: object, **__: object) -> object:
+        raise pa.ArrowInvalid("synthetic Arrow table construction failure")
+
+    monkeypatch.setattr(
+        _tabular.pa, "Table", SimpleNamespace(from_batches=fail_from_batches)
+    )
+    with pytest.raises(IngestionError, match="cannot be parsed as an Arrow file"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".arrow")
+
+
+@pytest.mark.parametrize(
+    ("resource", "message"),
+    [
+        (
+            {"path": "samples.feather", "format": "arrow"},
+            "matching .arrow/.feather path and format",
+        ),
+        (
+            {"path": "samples.arrow", "format": "feather"},
+            "matching .arrow/.feather path and format",
+        ),
+        (
+            {"path": "samples.arrow", "format": "arrow", "dialect": {}},
+            "do not support parser declarations",
+        ),
+        (
+            {"path": "samples.arrow", "format": "arrow", "compression": "zstd"},
+            "do not support parser declarations",
+        ),
+        (
+            {"path": "https://example.invalid/samples.arrow", "format": "arrow"},
+            "network resource access is disabled",
+        ),
+    ],
+)
+def test_frictionless_arrow_ipc_declaration_errors_fail_closed(
+    tmp_path, resource, message
+) -> None:
+    """Profile/transport declarations fail without inferring an Arrow source."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("schema", "message"),
+    [
+        ({"fields": []}, "Arrow IPC schema requires at least one field"),
+        ({"fields": [{"type": "integer"}]}, "Arrow IPC fields require string names"),
+        (
+            {"fields": [{"name": "id", "format": "ignored"}]},
+            "Arrow IPC fields contain unsupported declarations",
+        ),
+    ],
+)
+def test_frictionless_arrow_ipc_field_declarations_fail_before_resource_reads(
+    tmp_path, schema, message
+) -> None:
+    """Unsupported Arrow field semantics are rejected before materialization."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "missing.arrow",
+                        "format": "arrow",
+                        "schema": schema,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("stream", "nested", "message"),
+    [
+        (True, False, "cannot be parsed as an Arrow file"),
+        (False, True, "field type does not match"),
+    ],
+)
+def test_frictionless_arrow_ipc_rejects_streams_and_schema_mismatches(
+    tmp_path, stream: bool, nested: bool, message: str
+) -> None:
+    """IPC streams and Arrow types outside the declared primitive schema fail."""
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source, stream=stream, nested=nested)
+    fields = (
+        [{"name": "id", "type": "string"}]
+        if nested
+        else [
+            {"name": "id", "type": "integer"},
+            {"name": "value", "type": "number"},
+            {"name": "label", "type": "string"},
+        ]
+    )
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "arrow",
+                        "schema": {"fields": fields},
                     }
                 ]
             }
@@ -1075,6 +1352,7 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
             "text/tab-separated-values",
             "application/json",
             "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
         )
     )
     assert capabilities.media_types == expected_media_types
