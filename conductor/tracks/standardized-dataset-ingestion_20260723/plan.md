@@ -156,8 +156,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   converts their Arrow tables through Polars before asserting identical schema
   and rows (`b16b52df`, partial); adversarial and parser-differential coverage
   remains active.
-- [ ] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
-  automated review, validation, and the phase checkpoint protocol.
+- [~] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
+  automated review, validation, and the phase checkpoint protocol. The explicit
+  `ingestion-conformance` tox environment and named hosted job now run the
+  canonical cross-format, fixture-digest, and reference-case matrix (partial:
+  hosted result and phase checkpoint remain active).
 
 ## Phase 6 — Ship the user-facing product surface (#332)
 

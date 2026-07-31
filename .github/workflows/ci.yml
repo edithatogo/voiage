@@ -323,6 +323,33 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: false
 
+  ingestion-conformance:
+    name: Standardized Ingestion Conformance
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Run tox conformance matrix
+      run: uv run --with tox tox -e ingestion-conformance
+      env:
+        CI: true
+
   coverage-report:
     name: Coverage Report
     runs-on: ubuntu-latest
