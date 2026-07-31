@@ -8,7 +8,7 @@
 - [x] **U2:** Freeze EUI, CEI, BPI, SPI, PPI, policy re-optimization, signed-value,
   root-diagnostic and comparability semantics. (AC-03, AC-05)
   — `0177bcb`
-- [ ] **U3:** Freeze VoC as a presentation/delegating alias and audit adjacent
+- [~] **U3:** Freeze VoC as a presentation/delegating alias and audit adjacent
   EVPI, CVaR, risk-sensitive, preference and buying-price surfaces. (AC-04,
   AC-07)
 - [ ] **U4:** Materialize GitHub subissues and synchronize Project 28,
