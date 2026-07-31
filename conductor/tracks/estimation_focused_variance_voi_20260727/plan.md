@@ -25,8 +25,8 @@
 - [x] **E7:** Add failing error and pathological tests for non-finite,
   degenerate, insufficient-sample and non-convergent inputs. (AC-04)
   [f0fcc5af]
-- [ ] **E8:** Review reference independence, tolerances and fixture provenance.
-  (AC-03, AC-04)
+- [x] **E8:** Review reference independence, tolerances and fixture provenance.
+  (AC-03, AC-04) [069cbc02]
 
 ## Phase 3 — Runtime and assurance
 
