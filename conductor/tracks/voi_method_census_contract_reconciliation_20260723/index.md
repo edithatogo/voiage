@@ -10,6 +10,8 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Live governance reconciliation](./governance-reconciliation.json)
 - [Prior-artifact reconciliation](./prior-artifact-reconciliation.md)
+- [Residual-family classification checkpoint](./classification-checkpoint.md)
+- [Machine-readable classification checkpoint](./classification-checkpoint.json)
 
 Status: in progress. Issue #314 is an open child of #313 with exactly one
 native child, #566. Project 28 records #314 as In Progress and #566 as Todo.
