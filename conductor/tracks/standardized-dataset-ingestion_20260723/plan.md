@@ -125,7 +125,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Parquet profile accepts only `.parquet` resources explicitly declared as
   `format: parquet` without a dialect, streams bounded PyArrow batches,
   preserves verified receipts, and validates the same declared primitive fields
-  and keys (partial). Remaining acceptance evidence is tracked below.
+  and keys (partial). The local Arrow IPC
+  file increment accepts exact `.arrow`/`format: arrow` and Feather
+  `.feather`/`format: feather` pairs through bounded Arrow file batches and
+  verified receipts; streams, Flight, dataset directories, parser
+  declarations, and remote/archive sources reject (partial). Remaining
+  acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).

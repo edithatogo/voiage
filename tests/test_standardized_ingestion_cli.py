@@ -308,6 +308,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
             "text/tab-separated-values",
             "application/json",
             "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
         ],
         "provider_id": "frictionless",
         "supported_transforms": [],
