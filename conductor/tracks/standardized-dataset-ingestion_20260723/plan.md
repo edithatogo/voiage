@@ -257,12 +257,18 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   phases 1–5 establish stable core contracts and conformance evidence.
 - [~] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
   reusable contract tests, capability manifests, compatibility rules, and an
-  opt-in entry-point publication checklist.
+  opt-in entry-point publication checklist. The SDK v1 now has a versioned
+  machine-readable consumer fixture, regression tests for its public protocol
+  and capability fields, and registry rejection of empty provider identities
+  (partial: a separately installed third-party provider remains future evidence).
 - [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments. Partial diagnostics evidence: `fdda14a`;
   producer-specific nullable/category/timezone/index consumer evidence is added
-  in this increment. Clean optional-environment evidence remains pending.
+  in this increment. Dependency-neutral `croissant`, `frictionless`, and
+  aggregate `ingestion` extras now have subprocess import-isolation regression
+  coverage while enhanced parser modules are absent (partial: actual enhanced
+  parser extras remain intentionally unpromoted).
 - [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
   path. Partial conversion-diagnostics evidence: `fdda14a`.

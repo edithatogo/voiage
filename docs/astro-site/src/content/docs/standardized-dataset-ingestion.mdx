@@ -214,9 +214,10 @@ not resolve resources, access the network, or import optional parser stacks.
 resource through the supplied `SourceAccessPolicy`.
 
 The frozen v1 SDK additionally requires `capabilities.provider_id` to equal the
-provider's `provider_id`; registration rejects mismatches. Its versioned
-compatibility and publication rules live in
-`specs/core-api/ingestion-provider-sdk-v1.md`.
+provider's non-empty `provider_id`; registration rejects mismatches and empty
+identities. Its versioned compatibility and publication rules live in
+`specs/core-api/ingestion-provider-sdk-v1.md`, with a machine-readable consumer
+fixture at `specs/core-api/fixtures/v2/ingestion-provider-sdk-v1.json`.
 
 Publish an initialized provider instance under the
 `voiage.ingestion.providers` entry-point group. The entry-point name is the
@@ -248,3 +249,14 @@ unsupported version/media-type failures, traversal and network refusal by
 import isolation. Providers must declare unsupported projection, filtering,
 streaming, and random-access features as `False`; no data transformation may
 be inferred or performed implicitly.
+
+### Optional parser environments
+
+`voiage[croissant]`, `voiage[frictionless]`, and `voiage[ingestion]` are
+currently dependency-neutral installation profiles. They deliberately do not
+install `mlcroissant` or the third-party `frictionless` package: neither stack
+has been promoted into the built-in local-only source-policy and receipt
+contract. A clean install of any profile therefore retains the same lazy,
+offline-safe import boundary as the base package. A future enhanced provider
+must add a separate named dependency, fixtures, receipt evidence, and a new
+capability profile before this statement can change.

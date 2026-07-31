@@ -1,0 +1,54 @@
+{
+  "sdk_version": "1",
+  "entry_point_group": "voiage.ingestion.providers",
+  "provider_protocol": {
+    "attributes": [
+      "provider_id",
+      "capabilities"
+    ],
+    "methods": {
+      "can_handle": "(descriptor: dict[str, object]) -> bool",
+      "ingest": "(descriptor_path: Path, *, policy: SourceAccessPolicy) -> NormalizedInputBundle"
+    }
+  },
+  "capability_fields": [
+    "provider_id",
+    "format_versions",
+    "media_types",
+    "supported_transforms",
+    "supports_projection",
+    "supports_filtering",
+    "supports_streaming",
+    "supports_random_access"
+  ],
+  "optional_extra_profiles": {
+    "croissant": {
+      "dependencies": [],
+      "status": "named-reservation",
+      "reason": "The built-in local CSV profile must not delegate materialization to an unreceipted parser stack."
+    },
+    "frictionless": {
+      "dependencies": [],
+      "status": "named-reservation",
+      "reason": "The built-in local CSV profile must not delegate materialization to an unreceipted parser stack."
+    },
+    "ingestion": {
+      "dependencies": [],
+      "status": "aggregate-reservation",
+      "reason": "The aggregate extra remains dependency-neutral while both built-in profiles use the base Arrow and JSON stack."
+    }
+  },
+  "consumer_contract": {
+    "dataframe_entry_point": "voiage.ingestion.from_dataframe",
+    "normalization_boundary": "Arrow -> NormalizedInputBundle",
+    "preparation_path": "prepare_analysis_inputs",
+    "copy_outcomes": [
+      "zero_copy",
+      "not_observable"
+    ],
+    "unsupported_registry_providers": [
+      "huggingface",
+      "openml"
+    ]
+  }
+}

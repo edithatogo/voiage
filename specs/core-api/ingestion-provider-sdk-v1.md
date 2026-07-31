@@ -32,8 +32,17 @@ identifier, error category, or normalized manifest meaning requires a new SDK
 major version.
 
 Discovery is opt-in and allow-listed. Base imports and descriptor probing never
-load third-party entry points. A provider must be tested in a clean base install
-and with only its named optional extra installed.
+load third-party entry points. The machine-readable consumer fixture is
+`specs/core-api/fixtures/v2/ingestion-provider-sdk-v1.json`; changes to its
+version, entry-point group, capability fields, or protocol surface require an
+SDK-major review. A provider must be tested in a clean base install and with
+only its named optional extra installed.
+
+The repository's `croissant`, `frictionless`, and aggregate `ingestion` extras
+are currently dependency-neutral reservations. They install the same runtime as
+the base package because the built-in local CSV profiles use only the base Arrow
+and JSON stack. This is not a claim that `mlcroissant` or `frictionless` are
+installed, nor that their remote, archive, or cache behaviours are supported.
 
 ## Consumer contract
 
