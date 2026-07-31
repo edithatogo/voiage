@@ -1626,6 +1626,27 @@ def test_croissant_provider_validates_declared_local_sha256(
         )
 
 
+@pytest.mark.parametrize("checksum", [42, "not-a-sha256"])
+def test_croissant_provider_rejects_malformed_declared_sha256_before_reading(
+    tmp_path, checksum: object
+) -> None:
+    """Malformed Croissant integrity declarations fail before materialization."""
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [{"contentUrl": "not-read.csv", "sha256": checksum}],
+                "recordSet": [{"name": "samples", "field": [{"name": "a"}]}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="sha256 must be a SHA-256 string"):
+        CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
 def test_croissant_provider_preserves_non_checksum_ingestion_error(tmp_path) -> None:
     """Only checksum failures are translated into Croissant integrity diagnostics."""
     descriptor_path = tmp_path / "croissant.json"
