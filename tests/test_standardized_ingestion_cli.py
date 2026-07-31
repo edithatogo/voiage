@@ -312,12 +312,8 @@ def test_ingest_commands_expose_explicit_source_policy_controls(tmp_path) -> Non
     runner = CliRunner()
     source_policy = ["--source-root", str(source_root)]
     resolved = [
-        runner.invoke(
-            app, ["ingest", "validate", str(descriptor), *source_policy]
-        ),
-        runner.invoke(
-            app, ["ingest", "inspect", str(descriptor), *source_policy]
-        ),
+        runner.invoke(app, ["ingest", "validate", str(descriptor), *source_policy]),
+        runner.invoke(app, ["ingest", "inspect", str(descriptor), *source_policy]),
         runner.invoke(
             app,
             [
