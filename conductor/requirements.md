@@ -39,9 +39,13 @@ programme. The canonical cross-repository requirements are maintained in
   duration/delay, opportunity cost, policy changes, and gross/net outputs;
   model effects and disjoint incremental costs require provenance assurances,
   and tolerance ties are anchored to the fixed global maximum.
-- **M16 / planned v1.2.0:** VoC is #595's expected-utility value of a
-  clairvoyant-policy presentation, not a duplicate kernel or unconditional
-  monetary-EVPI alias.
+- **M16 / planned v1.2.0:** #595 represents utility, wealth/reference state,
+  risk attitude, payoff units, information and cost location, current and
+  informed policies, stakeholder scope, EUI, CEI, BPI, SPI, anchored PPI,
+  policy switches, root diagnostics, direction/normalization and explicit
+  cross-problem comparability. VoC is a presentation of the same
+  clairvoyant-policy result, not a duplicate kernel; monetary EVPI reduction
+  requires verified positive-affine utility.
 - **M17 / planned v1.2.0:** the canonical C16 public projection keeps managed
   issue/subissue and Project 28 fields synchronized across every explicitly
   registered consumer repository, preserving human content and failing closed
@@ -88,5 +92,5 @@ programme. The canonical cross-repository requirements are maintained in
 |---|---|---|---|---|
 | v1.2.0 | Must | M14 | `estimation_focused_variance_voi_20260727` | #619 under #318 |
 | v1.2.0 | Must | M15 | `study_design_efficiency_20260727` | #571 under #318 |
-| v1.2.0 | Must | M16 | `supported_frontier_method_completion_20260723` | #595 under #318 |
-| v1.2.0 | Must | M17 | canonical C16 plus the three tracks above | #313/#318 and Project 28 |
+| v1.2.0 | Must | M16 | `risk_adjusted_information_pricing_20260731` | #595 and #694–#697 under #318 |
+| v1.2.0 | Must | M17 | canonical C16 plus the four specialized delivery tracks above | #313/#318 and Project 28 |

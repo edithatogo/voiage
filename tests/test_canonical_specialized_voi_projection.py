@@ -21,6 +21,22 @@ def test_c16_projection_matches_voiage_tracks() -> None:
     )
 
 
+def test_c16_projection_maps_voc_family_to_dedicated_track() -> None:
+    """#595 and its native delivery issues share one non-duplicate track."""
+    projection = json.loads(
+        (
+            ROOT / "conductor/canonical-projections/specialized-voi-v1.2.0.json"
+        ).read_text(encoding="utf-8")
+    )
+    by_number = {item["number"]: item for item in projection["issues"]}
+    for number in (595, 694, 695, 696, 697):
+        assert (
+            by_number[number]["track_id"]
+            == "risk_adjusted_information_pricing_20260731"
+        )
+        assert set(by_number[number]["requirement_ids"]) == {"M16", "M17"}
+
+
 def test_c16_projection_rejects_missing_consumer_registration(tmp_path: Path) -> None:
     projection = json.loads(
         (

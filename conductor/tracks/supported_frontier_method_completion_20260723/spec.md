@@ -14,7 +14,9 @@ Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/pr
 
 1. Govern DSA, value of distributional information, qualitative VOI, flexibility, MCDA-VOI, risk-sensitive/constrained VOI, experiment/source portfolios and forecast/signal value.
 2. Govern implementation/perfection, uncertainty-modelling, risk-adjusted pricing, event-localized, belief-state, signed/social, heterogeneity and outcome-conditional sample-value families.
-3. Own the child relationship to estimation-focused variance VOI #619 while retaining its dedicated detailed track and issue.
+3. Own the child relationships to estimation-focused variance VOI #619 and
+   expected-utility information pricing #595 while retaining their dedicated
+   detailed tracks and issues.
 4. Require estimand-specific schemas, independent references, invariants, pathological cases, serialization, assurance, documentation and Rust/Python/R/Julia/Mojo dispositions.
 5. Classify Expected Value of Clairvoyance (VoC) as an alias or presentation
    label for #595's expected-utility value of a clairvoyant policy under the

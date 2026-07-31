@@ -64,8 +64,20 @@ flowchart LR
     PortfolioConstraints["Capacity + dependencies + exclusions + guardrails"] --> Portfolio
     Portfolio --> GlobalTieSet["Fixed global maximum + one tolerance tie set"]
 
-    Utility["Utility + wealth/reference state"] --> Clairvoyant["Clairvoyant policy"]
-    Clairvoyant --> VoC["VoC presentation governed by #595"]
+    Payoffs["Payoffs + state/signal probabilities"] --> CurrentEU["Optimize current-policy EU"]
+    Utility["Named utility + wealth/reference state"] --> CurrentEU
+    Utility --> InformedEU["Optimize informed/clairvoyant-policy EU"]
+    Payoffs --> InformedEU
+    CurrentEU --> EUI["EUI on utility scale"]
+    InformedEU --> EUI
+    CurrentEU --> CEI["Inverse-utility CEI"]
+    InformedEU --> CEI
+    CurrentEU --> Roots["BPI/SPI indifference roots + diagnostics"]
+    InformedEU --> Roots
+    EUI --> PPI["Anchored probability price"]
+    InformedEU --> VoC["VoC alias/presentation governed by #595"]
+    Affine{"Positive-affine utility?"} -->|yes| Monetary["Verified EVPI/EVSI reduction"]
+    Affine -->|no| DistinctScale["Keep utility and monetary scales distinct"]
 ```
 
 ```mermaid

@@ -4,12 +4,12 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-31T12:34:37Z",
-  "updated_at": "2026-07-31T12:37:31Z",
+  "updated_at": "2026-07-31T12:53:00Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
   "canonical_projection": "https://github.com/edithatogo/vop_poc_nz/blob/main/conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
-  "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+  "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/66",
   "requirement_ids": [
     "M16",
     "M17"
@@ -30,9 +30,16 @@
     "parent_issue": "https://github.com/edithatogo/voiage/issues/318",
     "programme": "https://github.com/edithatogo/voiage/issues/313",
     "project": "https://github.com/users/edithatogo/projects/28",
-    "subissues": [],
-    "pull_requests": [],
-    "pull_request_evidence": "none_yet"
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/694",
+      "https://github.com/edithatogo/voiage/issues/695",
+      "https://github.com/edithatogo/voiage/issues/696",
+      "https://github.com/edithatogo/voiage/issues/697"
+    ],
+    "pull_requests": [
+      "https://github.com/edithatogo/vop_poc_nz/pull/66"
+    ],
+    "pull_request_evidence": "canonical_planning_sync"
   },
   "gates": [
     {

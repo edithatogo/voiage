@@ -68,6 +68,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   VoC classification is planned for v1.2.0 under canonical M16/M17 and
         `supported_frontier_method_completion_20260723`.
 
+*   [~] Implement expected-utility information pricing and VoC presentation.
+    *   Conductor track: `risk_adjusted_information_pricing_20260731`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
+    *   GitHub issue #595 with native delivery subissues #694–#697 under #318.
+    *   Implement EUI, CEI, BPI, SPI and anchored PPI with declared utility,
+        wealth/reference, information/cost location, scope, root diagnostics,
+        comparability and deterministic provenance.
+    *   Keep VoC as the expected-utility/clairvoyant-policy presentation of the
+        same result; never create a duplicate kernel or unconditional EVPI alias.
+
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.
     *   Conductor track: `standardized-dataset-ingestion_20260723`.

@@ -11,7 +11,7 @@
 - [x] **U3:** Freeze VoC as a presentation/delegating alias and audit adjacent
   EVPI, CVaR, risk-sensitive, preference and buying-price surfaces. (AC-04,
   AC-07) — `67861ed`
-- [ ] **U4:** Materialize GitHub subissues and synchronize Project 28,
+- [~] **U4:** Materialize GitHub subissues and synchronize Project 28,
   requirements, Mermaid design, cross-references and canonical C16 planning.
   (AC-01)
 - [ ] **U5:** Run automated contract review and full Conductor validation.

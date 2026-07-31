@@ -51,12 +51,44 @@
       "repository": "edithatogo/voiage",
       "number": 595,
       "parent": 318,
-      "track_id": "supported_frontier_method_completion_20260723",
+      "track_id": "risk_adjusted_information_pricing_20260731",
       "record_id": "risk-adjusted-information-pricing",
       "requirement_ids": [
         "M16",
         "M17"
       ]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 694,
+      "parent": 595,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "record_id": "expected-utility-price-contracts",
+      "requirement_ids": ["M16", "M17"]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 695,
+      "parent": 595,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "record_id": "expected-utility-pricing-runtime",
+      "requirement_ids": ["M16", "M17"]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 696,
+      "parent": 595,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "record_id": "expected-utility-pricing-assurance",
+      "requirement_ids": ["M16", "M17"]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 697,
+      "parent": 595,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "record_id": "expected-utility-pricing-surfaces",
+      "requirement_ids": ["M16", "M17"]
     },
     {
       "repository": "edithatogo/voiage",
