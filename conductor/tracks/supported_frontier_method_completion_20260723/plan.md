@@ -21,6 +21,18 @@
 
 ## Phase 2 — Evidence before positive claims
 
+- [ ] **F559-1:** Add failing analytical, invariant, permutation, chronology,
+  comparability and double-counting tests plus independent reference review for
+  #559 Value of Flexibility. (AC-03)
+- [ ] **F559-2:** Add the versioned VoF schema, normative fixture, runtime
+  fixture-conformance check, provenance and explicit language dispositions.
+  (AC-02–AC-06)
+- [ ] **F559-3:** Implement the corrected flexible-versus-commitment evaluator,
+  compatibility view, public Python/CLI surface and documentation without
+  duplicating a numerical kernel or claiming information value. (AC-02–AC-05)
+- [ ] **F559-4:** Run independent implementation review, focused repository
+  checks and hosted checks; then reconcile #559 without closing scientific,
+  stable-promotion, release or issue gates. (AC-03–AC-07)
 - [ ] **G5:** Add failing conformance, reference, property and pathological
   tests, or the corresponding reproducible review protocol. (AC-03)
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
