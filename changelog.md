@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add explicit, receipt-identified local Croissant record-set/distribution
+  selection for descriptors with multiple pairs. The profile rejects missing or
+  mismatched selectors and unsupported `FileObject` or `FileSet` distributions
+  without inferring a source relationship.
 - Add Croissant `contentSize` byte-integrity validation and a file-backed
   supported/rejected profile map; unsupported integrity forms now fail before
   resource materialization.
