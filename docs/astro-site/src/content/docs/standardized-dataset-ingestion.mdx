@@ -187,6 +187,10 @@ exclusion, and each Arrow field's dtype, nullability, categorical, and timezone
 decisions. A successful no-copy conversion is recorded as `zero_copy`; when
 copies are permitted, Arrow's public API does not expose the actual outcome, so
 the extension records `not_observable` rather than guessing.
+The consumer tests exercise pandas and Polars nullable categorical and
+timezone-aware columns. They assert the Arrow decisions actually returned by
+the installed producer and preserve a pandas index exclusion, but do not imply
+that every producer, dtype, or future producer version has identical behavior.
 The supported SDK contract covers explicit bindings, source-neutral provenance,
 and Arrow schema preservation; it does not promise identical behaviour for
 every DataFrame library or unsupported nested dtype.

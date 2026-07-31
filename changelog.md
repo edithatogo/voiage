@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added pandas and Polars DataFrame-interchange consumer coverage for nullable
+  categorical and timezone-aware columns, index exclusion, and conservative
+  copy diagnostics based on the Arrow conversion actually returned.
 - Added a combined Croissant context-array and governance fixture that proves
   descriptor-only inspection and materialization-receipt preservation; the
   conservative local profile now rejects unexpanded JSON-LD context objects.

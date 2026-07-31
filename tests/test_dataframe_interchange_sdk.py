@@ -166,3 +166,78 @@ def test_dataframe_sdk_v1_preserves_index_exclusion_and_category_values() -> Non
         {"tier": "standard", "net_benefit": 10},
         {"tier": None, "net_benefit": None},
     ]
+
+
+def test_dataframe_sdk_reports_pandas_nullable_category_and_timezone_decisions() -> (
+    None
+):
+    """Pandas conversion records the Arrow decisions without retaining its index."""
+    pandas = pytest.importorskip("pandas")
+    index = pandas.Index(["first", "second"], name="scenario")
+    frame = pandas.DataFrame(
+        {
+            "tier": pandas.Series(["standard", None], dtype="category", index=index),
+            "cost": pandas.Series([10, None], dtype="Int64", index=index),
+            "observed_at": pandas.Series(
+                pandas.to_datetime(["2026-01-01T00:00:00Z", None]), index=index
+            ),
+        },
+        index=index,
+    )
+
+    bundle = from_dataframe(frame, dataset_id="pandas-consumer")
+    extension = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+    decisions = {item["field_id"]: item for item in extension["field_decisions"]}
+
+    assert bundle.table("data").column_names == ["tier", "cost", "observed_at"]
+    assert bundle.table("data").to_pylist()[1] == {
+        "tier": None,
+        "cost": None,
+        "observed_at": None,
+    }
+    assert extension["copy_policy"] == "allow_copy"
+    assert extension["copy_outcome"] == "not_observable"
+    assert extension["index_policy"] == "excluded_by_dataframe_interchange_protocol"
+    assert decisions["tier"]["categorical"] is True
+    assert decisions["tier"]["nullable"] is True
+    assert decisions["cost"]["nullable"] is True
+    assert decisions["observed_at"]["timezone"] == "UTC"
+    assert decisions["observed_at"]["dtype"].startswith("timestamp[")
+
+
+def test_dataframe_sdk_reports_polars_nullable_category_and_timezone_decisions() -> (
+    None
+):
+    """Polars conversion reaches the same Arrow-backed diagnostic contract."""
+    polars = pytest.importorskip("polars")
+    frame = polars.DataFrame(
+        {
+            "tier": polars.Series(["standard", None], dtype=polars.Categorical),
+            "cost": polars.Series([10, None], dtype=polars.Int64),
+            "observed_at": polars.Series(
+                [datetime(2026, 1, 1, tzinfo=UTC), None],
+                dtype=polars.Datetime(time_zone="UTC"),
+            ),
+        }
+    )
+
+    bundle = from_dataframe(frame, dataset_id="polars-consumer")
+    extension = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+    decisions = {item["field_id"]: item for item in extension["field_decisions"]}
+
+    assert bundle.table("data").to_pylist()[1] == {
+        "tier": None,
+        "cost": None,
+        "observed_at": None,
+    }
+    assert extension["copy_policy"] == "allow_copy"
+    assert extension["copy_outcome"] == "not_observable"
+    assert decisions["tier"]["categorical"] is True
+    assert decisions["tier"]["nullable"] is True
+    assert decisions["cost"]["nullable"] is True
+    assert decisions["observed_at"]["timezone"] == "UTC"
+    assert decisions["observed_at"]["dtype"].startswith("timestamp[")
