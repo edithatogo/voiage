@@ -8,7 +8,7 @@
   feasible range/set, signed ENBS curve, optimum, deterministic tie policy,
   boundary state, uncertainty around the optimum and plotting inputs. (AC-02)
   — `e930186`
-- [ ] **S3:** Freeze EVSI/EVPI units, scaling, zero-denominator, tolerance and
+- [~] **S3:** Freeze EVSI/EVPI units, scaling, zero-denominator, tolerance and
   bounds behavior. (AC-03)
 - [ ] **S4:** Audit the existing plot and clinical optimizer, including the
   misnamed value/cost `voi_efficiency` field, and record compatibility or

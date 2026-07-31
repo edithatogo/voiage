@@ -139,3 +139,41 @@ no Matplotlib objects, colors, labels dependent on a backend, or rendering side
 effects. Plotting adapters consume this data and must expose the zero-ENBS
 reference, infeasible designs, uncertainty availability, ties and selected
 optimum accessibly.
+
+## EVSI/EVPI efficiency result
+
+`InformationEfficiencyResultV1` is a small derived diagnostic, not an
+estimator. Its inputs are finite `evsi` and `evpi` values plus the common
+`StudyDesignContextV1`, an absolute tolerance and a relative tolerance. When
+values arrive from separate envelopes, their decision-problem, unit,
+population-scale, time-horizon and discounting fields must match exactly.
+
+For positive EVPI, the raw dimensionless ratio is `evsi / evpi`. Bounds use
+
+`bound_tolerance = absolute_tolerance + relative_tolerance * max(abs(evpi), 1)`
+
+on the value scale. Inputs outside `[-bound_tolerance,
+evpi + bound_tolerance]` are materially inconsistent with the theoretical
+`0 <= EVSI <= EVPI` relationship and are rejected. Inputs just outside the
+bounds but within tolerance retain their unclamped raw ratio and return
+`below_zero_within_tolerance` or `above_one_within_tolerance`. Inputs inside
+the bounds return `within_bounds`. This preserves Monte Carlo evidence instead
+of silently changing it.
+
+When `abs(evpi) <= bound_tolerance`, EVPI is treated as numerically zero:
+
+- if `abs(evsi) <= bound_tolerance`, `ratio` is null and status is
+  `undefined_zero_evpi`; and
+- otherwise the inputs are rejected as `positive_evsi_with_zero_evpi` (or the
+  corresponding negative inconsistency).
+
+Materially negative EVPI is always rejected. Tolerances must be finite and
+non-negative. The result returns `schema_version`, `evsi`, `evpi`, nullable
+unclamped `ratio`, `status`, tolerances, common context and diagnostics. It may
+also return a display percentage equal to `100 * ratio`, clearly labelled as a
+presentation field.
+
+This metric must be named information efficiency or EVSI/EVPI efficiency. It
+must never be used for `total_voi / total_cost`, return on investment,
+cost-effectiveness, ENBS, power, or the probability that a study changes the
+decision. Those quantities require distinct names, units and contracts.
