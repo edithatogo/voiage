@@ -30,9 +30,9 @@
 
 ## Phase 3 — Runtime and assurance
 
-- [ ] **E9:** Implement the accepted Rust numerical kernels and versioned result
+- [x] **E9:** Implement the accepted Rust numerical kernels and versioned result
   envelopes, or record a reviewed exclusion if stable implementation is not
-  scientifically supportable. (AC-05)
+  scientifically supportable. (AC-05) [be07345b]
 - [ ] **E10:** Add the thin Python façade, typed diagnostics and deterministic
   serialization without numerical fallback. (AC-02, AC-05)
 - [ ] **E11:** Add Monte Carlo uncertainty, convergence diagnostics, property
