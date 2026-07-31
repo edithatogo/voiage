@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "coss-efficiency-enumerable-v1",
+  "input": {
+    "context": {
+      "schema_version": "1.0.0",
+      "decision_problem_id": "fixture-policy-choice",
+      "value_unit": "AUD-2026-present-value",
+      "population_scale": 100000,
+      "time_horizon": "five-years",
+      "discounting_id": "annual-3.5-percent",
+      "study_model_id": "enumerated-fixture-v1",
+      "cost_model_id": "full-economic-cost-v1",
+      "random_seed": 571
+    },
+    "designs": [
+      {
+        "design_id": "n-100",
+        "sample_size": 100,
+        "evsi": 40,
+        "research_cost": 20,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      },
+      {
+        "design_id": "n-200",
+        "sample_size": 200,
+        "evsi": 60,
+        "research_cost": 25,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      },
+      {
+        "design_id": "n-300",
+        "sample_size": 300,
+        "evsi": 70,
+        "research_cost": 45,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      }
+    ],
+    "efficiency": {"evsi": 60, "evpi": 100}
+  },
+  "expected": {
+    "enbs": [20, 35, 25],
+    "optimal_design_id": "n-200",
+    "optimal_sample_size": 200,
+    "maximum_enbs": 35,
+    "efficiency_ratio": 0.6,
+    "efficiency_percentage": 60
+  }
+}
