@@ -10,6 +10,25 @@ from typer.testing import CliRunner
 from voiage.cli import app
 
 
+def test_ingest_commands_publish_stable_help_surfaces() -> None:
+    """All documented ingestion commands remain discoverable through the CLI."""
+    runner = CliRunner()
+
+    for command, description in (
+        ("validate", "Validate a supported descriptor"),
+        ("inspect", "Inspect identity and optionally resolve"),
+        ("normalize", "Normalize a descriptor into a deterministic Arrow IPC"),
+        (
+            "calculate-from-dataset",
+            "Calculate EVPI from explicitly selected normalized net-benefit fields",
+        ),
+    ):
+        result = runner.invoke(app, ["ingest", command, "--help"])
+
+        assert result.exit_code == 0
+        assert description in result.output
+
+
 def test_ingest_inspect_and_normalize(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "datapackage.json"
@@ -163,6 +182,32 @@ def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> 
     assert "exactly one" in result.output
     assert validated.exit_code == 2
     assert "exactly one" in validated.output
+
+
+def test_ingest_cli_redacts_credentials_from_rejected_resource_uris(tmp_path) -> None:
+    """User-facing diagnostics must not disclose credentials in a descriptor."""
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [
+                    {"contentUrl": "ssh://user:super-secret@example.invalid/data.csv"}
+                ],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
+
+    assert result.exit_code == 2
+    assert "network resource access is disabled" in result.output
+    assert "super-secret" not in result.output
+    assert "example.invalid" not in result.output
 
 
 def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:

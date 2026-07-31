@@ -14,6 +14,7 @@ import numpy as np
 import polars as pl
 import pyarrow as pa
 import pytest
+import xarray as xr
 
 from voiage.contracts import (
     DatasetManifest,
@@ -135,6 +136,40 @@ def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> No
     assert {bundle.schema_fingerprint for bundle in bundles} == {
         direct.schema_fingerprint
     }
+
+
+def test_cross_format_preparation_has_identical_numpy_and_xarray_views() -> None:
+    """Normalized preparation owns both existing compute-facing representations."""
+    policy = SourceAccessPolicy(_FIXTURE_ROOT)
+    bundles = (
+        _direct_bundle(
+            pa.table(
+                {
+                    "strategy_a": np.asarray([10.0, 30.0, 20.0]),
+                    "strategy_b": np.asarray([20.0, 10.0, 25.0]),
+                }
+            )
+        ),
+        _bound(
+            default_registry().ingest(
+                _FIXTURE_ROOT / "canonical-decision.croissant.json", policy=policy
+            )
+        ),
+        _bound(
+            default_registry().ingest(
+                _FIXTURE_ROOT / "canonical-decision.datapackage.json", policy=policy
+            )
+        ),
+    )
+    prepared = tuple(prepare_analysis_inputs(bundle) for bundle in bundles)
+    expected = prepared[0].net_benefits.values
+
+    assert isinstance(expected, xr.DataArray)
+    assert expected.dims == ("n_samples", "n_strategies")
+    assert expected.strategy.values.tolist() == ["A", "B"]
+    for item in prepared:
+        assert item.net_benefits.values.equals(expected)
+        assert np.array_equal(item.net_benefits.numpy_values, expected.values)
 
 
 def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() -> None:
