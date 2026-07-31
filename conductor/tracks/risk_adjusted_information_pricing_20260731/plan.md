@@ -78,7 +78,7 @@
 - [x] **U15:** Record and validate Rust, Python, R, Julia and Mojo capability
   dispositions and shared-fixture evidence or explicit unsupported states.
   (AC-06) — `2163a89`
-- [ ] **U16:** Reconcile roadmap, todo, changelog, registries, v1.2.0 MoSCoW,
+- [~] **U16:** Reconcile roadmap, todo, changelog, registries, v1.2.0 MoSCoW,
   Mermaid design, GitHub/Project 28, canonical C16 and remaining external
   gates. (AC-01, AC-07)
 - [ ] **U17:** Run final automated review, full local validation and hosted
