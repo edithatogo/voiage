@@ -168,6 +168,26 @@ def test_efficiency_contract_rejects_corrupted_relations(
 
 
 @pytest.mark.parametrize(
+    "status",
+    [
+        "within_bounds",
+        "below_zero_within_tolerance",
+        "above_one_within_tolerance",
+        "undefined_zero_evpi",
+    ],
+)
+def test_efficiency_status_accepts_each_native_contract_value(status: str) -> None:
+    """The Python boundary preserves every status accepted from the Rust core."""
+    assert module._efficiency_status(status) == status
+
+
+def test_efficiency_status_rejects_unknown_native_contract_value() -> None:
+    """An unknown Rust status is fail-closed at the Python boundary."""
+    with pytest.raises(ValueError, match="status"):
+        module._efficiency_status("unexpected")
+
+
+@pytest.mark.parametrize(
     "native_update",
     [
         {"feasible_indices": (0,)},
