@@ -43,7 +43,7 @@
 - [x] **S14:** Run automated implementation review, focused tests and the
   repository harness. (AC-05, AC-09) — `c60a2ee`
 
-## Phase 4 — Portfolio, user and binding surfaces
+## Phase 4 — Portfolio, user and binding surfaces [checkpoint: b11377c]
 
 - [x] **S15:** Integrate single-study COSS and efficiency outputs with #571's
   experiment-portfolio allocation and constraint contract. (AC-01, AC-06) —
