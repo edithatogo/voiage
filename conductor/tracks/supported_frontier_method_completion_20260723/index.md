@@ -17,6 +17,7 @@
 - [Pending C16 synchronization stack #64–#66](https://github.com/edithatogo/vop_poc_nz/pull/64)
 - [Child disposition inventory](./child-dispositions.json)
 - [Child evidence reconciliation](./reconciliation.md)
+- [Accepted-family contract freeze](./contract-freeze.json)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status

@@ -90,7 +90,7 @@ def test_programme_records_unfinished_census_dependency() -> None:
     assert dependencies == [
         {
             "track_id": "voi_method_census_contract_reconciliation_20260723",
-            "status": "in_progress",
+            "status": "classification_checkpoint_satisfied",
             "blocking_claim": "accepted-family classification complete",
         },
         {
