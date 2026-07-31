@@ -371,7 +371,9 @@ def test_normalized_runtime_rejects_post_schema_malformed_and_record_gaps(
     )
     specification = json.loads(fixture.read_text(encoding="utf-8"))
     monkeypatch.setattr(
-        dsa_module, "validate_deterministic_sensitivity_specification", lambda _value: None
+        dsa_module,
+        "validate_deterministic_sensitivity_specification",
+        lambda _value: None,
     )
 
     malformed_arrays = deepcopy(specification)
