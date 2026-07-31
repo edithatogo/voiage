@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T07:59:23Z",
-  "updated_at": "2026-07-31T08:29:34Z",
+  "updated_at": "2026-07-31T10:02:34Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -39,6 +39,7 @@
     "project": "https://github.com/users/edithatogo/projects/28",
     "pull_requests": [
       "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/676",
       "https://github.com/edithatogo/vop_poc_nz/pull/64"
     ],
     "pull_request_evidence": "track_delivery_and_canonical_sync"
@@ -59,8 +60,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after implementation and before merge."
+      "status": "satisfied",
+      "evidence": "PR #676 exact head d70fff636fa3a935902b3f590e368d1d63925d1a passed the complete hosted matrix on 2026-07-31."
     }
   ]
 }

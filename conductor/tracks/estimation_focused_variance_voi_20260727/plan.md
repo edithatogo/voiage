@@ -70,6 +70,16 @@
 - [x] **RF5:** Reconcile the retained R package's embedded release-workflow
   assertion with the job-scoped write permission required to publish immutable
   source and manual assets. (AC-06, AC-08) [dc6ddd4d]
-- [~] **E16:** Run final automated review, full local validation and hosted
+- [x] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
-  (AC-08)
+  (AC-08) [d70fff63]
+
+## Phase 6 — External promotion and delivery gates
+
+- [ ] **E17:** Obtain scientific classification review before any stable
+  method-registry promotion, including a reviewed disposition for vector
+  covariance scalarization. (AC-01, AC-02)
+- [ ] **E18:** Rebase onto the then-current protected base, merge the approved
+  implementation and canonical-sync pull requests, and handle stable
+  promotion, release and issue closure only through their separate governed
+  workflows. (AC-07, AC-09)
