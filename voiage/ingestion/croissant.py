@@ -34,8 +34,10 @@ class CroissantProvider:
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
         """Recognize the Croissant context rather than a filename convention."""
-        context = descriptor.get("@context")
-        return isinstance(context, str) and "mlcommons.org/croissant" in context
+        return any(
+            "mlcommons.org/croissant" in context
+            for context in _context_entries(descriptor.get("@context"))
+        )
 
     def ingest(
         self, descriptor_path: Path, *, policy: SourceAccessPolicy
@@ -45,8 +47,7 @@ class CroissantProvider:
         if not isinstance(raw, dict):
             raise IngestionError("descriptor root must be a JSON object")
         descriptor = cast("dict[str, object]", raw)
-        context = descriptor.get("@context")
-        if not (isinstance(context, str) and "mlcommons.org/croissant/1.1" in context):
+        if not _has_croissant_1_1_context(descriptor.get("@context")):
             raise IngestionError("supported Croissant profile requires version 1.1")
         record_sets = descriptor.get("recordSet")
         distributions = descriptor.get("distribution")
@@ -195,6 +196,28 @@ def _declared_data_type(field: dict[str, object]) -> str | None:
     if value is None or isinstance(value, str):
         return value
     raise IngestionError("Croissant field dataType must be a string")
+
+
+def _context_entries(value: object) -> tuple[str, ...]:
+    """Return string entries from a JSON-LD context without coercion."""
+    if isinstance(value, str):
+        return (value,)
+    if isinstance(value, list):
+        return tuple(entry for entry in value if isinstance(entry, str))
+    return ()
+
+
+def _has_croissant_1_1_context(value: object) -> bool:
+    """Recognize the exact supported context among JSON-LD context entries."""
+    return any(
+        context.rstrip("/")
+        in {
+            "mlcommons.org/croissant/1.1",
+            "http://mlcommons.org/croissant/1.1",
+            "https://mlcommons.org/croissant/1.1",
+        }
+        for context in _context_entries(value)
+    )
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:

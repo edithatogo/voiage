@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Accepted the standard JSON-LD context-array form for the supported Croissant
+  1.1 offline profile and added an adversarial fixture that rejects the
+  distinct Croissant 1.10 context.
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
 - Linked the README to the standardized Croissant and Frictionless ingestion
