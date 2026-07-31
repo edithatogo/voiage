@@ -1,13 +1,42 @@
 {
   "bindings": [
-    {"field_ids": ["cost_a", "cost_b"], "role": "cost", "strategy_names": ["A", "B"], "table_id": "samples", "unit": "currency"},
-    {"field_ids": ["outcome_a", "outcome_b"], "role": "outcome", "strategy_names": ["A", "B"], "table_id": "samples", "unit": "outcome"}
+    {
+      "field_ids": [
+        "cost_a",
+        "cost_b"
+      ],
+      "role": "cost",
+      "strategy_names": [
+        "A",
+        "B"
+      ],
+      "table_id": "samples",
+      "unit": "currency"
+    },
+    {
+      "field_ids": [
+        "outcome_a",
+        "outcome_b"
+      ],
+      "role": "outcome",
+      "strategy_names": [
+        "A",
+        "B"
+      ],
+      "table_id": "samples",
+      "unit": "outcome"
+    }
   ],
   "dataset_id": "cost-outcome-decision-fixture",
   "files": {
     "cost-outcome-decision.croissant.json": "0f6870628fc5d8b306c922751282880c4d803a3f92ff52dbff8339ad0174eab5",
     "cost-outcome-decision.csv": "691decee94d6ad294372da2ab4690a018b9bbfd37ce083f9b68a41dacf8dcb18",
     "cost-outcome-decision.datapackage.json": "7012194bea0f0e030b383972be17ece7e51d0a91f2a4c6dd272307da143cd86b"
+  },
+  "normalized": {
+    "content_digest": "792402668c639eb5c43dd7caddf1efcea19c44d7f0c22116537e5b2782dffdf9",
+    "resource_sha256": "691decee94d6ad294372da2ab4690a018b9bbfd37ce083f9b68a41dacf8dcb18",
+    "schema_fingerprint": "8575a783ff42051ed80724381a39eebced785e90470d54a3605bed63274be024"
   },
   "schema_version": "1.0.0",
   "willingness_to_pay": 20000.0
