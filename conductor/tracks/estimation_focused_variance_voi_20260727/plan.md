@@ -22,8 +22,9 @@
 - [x] **E6:** Add failing property tests for variance decompositions,
   zero/perfect-information limits and supported monotonicity cases. (AC-03,
   AC-04) [144e90a0]
-- [ ] **E7:** Add failing error and pathological tests for non-finite,
+- [x] **E7:** Add failing error and pathological tests for non-finite,
   degenerate, insufficient-sample and non-convergent inputs. (AC-04)
+  [f0fcc5af]
 - [ ] **E8:** Review reference independence, tolerances and fixture provenance.
   (AC-03, AC-04)
 
