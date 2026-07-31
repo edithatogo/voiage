@@ -44,8 +44,9 @@
 
 - [x] **E13:** Add CLI, reporting, provenance and accessible example/plot
   surfaces. (AC-06) [5124e438]
-- [ ] **E14:** Record Rust, Python, R, Julia and Mojo capability dispositions
+- [x] **E14:** Record Rust, Python, R, Julia and Mojo capability dispositions
   and shared-fixture evidence or explicit unsupported failures. (AC-06)
+  [b98f0a1e]
 - [ ] **E15:** Reconcile the roadmap, method registry, documentation, bindings,
   v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, GitHub issues,
   Project 28 and Conductor evidence. (AC-06, AC-07, AC-09)
