@@ -16,7 +16,7 @@
 - [x] **S5:** Run automated contract review and full Conductor validation.
   (AC-01–AC-04, AC-08) — `9314fb6`
 
-## Phase 2 — Reference evidence before implementation
+## Phase 2 — Reference evidence before implementation [checkpoint: c357ebe]
 
 - [x] **S6:** Add failing analytical/enumerable COSS and signed-ENBS reference
   tests with independent argmax calculations. (AC-02, AC-05) — `a14d3a2`
