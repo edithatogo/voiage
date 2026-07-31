@@ -319,6 +319,54 @@ def test_value_of_flexibility_output_preserves_axes_and_provenance() -> None:
     assert result.provenance == _provenance()
 
 
+@pytest.mark.parametrize(
+    ("provenance", "message"),
+    [
+        ({"fixture_id": "x"}, "exactly fixture_id and execution_mode"),
+        (
+            {"fixture_id": "", "execution_mode": "deterministic"},
+            "fixture_id must be a non-empty string",
+        ),
+        (
+            {"fixture_id": "x", "execution_mode": "stochastic"},
+            "execution_mode must be 'deterministic'",
+        ),
+    ],
+)
+def test_value_of_flexibility_rejects_invalid_provenance(
+    provenance: dict[str, str], message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            provenance,
+        )
+
+
+def test_dynamic_real_options_rejects_nonfinite_and_negative_adjustments() -> None:
+    with pytest.raises(ValueError, match="must be finite"):
+        value_of_dynamic_real_options(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            discount_rate=np.nan,
+        )
+
+    with pytest.raises(ValueError, match="imply negative value"):
+        value_of_dynamic_real_options(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            irreversibility_penalty=2.0,
+            evidence_arrival_times={"now": 0.0, "mid": 1.0, "late": 2.0},
+        )
+
+
 def test_value_of_flexibility_reports_ordered_scenario_policy_changes() -> None:
     result = value_of_flexibility(
         _surface(),
