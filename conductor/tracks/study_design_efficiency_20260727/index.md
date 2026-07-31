@@ -5,6 +5,7 @@
 - [MoSCoW Requirements](./requirements.md)
 - [Mermaid Design](./design.md)
 - [Frozen Runtime Contract](./contract.md)
+- [Legacy Surface Audit](./legacy-audit.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #571](https://github.com/edithatogo/voiage/issues/571)
