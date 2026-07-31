@@ -1,13 +1,22 @@
 """Contracts and numerical evidence for estimation-focused variance VOI."""
 
+# pyright: reportAny=false, reportUnknownMemberType=false
+
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
+from jsonschema import Draft202012Validator
 from pydantic import ValidationError
 import pytest
 
 from voiage.contracts.estimation import (
     ConditioningSpec,
     EstimationTargetSpec,
+    EstimationVarianceDiagnostics,
+    EstimationVarianceProvenance,
+    EstimationVarianceResult,
     EstimationVarianceSpec,
     EstimatorAssuranceSpec,
     SamplingModelSpec,
@@ -16,6 +25,9 @@ from voiage.methods.estimation import (
     ESTIMATION_VARIANCE_METHODS,
     estimation_variance_method,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
+ESTIMATION_SPEC_ROOT = ROOT / "specs" / "estimation-variance" / "v1"
 
 
 def test_estimation_variance_registry_separates_decision_and_sensitivity_methods() -> (
@@ -161,3 +173,83 @@ def test_evsi_variance_requires_sampling_model_and_forbids_conditioning_subset()
         ),
     )
     assert specification.conditioning is None
+
+
+def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_policy() -> (
+    None
+):
+    result = EstimationVarianceResult(
+        method_id="evsi_var",
+        target=EstimationTargetSpec(
+            target_id="constant",
+            shape="scalar",
+            component_units=("count",),
+            covariance_functional="variance",
+        ),
+        prior_covariance=((0.0,),),
+        expected_posterior_covariance=((0.1,),),
+        prior_functional=0.0,
+        expected_posterior_functional=0.1,
+        raw_reduction=-0.1,
+        absolute_reduction=0.0,
+        relative_reduction=None,
+        functional_units="count^2",
+        diagnostics=EstimationVarianceDiagnostics(
+            prior_sample_count=20,
+            posterior_evaluation_count=4,
+            monte_carlo_standard_error=0.03,
+            converged=False,
+            diagnostic_codes=("negative_finite_sample_estimate",),
+        ),
+        provenance=EstimationVarianceProvenance(
+            backend="rust",
+            kernel_version="1.0.0",
+            estimator_id="posterior_variance_aggregation",
+            seed=7,
+            specification_digest="a" * 64,
+        ),
+    )
+    assert result.absolute_reduction == 0.0
+    assert result.relative_reduction is None
+    assert result.raw_reduction == -0.1
+
+
+def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
+    input_schema = json.loads(
+        (ESTIMATION_SPEC_ROOT / "input.schema.json").read_text(encoding="utf-8")
+    )
+    result_schema = json.loads(
+        (ESTIMATION_SPEC_ROOT / "result.schema.json").read_text(encoding="utf-8")
+    )
+    manifest = json.loads(
+        (ESTIMATION_SPEC_ROOT / "fixtures" / "manifest.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert manifest["schema_version"] == "1.0.0"
+    assert manifest["method_family"] == "estimation-focused-variance-voi"
+    for fixture in manifest["fixtures"]:
+        input_payload = json.loads(
+            (ESTIMATION_SPEC_ROOT / "fixtures" / fixture["input"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        result_payload = json.loads(
+            (ESTIMATION_SPEC_ROOT / "fixtures" / fixture["result"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        Draft202012Validator(input_schema).validate(input_payload)
+        Draft202012Validator(result_schema).validate(result_payload)
+        assert (
+            EstimationVarianceSpec.model_validate_json(
+                json.dumps(input_payload)
+            ).model_dump(mode="json")
+            == input_payload
+        )
+        assert (
+            EstimationVarianceResult.model_validate_json(
+                json.dumps(result_payload)
+            ).model_dump(mode="json")
+            == result_payload
+        )

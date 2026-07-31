@@ -6,7 +6,7 @@ from typing import Literal, Self
 
 from pydantic import Field, model_validator
 
-from .analysis import ContractModel, Identifier
+from .analysis import ContractModel, Identifier, Sha256Digest
 
 
 class EstimationTargetSpec(ContractModel):
@@ -130,9 +130,113 @@ class EstimationVarianceSpec(ContractModel):
         return self
 
 
+class EstimationVarianceDiagnostics(ContractModel):
+    """Numerical assurance kept distinct from the variance estimand."""
+
+    prior_sample_count: int = Field(ge=2)
+    posterior_evaluation_count: int = Field(ge=1)
+    bootstrap_replicates: int = Field(default=0, ge=0)
+    monte_carlo_standard_error: float = Field(ge=0.0)
+    confidence_level: float = Field(default=0.95, gt=0.0, lt=1.0)
+    confidence_interval: tuple[float, float] | None = None
+    converged: bool
+    diagnostic_codes: tuple[Identifier, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_confidence_interval(self) -> Self:
+        """Reject inverted uncertainty intervals."""
+        if (
+            self.confidence_interval is not None
+            and self.confidence_interval[0] > self.confidence_interval[1]
+        ):
+            raise ValueError("confidence_interval lower bound must not exceed upper")
+        return self
+
+
+class EstimationVarianceProvenance(ContractModel):
+    """Replay identity for an estimation-focused variance result."""
+
+    backend: Identifier
+    kernel_version: Identifier
+    estimator_id: Identifier
+    seed: int = Field(ge=0)
+    specification_digest: Sha256Digest
+
+
+class EstimationVarianceResult(ContractModel):
+    """Versioned scalarized variance-reduction result envelope."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    method_id: Literal["evppi_var", "evsi_var"]
+    target: EstimationTargetSpec
+    prior_covariance: tuple[tuple[float, ...], ...]
+    expected_posterior_covariance: tuple[tuple[float, ...], ...]
+    prior_functional: float = Field(ge=0.0)
+    expected_posterior_functional: float = Field(ge=0.0)
+    raw_reduction: float
+    absolute_reduction: float = Field(ge=0.0)
+    relative_reduction: float | None = Field(default=None, ge=0.0)
+    functional_units: Identifier
+    negative_estimate_policy: Literal["retain_raw_clip_reported"] = (
+        "retain_raw_clip_reported"
+    )
+    zero_variance_policy: Literal["absolute_zero_relative_null"] = (
+        "absolute_zero_relative_null"
+    )
+    diagnostics: EstimationVarianceDiagnostics
+    provenance: EstimationVarianceProvenance
+
+    @model_validator(mode="after")
+    def validate_covariance_and_reduction(self) -> Self:
+        """Require dimension-compatible covariance and reduction fields."""
+        dimension = len(self.target.component_units)
+        for field_name, covariance in (
+            ("prior_covariance", self.prior_covariance),
+            ("expected_posterior_covariance", self.expected_posterior_covariance),
+        ):
+            if len(covariance) != dimension or any(
+                len(row) != dimension for row in covariance
+            ):
+                raise ValueError(
+                    f"{field_name} must be square with the target component count"
+                )
+            for left in range(dimension):
+                for right in range(dimension):
+                    if abs(covariance[left][right] - covariance[right][left]) > 1e-10:
+                        raise ValueError(f"{field_name} must be symmetric")
+
+        expected_raw = self.prior_functional - self.expected_posterior_functional
+        if abs(self.raw_reduction - expected_raw) > 1e-10:
+            raise ValueError(
+                "raw_reduction must equal prior minus expected posterior functional"
+            )
+        if abs(self.absolute_reduction - max(0.0, expected_raw)) > 1e-10:
+            raise ValueError(
+                "absolute_reduction must retain zero after clipping a negative estimate"
+            )
+        if self.prior_functional == 0.0:
+            if self.relative_reduction is not None:
+                raise ValueError(
+                    "relative_reduction must be null when prior functional is zero"
+                )
+        else:
+            expected_relative = self.absolute_reduction / self.prior_functional
+            if (
+                self.relative_reduction is None
+                or abs(self.relative_reduction - expected_relative) > 1e-10
+            ):
+                raise ValueError(
+                    "relative_reduction must equal absolute/prior functional"
+                )
+        return self
+
+
 __all__ = [
     "ConditioningSpec",
     "EstimationTargetSpec",
+    "EstimationVarianceDiagnostics",
+    "EstimationVarianceProvenance",
+    "EstimationVarianceResult",
     "EstimationVarianceSpec",
     "EstimatorAssuranceSpec",
     "SamplingModelSpec",

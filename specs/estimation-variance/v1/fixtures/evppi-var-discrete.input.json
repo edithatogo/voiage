@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "method_id": "evppi_var",
+  "target": {
+    "schema_version": "1.0.0",
+    "target_id": "outcome",
+    "shape": "scalar",
+    "component_units": ["units"],
+    "covariance_functional": "variance",
+    "functional_weights": null
+  },
+  "prior_model_id": "enumerated-four-state-prior",
+  "conditioning": {
+    "parameter_subset": ["theta_s"],
+    "sigma_field": "sigma(theta_s)",
+    "averaging_convention": "prior_predictive"
+  },
+  "sampling_model": null,
+  "estimator": {
+    "estimator_id": "exact_discrete_conditioning",
+    "seed": 0,
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-10,
+    "bootstrap_replicates": 0,
+    "convergence_threshold": 0.01
+  },
+  "zero_variance_policy": "absolute_zero_relative_null"
+}
