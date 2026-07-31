@@ -1,1 +1,3 @@
 PR #721 refresh (2026-08-01): rebased signed support-matrix evidence onto origin/main 5d059a80; focused support-matrix tests passed. Auto-squash remains enabled.
+
+Superseded base reference: this exact signed head is rebased onto origin/main 3149d0e9. Focused support-matrix plus Croissant/Frictionless fixture suite passed; Ruff, ledger validation, full Conductor validation, and GitHub cross-reference validation passed. Hosted exact-head checks remain the merge gate.
