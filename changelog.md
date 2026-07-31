@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a combined Croissant context-array and governance fixture that proves
   descriptor-only inspection and materialization-receipt preservation; the
   conservative local profile now rejects unexpanded JSON-LD context objects.
+- Expanded the file-backed Frictionless CSV corpus with declared receipt and
+  offline-replay evidence, metadata-only inspection coverage, and fail-closed
+  duplicate-field and unsupported-dialect descriptor fixtures.
 - Accepted the standard JSON-LD context-array form for the supported Croissant
   1.1 offline profile and added an adversarial fixture that rejects the
   distinct Croissant 1.10 context.

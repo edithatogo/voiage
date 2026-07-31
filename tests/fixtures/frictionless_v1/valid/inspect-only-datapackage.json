@@ -1,0 +1,10 @@
+{
+  "name": "inspection-only-fixture",
+  "resources": [{
+    "name": "absent_local_resource",
+    "path": "valid/not-materialized.csv",
+    "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "bytes": 0,
+    "schema": {"fields": [{"name": "scenario_id", "type": "integer"}]}
+  }]
+}
